@@ -232,6 +232,13 @@ static NSDictionary* styles[256];
 	
 	[skeinView setSkein: [doc skein]];
 	[skeinView setDelegate: parent];
+
+	// (Problem with this is that it updates the menu on every change, which might get to be slow)
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(skeinDidChange:)
+												 name: ZoomSkeinChangedNotification
+											   object: [doc skein]];
+	[self skeinDidChange: nil];
 	
 	if ([[NSApp delegate] isWebKitAvailable]) {
 		[wView setPolicyDelegate: [parent generalPolicy]];
@@ -1080,6 +1087,17 @@ static NSDictionary* styles[256];
 
 -(void)webView:(WebView *)sender resource:(id)identifier didFailLoadingWithError:(NSError *)error fromDataSource:(WebDataSource *)dataSource {
 	NSLog(@"IFprojectPane: failed to load page with error: %@", [error localizedDescription]);
+}
+
+// = The skein view =
+
+- (void) skeinDidChange: (NSNotification*) not {
+	[[[parent document] skein] populatePopupButton: skeinLabelButton];
+	[skeinLabelButton selectItem: nil];
+}
+
+- (IBAction) skeinLabelSelected: (id) sender {
+	NSLog(@"Beep - %@", sender);
 }
 
 @end

@@ -74,6 +74,7 @@ enum IFProjectPaneType {
 	
 	// The skein view
 	IBOutlet ZoomSkeinView* skeinView;
+	IBOutlet NSPopUpButton* skeinLabelButton;
 
     // Settings
 	IBOutlet IFSettingsView* settingsView;
@@ -142,5 +143,8 @@ enum IFProjectPaneType {
 
 // The documentation view
 - (void) openURL: (NSURL*) url;
+
+// The skein view
+- (IBAction) skeinLabelSelected: (id) sender;
 
 @end
