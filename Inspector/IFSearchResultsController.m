@@ -228,7 +228,12 @@ static NSDictionary* boldAttributes;
 	if ([ident isEqualToString: @"file"]) {
 		return [row objectForKey: @"displayname"];
 	} else if ([ident isEqualToString: @"type"]) {
-		return [row objectForKey: @"type"];
+		// Localise the type name
+		NSString* key = [@"SearchType " stringByAppendingString: [row objectForKey: @"type"]];
+		
+		return [[NSBundle mainBundle] localizedStringForKey: key
+													  value: key
+													  table: nil];
 	} else if ([ident isEqualToString: @"context"]) {
 		return [row objectForKey: @"context"];
 	}
@@ -267,14 +272,32 @@ int resultComparator(id a, id b, void* context) {
 	str2 = [two objectForKey: @"type"];
 	
 	res = [str1 compare: str2];
-	if (res != NSEqualToComparison) return res;
+	if (res != NSOrderedSame) return res;
 	
 	// Then compare display names
 	str1 = [one objectForKey: @"displayname"];
 	str2 = [two objectForKey: @"displayname"];
 	
-	res = [str1 compare: str2];
-	if (res != NSEqualToComparison) return res;
+	// If str1 and str2 both begin with a number, then compare numerically (floating-point)
+	// (MAYBE FIXME: deal with spaces at the start)
+	unichar chr1 = [str1 characterAtIndex: 0];
+	unichar chr2 = [str2 characterAtIndex: 0];
+	
+	if (chr1 < 128 && chr2 < 128 && isdigit(chr1) && isdigit(chr2)) {
+		double v1 = [str1 doubleValue];
+		double v2 = [str2 doubleValue];
+				
+		if (v1 < v2)
+			return NSOrderedAscending;
+		else if (v1 > v2)
+			return NSOrderedDescending;
+		else
+			return NSOrderedSame;
+	}
+	
+	// Otherwise compare alphanumerically
+	res = [str1 caseInsensitiveCompare: str2];
+	if (res != NSOrderedSame) return res;
 	
 	// Finally, compare locations
 	NSNumber* num1, *num2;
