@@ -14,11 +14,17 @@
 
 static inline IFNaturalInformState StateMachine(IFNaturalInformState startState, int chr) {
 	switch (startState) {
+		case IFStateBlankLine:
+			if (chr == ' ' || chr == '\n' || chr == '\t')
+				return IFStateBlankLine;
+			// ObRAIF: here is why fall-through cases are a *good* thing
 		case IFStateText:
 			if (chr == '[') 
 				return IFStateComment;
 			if (chr == '"')
 				return IFStateQuote;
+			if (chr == '\n')
+				return IFStateBlankLine;
 			return IFStateText;
 			
 		case IFStateComment:
@@ -31,6 +37,11 @@ static inline IFNaturalInformState StateMachine(IFNaturalInformState startState,
 				return IFStateText;
 			return IFStateQuote;
 			
+		case IFStateHeading:
+			if (chr == '\n')
+				return IFStateBlankLine;
+			return IFStateHeading;
+			
 		default:
 			// Unknown state
 			return IFStateText;
@@ -40,6 +51,7 @@ static inline IFNaturalInformState StateMachine(IFNaturalInformState startState,
 static inline unsigned char Colour(IFNaturalInformState state, int chr) {
 	switch (state) {
 		case IFStateText:
+		case IFStateBlankLine:
 			if (chr == '[') return IFSyntaxComment;
 			if (chr == '"') return IFSyntaxGameText;
 			return IFSyntaxNone;
@@ -47,6 +59,8 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
 			return IFSyntaxGameText;
 		case IFStateComment:
 			return IFSyntaxComment;
+		case IFStateHeading:
+			return IFSyntaxHeading;
 		default:
 			return IFSyntaxNone;
 	}
@@ -97,7 +111,7 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
 			
 			lines[nLines].invalid    = YES;
 			lines[nLines].length     = x - startPos + 1;
-			lines[nLines].startState = IFStateText;
+			lines[nLines].startState = IFStateBlankLine;
 			
 			startPos = x+1;
 			nLines++;
@@ -109,7 +123,7 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
 	
 	lines[nLines].invalid    = YES;
 	lines[nLines].length     = x - startPos;
-	lines[nLines].startState = IFStateText;
+	lines[nLines].startState = IFStateBlankLine;
 	
 	startPos = x+1;
 	nLines++;	
@@ -325,6 +339,71 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
 	return invalid;
 }
 
+- (BOOL) lineIsBlank: (int) line {
+	if (line < 0 || line >= nLines) return YES;
+	
+	// Work out the position in the file
+	int pos = 0;
+	int x;
+	for (x=0; x<line; x++) pos += lines[x].length;
+	
+	if (pos < 0 || pos >= [file length]) return YES;
+		
+	// See if this line is blank
+	int chr1 = [file characterAtIndex: pos];
+	
+	if (chr1 == '\n') return YES;
+	if (chr1 != ' ' && chr1 != '\t') return NO;
+	
+	if (pos+1 >= [file length]) return YES;
+	
+	int chr2 = [file characterAtIndex: pos+1];
+	if (chr2 == '\n') return YES;
+	
+	return NO;
+}
+
+- (BOOL) lineIsHeading: (int) line {
+	// Checks if a line is a heading line
+	BOOL blankBefore = NO;
+	BOOL blankAfter = NO;
+	
+	if (line >= nLines) return NO;
+	
+	if (line == 0) {
+		blankBefore = YES;
+	} else {
+		// Preceding line can have at most one whitespace character
+		blankBefore = [self lineIsBlank: line-1];
+	}
+	
+	if (!blankBefore) return NO;
+	
+	if (line >= nLines-1) {
+		blankAfter = YES;
+	} else {
+		// Following line can have at most one whitespace character
+		blankAfter = [self lineIsBlank: line+1];
+	}
+
+	// Heading lines must begin with Volume, Book, Part, Chapter or Section
+	int pos = 0;
+	int x;
+	for (x=0; x<line; x++) pos += lines[x].length;
+	
+	if (pos >= [file length]) return NO;
+	
+	NSString* thisLine = [[file substringWithRange: NSMakeRange(pos, lines[line].length)] lowercaseString];
+	
+	if ([thisLine hasPrefix: @"volume "]) return YES;
+	if ([thisLine hasPrefix: @"book "]) return YES;
+	if ([thisLine hasPrefix: @"part "]) return YES;
+	if ([thisLine hasPrefix: @"chapter "]) return YES;
+	if ([thisLine hasPrefix: @"section "]) return YES;
+	
+	return NO;
+}
+
 - (void) colourForCharacterRange: (NSRange) range
                           buffer: (unsigned char*) buf {
     int x;
@@ -342,6 +421,8 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
 	
 	invalidRange = NSMakeRange(NSNotFound,0);
 	
+	lines[0].startState = [self lineIsHeading: 0]?IFStateHeading:IFStateText;
+	
 	lines[0].invalid = NO;
 	for (line = 1; line < nLines; line++) {
 		if (lines[line].invalid) {
@@ -353,6 +434,11 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
 			
 			for (y=0; y<lines[line-1].length; y++) {
 				state = StateMachine(state, [file characterAtIndex: pos+y]);
+			}
+			
+			// If the preceding line was blank, then check if this line is a header
+			if (state == IFStateBlankLine && [self lineIsHeading: line]) {
+				state = IFStateHeading;
 			}
 			
 			lines[line].invalid = NO;

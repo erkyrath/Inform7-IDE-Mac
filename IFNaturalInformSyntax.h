@@ -27,7 +27,10 @@ typedef enum   IFNaturalInformState IFNaturalInformState;
 enum IFNaturalInformState {
 	IFStateText,
 	IFStateComment,
-	IFStateQuote
+	IFStateQuote,
+	
+	IFStateHeading,
+	IFStateBlankLine
 };
 
 struct IFNaturalInformLine {
