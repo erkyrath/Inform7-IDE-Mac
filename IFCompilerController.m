@@ -461,7 +461,7 @@ static IFCompilerController* activeController = nil;
 
     // Add an entry for this error message
     NSMutableArray* fileMessages = [errorMessages objectAtIndex: fileNum];
-    NSArray*        newMessage = [NSArray arrayWithObjects: message, [NSNumber numberWithInt: line], [NSNumber numberWithInt: type], nil];
+    NSArray*        newMessage = [NSArray arrayWithObjects: message, [NSNumber numberWithInt: line], [NSNumber numberWithInt: type], [NSNumber numberWithInt: fileNum], nil];
     [fileMessages addObject: newMessage];
 
     // Update the outline view
@@ -584,20 +584,21 @@ static IFCompilerController* activeController = nil;
     if (fileNum != NSNotFound) {
         return; // File item selected
     }
-
+	
     // obj is an array of the form [message, line, type]
     NSArray* msg = (NSArray*) obj;
 
     NSString* message = [msg objectAtIndex: 0];
     int       line    = [[msg objectAtIndex: 1] intValue];
     // IFLex type        = [[msg objectAtIndex: 2] intValue];
+	fileNum = [[msg objectAtIndex: 3] intValue];
 
     // Send to the delegate
     if (delegate &&
         [delegate respondsToSelector: @selector(errorMessageHighlighted:atLine:inFile:)]) {
         [delegate errorMessageHighlighted: self
                                    atLine: line
-                                   inFile: message];
+                                   inFile: [errorFiles objectAtIndex: fileNum]];
     }
 
     return;

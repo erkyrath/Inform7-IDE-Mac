@@ -14,6 +14,7 @@
 #import "IFNaturalInformSyntax.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
+#define minHighlightAmount 512
 #define maxHighlightAmount 512
 #undef  showHighlighting        // Show what's being highlighted
 #undef  highlightAll            // Always highlight the entire file (does not necessarily recalculate all highlighting)
@@ -115,6 +116,8 @@ static NSDictionary* styles[256];
 
         remainingFileToProcess.location = NSNotFound;
         remainingFileToProcess.length   = 0;
+		
+		textStorage = nil;
     }
 
     return self;
@@ -134,6 +137,7 @@ static NSDictionary* styles[256];
     [highlighter    release];
     [addFilePanel   release];
     
+	if (textStorage) [textStorage release];
     if (zView) [zView release];
     if (gameToRun) [gameToRun release];
 
@@ -172,9 +176,9 @@ static NSDictionary* styles[256];
     IFProject* doc;
 
     [[NSNotificationCenter defaultCenter] addObserver: self
-                                               selector: @selector(updateSettings)
-                                                   name: IFSettingNotification
-                                                 object: [[parent document] settings]];
+											 selector: @selector(updateSettings)
+												 name: IFSettingNotification
+											   object: [[parent document] settings]];
 
     doc = [parent document];
 
@@ -187,6 +191,8 @@ static NSDictionary* styles[256];
     openSourceFile = [mainFilename copy];
     
     [mainFile addLayoutManager: [sourceText layoutManager]];
+	if (textStorage) { [textStorage release]; textStorage = nil; }
+	textStorage = [mainFile retain];
     [self selectHighlighterForCurrentFile];
 
     [compController setCompiler: [doc compiler]];
@@ -224,7 +230,6 @@ static NSDictionary* styles[256];
         [self setupFromController];
     }
 }
-
 
 - (void) selectView: (enum IFProjectPaneType) pane {
     if (!awake) {
@@ -284,11 +289,15 @@ static NSDictionary* styles[256];
     }
     
     [parent moveToSourceFileLine: line];
-    [parent highlightSourceFileLine: line]; // FIXME: error level?
+    [parent highlightSourceFileLine: line]; // FIXME: error level?. Filename?
 }
 
 - (IFCompilerController*) compilerController {
     return compController;
+}
+
+- (NSString*) currentFile {
+	return [[parent document] pathForFile: openSourceFile];
 }
 
 // = The source view =
@@ -367,11 +376,11 @@ static NSDictionary* styles[256];
     
     int selectedItem = -1;
     
-    [sourcePopup addItemWithTitle: openSourceFile];
+    [sourcePopup addItemWithTitle: [openSourceFile lastPathComponent]];
     [sourceFiles addObject: openSourceFile];
 
     while (key = [keyEnum nextObject]) {        
-        if (![key isEqualToString: openSourceFile]) {
+        if (![key isEqualToString: [openSourceFile lastPathComponent]]) {
             [sourcePopup addItemWithTitle: key];
             [sourceFiles addObject: key];
         } else {
@@ -380,7 +389,7 @@ static NSDictionary* styles[256];
     }
     
     if (selectedItem == -1) {
-        NSLog(@"(BUG?) can't find currently open source file in project");
+		// Used to be a bug, but can legitimately happen now
     } else {
         [sourcePopup selectItemAtIndex: selectedItem];
     }
@@ -394,14 +403,21 @@ static NSDictionary* styles[256];
     
     if (item < [sourceFiles count]) {
         // Select a new source file
-        [[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
-        
+		NSLayoutManager* layout = [[sourceText layoutManager] retain];
+
+		[sourceText setSelectedRange: NSMakeRange(0,0)];
+		[[sourceText textStorage] setDelegate: nil];
+		[[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
+      
         NSTextStorage* mainFile = [[parent document] storageForFile: [sourceFiles objectAtIndex: item]];
         
         [openSourceFile release];
-        openSourceFile = [[sourceFiles objectAtIndex: item] copy];
+        openSourceFile = [[[parent document] pathForFile: [sourceFiles objectAtIndex: item]] copy];
         
-        [mainFile addLayoutManager: [sourceText layoutManager]];
+        [mainFile addLayoutManager: [layout autorelease]];
+		[mainFile setDelegate: self];
+		if (textStorage) { [textStorage release]; textStorage = nil; }
+		textStorage = [mainFile retain];
         [self selectHighlighterForCurrentFile];
         
         [self updateFiles];
@@ -420,6 +436,35 @@ static NSDictionary* styles[256];
     }
 }
 
+- (void) showSourceFile: (NSString*) file {
+	if ([[[parent document] pathForFile: file] isEqualToString: [[parent document] pathForFile: openSourceFile]]) {
+		// Nothing to do
+		return;
+	}
+	
+	NSTextStorage* fileStorage = [[parent document] storageForFile: file];
+	
+	if (fileStorage == nil) return;
+	
+	NSLayoutManager* layout = [[sourceText layoutManager] retain];
+	
+	[sourceText setSelectedRange: NSMakeRange(0,0)];
+	[[sourceText textStorage] setDelegate: nil];
+	[[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
+	
+	[openSourceFile release];
+	openSourceFile = [[[parent document] pathForFile: file] copy];
+	//openSourceFile = [[file lastPathComponent] copy];
+	
+	[fileStorage addLayoutManager: [layout autorelease]];
+	[fileStorage setDelegate: self];
+	if (textStorage) { [textStorage release]; textStorage = nil; }
+	textStorage = [fileStorage retain];
+	[self selectHighlighterForCurrentFile];
+	
+	[self updateFiles];	
+}
+
 - (IBAction) addFileClicked: (id) sender {
     [NSApp stopModal];
     
@@ -428,6 +473,10 @@ static NSDictionary* styles[256];
 
 - (IBAction) cancelAddFile: (id) sender {
     [NSApp stopModal];
+}
+
+- (void) updateHighlightedLines {
+	
 }
 
 // = Settings =
@@ -630,7 +679,7 @@ static NSDictionary* styles[256];
     
     if ((invalidRange.location != NSNotFound && invalidRange.length != 0) ||
         (remainingFileToProcess.location != NSNotFound && remainingFileToProcess.length != 0)) {
-        highlighterTicker = [NSTimer timerWithTimeInterval:0.001
+        highlighterTicker = [NSTimer timerWithTimeInterval:0.01
                                                     target:self
                                                   selector:@selector(highlighterIteration)
                                                   userInfo:nil
@@ -642,8 +691,15 @@ static NSDictionary* styles[256];
 }
 
 - (void) highlighterIteration {
-    int amountToHighlight = maxHighlightAmount;
-    
+	int amountToHighlight = minHighlightAmount;
+	//int amountToHighlight = [[sourceText textStorage] length] / 16;
+	//int amountToHighlight = [[sourceText textStorage] length];
+	
+	//if (amountToHighlight < minHighlightAmount) amountToHighlight = minHighlightAmount;
+	//if (amountToHighlight > maxHighlightAmount) amountToHighlight = maxHighlightAmount;
+		
+	NSRange selected = [sourceText selectedRange];
+	    
     while (amountToHighlight > 0) {
         NSRange invalid = [highlighter invalidRange];
 
@@ -660,7 +716,9 @@ static NSDictionary* styles[256];
             break;
         
 #ifdef highlightAll
+		int start = clock();
         [self highlightRange: NSMakeRange(0, [[sourceText textStorage] length])];
+		NSLog(@"Time: %.04f\n", (float)(clock() - start) / (float)CLOCKS_PER_SEC);
 #endif
 
         // Highlight!
@@ -682,6 +740,8 @@ static NSDictionary* styles[256];
             amountToHighlight = 0;
         }
     }
+	
+	[sourceText setSelectedRange: selected];
         
     [self createHighlighterTickerIfRequired];
 }
@@ -718,7 +778,7 @@ static NSDictionary* styles[256];
     IFSyntaxType lastSyntax = IFSyntaxNone;
     int startPos = charRange.location;
     int curPos;
-    
+	
     if (charRange.location + charRange.length > [[[sourceText textStorage] string] length]) {
         charRange.length = [[[sourceText textStorage] string] length] - charRange.location;
     }
@@ -730,6 +790,7 @@ static NSDictionary* styles[256];
                                   buffer: buf];
     
     // Do the highlighting
+	[[sourceText textStorage] beginEditing];
     for (curPos = charRange.location; curPos < charRange.location + charRange.length; curPos++) {
         IFSyntaxType thisSyntax = buf[curPos-charRange.location];
         
@@ -740,7 +801,7 @@ static NSDictionary* styles[256];
             r = NSMakeRange(startPos, curPos - startPos);
             
             [[sourceText textStorage] addAttributes: attr
-                                            range: r];
+											  range: r];
             
             startPos = curPos;
         }
@@ -755,17 +816,29 @@ static NSDictionary* styles[256];
     r = NSMakeRange(startPos, curPos - startPos);
     if (r.length > 0) {
         [[sourceText textStorage] addAttributes: attr
-                                        range: r];
+										  range: r];
     }
     
     free(buf);
 
+	[[sourceText textStorage] endEditing];
     [[sourceText textStorage] setDelegate: self];
 }
 
 - (void) selectHighlighterForCurrentFile {
+	if (highlighterTicker) {
+		[highlighterTicker invalidate];
+		[highlighterTicker release];
+		highlighterTicker = nil;
+	}
+	
+	BOOL useSystemFont = YES;
+	
     if (highlighter) [highlighter release];
     highlighter = nil;
+	
+	remainingFileToProcess.location = NSNotFound;
+	remainingFileToProcess.length   = 0;
     
     NSString* fileType = [openSourceFile pathExtension];
     
@@ -783,14 +856,25 @@ static NSDictionary* styles[256];
         // Rich text file
         highlighter = [[IFSyntaxHighlighter alloc] init];
         [sourceText setRichText: YES];
+		useSystemFont = NO;
     } else {
         // Unknown file type
         highlighter = [[IFSyntaxHighlighter alloc] init];
         [sourceText setRichText: NO];
     }
-    
+	
+	if (useSystemFont) {
+		[[sourceText textStorage] setDelegate: nil];
+
+		[[sourceText textStorage] addAttributes: [self attributeForStyle: IFSyntaxNone]
+										  range: NSMakeRange(0, [[sourceText textStorage] length])];
+		
+		[[sourceText textStorage] setDelegate: self];
+	}
+	 
     [highlighter setFile: [[sourceText textStorage] string]];
-    [self highlighterIteration];
+	[self highlightRange: NSMakeRange(0, [[sourceText textStorage] length])];
+    [self createHighlighterTickerIfRequired];
 }
 
 @end

@@ -36,4 +36,6 @@
 - (NSTextStorage*) storageForFile: (NSString*) sourceFile;
 - (BOOL) addFile: (NSString*) newFile;
 
+- (NSString*) pathForFile: (NSString*) file;
+
 @end

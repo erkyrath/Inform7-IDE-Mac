@@ -37,6 +37,8 @@ enum IFProjectPaneType {
     // Source
     IBOutlet NSTextView* sourceText;
     IBOutlet NSPanel*    addFilePanel;
+	
+	NSTextStorage* textStorage;
     
     // The add file panel
     IBOutlet NSTextField* newFileName;
@@ -116,6 +118,11 @@ enum IFProjectPaneType {
 
 - (IBAction) addFileClicked: (id) sender;
 - (IBAction) cancelAddFile: (id) sender;
+
+- (void) updateHighlightedLines;
+
+- (void) showSourceFile: (NSString*) file;
+- (NSString*) currentFile;
 
 // The game view
 - (void) startRunningGame: (NSString*) fileName;

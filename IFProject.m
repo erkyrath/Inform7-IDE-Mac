@@ -170,7 +170,7 @@
     if ([sourceFiles objectForKey: newFile] != nil) return NO;
     if (singleFile) return NO;
     
-    [sourceFiles setObject: [[[NSTextStorage alloc] init] autorelease]
+    [sourceFiles setObject: [[[NSTextStorage alloc] initWithString: @""] autorelease]
                     forKey: newFile];
     
     return YES;
@@ -265,6 +265,31 @@
 }
 
 - (NSTextStorage*) storageForFile: (NSString*) sourceFile {
+	NSTextStorage* storage;
+	NSString* sourceDir = [[[self fileName] stringByAppendingPathComponent: @"Source"] stringByStandardizingPath];
+	
+	if (![sourceFile isAbsolutePath]) {
+		// Force absolute path
+		sourceFile = [[sourceDir stringByAppendingPathComponent: sourceFile] stringByStandardizingPath];
+	}
+	
+	if ([sourceFile isAbsolutePath]) {
+		// Absolute path
+		if ([[[sourceFile stringByDeletingLastPathComponent] stringByStandardizingPath] isEqualToString: sourceDir]) {
+			return [sourceFiles objectForKey: [sourceFile lastPathComponent]];
+		}
+		
+		// Temporary text storage
+		NSString* textData = [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: sourceFile]
+												   encoding: NSISOLatin1StringEncoding];
+		storage = [[NSTextStorage alloc] initWithString: [textData autorelease]];
+		
+		NSLog(@"Using temporary storage from %@", sourceFile);
+		return [storage autorelease];
+	} else {
+		// Not absolute path
+	}
+	
     return [sourceFiles objectForKey: sourceFile];
 }
 
@@ -274,6 +299,20 @@
 
 - (NSDictionary*) sourceFiles {
     return sourceFiles;
+}
+
+- (NSString*) pathForFile: (NSString*) file {
+	if ([file isAbsolutePath]) return [file stringByStandardizingPath];
+	
+	return [[[[self fileName] stringByAppendingPathComponent: @"Source"] stringByAppendingPathComponent: file] stringByStandardizingPath];
+	
+	if ([sourceFiles objectForKey: file] != nil) {
+		return [[[self fileName] stringByAppendingPathComponent: @"Source"] stringByAppendingPathComponent: file];
+	}
+	
+	// FIXME: search libraries
+	
+	return file;
 }
 
 @end

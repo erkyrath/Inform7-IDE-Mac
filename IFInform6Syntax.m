@@ -29,7 +29,7 @@ static char** codeKeywords = NULL;
 static int    numOtherKeywords = 0;
 static char** otherKeywords = NULL;
 
-static inline BOOL FindKeyword(char** keywordList, int nKeywords, const char* keyword) {
+static inline BOOL FindKeyword(char** keywordList, int nKeywords, const char* keyword) {	
     int bottom = 0;
     int top = nKeywords-1;
     
@@ -436,7 +436,7 @@ static inline BOOL IsIdentifier(int chr) {
             }
         }
     }
-
+	
     // Next we look for identifiers.  An identifier for these purposes includes
     // a number, for it is just a sequence of:
     
@@ -465,6 +465,7 @@ static inline BOOL IsIdentifier(int chr) {
         }
         
         if (identifierLen == 0) continue;
+		if (identifierLen > 10) continue;
 
         // The initial colouring of an identifier tells us its context.  We're
         // only interested in those in foreground colour (these must be used
@@ -521,10 +522,11 @@ static inline BOOL IsIdentifier(int chr) {
         }
         
         if (newColour != 0xff) {
-            int y;
-            
+            register int y;
+			register char* col = lines[line].colour + identifierStart;
+			
             for (y=0; y<identifierLen; y++) {
-                lines[line].colour[identifierStart+y] = newColour;
+                *(col++) = newColour;
             }
         }
     }

@@ -123,10 +123,9 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 - (NSArray*) commandLineArguments {
     NSMutableArray* result = [NSMutableArray array];
 
-    NSString* bundlePath = [[NSBundle mainBundle] resourcePath];
-
     // Switches
     NSMutableString* switches = [NSMutableString stringWithString: @"-"];
+	[switches appendString: @"k"];
     [switches appendString: @"E2"];
 
     if ([self strict]) {
