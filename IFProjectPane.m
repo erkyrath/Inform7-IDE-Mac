@@ -828,6 +828,7 @@ NSDictionary* IFSyntaxAttributes[256];
 			// Create a parent view
 			NSView* fileView = [[NSView alloc] init];
 			[fileView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+			[fileView autorelease];
 			
 			// Create a 'fake' web view which will get replaced when the view is actually displayed on screen
 			IFPretendWebView* pretendView = [[IFPretendWebView alloc] initWithFrame: [fileView bounds]];
