@@ -160,7 +160,7 @@ static IFCompilerController* activeController = nil;
     if (errorFiles)    [errorFiles release];
     if (errorMessages) [errorMessages release];
     if (window)        [window release];
-    if (delegate)      [delegate release];
+    //if (delegate)      [delegate release];
     if (fileTabView)   [fileTabView release];
     
     [super dealloc];
@@ -729,8 +729,9 @@ static IFCompilerController* activeController = nil;
 // == Delegate ==
 
 - (void) setDelegate: (NSObject*) dg {
-    if (delegate) [delegate release];
-    delegate = [dg retain];
+	delegate = dg;
+    //if (delegate) [delegate release];
+    //delegate = [dg retain];
 }
 
 - (NSObject*) delegate {

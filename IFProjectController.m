@@ -166,7 +166,7 @@ static NSDictionary*  itemDictionary = nil;
     [projectPanes removeAllObjects];
     [projectPanes addObject: [IFProjectPane standardPane]];
     [projectPanes addObject: [IFProjectPane standardPane]];
-
+	
     [[projectPanes objectAtIndex: 0] selectView: IFSourcePane];
     [[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
 

@@ -203,7 +203,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     if (stdOut) [stdOut release];
     if (stdErr) [stdErr release];
 
-    if (delegate) [delegate release];
+    //if (delegate) [delegate release];
 
     [runQueue release];
     
@@ -423,8 +423,9 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 }
 
 - (void) setDelegate: (id<NSObject>) dg {
-    if (delegate) [delegate release];
-    delegate = [dg retain];
+	delegate = dg;
+    //if (delegate) [delegate release];
+    //delegate = [dg retain];
 }
 
 - (id) delegate {
