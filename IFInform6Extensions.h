@@ -18,6 +18,8 @@
 	
 	// Which extensions we're using
 	NSMutableSet* activeExtensions;
+	
+	IBOutlet NSTableView* extensionTable;
 }
 
 // Meta-information about what to look for
@@ -25,5 +27,14 @@
 
 // Searching the extensions
 - (void) searchForExtensions;
+
+// Used to determine what types of file we can drag and drop
+- (BOOL) canAcceptFile: (NSString*) filename;
+- (BOOL) canAcceptPasteboard: (NSPasteboard*) pasteboard;
+- (NSString*) directoryNameForExtension: (NSString*) extn;
+
+// Adding new extensions
+- (BOOL) importExtensionFile: (NSString*) file;
+- (void) notifyThatExtensionsHaveChanged;
 
 @end
