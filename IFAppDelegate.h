@@ -13,6 +13,8 @@
 
 @interface IFAppDelegate : NSObject {
 	BOOL haveWebkit;
+	
+	IBOutlet NSMenuItem* extensionsMenu;
 }
 
 + (NSRunLoop*) mainRunLoop;
@@ -22,5 +24,7 @@
 - (IBAction) showInspectors: (id) sender;
 - (IBAction) newHeaderFile: (id) sender;
 - (IBAction) newInformFile: (id) sender;
+
+- (void) updateExtensions;
 
 @end

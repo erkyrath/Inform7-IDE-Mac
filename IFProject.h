@@ -30,6 +30,8 @@ extern NSString* IFProjectFilesChangedNotification;
 	IFIndexFile*         indexFile;
 	
 	ZoomSkein*			  skein;
+	
+	BOOL editingExtension;
     
     BOOL singleFile;
 }

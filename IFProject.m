@@ -26,7 +26,8 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 		[extn isEqualToString: @"h"]) {
 		// Inform 6 file
 		return [[[IFInform6Highlighter alloc] init] autorelease];
-	} else if ([extn isEqualToString: @"ni"]) {
+	} else if ([extn isEqualToString: @"ni"] ||
+			   [extn isEqualToString: @""]) {
 		// Natural Inform file
 		return [[[IFNaturalHighlighter alloc] init] autorelease];
 	}
@@ -151,7 +152,9 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 		// Load all the source files
         while (key = [sourceEnum nextObject]) {
             IFSyntaxStorage* text;
-			
+
+			if (![[source objectForKey: key] isRegularFile]) continue;
+
 			NSData* regularFileContents = [[source objectForKey: key] regularFileContents];
 			
 			text = [[self class] storageWithData: regularFileContents
@@ -260,6 +263,63 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
         
         singleFile = YES;
         return YES;
+	} else if ([fileType isEqualTo: @"Inform Extension Directory"]) {
+		// Opening a plain ole extension
+		editingExtension = YES;
+		
+        // Open the directory
+        projectFile = [[IFProjectFile allocWithZone: [self zone]]
+			initWithPath: fileName];
+		
+        if (![projectFile isDirectory]) {
+            [projectFile release];
+            projectFile = nil;
+            return NO;
+        }
+		
+        // Turn the source directory into NSTextStorages
+        NSFileWrapper* sourceDir = projectFile;
+		
+        if (sourceDir == nil ||
+            ![sourceDir isDirectory]) {
+            [projectFile release];
+            projectFile = nil;
+            return NO;
+        }
+		
+        if (sourceFiles) [sourceFiles release];
+        sourceFiles = [[NSMutableDictionary allocWithZone: [self zone]] init];
+        NSDictionary* source = [sourceDir fileWrappers];
+        NSEnumerator* sourceEnum = [source keyEnumerator];
+        NSString* key;
+		
+        if (mainSource) [mainSource release];
+        mainSource = nil;
+		
+		// Load all the source files
+        while (key = [sourceEnum nextObject]) {
+            IFSyntaxStorage* text;
+			
+			if ([key characterAtIndex: 0] == '.') continue;
+			if (![[source objectForKey: key] isRegularFile]) continue;
+			
+			NSData* regularFileContents = [[source objectForKey: key] regularFileContents];
+			
+			text = [[self class] storageWithData: regularFileContents
+									 forFilename: key];
+			
+            [sourceFiles setObject: text
+                            forKey: key];
+			
+            if ([[key pathExtension] isEqualTo: @"inf"] ||
+                [[key pathExtension] isEqualTo: @"ni"] ||
+				[[key pathExtension] isEqualTo: @""]) {
+                if (mainSource) [mainSource release];
+                mainSource = [key copy];
+            }
+        }		
+		
+		return YES;
 	}
     
     return NO;
@@ -278,7 +338,13 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
         
         return [[theFile string] writeToFile: fileName
                                   atomically: YES];
-    }
+    } else if ([fileType isEqualToString: @"Inform Extension Directory"]) {
+        [self prepareForSaving];
+        
+        return [projectFile writeToFile: fileName
+                             atomically: YES
+                        updateFilenames: YES];
+	}
     
     return NO;
 }
@@ -356,10 +422,19 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
     // Output all the source files to the project file wrapper
     NSEnumerator* keyEnum = [sourceFiles keyEnumerator];
     NSString*     key;
-    NSFileWrapper* source = [[NSFileWrapper alloc] initDirectoryWithFileWrappers: nil];
+    NSFileWrapper* source;
+	
+	if (!editingExtension) {
+		source = [[NSFileWrapper alloc] initDirectoryWithFileWrappers: nil];
 
-    [source setPreferredFilename: @"Source"];
-    [source setFilename: @"Source"];
+		[source setPreferredFilename: @"Source"];
+		[source setFilename: @"Source"];
+	} else {
+		//source = [projectFile retain];
+		source = [[IFProjectFile alloc] initDirectoryWithFileWrappers: [NSDictionary dictionary]];
+		[projectFile release];
+		projectFile = [source retain];
+	}
 
     while (key = [keyEnum nextObject]) {
         NSData*        data;
@@ -379,6 +454,12 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 
         [source addFileWrapper: [file autorelease]];
     }
+	
+	if (editingExtension) {
+		// That's all folks
+		[source release];
+		return;
+	}
 
     // Replace the source file wrapper
     [projectFile removeFileWrapper: [[projectFile fileWrappers] objectForKey: @"Source"]];
@@ -433,6 +514,8 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 	NSString* originalSourceFile = sourceFile;
 	NSString* sourceDir = [[[self fileName] stringByAppendingPathComponent: @"Source"] stringByStandardizingPath];
 	
+	if (editingExtension) sourceDir = [[self fileName] stringByStandardizingPath];
+	
 	if (projectFile == nil && [[sourceFile lastPathComponent] isEqualToString: [[self fileName] lastPathComponent]]) {
 		if (![sourceFile isAbsolutePath]) {
 			// Special case: when we're editing an individual file, then we always use that filename if possible
@@ -486,7 +569,10 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 - (NSString*) pathForFile: (NSString*) file {
 	if ([file isAbsolutePath]) return [file stringByStandardizingPath];
 	
-	return [[[[self fileName] stringByAppendingPathComponent: @"Source"] stringByAppendingPathComponent: file] stringByStandardizingPath];
+	if (!editingExtension)
+		return [[[[self fileName] stringByAppendingPathComponent: @"Source"] stringByAppendingPathComponent: file] stringByStandardizingPath];
+	else
+		return [[[self fileName] stringByAppendingPathComponent: file] stringByStandardizingPath];
 	
 	if ([sourceFiles objectForKey: file] != nil) {
 		return [[[self fileName] stringByAppendingPathComponent: @"Source"] stringByAppendingPathComponent: file];

@@ -48,7 +48,7 @@
 			// Natural Inform mode
 			switch (lastState) {
 				case IFNaturalStateBlankLine:
-					if (chr == ' ' || chr == '\n' || chr == '\t')
+					if (chr == ' ' || chr == '\n' || chr == '\t' || chr == '\r')
 						return IFNaturalStateBlankLine;
 					// ObRAIF: here is why fall-through cases are a *good* thing
 				case IFNaturalStateMaybeInform6:
@@ -78,7 +78,7 @@
 					}
 					if (chr == '"')
 						return IFNaturalStateQuote;
-					if (chr == '\n')
+					if (chr == '\n' || chr == '\r')
 						return IFNaturalStateBlankLine;
 						
 					if (chr == '(')
@@ -106,7 +106,7 @@
 					return lastState;
 					
 				case IFNaturalStateHeading:
-					if (chr == '\n')
+					if (chr == '\n' || chr == '\r')
 						return IFNaturalStateBlankLine;
 					return IFNaturalStateHeading;
 					

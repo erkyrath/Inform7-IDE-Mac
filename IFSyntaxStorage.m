@@ -250,7 +250,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	for (x=0; x<newLen; x++) {
 		unichar thisChar = [newString characterAtIndex: x];
 		
-		if (thisChar == '\n') {
+		if (thisChar == '\n' || thisChar == '\r') {
 			nNewLines++;
 			newLineStarts = realloc(newLineStarts, sizeof(*newLineStarts)*nNewLines);
 			newLineStarts[nNewLines-1] = x + range.location+1;
