@@ -27,7 +27,12 @@
 // |									  |	+4 sword of frob slaying, but the	 |
 // |									  |	mere thought of dealing with the	 |
 // |									  |	society for the preservation of 	 |
-// |									  |	malicious frobs puts you off		 |
+// |									  |	malicious frobs is enough to bring	 |
+// |									  | you out in a rash.					 |
+// +--------------------------------------+--------------------------------------+
+// | > Diagnose																	 |
+// +--------------------------------------+--------------------------------------+
+// | That's not a verb I recognise.		  | You have an itchy rash.				 |
 // +--------------------------------------+--------------------------------------+
 //			  Actual response						   Expected response
 //
@@ -58,31 +63,30 @@
 - (void) dealloc {
 	[transcriptStorage release];
 	[transcriptTextView release];
+	[skein release];
 	
 	[super dealloc];
 }
 
 // = Setting the skein =
-- (void) setSkein: (ZoomSkein*) skein {
-	// (TEST)
-	ZoomSkeinItem* bottomItem;
-	ZoomSkeinItem* nextItem;
+
+- (void) setSkein: (ZoomSkein*) newSkein {
+	if (skein) [skein release];
 	
-	bottomItem = nil;
-	nextItem = [skein rootItem];
-	
-	while (nextItem != nil) {
-		bottomItem = nextItem;
-		
-		if ([[nextItem children] count] <= 0) break;
-		nextItem = [[[nextItem children] allObjects] objectAtIndex: 0];
-	}
-	
-	// Set the transcript appropriately
-	[transcriptStorage setTranscriptToPoint: bottomItem];
-	
-	// FIXME: actually store the skein, etc
-	NSLog(@"Hrm - %@", [transcriptStorage string]);
+	skein = [newSkein retain];
+	[transcriptStorage setTranscriptToPoint: [skein rootItem]];
+}
+
+- (ZoomSkein*) skein {
+	return skein;
+}
+
+- (void) transcriptToPoint: (ZoomSkeinItem*) point {
+	[transcriptStorage setTranscriptToPoint: point];
+}
+
+- (void) scrollToItem: (ZoomSkeinItem*) item {
+	[transcriptTextView scrollRangeToVisible: [transcriptStorage rangeForItem: item]];
 }
 
 // = Communications =

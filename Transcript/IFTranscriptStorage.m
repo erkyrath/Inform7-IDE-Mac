@@ -33,7 +33,7 @@ static NSDictionary* resultAttributes = nil;
 static NSDictionary* expectedAttributes = nil;
 
 + (void) initialize {
-	NSFont* gillSans = [NSFont fontWithName: @"GillSans" size: 11.0];
+	NSFont* gillSans = [NSFont fontWithName: @"Gill Sans" size: 11.0];
 	if (!gillSans) gillSans = [NSFont systemFontOfSize: 11.0];
 	
 	// Default attributes
@@ -267,8 +267,7 @@ static NSDictionary* expectedAttributes = nil;
 		defaultAttributes = [attributes copy];
 	}
 	
-	
-	[self edited: NSTextStorageEditedCharacters
+	[self edited: NSTextStorageEditedAttributes
 		   range: range
   changeInLength: 0];
 }
@@ -390,7 +389,7 @@ static NSDictionary* expectedAttributes = nil;
 
 - (void) recalculateAllItemPositions {
 	unsigned int x;
-	unsigned int oldLength = [self length];
+	unsigned int oldLength = [theString length];
 	
 	[self beginEditing];
 
@@ -403,6 +402,7 @@ static NSDictionary* expectedAttributes = nil;
 	
 	itemPositionData = [[NSMutableArray alloc] init];
 	
+	[theString setString: @""];
 	for (x=0; x<[transcriptItems count]; x++) {
 		[self calculatePositionForItemAtIndex: x];
 	}
@@ -410,9 +410,12 @@ static NSDictionary* expectedAttributes = nil;
 	// Mark ourselves as updated
 	unsigned int newLength = [[[itemPositionData lastObject] objectForKey: finalPosition] intValue];
 	
+	NSLog(@"NewLength = %i, OldLength = %i", newLength, oldLength);
+		
 	[self edited: NSTextStorageEditedCharacters|NSTextStorageEditedAttributes
 		   range: NSMakeRange(0, oldLength)
   changeInLength: newLength - oldLength];
+
 	[self endEditing];
 }
 
@@ -483,6 +486,22 @@ static NSDictionary* expectedAttributes = nil;
 	}
 	
 	return NSNotFound;
+}
+
+- (NSRange) rangeForItem: (ZoomSkeinItem*) item {
+	// Returns the range used for a given item
+	unsigned itemPos = [transcriptItems indexOfObjectIdenticalTo: item];
+	
+	if (itemPos != NSNotFound) {
+		NSDictionary* itemData = [itemPositionData objectAtIndex: itemPos];
+		
+		int startChar = [[itemData objectForKey: itemStartPosition] intValue];
+		int endChar = [[itemData objectForKey: finalPosition] intValue];
+		
+		return NSMakeRange(startChar, endChar - startChar);
+	}
+	
+	return NSMakeRange(NSNotFound, 0);
 }
 
 @end

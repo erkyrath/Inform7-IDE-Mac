@@ -63,6 +63,7 @@ enum lineStyle {
 - (IFProjectPane*) sourcePane;
 - (IFProjectPane*) gamePane;
 - (IFProjectPane*) auxPane;
+- (IFProjectPane*) transcriptPane;
 
 // Communication from the containing panes (maybe other uses, too - scripting?)
 - (BOOL) selectSourceFile: (NSString*) fileName;

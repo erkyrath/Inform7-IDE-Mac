@@ -737,6 +737,23 @@ static NSDictionary*  itemDictionary = nil;
 	return [projectPanes objectAtIndex: paneToUse];
 }
 
+- (IFProjectPane*) transcriptPane {
+	// Returns the current pane containing the source code (or an appropriate pane that source code can be displayed in)
+    int x;
+	
+    for (x=0; x<[projectPanes count]; x++) {
+        IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
+		
+        if ([thisPane currentView] == IFTranscriptPane) {
+			// This is the transcript pane
+			return thisPane;
+        }
+    }
+	
+	// No transcript pane showing: use the auxilary pane
+	return [self auxPane];
+}
+
 - (BOOL) selectSourceFile: (NSString*) fileName {
     // IMPLEMENT ME: multiple file types (?)
 	[[self sourcePane] showSourceFile: fileName];
@@ -1035,6 +1052,14 @@ static NSDictionary*  itemDictionary = nil;
 		[self compileAndRun: self];
 		[[projectPanes objectAtIndex: 1] setPointToRunTo: point];
 	}
+}
+
+- (void) transcriptToPoint: (ZoomSkeinItem*) point {
+	IFProjectPane* transcriptPane = [self transcriptPane];
+	
+	[transcriptPane selectView: IFTranscriptPane];
+	[[transcriptPane transcriptController] transcriptToPoint: point];
+	[[transcriptPane transcriptController] scrollToItem: point];
 }
 
 // = Policy delegates =

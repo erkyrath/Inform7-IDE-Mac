@@ -16,11 +16,15 @@
 	IBOutlet NSTextView* transcriptTextView;
 	
 	IFTranscriptStorage* transcriptStorage;
+	ZoomSkein* skein;
 }
 
 // Setting the skein
 - (void)       setSkein: (ZoomSkein*) skein;
 - (ZoomSkein*) skein;
+
+- (void) transcriptToPoint: (ZoomSkeinItem*) point;
+- (void) scrollToItem: (ZoomSkeinItem*) item;
 
 // Updates
 - (void) refreshTranscript;

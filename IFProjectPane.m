@@ -316,6 +316,10 @@ static NSDictionary* styles[256];
 		case IFIndexPane:
 			toSelect = indexTabView;
 			break;
+			
+		case IFTranscriptPane:
+			toSelect = transcriptTabView;
+			break;
     }
 
     if (toSelect) {
@@ -338,6 +342,8 @@ static NSDictionary* styles[256];
         return IFDocumentationPane;
 	} else if (selectedView == indexTabView) {
 		return IFIndexPane;
+	} else if (selectedView == transcriptTabView) {
+		return IFTranscriptPane;
     } else {
         NSLog(@"BUG: unknown tab pane selected (assuming is a source pane)");
         return IFSourcePane;
@@ -1127,6 +1133,12 @@ static NSDictionary* styles[256];
 	
 	// Will scroll to the next item in the list if there's more than one
 	annotationCount++;
+}
+
+// = The transcript view =
+
+- (IFTranscriptController*) transcriptController {
+	return transcriptController;
 }
 
 @end

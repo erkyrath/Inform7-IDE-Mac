@@ -23,7 +23,8 @@ enum IFProjectPaneType {
     IFErrorPane = 2,
     IFGamePane = 3,
     IFDocumentationPane = 4,
-	IFIndexPane = 5
+	IFIndexPane = 5,
+	IFTranscriptPane = 8
 };
 
 @class IFProjectController;
@@ -40,6 +41,7 @@ enum IFProjectPaneType {
     IBOutlet NSTabViewItem* gameTabView;
     IBOutlet NSTabViewItem* docTabView;
 	IBOutlet NSTabViewItem* indexTabView;
+	IBOutlet NSTabViewItem* transcriptTabView;
 
     // Source
     IBOutlet NSTextView* sourceText;
@@ -153,5 +155,8 @@ enum IFProjectPaneType {
 // The skein view
 - (IBAction) skeinLabelSelected: (id) sender;
 - (void) skeinDidChange: (NSNotification*) not;
+
+// The transcript view
+- (IFTranscriptController*) transcriptController;
 
 @end
