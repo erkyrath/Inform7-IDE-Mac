@@ -296,6 +296,17 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 	int strLen = [string length];
 	int newLen = [newString length];
 	
+	// Give the intelligence source an opportunity to rewrite the input if this is a single entry
+	if (intelSource && range.length == 0 && [newString length] == 1) {
+		editingRange = range;
+		
+		NSString* rewritten = [intelSource rewriteInput: newString];
+		if (rewritten) {
+			newString = rewritten;
+			newLen = [newString length];
+		}
+	}
+	
 	// The range of lines to be replaced
 	int firstLine = [self lineForIndex: range.location];
 	int lastLine = range.length>0?[self lineForIndex: range.location + range.length]:firstLine;
@@ -895,10 +906,15 @@ static inline BOOL IsWhitespace(unichar c) {
 
 - (void) setIntelligence: (id<IFSyntaxIntelligence>) intel {
 	if (intelData) [intelData release];
-	if (intelSource) [intelSource release];
+	if (intelSource) {
+		[intelSource setSyntaxStorage: nil];
+		[intelSource release];
+	}
 	
 	intelData = [[IFIntelFile alloc] init];
 	intelSource = [(NSObject*)intel retain];
+	
+	[intelSource setSyntaxStorage: self];
 	
 	// If this ever might be called AFTER setHighlighter, then we need to rehighlight here. For the moment, this
 	// doesn't happen, so we don't do this for efficiency reasons
@@ -910,6 +926,59 @@ static inline BOOL IsWhitespace(unichar c) {
 
 - (IFIntelFile*) intelligenceData {
 	return intelData;
+}
+
+// = Intelligence callbacks =
+
+- (int) editingLineNumber {
+	return [self lineForIndex: editingRange.location];
+}
+
+- (int) numberOfTabStopsForLine: (int) lineNumber {
+	// Details about the string
+	int strLen = [string length];
+	NSString* str = [string string];
+
+	// Our current location, and the number of acquired tab stops
+	int lineStart = lineStarts[lineNumber];
+	int nTabStops = 0;
+		
+	while (lineStart < strLen && [str characterAtIndex: lineStart] == '\t') {
+		lineStart++;
+		nTabStops++;
+	}
+	
+	return nTabStops;
+}
+
+- (NSString*) textForLine: (int) lineNumber {
+	// Get the start/end of the line
+	int lineStart = lineStarts[lineNumber];
+	int lineEnd = lineNumber+1<nLines?lineStarts[lineNumber]:[string length];
+	
+	return [[string string] substringWithRange: NSMakeRange(lineStart, lineEnd-lineStart)];
+}
+
+- (IFSyntaxStyle) styleAtStartOfLine: (int) lineNumber {
+	return charStyles[lineStarts[lineNumber]];
+}
+
+- (IFSyntaxStyle) styleAtEndOfLine: (int) lineNumber {
+	int pos = lineNumber+1<nLines?lineStarts[lineNumber+1]:[string length];
+	
+	if (pos == 0) return IFSyntaxStyleNotHighlighted;
+	
+	return charStyles[pos-1];
+}
+
+- (unichar) characterAtEndOfLine: (int) lineNumber {
+	int pos = lineNumber+1<nLines?lineStarts[lineNumber+1]:[string length]+1;
+	
+	if (pos <= 1) return 0;
+	
+	// pos-1 will always be a newline, so pos-2 is the actual last character. '\n' indicates the last line was
+	// blank in this case
+	return [[string string] characterAtIndex: pos-2];
 }
 
 @end

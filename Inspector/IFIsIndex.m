@@ -72,7 +72,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 	if ([window window] != activeWindow) return;
 	
 	if ([window isKindOfClass: [IFProjectController class]]) {
-		IFProjectController* proj = (IFProjectController*)window;
+		//IFProjectController* proj = (IFProjectController*)window;
 		
 		canDisplay = YES;
 	

@@ -61,4 +61,72 @@ static NSArray* headingList = nil;
 	[newSymbol release];
 }
 
+// = Rewriting =
+
+- (NSString*) rewriteInput: (NSString*) input {
+	if ([input isEqualToString: @"\n"]) {
+		// Auto-tab
+		// IMPLEMENT ME: preferences
+		
+		// 'editingLineNumber' will still be the previous line
+		int lineNumber = [highlighter editingLineNumber];
+		int tabs = [highlighter numberOfTabStopsForLine: lineNumber];
+		
+		// If we're not currently in a string...
+		IFSyntaxStyle lastStyle = [highlighter styleAtEndOfLine: lineNumber];
+		if (lastStyle != IFSyntaxGameText && lastStyle != IFSyntaxSubstitution) {
+			unichar lastChar = [highlighter characterAtEndOfLine: lineNumber];
+
+			if (lastChar == ':') {
+				// Increase tab depth if last character of last line was ':'
+				tabs++;
+			} else if (lastChar == '\t' || lastChar == ' ') {
+				// If line was entirely whitespace then reduce tabs back to 0
+				NSString* line = [highlighter textForLine: lineNumber];
+				int len = [line length];
+				int x;
+				BOOL whitespace = YES;
+				
+				for (x=0; x<len-1; x++) {
+					// Loop to len-1 as last character will always be '\n'
+					// Exception is the very last line in the file. But we're OK there, as we know the last
+					// character is whitespace anyway
+					unichar chr = [line characterAtIndex: x];
+					
+					if (chr != '\t' && chr != ' ') {
+						whitespace = NO;
+						break;
+					}
+				}
+				
+				if (whitespace) {
+					// Line was entirely whitespace: no tabs now
+					tabs = 0;
+				}
+			}
+		}
+		
+		if (tabs > 0) {
+			// Auto-indent the next line
+			NSMutableString* res = [NSMutableString stringWithString: @"\n"];
+			
+			int x;
+			for (x=0; x<tabs; x++) {
+				[res appendString: @"\t"];
+			}
+			
+			return res;
+		} else {
+			// Leave as-is
+			return nil;
+		}
+	} else if ([input isEqualToString: @" "]) {
+		// The line being editing must already have been identified as a heading. Small chance that this line will
+		// not yet be highlighted correctly, in which case this will fail.
+	}
+	
+	// No behaviour defined: just fall through
+	return nil;
+}
+
 @end

@@ -96,6 +96,9 @@ typedef unsigned char IFSyntaxStyle;
 				 lineNumber: (int) lineNumber
 				   intoData: (IFIntelFile*) data;
 
+// Autotyping (occurs when inserting single characters, and allows us to turn '\n' into '\n\t' for example
+- (NSString*) rewriteInput: (NSString*) input;
+
 @end
 
 //
@@ -133,6 +136,8 @@ typedef unsigned char IFSyntaxStyle;
 	// 'Intelligence'
 	id<IFSyntaxIntelligence,NSObject> intelSource;
 	IFIntelFile* intelData;				// 'Intelligence' data
+	
+	NSRange editingRange;				// Used while rewriting
 }
 
 // Setting/retrieving the highlighter
@@ -166,5 +171,15 @@ typedef unsigned char IFSyntaxStyle;
 - (void) setIntelligence: (id<IFSyntaxIntelligence>) intel;
 - (id<IFSyntaxIntelligence>) intelligence;
 - (IFIntelFile*) intelligenceData;
+
+// Intelligence callbacks (rewriting lines)
+- (int) editingLineNumber;
+- (int) numberOfTabStopsForLine: (int) lineNumber;
+- (NSString*) textForLine: (int) lineNumber;
+
+- (IFSyntaxStyle) styleAtStartOfLine: (int) lineNumber;
+- (IFSyntaxStyle) styleAtEndOfLine: (int) lineNumber;
+
+- (unichar) characterAtEndOfLine: (int) lineNumber;
 
 @end
