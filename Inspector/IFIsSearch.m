@@ -157,16 +157,23 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 		
 		while (path = [dirEnum nextObject]) {
 			NSString* extension = [path pathExtension];
+			NSString* description = [[[path lastPathComponent] stringByDeletingPathExtension] lowercaseString];
 			
-			if ([extension isEqualToString: @"html"] ||
-				[extension isEqualToString: @"htm"]) {
-				[ctrl addSearchFile: [resourcePath stringByAppendingPathComponent: path]
-							   type: @"Documentation"];
-				//[[NSBundle mainBundle] localizedStringForKey: @"SearchType Documentation"
-				//										 value: @"Docs"
-				//										 table: nil]];
+			// Must be an html file...
+			// and must be the index or a docxxx file
+			if ([description isEqualToString: @"index"] ||
+				([description length] > 3 && [[description substringToIndex: 3] isEqualToString: @"doc"])) {
+				if ([extension isEqualToString: @"html"] ||
+					[extension isEqualToString: @"htm"]) {
+					[ctrl addSearchFile: [resourcePath stringByAppendingPathComponent: path]
+								   type: @"Documentation"];
+				}
 			}
 		}
+	}
+	
+	// Extensions
+	if (willSearchExtensions) {
 	}
 	
 	// Source files (searched first)
@@ -182,9 +189,6 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 			[ctrl addSearchStorage: [file string]
 					  withFileName: filename
 							  type: @"Source File"];
-			//[[NSBundle mainBundle] localizedStringForKey: @"SearchType Source File"
-			//										 value: @"Source File"
-			//										 table: nil]];
 		}
 	}
 	
