@@ -303,6 +303,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 
     [args addObject: @"-package"];
     [args addObject: [NSString stringWithString: [self currentStageInput]]];
+	
+	if (release) {
+		[args addObject: @"-release"];
+	}
 
     [self addCustomBuildStage: [settings naturalInformCompilerToUse]
                 withArguments: args
