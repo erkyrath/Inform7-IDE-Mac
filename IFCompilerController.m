@@ -630,6 +630,7 @@ static IFCompilerController* activeController = nil;
 
     NSEnumerator* keyEnum = [[files fileWrappers] keyEnumerator];
     NSString* key;
+	NSTabViewItem* preferredTabView = nil;
 
     while (key = [keyEnum nextObject]) {
         NSString* type = [[key pathExtension] lowercaseString];
@@ -719,7 +720,18 @@ static IFCompilerController* activeController = nil;
 
             NSTabViewItem* fileItem;
             fileItem = [[NSTabViewItem alloc] init];
-
+			
+			// 'Problems.html' is the preferred view. May also be called 'log of problems?'
+			// A file called 'Problems' is preferred to a file called 'log of problems'
+			if ([[[key stringByDeletingPathExtension] lowercaseString] isEqualToString: @"problems"]) {
+				preferredTabView = fileItem;
+			}
+			
+			if (preferredTabView == nil &&
+				[[[key stringByDeletingPathExtension] lowercaseString] isEqualToString: @"log of problems"]) {
+				preferredTabView = fileItem;
+			}
+				
             [fileItem setLabel: [[NSBundle mainBundle] localizedStringForKey: key 
 																	   value: [key stringByDeletingPathExtension] 
 																	   table: @"CompilerOutput"]];
@@ -732,6 +744,10 @@ static IFCompilerController* activeController = nil;
             [newView    release];
         }
     }
+	
+	if (preferredTabView && fileTabView) {
+		[fileTabView selectTabViewItem: preferredTabView];
+	}
 }
 
 - (void) clearTabViews {
