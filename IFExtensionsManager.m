@@ -51,6 +51,7 @@
 
 - (void) temporaryObjectHasDeallocated: (NSObject*) obj {
 	if (obj == tempExtensions) tempExtensions = nil;
+	else if (obj == tempAvailableExtensions) tempAvailableExtensions = nil;
 }
 
 // = Setting up =
@@ -81,6 +82,10 @@
 
 - (NSString*) subdirectory {
 	return [[subdirectory copy] autorelease];
+}
+
+- (void) setMergesMultipleExtensions: (BOOL) newMergeMultipleExtensions {
+	mergesMultipleExtensions = newMergeMultipleExtensions;
 }
 
 // = Retrieving the list of installed extensions =
@@ -162,9 +167,17 @@
 								   isDirectory: &isDir];
 			
 			if (exists && isDir) {
+				// Add to the list of paths for this name
+				NSString* dirKey = [filename lowercaseString];
+				NSMutableArray* dirsWithName = [resultSet objectForKey: dirKey];
+					
+				if (dirsWithName == nil) dirsWithName = [NSMutableArray array];
+				
+				[dirsWithName addObject: fullPath];
+				
 				// Add to the result
-				[resultSet setObject: fullPath
-							  forKey: [filename lowercaseString]];
+				[resultSet setObject: dirsWithName
+							  forKey: dirKey];
 			}
 		}
 	}
@@ -179,10 +192,34 @@
 }
 
 - (NSArray*) availableExtensions {
-	return [[self extensionDictionary] allValues];
+	// Use the cached versions if they're around
+	if (tempAvailableExtensions) return [[tempAvailableExtensions retain] autorelease];
+	
+	// Produce a list of extensions
+	// We use the 'last' (highest priority) extension name in the array of extensions as the 'actual' name of the extension
+	NSDictionary* extensionDictionary = [self extensionDictionary];
+	NSMutableArray* result = [NSMutableArray array];
+	
+	NSEnumerator* extnEnum = [extensionDictionary keyEnumerator];
+	NSString* dirKey;
+	while (dirKey = [extnEnum nextObject]) {
+		NSArray* extnDetails = [extensionDictionary objectForKey: dirKey];
+		
+		[result addObject: [[extnDetails objectAtIndex: [extnDetails count]-1] lastPathComponent]];
+	}
+	
+	[[[IFTempObject alloc] initWithObject: tempAvailableExtensions=result
+								 delegate: self]
+		autorelease];
+	
+	return tempAvailableExtensions;
 }
 
 - (NSString*) pathForExtensionWithName: (NSString*) name {
+	return [[[self extensionDictionary] objectForKey: [name lowercaseString]] lastObject];
+}
+
+- (NSArray*) pathsForExtensionWithName: (NSString*) name {
 	return [[self extensionDictionary] objectForKey: [name lowercaseString]];
 }
 
@@ -190,11 +227,76 @@
 
 - (NSArray*) filesInExtensionWithName: (NSString*) name {
 	// Returns all the files in a particular extension (as full path names)
+	NSFileManager* manager = [NSFileManager defaultManager];
+	NSArray* pathsToSearch;
+	
+	// Work out which paths to search (just one if we're not merging)
+	if (mergesMultipleExtensions) {
+		pathsToSearch = [self pathsForExtensionWithName: name];
+	} else {
+		pathsToSearch = [NSArray arrayWithObject: [[self pathsForExtensionWithName: name] lastObject]];
+	}
+	
+	// Search all the paths to generate the list of files
+	// If a file with the same name exists in multiple places, then only the last one is used
+	NSMutableDictionary* resultDict = [NSMutableDictionary dictionary];
+	
+	NSEnumerator* pathEnum = [pathsToSearch objectEnumerator];
+	NSString* path;
+	while (path = [pathEnum nextObject]) {
+		// Search this path
+		NSArray* files = [manager directoryContentsAtPath: path];
+		
+		NSEnumerator* fileEnum = [files objectEnumerator];
+		NSString* file;
+		
+		while (file = [fileEnum nextObject]) {
+			// Add to the result
+			[resultDict setObject: [path stringByAppendingPathComponent: file]
+						   forKey: [file lowercaseString]];
+		}
+	}
+	
+	return [resultDict allValues];
 }
 
 - (NSArray*) sourceFilesInExtensionWithName: (NSString*) name {
 	// Returns all the files that are probably source files in the extension with the given name
 	// (Also returns other files we can edit: .txt and .rtf files in particular)
+	NSFileManager* manager = [NSFileManager defaultManager];
+
+	// Use filesInExtensionWithName: to get all the files
+	NSArray* files = [self filesInExtensionWithName: name];
+	
+	// Filter for valid source files
+	NSMutableArray* result = [NSMutableArray array];
+	
+	NSEnumerator* fileEnum = [files objectEnumerator];
+	NSString* file;
+	
+	while (file = [fileEnum nextObject]) {
+		// File must exist and not be a directory
+		BOOL exists, isDir;
+		
+		exists = [manager fileExistsAtPath: file
+							   isDirectory: &isDir];
+		
+		if (!exists || isDir) continue;
+		
+		// File must not begin with a '.'
+		if ([[file lastPathComponent] characterAtIndex: 0] == '.') continue;
+		
+		// File must have a suitable extension
+		NSString* extn = [[file pathExtension] lowercaseString];
+		if (extn == nil || [extn isEqualToString: @""] || 
+			[extn isEqualToString: @"txt"] || [extn isEqualToString: @"rtf"] ||
+			[extn isEqualToString: @"inf"] || [extn isEqualToString: @"h"] || [extn isEqualToString: @"i6"])  {
+			// Add to the result
+			[result addObject: file];
+		}
+	}
+	
+	return result;
 }
 
 @end

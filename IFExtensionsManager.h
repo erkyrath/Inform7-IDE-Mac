@@ -24,22 +24,27 @@
 @interface IFExtensionsManager : NSObject {
 	NSMutableArray* extensionDirectories;
 	NSMutableArray* customDirectories;
+	BOOL mergesMultipleExtensions;
 	
 	NSString* subdirectory;
 	
 	NSDictionary* tempExtensions;
+	NSArray*      tempAvailableExtensions;
 }
 
 // Setting up
-- (void) setExtensionDirectories: (NSArray*) directories;			// If different from the defaults
-- (void) addExtensionDirectory: (NSString*) directory;				// Complete path (ie, subdirectory not appended to this path)
-- (void) setSubdirectory: (NSString*) extensionSubdirectory;
+- (void) setExtensionDirectories: (NSArray*) directories;				// If different from the defaults
+- (void) addExtensionDirectory: (NSString*) directory;					// Complete path (ie, subdirectory not appended to this path)
+- (void) setSubdirectory: (NSString*) extensionSubdirectory;			// Appended to the directories set using setExtensionDirectories, but not those added using addExtensionDirectory
 
 - (NSArray*) extensionDirectories;
 - (NSString*) subdirectory;
 
+- (void) setMergesMultipleExtensions: (BOOL) mergeMultipleExtensions;	// If YES, then behave as for Natural Inform extensions: ie, if there is an extension with the same author name in multiple directories, functions like filesInExtensionWithName: iterate through all possible directories
+
 // Retrieving the list of installed extensions
 - (NSArray*) availableExtensions;
+- (NSArray*) pathsForExtensionWithName: (NSString*) name;
 - (NSString*) pathForExtensionWithName: (NSString*) name;
 
 // ... and the list of files within a given extension (full paths)
