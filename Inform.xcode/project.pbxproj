@@ -2087,7 +2087,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo *** Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${SRCROOT}/${OBJROOT}/Inform.app/Contents/Resources/Library\nmkdir ${SRCROOT}/${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\nmkdir ${SRCROOT}/${OBJROOT}/Inform.app/Contents/Resources/Library/Biplatform\ncp ${SRCROOT}/Library/Biplatform/Standard/*.h ${SRCROOT}/${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n";
+			shellScript = "echo *** Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${SRCROOT}/${OBJROOT}/Inform.app/Contents/Resources/Library\nmkdir ${SRCROOT}/${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\nmkdir ${SRCROOT}/${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\\ Beta\n# mkdir ${SRCROOT}/${OBJROOT}/Inform.app/Contents/Resources/Library/Biplatform\ncp ${SRCROOT}/Library/Biplatform/Standard/*.h ${SRCROOT}/${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\ncp ${SRCROOT}/Library/lib611/*.h ${SRCROOT}/${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\\ Beta\n";
 		};
 		4BD959F3055EE949008DEFF4 = {
 			buildPhases = (
@@ -2106,6 +2106,7 @@
 			);
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = /Users/ahunter/prog/zoom/build;
+				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Inform_Prefix.h;
 				GCC_WARN_FOUR_CHARACTER_CONSTANTS = NO;
