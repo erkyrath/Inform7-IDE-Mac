@@ -8,8 +8,6 @@
 
 #import "IFTranscriptStorage.h"
 
-#import "IFTranscriptString.h"
-
 // Positional dictionary entries
 static NSString* firstCommandText = @"FirstCommandText";
 static NSString* actualTextPosition = @"ActualTextPosition";
@@ -59,7 +57,9 @@ static NSDictionary* expectedAttributes = nil;
 	// Command result attributes
 	attr = [defaultAttributes mutableCopy];
 	
-	[attr setObject: [NSColor colorWithDeviceRed: 0.6 green: 1.0 blue: 0.6 alpha: 1.0]
+	//[attr setObject: [NSColor colorWithDeviceRed: 0.6 green: 1.0 blue: 0.6 alpha: 1.0]
+	//		 forKey: NSBackgroundColorAttributeName];
+	[attr setObject: [NSColor whiteColor]
 			 forKey: NSBackgroundColorAttributeName];
 	
 	resultAttributes = [attr copy];

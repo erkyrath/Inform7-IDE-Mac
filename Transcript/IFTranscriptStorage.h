@@ -10,7 +10,6 @@
 
 #import <ZoomView/ZoomSkeinItem.h>
 
-@class IFTranscriptString;
 @interface IFTranscriptStorage : NSTextStorage {
 	NSMutableArray* transcriptItems;
 	NSMutableArray* itemPositionData;
@@ -28,5 +27,3 @@
 - (unsigned) indexOfItemAtCharacterPosition: (unsigned) pos;
 
 @end
-
-#import "IFTranscriptString.h"
