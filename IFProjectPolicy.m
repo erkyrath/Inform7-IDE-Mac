@@ -20,7 +20,11 @@
 	unsigned char chr;
 	int x;
 	
-	url = [[NSMutableString alloc] initWithString: @"file:///"];
+	if (![file isAbsolutePath]) {
+		return nil;
+	}
+	
+	url = [[NSMutableString alloc] initWithString: @"file://"];
 	const unsigned char* utf8 = [file UTF8String];
 	
 	// Create a URL string
@@ -44,7 +48,7 @@
 				
 			default:
 				// Very annoying that Cocoa has no really good way to add single (or multiple) characters to a string without creating another string object
-				if (isalnum(chr)) {
+				if (isalnum(chr) || chr == '/' || chr == '.') {
 					unichar theChar = chr;
 					NSString* s = [[NSString alloc] initWithCharacters: &theChar
 																length: 1];
@@ -176,6 +180,9 @@
 				NSLog(@"Source frame URL is %@", [[activeSource request] URL]);
 			}
 			
+			// Under 10.3.5: LEAKS
+			// -[NSURL standardizedURL] leaks an NSURL and a NSString. This appears to be a Cocoa
+			// bug and not really fixable here.
 			NSURL* absolute1 = [[[request URL] absoluteURL] standardizedURL];
 			NSURL* absolute2 = [[[[activeSource request] URL] absoluteURL] standardizedURL];
 
