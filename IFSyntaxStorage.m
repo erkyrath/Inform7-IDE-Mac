@@ -124,6 +124,8 @@ static const int maxPassLength = 1024;
 		[intelSource release];
 	}
 	
+	if (intelData) [intelData release];
+	
 	[paragraphStyles release];
 	[tabStops release];
 	

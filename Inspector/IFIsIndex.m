@@ -12,6 +12,7 @@
 #import "IFIndexFile.h"
 #import "IFProjectController.h"
 #import "IFProject.h"
+#import "IFProjectPane.h"
 
 NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 
@@ -93,7 +94,15 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 		id selectedItem = [indexList itemAtRow: selectedRow];
 		
 		if ([selectedItem isKindOfClass: [IFIntelSymbol class]]) {
-			[proj moveToSourceFileLine: [[proj currentIntelligence] lineForSymbol: selectedItem]+1];
+			int lineNumber = [[proj currentIntelligence] lineForSymbol: selectedItem]+1;
+
+			if (lineNumber != NSNotFound) {
+				[proj removeAllTemporaryHighlights];
+				[proj highlightSourceFileLine: lineNumber
+									   inFile: [[proj sourcePane] currentFile]
+										style: IFLineStyleHighlight];
+				[proj moveToSourceFileLine: lineNumber];
+			}
 		} else {
 			IFIndexFile* index = [[proj document] indexFile];
 		
@@ -102,8 +111,13 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 		
 			if (filename != nil &&
 				[proj selectSourceFile: filename]) {
-				if (line >= 0)
+				if (line >= 0) {
+					[proj removeAllTemporaryHighlights];
+					[proj highlightSourceFileLine: line
+										   inFile: filename
+											style: IFLineStyleHighlight];
 					[proj moveToSourceFileLine: line];
+				}
 			} else {
 				NSLog(@"IFIsIndex: Can't select file '%@' (line '%@')", filename, line);
 			}

@@ -8,6 +8,8 @@
 
 #import "IFIntelFile.h"
 
+#define IntelDebug 0
+
 // FIXME: symbols are supposed to be deliniated by type, so we should really be using one of these objects
 // per symbol type;
 NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotification";
@@ -82,6 +84,10 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 	int nSymbols = [symbols count];
 	int symbol;
 	
+#if IntelDebug
+	NSLog(@"Intel: adding line before line %i (starting at symbol %i)", line, firstSymbol);
+#endif
+	
 	for (symbol=firstSymbol; symbol<nSymbols; symbol++) {
 		symbolLines[symbol]++;
 	}
@@ -98,6 +104,10 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 	int nSymbols = [symbols count];
 	int symbol;
 	
+#if IntelDebug
+	NSLog(@"Intel: removing %i lines after line %i (starting at symbol %i)", lines.length, lines.location, firstSymbol);
+#endif
+	
 	for (symbol=firstSymbol; symbol<nSymbols; symbol++) {
 		symbolLines[symbol] -= lines.length;
 	}
@@ -109,17 +119,22 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 	// These are EXCLUSIVE (remember?)
 	int firstSymbol = [self indexOfStartOfLine: lines.location];
 	int lastSymbol = [self indexOfEndOfLine: lines.location + lines.length];
+	int nSymbols = [symbols count];
 	
-	if (firstSymbol > lastSymbol) {
+	if (firstSymbol >= lastSymbol) {
 		// Should never happen (aka the Programmer's Lament)
 		NSLog(@"BUG: clearSymbols for line symbol %i > %i", firstSymbol, lastSymbol);
 		NSLog(@"[IFIntelFile clearSymbolsForLines] failed");
 		return;
 	}
 	
-	// firstSymbol == lastSymbol iff there are no symbols to remove
-	if (firstSymbol == lastSymbol)
+	// firstSymbol+1 == lastSymbol iff there are no symbols to remove
+	if (firstSymbol+1 == lastSymbol)
 		return;
+	
+#if IntelDebug
+	NSLog(@"Clearing symbols for lines (%i-%i). Symbol range (%i-%i)", lines.location, lines.location+lines.length, firstSymbol, lastSymbol);
+#endif
 	
 	// Remove symbols between firstSymbol and lastSymbol
 	int x;
@@ -131,7 +146,7 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 	}
 	
 	[symbols removeObjectsInRange: NSMakeRange(firstSymbol+1, lastSymbol-(firstSymbol+1))];
-	memmove(symbolLines + (firstSymbol+1), symbolLines + lastSymbol, sizeof(*symbolLines)*(lastSymbol-(firstSymbol+1)));
+	memmove(symbolLines + (firstSymbol+1), symbolLines + lastSymbol, sizeof(*symbolLines)*(nSymbols-(lastSymbol)));
 	
 	[self intelFileHasChanged];
 }
@@ -140,6 +155,10 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 			atLine: (int) line {
 	int symbol = [self indexOfEndOfLine: line];
 	int nSymbols = [symbols count];
+	
+#if IntelDebug
+	NSLog(@"Inserting symbol %@ at line %i (symbol location %i)", newSymbol, line, symbol);
+#endif
 	
 	// Need to insert at symbol...
 	symbolLines = realloc(symbolLines, sizeof(*symbolLines)*(nSymbols+1));
