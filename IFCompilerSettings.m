@@ -741,7 +741,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 	while (key = [keyEnum nextObject]) {
 		[self reloadSettingsForClass: key];
 	}
-	
+		
 	return YES;
 }
 

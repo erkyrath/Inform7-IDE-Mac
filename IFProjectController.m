@@ -233,6 +233,8 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+
     if (toolbar) [toolbar release];
     [projectPanes release];
     [splitViews release];
@@ -241,23 +243,39 @@ static NSDictionary*  itemDictionary = nil;
 	
 	[generalPolicy release];
 	[docPolicy release];
-
+	
     [super dealloc];
 }
 
-- (void) awakeFromNib {
-    // Create the view switch toolbar
+- (void) updateSettings {
+	// Update the toolbar if required
+	NSString* toolbarIdentifier;
+	
 	if ([[[self document] settings] usingNaturalInform]) {
-		toolbar = [[NSToolbar allocWithZone: [self zone]] initWithIdentifier: @"ProjectNiToolbar"];
+		toolbarIdentifier = @"ProjectNiToolbar";
 	} else {
-		toolbar = [[NSToolbar allocWithZone: [self zone]] initWithIdentifier: @"ProjectToolbar"];
+		toolbarIdentifier = @"ProjectToolbar";
 	}
+	
+	if (![[toolbar identifier] isEqualToString: toolbarIdentifier]) {
+		[toolbar autorelease];
+		
+		toolbar = [[NSToolbar allocWithZone: [self zone]] initWithIdentifier: toolbarIdentifier];
+		
+		[toolbar setDelegate: self];
+		[toolbar setAllowsUserCustomization: YES];
+		[toolbar setAutosavesConfiguration: YES];
+		
+		[[self window] setToolbar: toolbar];
+	}
+}
 
-    [toolbar setDelegate: self];
-    [toolbar setAllowsUserCustomization: YES];
-	[toolbar setAutosavesConfiguration: YES];
-    
-    [[self window] setToolbar: toolbar];
+- (void) awakeFromNib {
+	// Register for settings updates
+    [[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(updateSettings)
+												 name: IFSettingNotification
+											   object: [[self document] settings]];
 
     // Setup the default panes
     [projectPanes removeAllObjects];
@@ -274,6 +292,20 @@ static NSDictionary*  itemDictionary = nil;
                                              selector: @selector(compilerFinished:)
                                                  name: IFCompilerFinishedNotification
                                                object: [[self document] compiler]];
+
+	
+    // Create the view switch toolbar
+	if ([[[self document] settings] usingNaturalInform]) {
+		toolbar = [[NSToolbar allocWithZone: [self zone]] initWithIdentifier: @"ProjectNiToolbar"];
+	} else {
+		toolbar = [[NSToolbar allocWithZone: [self zone]] initWithIdentifier: @"ProjectToolbar"];
+	}
+	
+    [toolbar setDelegate: self];
+    [toolbar setAllowsUserCustomization: YES];
+	[toolbar setAutosavesConfiguration: YES];
+    
+    [[self window] setToolbar: toolbar];
 }
 
 // == Project pane layout ==
