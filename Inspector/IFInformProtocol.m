@@ -73,7 +73,6 @@
 		// If that fails, then just append to the resourcePath of the main bundle
 		path = [[[[NSBundle mainBundle] resourcePath] stringByAppendingString: @"/"] stringByAppendingString: urlPath];
 	}
-	NSLog(@"Fetching %@ (%@)", path, theURLRequest);
 
 	// Check that this is the right kind of URL for us
 	if (path == nil || ![[[theURLRequest URL] scheme] isEqualToString: @"inform"]) {
@@ -147,8 +146,6 @@
 }
 
 - (void) stopLoading {
-	// Hrm, what to do?
-	NSLog(@"stopLoading");
 }
 
 @end

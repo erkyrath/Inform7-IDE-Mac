@@ -12,6 +12,7 @@
 #import "IFSyntaxHighlighter.h"
 
 #import <ZoomView/ZoomView.h>
+#import <ZoomView/ZoomSkeinView.h>
 
 
 enum IFProjectPaneType {
@@ -67,6 +68,9 @@ enum IFProjectPaneType {
 	BOOL indexAvailable;
 	
 	NSTabView* indexTabs;
+	
+	// The skein view
+	IBOutlet ZoomSkeinView* skeinView;
 
     // Settings
     IBOutlet NSScrollView* settingsScroller;

@@ -226,6 +226,8 @@ static NSDictionary* styles[256];
     [[sourceText textStorage] setDelegate: self];
 	
 	[self updateIndexView];
+	
+	[skeinView setSkein: [doc skein]];
 }
 
 - (void) awakeFromNib {
@@ -1184,7 +1186,8 @@ static NSDictionary* styles[256];
 		NSString* fullPath = [indexPath stringByAppendingPathComponent: theFile];
 		
 		if ([extension isEqualToString: @"htm"] ||
-			[extension isEqualToString: @"html"]) {
+			[extension isEqualToString: @"html"] ||
+			[extension isEqualToString: @"skein"]) {
 			// Create a web view to view this file
 			WebView* fileView = [[WebView alloc] init];
 			[fileView setPolicyDelegate: self]; // Enables the 'source' protocol

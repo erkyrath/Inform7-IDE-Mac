@@ -19,6 +19,9 @@
 #import "IFNoDocProtocol.h"
 #import "IFInformProtocol.h"
 
+#import <ZoomView/ZoomSkein.h>
+#import <ZoomView/ZoomSkeinView.h>
+
 @implementation IFAppDelegate
 
 static NSRunLoop* mainRunLoop = nil;
@@ -56,6 +59,14 @@ static NSRunLoop* mainRunLoop = nil;
 		// Register some custom URL handlers
 		// [NSURLProtocol registerClass: [IFNoDocProtocol class]];
 		[NSURLProtocol registerClass: [IFInformProtocol class]];
+		
+		// Allow skeins to be rendered in web views
+		[WebView registerViewClass: [ZoomSkeinView class]
+				representationClass: [ZoomSkein class]
+						forMIMEType: @"application/x-zoom-skein"];
+		
+		NSLog(@"(%i) As HTML: %i", [WebView canShowMIMEType: @"application/x-zoom-skein"],
+			  [WebView canShowMIMETypeAsHTML: @"application/x-zoom-skein"]);
 	}
 }
 
