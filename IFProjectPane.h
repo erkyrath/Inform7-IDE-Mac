@@ -59,6 +59,7 @@ enum IFProjectPaneType {
     
     ZoomView*        zView;
     NSString*        gameToRun;
+	ZoomSkeinItem*   pointToRunTo;
 
     // Documentation
     IBOutlet NSView* docView;
@@ -136,6 +137,8 @@ enum IFProjectPaneType {
 
 - (ZoomView*) zoomView;
 - (BOOL) isRunningGame;
+
+- (void) setPointToRunTo: (ZoomSkeinItem*) item;
 
 // The index view
 - (void) updateIndexView;

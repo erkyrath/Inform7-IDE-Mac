@@ -498,6 +498,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IBAction) compileAndRun: (id) sender {
+	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
     [self compile: self];
 
 	waitingAtBreakpoint = NO;
@@ -512,6 +513,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IBAction) compileAndDebug: (id) sender {
+	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
     [self compile: self];
 	
 	waitingAtBreakpoint = NO;
@@ -554,6 +556,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) runCompilerOutputAndReplay {
+	[[projectPanes objectAtIndex: 1] setPointToRunTo: [[[self document] skein] activeItem]];
 	[self runCompilerOutput];
 }
 
@@ -999,6 +1002,7 @@ static NSDictionary*  itemDictionary = nil;
 // = Skein delegate =
 
 - (void) restartGame {
+	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
 	[self runCompilerOutput];
 }
 

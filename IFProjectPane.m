@@ -162,6 +162,7 @@ static NSDictionary* styles[256];
 		[textStorage release];
 	}
     if (zView) [zView release];
+	if (pointToRunTo) [pointToRunTo release];
     if (gameToRun) [gameToRun release];
 	if (wView) [wView release];
 
@@ -698,6 +699,11 @@ static NSDictionary* styles[256];
     [gameView addSubview: zView];
 }
 
+- (void) setPointToRunTo: (ZoomSkeinItem*) item {
+	if (pointToRunTo) [pointToRunTo release];
+	pointToRunTo = [item retain];
+}
+
 - (void) stopRunningGame {
     if (zView) {
 		[zView killTask];
@@ -726,7 +732,7 @@ static NSDictionary* styles[256];
 }
 
 // (ZoomView delegate functions)
-- (void) zMachineStarted: (id) sender {
+- (void) zMachineStarted: (id) sender {	
     [[zView zMachine] loadStoryFile: 
         [NSData dataWithContentsOfFile: gameToRun]];
 
@@ -740,6 +746,16 @@ static NSDictionary* styles[256];
 	}
 	
 	setBreakpoint = NO;
+	
+	if (pointToRunTo) {
+		id inputSource = [ZoomSkein inputSourceFromSkeinItem: [[[parent document] skein] rootItem]
+													  toItem: pointToRunTo];
+		
+		[zView setInputSource: inputSource];
+		
+		[pointToRunTo release];
+		pointToRunTo = nil;
+	}
 	
     [tabView selectTabViewItem: gameTabView];
     [[paneView window] makeFirstResponder: [zView textView]];
