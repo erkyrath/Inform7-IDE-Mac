@@ -322,14 +322,15 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     if (libPath) {
         [includePath addObject: libPath];
     }
-    
-    [includePath addObject: @"./"];
-    [includePath addObject: @"../Source/"];
 	
 	// Include paths from settings modules
 	
 	[includePath addObjectsFromArray: [self includePathsForCompiler: IFCompilerInform6]];
 
+	// Current directory and source directory
+    [includePath addObject: @"."];
+    [includePath addObject: @"../Source"];
+	
     // Finish up paths
 
     NSMutableString* incString = [NSMutableString stringWithString: @"+include_path="];
@@ -344,6 +345,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     }
 
     [result addObject: incString];
+	NSLog(@"incString is '%@'", incString);
 	
 	// Command line options from the set of generic settings objects
 	[result addObjectsFromArray: [self genericCommandLineForCompiler: IFCompilerInform6]];

@@ -155,7 +155,9 @@ static int stringCompare(id a, id b, void* context) {
 	NSEnumerator* libEnum = [libraries objectEnumerator];
 	NSString* libPath;
 	
-	while (libPath = [libEnum nextObject]) {
+	// Used to use a while loop: don't any more - only want to check the first directory
+	libPath = [libEnum nextObject];
+	{
 		NSString* extnPath = [[libPath stringByAppendingPathComponent: @"Inform"] stringByAppendingPathComponent: extensionSubdirectory];
 		BOOL isDir;
 		
@@ -165,10 +167,13 @@ static int stringCompare(id a, id b, void* context) {
 		}
 	}
 	
+	if ([libraryDirectories count] <= 0) return nil;
 	return libraryDirectories;
 }
 
 - (NSMutableArray*) extensionsInDirectory: (NSString*) directory {
+	if (directory == nil) return nil;
+	
 	// Clear out the old extensions
 	NSMutableArray* extensions = [NSMutableArray array];
 	
@@ -295,7 +300,7 @@ static int stringCompare(id a, id b, void* context) {
 	// Open this extension
 	NSDocument* newDoc = [[IFProject alloc] initWithContentsOfFile: [extnDir stringByAppendingPathComponent: [sender title]]
 															ofType: @"Inform Extension Directory"];
-	[[newDoc settings] setUsingNaturalInform: [sender tag]==1];
+	[[(IFProject*)newDoc settings] setUsingNaturalInform: [sender tag]==1];
 	
 	[[NSDocumentController sharedDocumentController] addDocument: [newDoc autorelease]];
 	[newDoc makeWindowControllers];
