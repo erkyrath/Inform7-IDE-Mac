@@ -105,9 +105,9 @@
 			NSURL* absolute2 = [[[[[frame dataSource] request] URL] absoluteURL] standardizedURL];
 
 			// We only redirect if the page is different to the current one
-			if (!([[absolute1 scheme] isEqualToString: [absolute2 scheme]] &&
-				  [[absolute1 path] isEqualToString: [absolute2 path]] &&
-				  ([absolute1 query] == [absolute2 query] || [[absolute1 query] isEqualToString: [absolute2 query]]))) {			
+			if (!([[absolute1 scheme] caseInsensitiveCompare: [absolute2 scheme]] == 0 &&
+				  [[absolute1 path] caseInsensitiveCompare: [absolute2 path]] == 0 &&
+				  ([absolute1 query] == [absolute2 query] || [[absolute1 query] caseInsensitiveCompare:[absolute2 query]] == 0))) {			
 				[listener ignore];
 				[[projectController auxPane] openURL: [[[request URL] copy] autorelease]];
 				
