@@ -1,22 +1,28 @@
-<html><head><title>6.5. Every turn</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>6.5. Every turn</b>
+<html><head><title>5.6. Randomness</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc62.html><img src=../Back.tif></a><a href=doc64.html><img src=../Forward.tif></a></td><td><b>5.6. Randomness</b></td></tr></table><p>
 <p>
-<p>The passage of time in interactive fiction is broken up into a succession of turns, in each of which the player types a request and is given a response. Usually each such request triggers one action, but sometimes a whole sequence are fired off, as when the player types &quot;get all&quot; in a cluttered room.
+<p>Sometimes we want to introduce random behaviour into play. We usually do this by generating random values, and then acting differently depending on what they are. The following:
 <p>
-<p>One of the last things to happen in each turn is that Inform will apply any rules which have been set to occur &quot;every turn&quot;, like so:
+<p><blockquote><font color="#000080">a random number from 2 to 5</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<p>produces, as it suggests, a random number drawn from the choices 2, 3, 4 or 5, each of which is equally likely to come up.
 <p>
-<p>This is equivalent to writing:
+<p>We can also use random conditions:
 <p>
-<p><blockquote><font color="#000080">An every turn rule: say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">if a random chance of 2 in 3 succeeds then ...</font></blockquote>
 <p>
-<p>Note that the text about blossom, which will quickly become tiresome, is said at the end of every turn, not at the beginning, and in particular not before the player's first opportunity to type a command.
+<p>Here is a rule which applies only 15% of the time:
 <p>
-<p>As usual when defining rules, we can add stipulations:
+<p><blockquote><font color="#000080">Instead of waiting when a random chance of 15 in 100 succeeds: ...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Every turn in the Orchard, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<p>If we make a new kind of value, we can also take random values from it, as in the following miniature world:
 <p>
-<p><blockquote><font color="#000080">Every turn in the presence of the rotting fish, say &quot;Your nose twitches involuntarily.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">&quot;Weathering&quot;</font></blockquote>
 <p>
-<p><hr><p><a href=doc62.html>Previous</a> / <a href=doc64.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><blockquote><font color="#000080">A cloud pattern is a kind of value. The cloud patterns are cumulus, altocumulus, cumulonimbus, stratus, cirrus, nimbus, nimbostratus.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">The Mount Pisgah Station is a room. &quot;The rocky peak of Mt. Pisgah (altitude 872m) is graced only by an automatic weather station. The clouds, close enough almost to touch, are [a random cloud pattern]. Temperature: [a random number from 7 to 17] degrees, barometric pressure: [950 + a random number from 0 to 15] millibars.&quot;</font></blockquote>
+<p>
+<p>The value &quot;a random cloud pattern&quot; produces a random choice from the seven cloud patterns, each equally likely.
+<p>
+<p><hr><p><a href=doc62.html>Previous</a> / <a href=doc64.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

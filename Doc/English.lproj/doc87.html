@@ -1,24 +1,24 @@
-<html><head><title>7.14. Phrases to decide</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>7.14. Phrases to decide</b>
+<html><head><title>7.7. Otherwise</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc86.html><img src=../Back.tif></a><a href=doc88.html><img src=../Forward.tif></a></td><td><b>7.7. Otherwise</b></td></tr></table><p>
 <p>
-<p>We can create new conditions by defining a phrase with &quot;to decide whether&quot; (or equivalently &quot;to decide if&quot;):
+<p>We often need code which does one thing in one circumstance, and another the rest of the time. We could do this like so:
 <p>
-<p><blockquote><font color="#000080">To decide whether a dangerous place:<br>if in darkness then yes;<br>if the Control Room has been visited then no;<br>yes.</font></blockquote>
+<blockquote>if N is 2 begin; ...; end if;
+<br>if N is not 2 begin; ...; end if;
+</blockquote><p>
 <p>
-<p>As can be seen, such a phrase must always end with &quot;yes&quot; or &quot;no&quot;. We can now write, for instance,
+<p>but this is not very elegant, and besides, what if the action we take when N is 2 changes N so that it becomes something else?
 <p>
-<p><blockquote><font color="#000080">if a dangerous place then ...</font></blockquote>
+<p>Instead we use &quot;otherwise&quot;:
 <p>
-<p>Similarly, to decide something else:
+<p><blockquote><font color="#000080">if N is 2 begin;<br>...;<br>otherwise;<br>...;<br>end if;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">To decide which treasure is the grand prize:<br>if the Dark Room has been visited then result the silver bars;<br>result the plover's egg.</font></blockquote>
+<p>Note that there is only one &quot;end if&quot;: the &quot;otherwise&quot; phrase occurs inside the &quot;if ... end if&quot; block of phrases.
 <p>
-<p>(Supposing, that is, that a kind called &quot;treasure&quot; has been created and that the plover's egg and the silver bars both belong to it.) And we can now say
+<p>When there is only a single phrase we can use the shortened form:
 <p>
-<p><blockquote><font color="#000080">if taking the grand prize then ...</font></blockquote>
+<p><blockquote><font color="#000080">if N is 2 then say &quot;Hooray, N is 2!&quot;;<br>otherwise say &quot;Boo, N is not 2...&quot;</font></blockquote>
 <p>
-<p>As this is something of a dialect difference between English speakers, &quot;what&quot; and &quot;which&quot; are synonymous here, i.e., we could equally well write:
+<p>(In almost every computer programming language ever devised, including previous versions of Inform, the word &quot;else&quot; is used rather than &quot;otherwise&quot;: for the sake of familiarity, &quot;else&quot; can also be used here. All the same, &quot;otherwise&quot; seems closer to natural English.)
 <p>
-<p><blockquote><font color="#000080">To decide what treasure is the grand prize: ...</font></blockquote>
-<p>
-<p><hr><p><a href=doc86.html>Previous</a> / <a href=doc88.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc86.html>Previous</a> / <a href=doc88.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,17 +1,20 @@
-<html><head><title>1.5. Problems</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>1.5. Problems</b>
+<html><head><title>1.5. Sentences</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc4.html><img src=../Back.tif></a><a href=doc6.html><img src=../Forward.tif></a></td><td><b>1.5. Sentences</b></td></tr></table><p>
 <p>
-<p>The language used in the source reads as if it were English aimed at a human reader (and this is intentional: the designer, after all, is a human reader and needs to be able to understand his or her own source), but in reality Inform can only understand a very modest range of sentences and will complain if its limits are passed. Subtler problems arise if the source contains contradictions. For instance, the following &quot;Problem&quot; might be produced:
+<p>Designing an interactive fiction can be divided into two related activities. One is the creation of the world as it appears at the start of play: where and what everything is, and how the different locations connect together. Given this alone, Inform would create nothing more than a simulation: the player will be able to explore, move things around and carry out a limited number of mundane tasks (unlocking doors, say, or switching on lights) but nothing surprising will happen. No lost keys will be found in the bellies of fish, nor will anything spontaneous happen. The second aspect of design, then, will be describing the unusual things which happen: the rules of play which liven things up.
 <p>
-<p><blockquote><font color="#000080">>--> You wrote 'A starting pistol is in the cup' (Midsummer Day, line 3), but in another sentence 'A Panama hat is on the cup' (Midsummer Day, line 4): the trophy cup cannot both contain things and support things, which is what you're implying here. If you need both, the easiest way is to make it either a supporter with a container attached or vice versa. For instance: 'A desk is here. On the desk is a newspaper. An openable container called the drawer is part of the desk. In the drawer is a stapler.'</font></blockquote>
+<p>The same division into two is visible in Inform source text. Some of the sentences make unconditional factual statements about the world: for example,
 <p>
-<p>This is a rather discursive error message, and a similar problem were to occur in the same run through, it would be curtailed to:
+<p><blockquote><font color="#000080">The wood-slatted crate is in the Gazebo. The crate is a container.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">>--> You wrote 'A firing pistol is in the box' (Midsummer Day, line 5), but in another sentence 'A fedora hat is on the box' (Midsummer Day, line 6): again, the croquet box cannot both contain things and support things.</font></blockquote>
+<p>Inform calls sentences like this one &quot;assertions&quot;. The verb is almost always &quot;is&quot; (or &quot;are&quot;), written in the present tense. The world described is the starting condition of the game: what happens when play begins is another matter. The crate will always be a container, but if somebody picks it up and walks off with it then it will no longer be in the Gazebo.
 <p>
-<p>Because error messages can be rather lengthy, they are transcribed to a log file called the 'Log of problems' (the last state of which can be seen in the Problems tab). In some cases even longer messages are produced, and these go to the log only. For instance:
+<p>The other kind of sentence tells Inform what should happen in certain circumstances, and reads like an instruction issued to someone:
 <p>
-<p><blockquote><font color="#000080">>--> You wrote 'erase the bottle' (Midsummer Day, line 56): but this is a phrase which I don't recognise, possibly because it is one you meant to define but never got round to, or because it's one you haven't used in a while and whose wording you haven't remembered correctly. (See the 'Log of problems' file for a complete run-down of the current phrasebook.)</font></blockquote>
+<p><blockquote><font color="#000080">Instead of taking the crate, say &quot;It's far too heavy to lift.&quot;</font></blockquote>
 <p>
+<p>This is a &quot;rule&quot;, and it changes the crate's behaviour. The player who tries typing &quot;take crate&quot;, &quot;pick up the crate&quot; or similar will be met only with the unhelpful reply &quot;It's far too heavy to lift.&quot;
 <p>
-<p><hr><p><a href=doc4.html>Previous</a> / <a href=doc6.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>Inform is built on a mass of several hundred rules, some quite complex, and it could even be said that Inform <i>is</i> that mass of rules. We never see the complexity behind the scenes because the whole aim is to provide a basic, penny-plain, vanilla flavoured sort of realism. It would be surprising if one could put the crate inside itself, so a rule exists to forbid this. It would be surprising if one could drop something which was already on the ground, and so on. This is all done for us.
+<p>
+<p><hr><p><a href=doc4.html>Previous</a> / <a href=doc6.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

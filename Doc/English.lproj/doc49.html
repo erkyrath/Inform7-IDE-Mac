@@ -1,22 +1,18 @@
-<html><head><title>4.17. New actions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>4.17. New actions</b>
+<html><head><title>4.12. Going from, going to</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc48.html><img src=../Back.tif></a><a href=doc50.html><img src=../Forward.tif></a></td><td><b>4.12. Going from, going to</b></td></tr></table><p>
 <p>
-<p>It is not often that we need to create new actions, but a large work of interactive fiction with no novelty actions is a flavourless dish. Here we shall create an action for photographing things.
+<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
 <p>
-<p><blockquote><font color="#000080">The Ruins is a room. &quot;You find this clearing in the rainforest oddly familiar.&quot; The camera is in the Ruins. &quot;Your elephantine camera hangs from a convenient branch.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">&quot;Going Going&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.</font></blockquote>
+<p><blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.</font></blockquote>
 <p>
-<p>In theory that text is already sufficient in to make the new action, but what we have so far is rudimentary to say the least. The two qualifications give Inform the useful information that we cannot photograph in the dark, and that we need to be photographing something - not, as in the case of waiting or taking inventory, acting without reference to any particular thing external to ourselves. The word &quot;visible&quot; here tells Inform that we do not need to be able to touch the thing in question: a line of sight is good enough. These two stipulations were necessary because the default arrangement is that any object must be in touching range, and that most actions can be performed in darkness. As further examples, here we create &quot;blinking&quot; and &quot;scraping X with Y&quot;. Note the use of &quot;it&quot; to indicate that the name of an object should go here.
+<p><blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Blinking is an action applying to nothing. Scraping it with is an action applying to two things.</font></blockquote>
+<p><blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;</font></blockquote>
 <p>
-<p>The photographing action now exists, but with two provisos: (a) it never happens, because Inform does not know what instructions by the player should cause it, and (b) even if it were to happen, nothing would follow, because Inform does not know how to carry it out.
+<p><blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;</font></blockquote>
 <p>
-<p>The first problem is easily overcome:
+<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east.
 <p>
-<p><blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.</font></blockquote>
-<p>
-<p>We will return to the whole subject of parsing, as this process of understanding the player's commands is called, later. But this gives the gist of it.
-<p>
-<p><hr><p><a href=doc48.html>Previous</a> / <a href=doc50.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc48.html>Previous</a> / <a href=doc50.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

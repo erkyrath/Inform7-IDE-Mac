@@ -1,18 +1,24 @@
-<html><head><title>8.9. Blank rows</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>8.9. Blank rows</b>
+<html><head><title>8.2. Looking up entries</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc99.html><img src=../Back.tif></a><a href=doc101.html><img src=../Forward.tif></a></td><td><b>8.2. Looking up entries</b></td></tr></table><p>
 <p>
-<p>There is no difficulty about entirely blank rows: or rather, the only difficulty is once again that they are boring to type out. We can avoid the necessity by appending &quot;with ... blank rows&quot; at the foot of the table:
+<p>The simplest way to access the information inside tables is to ask explicitly for it, specifying the row number, the column name and what table is to be consulted. So, given our example table
 <p>
-<p><center><img src=table6.tiff></center>
+<p><center><img src=table2.tiff></center>
 <p>
-<p>(These words cannot be placed in between rows, but only at the bottom.) And indeed the table can start out completely empty:
+<p>we can write the following description:
 <p>
-<p><center><img src=table7.tiff></center>
+<p><blockquote><font color="#000080">symbol in row 3 of the Table of Selected Elements</font></blockquote>
 <p>
-<p>Blank rows are useful because they enable us to add new data to a table. In effect, they are invisible when not used. A repeat loop like
+<p>to produce the value &quot;Zn&quot;. Or the following will run off some chemical data:
 <p>
-<p><blockquote><font color="#000080">repeat through Table 3 begin; ...; end repeat</font></blockquote>
+<p><blockquote><font color="#000080">repeat with N running from 1 to the number of rows in the Table of Selected Elements begin;<br>say &quot;The atomic weight of [element in row N of the Table of Selected Elements] is [atomic weight in row N of the Table of Selected Elements].&quot;;<br>end repeat.</font></blockquote>
 <p>
-<p>automatically skips blank rows, so it would initially do nothing at all. Similarly, choosing a &quot;random&quot; row will never choose a blank one.
+<p>The result of which will be:
 <p>
-<p><hr><p><a href=doc99.html>Previous</a> / <a href=doc101.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><blockquote><font color="#000080">The atomic weight of Hydrogen is 1.<br>The atomic weight of Iron is 56.<br>The atomic weight of Zinc is 65.<br>The atomic weight of Uranium is 238.</font></blockquote>
+<p>
+<p>Note that the first row in a table is row number 1, and that the last can be found with the special value:
+<p>
+<p><blockquote><font color="#000080">the number of rows in the (name of table here)</font></blockquote>
+<p>
+<p><hr><p><a href=doc99.html>Previous</a> / <a href=doc101.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

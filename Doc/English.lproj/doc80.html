@@ -1,22 +1,24 @@
-<html><head><title>7.7. Otherwise</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>7.7. Otherwise</b>
+<html><head><title>6.15. How many turns?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc79.html><img src=../Back.tif></a><a href=doc81.html><img src=../Forward.tif></a></td><td><b>6.15. How many turns?</b></td></tr></table><p>
 <p>
-<p>We often need code which does one thing in one circumstance, and another the rest of the time. We could do this like so:
+<p>So much for &quot;times&quot; - spells in which a condition is true. We can also test the length of time, in turns of play, that something has been true. Thus:
 <p>
-<p><blockquote><font color="#000080">if N is 2 begin; ...; end if;<br>if N is not 2 begin; ...; end if;</font></blockquote>
+<p><blockquote><font color="#000080">if <condition> for three turns;</font></blockquote>
 <p>
-<p>but this is not very elegant, and besides, what if the action we take when N is 2 changes N so that it becomes something else?
+<p>means that the condition holds now, and held at the start of this turn, at the start of last turn, and at the start of the turn before that. In particular:
 <p>
-<p>Instead we use &quot;otherwise&quot;:
+<p>  if the floppy hat has been worn for three turns ...
 <p>
-<p><blockquote><font color="#000080">if N is 2 begin;<br>...;<br>otherwise;<br>...;<br>end if;</font></blockquote>
+<p>will be false if the hat is not currently worn (even if it has been often in the past) and, on the other hand, will be true if the hat has been worn for twenty turns. Here again we can be more specific. These are synonymous:
 <p>
-<p>Note that there is only one &quot;end if&quot;: the &quot;otherwise&quot; phrase occurs inside the &quot;if ... end if&quot; block of phrases.
+<p><blockquote><font color="#000080">if the floppy hat is worn for the third turn ...<br>if the floppy hat has been worn for only 3 turns ...<br>if the floppy hat has been worn for exactly three turns ...</font></blockquote>
 <p>
-<p>When there is only a single phrase we can use the shortened form:
+<p>all requiring that the hat wasn't worn four turns ago. As before, &quot;more than&quot;, &quot;less than&quot;, &quot;at least&quot; and &quot;at most&quot; so forth can also be used - say, &quot;for at least 21 turns&quot;.
 <p>
-<p><blockquote><font color="#000080">if N is 2 then say &quot;Hooray, N is 2!&quot;;<br>otherwise say &quot;Boo, N is not 2...&quot;</font></blockquote>
+<p>A warning: we must be careful when writing something like
 <p>
-<p>(In almost every computer programming language ever devised, including previous versions of Inform, the word &quot;else&quot; is used rather than &quot;otherwise&quot;: for the sake of familiarity, &quot;else&quot; can also be used here. All the same, &quot;otherwise&quot; seems closer to natural English.)
+<p><blockquote><font color="#000080">if the noun has been open ...</font></blockquote>
 <p>
-<p><hr><p><a href=doc79.html>Previous</a> / <a href=doc81.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>since this tests whether it has ever been true that the noun of the then action was open: not whether the current noun-object has ever been open.
+<p>
+<p><hr><p><a href=doc79.html>Previous</a> / <a href=doc81.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

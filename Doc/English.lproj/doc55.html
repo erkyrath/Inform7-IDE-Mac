@@ -1,22 +1,18 @@
-<html><head><title>5.3. Change of properties with values</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>5.3. Change of properties with values</b>
+<html><head><title>4.18. Irregular English verbs</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc54.html><img src=../Back.tif></a><a href=doc56.html><img src=../Forward.tif></a></td><td><b>4.18. Irregular English verbs</b></td></tr></table><p>
 <p>
-<p>Changing properties with values is very similar:
+<p>Our three example actions can be recognised in play using the following:
 <p>
-<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.</font></blockquote>
 <p>
-<p>Inform checks three different things to ensure that this change is safe to perform. Firstly, the value must be the right kind for the property in question, so this for instance would be rejected:
+<p><blockquote><font color="#000080">Understand &quot;blink&quot; as blinking.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">change the printed name of the Closet to 7</font></blockquote>
+<p><blockquote><font color="#000080">Understand &quot;scrape [something] with [something]&quot; as scraping.</font></blockquote>
 <p>
-<p>Secondly, the object in question has to be allowed to have the given property. This, for instance, would be disallowed:
+<p>The last of these examples shows why Inform does not risk generating this automatically: English is so full of irregular verbs. Inform could have guessed &quot;blink&quot; and &quot;photograph&quot;, but might then have opted for &quot;scrap&quot; instead of &quot;scrape&quot;.
 <p>
-<p><blockquote><font color="#000080">change the initial appearance of the Closet to &quot;Dusty&quot;</font></blockquote>
+<p>Inform does risk automatically generating the past participle of an action (many past participles are never needed, so the stakes are lower if Inform gets this wrong). All that happens is that the &quot;-ing&quot; is replaced with &quot;-ed&quot;, which happens to be correct in these three cases: photographed, blinked, scraped. It would be disastrously wrong for something like taking, though: we need taken, not taked. We can get around this like so:
 <p>
-<p>(since &quot;initial appearance&quot; is a property which only things can have, not rooms). Finally, the object has to actually have the property, not just have the right to have that property. Thus:
+<p><blockquote><font color="#000080">Weaving is an action with past participle woven, applying to one thing.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
-<p>
-<p>...is only permitted if the Closet is designed with a &quot;printed name&quot;. In fact this is certain to be true: all rooms and things automatically have a printed name, which is the short boldface description in the case of rooms, and the usual text briefly describing something in the case of things.
-<p>
-<p><hr><p><a href=doc54.html>Previous</a> / <a href=doc56.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc54.html>Previous</a> / <a href=doc56.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

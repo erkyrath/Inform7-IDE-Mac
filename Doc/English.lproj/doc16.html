@@ -1,20 +1,16 @@
-<html><head><title>2.10. Doors</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>2.10. Doors</b>
+<html><head><title>2.8. Properties holding text</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc15.html><img src=../Back.tif></a><a href=doc17.html><img src=../Forward.tif></a></td><td><b>2.8. Properties holding text</b></td></tr></table><p>
 <p>
-<p>The map of an interactive fiction is the layout of rooms and the entrances and exits which connect them. So far, these map connections have always run from one room to another, like so:
+<p>The properties we have seen so far have all been either/or: either open or closed, either transparent or opaque, either fixed in place or portable, either openable or not openable. However, some properties can have a much wider range of possibilities. For instance, the &quot;description&quot; of a room is the text revealed when the player first enters it, or types &quot;look&quot;. This needs to be textual: Inform would complain if, for instance, we tried to set the description of something to the number 42. We have already seen a concise way to set the description of a room:
 <p>
-<p><blockquote><font color="#000080">The Painted Room is north of the Undertomb.</font></blockquote>
+<p><blockquote><font color="#000080">The Painted Room is north of the Undertomb. &quot;This is the Painted Room, where strange wall drawings leap out of the dark at the gleam of your candle: men with long wings and great eyes, serene and morose.&quot;</font></blockquote>
 <p>
-<p>However, we can also interpose doors between rooms, like so:
+<p>This does the same thing as:
 <p>
-<p><blockquote><font color="#000080">The red rock stair is east of the Orchard and above the Undertomb. The stair is an open door.</font></blockquote>
+<p><blockquote><font color="#000080">The Painted Room is north of the Undertomb. The description of the Painted Room is &quot;This is the Painted Room, where strange wall drawings leap out of the dark at the gleam of your candle: men with long wings and great eyes, serene and morose.&quot;</font></blockquote>
 <p>
-<p>The second sentence is needed since otherwise Inform will take &quot;red rock stair&quot; to be the name of a third room, whereas what we want is for the stair to be something physically present in both the Orchard and in the Undertomb, and acting as a conduit between them. To this end it needs to be a &quot;door&quot;, a kind we have not so far seen. In the absence of any other instruction, a newly created door will be fixed in place, closed and openable. Fixed in place is certainly right here, but not closed, which is why we specified that it should be &quot;open&quot;.
+<p>Or even:
 <p>
-<p>In real life, most doors are two-sided, and can be used from either of the rooms which they join, but this is not always convenient for interactive fiction. Here is a one-sided door:
+<p><blockquote><font color="#000080">The Painted Room is north of the Undertomb. The description is &quot;This is the Painted Room, where strange wall drawings leap out of the dark at the gleam of your candle: men with long wings and great eyes, serene and morose.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The blue door is a door. It is south of Notting Hill. Through it is the Flat Landing.</font></blockquote>
-<p>
-<p>(Note the use of &quot;it&quot; here as an optional abbreviation.) This will make a door visible only on the Notting Hill side; no map connection will be made in the reverse direction, unless we ask for one.
-<p>
-<p><hr><p><a href=doc15.html>Previous</a> / <a href=doc17.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc15.html>Previous</a> / <a href=doc17.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

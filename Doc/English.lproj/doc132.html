@@ -1,18 +1,20 @@
-<html><head><title>11.5. A simple example extension</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>11.5. A simple example extension</b>
+<html><head><title>10.10. Reaching inside rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc131.html><img src=../Back.tif></a><a href=doc133.html><img src=../Forward.tif></a></td><td><b>10.10. Reaching inside rules</b></td></tr></table><p>
 <p>
-<p>Extensions look very much like passages of Inform source, because except for a special introductory and concluding sentence, that is all they are:
+<p>So far we have seen rules which apply to actions, and rules which do not apply to anything specific - &quot;every turn&quot; rules, for instance. We can also have rules which apply to a specific object.
 <p>
-<p><blockquote><font color="#000080">The Ducking Action by Graham Nelson begins here.</font></blockquote>
+<p>An example of rules applying to given objects is provided by the way that Inform decides whether the player can reach something or not. For instance, suppose the following:
 <p>
-<p><blockquote><font color="#000080">Ducking is an action applying to nothing. Report ducking: say &quot;You duck!&quot; Understand &quot;duck&quot; as ducking.</font></blockquote>
+<p><blockquote><font color="#000080">The Laboratory is a room. In the Laboratory is a conical flask. The flask is closed and transparent. In the flask is an antibumping granule.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Ducking Action ends here.</font></blockquote>
+<p>The player will be able to examine the granule but not to take it, as that would require reaching through glass. Internally, what happens if the player tries to take the granule is this: a rulebook called the &quot;reaching inside rules&quot; is applied to the conical flask. This normally contains the following three rules:
 <p>
-<p>Not a useful or interesting extension, but those few words add a whole new action and everything needed to make it work. It is the ability in Inform 7 to mix up rooms, things, kinds, grammar, phrases and rules, in more or less any order, which makes it possible for extensions to work. If all the kinds (say) had to be defined in a single run of paragraphs, it would be impossible for different extensions each to contribute kinds of its own.
+<p><blockquote><font color="#000080">the can't reach inside closed containers rule<br>the can't take people's possessions rule<br>the can't take component parts rule</font></blockquote>
 <p>
-<p>The introductory sentence should be placed as the only content of line 1 of the file. Inform does not care, but this would help any other tools which might be developed later for archiving or cataloguing extensions.
+<p>Two of these rules apply only to actions of taking and removing: if the player only wants to push the granule, for instance, only the &quot;can't reach inside closed containers&quot; rule is applicable. This is the gist of it:
 <p>
-<p>(In case the name is a plural, we are allowed to write &quot;begin&quot; and &quot;end&quot; instead of &quot;begins&quot; and &quot;ends&quot;. For instance, the last line of the standard rules is &quot;The Standard Rules end here.&quot;)
+<p><blockquote><font color="#000080">The can't reach inside closed containers rule: if the object in question is a closed container begin; say &quot;[The object in question] is closed!&quot;; deny access; end if.</font></blockquote>
 <p>
-<p><hr><p><a href=doc131.html>Previous</a> / <a href=doc133.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>In such a rule the &quot;object in question&quot; is the object to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
+<p>
+<p><hr><p><a href=doc131.html>Previous</a> / <a href=doc133.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

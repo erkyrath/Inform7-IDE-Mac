@@ -1,22 +1,25 @@
-<html><head><title>9.9. In what order?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>9.9. In what order?</b>
+<html><head><title>9.2. Other standard tokens of grammar</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc113.html><img src=../Back.tif></a><a href=doc115.html><img src=../Forward.tif></a></td><td><b>9.2. Other standard tokens of grammar</b></td></tr></table><p>
 <p>
-<p>When several different lines of grammar are supplied to meet the same circumstances, it makes a big difference what order they are tried in. For instance, suppose we have:
+<p>We have already seen &quot;[something]&quot; and &quot;[someone]&quot;, which are standard examples of &quot;tokens of grammar&quot; - patterns matched by suitable named things. There are several other standard tokens, provided not so much from necessity but to allow the game parser to be more graceful and responsive. &quot;[someone]&quot; matches the same possibilities as &quot;[a person]&quot; would, but the parser handles it a little better in cases of failure. These special tokens are best explained by looking at some of the examples in the standard grammar, which can be browsed in the Index of any game.
 <p>
-<p><blockquote><font color="#000080">Understand &quot;photograph [a door]&quot; as photographing.</font></blockquote>
+<p><blockquote><font color="#000080">Understand &quot;wear [something held]&quot; as wearing.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.</font></blockquote>
+<p>The named item must be held by the player, but the game will automatically pick it up if necessary, minimising nuisance.
 <p>
-<p>The second line is more specific than the first, so Inform takes these grammar lines the other way around: it checks for &quot;open door&quot; before it checks for &quot;door&quot;. That didn't matter here, since both lines came out with the same result (the action of photographing), but it matters very much in the next example:
+<blockquote>Understand &quot;take [things]&quot; as taking.
+<br>Understand &quot;drop [things held]&quot; as dropping.
+</blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Understand &quot;employ [a door]&quot; as opening.</font></blockquote>
+<p>&quot;[things]&quot; is like &quot;[something]&quot; but allows a list of items, or a vague plural like &quot;all&quot;, to be typed. The result will be a sequence of actions, one for each item thus described. &quot;[things held]&quot; is the analogous token for &quot;[something held]&quot;.
 <p>
-<p><blockquote><font color="#000080">Understand &quot;employ [an open door]&quot; as entering.</font></blockquote>
+<p><blockquote><font color="#000080">Understand &quot;take [things inside] from [something]&quot; as removing.</font></blockquote>
 <p>
-<p>More subtle is a line already seen:
+<p>&quot;[things inside]&quot; matches only what is inside the second-named thing, and ensures that (for instance) the command &quot;take all from box&quot; does not also try to take the box.
 <p>
-<p><blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.</font></blockquote>
+<p><blockquote><font color="#000080">Understand &quot;put [other things] in/inside/into [something]&quot; as inserting.</font></blockquote>
 <p>
-<p>Here Inform puts &quot;on top of&quot; before &quot;on/in/inside&quot;, since otherwise only the &quot;on&quot; of &quot;on top of&quot; will be recognised.
+<p>Similarly, &quot;[other things]&quot; will allow anything except the second-named thing.
+<p>(Like &quot;[things inside]&quot; it is really only needed for handling containers.)
 <p>
-<p><hr><p><a href=doc113.html>Previous</a> / <a href=doc115.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc113.html>Previous</a> / <a href=doc115.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

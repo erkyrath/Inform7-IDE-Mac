@@ -1,26 +1,20 @@
-<html><head><title>7.8. Repeat</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>7.8. Repeat</b>
+<html><head><title>7.1. Fitting values into phrases</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 7: Phrases</h2><p><table><tr><td><a href=doc80.html><img src=../Back.tif></a><a href=doc82.html><img src=../Forward.tif></a></td><td><b>7.1. Fitting values into phrases</b></td></tr></table><p>
 <p>
-<p>The following kind of loop could if necessary be achieved just as well with a suitable &quot;while&quot;, but occurs so often that it is convenient to have a standard form. Repeat loops also have the great advantage of being certain to finish.
+<p>We are now able to set up the model world, to respond to certain actions of the player within it, and to make changes over time, giving the game a start and an end. But although we have defined many rules, none of them have done more than to use a few basic phrases: saying something to the player, changing some property or moving things around.
 <p>
-<p><blockquote><font color="#000080">repeat with my counter running from 1 to 10 begin;<br>(phrases)<br>end repeat;</font></blockquote>
+<p>A phrase is a pattern of words which instructs the computer to do something immediately. For instance:
 <p>
-<p>This is similar to the old FOR/NEXT loop from BASIC, for those with long memories, and runs through the given phrases ten times. Within those phrases, a special value called &quot;my counter&quot; has the value 1 the first time through, then the value 2, then 3 and so on up to 10. This value exists only within the loop, so it makes no sense to talk about &quot;my counter&quot; elsewhere. (It can of course be called whatever we like: this is only an example.)
+<p><blockquote><font color="#000080">say &quot;Look out!&quot;<br>award 20 points</font></blockquote>
 <p>
-<p>The &quot;begin&quot; and &quot;end repeat&quot; are compulsory for repeat loops, in the interests of clarity.
+<p>are instructions using two phrases, &quot;say ...&quot; and &quot;award ... points&quot;. Phrases are not the same things as rules: rules lay out what should happen under what circumstances, but it is phrases that actually do what needs to be done.
 <p>
-<p>We are allowed to &quot;nest&quot; loops, that is, to put one inside another.
+<p>Where the &quot;20&quot; appears in &quot;award 20 points&quot;, any number would have done. This does not need to be a literal number expressed in digits: it can be any value known to Inform which works out as a number. For instance, &quot;the score&quot; is always acceptable as a number, since it is the name of a number variable: its value at any point in play is the current score.
 <p>
-<p><blockquote><font color="#000080">To plot a grid with size (S - a number): repeat with x running from 1 to S begin;<br>say &quot;Row [x]:&quot;;<br>repeat with y running from 1 to S begin;<br>say &quot; [y]&quot;;<br>end repeat;<br>say &quot;.&quot;;<br>end repeat.</font></blockquote>
+<p>We are also allowed simple formulae such as
 <p>
-<p>If we then write
+<p><blockquote><font color="#000080">change the score to the score + 10</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">plot a grid with size 5</font></blockquote>
+<p>and similarly for &quot;-&quot;, &quot;*&quot; and &quot;/&quot;. Note the space around the plus sign: as far as Inform is concerned, &quot;+&quot; is a word like any other. (In this early release of I7, complicated formulae may not behave the way we expect: support for proper expression parsing is limited at best.)
 <p>
-<p>then the result is
-<p>
-<p><blockquote><font color="#000080">Row 1: 1 2 3 4 5.<br>Row 2: 1 2 3 4 5.<br>Row 3: 1 2 3 4 5.<br>Row 4: 1 2 3 4 5.<br>Row 5: 1 2 3 4 5.</font></blockquote>
-<p>
-<p>Thus the innermost phrase, the say which mentions &quot;y&quot;, happens 25 times.
-<p>
-<p><hr><p><a href=doc80.html>Previous</a> / <a href=doc82.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc80.html>Previous</a> / <a href=doc82.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

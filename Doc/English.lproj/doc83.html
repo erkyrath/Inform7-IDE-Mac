@@ -1,27 +1,32 @@
-<html><head><title>7.10. Phrase options</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>7.10. Phrase options</b>
+<html><head><title>7.3. Pattern matching</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc82.html><img src=../Back.tif></a><a href=doc84.html><img src=../Forward.tif></a></td><td><b>7.3. Pattern matching</b></td></tr></table><p>
 <p>
-<p>There are often several slightly different ways to perform a given task but which have substantially the same definition. In the following example:
+<p>The following are all valid phrases:
 <p>
-<p><blockquote><font color="#000080">To go hiking, into the woods or up the mountain:<br>if into the woods then say &quot;Watch out for badgers.&quot;;<br>if up the mountain then say &quot;Better take your compass.&quot;;<br>say &quot;You go hiking.&quot;.</font></blockquote>
+<p><blockquote><font color="#000080">award 2 points<br>award 8 points<br>award 30 points</font></blockquote>
 <p>
-<p>...a phrase has been set up which can be used in three ways:
+<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
 <p>
-<p><blockquote><font color="#000080">go hiking;<br>go hiking, into the woods;<br>go hiking, up the mountain;</font></blockquote>
+<p><blockquote><font color="#000080">To award (some - a number) points: ...</font></blockquote>
 <p>
-<p>Note that commas must be used to divide these &quot;phrase options&quot; from the rest of the text of the phrase. Within the definition of the phrase, the option's name is a valid condition, and
+<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
 <p>
-<p><blockquote><font color="#000080">if up the mountain then ...</font></blockquote>
+<p><blockquote><font color="#000080">award &quot;blue cheese&quot; points;</font></blockquote>
 <p>
-<p>is true if the phrase was called with &quot;up the mountain&quot; specified and false otherwise, in the obvious way. A more substantial example from the standard rules is given by the Inform list-writer, which produces lists of things to specifications we choose. For instance:
+<p>which results in the following error:
 <p>
-<p>list the contents of Marley Wood, as a sentence, with newlines
-<p>and including all contents;
+<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.</font></blockquote>
 <p>
-<p>Note that this phrase is allowed to have multiple options specified, whereas &quot;go hiking&quot; above was not: this is because it was defined thus:
+<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
 <p>
-<p><blockquote><font color="#000080">To list the contents of (something - an object), with newlines, indented, as a sentence, including contents, including all contents, giving inventory information, giving brief inventory information, using the definite article, listing marked items only, prefacing with is/are and/or not listing concealed items: ...</font></blockquote>
+<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
 <p>
-<p>The significant difference is the word &quot;and/or&quot; instead of &quot;or&quot;, which signals that more than one option can apply at a time.
+<p><blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.</font></blockquote>
 <p>
-<p><hr><p><a href=doc82.html>Previous</a> / <a href=doc84.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>Which would not match, for instance, this:
+<p>
+<p><blockquote><font color="#000080">slam shut the black door;</font></blockquote>
+<p>
+<p>because the black door is not an open container.
+<p>
+<p><hr><p><a href=doc82.html>Previous</a> / <a href=doc84.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

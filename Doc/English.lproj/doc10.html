@@ -1,16 +1,16 @@
-<html><head><title>2.4. Either/or properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>2.4. Either/or properties</b>
+<html><head><title>2.2. Mapping</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc9.html><img src=../Back.tif></a><a href=doc11.html><img src=../Forward.tif></a></td><td><b>2.2. Mapping</b></td></tr></table><p>
 <p>
-<p>Some containers, like bottles, can be opened: others, like buckets, cannot. If they can be opened, then sometimes they will be open, and sometimes closed. These are examples of properties, which can change during play. The following source sets some properties:
+<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders, and in and out, which are less used but occasionally seem more natural. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
 <p>
-<p><blockquote><font color="#000080">The cardboard box is closed. The glass bottle is a transparent open container. The box is fixed in place and openable.</font></blockquote>
+<p>One of the map connections in the Mammoth Cave simulation was made by the sentence:
 <p>
-<p>There are only four different properties referred to here. Closed means not open, and vice versa, so these two adjectives both refer to the same property. (As might be expected, when a container is open, one can see inside and place things within, or take them out.) The glass bottle being a container is a matter of its kind, which is something fundamental and immutable, so that does not count as a property.
+<p><blockquote><font color="#000080">The Debris Room is west of the Crawl.</font></blockquote>
 <p>
-<p>A &quot;transparent&quot; container is one which we can see inside even when it is closed, and the opposite is an &quot;opaque&quot; container.
+<p>Besides reading this sentence at face value, Inform also deduced that the Crawl was probably meant to be east of the Debris Room: in other words, that the path between them is a two-way one. When Inform makes guesses like this, it treats them as being less certain than anything explicitly stated in the source. Inform will quietly overturn its assumption if information later comes to hand which shows that it was wrong. That might happen in this case if a later sentence read:
 <p>
-<p>The property of being &quot;fixed in place&quot; ensures that the player cannot pick the item up and walk away with it: this is useful for such things as oak trees or heavy furniture. The opposite condition is to be &quot;portable&quot;.
+<p><blockquote><font color="#000080">The Hidden Alcove is east of the Debris Room.</font></blockquote>
 <p>
-<p>Finally, a container which is &quot;openable&quot; can be opened or closed by the player. This property has no friendly adjective for its opposite, so we would need to write &quot;not openable&quot;.
+<p>These two sentences are not contradictory: Inform allows them both, simply accepting that the world is more complicated than it first assumed. There are relatively few situations where Inform has to make educated guesses, but when it does, it tries always to follow Occam's Razor by constructing the simplest model world consistent with the information in the Source text.
 <p>
-<p><hr><p><a href=doc9.html>Previous</a> / <a href=doc11.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc9.html>Previous</a> / <a href=doc11.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

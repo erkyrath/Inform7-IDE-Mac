@@ -1,22 +1,28 @@
-<html><head><title>7.11. Temporary variables</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>7.11. Temporary variables</b>
+<html><head><title>7.4. If</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc83.html><img src=../Back.tif></a><a href=doc85.html><img src=../Forward.tif></a></td><td><b>7.4. If</b></td></tr></table><p>
 <p>
-<p>A variable, as we have seen, is a name for a value which changes, though always remaining of the same kind. For instance, if &quot;target&quot; is a number variable (or &quot;number that varies&quot;) then it may change value from 2 to 4, but not from 2 to &quot;fishknife&quot;.
+<p>We now run through a few special phrases which control other phrases: causing them to repeat, perhaps, or to be skipped. These phrases are equivalent to the &quot;control structures&quot; of other computer programming languages: no system for interactive fiction can possibly be adequate unless it allows us to carry out arbitrary computations, so the pretence that Inform is not really a programming language must dropped sooner or later. That time is now.
 <p>
-<p>To make complicated decisions, phrases often need to remember values on a temporary basis. We have already seen this for the counter in a &quot;repeat&quot; loop, which exists only inside that loop, and then is no longer needed. Now we define named values which exist only inside the current phrase. For instance:
+<p>The phrase:
 <p>
-<p><blockquote><font color="#000080">let outer bull be 25;<br>let the current appearance be &quot;reddish brown&quot;;<br>let the special room be Marley Wood;</font></blockquote>
+<p><blockquote><font color="#000080">if (... condition ...) then (... another whole phrase ...)</font></blockquote>
 <p>
-<p>creates temporary variables &quot;outer bull&quot;, &quot;current appearance&quot; and &quot;special room&quot;. The kinds of these are deduced from the values given, so that, for instance,
+<p>causes the phrase after &quot;then&quot; to be followed only if the condition holds. There are many different forms of condition in Inform (and, as we shall see, we can easily add more), but the simplest is:
 <p>
-<p><blockquote><font color="#000080">say &quot;The outer bull scores [the outer bull in words] when you practice archery in [special room].&quot;</font></blockquote>
+<p><blockquote><font color="#000080">(first value) is (second value)</font></blockquote>
 <p>
-<p>produces
+<p>As always, Inform checks that these two values are of kinds which can be compared. The following will produce an objection, for instance:
 <p>
-<p><blockquote><font color="#000080">The outer bull scores twenty-five when you practice archery in Marley Wood.</font></blockquote>
+<p><blockquote><font color="#000080">if 10 is a door then say &quot;Huzzah!&quot;</font></blockquote>
 <p>
-<p>Temporary variables made by &quot;let&quot; are only temporarily in existence while a phrase is being carried out; and we can let them be one thing, then another, then another still during the same phrase. But although we are allowed to change the value of such a variable, we are not allowed to change the kind of value, so something like this will not be allowed:
+<p>since it makes no sense to ask the question, and the only result will be the baffled reply:
 <p>
-<p><blockquote><font color="#000080">let x be 45;<br>let x be &quot;Norway&quot;;</font></blockquote>
+<p><blockquote><font color="#000080"><b>Problem.</b> In the line 'if 10 is a door then say &quot;Huzzah!&quot;' <img src=../Reveal.tif>, I can't determine whether or not '10 is a door', because it seems to ask if a number is some sort of door.</font></blockquote>
 <p>
-<p><hr><p><a href=doc83.html>Previous</a> / <a href=doc85.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>This, however, would be fine:
+<p>
+<p><blockquote><font color="#000080">To comment upon (whatever - a thing): if whatever is transparent then say &quot;I see right through this!&quot;; if whatever is an open door then say &quot;Oh look, an open door!&quot;.</font></blockquote>
+<p>
+<p>since &quot;whatever&quot; is known to be a thing, and Inform knows that things are indeed sometimes transparent and sometimes open doors.
+<p>
+<p><hr><p><a href=doc83.html>Previous</a> / <a href=doc85.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

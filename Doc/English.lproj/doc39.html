@@ -1,14 +1,38 @@
-<html><head><title>4.7. After rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>4.7. After rules</b>
+<html><head><title>4.2. Say</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc38.html><img src=../Back.tif></a><a href=doc40.html><img src=../Forward.tif></a></td><td><b>4.2. Say</b></td></tr></table><p>
 <p>
-<p>There is pleasantly little to be said about &quot;after&quot; rules. If an action has survived all the rules in its way, and has actually succeeded, then we need to give the player a response which acknowledges this. Inform's normal rules will be sufficient to say something undramatic: for instance, if &quot;taking the napkin&quot; has succeeded then it will reply &quot;Taken.&quot; to the player.
+<p>The phrase &quot;say&quot; is a way to print up something on screen. We can use it to print one thing alone:
 <p>
-<p>An after rule is an opportunity to say something more interesting:
+<p><blockquote><font color="#000080">say &quot;Hello!&quot;;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">After taking the diamonds, say &quot;Taken!&quot;</font></blockquote>
+<p>In practice it is much more convenient to use substitutions once again:
 <p>
-<p>(Well, slightly more interesting.) After rules automatically end the action (as a success), which is what we would want in the above case. Allowing it to continue would simply result in &quot;Taken.&quot; being printed as well. However, should we really need to do something and then carry on:
+<p><blockquote><font color="#000080">say &quot;Please proceed to [the destination] where [prize total] points are available to the diligent player.&quot;;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">After taking the diamonds: say &quot;(Mr Beebe looks up sharply.) &quot;; continue the action.</font></blockquote>
+<p>This is equivalent to:
 <p>
-<p><hr><p><a href=doc38.html>Previous</a> / <a href=doc40.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><blockquote><font color="#000080">say &quot;Please proceed to &quot;, the destination, &quot; where &quot;, prize total, &quot; points are available to the diligent player.&quot;;</font></blockquote>
+<p>
+<p>(which would also work). So we would end up reading something like
+<p>
+<p><blockquote><font color="#000080">Please proceed to Marley Wood where 12 points are available to the diligent player.</font></blockquote>
+<p>
+<p>Other sorts of things you can say are demonstrated by:
+<p>
+<p><blockquote><font color="#000080">say &quot;Your score is now [total score in words] thanks to having acquired [the treasure item] from [a donor]. [The treasure item] is well worth having.&quot;;</font></blockquote>
+<p>
+<p>which might, assuming the above values all make sense, produce something like:
+<p>
+<p><blockquote><font color="#000080">Your score is now thirty-two thanks to having acquired the plover's egg from a giant. The plover's egg is well worth having.</font></blockquote>
+<p>
+<p>Line breaks are automatically printed accordingly to the following simple rule: if a quoted piece of text ends with a full stop, a question mark or an exclamation mark, then a new-line is added; and otherwise not. Thus the sentence just quoted is printed with a new-line, but this would not be:
+<p>
+<p><blockquote><font color="#000080">say &quot;reddish jar&quot;;</font></blockquote>
+<p>
+<p>If you have a further sentence to print without breaking the paragraph, this works nicely:
+<p>
+<p><blockquote><font color="#000080">say &quot;The lawn spreads wide and green. &quot;;</font></blockquote>
+<p>
+<p>because the full stop is the penultimate character, not the last.
+<p>
+<p><hr><p><a href=doc38.html>Previous</a> / <a href=doc40.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

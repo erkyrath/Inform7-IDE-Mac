@@ -1,16 +1,12 @@
-<html><head><title>6.10. Calculating times</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>6.10. Calculating times</b>
+<html><head><title>6.3. Introducing tables: rankings</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc67.html><img src=../Back.tif></a><a href=doc69.html><img src=../Forward.tif></a></td><td><b>6.3. Introducing tables: rankings</b></td></tr></table><p>
 <p>
-<p>We will occasionally need to perform more complex calculations with time, and in order to do that, we have a way to convert the time of day to numbers. Thus the phrase &quot;the minutes part of ...&quot; takes a time and produces a number from 0 to 59; similarly &quot;the hours part of ...&quot; extracts a number from 0 to 23, using the twenty-four hour clock.
+<p>Another tradition of interactive fiction is that there is a maximum score, and that the player has a current 'rank' according to how far his or her score has got. We can (but need not) choose to provide such rankings, and should do so by specifying a table like this:
 <p>
-<p>To go the other way, we can convert any number to a duration by writing &quot;minutes&quot; or &quot;hours&quot; after it. For instance:
+<p><center><img src=table.tiff></center>
 <p>
-<p><blockquote><font color="#000080">The clock error is a number that varies. To thump the mechanism: change the clock error to a random number from -10 to 10.</font></blockquote>
+<p>Typographically, tables in Inform look as much as possible like those found in non-fiction books: they can have many columns, so this is only a simple example (drawn from the actual rankings used by Infocom's <i>Zork I</i>, 1979). Each line in the source represents one row in the table, and the entries on a line must be separated by at least one tab character. (An entry might of course have several words with spaces in between, so a space is not enough to separate entries: this is the only context when Inform distinguishes between spaces and tabs.) The table must occupy a single whole paragraph, with no skipped lines or missing entries. We are free to use extra tabs to indent it if we like.
 <p>
-<p><blockquote><font color="#000080">The broken grandfather clock is in the Chamber. &quot;An erratic grandfather clock seems to say it is [clock error minutes after the time of day].&quot;</font></blockquote>
+<p>Ordinarily we must explicitly ask to use the information presented in a table, but the table of rankings is a special case: Inform uses it automatically, if it is provided at all. To be recognised it must have the name &quot;Rankings&quot; and must have two columns named and arranged as shown. The scores should be given in ascending order, and the score in the final row should be the maximum possible achieved in the game - so that only a player with maximum possible score can be awarded the final ranking.
 <p>
-<p><blockquote><font color="#000080">When play begins, thump the mechanism. Instead of attacking the broken clock: thump the mechanism; say &quot;You thump the clock, which now reads [clock error minutes after the time of day].&quot;.</font></blockquote>
-<p>
-<p>Note that &quot;clock error&quot; is a number, but &quot;clock error minutes&quot; is a time.
-<p>
-<p><hr><p><a href=doc67.html>Previous</a> / <a href=doc69.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc67.html>Previous</a> / <a href=doc69.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

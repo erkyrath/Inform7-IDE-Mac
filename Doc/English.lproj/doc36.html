@@ -1,16 +1,26 @@
-<html><head><title>4.4. Instead rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>4.4. Instead rules</b>
+<html><head><title>3.10. Bibliographic data</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc35.html><img src=../Back.tif></a><a href=doc37.html><img src=../Forward.tif></a></td><td><b>3.10. Bibliographic data</b></td></tr></table><p>
 <p>
-<p>An action is ordinarily handled by running it through Inform's extensive rulebooks of what might be called normal behaviour. An action such as &quot;taking the napkin&quot;, for instance, will be run through numerous checks to see if it is physically reasonable, and then provided all is well, the napkin will be moved into the possession of the player.
+<p>Inform has four special named values to hold the bibliographic data about the work being created - who wrote it, what it is called, what genre it has and what its release number is.
 <p>
-<p>Instead, though, we can bypass that whole process and do something else:
+<p>These can be set as follows:
 <p>
-<p><blockquote><font color="#000080">Instead of eating the napkin: say &quot;Why not wait for the actual dinner to arrive?&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The story title is &quot;Mansfield Perk&quot;. The story author is &quot;Janet Austen&quot;. The story genre is &quot;An Interactive Romance&quot;. The release number is 7.</font></blockquote>
 <p>
-<p>This is an example of a &quot;rule&quot;: a set of circumstances followed by a list of instructions. When those circumstances apply, the instructions are carried out. In the case of an &quot;instead&quot; rule, after this is done the action is immediately ended (and counts as a failure, since the original intention has been thwarted).
+<p>A convenient abbreviation provides that if the first sentence of the source text consists solely of text in quotation marks, then that is considered the title. Thus if the source begins:
 <p>
-<p>A friendly alternative can be used when there is only a single instruction, as here: in such rules the colon can be replaced with a comma. Thus:
+<p><blockquote><font color="#000080">&quot;Mansfield Perk&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of eating the napkin, say &quot;Why not wait for the actual dinner to arrive?&quot;</font></blockquote>
+<p>then that will be the story title. Further, we can write
 <p>
-<p><hr><p><a href=doc35.html>Previous</a> / <a href=doc37.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><blockquote><font color="#000080">&quot;Mansfield Perk&quot; by Janet Austen</font></blockquote>
+<p>
+<p>with the obvious effect: quotation marks around the author's name are optional here, for convenience, but note that we'd better have them in cases like:
+<p>
+<p><blockquote><font color="#000080">&quot;Three Men in a Boat&quot; by &quot;Jerome K. Jerome&quot;</font></blockquote>
+<p>
+<p>as otherwise the full stop after the K will end the sentence prematurely.
+<p>
+<p>If unspecified, the story genre is &quot;An Interactive Fiction&quot;, in accordance with tradition, and the release number is 1.
+<p>
+<p><hr><p><a href=doc35.html>Previous</a> / <a href=doc37.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

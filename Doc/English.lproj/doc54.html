@@ -1,16 +1,22 @@
-<html><head><title>5.2. Change of either/or properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>5.2. Change of either/or properties</b>
+<html><head><title>4.17. New actions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc53.html><img src=../Back.tif></a><a href=doc55.html><img src=../Forward.tif></a></td><td><b>4.17. New actions</b></td></tr></table><p>
 <p>
-<p>When we have an either/or property, we can set it like so:
+<p>It is not often that we need to create new actions, but a large work of interactive fiction with no novelty actions is a flavourless dish. Here we shall create an action for photographing things.
 <p>
-<p><blockquote><font color="#000080">Instead of waiting when the oaken door is closed: say &quot;There is a slow, creaky click! sort of noise as the door swings open, apparently all by itself.&quot;; change the oaken door to open.</font></blockquote>
+<p><blockquote><font color="#000080">The Ruins is a room. &quot;You find this clearing in the rainforest oddly familiar.&quot; The camera is in the Ruins. &quot;Your elephantine camera hangs from a convenient branch.&quot;</font></blockquote>
 <p>
-<p>If it is open already, nothing changes: in any case nothing is said to the player unless we give explicit instructions to that effect, as we've done here.
+<p><blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.</font></blockquote>
 <p>
-<p>Inform protects its model world from accidental damage in several ways, one of which is to ensure that things are not given properties which they are not allowed to have. So this, for instance, will not be accepted:
+<p>In theory that text is already sufficient in to make the new action, but what we have so far is rudimentary to say the least. The two qualifications give Inform the useful information that we cannot photograph in the dark, and that we need to be photographing something - not, as in the case of waiting or taking inventory, acting without reference to any particular thing external to ourselves. The word &quot;visible&quot; here tells Inform that we do not need to be able to touch the thing in question: a line of sight is good enough. These two stipulations were necessary because the default arrangement is that any object must be in touching range, and that most actions can be performed in darkness. As further examples, here we create &quot;blinking&quot; and &quot;scraping X with Y&quot;. Note the use of &quot;it&quot; to indicate that the name of an object should go here.
 <p>
-<p><blockquote><font color="#000080">change the oaken door to unvisited</font></blockquote>
+<p><blockquote><font color="#000080">Blinking is an action applying to nothing. Scraping it with is an action applying to two things.</font></blockquote>
 <p>
-<p>More subtle problems arise if it is not possible to tell, when the game is being constructed, what the object in question will be: for instance, if we try to change a randomly chosen object to be &quot;unvisited&quot;. Inform therefore makes additional checks during play, printing up a suitable message only if the rules are violated. The net effect is that it is impossible for the oaken door ever to have the &quot;unvisited&quot; property.
+<p>The photographing action now exists, but with two provisos: (a) it never happens, because Inform does not know what instructions by the player should cause it, and (b) even if it were to happen, nothing would follow, because Inform does not know how to carry it out.
 <p>
-<p><hr><p><a href=doc53.html>Previous</a> / <a href=doc55.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>The first problem is easily overcome:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.</font></blockquote>
+<p>
+<p>We will return to the whole subject of parsing, as this process of understanding the player's commands is called, later. But this gives the gist of it.
+<p>
+<p><hr><p><a href=doc53.html>Previous</a> / <a href=doc55.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

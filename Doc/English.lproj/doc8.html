@@ -1,16 +1,22 @@
-<html><head><title>2.2. Mapping</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>2.2. Mapping</b>
+<html><head><title>1.8. Headings</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc7.html><img src=../Back.tif></a><a href=doc9.html><img src=../Forward.tif></a></td><td><b>1.8. Headings</b></td></tr></table><p>
 <p>
-<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders, and in and out, which are less used but occasionally seem more natural. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
+<p>Reports of problems, as we have seen, often quote back the source to justify themselves. Rather than quoting actual line numbers (&quot;Midsummer Day, line 2017&quot; or something similar) Inform uses the more user-friendly <img src=../Reveal.tif> icon. The down side of this is that a glance at the list of problems might give little hint of whereabouts in the source the difficulties lie. For this reason, and to help with navigating through large source texts, Inform allows us to subdivide a design using headings.
 <p>
-<p>One of the map connections in the Mammoth Cave simulation was made by the sentence:
+<p>A sentence which is the only one in its paragraph and which begins with any of the words &quot;volume&quot;, &quot;book&quot;, &quot;part&quot;, &quot;chapter&quot; or &quot;section&quot; is considered to be a heading or a sub-heading. It is therefore ignored except for purposes of reporting errors, where it is used as follows:
 <p>
-<p><blockquote><font color="#000080">The Debris Room is west of the Crawl.</font></blockquote>
+<p><blockquote><font color="#000080">In Part the First, Chapter 1 - Attic Area:</font></blockquote>
 <p>
-<p>Besides reading this sentence at face value, Inform also deduced that the Crawl was probably meant to be east of the Debris Room: in other words, that the path between them is a two-way one. When Inform makes guesses like this, it treats them as being less certain than anything explicitly stated in the source. Inform will quietly overturn its assumption if information later comes to hand which shows that it was wrong. That might happen in this case if a later sentence read:
+<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'South of the Attic is the Winery' <img src=../Reveal.tif>, but in another sentence 'South of the Attic is the Old Furniture' <img src=../Reveal.tif>: this looks like a contradiction, which might be because I have misunderstood what was meant to be the subject of one or both of those sentences.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Hidden Alcove is east of the Debris Room.</font></blockquote>
+<p><blockquote><font color="#000080">In Chapter 2 - Deeper In:</font></blockquote>
 <p>
-<p>These two sentences are not contradictory: Inform allows them both, simply accepting that the world is more complicated than it first assumed. There are relatively few situations where Inform has to make educated guesses, but when it does, it tries always to follow Occam's Razor by constructing the simplest model world consistent with the information in the Source text.
+<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'The Disused Observatory is south of the Dark Room' <img src=../Reveal.tif>, but in another sentence 'South of the Dark Room is the Cupboard' <img src=../Reveal.tif>: again, this looks like a contradiction.</font></blockquote>
 <p>
-<p><hr><p><a href=doc7.html>Previous</a> / <a href=doc9.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>If the first paragraph of the interactive fiction consists only of a single quoted piece of text, then that's the title of the work. An author can also be given, as follows:
+<p>
+<p><blockquote><font color="#000080">&quot;Spellbreaker&quot; by Dave Lebling</font></blockquote>
+<p>
+<p>This completes the groundwork, and we are ready to begin on simulating a world to explore.
+<p>
+<p><hr><p><a href=doc7.html>Previous</a> / <a href=doc9.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

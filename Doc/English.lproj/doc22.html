@@ -1,12 +1,24 @@
-<html><head><title>2.16. Possessions and clothing</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>2.16. Possessions and clothing</b>
+<html><head><title>2.14. Men, women and articles</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc21.html><img src=../Back.tif></a><a href=doc23.html><img src=../Forward.tif></a></td><td><b>2.14. Men, women and articles</b></td></tr></table><p>
 <p>
-<p>We have seen how to place objects in rooms, and in containers or on supporters, but not how to make them begin in the player's possession, which we do as follows:
+<p>Rounding out the standard kinds provided by Inform are three for living things: &quot;person&quot;, which is a kind of thing, and &quot;man&quot; and &quot;woman&quot;, both kinds of person. For instance:
 <p>
-<p><blockquote><font color="#000080">A brass lantern and an old brass key are initially carried.</font></blockquote>
+<p><blockquote><font color="#000080">In the Ballroom is a man called Mr Darcy.</font></blockquote>
 <p>
-<p>Clothes are simply things which have the either/or property of being &quot;wearable&quot;: if something has this property then the player will be allowed to wear it, provided it can first be picked up. It will then have the either/or property of being &quot;worn&quot;. To start the player off wearing something, we need to specify both that the player has it and that the player wears it:
+<p>For the time being, men and women will be little more than waxworks: they will come to life only when we go beyond the present stage of creating an initial state of the world.
 <p>
-<p><blockquote><font color="#000080">The cardinal's hat is initially carried. The hat is worn.</font></blockquote>
+<p>When the Ballroom is visited, the man is listed in the description of the room as &quot;Mr Darcy&quot;, not as &quot;a Mr Darcy&quot;. This happened not because Inform recognised that Darcy is a proper name, or even because men tend to have proper names, but because Inform noticed that we did not use &quot;a&quot;, &quot;an&quot;, &quot;the&quot; or &quot;some&quot; in the sentence which created him. The following little example game shows most of the options:
 <p>
-<p><hr><p><a href=doc21.html>Previous</a> / <a href=doc23.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><blockquote><font color="#000080">&quot;Belfry&quot;</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">The Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton's wife is in the Belfry. A man called a bellringer is in the Belfry.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">In the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.</font></blockquote>
+<p>
+<p>In the resulting game, we read:
+<p>
+<p><blockquote><font color="#000080">You can see a bat, a bell, some woodworm, William Snelson, the sexton's wife, a bellringer and your local vicar here.</font></blockquote>
+<p>
+<p>The subtlest rule here is in the handling of &quot;the&quot;. We wrote &quot;The bell is in the Belfry&quot;, but this did not result in the bell always being called &quot;the&quot; bell: in fact, writing &quot;A bell is in the Belfry&quot; would have had the same effect. On the other hand, &quot;A woman called the sexton's wife is in the Belfry.&quot; led to the wife always being known as &quot;the&quot; sexton's wife, not &quot;a&quot; sexton's wife, because Inform thinks the choice of article after &quot;called&quot; shows more of our intention than it would elsewhere. These rules will never be perfect in all situations, so we are also allowed to specify indefinite articles by hand, as the vicar's case shows.
+<p>
+<p><hr><p><a href=doc21.html>Previous</a> / <a href=doc23.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

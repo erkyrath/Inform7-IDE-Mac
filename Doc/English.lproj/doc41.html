@@ -1,26 +1,16 @@
-<html><head><title>4.9. Describing actions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>4.9. Describing actions</b>
+<html><head><title>4.4. Instead rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc40.html><img src=../Back.tif></a><a href=doc42.html><img src=../Forward.tif></a></td><td><b>4.4. Instead rules</b></td></tr></table><p>
 <p>
-<p>Thus far we have applied rules only to specific actions, such as &quot;taking the napkin&quot;. But it is in describing whole categories of actions that Inform really capitalises on the concise, expressive power of natural language, and this will enable us to design much more sophisticated rules with only a handful of extra words typed.
+<p>An action is ordinarily handled by running it through Inform's extensive rulebooks of what might be called normal behaviour. An action such as &quot;taking the napkin&quot;, for instance, will be run through numerous checks to see if it is physically reasonable, and then provided all is well, the napkin will be moved into the possession of the player.
 <p>
-<p>Firstly, the special description &quot;doing something&quot; matches any action, so that &quot;doing something to the napkin&quot; (or &quot;... with the napkin&quot;, which means the same) would match &quot;taking the napkin&quot;, &quot;eating the napkin&quot; and many more. Thus the following would put its object entirely out of bounds:
+<p>Instead, though, we can bypass that whole process and do something else:
 <p>
-<p><blockquote><font color="#000080">Instead of doing something to the cucumber sandwich, say &quot;Lady Bracknell stares disapprovingly down her pince-nez at you, in a way which no amount of hunger or curiosity could overcome.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Instead of eating the napkin: say &quot;Why not wait for the actual dinner to arrive?&quot;</font></blockquote>
 <p>
-<p>Secondly, any object mentioned can be described in a wide range of ways. Instead of writing &quot;the cucumber sandwich&quot;, we could say &quot;something edible&quot;, or even just &quot;something&quot;. Thus:
+<p>This is an example of a &quot;rule&quot;: a set of circumstances followed by a list of instructions. When those circumstances apply, the instructions are carried out. In the case of an &quot;instead&quot; rule, after this is done the action is immediately ended (and counts as a failure, since the original intention has been thwarted).
 <p>
-<p><blockquote><font color="#000080">Instead of throwing something at a closed openable door, say &quot;Or you could just use the handle like anyone else, of course.&quot;</font></blockquote>
+<p>A friendly alternative can be used when there is only a single instruction, as here: in such rules the colon can be replaced with a comma. Thus:
 <p>
-<p>Thirdly, we can add a requirement about where the action in question is taking place.
+<p><blockquote><font color="#000080">Instead of eating the napkin, say &quot;Why not wait for the actual dinner to arrive?&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of taking something in the Supernatural Void, say &quot;In this peculiar mist you feel unable to grasp anything.&quot;</font></blockquote>
-<p>
-<p>Like the objects to which the action applies, the location can itself be vaguely defined:
-<p>
-<p><blockquote><font color="#000080">Instead of listening in a dead end, say &quot;You strain to hear further clues as to the course of the underground river, but to no avail.&quot;</font></blockquote>
-<p>
-<p>It may be worth recalling here that when we create a new kind of value, we also create new adjectives which can be used to describe things:
-<p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour. Instead of taking a green building block, say &quot;For some reason you have an aversion to the colour green.&quot;</font></blockquote>
-<p>
-<p><hr><p><a href=doc40.html>Previous</a> / <a href=doc42.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc40.html>Previous</a> / <a href=doc42.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

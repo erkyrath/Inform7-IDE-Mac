@@ -1,18 +1,44 @@
-<html><head><title>8.1. Laying out tables</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 8: Tables</h2><p><b>8.1. Laying out tables</b>
+<html><head><title>7.12. An example: tinted wallpaper</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc91.html><img src=../Back.tif></a><a href=doc93.html><img src=../Forward.tif></a></td><td><b>7.12. An example: tinted wallpaper</b></td></tr></table><p>
 <p>
-<p>We have already seen the Table of Rankings, which Inform uses automatically to score the progress of the current game. Here is a more general example:
+<p>Kinds of value come into their own inside phrases, as the following worked example may suggest. Suppose we have declared that:
 <p>
-<p><center><img src=table2.tiff></center>
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are green, aquamarine and darkish purple.</font></blockquote>
 <p>
-<p>After the two titling lines, each line represents one row in the table, and entries on a line must be separated by at least one tab character. A table must occupy a single whole paragraph, with no skipped lines or missing entries.
+<p>The effect is that &quot;colour&quot; is now a kind of value on a par with, for instance, &quot;number&quot;. We are allowed, for instance, in a phrase to write
 <p>
-<p>The top line is a title, the first word of which must be the word 'Table'. We can then either give a table number (this need not actually be a number: Table C2, or some such, would be fine), or give a name, or both - as in this case. The possible titling formats are:
+<p><blockquote><font color="#000080">let the tint be aquamarine;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Table 2.3<br>Table of Population Statistics<br>Table 2.3 - Population Statistics</font></blockquote>
+<p>to create a temporary quantity called &quot;tint&quot;, which always holds a colour, initially aquamarine. (If, later in the same phrase, we were to try &quot;let the tint be 15&quot;, we would be rebuffed because a colour can't be a number or vice versa. The tint may change colour, but must always be a colour.) We can also
 <p>
-<p>In the last example we could call the table either &quot;Table 2.3&quot; or &quot;Table of Population Statistics&quot;.
+<p><blockquote><font color="#000080">say &quot;The wallpaper has a distinctly [tint] wash.&quot;;</font></blockquote>
 <p>
-<p>Each column then has a name, and the contents must all be the same kind of value. Here the &quot;Score&quot; column contains only numbers and the &quot;Rank&quot; column only text, but any kinds of value will do, so long as all the entries in the column are mutually compatible. (Mixing rooms and things in a single column would be fine, as these can be reconciled, but mixing numbers and rooms would not.)
+<p>which results in
 <p>
-<p><hr><p><a href=doc91.html>Previous</a> / <a href=doc93.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><blockquote><font color="#000080">The wallpaper has a distinctly green wash.<br>The wallpaper has a distinctly aquamarine wash.<br>The wallpaper has a distinctly darkish purple wash.</font></blockquote>
+<p>
+<p>as may be. As might be expected, we can also test conditions:
+<p>
+<p><blockquote><font color="#000080">if the tint is darkish purple then ...</font></blockquote>
+<p>
+<p>When a property is created that has the same name as a kind of value, like so:
+<p>
+<p><blockquote><font color="#000080">A door is allowed to have a colour.</font></blockquote>
+<p>
+<p>it becomes a property whose value is required at all times to fit that quality. Thus
+<p>
+<p><blockquote><font color="#000080">The colour of a door is usually green.<br>The colour of the lounge door is aquamarine.<br>...<br>say &quot;The lounge door is [colour of lounge door].&quot;;<br>if the colour of the lounge door is green then ...</font></blockquote>
+<p>
+<p>However, this is obviously rather cumbersome in English, so we can also more naturally write any of these:
+<p>
+<p><blockquote><font color="#000080">A door is usually green.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">The lounge door is aquamarine.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">if the lounge door is green then ...</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Before putting something into an aquamarine container: ...</font></blockquote>
+<p>
+<p>which are unambiguous since &quot;green&quot; is a colour and in the context of an object must imply the colour of that object.
+<p>
+<p><hr><p><a href=doc91.html>Previous</a> / <a href=doc93.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

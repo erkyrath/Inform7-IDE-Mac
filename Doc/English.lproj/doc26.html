@@ -1,25 +1,22 @@
-<html><head><title>3.2. Plural assertions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>3.2. Plural assertions</b>
+<html><head><title>2.18. Parts of things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc25.html><img src=../Back.tif></a><a href=doc27.html><img src=../Forward.tif></a></td><td><b>2.18. Parts of things</b></td></tr></table><p>
 <p>
-<p>As the following examples show, sentences can make several assertions at once by using the plural. Suppose we have defined a kind called &quot;high-up fixture&quot;, for instance like so:
+<p>Everything has one and only one kind. This is both good and bad: good for clarity, bad if something needs to behave in two different ways at once. How might we simulate a car with an ignition key, given that no single thing can be both a &quot;vehicle&quot; and a &quot;device&quot; at the same time?
 <p>
-<p><blockquote><font color="#000080">A high-up fixture is a kind of thing. A high-up fixture is usually fixed in place.</font></blockquote>
+<p>The Inform world model takes the view that such a car is too complicated to be simulated with a single thing. Instead it should be simulated as a vehicle (the car) which has a device (the ignition) attached. This is done using a third kind of containment to those seen so far (&quot;in...&quot; and &quot;on...&quot;): &quot;part of&quot;.
 <p>
+<p><blockquote><font color="#000080">&quot;Buttons&quot;</font></blockquote>
 <p>
-<p>Then the following sentence creates two such objects and puts them in their place:
+<p><blockquote><font color="#000080">The Confectionary Workshop is a room. The Chocolate Machine is here. &quot;The Chocolate Machine has pride of place. A lever and two buttons, one white, the other brown, seem to be the only controls. On top is a hopper.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The high shelf and the skylight window are high-up fixtures in the Lumber Room.</font></blockquote>
+<p><blockquote><font color="#000080">A container called the hopper is part of the Chocolate Machine. The lever, the white button and the brown button are parts of the Chocolate Machine.</font></blockquote>
 <p>
-<p>since it is equivalent to saying:
+<p><blockquote><font color="#000080">The Chocolatier's desk is here. &quot;The Chocolatier evidently works at the imposing green-leather topped desk facing the Machine. It has three drawers with brass handles.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The high shelf is a high-up fixture. The skylight window is a high-up fixture. The high shelf is in the Lumber Room. The skylight window is in the Lumber Room.</font></blockquote>
+<p><blockquote><font color="#000080">The upper drawer, the middle drawer and the lower drawer are parts of the desk. The upper drawer, the middle drawer and the lower drawer are openable closed containers. In the middle drawer is a sugared almond. In the lower drawer is a Battenburg cake. On the desk is a liquorice twist.</font></blockquote>
 <p>
+<p>The machine and the desk each have several &quot;parts&quot; representing subsidiary pieces of themselves. The desk is a &quot;supporter&quot; (it needs to be, for the liquorice twist to be on top) but also has three &quot;containers&quot; attached, each of which can be opened or closed independently.
 <p>
-<p>Such plurals are allowed in almost any context, and we could even define two kinds at once:
+<p>In the interests of realism, the standard rules of play protect these composite things. Thus if the desk were to be moved elsewhere (rolling on sugar casters perhaps) then its parts would move with it, and the player is not allowed to detach parts of things: the drawers can be opened or closed, but not pulled out altogether.
 <p>
-<p><blockquote><font color="#000080">Bucket and basket are kinds of container.</font></blockquote>
-<p>
-<p>(This isn't the same as plural object names in the sense of the Inform game parser, which I hope to implement later. Plurals are generated automatically, according to a fairly simple algorithm looking at word endings, and which is quite easy to fool if you insist on trying. For instance, invent a kind called &quot;trees&quot;, and its plural &quot;treeses&quot; will come into being as well. At some point there will be a way to specify a plural if it would otherwise be wrong.)
-<p>
-<p>
-<p><hr><p><a href=doc25.html>Previous</a> / <a href=doc27.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc25.html>Previous</a> / <a href=doc27.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

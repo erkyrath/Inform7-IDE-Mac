@@ -1,14 +1,18 @@
-<html><head><title>6.6. Daemons!</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>6.6. Daemons!</b>
+<html><head><title>5.7. Testing</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc63.html><img src=../Back.tif></a><a href=doc65.html><img src=../Forward.tif></a></td><td><b>5.7. Testing</b></td></tr></table><p>
 <p>
-<p>A daemon is a rule which is applied every turn, but only when it is active: the rest of the time it sleeps. Traditionally, rules like this in interactive fiction have been imagined as being somehow independently acting, hence the term &quot;daemon&quot;. There's not much to say about daemons:
+<p>Inform provides a convenient shorthand for testing. Most works of interactive fiction contain numerous vignettes, either in terms of short scenes of narrative, or in the behaviour of particular things or rooms. This means we often need to test little pieces of the whole; on the other hand, we also want a way to test the entire thing right through. And it is all too easy to lose track of the solution while working out the design.
 <p>
-<p><blockquote><font color="#000080">The lightning daemon: say &quot;Lightning strikes, suddenly.&quot;</font></blockquote>
+<p>Solutions or sequences for testing (&quot;scripts&quot;) can be defined with sentences like so:
 <p>
-<p><blockquote><font color="#000080">In the Keep is a lever. The lever is fixed in place. Instead of pulling the lever: say &quot;Zzzing...&quot;; start the lightning daemon. Instead of pushing the lever: say &quot;Zzzap...&quot;; stop the lightning daemon.</font></blockquote>
+<p><blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot;.</font></blockquote>
 <p>
-<p>The name of a daemon must always have &quot;daemon&quot; as its final word. When play begins, daemons are normally asleep, so if we need one of them to be active right from the start then we must add a further rule:
+<p>This has no effect on the design itself, but ensures that when the game is played, typing &quot;test balloon&quot; will run through the given three commands in sequence, as if we had typed &quot;get balloon&quot; and then &quot;blow balloon&quot; and then &quot;drop balloon&quot;.
 <p>
-<p><blockquote><font color="#000080">When play begins, start the lightning daemon.</font></blockquote>
+<p>The name for the test (balloon in this example) has to be a single word. Typing just &quot;test&quot; at the game prompt gives a list of all the test scripts known to the game. Test scripts can make use of each other, for instance:
 <p>
-<p><hr><p><a href=doc63.html>Previous</a> / <a href=doc65.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><blockquote><font color="#000080">Test all with &quot;test balloon / test door&quot;.</font></blockquote>
+<p>
+<p>One convenient way to keep track of the solution for a work being written is to include a test script at the end of each section, and to place a master test script (like &quot;test all&quot;) at the top of the source. But different designers will prefer different approaches, and this testing system is no more than an optional convenience.
+<p>
+<p><hr><p><a href=doc63.html>Previous</a> / <a href=doc65.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,14 +1,28 @@
-<html><head><title>4.3. Actions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>4.3. Actions</b>
+<html><head><title>3.9. Values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc34.html><img src=../Back.tif></a><a href=doc36.html><img src=../Forward.tif></a></td><td><b>3.9. Values that vary</b></td></tr></table><p>
 <p>
-<p>An action is an impulse by the player to do something. This may or may not be a reasonable aspiration, and may or may not be achieved. The player's exploration of an interactive fiction is made by a sequence of actions, so much of the designing process comes down to responding to these actions.
+<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
 <p>
-<p>We write actions using present participles. For instance, if the player types &quot;take napkin&quot; or &quot;get the napkin&quot; or something similar then the resulting action would be written as:
+<p><blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">taking the napkin</font></blockquote>
+<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
 <p>
-<p>The details of what words the player actually typed are unimportant to us: we deal only in actions.
+<p><blockquote><font color="#000080">The target is a number variable. The target is 23.</font></blockquote>
 <p>
-<p>Every action ends in success or failure. In this context, success means only that the player's intention has been fulfilled. If the player sets out to take the napkin, but finds a million-pound banknote in its folds instead, the action will be deemed to be a failure.
+<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
 <p>
-<p><hr><p><a href=doc34.html>Previous</a> / <a href=doc36.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
+<p>
+<p><blockquote><font color="#000080">The receptacle is a container that varies.</font></blockquote>
+<p>
+<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
+<p>
+<p><blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.</font></blockquote>
+<p>
+<p>without ever having defined any colours. Something else we are not permitted is:
+<p>
+<p><blockquote><font color="#000080">The receptacle is an open container that varies.</font></blockquote>
+<p>
+<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
+<p>
+<p><hr><p><a href=doc34.html>Previous</a> / <a href=doc36.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

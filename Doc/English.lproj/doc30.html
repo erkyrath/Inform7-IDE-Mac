@@ -1,28 +1,23 @@
-<html><head><title>3.6. Values that vary</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>3.6. Values that vary</b>
+<html><head><title>3.4. New either/or properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc29.html><img src=../Back.tif></a><a href=doc31.html><img src=../Forward.tif></a></td><td><b>3.4. New either/or properties</b></td></tr></table><p>
 <p>
-<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
+<p>Properties can only be given to something if its kind will permit that: we cannot make a chair &quot;dark&quot; or a room &quot;portable&quot;, for instance. When creating kinds, then, we need a way to specify the properties which that kind of thing will allow, and this will need to include new properties of our own devising.
 <p>
-<p><blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.</font></blockquote>
+<p><blockquote><font color="#000080">A dead end can be secret or ordinary.</font></blockquote>
 <p>
-<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
 <p>
-<p><blockquote><font color="#000080">The target is a number variable. The target is 23.</font></blockquote>
+<p>This creates just one new property, not two, as the names are taken as the two states of a single either/or property: secret means not ordinary, ordinary means not secret. Alternatively, we could just say:
 <p>
-<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
+<p><blockquote><font color="#000080">A dead end can be secret.</font></blockquote>
 <p>
-<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
+<p>in which case the opposite of &quot;secret&quot; would be &quot;not secret&quot;.
 <p>
-<p><blockquote><font color="#000080">The receptacle is a container that varies.</font></blockquote>
+<p>Note that we are free to add to the definitions of kinds which already exist, not just those we have created ourselves: for instance,
 <p>
-<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
+<p><blockquote><font color="#000080">A room can be indoors or outdoors.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.</font></blockquote>
+<p>creates a new property which all rooms either possess or don't. And so on. If we make the above definitions then by default, any dead ends created will be &quot;ordinary&quot; and any rooms created will be &quot;outdoors&quot;: that is, in the absence of other information it is assumed that a new either/or property will not be held. We could reverse this behaviour by adding:
 <p>
-<p>without ever having defined any colours. Something else we are not permitted is:
+<p><blockquote><font color="#000080">A dead end is usually secret. A room is usually indoors.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The receptacle is an open container that varies.</font></blockquote>
-<p>
-<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
-<p>
-<p><hr><p><a href=doc29.html>Previous</a> / <a href=doc31.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc29.html>Previous</a> / <a href=doc31.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

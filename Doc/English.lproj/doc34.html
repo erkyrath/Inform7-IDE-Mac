@@ -1,38 +1,26 @@
-<html><head><title>4.2. Say</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>4.2. Say</b>
+<html><head><title>3.8. Using new kinds of value in properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc33.html><img src=../Back.tif></a><a href=doc35.html><img src=../Forward.tif></a></td><td><b>3.8. Using new kinds of value in properties</b></td></tr></table><p>
 <p>
-<p>The phrase &quot;say&quot; is a way to print up something on screen. We can use it to print one thing alone:
+<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
 <p>
-<p><blockquote><font color="#000080">say &quot;Hello!&quot;;</font></blockquote>
+<p><blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.</font></blockquote>
 <p>
-<p>In practice it is much more convenient to use substitutions once again:
+<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
 <p>
-<p><blockquote><font color="#000080">say &quot;Please proceed to [the destination] where [prize total] points are available to the diligent player.&quot;;</font></blockquote>
+<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
 <p>
-<p>This is equivalent to:
+<p><blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">say &quot;Please proceed to &quot;, the destination, &quot; where &quot;, prize total, &quot; points are available to the diligent player.&quot;;</font></blockquote>
+<p>New kinds of value are very convenient when substituting variations in text:
 <p>
-<p>(which would also work). So we would end up reading something like
+<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Please proceed to Marley Wood where 12 points are available to the diligent player.</font></blockquote>
+<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
 <p>
-<p>Other sorts of things you can say are demonstrated by:
+<p>Another advantage is that new kinds of value also enable new adjectives to be used, in just the same way that we can talk about &quot;a dark room&quot; (meaning: a room which has the dark property rather than the lighted property).
 <p>
-<p><blockquote><font color="#000080">say &quot;Your score is now [total score in words] thanks to having acquired [the treasure item] from [a donor]. [The treasure item] is well worth having.&quot;;</font></blockquote>
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour.</font></blockquote>
 <p>
-<p>which might, assuming the above values all make sense, produce something like:
+<p><blockquote><font color="#000080">In the playroom are a red building block and a green building block.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Your score is now thirty-two thanks to having acquired the plover's egg from a giant. The plover's egg is well worth having.</font></blockquote>
-<p>
-<p>Line breaks are automatically printed accordingly to the following simple rule: if a quoted piece of text ends with a full stop, a question mark or an exclamation mark, then a new-line is added; and otherwise not. Thus the sentence just quoted is printed with a new-line, but this would not be:
-<p>
-<p><blockquote><font color="#000080">say &quot;reddish jar&quot;;</font></blockquote>
-<p>
-<p>If you have a further sentence to print without breaking the paragraph, this works nicely:
-<p>
-<p><blockquote><font color="#000080">say &quot;The lawn spreads wide and green. &quot;;</font></blockquote>
-<p>
-<p>because the full stop is the penultimate character, not the last.
-<p>
-<p><hr><p><a href=doc33.html>Previous</a> / <a href=doc35.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc33.html>Previous</a> / <a href=doc35.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

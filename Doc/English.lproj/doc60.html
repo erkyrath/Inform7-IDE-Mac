@@ -1,16 +1,22 @@
-<html><head><title>6.2. Awarding points</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>6.2. Awarding points</b>
+<html><head><title>5.3. Change of properties with values</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc59.html><img src=../Back.tif></a><a href=doc61.html><img src=../Forward.tif></a></td><td><b>5.3. Change of properties with values</b></td></tr></table><p>
 <p>
-<p>Traditionally-written games award points throughout play, as an indication of progress. If we want to be traditional, we can award points as follows:
+<p>Changing properties with values is very similar:
 <p>
-<p><blockquote><font color="#000080">award 5 points;</font></blockquote>
+<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
 <p>
-<p>substituting whatever number we feel is appropriate. We should be careful not to give out the same points over and over, that is, not to reward the same basic achievement many times over if the player simply repeats the same action. This, for instance, is open to abuse:
+<p>Inform checks three different things to ensure that this change is safe to perform. Firstly, the value must be the right kind for the property in question, so this for instance would be rejected:
 <p>
-<p><blockquote><font color="#000080">After taking the trophy: award 5 points; say &quot;Well done!&quot;</font></blockquote>
+<p><blockquote><font color="#000080">change the printed name of the Closet to 7</font></blockquote>
 <p>
-<p>The player may simply take the trophy, drop it again, take it again, ... and win five points every time around. We can prevent this by phrasing the rule more carefully:
+<p>Secondly, the object in question has to be allowed to have the given property. This, for instance, would be disallowed:
 <p>
-<p><blockquote><font color="#000080">After taking the trophy for the first time: award 5 points; say &quot;Well done!&quot;</font></blockquote>
+<p><blockquote><font color="#000080">change the initial appearance of the Closet to &quot;Dusty&quot;</font></blockquote>
 <p>
-<p><hr><p><a href=doc59.html>Previous</a> / <a href=doc61.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>(since &quot;initial appearance&quot; is a property which only things can have, not rooms). Finally, the object has to actually have the property, not just have the right to have that property. Thus:
+<p>
+<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
+<p>
+<p>...is only permitted if the Closet is designed with a &quot;printed name&quot;. In fact this is certain to be true: all rooms and things automatically have a printed name, which is the short boldface description in the case of rooms, and the usual text briefly describing something in the case of things.
+<p>
+<p><hr><p><a href=doc59.html>Previous</a> / <a href=doc61.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

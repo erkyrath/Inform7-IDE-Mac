@@ -1,17 +1,10 @@
-<html><head><title>11.18. Inform 6 properties and attributes</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>11.18. Inform 6 properties and attributes</b>
+<html><head><title>11.10. Using Inform 6 within Inform 7</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc144.html><img src=../Back.tif></a><a href=doc146.html><img src=../Forward.tif></a></td><td><b>11.10. Using Inform 6 within Inform 7</b></td></tr></table><p>
 <p>
-<p>I7's properties are compiled sometimes as I6 properties, sometimes as I6 attributes, depending on whether they need to hold values or not (and in future it will probably automatically store excess attributes in a property bitmap, to avoid running out of attributes). However, we can override I7 by telling it that one of its property names is equivalent to an already-existing I6 property or attribute: if so then I7 will use that name and will not compile any directive to create it. For example:
+<p>The final sections of this chapter bring in how Inform 7, the current version, and Inform 6 can be made to work together, and will make little or no sense to those who do not already use I6 (as we will henceforth write).
 <p>
-<p><blockquote><font color="#000080">Switched on translates into Inform as &quot;on&quot;.</font></blockquote>
+<p>As will become clear, it would be easy to write highly hybridised code, constantly mixing I6 and I7. The methods for incorporating I6 code into I7 have been designed to encourage people to use I6 in as self-contained a way as possible: that is, to isolate the relatively few functions which need to be written in I6, and to give them natural language expression. Ideally, all I6 content would be confined to self-contained extensions, so that the source for actual works of interactive fiction can be purely natural.
 <p>
-<p><blockquote><font color="#000080">Score for visiting translates into Inform as &quot;score&quot;.</font></blockquote>
+<p>So why provide I6 features at all, even for extensions? It's true that extensions do not actually <i>need</i> them either, but it's anticipated that (especially in these early days) many people will want a simple way to adapt existing I6 extensions to work in I7 as well. Besides that, for complex computational tasks better suited to a C-like computer programming language it may be entirely appropriate to drop down into I6. Lastly, the features of I7 used to mesh with I6 are essential to the workings of the Standard Rules, so it would be sensible to document those features somewhere.
 <p>
-<p>We do not need to translate &quot;switched off&quot;, the opposite to &quot;switched on&quot;: I7 will now compile this to &quot;~on&quot;.
-<p>
-<p>I7 is a single-inheritance system which aims to use unchanging kinds to describe function, whereas I6... isn't. For example, both have the concept of &quot;container&quot;, but in I7 this is a kind, whereas in I6 it is a mere ephemeral attribute. The Standard Rules get around this mismatch with the following trick:
-<p>
-<p><blockquote><font color="#000080">A thing can be an Inform library container. [...] A container is always an Inform library container. [...] Inform library container translates into Inform as &quot;container&quot;.</font></blockquote>
-<p>
-<p>Thus any object of kind &quot;container&quot; automatically gets the I6 attribute &quot;container&quot;, without the I7 designer noticing that any property has been assigned.
-<p><hr><p><a href=doc144.html>Previous</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc144.html>Previous</a> / <a href=doc146.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

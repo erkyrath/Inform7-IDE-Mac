@@ -1,20 +1,48 @@
-<html><head><title>7.5. While</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>7.5. While</b>
+<html><head><title>6.13. The past and perfect tenses</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc77.html><img src=../Back.tif></a><a href=doc79.html><img src=../Forward.tif></a></td><td><b>6.13. The past and perfect tenses</b></td></tr></table><p>
 <p>
-<p>The other main control phrase is &quot;while&quot;, which has the form:
+<p>The remaining sections of this chapter go into more technical ways to think about the progress of the game through time, and can be skipped at a first reading.
 <p>
-<p><blockquote><font color="#000080">while (... condition ...) repeatedly (... another whole phrase ...)</font></blockquote>
+<p>Conditions are clauses which require Inform to make a decision: is such-and-such true, or not true? We have already seen conditions attached to rules using &quot;when&quot;:
 <p>
-<p>which keeps on applying the same phrase as long as the condition holds. If it never holds, even at the start, then the phrase is never applied at all and nothing happens.
+<p><blockquote><font color="#000080">Instead of waiting when the Sorting Hat is in the Hall: ...</font></blockquote>
 <p>
-<p>We must be careful not to commit mistakes like the following:
+<p>and, as we shall later see, we will often want to write instructions like:
 <p>
-<p><blockquote><font color="#000080">while eggs is eggs repeatedly say &quot;again and &quot;</font></blockquote>
+<p><blockquote><font color="#000080">if the Sorting Hat is in the Hall then say &quot;Hermione blinks apprehensively.&quot;</font></blockquote>
 <p>
-<p>which, as sure as eggs is eggs (which is very sure indeed), writes out
+<p>The condition is &quot;the Sorting Hat is in the Hall&quot;, and during play this will sometimes be true and sometimes false.
 <p>
-<p><blockquote><font color="#000080">again and again and again and again and again and ...</font></blockquote>
+<p>A condition in the form:
 <p>
-<p>forever. (Inform won't prevent this: we will find out the hard way when the game is played.) While we would probably never write anything so blatant as that, the mistake is all too easy to commit in disguised form. We should never design a loop, as repetitions like this are called, without worrying about if and when it will finish.
+<p><blockquote><font color="#000080">X is Y</font></blockquote>
 <p>
-<p><hr><p><a href=doc77.html>Previous</a> / <a href=doc79.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>is of course written the present tense, and refers to the current state of affairs. Three other tenses are allowed. First, the present perfect:
+<p>
+<p><blockquote><font color="#000080">if X has been Y ...</font></blockquote>
+<p>
+<p>is true if it has ever been the case that &quot;X is Y&quot; at the start of any turn (or any action). So, for instance,
+<p>
+<p><blockquote><font color="#000080">if the gate has been open ...</font></blockquote>
+<p>
+<p>will be valid if and only if the gate has ever been made open by any action (even if it is closed now), or if it started out by being open when play began.
+<p>
+<p>Next is the past tense:
+<p>
+<p><blockquote><font color="#000080">if X was Y ...</font></blockquote>
+<p>
+<p>holds if and only if &quot;X is Y&quot; was true at the start of the most recent action. This is convenient when trying to describe what has changed in the course of the action, but sometimes also when making the action itself happen. For instance:
+<p>
+<p><blockquote><font color="#000080">if the lantern was switched on then change the lantern to switched off;<br>if the lantern was switched off then change the lantern to switched on;</font></blockquote>
+<p>
+<p>Completing the set is the past perfect:
+<p>
+<p><blockquote><font color="#000080">if X had been Y ...</font></blockquote>
+<p>
+<p>which records whether &quot;X has been Y&quot; was true at the start of the most recent action. All these verbs can of course be negated (though &quot;wasn't&quot; and &quot;hadn't&quot; are disallowed as poor style: we use &quot;was not&quot; and &quot;had not&quot; instead). So for example,
+<p>
+<p><blockquote><font color="#000080">if the player had not been in the Ballroom ...</font></blockquote>
+<p>
+<p>is true if the player hadn't visited the Ballroom at the start of the most recent action.
+<p>
+<p><hr><p><a href=doc77.html>Previous</a> / <a href=doc79.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

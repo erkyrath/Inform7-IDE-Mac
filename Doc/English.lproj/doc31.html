@@ -1,26 +1,18 @@
-<html><head><title>3.7. Bibliographic data</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>3.7. Bibliographic data</b>
+<html><head><title>3.5. New value properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc30.html><img src=../Back.tif></a><a href=doc32.html><img src=../Forward.tif></a></td><td><b>3.5. New value properties</b></td></tr></table><p>
 <p>
-<p>Inform has four special named values to hold the bibliographic data about the work being created - who wrote it, what it is called, what genre it has and what its release number is.
+<p>Moving on to properties which contain values, such as the &quot;matching key&quot; property of a door or a container, we need to use a different formulation.
 <p>
-<p>These can be set as follows:
+<p><blockquote><font color="#000080">A dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The story title is &quot;Mansfield Perk&quot;. The story author is &quot;Janet Austen&quot;. The story genre is &quot;An Interactive Romance&quot;. The release number is 7.</font></blockquote>
+<p>The property &quot;river sound&quot; is now applicable only to dead ends, and we would not be allowed to talk about it in any other context. As can be seen, it holds a piece of text. If we tried the following:
 <p>
-<p>A convenient abbreviation provides that if the first sentence of the source text consists solely of text in quotation marks, then that is considered the title. Thus if the source begins:
+<p><blockquote><font color="#000080">The river sound of the Tortuous Alcove is 7.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">&quot;Mansfield Perk&quot;</font></blockquote>
+<p>...then Inform would object, because the number 7 is the wrong kind of value to go into the &quot;river sound&quot; property. If we need a numerical property, we can try this instead:
 <p>
-<p>then that will be the story title. Further, we can write
+<p><blockquote><font color="#000080">A dead end has a number called the difficulty rating. The Tortuous Alcove has difficulty rating 7.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">&quot;Mansfield Perk&quot; by Janet Austen</font></blockquote>
+<p>(When we say &quot;has a property called...&quot; we implicitly allow it to hold either text or the name of a room or object, since it is often convenient to be able to store both interchangeably in the same property.)
 <p>
-<p>with the obvious effect: quotation marks around the author's name are optional here, for convenience, but note that we'd better have them in cases like:
-<p>
-<p><blockquote><font color="#000080">&quot;Three Men in a Boat&quot; by &quot;Jerome K. Jerome&quot;</font></blockquote>
-<p>
-<p>as otherwise the full stop after the K will end the sentence prematurely.
-<p>
-<p>If unspecified, the story genre is &quot;An Interactive Fiction&quot;, in accordance with tradition, and the release number is 1.
-<p>
-<p><hr><p><a href=doc30.html>Previous</a> / <a href=doc32.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc30.html>Previous</a> / <a href=doc32.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

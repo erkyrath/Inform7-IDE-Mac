@@ -1,12 +1,26 @@
-<html><head><title>11.1. What are extensions?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 11: Extensions</h2><p><b>11.1. What are extensions?</b>
+<html><head><title>10.6. Phrases concerning rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc127.html><img src=../Back.tif></a><a href=doc129.html><img src=../Forward.tif></a></td><td><b>10.6. Phrases concerning rules</b></td></tr></table><p>
 <p>
-<p>The range of simulation offered by Inform's model world is intentionally limited to a core of basic essentials. We could argue at the margins, and the choice of what's in and what's out is partly traditional, but most people find the model reasonable as far as it goes.
+<p>The &quot;ignore&quot; phrase is only one of a suite. The full list is:
 <p>
-<p>A flourishing part of Inform culture since 1993 has been the development of a huge range of &quot;library extensions&quot;, most of which aimed to fill out the model by simulating other aspects of life, too: money, clothing, pourable liquids and the like. None of these extensions was official and all of them were: it was a free-for-all, and in several cases different authors wrote rival extensions to model the same basic ideas. The development of Inform 7 was strongly influenced by the recognition that the base of rules and grammar inside a typical modern game are never written by a single author: they combine the standard Inform material with extensions by several third parties, together with anything specific to the game in question.
+<p><blockquote><font color="#000080">ignore ...rule...<br>reinstate ...rule...</font></blockquote>
 <p>
-<p>Inform now provides better support for extensions. This chapter discusses where they are kept, how to use them and how to create them.
+<p>The &quot;reinstate&quot; phrase simply reverses any previous &quot;ignore&quot; of the same rule, and is otherwise not useful.
 <p>
-<p>In this chapter, some of the instructions on how to write an extension are not in fact requirements of Inform, but are &quot;only&quot; stylistic points intended to make the range of extensions easier to work with and contribute to. Extension writers are asked to join in the spirit of the rules and help make the whole cooperative enterprise work harmoniously.
+<p><blockquote><font color="#000080">reject the result of ...rule...<br>accept the result of ...rule...</font></blockquote>
 <p>
-<p><hr><p><a href=doc127.html>Previous</a> / <a href=doc129.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>Some rules produce results (see below), but they can be set so that whatever result they produce will be ignored. Again, &quot;accept ...&quot; simply undoes a previous &quot;reject ...&quot; and otherwise has no effect.
+<p>
+<p><blockquote><font color="#000080">substitute ...first rule... for ...second rule...<br>restore the original ...second rule...</font></blockquote>
+<p>
+<p>Whenever the second rule is to be invoked - from any rulebook, or as a result of any &quot;follow&quot; instruction - invoke the first one instead. Again, &quot;restore ...&quot; simply undoes the effect of an earlier &quot;substitute&quot;.
+<p>
+<p><blockquote><font color="#000080">move ...first rule... to before/after ...second rule...</font></blockquote>
+<p>
+<p>This causes the first rule to be ignored whenever it turns up in the ordinary way, but to be invoked either immediately before or immediately after the second rule whenever that second rule is invoked. In effect, it cuts out the first rule from wherever it was, and glues it onto the second. Note that there is no obligation for the first rule to begin in the same rulebook(s) as the second, so this can be used to slot in a wholly new rule, perhaps only if certain circumstances hold.
+<p>
+<p>These rule-changing instructions allow quite casual sentences to wreak havoc with the model world. This, for instance, is quite the recipe for mayhem and perplexity:
+<p>
+<p><blockquote><font color="#000080">A procedural rule: reject the result of the before rules; ignore the after rules; move the after rules to before the before rules.</font></blockquote>
+<p>
+<p><hr><p><a href=doc127.html>Previous</a> / <a href=doc129.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

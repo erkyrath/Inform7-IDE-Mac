@@ -1,36 +1,26 @@
-<html><head><title>3.5. Kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>3.5. Kinds of value</b>
+<html><head><title>3.3. Plural assertions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc28.html><img src=../Back.tif></a><a href=doc30.html><img src=../Forward.tif></a></td><td><b>3.3. Plural assertions</b></td></tr></table><p>
 <p>
-<p>Several kinds of value have appeared so far: numbers, 1, 2, 3, ... and 0, -1, -2, ...; texts, such as &quot;Jackdaws love my big sphinx of quartz&quot;; objects, such as the candle lantern or the Tortuous Alcove. (&quot;Object&quot; is the name for a kind of value which can hold any room, direction or thing.) We can give objects properties of any of these kinds, and we can also endow them with either/or properties such as &quot;dark&quot;/&quot;lighted&quot;.
+<p>As the following examples show, sentences can make several assertions at once by using the plural. Suppose we have defined a kind called &quot;high-up fixture&quot;, for instance like so:
 <p>
-<p>These arrangements are all very well, but not ideal when it comes to simulating something which can be in, say, one of four states. Suppose we would like the candle lantern to burn down, gradually diminishing in brightness. A property attached to the lantern should hold the current strength of the flame. We could do this like so:
+<p><blockquote><font color="#000080">A high-up fixture is a kind of thing. A high-up fixture is usually fixed in place.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The lantern has a number called the brightness level.</font></blockquote>
+<p>Then the following sentence creates two such objects and puts them in their place:
 <p>
-<p>(Thus far we have only given new properties to kinds, but in fact we can also give them to individual things, as here. It would be cumbersome to make a new kind called, say, &quot;lamp&quot; and then make the lantern the only lamp in the game, just as a way of attaching a number to it.) We could then set the brightness level to be 1, 2, 3 or 4 according to the strength of flame, and find some way of conveying this to the player. That would work, but is not very elegant. Brightness is not, in the end, a number, and it seems strange to have to pretend that it is. A much better solution is:
+<p><blockquote><font color="#000080">The high shelf and the skylight window are high-up fixtures in the Lumber Room.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Brightness is a kind of value. The brightnesses are guttering, weak, radiant and blazing.</font></blockquote>
+<p>since it is equivalent to saying:
 <p>
-<p>This makes &quot;brightness&quot; a kind of value on a par with (for instance) &quot;number&quot; or &quot;text&quot;. It is now legal to declare:
+<p><blockquote><font color="#000080">The high shelf is a high-up fixture. The skylight window is a high-up fixture. The high shelf is in the Lumber Room. The skylight window is in the Lumber Room.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.</font></blockquote>
+<p>Such plurals are allowed in almost any context, and we could even define two kinds at once:
 <p>
-<p>The &quot;flame strength&quot; property is now only allowed to have one of four values: the four brightnesses, guttering light, weak light, radiant light and blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
+<p><blockquote><font color="#000080">Bucket and basket are kinds of container.</font></blockquote>
 <p>
-<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
+<p>Inform constructs plurals by a fairly primitive rule, and English is so irregular a language that a more complicated rule would probably not be very much better. We sometimes need to intervene:
 <p>
-<p><blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.</font></blockquote>
+<p><blockquote><font color="#000080">The plural of ox is oxen. An ox is a kind of animal.</font></blockquote>
 <p>
-<p>New kinds of value are very convenient when substituting variations in text:
+<p>Note that we specify the plural <i>before</i> creating the kind called &quot;ox&quot;: otherwise it will have plural &quot;oxes&quot;, that being the best that Inform knew at the time.
 <p>
-<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.</font></blockquote>
-<p>
-<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
-<p>
-<p>Another advantage is that new kinds of value also enable new adjectives to be used, in just the same way that we can talk about &quot;a dark room&quot; (meaning: a room which has the dark property rather than the lighted property).
-<p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">In the playroom are a red building block and a green building block.</font></blockquote>
-<p>
-<p><hr><p><a href=doc28.html>Previous</a> / <a href=doc30.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc28.html>Previous</a> / <a href=doc30.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

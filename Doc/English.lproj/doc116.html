@@ -1,20 +1,20 @@
-<html><head><title>10.2. Named rules and rulebooks</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>10.2. Named rules and rulebooks</b>
+<html><head><title>9.4. Actions applying to kinds of value</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc115.html><img src=../Back.tif></a><a href=doc117.html><img src=../Forward.tif></a></td><td><b>9.4. Actions applying to kinds of value</b></td></tr></table><p>
 <p>
-<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns (usually visible on the &quot;status line&quot; displayed above the window of a game in progress) and advances the clock (usually not visible, but ticking away behind the scenes) by a given number of minutes.
+<p>Almost all actions apply to things: the player picks them up, pushes them, looks at them and so on. Only occasionally do we need to recognise other kinds of value: but when we do, we can, as in the example called &quot;Safety&quot;:
 <p>
-<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
+<p><blockquote><font color="#000080">&quot;Safety&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">advance time = the advance time rule</font></blockquote>
+<p><blockquote><font color="#000080">The Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don't get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence</font></blockquote>
+<p><blockquote><font color="#000080">Spinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;</font></blockquote>
 <p>
-<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p><blockquote><font color="#000080">Understand &quot;spin [something] to [a number]&quot; as spinning it to.</font></blockquote>
 <p>
-<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We will only seldom need to refer to them directly, in phrases like this one (of which more later):
+<p><blockquote><font color="#000080">After spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [contents of the Safe].&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">ignore the can't go through closed doors rule;</font></blockquote>
+<p>The substitution &quot;[a number]&quot; matches any number (actually any whole number that is not too large) typed by the player. Inform checks the various kinds being used to make sure that everything matches, so, for instance, this would be disallowed:
 <p>
-<p>...which are verbose, but this is a situation where clarity is very much better than brevity.
+<p><blockquote><font color="#000080">Understand &quot;spin [something] to [something]&quot; as spinning it to.</font></blockquote>
 <p>
-<p><hr><p><a href=doc115.html>Previous</a> / <a href=doc117.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc115.html>Previous</a> / <a href=doc117.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

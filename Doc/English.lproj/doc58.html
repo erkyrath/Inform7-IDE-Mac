@@ -1,28 +1,28 @@
-<html><head><title>5.6. Randomness</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>5.6. Randomness</b>
+<html><head><title>5.1. Change of values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 5: Change</h2><p><table><tr><td><a href=doc57.html><img src=../Back.tif></a><a href=doc59.html><img src=../Forward.tif></a></td><td><b>5.1. Change of values that vary</b></td></tr></table><p>
 <p>
-<p>Sometimes we want to introduce random behaviour into play. We usually do this by generating random values, and then acting differently depending on what they are. The following:
+<p>So far, what we have done in response to the player's commands amounts to little more than a few ripostes. The simulated world does change during play, as the player moves from room to room or picks up things, but all of this is happening automatically, not at our direct instruction. How then can we make the world change?
 <p>
-<p><blockquote><font color="#000080">a random number from 2 to 5</font></blockquote>
+<p>Recall that the world consists of rooms, in which are things, and that all of these have properties appropriate to their kinds. Some properties are either/or (&quot;open&quot; or &quot;closed&quot; but not both and not neither), while others have values (the &quot;matching key&quot; of a lockable door, for instance). Finally, we may also have created some free-standing values or &quot;variables&quot;.
 <p>
-<p>produces, as it suggests, a random number drawn from the choices 2, 3, 4 or 5, each of which is equally likely to come up.
+<p>We take the last example first, as it is the simplest. Suppose we have:
 <p>
-<p>We can also use random conditions:
+<p><blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is northwest.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">if a random chance of 2 in 3 succeeds then ...</font></blockquote>
+<p><blockquote><font color="#000080">The Blasted Heath is a room. &quot;Merely an arena for the play of witches and kings, my dear, where the [prevailing wind] wind blows.&quot;</font></blockquote>
 <p>
-<p>Here is a rule which applies only 15% of the time:
+<p><blockquote><font color="#000080">Instead of waiting when the prevailing wind is northwest: say &quot;A fresh gust of wind bowls you over.&quot;; change the prevailing wind to the east.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of waiting when a random chance of 15 in 100 succeeds: ...</font></blockquote>
+<p>The new phrase here is &quot;change&quot;. This automatically checks that the new value is one which makes sense in the given context, so for instance it would not allow either of these:
 <p>
-<p>If we make a new kind of value, we can also take random values from it, as in the following miniature world:
+<p><blockquote><font color="#000080">change the prevailing wind to 25; change the prevailing wind to the Heath;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">&quot;Weathering&quot;</font></blockquote>
+<p>the former being a number, and the latter a room, so that neither is a direction. Similarly, &quot;change&quot; will not allow values to be changed, only values which vary. So
 <p>
-<p><blockquote><font color="#000080">A cloud pattern is a kind of value. The cloud patterns are cumulus, altocumulus, cumulonimbus, stratus, cirrus, nimbus, nimbostratus.</font></blockquote>
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are blue, red and mauve. Instead of pulling the psychedelic lever: change blue to mauve.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Mount Pisgah Station is a room. &quot;The rocky peak of Mt. Pisgah (altitude 872m) is graced only by an automatic weather station. The clouds, close enough almost to touch, are [a random cloud pattern]. Temperature: [a random number from 7 to 17] degrees, barometric pressure: [950 + a random number from 0 to 15] millibars.&quot;</font></blockquote>
+<p>...will result in a complaint like so:
 <p>
-<p>The value &quot;a random cloud pattern&quot; produces a random choice from the seven cloud patterns, each equally likely.
+<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'change blue to mauve' <img src=../Reveal.tif>, but 'blue' is not something which can ever change.</font></blockquote>
 <p>
-<p><hr><p><a href=doc57.html>Previous</a> / <a href=doc59.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc57.html>Previous</a> / <a href=doc59.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

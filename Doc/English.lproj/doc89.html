@@ -1,26 +1,10 @@
-<html><head><title>7.16. Making new kinds of arithmetic</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>7.16. Making new kinds of arithmetic</b>
+<html><head><title>7.9. Repeats without numbers</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc88.html><img src=../Back.tif></a><a href=doc90.html><img src=../Forward.tif></a></td><td><b>7.9. Repeats without numbers</b></td></tr></table><p>
 <p>
-<p>Because &quot;+&quot; is a phrase like any other, we are free to extend its definition to other kinds of value beyond numbers (which might be called &quot;overloading the operator +&quot; in computing jargon). The following example game defines a way to add a colour to a number, producing another colour:
+<p>One other form of &quot;repeat&quot; is also allowed (and others will certainly be added in later releases of Inform).
 <p>
-<p><blockquote><font color="#000080">&quot;Overloading&quot;</font></blockquote>
+<p><blockquote><font color="#000080">repeat with item running through contents of Marley Wood begin; (phrases); end repeat;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.</font></blockquote>
+<p>Once again we create a new value, &quot;item&quot;, of only temporary validity. This time the phrases are repeated once for each of the things in the given room (or it may be a thing such as a container, of course). If there's nothing in the given place, the phrases are never run through at all.
 <p>
-<p><blockquote><font color="#000080">To decide which colour is (C - a colour) + (N - a number):<br>while N is not 0 begin;<br>if N < 0 begin; let C be the colour before C; let N be N + 1; end if;<br>otherwise; let C be the colour after C; let N be N - 1; end if;<br>end while;<br>result C.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The Counting House is a room. &quot;Prominent on the wall is a sign reading: The Magic Number is [the magic number].&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The magic number is a number that varies.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">In the House is a lever. Instead of pushing the lever: change the magic number to the magic number + 1; say &quot;The magic number increases to [magic number].&quot; Instead of pulling the lever: change the magic number to the magic number - 1; say &quot;The magic number decreases to [magic number].&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The beam colour is a colour that varies.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The prism is in the House. &quot;A prismatic wedge of glass (oh, all right, a prism) splits a beam of white light so that a fine line of [beam colour] light falls across the sign.&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The button is in the House. Instead of pushing the button: change the beam colour to the beam colour + the magic number; say &quot;The prism swivels, and after a blur the beam falling on the sign settles at [beam colour].&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The prism, button and lever are fixed in place.</font></blockquote>
-<p>
-<p><hr><p><a href=doc88.html>Previous</a> / <a href=doc90.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc88.html>Previous</a> / <a href=doc90.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,16 +1,20 @@
-<html><head><title>2.13. Vehicles and pushable things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>2.13. Vehicles and pushable things</b>
+<html><head><title>2.11. Locks and keys</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc18.html><img src=../Back.tif></a><a href=doc20.html><img src=../Forward.tif></a></td><td><b>2.11. Locks and keys</b></td></tr></table><p>
 <p>
-<p>Next in the tour of standard kinds is the &quot;vehicle&quot;. This behaves like (indeed, is) an enterable container, except that it will not be portable unless this is specified.
+<p>It seems unwise for a door in Notting Hill to be unlocked, so:
 <p>
-<p><blockquote><font color="#000080">In the Garage is a vehicle called the lawn mower.</font></blockquote>
+<p><blockquote><font color="#000080">The blue door is lockable and locked. The matching key of the blue door is the brass Yale key.</font></blockquote>
 <p>
-<p>The player can enter the lawn mower and then move around riding inside it, by typing directions exactly as if on foot: and the game will print names of rooms with &quot;(in the lawn mower)&quot; appended, lest this be forgotten.
+<p>Since the second sentence here is a little clumsy, you can equivalently say
 <p>
-<p>We have already seen that some things are portable, others fixed in place. In fact we can also make a third sort of thing: those which, although not portable, can be pushed from one room to another with commands like &quot;push the lawn mover north&quot;. That seems a good idea for something like the lawn mower, so:
+<p><blockquote><font color="#000080">The brass Yale key unlocks the blue door.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The lawn mower is pushable between rooms.</font></blockquote>
+<p>Yet a third way to say this is:
 <p>
-<p>But of course this is a property which almost any thing can have, not just a vehicle. (Only &quot;almost&quot; because Inform will not allow a door to be pushable between rooms, in the interests of realism rather than surrealism.)
+<p><blockquote><font color="#000080">The blue door has matching key the brass Yale key.</font></blockquote>
 <p>
-<p><hr><p><a href=doc18.html>Previous</a> / <a href=doc20.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p>(In effect, &quot;has&quot; and &quot;have&quot; mean &quot;is with&quot;.) This introduces three new properties: a door can be locked or unlocked; lockable or not lockable; and it can have a matching key, which must be another thing. The same thing can be the matching key of many different locks: and note that a door can be locked and even lockable without having a matching key at all, in which case the player trying to open it will be permanently out of luck. Doors are ordinarily unlocked, not lockable, and without a matching key.
+<p>
+<p>Containers can also have locks, in exactly the same way, and are allowed to have the same properties. On the other hand supporters never have locks: it makes no sense to be able to lock a tabletop, for instance, and Inform will not allow any discussion of the matching key of a supporter, or of a supporter being locked or unlocked.
+<p>
+<p><hr><p><a href=doc18.html>Previous</a> / <a href=doc20.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,20 +1,20 @@
-<html><head><title>10.10. Reaching inside rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>10.10. Reaching inside rules</b>
+<html><head><title>10.2. Named rules and rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc123.html><img src=../Back.tif></a><a href=doc125.html><img src=../Forward.tif></a></td><td><b>10.2. Named rules and rulebooks</b></td></tr></table><p>
 <p>
-<p>So far we have seen rules which apply to actions, and rules which do not apply to anything specific - &quot;every turn&quot; rules, for instance. We can also have rules which apply to a specific object.
+<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns (usually visible on the &quot;status line&quot; displayed above the window of a game in progress) and advances the clock (usually not visible, but ticking away behind the scenes) by a given number of minutes.
 <p>
-<p>An example of rules applying to given objects is provided by the way that Inform decides whether the player can reach something or not. For instance, suppose the following:
+<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
 <p>
-<p><blockquote><font color="#000080">The Laboratory is a room. In the Laboratory is a conical flask. The flask is closed and transparent. In the flask is an antibumping granule.</font></blockquote>
+<p><blockquote><font color="#000080">advance time = the advance time rule</font></blockquote>
 <p>
-<p>The player will be able to examine the granule but not to take it, as that would require reaching through glass. Internally, what happens if the player tries to take the granule is this: a rulebook called the &quot;reaching inside rules&quot; is applied to the conical flask. This normally contains the following three rules:
+<p><blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">the can't reach inside closed containers rule<br>the can't take people's possessions rule<br>the can't take component parts rule</font></blockquote>
+<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
 <p>
-<p>Two of these rules apply only to actions of taking and removing: if the player only wants to push the granule, for instance, only the &quot;can't reach inside closed containers&quot; rule is applicable. This is the gist of it:
+<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We will only seldom need to refer to them directly, in phrases like this one (of which more later):
 <p>
-<p><blockquote><font color="#000080">The can't reach inside closed containers rule: if the object in question is a closed container begin; say &quot;[The object in question] is closed!&quot;; deny access; end if.</font></blockquote>
+<p><blockquote><font color="#000080">ignore the can't go through closed doors rule;</font></blockquote>
 <p>
-<p>In such a rule the &quot;object in question&quot; is the object to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
+<p>...which are verbose, but this is a situation where clarity is very much better than brevity.
 <p>
-<p><hr><p><a href=doc123.html>Previous</a> / <a href=doc125.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc123.html>Previous</a> / <a href=doc125.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

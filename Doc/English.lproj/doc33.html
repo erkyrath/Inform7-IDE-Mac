@@ -1,16 +1,16 @@
-<html><head><title>4.1. Giving instructions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 4: Actions</h2><p><b>4.1. Giving instructions</b>
+<html><head><title>3.7. Kinds of value</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc32.html><img src=../Back.tif></a><a href=doc34.html><img src=../Forward.tif></a></td><td><b>3.7. Kinds of value</b></td></tr></table><p>
 <p>
-<p>This is a different sort of sentence to any seen so far:
+<p>Several kinds of value have appeared so far, chiefly numbers, 1, 2, 3, ... and 0, -1, -2, ... and texts, such as &quot;Jackdaws love my big sphinx of quartz&quot;. We can give objects properties holding such values, and we can also endow them with either/or properties such as &quot;dark&quot;/&quot;lighted&quot;.
 <p>
-<p><blockquote><font color="#000080">When play begins: start the player at the Library; say &quot;Welcome to Old Marston Grange, a country house cut off by fog.&quot;</font></blockquote>
+<p>These arrangements are all very well, but not ideal when it comes to simulating something which can be in, say, one of four states. Suppose we would like the candle lantern to burn down, gradually diminishing in brightness. A property attached to the lantern should hold the current strength of the flame. We could do this like so:
 <p>
-<p>This is not a passive statement of facts (&quot;The Library is a room&quot;) but takes the form of an instruction to someone: that person is the computer, acting as our agent in talking with the player. It is an example of a &quot;rule&quot;, the analogy being with the rules written inside the box-lid of an old board game, rather than rules in the scientific sense.
+<p><blockquote><font color="#000080">The lantern has a number called the brightness level.</font></blockquote>
 <p>
-<p>The sentence opens by identifying the circumstances in which the rule applies, leading up to the colon, and then gives a list of things to do, divided by semicolons except that the last ends with a full stop. In this case it's a list of two steps to follow, but rules vary in length from only one step to hundreds.
+<p>(Thus far we have only given new properties to kinds, but in fact we can also give them to individual things, as here. It would be cumbersome to make a new kind called, say, &quot;lamp&quot; and then make the lantern the only lamp in the game, just as a way of attaching a number to it.) We could then set the brightness level to be 1, 2, 3 or 4 according to the strength of flame, and find some way of conveying this to the player. That would work, but is not very elegant. Brightness is not, in the end, a number, and it seems strange to have to pretend that it is. A much better solution is:
 <p>
-<p>There's nothing to stop us laying this out as a vertical list, if we prefer:
+<p><blockquote><font color="#000080">Brightness is a kind of value. The brightnesses are guttering, weak, radiant and blazing.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">When play begins:<br>start the player at the Library;<br>say &quot;Welcome to Old Marston Grange, a country house cut off by fog.&quot;.</font></blockquote>
+<p>This makes &quot;brightness&quot; a kind of value on a par with (for instance) &quot;number&quot; or &quot;text&quot;, except that there are only four possible values, named as above.
 <p>
-<p><hr><p><a href=doc32.html>Previous</a> / <a href=doc34.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc32.html>Previous</a> / <a href=doc34.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

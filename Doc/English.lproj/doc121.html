@@ -1,22 +1,14 @@
-<html><head><title>10.7. Success and failure</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>10.7. Success and failure</b>
+<html><head><title>9.9. Tokens can produce values</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc120.html><img src=../Back.tif></a><a href=doc122.html><img src=../Forward.tif></a></td><td><b>9.9. Tokens can produce values</b></td></tr></table><p>
 <p>
-<p>Though we have blurred over this point so far, every rule has one of three outcomes: success, failure and neither. The default outcome is neither, and for many rules (the every turn rules, for instance) success or failure would be ignored anyway, which is how we managed not to mention all this before. Indeed, the instruction
+<p>The examples just seen were tokens which simply matched specific words typed by the player, but newly created tokens can also produce values:
 <p>
-<p><blockquote><font color="#000080">follow the appraisal rules</font></blockquote>
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, green and blue. Understand &quot;colour [a colour]&quot; or &quot;[a colour] shade&quot; as &quot;[tint]&quot;.</font></blockquote>
 <p>
-<p>throws away the result, whatever it may be, which is why results have not come up in the discussion so far. All the same, results can make a difference even in examples like this one. When a rulebook is working through a list of rules, any rule which stops causes the rulebook to stop at once, so that no subsequent rules in the book will be invoked.
+<p>Here the &quot;[tint]&quot; token matches, for instance, &quot;colour red&quot; and &quot;blue shade&quot;, which would result in the values red and blue, respectively.
 <p>
-<p>In the event of either success or failure, we say that it &quot;stops&quot;, and a value can optionally also result.
+<p>Tokens are not allowed to produce more than one value, and if several patterns are given to define them then those patterns have to be compatible. That means the following is disallowed, since it might work out to a colour, or to an object, leaving Inform unable to judge whether an action can safely be applied to the result.
 <p>
-<p>Generally speaking, stops are needed for different reasons in different rulebooks, so there are specialised syntaxes for bringing them about (as we shall see). However, the following phrases always work in any rule:
+<p><blockquote><font color="#000080">Understand &quot;colour [a colour]&quot; or &quot;[something]&quot; as &quot;[tint]&quot;.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">the rule succeeds<br>the rule fails<br>the rule succeeds with result (...)<br>the rule fails with result (...)</font></blockquote>
-<p>
-<p>The result can be a room, a thing or a text. It can be referred to as
-<p>
-<p><blockquote><font color="#000080">the result of the rule</font></blockquote>
-<p>
-<p>which is nothing if the rule ended without success or failure.
-<p>
-<p><hr><p><a href=doc120.html>Previous</a> / <a href=doc122.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc120.html>Previous</a> / <a href=doc122.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
