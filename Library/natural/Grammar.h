@@ -110,6 +110,7 @@ Verb meta 'showobj'
 ! ----------------------------------------------------------------------------
 !  And now the game verbs.
 ! ----------------------------------------------------------------------------
+#ifndef NI_BUILD_COUNT;
 Verb 'take' 'carry' 'hold'
                 * multi                          -> Take
                 * 'off' worn                     -> Disrobe
@@ -203,11 +204,9 @@ Verb 'close' 'shut' 'cover'
 Verb 'enter' 'cross'
                 *                                -> GoIn
                 * noun                           -> Enter;
-#ifndef SUPPRESS_ACTION_GRAMMAR;
 Verb 'sit' 'lie'
                 * 'on' 'top' 'of' noun           -> Enter
                 * 'on'/'in'/'inside' noun        -> Enter;
-#endif;
 Verb 'in' 'inside'
                 *                                -> GoIn;
 Verb 'exit' 'out' 'outside'
@@ -337,6 +336,7 @@ Verb 'jump' 'skip' 'hop'
                 * 'over' noun                    -> JumpOver;
 Verb 'dig'      * noun                           -> Dig
                 * noun 'with' held               -> Dig;
+#endif;
 ! ----------------------------------------------------------------------------
 !  This routine is no longer used here, but provided to help existing games
 !  which use it as a general parsing routine:
