@@ -59,14 +59,6 @@ static NSRunLoop* mainRunLoop = nil;
 		// Register some custom URL handlers
 		// [NSURLProtocol registerClass: [IFNoDocProtocol class]];
 		[NSURLProtocol registerClass: [IFInformProtocol class]];
-		
-		// Allow skeins to be rendered in web views
-		[WebView registerViewClass: [ZoomSkeinView class]
-				representationClass: [ZoomSkein class]
-						forMIMEType: @"application/x-zoom-skein"];
-		
-		NSLog(@"(%i) As HTML: %i", [WebView canShowMIMEType: @"application/x-zoom-skein"],
-			  [WebView canShowMIMETypeAsHTML: @"application/x-zoom-skein"]);
 	}
 }
 
@@ -79,6 +71,16 @@ static NSRunLoop* mainRunLoop = nil;
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsNotes sharedIFIsNotes]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsIndex sharedIFIsIndex]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsSkein sharedIFIsSkein]];
+
+	// Allow skeins to be rendered in web views
+	[WebView registerViewClass: [ZoomSkeinView class]
+		   representationClass: [ZoomSkein class]
+				   forMIMEType: @"application/x-zoom-skein"];
+	
+	NSLog(@"(%i) As HTML: %i", [WebView canShowMIMEType: @"application/x-zoom-skein"],
+		  [WebView canShowMIMETypeAsHTML: @"application/x-zoom-skein"]);
+	NSLog(@"%i %i", [ZoomSkeinView conformsToProtocol: @protocol(WebDocumentView)],
+		  [ZoomSkein conformsToProtocol: @protocol(WebDocumentRepresentation)]);
 }
 
 - (BOOL) applicationShouldOpenUntitledFile: (NSApplication*) sender {

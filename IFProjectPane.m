@@ -1142,6 +1142,14 @@ static NSDictionary* styles[256];
 	[listener use];
 }
 
+- (void)webView:(WebView *)sender 
+decidePolicyForMIMEType:(NSString *)type 
+		request:(NSURLRequest *)request 
+		  frame:(WebFrame *)frame
+	decisionListener:(id<WebPolicyDecisionListener>)listener {
+	NSLog(@"MIIIME %@ %@", type, request);
+}
+
 // = The index view =
 
 - (void) updateIndexView {
