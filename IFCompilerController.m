@@ -809,10 +809,17 @@ static IFCompilerController* activeController = nil;
 			NSString* sourceFile = [[components objectAtIndex: 0] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
 			NSString* sourceLine = [[components objectAtIndex: 1] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
 			
+			// sourceLine can have format 'line10' or '10'. 'line10' is more likely
+			int lineNumber = [sourceLine intValue];
+			
+			if (lineNumber == 0 && [[sourceLine substringToIndex: 4] isEqualToString: @"line"]) {
+				lineNumber = [[sourceLine substringFromIndex: 4] intValue];
+			}
+			
 			if (delegate &&
 				[delegate respondsToSelector: @selector(errorMessageHighlighted:atLine:inFile:)]) {
 				[delegate errorMessageHighlighted: self
-										   atLine: [sourceLine intValue]
+										   atLine: lineNumber
 										   inFile: sourceFile];
 			}
 			

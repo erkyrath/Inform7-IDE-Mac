@@ -1086,15 +1086,22 @@ static NSDictionary* styles[256];
 			NSString* sourceFile = [[components objectAtIndex: 0] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
 			NSString* sourceLine = [[components objectAtIndex: 1] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
 			
+			// sourceLine can have format 'line10' or '10'. 'line10' is more likely
+			int lineNumber = [sourceLine intValue];
+			
+			if (lineNumber == 0 && [[sourceLine substringToIndex: 4] isEqualToString: @"line"]) {
+				lineNumber = [[sourceLine substringFromIndex: 4] intValue];
+			}
+			
 			// Move to the appropriate place in the file
 			if (![parent selectSourceFile: sourceFile]) {
 				NSLog(@"Can't select source file '%@'", sourceFile);
 				return;
-			}
+			}			
 			
-			[parent moveToSourceFileLine: [sourceLine intValue]];
+			if (lineNumber >= 0) [parent moveToSourceFileLine: lineNumber];
 			[parent removeHighlightsOfStyle: IFLineStyleHighlight];
-			[parent highlightSourceFileLine: [sourceLine intValue]
+			[parent highlightSourceFileLine: lineNumber
 									 inFile: sourceFile
 									  style: IFLineStyleHighlight];
 						
