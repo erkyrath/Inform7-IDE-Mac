@@ -45,6 +45,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
     if (projectFile) [projectFile release];
     if (mainSource)  [mainSource  release];
 	if (notes)       [notes release];
+	if (indexFile)   [indexFile release];
 
 	[settings release];
     [compiler release];
@@ -53,7 +54,8 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 }
 
 // == Loading/saving ==
-- (BOOL) readFromFile: (NSString*) fileName ofType: (NSString*) fileType {
+- (BOOL) readFromFile: (NSString*) fileName
+			   ofType: (NSString*) fileType {
     if ([fileType isEqualTo: @"Inform project file"]) {
         if (projectFile) [projectFile release];
         if (sourceFiles) [sourceFiles release];
@@ -61,7 +63,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 
         // Open the directory
         projectFile = [[IFProjectFile allocWithZone: [self zone]]
-            initWithPath: fileName];
+			initWithPath: fileName];
 
         if (![projectFile isDirectory]) {
             [projectFile release];
@@ -138,6 +140,9 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 			}
 		}
         
+		// Load the index file (if present)
+		[self reloadIndexFile];
+		
         return YES;
     } else if ([fileType isEqualTo: @"Inform source file"] ||
                [fileType isEqualTo: @"Inform header file"]) {
@@ -324,11 +329,17 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 
 - (NSTextStorage*) storageForFile: (NSString*) sourceFile {
 	NSTextStorage* storage;
+	NSString* originalSourceFile = sourceFile;
 	NSString* sourceDir = [[[self fileName] stringByAppendingPathComponent: @"Source"] stringByStandardizingPath];
 	
 	if (![sourceFile isAbsolutePath]) {
 		// Force absolute path
 		sourceFile = [[sourceDir stringByAppendingPathComponent: sourceFile] stringByStandardizingPath];
+		
+		if (![[NSFileManager defaultManager] fileExistsAtPath: sourceFile]) {
+			// project/Source/whatever doesn't exist: try project/whatever
+			sourceFile = [[[self fileName] stringByAppendingPathComponent: originalSourceFile] stringByStandardizingPath];
+		}
 	}
 	
 	if ([sourceFile isAbsolutePath]) {
@@ -337,12 +348,16 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 			return [sourceFiles objectForKey: [sourceFile lastPathComponent]];
 		}
 		
+		if (![[NSFileManager defaultManager] fileExistsAtPath: sourceFile]) {
+			NSLog(@"IFProject: WARNING: Unable to find file '%@'", sourceFile);
+		}
+		
 		// Temporary text storage
 		NSString* textData = [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: sourceFile]
 												   encoding: NSISOLatin1StringEncoding];
 		storage = [[NSTextStorage alloc] initWithString: [textData autorelease]];
 		
-		NSLog(@"Using temporary storage from %@", sourceFile);
+		NSLog(@"IFProject: Using temporary storage from %@", sourceFile);
 		return [storage autorelease];
 	} else {
 		// Not absolute path
@@ -375,6 +390,20 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 
 - (NSTextStorage*) notes {
 	return notes;
+}
+
+// = The index file =
+- (IFIndexFile*) indexFile {
+	return indexFile;
+}
+
+- (void) reloadIndexFile {
+	if (singleFile) return; // Nothing to do
+	
+	if (indexFile) [indexFile release];
+	indexFile = nil;
+	
+	indexFile = [[IFIndexFile alloc] initWithContentsOfFile: [[[self fileName] stringByAppendingPathComponent: @"Index"] stringByAppendingPathComponent: @"Headings.xml"]];
 }
 
 @end

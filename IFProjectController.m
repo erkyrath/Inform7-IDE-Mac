@@ -560,6 +560,9 @@ static NSDictionary*  itemDictionary = nil;
         IFProjectPane* pane = [projectPanes objectAtIndex: x];
 		[pane updateIndexView];
 	}
+
+	// Reload the index file
+	[[self document] reloadIndexFile];
 	
 	// Update the index in the controller
 	[[IFIsIndex sharedIFIsIndex] updateIndexFrom: self];

@@ -9,7 +9,9 @@
 #import "IFIsIndex.h"
 #import "IFAppDelegate.h"
 
+#import "IFIndexFile.h"
 #import "IFProjectController.h"
+#import "IFProject.h"
 
 NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 
@@ -32,24 +34,14 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 		[self setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Inspector Index"
 															   value: @"Index"
 															   table: nil]];
-		
-		indexView = [[WebView alloc] init];
-		[indexView setPolicyDelegate: self];
-		[indexView setFrameSize: NSMakeSize(100, 300)];
-		[indexView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-		[indexView makeTextSmaller: self];
-		
-		// Need a way to select 'small' scrollbar size.
-		
-		inspectorView = [indexView retain];
-		canDisplay = NO;
+		[NSBundle loadNibNamed: @"IndexInspector"
+						 owner: self];
 	}
 
 	return self;
 }
 
 - (void) dealloc {
-	[indexView release];
 	[super dealloc];
 }
 
@@ -70,81 +62,38 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 	}
 }
 
-- (void) updateIndexFrom: (NSWindowController*) controller {
-	// Refuse to update if this is the wrong window
-	if ([controller window] != activeWindow) return;
+- (void) updateIndexFrom: (NSWindowController*) window {
+	if ([window window] != activeWindow) return;
 	
-	// Only update if this is a project controller
-	if ([controller isKindOfClass: [IFProjectController class]]) {
+	if ([window isKindOfClass: [IFProjectController class]]) {
+		IFProjectController* proj = (IFProjectController*)window;
+		
 		canDisplay = YES;
-		
-		IFProjectController* proj = (IFProjectController*) controller;
-		
-		if ([proj pathToIndexFile] != nil) {
-			[[indexView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: [proj pathToIndexFile]]] autorelease]];
-		} else {
-			[[indexView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: @"nodoc:noindex"]] autorelease]];
-		}
+	
+		[indexList setDataSource: [[proj document] indexFile]];
+		[indexList reloadData];
 	}
 }
 
-// = Web policy delegate methods =
+// = NSOutlineView delegate methods =
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification {
+	if (canDisplay) {
+		IFProjectController* proj = [activeWindow windowController];
 
-- (void)					webView: (WebView *)sender 
-	decidePolicyForNavigationAction: (NSDictionary *)actionInformation 
-							request: (NSURLRequest *)request 
-							  frame: (WebFrame *)frame 
-				   decisionListener: (id<WebPolicyDecisionListener>)listener {
-	if (activeWindow == nil || !canDisplay) {
-		[listener ignore];
-		return;
-	}
-	
-	// Blah. Link failure if WebKit isn't available here. Constants aren't weak linked
-	
-	// Double blah. WebNavigationTypeLinkClicked == null, but the action value == 0. Bleh
-	if ([[actionInformation objectForKey: WebActionNavigationTypeKey] intValue] == 0) {
-		NSURL* url = [request URL];
-				
-		if ([[url scheme] isEqualTo: @"source"]) {
-			// We deal with these ourselves
-			[listener ignore];
-			
-			// Format is 'source file name#line number'
-			NSString* path = [[[request URL] resourceSpecifier] stringByReplacingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
-			NSArray* components = [path componentsSeparatedByString: @"#"];
-			
-			if ([components count] != 2) {
-				NSLog(@"Bad source URL: %@", path);
-				if ([components count] < 2) return;
-				// (try anyway)
-			}
-			
-			NSString* sourceFile = [[components objectAtIndex: 0] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
-			NSString* sourceLine = [[components objectAtIndex: 1] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
-			
-			// Move to the appropriate place in the file
-			IFProjectController* controller = [activeWindow windowController];
-			
-			if (![controller selectSourceFile: sourceFile]) {
-				NSLog(@"Can't select source file '%@'", sourceFile);
-				return;
-			}
-			
-			[activeWindow makeKeyWindow];
-			[controller moveToSourceFileLine: [sourceLine intValue]];
-			[controller removeHighlightsOfStyle: IFLineStyleError];
-			[controller highlightSourceFileLine: [sourceLine intValue]
-										 inFile: sourceFile
-										  style: IFLineStyleError]; // FIXME: error level?. Filename?						
-						
-			// Finished
-			return;
+		id selectedItem = [indexList itemAtRow: [indexList selectedRow]];
+		IFIndexFile* index = [[proj document] indexFile];
+		
+		NSString* filename = [index filenameForItem: selectedItem];
+		int line = [index lineForItem: selectedItem];
+		
+		if (filename != nil &&
+			[proj selectSourceFile: filename]) {
+			if (line >= 0)
+				[proj moveToSourceFileLine: line];
+		} else {
+			NSLog(@"IFIsIndex: Can't select file '%@' (line '%@')", filename, line);
 		}
 	}
-
-	// default action
-	[listener use];
 }
 
 @end

@@ -10,6 +10,7 @@
 #import "IFCompiler.h"
 #import "IFCompilerSettings.h"
 #import "IFProjectFile.h"
+#import "IFIndexFile.h"
 
 extern NSString* IFProjectFilesChangedNotification;
 
@@ -24,6 +25,7 @@ extern NSString* IFProjectFilesChangedNotification;
     NSString*            mainSource;
 	
 	NSTextStorage*       notes;
+	IFIndexFile*         indexFile;
     
     BOOL singleFile;
 }
@@ -46,5 +48,8 @@ extern NSString* IFProjectFilesChangedNotification;
 - (NSString*) pathForFile: (NSString*) file;
 
 - (NSTextStorage*) notes;
+- (IFIndexFile*)   indexFile;
+
+- (void) reloadIndexFile;
 
 @end

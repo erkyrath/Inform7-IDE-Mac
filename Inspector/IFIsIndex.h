@@ -14,7 +14,8 @@
 extern NSString* IFIsIndexInspector;
 
 @interface IFIsIndex : IFInspector {
-	WebView* indexView;
+	IBOutlet NSOutlineView* indexList;
+	
 	BOOL canDisplay;
 	NSWindow* activeWindow;
 }
