@@ -33,6 +33,11 @@ NSString* IFIsBreakpointsInspector = @"IFIsBreakpointsInspector";
 		[self setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Inspector Breakpoints"
 															   value: @"Breakpoints"
 															   table: nil]];
+		
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(breakpointsChanged:)
+													 name: IFProjectBreakpointsChangedNotification
+												   object: nil];
 	}
 	
 	return self;
@@ -114,6 +119,10 @@ NSString* IFIsBreakpointsInspector = @"IFIsBreakpointsInspector";
 	// Move to this breakpoint
 	[activeController selectSourceFile: file];
 	[activeController moveToSourceFileLine: line+1];
+}
+
+- (void) breakpointsChanged: (NSNotification*) not {
+	[breakpointTable reloadData];
 }
 
 @end
