@@ -34,7 +34,7 @@ static NSDictionary* styles[256];
     NSFont* systemFont       = [NSFont systemFontOfSize: 11];
     NSFont* smallFont        = [NSFont boldSystemFontOfSize: 9];
     NSFont* boldSystemFont   = [NSFont boldSystemFontOfSize: 11];
-    NSFont* headerSystemFont = [NSFont boldSystemFontOfSize: 16];
+    NSFont* headerSystemFont = [NSFont boldSystemFontOfSize: 13];
     NSFont* monospaceFont    = [NSFont fontWithName: @"Monaco"
                                                size: 9];
     
