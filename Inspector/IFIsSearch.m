@@ -184,8 +184,6 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 		
 		// Iterate through all the various places extensions can be hidden
 		while (extnDirectory = [extnEnum nextObject]) {
-			NSLog(@"%@", extnDirectory);
-			
 			// Get all the files from the extensions
 			NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtPath: extnDirectory];
 			NSString* path;

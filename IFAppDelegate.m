@@ -161,6 +161,14 @@ static int stringCompare(id a, id b, void* context) {
 		}
 	}
 	
+	// If we're talking about the natural extensions, use the ones in our own directory (SPECIAL CASE)
+	if ([extensionSubdirectory isEqualToString: @"Extensions"]) {
+		NSString* bundleResources = [[NSBundle mainBundle] resourcePath];
+		NSString* internalExtensions = [[bundleResources stringByAppendingPathComponent: @"Inform7"] stringByAppendingPathComponent: @"Extensions"];
+		
+		[libraryDirectories addObject: internalExtensions];
+	}
+	
 	if ([libraryDirectories count] <= 0) return nil;
 	return libraryDirectories;
 }
