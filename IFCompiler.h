@@ -46,6 +46,7 @@ extern NSString* IFCompilerFinishedNotification;
 + (NSDictionary*) parseCompilerFilename: (NSString*) pathname;
 + (double)    maxCompilerVersion;
 + (NSString*) compilerExecutableWithVersion: (double) ver; // 6.21, 6.30 etc
++ (NSArray*) compilerPaths;
 + (NSArray*) availableCompilers;
 
 - (void) setSettings: (IFCompilerSettings*) settings;

@@ -30,6 +30,73 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 
 @implementation IFCompilerSettings
 
+// == Possible locations for the library ==
++ (NSArray*) libraryPaths {
+	static NSArray* libPaths = nil;
+	
+	if (libPaths == nil) {
+		NSMutableArray* res = [NSMutableArray array];
+		NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+		
+		// User-supplied library directories
+		NSEnumerator* libEnum;
+		NSString* lib;
+		
+		libEnum = [libraries objectEnumerator];
+		while (lib = [libEnum nextObject]) {
+			[res addObject: [[lib stringByAppendingPathComponent: @"Inform"] stringByAppendingPathComponent: @"Libraries"]];
+		}
+		
+		// Internal library directories
+		NSString* bundlePath = [[NSBundle mainBundle] resourcePath];
+		[res addObject: [bundlePath stringByAppendingPathComponent: @"Library"]];
+		
+		libPaths = [res copy];
+	}
+	
+	return libPaths;
+}
+
++ (NSString*) pathForLibrary: (NSString*) library {
+	NSArray* searchPaths = [[self class] libraryPaths];
+	
+	NSEnumerator* searchEnum = [searchPaths objectEnumerator];
+	NSString* path;
+	
+	while (path = [searchEnum nextObject]) {
+		NSString* libDir = [path stringByAppendingPathComponent: library];
+		BOOL isDir;
+		
+		if ([[NSFileManager defaultManager] fileExistsAtPath: libDir
+												 isDirectory: &isDir]) {
+			return libDir;
+		}
+	}
+	
+	return nil;
+}
+
++ (NSArray*) availableLibraries {
+	NSMutableArray* result = [NSMutableArray array];
+	NSArray* paths = [[self class] libraryPaths];
+	
+	NSEnumerator* pathEnum = [paths objectEnumerator];
+	NSString* path;
+	
+	while (path = [pathEnum nextObject]) {
+		NSArray* libraryDirectory = [[NSFileManager defaultManager] directoryContentsAtPath: path];
+		
+		NSEnumerator* libEnum = [libraryDirectory objectEnumerator];
+		NSString* lib;
+		
+		while (lib = [libEnum nextObject]) {
+			if (![result containsObject: lib]) [result addObject: lib];
+		}
+	}
+	
+	return result;
+}
+
 // == Initialisation ==
 - (id) init {
     self = [super init];
@@ -97,14 +164,14 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     
     // Library
     NSString* library = [store objectForKey: IFSettingLibraryToUse];
-    NSString* libPath = nil;
+	NSString* libPath = [[self class] pathForLibrary: library];
+	
+	if (libPath == nil) libPath = [[self class] pathForLibrary: @"Standard"];
+	if (libPath == nil) libPath = [[self class] pathForLibrary: [[[self class] availableLibraries] objectAtIndex: 0]];
+	if (library == nil) libPath = nil;
 
     if (library != nil) {
         BOOL isDir;
-        
-        libPath = [NSString stringWithFormat: @"%@/Library/%@",
-            bundlePath,
-            library];
 
         if (![[NSFileManager defaultManager] fileExistsAtPath: libPath
                                                   isDirectory: &isDir]) {
@@ -119,6 +186,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     }
     
     [includePath addObject: @"./"];
+    [includePath addObject: @"../Source/"];
 
     // Finish up paths
 

@@ -477,9 +477,7 @@ static NSDictionary* styles[256];
     }
     
     // Library versions
-    NSString* libPath = [NSString stringWithFormat: @"%@/Library",
-        [[NSBundle mainBundle] resourcePath]];
-    NSArray* libraryDirectory = [[NSFileManager defaultManager] directoryContentsAtPath: libPath];
+	NSArray* libraryDirectory = [IFCompilerSettings availableLibraries];
     
     NSEnumerator* libEnum = [libraryDirectory objectEnumerator];
     NSString* libVer;

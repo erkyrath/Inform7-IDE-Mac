@@ -36,6 +36,10 @@ extern NSString* IFSettingLoudly;
     NSMutableDictionary* store;
 }
 
++ (NSArray*) libraryPaths;
++ (NSString*) pathForLibrary: (NSString*) library;
++ (NSArray*) availableLibraries;
+
 // Setting up the settings
 - (void) setUsingNaturalInform: (BOOL) setting;
 - (void) setStrict: (BOOL) setting;

@@ -68,18 +68,14 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
 }
 
 + (double) maxCompilerVersion {
-    NSString* compilerLocation = [NSString stringWithFormat: @"%@/Compilers",
-        [[NSBundle mainBundle] resourcePath]];
     double maxVersion = 0;
     
-    NSArray* compilers = [[NSFileManager defaultManager] directoryContentsAtPath: compilerLocation];
+    NSArray* compilers = [self availableCompilers];
     
     NSEnumerator* compEnum = [compilers objectEnumerator];
-    NSString* compString;
+    NSDictionary* compDetails;
     
-    while (compString = [compEnum nextObject]) {
-        NSDictionary* compDetails = [self parseCompilerFilename: compString];
-        
+    while (compDetails = [compEnum nextObject]) {
         if ([[compDetails objectForKey: @"version"] doubleValue] > maxVersion) {
             maxVersion = [[compDetails objectForKey: @"version"] doubleValue];
         }
@@ -89,53 +85,88 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
 }
 
 + (NSString*) compilerExecutableWithVersion: (double) ver {
-    NSString* compilerLocation = [NSString stringWithFormat: @"%@/Compilers",
-        [[NSBundle mainBundle] resourcePath]];
-
-    NSArray* compilers = [[NSFileManager defaultManager] directoryContentsAtPath: compilerLocation];
+	NSArray* compilers = [self availableCompilers];
     
     NSString* comp = nil;
     
     NSEnumerator* compEnum = [compilers objectEnumerator];
-    NSString* compString = [compilers objectAtIndex: 0];
+    NSDictionary* compDetails;
     
-    while (compString = [compEnum nextObject]) {
-        NSDictionary* compDetails = [self parseCompilerFilename: compString];
-        
+    while (compDetails = [compEnum nextObject]) {
         if ([[compDetails objectForKey: @"version"] doubleValue] == ver) {
-            comp = [compDetails objectForKey: @"filename"];
+            comp = [compDetails objectForKey: @"pathname"];
         }
     }
-    
-    NSString* compName = [NSString stringWithFormat: @"%@/Compilers/%@",
-        [[NSBundle mainBundle] resourcePath], comp];
-        
-    return compName;
+	
+	return comp;
 }
 
 static NSArray* compilerCache = nil;
 
++ (NSArray*) compilerPaths {
+	static NSArray* paths = nil;
+	
+	if (paths == nil) {
+		NSMutableArray* res = [NSMutableArray array];
+		NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+		
+		// User-supplied compiler directories
+		NSEnumerator* libEnum;
+		NSString* lib;
+		
+		libEnum = [libraries objectEnumerator];
+		while (lib = [libEnum nextObject]) {
+			[res addObject: [[lib stringByAppendingPathComponent: @"Inform"] stringByAppendingPathComponent: @"Compilers"]];
+		}
+		
+		// Internal compiler directories
+		NSString* bundlePath = [[NSBundle mainBundle] resourcePath];
+		[res addObject: [bundlePath stringByAppendingPathComponent: @"Compilers"]];
+		
+		paths = [res copy];
+	}
+	
+	return paths;
+}
+
+static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
+	NSNumber* version1 = [a objectForKey: @"version"];
+	NSNumber* version2 = [b objectForKey: @"version"];
+	
+	return [version1 compare: version2];
+}
+
 + (NSArray*) availableCompilers {
-    if (compilerCache) return compilerCache;
-    
-    NSMutableArray* result = [NSMutableArray array];
-    
-    NSString* compilerLocation = [NSString stringWithFormat: @"%@/Compilers",
-        [[NSBundle mainBundle] resourcePath]];
-    
-    NSArray* compilers = [[NSFileManager defaultManager] directoryContentsAtPath: compilerLocation];
-        
-    NSEnumerator* compEnum = [compilers objectEnumerator];
-    NSString* compString = [compilers objectAtIndex: 0];
-    
-    while (compString = [compEnum nextObject]) {
-        NSDictionary* compDetails = [self parseCompilerFilename: compString];
-        
-        [result addObject: compDetails];
-    }
-    
-    compilerCache = [result copy];
-    return result;
+	if (compilerCache) return compilerCache;
+	
+	NSMutableArray* result = [NSMutableArray array];
+	NSMutableArray* versions = [NSMutableArray array];
+	NSArray* paths = [[self class] compilerPaths];
+	
+	NSEnumerator* pathEnum = [paths objectEnumerator];
+	NSString* path;
+	
+	while (path = [pathEnum nextObject]) {
+		NSArray* compilerDirectory = [[NSFileManager defaultManager] directoryContentsAtPath: path];
+		
+		NSEnumerator* compilerEnum = [compilerDirectory objectEnumerator];
+		NSString* compiler;
+		
+		while (compiler = [compilerEnum nextObject]) {
+			NSString* compPath = [path stringByAppendingPathComponent: compiler];
+			NSDictionary* compDetails = [self parseCompilerFilename: compPath];
+			NSNumber* version = [compDetails objectForKey: @"version"];
+			
+			if (compDetails != nil && ![versions containsObject: version]) {
+				[result addObject: compDetails];
+				[versions addObject: version];
+			}
+		}
+	}
+	
+	[result sortUsingFunction: versionCompare context: nil];
+	
+	return compilerCache = [result retain];
 }
 
 // == Initialisation, etc ==
