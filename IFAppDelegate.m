@@ -69,9 +69,9 @@ static NSRunLoop* mainRunLoop = nil;
 	}
 	
 	// Standard settings
+	[IFSettingsController addStandardSettingsClass: [IFOutputSettings class]];
 	[IFSettingsController addStandardSettingsClass: [IFCompilerOptions class]];
 	[IFSettingsController addStandardSettingsClass: [IFLibrarySettings class]];
-	[IFSettingsController addStandardSettingsClass: [IFOutputSettings class]];
 	[IFSettingsController addStandardSettingsClass: [IFMiscSettings class]];
 	[IFSettingsController addStandardSettingsClass: [IFDebugSettings class]];
 }
