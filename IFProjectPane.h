@@ -97,6 +97,8 @@ enum IFProjectPaneType {
     IFSyntaxHighlighter* highlighter;
     
     NSRange              remainingFileToProcess;
+	
+	BOOL setBreakpoint;
 }
 
 + (IFProjectPane*) standardPane;
@@ -129,6 +131,7 @@ enum IFProjectPaneType {
 - (NSString*) currentFile;
 
 // The game view
+- (void) activateDebug;
 - (void) startRunningGame: (NSString*) fileName;
 - (void) stopRunningGame;
 - (void) pauseRunningGame;

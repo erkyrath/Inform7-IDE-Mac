@@ -16,6 +16,7 @@
 // == Toolbar items ==
 static NSToolbarItem* compileItem       = nil;
 static NSToolbarItem* compileAndRunItem = nil;
+static NSToolbarItem* compileAndDebugItem = nil;
 static NSToolbarItem* releaseItem       = nil;
 
 static NSToolbarItem* stopItem          = nil;
@@ -36,6 +37,7 @@ static NSDictionary*  itemDictionary = nil;
 + (void) initialize {
     compileItem   = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileItem"];
     compileAndRunItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileAndRunItem"];
+    compileAndDebugItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileAndDebugItem"];
     releaseItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"releaseItem"];
 	
     stopItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stopItem"];
@@ -54,6 +56,7 @@ static NSDictionary*  itemDictionary = nil;
     itemDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
         compileItem, @"compileItem",
         compileAndRunItem, @"compileAndRunItem",
+		compileAndDebugItem, @"compileAndDebugItem",
         releaseItem, @"releaseItem",
 		stopItem, @"stopItem",
 		pauseItem, @"pauseItem",
@@ -68,7 +71,9 @@ static NSDictionary*  itemDictionary = nil;
 
     // FIXME: localisation
 	[compileItem setImage: [NSImage imageNamed: @"compile"]];
-	[compileAndRunItem setImage: [NSImage imageNamed: @"run"]];	
+	[compileAndRunItem setImage: [NSImage imageNamed: @"run"]];
+	[compileAndDebugItem setImage: [NSImage imageNamed: @"debug"]];
+	[releaseItem setImage: [NSImage imageNamed: @"release"]];
 	
 	[stopItem setImage: [NSImage imageNamed: @"stop"]];
 	[pauseItem setImage: [NSImage imageNamed: @"pause"]];
@@ -85,6 +90,7 @@ static NSDictionary*  itemDictionary = nil;
 
     [compileItem setLabel: @"Compile"];
     [compileAndRunItem setLabel: @"Go!"];
+	[compileAndDebugItem setLabel: @"Debug"];
     [releaseItem setLabel: @"Release"];
 	
 	[stepItem setLabel: @"Step"];
@@ -103,6 +109,7 @@ static NSDictionary*  itemDictionary = nil;
     // The action heroes
     [compileItem setAction: @selector(compile:)];
     [compileAndRunItem setAction: @selector(compileAndRun:)];
+    [compileAndDebugItem setAction: @selector(compileAndDebug:)];
     [releaseItem setAction: @selector(release:)];
 	
 	[indexItem setAction: @selector(docIndex:)];
@@ -293,12 +300,12 @@ static NSDictionary*  itemDictionary = nil;
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
-        @"compileItem", @"compileAndRunItem", @"pauseItem", @"continueItem", @"stepItem", @"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem" ,NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, @"releaseItem",
+        @"compileItem", @"compileAndRunItem", @"compileAndDebugItem", @"pauseItem", @"continueItem", @"stepItem", @"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem" ,NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, @"releaseItem",
         nil];
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects: @"compileItem", @"compileAndRunItem", 
+    return [NSArray arrayWithObjects: @"compileItem", @"compileAndRunItem", @"compileAndDebugItem",
 		NSToolbarSeparatorItemIdentifier,  @"stopItem", @"pauseItem", NSToolbarSeparatorItemIdentifier, @"continueItem", @"stepOutItem", @"stepOverItem", @"stepItem",
         NSToolbarSeparatorItemIdentifier,  @"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"indexItem", NSToolbarSeparatorItemIdentifier, @"breakpointItem", @"watchItem",nil];
 }
@@ -316,6 +323,25 @@ static NSDictionary*  itemDictionary = nil;
 		return isRunning?waitingAtBreakpoint:NO;
 	}
 	
+	return YES;
+}
+
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+	SEL itemSelector = [menuItem action];
+	BOOL isRunning = [[self gamePane] isRunningGame];
+		
+	if (itemSelector == @selector(continueProcess:) ||
+		itemSelector == @selector(stepOverProcess:) ||
+		itemSelector == @selector(stepIntoProcess:) ||
+		itemSelector == @selector(stepOutProcess:)) {
+		return isRunning?waitingAtBreakpoint:NO;
+	}
+			
+	if (itemSelector == @selector(stopProcess:) ||
+		itemSelector == @selector(pauseProcess:)) {
+			return isRunning;
+	}
+
 	return YES;
 }
 
@@ -371,8 +397,16 @@ static NSDictionary*  itemDictionary = nil;
     compileFinishedAction = @selector(runCompilerOutput);
 }
 
+- (IBAction) compileAndDebug: (id) sender {
+    [self compile: self];
+	
+	waitingAtBreakpoint = NO;
+    compileFinishedAction = @selector(debugCompilerOutput);
+}
+
 - (IBAction) stopProcess: (id) sender {
 	[projectPanes makeObjectsPerformSelector: @selector(stopRunningGame)];
+	[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];
 }
 
 // = Things to do after the compiler has finished =
@@ -402,6 +436,12 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) runCompilerOutput {
 	waitingAtBreakpoint = NO;
+    [[projectPanes objectAtIndex: 1] startRunningGame: [[[self document] compiler] outputFile]];
+}
+
+- (void) debugCompilerOutput {
+	waitingAtBreakpoint = NO;
+	[[projectPanes objectAtIndex: 1] activateDebug];
     [[projectPanes objectAtIndex: 1] startRunningGame: [[[self document] compiler] outputFile]];
 }
 
@@ -674,6 +714,7 @@ static NSDictionary*  itemDictionary = nil;
 
 // = Debugging controls =
 - (IFProjectPane*) gamePane {
+	// Return the pane that we're displaying/going to display the game in
 	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
 	IFProjectPane* pane;
 	
@@ -682,6 +723,15 @@ static NSDictionary*  itemDictionary = nil;
 	}
 	
 	return nil;
+}
+
+- (void) restartRunning {
+	// Perform actions to switch back to the game when we click on continue, etc
+	[[self window] makeFirstResponder: [[self gamePane] zoomView]];
+	[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];	
+
+	// Docs say we shouldn't do this, but how else are we to force the toolbar to update correctly?
+	[toolbar validateVisibleItems];
 }
 
 - (void) pauseProcess: (id) sender {
@@ -693,6 +743,7 @@ static NSDictionary*  itemDictionary = nil;
 
 	if (isRunning && waitingAtBreakpoint) {
 		waitingAtBreakpoint = NO;
+		[self restartRunning];
 		[[[[self gamePane] zoomView] zMachine] continueFromBreakpoint];
 	}
 }
@@ -702,6 +753,7 @@ static NSDictionary*  itemDictionary = nil;
 
 	if (isRunning && waitingAtBreakpoint) {
 		waitingAtBreakpoint = NO;
+		[self restartRunning];
 		[[[[self gamePane] zoomView] zMachine] stepFromBreakpoint];
 	}
 }
@@ -711,6 +763,7 @@ static NSDictionary*  itemDictionary = nil;
 
 	if (isRunning && waitingAtBreakpoint) {
 		waitingAtBreakpoint = NO;
+		[self restartRunning];
 		[[[[self gamePane] zoomView] zMachine] finishFromBreakpoint];
 	}
 }
@@ -720,13 +773,12 @@ static NSDictionary*  itemDictionary = nil;
 
 	if (isRunning && waitingAtBreakpoint) {
 		waitingAtBreakpoint = NO;
+		[self restartRunning];
 		[[[[self gamePane] zoomView] zMachine] stepIntoFromBreakpoint];
 	}
 }
 
 - (void) hitBreakpoint: (int) pc {
-	// (IMPLEMENT ME:) move to the appropriate place in the source
-	
 	// Retrieve the game view
 	IFProjectPane* gamePane = [self gamePane];
 	ZoomView* zView = [gamePane zoomView];
@@ -745,6 +797,9 @@ static NSDictionary*  itemDictionary = nil;
 	}
 	
 	waitingAtBreakpoint = YES;
+	
+	// Docs say we shouldn't do this, but how else are we to force the toolbar to update correctly?
+	[toolbar validateVisibleItems];
 }
 
 // = Documentation controls =

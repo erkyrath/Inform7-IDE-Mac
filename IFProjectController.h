@@ -58,6 +58,10 @@ enum lineStyle {
                            style: (enum lineStyle) style;
 - (NSArray*) highlightsForFile: (NSString*) file;
 
+- (void) removeHighlightsInFile: (NSString*) file
+						ofStyle: (enum lineStyle) style;
+- (void) removeHighlightsOfStyle: (enum lineStyle) style;
+
 // Debugging
 - (void) hitBreakpoint: (int) pc;
 

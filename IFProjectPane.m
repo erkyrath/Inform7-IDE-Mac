@@ -309,7 +309,7 @@ static NSDictionary* styles[256];
     }
     
     [parent moveToSourceFileLine: line];
-	[parent removeHighlightsInFileOfStyle: IFLineStyleError];
+	[parent removeHighlightsOfStyle: IFLineStyleError];
     [parent highlightSourceFileLine: line
 							 inFile: openSourceFile
 							  style: IFLineStyleError]; // FIXME: error level?. Filename?
@@ -690,6 +690,10 @@ static NSDictionary* styles[256];
 }
 
 // = The game view =
+- (void) activateDebug {
+	setBreakpoint = YES;
+}
+
 - (void) startRunningGame: (NSString*) fileName {
     if (zView) {
 		[zView killTask];
@@ -759,6 +763,14 @@ static NSDictionary* styles[256];
 
 	[[zView zMachine] loadDebugSymbolsFrom: [[[[parent document] fileName] stringByAppendingPathComponent: @"Build"] stringByAppendingPathComponent: @"gameinfo.dbg"]
 							withSourcePath: [[[parent document] fileName] stringByAppendingPathComponent: @"Source"]];
+	
+	if (setBreakpoint) {
+		if (![[zView zMachine] setBreakpointAtName: @"Initialise"]) {
+			[[zView zMachine] setBreakpointAtName: @"main"];
+		}
+	}
+	
+	setBreakpoint = NO;
 	
     [tabView selectTabViewItem: gameTabView];
     [[paneView window] makeFirstResponder: [zView textView]];
