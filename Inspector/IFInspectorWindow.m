@@ -142,6 +142,8 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 					forKey: (NSString*) key {
 	NSNumber* insNum = [inspectorDict objectForKey: key];
 	
+	NSLog(@"setInspectorState: %@ -> %@", shown?@"YES":@"NO", key);
+	
 	if (insNum == nil) {
 		NSLog(@"BUG: attempt to show/hide unknown inspector '%@'", key);
 		return;

@@ -102,6 +102,8 @@
 	willLayout = NO;
 	
 	switch ([arrow intValue]) {
+		default:
+			NSLog(@"Bug: arrow should be 1, 2 or 3, but is ", [arrow intValue]);
 		case 1:
 		case 2:
 			// Closed
