@@ -129,7 +129,6 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
 	[self cacheItems];
-	return;
 	
 	if (canDisplay) {
 		IFProjectController* proj = [activeWindow windowController];
@@ -138,6 +137,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 		if (selectedRow < 0) return; // Nothing to do
 
 		id selectedItem = [indexList itemAtRow: selectedRow];
+		if ([selectedItem isKindOfClass: [NSArray class]]) selectedItem = [selectedItem objectAtIndex: 0];
 		
 		if ([selectedItem isKindOfClass: [IFIntelSymbol class]]) {
 			int lineNumber = [[proj currentIntelligence] lineForSymbol: selectedItem]+1;
