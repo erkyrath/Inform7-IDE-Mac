@@ -29,5 +29,6 @@
 - (void) layoutViews;
 
 - (void) setExpanded: (BOOL) isExpanded;
+- (BOOL) expanded;
 
 @end

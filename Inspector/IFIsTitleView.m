@@ -7,6 +7,7 @@
 //
 
 #import "IFIsTitleView.h"
+#import "IFInspectorView.h"
 
 
 @implementation IFIsTitleView

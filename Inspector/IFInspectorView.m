@@ -155,6 +155,9 @@
 	if ([arrow intValue] != 3) {
 		[arrow setIntValue: 3];
 		[self queueLayout];
+	} else {
+		[arrow setIntValue: 1];
+		[self queueLayout];
 	}
 }
 
@@ -180,6 +183,10 @@
 - (void) setExpanded: (BOOL) isExpanded {
 	[arrow setOpen: isExpanded];
 	[self layoutViews];
+}
+
+- (BOOL) expanded {
+	return [arrow intValue] == 3;
 }
 
 @end

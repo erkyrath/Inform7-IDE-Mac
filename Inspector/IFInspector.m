@@ -41,13 +41,12 @@
 }
 
 - (void) setExpanded: (BOOL) exp {
-	expanded = exp;
-	
-	[inspectorWin updateInspectors];
+	[inspectorWin setInspectorState: exp
+							 forKey: [self key]];
 }
 
 - (BOOL) expanded {
-	return expanded;
+	return [inspectorWin inspectorStateForKey: [self key]];
 }
 
 // = Inspector view =

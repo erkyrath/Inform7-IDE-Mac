@@ -16,7 +16,6 @@
 	NSResponder* owner;
 	
 	NSString* title;
-	BOOL expanded;
 	BOOL gotWindow;
 	
 	IFInspectorWindow* inspectorWin;

@@ -34,6 +34,7 @@
 
 - (void) setInspectorState: (BOOL) shown
 					forKey: (NSString*) key;
+- (BOOL) inspectorStateForKey: (NSString*) key;
 
 - (void) showInspector: (IFInspector*) inspector;
 - (void) showInspectorWithKey: (NSString*) key;

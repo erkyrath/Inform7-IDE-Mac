@@ -26,7 +26,7 @@
 
         compiler = [[IFCompiler allocWithZone: [self zone]] init];
 		
-		notes = [[NSTextStorage alloc] initWithString: @"No notes yet"];
+		notes = [[NSTextStorage alloc] initWithString: @""];
         
         /*
         sourceFiles = [[NSMutableDictionary dictionaryWithObjectsAndKeys:

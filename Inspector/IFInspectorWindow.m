@@ -11,6 +11,7 @@
 #import "IFInspectorView.h"
 #import "IFIsFlippedView.h"
 
+static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 
 @implementation IFInspectorWindow
 
@@ -22,6 +23,11 @@
 	}
 	
 	return sharedWindow;
+}
+
++ (void) initialize {
+	// Register our defaults (which inspectors are open/closed)
+	[[NSUserDefaults standardUserDefaults] registerDefaults: [NSDictionary dictionaryWithObjectsAndKeys: [NSDictionary dictionary], IFInspectorDefaults, nil]];
 }
 
 - (id) init {
@@ -119,6 +125,12 @@
 		[inspectorDict setObject: [NSNumber numberWithInt: [inspectors count]-1]
 						  forKey: [newInspector key]];
 	}
+	
+	// Set the expanded flag according to the preferences
+	NSDictionary* inspectorDefaults = [[NSUserDefaults standardUserDefaults] objectForKey: IFInspectorDefaults];
+	if (inspectorDefaults && [inspectorDefaults isKindOfClass: [NSDictionary class]]) {
+		[newInspector setExpanded: [[inspectorDefaults objectForKey: [newInspector key]] boolValue]];
+	}
 
 	// Update the list of inspectors
 	[self updateInspectors];
@@ -134,6 +146,17 @@
 	}
 	
 	[[inspectorViews objectAtIndex: [insNum intValue]] setExpanded: shown];
+}
+
+- (BOOL) inspectorStateForKey: (NSString*) key {
+	NSNumber* insNum = [inspectorDict objectForKey: key];
+	
+	if (insNum == nil) {
+		NSLog(@"BUG: attempt to show/hide unknown inspector '%@'", key);
+		return NO;
+	}
+	
+	return [[inspectorViews objectAtIndex: [insNum intValue]] expanded];
 }
 
 - (void) showInspector: (IFInspector*) inspector {
@@ -181,10 +204,15 @@
 	IFInspectorView* insView;
 	IFInspector* inspector;
 	
+	NSMutableDictionary* inspectorState = [[NSMutableDictionary alloc] init];
+	
 	// Position all the inspectors
 	float ypos = contentFrame.origin.y;
 	while (insView = [inspectorEnum nextObject]) {
 		inspector = [realInspectorEnum nextObject];
+		
+		[inspectorState setObject: [NSNumber numberWithBool: [inspector expanded]]
+						   forKey: [inspector key]];
 		
 		if ([inspector available]) {
 			NSRect insFrame = [insView frame];
@@ -205,6 +233,9 @@
 			}
 		}
 	}
+	
+	[[NSUserDefaults standardUserDefaults] setObject: [inspectorState autorelease]
+											  forKey: IFInspectorDefaults];
 	
 	// ypos defines the size of the window
 	
