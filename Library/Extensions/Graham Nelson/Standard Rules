@@ -1,0 +1,1595 @@
+Version 1/040501 of the Standard Rules by Graham Nelson begins here.
+
+[This is a prototype for use with early preview releases of Inform 7.]
+
+[Not done yet: found in]
+
+
+Part SR1 - Kinds
+
+
+Section SR1/1 - Primitive Kinds
+
+[The kind "kind" is not created here but by Natural Inform itself. The first
+through to seventh kinds created now follow: they must not be reordered or moved.]
+
+A room is a kind.
+A thing is a kind.
+A direction is a kind.
+A door is a kind of thing.
+A container is a kind of thing.
+A supporter is a kind of thing.
+A backdrop is a kind of thing.
+
+
+Section SR1/2 - Rooms
+
+The specification of room is "Represents geographical locations, both indoor
+and outdoor, which are not necessarily areas in a building. A player in one
+room is mostly unable to sense, or interact with, anything in a different room.
+Rooms are arranged in a map."
+
+A room is allowed to have a description and a printed name.
+A room can be lighted or dark. A room is usually lighted.
+A room can be visited or unvisited. A room is usually unvisited.
+
+
+Section SR1/3 - Things
+
+The specification of thing is "Represents anything interactive in the model
+world that is not a room. People, pieces of scenery, furniture, doors and
+mislaid umbrellas might all be examples, and so might more surprising things
+like the sound of birdsong or a shaft of sunlight."
+
+A thing is allowed to have a description, an initial appearance, a printed
+name, an inventory listing and an indefinite article.
+
+A thing can be enterable.
+
+A thing can be lighted or dark.
+
+A thing can be edible or inedible. A thing is usually inedible.
+
+A thing can be opaque or transparent. A thing is usually opaque.
+
+A thing can be described or undescribed. A thing is usually described.
+A thing can be scenery. A thing is usually not scenery.
+
+A thing can be fixed in place or portable. A thing is usually portable.
+
+A thing can be wearable. A thing is usually not wearable.
+A thing can be worn. A thing is usually not worn.
+
+A thing can be pushable between rooms.
+
+Include (-
+  with before [;
+      PushDir: if (self has pushable) { AllowPushDir(); rtrue; }
+  ],
+-) when defining a thing.
+
+A thing can be an Inform library door. A thing can be an Inform library
+container. A thing can be an Inform library supporter. A thing can be
+Inform library switchable. A thing can be an Inform library animate object.
+A thing can be an Inform library male. A thing can be an Inform library
+female.
+
+
+Section SR1/4 - Doors
+
+The specification of door is "Represents a conduit joining two rooms, most
+often a door or gate but sometimes a plank bridge, a slide or a hatchway.
+Usually visible and operable from both sides (for instance if you write
+'The blue door is east of the Ballroom and west of the Garden.'), but
+sometimes only one-way (for instance if you write 'East of the Ballroom is
+the long slide. Through the long slide is the cellar.')."
+
+A door is always an Inform library door.
+A door can be open or closed.
+A door is usually closed. A door can be openable.
+A door is usually openable.
+A door can be lockable. A door is usually not lockable.
+A door can be locked or unlocked. A door is usually unlocked.
+A door is allowed to have a matching key.
+A door is usually fixed in place.
+A door is never pushable between rooms.
+A door is allowed to have an other side.
+A door is allowed to have a description when open.
+A door is allowed to have a description when closed.
+Through X is Y means that the other side of X is Y.
+X is through Y means that the other side of X is Y.
+
+
+Section SR1/5 - Containers and supporters
+
+The specification of container is "Represents something into which portable
+things can be put, such as a teachest or a handbag. Something with a really
+large immobile interior, such as the Albert Hall, had better be a room
+instead."
+
+A container is always an Inform library container.
+A container can be open or closed. A container is usually open.
+A container can be openable. A container is usually not openable.
+A container can be lockable. A container is usually not lockable.
+A container can be locked or unlocked. A container is usually
+unlocked. A container is allowed to have a matching key. 
+A container is allowed to have a description when open.
+A container is allowed to have a description when closed.
+A container is allowed to have a number called carrying capacity.
+
+X unlocks Y means that the matching key of Y is X.
+X fits the lock of Y means that the matching key of Y is X.
+
+A player's holdall is a kind of container. The specification of
+player's holdall is "Represents a container which the player can
+carry around as a sort of rucksack, into which spare items are
+automatically stowed away."
+
+A player's holdall is always portable. A player's holdall
+is usually openable.
+
+Include (-
+Global SACK_OBJECT;
+Constant RUCKSACK_CLASS = (+ player's holdall +);
+-) before the library.
+
+The specification of supporter is "Represents a surface on which things can be
+placed, such as a table."
+
+A supporter is always an Inform library supporter.
+A supporter is always transparent.
+A supporter is usually fixed in place.
+A supporter is allowed to have a number called carrying capacity.
+
+
+Section SR1/6 - Devices
+
+A device is a kind of thing. A device is always Inform library switchable.
+A device can be switched on or switched off. A device is usually switched off.
+A device is allowed to have a description when on.
+A device is allowed to have a description when off.
+
+The specification of device is "Represents a machine or contrivance of some
+kind which can be switched on or off."
+
+
+Section SR1/7 - Directions
+
+The specification of direction is "Represents a direction of movement, such
+as northeast or down. At present Natural Inform does not support the creation
+of new directions, but it will do in the final release."
+
+A direction is allowed to have an opposite, an Inform property and an Inform object.
+
+The north is a direction with opposite south, Inform property "n_to" and Inform object "n_obj".
+The northeast is a direction with opposite southwest, Inform property "ne_to" and Inform object "ne_obj".
+The northwest is a direction with opposite southeast, Inform property "nw_to" and Inform object "nw_obj".
+The south is a direction with opposite north, Inform property "s_to" and Inform object "s_obj".
+The southeast is a direction with opposite northwest, Inform property "se_to" and Inform object "se_obj".
+The southwest is a direction with opposite northeast, Inform property "sw_to" and Inform object "sw_obj".
+The east is a direction with opposite west, Inform property "e_to" and Inform object "e_obj".
+The west is a direction with opposite east, Inform property "w_to" and Inform object "w_obj".
+The up is a direction with opposite down, Inform property "u_to" and Inform object "u_obj".
+The down is a direction with opposite up, Inform property "d_to" and Inform object "d_obj".
+
+Include (- class CompassDirection, -) when defining a direction.
+Include (- with name 'n//' 'north' 'wall', door_dir n_to, -) when defining the north.
+Include (- with name 'ne' 'northeast' 'wall', door_dir ne_to, -) when defining the northeast.
+Include (- with name 'nw' 'northwest' 'wall', door_dir nw_to, -) when defining the northwest.
+Include (- with name 's//' 'south' 'wall', door_dir s_to, -) when defining the south.
+Include (- with name 'se' 'southeast' 'wall', door_dir se_to, -) when defining the southeast.
+Include (- with name 'sw' 'southwest' 'wall', door_dir sw_to, -) when defining the southwest.
+Include (- with name 'e//' 'east' 'wall', door_dir e_to, -) when defining the east.
+Include (- with name 'w//' 'west' 'wall', door_dir w_to, -) when defining the west.
+Include (- with name 'u//' 'up' 'ceiling', door_dir u_to, -) when defining up.
+Include (- with name 'd//' 'down' 'floor', door_dir d_to, -) when defining down.
+
+Above means up from.
+Above is means up is.
+Below means down from.
+Below is means down is.
+
+
+Section SR1/8 - People, men and women
+
+A person is a kind of thing.
+A person is always an Inform library animate object.
+
+A man is a kind of person.
+A man is always an Inform library male.
+
+A woman is a kind of person.
+A woman is always an Inform library female.
+
+A player-character is a kind of person.
+A player-character is allowed to have a number called carrying capacity.
+The carrying capacity of a player-character is usually 100.
+Include (-
+  with description
+       [;  return L__M(##Miscellany, 19);
+       ],
+       before NULL, after NULL, life NULL, each_turn NULL,
+       time_out NULL, describe NULL,
+       parse_name 0,
+       orders 0, number 0,
+  has  proper transparent,
+-) when defining a player-character.
+
+The player is a player-character that varies.
+
+The yourself is an undescribed player-character.
+The Inform object of yourself is "selfobj".
+
+The carrying capacity of the player is X means that the carrying
+capacity of yourself is X.
+
+Initially carried means in yourself.
+
+
+Section SR1/9 - Vehicles
+
+A vehicle is a kind of container.
+A vehicle is always enterable.
+A vehicle is usually not portable.
+Include (- with before [; Go: return 1; ], -) when defining a vehicle.
+
+
+Section SR1/10 - Backdrops
+
+A backdrop is usually scenery.
+A backdrop is always fixed in place.
+
+
+Section SR1/11 - Inform 6 equivalents
+
+The description translates into Inform as "description".
+Description when open translates into Inform as "when_open".
+Description when closed translates into Inform as "when_closed".
+Description when on translates into Inform as "when_on".
+Description when off translates into Inform as "when_off".
+Initial appearance translates into Inform as "initial".
+The printed name translates into Inform as "short_name".
+Lighted translates into Inform as "light".
+Switched on translates into Inform as "on".
+Score for visiting translates into Inform as "score".
+Score translates into Inform as "score".
+Open translates into Inform as "open".
+Openable translates into Inform as "openable".
+Locked translates into Inform as "locked".
+Lockable translates into Inform as "lockable".
+The matching key translates into Inform as "with_key".
+Transparent translates into Inform as "transparent".
+Fixed in place translates into Inform as "static".
+Worn translates into Inform as "worn".
+Edible translates into Inform as "edible".
+Enterable translates into Inform as "enterable".
+Undescribed translates into Inform as "concealed".
+Scenery translates into Inform as "scenery".
+Inform library door translates into Inform as "door".
+Inform library supporter translates into Inform as "supporter".
+Inform library container translates into Inform as "container".
+Wearable translates into Inform as "clothing".
+Inform library switchable translates into Inform as "switchable".
+The other side translates into Inform as "door_to".
+Visited translates into Inform as "visited".
+Inform library animate object translates into Inform as "animate".
+Inform library male translates into Inform as "male".
+Inform library female translates into Inform as "female".
+Pushable between rooms translates into Inform as "pushable".
+Carrying capacity translates into Inform as "capacity".
+Indefinite article translates into Inform as "article".
+Inventory listing translates into Inform as "invent".
+
+The noun is an object that varies.
+The second noun is an object that varies.
+The object in question is an object that varies.
+
+The score is a number that varies.
+The time of day is a time that varies.
+
+Part SR2 - Rules
+
+Section SR2/1 - Standard Rulebooks
+
+[Do not alter the following list unless matching changes have been
+made within the NI compiler.]
+Action-processing rules is a rulebook.
+Before rules is a rulebook.
+Instead rules is a rulebook.
+After rules is a rulebook.
+Procedural rules is a rulebook.
+Accessibility rules is a rulebook.
+Action-specific rules is a rulebook.
+Carry out rules is a rulebook.
+General report rules is a rulebook.
+Turn sequence rules is a rulebook.
+Reaching inside rules is a parametrised-rulebook.
+Reaching outside rules is a parametrised-rulebook.
+General before rules is a rulebook.
+Actor-specific before rules is a rulebook.
+Location-specific before rules is a rulebook.
+Reaction before rules is a rulebook.
+Object-specific before rules is a rulebook.
+General after rules is a rulebook.
+Actor-specific after rules is a rulebook.
+Location-specific after rules is a rulebook.
+Reaction after rules is a rulebook.
+Object-specific after rules is a rulebook.
+When play begins is a rulebook.
+When play ends is a rulebook.
+Daemons register is a rulebook.
+[From here on they can be meddled with.]
+
+Every turn rules is a rulebook.
+
+
+Section SR2/2 - Advance of time
+
+The advance time rule corresponds to routine TS1_R.
+The timers and daemons rule corresponds to routine TS2_R.
+The each turn properties rule corresponds to routine TS3_R.
+The time passes rule corresponds to routine TS4_R.
+The adjust light rule corresponds to routine TS5_R.
+The note object acquisitions rule corresponds to routine TS6_R.
+The timed events rule corresponds to routine ProcessI7Timers.
+
+The first turn sequence rule:
+	consider the every turn rules;
+	consider the daemons register;
+	consider the timed events rule.
+The advance time rule is listed in the turn sequence rulebook.
+The timers and daemons rule is listed in the turn sequence rulebook.
+The each turn properties rule is listed in the turn sequence rulebook.
+The time passes rule is listed in the turn sequence rulebook.
+The last turn sequence rule:
+	consider the adjust light rule;
+	consider the note object acquisitions rule.
+
+
+Section SR2/3 - Accessibility of objects
+
+The access to scoped objects rule corresponds to routine OIU_Scoped.
+The access through barriers rule corresponds to routine OIU_Barrier.
+The can't reach inside closed containers rule corresponds to routine OIUB_CCI.
+The can't reach outside closed containers rule corresponds to routine OIUB_CCO.
+The can't take people's possessions rule corresponds to routine OIUB_AP.
+The can't take component parts rule corresponds to routine OIUB_CP.
+
+The primitive accessibility rule corresponds to routine PA_R.
+
+The first accessibility rule:
+	abide by the access to scoped objects rule.
+
+The last accessibility rule:
+	abide by the access through barriers rule.
+
+The last reaching inside rule:
+	abide by the can't reach inside closed containers rule;
+	abide by the can't take people's possessions rule;
+	abide by the can't take component parts rule.
+
+The last reaching outside rule:
+	abide by can't reach outside closed containers rule.
+
+
+Section SR2/4 - Action processing
+
+The last general before rule: abide by Inform GamePreRoutine.
+The last actor-specific before rule: abide by Inform orders property.
+The last location-specific before rule: abide by Inform location before.
+The last reaction before rule: abide by Inform react_before property.
+The last object-specific before rule: abide by Inform object before.
+
+The first general after rule: abide by Inform GamePostRoutine.
+[I6 does not have actor-specific afters, asymmetrically.]
+The first location-specific after rule: abide by Inform location after.
+The first reaction after rule: abide by Inform react_after property.
+The first object-specific after rule: abide by Inform object after.
+
+The first action-processing rule:
+	abide by the before rules.
+
+The last action-processing rule:
+	abide by the primitive accessibility rule;
+	abide by the instead rules;
+	abide by the action-specific rules;
+	abide by the carry out rules;
+	the rule succeeds.
+
+The last before rule:
+	abide by the general before rules;
+	abide by the actor-specific before rules;
+	abide by the location-specific before rules;
+	abide by the reaction before rules;
+	abide by the object-specific before rules.
+
+The last carry out rule:
+	cause the action to take place.
+
+The first after rule:
+	abide by the object-specific after rules;
+	abide by the reaction after rules;
+	abide by the location-specific after rules;
+	abide by the actor-specific after rules;
+	abide by the general after rules.
+
+
+Part SR3 - Actions
+
+Section SR3/1 - Generic action patterns
+
+Doing something corresponds to action "_Pattern_".
+Doing something to corresponds to action "_Pattern_".
+Doing something with corresponds to action "_Pattern_".
+Doing anything corresponds to action "_Pattern_".
+Doing anything to corresponds to action "_Pattern_".
+Doing anything with corresponds to action "_Pattern_".
+
+
+Section SR3/2 - Waiting
+
+Waiting is an action corresponding to Wait
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	none
+	- report -
+	standard report waiting rule = WaitSub_R1.
+
+
+Section SR3/3 - The inventory
+
+Taking inventory is an action corresponding to Inv
+	past participle taken,
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	default inventory style rule = InvSub_O1
+	print empty inventory rule = InvSub_O2
+	print standard inventory rule = InvSub_O3
+	use inventory to set pronouns rule = InvSub_O4
+	- report -
+	none.
+
+
+Section SR3/4 - Actions which move objects
+
+Taking is an action corresponding to Take
+	past participle taken
+	applying to one thing
+	- check -
+	avoid unnecessary implicit taking rule = TakeSub_C1
+	can't take yourself rule = TakeSub_C2
+	can't take other people rule = TakeSub_C3
+	determine common ancestor for taking rule = TakeSub_C4
+	can't take from distant locations rule = TakeSub_C5
+	can't take what you're inside rule = TakeSub_C6
+	can't take what's already taken rule = TakeSub_C7
+	check let-go-before rule = TakeSub_C8
+	can't take scenery rule = TakeSub_C9
+	can't take what's fixed in place rule = TakeSub_C10
+	use player's holdall to avoid exceeding carrying capacity rule = TakeSub_C11
+	can't exceed carrying capacity rule = TakeSub_C12
+	- carry-out -
+	standard taking rule = TakeSub_O1
+	check let-go-after rule = TakeSub_O2
+	- report -
+	don't report successful implicit takes rule = TakeSub_R1
+	standard report taking rule = TakeSub_R2.
+
+Removing is an action corresponding to Remove
+	applying to two things
+	- check -
+	can't remove from closed containers rule = RemoveSub_C1
+	can't remove what's not inside rule = RemoveSub_C2
+	can't remove from people rule = RemoveSub_C3
+	can't take yourself rule = qv
+	can't take other people rule = qv
+	determine common ancestor for taking rule = qv
+	can't take from distant locations rule = qv
+	can't take what you're inside rule = qv
+	can't take what's already taken rule = qv
+	check let-go-before rule = qv
+	can't take scenery rule = qv
+	can't take what's fixed in place rule = qv
+	use player's holdall to avoid exceeding carrying capacity rule = qv
+	can't exceed carrying capacity rule = qv
+	- carry-out -
+	standard taking rule = qv
+	check after-rules for taking too rule = RemoveSub_O2
+	- report -
+	standard report removing rule = RemoveSub_R1.
+
+Dropping is an action corresponding to Drop
+	applying to one thing
+	- check -
+	can't drop yourself rule = DropSub_C1
+	can't drop what's already dropped rule = DropSub_C2
+	can't drop what's not held rule = DropSub_C3
+	can't drop clothes being worn rule = DropSub_C4
+	- carry-out -
+	standard dropping rule = DropSub_O1
+	- report -
+	standard report dropping rule = DropSub_R1;
+
+Putting it on is an action corresponding to PutOn
+	past participle put
+	applying to two things
+	- check -
+	convert put to drop where possible rule = PutOnSub_C1
+	can't put what's not held rule = PutOnSub_C2
+	can't put something on itself rule = PutOnSub_C3
+	check receive-before for supporter rule = PutOnSub_C4
+	can't put onto what's not a supporter rule = PutOnSub_C5
+	can't put onto something being carried rule = PutOnSub_C6
+	can't put clothes being worn rule = PutOnSub_C7
+	can't put if this exceeds carrying capacity rule = PutOnSub_C8
+	- carry-out -
+	standard putting rule = PutOnSub_O1
+	check receive-after for supporter rule = PutOnSub_O2
+	- report -
+	standard report putting rule = PutOnSub_R1;
+
+Inserting is an action corresponding to Insert
+	applying to two things
+	- check -
+	convert insert to drop where possible rule = InsertSub_C1
+	can't insert what's not held rule = InsertSub_C2
+	can't insert something into itself rule = InsertSub_C3
+	check receive-before for container rule = InsertSub_C4
+	can't insert into closed containers rule = InsertSub_C5
+	can't insert into what's not a container rule = InsertSub_C6
+	can't insert clothes being worn rule = InsertSub_C7
+	can't insert if this exceeds carrying capacity rule = InsertSub_C8
+	- carry-out -
+	standard inserting rule = InsertSub_O1
+	check receive-after for container rule = InsertSub_O2
+	- report -
+	standard report inserting rule = InsertSub_R1;
+
+
+Section SR3/5 - Actions involving movement of the player
+
+Entering is an action corresponding to Enter
+	applying to one thing
+	- check -
+	convert enter door into go rule = EnterSub_C1
+	convert enter compass direction into go rule = EnterSub_C2
+	can't enter what's already entered rule = EnterSub_C3
+	can't enter what's not enterable rule = EnterSub_C4
+	can't enter closed containers rule = EnterSub_C5
+	determine common ancestor for entering rule = EnterSub_C6
+	can't enter something carried rule = EnterSub_C7
+	implicitly pass through other barriers rule = EnterSub_C8
+	- carry-out -
+	standard entering rule = EnterSub_O1
+	- report -
+	standard report entering rule = EnterSub_R1
+	describe contents entered into rule = EnterSub_R2;
+
+Exiting is an action corresponding to Exit
+	applying to nothing
+	- check -
+	convert exit into go out rule = ExitSub_C1
+	can't exit when not inside anything rule = ExitSub_C2
+	can't exit closed containers rule = ExitSub_C3
+	- carry-out -
+	standard exiting rule = ExitSub_O1
+	- report -
+	standard report exiting rule = ExitSub_R1
+	describe room emerged into rule = ExitSub_R2;
+
+Getting off is an action corresponding to GetOff
+	past participle got
+	applying to one thing
+    - check -
+    convert get off to exit where possible rule = GetOffSub_C1
+    can't get off things rule = GetOffSub_C2
+	- carry-out -
+	none
+ 	- report -
+	none.
+
+Going is an action corresponding to Go
+	past participle gone
+	applying to one visible thing
+	- check -
+	set up going rule = GoSub_C1
+	check to see if in a vehicle rule = GoSub_C2
+	can't travel in what's not a vehicle rule = GoSub_C3
+	determine direction property rule = GoSub_C4
+	determine map connection rule = GoSub_C5
+	print textual map connections rule = GoSub_C6
+	consult routine map connections rule = GoSub_C7
+	can't go that way rule = GoSub_C8
+	can't go through concealed doors rule = GoSub_C9
+	can't go through closed doors rule = GoSub_C10
+	determine what's through door rule = GoSub_C11
+	- carry-out -
+	move player and vehicle rule = GoSub_O1
+	move floating objects rule = GoSub_O2
+	check light in new location rule = GoSub_O3
+	- report -
+	describe room gone into rule = GoSub_R1;
+
+
+Section SR3/6 - Actions involving sight
+
+Looking is an action corresponding to Look
+	applying to nothing
+	requiring light
+	- check -
+	none
+	- carry-out -
+	determine visibility ceiling rule = LookSub_O1
+	room description heading rule = LookSub_O2
+	room description body text rule = LookSub_O3
+	room description paragraphs about objects rule = LookSub_O4
+	consult LookRoutine entry point rule = LookSub_O5
+	check new arrival rule = LookSub_O6
+	- report -
+	none.
+
+Examining is an action corresponding to Examine
+	applying to one visible thing
+	requiring light
+	- check -
+	none
+	- carry-out -
+	examine undescribed containers rule = ExamineSub_O1
+	examine undescribed devices rule = ExamineSub_O2
+	examine undescribed things rule = ExamineSub_O3
+	standard examining rule = ExamineSub_O4
+	examine described devices rule = ExamineSub_O5
+	- report -
+	none.
+
+Looking under is an action corresponding to LookUnder
+	applying to one visible thing
+	requiring light
+	- check -
+	none
+	- carry-out -
+	standard looking under rule = LookUnder_O1
+	- report -
+	none.
+
+Searching is an action corresponding to Search
+	applying to one thing
+	requiring light
+	- check -
+	can't search unless container or supporter rule = SearchSub_C1
+	can't search closed opaque containers rule = SearchSub_C2
+	- carry-out -
+	standard searching rule = SearchSub_O1
+	- report -
+	standard search containers rule = SearchSub_R1
+	standard search supporters rule = SearchSub_R2.
+
+
+Section SR3/7 - Actions which change the state of objects
+
+Locking is an action corresponding to Lock
+	applying to two things
+	- check -
+	can't lock without a lock rule = LockSub_C1
+	can't lock what's already locked rule = LockSub_C2
+	can't lock what's open rule = LockSub_C3
+	can't lock without the correct key rule = LockSub_C4
+	- carry-out -
+	standard locking rule = LockSub_O1
+	- report -
+	standard report locking rule = LockSub_R1.
+
+Unlocking is an action corresponding to Unlock
+	applying to two things
+	- check -
+	can't unlock without a lock rule = UnlockSub_C1
+	can't unlock what's already unlocked rule = UnlockSub_C2
+	can't unlock without the correct key rule = UnlockSub_C3
+	- carry-out -
+	standard unlocking rule = UnlockSub_O1
+	- report -
+	standard report unlocking rule = UnlockSub_R1.
+
+Switching on is an action corresponding to SwitchOn
+	applying to one thing
+	- check -
+	can't switch on unless switchable rule = SwitchOnSub_C1
+	can't switch on what's already on rule = SwitchOnSub_C2
+	- carry-out -
+	standard switching on rule = SwitchOnSub_O1
+	- report -
+	standard report switching on rule = SwitchOnSub_R1.
+
+Switching off is an action corresponding to SwitchOff
+	applying to one thing
+	- check -
+	can't switch off unless switchable rule = SwitchOffSub_C1
+	can't switch off what's already off rule = SwitchOffSub_C2
+	- carry-out -
+	standard switching off rule = SwitchOffSub_O1
+	- report -
+	standard report switching off rule = SwitchOffSub_R1.
+
+Opening is an action corresponding to Open
+	applying to one thing
+	- check -
+	can't open unless openable rule = OpenSub_C1
+	can't open what's locked rule = OpenSub_C2
+	can't open what's already open rule = OpenSub_C3
+	- carry-out -
+	standard opening rule = OpenSub_O1
+	- report -
+	reveal any newly visible exterior rule = OpenSub_R1
+	standard report opening rule = OpenSub_R2.
+
+Closing is an action corresponding to Close
+	applying to one thing
+	- check -
+	can't close unless openable rule = CloseSub_C1
+	can't close what's already closed rule = CloseSub_C2
+	- carry-out -
+	standard closing rule = CloseSub_O1
+	- report -
+	standard report closing rule = CloseSub_R1.
+
+Wearing is an action corresponding to Wear
+	past participle worn
+	applying to one thing
+	- check -
+	can't wear what's not clothing rule = WearSub_C1
+	can't wear what's not held rule = WearSub_C2
+	can't wear what's already worn rule = WearSub_C3
+	- carry-out -
+	standard wearing rule = WearSub_O1
+	- report -
+	standard report wearing rule = WearSub_R1.
+
+Taking off is an action corresponding to Disrobe
+	past participle taken
+	applying to one thing
+	- check -
+	can't take off what's not worn rule = DisrobeSub_C1
+	- carry-out -
+	standard taking off rule = DisrobeSub_O1
+	- report -
+	standard report taking off rule = DisrobeSub_R1.
+
+Eating is an action corresponding to Eat
+	past participle eaten
+	applying to one thing
+	- check -
+	can't eat unless edible rule = EatSub_C1
+	can't eat clothing without removing it first rule = EatSub_C2
+	- carry-out -
+	standard eating rule = EatSub_O1
+	- report -
+	standard report eating rule = EatSub_R1.
+
+
+Section SR3/8 - Actions which are checked but then do nothing
+
+Touching is an action corresponding to Touch
+	applying to one thing
+	- check -
+	none
+	- carry-out -
+	none
+	- report -
+	report touching yourself rule = TouchSub_R1
+	report touching other people rule = TouchSub_R2
+	report touching things rule = TouchSub_R3.
+
+Waving is an action corresponding to Wave
+	applying to one thing
+	- check -
+	can't wave what's not held rule = WaveSub_C1
+	- carry-out -
+	none
+	- report -
+	report waving things rule = WaveSub_R1.
+
+Pulling is an action corresponding to Pull
+	applying to one thing
+	- check -
+	can't pull what's fixed in place rule = PullSub_C1
+	can't pull scenery rule = PullSub_C2
+	can't pull people rule = PullSub_C3
+	- carry-out -
+	none
+	- report -
+	report pulling rule = PullSub_R1.
+
+Pushing is an action corresponding to Push
+	applying to one thing
+	- check -
+	can't push what's fixed in place rule = PushSub_C1
+	can't push scenery rule = PushSub_C2
+	can't push people rule = PushSub_C3
+	- carry-out -
+	none
+	- report -
+	report pushing rule = PushSub_R1.
+
+Turning is an action corresponding to Turn
+	applying to one thing
+	- check -
+	can't turn what's fixed in place rule = TurnSub_C1
+	can't turn scenery rule = TurnSub_C2
+	can't turn people rule = TurnSub_C3
+	- carry-out -
+	none
+	- report -
+	report turning rule = TurnSub_R1.
+
+Pushing it to is an action corresponding to PushDir
+	applying to two things
+	- check -
+	block pushing in directions rule = PushDirSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Squeezing is an action corresponding to Squeeze
+	applying to one thing
+	- check -
+	innuendo about squeezing people rule = SqueezeSub_C1
+	- carry-out -
+	none
+	- report -
+	report squeezing rule = SqueezeSub_R1.
+
+
+Section SR3/9 - Actions concerning other people
+
+Giving it to is an action corresponding to Give
+	past participle given
+	applying to one thing
+	- check -
+	can't give what you haven't got rule = GiveSub_C1
+	can't give to yourself rule = GiveSub_C2
+	check life property for giving rule = GiveSub_C3
+	block giving rule = GiveSub_C4
+	- carry-out -
+	none
+	- report -
+	none.
+
+Showing it to is an action corresponding to Show
+	past participle shown
+	applying to one thing
+	- check -
+	can't show what you haven't got rule = ShowSub_C1
+	convert show to yourself to examine rule = ShowSub_C2
+	check life property for showing rule = ShowSub_C3
+	block showing rule = ShowSub_C4
+	- carry-out -
+	none
+	- report -
+	none.
+
+Waking is an action corresponding to WakeOther
+	past participle woken
+	applying to one thing
+	- check -
+	check life property for waking rule = WakeOtherSub_C1
+	block waking rule = WakeOtherSub_C2
+	- carry-out -
+	none
+	- report -
+	none.
+
+Throwing it at is an action corresponding to ThrowAt
+	past participle thrown
+	applying to one thing
+	- check -
+	check thrown-at rule = ThrowAtSub_C1
+	implicitly remove thrown clothing rule = ThrowAtSub_C2
+	futile to throw things at inanimate objects rule = ThrowAtSub_C3
+	check life property for throwing at rule = ThrowAtSub_C4
+	block throwing at rule = ThrowAtSub_C5
+	- carry-out -
+	none
+	- report -
+	none.
+
+Attacking is an action corresponding to Attack
+	applying to one thing
+	- check -
+	check life property for attacking rule = AttackSub_C1
+	block attacking rule = AttackSub_C2
+	- carry-out -
+	none
+	- report -
+	none.
+
+Kissing is an action corresponding to Kiss
+	applying to one thing
+	- check -
+	kissing yourself rule = KissSub_C1
+	check life property for kissing rule = KissSub_C2
+	block kissing rule = KissSub_C3
+	- carry-out -
+	none
+	- report -
+	none.
+
+Answering it that is an action corresponding to Answer
+	applying to one thing and one topic
+	- check -
+	check life property for answering rule = AnswerSub_C1
+	- carry-out -
+	none
+	- report -
+	block answering rule = AnswerSub_C2.
+
+Telling it about is an action corresponding to Tell
+	past participle told
+	applying to one thing and one topic
+	- check -
+	telling yourself rule = TellSub_C1
+	check life property for telling rule = TellSub_C2
+	- carry-out -
+	none
+	- report -
+	block telling rule = TellSub_C3.
+
+Asking it about is an action corresponding to Ask
+	applying to one thing and one topic
+	- check -
+	check life property for asking rule = AskSub_C1
+	- carry-out -
+	none
+	- report -
+	block asking rule = AskSub_C2.
+
+Asking it for is an action corresponding to AskFor
+	applying to one thing
+	- check -
+	asking yourself for something rule = AskForSub_C1
+	block asking for rule = AskForSub_C2
+	- carry-out -
+	none
+	- report -
+	none.
+
+
+Section SR3/10 - Actions blocked in all cases
+
+Saying yes is an action corresponding to Yes
+	past participle said
+	applying to nothing
+	- check -
+	block saying yes rule = YesSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Saying no is an action corresponding to No
+	past participle said
+	applying to nothing
+	- check -
+	block saying no rule = NoSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Burning is an action corresponding to Burn
+	applying to one thing
+	- check -
+	block burning rule = BurnSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Praying is an action corresponding to Pray
+	applying to nothing
+	- check -
+	block praying rule = PraySub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Waking up is an action corresponding to Wake
+	past participle woken
+	applying to one thing
+	- check -
+	block waking up rule = WakeSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Thinking is an action corresponding to Think
+	past participle thought
+	applying to nothing
+	- check -
+	block thinking rule = ThinkSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Smelling is an action corresponding to Smell
+	applying to nothing
+	- check -
+	block smelling rule = SmellSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Listening is an action corresponding to Listen
+	applying to nothing
+	- check -
+	block listening rule = ListenSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Tasting is an action corresponding to Taste
+	applying to one thing
+	- check -
+	block tasting rule = TasteSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Digging is an action corresponding to Dig
+	past participle dug
+	applying to one thing
+	- check -
+	block digging rule = DigSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Cutting is an action corresponding to Cut
+	past participle cut
+	applying to one thing
+	- check -
+	block cutting rule = CutSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Jumping is an action corresponding to Jump
+	applying to nothing
+	- check -
+	block jumping rule = JumpSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Jumping over is an action corresponding to JumpOver
+	applying to one thing
+	- check -
+	block jumping over rule = JumpOverSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Tieing is an action corresponding to Tie
+	past participle tied
+	applying to one thing
+	- check -
+	block tieing rule = TieSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Drinking is an action corresponding to Drink
+	past participle drunk
+	applying to one thing
+	- check -
+	block drinking rule = DrinkSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Filling is an action corresponding to Fill
+	applying to one thing
+	- check -
+	block filling rule = FillSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Saying sorry is an action corresponding to Sorry
+	past participle said
+	applying to nothing
+	- check -
+	block saying sorry rule = SorrySub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Swearing obscenely is an action corresponding to Strong
+	past participle sworn
+	applying to nothing
+	- check -
+	block swearing obscenely rule = StrongSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Swearing mildly is an action corresponding to Mild
+	past participle sworn
+	applying to nothing
+	- check -
+	block swearing mildly rule = MildSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Swimming is an action corresponding to Swim
+	past participle swum
+	applying to nothing
+	- check -
+	block swimming rule = SwimSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Swinging is an action corresponding to Swing
+	past participle swung
+	applying to one thing
+	- check -
+	block swinging rule = SwingSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Blowing is an action corresponding to Blow
+	past participle blown
+	applying to one thing
+	- check -
+	block blowing rule = BlowSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Rubbing is an action corresponding to Rub
+	applying to one thing
+	- check -
+	block rubbing rule = RubSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Setting it to is an action corresponding to SetTo
+	past participle set
+	applying to two things
+	- check -
+	block setting to rule = SetToSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Waving hands is an action corresponding to WaveHands
+	applying to nothing
+	- check -
+	block waving hands rule = WaveHandsSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Buying is an action corresponding to Buy
+	past participle bought
+	applying to one thing
+	- check -
+	block buying rule = BuySub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Singing is an action corresponding to Sing
+	past participle sung
+	applying to nothing
+	- check -
+	block singing rule = SingSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Climbing is an action corresponding to Climb
+	applying to nothing
+	- check -
+	block climbing rule = ClimbSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Sleeping is an action corresponding to Sleep
+	past participle slept
+	applying to nothing
+	- check -
+	block sleeping rule = SleepSub_C1
+	- carry-out -
+	none
+	- report -
+	none.
+
+Consulting it about is an action corresponding to Consult
+	applying to one thing and one topic
+	- check -
+	none
+	- carry-out -
+	none
+	- report -
+	block consulting rule = ConsultSub_C1.
+
+
+Part SR4 - Phrasebook
+
+Section SR4/1 - Loops and conditionals
+
+To if (c - condition) then (ph - phrase):
+	(- if {c} {ph} -).
+To otherwise (ph - phrase):
+	(- else {ph} -).
+To if (c - condition) begin *:
+	(- if {c}  -).
+To while (c - condition) repeatedly (ph - phrase):
+	(- while {c} {ph} -).
+To while (c - condition) begin *:
+	(- while {c}  -).
+To repeat with (loopvar - number variable)
+	running from (v - number) to (w - number) begin *:
+		(- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).
+To repeat with (loopvar - object variable)
+	running through contents of (v - object) begin *:
+		(- objectloop ({loopvar} in {v})  -).
+
+
+Section SR4/2 - Saying and listing
+
+To say (something - number):
+	(- print {something}; -).
+To say (something - time):
+	(- print (PrintTimeOfDay) {something}; -).
+To say (something - time) in words:
+	(- print (PrintTimeOfDayEnglish) {something}; -).
+To say (something - number) in words:
+	(- print (number) {something}; -).
+To say the (something - number) in words:
+	(- print (number) {something}; -).
+To say (something - string):
+	(- print (string) {something}; -).
+To say (something - object):
+	(- print (name) {something}; -).
+To say a (something - object):
+	(- print (a) {something}; -).
+To say an (something - object):
+	(- print (a) {something}; -).
+To say the (something - object):
+	(- print (the) {something}; -).
+To say The (something - object):
+	(- print (The) {something}; -).
+
+To list the contents of (O - an object),
+	with newlines, indented, as a sentence, including contents,
+	including all contents, giving inventory information,
+	giving brief inventory information, using the definite article,
+	listing marked items only, prefacing with is/are
+	and/or not listing concealed items:
+	(- WriteListFrom(child({O}), {phrase options}); -).
+To say contents of (O - an object):
+	list the contents of O, as a sentence.
+To say the contents of (O - an object):
+	list the contents of O, as a sentence, using the definite article.
+
+
+Section SR4/3 - The score and the outcome
+
+To start the player in (somewhere - a room):
+	(- location={somewhere}; -).
+To change the player to (O - a player-character):
+	(- ChangePlayer({O}); -).
+To award (some - number) point:
+	(- score=score+{some}; -).
+To award (some - number) points:
+	(- score=score+{some}; -).
+To end the game in death:
+	(- deadflag=1; -).
+To end the game in victory:
+	(- deadflag=2; -).
+To end the game saying (finale - text):
+	(- deadflag={finale}; -).
+To resume the game:
+	(- deadflag=0; -).
+
+
+Section SR4/4 - Causing and responding to actions
+
+To try (doing something - action):
+	(- <{doing something}>; -).
+To silently try (doing something - action):
+	(- keep_silent=1;<{doing something}>;keep_silent=0; -).
+
+To stop the action:
+	(- rtrue; -) - outcome.
+To allow the action:
+	(- rfalse; -) - outcome.
+To decide if action type (A - action):
+	(- (action == ##{A}) -).
+
+
+Section SR4/5 - Changing properties and variables
+
+To let (n - number variable) be (m - number):
+	(- {n} = {m}; -). 
+To let (n - time variable) be (m - time):
+	(- {n} = {m}; -). 
+To let (o - string variable) be (p - string):
+	(- {o} = {p}; -). 
+To let (r - object variable) be (s - object):
+	(- {r} = {s}; -). 
+To let (k - classified variable) be (l - classified):
+	(- {k} = {l}; -). 
+To let (t - existing variable) be (u - value):
+	(- {t} = {u}; -).
+To change (p - property) to (w - value):
+	(- Write{p}{-},{w}); -).
+To change (gv - global variable) to (w - value):
+	(- {gv} = {w}; -).
+To change (o - object) to (p - property):
+	(- if (PermitAttribute(true, {o}, {p})) give {o} {p}; -).
+
+
+Section SR4/6 - Moving and removing things
+
+To remove (something - a thing) from play:
+	(- remove {something}; -).
+To move (something - a thing) to (something else - a thing):
+	(- move {something} to {something else}; -).
+To move (something - a thing) to (somewhere - a room):
+	(- move {something} to {somewhere}; -).
+
+
+Section SR4/7 - Arithmetic and comparisons
+
+To decide which number is (X - number) + (Y - number): (- ({X}+{Y}) -).
+To decide which number is (X - number) - (Y - number): (- ({X}-{Y}) -).
+To decide which number is (X - number) * (Y - number): (- ({X}*{Y}) -).
+To decide which number is (X - number) / (Y - number): (- ({X}/{Y}) -).
+
+To decide whether (X - number) < (Y - number): (- ({X}<{Y}) -).
+To decide whether (X - number) <= (Y - number): (- ({X}<={Y}) -).
+To decide whether (X - number) > (Y - number): (- ({X}>{Y}) -).
+To decide whether (X - number) >= (Y - number): (- ({X}>={Y}) -).
+
+
+Section SR4/8 - Randomness
+
+To decide which number is a random number from (N - number) to (M - number):
+	(- (random(({M})-({N})+1)+({N})-1) -).
+To decide whether a random chance of (N - number) in (M - number) succeeds:
+	(- (random({M}) <= {N}) -).
+
+
+Section SR4/9 - Time
+
+To decide which time is (t - time) to the nearest (t2 - time):
+	(- (RoundOffTime({t},{t2})) -).
+To decide which number is the hours part of (t - time):
+	(- ({t}/60) -).
+To decide which number is the minutes part of (t - time):
+	(- ({t}%60) -).
+To decide if (t - time) is before (t2 - time):
+	(- ((({t}+20*60)%(60*24))<(({t2}+20*60)%(60*24))) -).
+To decide if (t - time) is after (t2 - time):
+	(- ((({t}+20*60)%(60*24))>(({t2}+20*60)%(60*24))) -).
+To decide if it is before (t2 - time):
+	(- (((the_time+20*60)%(60*24))<(({t2}+20*60)%(60*24))) -).
+To decide if it is after (t2 - time):
+	(- (((the_time+20*60)%(60*24))>(({t2}+20*60)%(60*24))) -).
+To decide which time is (t - time) before (t2 - time):
+	(- (({t2}-{t}+60*24)%(60*24)) -).
+To decide which time is (t - time) after (t2 - time):
+	(- (({t2}+{t}+60*24)%(60*24)) -).
+To decide which time is (n - number) minutes:
+	(- (({n})%(60*24)) -).
+To decide which time is (n - number) hours:
+	(- (({n}*60)%(60*24)) -).
+To (R - rule) in (t - number) turns from now:
+	(- SetI7Timer({R}, {t}+1, 0); -).
+To (R - rule) at (t - time):
+	(- SetI7Timer({R}, {t}, 1); -).
+To (R - rule) in (t - time) from now:
+	(- SetI7Timer({R}, (the_time+{t})%(60*24), 1); -).
+
+
+Section SR4/10 - Tables
+
+To decide which number is the number of rows in (T - table):
+	(- TableRows({T}) -).
+To decide which number is the number of blank rows in (T - table):
+	(- TableBlankRows({T}) -).
+To decide which number is the number of filled rows in (T - table):
+	(- TableFilledRows({T}) -).
+To decide if there is (TR - table-reference):
+	(- (Exists{TR}) -).
+To decide if there is no (TR - table-reference):
+	(- (Exists{TR} == false) -).
+To change (tr - table-reference) to (w - value):
+	(- {tr}{-},1,{w}); -).
+To delete (tr - table-reference):
+	(- {tr}{-},1,I7_TABLE_NOVALUE); -).
+To choose a blank row in (T - table):
+	(- {+}ct_0 = {T}; ct_1 = TableBlankRow(ct_0); -).
+To choose a random row in (T - table):
+	(- {+}ct_0 = {T}; ct_1 = TableRandomRow(ct_0); -).
+To choose row (N - number) in (T - table):
+	(- {+}ct_0 = {T}; ct_1 = {N}; -).
+To choose row with (TC - table-column) of (w - value) in (T - table):
+	(- {+}ct_0 = {T}; ct_1 = TableRowCorr(ct_0, {TC}, {w}); -).
+To repeat through (T - table) begin *:
+	(- {+}ct_0 = {T}; for (ct_1=1:ct_1<=TableRows(ct_0):ct_1++) if (TableRowIsBlank(ct_0,ct_1)==false)  -).
+To repeat through (T - table) in reverse order begin *:
+	(- {+}ct_0 = {T}; for (ct_1=TableRows(ct_0):ct_1>=1:ct_1--) if (TableRowIsBlank(ct_0,ct_1)==false)  -).
+To repeat through (T - table) in (TC - table-column) order begin *:
+	(- {+}ct_0 = {T}; for (ct_1=TableNextRow(ct_0,{TC},0,1):ct_1~=0:ct_1=TableNextRow(ct_0,{TC},ct_1,1))  -).
+To repeat through (T - table) in reverse (TC - table-column) order begin *:
+	(- {+}ct_0 = {T}; for (ct_1=TableNextRow(ct_0,{TC},0,-1):ct_1~=0:ct_1=TableNextRow(ct_0,{TC},ct_1,-1))  -).
+To blank out the whole row:
+	(- {+}TableBlankOutRow(ct_0, ct_1); -).
+To sort (T - table) in random order:
+    (- TableShuffle({T}); -).
+To sort (T - table) in (TC - table-column) order:
+	(- TableSort({T}, {TC}, 1); -).
+To sort (T - table) in reverse (TC - table-column) order:
+	(- TableSort({T}, {TC}, -1); -).
+
+To issue the error (message - text):
+	(- print ">--> ", (string) {message}, "^^"; rtrue; -).
+
+To stop:
+	(- return; -) - void.
+To yes:
+	(- rtrue; -) - condition.
+To no:
+	(- rfalse; -) - condition.
+
+To result (something - returned):
+	(- return {something}; -) - value.
+
+To decide whether in (somewhere - a room):
+	(- (real_location=={somewhere}) -).
+To decide whether in darkness:
+	(- (location==thedark) -).
+To decide whether the player is wearing (something - wearable):
+	(- ({something} has worn) -).
+To decide whether (something - a thing) is carried:
+	(- ({something} in player) -).
+To decide whether (something - a thing) is not carried:
+	(- ({something} notin player) -).
+
+To decide whether (o - object) is inaccessible, saying if not:
+	(- (ObjectIsUntouchable({o}, ~~({saying if not})) -).
+
+To ignore (RL - a rule):
+	(- SuppressRule({RL}); -).
+To reinstate (RL - a rule):
+	(- ReinstateRule({RL}); -).
+To reject the result of (RL - a rule):
+	(- DonotuseRule({RL}); -).
+To accept the result of (RL - a rule):
+	(- DonotuseRule({RL}); -).
+To substitute (RL1 - a rule) for (RL2 - a rule):
+	(- SubstituteRule({RL1},{RL2}); -).
+To restore the original (RL1 - a rule):
+	(- SubstituteRule({RL1},{RL1}); -).
+To move (RL1 - a rule) to before (RL2 - a rule):
+	(- MoveRuleBefore({RL1},{RL2}); -).
+To move (RL1 - a rule) to after (RL2 - a rule):
+	(- MoveRuleAfter({RL1},{RL2}); -).
+
+To start (RL - a rule):
+	(- SetDaemonRule({RL},1); -).
+To stop (RL - a rule):
+	(- SetDaemonRule({RL},0); -).
+
+To follow (RL - a rule):
+	(- FollowRulebook({RL}); -).
+To consider (RL - a rule):
+	(- ProcessRulebook({RL}); -).
+To abide by (RL - a rule):
+	(- if (ProcessRulebook({RL})) rtrue; -).
+To follow (RL - a rule) for (O - object):
+	(- FollowRulebook({RL}, {O}); -).
+To consider (RL - a rule) for (O - object):
+	(- ProcessRulebook({RL}, {O}); -).
+To abide by (RL - a rule) for (O - object):
+	(- if (ProcessRulebook({RL}, {O})) rtrue; -).
+
+To make no decision: (- rfalse; -).
+To continue the action: (- rfalse; -).
+To the rule succeeds:
+	(- RulebookSucceeds(); rtrue; -).
+To the rule fails:
+	(- RulebookFails(); rtrue; -).
+To the rule succeeds with result (O - a classified):
+	(- RulebookSucceeds(true,{O}); rtrue; -).
+To the rule fails with result (O - a classified):
+	(- RulebookFails(true,{O}); rtrue; -).
+To decide if the rule succeeded:
+	(- (rulechange_stack-->rulechange_sp == RS_SUCCEEDS) -).
+To decide if the rule succeeded with result (O - classified):
+	(- ((rulechange_stack-->rulechange_sp == RS_SUCCEEDS)
+		&& (rulechange_stack-->(rulechange_sp+1) == true)
+		&& (rulechange_stack-->(rulechange_sp+2) == {O})) -).
+To decide if the rule failed:
+	(- (rulechange_stack-->rulechange_sp == RS_FAILS) -).
+To decide if the rule failed with result (O - classified):
+	(- ((rulechange_stack-->rulechange_sp == RS_FAILS)
+		&& (rulechange_stack-->(rulechange_sp+1) == true)
+		&& (rulechange_stack-->(rulechange_sp+2) == {O})) -).
+To decide which classified is the result of the rule:
+	(- (ResultOfRule()) -).
+To allow access:
+	(- RulebookSucceeds(); rtrue; -).
+To deny access:
+	(- RulebookFails(); rtrue; -).
+
+To abstain: (- rfalse; -).
+
+To abide by Inform GamePreRoutine:
+	(- if (GamePreRoutine()~=0) rtrue; -).
+To abide by Inform orders property:
+	(- if (RunRoutines(player,orders)~=0) rtrue; -).
+To abide by Inform location before:
+	(- if (location~=0 && RunRoutines(location,before)~=0) rtrue; -).
+To abide by Inform react_before property:
+	(- scope_reason=REACT_BEFORE_REASON; parser_one=0;SearchScope(ScopeCeiling(player),player,0); scope_reason=PARSING_REASON; if (parser_one~=0) rtrue; -).
+To abide by Inform object before:
+	(- if (inp1>1 && RunRoutines(inp1,before)~=0) rtrue; -).
+
+To abide by Inform GamePostRoutine:
+	(- if (GamePostRoutine()~=0) rtrue; -).
+To abide by Inform location after:
+	(- if (location~=0 && RunRoutines(location,after)~=0) rtrue; -).
+To abide by Inform react_after property:
+	(- scope_reason=REACT_AFTER_REASON; parser_one=0;SearchScope(ScopeCeiling(player),player,0); scope_reason=PARSING_REASON; if (parser_one~=0) rtrue; -).
+To abide by Inform object after:
+	(- if (inp1>1 && RunRoutines(inp1,after)~=0) rtrue; -).
+
+To cause the action to take place:
+	(- _I6_ActionPrimitive(); rtrue; -).
+
+
+Part SR5 - Bibliographic data
+
+The story title, the story author and the story genre are text variables.
+The release number is a number variable.
+
+The Standard Rules end here.
