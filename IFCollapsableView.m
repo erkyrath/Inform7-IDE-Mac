@@ -79,8 +79,8 @@
 		float ypos = thisFrame.origin.y - (titleSize.height*1.2);
 		
 		// Draw the border rect
-		NSRect borderRect = NSMakeRect(floor(BORDER)+0.5, floor(ypos)+0.5, 
-									   bounds.size.width-(BORDER*2), thisFrame.size.height + (titleSize.height * 1.2) + (BORDER));
+		NSRect borderRect = NSMakeRect(floorf(BORDER)+0.5, floorf(ypos)+0.5, 
+									   floorf(bounds.size.width-(BORDER*2)), floorf(thisFrame.size.height + (titleSize.height * 1.2) + (BORDER)));
 		[frameColour set];
 		[NSBezierPath strokeRect: borderRect];
 		

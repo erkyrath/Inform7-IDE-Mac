@@ -13,6 +13,10 @@
 @interface IFInform6Extensions : IFSetting {
 	// Data on what's available
 	NSMutableArray* extensions;
+	BOOL needRefresh;
+	
+	// Which extensions we're using
+	NSMutableSet* activeExtensions;
 }
 
 // Meta-information about what to look for

@@ -15,10 +15,31 @@
 	return [self initWithNibName: @"Inform6Extensions"];
 }
 
+- (id) initWithNibName: (NSString*) nibName {
+	self = [super initWithNibName: nibName];
+	
+	if (self) {
+		extensions = nil;
+		needRefresh = YES;
+		
+		activeExtensions = [[NSMutableSet alloc] init];
+	}
+	
+	return self;
+}
+
 - (NSString*) title {
 	return [[NSBundle mainBundle] localizedStringForKey: @"Inform 6 Libraries"
 												  value: @"Inform 6 Libraries"
 												  table: nil];
+}
+
+- (void) dealloc {
+	if (extensions) [extensions release];
+	
+	[activeExtensions release];
+	
+	[super dealloc];
 }
 
 // = Meta-information about what to look for =
@@ -60,9 +81,48 @@
 
 	while (dir = [dirEnum nextObject]) {
 		// Get the contents of this directory
+		NSArray* dirContents = [[NSFileManager defaultManager] directoryContentsAtPath: dir];
+		
+		if (!dirContents) continue;
 		
 		// Iterate through: add any directories found as an extension
+		NSEnumerator* extnEnum = [dirContents objectEnumerator];
+		NSString* extn;
+		
+		while (extn = [extnEnum nextObject]) {
+			NSString* extnPath = [dir stringByAppendingPathComponent: extn];
+			BOOL exists, isDir;
+			
+			exists = [[NSFileManager defaultManager] fileExistsAtPath: extnPath
+														  isDirectory: &isDir];
+			
+			if (!exists || !isDir) continue;
+			if ([extensions indexOfObjectIdenticalTo: extn] != NSNotFound) continue;
+			
+			[extensions addObject: extn];
+		}
 	}
 }
+
+// = Table data source =
+
+- (int)numberOfRowsInTableView: (NSTableView*) tableView {
+	if (needRefresh) [self searchForExtensions];
+	
+	return [extensions count];
+}
+
+- (id)				tableView: (NSTableView*) tableView 
+	objectValueForTableColumn: (NSTableColumn*) col
+						  row: (int) row {
+	if ([[col identifier] isEqualToString: @"libname"]) {
+		return [extensions objectAtIndex: row];
+	} else if ([[col identifier] isEqualToString: @"libactive"]) {
+		return [NSNumber numberWithBool: [activeExtensions containsObject: [extensions objectAtIndex: row]]];
+	} else {
+		return @"UNKNOWN COLUMN";
+	}
+}
+
 
 @end
