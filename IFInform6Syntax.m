@@ -18,6 +18,27 @@ static const IFInform6State initialState = {
     IFSyntaxNone
 };
 
+static NSSet* codeKeywords;
+static NSSet* otherKeywords;
+
++ (void) initialize {
+    codeKeywords = [[NSSet setWithObjects:
+        @"box", @"break", @"child", @"children", @"continue", @"default",
+        @"do", @"elder", @"eldest", @"else", @"false", @"font", @"for", @"give",
+        @"has", @"hasnt", @"if", @"in", @"indirect", @"inversion", @"jump",
+        @"metaclass", @"move", @"new_line", @"nothing", @"notin", @"objectloop",
+        @"ofclass", @"or", @"parent", @"print", @"print_ret", @"provides", @"quit",
+        @"random", @"read", @"remove", @"restore", @"return", @"rfalse", @"rtrue",
+        @"save", @"sibling", @"spaces", @"string", @"style", @"switch", @"to",
+        @"true", @"until", @"while", @"younger", @"youngest"]
+        retain];
+    
+    otherKeywords = [[NSSet setWithObjects: 
+        @"first", @"last", @"meta", @"only", @"private", @"replace", @"reverse",
+        @"string", @"table"]
+        retain];
+}
+
 - (id) init {
     self = [super init];
     
@@ -78,6 +99,13 @@ static const IFInform6State initialState = {
                         position: &pos];
     
     lines[line].invalid = YES;
+    
+    // Recalculate the length of the line
+    lines[line].length = 1;
+    while (pos < [file length] && [file characterAtIndex: pos] != '\n' && [file characterAtIndex: pos] != '\r') {
+        lines[line].length++;
+        pos++;
+    }
 }
 
 - (NSRange) invalidRange {
@@ -135,6 +163,14 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
         state.inner];
 }
 
+static inline BOOL IsIdentifier(int chr) {
+    if (isalpha(chr) || isdigit(chr) || chr == '$' || chr == '#' || chr == '_') {
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
 - (void) refineLine: (int) line 
          characters: (NSString*) str {
     int x;
@@ -147,8 +183,6 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
     
     for (x=0; x<lines[line].length; x++) {
         if (lines[line].colour[x] == IFSyntaxString) {
-            int chr2;
-            
             chr = [str characterAtIndex: x];
             
             switch (chr) {
@@ -183,37 +217,88 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
 
     // Next we look for identifiers.  An identifier for these purposes includes
     // a number, for it is just a sequence of:
-
+    
     //      "_" or "$" or "#" or "0" to "9" or "a" to "z" or "A" to "Z".
 
-    // The initial colouring of an identifier tells us its context.  We're
-    // only interested in those in foreground colour (these must be used
-    // in the body of a directive) or code colour (used in statements).
+    for (x=0; x<lines[line].length; x++) {
+        int identifierLen = 0;
+        int identifierStart = x;
+        unsigned char colour = lines[line].colour[identifierStart];
+        
+        chr = [str characterAtIndex: x];
+        
+        if (colour != IFSyntaxCode &&
+            colour != IFSyntaxNone) {
+            // No further highlighting will be required
+            continue;
+        }
+        
+        while (IsIdentifier(chr)) {
+            identifierLen++;
+            
+            x++;
+            if (x >= lines[line].length) break;
+            
+            chr = [str characterAtIndex: x];
+        }
+        
+        if (identifierLen == 0) continue;
 
-    // If an identifier is in code colour, then:
+        // The initial colouring of an identifier tells us its context.  We're
+        // only interested in those in foreground colour (these must be used
+        // in the body of a directive) or code colour (used in statements).
+        
+        unsigned char newColour = 0xff;
 
-    //     If it follows an "@", recolour the "@" and the identifier in
-    //        assembly-language colour.
-    //     Otherwise, unless it is one of the following:
+        if (colour == IFSyntaxCode) {
+            // If an identifier is in code colour, then:
 
-    //       "box"  "break"  "child"  "children"  "continue"  "default"
-    //       "do"  "elder"  "eldest"  "else"  "false"  "font"  "for"  "give"
-    //       "has"  "hasnt"  "if"  "in"  "indirect"  "inversion"  "jump"
-    //       "metaclass"  "move"  "new_line"  "nothing"  "notin"  "objectloop"
-    //       "ofclass"  "or"  "parent"  "print"  "print_ret"  "provides"  "quit"
-    //       "random"  "read"  "remove"  "restore"  "return"  "rfalse"  "rtrue"
-    //       "save"  "sibling"  "spaces"  "string"  "style"  "switch"  "to"
-    //       "true"  "until"  "while"  "younger"  "youngest"
+            if (identifierStart > 0 && [str characterAtIndex: identifierStart-1] == '@') {
+                //     If it follows an "@", recolour the "@" and the identifier in
+                //        assembly-language colour.
+                identifierStart--;
+                identifierLen++;
+                newColour = IFSyntaxAssembly;
+            } else {
+                //     Otherwise, unless it is one of the following:
+            
+                //       "box"  "break"  "child"  "children"  "continue"  "default"
+                //       "do"  "elder"  "eldest"  "else"  "false"  "font"  "for"  "give"
+                //       "has"  "hasnt"  "if"  "in"  "indirect"  "inversion"  "jump"
+                //       "metaclass"  "move"  "new_line"  "nothing"  "notin"  "objectloop"
+                //       "ofclass"  "or"  "parent"  "print"  "print_ret"  "provides"  "quit"
+                //       "random"  "read"  "remove"  "restore"  "return"  "rfalse"  "rtrue"
+                //       "save"  "sibling"  "spaces"  "string"  "style"  "switch"  "to"
+                //       "true"  "until"  "while"  "younger"  "youngest"
+        
+                //     we recolour the identifier to "codealpha colour".
+                
+                NSString* idString = [str substringWithRange: NSMakeRange(identifierStart, identifierLen)];
+                idString = [idString lowercaseString];
+                if (![codeKeywords containsObject: idString]) newColour = IFSyntaxCodeAlpha;
+            }
+        } else if (colour == IFSyntaxNone) {
+            // On the other hand, if an identifier is in foreground colour, then we
+            // check it to see if it's one of the following interesting keywords:
+        
+            //       "first"  "last"  "meta"  "only"  "private"  "replace"  "reverse"
+            //       "string"  "table"
+        
+            // If it is, we recolour it in directive colour.
 
-    //     we recolour the identifier to "codealpha colour".
-
-    // On the other hand, if an identifier is in foreground colour, then we
-    // check it to see if it's one of the following interesting keywords:
-
-    //       "first"  "last"  "meta"  "only"  "private"  "replace"  "reverse"
-    //       "string"  "table"
-
-    // If it is, we recolour it in directive colour.
+            NSString* idString = [str substringWithRange: NSMakeRange(identifierStart, identifierLen)];
+            idString = [idString lowercaseString];
+            if ([otherKeywords containsObject: idString]) newColour = IFSyntaxDirective;
+        }
+        
+        if (newColour != 0xff) {
+            int y;
+            
+            for (y=0; y<identifierLen; y++) {
+                lines[line].colour[identifierStart+y] = newColour;
+            }
+        }
+    }
 }
 
 - (void) highlightLine: (int) line {
