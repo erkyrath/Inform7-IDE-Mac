@@ -3,18 +3,40 @@
 <outline xmlns="http://www.omnigroup.com/namespace/OmniOutliner/v3">
   <style-attribute-registry>
     <style-attribute version="0" key="font-family" group="font" name="family" class="string">Helvetica</style-attribute>
+    <style-attribute version="0" key="font-fill" group="font" name="fill color" class="color">
+      <color catalog="System" name="textColor"/>
+    </style-attribute>
+    <style-attribute version="0" key="font-italic" group="font" name="italic" class="bool">no</style-attribute>
     <style-attribute version="0" key="font-size" group="font" name="size" class="number">12</style-attribute>
     <style-attribute version="0" key="font-weight" group="font" name="weight" class="number">5</style-attribute>
     <style-attribute version="0" key="text-background-color" group="text" name="background color" class="color">
       <color w="0" a="0"/>
     </style-attribute>
   </style-attribute-registry>
+  <named-styles>
+    <named-style name="Notes">
+      <style>
+        <value key="font-fill">
+          <color w="0.4"/>
+        </value>
+        <value key="font-italic">yes</value>
+        <value key="font-size">10</value>
+      </style>
+    </named-style>
+  </named-styles>
   <settings/>
-  <editor is-spellchecking-enabled="yes">
+  <editor scroll-position="{0, 854}" is-spellchecking-enabled="yes">
     <drawer display="sections"/>
   </editor>
   <columns>
     <column id=":29b9302840e9a18f059ce303" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
+      <style>
+        <value key="font-fill">
+          <color w="0.4"/>
+        </value>
+        <value key="font-italic">yes</value>
+        <value key="font-size">10</value>
+      </style>
       <title>
         <text>
           <p/>
@@ -111,7 +133,7 @@
         </item>
       </children>
     </item>
-    <item id="nL5kvLMS4-H" state="indeterminate">
+    <item id="nL5kvLMS4-H" expanded="yes" state="indeterminate">
       <values>
         <text>
           <p>
@@ -138,10 +160,13 @@
               <p/>
             </text>
           </values>
-          <note>
+          <note expanded="yes">
             <text>
               <p>
                 <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
                   <lit>Natural Inform assumes that the directory is available, so it&apos;s quite probable that this is insoluble in this case. Seems to work fine for .inf files.</lit>
                 </run>
               </p>
@@ -161,13 +186,12 @@
               <p/>
             </text>
           </values>
-          <note>
+          <note expanded="yes">
             <text>
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                   <lit>I originally unpacked I7 into ~/tmp. When I later moved it to ~/src, my existing project files suffered: the &quot;documentation&quot; panel was blank. At this point, if I open any existing project file (including one created after the move), the documentation panel is blank.</lit>
                 </run>
@@ -175,16 +199,14 @@
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                 </run>
               </p>
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                   <lit>Actually, I didn&apos;t try opening an existing project file *before* the move. So it&apos;s possible that this has nothing to do with moving the application.</lit>
                 </run>
@@ -192,21 +214,16 @@
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                 </run>
               </p>
               <p>
                 <run>
                   <style>
-                    <value key="font-size">10</value>
-                    <value key="font-weight">9</value>
+                    <inherited-style name="Notes"/>
                   </style>
-                  <lit>Aha. </lit>
-                </run>
-                <run>
-                  <lit>The problem is that applicationDidFinishLaunching: is called after the document window is created when you double-click a file to load it. This results in a flag being left as &apos;NO&apos; when it should be &apos;YES&apos;.</lit>
+                  <lit>Aha. The problem is that applicationDidFinishLaunching: is called after the document window is created when you double-click a file to load it. This results in a flag being left as &apos;NO&apos; when it should be &apos;YES&apos;.</lit>
                 </run>
               </p>
             </text>
@@ -225,30 +242,36 @@
               <p/>
             </text>
           </values>
-          <note>
+          <note expanded="yes">
             <text>
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
+                    <value key="font-fill">
+                      <color r="0.4" g="0.4" b="0.4"/>
+                    </value>
                   </style>
-                  <lit>(AP)</lit>
+                  <lit>(</lit>
+                </run>
+                <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
+                  <lit>AP)</lit>
                 </run>
               </p>
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                 </run>
               </p>
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                   <lit>Hm, now I seem to have confused the file list entirely. In this new project, the story file isn&apos;t appearing, and text I type in the &quot;source&quot; window isn&apos;t being syntax-colored. Oh, the app just crashed. Ok.</lit>
                 </run>
@@ -256,16 +279,14 @@
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                 </run>
               </p>
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                   <lit>(AH)</lit>
                 </run>
@@ -273,8 +294,7 @@
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                   <lit>Hmm, looks like my heading syntax highlighter has aggravated this problem (to the point where it nearly always occurs?)</lit>
                 </run>
@@ -282,16 +302,14 @@
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                 </run>
               </p>
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                   <lit>May have been fixed </lit>
                 </run>
@@ -299,16 +317,14 @@
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                 </run>
               </p>
               <p>
                 <run>
                   <style>
-                    <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
+                    <inherited-style name="Notes"/>
                   </style>
                   <lit>Rewritten the whole thing, so this bug definitely doesn&apos;t apply any more </lit>
                 </run>
@@ -329,22 +345,43 @@
               <p/>
             </text>
           </values>
-          <note>
+          <note expanded="yes">
             <text>
               <p>
                 <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
                   <lit>After opening one project, closing it, then moving to another?</lit>
                 </run>
               </p>
-              <p/>
               <p>
                 <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
                   <lit>Appears to always happen after creating a new project.</lit>
                 </run>
               </p>
-              <p/>
               <p>
                 <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
                   <lit>Ah, happens when (for some reason) the routines are called from the wrong thread.</lit>
                 </run>
               </p>
@@ -364,16 +401,28 @@
               <p/>
             </text>
           </values>
-          <note>
+          <note expanded="yes">
             <text>
               <p>
                 <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
                   <lit>FIXED:</lit>
                 </run>
               </p>
-              <p/>
               <p>
                 <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
                   <lit>was hard to trace thanks to tail-call optimisation. Turning that off reveals that the problem is that if the Index selection goes to &apos;nothing&apos;, a bogus call to NSLog is made</lit>
                 </run>
               </p>
@@ -394,16 +443,28 @@
               <p/>
             </text>
           </values>
-          <note>
+          <note expanded="yes">
             <text>
               <p>
                 <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
                   <lit>Appears to be an old leftover skein that causes the problem: apparently the name (??) is being deallocated as part of an item at some point....</lit>
                 </run>
               </p>
-              <p/>
               <p>
                 <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <inherited-style name="Notes"/>
+                  </style>
                   <lit>Got it. The problem is caused by addTrackingRect/removeTrackingRect failing to work when the ZoomSkeinView is outside a window</lit>
                 </run>
               </p>
@@ -440,7 +501,7 @@
         </item>
       </children>
     </item>
-    <item id="pEW3i1sGaa9" state="indeterminate">
+    <item id="pEW3i1sGaa9" expanded="yes" state="indeterminate">
       <values>
         <text>
           <p>
@@ -495,13 +556,12 @@
               <p/>
             </text>
           </values>
-          <note>
+          <note expanded="yes">
             <text>
               <p>
                 <run>
                   <style>
                     <value key="font-family">Monaco</value>
-                    <value key="font-size">10</value>
                   </style>
                   <lit>The links under &quot;Graham Nelson / Standard Rules&quot; in the &quot;index&quot; floating thingie also are broken. When I click on it, it just beeps. This is true even for newly-created projects (for which the documentation panel does work).</lit>
                 </run>
