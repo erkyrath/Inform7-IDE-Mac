@@ -44,6 +44,9 @@ static IFCompilerController* activeController = nil;
     NSFont* smallFont = [NSFont labelFontOfSize: 6];
     NSFont* baseFont = [NSFont labelFontOfSize: 10];
     NSFont* bigFont  = [NSFont labelFontOfSize: 10];
+	
+	smallFont = [NSFont fontWithName: @"Monaco" size: 6.0];
+	baseFont = bigFont = [NSFont fontWithName: @"Monaco" size: 10.0];
     NSFont* boldFont = [[NSFontManager sharedFontManager] convertFont: bigFont
                                                           toHaveTrait: NSBoldFontMask];
     NSFont* italicFont = [[NSFontManager sharedFontManager] convertFont: boldFont
@@ -763,35 +766,6 @@ static IFCompilerController* activeController = nil;
 				newView = aView;
 				
 				[textData release];
-#if 0
-				// Create an NSTextView to display this file in			
-				NSTextView*   textView = [[NSTextView alloc] init];
-				NSScrollView* scrollView = [[NSScrollView alloc] init];
-				
-				[[textView layoutManager] setBackgroundLayoutEnabled: NO]; // DEBUG
-				
-				[[textView textContainer] setWidthTracksTextView: NO];
-				[[textView textContainer] setContainerSize: NSMakeSize(1e8, 1e8)];
-				[textView setMinSize:NSMakeSize(0.0, 0.0)];
-				[textView setMaxSize:NSMakeSize(1e8, 1e8)];
-				[textView setVerticallyResizable:YES];
-				[textView setHorizontallyResizable:YES];
-				[textView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-				[textView setEditable: NO];
-				[textView setUsesFindPanel: YES]; // FIXME: Won't work on Jaguar
-				
-				[scrollView setDocumentView: [textView autorelease]];
-				[scrollView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-				[scrollView setHasHorizontalScroller: YES];
-				[scrollView setHasVerticalScroller: YES];
-				
-				NSString* textData = [[NSString alloc] initWithData:
-					[[[files fileWrappers] objectForKey: key] regularFileContents]
-														   encoding: NSISOLatin1StringEncoding];
-				[[[textView textStorage] mutableString] setString: [textData autorelease]];
-				
-				newView = scrollView;
-#endif
 			}
 
             NSTabViewItem* fileItem;
