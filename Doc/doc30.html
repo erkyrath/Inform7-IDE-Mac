@@ -1,0 +1,28 @@
+<html><head><title>3.6. Values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>3.6. Values that vary</b>
+<p>
+<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
+<p>
+<p><blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.</font></blockquote>
+<p>
+<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
+<p>
+<p><blockquote><font color="#000080">The target is a number variable. The target is 23.</font></blockquote>
+<p>
+<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
+<p>
+<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
+<p>
+<p><blockquote><font color="#000080">The receptacle is a container that varies.</font></blockquote>
+<p>
+<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
+<p>
+<p><blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.</font></blockquote>
+<p>
+<p>without ever having defined any colours. Something else we are not permitted is:
+<p>
+<p><blockquote><font color="#000080">The receptacle is an open container that varies.</font></blockquote>
+<p>
+<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
+<p>
+<p><hr><p><a href=doc29.html>Previous</a> / <a href=doc31.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>

@@ -1,0 +1,28 @@
+<html><head><title>7.13. Another example: a pushable box</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>7.13. Another example: a pushable box</b>
+<p>
+<p>More on using kinds of value inside phrases, this time to simulate something new: a box which, although it cannot be picked up, can be pushed around between three different places on the floor. A much fuller version of this example can be found in the example game &quot;Lumbersome&quot;.
+<p>
+<p><blockquote><font color="#000080">Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">To shove the box to (destination - a box position):<br>say &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;; let the current box position be the destination.</font></blockquote>
+<p>
+<p>So, for instance:
+<p>
+<p><blockquote><font color="#000080">shove the box to over by the window;</font></blockquote>
+<p>
+<p>might result in the following on screen:
+<p>
+<p><blockquote><font color="#000080">With some effort, you shove the old box from under the shelf to over by the window.</font></blockquote>
+<p>
+<p>And we can write conditions like so:
+<p>
+<p><blockquote><font color="#000080">if the current box position is over by the window then...</font></blockquote>
+<p>
+<p>Using a new kind of value is a good way to set up simulations like this one because Inform will ensure that the &quot;current box position&quot; always, no matter what we do, holds one of the three legal box positions. Similarly, a line like
+<p>
+<p><blockquote><font color="#000080">if the current box position is green then ...</font></blockquote>
+<p>
+<p>will be disallowed because box positions and colours are incomparable.
+<p>
+<p><hr><p><a href=doc85.html>Previous</a> / <a href=doc87.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>

@@ -1,0 +1,24 @@
+<html><head><title>7.15. Arithmetic on new kinds of value</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>7.15. Arithmetic on new kinds of value</b>
+<p>
+<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
+<p>
+<p><blockquote><font color="#000080">change the score to the score + 4</font></blockquote>
+<p>
+<p>In Inform, &quot;+&quot; is a phrase like any other. Its definition behind the scenes begins:
+<p>
+<p><blockquote><font color="#000080">To decide which number is (X - number) + (Y - number): ...</font></blockquote>
+<p>
+<p>Thus Inform will only recognise &quot;+&quot; as valid if it applies to two numbers, which is as it should be. We cannot normally apply &quot;+&quot; to values like these:
+<p>
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.</font></blockquote>
+<p>
+<p>However, we do automatically have two ways to make new colours from old:
+<p>
+<p><blockquote><font color="#000080">the colour after C<br>the colour before C</font></blockquote>
+<p>
+<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
+<p>
+<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not.
+<p>
+<p><hr><p><a href=doc87.html>Previous</a> / <a href=doc89.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>

@@ -1,0 +1,28 @@
+<html><head><title>9.1. Understand</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 9: Understanding</h2><p><b>9.1. Understand</b>
+<p>
+<p>During play, the computer and the player alternate in writing messages to each other: in the player's case, these are short instructions, usually saying what to do next. A wide range of such &quot;commands&quot; are automatically understood, but these only apply to the standard built-in actions. If we want the player to be able to command new actions, then we need to specify what is to be understood as what. For this, we supply special sentences starting with the word &quot;Understand&quot;.
+<p>
+<p>Suppose we return to the earlier example of a newly created action:
+<p>
+<p><blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.</font></blockquote>
+<p>
+<p>We then supply lines of grammar (as they are called) for Inform to recognise, like so:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;photograph [a person]&quot; as photographing.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.</font></blockquote>
+<p>
+<p>As usual, the square brackets indicate something which stands for text, rather than text to be taken verbatim. &quot;[a person]&quot; needs to be the name of anything of the kind &quot;person&quot;, for instance (though as usual that person will need to be in sight of the player for the name to be accepted). The first word - in these examples &quot;photograph&quot; - must be something definite, not a substitution like this.
+<p>
+<p>For obvious reasons, this pattern of words needs to match the expectations of the action. Photographing applies to &quot;one visible thing&quot; - the &quot;visible&quot; just means it does not need to be touched, only seen - so neither of these would be allowable:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;photograph&quot; as photographing.<br>Understand &quot;photograph [a person] standing next to [a person]&quot; as photographing.</font></blockquote>
+<p>
+<p>The first is bad because it supplies no things at all, the second because it supplies two: what we want, of course, is just the one.
+<p>
+<p>We are entirely free to add grammar lines for existing actions, of course:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;deposit [something] in [an open container]&quot; as inserting.</font></blockquote>
+<p>
+<p><hr><p><a href=doc105.html>Previous</a> / <a href=doc107.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>

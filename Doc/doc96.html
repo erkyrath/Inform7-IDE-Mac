@@ -1,0 +1,20 @@
+<html><head><title>8.5. Choosing rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>8.5. Choosing rows</b>
+<p>
+<p>The following would be one way to print out a list of recent Kings and Queens:
+<p>
+<p><blockquote><font color="#000080">To list the succession:<br>say &quot;The Succession List runs as follows...&quot;;<br>repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;<br>say &quot;[accession in row N of the Table of Recent Monarchs]: [name in row N of the Table of Recent Monarchs] ([family in row N of the Table of Recent Monarchs]).&quot;;<br>end repeat.</font></blockquote>
+<p>
+<p>This works, but is repetitive. We often want to work on a single row for a while, either to change things or think about the contents, and it is tiresome to keep specifying the row over and over again. The following shorthand provides some relief:
+<p>
+<p><blockquote><font color="#000080">choose row N of the Table of Recent Monarchs;<br>say &quot;[accession entry]: [name entry] ([family entry]).&quot;;</font></blockquote>
+<p>
+<p>That is, if &quot;accession&quot; is a column name then &quot;accession entry&quot; will mean the entry in that column of the currently chosen row. This notation can only be used if a &quot;choose&quot; has certainly already happened, and it is a good idea to make that choice somewhere close by in the source code (and certainly in the same rule or phrase definition) for the sake of avoiding errors. We can also choose rows by specifying something about them, like so:
+<p>
+<p><blockquote><font color="#000080">choose row with a name of &quot;Victoria&quot; in the Table of Recent Monarchs;<br>change name entry to &quot;Clytemnestra Honeytongue III&quot;;</font></blockquote>
+<p>
+<p>This will choose the first row with the given entry: an error will result if there are no rows which qualify. We can also choose a row quite at random:
+<p>
+<p><blockquote><font color="#000080">choose a random row in the Table of Recent Monarchs;<br>say &quot;Your eye falls upon the reign of [name entry].&quot;</font></blockquote>
+<p>
+<p><hr><p><a href=doc95.html>Previous</a> / <a href=doc97.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
