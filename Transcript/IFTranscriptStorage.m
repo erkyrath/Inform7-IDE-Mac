@@ -8,6 +8,7 @@
 
 #import "IFTranscriptStorage.h"
 
+#import "IFTranscriptString.h"
 
 @implementation IFTranscriptStorage
 
@@ -33,20 +34,22 @@
 // = Standard NSTextStorage methods =
 
 - (NSString*) string {
-	return @"";
+	return [[[IFTranscriptString alloc] initWithTranscriptStorage: self] autorelease];
 }
 
 - (NSDictionary*) attributesAtIndex: (unsigned) index
 					 effectiveRange: (NSRangePointer) range {
-	return nil;
+	return [NSDictionary dictionary];
 }
 
 - (void) replaceCharactersInRange: (NSRange) range
 					   withString: (NSString*) string {
+	// Not implemented yet
 }
 
 - (void) setAttributes: (NSDictionary*) attributes
 				 range: (NSRange) range {
+	// Attributes can't be changed
 }
 
 // = Setting up what to display/edit =
@@ -104,10 +107,10 @@
 	
 	// Store the result
 	NSDictionary* newItem = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt: actualText], @"ActualTextPosition",
+		[NSNumber numberWithInt: actualText],   @"ActualTextPosition",
 		[NSNumber numberWithInt: expectedText], @"ExpectedTextPosition",
-		[NSNumber numberWithInt: commands], @"CommandsPosition",
-		[NSNumber numberWithInt: itemEnd], @"FinalPosition",
+		[NSNumber numberWithInt: commands],		@"CommandsPosition",
+		[NSNumber numberWithInt: itemEnd],		@"FinalPosition",
 		nil];
 	
 	if (itemIndex >= [itemPositionData count]) {
@@ -175,6 +178,41 @@
 	
 	// Calculate the positions of items within the string
 	[self recalculateAllItemPositions];
+}
+
+- (NSArray*) itemPositionData {
+	return itemPositionData;
+}
+
+- (NSArray*) transcriptItems {
+	return transcriptItems;
+}
+
+- (unsigned) indexOfItemAtCharacterPosition: (unsigned) pos {
+	// Binary search!
+	unsigned top, bottom, middle;
+	
+	top = 0;
+	bottom = [itemPositionData count];
+	
+	while (top <= bottom) {
+		middle = (top + bottom) >> 1;
+		
+		NSDictionary* item = [itemPositionData objectAtIndex: middle];
+		
+		int startChar = [[item objectForKey: @"ActualTextPosition"] intValue];
+		int endChar = [[item objectForKey: @"FinalPosition"] intValue];
+		
+		if (pos < startChar) {
+			bottom = middle - 1;
+		} else if (pos > endChar) {
+			top = middle + 1;
+		} else {
+			return middle;
+		}
+	}
+	
+	return NSNotFound;
 }
 
 @end

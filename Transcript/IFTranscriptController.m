@@ -38,6 +38,8 @@
 // woukld be hard to achieve there, as the text system assumes top-to-bottom formatting only.
 // We could use lots of TextViews, but I suspect that would be very slow.
 //
+// At least, this is the general idea. I'll probably go with something simpler for now
+//
 
 @implementation IFTranscriptController
 

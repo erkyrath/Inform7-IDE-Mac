@@ -19,4 +19,9 @@
 // Setting up what to display/edit
 - (void) setTranscriptToPoint: (ZoomSkeinItem*) finalItem;
 
+// Mainly used when communicating with an IFTranscriptString
+- (NSArray*) itemPositionData;
+- (NSArray*) transcriptItems;
+- (unsigned) indexOfItemAtCharacterPosition: (unsigned) pos;
+
 @end
