@@ -234,7 +234,9 @@ static IFCompilerController* activeController = nil;
 // == Starting/stopping the compiler ==
 - (BOOL) startCompiling {
     if (window)
-        [window setTitle: [NSString stringWithFormat: @"Compiling - '%@'...",
+        [window setTitle: [NSString stringWithFormat: [[NSBundle mainBundle] localizedStringForKey:@"Compiling - '%@'..."
+																							 value:@"Compiling - '%@'..."
+																							 table:nil],
             [[compiler inputFile] lastPathComponent]]];
     
     [compiler prepareForLaunch];
@@ -302,20 +304,28 @@ static IFCompilerController* activeController = nil;
 - (void) finished: (NSNotification*) not {
     int exitCode = [[[not userInfo] objectForKey: @"exitCode"] intValue];
 
-    [[[compilerResults textStorage] mutableString] appendString:
-        [NSString stringWithFormat: @"\nCompiler finished with code %i\n", exitCode]];
+    [[[compilerResults textStorage] mutableString] appendString: @"\n"];
+	[[[compilerResults textStorage] mutableString] appendString: 
+		[NSString stringWithFormat: [[NSBundle mainBundle] localizedStringForKey: @"Compiler finished with code %i" 
+																		   value: @"Compiler finished with code %i"
+																		   table: nil], exitCode]];
+	[[[compilerResults textStorage] mutableString] appendString: @"\n"];
 
     NSString* msg;
 
     if (exitCode == 0) {
-        msg = @"Success";
+        msg = [[NSBundle mainBundle] localizedStringForKey: @"Success"
+													 value: @"Success"
+													 table: nil];
 
         if (delegate &&
             [delegate respondsToSelector: @selector(compileCompletedAndSucceeded:)]) {
             [delegate compileCompletedAndSucceeded: self];
         }
     } else {
-        msg = @"Failed";
+        msg = [[NSBundle mainBundle] localizedStringForKey: @"Failed"
+													 value: @"Failed"
+													 table: nil];
 
         if (delegate &&
             [delegate respondsToSelector: @selector(compileCompletedAndSucceeded:)]) {
