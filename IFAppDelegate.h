@@ -25,6 +25,7 @@
 - (IBAction) newHeaderFile: (id) sender;
 - (IBAction) newInformFile: (id) sender;
 - (IBAction) findInProject: (id) sender;
+- (IBAction) showPreferences: (id) sender;
 
 - (void) updateExtensions;
 - (NSMutableArray*) extensionsInDirectory: (NSString*) directory;

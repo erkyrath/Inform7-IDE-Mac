@@ -26,10 +26,16 @@
 // = Initialisation =
 
 - (id) init {
-	self = [super init];
+	NSRect mainScreenRect = [[NSScreen mainScreen] frame];
+	
+	self = [super initWithWindow: [[[NSWindow alloc] initWithContentRect: NSMakeRect(NSMinX(mainScreenRect)+200, NSMaxY(mainScreenRect)-400, 512, 300) 
+															   styleMask: NSTitledWindowMask|NSClosableWindowMask|NSMiniaturizableWindowMask
+																 backing: NSBackingStoreBuffered 
+																   defer: YES] autorelease]];
 	
 	if (self) {
-		
+		// Set up window
+		[self setWindowFrameAutosaveName: @"PreferenceWindow"];
 	}
 	
 	return self;

@@ -19,6 +19,8 @@
 #import "IFIsBreakpoints.h"
 #import "IFIsSearch.h"
 
+#import "IFPreferenceController.h"
+
 #import "IFNoDocProtocol.h"
 #import "IFInformProtocol.h"
 
@@ -310,6 +312,10 @@ static int stringCompare(id a, id b, void* context) {
 }
 
 // = Some misc actions =
+
+- (IBAction) showPreferences: (id) sender {
+	[[IFPreferenceController sharedPreferenceController] showWindow: self];
+}
 
 - (IBAction) findInProject: (id) sender {
 	// NOT USED AT THE MOMENT
