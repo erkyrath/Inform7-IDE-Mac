@@ -15,7 +15,7 @@
 @implementation IFCollapsableView
 
 #define BORDER 8.0
-#define FONTSIZE 20
+#define FONTSIZE 13.0
 
 // = Init/housekeeping =
 

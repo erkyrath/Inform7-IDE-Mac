@@ -25,6 +25,7 @@
 #import "IFCompilerOptions.h"
 #import "IFLibrarySettings.h"
 #import "IFDebugSettings.h"
+#import "IFInform6Extensions.h"
 
 #import <ZoomView/ZoomSkein.h>
 #import <ZoomView/ZoomSkeinView.h>
@@ -73,6 +74,7 @@ static NSRunLoop* mainRunLoop = nil;
 	[IFSettingsController addStandardSettingsClass: [IFCompilerOptions class]];
 	[IFSettingsController addStandardSettingsClass: [IFLibrarySettings class]];
 	[IFSettingsController addStandardSettingsClass: [IFMiscSettings class]];
+	[IFSettingsController addStandardSettingsClass: [IFInform6Extensions class]];
 	[IFSettingsController addStandardSettingsClass: [IFDebugSettings class]];
 }
 
