@@ -215,11 +215,16 @@ Constant NOARTICLE_BIT 4096;  !  Print no articles, definite or not
 #ifdef NI_BUILD_COUNT;
 Global c_depth;
 [ WriteListFrom o style depth a ol;
+  if ((o==0) || (parent(o)==0)) {
+      print (string) NOTHING__TX;
+      if (style & NEWLINE_BIT ~= 0) new_line;
+      return;
+  }
   c_style=style; c_depth=depth;
   if (o~=child(parent(o))) { I7_WLF(o, depth); return; }
   objectloop (ol provides list_together)
       ol.list_together = 0;
-  CarryOutActivity(1, parent(o));
+  CarryOutActivity(LISTCONTS_ACT, parent(o));
 ];
 [ I7_WLF o depth;
   if (o==child(parent(o))) {
@@ -239,6 +244,7 @@ Global c_depth;
 
 [ WriteListR o depth stack_pointer  classes_p sizes_p i j k k2 l m n q senc mr;
 
+  if ((o==0) || (parent(o)==0)) return;
   if (depth>0 && o==child(parent(o)))
   {   SortOutList(o); o=child(parent(o)); }
   for (::)
@@ -303,7 +309,7 @@ Global c_depth;
   {   while (((classes_p->k) ~= i)
              && ((classes_p->k) ~= -i)) { k++; j=NextEntry(j,depth); }
       if (j.list_together~=0 or lt_value)
-      {   if (j.list_together==mr) { senc++; jump Omit_FL2; }
+      {   if (j.list_together==mr) { senc++; jump Omit_FL2a; }
           k2=NextEntry(j,depth);
           if (k2==0 || k2.list_together~=j.list_together) jump Omit_WL2;
           k2=ZRegion(j.list_together);
@@ -320,8 +326,8 @@ Global c_depth;
               if (listing_size==1) jump Omit_WL2;
               q=c_style;
               ! #ifdef NI_BUILD_COUNT;
-              BeginActivity(2,j);
-              if (ForActivity(2,j)) { c_style = c_style &~ NEWLINE_BIT; jump RuleOmitted2; }
+              BeginActivity(GROUP_ACT,j);
+              if (ForActivity(GROUP_ACT,j)) { c_style = c_style &~ NEWLINE_BIT; jump RuleOmitted2; }
               ! #endif;
               if (c_style & INDENT_BIT ~= 0)
                   Print__Spaces(2*(depth+wlf_indent));
@@ -356,18 +362,20 @@ Global c_depth;
               }
               !#ifdef NI_BUILD_COUNT;
               .RuleOmitted2;
-              EndActivity(2,j);
+              EndActivity(GROUP_ACT,j);
               !#endif;
               .Omit__Sublist2;
               if (q & NEWLINE_BIT ~= 0 && c_style & NEWLINE_BIT == 0)
                   new_line;
               c_style=q;
               mr=j.list_together;
+              @push c_style;
               jump Omit_EL2;
           }
       }
 
      .Omit_WL2;
+      @push c_style;
       if (WriteBeforeEntry(j,depth,-senc)==1) jump Omit_FL2;
       if (sizes_p->i == 1)
       {   if (c_style & NOARTICLE_BIT ~= 0) print (name) j;
@@ -385,10 +393,14 @@ Global c_depth;
 
      .Omit_EL2;
       if (c_style & ENGLISH_BIT ~= 0)
-      {   if (senc==1) print (string) AND__TX;
+      {   if (senc==1) {
+              if (i==1) print (string) LISTAND2__TX;
+              else print (string) LISTAND__TX; }
           if (senc>1) print ", ";
       }
      .Omit_FL2;
+      @pull c_style;
+     .Omit_FL2a;
   }
   rtrue;
 
@@ -405,7 +417,7 @@ Global c_depth;
 
   for (i=1, j=o, mr=0: i<=senc: j=NextEntry(j,depth), i++)
   {   if (j.list_together~=0 or lt_value)
-      {   if (j.list_together==mr) { i--; jump Omit_FL; }
+      {   if (j.list_together==mr) { i--; jump Omit_FLa; }
           k=NextEntry(j,depth);
           if (k==0 || k.list_together~=j.list_together) jump Omit_WL;
           k=ZRegion(j.list_together);
@@ -413,8 +425,8 @@ Global c_depth;
           {   if (c_style & INDENT_BIT ~= 0)
                   Print__Spaces(2*(depth+wlf_indent));
               q=c_style;
-              BeginActivity(2,j);
-              if (ForActivity(2,j)) { c_style = c_style &~ NEWLINE_BIT; jump RuleOmitted; }
+              BeginActivity(GROUP_ACT,j);
+              if (ForActivity(GROUP_ACT,j)) { c_style = c_style &~ NEWLINE_BIT; jump RuleOmitted; }
               if (k==3)
               {   @push q;
                   q=j; l=0;
@@ -447,15 +459,17 @@ Global c_depth;
                   RunRoutines(j,list_together);
               }
              .RuleOmitted;
-              EndActivity(2,j);
+              EndActivity(GROUP_ACT,j);
              .Omit__Sublist;
               if (q & NEWLINE_BIT ~= 0 && c_style & NEWLINE_BIT == 0) new_line;
               c_style=q;
               mr=j.list_together;
+              @push c_style;
               jump Omit_EL;
           }
       }
      .Omit_WL;
+      @push c_style;
       if (WriteBeforeEntry(j,depth,i-senc)==1) jump Omit_FL;
       if (c_style & NOARTICLE_BIT ~= 0) print (name) j;
       else
@@ -465,10 +479,14 @@ Global c_depth;
 
      .Omit_EL;
       if (c_style & ENGLISH_BIT ~= 0)
-      {   if (i==senc-1) print (string) AND__TX;
+      {   if (i==senc-1)  {
+              if (i==1) print (string) LISTAND2__TX;
+              else print (string) LISTAND__TX; }
           if (i<senc-1) print ", ";
       }
      .Omit_FL;
+      @pull c_style;
+     .Omit_FLa;
   }
 ];
 
@@ -481,7 +499,7 @@ Global c_depth;
           flag=PrintOrRun(o,invent,1);
           if (flag==1)
           {   if (c_style & ENGLISH_BIT ~= 0)
-              {   if (sentencepos == -1) print (string) AND__TX;
+              {   if (sentencepos == -1) print (string) LISTAND__TX;
                   if (sentencepos < -1) print ", ";
               }
               if (c_style & NEWLINE_BIT ~= 0) new_line;
@@ -859,7 +877,7 @@ Global c_depth;
   objectloop(i has visited)
   {   print (name) i; k++;
       if (k==j) ".";
-      if (k==j-1) print (string) AND__TX; else print ", ";
+      if (k==j-1) print (string) LISTAND__TX; else print ", ";
   }
 ];
 [ Objects1Sub i j f;
@@ -1511,7 +1529,7 @@ Global c_depth;
 
 [ Locale descin text1 text2 o k p j f2 flag;
 
-  objectloop (o in descin) give o ~workflag;
+  objectloop (o ofclass Object) give o ~workflag;
 
   k=0;
   objectloop (o in descin)
@@ -1569,8 +1587,20 @@ Global c_depth;
           + PARTINV_BIT + TERSE_BIT + CONCEAL_BIT);
       return k;
   }
-           
+
+  new_line;
+#ifdef NI_BUILD_COUNT;
+  say__p = 0;
+  BeginActivity(NONDESCRIPT_ACT,descin);
+  k=0; objectloop (o ofclass Object) if (o has workflag) k++;
+  if (k==0) { AbandonActivity(NONDESCRIPT_ACT,descin); return; }
+  if (say__p) { new_line; say__p = 0; }
+  if (ForActivity(NONDESCRIPT_ACT,descin) == false) {
+#endif;
   if (flag==1) L__M(##Look,5,descin); else L__M(##Look,6,descin);
+#ifdef NI_BUILD_COUNT;
+  } EndActivity(NONDESCRIPT_ACT,descin);
+#endif;
 ];
 
 ! ----------------------------------------------------------------------------

@@ -289,6 +289,13 @@ Constant ARE__TX      = " are";
 Constant IS2__TX      = "is ";
 Constant ARE2__TX     = "are ";
 Constant AND__TX      = " and ";
+#ifdef I7_SERIAL_COMMA;
+Constant LISTAND__TX  = ", and ";
+Constant LISTAND2__TX  = " and ";
+#ifnot;
+Constant LISTAND__TX  = " and ";
+Constant LISTAND2__TX  = " and ";
+#endif;
 Constant WHOM__TX     = "whom ";
 Constant WHICH__TX    = "which ";
 
@@ -347,8 +354,13 @@ Constant WHICH__TX    = "which ";
                   #ENDIF;
                   if (TASKS_PROVIDED==0)
                       print ", give the FULL score for that game";
+#ifdef NI_BUILD_COUNT;
+                  if (deadflag==2 && (I7_Amusing_Provided()))
+                      print ", see some suggestions for AMUSING things to do";
+#ifnot;
                   if (deadflag==2 && AMUSING_PROVIDED==0)
                       print ", see some suggestions for AMUSING things to do";
+#endif;
                   " or QUIT?";
                6: "[Your interpreter does not provide ~undo~.  Sorry!]";
                7: "~Undo~ failed.  [Not all interpreters provide it.]";
@@ -545,6 +557,7 @@ Constant WHICH__TX    = "which ";
               12: "You're carrying too many things already.";
               13: "(putting ", (the) x1, " into ", (the) SACK_OBJECT,
                   " to make room)";
+              14: "You can't reach into ", (the) x1, ".";
            }
   Drop:    switch(n)
            {   1: if (x1 has pluralname) print (The) x1, " are ";
@@ -675,10 +688,10 @@ Constant WHICH__TX    = "which ";
                       + TERSE_BIT + ISARE_BIT + CONCEAL_BIT);
                   ".";
          default: if (x1~=location)
-                  {   if (x1 has supporter) print "^On "; else print "^In ";
+                  {   if (x1 has supporter) print "On "; else print "In ";
                       print (the) x1, " you";
                   }
-                  else print "^You";
+                  else print "You";
                   print " can ";
                   if (n==5) print "also "; print "see ";
                   WriteListFrom(child(x1),

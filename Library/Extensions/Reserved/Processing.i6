@@ -53,7 +53,7 @@ Global rule_frames = 0;
       rule_frames = -1;
       return;
   }
-  ProcessRulebook(PROC_RB);
+  ProcessRulebook(PROC_RB, 0, 1);
 ];
 [ EndFollowRulebook;
   rule_frames--;
@@ -63,10 +63,11 @@ Global rule_frames = 0;
   if (rulechange_sp > 0) rulechange_sp = rulechange_sp - 3;
   else rule_frames = 0;
 ];
-[ FollowRulebook rulebook par;
+[ FollowRulebook rulebook par activity_flag rv;
   if (rulebook ~= PROC_RB) BeginFollowRulebook();
-  ProcessRulebook(rulebook, par);
+  rv = ProcessRulebook(rulebook, par, activity_flag);
   if (rulebook ~= PROC_RB) EndFollowRulebook();
+  return rv;
 ];
 
 ! The rule changes pushed on to the stack have the following
@@ -159,9 +160,9 @@ Verb meta "rules"
 	* "off" -> RulesOff;
 
 [ ProcessRulebook rulebook par activity_flag ignore_movements
-  i rv bits x frame_base substituted_rule usage rule1 rule2 sdbr posthumous;
+  i rv bits x frame_base substituted_rule usage rule1 rule2 sdbr original_deadflag;
   if (rule_frames<0) rfalse;
-  if (rulebook == GAME_ENDS_RB) posthumous = true;
+  original_deadflag = deadflag;
   if (par) parameter_object = par;
   for (x = rulechange_sp-3: x>=0: x = x - 3) {
       usage = rulechange_stack-->x;
@@ -199,12 +200,15 @@ Verb meta "rules"
   } !print "Bits: ", bits, "^";
   if ((bits & RS_ACTIVE_BIT) == 0) { rfalse; }
   sdbr = debugging_rules;
-  AdjustDbr(substituted_rule); if (debugging_rules) DebugRulebooks(substituted_rule, par);
+  AdjustDbr(substituted_rule);
+  #ifndef I7_ECONOMY;
+  if (debugging_rules) DebugRulebooks(substituted_rule, par);
+  #endif;
   ! (A routine defined in the I7 code generator)
   process_rulebook_count = process_rulebook_count + debugging_rules;
-  if (substituted_rule < HIGHEST_RULEBOOK_NO) {
+  if ((substituted_rule >= 0) && (substituted_rule < HIGHEST_RULEBOOK_NO)) {
       substituted_rule = rulebooks_array-->substituted_rule;
-      for (i=0, rv=0: (substituted_rule-->i~=$ffff) && ((posthumous) || (deadflag==false)): i++)
+      for (i=0, rv=0: (substituted_rule-->i~=$ffff) && (original_deadflag == deadflag): i++)
           if ((rv = (ProcessRulebook(substituted_rule-->i, par, activity_flag)))
               && (bits & RS_USERESULT_BIT)) break;
   } else {
@@ -263,6 +267,12 @@ Verb meta "rules"
   PushRuleChange(RS_FAILS, valueflag, value);
   rulechange_sp = rulechange_sp - 3;
 ];
+
+[ RulebookSucceeded;
+  if (rulechange_stack-->rulechange_sp == RS_SUCCEEDS) rtrue;
+  rfalse;
+];
+
 [ SuppressRule rule;
   PushRuleChange(RS_DONOTRUN, rule, 0);
 ];
@@ -369,6 +379,15 @@ Global untouchable_object;
   rfalse;
 ];
 
+[ OIUB_RI;
+  if (parameter_object && parameter_object ofclass K1_room) {
+      L__M(##Take,14,parameter_object);
+      RulebookFails();
+      rtrue;
+  }
+  rfalse;
+];
+
 [ OIUB_AP;
   if (parameter_object has container) rfalse;
   if (parameter_object has supporter) rfalse;
@@ -456,7 +475,8 @@ Global debug_rule_nesting;
   if (action == ##Consult or ##Ask or ##Tell or ##NotUnderstood or ##Answer) {
       inp2 = 1; second = consult_from + 256*consult_words;
   }
-  if (action == ##Go) {
+  if (I7_VerifyNouns()) return;
+  if ((action == ##Go) && (noun)) {
       move_from = real_location; move_to = nothing;
       move_by = nothing; move_through = nothing;
       if ((parent(player) has container) && (parent(player) has enterable))
@@ -486,9 +506,12 @@ Global debug_rule_nesting;
       }
       #ENDIF;
   }
+
+  #IFDEF DEBUG;
   if ((debug_rules) && (FindAction())) {
-      print "@31["; DB_Action(); print "]^"; }
+      print "@31["; DB_Action(); print "], df=", debug_flag, "^"; }
   SetString31(++debug_rule_nesting);
+  #ENDIF;
   TrackActions();
   BeginActionProcessing();
   if (meta) { _I6_ActionPrimitive(); say__p = 1; }
@@ -713,19 +736,40 @@ Global debug_rule_nesting;
 
 Global activities_sp = 0;
 Array activities_stack --> 25;
+Global inhibit_flag = 0;
+Global inhibit_dr = 0;
+[ FixInhibitFlag n i_f;
+  for (n=0:n<activities_sp:n++)
+      if (activities_stack-->n <= 4) i_f = true;
+  if ((inhibit_flag == false) && (i_f)) {
+      inhibit_dr = debug_rules;
+      debug_rules = 0;
+  }
+  if ((inhibit_flag) && (i_f == false)) {
+      debug_rules = inhibit_dr;
+  }
+  inhibit_flag = i_f;
+];
 [ BeginActivity A o;
   if (activities_sp == 25) ">--> Too many activities going on at once.";
   activities_stack-->(activities_sp++) = A;
-  ProcessRulebook(Activity_before_rulebooks-->A, o, true);
+  FixInhibitFlag();
+  return FollowRulebook(Activity_before_rulebooks-->A, o, true);
 ];
 [ ForActivity A o;
-  return ProcessRulebook(Activity_when_rulebooks-->A, o, true);
+  return FollowRulebook(Activity_when_rulebooks-->A, o, true);
 ];
-[ EndActivity A o;
+[ EndActivity A o rv;
   if (activities_sp == 0) jump BadEnd;
   if (activities_stack-->(activities_sp-1) == A) {
-      ProcessRulebook(Activity_after_rulebooks-->A, o, true);
-      activities_sp--; return; }
+      rv = FollowRulebook(Activity_after_rulebooks-->A, o, true);
+      activities_sp--; FixInhibitFlag(); return rv; }
+  .BadEnd; ">--> Tried to abandon activity which wasn't going on.";
+];
+[ AbandonActivity A o;
+  if (activities_sp == 0) jump BadEnd;
+  if (activities_stack-->(activities_sp-1) == A) {
+      activities_sp--; FixInhibitFlag(); return; }
   .BadEnd; ">--> Tried to end activity which wasn't going on.";
 ];
 [ CarryOutActivity A o;
@@ -742,4 +786,25 @@ Array activities_stack --> 25;
   if (actor == player) rfalse;
   L__M(##Order, 1, actor);
   RulebookFails(); rtrue;
+];
+[ I7_PlaceInScope O opts;
+  if (opts) return PlaceInScope(O);
+  if (O ofclass K2_thing) PlaceInScope(O);
+  ScopeWithin(O);
+];
+[ I7_Match test snippet w1 wlen i j;
+  w1 = snippet/100; wlen = snippet%100;
+  for (i=w1, j=wlen: j>0: i++, j--) {
+      if (((test)(i, 0)) ~= GPR_FAIL) return i*100+wn-i;
+  }
+  rfalse;
+];
+[ I7_ParseToken x y; if (wn>parse->1) return GPR_FAIL;
+  return ParseToken(x,y); ];
+[ I7_say_s; if (say__n ~= 1) print "s"; ];
+[ I7_Amusing_Provided x;
+  x = Activity_when_rulebooks-->AMUSING_ACT;
+  if (((rulebooks_array-->x)-->0) == $ffff)
+      rfalse;
+  rtrue;
 ];

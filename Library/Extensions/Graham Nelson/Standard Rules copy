@@ -1,87 +1,6 @@
 Version 1/040731 of the Standard Rules by Graham Nelson begins here.
 
-Document ACTIONS at doc58.
-Document ACTIVITIES at doc171.
-Document ARSUMMARY at doc78.
-Document EXTACTIVITIES at doc196.
-Document HEADINGS at doc13.
-Document KINDS at doc20.
-Document KINDSVALUE at doc45.
-Document NEWRULEBOOKS at doc160.
-Document PHRASES at doc114.
-Document ROOMPLAYBEGINS at doc97.
-Document act_all at doc183.
-Document act_amuse at doc185.
-Document act_csl at doc178.
-Document act_ds at doc180.
-Document act_gt at doc177.
-Document act_lc at doc176.
-Document act_lni at doc179.
-Document act_obit at doc184.
-Document act_pn at doc175.
-Document act_reading at doc182.
-Document act_smn at doc181.
-Document kind_backdrop at doc24.
-Document kind_device at doc29.
-Document kind_door at doc27.
-Document kind_person at doc31.
-Document kind_player's at doc34.
-Document kind_time at doc104.
-Document kind_vehicle at doc30.
-Document ph_allow at doc167.
-Document ph_blankout at doc142.
-Document ph_boxed at doc100.
-Document ph_carryout at doc196.
-Document ph_change at doc79.
-Document ph_changep at doc82.
-Document ph_changev at doc83.
-Document ph_chooserow at doc137.
-Document ph_consider at doc165.
-Document ph_daemons at doc103.
-Document ph_end at doc101.
-Document ph_follow at doc160.
-Document ph_future at doc109.
-Document ph_group at doc176.
-Document ph_holder at doc92.
-Document ph_if at doc117.
-Document ph_ignore at doc163.
-Document ph_list at doc123.
-Document ph_minspart at doc108.
-Document ph_move at doc85.
-Document ph_nearest at doc106.
-Document ph_numblank at doc142.
-Document ph_numrows at doc134.
-Document ph_omit at doc175.
-Document ph_otherwise at doc120.
-Document ph_plus at doc114.
-Document ph_random at doc93.
-Document ph_remove at doc87.
-Document ph_repeat at doc121.
-Document ph_result at doc127.
-Document ph_runthrough at doc122.
-Document ph_say at doc57.
-Document ph_sayif at doc43.
-Document ph_scope at doc180.
-Document ph_sort at doc143.
-Document ph_start at doc56.
-Document ph_stop at doc60.
-Document ph_succeeds at doc164.
-Document ph_surrounds at doc81.
-Document ph_tabrepeat at doc138.
-Document ph_thereis at doc139.
-Document ph_timeshift at doc107.
-Document ph_try at doc61.
-Document ph_types at doc44.
-Document ph_while at doc118.
-Document ph_yes at doc127.
-Document rules_after at doc62.
-Document rules_before at doc60.
-Document rules_d at doc103.
-Document rules_et at doc102.
-Document rules_instead at doc59.
-Document rules_ri at doc167.
-Document rules_wpb at doc97.
-Document rules_wpe at doc101.
+{DOCUMENTATION}
 
 Use MAX_ARRAYS of 500.
 Use MAX_LABELS of 10000.
@@ -223,7 +142,7 @@ is usually openable.
 
 Include (-
 Global SACK_OBJECT;
-Constant RUCKSACK_CLASS = K8_player_s_holdall;
+Constant RUCKSACK_CLASS = (+ player's holdall +);
 -) before the library.
 
 The specification of supporter is "Represents a surface on which things can be
@@ -420,9 +339,6 @@ The score is a number that varies.
 The turn count is a number that varies.
 The time of day is a time that varies.
 
-The player's command is a snippet that varies.
-The matched text is a snippet that varies.
-
 
 Part SR2 - Rules
 
@@ -515,17 +431,17 @@ The last reaching outside rule:
 
 Section SR2/4 - Action processing
 
-The last general before rule: abide by I6 GamePreRoutine.
-The last actor-specific before rule: abide by I6 orders property.
-The last location-specific before rule: abide by I6 location before.
-The last reaction before rule: abide by I6 react_before property.
-The last object-specific before rule: abide by I6 object before.
+The last general before rule: abide by Inform GamePreRoutine.
+The last actor-specific before rule: abide by Inform orders property.
+The last location-specific before rule: abide by Inform location before.
+The last reaction before rule: abide by Inform react_before property.
+The last object-specific before rule: abide by Inform object before.
 
-The first general after rule: abide by I6 GamePostRoutine.
+The first general after rule: abide by Inform GamePostRoutine.
 [I6 does not have actor-specific afters, asymmetrically.]
-The first location-specific after rule: abide by I6 location after.
-The first reaction after rule: abide by I6 react_after property.
-The first object-specific after rule: abide by I6 object after.
+The first location-specific after rule: abide by Inform location after.
+The first reaction after rule: abide by Inform react_after property.
+The first object-specific after rule: abide by Inform object after.
 
 The first action-processing rule:
 	abide by the before rules.
@@ -559,21 +475,14 @@ The first after rule:
 Section SR2/5 - Activity rules
 
 [Activities must not be created until the basic rulebooks are
-in place. The order matters too, as these must match constants
-defined in the I6 library, so add new ones at the end.]
+in place. The order matters too, so add new ones at the end.]
 
-Printing the name of something documented act_pn is an activity.
-Listing contents of something documented act_lc is an activity.
-Grouping together something documented act_gt is an activity.
-Constructing the status line documented act_csl is an activity.
-Listing nondescript items of something documented act_lni is an activity.
-Deciding the scope of something documented act_ds is an activity.
-Supplying a missing noun documented act_smn is an activity.
-Supplying a missing second noun documented act_smn is an activity.
-Reading a command documented act_reading is an activity.
-Deciding whether all includes something documented act_all is an activity.
-Printing the player's obituary documented act_obit is an activity.
-Amusing a victorious player documented act_amuse is an activity.
+Printing the name of something is an activity.
+Listing contents of something is an activity.
+Grouping together something is an activity.
+Constructing the status line is an activity.
+Listing nondescript items of something is an activity.
+Deciding the scope of something is an activity.
 
 
 The last for printing the name rule:
@@ -581,22 +490,12 @@ The last for printing the name rule:
 The last for listing contents rule:
 	cause the listing to take place.
 
-The print obituary headline rule corresponds to routine OBIT_HEAD.
-The print final score rule corresponds to routine OBIT_FINAL.
-The display final status line rule corresponds to routine OBIT_DISP.
-
-The last for printing the player's obituary rule:
-	abide by the print obituary headline rule;
-	abide by the print final score rule;
-	abide by the display final status line rule.
-
 
 Section SR2/6 - Use options
 
 *.
-Use American dialect translates as (- Constant DIALECT_US; -).
+Use American dialect translates as (- Constant US_DIALECT; -).
 Use the serial comma translates as (- Constant I7_SERIAL_COMMA; -).
-Use memory economy translates as (- Constant I7_ECONOMY; -).
 *.
 
 Part SR3 - Actions
@@ -1214,7 +1113,7 @@ Smelling is an action corresponding to Smell
 	- report -
 	none.
 
-Listening to is an action corresponding to Listen
+Listening is an action corresponding to Listen
 	applying to one thing
 	- check -
 	block listening rule = ListenSub_C1
@@ -1428,6 +1327,15 @@ Sleeping is an action corresponding to Sleep
 	- report -
 	none.
 
+Vaguely going is an action corresponding to VagueGo
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	block vaguely going rule = VagueGoSub_C1
+	- report -
+	none.
+
 Section SR3/9 - Grammar
 
 Understand "take [things]" as taking.
@@ -1479,7 +1387,7 @@ Understand "show [someone] [something held]" or "show [something held] to
 [someone]" as showing it to.
 Understand the verbs "present" and "display" as "show".
 
-Understand "go" as going.
+Understand "go" as vaguely going.
 Understand "go [direction]" as going.
 Understand "go [something]" as entering.
 Understand "go into/in/inside/through [something]" as entering.
@@ -1614,20 +1522,11 @@ Understand the verbs "embrace" and "hug" as "kiss".
 
 Understand "think" as thinking.
 
-Understand "smell" as smelling.
 Understand "smell [something]" as smelling.
 Understand the verb "sniff" as "smell".
 
-Understand "listen" as listening.
 Understand "hear [something]" as listening.
 Understand "listen to [something]" as listening.
-
-Rule for supplying a missing noun while smelling (this is the ambient
-odour rule): change the noun to the location. Rule for supplying a
-missing noun while listening (this is the ambient sound rule): change
-the noun to the location. Rule for supplying a missing noun while
-going (this is the block vaguely going rule): say "You'll have to say
-which compass direction to go in."
 
 Understand "taste [something]" as tasting.
 
@@ -1663,17 +1562,15 @@ Part SR4 - Phrasebook
 
 Section SR4/0 - Saying
 
-To say (something - string-of-text) documented ph_say:
+To say (something - string-of-text):
 	(- print (string) {something}; -).
 To say (something - number):
 	(- print (say__n={something}); -).
-To say s: (- I7_say_s(); -).
+To say s: (- { if (say__n ~= 1) print "s"; } -).
 To say (something - time):
 	(- print (PrintTimeOfDay) {something}; -).
 To say (something - time) in words:
 	(- print (PrintTimeOfDayEnglish) {something}; -).
-To say (something - snippet):
-	(- print (PrintSnippet) {something}; -).
 To say (something - number) in words:
 	(- print (number) {something}; -).
 To say the (something - number) in words:
@@ -1688,11 +1585,11 @@ To say the (something - object):
 	(- print (the) {something}; -).
 To say The (something - object):
 	(- print (The) {something}; -).
-To say the player's surroundings documented ph_surrounds:
+To say the player's surroundings:
 	(- SL_Location(); -).
 To say list of extension credits:
 	(- I7ExtensionVersions(); -).
-To say if (c - condition) documented ph_sayif:
+To say if (c - condition):
 	(- {/} 
 .{L#}; if ({c}) say__c=true; else jump {L##}; -).
 To say end if:
@@ -1708,7 +1605,7 @@ To say paragraph break:
 
 Section SR4/1 - The score and the outcome
 
-To start the player in (somewhere - a room) documented ph_start:
+To start the player in (somewhere - a room):
 	(- location={somewhere}; -).
 To start the player at (somewhere - a room):
 	(- location={somewhere}; -).
@@ -1718,7 +1615,7 @@ To award (some - number) point:
 	(- score=score+{some}; -).
 To award (some - number) points:
 	(- score=score+{some}; -).
-To end the game in death documented ph_end:
+To end the game in death:
 	(- deadflag=1; -).
 To end the game in victory:
 	(- deadflag=2; -).
@@ -1729,19 +1626,19 @@ To resume the game:
 
 Section SR4/2 - Causing and responding to actions
 
-To try (doing something - action) documented ph_try:
+To try (doing something - action):
 	(- {doing something}; -).
 To silently try (doing something - action):
 	(- keep_silent=1;{doing something};keep_silent=0; -).
 To try silently (doing something - action):
 	(- keep_silent=1;{doing something};keep_silent=0; -).
 
-To stop the action documented ph_stop:
+To stop the action:
 	(- rtrue; -) - outcome.
 To continue the action:
 	(- rfalse; -) - outcome.
 
-To carry out the (A - activity) activity documented ph_carryout:
+To carry out the (A - activity) activity:
 	(- CarryOutActivity({A}); -).
 To begin the (A - activity) activity:
 	(- BeginActivity({A}); -).
@@ -1762,21 +1659,17 @@ To decide whether the (A - activity) activity is going on:
 
 To do nothing:
 	(- ; -).
-To it does:
-	(- RulebookSucceeds(); rtrue; -).
-To it does not:
-	(- RulebookFails(); rtrue; -).
 
 Section SR4/3 - Moving and removing things
 
-To remove (something - a thing) from play documented ph_remove:
+To remove (something - a thing) from play:
 	(- remove {something}; -).
 To move (something - a thing) to (something else - object),
 	without printing a room description
-	or printing an abbreviated room description documented ph_move:
+	or printing an abbreviated room description:
 	(- I7_Move({something}, {something else}, {phrase options}); -).
 
-To decide which thing is holder of (something - object) documented ph_holder:
+To decide which thing is holder of (something - object):
 	(- (parent({something})) -).
 To decide which thing is next thing held after (something - object):
 	(- (sibling({something})) -).
@@ -1793,7 +1686,7 @@ To decide whether the player is wearing (something - wearable):
 
 Section SR4/4 - Arithmetic and comparing numbers
 
-To decide which number is (X - number) + (Y - number) documented ph_plus: (- ({X}+{Y}) -).
+To decide which number is (X - number) + (Y - number): (- ({X}+{Y}) -).
 To decide which number is (X - number) - (Y - number): (- ({X}-{Y}) -).
 To decide which number is (X - number) * (Y - number): (- ({X}*{Y}) -).
 To decide which number is (X - number) / (Y - number): (- ({X}/{Y}) -).
@@ -1806,12 +1699,12 @@ To decide whether (X - number) >= (Y - number): (- ({X}>={Y}) -).
 
 Section SR4/5 - Time
 
-To decide which time is (t - time) to the nearest (t2 - time) documented ph_nearest:
+To decide which time is (t - time) to the nearest (t2 - time):
 	(- (RoundOffTime({t},{t2})) -).
-To decide which number is the minutes part of (t - time) documented ph_minspart:
-	(- ({t}%60) -).
 To decide which number is the hours part of (t - time):
 	(- ({t}/60) -).
+To decide which number is the minutes part of (t - time):
+	(- ({t}%60) -).
 To decide if (t - time) is before (t2 - time):
 	(- ((({t}+20*60)%(60*24))<(({t2}+20*60)%(60*24))) -).
 To decide if (t - time) is after (t2 - time):
@@ -1820,7 +1713,7 @@ To decide if it is before (t2 - time):
 	(- (((the_time+20*60)%(60*24))<(({t2}+20*60)%(60*24))) -).
 To decide if it is after (t2 - time):
 	(- (((the_time+20*60)%(60*24))>(({t2}+20*60)%(60*24))) -).
-To decide which time is (t - time) before (t2 - time) documented ph_timeshift:
+To decide which time is (t - time) before (t2 - time):
 	(- (({t2}-{t}+60*24)%(60*24)) -).
 To decide which time is (t - time) after (t2 - time):
 	(- (({t2}+{t}+60*24)%(60*24)) -).
@@ -1828,7 +1721,7 @@ To decide which time is (n - number) minutes:
 	(- (({n})%(60*24)) -).
 To decide which time is (n - number) hours:
 	(- (({n}*60)%(60*24)) -).
-To (R - rule) in (t - number) turn from now documented ph_future:
+To (R - rule) in (t - number) turn from now:
 	(- SetI7Timer({R}, {t}+1, 0); -).
 To (R - rule) in (t - number) turns from now:
 	(- SetI7Timer({R}, {t}+1, 0); -).
@@ -1840,7 +1733,7 @@ To (R - rule) in (t - time) from now:
 
 Section SR4/6 - Randomness
 
-To decide which number is a random number from (N - number) to (M - number) documented ph_random:
+To decide which number is a random number from (N - number) to (M - number):
 	(- (random(({M})-({N})+1)+({N})-1) -).
 To decide whether a random chance of (N - number) in (M - number) succeeds:
 	(- (random({M}) <= {N}) -).
@@ -1848,34 +1741,34 @@ To decide whether a random chance of (N - number) in (M - number) succeeds:
 
 Section SR4/7 - Tables
 
-To decide which number is number of rows in (T - table-name) documented ph_numrows:
+To decide which number is number of rows in (T - table-name):
 	(- TableRows({T}) -).
-To decide which number is number of blank rows in (T - table-name) documented ph_numblank:
+To decide which number is number of blank rows in (T - table-name):
 	(- TableBlankRows({T}) -).
 To decide which number is number of filled rows in (T - table-name):
 	(- TableFilledRows({T}) -).
-To decide if there is (TR - table-reference) documented ph_thereis:
+To decide if there is (TR - table-reference):
 	(- (Exists{TR}) -).
 To decide if there is no (TR - table-reference):
 	(- (Exists{TR} == false) -).
 To change (tr - table-reference) to (w - value):
 	(- {tr}{-},1,{w}); -).
-To delete (tr - table-reference) documented ph_blankout:
+To delete (tr - table-reference):
 	(- {tr}{-},1,I7_TABLE_NOVALUE); -).
-To blank out the whole row documented ph_blankout:
+To blank out the whole row:
 	(- {+}TableBlankOutRow(ct_0, ct_1); -).
-To choose row (N - number) in (T - table-name) documented ph_chooserow:
-	(- {+}ct_0 = {T}; ct_1 = {N}; -).
-To choose row with (TC - table-column) of (w - value) in (T - table-name):
-	(- {+}ct_0 = {T}; ct_1 = TableRowCorr(ct_0, {TC}, {w}); -).
 To choose a blank row in (T - table-name):
 	(- {+}ct_0 = {T}; ct_1 = TableBlankRow(ct_0); -).
 To choose a random row in (T - table-name):
 	(- {+}ct_0 = {T}; ct_1 = TableRandomRow(ct_0); -).
+To choose row (N - number) in (T - table-name):
+	(- {+}ct_0 = {T}; ct_1 = {N}; -).
+To choose row with (TC - table-column) of (w - value) in (T - table-name):
+	(- {+}ct_0 = {T}; ct_1 = TableRowCorr(ct_0, {TC}, {w}); -).
 
 Section SR4/7 - Searching and sorting tables
 
-To repeat through (T - table-name) begin * documented ph_tabrepeat:
+To repeat through (T - table-name) begin *:
 	(- {+}ct_0 = {T}; for (ct_1=1:ct_1<=TableRows(ct_0):ct_1++) if (TableRowIsBlank(ct_0,ct_1)==false)  -).
 To repeat through (T - table-name) in reverse order begin *:
 	(- {+}ct_0 = {T}; for (ct_1=TableRows(ct_0):ct_1>=1:ct_1--) if (TableRowIsBlank(ct_0,ct_1)==false)  -).
@@ -1883,7 +1776,7 @@ To repeat through (T - table-name) in (TC - table-column) order begin *:
 	(- {+}ct_0 = {T}; for (ct_1=TableNextRow(ct_0,{TC},0,1):ct_1~=0:ct_1=TableNextRow(ct_0,{TC},ct_1,1))  -).
 To repeat through (T - table-name) in reverse (TC - table-column) order begin *:
 	(- {+}ct_0 = {T}; for (ct_1=TableNextRow(ct_0,{TC},0,-1):ct_1~=0:ct_1=TableNextRow(ct_0,{TC},ct_1,-1))  -).
-To sort (T - table-name) in random order documented ph_sort:
+To sort (T - table-name) in random order:
     (- TableShuffle({T}); -).
 To sort (T - table-name) in (TC - table-column) order:
 	(- TableSort({T}, {TC}, 1); -).
@@ -1905,11 +1798,11 @@ To let (k - classified variable) be (l - classified):
 	(- {k} = {l}; -). 
 To let (t - existing variable) be (u - value):
 	(- {t} = {u}; -).
-To change (p - property) to (w - value) documented ph_changev:
+To change (p - property) to (w - value):
 	(- Write{p}{-},{w}); -).
-To change (gv - global variable) to (w - value) documented ph_change:
+To change (gv - global variable) to (w - value):
 	(- {gv} = {w}; -).
-To change (o - object) to (p - property) documented ph_changep:
+To change (o - object) to (p - property):
 	(- if (PermitAttribute(true, {o}, {p})) give {o} {p}; -).
 To change (o - object) to (w - value):
 	(- WriteAccessProp({o},{*w},{w}); -).
@@ -1933,9 +1826,9 @@ To list the contents of (O - an object),
 	using the definite article,
 	listing marked items only,
 	prefacing with is/are
-	and/or not listing concealed items documented ph_list:
+	and/or not listing concealed items:
 	(- WriteListFrom(child({O}), {phrase options}); -).
-[To do style the list,
+To do style the list,
 	with newlines,
 	indented,
 	giving inventory information,
@@ -1962,72 +1855,54 @@ To do not style the list,
 	listing marked items only,
 	prefacing with is/are
 	and/or not listing concealed items:
-	(- c_style = c_style & (~ {phrase options}); -).]
+	(- c_style = c_style & (~ {phrase options}); -).
 To say contents of (O - an object):
 	list the contents of O, as a sentence.
 To say the contents of (O - an object):
 	list the contents of O, as a sentence, using the definite article.
-To group (OS - object-specification) together documented ph_group:
+To group (OS - object-specification) together:
 	(- objectloop (say__c provides list_together) if ({OS}) 
 		say__c.list_together = {_LT}; -).
 To group (OS - object-specification) together as (T - text):
 	(- objectloop (say__c provides list_together) if ({OS}) 
 		say__c.list_together = {T}; -).
-To omit contents in listing documented ph_omit:
+To omit contents in listing:
 	(- c_style = c_style &~ (RECURSE_BIT+FULLINV_BIT+PARTINV_BIT); -).
-To place (O - an object) in scope, but not its contents documented ph_scope:
+To place (O - an object) in scope, but not its contents:
 	(- I7_PlaceInScope({O}, {phrase options}); -).
-
-
-Section SR4/9a - The player's command
-
-To decide if (S - a snippet) matches (T - a topic) documented act_reading:
-	(- (wn=1,{T}({S}/100,{S}%100)~=GPR_FAIL) -).
-To decide if (S - a snippet) does not match (T - a topic) documented act_reading:
-	(- (wn=1,{T}({S}/100,{S}%100)==GPR_FAIL) -).
-To decide if (S - a snippet) includes (T - a topic):
-	(- (I7_match_snippet=I7_Match({T},{S})) -).
-To decide if (S - a snippet) does not include (T - a topic):
-	(- (I7_Match({T},{S})==0) -).
-To replace (S - a snippet) with (T - text):
-	(- SpliceSnippet({S}, {T}); -).
-To cut (S - a snippet):
-	(- SpliceSnippet({S}, 0); -).
-To reject the player's command:
-	(- RulebookFails(); rtrue; -).
 
 
 Section SR4/10 - Loops and conditionals
 
-To if (c - condition) then (ph - phrase) documented ph_if:
+To if (c - condition) then (ph - phrase):
 	(- if {c} {ph} -).
 To if (c - condition) , (ph - phrase):
 	(- if {c} {ph} -).
-To otherwise (ph - phrase) documented ph_otherwise:
+To otherwise (ph - phrase):
 	(- else {ph} -).
 To if (c - condition) begin *:
 	(- if {c}  -).
-To while (c - condition) repeatedly (ph - phrase) documented ph_while:
+To while (c - condition) repeatedly (ph - phrase):
 	(- while {c} {ph} -).
 To while (c - condition) , (ph - phrase):
 	(- while {c} {ph} -).
 To while (c - condition) begin *:
 	(- while {c}  -).
 To repeat with (loopvar - number variable)
-	running from (v - number) to (w - number) begin * documented ph_repeat:
+	running from (v - number) to (w - number) begin *:
 		(- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).
 To repeat with (loopvar - object variable)
-	running through (c - condition) begin * +1 documented ph_runthrough:
+	running through (c - condition) begin * +1:
 		(- for ({loopvar}={c}, {loopvar+}={loopvar}, {loopvar+}={\c}: {loopvar}: {loopvar}={loopvar+}, {loopvar+}={\c})  -).
 To issue the error (message - text):
 	(- print ">--> ", (string) {message}, "^^"; rtrue; -).
 To stop:
 	(- return; -) - void.
-To yes documented ph_yes:
+To yes:
 	(- rtrue; -) - condition.
 To no:
 	(- rfalse; -) - condition.
-To result (something - returned) documented ph_result:
+To result (something - returned):
 	(- return {something}; -) - value.
 
 
@@ -2035,7 +1910,7 @@ Section SR4/11 - Accessibility
 
 To decide whether (o - object) is inaccessible, saying if not:
 	(- (ObjectIsUntouchable({o}, ~~({saying if not}))) -).
-To allow access documented ph_allow:
+To allow access:
 	(- RulebookSucceeds(); rtrue; -).
 To deny access:
 	(- RulebookFails(); rtrue; -).
@@ -2043,7 +1918,7 @@ To deny access:
 
 Section SR4/12 - Daemons
 
-To start (RL - a rule) documented ph_daemons:
+To start (RL - a rule):
 	(- SetDaemonRule({RL},1); -).
 To stop (RL - a rule):
 	(- SetDaemonRule({RL},0); -).
@@ -2051,7 +1926,7 @@ To stop (RL - a rule):
 
 Section SR4/13 - Fonts and visual effects
 
-To say bold type documented ph_types:
+To say bold type:
 	(- style bold; -).
 To say italic type:
 	(- style underline; -).
@@ -2061,15 +1936,15 @@ To say fixed letter spacing:
 	(- font off; -).
 To say variable letter spacing:
 	(- font on; -).
-To display the boxed quotation (Q - boxed-quotation) documented ph_boxed:
+To display the boxed quotation (Q - boxed-quotation):
 	(- I7_box = {Q}; -).
 
 
 Section SR4/14 - Following rules
 
-To follow (RL - a rule) documented ph_follow:
+To follow (RL - a rule):
 	(- FollowRulebook({RL}); -).
-To consider (RL - a rule) documented ph_consider:
+To consider (RL - a rule):
 	(- ProcessRulebook({RL}); -).
 To abide by (RL - a rule):
 	(- if (ProcessRulebook({RL})) rtrue; -).
@@ -2084,7 +1959,7 @@ To abide by (RL - a rule) for (O - object):
 Section SR4/15 - Success and failure of rules
 
 To make no decision: (- rfalse; -).
-To the rule succeeds documented ph_succeeds:
+To the rule succeeds:
 	(- RulebookSucceeds(); rtrue; -).
 To the rule fails:
 	(- RulebookFails(); rtrue; -).
@@ -2109,7 +1984,7 @@ To decide which classified is the result of the rule:
 
 Section SR4/16 - Procedural manipulation of rules
 
-To ignore (RL - a rule) documented ph_ignore:
+To ignore (RL - a rule):
 	(- SuppressRule({RL}); -).
 To reinstate (RL - a rule):
 	(- ReinstateRule({RL}); -).
@@ -2130,24 +2005,24 @@ To move (RL1 - a rule) to after (RL2 - a rule):
 
 Section SR4/17 - Unindexed
 
-To abide by I6 GamePreRoutine:
+To abide by Inform GamePreRoutine:
 	(- if (GamePreRoutine()~=0) rtrue; -).
-To abide by I6 orders property:
+To abide by Inform orders property:
 	(- if (RunRoutines(player,orders)~=0) rtrue; -).
-To abide by I6 location before:
+To abide by Inform location before:
 	(- if (location~=0 && RunRoutines(location,before)~=0) rtrue; -).
-To abide by I6 react_before property:
+To abide by Inform react_before property:
 	(- scope_reason=REACT_BEFORE_REASON; parser_one=0;SearchScope(ScopeCeiling(player),player,0); scope_reason=PARSING_REASON; if (parser_one~=0) rtrue; -).
-To abide by I6 object before:
+To abide by Inform object before:
 	(- if (inp1>1 && RunRoutines(inp1,before)~=0) rtrue; -).
 
-To abide by I6 GamePostRoutine:
+To abide by Inform GamePostRoutine:
 	(- if (GamePostRoutine()~=0) rtrue; -).
-To abide by I6 location after:
+To abide by Inform location after:
 	(- if (location~=0 && RunRoutines(location,after)~=0) rtrue; -).
-To abide by I6 react_after property:
+To abide by Inform react_after property:
 	(- scope_reason=REACT_AFTER_REASON; parser_one=0;SearchScope(ScopeCeiling(player),player,0); scope_reason=PARSING_REASON; if (parser_one~=0) rtrue; -).
-To abide by I6 object after:
+To abide by Inform object after:
 	(- if (inp1>1 && RunRoutines(inp1,after)~=0) rtrue; -).
 
 To cause the action to take place:

@@ -63,6 +63,23 @@ Global sline2;                       ! Must be third
                                      ! (for status line display)
 ENDIF;
 ! ------------------------------------------------------------------------------
+!   I7 activity numbers
+! ------------------------------------------------------------------------------
+IFDEF NI_BUILD_COUNT;
+Constant PRINTNAME_ACT 0;
+Constant LISTCONTS_ACT 1;
+Constant GROUP_ACT 2;
+Constant STATUSLINE_ACT 3;
+Constant NONDESCRIPT_ACT 4;
+Constant SCOPE_ACT 5;
+Constant NONOUN_ACT 6;
+Constant NOSECOND_ACT 7;
+Constant COMMAND_ACT 8;
+Constant ALL_ACT 9;
+Constant OBITUARY_ACT 10;
+Constant AMUSING_ACT 11;
+ENDIF;
+! ------------------------------------------------------------------------------
 !   Z-Machine and interpreter issues
 ! ------------------------------------------------------------------------------
 Global top_object;                   ! Largest valid number of any tree object
@@ -571,7 +588,8 @@ Constant ENDIT_TOKEN       = 15;     ! Value used to mean "end of grammar line"
 
 !  To protect against a bug in early versions of the "Zip" interpreter:
 
-[ Tokenise__ b p; b->(2 + b->1) = 0; @tokenise b p; ];
+[ Tokenise__ b p; b->(2 + b->1) = 0; @tokenise b p;
+];
 
 ! ============================================================================
 !  The InformParser object abstracts the front end of the parser.
@@ -731,6 +749,41 @@ Object InformParser "(Inform Parser)"
     return nw;
 ];
 
+#ifdef NI_BUILD_COUNT;
+[ PrintSnippet snip from to i w1 w2;
+  w1 = snip/100; w2 = w1 + (snip%100) - 1;
+  from = parse->(4*w1 + 1);
+  to = parse->(4*w2 + 1) +
+       parse->(4*w2) - 1;
+  for (i=from:i<=to:i++) print (char) buffer->i;
+];
+[ SpliceSnippet snip t i w nextw at endsnippet newlen;
+  if (snip==0) ">--> You tried to replace or cut an empty snippet.";
+  w = snip/100;
+  nextw = w + snip%100;
+  at = parse->(4*w+1);
+  if (nextw <= parse->1)
+      endsnippet = 100*nextw + (parse->1 - nextw + 1);
+!  print "At is ", at, " and endsnippet is ", endsnippet, "^";
+  buffer2-->0 = 120;
+  @output_stream 3 buffer2;
+!print "look";
+  switch(metaclass(t)) {
+      String: print (string) t;
+      Routine: t();
+  }
+  if (endsnippet) { print " "; PrintSnippet(endsnippet); }
+  @output_stream -3;
+  newlen = buffer2-->0;
+!  print "Newlen is ", newlen, "^";
+  for (i=0: (i<newlen) && (at+i<120): i++)
+      buffer->(at+i) = buffer2->(2+i);
+  buffer->1 = at+i;
+  for (:at+i<120:i++) buffer->(at+i) = ' ';
+  Tokenise__(buffer, parse);
+];
+#endif;
+
 ! ----------------------------------------------------------------------------
 !  To simplify the picture a little, a rough map of the main routine:
 !
@@ -773,7 +826,14 @@ Object InformParser "(Inform Parser)"
 
   .ReType;
 
+#ifdef NI_BUILD_COUNT;
+    BeginActivity(COMMAND_ACT); if (ForActivity(COMMAND_ACT)==false) {
+#endif;
     Keyboard(buffer,parse);
+#ifdef NI_BUILD_COUNT;
+    I7_command = 100 + parse->1;
+    } if (EndActivity(COMMAND_ACT)) jump ReType;
+#endif;
 
   .ReParse;
 
@@ -1886,7 +1946,7 @@ Constant UNLIT_BIT  =  32;
         if (l==0)
         {   if (indef_possambig)
             {   ResetDescriptors(); wn = desc_wn; jump TryAgain2; }
-            etype=CantSee(); return l;                   ! Choose best error
+            etype=CantSee(); jump FailToken;             ! Choose best error
         }
 
 !  ...until it produces something not held by the actor.  Then an implicit
@@ -2422,11 +2482,17 @@ Constant UNLIT_BIT  =  32;
       for (j=BestGuess():j~=-1 && i<indef_wanted
            && i+offset<63:j=BestGuess())
       {   flag=0;
-          if (j hasnt concealed && j hasnt worn) flag=1;
-          if (context==MULTIHELD_TOKEN or MULTIEXCEPT_TOKEN
-              && parent(j)~=actor) flag=0;
-          k=ChooseObjects(j,flag);
-          if (k==1) flag=1; else { if (k==2) flag=0; }
+          BeginActivity(ALL_ACT, j);
+          if ((ForActivity(ALL_ACT, j)) == 0) {
+	          if (j hasnt concealed && j hasnt worn) flag=1;
+    	      if (context==MULTIHELD_TOKEN or MULTIEXCEPT_TOKEN
+    	          && parent(j)~=actor) flag=0;
+    	      k=ChooseObjects(j,flag);
+    	      if (k==1) flag=1; else { if (k==2) flag=0; }
+    	  } else {
+    	      flag = 0; if (RulebookSucceeded()) flag = 1;
+    	  }
+          EndActivity(ALL_ACT, j);
           if (flag==1)
           {   i++; multiple_object-->(i+offset) = j;
 #ifdef DEBUG;
@@ -2956,10 +3022,15 @@ Constant UNLIT_BIT  =  32;
       if (indirect(scope_token)~=0) rtrue;
   }
 
+#ifdef NI_BUILD_COUNT;
+  BeginActivity(SCOPE_ACT, actor);
+  if (ForActivity(SCOPE_ACT, actor)) jump SkipStdScope;
+#ifnot;
 !  Next, call any user-supplied routine adding things to the scope,
 !  which may circumvent the usual routines altogether if they return true:
 
-  if (actor==domain1 or domain2 && InScope(actor)~=0) rtrue;
+  if (actor==domain1 or domain2 && InScope(actor)~=0) jump SkipStdScope;
+#endif;
 
 !  Pick up everything in the location except the actor's possessions;
 !  then go through those.  (This ensures the actor's possessions are in
@@ -2986,6 +3057,10 @@ Constant UNLIT_BIT  =  32;
       if (parent(actor) has supporter or container)
           ScopeWithin_O(parent(actor), parent(actor), context);
   }
+  .SkipStdScope;
+#ifdef NI_BUILD_COUNT;
+  EndActivity(SCOPE_ACT, actor);
+#endif;
 ];
 
 ! ----------------------------------------------------------------------------
@@ -3753,6 +3828,13 @@ Object InformLibrary "(Inform Library)"
            !  property, the old-fashioned way of dealing with conversation.
 
 #ifdef NI_BUILD_COUNT;
+				if (action==##NotUnderstood)
+                {   inputobjs-->1=2;
+                	inputobjs-->2=actor;
+                	inputobjs-->3=1;
+                	actor=player; action=##Answer;
+                    jump begin__action;
+                }
 #ifnot;
                j=RunRoutines(player,orders);
                if (j==0)
@@ -3824,19 +3906,7 @@ Object InformLibrary "(Inform Library)"
            if (deadflag~=2) AfterLife();
            if (deadflag==0) jump very__late__error;
     
-           print "^^    ";
-           #IFV5; style bold; #ENDIF;
-           print "***";
-           switch(deadflag) {
-               1: L__M(##Miscellany,3);
-               2: L__M(##Miscellany,4);
-               default: print " "; DeathMessage(); print " ";
-           }
-           print "***";
-           #IFV5; style roman; #ENDIF;
-           print "^^^";
-           ScoreSub();
-           DisplayStatus();
+    	   CarryOutActivity(OBITUARY_ACT, 0);
            AfterGameOver();
        ],
 
@@ -3859,7 +3929,9 @@ Object InformLibrary "(Inform Library)"
            sa = action; sn = noun; ss = second; sself = self;
            action = a; noun = n; second = s; self = n;
            #IFDEF DEBUG;
+           #IFNDEF NI_BUILD_COUNT;
            if (debug_flag & 2 ~= 0) TraceAction(source);
+           #ENDIF;
            #IFNOT;
            source = 0;
            #ENDIF;
@@ -3873,6 +3945,23 @@ Object InformLibrary "(Inform Library)"
            action = sa; noun = sn; second = ss; self = sself;
        ],
   has  proper;
+
+[ OBIT_HEAD;
+  print "^^    ";
+  #IFV5; style bold; #ENDIF;
+  print "***";
+  switch(deadflag) {
+      1: L__M(##Miscellany,3);
+      2: L__M(##Miscellany,4);
+      default: print " "; DeathMessage(); print " ";
+  }
+  print "***";
+  #IFV5; style roman; #ENDIF;
+  print "^^^";
+  rfalse;
+];
+[ OBIT_FINAL; ScoreSub(); rfalse; ];
+[ OBIT_DISP; DisplayStatus(); rfalse; ];
 
 [ AdvanceWorldClock;
   turns++;
@@ -3939,6 +4028,9 @@ Object InformLibrary "(Inform Library)"
    L__M(##Miscellany,5);
    .RRQL;
    print "> ";
+#ifdef NI_BUILD_COUNT;
+   say__p = 0;
+#endif;
    #IFV3; read buffer parse; #ENDIF;
    temp_global=0;
    #IFV5; read buffer parse DrawStatusLine; #ENDIF;
@@ -3948,8 +4040,15 @@ Object InformLibrary "(Inform Library)"
    if (i==RESTORE__WD)      { RestoreSub(); jump RRQPL; }
    if (i==FULLSCORE1__WD or FULLSCORE2__WD && TASKS_PROVIDED==0)
    {   new_line; FullScoreSub(); jump RRQPL; }
+#ifdef NI_BUILD_COUNT;
+   if (deadflag==2 && i==AMUSING__WD && I7_Amusing_Provided())
+   {   new_line; CarryOutActivity(AMUSING_ACT, 0);
+       jump RRQPL; }
+#ifnot;
    if (deadflag==2 && i==AMUSING__WD && AMUSING_PROVIDED==0)
-   {   new_line; Amusing(); jump RRQPL; }
+   {   new_line; Amusing();
+       jump RRQPL; }
+#endif;
    #IFV5;
    if (i==UNDO1__WD or UNDO2__WD or UNDO3__WD)
    {   if (undo_flag==0)
@@ -4465,7 +4564,13 @@ Array StorageForShortName --> 161;
 
 #ifdef NI_BUILD_COUNT;
 [ PSN__ o;
-   CarryOutActivity(0, o);
+   if (o==0) { print (string) NOTHING__TX; rtrue; }
+   switch(metaclass(o))
+   {   Routine: print "<routine ", o, ">"; rtrue;
+       String:  print "<string ~", (string) o, "~>"; rtrue;
+       nothing: print "<illegal object number ", o, ">"; rtrue;
+   }
+   CarryOutActivity(PRINTNAME_ACT, o);
 ];
 [ I6_PSN__ o;
    if (o==0) { print (string) NOTHING__TX; rtrue; }
