@@ -1,18 +1,16 @@
-<html><head><title>8.9. Blank rows</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc127.html><img src=../Back.tif></a><a href=doc129.html><img src=../Forward.tif></a></td><td><b>8.9. Blank rows</b></td></tr></table><p>
+<html><head><title>9.15. Phrases to decide other things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc127.html><img src=../Back.tif></a><a href=doc129.html><img src=../Forward.tif></a></td><td><b>9.15. Phrases to decide other things</b></td></tr></table><p>
 <p>
-<p>There is no difficulty about entirely blank rows: or rather, the only difficulty is once again that they are boring to type out. We can avoid the necessity by appending &quot;with ... blank rows&quot; at the foot of the table:
+<p>A condition is a yes/no decision, but we can also take decisions where the result is a value. Suppose we want to create a concept of the &quot;grand prize&quot;, which will have different values at different times in play. Each time the &quot;grand prize&quot; is referred to, Inform will have to decide what its value is, and the following tells Inform how to make that decision:
 <p>
-<p><center><img src=table6.tiff></center>
+<p><blockquote><font color="#000080">To decide which treasure is the grand prize:<br>if the Dark Room has been visited then result the silver bars;<br>result the plover's egg.</font></blockquote>
 <p>
-<p>(These words cannot be placed in between rows, but only at the bottom.) And indeed the table can start out completely empty:
+<p>Note that we have to say what kind the answer will be: here it's a kind of thing called &quot;treasure&quot; (which we're supposing has already been created), and as it turns out only two treasures are ever eligible anyway (we're also supposing that the plover's egg and the silver bars are treasures already created, of course.) Now that we have &quot;grand prize&quot; created, we can use it just as we would use any other value, so for instance:
 <p>
-<p><center><img src=table7.tiff></center>
+<p><blockquote><font color="#000080">if taking the grand prize then ...</font></blockquote>
 <p>
-<p>Blank rows are useful because they enable us to add new data to a table. In effect, they are invisible when not used. A repeat loop like
+<p>As this is something of a dialect difference between English speakers, &quot;what&quot; and &quot;which&quot; are synonymous here, i.e., we could equally well write something like:
 <p>
-<p><blockquote><font color="#000080">repeat through Table 3 begin; ...; end repeat</font></blockquote>
-<p>
-<p>automatically skips blank rows, so it would initially do nothing at all. Similarly, choosing a &quot;random&quot; row will never choose a blank one.
+<p><blockquote><font color="#000080">To decide what number is the target score: ...</font></blockquote>
 <p>
 <p><hr><p><a href=doc127.html>Previous</a> / <a href=doc129.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

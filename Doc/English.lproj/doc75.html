@@ -1,14 +1,22 @@
-<html><head><title>5.9. Removing things from play</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc74.html><img src=../Back.tif></a><a href=doc76.html><img src=../Forward.tif></a></td><td><b>5.9. Removing things from play</b></td></tr></table><p>
+<html><head><title>6.20. New actions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc74.html><img src=../Back.tif></a><a href=doc76.html><img src=../Forward.tif></a></td><td><b>6.20. New actions</b></td></tr></table><p>
 <p>
-<p>Some things will occasionally be in a limbo state called being &quot;out of play&quot;: like chess pieces which have been taken, or cards not yet dealt, they wait on the sidelines, perhaps to be needed again, perhaps not. Anything created with no apparent location will start the game out of play, as in the case of the lamp here:
+<p>It is not often that we need to create new actions, but a large work of interactive fiction with no novelty actions is a flavourless dish. Here we shall create an action for photographing things.
 <p>
-<p><blockquote><font color="#000080">Aladdin's Cave is a room. The genie's lamp is a container.</font></blockquote>
+<p><blockquote><font color="#000080">The Ruins is a room. &quot;You find this clearing in the rainforest oddly familiar.&quot; The camera is in the Ruins. &quot;Your elephantine camera hangs from a convenient branch.&quot;</font></blockquote>
 <p>
-<p>To move something back into play, we simply &quot;move&quot; it back onto the board, so to speak: back to a room, or to something else which is currently in play. To remove something, we use the phrase:
+<p><blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">remove the gold coin from play</font></blockquote>
+<p>In theory that text is already sufficient in to make the new action, but what we have so far is rudimentary to say the least. The two qualifications give Inform the useful information that we cannot photograph in the dark, and that we need to be photographing something - not, as in the case of waiting or taking inventory, acting without reference to any particular thing external to ourselves. The word &quot;visible&quot; here tells Inform that we do not need to be able to touch the thing in question: a line of sight is good enough. These two stipulations were necessary because the default arrangement is that any object must be in touching range, and that most actions can be performed in darkness. As further examples, here we create &quot;blinking&quot; and &quot;scraping X with Y&quot;. Note the use of &quot;it&quot; to indicate that the name of an object should go here.
 <p>
-<p>(We are not permitted to remove rooms, or the player, from play.)
+<p><blockquote><font color="#000080">Blinking is an action applying to nothing. Scraping it with is an action applying to two things.</font></blockquote>
+<p>
+<p>The photographing action now exists, but with two provisos: (a) it never happens, because Inform does not know what instructions by the player should cause it, and (b) even if it were to happen, nothing would follow, because Inform does not know how to carry it out.
+<p>
+<p>The first problem is easily overcome:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.</font></blockquote>
+<p>
+<p>We will return to the whole subject of parsing, as this process of understanding the player's commands is called, later. But this gives the gist of it.
 <p>
 <p><hr><p><a href=doc74.html>Previous</a> / <a href=doc76.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

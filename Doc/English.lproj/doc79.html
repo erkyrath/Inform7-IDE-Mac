@@ -1,30 +1,28 @@
-<html><head><title>5.13. Counting the number of things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc78.html><img src=../Back.tif></a><a href=doc80.html><img src=../Forward.tif></a></td><td><b>5.13. Counting the number of things</b></td></tr></table><p>
+<html><head><title>7.1. Change of values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 7: Change</h2><p><table><tr><td><a href=doc78.html><img src=../Back.tif></a><a href=doc80.html><img src=../Forward.tif></a></td><td><b>7.1. Change of values that vary</b></td></tr></table><p>
 <p>
-<p>It is very often useful to know how many things are in a given situation, and for this purpose we have the &quot;number of ...&quot; construction. For instance:
+<p>So far, what we have done in response to the player's commands amounts to little more than a few ripostes. The simulated world does change during play, as the player moves from room to room or picks up things, but all of this is happening automatically, not at our direct instruction. How then can we make the world change?
 <p>
-<blockquote><font color="#000080">the number of edible things carried
-<br>the number of things on the table
-<br>the number of people in the Dining Room
-</font></blockquote><p>
+<p>Recall that the world consists of rooms, in which are things, and that all of these have properties appropriate to their kinds. Some properties are either/or (&quot;open&quot; or &quot;closed&quot; but not both and not neither), while others have values (the &quot;matching key&quot; of a lockable door, for instance). Finally, we may also have created some free-standing values or &quot;variables&quot;.
 <p>
-<p>Whereas &quot;a woman is holding an animal&quot; makes the same test as &quot;an animal is held by a woman&quot;, getting the same result, counting is not so even-handed:
+<p>We take the last example first, as it is the simplest. Suppose we have:
 <p>
-<blockquote><font color="#000080">the number of women holding animals
-<br>the number of animals held by women
-</font></blockquote><p>
+<p><blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is northwest.</font></blockquote>
 <p>
-<p>are different questions and, unless the ration is strictly one lapdog per baroness, will have different answers. If Cruella de Ville has 101 dalmatians, they may be very different indeed.
+<p><blockquote><font color="#000080">The Blasted Heath is a room. &quot;Merely an arena for the play of witches and kings, my dear, where the [prevailing wind] wind blows.&quot;</font></blockquote>
 <p>
-<p>It can also be helpful to count things with no particular location, like so:
+<p><blockquote><font color="#000080">Instead of waiting when the prevailing wind is northwest: say &quot;A fresh gust of wind bowls you over.&quot;; change the prevailing wind to the east.</font></blockquote>
 <p>
-<blockquote><font color="#000080">the number of rooms
-<br>the number of closed doors
-</font></blockquote><p>
+<p>The new phrase here is &quot;change&quot;. This automatically checks that the new value is one which makes sense in the given context, so for instance it would not allow either of these:
 <p>
-<p>For instance:
+<p><blockquote><font color="#000080">change the prevailing wind to 25; change the prevailing wind to the Heath;</font></blockquote>
 <p>
-<blockquote><font color="#000080">When play begins, change the right hand status line to &quot;Explored: [number of visited rooms]/[number of rooms]&quot;.
-</font></blockquote><p>
+<p>the former being a number, and the latter a room, so that neither is a direction. Similarly, &quot;change&quot; will not allow values to be changed, only values which vary. So
+<p>
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are blue, red and mauve. Instead of pulling the psychedelic lever: change blue to mauve.</font></blockquote>
+<p>
+<p>...will result in a complaint like so:
+<p>
+<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'change blue to mauve' <img src=../Reveal.tif>, but 'blue' is not something which can ever change.</font></blockquote>
 <p>
 <p><hr><p><a href=doc78.html>Previous</a> / <a href=doc80.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,18 +1,22 @@
-<html><head><title>5.12. Calling names</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc77.html><img src=../Back.tif></a><a href=doc79.html><img src=../Forward.tif></a></td><td><b>5.12. Calling names</b></td></tr></table><p>
+<html><head><title>6.23. Recap of the action sequence</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc77.html><img src=../Back.tif></a><a href=doc79.html><img src=../Forward.tif></a></td><td><b>6.23. Recap of the action sequence</b></td></tr></table><p>
 <p>
-<p>Conditions like &quot;if a woman is holding an animal&quot; allow complicated tests to be performed with a minimum of fuss, but it's rare that we want to know only whether they are true: more likely we also want to know <i>which</i> woman, and <i>which</i> animal.
+<p>To recap, actions are normally generated when the player types a command, but they can also be started by the &quot;try&quot; phrase. What then happens is as follows:
 <p>
-<p>For this purpose, we are allowed to supply a name for any such vaguely-described object which comes up, and then to use that name thereafter. For instance:
+<p><blockquote><font color="#000080">1. If any before rule applies then it is obeyed.</font></blockquote>
 <p>
-<blockquote><font color="#000080">Instead of waiting when a woman (called the kidnapper) is holding an animal (called the pet), say &quot;How can you think of rest when, somewhere out there, [pet] has been cruelly kidnapped by [the kidnapper]?&quot;
-</font></blockquote><p>
+<p><blockquote><font color="#000080">2. If the action needs light to see by, that is checked; if it needs physical access to its objects, that too is checked.</font></blockquote>
 <p>
-<p>Note the brackets, which are essential. The rest of typing &quot;wait&quot; is then
+<p><blockquote><font color="#000080">3. If any instead rule applies then it is obeyed and the action is automatically stopped.</font></blockquote>
 <p>
-<blockquote><font color="#000080">How can you think of rest when, somewhere out there, a lapdog has been cruelly kidnapped by Baroness Orczy?
-</font></blockquote><p>
+<p><blockquote><font color="#000080">4. The &quot;check&quot; rules for the given action are obeyed, to see if it is possible. For example, the &quot;check taking&quot; rules will prevent the player from taking something which is fixed in place.</font></blockquote>
 <p>
-<p>Of course, that might be just one of many animals held by women in the game. We shall later see ways to go through all of the possibilities found, performing some action with each in turn.
+<p><blockquote><font color="#000080">5. The &quot;carry out&quot; rules for the given action are obeyed. For example, the &quot;carry out taking&quot; rules actually move the given object into the player's possession. The action is now declared a success.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">6. If any after rule applies then it is obeyed and the action is automatically stopped.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">7. The &quot;report&quot; rules for the given action are obeyed. For example, the &quot;report taking&quot; rules always just say &quot;Taken.&quot;</font></blockquote>
+<p>
+<p>In practice we can forget about the check, carry out and report rules unless we are creating new actions or meddling with the definition of existing ones: almost everything we need to do can be done with before, instead and after rules.
 <p>
 <p><hr><p><a href=doc77.html>Previous</a> / <a href=doc79.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

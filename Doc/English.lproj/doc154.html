@@ -1,20 +1,28 @@
-<html><head><title>10.11. Reaching inside rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc153.html><img src=../Back.tif></a><a href=doc155.html><img src=../Forward.tif></a></td><td><b>10.11. Reaching inside rules</b></td></tr></table><p>
+<html><head><title>11.8. New tokens</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc153.html><img src=../Back.tif></a><a href=doc155.html><img src=../Forward.tif></a></td><td><b>11.8. New tokens</b></td></tr></table><p>
 <p>
-<p>So far we have seen rules which apply to actions, and rules which do not apply to anything specific - &quot;every turn&quot; rules, for instance. We can also have rules which apply to a specific object.
+<p>In the example game &quot;Lies&quot;, we are going to look for subtleties of wording in order to allow the player to lie down in three different ways. To set the scene, and make new actions to provide for two of these ways:
 <p>
-<p>An example of rules applying to given objects is provided by the way that Inform decides whether the player can reach something or not. For instance, suppose the following:
+<p><blockquote><font color="#000080">&quot;Lies&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Laboratory is a room. In the Laboratory is a conical flask. The flask is closed and transparent. In the flask is an antibumping granule.</font></blockquote>
+<p><blockquote><font color="#000080">The Laundry is a room. &quot;An old Limehouse haunt, the Chinese laundry used by the down-trodden wives of the Tong of the Black Scorpion.&quot; The vast marble sink is here. &quot;There is nothing obviously oriental about the vast marble sink, which is large enough to lie down inside. A wooden-rack floor, equipped for easy drainage, turns out also to be equipped for snagging the shoes of passers-by.&quot; The sink is an enterable container, fixed in place.</font></blockquote>
 <p>
-<p>The player will be able to examine the granule but not to take it, as that would require reaching through glass. Internally, what happens if the player tries to take the granule is this: a rulebook called the &quot;reaching inside rules&quot; is applied to the conical flask. This normally contains the following three rules:
+<p><blockquote><font color="#000080">Lying down is an action applying to nothing. Report lying down: say &quot;You lie down for a while in the middle of the Laundry, wondering about the point of existence, then get up again.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">the can't reach inside closed containers rule<br>the can't take people's possessions rule<br>the can't take component parts rule</font></blockquote>
+<p><blockquote><font color="#000080">Lying near is an action applying to one thing. Report lying near: say &quot;You lie down next to [the noun] for a while, mumbling to yourself.&quot;</font></blockquote>
 <p>
-<p>Two of these rules apply only to actions of taking and removing: if the player only wants to push the granule, for instance, only the &quot;can't reach inside closed containers&quot; rule is applicable. This is the gist of it:
+<p><blockquote><font color="#000080">Instead of lying near the sink, say &quot;Lying down close to the cool butcher's marble slabs of the sink, your attention is caught by the sight of coolie shoes through a floor-level grille for ventilation. The game is afoot!&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The can't reach inside closed containers rule: if the object in question is a closed container begin; say &quot;[The object in question] is closed!&quot;; deny access; end if.</font></blockquote>
+<p>So far, so good. Now for the grammar, where we create two new tokens: one for each of two groups of alternative prepositions.
 <p>
-<p>In such a rule the &quot;object in question&quot; is the object to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
+<p><blockquote><font color="#000080">Understand &quot;beneath/under/by/near/beside/alongside/against&quot; or &quot;next to&quot; or &quot;in front of&quot; as &quot;[beside]&quot;.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Understand &quot;lie down&quot; as lying down.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Understand &quot;lie down [within] [something]&quot; as entering.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Understand &quot;lie [beside] [something]&quot; or &quot;lie down [beside] [something]&quot; as lying near.</font></blockquote>
 <p>
 <p><hr><p><a href=doc153.html>Previous</a> / <a href=doc155.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

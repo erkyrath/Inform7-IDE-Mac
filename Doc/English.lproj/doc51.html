@@ -1,34 +1,25 @@
-<html><head><title>4.8. Giving instructions to other people</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc50.html><img src=../Back.tif></a><a href=doc52.html><img src=../Forward.tif></a></td><td><b>4.8. Giving instructions to other people</b></td></tr></table><p>
+<html><head><title>5.1. What are descriptions?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 5: Descriptions</h2><p><table><tr><td><a href=doc50.html><img src=../Back.tif></a><a href=doc52.html><img src=../Forward.tif></a></td><td><b>5.1. What are descriptions?</b></td></tr></table><p>
 <p>
-<p>In interactive fiction, it is conventional to ask other characters to do something like so:
+<p>It is in describing circumstances that Inform really capitalises on the concise, expressive power of natural language, and this brief chapter brings together the facts about &quot;descriptions&quot;: phrases which refer to things.
 <p>
-<blockquote><font color="#000080">> marcel, put the biscuit in the tea
-<br>> will, go west
+<p>The simplest descriptions consist of a noun alone. Some refer to single things (&quot;lantern&quot;, or &quot;wine cask&quot;), others to kinds of thing (&quot;dead end&quot; or &quot;container&quot;). But we have also seen adjectives alone:
+<p>
+<blockquote><font color="#000080">The oaken desk is fixed in place.
 </font></blockquote><p>
 <p>
-<p>and so on. Clearly &quot;will, go west&quot; should not produce the same action as &quot;go west&quot;, because a different person will be trying it: this person is called the &quot;actor&quot;, and while the actor is ordinarily the player, here it is the character of Will. The actions produced are:
+<p>Here, &quot;fixed in place&quot; is a description which, to Inform's simple-minded grammar, is a single adjective. And of course adjectives and nouns can be combined:
 <p>
-<blockquote><font color="#000080">> go west -> going west
-<br>> will, go west -> asking will to try going west
+<blockquote><font color="#000080">The cargo trunk is an openable container.
 </font></blockquote><p>
 <p>
-<p>We can thus write rules like so:
+<p>The description &quot;openable container&quot; consists of the noun &quot;container&quot;, meaning a kind of thing, and the adjective &quot;openable&quot;, which means one of the two possible states of an either/or property held by that thing.
 <p>
-<blockquote><font color="#000080">Instead of asking will to try going west, say &quot;Will scratches his head, baffled.&quot;
+<p>Sentences like these are only one venue for descriptions, and the next chapter will have much greater need of them:
+<p>
+<blockquote><font color="#000080">Instead of throwing something at a closed openable door, say &quot;Or you could just use the handle like anyone else, of course.&quot;
 </font></blockquote><p>
 <p>
-<p>which apply only to the command &quot;will, go west&quot; and do not affect the command &quot;go west&quot;. Actions carried out by other people get as far as completing the &quot;instead&quot; rules but then, if no rule has intervened by then, fail like so:
-<p>
-<blockquote><font color="#000080">> will, go west
-<br>Will has better things to do.
-</font></blockquote><p>
-<p>
-<p>Similarly, we can also have phrases like so:
-<p>
-<blockquote><font color="#000080">try asking the Sybil to try waiting
-</font></blockquote><p>
-<p>
-<p>which simulate the player having typed &quot;sybil, wait&quot;.
+<p>Here &quot;something&quot; and &quot;a closed openable door&quot; are both descriptions.
 <p>
 <p><hr><p><a href=doc50.html>Previous</a> / <a href=doc52.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,27 +1,26 @@
-<html><head><title>11.6. Listing contents of something</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc162.html><img src=../Back.tif></a><a href=doc164.html><img src=../Forward.tif></a></td><td><b>11.6. Listing contents of something</b></td></tr></table><p>
+<html><head><title>12.7. Phrases concerning rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc162.html><img src=../Back.tif></a><a href=doc164.html><img src=../Forward.tif></a></td><td><b>12.7. Phrases concerning rules</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> When taking inventory, the list is produced by the activity &quot;listing contents of yourself&quot;; when looking, a list of items which do not deserve their own paragraphs is produced by &quot;listing contents of&quot; the location; when a say &quot;[contents of ...]&quot; is performed. In short, whenever a list is needed.
+<p>The &quot;ignore&quot; phrase is only one of a suite. The full list is:
 <p>
-<p><b>2. The default behaviour.</b> The list is printed out.
+<p><blockquote><font color="#000080">ignore ...rule...<br>reinstate ...rule...</font></blockquote>
 <p>
-<p><b>3. Examples.</b> (a) We have already seen that it can be elegant to elaborate on a description in the context of a list. Here we add &quot;discarded&quot; to a sweet wrapper which is found on the ground.
+<p>The &quot;reinstate&quot; phrase simply reverses any previous &quot;ignore&quot; of the same rule, and is otherwise not useful.
 <p>
-<blockquote><font color="#000080">Rule for describing the wrapper while listing contents of a room: say &quot;discarded sweet wrapper&quot;.
-</font></blockquote><p>
+<p><blockquote><font color="#000080">reject the result of ...rule...<br>accept the result of ...rule...</font></blockquote>
 <p>
-<p>(b) Lists can be considerably shortened and tidied up if similar items are grouped together. We do this by specifying what should be grouped together before listing contents, using the special phrase &quot;group ... together&quot;:
+<p>Some rules produce results (see below), but they can be set so that whatever result they produce will be ignored. Again, &quot;accept ...&quot; simply undoes a previous &quot;reject ...&quot; and otherwise has no effect.
 <p>
-<blockquote><font color="#000080">Utensil is a kind of thing. The knife, the fork and the spoon are utensils. Before listing contents: group utensils together as &quot;utensils&quot;.
-</font></blockquote><p>
+<p><blockquote><font color="#000080">substitute ...first rule... for ...second rule...<br>restore the original ...second rule...</font></blockquote>
 <p>
-<p>The result will be, say, &quot;two utensils (knife and spoon)&quot;, if both are found in the same place.
+<p>Whenever the second rule is to be invoked - from any rulebook, or as a result of any &quot;follow&quot; instruction - invoke the first one instead. Again, &quot;restore ...&quot; simply undoes the effect of an earlier &quot;substitute&quot;.
 <p>
-<p>(c) We can less obtrusively group items together like so:
+<p><blockquote><font color="#000080">move ...first rule... to before/after ...second rule...</font></blockquote>
 <p>
-<blockquote><font color="#000080">Before listing contents while taking inventory: group utensils together.
-</font></blockquote><p>
+<p>This causes the first rule to be ignored whenever it turns up in the ordinary way, but to be invoked either immediately before or immediately after the second rule whenever that second rule is invoked. In effect, it cuts out the first rule from wherever it was, and glues it onto the second. Note that there is no obligation for the first rule to begin in the same rulebook(s) as the second, so this can be used to slot in a wholly new rule, perhaps only if certain circumstances hold.
 <p>
-<p>Now they will be rolled into a single inventory line: say, &quot;fork and spoon&quot; rather than &quot;two utensils (fork and spoon)&quot;.
+<p>These rule-changing instructions allow quite casual sentences to wreak havoc with the model world. This, for instance, is quite the recipe for mayhem and perplexity:
+<p>
+<p><blockquote><font color="#000080">A procedural rule: reject the result of the before rules; ignore the after rules; move the after rules to before the before rules.</font></blockquote>
 <p>
 <p><hr><p><a href=doc162.html>Previous</a> / <a href=doc164.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

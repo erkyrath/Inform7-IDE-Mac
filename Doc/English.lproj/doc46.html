@@ -1,14 +1,20 @@
-<html><head><title>4.3. Actions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc45.html><img src=../Back.tif></a><a href=doc47.html><img src=../Forward.tif></a></td><td><b>4.3. Actions</b></td></tr></table><p>
+<html><head><title>4.11. Using new kinds of value in properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc45.html><img src=../Back.tif></a><a href=doc47.html><img src=../Forward.tif></a></td><td><b>4.11. Using new kinds of value in properties</b></td></tr></table><p>
 <p>
-<p>An action is an impulse by the player to do something. This may or may not be a reasonable aspiration, and may or may not be achieved. The player's exploration of an interactive fiction is made by a sequence of actions, so much of the designing process comes down to responding to these actions.
+<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
 <p>
-<p>We write actions using present participles. For instance, if the player types &quot;take napkin&quot; or &quot;get the napkin&quot; or something similar then the resulting action would be written as:
+<p><blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">taking the napkin</font></blockquote>
+<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
 <p>
-<p>The details of what words the player actually typed are unimportant to us: we deal only in actions.
+<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
 <p>
-<p>Every action ends in success or failure. In this context, success means only that the player's intention has been fulfilled. If the player sets out to take the napkin, but finds a million-pound banknote in its folds instead, the action will be deemed to be a failure.
+<p><blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.</font></blockquote>
+<p>
+<p>New kinds of value are very convenient when substituting variations in text:
+<p>
+<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.</font></blockquote>
+<p>
+<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
 <p>
 <p><hr><p><a href=doc45.html>Previous</a> / <a href=doc47.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

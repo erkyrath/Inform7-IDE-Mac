@@ -1,28 +1,18 @@
-<html><head><title>9.8. New tokens</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc140.html><img src=../Back.tif></a><a href=doc142.html><img src=../Forward.tif></a></td><td><b>9.8. New tokens</b></td></tr></table><p>
+<html><head><title>10.9. Blank rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc140.html><img src=../Back.tif></a><a href=doc142.html><img src=../Forward.tif></a></td><td><b>10.9. Blank rows</b></td></tr></table><p>
 <p>
-<p>In the example game &quot;Lies&quot;, we are going to look for subtleties of wording in order to allow the player to lie down in three different ways. To set the scene, and make new actions to provide for two of these ways:
+<p>There is no difficulty about entirely blank rows: or rather, the only difficulty is once again that they are boring to type out. We can avoid the necessity by appending &quot;with ... blank rows&quot; at the foot of the table:
 <p>
-<p><blockquote><font color="#000080">&quot;Lies&quot;</font></blockquote>
+<p><center><img src=table6.tiff></center>
 <p>
-<p><blockquote><font color="#000080">The Laundry is a room. &quot;An old Limehouse haunt, the Chinese laundry used by the down-trodden wives of the Tong of the Black Scorpion.&quot; The vast marble sink is here. &quot;There is nothing obviously oriental about the vast marble sink, which is large enough to lie down inside. A wooden-rack floor, equipped for easy drainage, turns out also to be equipped for snagging the shoes of passers-by.&quot; The sink is an enterable container, fixed in place.</font></blockquote>
+<p>(These words cannot be placed in between rows, but only at the bottom.) And indeed the table can start out completely empty:
 <p>
-<p><blockquote><font color="#000080">Lying down is an action applying to nothing. Report lying down: say &quot;You lie down for a while in the middle of the Laundry, wondering about the point of existence, then get up again.&quot;</font></blockquote>
+<p><center><img src=table7.tiff></center>
 <p>
-<p><blockquote><font color="#000080">Lying near is an action applying to one thing. Report lying near: say &quot;You lie down next to [the noun] for a while, mumbling to yourself.&quot;</font></blockquote>
+<p>Blank rows are useful because they enable us to add new data to a table. In effect, they are invisible when not used. A repeat loop like
 <p>
-<p><blockquote><font color="#000080">Instead of lying near the sink, say &quot;Lying down close to the cool butcher's marble slabs of the sink, your attention is caught by the sight of coolie shoes through a floor-level grille for ventilation. The game is afoot!&quot;</font></blockquote>
+<p><blockquote><font color="#000080">repeat through Table 3 begin; ...; end repeat</font></blockquote>
 <p>
-<p>So far, so good. Now for the grammar, where we create two new tokens: one for each of two groups of alternative prepositions.
-<p>
-<p><blockquote><font color="#000080">Understand &quot;beneath/under/by/near/beside/alongside/against&quot; or &quot;next to&quot; or &quot;in front of&quot; as &quot;[beside]&quot;.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Understand &quot;lie down&quot; as lying down.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Understand &quot;lie down [within] [something]&quot; as entering.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Understand &quot;lie [beside] [something]&quot; or &quot;lie down [beside] [something]&quot; as lying near.</font></blockquote>
+<p>automatically skips blank rows, so it would initially do nothing at all. Similarly, choosing a &quot;random&quot; row will never choose a blank one.
 <p>
 <p><hr><p><a href=doc140.html>Previous</a> / <a href=doc142.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

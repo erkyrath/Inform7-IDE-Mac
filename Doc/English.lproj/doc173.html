@@ -1,12 +1,19 @@
-<html><head><title>12.8. Documenting extensions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc172.html><img src=../Back.tif></a><a href=doc174.html><img src=../Forward.tif></a></td><td><b>12.8. Documenting extensions</b></td></tr></table><p>
+<html><head><title>13.3. Rules applied to activities</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc172.html><img src=../Back.tif></a><a href=doc174.html><img src=../Forward.tif></a></td><td><b>13.3. Rules applied to activities</b></td></tr></table><p>
 <p>
-<p>A basic mechanism for documenting extensions is built into Inform. For simple extensions, this will probably do instead of a manual; for more complex ones, it should still prove a useful supplement to one.
+<p>The activity &quot;printing the name of something&quot; is the process of printing up the name of something on screen: ordinarily, this means saying the text in its &quot;printed name&quot; property.
 <p>
-<p>As soon as a game has successfully been translated, its index is brought up to date: pages of the index record all the kinds and what they are for, all the phrases which can be used, and so on. Any kind or phrase created in an extension is automatically included. In order for the kind to be described more helpfully, we should write a sentence like so:
+<p>As with actions, rules can be attached to activities which change or augment what would normally happen. In fact the situation is simpler, because (unlike an action) an activity always finishes, so there is no question of not reaching its &quot;after&quot; stage. There are also only three rulebooks attached to an activity, as compared with the six affecting an action.
 <p>
-<p><blockquote><font color="#000080">The specification of player's holdall is &quot;Represents a container which the player can carry around as a sort of rucksack, into which spare items are automatically stowed away.&quot;</font></blockquote>
+<p>The three rulebooks for printing the name are called &quot;before printing the name&quot;, &quot;for printing the name&quot; and &quot;after printing the name&quot;, and this is the general pattern. What happens is:
 <p>
-<p>There is no need to specify the properties which apply: that is all done automatically. (&quot;Specification&quot; is a sort of pseudo-property which only kinds have, and it's used just for this.)
+<blockquote><font color="#000080">(i) all &quot;before printing the name of&quot; rules are considered;
+<br>(ii) the most specific, applicable &quot;rule for printing the name of&quot; is considered;
+<br>(iii) all &quot;after printing the name of&quot; rules are considered.
+</font></blockquote><p>
+<p>
+<p>The actual activity, then, is carried out by one single rule in the &quot;for...&quot; rulebook: it is the rule for printing the name of whatever is concerned, hence the name.
+<p>
+<p>The &quot;before printing the name&quot; and &quot;after printing the name&quot; rulebooks start out empty, while the &quot;for printing the name&quot; rulebook has just one rule in it (set to be &quot;last&quot; in the sense of the previous chapter): the rule which actually looks up the &quot;printed name&quot; property and prints it out. The same setup is used for all other activities built into Inform: nothing in &quot;before&quot; or &quot;after&quot;, and the default behaviour all built into a single rule in the &quot;for&quot; rulebook, rigged so that any rule of the designer's will have precedence over it.
 <p>
 <p><hr><p><a href=doc172.html>Previous</a> / <a href=doc174.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

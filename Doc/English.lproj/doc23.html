@@ -1,16 +1,20 @@
-<html><head><title>2.13. Vehicles and pushable things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc22.html><img src=../Back.tif></a><a href=doc24.html><img src=../Forward.tif></a></td><td><b>2.13. Vehicles and pushable things</b></td></tr></table><p>
+<html><head><title>3.6. Scenery</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc22.html><img src=../Back.tif></a><a href=doc24.html><img src=../Forward.tif></a></td><td><b>3.6. Scenery</b></td></tr></table><p>
 <p>
-<p>Next in the tour of standard kinds is the &quot;vehicle&quot;. This behaves like (indeed, is) an enterable container, except that it will not be portable unless this is specified.
+<p>As we have just seen, making something &quot;fixed in place&quot; will prevent it from being picked up or moved. But it remains substantial enough to be described in its own paragraph of text when the player visits its location. This can be unfortunate if it has also been described already in the body of the main description for that location. For instance, if we wrote:
 <p>
-<p><blockquote><font color="#000080">In the Garage is a vehicle called the lawn mower.</font></blockquote>
+<p><blockquote><font color="#000080">The Orchard is a room. &quot;Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.&quot; The gnarled old oak tree is in the Orchard. The oak is fixed in place.</font></blockquote>
 <p>
-<p>The player can enter the lawn mower and then move around riding inside it, by typing directions exactly as if on foot: and the game will print names of rooms with &quot;(in the lawn mower)&quot; appended, lest this be forgotten.
+<p>This would end up describing the oak twice, once in the paragraph about the Orchard, then again in a list of things within it:
 <p>
-<p>We have already seen that some things are portable, others fixed in place. In fact we can also make a third sort of thing: those which, although not portable, can be pushed from one room to another with commands like &quot;push the lawn mover north&quot;. That seems a good idea for something like the lawn mower, so:
+<p><blockquote><font color="#000080"><b>Orchard</b><br>Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The lawn mower is pushable between rooms.</font></blockquote>
+<p><blockquote><font color="#000080">You can see a gnarled old oak tree here.</font></blockquote>
 <p>
-<p>But of course this is a property which almost any thing can have, not just a vehicle. (Only &quot;almost&quot; because Inform will not allow a door to be pushable between rooms, in the interests of realism rather than surrealism.)
+<p>We avoid this by making it &quot;scenery&quot; instead of &quot;fixed in place&quot;:
+<p>
+<p><blockquote><font color="#000080">The oak is scenery.</font></blockquote>
+<p>
+<p>Any thing can be scenery, and this does not bar it from playing a part in the game: it simply means that it will be immobile and that it will not be described independently of its room.
 <p>
 <p><hr><p><a href=doc22.html>Previous</a> / <a href=doc24.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

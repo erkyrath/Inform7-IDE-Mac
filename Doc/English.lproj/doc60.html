@@ -1,22 +1,36 @@
-<html><head><title>4.17. Kinds of action</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc59.html><img src=../Back.tif></a><a href=doc61.html><img src=../Forward.tif></a></td><td><b>4.17. Kinds of action</b></td></tr></table><p>
+<html><head><title>6.5. Before rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc59.html><img src=../Back.tif></a><a href=doc61.html><img src=../Forward.tif></a></td><td><b>6.5. Before rules</b></td></tr></table><p>
 <p>
-<p>Especially when people need to react to events going on around them, it is helpful to be able to categorise actions into whole areas of behaviour. The following example, indebted to the late Georgette Heyer, is suggestive:
+<p>Despite what was said in the previous section, instead rules do not quite bypass all of the usual rules. Inform knows that certain actions require light: for instance,
 <p>
-<p><blockquote><font color="#000080">The Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">examining the napkin; looking; looking under the dining table</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">An oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;</font></blockquote>
+<p>and if it is dark then none of these actions will be allowed, and any instead rules about them will not even be reached. Similarly, Inform knows that most actions require physical access to their objects: so &quot;taking the napkin&quot; would be blocked if the napkin were, say, inside a closed glass bottle, whereas &quot;examining the napkin&quot; would not. So an instead rule can only take effect if the action has already passed these basic reasonability tests.
 <p>
-<p><blockquote><font color="#000080">A man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;</font></blockquote>
+<p>&quot;Before&quot; rules genuinely precede checking of any kind. They also differ from instead rules in that they do not automatically stop the action in its tracks. Rather, they are provided as an opportunity to ensure that something else is done first. For example:
 <p>
-<p><blockquote><font color="#000080">Kissing Mr Carr is unmaidenly behaviour. Doing something with the painting is unmaidenly behaviour.</font></blockquote>
+<p><blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;</font></blockquote>
+<p>whence
 <p>
-<p>Here a new kind of action called &quot;unmaidenly behaviour&quot; has been created and then used in the description of an instead rule. The convenience of this approach is that when further actions suddenly occur to us as also being unmaidenly - say, attacking Mr Carr - we only need to add a single line:
+<p><blockquote><font color="#000080">&gt;GET NAPKIN<br>(first unfolding its delicate origami swan)<br>Taken.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Attacking Mr Carr is unmaidenly behaviour.</font></blockquote>
+<p>We have seen that instead rules automatically stop actions, whereas before rules automatically allow them to continue. We sometimes want to change this. The magic word &quot;instead&quot; can therefore be tacked on to any instruction in a before rule, and will have the effect of immediately stopping the action at that instruction. Thus the following two rules are (almost) equivalent:
 <p>
-<p>And this will automatically be reflected in any rules which concern the consequences of failing to be ladylike.
+<p><blockquote><font color="#000080">Before removing the key, instead say &quot;It seems to be soldered to the keyhole.&quot;</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Instead of removing the key, say &quot;It seems to be soldered to the keyhole.&quot;</font></blockquote>
+<p>
+<p>Two special phrases can also be used: &quot;stop the action&quot; and &quot;continue the action&quot;. Yet a third way to achieve the same effect, then, would be:
+<p>
+<p><blockquote><font color="#000080">Before removing the key: say &quot;It seems to be soldered to the keyhole.&quot;; stop the action.</font></blockquote>
+<p>
+<p>And to round off the discussion, these are also (almost) equivalent:
+<p>
+<p><blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Instead of taking the napkin: say &quot;(first unfolding its delicate origami swan)&quot;; continue the action.</font></blockquote>
+<p>
+<p>As a general principle, it is good style to use instead rules whenever blocking actions, and before rules only when it is genuinely necessary to do something first but then to continue: in fact, it is good style to use &quot;stop the action&quot; or &quot;continue the action&quot; as little as possible.
 <p>
 <p><hr><p><a href=doc59.html>Previous</a> / <a href=doc61.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

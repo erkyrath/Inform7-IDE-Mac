@@ -1,24 +1,16 @@
-<html><head><title>7.7. Otherwise</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc107.html><img src=../Back.tif></a><a href=doc109.html><img src=../Forward.tif></a></td><td><b>7.7. Otherwise</b></td></tr></table><p>
+<html><head><title>8.12. Calculating times</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc107.html><img src=../Back.tif></a><a href=doc109.html><img src=../Forward.tif></a></td><td><b>8.12. Calculating times</b></td></tr></table><p>
 <p>
-<p>We often need code which does one thing in one circumstance, and another the rest of the time. We could do this like so:
+<p>We will occasionally need to perform more complex calculations with time, and in order to do that, we have a way to convert the time of day to numbers. Thus the phrase &quot;the minutes part of ...&quot; takes a time and produces a number from 0 to 59; similarly &quot;the hours part of ...&quot; extracts a number from 0 to 23, using the twenty-four hour clock.
 <p>
-<blockquote><font color="#000080">if N is 2 begin; ...; end if;
-<br>if N is not 2 begin; ...; end if;
-</font></blockquote><p>
+<p>To go the other way, we can convert any number to a duration by writing &quot;minutes&quot; or &quot;hours&quot; after it. For instance:
 <p>
-<p>but this is not very elegant, and besides, what if the action we take when N is 2 changes N so that it becomes something else?
+<p><blockquote><font color="#000080">The clock error is a number that varies. To thump the mechanism: change the clock error to a random number from -10 to 10.</font></blockquote>
 <p>
-<p>Instead we use &quot;otherwise&quot;:
+<p><blockquote><font color="#000080">The broken grandfather clock is in the Chamber. &quot;An erratic grandfather clock seems to say it is [clock error minutes after the time of day].&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">if N is 2 begin;<br>...;<br>otherwise;<br>...;<br>end if;</font></blockquote>
+<p><blockquote><font color="#000080">When play begins, thump the mechanism. Instead of attacking the broken clock: thump the mechanism; say &quot;You thump the clock, which now reads [clock error minutes after the time of day].&quot;.</font></blockquote>
 <p>
-<p>Note that there is only one &quot;end if&quot;: the &quot;otherwise&quot; phrase occurs inside the &quot;if ... end if&quot; block of phrases.
-<p>
-<p>When there is only a single phrase we can use the shortened form:
-<p>
-<p><blockquote><font color="#000080">if N is 2 then say &quot;Hooray, N is 2!&quot;;<br>otherwise say &quot;Boo, N is not 2...&quot;</font></blockquote>
-<p>
-<p>(In almost every computer programming language ever devised, including previous versions of Inform, the word &quot;else&quot; is used rather than &quot;otherwise&quot;: for the sake of familiarity, &quot;else&quot; can also be used here. All the same, &quot;otherwise&quot; seems closer to natural English.)
+<p>Note that &quot;clock error&quot; is a number, but &quot;clock error minutes&quot; is a time.
 <p>
 <p><hr><p><a href=doc107.html>Previous</a> / <a href=doc109.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

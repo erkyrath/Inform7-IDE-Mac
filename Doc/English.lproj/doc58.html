@@ -1,18 +1,14 @@
-<html><head><title>4.15. Going from, going to</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc57.html><img src=../Back.tif></a><a href=doc59.html><img src=../Forward.tif></a></td><td><b>4.15. Going from, going to</b></td></tr></table><p>
+<html><head><title>6.3. Actions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc57.html><img src=../Back.tif></a><a href=doc59.html><img src=../Forward.tif></a></td><td><b>6.3. Actions</b></td></tr></table><p>
 <p>
-<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
+<p>An action is an impulse by the player to do something. This may or may not be a reasonable aspiration, and may or may not be achieved. The player's exploration of an interactive fiction is made by a sequence of actions, so much of the designing process comes down to responding to these actions.
 <p>
-<p><blockquote><font color="#000080">&quot;Going Going&quot;</font></blockquote>
+<p>We write actions using present participles. For instance, if the player types &quot;take napkin&quot; or &quot;get the napkin&quot; or something similar then the resulting action would be written as:
 <p>
-<p><blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.</font></blockquote>
+<p><blockquote><font color="#000080">taking the napkin</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;</font></blockquote>
+<p>The details of what words the player actually typed are unimportant to us: we deal only in actions.
 <p>
-<p><blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;</font></blockquote>
-<p>
-<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east.
+<p>Every action ends in success or failure. In this context, success means only that the player's intention has been fulfilled. If the player sets out to take the napkin, but finds a million-pound banknote in its folds instead, the action will be deemed to be a failure.
 <p>
 <p><hr><p><a href=doc57.html>Previous</a> / <a href=doc59.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

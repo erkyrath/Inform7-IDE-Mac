@@ -1,32 +1,48 @@
-<html><head><title>7.10. Phrase options</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc110.html><img src=../Back.tif></a><a href=doc112.html><img src=../Forward.tif></a></td><td><b>7.10. Phrase options</b></td></tr></table><p>
+<html><head><title>8.15. The past and perfect tenses</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc110.html><img src=../Back.tif></a><a href=doc112.html><img src=../Forward.tif></a></td><td><b>8.15. The past and perfect tenses</b></td></tr></table><p>
 <p>
-<p>There are often several slightly different ways to perform a given task but which have substantially the same definition. In the following example:
+<p>The remaining sections of this chapter go into more technical ways to think about the progress of the game through time, and can be skipped at a first reading.
 <p>
-<blockquote><font color="#000080">To go hiking, into the woods or up the mountain:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if into the woods then say &quot;Watch out for badgers.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if up the mountain then say &quot;Better take your compass.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You go hiking.&quot;.
-</font></blockquote><p>
+<p>Conditions are clauses which require Inform to make a decision: is such-and-such true, or not true? We have already seen conditions attached to rules using &quot;when&quot;:
 <p>
-<p>...a phrase has been set up which can be used in three ways:
+<p><blockquote><font color="#000080">Instead of waiting when the Sorting Hat is in the Hall: ...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">go hiking;<br>go hiking, into the woods;<br>go hiking, up the mountain;</font></blockquote>
+<p>and, as we shall later see, we will often want to write instructions like:
 <p>
-<p>Note that commas must be used to divide these &quot;phrase options&quot; from the rest of the text of the phrase. Within the definition of the phrase, the option's name is a valid condition, and
+<p><blockquote><font color="#000080">if the Sorting Hat is in the Hall then say &quot;Hermione blinks apprehensively.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">if up the mountain then ...</font></blockquote>
+<p>The condition is &quot;the Sorting Hat is in the Hall&quot;, and during play this will sometimes be true and sometimes false.
 <p>
-<p>is true if the phrase was called with &quot;up the mountain&quot; specified and false otherwise, in the obvious way. A more substantial example from the standard rules is given by the Inform list-writer, which produces lists of things to specifications we choose. For instance:
+<p>A condition in the form:
 <p>
-<blockquote><font color="#000080">list the contents of Marley Wood, as a sentence, with newlines
-<br>and including all contents;
-</font></blockquote><p>
+<p><blockquote><font color="#000080">X is Y</font></blockquote>
 <p>
-<p>Note that this phrase is allowed to have multiple options specified, whereas &quot;go hiking&quot; above was not: this is because it was defined thus:
+<p>is of course written the present tense, and refers to the current state of affairs. Three other tenses are allowed. First, the present perfect:
 <p>
-<p><blockquote><font color="#000080">To list the contents of (something - an object), with newlines, indented, as a sentence, including contents, including all contents, giving inventory information, giving brief inventory information, using the definite article, listing marked items only, prefacing with is/are and/or not listing concealed items: ...</font></blockquote>
+<p><blockquote><font color="#000080">if X has been Y ...</font></blockquote>
 <p>
-<p>The significant difference is the word &quot;and/or&quot; instead of &quot;or&quot;, which signals that more than one option can apply at a time.
+<p>is true if it has ever been the case that &quot;X is Y&quot; at the start of any turn (or any action). So, for instance,
+<p>
+<p><blockquote><font color="#000080">if the gate has been open ...</font></blockquote>
+<p>
+<p>will be valid if and only if the gate has ever been made open by any action (even if it is closed now), or if it started out by being open when play began.
+<p>
+<p>Next is the past tense:
+<p>
+<p><blockquote><font color="#000080">if X was Y ...</font></blockquote>
+<p>
+<p>holds if and only if &quot;X is Y&quot; was true at the start of the most recent action. This is convenient when trying to describe what has changed in the course of the action, but sometimes also when making the action itself happen. For instance:
+<p>
+<p><blockquote><font color="#000080">if the lantern was switched on then change the lantern to switched off;<br>if the lantern was switched off then change the lantern to switched on;</font></blockquote>
+<p>
+<p>Completing the set is the past perfect:
+<p>
+<p><blockquote><font color="#000080">if X had been Y ...</font></blockquote>
+<p>
+<p>which records whether &quot;X has been Y&quot; was true at the start of the most recent action. All these verbs can of course be negated (though &quot;wasn't&quot; and &quot;hadn't&quot; are disallowed as poor style: we use &quot;was not&quot; and &quot;had not&quot; instead). So for example,
+<p>
+<p><blockquote><font color="#000080">if the player had not been in the Ballroom ...</font></blockquote>
+<p>
+<p>is true if the player hadn't visited the Ballroom at the start of the most recent action.
 <p>
 <p><hr><p><a href=doc110.html>Previous</a> / <a href=doc112.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

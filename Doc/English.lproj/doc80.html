@@ -1,10 +1,16 @@
-<html><head><title>5.14. Looking at containment by hand</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc79.html><img src=../Back.tif></a><a href=doc81.html><img src=../Forward.tif></a></td><td><b>5.14. Looking at containment by hand</b></td></tr></table><p>
+<html><head><title>7.2. Changing the command prompt</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc79.html><img src=../Back.tif></a><a href=doc81.html><img src=../Forward.tif></a></td><td><b>7.2. Changing the command prompt</b></td></tr></table><p>
 <p>
-<p>The descriptions outlined in the last few sections are intended to deal with almost all of the routine questions we might have about what currently resides where. It should be a last resort to use the following more primitive way to inspect the world.
+<p>The command prompt is the text printed by Inform to ask the player for another command. Ordinarily this is simply a greater-than-sign, &quot;>&quot;, so we tend not to notice it as text at all. Internally, though, it is a variable value called &quot;command prompt&quot;, which means we can change it.
 <p>
-<p>The value &quot;holder of <i>something</i>&quot; always produces the container, supporter, owner or room in which the <i>something</i> resides.
+<p>For example, this will be a more conversational sort of prompt:
 <p>
-<p>It's sometimes useful to go the other way. When something has possessions, we can find them out one at a time by running through a list. Thus &quot;first thing held by Baroness Orczy&quot; will be the start of this list: say it's the lapdog. Then &quot;next thing held after the lapdog&quot; will be the second of the Baroness's possessions: a string of pearls, perhaps. And &quot;holder of the string of pearls&quot; will be the Baroness, of course.
+<p><blockquote><font color="#000080">When play begins: change the command prompt to &quot;What now? &quot;.</font></blockquote>
+<p>
+<p>Whereas this will be more up-to-the-minute and demanding:
+<p>
+<p><blockquote><font color="#000080">When play begins: change the command prompt to &quot;[time of day] >&quot;.</font></blockquote>
+<p>
+<p>(&quot;Time of day&quot; is another variable value, which is fairly self-explanatory, but will be covered in detail later on.) The prompt can be changed at any point, so can be used to indicate the current situation, or even as a sly way to introduce a sort of conversation between computer and player.
 <p>
 <p><hr><p><a href=doc79.html>Previous</a> / <a href=doc81.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

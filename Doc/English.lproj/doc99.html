@@ -1,48 +1,12 @@
-<html><head><title>6.15. The past and perfect tenses</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc98.html><img src=../Back.tif></a><a href=doc100.html><img src=../Forward.tif></a></td><td><b>6.15. The past and perfect tenses</b></td></tr></table><p>
+<html><head><title>8.3. Introducing tables: rankings</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc98.html><img src=../Back.tif></a><a href=doc100.html><img src=../Forward.tif></a></td><td><b>8.3. Introducing tables: rankings</b></td></tr></table><p>
 <p>
-<p>The remaining sections of this chapter go into more technical ways to think about the progress of the game through time, and can be skipped at a first reading.
+<p>Another tradition of interactive fiction is that there is a maximum score, and that the player has a current 'rank' according to how far his or her score has got. We can (but need not) choose to provide such rankings, and should do so by specifying a table like this:
 <p>
-<p>Conditions are clauses which require Inform to make a decision: is such-and-such true, or not true? We have already seen conditions attached to rules using &quot;when&quot;:
+<p><center><img src=table.tiff></center>
 <p>
-<p><blockquote><font color="#000080">Instead of waiting when the Sorting Hat is in the Hall: ...</font></blockquote>
+<p>Typographically, tables in Inform look as much as possible like those found in non-fiction books: they can have many columns, so this is only a simple example (drawn from the actual rankings used by Infocom's <i>Zork I</i>, 1979). Each line in the source represents one row in the table, and the entries on a line must be separated by at least one tab character. (An entry might of course have several words with spaces in between, so a space is not enough to separate entries: this is the only context when Inform distinguishes between spaces and tabs.) The table must occupy a single whole paragraph, with no skipped lines or missing entries. We are free to use extra tabs to indent it if we like.
 <p>
-<p>and, as we shall later see, we will often want to write instructions like:
-<p>
-<p><blockquote><font color="#000080">if the Sorting Hat is in the Hall then say &quot;Hermione blinks apprehensively.&quot;</font></blockquote>
-<p>
-<p>The condition is &quot;the Sorting Hat is in the Hall&quot;, and during play this will sometimes be true and sometimes false.
-<p>
-<p>A condition in the form:
-<p>
-<p><blockquote><font color="#000080">X is Y</font></blockquote>
-<p>
-<p>is of course written the present tense, and refers to the current state of affairs. Three other tenses are allowed. First, the present perfect:
-<p>
-<p><blockquote><font color="#000080">if X has been Y ...</font></blockquote>
-<p>
-<p>is true if it has ever been the case that &quot;X is Y&quot; at the start of any turn (or any action). So, for instance,
-<p>
-<p><blockquote><font color="#000080">if the gate has been open ...</font></blockquote>
-<p>
-<p>will be valid if and only if the gate has ever been made open by any action (even if it is closed now), or if it started out by being open when play began.
-<p>
-<p>Next is the past tense:
-<p>
-<p><blockquote><font color="#000080">if X was Y ...</font></blockquote>
-<p>
-<p>holds if and only if &quot;X is Y&quot; was true at the start of the most recent action. This is convenient when trying to describe what has changed in the course of the action, but sometimes also when making the action itself happen. For instance:
-<p>
-<p><blockquote><font color="#000080">if the lantern was switched on then change the lantern to switched off;<br>if the lantern was switched off then change the lantern to switched on;</font></blockquote>
-<p>
-<p>Completing the set is the past perfect:
-<p>
-<p><blockquote><font color="#000080">if X had been Y ...</font></blockquote>
-<p>
-<p>which records whether &quot;X has been Y&quot; was true at the start of the most recent action. All these verbs can of course be negated (though &quot;wasn't&quot; and &quot;hadn't&quot; are disallowed as poor style: we use &quot;was not&quot; and &quot;had not&quot; instead). So for example,
-<p>
-<p><blockquote><font color="#000080">if the player had not been in the Ballroom ...</font></blockquote>
-<p>
-<p>is true if the player hadn't visited the Ballroom at the start of the most recent action.
+<p>Ordinarily we must explicitly ask to use the information presented in a table, but the table of rankings is a special case: Inform uses it automatically, if it is provided at all. To be recognised it must have the name &quot;Rankings&quot; and must have two columns named and arranged as shown. The scores should be given in ascending order, and the score in the final row should be the maximum possible achieved in the game - so that only a player with maximum possible score can be awarded the final ranking.
 <p>
 <p><hr><p><a href=doc98.html>Previous</a> / <a href=doc100.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,12 +1,14 @@
-<html><head><title>6.3. Introducing tables: rankings</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc86.html><img src=../Back.tif></a><a href=doc88.html><img src=../Forward.tif></a></td><td><b>6.3. Introducing tables: rankings</b></td></tr></table><p>
+<html><head><title>7.9. Removing things from play</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc86.html><img src=../Back.tif></a><a href=doc88.html><img src=../Forward.tif></a></td><td><b>7.9. Removing things from play</b></td></tr></table><p>
 <p>
-<p>Another tradition of interactive fiction is that there is a maximum score, and that the player has a current 'rank' according to how far his or her score has got. We can (but need not) choose to provide such rankings, and should do so by specifying a table like this:
+<p>Some things will occasionally be in a limbo state called being &quot;out of play&quot;: like chess pieces which have been taken, or cards not yet dealt, they wait on the sidelines, perhaps to be needed again, perhaps not. Anything created with no apparent location will start the game out of play, as in the case of the lamp here:
 <p>
-<p><center><img src=table.tiff></center>
+<p><blockquote><font color="#000080">Aladdin's Cave is a room. The genie's lamp is a container.</font></blockquote>
 <p>
-<p>Typographically, tables in Inform look as much as possible like those found in non-fiction books: they can have many columns, so this is only a simple example (drawn from the actual rankings used by Infocom's <i>Zork I</i>, 1979). Each line in the source represents one row in the table, and the entries on a line must be separated by at least one tab character. (An entry might of course have several words with spaces in between, so a space is not enough to separate entries: this is the only context when Inform distinguishes between spaces and tabs.) The table must occupy a single whole paragraph, with no skipped lines or missing entries. We are free to use extra tabs to indent it if we like.
+<p>To move something back into play, we simply &quot;move&quot; it back onto the board, so to speak: back to a room, or to something else which is currently in play. To remove something, we use the phrase:
 <p>
-<p>Ordinarily we must explicitly ask to use the information presented in a table, but the table of rankings is a special case: Inform uses it automatically, if it is provided at all. To be recognised it must have the name &quot;Rankings&quot; and must have two columns named and arranged as shown. The scores should be given in ascending order, and the score in the final row should be the maximum possible achieved in the game - so that only a player with maximum possible score can be awarded the final ranking.
+<p><blockquote><font color="#000080">remove the gold coin from play</font></blockquote>
+<p>
+<p>(We are not permitted to remove rooms, or the player, from play.)
 <p>
 <p><hr><p><a href=doc86.html>Previous</a> / <a href=doc88.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,19 +1,14 @@
-<html><head><title>8.13. Topic columns</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc131.html><img src=../Back.tif></a><a href=doc133.html><img src=../Forward.tif></a></td><td><b>8.13. Topic columns</b></td></tr></table><p>
+<html><head><title>9.19. Ambiguities</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc131.html><img src=../Back.tif></a><a href=doc133.html><img src=../Forward.tif></a></td><td><b>9.19. Ambiguities</b></td></tr></table><p>
 <p>
-<p>When double-quoted matter appears in a column of a table, Inform will normally treat that as text for printing out. The exception is when the column is called &quot;topic&quot;, where it is treated as text for comparing against what the player has typed. There is really only one operation allowed with topic columns, the &quot;...listed in...&quot; construction, but fortunately it is the one most often needed.
+<p>Another possible ambiguity occurs when a phrase might match two lexically different possibilities using the same words.
 <p>
-<p>Let us suppose that the Sybil has a penchant for telling passers-by which is the Greek muse for what. We might write:
+<p><blockquote><font color="#000080">say the dishcloth;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">After asking the Sybil about a topic listed in the Table of Sybil's Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;</font></blockquote>
+<p>could be construed as a usage of either of these cases:
 <p>
-<p>We can then provide a simple table giving her responses:
+<p><blockquote><font color="#000080">say the (something - a thing)<br>say (something - a thing)</font></blockquote>
 <p>
-<p><center><img src=table12.tiff></center>
-<p>
-<p>Topics can use the full range of abilities of the &quot;understanding&quot; system which Inform uses to parse text, and which will be the subject of a later chapter. For now, note that the Sybil's topics might equally include &quot;flora/eve&quot; (matching the single word &quot;flora&quot; or the single word &quot;eve&quot;), or something more elaborate such as:
-<p>
-<blockquote><font color="#000080">&quot;Bridget&quot; or &quot;Bridge&quot; or &quot;Bridget Jones&quot;
-</font></blockquote><p>
+<p>The rule here is that whichever possibility contains the most words, in this case &quot;say the (...)&quot;, takes precedence, because it's assumed to be a more specific form of the less wordy version.
 <p>
 <p><hr><p><a href=doc131.html>Previous</a> / <a href=doc133.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

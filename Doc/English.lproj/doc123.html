@@ -1,18 +1,32 @@
-<html><head><title>8.4. Changing entries</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc122.html><img src=../Back.tif></a><a href=doc124.html><img src=../Forward.tif></a></td><td><b>8.4. Changing entries</b></td></tr></table><p>
+<html><head><title>9.10. Phrase options</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc122.html><img src=../Back.tif></a><a href=doc124.html><img src=../Forward.tif></a></td><td><b>9.10. Phrase options</b></td></tr></table><p>
 <p>
-<p>Here is another rather definitive, immutable-looking table:
+<p>There are often several slightly different ways to perform a given task but which have substantially the same definition. In the following example:
 <p>
-<p><center><img src=table9.tiff></center>
+<blockquote><font color="#000080">To go hiking, into the woods or up the mountain:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if into the woods then say &quot;Watch out for badgers.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if up the mountain then say &quot;Better take your compass.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You go hiking.&quot;.
+</font></blockquote><p>
 <p>
-<p>But table entries can be changed as freely as variables: that is, any value can be entered so long as it has the right kind. We cannot put a dynasty into the &quot;Name&quot; column, or text in the &quot;Accession&quot; column. The phrase needed is &quot;change ... to ...&quot;, just as it is for properties or variables:
+<p>...a phrase has been set up which can be used in three ways:
 <p>
-<p><blockquote><font color="#000080">Dynasty is a kind of value. The dynasties are Stuart, Hanover, Saxe-Coburg-Gotha and Windsor.</font></blockquote>
+<p><blockquote><font color="#000080">go hiking;<br>go hiking, into the woods;<br>go hiking, up the mountain;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Succession is in the Table Office. &quot;But the Succession, a ponderous list of English monarchs, takes pride of place.&quot;</font></blockquote>
+<p>Note that commas must be used to divide these &quot;phrase options&quot; from the rest of the text of the phrase. Within the definition of the phrase, the option's name is a valid condition, and
 <p>
-<p><blockquote><font color="#000080">Instead of examining the Succession: say &quot;The Succession List runs as follows...&quot;; repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin; say &quot;[accession in row N of Table 4]: [name in row N of Table 4] ([family in row N of Table 4]).&quot;; end repeat.</font></blockquote>
+<p><blockquote><font color="#000080">if up the mountain then ...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of attacking the Succession: change (the family corresponding to an accession of 1720 in the Table of Recent Monarchs) to Stuart; change the name in row 4 of the Table of Recent Monarchs to &quot;Graham I&quot;; change the name in row 5 of the Table of Recent Monarchs to &quot;Trixibelle IV&quot;; say &quot;You deface the English succession, making suitable amendments with a quill pen. Considering it is supposed to be mightier than the sword the effect is a little disappointing.&quot;</font></blockquote>
+<p>is true if the phrase was called with &quot;up the mountain&quot; specified and false otherwise, in the obvious way. A more substantial example from the standard rules is given by the Inform list-writer, which produces lists of things to specifications we choose. For instance:
+<p>
+<blockquote><font color="#000080">list the contents of Marley Wood, as a sentence, with newlines
+<br>and including all contents;
+</font></blockquote><p>
+<p>
+<p>Note that this phrase is allowed to have multiple options specified, whereas &quot;go hiking&quot; above was not: this is because it was defined thus:
+<p>
+<p><blockquote><font color="#000080">To list the contents of (something - an object), with newlines, indented, as a sentence, including contents, including all contents, giving inventory information, giving brief inventory information, using the definite article, listing marked items only, prefacing with is/are and/or not listing concealed items: ...</font></blockquote>
+<p>
+<p>The significant difference is the word &quot;and/or&quot; instead of &quot;or&quot;, which signals that more than one option can apply at a time.
 <p>
 <p><hr><p><a href=doc122.html>Previous</a> / <a href=doc124.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

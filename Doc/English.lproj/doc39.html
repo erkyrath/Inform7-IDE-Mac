@@ -1,20 +1,22 @@
-<html><head><title>3.11. Using new kinds of value in properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc38.html><img src=../Back.tif></a><a href=doc40.html><img src=../Forward.tif></a></td><td><b>3.11. Using new kinds of value in properties</b></td></tr></table><p>
+<html><head><title>4.4. New either/or properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc38.html><img src=../Back.tif></a><a href=doc40.html><img src=../Forward.tif></a></td><td><b>4.4. New either/or properties</b></td></tr></table><p>
 <p>
-<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
+<p>Properties can only be given to something if its kind will permit that: we cannot make a chair &quot;dark&quot; or a room &quot;portable&quot;, for instance. When creating kinds, then, we need a way to specify the properties which that kind of thing will allow, and this will need to include new properties of our own devising.
 <p>
-<p><blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.</font></blockquote>
+<p><blockquote><font color="#000080">A dead end is either secret or ordinary.</font></blockquote>
 <p>
-<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
+<p>This creates just one new property, not two, as the names are taken as the two states of a single either/or property: secret means not ordinary, ordinary means not secret. Alternatively, we could just say:
 <p>
-<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
+<p><blockquote><font color="#000080">A dead end can be secret.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.</font></blockquote>
+<p>in which case the opposite of &quot;secret&quot; would be &quot;not secret&quot;.
 <p>
-<p>New kinds of value are very convenient when substituting variations in text:
+<p>Note that we are free to add to the definitions of kinds which already exist, not just those we have created ourselves: for instance,
 <p>
-<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.</font></blockquote>
+<p><blockquote><font color="#000080">A room is either indoors or outdoors.</font></blockquote>
 <p>
-<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
+<p>creates a new property which all rooms either possess or don't. And so on. If we make the above definitions then by default, any dead ends created will be &quot;ordinary&quot; and any rooms created will be &quot;outdoors&quot;: that is, in the absence of other information it is assumed that a new either/or property will not be held. We could reverse this behaviour by adding:
+<p>
+<p><blockquote><font color="#000080">A dead end is usually secret. A room is usually indoors.</font></blockquote>
 <p>
 <p><hr><p><a href=doc38.html>Previous</a> / <a href=doc40.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,24 +1,37 @@
-<html><head><title>8.2. Looking up entries</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc120.html><img src=../Back.tif></a><a href=doc122.html><img src=../Forward.tif></a></td><td><b>8.2. Looking up entries</b></td></tr></table><p>
+<html><head><title>9.8. Repeat</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc120.html><img src=../Back.tif></a><a href=doc122.html><img src=../Forward.tif></a></td><td><b>9.8. Repeat</b></td></tr></table><p>
 <p>
-<p>The simplest way to access the information inside tables is to ask explicitly for it, specifying the row number, the column name and what table is to be consulted. So, given our example table
+<p>The following kind of loop could if necessary be achieved just as well with a suitable &quot;while&quot;, but occurs so often that it is convenient to have a standard form. Repeat loops also have the great advantage of being certain to finish.
 <p>
-<p><center><img src=table2.tiff></center>
+<blockquote><font color="#000080">repeat with my counter running from 1 to 10 begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(phrases)
+<br>end repeat;
+</font></blockquote><p>
 <p>
-<p>we can write the following description:
+<p>This is similar to the old FOR/NEXT loop from BASIC, for those with long memories, and runs through the given phrases ten times. Within those phrases, a special value called &quot;my counter&quot; has the value 1 the first time through, then the value 2, then 3 and so on up to 10. This value exists only within the loop, so it makes no sense to talk about &quot;my counter&quot; elsewhere. (It can of course be called whatever we like: this is only an example.)
 <p>
-<p><blockquote><font color="#000080">symbol in row 3 of the Table of Selected Elements</font></blockquote>
+<p>The &quot;begin&quot; and &quot;end repeat&quot; are compulsory for repeat loops, in the interests of clarity.
 <p>
-<p>to produce the value &quot;Zn&quot;. Or the following will run off some chemical data:
+<p>We are allowed to &quot;nest&quot; loops, that is, to put one inside another.
 <p>
-<p><blockquote><font color="#000080">repeat with N running from 1 to the number of rows in the Table of Selected Elements begin;<br>say &quot;The atomic weight of [element in row N of the Table of Selected Elements] is [atomic weight in row N of the Table of Selected Elements].&quot;;<br>end repeat.</font></blockquote>
+<blockquote><font color="#000080">To plot a grid with size (S - a number):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with x running from 1 to S begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Row [x]:&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeat with y running from 1 to S begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; [y]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
 <p>
-<p>The result of which will be:
+<p>If we then write
 <p>
-<p><blockquote><font color="#000080">The atomic weight of Hydrogen is 1.<br>The atomic weight of Iron is 56.<br>The atomic weight of Zinc is 65.<br>The atomic weight of Uranium is 238.</font></blockquote>
+<p><blockquote><font color="#000080">plot a grid with size 5</font></blockquote>
 <p>
-<p>Note that the first row in a table is row number 1, and that the last can be found with the special value:
+<p>then the result is
 <p>
-<p><blockquote><font color="#000080">the number of rows in the (name of table here)</font></blockquote>
+<p><blockquote><font color="#000080">Row 1: 1 2 3 4 5.<br>Row 2: 1 2 3 4 5.<br>Row 3: 1 2 3 4 5.<br>Row 4: 1 2 3 4 5.<br>Row 5: 1 2 3 4 5.</font></blockquote>
+<p>
+<p>Thus the innermost phrase, the say which mentions &quot;y&quot;, happens 25 times.
 <p>
 <p><hr><p><a href=doc120.html>Previous</a> / <a href=doc122.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

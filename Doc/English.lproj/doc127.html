@@ -1,18 +1,34 @@
-<html><head><title>8.8. Blank columns</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc126.html><img src=../Back.tif></a><a href=doc128.html><img src=../Forward.tif></a></td><td><b>8.8. Blank columns</b></td></tr></table><p>
+<html><head><title>9.14. New conditions, new adjectives</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc126.html><img src=../Back.tif></a><a href=doc128.html><img src=../Forward.tif></a></td><td><b>9.14. New conditions, new adjectives</b></td></tr></table><p>
 <p>
-<p>An entire column of blank entries &quot;--&quot; is problematic:
+<p>We can create new conditions by defining a phrase with &quot;to decide whether&quot; (or equivalently &quot;to decide if&quot;):
 <p>
-<p><center><img src=table4.tiff></center>
+<blockquote><font color="#000080">To decide whether danger lurks:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if in darkness then yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the Control Room has been visited then no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise yes.
+</font></blockquote><p>
 <p>
-<p>Inform is unable to work out what kind of value should go into the &quot;atomic weight&quot; column here, since it has no examples to guess from. We can get around this by writing in the name of a kind of value:
+<p>As can be seen, such a phrase must always resolve itself with &quot;yes&quot; or &quot;no&quot;: the first to be reached will be the answer. We can now write, for instance,
 <p>
-<p><center><img src=table5.tiff></center>
+<blockquote><font color="#000080">if danger lurks then ...
+</font></blockquote><p>
 <p>
-<p>That top entry in the &quot;atomic weight&quot; column is also blank, but now Inform knows that anything put into the column in future will be a number.
+<p>In fact, &quot;danger lurks&quot; is now a condition as good as any other, and can be used wherever a condition would be given. Rules can apply only &quot;when danger lurks&quot;, for instance.
 <p>
-<p>If there are many rows, and perhaps several blank columns, it would become very tedious to have to keep typing out &quot;--&quot;. So this is optional <i>at the end of a row</i>: it remains compulsory for a blank value appearing in between two values which aren't blank. This is the general idea:
+<p>We can also supply definitions of adjectives like this. So far, new adjectives have been defined like so:
 <p>
-<p><center><img src=table8.tiff></center>
+<blockquote><font color="#000080">Definition: a supporter is occupied if something is on it.
+</font></blockquote><p>
+<p>
+<p>If we want to give a definition which involves more complex logic, we can use the special form:
+<p>
+<blockquote><font color="#000080">Definition: a supporter is occupied:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if it is concealed then no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something is on it then yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise no.
+</font></blockquote><p>
+<p>
+<p>Here &quot;it&quot; refers to the supporter in question. Note that there are now two colons in this sentence, one after &quot;Definition&quot;, the other after the clause being defined. But that apart, it's a phrase like any other: it must end in &quot;yes&quot; or &quot;no&quot; just as the &quot;danger lurks&quot; example must.
 <p>
 <p><hr><p><a href=doc126.html>Previous</a> / <a href=doc128.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

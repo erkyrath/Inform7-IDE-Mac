@@ -1,18 +1,18 @@
-<html><head><title>12.13. Implications</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc177.html><img src=../Back.tif></a><a href=doc179.html><img src=../Forward.tif></a></td><td><b>12.13. Implications</b></td></tr></table><p>
+<html><head><title>13.8. Constructing the status line</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc177.html><img src=../Back.tif></a><a href=doc179.html><img src=../Forward.tif></a></td><td><b>13.8. Constructing the status line</b></td></tr></table><p>
 <p>
-<p>Extensions often need to define kinds, which we want to make as helpful as possible for the user. In particular, we want to make new instances of those kinds easy to create. An interesting example of this came up in Chapter 2, when clothing was introduced. For something to be a fully practical garment, worn by the player when play begins, it needs to be &quot;worn&quot;, &quot;wearable&quot; and &quot;initially carried&quot;: if the source forgets to specify the latter two properties, the results are mysterious and unfortunate.
+<p><b>1. When it happens.</b> Just before input is accepted from the keyboard, Inform constructs a &quot;status line&quot; at the top of the window which is normally displayed in reverse colours (white on black instead of black on white, say).
 <p>
-<p>The Standard Rules solve this problem by including the following line:
+<p><b>2. The default behaviour.</b> See Chapter 5. The status line is already very customisable without using rules applied to this activity.
 <p>
-<blockquote><font color="#000080">Something worn is usually wearable and initially carried.
+<p><b>3. Examples.</b> (a) The most useful thing about this activity is that it allows us to vary descriptions in the status line. This is especially helpful to abbreviate unduly long room names, which might not otherwise fit:
+<p>
+<blockquote><font color="#000080">The Temple Of A Thousand Mightily Peeved Deities is a room. Rule for printing the name of the Temple while constructing the status line: say &quot;Temple&quot;.
 </font></blockquote><p>
 <p>
-<p>Such a sentence is called an &quot;implication&quot;, as it is in the form &quot;Condition A implies Condition B&quot;. Inform never overrides certainties with mere implications, and is cautious about allowing them to build overly long chains of argument. This is to prevent the following kind of difficulty:
+<p>(b) Again, it's usually not necessary to apply activity rules to this, but occasionally amusing effects are possible if we do:
 <p>
-<blockquote><font color="#000080">An open door is usually closed. A closed door is usually open.
+<blockquote><font color="#000080">The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.
 </font></blockquote><p>
-<p>
-<p>Implications have not been mentioned up to now since they are only really needed by extensions, but also because they can be tricky, with unforeseen consequences. Handle with care.
 <p>
 <p><hr><p><a href=doc177.html>Previous</a> / <a href=doc179.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,22 +1,20 @@
-<html><head><title>2.18. Parts of things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc27.html><img src=../Back.tif></a><a href=doc29.html><img src=../Forward.tif></a></td><td><b>2.18. Parts of things</b></td></tr></table><p>
+<html><head><title>3.11. Locks and keys</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc27.html><img src=../Back.tif></a><a href=doc29.html><img src=../Forward.tif></a></td><td><b>3.11. Locks and keys</b></td></tr></table><p>
 <p>
-<p>Everything has one and only one kind. This is both good and bad: good for clarity, bad if something needs to behave in two different ways at once. How might we simulate a car with an ignition key, given that no single thing can be both a &quot;vehicle&quot; and a &quot;device&quot; at the same time?
+<p>It seems unwise for a door in Notting Hill to be unlocked, so:
 <p>
-<p>The Inform world model takes the view that such a car is too complicated to be simulated with a single thing. Instead it should be simulated as a vehicle (the car) which has a device (the ignition) attached. This is done using a third kind of containment to those seen so far (&quot;in...&quot; and &quot;on...&quot;): &quot;part of&quot;.
+<p><blockquote><font color="#000080">The blue door is lockable and locked. The matching key of the blue door is the brass Yale key.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">&quot;Buttons&quot;</font></blockquote>
+<p>Since the second sentence here is a little clumsy, you can equivalently say
 <p>
-<p><blockquote><font color="#000080">The Confectionary Workshop is a room. The Chocolate Machine is here. &quot;The Chocolate Machine has pride of place. A lever and two buttons, one white, the other brown, seem to be the only controls. On top is a hopper.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The brass Yale key unlocks the blue door.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">A container called the hopper is part of the Chocolate Machine. The lever, the white button and the brown button are parts of the Chocolate Machine.</font></blockquote>
+<p>Yet a third way to say this is:
 <p>
-<p><blockquote><font color="#000080">The Chocolatier's desk is here. &quot;The Chocolatier evidently works at the imposing green-leather topped desk facing the Machine. It has three drawers with brass handles.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The blue door has matching key the brass Yale key.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The upper drawer, the middle drawer and the lower drawer are parts of the desk. The upper drawer, the middle drawer and the lower drawer are openable closed containers. In the middle drawer is a sugared almond. In the lower drawer is a Battenburg cake. On the desk is a liquorice twist.</font></blockquote>
+<p>(In effect, &quot;has&quot; and &quot;have&quot; mean &quot;is with&quot;.) This introduces three new properties: a door can be locked or unlocked; lockable or not lockable; and it can have a matching key, which must be another thing. The same thing can be the matching key of many different locks: and note that a door can be locked and even lockable without having a matching key at all, in which case the player trying to open it will be permanently out of luck. Doors are ordinarily unlocked, not lockable, and without a matching key.
 <p>
-<p>The machine and the desk each have several &quot;parts&quot; representing subsidiary pieces of themselves. The desk is a &quot;supporter&quot; (it needs to be, for the liquorice twist to be on top) but also has three &quot;containers&quot; attached, each of which can be opened or closed independently.
-<p>
-<p>In the interests of realism, the standard rules of play protect these composite things. Thus if the desk were to be moved elsewhere (rolling on sugar casters perhaps) then its parts would move with it, and the player is not allowed to detach parts of things: the drawers can be opened or closed, but not pulled out altogether.
+<p>Containers can also have locks, in exactly the same way, and are allowed to have the same properties. On the other hand supporters never have locks: it makes no sense to be able to lock a tabletop, for instance, and Inform will not allow any discussion of the matching key of a supporter, or of a supporter being locked or unlocked.
 <p>
 <p><hr><p><a href=doc27.html>Previous</a> / <a href=doc29.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

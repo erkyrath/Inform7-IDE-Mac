@@ -1,31 +1,25 @@
-<html><head><title>4.10. Rules applying to more than one action</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc52.html><img src=../Back.tif></a><a href=doc54.html><img src=../Forward.tif></a></td><td><b>4.10. Rules applying to more than one action</b></td></tr></table><p>
+<html><head><title>5.3. Defining new adjectives</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc52.html><img src=../Back.tif></a><a href=doc54.html><img src=../Forward.tif></a></td><td><b>5.3. Defining new adjectives</b></td></tr></table><p>
 <p>
-<p>A description can include more than one choice of action. For instance:
+<p>Suppose we want to coin a word for supporters currently supporting something. We can do so with the following sentence:
 <p>
-<blockquote><font color="#000080">examining or searching the desk
+<blockquote><font color="#000080">Definition: a supporter is occupied if something is on it.
 </font></blockquote><p>
 <p>
-<p>matches either of &quot;examining the desk&quot; or &quot;searching the desk&quot;. We can have more than two actions, of course:
+<p>Note the colon, which is essential, and the usage of &quot;it&quot; in the definition part to refer to the object in question.
 <p>
-<blockquote><font color="#000080">examining, looking under or searching the desk
+<p>This creates the adjective &quot;occupied&quot;, and gives it a definition valid for supporters. That restriction on validity means that non-supporters would always fail the description &quot;something occupied&quot;; which might be unfortunate if we wanted to walk about rooms being occupied. We could give a second definition thus:
+<p>
+<blockquote><font color="#000080">Definition: a room is occupied if a person is in it.
 </font></blockquote><p>
 <p>
-<p>The actions combined like this need to be compatible with each other, at least a little. For instance, this will generate a problem message:
+<p>These are entirely different senses of the word &quot;occupied&quot; - a mantelpiece is occupied if an invitation is on it, but for a drawing room to be occupied there must be human presence - and Inform applies whichever sense is relevant when deciding whether or not a given object is &quot;occupied&quot;.
 <p>
-<blockquote><font color="#000080">waiting or searching the desk
+<p>Newly defined adjectives cannot be used when creating things, because they are not explicit enough. Inform could not satisfy:
+<p>
+<blockquote><font color="#000080">The Ballroom is occupied.
 </font></blockquote><p>
 <p>
-<p>because it makes no sense to &quot;wait the desk&quot;. On the other hand, this is fine:
-<p>
-<blockquote><font color="#000080">waiting or searching
-</font></blockquote><p>
-<p>
-<p>The general rule is that if we specify one or more objects (&quot;the desk&quot; in the above example), then each of the actions we quote must take at least that many objects.
-<p>
-<p>For example, the following saves us writing the same basic rule three times over:
-<p>
-<blockquote><font color="#000080">Instead of examining, looking under or searching the desk: say &quot;There's no use poking around in that old desk.&quot;
-</font></blockquote><p>
+<p>because it does not understand &quot;occupied&quot; well enough, and after all, there is not enough information: by whom is the Ballroom to be occupied? On the other hand, newly defined adjectives are very helpful in conditions and for rules, as we shall see later on.
 <p>
 <p><hr><p><a href=doc52.html>Previous</a> / <a href=doc54.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

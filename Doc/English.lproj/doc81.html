@@ -1,28 +1,16 @@
-<html><head><title>5.15. Randomness</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc80.html><img src=../Back.tif></a><a href=doc82.html><img src=../Forward.tif></a></td><td><b>5.15. Randomness</b></td></tr></table><p>
+<html><head><title>7.3. Changing the status line</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc80.html><img src=../Back.tif></a><a href=doc82.html><img src=../Forward.tif></a></td><td><b>7.3. Changing the status line</b></td></tr></table><p>
 <p>
-<p>Sometimes we want to introduce random behaviour into play. We usually do this by generating random values, and then acting differently depending on what they are. The following:
+<p>The status line is the black bar along the top of a game being played, which ordinarily displays the current position, score and number of moves taken. Like the command prompt, it is not fixed but results from values which can be changed: the &quot;left hand status line&quot; and &quot;right hand status line&quot;.
 <p>
-<p><blockquote><font color="#000080">a random number from 2 to 5</font></blockquote>
+<p>The default values are &quot;[the player's surroundings]&quot; for the left hand status line and &quot;[score]/[turn count]&quot; for the right hand status line. Score and turn count are numbers which vary in play (there will be much more about scoring later); &quot;[the player's surroundings]&quot; expands to a succinct description of where the player is, be this in darkness, in a lighted room or inside an opaque container such as a large packing case. These make useful elements to juggle in redesigning the status line, as in the following example:
 <p>
-<p>produces, as it suggests, a random number drawn from the choices 2, 3, 4 or 5, each of which is equally likely to come up.
+<blockquote><font color="#000080">When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the left hand status line to
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;[the player's surroundings] / [turn count] / [score]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the right hand status line to &quot;Time: [time of day]&quot;.
+</font></blockquote><p>
 <p>
-<p>We can also use random conditions:
-<p>
-<p><blockquote><font color="#000080">if a random chance of 2 in 3 succeeds then ...</font></blockquote>
-<p>
-<p>Here is a rule which applies only 15% of the time:
-<p>
-<p><blockquote><font color="#000080">Instead of waiting when a random chance of 15 in 100 succeeds: ...</font></blockquote>
-<p>
-<p>If we make a new kind of value, we can also take random values from it, as in the following miniature world:
-<p>
-<p><blockquote><font color="#000080">&quot;Weathering&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">A cloud pattern is a kind of value. The cloud patterns are cumulus, altocumulus, cumulonimbus, stratus, cirrus, nimbus, nimbostratus.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The Mount Pisgah Station is a room. &quot;The rocky peak of Mt. Pisgah (altitude 872m) is graced only by an automatic weather station. The clouds, close enough almost to touch, are [a random cloud pattern]. Temperature: [a random number from 7 to 17] degrees, barometric pressure: [950 + a random number from 0 to 15] millibars.&quot;</font></blockquote>
-<p>
-<p>The value &quot;a random cloud pattern&quot; produces a random choice from the seven cloud patterns, each equally likely.
+<p>The text in the right hand status line should be kept no more than 14 letters long, including any spaces. The left hand status line has more leeway, but should still be kept brief.
 <p>
 <p><hr><p><a href=doc80.html>Previous</a> / <a href=doc82.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

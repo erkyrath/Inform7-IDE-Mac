@@ -1,14 +1,30 @@
-<html><head><title>6.7. Daemons!</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc90.html><img src=../Back.tif></a><a href=doc92.html><img src=../Forward.tif></a></td><td><b>6.7. Daemons!</b></td></tr></table><p>
+<html><head><title>7.13. Counting the number of things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc90.html><img src=../Back.tif></a><a href=doc92.html><img src=../Forward.tif></a></td><td><b>7.13. Counting the number of things</b></td></tr></table><p>
 <p>
-<p>A daemon is a rule which is applied every turn, but only when it is active: the rest of the time it sleeps. Traditionally, rules like this in interactive fiction have been imagined as being somehow independently acting, hence the term &quot;daemon&quot;. There's not much to say about daemons:
+<p>It is very often useful to know how many things are in a given situation, and for this purpose we have the &quot;number of ...&quot; construction. For instance:
 <p>
-<p><blockquote><font color="#000080">The lightning daemon: say &quot;Lightning strikes, suddenly.&quot;</font></blockquote>
+<blockquote><font color="#000080">the number of edible things carried
+<br>the number of things on the table
+<br>the number of people in the Dining Room
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">In the Keep is a lever. The lever is fixed in place. Instead of pulling the lever: say &quot;Zzzing...&quot;; start the lightning daemon. Instead of pushing the lever: say &quot;Zzzap...&quot;; stop the lightning daemon.</font></blockquote>
+<p>Whereas &quot;a woman is holding an animal&quot; makes the same test as &quot;an animal is held by a woman&quot;, getting the same result, counting is not so even-handed:
 <p>
-<p>The name of a daemon must always have &quot;daemon&quot; as its final word. When play begins, daemons are normally asleep, so if we need one of them to be active right from the start then we must add a further rule:
+<blockquote><font color="#000080">the number of women holding animals
+<br>the number of animals held by women
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">When play begins, start the lightning daemon.</font></blockquote>
+<p>are different questions and, unless the ration is strictly one lapdog per baroness, will have different answers. If Cruella de Ville has 101 dalmatians, they may be very different indeed.
+<p>
+<p>It can also be helpful to count things with no particular location, like so:
+<p>
+<blockquote><font color="#000080">the number of rooms
+<br>the number of closed doors
+</font></blockquote><p>
+<p>
+<p>For instance:
+<p>
+<blockquote><font color="#000080">When play begins, change the right hand status line to &quot;Explored: [number of visited rooms]/[number of rooms]&quot;.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc90.html>Previous</a> / <a href=doc92.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

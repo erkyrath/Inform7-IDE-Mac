@@ -1,26 +1,28 @@
-<html><head><title>12.16. Defining phrases in Inform 6</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc180.html><img src=../Back.tif></a><a href=doc182.html><img src=../Forward.tif></a></td><td><b>12.16. Defining phrases in Inform 6</b></td></tr></table><p>
+<html><head><title>13.11. Supplying a missing noun/second noun</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc180.html><img src=../Back.tif></a><a href=doc182.html><img src=../Forward.tif></a></td><td><b>13.11. Supplying a missing noun/second noun</b></td></tr></table><p>
 <p>
-<p>The phrases described in this documentation, such as &quot;say...&quot; or &quot;start the player at...&quot;, are all defined in the Standard Rules, and are for the most part defined not in terms of other I7 phrases but instead reduced to equivalents in I6. For instance:
+<p><b>1. When it happens.</b> (Two different activities here, but identical except for applying to different nouns.) Suppose that, because of an instruction to Understand something even though it would be lacking a noun - say, 'Understand &quot;take&quot; as taking.' - an incomplete action is generated, one which is required to have a noun, but doesn't. &quot;Supplying a missing noun&quot; takes place to remedy the problem. It can either:
 <p>
-<p><blockquote><font color="#000080">To end the game in death: (- deadflag=1; -).</font></blockquote>
+<p>(i) Set a noun, printing text like &quot;(presumably the black bag)&quot; if it wants, in which case the action goes forward, though it is still subject to the full rules on accessibility exactly as any other action would be; or
 <p>
-<p>The notation &quot;(-&quot; and &quot;-)&quot; indicates that what comes in between is I6 code. The minus sign is supposed to be a mnemonic for the decrease from 7 to 6: later we shall use &quot;(+&quot; and &quot;+)&quot; to go back up the other way, from 6 to 7.
+<p>(ii) Make no choice, in which case no action takes place and the player's command is rejected. If the activity printed nothing, Inform will produce a generic reply to the player that &quot;You must supply a noun.&quot;.
 <p>
-<p>When a phrase is defined as containing only a single command, and that command is defined using I6 - as here - it is compiled in-line. This means that the phrase &quot;end the game in death&quot; will always be translated as &quot;deadflag=1;&quot;, rather than being translated into a call to a suitable function whose only statement is &quot;deadflag=1;&quot;.
+<p><b>2. The default behaviour.</b> In the default grammar for Inform, only three such half-finished actions are ever Understood. One is &quot;going&quot; with no direction, for which this activity simply prints a refusal. The other two are the two undirected senses, &quot;smelling&quot; and &quot;listening&quot;. In each case, the &quot;supplying a missing noun&quot; activity sets the noun to the current location: so, for instance, typing the bare command &quot;listen&quot; might generate the action &quot;listening to the Shoreline&quot;.
 <p>
-<p>This is an easy case since the wording never varies. A more typical example would be:
+<p><b>3. Examples.</b> (a) This is the definition Inform uses to make &quot;listen&quot; work as outlined above:
 <p>
-<p><blockquote><font color="#000080">To say the (something - number): (- print {something}; -).</font></blockquote>
+<blockquote><font color="#000080">Rule for supplying a missing noun while listening (this is the ambient sound rule): change the noun to the location.
+</font></blockquote><p>
 <p>
-<p>Where the &quot;{something}&quot; appears, the appropriate I7 code is compiled to a suitable I6 expression. So, for instance,
+<p>(b) It can be elegant to allow second nouns to be dropped with habitual actions, or where the choice is obvious:
 <p>
-<p><blockquote><font color="#000080">say the capacity of the table</font></blockquote>
+<blockquote><font color="#000080">Understand &quot;unlock [something]&quot; as unlocking it with.
+</font></blockquote><p>
 <p>
-<p>might become
+<blockquote><font color="#000080">Rule for supplying a missing second noun while unlocking:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the skeleton key is carried, change the second noun to the skeleton key;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">print O17_table.capacity;</font></blockquote>
-<p>
-<p>Braces &quot;{&quot; are of course significant in I6. A real brace can be obtained by making the character following it a space, and then I7 will not attempt to read it as a request for substitution.
 <p>
 <p><hr><p><a href=doc180.html>Previous</a> / <a href=doc182.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

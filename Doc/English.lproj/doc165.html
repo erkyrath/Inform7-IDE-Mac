@@ -1,18 +1,22 @@
-<html><head><title>11.8. Constructing the status line</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc164.html><img src=../Back.tif></a><a href=doc166.html><img src=../Forward.tif></a></td><td><b>11.8. Constructing the status line</b></td></tr></table><p>
+<html><head><title>12.9. Consider and abide</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc164.html><img src=../Back.tif></a><a href=doc166.html><img src=../Forward.tif></a></td><td><b>12.9. Consider and abide</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> Just before input is accepted from the keyboard, Inform constructs a &quot;status line&quot; at the top of the window which is normally displayed in reverse colours (white on black instead of black on white, say).
+<p>It often happens that one rule needs to invoke another one. (Indeed, this happens whenever a rulebook is followed: it invokes all its rules one by one until one of them stops.) The best way to do this is with the phrase:
 <p>
-<p><b>2. The default behaviour.</b> See Chapter 5. The status line is already very customisable without using rules applied to this activity.
+<p><blockquote><font color="#000080">consider ...name of the rule or rulebook...</font></blockquote>
 <p>
-<p><b>3. Examples.</b> (a) The most useful thing about this activity is that it allows us to vary descriptions in the status line. This is especially helpful to abbreviate unduly long room names, which might not otherwise fit:
+<p>This throws away the result: indeed, it makes no difference whether the rule succeeds, fails or has no outcome. More often, though, we want not only to invoke another rule, but also to be guided by its advice. For this, we use the otherwise identical phrase
 <p>
-<blockquote><font color="#000080">The Temple Of A Thousand Mightily Peeved Deities is a room. Rule for describing the Temple while constructing the status line: say &quot;Temple&quot;.
-</font></blockquote><p>
+<p><blockquote><font color="#000080">abide by ...name of the rule or rulebook...</font></blockquote>
 <p>
-<p>(b) Again, it's usually not necessary to apply activity rules to this, but occasionally amusing effects are possible if we do:
+<p>Here, if the rule being abided by comes to a stop (i.e., succeeds or fails) then the original rule also stops, at once and without going on to any further instructions. For example, the following duplicates the effect of a rulebook of four rules: it tries each in turn, and stops as soon as any of them stop.
 <p>
-<blockquote><font color="#000080">The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.
-</font></blockquote><p>
+<p><blockquote><font color="#000080">The omnibus rule: abide by the first rule; abide by the second rule; abide by the third rule; abide by the fourth rule.</font></blockquote>
+<p>
+<p>Abide might be used in examples like this one:
+<p>
+<p><blockquote><font color="#000080">A thing can be fragile or robust. The can't handle fragile things roughly rule: if the noun is fragile then say &quot;[The noun] is too fragile for such rough handling.&quot; instead. A check dropping rule: abide by the can't handle fragile things roughly rule. A check throwing rule: abide by the can't handle fragile things roughly rule.</font></blockquote>
+<p>
+<p>Had we used &quot;consider&quot; instead of &quot;abide by&quot;, then in the event of the player typing &quot;drop angel&quot; the text &quot;The glass angel is too fragile for such rough handling&quot; would be printed, which is correct - but then the action would continue as though no difficulty had occurred, which is definitely not correct.
 <p>
 <p><hr><p><a href=doc164.html>Previous</a> / <a href=doc166.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

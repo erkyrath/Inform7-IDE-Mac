@@ -1,25 +1,38 @@
-<html><head><title>4.11. All actions and exceptional actions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc53.html><img src=../Back.tif></a><a href=doc55.html><img src=../Forward.tif></a></td><td><b>4.11. All actions and exceptional actions</b></td></tr></table><p>
+<html><head><title>5.4. On "is"</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc53.html><img src=../Back.tif></a><a href=doc55.html><img src=../Forward.tif></a></td><td><b>5.4. On "is"</b></td></tr></table><p>
 <p>
-<p>The special description &quot;doing something&quot; (or &quot;doing anything&quot;) matches any action, and &quot;doing something to ...&quot; or &quot;doing something with ...&quot; also allow an object to be specified.
+<p>What does &quot;is&quot; mean? There was much amusement when this became an issue in the absurd Senate trial of President Clinton, but the definition of &quot;to be&quot; spans a heroic twelve columns in the Oxford English Dictionary.
 <p>
-<p>For instance, the following puts its object entirely out of bounds:
+<p>Some descriptions are exact, in referring unambiguously to a specific thing whatever the circumstances: but most are vague. If we go back to:
 <p>
-<blockquote><font color="#000080">Instead of doing something to the cucumber sandwich, say &quot;Lady Bracknell stares disapprovingly down her pince-nez at you, in a way which no amount of hunger or curiosity could overcome.&quot;
+<blockquote><font color="#000080">The cargo trunk is an openable container.
 </font></blockquote><p>
 <p>
-<p>We sometimes need to be a little careful here: &quot;waiting&quot; qualifies as &quot;doing something&quot;, but not as &quot;doing something to something&quot;, because there is no object.
+<p>This sentence tells us that an exact description (the cargo trunk) &quot;is&quot; a vague one (an openable container). Here &quot;is&quot; means &quot;has a place among the things distinguished by a specified quality&quot; (OED meaning 9b: Inform also allows 9a and 9c but not 9d, for any OED junkies reading this). Inform also makes use of the more complicated meaning &quot;to have or occupy a place somewhere&quot; (OED 5a), as in
 <p>
-<p>More often, we would like to restrict the range of allowable actions to a select few. For instance:
-<p>
-<blockquote><font color="#000080">Instead of doing something other than looking, examining or waiting: say &quot;You must learn patience.&quot;
+<blockquote><font color="#000080">The cargo trunk is in the attic.
 </font></blockquote><p>
 <p>
-<p>(Or we can write &quot;except&quot; instead of &quot;other than&quot;.) Or we might have an object, too:
+<p>On the other hand, Inform will reject
 <p>
-<blockquote><font color="#000080">Instead of doing something other than examining, taking or dropping with the dagger: say &quot;Don't fool around with that dagger. It's exceedingly sharp.&quot;
+<blockquote><font color="#000080">The cargo trunk is the oak tree.
 </font></blockquote><p>
 <p>
-<p>Note the &quot;with&quot;, which was optional, but makes it clearer that the rule applies only to actions on the dagger.
+<p>And this is not inconsistent, because although it looks the same, here we have a different meaning of the verb &quot;to be&quot;: &quot;to exist as the thing known by a certain name; to be identical with&quot; (OED 10).
+<p>
+<p>We might call these meanings &quot;matches&quot; and &quot;equals&quot; for short, and they behave very differently when we come to conditions. Consider:
+<p>
+<blockquote><font color="#000080">... if the noun is the cargo trunk ... (&quot;equals&quot;)
+<br>... if the cargo trunk is an openable container ... (&quot;matches&quot;)
+</font></blockquote><p>
+<p>
+<p>Most computer programming languages would strictly distinguish them: Perl, for instance, would write &quot;=~&quot; and &quot;==&quot; respectively. But Inform follows English and writes &quot;is&quot; for both meanings, and for the OED 5a meaning too, as we saw in only the previous section:
+<p>
+<blockquote><font color="#000080">Definition: a room is occupied if a person is in it.
+</font></blockquote><p>
+<p>
+<p>The condition buried in here is &quot;a person is in it&quot;. Here &quot;is&quot; stands for a deceptively complicated question, involving not only the specific thing (the room) but also everything else in the world (the possible occupiers), and putting constraints on both things involved - one having to be a room, the other a person. Not bad for just five words.
+<p>
+<p>This all sounds like a pedantic digression, and perhaps it is. (A 9b &quot;is&quot;, by the way.) But it has a moral: that &quot;is&quot; can do far more than the simple value comparisons offered by most computer programming languages.
 <p>
 <p><hr><p><a href=doc53.html>Previous</a> / <a href=doc55.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

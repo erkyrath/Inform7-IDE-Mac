@@ -1,18 +1,18 @@
-<html><head><title>12.5. A simple example extension</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc169.html><img src=../Back.tif></a><a href=doc171.html><img src=../Forward.tif></a></td><td><b>12.5. A simple example extension</b></td></tr></table><p>
+<html><head><title>12.14. First and last rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc169.html><img src=../Back.tif></a><a href=doc171.html><img src=../Forward.tif></a></td><td><b>12.14. First and last rules</b></td></tr></table><p>
 <p>
-<p>Extensions look very much like passages of Inform source, because except for a special introductory and concluding sentence, that is all they are:
+<p>This is the final technicality on rulebooks. Rulebooks are, as we have seen, automatically sorted in order of how specific the conditions for invoking the relevant rules are, so that for instance
 <p>
-<p><blockquote><font color="#000080">The Ducking Action by Graham Nelson begins here.</font></blockquote>
+<p><blockquote><font color="#000080">Instead of taking a container, ...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Ducking is an action applying to nothing. Report ducking: say &quot;You duck!&quot; Understand &quot;duck&quot; as ducking.</font></blockquote>
+<p>will always come before
 <p>
-<p><blockquote><font color="#000080">The Ducking Action ends here.</font></blockquote>
+<p><blockquote><font color="#000080">Instead of taking something, ...</font></blockquote>
 <p>
-<p>Not a useful or interesting extension, but those few words add a whole new action and everything needed to make it work. It is the ability in Inform 7 to mix up rooms, things, kinds, grammar, phrases and rules, in more or less any order, which makes it possible for extensions to work. If all the kinds (say) had to be defined in a single run of paragraphs, it would be impossible for different extensions each to contribute kinds of its own.
+<p>Sometimes, though, and especially with rulebooks where there is no particular ordering because conditions are usually not attached anyway (for instance, with &quot;every turn&quot; rules), it is useful to be certain that a particular rule comes first or last: especially if there is some housekeeping to do. For instance, the &quot;turn sequence&quot; rulebook, which is used behind the scenes to organise what happens at the end of each turn, has a crucial piece of housekeeping to do in order to maintain the consistency of the world model: it has to find out if the player's location has been plunged into darkness or, conversely, has been lit up since the last turn. It is essential that this happens last of all so that the situation cannot change again before the next time the player types at the keyboard.
 <p>
-<p>The introductory sentence should be placed as the only content of line 1 of the file. Inform does not care, but this would help any other tools which might be developed later for archiving or cataloguing extensions.
+<p>Each rulebook, then, can have two special rules, the designated &quot;first&quot; rule and the designated &quot;last&quot; rule. These, if defined, have no individual names, so that nobody can displace them from their positions or meddle with them: they belong to whoever created the rulebook.
 <p>
-<p>(In case the name is a plural, we are allowed to write &quot;begin&quot; and &quot;end&quot; instead of &quot;begins&quot; and &quot;ends&quot;. For instance, the last line of the standard rules is &quot;The Standard Rules end here.&quot;)
+<p><blockquote><font color="#000080">The last appraisal rule: say &quot;The Speak-Your-Progress machine sputters to a halt. You decide not to take this as a comment on your recent performance.&quot;</font></blockquote>
 <p>
 <p><hr><p><a href=doc169.html>Previous</a> / <a href=doc171.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

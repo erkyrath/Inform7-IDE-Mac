@@ -1,28 +1,24 @@
-<html><head><title>9.1. Understand</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 9: Understanding</h2><p><table><tr><td><a href=doc133.html><img src=../Back.tif></a><a href=doc135.html><img src=../Forward.tif></a></td><td><b>9.1. Understand</b></td></tr></table><p>
+<html><head><title>10.2. Looking up entries</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc133.html><img src=../Back.tif></a><a href=doc135.html><img src=../Forward.tif></a></td><td><b>10.2. Looking up entries</b></td></tr></table><p>
 <p>
-<p>During play, the computer and the player alternate in writing messages to each other: in the player's case, these are short instructions, usually saying what to do next. A wide range of such &quot;commands&quot; are automatically understood, but these only apply to the standard built-in actions. If we want the player to be able to command new actions, then we need to specify what is to be understood as what. For this, we supply special sentences starting with the word &quot;Understand&quot;.
+<p>The simplest way to access the information inside tables is to ask explicitly for it, specifying the row number, the column name and what table is to be consulted. So, given our example table
 <p>
-<p>Suppose we return to the earlier example of a newly created action:
+<p><center><img src=table2.tiff></center>
 <p>
-<p><blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.</font></blockquote>
+<p>we can write the following description:
 <p>
-<p>We then supply lines of grammar (as they are called) for Inform to recognise, like so:
+<p><blockquote><font color="#000080">symbol in row 3 of the Table of Selected Elements</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Understand &quot;photograph [someone]&quot; as photographing.</font></blockquote>
+<p>to produce the value &quot;Zn&quot;. Or the following will run off some chemical data:
 <p>
-<p><blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.</font></blockquote>
+<p><blockquote><font color="#000080">repeat with N running from 1 to the number of rows in the Table of Selected Elements begin;<br>say &quot;The atomic weight of [element in row N of the Table of Selected Elements] is [atomic weight in row N of the Table of Selected Elements].&quot;;<br>end repeat.</font></blockquote>
 <p>
-<p>As usual, the square brackets indicate something which stands for text, rather than text to be taken verbatim. &quot;[someone]&quot; needs to be the name of anything of the kind &quot;person&quot;, for instance (though as usual that person will need to be in sight of the player for the name to be accepted). The first word - in these examples &quot;photograph&quot; - must be something definite, not a substitution like this.
+<p>The result of which will be:
 <p>
-<p>For obvious reasons, this pattern of words needs to match the expectations of the action. Photographing applies to &quot;one visible thing&quot; - the &quot;visible&quot; just means it does not need to be touched, only seen - so neither of these would be allowable:
+<p><blockquote><font color="#000080">The atomic weight of Hydrogen is 1.<br>The atomic weight of Iron is 56.<br>The atomic weight of Zinc is 65.<br>The atomic weight of Uranium is 238.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Understand &quot;photograph&quot; as photographing.<br>Understand &quot;photograph [someone] standing next to [something]&quot; as photographing.</font></blockquote>
+<p>Note that the first row in a table is row number 1, and that the last can be found with the special value:
 <p>
-<p>The first is bad because it supplies no things at all, the second because it supplies two: what we want, of course, is just the one.
-<p>
-<p>We are entirely free to add grammar lines for existing actions, of course:
-<p>
-<p><blockquote><font color="#000080">Understand &quot;deposit [something] in [an open container]&quot; as inserting it into.</font></blockquote>
+<p><blockquote><font color="#000080">the number of rows in the (name of table here)</font></blockquote>
 <p>
 <p><hr><p><a href=doc133.html>Previous</a> / <a href=doc135.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

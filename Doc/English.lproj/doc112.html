@@ -1,22 +1,30 @@
-<html><head><title>7.11. Temporary variables</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc111.html><img src=../Back.tif></a><a href=doc113.html><img src=../Forward.tif></a></td><td><b>7.11. Temporary variables</b></td></tr></table><p>
+<html><head><title>8.16. How many times?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc111.html><img src=../Back.tif></a><a href=doc113.html><img src=../Forward.tif></a></td><td><b>8.16. How many times?</b></td></tr></table><p>
 <p>
-<p>A variable, as we have seen, is a name for a value which changes, though always remaining of the same kind. For instance, if &quot;target&quot; is a number variable (or &quot;number that varies&quot;) then it may change value from 2 to 4, but not from 2 to &quot;fishknife&quot;.
+<p>There are two further ways to examine the historical record. Given any condition, we can say
 <p>
-<p>To make complicated decisions, phrases often need to remember values on a temporary basis. We have already seen this for the counter in a &quot;repeat&quot; loop, which exists only inside that loop, and then is no longer needed. Now we define named values which exist only inside the current phrase. For instance:
+<p><blockquote><font color="#000080">if (...condition...) for the second time ...<br>if (...condition...) twice ...<br>if (...condition...) 2 times...<br>if (...condition...) two times...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">let outer bull be 25;<br>let the current appearance be &quot;reddish brown&quot;;<br>let the special room be Marley Wood;</font></blockquote>
+<p>(all of which are synonymous: the words once, twice, thrice, one, two, three, four, five, six, seven, eight, nine, ten, first, second, third, fourth, fifth, sixth, seventh, eighth, ninth and tenth all mean what they obviously should). The result is true if the condition holds now and has held for only one previous spell in the past. A condition holding for, say, fifteen consecutive turns without a break counts as only one &quot;time&quot; - so what we mean by &quot;twice&quot; here is that it is true now, was previously false for a while, and was previously true for a while before that, but no more. In effect, then,
 <p>
-<p>creates temporary variables &quot;outer bull&quot;, &quot;current appearance&quot; and &quot;special room&quot;. The kinds of these are deduced from the values given, so that, for instance,
+<p><blockquote><font color="#000080">if the player is in the Ballroom for the third time ...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">say &quot;The outer bull scores [the outer bull in words] when you practice archery in [special room].&quot;</font></blockquote>
+<p>is true if this is the third visit to the Ballroom. We can also say
 <p>
-<p>produces
+<p><blockquote><font color="#000080">if the player is in the Ballroom for more than the third time ...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The outer bull scores twenty-five when you practice archery in Marley Wood.</font></blockquote>
+<p>or similarly &quot;less than&quot;, &quot;at least&quot;, &quot;at most&quot;. It would be more natural, though, to say
 <p>
-<p>Temporary variables made by &quot;let&quot; are only temporarily in existence while a phrase is being carried out; and we can let them be one thing, then another, then another still during the same phrase. But although we are allowed to change the value of such a variable, we are not allowed to change the kind of value, so something like this will not be allowed:
+<p><blockquote><font color="#000080">if the player has been in the Ballroom three times ...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">let x be 45;<br>let x be &quot;Norway&quot;;</font></blockquote>
+<p>The adjective &quot;only&quot; (or equivalently &quot;exactly&quot;) can be added to obtain
+<p>
+<p><blockquote><font color="#000080">if the player has been in the Ballroom only three times ...</font></blockquote>
+<p>
+<p>To recap, this means there have been exactly three visits to the Ballroom in history, whereas
+<p>
+<p><blockquote><font color="#000080">if the player is in the Ballroom for the third time ...</font></blockquote>
+<p>
+<p>means there have been exactly three visits, the third of which is still going on - an important distinction.
 <p>
 <p><hr><p><a href=doc111.html>Previous</a> / <a href=doc113.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,22 +1,14 @@
-<html><head><title>10.12. Changing reachability</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc154.html><img src=../Back.tif></a><a href=doc156.html><img src=../Forward.tif></a></td><td><b>10.12. Changing reachability</b></td></tr></table><p>
+<html><head><title>11.9. Tokens can produce values</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc154.html><img src=../Back.tif></a><a href=doc156.html><img src=../Forward.tif></a></td><td><b>11.9. Tokens can produce values</b></td></tr></table><p>
 <p>
-<p>The business of what the player can, and cannot, reach is of considerable importance in interactive fiction. It contains some of the subtlest rules in the model world, though these rules often go unnoticed. In many games the designer never feels any need to alter the rules on what can be touched from where, but it is important to have the ability all the same: when it is needed, there is often no other way to achieve the same effect.
+<p>The examples just seen were tokens which simply matched specific words typed by the player, but newly created tokens can also produce values:
 <p>
-<p>Returning to the conical flask:
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, green and blue. Understand &quot;colour [a colour]&quot; or &quot;[a colour] shade&quot; as &quot;[tint]&quot;.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.</font></blockquote>
+<p>Here the &quot;[tint]&quot; token matches, for instance, &quot;colour red&quot; and &quot;blue shade&quot;, which would result in the values red and blue, respectively.
 <p>
-<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) Rules for this rulebook need not have any restriction on the object applied to:
+<p>Tokens are not allowed to produce more than one value, and if several patterns are given to define them then those patterns have to be compatible. That means the following is disallowed, since it might work out to a colour, or to an object, leaving Inform unable to judge whether an action can safely be applied to the result.
 <p>
-<p><blockquote><font color="#000080">A reaching inside rule: if Barabbas's Nefarious Amulet is worn then ignore the can't take people's possessions rule.</font></blockquote>
-<p>
-<p>More generally, we could give the usual flexible description of what the rule applies to:
-<p>
-<p><blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large.&quot;; deny access.</font></blockquote>
-<p>
-<p>There is also a reaching outside rulebook, used if the player is inside something and wants to reach an object in the wider room. (It's the difference between a bed and a cage.) This ordinarily contains just one rule:
-<p>
-<p><blockquote><font color="#000080">the can't reach outside closed containers rule</font></blockquote>
+<p><blockquote><font color="#000080">Understand &quot;colour [a colour]&quot; or &quot;[something]&quot; as &quot;[tint]&quot;.</font></blockquote>
 <p>
 <p><hr><p><a href=doc154.html>Previous</a> / <a href=doc156.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,20 +1,27 @@
-<html><head><title>12.11. New activities</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc175.html><img src=../Back.tif></a><a href=doc177.html><img src=../Forward.tif></a></td><td><b>12.11. New activities</b></td></tr></table><p>
+<html><head><title>13.6. Listing contents of something</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc175.html><img src=../Back.tif></a><a href=doc177.html><img src=../Forward.tif></a></td><td><b>13.6. Listing contents of something</b></td></tr></table><p>
 <p>
-<p>The original Inform 6 library allowed itself to be customised by providing &quot;entry point routines&quot;; in Inform 7, this method was replaced by activities. If an extension contains any elaborate mechanisms then it, too, should consider setting them up as activities. This is easily done. For instance:
+<p><b>1. When it happens.</b> When taking inventory, the list is produced by the activity &quot;listing contents of yourself&quot;; when looking, a list of items which do not deserve their own paragraphs is produced by &quot;listing contents of&quot; the location; when a say &quot;[contents of ...]&quot; is performed. In short, whenever a list is needed.
 <p>
-<blockquote><font color="#000080">Assaying is an activity. The last for assaying rule: ...
+<p><b>2. The default behaviour.</b> The list is printed out.
+<p>
+<p><b>3. Examples.</b> (a) We have already seen that it can be elegant to elaborate on a description in the context of a list. Here we add &quot;discarded&quot; to a sweet wrapper which is found on the ground.
+<p>
+<blockquote><font color="#000080">Rule for printing the name of the wrapper while listing contents of a room: say &quot;discarded sweet wrapper&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Analysing something is an activity. The last for analysing rule: ...
+<p>(b) Lists can be considerably shortened and tidied up if similar items are grouped together. We do this by specifying what should be grouped together before listing contents, using the special phrase &quot;group ... together&quot;:
+<p>
+<blockquote><font color="#000080">Utensil is a kind of thing. The knife, the fork and the spoon are utensils. Before listing contents: group utensils together as &quot;utensils&quot;.
 </font></blockquote><p>
 <p>
-<p>The former activity does not apply to any particular object, while the latter does: the difference is in the word &quot;something&quot;. (Equivalently, it could end &quot;of something&quot;, as the standard rules' activity &quot;listing contents of something&quot; does.) We can then carry out the activities with phrases like so:
+<p>The result will be, say, &quot;two utensils (knife and spoon)&quot;, if both are found in the same place.
 <p>
-<blockquote><font color="#000080">carry out the assaying activity;
-<br>carry out the analysing activity with the dustbin;
+<p>(c) We can less obtrusively group items together like so:
+<p>
+<blockquote><font color="#000080">Before listing contents while taking inventory: group utensils together.
 </font></blockquote><p>
 <p>
-<p>It may be worth noting that an activity can still be worth creating even when it is hard to imagine useful rules attached to it, because the activity also gives us a new context for other rules. The designer might well be grateful for the chance to define a &quot;rule for describing a container while assaying&quot;, for instance.
+<p>Now they will be rolled into a single inventory line: say, &quot;fork and spoon&quot; rather than &quot;two utensils (fork and spoon)&quot;.
 <p>
 <p><hr><p><a href=doc175.html>Previous</a> / <a href=doc177.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,14 +1,24 @@
-<html><head><title>7.18. Ambiguities</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc118.html><img src=../Back.tif></a><a href=doc120.html><img src=../Forward.tif></a></td><td><b>7.18. Ambiguities</b></td></tr></table><p>
+<html><head><title>9.6. Begin and end</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc118.html><img src=../Back.tif></a><a href=doc120.html><img src=../Forward.tif></a></td><td><b>9.6. Begin and end</b></td></tr></table><p>
 <p>
-<p>Another possible ambiguity occurs when a phrase might match two lexically different possibilities using the same words.
+<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
 <p>
-<p><blockquote><font color="#000080">say the dishcloth;</font></blockquote>
+<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
 <p>
-<p>could be construed as a usage of either of these cases:
+<blockquote><font color="#000080">To comment upon (whatever - a thing):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">say the (something - a thing)<br>say (something - a thing)</font></blockquote>
+<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
 <p>
-<p>The rule here is that whichever possibility contains the most words, in this case &quot;say the (...)&quot;, takes precedence, because it's assumed to be a more specific form of the less wordy version.
+<p>Similarly for while:
+<p>
+<p><blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while</font></blockquote>
+<p>
+<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
 <p>
 <p><hr><p><a href=doc118.html>Previous</a> / <a href=doc120.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,37 +1,32 @@
-<html><head><title>7.16. Making new kinds of arithmetic</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc116.html><img src=../Back.tif></a><a href=doc118.html><img src=../Forward.tif></a></td><td><b>7.16. Making new kinds of arithmetic</b></td></tr></table><p>
+<html><head><title>9.4. If</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc116.html><img src=../Back.tif></a><a href=doc118.html><img src=../Forward.tif></a></td><td><b>9.4. If</b></td></tr></table><p>
 <p>
-<p>Because &quot;+&quot; is a phrase like any other, we are free to extend its definition to other kinds of value beyond numbers (which might be called &quot;overloading the operator +&quot; in computing jargon). The following example game defines a way to add a colour to a number, producing another colour:
+<p>We now run through a few special phrases which control other phrases: causing them to repeat, perhaps, or to be skipped. These phrases are equivalent to the &quot;control structures&quot; of other computer programming languages: no system for interactive fiction can possibly be adequate unless it allows us to carry out arbitrary computations, so the pretence that Inform is not really a programming language must dropped sooner or later. That time is now.
 <p>
-<p><blockquote><font color="#000080">&quot;Overloading&quot;</font></blockquote>
+<p>The phrase:
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.</font></blockquote>
+<p><blockquote><font color="#000080">if (... condition ...) then (... another whole phrase ...)</font></blockquote>
 <p>
-<blockquote><font color="#000080">To decide which colour is (C - a colour) + (N - a number):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;while N is not 0 begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if N < 0 begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let C be the colour before C;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let N be N + 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let C be the colour after C;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let N be N - 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end while;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;result C.
-</font></blockquote><p>
+<p>causes the phrase after &quot;then&quot; to be followed only if the condition holds. Some people prefer to use a comma, which is treated just the same:
 <p>
-<p><blockquote><font color="#000080">The Counting House is a room. &quot;Prominent on the wall is a sign reading: The Magic Number is [the magic number].&quot;</font></blockquote>
+<p><blockquote><font color="#000080">if (... condition ...), (... another whole phrase ...)</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The magic number is a number that varies.</font></blockquote>
+<p>There are many different forms of condition in Inform (and, as we shall see, we can easily add more), but the simplest is:
 <p>
-<p><blockquote><font color="#000080">In the House is a lever. Instead of pushing the lever: change the magic number to the magic number + 1; say &quot;The magic number increases to [magic number].&quot; Instead of pulling the lever: change the magic number to the magic number - 1; say &quot;The magic number decreases to [magic number].&quot;</font></blockquote>
+<p><blockquote><font color="#000080">(first value) is (second value)</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The beam colour is a colour that varies.</font></blockquote>
+<p>As always, Inform checks that these two values are of kinds which can be compared. The following will produce an objection, for instance:
 <p>
-<p><blockquote><font color="#000080">The prism is in the House. &quot;A prismatic wedge of glass (oh, all right, a prism) splits a beam of white light so that a fine line of [beam colour] light falls across the sign.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">if 10 is a door then say &quot;Huzzah!&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The button is in the House. Instead of pushing the button: change the beam colour to the beam colour + the magic number; say &quot;The prism swivels, and after a blur the beam falling on the sign settles at [beam colour].&quot;</font></blockquote>
+<p>since it makes no sense to ask the question, and the only result will be the baffled reply:
 <p>
-<p><blockquote><font color="#000080">The prism, button and lever are fixed in place.</font></blockquote>
+<p><blockquote><font color="#000080"><b>Problem.</b> In the line 'if 10 is a door then say &quot;Huzzah!&quot;' <img src=../Reveal.tif>, I can't determine whether or not '10 is a door', because it seems to ask if a number is some sort of door.</font></blockquote>
+<p>
+<p>This, however, would be fine:
+<p>
+<p><blockquote><font color="#000080">To comment upon (whatever - a thing): if whatever is transparent then say &quot;I see right through this!&quot;; if whatever is an open door then say &quot;Oh look, an open door!&quot;.</font></blockquote>
+<p>
+<p>since &quot;whatever&quot; is known to be a thing, and Inform knows that things are indeed sometimes transparent and sometimes open doors.
 <p>
 <p><hr><p><a href=doc116.html>Previous</a> / <a href=doc118.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

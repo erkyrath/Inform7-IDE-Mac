@@ -1,20 +1,18 @@
-<html><head><title>2.9. Three descriptions of things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc18.html><img src=../Back.tif></a><a href=doc20.html><img src=../Forward.tif></a></td><td><b>2.9. Three descriptions of things</b></td></tr></table><p>
+<html><head><title>3.2. Mapping</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc18.html><img src=../Back.tif></a><a href=doc20.html><img src=../Forward.tif></a></td><td><b>3.2. Mapping</b></td></tr></table><p>
 <p>
-<p>The player's first sight of something is the text used as its &quot;initial appearance&quot;:
+<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
 <p>
-<p><blockquote><font color="#000080">The plain ring is here. &quot;Cast aside, as if worthless, is a plain brass ring.&quot;</font></blockquote>
+<p>One of the map connections in the Mammoth Cave simulation was made by the sentence:
 <p>
-<p>This text appears as a separate paragraph in the text describing the Painted Room. It will continue to be used until the first time player picks the ring up (if this ever happens), so it normally describes things in their original, undisturbed context.
+<p><blockquote><font color="#000080">The Debris Room is west of the Crawl.</font></blockquote>
 <p>
-<p>Thus when a piece of text stands alone as a sentence in its own right, then this is either the &quot;description&quot; of the most recently discussed room, or the &quot;initial appearance&quot; of the most recently discussed thing. Either way, it is used verbatim as a paragraph in the text shown to the player visiting the room in question.
+<p>Besides reading this sentence at face value, Inform also deduced that the Crawl was probably meant to be east of the Debris Room: in other words, that the path between them is a two-way one. When Inform makes guesses like this, it treats them as being less certain than anything explicitly stated in the source. Inform will quietly overturn its assumption if information later comes to hand which shows that it was wrong. That might happen in this case if a later sentence read:
 <p>
-<p>But a thing also has an ordinary &quot;description&quot;, which is used to give a close-up look at it. This text is ordinarily only revealed to the player when a command like &quot;examine ring&quot; is keyed in:
+<p><blockquote><font color="#000080">The Hidden Alcove is east of the Debris Room.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The description of the plain ring is &quot;No better than the loops of metal the old women use for fastening curtains.&quot;</font></blockquote>
+<p>These two sentences are not contradictory: Inform allows them both, simply accepting that the world is more complicated than it first assumed. There are relatively few situations where Inform has to make educated guesses, but when it does, it tries always to follow Occam's Razor by constructing the simplest model world consistent with the information in the Source text.
 <p>
-<p>Lastly, a thing has an &quot;inventory listing&quot;, used in inventories. This is ordinarily much the same as its &quot;printed name&quot;, but can also be set to something else:
-<p>
-<p><blockquote><font color="#000080">The inventory listing of the plain ring is &quot;that worthless old ring&quot;.</font></blockquote>
+<p>Two more directions are provided by Inform: &quot;inside&quot; and &quot;outside&quot;. These are best used when one location is, say, a meadow and the other is a woodcutter's hut in the middle of it; we might then say &quot;Inside from the meadow is the woodcutter's hut&quot;. (The &quot;from&quot; is important, as it clarifies that we intend to link two different locations, not to create an item - the hut - in a single location - the meadow.)
 <p>
 <p><hr><p><a href=doc18.html>Previous</a> / <a href=doc20.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

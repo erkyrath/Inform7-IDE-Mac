@@ -1,24 +1,16 @@
-<html><head><title>4.16. Going by, going through, going with</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc58.html><img src=../Back.tif></a><a href=doc60.html><img src=../Forward.tif></a></td><td><b>4.16. Going by, going through, going with</b></td></tr></table><p>
+<html><head><title>6.4. Instead rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc58.html><img src=../Back.tif></a><a href=doc60.html><img src=../Forward.tif></a></td><td><b>6.4. Instead rules</b></td></tr></table><p>
 <p>
-<p>Adding to the previous example game, we apply rules which depend on travelling by a particular vehicle:
+<p>An action is ordinarily handled by running it through Inform's extensive rulebooks of what might be called normal behaviour. An action such as &quot;taking the napkin&quot;, for instance, will be run through numerous checks to see if it is physically reasonable, and then provided all is well, the napkin will be moved into the possession of the player.
 <p>
-<p><blockquote><font color="#000080">The book trolley is in the Musicology Section. &quot;The book trolley, a sort of motorised tractor for trundling around through the stacks, is parked here.&quot; The trolley is a vehicle. Instead of going nowhere by the trolley, say &quot;Don't go crashing the trolley into walls.&quot;</font></blockquote>
+<p>Instead, though, we can bypass that whole process and do something else:
 <p>
-<p><blockquote><font color="#000080">Instead of going to the Front Stacks by the trolley, say &quot;The Front Stacks are far too confined for the trolley to manoeuvre into them.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Instead of eating the napkin: say &quot;Why not wait for the actual dinner to arrive?&quot;</font></blockquote>
 <p>
-<p>And, lastly, rules which apply to movements through particular doors:
+<p>This is an example of a &quot;rule&quot;: a set of circumstances followed by a list of instructions. When those circumstances apply, the instructions are carried out. In the case of an &quot;instead&quot; rule, after this is done the action is immediately ended (and counts as a failure, since the original intention has been thwarted).
 <p>
-<p><blockquote><font color="#000080">The green baize door is east of the Catalogue Room and west of the Clerk's Office. The green baize door is an open door.</font></blockquote>
+<p>A friendly alternative can be used when there is only a single instruction, as here: in such rules the colon can be replaced with a comma. Thus:
 <p>
-<p><blockquote><font color="#000080">Before going through the green baize door, say &quot;Through you go...&quot; After going through the green baize door: try looking; say &quot;...and here you are.&quot;</font></blockquote>
-<p>
-<p>(Note that these apply whether the action is &quot;going east&quot; or &quot;entering the green baize door&quot;, each having the same effect.) The last rule is worth a second look: the normal way that a &quot;going&quot; action is reported is to produce the room description of the new location. So if an &quot;after&quot; rule stops the action before we get to reporting, we have to produce any room description by hand (hence the &quot;try looking&quot; to cause the looking action). Alternatively, we could simply say something and let the normal course of events take place:
-<p>
-<p><blockquote><font color="#000080">After going through the green baize door: say &quot;...and here you are:&quot;; continue the action.</font></blockquote>
-<p>
-<p>Finally, going is an action which can also happen while the player is pushing something from one room to another, and we can describe this like so:
-<p>
-<p><blockquote><font color="#000080">Instead of going from the Office with the trolley, say &quot;But it looks perfectly placed here. Why push any further?&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Instead of eating the napkin, say &quot;Why not wait for the actual dinner to arrive?&quot;</font></blockquote>
 <p>
 <p><hr><p><a href=doc58.html>Previous</a> / <a href=doc60.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

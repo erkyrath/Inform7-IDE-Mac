@@ -1,19 +1,20 @@
-<html><head><title>11.1. What are activities?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 11: Activities</h2><p><table><tr><td><a href=doc157.html><img src=../Back.tif></a><a href=doc159.html><img src=../Forward.tif></a></td><td><b>11.1. What are activities?</b></td></tr></table><p>
+<html><head><title>12.2. Named rules and rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc157.html><img src=../Back.tif></a><a href=doc159.html><img src=../Forward.tif></a></td><td><b>12.2. Named rules and rulebooks</b></td></tr></table><p>
 <p>
-<p>It is poor form to define with negatives, but the first thing to say about activities is that they are <i>not</i> actions. This needs saying because Inform often seems to treat them as if they are, by allowing us to write rules like so:
+<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns (usually visible on the &quot;status line&quot; displayed above the window of a game in progress) and advances the clock (usually not visible, but ticking away behind the scenes) by a given number of minutes.
 <p>
-<blockquote><font color="#000080">Before describing a woman, say &quot;Ms &quot;.
-</font></blockquote><p>
+<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
 <p>
-<p>With this rule in place, someone called &quot;Daphne&quot; will always be described as &quot;Ms Daphne&quot;, and so on. The language looks as if we were imposing a rule on an action called &quot;describing&quot;, but there is no such action: instead, it is an &quot;activity&quot;. To spell out the difference:
+<p><blockquote><font color="#000080">advance time = the advance time rule</font></blockquote>
 <p>
-<blockquote><font color="#000080">An action is a simulated task for the fictional protagonist.
-</font></blockquote><p>
+<p><blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence</font></blockquote>
 <p>
-<blockquote><font color="#000080">An activity is a real task for the computer program doing the simulation.
-</font></blockquote><p>
+<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
 <p>
-<p>Activities allow us to influence or change some of the standard habits of Inform, using rules as flexible and powerful as those applicable to actions.
+<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We will only seldom need to refer to them directly, in phrases like this one (of which more later):
+<p>
+<p><blockquote><font color="#000080">ignore the can't go through closed doors rule;</font></blockquote>
+<p>
+<p>...which are verbose, but this is a situation where clarity is very much better than brevity.
 <p>
 <p><hr><p><a href=doc157.html>Previous</a> / <a href=doc159.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

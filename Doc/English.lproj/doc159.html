@@ -1,31 +1,28 @@
-<html><head><title>11.2. How activities work</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc158.html><img src=../Back.tif></a><a href=doc160.html><img src=../Forward.tif></a></td><td><b>11.2. How activities work</b></td></tr></table><p>
+<html><head><title>12.3. New rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc158.html><img src=../Back.tif></a><a href=doc160.html><img src=../Forward.tif></a></td><td><b>12.3. New rules</b></td></tr></table><p>
 <p>
-<p>All activities start, continue for a while and then finish: however, no activity ever runs on for more than a single turn. Several activities can be going on at the same time. For instance, suppose the following is printed as part of the description of a grocery:
+<p>Returning to the apple blossom, and stretching a point seasonally,
 <p>
-<blockquote><font color="#000080">You can see a banana, an apple and a star-fruit here.
-</font></blockquote><p>
+<p><blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
 <p>
-<p>At the moment when Inform prints &quot;apple&quot;, two activities are under way: &quot;listing contents of the Grocery&quot;, and &quot;describing the apple&quot;. The sequence of events was in fact:
+<p>This rule is nameless. It needs no name because it will never need to be referred to: by identifying it as an every turn rule we have already said enough to lodge it in the &quot;every turn rules&quot; rulebook. In fact, though, it is easy to create a named rule:
 <p>
-<blockquote><font color="#000080">say &quot;You can see &quot;
-<br>start listing contents of the Grocery
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;a &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;start describing the banana
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;banana&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;finish describing the banana
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;, an &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;start describing the apple
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;apple&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;finish describing the apple
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; and a &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;start describing the star-fruit
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;star-fruit&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;finish describing the star-fruit
-<br>finish listing contents of the Grocery
-<br>say &quot; here.&quot;
-</font></blockquote><p>
+<p><blockquote><font color="#000080">This is the blossom rule: say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
 <p>
-<p>The golden rule is: if activity B starts during activity A, it must also finish during activity A.
+<p>The name of a rule must always end with the word &quot;rule&quot;, for clarity's sake. (The phrasing &quot;This is the ... rule&quot; is used because &quot;The ... rule&quot; would be open to misinterpretation.)
+<p>
+<p>The rule now exists, but belongs to no rulebook, and will never be applied unless explicitly invoked, or unless explicitly placed into a rulebook after all:
+<p>
+<p><blockquote><font color="#000080">The blossom rule is listed in the every turn rules.</font></blockquote>
+<p>
+<p>A single rule like this can be listed in any number of rulebooks, including none.
+<p>
+<p>Alternatively, it is possible to both name and list a rule in a single sentence:
+<p>
+<p><blockquote><font color="#000080">Every turn (this is the blossom rule): say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<p>
+<p>Where rules have been named, we are able (as promised) to have a say in what order they come in:
+<p>
+<p><blockquote><font color="#000080">The blossom rule is listed before the moving doorways rule in the every turn rules.</font></blockquote>
 <p>
 <p><hr><p><a href=doc158.html>Previous</a> / <a href=doc160.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

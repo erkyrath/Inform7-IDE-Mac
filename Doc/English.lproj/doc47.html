@@ -1,16 +1,22 @@
-<html><head><title>4.4. Instead rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc46.html><img src=../Back.tif></a><a href=doc48.html><img src=../Forward.tif></a></td><td><b>4.4. Instead rules</b></td></tr></table><p>
+<html><head><title>4.12. Conditions of things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc46.html><img src=../Back.tif></a><a href=doc48.html><img src=../Forward.tif></a></td><td><b>4.12. Conditions of things</b></td></tr></table><p>
 <p>
-<p>An action is ordinarily handled by running it through Inform's extensive rulebooks of what might be called normal behaviour. An action such as &quot;taking the napkin&quot;, for instance, will be run through numerous checks to see if it is physically reasonable, and then provided all is well, the napkin will be moved into the possession of the player.
+<p>We have already seen that the names for either/or properties can be used as adjectives, so that we can talk about &quot;a dark room&quot; (meaning: a room which has the dark property rather than the lighted property). The same goes for the named possibilities for a newly created kind of value:
 <p>
-<p>Instead, though, we can bypass that whole process and do something else:
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of eating the napkin: say &quot;Why not wait for the actual dinner to arrive?&quot;</font></blockquote>
+<p><blockquote><font color="#000080">In the playroom are a red building block and a green building block.</font></blockquote>
 <p>
-<p>This is an example of a &quot;rule&quot;: a set of circumstances followed by a list of instructions. When those circumstances apply, the instructions are carried out. In the case of an &quot;instead&quot; rule, after this is done the action is immediately ended (and counts as a failure, since the original intention has been thwarted).
+<p>Potentially, at least, &quot;colour&quot; is a widely applicable kind of value, and we already have two different things which have colour. But it often happens that we need adjectives to apply just to a single thing, and if so then a shorthand form is allowed:
 <p>
-<p>A friendly alternative can be used when there is only a single instruction, as here: in such rules the colon can be replaced with a comma. Thus:
+<p><blockquote><font color="#000080">The cask is either customs sealed, liable to tax or stolen goods.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of eating the napkin, say &quot;Why not wait for the actual dinner to arrive?&quot;</font></blockquote>
+<p>Inform deals with this by creating a new kind of value, whose possibilities are the named options supplied, and then giving the named object a property whose value has to be one of the possibilities. Initially the cask will be &quot;customs sealed&quot;, as that was the first value in the list. We could now write, for instance,
+<p>
+<p><blockquote><font color="#000080">The description of the cask is &quot;A well-caulked Spanish wine cask. [if liable to tax]It really is a shame to have to pay duty on it!&quot;</font></blockquote>
+<p>
+<p>We will often not need to know this, but the kind of value and the property are both automatically given the name of the object with the word &quot;condition&quot; tacked on: so in this case &quot;cask condition&quot;. For instance, we could write:
+<p>
+<p><blockquote><font color="#000080">The printed name of the cask is &quot;wine cask ([cask condition])&quot;.</font></blockquote>
 <p>
 <p><hr><p><a href=doc46.html>Previous</a> / <a href=doc48.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

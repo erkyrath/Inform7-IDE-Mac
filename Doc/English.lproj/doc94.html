@@ -1,10 +1,18 @@
-<html><head><title>6.10. Approximate times, lengths of time</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc93.html><img src=../Back.tif></a><a href=doc95.html><img src=../Forward.tif></a></td><td><b>6.10. Approximate times, lengths of time</b></td></tr></table><p>
+<html><head><title>7.16. Testing</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc93.html><img src=../Back.tif></a><a href=doc95.html><img src=../Forward.tif></a></td><td><b>7.16. Testing</b></td></tr></table><p>
 <p>
-<p>Clocks and watches vary considerably in how much detail they show, and we tend not to report the time over-precisely: half-past ten is an elastic concept. The following room description for the Clock Chamber comes across much more naturally:
+<p>Inform provides a convenient shorthand for testing. Most works of interactive fiction contain numerous vignettes, either in terms of short scenes of narrative, or in the behaviour of particular things or rooms. This means we often need to test little pieces of the whole; on the other hand, we also want a way to test the entire thing right through. And it is all too easy to lose track of the solution while working out the design.
 <p>
-<p><blockquote><font color="#000080">The Clock Chamber is a room. &quot;The dark chamber behind the clock face, a mill-room of gears which grind down the seconds. Through the glass you can see the reversed hands reading [the time of day to the nearest five minutes in words].&quot;</font></blockquote>
+<p>Solutions or sequences for testing (&quot;scripts&quot;) can be defined with sentences like so:
 <p>
-<p>The phrase &quot;... to the nearest ...&quot; rounds off the given time, just as it sounds. For instance, &quot;9:58 PM to the nearest ten minutes&quot; is 10:00 PM. As this shows, we can also quote lengths of time, not just times of day: for instance &quot;7 hours&quot;, &quot;one hour 14 minutes&quot;, or &quot;90 minutes&quot; all validly describe durations. We never (ordinarily) deal in periods of time longer than a single day.
+<p><blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot;.</font></blockquote>
+<p>
+<p>This has no effect on the design itself, but ensures that when the game is played, typing &quot;test balloon&quot; will run through the given three commands in sequence, as if we had typed &quot;get balloon&quot; and then &quot;blow balloon&quot; and then &quot;drop balloon&quot;.
+<p>
+<p>The name for the test (balloon in this example) has to be a single word. Typing just &quot;test&quot; at the game prompt gives a list of all the test scripts known to the game. Test scripts can make use of each other, for instance:
+<p>
+<p><blockquote><font color="#000080">Test all with &quot;test balloon / test door&quot;.</font></blockquote>
+<p>
+<p>One convenient way to keep track of the solution for a work being written is to include a test script at the end of each section, and to place a master test script (like &quot;test all&quot;) at the top of the source. But different designers will prefer different approaches, and this testing system is no more than an optional convenience.
 <p>
 <p><hr><p><a href=doc93.html>Previous</a> / <a href=doc95.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

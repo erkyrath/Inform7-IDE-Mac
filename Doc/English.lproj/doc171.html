@@ -1,29 +1,19 @@
-<html><head><title>12.6. Version numbering</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc170.html><img src=../Back.tif></a><a href=doc172.html><img src=../Forward.tif></a></td><td><b>12.6. Version numbering</b></td></tr></table><p>
+<html><head><title>13.1. What are activities?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 13: Activities</h2><p><table><tr><td><a href=doc170.html><img src=../Back.tif></a><a href=doc172.html><img src=../Forward.tif></a></td><td><b>13.1. What are activities?</b></td></tr></table><p>
 <p>
-<p>As we have seen, extensions are referred to by name and author, but they can also (optionally) be referred to by version. For instance:
+<p>It is poor form to define with negatives, but the first thing to say about activities is that they are <i>not</i> actions. This needs saying because Inform often seems to treat them as if they are, by allowing us to write rules like so:
 <p>
-<p><blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Version 1/040426 of the Ducking Action by Graham Nelson begins here.</font></blockquote>
-<p>
-<p>A version number must be a whole number 1, 2, ... (version 0 is not allowed, and nor are decimal points), optionally followed by a slash '/' and then a six-figure date, in the form YYMMDD: so 040426 means 26 April 2004.
-<p>
-<p>A request to include version 2 of something implicitly means &quot;version 2 or later&quot;, and similarly &quot;version 2/040426&quot; means version 2 with a date of 26 April 2004 or later, or else any version higher than 2. If Inform loads the extension but finds that its version is not good enough, an error is issued.
-<p>
-<p>Where no version number is quoted, the rule is that an unspecified version predates any numbered version. This means that the line
-<p>
-<p><blockquote><font color="#000080">Include the Ducking Action by Graham Nelson.</font></blockquote>
-<p>
-<p>will be happy with any version of the extension at all, whether numbered or not; but
-<p>
-<p><blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.</font></blockquote>
-<p>
-<p>will only accept the extension if it has a version number attached (and with that number being 2 or higher).
-<p>
-<p>During play of any game compiled by Inform 7, typing &quot;version&quot; lists various serial numbers of the pieces of software used to make it. The list concludes with names, authors and version numbers of any extensions used. So every author whose work contributes to a game automatically gets a modest credit within it. The same list can be printed, at the discretion of the designer, using the textual substitution:
-<p>
-<blockquote><font color="#000080">say &quot;[list of extension credits]&quot;
+<blockquote><font color="#000080">Before printing the name of a woman, say &quot;Ms &quot;.
 </font></blockquote><p>
+<p>
+<p>With this rule in place, someone called &quot;Daphne&quot; will always be described as &quot;Ms Daphne&quot;, and so on. The language looks as if we were imposing a rule on an action called &quot;printing the name of&quot;, but there is no such action: instead, it is an &quot;activity&quot;. To spell out the difference:
+<p>
+<blockquote><font color="#000080">An action is a simulated task for the fictional protagonist.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">An activity is a real task for the computer program doing the simulation.
+</font></blockquote><p>
+<p>
+<p>Activities allow us to influence or change some of the standard habits of Inform, using rules as flexible and powerful as those applicable to actions.
 <p>
 <p><hr><p><a href=doc170.html>Previous</a> / <a href=doc172.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,16 +1,20 @@
-<html><head><title>2.17. The player's holdall</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc26.html><img src=../Back.tif></a><a href=doc28.html><img src=../Forward.tif></a></td><td><b>2.17. The player's holdall</b></td></tr></table><p>
+<html><head><title>3.10. Doors</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc26.html><img src=../Back.tif></a><a href=doc28.html><img src=../Forward.tif></a></td><td><b>3.10. Doors</b></td></tr></table><p>
 <p>
-<p>When the player has only limited carrying capacity, game play is likely to be tiresome, but we can make life easier by providing a way for the player to carry endless items without dozens of free hands to hold them all:
+<p>The map of an interactive fiction is the layout of rooms and the entrances and exits which connect them. So far, these map connections have always run from one room to another, like so:
 <p>
-<p><blockquote><font color="#000080">&quot;Sackcloth&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The Painted Room is north of the Undertomb.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Attic is a room. The old blue rucksack is an initially carried wearable player's holdall.</font></blockquote>
+<p>However, we can also interpose doors between rooms, like so:
 <p>
-<p><blockquote><font color="#000080">The carrying capacity of the player is 3.</font></blockquote>
+<p><blockquote><font color="#000080">The red rock stair is east of the Orchard and above the Undertomb. The stair is an open door.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">In the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt's remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.</font></blockquote>
+<p>The second sentence is needed since otherwise Inform will take &quot;red rock stair&quot; to be the name of a third room, whereas what we want is for the stair to be something physically present in both the Orchard and in the Undertomb, and acting as a conduit between them. To this end it needs to be a &quot;door&quot;, a kind we have not so far seen. In the absence of any other instruction, a newly created door will be fixed in place, closed and openable. Fixed in place is certainly right here, but not closed, which is why we specified that it should be &quot;open&quot;.
 <p>
-<p>This example game introduces a new kind of container, the &quot;player's holdall&quot;. This is a kind of which most games will contain at most one example, but in principle there can be any number. A player's holdall is a capacious bag into which the player automatically places surplus items whenever his or her hands are full: trying the above example game and getting the items one by one will give the general idea. Of course, if the carrying capacity of the player is never reached then there will never be any surplus items and a player's holdall will behave just like any other (portable, usually openable) container.
+<p>In real life, most doors are two-sided, and can be used from either of the rooms which they join, but this is not always convenient for interactive fiction. Here is a one-sided door:
+<p>
+<p><blockquote><font color="#000080">The blue door is a door. It is south of Notting Hill. Through it is the Flat Landing.</font></blockquote>
+<p>
+<p>(Note the use of &quot;it&quot; here as an optional abbreviation.) This will make a door visible only on the Notting Hill side; no map connection will be made in the reverse direction, unless we ask for one.
 <p>
 <p><hr><p><a href=doc26.html>Previous</a> / <a href=doc28.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

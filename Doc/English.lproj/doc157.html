@@ -1,18 +1,10 @@
-<html><head><title>10.14. First and last rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc156.html><img src=../Back.tif></a><a href=doc158.html><img src=../Forward.tif></a></td><td><b>10.14. First and last rules</b></td></tr></table><p>
+<html><head><title>12.1. On rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 12: Rules</h2><p><table><tr><td><a href=doc156.html><img src=../Back.tif></a><a href=doc158.html><img src=../Forward.tif></a></td><td><b>12.1. On rules</b></td></tr></table><p>
 <p>
-<p>This is the final technicality on rulebooks. Rulebooks are, as we have seen, automatically sorted in order of how specific the conditions for invoking the relevant rules are, so that for instance
+<p>We have seen that actions, the great sluice of change in the simulated world, work their way through a great mass of rules, each applying in a different circumstance. The chapter on actions vaguely described these rules as belonging to different &quot;rulebooks&quot;: for instance, the &quot;instead rules&quot; or the &quot;carry out dropping rules&quot;.
 <p>
-<p><blockquote><font color="#000080">Instead of taking a container, ...</font></blockquote>
+<p>Inform is largely a rule-based system, and this extends beyond actions to other considerations, too. The &quot;every turn&quot; rules, for instance, form another rulebook but which has nothing to do with actions as such.
 <p>
-<p>will always come before
-<p>
-<p><blockquote><font color="#000080">Instead of taking something, ...</font></blockquote>
-<p>
-<p>Sometimes, though, and especially with rulebooks where there is no particular ordering because conditions are usually not attached anyway (for instance, with &quot;every turn&quot; rules), it is useful to be certain that a particular rule comes first or last: especially if there is some housekeeping to do. For instance, the &quot;turn sequence&quot; rulebook, which is used behind the scenes to organise what happens at the end of each turn, has a crucial piece of housekeeping to do in order to maintain the consistency of the world model: it has to find out if the player's location has been plunged into darkness or, conversely, has been lit up since the last turn. It is essential that this happens last of all so that the situation cannot change again before the next time the player types at the keyboard.
-<p>
-<p>Each rulebook, then, can have two special rules, the designated &quot;first&quot; rule and the designated &quot;last&quot; rule. These, if defined, have no individual names, so that nobody can displace them from their positions or meddle with them: they belong to whoever created the rulebook.
-<p>
-<p><blockquote><font color="#000080">The last appraisal rule: say &quot;The Speak-Your-Progress machine sputters to a halt. You decide not to take this as a comment on your recent performance.&quot;</font></blockquote>
+<p>This chapter goes into how rules and rulebooks work in much more detail, and we shall also see how to create not just new rules but new rulebooks.
 <p>
 <p><hr><p><a href=doc156.html>Previous</a> / <a href=doc158.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

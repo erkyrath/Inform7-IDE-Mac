@@ -1,28 +1,28 @@
-<html><head><title>12.14. Making new assertion sentences</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc178.html><img src=../Back.tif></a><a href=doc180.html><img src=../Forward.tif></a></td><td><b>12.14. Making new assertion sentences</b></td></tr></table><p>
+<html><head><title>13.9. Listing nondescript items of something</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc178.html><img src=../Back.tif></a><a href=doc180.html><img src=../Forward.tif></a></td><td><b>13.9. Listing nondescript items of something</b></td></tr></table><p>
 <p>
-<p>The following feature is best used sparingly if at all. We have already seen that the following sentences are equivalent:
+<p><b>1. When it happens.</b> This activity prints up the also-ran paragraph at the end of a room description. These are nondescript items because they don't merit paragraphs of their own: if, as sometimes happens, there are none in the room, then no such paragraph is printed and this activity does not happen. (So to add a further paragraph to a room description, a simpler &quot;after looking&quot; rule should be used, not an &quot;after listing nondescript items&quot; rule.)
 <p>
-<p><blockquote><font color="#000080">The matching key of the blue door is the brass key.</font></blockquote>
+<p><b>2. The default behaviour.</b> The paragraph ordinarily reads as &quot;You can also see a cask and a clock.&quot; or similar. Before the activity begins, those objects which are nondescript - in this case the cask and the clock - are given the property of being &quot;marked for listing&quot;. If it turns out that nothing is marked for listing, because of before rules like the one in the example below, then nothing is printed.
 <p>
-<p><blockquote><font color="#000080">The brass key unlocks the blue door.</font></blockquote>
+<p><b>3. Examples.</b> (a) Promoting something out of the nondescript category, by unmarking it.
 <p>
-<p>This comes about because the Standard Rules include the following line:
+<blockquote><font color="#000080">Before listing nondescript items:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the watch is marked for listing begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The watch catches your eye.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the watch to not marked for listing;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">X unlocks Y means that the matching key of Y is X.</font></blockquote>
+<p>(b) Changing the normal phrasing of the paragraph. Note that we can also change the listing style; the one below is the default.
 <p>
-<p>We can make definitions like this at any point, but had better do so with some care and forethought. They make it possible to talk very elegantly about things belonging to new kinds, but the potential for havoc is considerable if they take effect in an unintended context. Up to four different variables are allowed, but must be called W, X, Y or Z for clarity: and note that they can be matched by empty text. Similarly, Inform also defines
-<p>
-<p><blockquote><font color="#000080">Above means up from. Below means down from.</font></blockquote>
-<p>
-<p>This tells Inform to transform &quot;above&quot; into &quot;up from&quot; whenever it occurs in an assertion, and similarly for &quot;below&quot;. Thus
-<p>
-<p><blockquote><font color="#000080">The Skylight is above the Conservatory.</font></blockquote>
-<p>
-<p>is transformed to
-<p>
-<p><blockquote><font color="#000080">The Skylight is up from the Conservatory.</font></blockquote>
-<p>
-<p>Notice that &quot;means that&quot; applies a change only to an entire sentence, whereas &quot;means&quot; applies to smaller pieces of text. Because of this, &quot;means&quot; has to be used with even more care.
+<blockquote><font color="#000080">Rule for listing nondescript items of the Distressingly Messy Room:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Strewn carelessly on the floor&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;list the contents of the Distressingly Messy Room, as a sentence,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tersely, listing marked items only, prefacing with is/are,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;including contents and giving brief inventory
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;information;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc178.html>Previous</a> / <a href=doc180.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

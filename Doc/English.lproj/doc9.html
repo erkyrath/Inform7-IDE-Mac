@@ -1,24 +1,12 @@
-<html><head><title>1.9. Why using headings is a good idea</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc8.html><img src=../Back.tif></a><a href=doc10.html><img src=../Forward.tif></a></td><td><b>1.9. Why using headings is a good idea</b></td></tr></table><p>
+<html><head><title>2.1. Assertions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 2: Basics</h2><p><table><tr><td><a href=doc8.html><img src=../Back.tif></a><a href=doc10.html><img src=../Forward.tif></a></td><td><b>2.1. Assertions</b></td></tr></table><p>
 <p>
-<p>Reports of problems, as we have seen, often quote back the source to justify themselves. Rather than quoting line numbers (&quot;Midsummer Day, line 2017&quot; or something similar) Inform uses the <img src=../Reveal.tif> icon. The down side of this is that a glance at the list of problems might give little hint of whereabouts in the source the difficulties lie. Inform therefore makes use of headings to give a general indication:
+<p>Designing an interactive fiction can be divided into two related activities. One is the creation of the world as it appears at the start of play: where and what everything is, and how the different locations connect together. Given this alone, Inform would create nothing more than a simulation: the player will be able to explore, move things around and carry out a limited number of mundane tasks (unlocking doors, say, or switching on lights) but nothing surprising will happen. No lost keys will be found in the bellies of fish, nor will anything spontaneous happen. The second aspect of design, then, will be describing the unusual things which happen: the rules of play which liven things up.
 <p>
-<p><blockquote><font color="#000080">In Part the First, Chapter 1 - Attic Area:</font></blockquote>
+<p>The same division into two is visible in Inform source text. Some of the sentences make unconditional factual statements about the world: for example,
 <p>
-<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'South of the Attic is the Winery' <img src=../Reveal.tif>, but in another sentence 'South of the Attic is the Old Furniture' <img src=../Reveal.tif>: this looks like a contradiction, which might be because I have misunderstood what was meant to be the subject of one or both of those sentences.</font></blockquote>
+<p><blockquote><font color="#000080">The wood-slatted crate is in the Gazebo. The crate is a container.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">In Chapter 2 - Deeper In:</font></blockquote>
-<p>
-<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'The Disused Observatory is south of the Dark Room' <img src=../Reveal.tif>, but in another sentence 'South of the Dark Room is the Cupboard' <img src=../Reveal.tif>: again, this looks like a contradiction.</font></blockquote>
-<p>
-<p>Secondly, headings are used in the Contents tab of the Index, and are also displayed in the Inspector window of the Mac OS X Inform application: in both cases they allow rapid navigation through the source, by jumping to any heading or subheading with a single click.
-<p>
-<p>Finally, but in the long run most importantly of all, headings are used when working out what a name refers to. Suppose the source contains both a &quot;four-poster bed&quot; and also a &quot;camp bed&quot;, and we write something like &quot;The pillow is on the bed.&quot; Inform decides which bed is meant by giving priority to whichever is defined in the current section, or failing that the current chapter, or current part, or current book, or finally the current volume. This allows us to write, for instance,
-<p>
-<p><blockquote><font color="#000080">The four-poster bed is in the Boudoir. The pillow is on the bed.</font></blockquote>
-<p>
-<p>and not have the pillow mysteriously turn up on the camp bed, which hasn't been mentioned since way back in Chapter 2.
-<p>
-<p>This completes the groundwork, and we are ready to begin on simulating a world to explore.
+<p>Inform calls sentences like this one &quot;assertions&quot;. The verb is almost always &quot;is&quot; (or &quot;are&quot;), written in the present tense. The world described is the starting condition of the game: what happens when play begins is another matter. The crate will always be a container, but if somebody picks it up and walks off with it then it will no longer be in the Gazebo.
 <p>
 <p><hr><p><a href=doc8.html>Previous</a> / <a href=doc10.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

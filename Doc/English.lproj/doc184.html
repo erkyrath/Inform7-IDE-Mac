@@ -1,14 +1,18 @@
-<html><head><title>12.19. The return context</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc183.html><img src=../Back.tif></a><a href=doc185.html><img src=../Forward.tif></a></td><td><b>12.19. The return context</b></td></tr></table><p>
+<html><head><title>13.14. Printing the player's obituary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc183.html><img src=../Back.tif></a><a href=doc185.html><img src=../Forward.tif></a></td><td><b>13.14. Printing the player's obituary</b></td></tr></table><p>
 <p>
-<p>I7 has a number of conceptually different ways to define code - as phrases which are not compiled inline, as phrases to decide conditions, as rules and so on. All these are compiled to I6 routines, and return values have different meanings in the different cases. For type-checking reasons, I7 needs to detect when a return might occur in order to make sure that a condition does not end with the wrong kind of result, and so on.
+<p><b>1. When it happens.</b> The obituary is the text &quot;*** You have died ***&quot; or similar, usually followed by the final score.
 <p>
-<p>Inline phrases which cause a return should declare what happens like so:
+<p><b>2. The default behaviour.</b> Printing the aforementioned text, then the final score, and reducing the status line to a largely blank state.
 <p>
-<p><blockquote><font color="#000080">To stop the action: (- rtrue; -) - outcome.</font></blockquote>
+<p><b>3. Examples.</b> (a) For a work with no meaningful score, it would be odd to wind up with a final reckoning of 0, so:
 <p>
-<p>&quot;Outcome&quot;, used for rules, is one of four possibilities. The others are &quot;void&quot; (a return with no value), &quot;value&quot; (with a value) or &quot;condition&quot; (used to signal a result of a phrase to decide whether something is true). Thus the phrases &quot;yes&quot; and &quot;stop the action&quot; have the same definition, but a different context:
+<blockquote><font color="#000080">Procedural rule: ignore the print final score rule.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">To yes: (- rtrue; -) - condition.</font></blockquote>
+<p>(b) Or we could add to the verdict:
+<p>
+<blockquote><font color="#000080">After printing the player's obituary: say &quot;And you visited [number of visited rooms] place[s].&quot;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc183.html>Previous</a> / <a href=doc185.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

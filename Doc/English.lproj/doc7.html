@@ -1,13 +1,12 @@
-<html><head><title>1.7. Problems</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc6.html><img src=../Back.tif></a><a href=doc8.html><img src=../Forward.tif></a></td><td><b>1.7. Problems</b></td></tr></table><p>
+<html><head><title>1.7. The Skein</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc6.html><img src=../Back.tif></a><a href=doc8.html><img src=../Forward.tif></a></td><td><b>1.7. The Skein</b></td></tr></table><p>
 <p>
-<p>The language used in the source reads as if it were English aimed at a human reader (and this is intentional: the designer, after all, is a human reader and needs to be able to understand his or her own source), but in reality Inform can only understand a very modest range of sentences and will complain if its limits are passed. Subtler problems arise if the source contains contradictions. For instance, the following &quot;Problem&quot; might be produced:
+<p>The Replay button demonstrates that Inform must be quietly remembering the commands typed into the last run through the game. In fact it remembers, and automatically organises, <i>every</i> previous run.
 <p>
-<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'A starting pistol is in the cup' <img src=../Reveal.tif>, but in another sentence 'A Panama hat is on the cup' <img src=../Reveal.tif>: the trophy cup cannot both contain things and support things, which is what you're implying here. If you need both, the easiest way is to make it either a supporter with a container attached or vice versa. For instance: 'A desk is here. On the desk is a newspaper. An openable container called the drawer is part of the desk. In the drawer is a stapler.'</font></blockquote>
+<p>Inform's approach to testing interactive fiction is to treat it as being like the analysis of other turn-based games, such as chess. It would be prohibitively difficult to work out every possible combination of moves: instead, we analyse those which go somewhere, and look for significant choices. Every Queen's Gambit begins with the same first three moves (1. d4, d5; 2. c4), but then there is a choice, as the next move decides whether we have a Queen's Gambit Accepted (dxc4) or Declined (e6). Books about chess often contain great tables of such openings, which run together for a while but eventually diverge. To learn chess, one must explore all of these variations.
+<p><p><img src=skein2.png><p>
+<p>Inform's Skein panel is just such a table, built automatically. If we think of the list of typed commands as a thread, then the skein is (as the name suggests) braided together from all these threads. In the display, time begins at the top, with the <b>start</b> knot, and the threads of different games hang downwards from it.
 <p>
-<p>This is a rather discursive error message, and a similar problem were to occur in the same run through, it would be curtailed to:
-<p>
-<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'A firing pistol is in the box' <img src=../Reveal.tif>, but in another sentence 'A fedora hat is on the box' <img src=../Reveal.tif>: again, the croquet box cannot both contain things and support things.</font></blockquote>
-<p>
+<p>Clicking on a command in the skein selects it. Double-clicking translates the source afresh and replays the game from <b>start</b> down to that command, and then stops. We are then free to continue play by typing commands into the Game panel, of course, and these commands will automatically be recorded in the Skein as a new variation of play, diverging from the previous threads.
 <p>
 <p><hr><p><a href=doc6.html>Previous</a> / <a href=doc8.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

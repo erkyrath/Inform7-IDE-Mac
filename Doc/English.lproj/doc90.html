@@ -1,22 +1,18 @@
-<html><head><title>6.6. Every turn</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc89.html><img src=../Back.tif></a><a href=doc91.html><img src=../Forward.tif></a></td><td><b>6.6. Every turn</b></td></tr></table><p>
+<html><head><title>7.12. Calling names</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc89.html><img src=../Back.tif></a><a href=doc91.html><img src=../Forward.tif></a></td><td><b>7.12. Calling names</b></td></tr></table><p>
 <p>
-<p>The passage of time in interactive fiction is broken up into a succession of turns, in each of which the player types a request and is given a response. Usually each such request triggers one action, but sometimes a whole sequence are fired off, as when the player types &quot;get all&quot; in a cluttered room.
+<p>Conditions like &quot;if a woman is holding an animal&quot; allow complicated tests to be performed with a minimum of fuss, but it's rare that we want to know only whether they are true: more likely we also want to know <i>which</i> woman, and <i>which</i> animal.
 <p>
-<p>One of the last things to happen in each turn is that Inform will apply any rules which have been set to occur &quot;every turn&quot;, like so:
+<p>For this purpose, we are allowed to supply a name for any such vaguely-described object which comes up, and then to use that name thereafter. For instance:
 <p>
-<p><blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<blockquote><font color="#000080">Instead of waiting when a woman (called the kidnapper) is holding an animal (called the pet), say &quot;How can you think of rest when, somewhere out there, [pet] has been cruelly kidnapped by [the kidnapper]?&quot;
+</font></blockquote><p>
 <p>
-<p>This is equivalent to writing:
+<p>Note the brackets, which are essential. The rest of typing &quot;wait&quot; is then
 <p>
-<p><blockquote><font color="#000080">An every turn rule: say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<blockquote><font color="#000080">How can you think of rest when, somewhere out there, a lapdog has been cruelly kidnapped by Baroness Orczy?
+</font></blockquote><p>
 <p>
-<p>Note that the text about blossom, which will quickly become tiresome, is said at the end of every turn, not at the beginning, and in particular not before the player's first opportunity to type a command.
-<p>
-<p>As usual when defining rules, we can add stipulations:
-<p>
-<p><blockquote><font color="#000080">Every turn in the Orchard, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Every turn in the presence of the rotting fish, say &quot;Your nose twitches involuntarily.&quot;</font></blockquote>
+<p>Of course, that might be just one of many animals held by women in the game. We shall later see ways to go through all of the possibilities found, performing some action with each in turn.
 <p>
 <p><hr><p><a href=doc89.html>Previous</a> / <a href=doc91.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,36 +1,30 @@
-<html><head><title>4.5. Before rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc47.html><img src=../Back.tif></a><a href=doc49.html><img src=../Forward.tif></a></td><td><b>4.5. Before rules</b></td></tr></table><p>
+<html><head><title>4.13. Values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc47.html><img src=../Back.tif></a><a href=doc49.html><img src=../Forward.tif></a></td><td><b>4.13. Values that vary</b></td></tr></table><p>
 <p>
-<p>Despite what was said in the previous section, instead rules do not quite bypass all of the usual rules. Inform knows that certain actions require light: for instance,
+<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
 <p>
-<p><blockquote><font color="#000080">examining the napkin; looking; looking under the dining table</font></blockquote>
+<p><blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.</font></blockquote>
 <p>
-<p>and if it is dark then none of these actions will be allowed, and any instead rules about them will not even be reached. Similarly, Inform knows that most actions require physical access to their objects: so &quot;taking the napkin&quot; would be blocked if the napkin were, say, inside a closed glass bottle, whereas &quot;examining the napkin&quot; would not. So an instead rule can only take effect if the action has already passed these basic reasonability tests.
+<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
 <p>
-<p>&quot;Before&quot; rules genuinely precede checking of any kind. They also differ from instead rules in that they do not automatically stop the action in its tracks. Rather, they are provided as an opportunity to ensure that something else is done first. For example:
+<p><blockquote><font color="#000080">The target is a number variable. The target is 23.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.</font></blockquote>
+<p>In fact, we have seen a value that varies already: &quot;location&quot;, which holds the room in which the game is presently taking place.
 <p>
-<p>whence
+<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
 <p>
-<p><blockquote><font color="#000080">&gt;GET NAPKIN<br>(first unfolding its delicate origami swan)<br>Taken.</font></blockquote>
+<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
 <p>
-<p>We have seen that instead rules automatically stop actions, whereas before rules automatically allow them to continue. We sometimes want to change this. The magic word &quot;instead&quot; can therefore be tacked on to any instruction in a before rule, and will have the effect of immediately stopping the action at that instruction. Thus the following two rules are (almost) equivalent:
+<p><blockquote><font color="#000080">The receptacle is a container that varies.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Before removing the key, instead say &quot;It seems to be soldered to the keyhole.&quot;</font></blockquote>
+<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
 <p>
-<p><blockquote><font color="#000080">Instead of removing the key, say &quot;It seems to be soldered to the keyhole.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.</font></blockquote>
 <p>
-<p>Two special phrases can also be used: &quot;stop the action&quot; and &quot;continue the action&quot;. Yet a third way to achieve the same effect, then, would be:
+<p>without ever having defined any colours. Something else we are not permitted is:
 <p>
-<p><blockquote><font color="#000080">Before removing the key: say &quot;It seems to be soldered to the keyhole.&quot;; stop the action.</font></blockquote>
+<p><blockquote><font color="#000080">The receptacle is an open container that varies.</font></blockquote>
 <p>
-<p>And to round off the discussion, these are also (almost) equivalent:
-<p>
-<p><blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Instead of taking the napkin: say &quot;(first unfolding its delicate origami swan)&quot;; continue the action.</font></blockquote>
-<p>
-<p>As a general principle, it is good style to use instead rules whenever blocking actions, and before rules only when it is genuinely necessary to do something first but then to continue: in fact, it is good style to use &quot;stop the action&quot; or &quot;continue the action&quot; as little as possible.
+<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
 <p>
 <p><hr><p><a href=doc47.html>Previous</a> / <a href=doc49.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

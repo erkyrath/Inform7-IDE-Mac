@@ -1,16 +1,22 @@
-<html><head><title>5.17. Stipulations on testing</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc82.html><img src=../Back.tif></a><a href=doc84.html><img src=../Forward.tif></a></td><td><b>5.17. Stipulations on testing</b></td></tr></table><p>
+<html><head><title>7.5. Change of properties with values</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc82.html><img src=../Back.tif></a><a href=doc84.html><img src=../Forward.tif></a></td><td><b>7.5. Change of properties with values</b></td></tr></table><p>
 <p>
-<p>Many tests will only be sensible in given places, which may be hard to reach from the initial position; or with the aid of given things, which may be difficult to obtain. We are therefore allowed to add stipulations to test scripts:
+<p>Changing properties with values is very similar:
 <p>
-<p><blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot; holding the balloon.</font></blockquote>
+<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
 <p>
-<p>The &quot;... holding the balloon&quot; means that the balloon will be transferred to the player's ownership immediately before the test script is run, unless it is already held. Similarly:
+<p>Inform checks three different things to ensure that this change is safe to perform. Firstly, the value must be the right kind for the property in question, so this for instance would be rejected:
 <p>
-<p><blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen.</font></blockquote>
+<p><blockquote><font color="#000080">change the printed name of the Closet to 7</font></blockquote>
 <p>
-<p>Or we might want to say both:
+<p>Secondly, the object in question has to be allowed to have the given property. This, for instance, would be disallowed:
 <p>
-<p><blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen holding the jam.</font></blockquote>
+<p><blockquote><font color="#000080">change the initial appearance of the Closet to &quot;Dusty&quot;</font></blockquote>
+<p>
+<p>(since &quot;initial appearance&quot; is a property which only things can have, not rooms). Finally, the object has to actually have the property, not just have the right to have that property. Thus:
+<p>
+<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
+<p>
+<p>...is only permitted if the Closet is designed with a &quot;printed name&quot;. In fact this is certain to be true: all rooms and things automatically have a printed name, which is the short boldface description in the case of rooms, and the usual text briefly describing something in the case of things.
 <p>
 <p><hr><p><a href=doc82.html>Previous</a> / <a href=doc84.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

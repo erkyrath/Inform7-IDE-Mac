@@ -1,24 +1,32 @@
-<html><head><title>7.15. Arithmetic on new kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc115.html><img src=../Back.tif></a><a href=doc117.html><img src=../Forward.tif></a></td><td><b>7.15. Arithmetic on new kinds of value</b></td></tr></table><p>
+<html><head><title>9.3. Pattern matching</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc115.html><img src=../Back.tif></a><a href=doc117.html><img src=../Forward.tif></a></td><td><b>9.3. Pattern matching</b></td></tr></table><p>
 <p>
-<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
+<p>The following are all valid phrases:
 <p>
-<p><blockquote><font color="#000080">change the score to the score + 4</font></blockquote>
+<p><blockquote><font color="#000080">award 2 points<br>award 8 points<br>award 30 points</font></blockquote>
 <p>
-<p>In Inform, &quot;+&quot; is a phrase like any other. Its definition behind the scenes begins:
+<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
 <p>
-<p><blockquote><font color="#000080">To decide which number is (X - number) + (Y - number): ...</font></blockquote>
+<p><blockquote><font color="#000080">To award (some - a number) points: ...</font></blockquote>
 <p>
-<p>Thus Inform will only recognise &quot;+&quot; as valid if it applies to two numbers, which is as it should be. We cannot normally apply &quot;+&quot; to values like these:
+<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.</font></blockquote>
+<p><blockquote><font color="#000080">award &quot;blue cheese&quot; points;</font></blockquote>
 <p>
-<p>However, we do automatically have two ways to make new colours from old:
+<p>which results in the following error:
 <p>
-<p><blockquote><font color="#000080">the colour after C<br>the colour before C</font></blockquote>
+<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.</font></blockquote>
 <p>
-<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
+<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
 <p>
-<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not.
+<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
+<p>
+<p><blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.</font></blockquote>
+<p>
+<p>Which would not match, for instance, this:
+<p>
+<p><blockquote><font color="#000080">slam shut the black door;</font></blockquote>
+<p>
+<p>because the black door is not an open container.
 <p>
 <p><hr><p><a href=doc115.html>Previous</a> / <a href=doc117.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

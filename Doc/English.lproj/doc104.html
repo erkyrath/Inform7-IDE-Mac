@@ -1,32 +1,23 @@
-<html><head><title>7.3. Pattern matching</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc103.html><img src=../Back.tif></a><a href=doc105.html><img src=../Forward.tif></a></td><td><b>7.3. Pattern matching</b></td></tr></table><p>
+<html><head><title>8.8. The time of day</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc103.html><img src=../Back.tif></a><a href=doc105.html><img src=../Forward.tif></a></td><td><b>8.8. The time of day</b></td></tr></table><p>
 <p>
-<p>The following are all valid phrases:
+<p>Inform keeps track of the time of day automatically: play ordinarily begins at 9 AM and each turn takes one minute. In some works of interactive fiction, time of day is crucial: in others, it is irrelevant or even, by a sort of tacit convention, non-existent. So Inform does nothing to act upon the time, or to reveal it to the player, without instruction. Nevertheless it is there.
 <p>
-<p><blockquote><font color="#000080">award 2 points<br>award 8 points<br>award 30 points</font></blockquote>
+<p>A sentence like the following allows the initial time to be set up as something other than 9 AM:
 <p>
-<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
+<p><blockquote><font color="#000080">The time of day is 3:13 PM.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">To award (some - a number) points: ...</font></blockquote>
+<p>Here, &quot;3:13 PM&quot; is a constant value of a kind not seen before: it's a kind of value called &quot;time&quot;, and the value &quot;time of day&quot; is a time that varies. After one turn it will be 3:14 PM, then 3:15 PM and so on.
 <p>
-<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
+<p>Note that the sentence above is an assertion (a statement about the initial state of affairs), not an instruction which can be part of a rule. It would be equivalent to write:
 <p>
-<p><blockquote><font color="#000080">award &quot;blue cheese&quot; points;</font></blockquote>
+<p><blockquote><font color="#000080">When play begins, change the time of day to 3:13 PM.</font></blockquote>
 <p>
-<p>which results in the following error:
+<p>We more often use &quot;change the time of day to ...&quot; to take care of drastic events:
 <p>
-<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.</font></blockquote>
-<p>
-<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
-<p>
-<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
-<p>
-<p><blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.</font></blockquote>
-<p>
-<p>Which would not match, for instance, this:
-<p>
-<p><blockquote><font color="#000080">slam shut the black door;</font></blockquote>
-<p>
-<p>because the black door is not an open container.
+<blockquote><font color="#000080">When the player loses consciousness:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to 10:12 AM;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A mist comes over your vision, and when you come to, it is morning and you are in bed.&quot;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc103.html>Previous</a> / <a href=doc105.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

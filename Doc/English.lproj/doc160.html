@@ -1,19 +1,26 @@
-<html><head><title>11.3. Rules applied to activities</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc159.html><img src=../Back.tif></a><a href=doc161.html><img src=../Forward.tif></a></td><td><b>11.3. Rules applied to activities</b></td></tr></table><p>
+<html><head><title>12.4. New rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc159.html><img src=../Back.tif></a><a href=doc161.html><img src=../Forward.tif></a></td><td><b>12.4. New rulebooks</b></td></tr></table><p>
 <p>
-<p>The activity &quot;describing something&quot; is the process of printing up the name of something on screen: ordinarily, this means saying the text in its &quot;printed name&quot; property.
+<p>Creating a new rulebook is also straightforward, as we see in the following modest example game:
 <p>
-<p>As with actions, rules can be attached to activities which change or augment what would normally happen. In fact the situation is simpler, because (unlike an action) an activity always finishes, so there is no question of not reaching its &quot;after&quot; stage. There are also only three rulebooks attached to an activity, as compared with the six affecting an action.
+<p><blockquote><font color="#000080">&quot;Appraisal&quot;</font></blockquote>
 <p>
-<p>The three rulebooks for describing are called &quot;before describing&quot;, &quot;for describing&quot; and &quot;after describing&quot;, and this is the general pattern. What happens is:
+<p><blockquote><font color="#000080">The Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.</font></blockquote>
 <p>
-<blockquote><font color="#000080">(i) all &quot;before describing&quot; rules are considered;
-<br>(ii) the most specific, applicable &quot;rule for describing&quot; is considered;
-<br>(iii) all &quot;after describing&quot; rules are considered.
-</font></blockquote><p>
+<p><blockquote><font color="#000080">Appraisal rules is a rulebook.</font></blockquote>
 <p>
-<p>The actual activity, then, is carried out by one single rule in the &quot;for...&quot; rulebook: it is the rule for describing whatever is concerned, hence the name.
+<p><blockquote><font color="#000080">An appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;</font></blockquote>
 <p>
-<p>The &quot;before describing&quot; and &quot;after describing&quot; rulebooks start out empty, while the &quot;for describing&quot; rulebook has just one rule in it (set to be &quot;last&quot; in the sense of the previous chapter): the rule which actually looks up the &quot;printed name&quot; property and prints it out. The same setup is used for all other activities built into Inform: nothing in &quot;before&quot; or &quot;after&quot;, and the default behaviour all built into a single rule in the &quot;for&quot; rulebook, rigged so that any rule of the designer's will have precedence over it.
+<p><blockquote><font color="#000080">An appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
+<p>
+<p>The creation of the rulebook is all very well, but without the final sentence it would never be used. The crucial new phrase here is &quot;follow ...&quot;, which is the first of several phrases allowing us to use rules whenever we want to (rather than simply at predetermined times such as when a particular action is being tried, or at the end of every turn, and such).
+<p>
+<p>Like &quot;number&quot; or &quot;text&quot;, &quot;rule&quot; and &quot;rulebook&quot; are kinds of value built into Inform: &quot;the blossom rule&quot; is a value whose kind is &quot;rule&quot;, whereas &quot;the every turn rules&quot; is a value whose kind is &quot;rulebook&quot;. In fact, Inform considers a rulebook to be a special case of a rule, so that whenever a rule is required it is legal to name a rulebook instead, but not vice versa. The &quot;follow&quot; phrase here...
+<p>
+<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
+<p>
+<p>...expects to be applied to a value of kind &quot;rule&quot;; &quot;the appraisal rules&quot; is in fact a rulebook, but since that counts as a rule and the phrase makes sense to Inform. To follow a rulebook means to run through all its rules in turn; to follow a single rule means just that one, of course.
 <p>
 <p><hr><p><a href=doc159.html>Previous</a> / <a href=doc161.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

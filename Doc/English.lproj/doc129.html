@@ -1,18 +1,24 @@
-<html><head><title>8.10. Adding and removing rows</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc128.html><img src=../Back.tif></a><a href=doc130.html><img src=../Forward.tif></a></td><td><b>8.10. Adding and removing rows</b></td></tr></table><p>
+<html><head><title>9.16. Arithmetic on new kinds of value</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc128.html><img src=../Back.tif></a><a href=doc130.html><img src=../Forward.tif></a></td><td><b>9.16. Arithmetic on new kinds of value</b></td></tr></table><p>
 <p>
-<p>Writing in new rows is simple:
+<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
 <p>
-<p><blockquote><font color="#000080">choose a blank row in Table 3;<br>change element entry to &quot;Fluorine&quot;;<br>change symbol to &quot;F&quot;;<br>change atomic number to 9;<br>change atomic weight to 19;</font></blockquote>
+<p><blockquote><font color="#000080">change the score to the score + 4</font></blockquote>
 <p>
-<p>This will produce an error if there are no blank rows left in Table 3, so it can be important to worry about free space. To that end we can not only find the number of rows (as we have already seen) but also the number currently blank and not blank. Thus these:
+<p>In Inform, &quot;+&quot; is a phrase like any other. Its definition behind the scenes begins:
 <p>
-<p><blockquote><font color="#000080">the number of blank rows in Table 3<br>the number of filled rows in Table 3</font></blockquote>
+<p><blockquote><font color="#000080">To decide which number is (X - number) + (Y - number): ...</font></blockquote>
 <p>
-<p>always add up to &quot;the number of rows in Table 3&quot;.
+<p>Thus Inform will only recognise &quot;+&quot; as valid if it applies to two numbers, which is as it should be. We cannot normally apply &quot;+&quot; to values like these:
 <p>
-<p>To delete a row, we first choose it and then &quot;blank out the whole row&quot;. Thus, for abdication purposes:
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">choose row with name of &quot;Edward VIII&quot; in the Table of Recent Monarchs;<br>blank out the whole row;</font></blockquote>
+<p>However, we do automatically have two ways to make new colours from old:
+<p>
+<p><blockquote><font color="#000080">the colour after C<br>the colour before C</font></blockquote>
+<p>
+<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
+<p>
+<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not.
 <p>
 <p><hr><p><a href=doc128.html>Previous</a> / <a href=doc130.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

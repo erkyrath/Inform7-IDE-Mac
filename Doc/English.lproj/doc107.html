@@ -1,24 +1,16 @@
-<html><head><title>7.6. Begin and end</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc106.html><img src=../Back.tif></a><a href=doc108.html><img src=../Forward.tif></a></td><td><b>7.6. Begin and end</b></td></tr></table><p>
+<html><head><title>8.11. Comparing and shifting times</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc106.html><img src=../Back.tif></a><a href=doc108.html><img src=../Forward.tif></a></td><td><b>8.11. Comparing and shifting times</b></td></tr></table><p>
 <p>
-<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
+<p>Carrying out easy calculations with times is straightforward:
 <p>
-<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
+<p><blockquote><font color="#000080">The chronometer is in the Clock Chamber. &quot;On one wall is a terribly self-important chronometer showing the time in major world cities. London: [time of day]. Paris: [one hour after the time of day]. Tokyo: [9 hours after the time of day]. Cupertino, California: [7 hours before the time of day].&quot;</font></blockquote>
 <p>
-<blockquote><font color="#000080">To comment upon (whatever - a thing):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
+<p>The phrase &quot;9 hours after the time of day&quot; takes the time of day and adds 9 hours, but this is not the same as ordinary addition of numbers: 9 hours after 11 AM is 8 PM. (This is why we don't use the symbols &quot;+&quot; and &quot;-&quot; when adding times: it would be confusing to the reader.) Similarly, we have conditions
 <p>
-<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
+<p><blockquote><font color="#000080">if the time of day is before 10:45 AM then ...<br>Instead of waiting when the time of day is after 4:00 PM: ...</font></blockquote>
 <p>
-<p>Similarly for while:
+<p>for putting times in order. In recognition of the fact that very few games begin before 4 AM, whereas many run on past midnight, the start of the day is taken to be 4 AM: thus 3:59 AM is after 11:10 PM, but 4:04 AM is before it. Almost all comparisons of time involve the time of day, so we allow the following abbreviations:
 <p>
-<p><blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while</font></blockquote>
-<p>
-<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
+<p><blockquote><font color="#000080">if it is before 10:45 AM then ...<br>Instead of waiting when it is after 4:00 PM: ...</font></blockquote>
 <p>
 <p><hr><p><a href=doc106.html>Previous</a> / <a href=doc108.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

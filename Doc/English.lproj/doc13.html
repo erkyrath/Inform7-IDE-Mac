@@ -1,26 +1,16 @@
-<html><head><title>2.3. Kinds</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc12.html><img src=../Back.tif></a><a href=doc14.html><img src=../Forward.tif></a></td><td><b>2.3. Kinds</b></td></tr></table><p>
+<html><head><title>2.5. Headings</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc12.html><img src=../Back.tif></a><a href=doc14.html><img src=../Forward.tif></a></td><td><b>2.5. Headings</b></td></tr></table><p>
 <p>
-<p>Consider the following design. Unlike the previous example, this one not only places things within rooms, but also places them very specifically with respect to each other, so it is a surprisingly intricate design despite running to only 33 words.
+<p>Once the source grows beyond 1000 words or so, it can all too easily become disorganised, and by the time it reaches the size of a novella it can be difficult to find things (though the Mac OS X implementation does provide a Find function: type Command-F). Inform provides for us to organise the source code in just the way that a printed book would be organised: with headings and subheadings. Firstly, we can put the title at the top. If the first paragraph consists only of a single quoted piece of text, then that's the title; and an author can also be given, as follows:
 <p>
-<p><blockquote><font color="#000080">&quot;Midsummer Day&quot;</font></blockquote>
+<p><blockquote><font color="#000080">&quot;Spellbreaker&quot; by Dave Lebling</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">East of the Garden is the Gazebo. Above is the Treehouse. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup.</font></blockquote>
+<p>We will later see that more bibliographic information can also be placed here, in the same way that the imprint page of a novel comes before the text gets going.
 <p>
-<p>Inform needs to identify the places and objects being described by the nouns here, and to guess what it can about them. For instance, the pistol can be picked up but not walked inside, whereas the Summer House is the reverse. (This is obvious to someone who knows what these words mean, less obvious to a computer which does not, but the text contains sufficient clues.) Inform does this by sorting the various nouns into different categories, which are called &quot;kinds&quot;. For instance:
+<p>A sentence which is the only one in its paragraph and which begins with any of the words &quot;volume&quot;, &quot;book&quot;, &quot;part&quot;, &quot;chapter&quot; or &quot;section&quot; is considered to be a heading or a sub-heading. It must not contain a typed line break, and in order to stand alone in its paragraph there should be a skipped line both before and after it. For instance:
 <p>
-<p><blockquote><font color="#000080">Garden, Gazebo, Treehouse - <b>room</b><br>billiards table - <b>supporter</b><br>cup - <b>container</b><br>starting pistol - <b>thing</b><br>East, up (implied by &quot;above&quot;) - <b>direction</b></font></blockquote>
+<p><blockquote><font color="#000080">Section 2 - Flamsteed's Balloon</font></blockquote>
 <p>
-<p>(A container is something which can contain other things, and a supporter similarly.) For instance Inform knows that if one thing is in another, then the second thing is either a room or a container, and if one thing is on another, the second thing is a supporter. This worked nicely for the design above, but:
-<p>
-<p><blockquote><font color="#000080">In the Treehouse is a cardboard box.</font></blockquote>
-<p>
-<p>results in the cardboard box being made only a &quot;thing&quot;: because nothing has been put inside it, there is no reason for Inform - which does not know what a cardboard box looks like - to guess that it is a &quot;container&quot;. So we need to add:
-<p>
-<p><blockquote><font color="#000080">The box is a container.</font></blockquote>
-<p>
-<p>It is rather clumsy to have to write two sentences like this, so we would normally write this instead:
-<p>
-<p><blockquote><font color="#000080">In the Treehouse is a container called the cardboard box.</font></blockquote>
+<p>Headings can be written in any format, provided they start with one of the five indicator words, and they are hierarchical: a &quot;Part ...&quot; heading is considered more significant than a &quot;Chapter ...&quot; heading but not so significant as a &quot;Book ...&quot; heading, and so on. (We do not need to use all five kinds of heading.)
 <p>
 <p><hr><p><a href=doc12.html>Previous</a> / <a href=doc14.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,32 +1,20 @@
-<html><head><title>7.17. In what order?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc117.html><img src=../Back.tif></a><a href=doc119.html><img src=../Forward.tif></a></td><td><b>7.17. In what order?</b></td></tr></table><p>
+<html><head><title>9.5. While</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc117.html><img src=../Back.tif></a><a href=doc119.html><img src=../Forward.tif></a></td><td><b>9.5. While</b></td></tr></table><p>
 <p>
-<p>Recall the definition:
+<p>The other main control phrase is &quot;while&quot;, which has the form:
 <p>
-<p><blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.</font></blockquote>
+<p><blockquote><font color="#000080">while (... condition ...) repeatedly (... another whole phrase ...)</font></blockquote>
 <p>
-<p>Suppose we then try to &quot;slam shut the wall safe&quot; at a time during play when the wall safe is already closed. An error message will then be printed during play, since there must be a mistake in the design. The combination of checking both at construction time and continuously during play guarantees that, in all cases, a varying item such as &quot;box&quot; in the definition of &quot;To slam shut (box - open container)&quot; always satisfies the condition laid down.
+<p>which keeps on applying the same phrase as long as the condition holds. If it never holds, even at the start, then the phrase is never applied at all and nothing happens. Just as the word &quot;then&quot; in an &quot;if&quot; can be abbreviated with a comma, so can the word &quot;repeatedly&quot; here.
 <p>
-<p>Instead suppose we also have the following definition:
+<p>We must be careful not to commit mistakes like the following:
 <p>
-<p><blockquote><font color="#000080">To slam shut (box - a container): say &quot;You are unable to slam shut [the box], which is already closed.&quot;.</font></blockquote>
+<p><blockquote><font color="#000080">while eggs is eggs repeatedly say &quot;again and &quot;</font></blockquote>
 <p>
-<p>We now have two definitions of &quot;slam shut&quot;. Sometimes the box it's applied to will be closed, in which case only the second definition fits, and will be the one used. But if the box is open, both definitions fit. Which will happen? The rule is:
+<p>which, as sure as eggs is eggs (which is very sure indeed), writes out
 <p>
-<p><blockquote><font color="#000080">1. A narrower condition takes precedence over a broader one;</font></blockquote>
+<p><blockquote><font color="#000080">again and again and again and again and again and ...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">2. If neither condition is narrower than the other, then whichever phrase was defined later in the source code is the one taking precedence;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">3. Except that if the phrase is being used in the definition of phrase P, then P is always last in precedence order, so that recursion is always the very last possibility considered. This allows more specific or later definitions to make use of less specific or earlier ones in a natural way.</font></blockquote>
-<p>
-<p>Rule 1 ensures that a definition involving &quot;open container&quot; takes priority over one which merely involves &quot;container&quot;, for instance.
-<p>
-<p>And therefore when the box is open, it's the more specific phrase to do with open containers which is invoked: so, with great panache, the box is slammed shut.
-<p>
-<p>On the other hand, neither of these patterns is narrower than the other:
-<p>
-<p><blockquote><font color="#000080">To describe (something - transparent): ...<br>To describe (something - container): ...</font></blockquote>
-<p>
-<p>Some containers are transparent, some not; some transparent things are containers, some not. Rule 1 therefore does not apply, so it is the most recently defined of the two phrases which takes effect.
+<p>forever. (Inform won't prevent this: we will find out the hard way when the game is played.) While we would probably never write anything so blatant as that, the mistake is all too easy to commit in disguised form. We should never design a loop, as repetitions like this are called, without worrying about if and when it will finish.
 <p>
 <p><hr><p><a href=doc117.html>Previous</a> / <a href=doc119.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,24 +1,22 @@
-<html><head><title>3.8. Text with variations</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc35.html><img src=../Back.tif></a><a href=doc37.html><img src=../Forward.tif></a></td><td><b>3.8. Text with variations</b></td></tr></table><p>
+<html><head><title>4.1. New kinds</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 4: Kinds</h2><p><table><tr><td><a href=doc35.html><img src=../Back.tif></a><a href=doc37.html><img src=../Forward.tif></a></td><td><b>4.1. New kinds</b></td></tr></table><p>
 <p>
-<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
+<p>Everything has one and only one kind: but kinds can have more specific kinds. Inform makes the world out of three fundamental kinds of object, &quot;room&quot;, &quot;thing&quot; and &quot;direction&quot;: browsing the Kinds index will give an idea of how the others fit together. A container, for instance, is a kind of thing.
 <p>
-<p><blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.</font></blockquote>
+<p>Any new kind must be created as a special case of an existing one. Here we sub-categorise rooms:
 <p>
-<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
+<p><blockquote><font color="#000080">A dead end is a kind of room.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;</font></blockquote>
+<p>Any dead end that we make is also a room, but can also have other properties in addition, if we so decide. For the purposes of this example, it's useful to mention a property not seen so far: rooms can be &quot;dark&quot; or &quot;lighted&quot;, all the examples so far having been lighted. Similarly, a thing with the property of being a &quot;light source&quot; will enable the player to see inside dark rooms, and to carry out other activities requiring light, such as examining items.
 <p>
-<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
+<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came.&quot; A dead end is usually dark.</font></blockquote>
 <p>
-<p>We sometimes need to be careful about the printing of line breaks:
+<p><blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell. [otherwise]the usual cell.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">In the Undertomb is the candle lantern. It is a light source.</font></blockquote>
 <p>
-<p>This room description has two possible forms: &quot;Ah, the unknown cell. &quot;, at first sight, and then &quot;Ah, the usual cell.&quot; subsequently. But the second form is rounded off with a line break because the last thing printed is a &quot;.&quot;, whereas the first form isn't, because it ended with a space. The right thing would have been:
+<p>Three different rooms adjoin the Undertomb as a result. Notice how much more concise this is thanks to having the &quot;dead end&quot; kind to hand.
 <p>
-<p><blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell.[otherwise]the usual cell.&quot;</font></blockquote>
-<p>
-<p>allowing no space after &quot;unknown cell.&quot;
+<p>What is a kind, really? In the end it is a name for a bundle of properties, and the key differences between a kind (such as &quot;container&quot;) and a property (such as &quot;fixed in place&quot;) are that, firstly, something only has one kind (except in the sense that a container is also a thing, and so on), and secondly, it has that kind forever, whereas properties may change.
 <p>
 <p><hr><p><a href=doc35.html>Previous</a> / <a href=doc37.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,30 +1,18 @@
-<html><head><title>7.9. Repeat running through</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc109.html><img src=../Back.tif></a><a href=doc111.html><img src=../Forward.tif></a></td><td><b>7.9. Repeat running through</b></td></tr></table><p>
+<html><head><title>8.14. Actions as conditions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc109.html><img src=../Back.tif></a><a href=doc111.html><img src=../Forward.tif></a></td><td><b>8.14. Actions as conditions</b></td></tr></table><p>
 <p>
-<p>Inform is not used very much for numerical work, so the kind of repeat loop described in the previous section is not much used. Inform's natural domain is really the world of things and rooms, so the following kind of repeat is much more useful.
+<p>There are two ways that descriptions of actions can be used as conditions. First, we can simply describe an action, and then the condition will be true if that is what the player is trying to do, and not otherwise:
 <p>
-<blockquote><font color="#000080">repeat with item running through open containers begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;... phrases ...
-<br>end repeat;
-</font></blockquote><p>
+<p><blockquote><font color="#000080">... if taking a container then ...</font></blockquote>
 <p>
-<p>Once again we create a new value, &quot;item&quot;, of only temporary validity. This time the phrases are repeated once for each open container presently found in the world. (If there are no containers, or they are all closed, the phrases will not be followed at all.)
+<p>This is actually an abbreviation for the longer, some would say preferable form:
 <p>
-<p>As with counting the &quot;number of ...&quot; objects satisfying some property, we can run through a wide variety of possibilities. For example:
+<p><blockquote><font color="#000080">... if we are taking a container then ...</font></blockquote>
 <p>
-<blockquote><font color="#000080">repeat with dinner guest running through the people in the Dining Room begin; ...
-</font></blockquote><p>
+<p>Secondly, we can talk about the past as well as the present, which is very useful since interactive fiction often contains situations which are changed by earlier events.
 <p>
-<blockquote><font color="#000080">repeat with possession running through things carried begin; ...
-</font></blockquote><p>
+<p><blockquote><font color="#000080">Instead of waiting when we have taken the lantern, say &quot;No, your acquisitive nature is roused now, and simply waiting will no longer do.&quot;</font></blockquote>
 <p>
-<p>The following lists the whereabouts of all men in lighted rooms:
-<p>
-<blockquote><font color="#000080">repeat with suspect running through the men who are in a lighted room (called the scene) begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The suspect] is in [the scene].&quot;;
-<br>end repeat.
-</font></blockquote><p>
-<p>
-<p>Note the way we are allowed to give a name to the vaguely described place &quot;lighted room&quot;, so that we can refer to it inside the loop. This wasn't really necessary (&quot;holder of the suspect&quot; would have had the same effect) but improved the clarity of the source.
+<p>More on the past tense later, too: note that &quot;we are taking&quot; has become &quot;we have taken&quot;. For the rule to apply, it is not enough that the action &quot;taking the lantern&quot; has been tried: it must have succeeded.
 <p>
 <p><hr><p><a href=doc109.html>Previous</a> / <a href=doc111.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
