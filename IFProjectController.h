@@ -98,6 +98,7 @@ enum lineStyle {
 - (IBAction) addNewFile: (id) sender;
 
 // Debugging
+- (void) updatedBreakpoints: (NSNotification*) not;
 - (void) hitBreakpoint: (int) pc;
 
 // Policy delegates

@@ -284,6 +284,9 @@ NSDictionary* IFSyntaxAttributes[256];
 	
 	// The transcript controller
 	[transcriptController setSkein: [doc skein]];
+	
+	// Misc stuff
+	[self updateHighlightedLines];
 }
 
 - (void) awakeFromNib {

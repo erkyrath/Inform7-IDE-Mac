@@ -15,6 +15,7 @@
 
 #import "IFIsFiles.h"
 #import "IFIsWatch.h"
+#import "IFIsBreakpoints.h"
 
 @implementation IFProjectController
 
@@ -209,7 +210,8 @@ static NSDictionary*  itemDictionary = nil;
 	[stepOverItem setAction: @selector(stepOverProcess:)];
 	[stepOutItem setAction: @selector(stepOutProcess:)];
 	
-	[watchItem setAction: @selector(showWatchPoints:)];
+	[watchItem setAction: @selector(showWatchpoints:)];
+	[breakpointItem setAction: @selector(showBreakpoints:)];
 }
 
 // == Initialistion ==
@@ -302,6 +304,8 @@ static NSDictionary*  itemDictionary = nil;
 											 selector: @selector(updatedBreakpoints:)
 												 name: IFProjectBreakpointsChangedNotification
 											   object: [self document]];
+	
+	[self updatedBreakpoints: nil];
 
     // Setup the default panes
     [projectPanes removeAllObjects];
@@ -1235,9 +1239,14 @@ static NSDictionary*  itemDictionary = nil;
 
 // = Debugging =
 
-- (void) showWatchPoints: (id) sender {
+- (void) showWatchpoints: (id) sender {
 	[[IFInspectorWindow sharedInspectorWindow] showWindow: self];
 	[[IFInspectorWindow sharedInspectorWindow] showInspectorWithKey: IFIsWatchInspector];
+}
+
+- (void) showBreakpoints: (id) sender {
+	[[IFInspectorWindow sharedInspectorWindow] showWindow: self];
+	[[IFInspectorWindow sharedInspectorWindow] showInspectorWithKey: IFIsBreakpointsInspector];
 }
 
 // = Breakpoints =
