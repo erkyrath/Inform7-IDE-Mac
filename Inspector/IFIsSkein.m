@@ -28,7 +28,7 @@ NSString* IFIsSkeinInspector = @"IFIsSkeinInspector";
 	if (self) {
 		[NSBundle loadNibNamed: @"SkeinInspector"
 						 owner: self];
-		[self setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Skein"
+		[self setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Inspector Skein"
 															   value: @"Skein"
 															   table: nil]];
 	}
