@@ -701,7 +701,6 @@ static inline BOOL IsWhitespace(unichar c) {
 	// Highlight the range
 	[self beginEditing];
 	
-	NSLog(@"Highlighting range: %i %i", [range rangeValue].location, [range rangeValue].length);
 	[self highlightRange: [range rangeValue]];
 	
 	// Highlight anything else that might need it
