@@ -55,6 +55,8 @@
 		inspectorViews = [[NSMutableArray alloc] init];
 		updating = NO;
 		
+		[window setDelegate: self];
+		
 		// The sole purpose of IFIsFlippedView is to return YES to isFlipped...
 		[[self window] setContentView: [[[IFIsFlippedView alloc] init] autorelease]];
 		
@@ -134,22 +136,48 @@
 	NSRect contentFrame = [[[self window] contentView] frame];
 	
 	NSEnumerator* inspectorEnum = [inspectorViews objectEnumerator];
+	NSEnumerator* realInspectorEnum = [inspectors objectEnumerator];
 	IFInspectorView* insView;
+	IFInspector* inspector;
 	
 	// Position all the inspectors
 	float ypos = contentFrame.origin.y;
 	while (insView = [inspectorEnum nextObject]) {
-		NSRect insFrame = [insView frame];
+		inspector = [realInspectorEnum nextObject];
 		
-		insFrame.origin = NSMakePoint(contentFrame.origin.x, ypos);
-		insFrame.size.width = contentFrame.size.width;
+		if ([inspector available]) {
+			NSRect insFrame = [insView frame];
 		
-		[insView setFrame: insFrame];
+			insFrame.origin = NSMakePoint(contentFrame.origin.x, ypos);
+			insFrame.size.width = contentFrame.size.width;
 		
-		ypos += insFrame.size.height;
+			[insView setFrame: insFrame];
+			
+			if ([insView superview] != [[self window] contentView]) {
+				[[[self window] contentView] addSubview: insView];
+			}
+			
+			ypos += insFrame.size.height;
+		} else {
+			if ([insView superview] == [[self window] contentView]) {
+				[insView removeFromSuperview];
+			}
+		}
 	}
 	
 	// ypos defines the size of the window
+	
+	// We only show the window if there's some inspectors to display
+	shouldBeShown = YES;
+	
+	if (ypos == contentFrame.origin.y) {
+		shouldBeShown = NO;
+		[[self window] orderOut: self];
+	} else if (!hidden) {
+		if (![[self window] isVisible]) {
+			[[self window] orderFront: self];
+		}
+	}
 	
 	// Need to do things this way as Jaguar has no proper calculation routines
 	NSRect currentFrame = [[self window] frame];
@@ -207,6 +235,24 @@
 	newMainWindow = NO;
 	[inspectors makeObjectsPerformSelector: @selector(inspectWindow:)
 								withObject: activeMainWindow];
+	[self updateInspectors];
+}
+
+// Whether or not we're hidden
+- (void)windowWillClose:(NSNotification *)aNotification {
+	hidden = YES;
+}
+
+- (void) showWindow: (id) sender {
+	hidden = NO;
+	
+	if (shouldBeShown) {
+		[super showWindow: sender];
+	}
+}
+
+- (BOOL) isHidden {
+	return hidden;
 }
 
 @end

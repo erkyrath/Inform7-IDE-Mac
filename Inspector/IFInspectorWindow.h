@@ -18,6 +18,10 @@
 	// The main window
 	BOOL newMainWindow;
 	NSWindow* activeMainWindow;
+	
+	// Whether or not the main window should pop up when inspectors suddenly show up
+	BOOL hidden;
+	BOOL shouldBeShown;
 }
 
 // The shared instance
@@ -28,5 +32,8 @@
 
 // Dealing with updates
 - (void) updateInspectors;
+
+// Status
+- (BOOL) isHidden;
 
 @end

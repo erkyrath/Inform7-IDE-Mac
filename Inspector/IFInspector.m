@@ -60,6 +60,11 @@
 	return inspectorView;
 }
 
+- (BOOL) available {
+	// Override to make inspectors disappear when required
+	return gotWindow;
+}
+
 // = The controller =
 - (void) setInspectorWindow: (IFInspectorWindow*) window {
 	inspectorWin = window;
@@ -68,6 +73,7 @@
 // = Inspecting things =
 - (void) inspectWindow: (NSWindow*) window {
 	// Should be overridden in subclasses
+	gotWindow = (window!=nil);
 	NSLog(@"BUG: Inspector doesn't know what to do");
 }
 

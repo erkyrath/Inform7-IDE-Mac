@@ -18,6 +18,7 @@
 	
 	NSString* title;
 	BOOL expanded;
+	BOOL gotWindow;
 	
 	IFInspectorWindow* inspectorWin;
 }
@@ -35,6 +36,8 @@
 
 - (void) setExpanded: (BOOL) expanded;
 - (BOOL) expanded;
+
+- (BOOL) available;
 
 // The controller
 - (void) setInspectorWindow: (IFInspectorWindow*) window;

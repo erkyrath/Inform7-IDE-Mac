@@ -78,4 +78,16 @@
                                                                         display: YES];
 }
 
+- (IBAction) showInspectors: (id) sender {
+	[[IFInspectorWindow sharedInspectorWindow] showWindow: self];
+}
+
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+	if ([menuItem action] == @selector(showInspectors:)) {
+		return [[IFInspectorWindow sharedInspectorWindow] isHidden];
+	}
+	
+	return YES;
+}
+
 @end

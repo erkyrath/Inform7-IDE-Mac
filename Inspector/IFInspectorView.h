@@ -16,6 +16,8 @@
 	
 	IFIsTitleView* titleView;
 	IFIsArrow*     arrow;
+	
+	BOOL willLayout;
 }
 
 // The view
@@ -23,6 +25,7 @@
 - (void) setView: (NSView*) innerView;
 - (NSView*) view;
 
+- (void) queueLayout;
 - (void) layoutViews;
 
 @end
