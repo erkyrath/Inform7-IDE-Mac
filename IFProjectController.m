@@ -10,6 +10,7 @@
 #import "IFProjectController.h"
 #import "IFProjectPane.h"
 #import "IFInspectorWindow.h"
+#import "IFNewProjectFile.h"
 #import "IFIsIndex.h"
 
 
@@ -679,6 +680,10 @@ static NSDictionary*  itemDictionary = nil;
     return YES; // Only one source file ATM (Not any more... changed this)
 }
 
+- (NSString*) selectedSourceFile {
+	return [[self sourcePane] currentFile];
+}
+
 - (void) moveToSourceFileLine: (int) line {
 #if 0
     int paneToUse = 0;
@@ -901,6 +906,18 @@ static NSDictionary*  itemDictionary = nil;
 // = Documentation controls =
 - (void) docIndex: (id) sender {
 	[[self auxPane] openURL: [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource: @"index" ofType: @"html"]]];
+}
+
+// = Adding files =
+- (void) addNewFile: (id) sender {
+	IFNewProjectFile* npf = [[IFNewProjectFile alloc] initWithProjectController: self];
+	
+	NSString* newFile = [npf getNewFilename];
+	if (newFile) {
+		if (![[self document] addFile: newFile]) {
+			// FIXME: show error message
+		}
+	}
 }
 
 @end

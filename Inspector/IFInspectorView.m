@@ -161,6 +161,10 @@
 	}
 }
 
+- (BOOL) acceptsFirstMouse: (NSEvent*) evt {
+	return YES;
+}
+
 // = Drawing =
 - (void)drawRect:(NSRect)rect {
 #if ViewPadding > 0

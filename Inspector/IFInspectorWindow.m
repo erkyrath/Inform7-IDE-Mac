@@ -49,6 +49,8 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 	[ourWindow setMinSize: NSMakeSize(0,0)];
 	[ourWindow setMaxSize: NSMakeSize(4000, 4000)];
 	
+	[ourWindow setBecomesKeyOnlyIfNeeded: YES];
+	
 	// Initialise ourselves properly
 	return [self initWithWindow: [ourWindow autorelease]];
 }

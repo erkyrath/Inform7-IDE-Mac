@@ -712,6 +712,8 @@ static inline BOOL IsIdentifier(int chr) {
     int x;
     int index = range.location;
     int line, pos;
+	
+	if (range.length <= 0) return; // nothing to do
     
     // Get the start of the line
     line = [self lineForChar: index

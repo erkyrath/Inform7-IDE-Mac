@@ -51,6 +51,8 @@ enum lineStyle {
 // Communication from the containing panes (maybe other uses, too - scripting?)
 - (BOOL) selectSourceFile: (NSString*) fileName;
 - (void) moveToSourceFileLine: (int) line;
+- (NSString*) selectedSourceFile;
+
 - (void) highlightSourceFileLine: (int) line
 						  inFile: (NSString*) file;
 - (void) highlightSourceFileLine: (int) line
@@ -63,6 +65,8 @@ enum lineStyle {
 - (void) removeHighlightsOfStyle: (enum lineStyle) style;
 
 - (NSString*) pathToIndexFile;
+
+- (IBAction) addNewFile: (id) sender;
 
 // Debugging
 - (void) hitBreakpoint: (int) pc;

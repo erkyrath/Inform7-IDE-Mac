@@ -9,6 +9,8 @@
 #import "IFProject.h"
 #import "IFProjectController.h"
 
+NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotification";
+
 
 @implementation IFProject
 
@@ -186,10 +188,12 @@
 - (BOOL) addFile: (NSString*) newFile {
     if ([sourceFiles objectForKey: newFile] != nil) return NO;
     if (singleFile) return NO;
-    
+	    
     [sourceFiles setObject: [[[NSTextStorage alloc] initWithString: @""] autorelease]
                     forKey: newFile];
-    
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectFilesChangedNotification
+														object: self];
     return YES;
 }
 

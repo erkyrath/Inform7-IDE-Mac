@@ -13,6 +13,7 @@
 
 #import "IFIsNotes.h"
 #import "IFIsIndex.h"
+#import "IFIsFiles.h"
 
 #import "IFNoDocProtocol.h"
 
@@ -51,6 +52,7 @@
 	[[IFInspectorWindow sharedInspectorWindow] showWindow: self];
 	
 	// The standard inspectors
+	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsFiles sharedIFIsFiles]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsNotes sharedIFIsNotes]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsIndex sharedIFIsIndex]];
 }

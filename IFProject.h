@@ -11,6 +11,8 @@
 #import "IFCompilerSettings.h"
 #import "IFProjectFile.h"
 
+extern NSString* IFProjectFilesChangedNotification;
+
 @interface IFProject : NSDocument {
     // The data for this project
     IFProjectFile*      projectFile;

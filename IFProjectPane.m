@@ -1053,7 +1053,8 @@ static NSDictionary* styles[256];
     NSString* fileType = [openSourceFile pathExtension];
     
     if ([fileType isEqualToString: @"inf"] ||
-        [fileType isEqualToString: @"h"]) {
+        [fileType isEqualToString: @"h"] ||
+		[fileType isEqualToString: @"i6"]) {
         // Inform 6 file
         highlighter = [[IFInform6Syntax alloc] init];
         [sourceText setRichText: NO];
