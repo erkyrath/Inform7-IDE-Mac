@@ -121,8 +121,39 @@ static NSArray* headingList = nil;
 			return nil;
 		}
 	} else if ([input isEqualToString: @" "]) {
-		// The line being editing must already have been identified as a heading. Small chance that this line will
-		// not yet be highlighted correctly, in which case this will fail.
+		int lineNumber = [highlighter editingLineNumber];
+		IFSyntaxStyle lastStyle = [highlighter styleAtStartOfLine: lineNumber];
+		
+		if (lastStyle != IFSyntaxGameText && lastStyle != IFSyntaxSubstitution) {
+			// If we've got a line 'Volume\n', or (pedantic last line case) 'Volume', then automagically fill
+			// in the section number using context info
+			NSString* line = [highlighter textForLine: lineNumber];
+			NSString* prefix = nil;
+			
+			// Line must actually have something on it
+			if ([line length] < 4) return nil;				// Too short to be of interest
+			if ([line length] > 8) return nil;				// Too long to be of interest
+			
+			// See if we're at the last line or somewhere else
+			if ([line characterAtIndex: [line length]-1] == '\n') {
+				prefix = [line substringToIndex: [line length]-1];
+			} else {
+				prefix = line;
+			}
+						
+			// See if this is the start of a heading
+			int headingLevel = [headingList indexOfObject: [prefix lowercaseString]];
+			
+			if (headingLevel == NSNotFound) return nil;		// Not a heading
+			
+			// We've got a heading: auto-insert a number
+			
+			// Find the preceding heading
+			IFIntelFile* data = [highlighter intelligenceData];
+			IFIntelSymbol* symbol = [data nearestSymbolToLine: lineNumber];
+			
+			NSLog(@"Symbol: %@", symbol);
+		}
 	}
 	
 	// No behaviour defined: just fall through

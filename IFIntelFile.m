@@ -206,11 +206,22 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 
 // = Finding symbols =
 
-- (IFIntelSymbol*) firstSymbolOnLine: (int) line {
+- (IFIntelSymbol*) nearestSymbolToLine: (int) line {
 	int nSymbols = [symbols count];
 	int symbol = [self indexOfStartOfLine: line];
 	
 	if (symbol >= nSymbols) return nil;
+	if (symbol+1 == nSymbols) return [symbols objectAtIndex: symbol];
+	if (symbolLines[symbol+1] == line) return [symbols objectAtIndex: symbol+1];
+	
+	return [symbols objectAtIndex: symbol];
+}
+
+- (IFIntelSymbol*) firstSymbolOnLine: (int) line {
+	int nSymbols = [symbols count];
+	int symbol = [self indexOfStartOfLine: line];
+	
+	if (symbol+1 >= nSymbols) return nil;
 	if (symbolLines[symbol+1] != line) return nil;
 	
 	return [symbols objectAtIndex: symbol+1];

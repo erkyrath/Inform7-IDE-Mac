@@ -37,6 +37,7 @@ extern NSString* IFIntelFileHasChangedNotification;
 
 // Finding symbols
 - (IFIntelSymbol*) firstSymbol;
+- (IFIntelSymbol*) nearestSymbolToLine: (int) line;
 - (IFIntelSymbol*) firstSymbolOnLine: (int) line;
 - (IFIntelSymbol*) lastSymbolOnLine: (int) line;
 - (int) lineForSymbol: (IFIntelSymbol*) symbolToFind;

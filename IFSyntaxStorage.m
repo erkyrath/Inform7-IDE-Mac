@@ -954,7 +954,7 @@ static inline BOOL IsWhitespace(unichar c) {
 - (NSString*) textForLine: (int) lineNumber {
 	// Get the start/end of the line
 	int lineStart = lineStarts[lineNumber];
-	int lineEnd = lineNumber+1<nLines?lineStarts[lineNumber]:[string length];
+	int lineEnd = lineNumber+1<nLines?lineStarts[lineNumber+1]:[string length];
 	
 	return [[string string] substringWithRange: NSMakeRange(lineStart, lineEnd-lineStart)];
 }
