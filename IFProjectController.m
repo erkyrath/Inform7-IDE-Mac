@@ -1607,6 +1607,8 @@ static NSDictionary*  itemDictionary = nil;
 	if ([storage highlighting]) return;					// Can't do this while highlighting: the section data might not be accurate any more
 	if ([storage intelligenceData] == nil) return;		// Also can't do this if we haven't actually gathered any data
 	
+	NSUndoManager* undo = [[self document] undoManager];
+	
 	// Renumber each section stored in the intelligence data
 	// This is pretty inefficient at the moment, but it's 'unlikely' that this will ever be a problem in sensible
 	// files. (Note O(n^2) semantics, due to inefficiency in lineForSymbol:)
@@ -1615,7 +1617,9 @@ static NSDictionary*  itemDictionary = nil;
 	IFIntelFile*   intel   = [storage intelligenceData];
 	IFIntelSymbol* section = [intel firstSymbol];
 	
+	[undo beginUndoGrouping];
 	[storage beginEditing];
+		
 	while (section != nil) {
 		int lineNumber = [intel lineForSymbol: section];
 		NSString* sectionLine = [storage textForLine: lineNumber];
@@ -1631,7 +1635,7 @@ static NSDictionary*  itemDictionary = nil;
 			
 			int lastSectionNumber = [lastWords count]>1?[[lastWords objectAtIndex: 1] intValue]:0;
 			
-			if (lastSectionNumber > 0 && lastSectionNumber+1 != sectionNumber) {
+			if (lastSectionNumber >= 0 && lastSectionNumber+1 != sectionNumber) {
 				// This section needs renumbering
 				NSMutableArray* newWords = [words mutableCopy];			// Spoons!
 				
@@ -1657,7 +1661,9 @@ static NSDictionary*  itemDictionary = nil;
 		// Onwards!
 		section = [section nextSymbol];
 	}
+		
 	[storage endEditing];
+	[undo endUndoGrouping];
 }
 
 // = Searching =
