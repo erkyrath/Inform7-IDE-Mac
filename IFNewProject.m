@@ -121,6 +121,11 @@ static NSMutableDictionary* projectDictionary = nil;
         (projectView != nil && currentView == [projectView view])) {
         // Change to the file location view
         currentView = projectLocationView;
+		
+		if ([[projectLocation stringValue] isEqualTo: @""]) {
+			// Pop up the save dialog
+			[self chooseLocation: self];
+		}
 
         [previousButton setEnabled: YES];
         [nextButton setEnabled: ![[projectLocation stringValue] isEqualTo: @""]];
@@ -272,8 +277,14 @@ static NSMutableDictionary* projectDictionary = nil;
         
         [projectLocation setStringValue: [sheet filename]];
         [nextButton setEnabled: YES];
+		
+		if (![[projectLocation stringValue] isEqualTo: @""]) {
+			// Act as if we finished
+			[self nextView: self];
+		}
     } else {
-        // Change nothing
+        // Change nothing - return to the previous view
+		[self previousView: self];
     }
 }
 
