@@ -111,6 +111,7 @@
 				[listener ignore];
 				[[projectController auxPane] openURL: [[[request URL] copy] autorelease]];
 				
+				NSLog(@"Redirecting: %@ is not the same as %@", absolute1, absolute2);
 				return;
 			}
 		}
