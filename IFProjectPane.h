@@ -104,6 +104,7 @@ enum IFProjectPaneType {
 }
 
 + (IFProjectPane*) standardPane;
++ (NSDictionary*) attributeForStyle: (unsigned char) style;
 
 // Our controller
 - (void) setController: (IFProjectController*) parent;

@@ -62,7 +62,8 @@ typedef unsigned char IFSyntaxStyle;
 - (IFSyntaxStyle) styleForCharacter: (unichar) chr
 							  state: (IFSyntaxState) state;
 - (void) rehintLine: (NSString*) line
-			 styles: (IFSyntaxStyle*) styles;
+			 styles: (IFSyntaxStyle*) styles
+	   initialState: (IFSyntaxState) state;
 
 // Styles
 - (NSDictionary*) attributesForStyle: (IFSyntaxStyle) style;

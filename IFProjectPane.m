@@ -22,7 +22,7 @@
 #undef  showHighlighting        // Show what's being highlighted
 #undef  highlightAll            // Always highlight the entire file (does not necessarily recalculate all highlighting)
 
-static NSDictionary* styles[256];
+NSDictionary* IFSyntaxStyle[256];
 
 @implementation IFProjectPane
 
@@ -46,7 +46,7 @@ static NSDictionary* styles[256];
     int x;
     
     for (x=0; x<256; x++) {
-        styles[x] = defaultStyle;
+        IFSyntaxStyle[x] = defaultStyle;
     }
     
     // This set of styles will eventually be the 'colourful' set
@@ -54,55 +54,55 @@ static NSDictionary* styles[256];
     // speed advantages), and a 'subtle' set (styles indicated only by font changes)
     
     // Styles for various kinds of code
-    styles[IFSyntaxString] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxString] = [[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.53 green: 0.08 blue: 0.08 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    styles[IFSyntaxComment] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxComment] = [[NSDictionary dictionaryWithObjectsAndKeys:
         smallFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.14 green: 0.43 blue: 0.14 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    styles[IFSyntaxMonospace] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxMonospace] = [[NSDictionary dictionaryWithObjectsAndKeys:
         monospaceFont, NSFontAttributeName,
         [NSColor blackColor], NSForegroundColorAttributeName,
         nil] retain];
     
     // Inform 6 syntax types
-    styles[IFSyntaxDirective] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxDirective] = [[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.20 green: 0.08 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    styles[IFSyntaxProperty] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxProperty] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.08 green: 0.08 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    styles[IFSyntaxFunction] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxFunction] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.08 green: 0.53 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    styles[IFSyntaxCode] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxCode] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.46 green: 0.06 blue: 0.31 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    styles[IFSyntaxAssembly] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxAssembly] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.46 green: 0.31 blue: 0.31 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    styles[IFSyntaxCodeAlpha] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxCodeAlpha] = [[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.5 green: 0.5 blue: 0.5 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    styles[IFSyntaxEscapeCharacter] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxEscapeCharacter] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.73 green: 0.2 blue: 0.73 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
         
     // Natural inform syntax types
-    styles[IFSyntaxHeading] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxStyle[IFSyntaxHeading] = [[NSDictionary dictionaryWithObjectsAndKeys:
         headerSystemFont, NSFontAttributeName,
 		[NSColor blackColor], NSForegroundColorAttributeName,
         nil] retain];
-	styles[IFSyntaxGameText] = [[NSDictionary dictionaryWithObjectsAndKeys:
+	IFSyntaxStyle[IFSyntaxGameText] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.0 green: 0.3 blue: 0.6 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];	
@@ -110,7 +110,7 @@ static NSDictionary* styles[256];
 	// The 'plain' style is a bit of a special case. It's used for files that we want to run the syntax
 	// highlighter on, but where we want the user to be able to set styles. The user will be able to set
 	// certain styles even for things that are affected by the highlighter.
-	styles[IFSyntaxPlain] = [[NSDictionary dictionary] retain];
+	IFSyntaxStyle[IFSyntaxPlain] = [[NSDictionary dictionary] retain];
 }
 
 - (id) init {
@@ -838,7 +838,11 @@ static NSDictionary* styles[256];
 
 // = Syntax highlighting =
 - (NSDictionary*) attributeForStyle: (enum IFSyntaxType) style {
-    return styles[style];
+    return IFSyntaxStyle[style];
+}
+
++ (NSDictionary*) attributeForStyle: (unsigned char) style {
+	return IFSyntaxStyle[style];
 }
 
 - (void) highlightEntireFile {

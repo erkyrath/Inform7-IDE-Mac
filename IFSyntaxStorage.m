@@ -304,6 +304,8 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		syntaxState = [[syntaxStack lastObject] unsignedCharValue];
 		[syntaxStack removeLastObject];
 		
+		IFSyntaxState initialState = syntaxState;
+		
 		// Highlight this line
 		for (syntaxPos=firstChar; syntaxPos<lastChar; syntaxPos++) {
 			// Current state
@@ -326,7 +328,8 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		
 		// Provide an opportunity for the highlighter to hint keywords, etc
 		[highlighter rehintLine: [[string string] substringWithRange: NSMakeRange(firstChar, lastChar-firstChar)]
-						 styles: charStyles+firstChar];
+						 styles: charStyles+firstChar
+				   initialState: initialState];
 		
 		// Finish the stack
 		[syntaxStack addObject: [NSNumber numberWithUnsignedChar: syntaxState]];
