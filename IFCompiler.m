@@ -386,6 +386,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     return inFile;
 }
 
+- (BOOL) isRunning {
+	return theTask!=nil?[theTask isRunning]:NO;
+}
+
 - (void) prepareForLaunch {
     // Kill off any old tasks...
     if (theTask) {

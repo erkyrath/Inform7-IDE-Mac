@@ -500,6 +500,15 @@ static NSDictionary*  itemDictionary = nil;
 		[[item itemIdentifier] isEqualToString: [stepItem itemIdentifier]]) {
 		return isRunning?waitingAtBreakpoint:NO;
 	}
+
+	SEL itemSelector = [item action];
+	if (itemSelector == @selector(compile:) || 
+		itemSelector == @selector(release:) ||
+		itemSelector == @selector(compileAndRun:) ||
+		itemSelector == @selector(compileAndDebug:) ||
+		itemSelector == @selector(replayUsingSkein:)) {
+		return ![[[self document] compiler] isRunning];
+	}
 	
 	return YES;
 }
@@ -517,7 +526,15 @@ static NSDictionary*  itemDictionary = nil;
 			
 	if (itemSelector == @selector(stopProcess:) ||
 		itemSelector == @selector(pauseProcess:)) {
-			return isRunning;
+		return isRunning;
+	}
+	
+	if (itemSelector == @selector(compile:) || 
+		itemSelector == @selector(release:) ||
+		itemSelector == @selector(compileAndRun:) ||
+		itemSelector == @selector(compileAndDebug:) ||
+		itemSelector == @selector(replayUsingSkein:)) {
+		return ![[[self document] compiler] isRunning];
 	}
 
 	return YES;

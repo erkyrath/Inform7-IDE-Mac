@@ -69,6 +69,7 @@ extern NSString* IFCompilerFinishedNotification;
 - (NSString*) directory;
 
 - (void) prepareForLaunch;
+- (BOOL) isRunning;
 
 - (void) addCustomBuildStage: (NSString*) command
                withArguments: (NSArray*) arguments
