@@ -583,7 +583,7 @@ static NSDictionary*  itemDictionary = nil;
     [theCompiler prepareForLaunch];
     [theCompiler launch];
 	
-    [[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
+    // [[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
 }
 
 - (IBAction) release: (id) sender {
@@ -671,10 +671,11 @@ static NSDictionary*  itemDictionary = nil;
     NSFileWrapper* buildDir;
 	
 	[self removeProgressIndicator: [[[self document] compiler] progress]];
-
-    // Can't do this: things break.
-    //buildDir = [[[(IFProject*)[self document] projectFile] fileWrappers] objectForKey: @"Build"];
-    //[buildDir updateFromPath: [NSString stringWithFormat: @"%@/Build", [[self document] fileName]]];
+	
+	if (exitCode != 0) {
+		// Show the errors pane if there was an error while compiling
+		[[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
+	}
 
 	// Show the 'build results' file
 	NSString* buildPath = [NSString stringWithFormat: @"%@/Build", [[self document] fileName]];

@@ -366,7 +366,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     // Prepare the arguments
     NSMutableArray* args = [NSMutableArray arrayWithArray: [settings commandLineArgumentsForRelease: release]];
 
-    [args addObject: @"-x"];
+    // [args addObject: @"-x"];
    
     [args addObject: [NSString stringWithString: [self currentStageInput]]];
     [args addObject: [NSString stringWithString: outputFile]];

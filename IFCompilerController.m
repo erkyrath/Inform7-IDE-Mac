@@ -282,17 +282,7 @@ static IFCompilerController* activeController = nil;
 
 // == Compiler messages ==
 - (void) scrollToEnd {
-    NSLayoutManager* mgr = [compilerResults layoutManager];
-
-    NSRange endGlyph = [compilerResults selectionRangeForProposedRange:
-        NSMakeRange([[compilerResults textStorage] length]-1, 1)
-                                                           granularity: NSSelectByCharacter];
-    NSRect endRect = [mgr boundingRectForGlyphRange: endGlyph
-                                    inTextContainer: [compilerResults textContainer]];
-    
-    [compilerResults scrollPoint:
-        NSMakePoint(0,
-                   NSMaxY(endRect) - [[resultScroller contentView] frame].size.height)];
+	[compilerResults scrollRangeToVisible: NSMakeRange([[compilerResults textStorage] length], 0)];
 }
 
 - (void) started: (NSNotification*) not {
@@ -380,8 +370,6 @@ static IFCompilerController* activeController = nil;
 																	 attributes: [styles objectForKey: IFStyleBase]] autorelease];
 	
 	[[compilerResults textStorage] appendAttributedString: newString];
-
-    [self scrollToEnd];
 }
 
 - (void) gotStderr: (NSNotification*) not {
@@ -390,8 +378,6 @@ static IFCompilerController* activeController = nil;
 																	 attributes: [styles objectForKey: IFStyleBase]] autorelease];
 	
 	[[compilerResults textStorage] appendAttributedString: newString];
-		
-    [self scrollToEnd];
 }
 
 // == Dealing with highlighting of the compiler output ==
@@ -501,6 +487,8 @@ static IFCompilerController* activeController = nil;
     
     // Finish up
 	[storage endEditing];
+	
+	[self scrollToEnd];
 }
 
 // == The error OutlineView ==
