@@ -112,9 +112,9 @@ static inline BOOL FindKeyword(char** keywordList, int nKeywords, char* keyword)
             state->bitmap.inner = 0xff;
         }
     } else if (state->bitmap.inner >= 0x100 && state->bitmap.inner < 0x8000) {
-        if (!(isalpha(chr) || isdigit(chr))) {
+        if (!(isalpha(chr) || isdigit(chr) || chr == '_')) {
             state->bitmap.inner += 0x8000;
-            return terminalFlag = YES;
+            terminalFlag = YES;
         }        
 		
         switch (state->bitmap.inner) {
@@ -174,12 +174,14 @@ static inline BOOL FindKeyword(char** keywordList, int nKeywords, char* keyword)
                 break;
                 
             default:
-                if (isalpha(chr) || isdigit(chr)) {
+                if (isalpha(chr) || isdigit(chr) || chr == '_') {
                     state->bitmap.inner += 0x100;
                 }
                 break;
         }
-    }
+    } else if (state->bitmap.inner >= 0x8000) {
+		state->bitmap.inner = 0;
+	}
     
     return terminalFlag;
 }
@@ -372,10 +374,10 @@ static inline BOOL FindKeyword(char** keywordList, int nKeywords, char* keyword)
             //                       colour as "property" colour).
 			
             else {
-                if (!newState.bitmap.waitingForDirective) {
+                if (newState.bitmap.waitingForDirective == 0) {
                     newState.bitmap.colourBacktrack = 1;
                     newState.bitmap.backtrackColour = IFSyntaxDirective;
-                    newState.bitmap.waitingForDirective = 1;
+                    newState.bitmap.waitingForDirective = 1;	// inverted
                 } else if (newState.bitmap.highlightAll) {
                     newState.bitmap.colourBacktrack = 1;
                     newState.bitmap.backtrackColour = IFSyntaxProperty;
@@ -396,7 +398,7 @@ static inline BOOL FindKeyword(char** keywordList, int nKeywords, char* keyword)
 		//                    Clear highlight-all.
 		
 		if (chr == ';') {
-			newState.bitmap.waitingForDirective = 0;
+			newState.bitmap.waitingForDirective = 0; // Inverted
 			newState.bitmap.afterMarker = 0;
 			newState.bitmap.afterRestart = 0;
 			newState.bitmap.highlight = 0;
@@ -430,7 +432,7 @@ static int compare(const void* a, const void* b) {
 + (void) initialize {
     codeKwSet = [[NSSet setWithObjects:
         @"box", @"break", @"child", @"children", @"continue", @"default",
-        @"do", @"elder", @"eldest", @"else", @"false", @"font", @"for", @"give",
+        @"do", @"elder", @"eldest", @"else", @"false", @"font", @"for", @"give", @"glk",
         @"has", @"hasnt", @"if", @"in", @"indirect", @"inversion", @"jump",
         @"metaclass", @"move", @"new_line", @"nothing", @"notin", @"objectloop",
         @"ofclass", @"or", @"parent", @"print", @"print_ret", @"provides", @"quit",
@@ -439,6 +441,15 @@ static int compare(const void* a, const void* b) {
         @"true", @"until", @"while", @"younger", @"youngest", nil]
         retain];
     
+	/*
+    otherKwSet = [[NSSet setWithObjects: 
+        @"alias", @"additive", @"buffer", @"class", @"creature", @"data", @"error", @"fatalerror", 
+		@"first", @"held", @"initial", @"initstr", @"last", @"long", @"meta", @"multi",
+		@"multiexcept", @"multiheld", @"multiinside", @"noun", @"number", @"only", @"private", 
+		@"replace", @"reverse", @"score", @"scope", @"special", @"string", @"table", @"terminating", 
+		@"time", @"topic", @"warning", nil]
+        retain];
+	*/
     otherKwSet = [[NSSet setWithObjects: 
         @"first", @"last", @"meta", @"only", @"private", @"replace", @"reverse",
         @"string", @"table", nil]
@@ -487,6 +498,7 @@ static int compare(const void* a, const void* b) {
 	IFInform6State state;
 	
 	state.state = lastState;
+	state.bitmap.colourBacktrack = 0; // Only lives once!
 	
 	return [self nextState: state
 			 nextCharacter: chr].state;
@@ -498,18 +510,6 @@ static int compare(const void* a, const void* b) {
 	IFInform6State state;
 	
 	state.state = lastState;
-
-    if (state.bitmap.singleQuote || state.bitmap.doubleQuote) return IFSyntaxString;
-    if (state.bitmap.comment) return IFSyntaxComment;
-    if (state.bitmap.statement) {
-        if (chr == '[' || chr == ']') return IFSyntaxFunction;
-        if (chr == '\'' || chr == '"') return IFSyntaxString;
-        return IFSyntaxCodeAlpha;
-    }
-    
-    if (chr == ',' || chr == ';' || chr == '*' || chr == '>') return IFSyntaxDirective;
-    if (chr == '[' || chr == ']') return IFSyntaxFunction;
-    if (chr == '\'' || chr == '"') return IFSyntaxString;
     
 	// Colour backtracking
 	IFInform6State newState;
@@ -525,6 +525,19 @@ static int compare(const void* a, const void* b) {
 		[activeStorage backtrackWithStyle: newState.bitmap.backtrackColour
 								   length: backLen];
 	}
+
+	// Colour for this character
+    if (state.bitmap.singleQuote || state.bitmap.doubleQuote) return IFSyntaxString;
+    if (state.bitmap.comment) return IFSyntaxComment;
+    if (state.bitmap.statement) {
+        if (chr == '[' || chr == ']') return IFSyntaxFunction;
+        if (chr == '\'' || chr == '"') return IFSyntaxString;
+        return IFSyntaxCodeAlpha;
+    }
+    
+    if (chr == ',' || chr == ';' || chr == '*' || chr == '>') return IFSyntaxDirective;
+    if (chr == '[' || chr == ']') return IFSyntaxFunction;
+    if (chr == '\'' || chr == '"') return IFSyntaxString;
 	
     return IFSyntaxNone;
 }
