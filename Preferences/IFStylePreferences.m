@@ -11,4 +11,23 @@
 
 @implementation IFStylePreferences
 
+- (id) init {
+	self = [super initWithNibName: @"StylePreferences"];
+	
+	if (self) {
+	}
+	
+	return self;
+}
+
+// = PreferencePane overrides =
+
+- (NSString*) preferenceName {
+	return @"Styles";
+}
+
+- (NSImage*) toolbarImage {
+	return [NSImage imageNamed: @"Styles"];
+}
+
 @end

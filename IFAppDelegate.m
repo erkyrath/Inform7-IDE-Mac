@@ -19,7 +19,8 @@
 #import "IFIsBreakpoints.h"
 #import "IFIsSearch.h"
 
-#import "IFPreferenceController.h"
+#import "Preferences/IFPreferenceController.h"
+#import "Preferences/IFStylePreferences.h"
 
 #import "IFNoDocProtocol.h"
 #import "IFInformProtocol.h"
@@ -98,6 +99,10 @@ static NSRunLoop* mainRunLoop = nil;
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsBreakpoints sharedIFIsBreakpoints]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsSearch sharedIFIsSearch]];
 	
+	// The standard preferences
+	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFStylePreferences alloc] init] autorelease]];
+	
+	// Finish setting up
 	[self updateExtensions];
 
 	[NSURLProtocol registerClass: [IFInformProtocol class]];

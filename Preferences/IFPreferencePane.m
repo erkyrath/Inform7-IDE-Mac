@@ -11,14 +11,37 @@
 
 @implementation IFPreferencePane
 
+// = Initialisation =
 
-// Information about the preference window
+- (id) initWithNibName: (NSString*) nibName {
+	self = [super init];
+	
+	if (self) {
+		[NSBundle loadNibNamed: nibName
+						 owner: self];
+	}
+	
+	return self;
+}
+
+- (void) dealloc {
+	if (preferenceView) [preferenceView release];
+	
+	[super dealloc];
+}
+
+// = Information about the preference window =
+
 - (NSImage*) toolbarImage {
 	return nil;
 }
 
 - (NSString*) preferenceName {
 	return @"Unnamed preference";
+}
+
+- (NSString*) identifier {
+	return [[self class] description];
 }
 
 - (NSView*) preferenceView {

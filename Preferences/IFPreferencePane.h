@@ -13,9 +13,12 @@
 	IBOutlet NSView* preferenceView;
 }
 
+- (id) initWithNibName: (NSString*) nibName;
+
 // Information about the preference window
 - (NSImage*)  toolbarImage;
 - (NSString*) preferenceName;
+- (NSString*) identifier;
 - (NSView*)   preferenceView;
 
 @end
