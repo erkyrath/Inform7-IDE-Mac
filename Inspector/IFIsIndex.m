@@ -9,6 +9,8 @@
 #import "IFIsIndex.h"
 #import "IFAppDelegate.h"
 
+#import "IFPreferences.h"
+
 #import "IFIndexFile.h"
 #import "IFProjectController.h"
 #import "IFProject.h"
@@ -72,12 +74,15 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 	if ([window window] != activeWindow) return;
 	
 	if ([window isKindOfClass: [IFProjectController class]]) {
-		//IFProjectController* proj = (IFProjectController*)window;
+		IFProjectController* proj = (IFProjectController*)window;
 		
 		canDisplay = YES;
 	
-		//[indexList setDataSource: [[proj document] indexFile]];
-		[indexList setDataSource: self];
+		if (![[IFPreferences sharedPreferences] intelligenceIndexInspector]) {
+			[indexList setDataSource: [[proj document] indexFile]];
+		} else {
+			[indexList setDataSource: self];
+		}
 		[indexList reloadData];
 	}
 }

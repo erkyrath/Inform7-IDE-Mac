@@ -8,6 +8,8 @@
 
 #import "IFNaturalIntel.h"
 
+#import "IFPreferences.h"
+
 static NSArray* headingList = nil;
 
 // English number arrays
@@ -94,7 +96,7 @@ static NSArray* majorUnits;
 - (NSString*) rewriteInput: (NSString*) input {
 	if ([input isEqualToString: @"\n"]) {
 		// Auto-tab
-		// IMPLEMENT ME: preferences
+		if (![[IFPreferences sharedPreferences] indentAfterNewline]) return nil;
 		
 		// 'editingLineNumber' will still be the previous line
 		int lineNumber = [highlighter editingLineNumber];
@@ -149,6 +151,8 @@ static NSArray* majorUnits;
 			return nil;
 		}
 	} else if ([input isEqualToString: @" "]) {
+		if (![[IFPreferences sharedPreferences] autoNumberSections]) return nil;
+
 		int lineNumber = [highlighter editingLineNumber];
 		IFSyntaxStyle lastStyle = [highlighter styleAtStartOfLine: lineNumber];
 		

@@ -88,4 +88,19 @@ enum IFPreferencesColourSet {
 - (void) recalculateStyles;
 - (NSArray*) styles;
 
+// Intelligence preferences
+- (BOOL) enableSyntaxHighlighting;
+- (BOOL) indentWrappedLines;
+- (BOOL) enableIntelligence;
+- (BOOL) intelligenceIndexInspector;
+- (BOOL) indentAfterNewline;
+- (BOOL) autoNumberSections;
+
+- (void) setEnableSyntaxHighlighting: (BOOL) value;
+- (void) setIndentWrappedLines: (BOOL) value;
+- (void) setEnableIntelligence: (BOOL) value;
+- (void) setIntelligenceIndexInspector: (BOOL) value;
+- (void) setIndentAfterNewline: (BOOL) value;
+- (void) setAutoNumberSections: (BOOL) value;
+
 @end

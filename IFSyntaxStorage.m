@@ -867,6 +867,9 @@ static inline BOOL IsWhitespace(unichar c) {
 // = Tabbing =
 
 - (NSDictionary*) generateParagraphStyleForTabStops: (int) numberOfTabStops {
+	if (numberOfTabStops > 0 && ![[IFPreferences sharedPreferences] indentWrappedLines])
+		return [self generateParagraphStyleForTabStops: 0];
+	
 	float stopWidth = [highlighter tabStopWidth];
 	
 	if (stopWidth < 1.0) stopWidth = 16.0;
@@ -888,9 +891,11 @@ static inline BOOL IsWhitespace(unichar c) {
 	
 	[res setTabStops: tabStops];
 	
-	// headIndent value
-	[res setHeadIndent: stopWidth * ((float)numberOfTabStops) + (stopWidth/2.0)];
-	[res setFirstLineHeadIndent: 0];
+	if ([[IFPreferences sharedPreferences] indentWrappedLines]) {
+		// headIndent value
+		[res setHeadIndent: stopWidth * ((float)numberOfTabStops) + (stopWidth/2.0)];
+		[res setFirstLineHeadIndent: 0];
+	}
 	
 	return [NSDictionary dictionaryWithObject: [[res copy] autorelease]
 									   forKey: NSParagraphStyleAttributeName];

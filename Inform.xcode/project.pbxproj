@@ -2807,6 +2807,7 @@
 				4B5F87B307B026F200A30FAA,
 				4B34332707B143C80022C278,
 				4B34332A07B144060022C278,
+				4BD699CD07B7FCCD00BFDF2B,
 			);
 			isa = PBXGroup;
 			path = Preferences;
@@ -11851,6 +11852,8 @@
 				4B3432E307B1401A0022C278,
 				4B3432E807B1402E0022C278,
 				4B3432E907B1402E0022C278,
+				4BD699D507B80BA700BFDF2B,
+				4BD699D607B80BA700BFDF2B,
 			);
 			isa = PBXGroup;
 			path = Preferences;
@@ -12160,6 +12163,64 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \\*\\*\\* Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Natural\n# mkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Biplatform\n\ncp ${SRCROOT}/Library/Biplatform/Standard/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\ncp ${SRCROOT}/Library/lib611/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\necho -n \"6.11\" >${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n#ln -sf ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11 ${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n\ncp ${SRCROOT}/Library/natural/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/Natural\n\n\n# Inform 7 rules\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Graham\\ Nelson\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Reserved\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Emily\\ Short\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Roger\\ Firth\n\n#cp ${SRCROOT}/Library/Extensions/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions\ncp ${SRCROOT}/Library/Extensions/Graham\\ Nelson/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Graham\\ Nelson\ncp ${SRCROOT}/Library/Extensions/Emily\\ Short/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Emily\\ Short\ncp ${SRCROOT}/Library/Extensions/Roger\\ Firth/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Roger\\ Firth\ncp ${SRCROOT}/Library/Extensions/Reserved/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Reserved\n\n# ARGH! Bloody Xcode deleting shell script edits\n# HACK: XCode won't let us change target product names\nmv ${OBJROOT}/Inform.app/Contents/Resources/Compilers/inform-6.3-biplatform ${OBJROOT}/Inform.app/Contents/Resources/Compilers/inform-6.30-biplatform\n\necho \\*\\*\\* Done";
 		};
+		4BD699CD07B7FCCD00BFDF2B = {
+			children = (
+				4BD699CE07B7FCCD00BFDF2B,
+			);
+			isa = PBXVariantGroup;
+			name = IntelligencePreferences.nib;
+			path = "";
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4BD699CE07B7FCCD00BFDF2B = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.nib;
+			name = English;
+			path = English.lproj/IntelligencePreferences.nib;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4BD699CF07B7FCCD00BFDF2B = {
+			fileRef = 4BD699CD07B7FCCD00BFDF2B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4BD699D207B80B9C00BFDF2B = {
+			fileRef = 4BC8E3340795C66300D73BC7;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4BD699D507B80BA700BFDF2B = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = IFIntelligencePreferences.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4BD699D607B80BA700BFDF2B = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = IFIntelligencePreferences.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4BD699D707B80BA700BFDF2B = {
+			fileRef = 4BD699D507B80BA700BFDF2B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4BD699D807B80BA700BFDF2B = {
+			fileRef = 4BD699D607B80BA700BFDF2B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		4BD959F3055EE949008DEFF4 = {
 			buildPhases = (
 				4BD959F5055EE949008DEFF4,
@@ -12275,6 +12336,8 @@
 				4B40061B07B532140006BB3D,
 				4B40080307B57A570006BB3D,
 				4B40084E07B584430006BB3D,
+				4BD699D207B80B9C00BFDF2B,
+				4BD699D707B80BA700BFDF2B,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -12654,6 +12717,7 @@
 				4B3432DF07B13FEF0022C278,
 				4B34332907B143C90022C278,
 				4B34332C07B144060022C278,
+				4BD699CF07B7FCCD00BFDF2B,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -12781,6 +12845,7 @@
 				4B40061207B52FB90006BB3D,
 				4B40061C07B532140006BB3D,
 				4B40084F07B584430006BB3D,
+				4BD699D807B80BA700BFDF2B,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

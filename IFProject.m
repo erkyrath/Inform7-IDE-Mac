@@ -9,6 +9,8 @@
 #import "IFProject.h"
 #import "IFProjectController.h"
 
+#import "IFPreferences.h"
+
 #import "IFSyntaxStorage.h"
 #import "IFNaturalHighlighter.h"
 #import "IFInform6Highlighter.h"
@@ -24,6 +26,8 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 
 + (id<IFSyntaxHighlighter,NSObject>) highlighterForFilename: (NSString*) filename {
 	NSString* extn = [[filename pathExtension] lowercaseString];
+	
+	if (![[IFPreferences sharedPreferences] enableSyntaxHighlighting]) return nil;
 	
 	if ([extn isEqualToString: @"inf"] ||
 		[extn isEqualToString: @"i6"] ||
@@ -43,10 +47,12 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 + (id<IFSyntaxIntelligence,NSObject>) intelligenceForFilename: (NSString*) filename {
 	NSString* extn = [[filename pathExtension] lowercaseString];
 	
+	if (![[IFPreferences sharedPreferences] enableIntelligence]) return nil;
+	
 	if ([extn isEqualToString: @"inf"] ||
 		[extn isEqualToString: @"i6"] ||
 		[extn isEqualToString: @"h"]) {
-		// Inform 6 file
+		// Inform 6 file (no intelligence yet)
 		return nil;
 	} else if ([extn isEqualToString: @"ni"] ||
 			   [extn isEqualToString: @""]) {

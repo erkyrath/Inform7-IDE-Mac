@@ -23,6 +23,7 @@
 #import "Preferences/IFStylePreferences.h"
 #import "Preferences/IFInspectorPreferences.h"
 #import "Preferences/IFExtensionPreferences.h"
+#import "Preferences/IFIntelligencePreferences.h"
 
 #import "IFNoDocProtocol.h"
 #import "IFInformProtocol.h"
@@ -102,6 +103,7 @@ static NSRunLoop* mainRunLoop = nil;
 	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFStylePreferences alloc] init] autorelease]];
 	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFInspectorPreferences alloc] init] autorelease]];
 	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFExtensionPreferences alloc] init] autorelease]];
+	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFIntelligencePreferences alloc] init] autorelease]];
 	
 	// Finish setting up
 	[self updateExtensions];

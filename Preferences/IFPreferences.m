@@ -539,4 +539,112 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 	return styles;
 }
 
+// = Intelligence preferences =
+
+- (BOOL) enableSyntaxHighlighting {
+	NSNumber* value = [preferences objectForKey: @"enableSyntaxHighlighting"];
+	
+	if (value)
+		return [value boolValue];
+	else
+		return YES;
+}
+
+- (BOOL) indentWrappedLines {
+	NSNumber* value = [preferences objectForKey: @"indentWrappedLines"];
+	
+	if (![self enableSyntaxHighlighting]) return NO;
+	
+	if (value)
+		return [value boolValue];
+	else
+		return YES;
+}
+
+- (BOOL) enableIntelligence {
+	NSNumber* value = [preferences objectForKey: @"enableIntelligence"];
+	
+	if (![self enableSyntaxHighlighting]) return NO;
+	
+	if (value)
+		return [value boolValue];
+	else
+		return YES;
+}
+
+- (BOOL) intelligenceIndexInspector {
+	NSNumber* value = [preferences objectForKey: @"intelligenceIndexInspector"];
+	
+	if (![self enableIntelligence]) return NO;
+	
+	if (value)
+		return [value boolValue];
+	else
+		return YES;
+}
+
+- (BOOL) indentAfterNewline {
+	NSNumber* value = [preferences objectForKey: @"indentAfterNewline"];
+	
+	if (![self enableIntelligence]) return NO;
+	
+	if (value)
+		return [value boolValue];
+	else
+		return YES;
+}
+
+- (BOOL) autoNumberSections {
+	NSNumber* value = [preferences objectForKey: @"autoNumberSections"];
+	
+	if (![self enableIntelligence]) return NO;
+	
+	if (value)
+		return [value boolValue];
+	else
+		return NO;
+}
+
+- (void) setEnableSyntaxHighlighting: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"enableSyntaxHighlighting"];
+	
+	[self preferencesHaveChanged];
+}
+
+- (void) setIndentWrappedLines: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"indentWrappedLines"];
+	
+	[self preferencesHaveChanged];
+}
+
+- (void) setEnableIntelligence: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"enableIntelligence"];
+	
+	[self preferencesHaveChanged];
+}
+
+- (void) setIntelligenceIndexInspector: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"intelligenceIndexInspector"];
+	
+	[self preferencesHaveChanged];
+}
+
+- (void) setIndentAfterNewline: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"indentAfterNewline"];
+	
+	[self preferencesHaveChanged];
+}
+
+- (void) setAutoNumberSections: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"autoNumberSections"];
+	
+	[self preferencesHaveChanged];
+}
+
 @end
