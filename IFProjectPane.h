@@ -75,6 +75,8 @@ enum IFProjectPaneType {
 	// The skein view
 	IBOutlet ZoomSkeinView* skeinView;
 	IBOutlet NSPopUpButton* skeinLabelButton;
+	int annotationCount;
+	NSString* lastAnnotation;
 
     // Settings
 	IBOutlet IFSettingsView* settingsView;
@@ -146,5 +148,6 @@ enum IFProjectPaneType {
 
 // The skein view
 - (IBAction) skeinLabelSelected: (id) sender;
+- (void) skeinDidChange: (NSNotification*) not;
 
 @end

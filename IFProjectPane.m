@@ -172,6 +172,8 @@ static NSDictionary* styles[256];
         [highlighterTicker release];
         highlighterTicker = nil;
     }
+	
+	if (lastAnnotation) [lastAnnotation release];
     
     [super dealloc];
 }
@@ -1085,7 +1087,9 @@ static NSDictionary* styles[256];
 
 // = WebResourceLoadDelegate methods =
 
--(void)webView:(WebView *)sender resource:(id)identifier didFailLoadingWithError:(NSError *)error fromDataSource:(WebDataSource *)dataSource {
+-(void)		webView:(WebView *)sender 
+		   resource:(id)identifier didFailLoadingWithError:(NSError *)error 
+	 fromDataSource:(WebDataSource *)dataSource {
 	NSLog(@"IFprojectPane: failed to load page with error: %@", [error localizedDescription]);
 }
 
@@ -1097,7 +1101,28 @@ static NSDictionary* styles[256];
 }
 
 - (IBAction) skeinLabelSelected: (id) sender {
-	NSLog(@"Beep - %@", sender);
+	NSString* annotation = [[sender selectedItem] title];
+	
+	// Reset the annotation count if required
+	if (![annotation isEqualToString: lastAnnotation]) {
+		annotationCount = 0;
+	}
+	
+	[lastAnnotation release];
+	lastAnnotation = [annotation retain];
+	
+	// Get the list of items for this annotation
+	NSArray* availableItems = [[[parent document] skein] itemsWithAnnotation: lastAnnotation];
+	if (!availableItems || [availableItems count] == 0) return;
+		
+	// Reset the annotation count if required
+	if ([availableItems count] <= annotationCount) annotationCount = 0;
+
+	// Scroll to the appropriate item
+	[skeinView scrollToItem: [availableItems objectAtIndex: annotationCount]];
+	
+	// Will scroll to the next item in the list if there's more than one
+	annotationCount++;
 }
 
 @end
