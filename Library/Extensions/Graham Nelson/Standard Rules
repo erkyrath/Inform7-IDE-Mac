@@ -95,7 +95,7 @@ Part SR1 - Kinds
 Section SR1/1 - Primitive Kinds
 
 [The kind "kind" is not created here but by NI itself. The first through
-to seventh kinds created now follow: they must not be reordered or moved.]
+to eighth kinds created now follow: they must not be reordered or moved.]
 
 A room is a kind.
 A thing is a kind.
@@ -104,6 +104,7 @@ A door is a kind of thing.
 A container is a kind of thing.
 A supporter is a kind of thing.
 A backdrop is a kind of thing.
+A person is a kind of thing.
 
 
 Section SR1/2 - Rooms
@@ -167,6 +168,8 @@ A thing can be an Inform library male.
 
 A thing can be marked for listing. A thing is usually not marked for listing.
 
+A thing is allowed to have a number called score for finding.
+
 
 Section SR1/4 - Doors
 
@@ -223,7 +226,7 @@ is usually openable.
 
 Include (-
 Global SACK_OBJECT;
-Constant RUCKSACK_CLASS = K8_player_s_holdall;
+Constant RUCKSACK_CLASS = K9_player_s_holdall;
 -) before the library.
 
 The specification of supporter is "Represents a surface on which things can be
@@ -289,7 +292,6 @@ Below is means down is.
 
 Section SR1/8 - People, men and women
 
-A person is a kind of thing.
 A person is always an Inform library animate object.
 A person can be female or male. A person is usually male.
 
@@ -301,7 +303,7 @@ An animal is a kind of person.
 The specification of animal is "Represents an animal, or at any
 rate a non-human living creature reasonably large and possible
 to interact with: a giant Venus fly-trap might qualify, but not
-a patch of lichen." 
+a patch of lichen."
 
 The plural of man is men. The plural of woman is women.
 
@@ -593,11 +595,10 @@ The last for printing the player's obituary rule:
 
 Section SR2/6 - Use options
 
-*.
 Use American dialect translates as (- Constant DIALECT_US; -).
 Use the serial comma translates as (- Constant I7_SERIAL_COMMA; -).
 Use memory economy translates as (- Constant I7_ECONOMY; -).
-*.
+
 
 Part SR3 - Actions
 
