@@ -140,7 +140,13 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 	[ctrl setSearchPhrase: [searchText stringValue]];
 	[ctrl setSearchType: willSearchType];
 	
+	[ctrl setDelegate: activeController];
+	
 	// Find the files and data to search
+	
+	// Note that files are searched in the reverse order they are added
+	
+	// Documents (we search these last)
 	if (willSearchDocs) {
 		// Find the documents to search
 		NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
@@ -156,7 +162,29 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 				[extension isEqualToString: @"htm"]) {
 				[ctrl addSearchFile: [resourcePath stringByAppendingPathComponent: path]
 							   type: @"Documentation"];
+				//[[NSBundle mainBundle] localizedStringForKey: @"SearchType Documentation"
+				//										 value: @"Docs"
+				//										 table: nil]];
 			}
+		}
+	}
+	
+	// Source files (searched first)
+	if (willSearchSources) {
+		NSDictionary* sourceFiles = [activeProject sourceFiles];
+		NSTextStorage* file;
+		NSString* filename;
+		NSEnumerator* fileEnum = [sourceFiles keyEnumerator];
+		
+		while (filename = [fileEnum nextObject]) {
+			file = [sourceFiles objectForKey: filename];
+			
+			[ctrl addSearchStorage: [file string]
+					  withFileName: filename
+							  type: @"Source File"];
+			//[[NSBundle mainBundle] localizedStringForKey: @"SearchType Source File"
+			//										 value: @"Source File"
+			//										 table: nil]];
 		}
 	}
 	

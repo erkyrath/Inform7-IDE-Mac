@@ -125,6 +125,7 @@ enum IFProjectPaneType {
 - (void) moveToLine: (int) line
 		  character: (int) chr;
 - (void) moveToLine: (int) line;
+- (void) moveToLocation: (int) location;
 
 - (void) showSourceFile: (NSString*) file;
 - (NSString*) currentFile;

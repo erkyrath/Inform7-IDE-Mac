@@ -39,6 +39,9 @@ enum IFSearchType {
 	// Search results
 	BOOL waitingForReload;
 	NSMutableArray* searchResults;	// Array of dictionaries
+	
+	// Delegate
+	id delegate;
 }
 
 // Controlling the display
@@ -73,5 +76,16 @@ enum IFSearchType {
 
 // Functions that the main thread uses to communicate with the search thread
 - (void) abortSearch;
+
+@end
+
+// Delegate methods
+
+@interface NSObject(IFSearchDelegate)
+
+// Selected a file in the search window
+- (void) searchSelectedItemAtLocation: (int) location
+							   inFile: (NSString*) filename
+								 type: (NSString*) type;
 
 @end

@@ -889,6 +889,14 @@ static NSDictionary*  itemDictionary = nil;
     [[self window] makeFirstResponder: [thePane activeView]];
 }
 
+- (void) moveToSourceFilePosition: (int) location {
+	IFProjectPane* thePane = [self sourcePane];
+	
+    [thePane selectView: IFSourcePane];
+    [thePane moveToLocation: location];
+    [[self window] makeFirstResponder: [thePane activeView]];
+}
+
 - (void) removeHighlightsInFile: (NSString*) file
 						ofStyle: (enum lineStyle) style {
 	file = [[self document] pathForFile: file];
@@ -1293,6 +1301,25 @@ static NSDictionary*  itemDictionary = nil;
 		[self highlightSourceFileLine: line+1
 							   inFile: file
 								style: IFLineStyleBreakpoint];
+	}
+}
+
+// = Dealing with search panels =
+
+- (void) searchSelectedItemAtLocation: (int) location
+							   inFile: (NSString*) filename
+								 type: (NSString*) type {
+	// If the match is a document, order the documentation pane to display it
+	// (Not sure how to deal with the location: I don't think it makes much sense
+	// relative to a web view)
+	
+	if ([type isEqualToString: @"Documentation"]) {
+		// Doc pane
+		[[self auxPane] openURL: [NSURL URLWithString: [@"inform:/" stringByAppendingPathComponent: [filename lastPathComponent]]]];
+	} else {
+		// Show the appropriate source file
+		[self selectSourceFile: filename];
+		[self moveToSourceFilePosition: location];
 	}
 }
 

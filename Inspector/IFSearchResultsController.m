@@ -64,6 +64,8 @@ static NSDictionary* boldAttributes;
 	
 	if (searchResults) [searchResults release];
 	
+	if (delegate) [delegate release];
+	
 	[super dealloc];
 }
 
@@ -81,6 +83,9 @@ static NSDictionary* boldAttributes;
 	if (searchLabelText) {
 		[searchLabel setStringValue: searchLabelText];
 	}
+
+	// This window only becomes key if needed
+	[(NSPanel*)[self window] setBecomesKeyOnlyIfNeeded: YES];
 }
 
 - (void) windowWillClose: (NSNotification*) aNotification {
@@ -203,7 +208,9 @@ static NSDictionary* boldAttributes;
 
 // = The search delegate =
 
-- (void) setDelegate: (id) delegate {
+- (void) setDelegate: (id) newDelegate {
+	if (delegate) [delegate release];
+	delegate = [newDelegate retain];
 }
 
 // = Table data source =
@@ -228,6 +235,21 @@ static NSDictionary* boldAttributes;
 
 	return nil;
 }
+
+- (void)tableViewSelectionDidChange: (NSNotification *)aNotification {
+	if ([tableView numberOfSelectedRows] != 1) return;
+	
+	int selectedRow = [tableView selectedRow];
+	
+	if (delegate && [delegate respondsToSelector: @selector(searchSelectedItemAtLocation:inFile:type:)]) {
+		NSDictionary* row = [searchResults objectAtIndex: selectedRow];
+		
+		[delegate searchSelectedItemAtLocation: [[row objectForKey: @"location"] intValue] 
+										inFile: [row objectForKey: @"filename"]
+										  type: [row objectForKey: @"type"]];
+	}
+}
+
 
 // = Functions that the search thread uses to communicate with the main thread =
 

@@ -78,6 +78,7 @@ enum lineStyle {
 
 // Communication from the containing panes (maybe other uses, too - scripting?)
 - (BOOL) selectSourceFile: (NSString*) fileName;
+- (void) moveToSourceFilePosition: (int) location;
 - (void) moveToSourceFileLine: (int) line;
 - (NSString*) selectedSourceFile;
 
