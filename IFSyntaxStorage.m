@@ -169,12 +169,15 @@ static const int maxPassLength = 1024;
 	IFSyntaxStyle style = charStyles[index];
 	
 	if (range) {
-		range->location = index;
-		range->length = 0;
+		NSRange localRange;								// Optimisation suggested by Shark
+		const IFSyntaxStyle* localStyles = charStyles;	// Ditto
+
+		localRange.location = index;
+		localRange.length = 0;
 		
-		while (range->location > 0) {
-			if (charStyles[range->location-1] == style) {
-				range->location--;
+		while (localRange.location > 0) {
+			if (localStyles[localRange.location-1] == style) {
+				localRange.location--;
 			} else {
 				break;
 			}
@@ -182,13 +185,15 @@ static const int maxPassLength = 1024;
 		
 		unsigned strLen = [string length];
 		
-		while (range->location+range->length < strLen) {
-			if (charStyles[range->location+range->length] == style) {
-				range->length++;
+		while (localRange.location+localRange.length < strLen) {
+			if (localStyles[localRange.location+localRange.length] == style) {
+				localRange.length++;
 			} else {
 				break;
 			}
 		}
+		
+		*range = localRange;
 	}
 	
 	return style;
@@ -255,9 +260,9 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 																	  (CFDictionaryRef)stringAttributes);
 		
 	if (lineAttributes) 
-		[attributes addEntriesFromDictionary: lineAttributes];
+		[(NSDictionary*)attributes addEntriesFromDictionary: lineAttributes];
 	if (styleAttributes)
-		[attributes addEntriesFromDictionary: styleAttributes];
+		[(NSDictionary*)attributes addEntriesFromDictionary: styleAttributes];
 	
 	if (CFDictionaryContainsKey(attributes, IFStyleAttributes))
 		CFDictionaryRemoveValue(attributes, IFStyleAttributes);
