@@ -580,10 +580,28 @@ static NSDictionary* styles[256];
     }
 }
 
+- (void) pauseRunningGame {
+	if (zView) {
+		[zView debugTask];
+	}
+}
+
+- (ZoomView*) zoomView {
+	return zView;
+}
+
+- (BOOL) isRunningGame {
+	return zView != nil && [zView isRunning];
+}
+
 // (ZoomView delegate functions)
 - (void) zMachineStarted: (id) sender {
     [[zView zMachine] loadStoryFile: 
         [NSData dataWithContentsOfFile: gameToRun]];
+
+	[[zView zMachine] loadDebugSymbolsFrom: [[[[parent document] fileName] stringByAppendingPathComponent: @"Build"] stringByAppendingPathComponent: @"gameinfo.dbg"]
+							withSourcePath: [[[parent document] fileName] stringByAppendingPathComponent: @"Source"]];
+	
     [tabView selectTabViewItem: gameTabView];
     [[paneView window] makeFirstResponder: [zView textView]];
 }

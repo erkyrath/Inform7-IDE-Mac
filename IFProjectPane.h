@@ -120,6 +120,10 @@ enum IFProjectPaneType {
 // The game view
 - (void) startRunningGame: (NSString*) fileName;
 - (void) stopRunningGame;
+- (void) pauseRunningGame;
+
+- (ZoomView*) zoomView;
+- (BOOL) isRunningGame;
 
 // Settings
 - (void) updateSettings;

@@ -17,7 +17,17 @@
 static NSToolbarItem* compileItem       = nil;
 static NSToolbarItem* compileAndRunItem = nil;
 static NSToolbarItem* releaseItem       = nil;
+
 static NSToolbarItem* stopItem          = nil;
+static NSToolbarItem* pauseItem		    = nil;
+
+static NSToolbarItem* continueItem		= nil;
+static NSToolbarItem* stepItem			= nil;
+static NSToolbarItem* stepOverItem		= nil;
+static NSToolbarItem* stepOutItem		= nil;
+
+static NSToolbarItem* watchItem			= nil;
+static NSToolbarItem* breakpointItem	= nil;
 
 static NSDictionary*  itemDictionary = nil;
 
@@ -25,27 +35,70 @@ static NSDictionary*  itemDictionary = nil;
     compileItem   = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileItem"];
     compileAndRunItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileAndRunItem"];
     releaseItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"releaseItem"];
+	
     stopItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stopItem"];
+    continueItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"continueItem"];
+    pauseItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"pauseItem"];
+
+	stepItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stepItem"];
+    stepOverItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stepOverItem"];
+    stepOutItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stepOutItem"];
+
+	watchItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"watchItem"];
+    breakpointItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"breakpointItem"];
 
     itemDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
         compileItem, @"compileItem",
         compileAndRunItem, @"compileAndRunItem",
         releaseItem, @"releaseItem",
 		stopItem, @"stopItem",
+		pauseItem, @"pauseItem",
+		continueItem, @"continueItem",
+		stepItem, @"stepItem",
+		stepOverItem, @"stepOverItem",
+		stepOutItem, @"stepOutItem",
+		watchItem, @"watchItem",
+		breakpointItem, @"breakpointItem",
         nil];
 
     // FIXME: localisation
-    // FIXME: images
+	[compileItem setImage: [NSImage imageNamed: @"compile"]];
+	[compileAndRunItem setImage: [NSImage imageNamed: @"run"]];	
+	
+	[stopItem setImage: [NSImage imageNamed: @"stop"]];
+	[pauseItem setImage: [NSImage imageNamed: @"pause"]];
+	[continueItem setImage: [NSImage imageNamed: @"continue"]];
+	
+	[stepItem setImage: [NSImage imageNamed: @"step"]];
+	[stepOverItem setImage: [NSImage imageNamed: @"stepover"]];
+	[stepOutItem setImage: [NSImage imageNamed: @"stepout"]];
+	
+	[watchItem setImage: [NSImage imageNamed: @"watch"]];
+	[breakpointItem setImage: [NSImage imageNamed: @"breakpoint"]];
+
     [compileItem setLabel: @"Compile"];
     [compileAndRunItem setLabel: @"Go!"];
     [releaseItem setLabel: @"Release"];
+	
+	[stepItem setLabel: @"Step"];
+	[stepOverItem setLabel: @"Step over"];
+	[stepOutItem setLabel: @"Step out"];
+	
 	[stopItem setLabel: @"Stop"];
+	[pauseItem setLabel: @"Pause"];
+	[continueItem setLabel: @"Continue"];
+	
+	[watchItem setLabel: @"Watch"];
+	[breakpointItem setLabel: @"Breakpoints"];
 
     // The action heroes
     [compileItem setAction: @selector(compile:)];
     [compileAndRunItem setAction: @selector(compileAndRun:)];
     [releaseItem setAction: @selector(release:)];
+	
     [stopItem setAction: @selector(stopProcess:)];
+	[pauseItem setAction: @selector(pauseProcess:)];
+	[continueItem setAction: @selector(continueProcess:)];
 }
 
 // == Initialistion ==
@@ -78,8 +131,8 @@ static NSDictionary*  itemDictionary = nil;
     toolbar = [[NSToolbar allocWithZone: [self zone]] initWithIdentifier: @"ProjectToolbar"];
 
     [toolbar setDelegate: self];
-    [toolbar setDisplayMode: NSToolbarDisplayModeLabelOnly]; // FIXME: create icons
     [toolbar setAllowsUserCustomization: YES];
+	[toolbar setAutosavesConfiguration: YES];
     
     [[self window] setToolbar: toolbar];
 
@@ -221,13 +274,26 @@ static NSDictionary*  itemDictionary = nil;
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
-        @"compileItem", @"compileAndRunItem", @"stopItem", NSToolbarSeparatorItemIdentifier, @"releaseItem"
+        @"compileItem", @"compileAndRunItem", @"pauseItem", @"continueItem", @"stepItem", @"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, @"releaseItem"
         , nil];
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects: @"compileAndRunItem", @"compileItem", @"stopItem",
-        NSToolbarSeparatorItemIdentifier,  @"releaseItem", nil];
+    return [NSArray arrayWithObjects: @"compileItem", @"compileAndRunItem", 
+		NSToolbarSeparatorItemIdentifier,  @"stopItem", @"pauseItem", NSToolbarSeparatorItemIdentifier, @"continueItem", @"stepOutItem", @"stepOverItem", @"stepItem",
+        NSToolbarSeparatorItemIdentifier,  @"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"breakpointItem", @"watchItem",nil];
+}
+
+// == Toolbar item validation ==
+
+- (BOOL) validateToolbarItem: (NSToolbarItem*) item {
+	BOOL isRunning = [[self gamePane] isRunningGame];
+	
+	if (item == stopItem || item == pauseItem) {
+		return isRunning;
+	}
+	
+	return YES;
 }
 
 // == View selection functions ==
@@ -425,6 +491,22 @@ static NSDictionary*  itemDictionary = nil;
 - (void) highlightSourceFileLine: (int) line
                            style: (enum lineStyle) style {
     // FIXME: clear/set temporary attributes
+}
+
+// = Debugging controls =
+- (IFProjectPane*) gamePane {
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
+	
+	while (pane = [paneEnum nextObject]) {
+		if ([pane isRunningGame]) return pane;
+	}
+	
+	return nil;
+}
+
+- (void) pauseProcess: (id) sender {
+	[[self gamePane] pauseRunningGame];
 }
 
 @end
