@@ -21,7 +21,7 @@
     if (self) {
 		innerView = nil;
 		
-		arrow = [[IFIsArrow alloc] initWithFrame: NSMakeRect(0, -4, 24, 28)];
+		arrow = [[IFIsArrow alloc] initWithFrame: NSMakeRect(0, 0, 24, 28)];
 		[self addSubview: arrow];
 		[arrow sizeToFit];
 		

@@ -32,6 +32,7 @@ static NSString* IFNSShadowAttributeName = @"NSShadow";
 	titleFont = [[NSFont systemFontOfSize: 11] retain];
 	titleHeight = [titleFont ascender] + [titleFont descender];
 	titleHeight /= 2;
+	titleHeight = ceilf(titleHeight);
 	
 	// Font attributes
 	NSShadow* shadow = nil;
@@ -53,7 +54,7 @@ static NSString* IFNSShadowAttributeName = @"NSShadow";
 }
 
 + (float) titleHeight {
-	return [titleFont ascender] + [titleFont descender] + 7;
+	return ceilf([titleFont ascender] + [titleFont descender]) + 8;
 }
 
 - (id)initWithFrame:(NSRect)frame {
@@ -121,7 +122,7 @@ static NSString* IFNSShadowAttributeName = @"NSShadow";
 }
 
 // No idea if Apple keeps constants indicating where these characters are *supposed* to be. Google and Xcode
-// documentation are silent on this point.
+// documentation are silent on this point. (Couldn't find anything in the headers either)
 #define CommandCharacter 0x2318
 #define OptionCharacter 0x2325
 #define ControlCharacter 0x2303
@@ -134,6 +135,8 @@ static NSString* IFNSShadowAttributeName = @"NSShadow";
 // = Drawing, etc =
 
 - (void)drawRect:(NSRect)rect {
+	NSRect bounds = [self bounds];
+	
 	// Fill with the background colour
 	[[NSColor windowBackgroundColor] set];
 	//NSRectFill(rect);
@@ -153,9 +156,13 @@ static NSString* IFNSShadowAttributeName = @"NSShadow";
 					fraction: 1.0];
 		x+=w;
 	}
+	
+	// Draw a line underneath
+	[[NSColor colorWithDeviceWhite: 0.4 alpha: 1.0] set];
+	NSRectFill(NSMakeRect(rect.origin.x, bounds.origin.y+bounds.size.height-1, rect.size.width, 1));
 			
 	// Draw the title text
-	[title drawAtPoint: NSMakePoint(24, 5-titleHeight)];
+	[title drawAtPoint: NSMakePoint(24, 6-titleHeight)];
 }
 
 - (BOOL) isFlipped {
