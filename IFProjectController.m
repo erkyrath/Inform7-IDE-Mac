@@ -21,6 +21,7 @@
 // == Toolbar items ==
 static NSToolbarItem* compileItem       = nil;
 static NSToolbarItem* compileAndRunItem = nil;
+static NSToolbarItem* replayItem		= nil;
 static NSToolbarItem* compileAndDebugItem = nil;
 static NSToolbarItem* releaseItem       = nil;
 
@@ -44,6 +45,7 @@ static NSDictionary*  itemDictionary = nil;
     compileAndRunItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileAndRunItem"];
     compileAndDebugItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileAndDebugItem"];
     releaseItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"releaseItem"];
+	replayItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"replayItem"];
 	
     stopItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stopItem"];
     continueItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"continueItem"];
@@ -61,6 +63,7 @@ static NSDictionary*  itemDictionary = nil;
     itemDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
         compileItem, @"compileItem",
         compileAndRunItem, @"compileAndRunItem",
+		replayItem, @"replayItem",
 		compileAndDebugItem, @"compileAndDebugItem",
         releaseItem, @"releaseItem",
 		stopItem, @"stopItem",
@@ -79,6 +82,7 @@ static NSDictionary*  itemDictionary = nil;
 	[compileAndRunItem setImage: [NSImage imageNamed: @"run"]];
 	[compileAndDebugItem setImage: [NSImage imageNamed: @"debug"]];
 	[releaseItem setImage: [NSImage imageNamed: @"release"]];
+	[replayItem setImage: [NSImage imageNamed: @"replay"]];
 	
 	[stopItem setImage: [NSImage imageNamed: @"stop"]];
 	[pauseItem setImage: [NSImage imageNamed: @"pause"]];
@@ -105,6 +109,9 @@ static NSDictionary*  itemDictionary = nil;
     [releaseItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Release"
 																  value: @"Release"
 																  table: nil]];
+    [replayItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Replay"
+																 value: @"Replay"
+																 table: nil]];
 	
 	[stepItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Step"
 															   value: @"Step"
@@ -150,6 +157,9 @@ static NSDictionary*  itemDictionary = nil;
     [releaseItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"ReleaseTip"
 																	value: nil
 																	table: nil]];
+	[replayItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"ReplayTip"
+																   value: nil
+																   table: nil]];
 	
 	[stepItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"StepTip"
 																 value: nil
@@ -187,6 +197,7 @@ static NSDictionary*  itemDictionary = nil;
     [compileAndRunItem setAction: @selector(compileAndRun:)];
     [compileAndDebugItem setAction: @selector(compileAndDebug:)];
     [releaseItem setAction: @selector(release:)];
+    [replayItem setAction: @selector(replayUsingSkein:)];
 	
 	[indexItem setAction: @selector(docIndex:)];
 	
@@ -384,7 +395,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
-        @"compileItem", @"compileAndRunItem", @"compileAndDebugItem", @"pauseItem", @"continueItem", @"stepItem", 
+        @"compileItem", @"compileAndRunItem", @"replayItem", @"compileAndDebugItem", @"pauseItem", @"continueItem", @"stepItem", 
 		@"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem",
 		NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, 
 		@"releaseItem",
@@ -393,10 +404,10 @@ static NSDictionary*  itemDictionary = nil;
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)tb {
 	if ([[tb identifier] isEqualToString: @"ProjectNiToolbar"]) {
-		return [NSArray arrayWithObjects: @"compileAndRunItem", @"stopItem", NSToolbarSeparatorItemIdentifier, 
+		return [NSArray arrayWithObjects: @"compileAndRunItem", @"replayItem", @"stopItem", NSToolbarSeparatorItemIdentifier, 
 			@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"indexItem", nil];
 	} else {
-		return [NSArray arrayWithObjects: @"compileAndRunItem", @"compileAndDebugItem",
+		return [NSArray arrayWithObjects: @"compileAndRunItem", @"replayItem", @"compileAndDebugItem",
 			NSToolbarSeparatorItemIdentifier,  @"stopItem", @"pauseItem", NSToolbarSeparatorItemIdentifier, 
 			@"continueItem", @"stepOutItem", @"stepOverItem", @"stepItem", NSToolbarSeparatorItemIdentifier,
 			@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"indexItem", NSToolbarSeparatorItemIdentifier, 
@@ -494,6 +505,13 @@ static NSDictionary*  itemDictionary = nil;
     compileFinishedAction = @selector(runCompilerOutput);
 }
 
+- (IBAction) replayUsingSkein: (id) sender {
+	[self compile: self];
+	
+	waitingAtBreakpoint = NO;
+    compileFinishedAction = @selector(runCompilerOutputAndReplay);
+}
+
 - (IBAction) compileAndDebug: (id) sender {
     [self compile: self];
 	
@@ -534,6 +552,10 @@ static NSDictionary*  itemDictionary = nil;
 - (void) runCompilerOutput {
 	waitingAtBreakpoint = NO;
     [[projectPanes objectAtIndex: 1] startRunningGame: [[[self document] compiler] outputFile]];
+}
+
+- (void) runCompilerOutputAndReplay {
+	[self runCompilerOutput];
 }
 
 - (void) debugCompilerOutput {
