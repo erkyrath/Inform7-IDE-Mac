@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "IFCompilerController.h"
+#import "IFSyntaxHighlighter.h"
 
 #import <ZoomView/ZoomView.h>
 
@@ -80,6 +81,8 @@ enum IFProjectPaneType {
 
     BOOL awake;
     IFProjectController* parent;
+    
+    IFSyntaxHighlighter* highlighter;
 }
 
 + (IFProjectPane*) standardPane;
@@ -109,5 +112,9 @@ enum IFProjectPaneType {
 // Settings
 - (void) updateSettings;
 - (IBAction) settingsHaveChanged: (id) sender;
+
+// Syntax highlighting
+- (void) highlightEntireFile;
+- (void) highlightRange: (NSRange) charRange;
 
 @end

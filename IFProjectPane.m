@@ -10,6 +10,8 @@
 #import "IFProject.h"
 #import "IFProjectController.h"
 
+#import "IFInform6Syntax.h"
+
 @implementation IFProjectPane
 
 + (IFProjectPane*) standardPane {
@@ -24,6 +26,8 @@
         zView = nil;
         gameToRun = nil;
         awake = NO;
+        
+        highlighter = [[IFInform6Syntax alloc] init];
 
         sourceFiles = [[NSMutableArray allocWithZone: [self zone]] init];
     }
@@ -41,6 +45,7 @@
     [paneView       release];
     [compController release];
     [sourceFiles    release];
+    [highlighter    release];
     
     if (zView) [zView release];
     if (gameToRun) [gameToRun release];
@@ -85,6 +90,7 @@
     NSTextStorage* mainFile = [doc storageForFile: [doc mainSourceFile]];
 
     [mainFile addLayoutManager: [sourceText layoutManager]];
+    [self highlightEntireFile];
 
     [compController setCompiler: [doc compiler]];
     [compController setDelegate: self];
@@ -387,6 +393,99 @@
     }
 
     return YES;
+}
+
+// = Syntax highlighting =
+- (NSDictionary*) attributeForStyle: (enum IFSyntaxType) style {
+    switch (style) {
+        case IFSyntaxNone:
+            return [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSColor blueColor], NSForegroundColorAttributeName, nil];
+            
+        case IFSyntaxString:
+            return [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSColor grayColor], NSForegroundColorAttributeName, nil];
+
+        case IFSyntaxComment:
+            return [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSColor greenColor], NSForegroundColorAttributeName, nil];
+        
+        // Inform 6 syntax types
+        case IFSyntaxDirective:
+            return [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSColor blackColor], NSForegroundColorAttributeName, nil];
+            
+        case IFSyntaxProperty:
+            return [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSColor redColor], NSForegroundColorAttributeName, nil];
+            
+        case IFSyntaxFunction:
+            return [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSColor redColor], NSForegroundColorAttributeName, nil];
+            
+        case IFSyntaxCode:
+            return [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSColor blueColor], NSForegroundColorAttributeName, nil];
+            
+        case IFSyntaxCodeAlpha:
+            return [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSColor greenColor], NSForegroundColorAttributeName, nil];
+            
+        case IFSyntaxAssembly:
+            return [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSColor magentaColor], NSForegroundColorAttributeName, nil];
+            
+        case IFSyntaxEscapeCharacter:
+            return [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSColor redColor], NSForegroundColorAttributeName, nil];
+                        
+        // Natural inform syntax types
+        case IFSyntaxHeading:
+        
+        default:
+            return [NSDictionary dictionaryWithObjectsAndKeys: 
+                [NSFont systemFontOfSize: 12], NSFontAttributeName, nil];
+    }
+}
+
+- (void) highlightEntireFile {
+    [highlighter setFile: [[sourceText textStorage] string]];
+    [self highlightRange: NSMakeRange(0, [[sourceText textStorage] length])];
+}
+
+- (void) highlightRange: (NSRange) charRange {
+    IFSyntaxType lastSyntax = IFSyntaxNone;
+    int startPos = 0;
+    int curPos;
+    
+    // Do the highlighting
+    for (curPos = charRange.location; curPos < charRange.location + charRange.length; curPos++) {
+        IFSyntaxType thisSyntax = [highlighter colourForCharacterAtIndex: curPos];
+        
+        if (thisSyntax != lastSyntax && curPos != 0) {
+            NSRange r;
+            NSDictionary* attr = [self attributeForStyle: lastSyntax];
+            
+            r = NSMakeRange(startPos, curPos - startPos);
+            
+            [[sourceText textStorage] setAttributes: attr
+                                            range: r];
+            
+            startPos = curPos;
+        }
+        
+        lastSyntax = thisSyntax;
+    }
+    
+    // Final attributes
+    NSRange r;
+    NSDictionary* attr = [self attributeForStyle: lastSyntax];
+    
+    r = NSMakeRange(startPos, curPos - startPos);
+    if (r.length > 0) {
+        [[sourceText textStorage] setAttributes: attr
+                                        range: r];
+    }
 }
 
 @end
