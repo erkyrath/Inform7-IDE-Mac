@@ -622,7 +622,8 @@ static IFCompilerController* activeController = nil;
 }
 
 // Other information
-- (void) showContentsOfFilesIn: (NSFileWrapper*) files {
+- (void) showContentsOfFilesIn: (NSFileWrapper*) files
+					  fromPath: (NSString*) path {
     if (![files isDirectory]) {
         return; // Nothing to do
     }
@@ -676,7 +677,15 @@ static IFCompilerController* activeController = nil;
 				// Create a WebView to display this file in
 				WebView* fileView = [[WebView alloc] init];
 				
-				[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: key]] autorelease]];
+				// We need to set a host window for views handled in this way
+				[fileView setHostWindow: [[splitView superview] window]];
+				
+				// Load the HTML from the appropriate file
+				NSString* file = [path stringByAppendingPathComponent: key];
+				[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: file]] autorelease]];
+				
+				[fileView setFrame: [fileTabView contentRect]];
+				[fileView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 				
 				newView = fileView;
 			} else {
@@ -713,6 +722,7 @@ static IFCompilerController* activeController = nil;
             [fileItem setLabel: [[NSBundle mainBundle] localizedStringForKey: key 
 																	   value: [key stringByDeletingPathExtension] 
 																	   table: @"CompilerOutput"]];
+			[newView setFrame: [fileTabView contentRect]];
             [fileItem setView: newView];
 
             [fileTabView addTabViewItem: fileItem];

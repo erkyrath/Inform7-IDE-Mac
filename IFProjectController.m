@@ -525,15 +525,16 @@ static NSDictionary*  itemDictionary = nil;
     //buildDir = [[[(IFProject*)[self document] projectFile] fileWrappers] objectForKey: @"Build"];
     //[buildDir updateFromPath: [NSString stringWithFormat: @"%@/Build", [[self document] fileName]]];
 
-    buildDir = [[NSFileWrapper alloc] initWithPath:
-        [NSString stringWithFormat: @"%@/Build", [[self document] fileName]]];
+	NSString* buildPath = [NSString stringWithFormat: @"%@/Build", [[self document] fileName]];
+    buildDir = [[NSFileWrapper alloc] initWithPath: buildPath];
     [buildDir autorelease];
 
     int x;
     for (x=0; x<[projectPanes count]; x++) {
         IFProjectPane* pane = [projectPanes objectAtIndex: x];
 
-        [[pane compilerController] showContentsOfFilesIn: buildDir];
+        [[pane compilerController] showContentsOfFilesIn: buildDir
+												fromPath: buildPath];
     }
 
     if (exitCode == 0) {

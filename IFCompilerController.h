@@ -80,7 +80,8 @@ extern NSString* IFStyleStatistics;
 - (void) setDelegate: (NSObject*) delegate;
 - (NSObject*) delegate;
 
-- (void) showContentsOfFilesIn: (NSFileWrapper*) files;
+- (void) showContentsOfFilesIn: (NSFileWrapper*) files
+					  fromPath: (NSString*) path;
 - (void) clearTabViews;
 
 @end
