@@ -10,11 +10,39 @@
 
 static NSArray* headingList = nil;
 
+// English number arrays
+static NSArray* units;
+static NSArray* tens;
+static NSArray* majorUnits;
+
 @implementation IFNaturalIntel
+
+// = Useful parsing functions = 
+
++ (int) parseNumber: (NSString*) number {
+	// IMPLEMENT ME: parse english numbers (one, two, three, etc)
+	
+	return [number intValue];
+}
+
++ (int) numberOfHeading: (NSString*) heading {
+	NSArray* words = [heading componentsSeparatedByString: @" "];
+	
+	return [IFNaturalIntel parseNumber: [words objectAtIndex: 1]];
+}
+
+// = Startup =
 
 + (void) initialize {
 	if (!headingList) {
 		headingList = [[NSArray arrayWithObjects: @"volume", @"book", @"part", @"chapter", @"section", nil] retain];
+		
+		units = [[NSArray arrayWithObjects: @"zero", @"one", @"two", @"three", @"four", @"five", @"six", @"seven", 
+			@"eight", @"nine", @"ten", @"eleven", @"twelve", @"thirteen", @"fourteen", @"fifteen", @"sixteen", 
+			@"seventeen", @"eighteen", @"nineteen", nil] retain];
+		tens = [[NSArray arrayWithObjects: @"twenty", @"thirty", @"forty", @"fifty", @"sixty", @"seventy", @"eighty",
+			@"ninety", @"hundred", nil] retain];
+		majorUnits = [[NSArray arrayWithObjects: @"hundred", @"thousand", @"million", @"billion", @"trillion", nil] retain];
 	}
 }
 
@@ -152,7 +180,33 @@ static NSArray* headingList = nil;
 			IFIntelFile* data = [highlighter intelligenceData];
 			IFIntelSymbol* symbol = [data nearestSymbolToLine: lineNumber];
 			
-			NSLog(@"Symbol: %@", symbol);
+			while (symbol && [symbol level] > headingLevel) symbol = [symbol parent];
+			
+			// Work out the numeric value of the heading
+			int lastHeadingNumber = 0;
+			
+			if (symbol) {
+				if ([symbol level] != headingLevel) {
+					lastHeadingNumber = 0;			// No preceding items at this level
+				} else {
+					lastHeadingNumber = [IFNaturalIntel numberOfHeading: [symbol name]];
+					if (lastHeadingNumber == 0) {
+						lastHeadingNumber = -1;		// There was a preceding heading, but we don't know the number
+					}
+				}
+			}
+			
+			// Work out the result
+			NSMutableString* res = nil;
+			
+			if (lastHeadingNumber >= 0) {
+				// Insert a suitable new heading number
+				res = [NSMutableString stringWithFormat: @" %i - ", lastHeadingNumber+1];
+				
+				// IMPLEMENT ME: renumber the following sections
+			}
+			
+			return res;
 		}
 	}
 	
