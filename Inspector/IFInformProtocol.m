@@ -16,8 +16,6 @@
 	if ([[[request URL] scheme] isEqualToString: @"inform"]) {
 		if ([[request URL] path] != nil)
 			return YES;
-		
-		NSLog(@"%@ is not a valid inform URL request", request);
 	}
 	return NO;
 }
@@ -108,7 +106,7 @@
 		// Failed to load for some other reason
 		[theClient URLProtocol: self
 			  didFailWithError: [NSError errorWithDomain: NSURLErrorDomain
-													code: NSURLErrorUnknown
+													code: NSURLErrorCannotOpenFile
 												userInfo: nil]];
 		return;
 	}

@@ -43,6 +43,8 @@ NSString* IFIsSkeinInspector = @"IFIsSkeinInspector";
 }
 
 - (void) inspectWindow: (NSWindow*) newWindow {
+	[skeinView setDelegate: nil];
+	
 	activeWin = newWindow;
 	
 	if (activeProject) {
@@ -60,6 +62,7 @@ NSString* IFIsSkeinInspector = @"IFIsSkeinInspector";
 		activeProject = [[control document] retain];
 		
 		[skeinView setSkein: [activeProject skein]];
+		[skeinView setDelegate: activeController];
 	}
 }
 

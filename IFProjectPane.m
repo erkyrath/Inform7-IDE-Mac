@@ -228,6 +228,7 @@ static NSDictionary* styles[256];
 	[self updateIndexView];
 	
 	[skeinView setSkein: [doc skein]];
+	[skeinView setDelegate: parent];
 }
 
 - (void) awakeFromNib {
@@ -242,6 +243,7 @@ static NSDictionary* styles[256];
 		// The documentation tab
 		wView = [[WebView alloc] init];
 		[wView setPolicyDelegate: self];
+		[wView setResourceLoadDelegate: self];
 		[docTabView setView: wView];
 		//[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource: @"index" ofType: @"html"]]] autorelease]];
 		[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: @"inform:/index.html"]] autorelease]];
@@ -658,6 +660,8 @@ static NSDictionary* styles[256];
 }
 
 - (void) startRunningGame: (NSString*) fileName {
+	[[[parent document] skein] zoomInterpreterRestart];
+	
     if (zView) {
 		[zView killTask];
         [zView removeFromSuperview];
@@ -1142,14 +1146,6 @@ static NSDictionary* styles[256];
 	[listener use];
 }
 
-- (void)webView:(WebView *)sender 
-decidePolicyForMIMEType:(NSString *)type 
-		request:(NSURLRequest *)request 
-		  frame:(WebFrame *)frame
-	decisionListener:(id<WebPolicyDecisionListener>)listener {
-	NSLog(@"MIIIME %@ %@", type, request);
-}
-
 // = The index view =
 
 - (void) updateIndexView {
@@ -1220,6 +1216,12 @@ decidePolicyForMIMEType:(NSString *)type
 			indexAvailable = YES;
 		}
 	}
+}
+
+// = WebResourceLoadDelegate methods =
+
+-(void)webView:(WebView *)sender resource:(id)identifier didFailLoadingWithError:(NSError *)error fromDataSource:(WebDataSource *)dataSource {
+	NSLog(@"IFprojectPane: failed to load page with error: %@", [error localizedDescription]);
 }
 
 @end

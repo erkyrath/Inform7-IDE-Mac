@@ -72,6 +72,7 @@ static NSRunLoop* mainRunLoop = nil;
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsIndex sharedIFIsIndex]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsSkein sharedIFIsSkein]];
 
+#if 0
 	// Allow skeins to be rendered in web views
 	[WebView registerViewClass: [ZoomSkeinView class]
 		   representationClass: [ZoomSkein class]
@@ -81,6 +82,9 @@ static NSRunLoop* mainRunLoop = nil;
 		  [WebView canShowMIMETypeAsHTML: @"application/x-zoom-skein"]);
 	NSLog(@"%i %i", [ZoomSkeinView conformsToProtocol: @protocol(WebDocumentView)],
 		  [ZoomSkein conformsToProtocol: @protocol(WebDocumentRepresentation)]);
+#endif
+
+	[NSURLProtocol registerClass: [IFInformProtocol class]];
 }
 
 - (BOOL) applicationShouldOpenUntitledFile: (NSApplication*) sender {

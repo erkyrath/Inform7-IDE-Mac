@@ -15,7 +15,6 @@
 
 #import "IFIsFiles.h"
 
-
 @implementation IFProjectController
 
 // == Toolbar items ==
@@ -995,6 +994,20 @@ static NSDictionary*  itemDictionary = nil;
 	
 	[[IFIsFiles sharedIFIsFiles] updateFiles];
 	[npf release];
+}
+
+// = Skein delegate =
+
+- (void) restartGame {
+	[self runCompilerOutput];
+}
+
+- (void) playToPoint: (ZoomSkeinItem*) point
+		   fromPoint: (ZoomSkeinItem*) currentPoint {
+	id inputSource = [ZoomSkein inputSourceFromSkeinItem: currentPoint
+												  toItem: point];
+	
+	[[[projectPanes objectAtIndex: 1] zoomView] setInputSource: inputSource];
 }
 
 @end
