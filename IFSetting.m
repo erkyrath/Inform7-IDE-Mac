@@ -105,4 +105,32 @@ NSString* IFSettingHasChangedNotification = @"IFSettingHasChangedNotification";
 	settingsChanging = NO;
 }
 
+// = Default way of dealing with the plist: copy entries from the dictionary =
+
+- (NSDictionary*) plistEntries {
+	return [self dictionary];
+}
+
+- (void) updateSettings: (IFCompilerSettings*) settings
+	   withPlistEntries: (NSDictionary*) entries {
+	if ([[entries allKeys] count] <= 0) return; // nothing to do
+	
+	NSMutableDictionary* dict = [self dictionary];
+	
+	if (entries == dict) return; // Really, just sanity checking: this shouldn't happen
+	
+	[dict removeAllObjects];
+	
+	// Load entries from the list of entries
+	NSEnumerator* keyEnum = [entries keyEnumerator];
+	NSString* key;
+	while (key = [keyEnum nextObject]) {
+		[dict setObject: [entries objectForKey: key]
+				 forKey: key];
+	}
+	
+	// Cause the settings to be updated
+	[self updateFromCompilerSettings];
+}
+
 @end

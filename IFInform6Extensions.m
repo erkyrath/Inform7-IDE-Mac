@@ -162,7 +162,7 @@ static int stringCompare(id a, id b, void* context) {
 	
 	// Retrieve the list of active extensions from the dictionary
 	activeExtensions = [[self dictionary] objectForKey: @"ActiveExtensions"];
-	if (activeExtensions == nil) {
+	if (activeExtensions == nil || ![activeExtensions isKindOfClass: [NSMutableSet class]]) {
 		activeExtensions = [[NSMutableSet alloc] init];
 		[[self dictionary] setObject: [activeExtensions autorelease]
 							  forKey: @"ActiveExtensions"];
@@ -546,6 +546,59 @@ static int stringCompare(id a, id b, void* context) {
 	
 	// Notify of the changes
 	[self notifyThatExtensionsHaveChanged];
+}
+
+// = PList =
+
+- (NSDictionary*) plistEntries {
+	// Need to turn our set into a dictionary
+	NSMutableDictionary* res = [NSMutableDictionary dictionary];
+	NSEnumerator* extnEnum = [extensions objectEnumerator];
+	NSString* extn;
+	NSNumber* trueValue = [NSNumber numberWithBool: YES];
+	NSNumber* falseValue = [NSNumber numberWithBool: NO];
+	
+	while (extn = [extnEnum nextObject]) {
+		[res setObject: [activeExtensions containsObject: extn]?trueValue:falseValue
+				forKey: extn];
+	}
+	
+	return res;
+}
+
+- (void) updateSettings: (IFCompilerSettings*) settings
+	   withPlistEntries: (NSDictionary*) entries {
+	// Get the active extensions, if we don't already know about them
+	if (!activeExtensions) {
+		[self updateFromCompilerSettings];
+		
+		if (!activeExtensions) {
+			activeExtensions = [[settings dictionaryForClass: [self class]] objectForKey: @"ActiveExtensions"];
+			if (activeExtensions == nil) {
+				activeExtensions = [[NSMutableSet alloc] init];
+				[[settings dictionaryForClass: [self class]] setObject: [activeExtensions autorelease]
+									  forKey: @"ActiveExtensions"];
+			}
+			[activeExtensions retain];
+		}
+	}
+	
+	[activeExtensions removeAllObjects];
+	
+	// Add everything that's set to true in the dictionary to the active extensions list
+	NSEnumerator* keyEnum = [entries objectEnumerator];
+	NSString* key;
+	
+	while (key = [keyEnum nextObject]) {
+		if (![[entries objectForKey: key] isKindOfClass: [NSNumber class]]) continue;
+		
+		BOOL keyValue = [[entries objectForKey: key] boolValue];
+		
+		if (keyValue) [activeExtensions addObject: key];
+	}
+	
+	// Notify that something has changed
+	[self updateFromCompilerSettings];
 }
 
 @end

@@ -196,6 +196,7 @@ static NSMutableArray* standardSettingsClasses = nil;
 - (void) addSettingsObject: (IFSetting*) setting {
 	[settings addObject: setting];
 	[setting setCompilerSettings: [self compilerSettings]];
+	[compilerSettings reloadSettingsForClass: [[setting class] description]];
 }
 
 @end

@@ -230,6 +230,8 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 										 withObject: nil];
 		[genericSettings release];
 	}
+	
+	if (originalPlist) [originalPlist autorelease];
 
     [super dealloc];
 }
@@ -630,10 +632,119 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     [store release];
     store = [[decoder decodeObject] retain];
 	
-	// Convert from the old format to the new format
-	
+	// Convert from the old format to the new format -- not done yet (do we really need this?)
 
     return self;
+}
+
+// = Property lists =
+
+- (NSData*) currentPlist {
+	// Use the original plist as a template if it exists (this will preserve any plist data that
+	// say, the Windows version might produce)
+	NSMutableDictionary* plData;
+	
+	if (originalPlist) {
+		plData = [originalPlist mutableCopy];
+	} else {
+		plData = [[NSMutableDictionary alloc] init];
+	}
+	
+	// Get updated data from all the generic settings classes
+	NSEnumerator* settingEnum = [genericSettings objectEnumerator];
+	IFSetting* setting;
+	while (setting = [settingEnum nextObject]) {
+		[plData setObject: [setting plistEntries]
+				   forKey: [[setting class] description]];
+	}
+	
+	// Update the original list to reflect the current one
+	[originalPlist release];
+	originalPlist = [plData copy];
+	
+	// Create the actual plist	
+	NSString* error;
+	NSData* res = [NSPropertyListSerialization dataFromPropertyList: plData
+															 format: NSPropertyListXMLFormat_v1_0
+												   errorDescription:&error];
+	
+	if (!res) {
+		NSLog(@"Couldn't create settings data: %@", error);
+		NSLog(@"Settings data was: %@", plData);
+	}
+	
+	// Finish up
+	[plData release];
+	return res;
+}
+
+- (void) reloadSettingsForClass: (NSString*) class {
+	IFSetting* settingToReload = nil;
+	
+	// Find the setting corresponding to the supplied class
+	NSEnumerator* settingEnum = [genericSettings objectEnumerator];
+	IFSetting* settingToTest;
+	while (settingToTest = [settingEnum nextObject]) {
+		if ([[[settingToTest class] description] isEqualToString: class]) {
+			settingToReload = settingToTest;
+			break;
+		}
+	}
+	
+	// If it exists, get it to update from the plist data
+	if (settingToReload) {
+		NSDictionary* settingData = [originalPlist objectForKey: class];
+		
+		[settingToReload updateSettings: self
+					   withPlistEntries: settingData];
+	}
+}
+
+- (void) reloadAllSettings {
+	if (originalPlist) {
+		// Load the setting data from the plist
+		NSEnumerator* keyEnum = [originalPlist keyEnumerator];
+		NSString* key;
+		
+		while (key = [keyEnum nextObject]) {
+			[self reloadSettingsForClass: key];
+		}
+	}
+}
+
+- (BOOL) restoreSettingsFromPlist: (NSData*) plData {
+	// This new data will replace the original data (even if the parsing fails)
+	if (originalPlist) [originalPlist release];
+	originalPlist = nil;
+	
+	// Parse the plist into a dictionary
+	NSString* error = nil;
+	NSPropertyListFormat fmt = NSPropertyListXMLFormat_v1_0;
+	NSDictionary* plist = [NSPropertyListSerialization propertyListFromData: plData
+														   mutabilityOption: NSPropertyListMutableContainersAndLeaves
+																	 format: &fmt
+														   errorDescription: &error];
+	
+	if (!plist) {
+		NSLog(@"Failed to load settings: %@", error);
+		return NO;
+	} else if (![plist isKindOfClass: [NSDictionary class]]) {
+		NSLog(@"Failed to load settings: property list is not a dictionary");
+		return NO;
+	}
+	
+	// Store as the 'original' plist
+	originalPlist = [plist copy];
+	
+	// Load the plist into the various property items
+	NSEnumerator* keyEnum = [plist keyEnumerator];
+	NSString* key;
+	
+	while (key = [keyEnum nextObject]) {
+		[self reloadSettingsForClass: key];
+	}
+	
+	return YES;
 }
 
 @end

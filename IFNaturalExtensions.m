@@ -63,4 +63,11 @@
 	return NO;
 }
 
+// = Plist entries =
+
+- (NSDictionary*) plistEntries {
+	// (None for this class at the moment)
+	return [NSDictionary dictionary];
+}
+
 @end

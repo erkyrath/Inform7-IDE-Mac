@@ -39,6 +39,8 @@ extern NSString* IFCompilerNaturalInform;
 @interface IFCompilerSettings : NSObject<NSCoding>  {
     NSMutableDictionary* store;
 	NSArray* genericSettings;
+	
+	NSDictionary* originalPlist;
 }
 
 + (NSArray*) libraryPaths;
@@ -88,5 +90,11 @@ extern NSString* IFCompilerNaturalInform;
 
 - (NSString*) naturalInformCompilerToUse; // nil if not using natural inform
 - (NSArray*) naturalInformCommandLineArguments;
+
+// Getting the data as a plist
+- (void)	reloadAllSettings;
+- (void)	reloadSettingsForClass: (NSString*) class;
+- (NSData*) currentPlist;
+- (BOOL)    restoreSettingsFromPlist: (NSData*) plist;
 
 @end

@@ -61,6 +61,7 @@
 }
 
 - (void) setSettings: (IFCompilerSettings*) settings {
+#if 0
     // Create the settings data
     NSMutableData* settingsData = [NSMutableData data];
     NSArchiver*    theCoder = [[NSArchiver alloc] initForWritingWithMutableData:
@@ -72,47 +73,66 @@
     [theCoder encodeObject: settings];
 
     [theCoder release];
+#endif
 
     // Add it to the wrapper
     NSFileWrapper* settingsWrapper;
     [self removeFileWrapper: [[self fileWrappers] objectForKey:
-        @"Settings"]];
+        @"Settings.plist"]];
+	
+	NSData* settingsData = [settings currentPlist];
 
-    settingsWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:
+	settingsWrapper = [[NSFileWrapper alloc] initRegularFileWithContents:
         settingsData];
-    [settingsWrapper setPreferredFilename: @"Settings"];
-    [settingsWrapper setFilename: @"Settings"];
+    [settingsWrapper setPreferredFilename: @"Settings.plist"];
+    [settingsWrapper setFilename: @"Settings.plist"];
 
     [self addFileWrapper: [settingsWrapper autorelease]];
+
+	// Delete the old-style file, if it exists
+	NSFileWrapper* settingsFile = [[self fileWrappers] objectForKey: @"Settings"];
+	if (settingsFile) [self removeFileWrapper: settingsFile];
 }
 
 - (IFCompilerSettings*) settings {
-    NSFileWrapper* settingsFile = [[self fileWrappers] objectForKey: @"Settings"];
+    NSFileWrapper* settingsFile = [[self fileWrappers] objectForKey: @"Settings.plist"];
 
-    if (settingsFile == nil) {
-		return nil;
-        //return [[[IFCompilerSettings alloc] init] autorelease];
-    }
+	if (settingsFile == nil) {
+		// Old-style loading
+		settingsFile = [[self fileWrappers] objectForKey: @"Settings"];
 
-    NSData* settingsData = [settingsFile regularFileContents];
-    NSUnarchiver* theCoder = [[NSUnarchiver alloc] initForReadingWithData:
-        settingsData];
+		if (settingsFile == nil) {
+			return nil;
+			//return [[[IFCompilerSettings alloc] init] autorelease];
+		}
 
-    // Decode the file
-    NSString* creator = [theCoder decodeObject];
-    int version = -1;
-    [theCoder decodeValueOfObjCType: @encode(int) at: &version];
-    IFCompilerSettings* settings = [[theCoder decodeObject] retain];
+		NSData* settingsData = [settingsFile regularFileContents];
+		NSUnarchiver* theCoder = [[NSUnarchiver alloc] initForReadingWithData:
+			settingsData];
 
-    // Release the decoder
-    [theCoder release];
+		// Decode the file
+		NSString* creator = [theCoder decodeObject];
+		int version = -1;
+		[theCoder decodeValueOfObjCType: @encode(int) at: &version];
+		IFCompilerSettings* settings = [[theCoder decodeObject] retain];
 
-    if (creator == nil || version != 1 || settings == nil) {
-        // We don't understand this file
-        return [[[IFCompilerSettings alloc] init] autorelease];       
-    }
+		// Release the decoder
+		[theCoder release];
 
-    return [settings autorelease];
+		if (creator == nil || version != 1 || settings == nil) {
+			// We don't understand this file
+			return [[[IFCompilerSettings alloc] init] autorelease];       
+		}
+
+		return [settings autorelease];
+	} else {
+		// New-style loading
+		IFCompilerSettings* newSettings = [[[IFCompilerSettings alloc] init] autorelease];
+		
+		[newSettings restoreSettingsFromPlist: [settingsFile regularFileContents]];
+		
+		return newSettings;
+	}
 }
 
 @end

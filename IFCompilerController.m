@@ -868,7 +868,7 @@ static IFCompilerController* activeController = nil;
 // == The lexical helper function to actually add error messages ==
 
 void IFErrorAddError(const char* filC,
-                     int line,
+					 int line,
                      IFLex type,
                      const char* mesC) {
     NSString* file    = [NSString stringWithCString: filC];
