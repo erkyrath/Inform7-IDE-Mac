@@ -30,6 +30,9 @@ enum lineStyle {
     // The collection of panes
     NSMutableArray* projectPanes;
     NSMutableArray* splitViews;
+	
+	// Highlighting (indexed by file)
+	NSDictionary* lineHighlighting;
 
     // Action after a compile has finished
     SEL compileFinishedAction;
@@ -40,8 +43,11 @@ enum lineStyle {
 // Communication from the containing panes (maybe other uses, too - scripting?)
 - (BOOL) selectSourceFile: (NSString*) fileName;
 - (void) moveToSourceFileLine: (int) line;
-- (void) highlightSourceFileLine: (int) line;
 - (void) highlightSourceFileLine: (int) line
+						  inFile: (NSString*) file;
+- (void) highlightSourceFileLine: (int) line
+						  inFile: (NSString*) file
                            style: (enum lineStyle) style;
+- (NSArray*) highlightsForFile: (NSString*) file;
 
 @end

@@ -8,6 +8,8 @@
 
 #import "IFCompilerController.h"
 
+#import "IFAppDelegate.h"
+
 #import "IFCompiler.h"
 #import "IFError.h"
 
@@ -236,7 +238,6 @@ static IFCompilerController* activeController = nil;
             [[compiler inputFile] lastPathComponent]]];
     
     [compiler prepareForLaunch];
-    [compiler launch];
 
     if (errorFiles) [errorFiles release];
     if (errorMessages) [errorMessages release];
@@ -251,7 +252,9 @@ static IFCompilerController* activeController = nil;
     
     [[[compilerResults textStorage] mutableString] setString: @""];
     highlightPos = 0;
-    
+
+	[compiler launch];
+   
     return YES;
 }
 
@@ -618,11 +621,13 @@ static IFCompilerController* activeController = nil;
     NSString* key;
 
     while (key = [keyEnum nextObject]) {
-        NSString* type = [key pathExtension];
+        NSString* type = [[key pathExtension] lowercaseString];
 
         if ((![[[key substringToIndex: 4] lowercaseString] isEqualToString: @"temp"]) &&
             ([type isEqualTo: @"inf"] ||
-             [type isEqualTo: @"txt"])) {
+             [type isEqualTo: @"txt"] ||
+			 [type isEqualTo: @"html"] ||
+			 [type isEqualTo: @"htm"])) {
             if (fileTabView == nil) {
                 // Put the split view inside a tabview
                 NSView* inView = [splitView superview];
@@ -652,41 +657,54 @@ static IFCompilerController* activeController = nil;
                 [splitViewItem release];
             }
             
-            // Create an NSTextView to display this file in
-            NSTextView*   textView = [[NSTextView alloc] init];
-            NSScrollView* scrollView = [[NSScrollView alloc] init];
-
-            [[textView textContainer] setWidthTracksTextView: NO];
-            [[textView textContainer] setContainerSize: NSMakeSize(1e8, 1e8)];
-            [textView setMinSize:NSMakeSize(0.0, 0.0)];
-            [textView setMaxSize:NSMakeSize(1e8, 1e8)];
-            [textView setVerticallyResizable:YES];
-            [textView setHorizontallyResizable:YES];
-            [textView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-            [textView setEditable: NO];
-
-            [scrollView setDocumentView: textView];
-            [scrollView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-            [scrollView setHasHorizontalScroller: YES];
-            [scrollView setHasVerticalScroller: YES];
-
-            NSString* textData = [[NSString alloc] initWithData:
-                [[[files fileWrappers] objectForKey: key] regularFileContents]
-                                  encoding: NSISOLatin1StringEncoding];
-            [[[textView textStorage] mutableString] setString: textData];
+			NSView* newView;
+			
+			if ([[NSApp delegate] isWebKitAvailable] && ([type isEqualTo: @"html"] ||
+														 [type isEqualTo: @"htm"])) {
+				// Create a WebView to display this file in
+				WebView* fileView = [[WebView alloc] init];
+				
+				[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: key]] autorelease]];
+				
+				newView = fileView;
+			} else {
+				// Create an NSTextView to display this file in			
+				NSTextView*   textView = [[NSTextView alloc] init];
+				NSScrollView* scrollView = [[NSScrollView alloc] init];
+				
+				[[textView textContainer] setWidthTracksTextView: NO];
+				[[textView textContainer] setContainerSize: NSMakeSize(1e8, 1e8)];
+				[textView setMinSize:NSMakeSize(0.0, 0.0)];
+				[textView setMaxSize:NSMakeSize(1e8, 1e8)];
+				[textView setVerticallyResizable:YES];
+				[textView setHorizontallyResizable:YES];
+				[textView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+				[textView setEditable: NO];
+				[textView setUsesFindPanel: YES]; // FIXME: Won't work on Jaguar
+				
+				[scrollView setDocumentView: [textView autorelease]];
+				[scrollView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+				[scrollView setHasHorizontalScroller: YES];
+				[scrollView setHasVerticalScroller: YES];
+				
+				NSString* textData = [[NSString alloc] initWithData:
+					[[[files fileWrappers] objectForKey: key] regularFileContents]
+														   encoding: NSISOLatin1StringEncoding];
+				[[[textView textStorage] mutableString] setString: [textData autorelease]];
+				
+				newView = scrollView;
+			}
 
             NSTabViewItem* fileItem;
             fileItem = [[NSTabViewItem alloc] init];
 
             [fileItem setLabel: [key stringByDeletingPathExtension]];
-            [fileItem setView: scrollView];
+            [fileItem setView: newView];
 
             [fileTabView addTabViewItem: fileItem];
             
             [fileItem   release];
-            [textData   release];
-            [textView   release];
-            [scrollView release];
+            [newView    release];
         }
     }
 }

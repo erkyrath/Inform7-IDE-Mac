@@ -69,6 +69,26 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 		
 		if ([[NSFileManager defaultManager] fileExistsAtPath: libDir
 												 isDirectory: &isDir]) {
+			if (isDir == NO) {
+				// Should be a file containing the actual library directory
+				// (We do this because we can't rely on the finder to reliably copy
+				// symbolic links)
+				// Must be a directory
+				NSString* newDir = [NSString stringWithContentsOfFile: libDir];
+				
+				libDir = [path stringByAppendingPathComponent: newDir];
+				
+				if (![[NSFileManager defaultManager] fileExistsAtPath: libDir
+														  isDirectory: &isDir]) {
+					NSLog(@"Couldn't find library link (%@) from %@ in %@", newDir, library, path);
+					continue;
+				}
+				if (!isDir) {
+					NSLog(@"Library link to %@ not a directory in %@", newDir, path);
+					continue;
+				}
+			}
+			
 			return libDir;
 		}
 	}

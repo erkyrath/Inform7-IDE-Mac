@@ -7,6 +7,7 @@
 //
 
 #import <AppKit/AppKit.h>
+#import <WebKit/WebKit.h>
 
 #import "IFCompiler.h"
 #import "IFError.h"

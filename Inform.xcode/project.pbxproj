@@ -48,6 +48,7 @@
 //104
 		1058C7A0FEA54F0111CA2CBB = {
 			children = (
+				4BC3269D0614C70200B2533B,
 				4B75B12B055D94D800EDF9C9,
 				1058C7A1FEA54F0111CA2CBB,
 			);
@@ -188,6 +189,7 @@
 				4BE6AB3B04FD0EF300A8E303,
 				4B16BFE2051246EF00A8E303,
 				4B94BF870513906800A8E303,
+				4BC326960614C6A000B2533B,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -905,6 +907,34 @@
 		};
 		4B1A2FD505D7F00900746E81 = {
 			fileRef = 4B1A2FD405D7F00900746E81;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4B259F3705E161F800C7BAE2 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = IFSourceFileView.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4B259F3805E161F800C7BAE2 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = IFSourceFileView.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4B259F3905E161F800C7BAE2 = {
+			fileRef = 4B259F3705E161F800C7BAE2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4B259F3A05E161F800C7BAE2 = {
+			fileRef = 4B259F3805E161F800C7BAE2;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -2185,6 +2215,34 @@
 			refType = 4;
 			sourceTree = "<group>";
 		};
+		4BC326960614C6A000B2533B = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.html;
+			path = index.html;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4BC326970614C6A000B2533B = {
+			fileRef = 4BC326960614C6A000B2533B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4BC3269D0614C70200B2533B = {
+			isa = PBXFileReference;
+			lastKnownFileType = wrapper.framework;
+			name = WebKit.framework;
+			path = /System/Library/Frameworks/WebKit.framework;
+			refType = 0;
+			sourceTree = "<absolute>";
+		};
+		4BC3269E0614C70200B2533B = {
+			fileRef = 4BC3269D0614C70200B2533B;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		4BC977C4057B3E8B00447AAA = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -2246,7 +2304,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo *** Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\\ Beta\n# mkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Biplatform\ncp ${SRCROOT}/Library/Biplatform/Standard/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\ncp ${SRCROOT}/Library/lib611/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\\ Beta\nln -sf ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\\ Beta ${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n";
+			shellScript = "echo *** Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\n# mkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Biplatform\ncp ${SRCROOT}/Library/Biplatform/Standard/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\ncp ${SRCROOT}/Library/lib611/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\necho -n \"6.11\" >${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n#ln -sf ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11 ${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n";
 		};
 		4BD959F3055EE949008DEFF4 = {
 			buildPhases = (
@@ -2313,6 +2371,7 @@
 				4BFE96B8057A224100E9C60A,
 				4BFE96E3057A237E00E9C60A,
 				4B9605C8058CA65700EAD06F,
+				4B259F3905E161F800C7BAE2,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2430,6 +2489,7 @@
 				4BCFC9FB05DED62E0028C277,
 				4BCFC9FC05DED62E0028C277,
 				4BCFC9FD05DED62E0028C277,
+				4BC326970614C6A000B2533B,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2508,6 +2568,7 @@
 				4BFE96B9057A224100E9C60A,
 				4BFE96E4057A237E00E9C60A,
 				4B9605C9058CA65700EAD06F,
+				4B259F3A05E161F800C7BAE2,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2603,6 +2664,7 @@
 			files = (
 				4BD95A1F055EE949008DEFF4,
 				4BD95A20055EE949008DEFF4,
+				4BC3269E0614C70200B2533B,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2725,6 +2787,8 @@
 				4B5CB96D050E9BCB00A8E303,
 				4B16BFDE0512261800A8E303,
 				4B16BFDF0512261800A8E303,
+				4B259F3705E161F800C7BAE2,
+				4B259F3805E161F800C7BAE2,
 			);
 			isa = PBXGroup;
 			name = Project;

@@ -10,8 +10,18 @@
 
 #import "IFSyntaxHighlighter.h"
 
-@interface IFNaturalInformSyntax : IFSyntaxHighlighter {
+/*
+ * Natural Inform syntax highlighting is currently very simple
+ * (thank goodness!)
+ *
+ * Text in square brackets [ ] is comments.
+ * Text in quotes "" is text
+ * All the rest is ordinary text
+ */
 
+@interface IFNaturalInformSyntax : IFSyntaxHighlighter {
+	NSString* file;
+	
 }
 
 @end

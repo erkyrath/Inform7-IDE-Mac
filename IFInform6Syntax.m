@@ -160,7 +160,7 @@ static int compare(const void* a, const void* b) {
     [self clearAllLines];
 }
 
-- (void) _invalidateRange: (NSRange) range {
+- (void) IFinvalidateRange: (NSRange) range {
     int line;
     int pos = 0;
 
@@ -194,10 +194,10 @@ static int compare(const void* a, const void* b) {
     
     // First, invalidate as the line list currently stands
     // (This deals with deletions)
-    [self _invalidateRange: range];
+    [self IFinvalidateRange: range];
     
     // Next, recalculate the line endings, and delete/add any lines that
-    // have appeared/been removed (extra lines go just after the f
+    // have appeared/been removed (extra lines go just after the f... umm, hmm, an orphan comment, how strange
     line = 0;
     pos = 0;
     len = [file length];
@@ -321,7 +321,7 @@ static int compare(const void* a, const void* b) {
 #endif
     
     // Now, invalidate against the new line list
-    [self _invalidateRange: range];
+    [self IFinvalidateRange: range];
 }
 
 - (NSRange) invalidRange {

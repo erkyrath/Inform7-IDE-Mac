@@ -518,14 +518,44 @@ static NSDictionary*  itemDictionary = nil;
     [[self window] makeFirstResponder: [thePane activeView]];
 }
 
-- (void) highlightSourceFileLine: (int) line {
+- (void) highlightSourceFileLine: (int) line
+						  inFile: (NSString*) file {
     [self highlightSourceFileLine: line
+						   inFile: file
                             style: IFLineStyleNeutral];
 }
 
 - (void) highlightSourceFileLine: (int) line
+						  inFile: (NSString*) file
                            style: (enum lineStyle) style {
-    // FIXME: clear/set temporary attributes
+	file = [[self document] pathForFile: file];
+	
+	NSMutableArray* lineHighlight = [lineHighlighting objectForKey: file];
+	
+	if (lineHighlight == nil) {
+		lineHighlight = [NSMutableArray array];
+		[lineHighlighting setObject: lineHighlight
+							 forKey: file];
+	}
+	
+	[lineHighlight addObject: [NSArray arrayWithObjects: [NSNumber numberWithInt: line], 
+		[NSNumber numberWithInt: style], 
+		nil]];
+	
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
+	
+	while (pane = [paneEnum nextObject]) {
+		if ([[[self document] pathForFile: [pane currentFile]] isEqualToString: file]) {
+			[pane refreshTemporaryHighlights];
+		}
+	}
+}
+
+- (NSArray*) highlightsForFile: (NSString*) file {
+	file = [[self document] pathForFile: file];
+	
+	return [lineHighlighting objectForKey: file];
 }
 
 // = Debugging controls =

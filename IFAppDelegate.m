@@ -12,6 +12,31 @@
 
 @implementation IFAppDelegate
 
++ (BOOL)isWebKitAvailable {
+    static BOOL _webkitAvailable=NO;
+    static BOOL _initialized=NO;
+    
+    if (_initialized)
+        return _webkitAvailable;
+	
+    NSBundle* webKitBundle;
+    webKitBundle = [NSBundle bundleWithPath:@"/System/Library/Frameworks/WebKit.framework"];
+    if (webKitBundle) {
+        _webkitAvailable = [webKitBundle load];
+    }
+    _initialized=YES;
+    
+    return _webkitAvailable;
+}
+
+- (BOOL)isWebKitAvailable {
+	return haveWebkit;
+}
+
+- (void) applicationDidFinishLaunching: (NSNotification*) not {
+	haveWebkit = [[self class] isWebKitAvailable];
+}
+
 - (BOOL) applicationShouldOpenUntitledFile: (NSApplication*) sender {
     return NO;
 }

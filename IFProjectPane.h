@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <WebKit/WebKit.h>
 #import "IFCompilerController.h"
 #import "IFSyntaxHighlighter.h"
 
@@ -39,6 +40,9 @@ enum IFProjectPaneType {
     IBOutlet NSPanel*    addFilePanel;
 	
 	NSTextStorage* textStorage;
+	
+	// The documentation view
+	WebView* wView;
     
     // The add file panel
     IBOutlet NSTextField* newFileName;
@@ -140,5 +144,7 @@ enum IFProjectPaneType {
 - (void) selectHighlighterForCurrentFile;
 - (void) highlightEntireFile;
 - (void) highlightRange: (NSRange) charRange;
+
+- (void) refreshTemporaryHighlights;
 
 @end

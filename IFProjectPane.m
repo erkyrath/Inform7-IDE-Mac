@@ -9,13 +9,14 @@
 #import "IFProjectPane.h"
 #import "IFProject.h"
 #import "IFProjectController.h"
+#import "IFAppDelegate.h"
 
 #import "IFInform6Syntax.h"
 #import "IFNaturalInformSyntax.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
-#define minHighlightAmount 512
-#define maxHighlightAmount 512
+#define minHighlightAmount 2048
+#define maxHighlightAmount 2048
 #undef  showHighlighting        // Show what's being highlighted
 #undef  highlightAll            // Always highlight the entire file (does not necessarily recalculate all highlighting)
 
@@ -98,6 +99,11 @@ static NSDictionary* styles[256];
     styles[IFSyntaxHeading] = [[NSDictionary dictionaryWithObjectsAndKeys:
         headerSystemFont, NSFontAttributeName,
         nil] retain];
+	
+	// The 'plain' style is a bit of a special case. It's used for files that we want to run the syntax
+	// highlighter on, but where we want the user to be able to set styles. The user will be able to set
+	// certain styles even for things that are affected by the highlighter.
+	styles[IFSyntaxPlain] = [[NSDictionary dictionary] retain];
 }
 
 - (id) init {
@@ -140,6 +146,7 @@ static NSDictionary* styles[256];
 	if (textStorage) [textStorage release];
     if (zView) [zView release];
     if (gameToRun) [gameToRun release];
+	if (wView) [wView release];
 
     if (highlighterTicker) {
         [highlighterTicker invalidate];
@@ -211,6 +218,15 @@ static NSDictionary* styles[256];
         [self stopRunningGame];
     }
     
+	if ((int)[[NSApp delegate] isWebKitAvailable]) {
+		// The documentation tab
+		wView = [[WebView alloc] init];
+		[docTabView setView: wView];
+		[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource: @"index" ofType: @"html"]]] autorelease]];
+	} else {
+		wView = nil;
+	}
+	
     [tabView setDelegate: self];
     
     //[sourceText setUsesFindPanel: YES]; -- Not 10.2
@@ -411,6 +427,8 @@ static NSDictionary* styles[256];
       
         NSTextStorage* mainFile = [[parent document] storageForFile: [sourceFiles objectAtIndex: item]];
         
+		[mainFile beginEditing];
+		
         [openSourceFile release];
         openSourceFile = [[[parent document] pathForFile: [sourceFiles objectAtIndex: item]] copy];
         
@@ -419,6 +437,8 @@ static NSDictionary* styles[256];
 		if (textStorage) { [textStorage release]; textStorage = nil; }
 		textStorage = [mainFile retain];
         [self selectHighlighterForCurrentFile];
+
+		[mainFile endEditing];
         
         [self updateFiles];
     } else {
@@ -446,6 +466,8 @@ static NSDictionary* styles[256];
 	
 	if (fileStorage == nil) return;
 	
+	[fileStorage beginEditing];
+	
 	NSLayoutManager* layout = [[sourceText layoutManager] retain];
 	
 	[sourceText setSelectedRange: NSMakeRange(0,0)];
@@ -461,6 +483,8 @@ static NSDictionary* styles[256];
 	if (textStorage) { [textStorage release]; textStorage = nil; }
 	textStorage = [fileStorage retain];
 	[self selectHighlighterForCurrentFile];
+	
+	[fileStorage endEditing];
 	
 	[self updateFiles];	
 }
@@ -668,7 +692,9 @@ static NSDictionary* styles[256];
 
 // = Text view delegate =
 
-- (void) createHighlighterTickerIfRequired {
+// FIXME: storage delegate should be the document, NOT the view, as this causes weirdness
+
+- (void) createHighlighterTickerIfRequired: (NSTimeInterval) timeout {
     if (highlighterTicker) {
         [highlighterTicker invalidate];
         [highlighterTicker release];
@@ -679,7 +705,7 @@ static NSDictionary* styles[256];
     
     if ((invalidRange.location != NSNotFound && invalidRange.length != 0) ||
         (remainingFileToProcess.location != NSNotFound && remainingFileToProcess.length != 0)) {
-        highlighterTicker = [NSTimer timerWithTimeInterval:0.01
+        highlighterTicker = [NSTimer timerWithTimeInterval:timeout
                                                     target:self
                                                   selector:@selector(highlighterIteration)
                                                   userInfo:nil
@@ -700,6 +726,9 @@ static NSDictionary* styles[256];
 		
 	NSRange selected = [sourceText selectedRange];
 	    
+	[textStorage setDelegate: nil];
+	[textStorage beginEditing];
+	
     while (amountToHighlight > 0) {
         NSRange invalid = [highlighter invalidRange];
 
@@ -717,10 +746,11 @@ static NSDictionary* styles[256];
         
 #ifdef highlightAll
 		int start = clock();
-        [self highlightRange: NSMakeRange(0, [[sourceText textStorage] length])];
+		[self highlightRange: remainingFileToProcess];
+		remainingFileToProcess.location = NSNotFound;
+		remainingFileToProcess.length = 0;
 		NSLog(@"Time: %.04f\n", (float)(clock() - start) / (float)CLOCKS_PER_SEC);
-#endif
-
+#else
         // Highlight!
         if (remainingFileToProcess.length < amountToHighlight) {
             // Highlight everything if that's all there is to do
@@ -739,16 +769,22 @@ static NSDictionary* styles[256];
             
             amountToHighlight = 0;
         }
+#endif
     }
 	
+	[textStorage endEditing];
+	
 	[sourceText setSelectedRange: selected];
+	[textStorage setDelegate: self];
         
-    [self createHighlighterTickerIfRequired];
+    [self createHighlighterTickerIfRequired: 0.01];
 }
 
 - (void)textStorageDidProcessEditing: (NSNotification*) not {
     NSRange editedRange = [[sourceText textStorage] editedRange];
     
+	[[sourceText textStorage] setDelegate: nil];
+
 #ifdef showHighlighting
     [[sourceText textStorage] addAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
         [NSColor colorWithDeviceRed: 0.8 green: 0.8 blue: 1.0 alpha: 1.0],
@@ -759,7 +795,26 @@ static NSDictionary* styles[256];
     // Redo any necessary highlighting
     [highlighter invalidateRange: editedRange];
     
-    [self highlighterIteration];
+	// Highlighting a bit around the edited range
+	NSRange highlightRange = editedRange;
+	
+	if (highlightRange.location > 10)
+		highlightRange.location -= 10;
+	else
+		highlightRange.location = 0;
+	
+	highlightRange.length += 15;
+	if (highlightRange.location + highlightRange.length > [textStorage length]) {
+		highlightRange.length = [textStorage length] - highlightRange.location;
+	}
+	
+	//[self highlightRange: highlightRange];
+	
+	[self highlighterIteration];
+	
+	// Create a highlighter ticker to highlight everything that's changed (the delay ensures that
+	// we can type without being interrupted by the highlighter)
+	[self createHighlighterTickerIfRequired: 0.5];
     
     [[sourceText textStorage] setDelegate: self];
 }
@@ -779,18 +834,19 @@ static NSDictionary* styles[256];
     int startPos = charRange.location;
     int curPos;
 	
-    if (charRange.location + charRange.length > [[[sourceText textStorage] string] length]) {
-        charRange.length = [[[sourceText textStorage] string] length] - charRange.location;
+    if (charRange.location + charRange.length > [[textStorage string] length]) {
+        charRange.length = [[textStorage string] length] - charRange.location;
     }
-    
-    [[sourceText textStorage] setDelegate: nil];
+    	
+	id oldDelegate = [textStorage delegate];
+    [textStorage setDelegate: nil];
     
     unsigned char* buf = malloc(charRange.length);
     [highlighter colourForCharacterRange: charRange
                                   buffer: buf];
     
     // Do the highlighting
-	[[sourceText textStorage] beginEditing];
+	[textStorage beginEditing];
     for (curPos = charRange.location; curPos < charRange.location + charRange.length; curPos++) {
         IFSyntaxType thisSyntax = buf[curPos-charRange.location];
         
@@ -800,8 +856,20 @@ static NSDictionary* styles[256];
             
             r = NSMakeRange(startPos, curPos - startPos);
             
-            [[sourceText textStorage] addAttributes: attr
+#ifdef useTemporaryAttributes
+			if (r.length > 0) {
+				[[sourceText layoutManager] removeTemporaryAttribute: NSForegroundColorAttributeName
+												   forCharacterRange: r];
+				attr = [NSDictionary dictionaryWithObject: [attr objectForKey: NSForegroundColorAttributeName]
+												   forKey: NSForegroundColorAttributeName];
+				[[sourceText layoutManager] addTemporaryAttributes: attr
+												 forCharacterRange: r];
+				[[sourceText layoutManager] invalidateDisplayForCharacterRange: r];
+			}
+#else
+            [textStorage addAttributes: attr
 											  range: r];
+#endif
             
             startPos = curPos;
         }
@@ -815,14 +883,24 @@ static NSDictionary* styles[256];
     
     r = NSMakeRange(startPos, curPos - startPos);
     if (r.length > 0) {
-        [[sourceText textStorage] addAttributes: attr
-										  range: r];
+#ifdef UseTemporaryAttributes
+		[[sourceText layoutManager] removeTemporaryAttribute: NSForegroundColorAttributeName
+										   forCharacterRange: r];
+		attr = [NSDictionary dictionaryWithObject: [attr objectForKey: NSForegroundColorAttributeName]
+										   forKey: NSForegroundColorAttributeName];
+		[[sourceText layoutManager] addTemporaryAttributes: attr
+										 forCharacterRange: r];
+		[[sourceText layoutManager] invalidateDisplayForCharacterRange: r];
+#else
+        [textStorage addAttributes: attr
+							 range: r];
+#endif
     }
     
     free(buf);
 
-	[[sourceText textStorage] endEditing];
-    [[sourceText textStorage] setDelegate: self];
+	[textStorage endEditing];
+    [textStorage setDelegate: oldDelegate];
 }
 
 - (void) selectHighlighterForCurrentFile {
@@ -851,7 +929,7 @@ static NSDictionary* styles[256];
                [fileType isEqualToString: @"nih"]) {
         // Natural inform file
         highlighter = [[IFNaturalInformSyntax alloc] init];
-        [sourceText setRichText: NO];
+        [sourceText setRichText: YES];
     } else if ([fileType isEqualToString: @"rtf"]) {
         // Rich text file
         highlighter = [[IFSyntaxHighlighter alloc] init];
@@ -871,10 +949,18 @@ static NSDictionary* styles[256];
 		
 		[[sourceText textStorage] setDelegate: self];
 	}
-	 
+	
     [highlighter setFile: [[sourceText textStorage] string]];
 	[self highlightRange: NSMakeRange(0, [[sourceText textStorage] length])];
-    [self createHighlighterTickerIfRequired];
+    [self createHighlighterTickerIfRequired: 0.2];
+}
+
+- (void) refreshTemporaryHighlights {
+	NSArray* highlights = [parent highlightsForFile: openSourceFile];
+	
+	if ([highlights length] == 0) return; // Nothing to do
+	
+	// IMPLEMENT ME
 }
 
 @end
