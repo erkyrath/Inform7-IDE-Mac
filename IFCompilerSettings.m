@@ -215,8 +215,6 @@ NSString* IFSettingNotification = @"IFSettingNotification";
         store = [[NSMutableDictionary allocWithZone: [self zone]] init];
 
         // Default settings
-        [store setObject: @"Standard"
-                  forKey: IFSettingLibraryToUse];
         [self setUsingNaturalInform: NO];
     }
 
@@ -303,7 +301,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     // User-defined includes
     
     // Library
-    NSString* library = [store objectForKey: IFSettingLibraryToUse];
+    NSString* library = [self libraryToUse];
 	NSString* libPath = [[self class] pathForLibrary: library];
 	
 	if (libPath == nil) libPath = [[self class] pathForLibrary: @"Standard"];
