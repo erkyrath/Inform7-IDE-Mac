@@ -38,9 +38,21 @@
 
     [settings setUsingNaturalInform: YES];
 	[settings setLibraryToUse: @"Natural"];
-
     [file setSettings: [settings autorelease]];
-    [file addSourceFile: @"story.ni"];
+	
+	// Default file content
+	NSString* name = [[[file filename] lastPathComponent] stringByDeletingPathExtension];
+	if ([name length] == 0 || name == nil) name = @"Untitled";
+	
+	NSString* longuserName = NSFullUserName();
+	if ([longuserName length] == 0 || longuserName == nil) longuserName = NSUserName();
+	if ([longuserName length] == 0 || longuserName == nil) longuserName = @"Unknown Author";
+	
+	NSString* defaultContents = [NSString stringWithFormat: @"\"%@\" by %@\n\n", name, longuserName];
+
+	// Create the default file
+    [file addSourceFile: @"story.ni" 
+		   withContents: [defaultContents dataUsingEncoding: NSASCIIStringEncoding]];
 }
 
 @end

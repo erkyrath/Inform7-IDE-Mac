@@ -141,6 +141,7 @@ static NSMutableDictionary* projectDictionary = nil;
         IFProjectFile* theFile = [[IFProjectFile alloc] initWithEmptyProject];
         BOOL success;
         
+		[theFile setFilename: [projectLocation stringValue]];
         [projectType setupFile: theFile
                       fromView: projectView];
 
