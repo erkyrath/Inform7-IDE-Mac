@@ -111,8 +111,18 @@ NSString* IFIsWatchInspector = @"IFIsWatchInspector";
 }
 
 - (NSString*) textualValueForExpression: (unsigned) answer {
-	// IMPLEMENT ME
-	return [self numericValueForAnswer: answer];
+	// Find the ZoomView, if there is one
+	ZoomView* zView = [[activeController gamePane] zoomView];
+	
+	if (zView == nil) return [self numericValueForAnswer: answer];
+	
+	// ... then get the zMachine
+	NSObject<ZMachine>* zMachine = [zView zMachine];
+	
+	if (zMachine == nil) return [self numericValueForAnswer: answer];
+	
+	// Use the Z-Machine's evaluator
+	return [zMachine  descriptionForValue: answer];
 }
 
 - (void) refreshExpressions {

@@ -410,7 +410,14 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 // = The source view =
+
 - (void) moveToLine: (int) line {
+	[self moveToLine: line
+		   character: 0];
+}
+
+- (void) moveToLine: (int) line
+		  character: (int) chrNo {
     // Find out where the line is in the source view
     NSString* store = [[sourceText textStorage] string];
     int length = [store length];
@@ -449,6 +456,9 @@ NSDictionary* IFSyntaxAttributes[256];
         }
         lineLength++;
     }
+	
+	// Add the character position
+	linepos += chrNo;
         
     // Time to scroll
 	[sourceText scrollRangeToVisible: NSMakeRange(linepos, 1)];

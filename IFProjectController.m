@@ -1031,10 +1031,16 @@ static NSDictionary*  itemDictionary = nil;
 	
 	NSString* filename = [[zView zMachine] sourceFileForAddress: pc];
 	int line_no = [[zView zMachine] lineForAddress: pc];
+	int char_no = [[zView zMachine] characterForAddress: pc];
 		
 	if (line_no > -1 && filename != nil) {
 		[[self sourcePane] showSourceFile: filename];
-		[[self sourcePane] moveToLine: line_no];
+		
+		if (char_no > -1)
+			[[self sourcePane] moveToLine: line_no
+								character: char_no];
+		else
+			[[self sourcePane] moveToLine: line_no];
 		[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];
 		[self highlightSourceFileLine: line_no
 							   inFile: filename

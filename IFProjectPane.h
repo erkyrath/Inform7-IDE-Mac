@@ -120,6 +120,8 @@ enum IFProjectPaneType {
 - (enum IFProjectPaneType) currentView;
 
 // The source view
+- (void) moveToLine: (int) line
+		  character: (int) chr;
 - (void) moveToLine: (int) line;
 
 - (void) showSourceFile: (NSString*) file;
