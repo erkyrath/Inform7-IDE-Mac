@@ -176,22 +176,30 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 	
 	// Extensions
 	if (willSearchExtensions) {
-		// For the moment, we only search the editable extensions
-		NSString* extnDirectory = [[[NSApp delegate] directoriesToSearch: @"Extensions"] objectAtIndex: 0];
+		// Search all the extensions that the app delegate returns
+		NSArray* extensions = [[NSApp delegate] directoriesToSearch: @"Extensions"];
+		NSEnumerator* extnEnum = [extensions objectEnumerator];
 		
-		// Get all the files from the extensions
-		NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtPath: extnDirectory];
-		NSString* path;
+		NSString* extnDirectory = nil;
 		
-		while (path = [dirEnum nextObject]) {
-			NSString* extnPath = [extnDirectory stringByAppendingPathComponent: path];
-			BOOL isDir;
+		// Iterate through all the various places extensions can be hidden
+		while (extnDirectory = [extnEnum nextObject]) {
+			NSLog(@"%@", extnDirectory);
 			
-			if ([[NSFileManager defaultManager] fileExistsAtPath: extnPath 
-													 isDirectory: &isDir]) {
-				if (!isDir) {
-					[ctrl addSearchFile: extnPath
-								   type: @"Extension File"];
+			// Get all the files from the extensions
+			NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtPath: extnDirectory];
+			NSString* path;
+			
+			while (path = [dirEnum nextObject]) {
+				NSString* extnPath = [extnDirectory stringByAppendingPathComponent: path];
+				BOOL isDir;
+				
+				if ([[NSFileManager defaultManager] fileExistsAtPath: extnPath 
+														 isDirectory: &isDir]) {
+					if (!isDir) {
+						[ctrl addSearchFile: extnPath
+									   type: @"Extension File"];
+					}
 				}
 			}
 		}
