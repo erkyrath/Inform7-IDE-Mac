@@ -14,6 +14,16 @@ NSString* IFSectionSymbolType = @"IFSectionSymbolType";
 
 // = Initialisation =
 
+- (id) init {
+	self = [super init];
+	
+	if (self) {
+		level = -1;			// == Calculate
+	}
+	
+	return self;
+}
+
 - (void) dealloc {
 	if (name) [name release];
 	if (type) [type release];
@@ -38,8 +48,16 @@ NSString* IFSectionSymbolType = @"IFSectionSymbolType";
 
 - (int) level {
 	if (level < 0) {
-		// IMPLEMENT ME: calculate level relative to previous item, return that (might have changed since last time)
-		return -1;
+		if (relation == IFSymbolOnLevel)
+			return levelDelta;
+		
+		// Relative level
+		if (lastSymbol == nil)
+			return levelDelta<0?0:levelDelta;
+		
+		int realLevel = [lastSymbol level] + levelDelta;
+		
+		return realLevel<0?0:levelDelta;
 	}
 	
 	return level;
@@ -88,15 +106,41 @@ NSString* IFSectionSymbolType = @"IFSectionSymbolType";
 // = Our relation to other symbols in the file =
 
 - (IFIntelSymbol*) parent {
+	IFIntelSymbol* parent = lastSymbol;
+	int myLevel = [self level];
+	
+	while (parent != nil && [parent level] >= myLevel) {
+		parent = parent->lastSymbol;
+	}
+	
+	return parent;
 }
 
 - (IFIntelSymbol*) child {
+	IFIntelSymbol* child = nextSymbol;
+	
+	if (child == nil) return nil;
+	if ([child level] > [self level]) return child;
+	
+	return nil;
 }
 
 - (IFIntelSymbol*) sibling {
+	IFIntelSymbol* sibling = nextSymbol;
+	
+	if (sibling == nil) return nil;
+	if ([sibling level] == [self level]) return sibling;
+	
+	return nil;
 }
 
 - (IFIntelSymbol*) previousSibling {
+	IFIntelSymbol* sibling = lastSymbol;
+	
+	if (sibling == nil) return nil;
+	if ([sibling level] == [self level]) return sibling;
+	
+	return nil;
 }
 
 @end

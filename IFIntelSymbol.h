@@ -23,7 +23,7 @@ extern NSString* IFSectionSymbolType;	// Natural Inform section
 //
 // A single symbol gathered by the 'intelligence'
 //
-@interface IFIntelSymbol : NSObject<NSCopying> {
+@interface IFIntelSymbol : NSObject {
 	// Our data
 	NSString* name;
 	NSString* type;
