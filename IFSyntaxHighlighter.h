@@ -15,6 +15,7 @@ enum IFSyntaxType {
     IFSyntaxNone,
     IFSyntaxString,
     IFSyntaxComment,
+    IFSyntaxMonospace,
     
     // Inform 6 syntax types
     IFSyntaxDirective = 0x40,
@@ -35,7 +36,7 @@ enum IFSyntaxType {
 typedef enum IFSyntaxType IFSyntaxType;
 
 @interface IFSyntaxHighlighter : NSObject {
-
+    NSRange invalidRange;
 }
 
 // Changes the file we're using; does not invalidate any state information, though

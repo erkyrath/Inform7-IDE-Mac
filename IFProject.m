@@ -25,6 +25,12 @@
         singleFile  = YES;
 
         compiler = [[IFCompiler allocWithZone: [self zone]] init];
+        
+        /*
+        sourceFiles = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+            [[[NSTextStorage alloc] init] autorelease], @"untitled.inf", nil] retain];
+        mainSource = [@"untitled.inf" retain];
+         */
     }
 
     return self;

@@ -8,7 +8,7 @@
 
 #import "IFInform6Syntax.h"
 
-#undef  logInvalidates
+#undef logInvalidates
 
 @implementation IFInform6Syntax
 
@@ -194,10 +194,10 @@ static int compare(const void* a, const void* b) {
     
     // First, invalidate as the line list currently stands
     // (This deals with deletions)
-    [self _invalidateRange: range];
+    // [self _invalidateRange: range];
     
     // Next, recalculate the line endings, and delete/add any lines that
-    // have appeared/been removed
+    // have appeared/been removed (extra lines go just after the f
     line = 0;
     pos = 0;
     len = [file length];
@@ -212,6 +212,8 @@ static int compare(const void* a, const void* b) {
         lines[line].colour = NULL;
     }
     
+    int oldnLines = nLines;
+    
     while (pos < len) {
         lineLength++;
         int chr = [file characterAtIndex: pos];
@@ -220,11 +222,11 @@ static int compare(const void* a, const void* b) {
             // Line ending reached
             if (lines[line].length != lineLength) {
                 lines[line].length = lineLength;
-                lines[line].invalid = YES;
-                lines[line].needsDisplay = YES;
+                //lines[line].invalid = YES; (EXPERIMENTAL)
+                //lines[line].needsDisplay = YES;
                 
 #ifdef logInvalidates
-                NSLog(@"Line %i invalidated: length different", line);
+                //NSLog(@"Line %i invalidated: length different", line);
 #endif
             }
 
@@ -233,6 +235,7 @@ static int compare(const void* a, const void* b) {
             lineLength = 0;
             
             if (line >= nLines) {
+                // Add extra lines at the end
                 nLines++;
                 lines = realloc(lines, sizeof(IFInform6Line)*nLines);
                 lines[line].invalid = YES;
@@ -248,13 +251,60 @@ static int compare(const void* a, const void* b) {
         
         pos++;
     }
-        
+    
+    // Any new lines should actually be inserted just after the first line in the
+    // range
     int x;
+    int firstLine, firstPos;
+    firstLine = [self lineForChar: range.location
+                         position: &firstPos];
+    
+    if (nLines > oldnLines) {
+        int diff = nLines - oldnLines;
         
+        // extra lines go after firstLine
+        //firstLine++;
+        
+        for (x = nLines-1; x > (firstLine+diff); x--) {
+            if (lines[x].colour) free(lines[x].colour);
+            
+            lines[x].colour = lines[x-diff].colour;
+            lines[x].initialState = lines[x-diff].initialState;
+            lines[x].invalid = lines[x-diff].invalid;
+            lines[x].needsDisplay = lines[x-diff].needsDisplay;
+            
+            lines[x-diff].colour = NULL;
+            lines[x-diff].invalid = YES;
+        }
+        
+        // These lines are now invalid
+        for (x=firstLine; x<firstLine+diff; x++) {
+            lines[x].colour = NULL;
+            lines[x].invalid = YES;
+        }
+    } else if (nLines < oldnLines) {
+        // Deleted lines are after firstLine
+        int diff = oldnLines - nLines;
+        
+        firstLine++;
+        for (x = firstLine; x < nLines; x++) {
+            if (lines[x].colour) free(lines[x].colour);
+            
+            lines[x].colour = lines[x+diff].colour;
+            lines[x+diff].colour = NULL;
+            lines[x].invalid = NO;
+            lines[x].needsDisplay = NO;
+        }
+    }
+        
+    
+    // Delete lines from the beginning
+    
     for (x=line; x<nLines; x++) {
         [self clearLine: x];
     }
-        
+     
+    // Final line allocation
     nLines = (line+1);
     lines = realloc(lines, sizeof(IFInform6Line)*nLines);
     lines[line].invalid = YES;

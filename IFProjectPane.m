@@ -30,6 +30,8 @@ static NSDictionary* styles[256];
     NSFont* smallFont        = [NSFont boldSystemFontOfSize: 9];
     NSFont* boldSystemFont   = [NSFont boldSystemFontOfSize: 11];
     NSFont* headerSystemFont = [NSFont boldSystemFontOfSize: 16];
+    NSFont* monospaceFont    = [NSFont fontWithName: @"Monaco"
+                                               size: 9];
     
     // Default style
     NSDictionary* defaultStyle = [[NSDictionary dictionaryWithObjectsAndKeys:
@@ -55,7 +57,11 @@ static NSDictionary* styles[256];
         smallFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.14 green: 0.43 blue: 0.14 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-        
+    styles[IFSyntaxMonospace] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        monospaceFont, NSFontAttributeName,
+        [NSColor blackColor], NSForegroundColorAttributeName,
+        nil] retain];
+    
     // Inform 6 syntax types
     styles[IFSyntaxDirective] = [[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
@@ -83,7 +89,7 @@ static NSDictionary* styles[256];
         nil] retain];
     styles[IFSyntaxEscapeCharacter] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
-        [NSColor colorWithDeviceRed: 0.53 green: 0.08 blue: 0.08 alpha: 1.0], NSForegroundColorAttributeName,
+        [NSColor colorWithDeviceRed: 0.73 green: 0.2 blue: 0.73 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
         
     // Natural inform syntax types

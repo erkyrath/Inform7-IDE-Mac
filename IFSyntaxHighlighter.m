@@ -32,7 +32,7 @@
     int x;
     
     for (x=0; x<range.length; x++) {
-        buf[x] = IFSyntaxNone;
+        buf[x] = IFSyntaxMonospace;
     }
 }
 

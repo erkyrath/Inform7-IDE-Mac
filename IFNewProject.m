@@ -157,6 +157,7 @@ static NSMutableDictionary* projectDictionary = nil;
                 [attributes release];
             }
 
+            /*
             IFProject* openDoc;
 
             openDoc = [[IFProject alloc] initWithContentsOfFile: [projectLocation stringValue]
@@ -166,6 +167,9 @@ static NSMutableDictionary* projectDictionary = nil;
                 [[openDoc windowControllers] makeObjectsPerformSelector: @selector(showWindow:)
                                                              withObject: self];
             }
+             */
+            [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfFile: [projectLocation stringValue]
+                                                                                    display: YES];
 
             [theFile release];
         } else {

@@ -12,5 +12,13 @@
 @implementation IFNaturalInformSyntax
 
 // In need of implementing
+- (void) colourForCharacterRange: (NSRange) range
+                          buffer: (unsigned char*) buf {
+    int x;
+    
+    for (x=0; x<range.length; x++) {
+        buf[x] = IFSyntaxNone;
+    }
+}
 
 @end
