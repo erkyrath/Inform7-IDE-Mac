@@ -769,6 +769,10 @@ static inline BOOL IsWhitespace(unichar c) {
 	[self startBackgroundHighlighting];
 }
 
+- (BOOL) highlighting {
+	return needsHighlighting.location!=NSNotFound;
+}
+
 - (BOOL) highlighterPass {
 	// Highlight anything that needs highlighting
 	if (needsHighlighting.location == NSNotFound) return NO;

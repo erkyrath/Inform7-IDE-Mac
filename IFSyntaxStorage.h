@@ -144,6 +144,8 @@ typedef unsigned char IFSyntaxStyle;
 - (void) setHighlighter: (id<IFSyntaxHighlighter>) highlighter;
 - (id<IFSyntaxHighlighter>) highlighter;
 
+- (BOOL) highlighting;
+
 // Communication from the highlighter
 - (void) pushState;
 - (IFSyntaxState) popState;

@@ -60,6 +60,9 @@ extern NSString* IFSectionSymbolType;	// Natural Inform section
 - (IFIntelSymbol*) sibling;
 - (IFIntelSymbol*) previousSibling;
 
+- (IFIntelSymbol*) nextSymbol;
+- (IFIntelSymbol*) lastSymbol;
+
 @end
 
 #import "IFIntelFile.h"

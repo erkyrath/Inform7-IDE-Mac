@@ -149,4 +149,12 @@ NSString* IFSectionSymbolType = @"IFSectionSymbolType";
 	return nil;
 }
 
+- (IFIntelSymbol*) nextSymbol {
+	return nextSymbol;
+}
+
+- (IFIntelSymbol*) lastSymbol {
+	return lastSymbol;
+}
+
 @end

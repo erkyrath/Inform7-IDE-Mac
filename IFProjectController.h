@@ -113,4 +113,9 @@ enum lineStyle {
 - (void) addProgressIndicator: (IFProgress*) indicator;
 - (void) removeProgressIndicator: (IFProgress*) indicator;
 
+// Menu options
+- (IBAction) shiftLeft: (id) sender;
+- (IBAction) shiftRight: (id) sender;
+- (IBAction) renumberSections: (id) sender;
+
 @end

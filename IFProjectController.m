@@ -13,6 +13,8 @@
 #import "IFNewProjectFile.h"
 #import "IFIsIndex.h"
 
+#import "IFPreferences.h"
+
 #import "IFIsFiles.h"
 #import "IFIsWatch.h"
 #import "IFIsBreakpoints.h"
@@ -590,6 +592,33 @@ static NSDictionary*  itemDictionary = nil;
 		itemSelector == @selector(compileAndDebug:) ||
 		itemSelector == @selector(replayUsingSkein:)) {
 		return ![[[self document] compiler] isRunning];
+	}
+	
+	// Format options
+	if (itemSelector == @selector(shiftLeft:) ||
+		itemSelector == @selector(shiftRight:) ||
+		itemSelector == @selector(renumberSections:)) {
+		// First responder must be an NSTextView object
+		if (![[[self window] firstResponder] isKindOfClass: [NSTextView class]])
+			return NO;
+	}
+	
+	if (itemSelector == @selector(renumberSections:)) {
+		// Intelligence must be on
+		if (![[IFPreferences sharedPreferences] enableIntelligence])
+			return NO;
+		
+		// First responder must be an NSTextView object containing a IFSyntaxStorage with some intel data
+		if (![[[self window] firstResponder] isKindOfClass: [NSTextView class]])
+			return NO;
+
+		if (![[(NSTextView*)[[self window] firstResponder] textStorage] isKindOfClass: [IFSyntaxStorage class]])
+			return NO;
+		
+		IFSyntaxStorage* storage = (IFSyntaxStorage*)[(NSTextView*)[[self window] firstResponder] textStorage];
+		
+		if ([storage highlighting]) return NO;
+		if ([storage intelligenceData] == nil) return NO;
 	}
 
 	return YES;
@@ -1380,6 +1409,184 @@ static NSDictionary*  itemDictionary = nil;
 		[self selectSourceFile: filename];
 		[self moveToSourceFilePosition: location];
 	}
+}
+
+// = Menu options =
+
+- (void) shiftRange: (NSRange) range
+		  inStorage: (NSTextStorage*) storage
+		   tabStops: (int) tabStops {
+	int x;
+
+	if (tabStops == 0) return;
+	
+	NSMutableString* string = [storage mutableString];
+	
+	// Find the start of the line preceeding range
+	while (range.location > 0 &&
+		   [string characterAtIndex: range.location-1] != '\n') {
+		range.location--;
+		range.length++;
+	}
+	
+	// Tab string to insert
+	NSString* tabs = nil;
+	if (tabStops > 0) {
+		unichar chr[tabStops+1];
+		
+		for (x=0; x<tabStops; x++) {
+			chr[x] = '\t';
+		}
+		chr[x] = 0;
+		
+		tabs = [NSString stringWithCharacters: chr
+									   length: tabStops];
+	}
+	
+	// Shift each line in turn
+	if (range.length == 0) range.length = 1;
+	for (x=0; x<range.length;) {
+		// Position at x should be the start of a line
+		if (tabStops > 0) {
+			// Insert tabs at the start of this line
+			[string replaceCharactersInRange: NSMakeRange(range.location+x, 0)
+								  withString: tabs];
+
+			range.length += tabStops;	// String is longer
+			x += tabStops;				// No need to process these again when finding the next line
+		} else if (tabStops < 0) {
+			// Delete tabs at the start of this line
+			
+			// Work out how many tabs to delete
+			int nTabs = 0;
+			while (range.location+x+nTabs < [string length] &&
+				   nTabs < -tabStops &&
+				   [string characterAtIndex: range.location+x+nTabs] == '\t')
+				nTabs++;
+			
+			// Delete them
+			[string deleteCharactersInRange: NSMakeRange(range.location+x, nTabs)];
+			
+			range.length += tabStops;	// String is shorter
+		}
+		
+		// Find the next line
+		x++;
+		while (x < range.length &&
+			   range.location+x < [string length] &&
+			   [string characterAtIndex: range.location+x-1] != '\n')
+			x++;
+		
+		if (range.location+x >= [string length]) break;
+	}
+}
+
+- (IBAction) shiftLeft: (id) sender {
+	if (![[[self window] firstResponder] isKindOfClass: [NSTextView class]])
+		return;
+	
+	// Delete one tab stop from the beginning of each line in the selection
+	NSTextView* textView = (NSTextView*)[[self window] firstResponder];
+	NSTextStorage* storage = [textView textStorage];
+
+	NSRange selRange = [textView selectedRange];
+	
+	if (!storage) return;
+	
+	[storage beginEditing];
+	
+	[self shiftRange: selRange
+		   inStorage: storage
+			tabStops: -1];
+	
+	[storage endEditing];
+}
+
+- (IBAction) shiftRight: (id) sender {
+	if (![[[self window] firstResponder] isKindOfClass: [NSTextView class]])
+		return;
+	
+	// Insert one tab stop at the beginning of each line in the selection
+	NSTextView* textView = (NSTextView*)[[self window] firstResponder];
+	NSTextStorage* storage = [textView textStorage];
+	
+	NSRange selRange = [textView selectedRange];
+	
+	if (!storage) return;
+	
+	[storage beginEditing];
+	
+	[self shiftRange: selRange
+		   inStorage: storage
+			tabStops: 1];
+	
+	[storage endEditing];
+}
+
+- (IBAction) renumberSections: (id) sender {
+	// First responder must be an NSTextView object containing a IFSyntaxStorage with some intel data
+	if (![[[self window] firstResponder] isKindOfClass: [NSTextView class]])
+		return;
+	
+	if (![[(NSTextView*)[[self window] firstResponder] textStorage] isKindOfClass: [IFSyntaxStorage class]])
+		return;
+	
+	IFSyntaxStorage* storage = (IFSyntaxStorage*)[(NSTextView*)[[self window] firstResponder] textStorage];
+	
+	if ([storage highlighting]) return;					// Can't do this while highlighting: the section data might not be accurate any more
+	if ([storage intelligenceData] == nil) return;		// Also can't do this if we haven't actually gathered any data
+	
+	// Renumber each section stored in the intelligence data
+	// This is pretty inefficient at the moment, but it's 'unlikely' that this will ever be a problem in sensible
+	// files. (Note O(n^2) semantics, due to inefficiency in lineForSymbol:)
+	// If we're being pedantic, I guess we have a problem with files with more than 2147483647 symbols too.
+	// If you're writing IF that big, then, er, wow. Fixing this should be no problem for you.
+	IFIntelFile*   intel   = [storage intelligenceData];
+	IFIntelSymbol* section = [intel firstSymbol];
+	
+	[storage beginEditing];
+	while (section != nil) {
+		int lineNumber = [intel lineForSymbol: section];
+		NSString* sectionLine = [storage textForLine: lineNumber];
+		NSArray*  words = [sectionLine componentsSeparatedByString: @" "];
+		
+		int sectionNumber = [words count]>1?[[words objectAtIndex: 1] intValue]:0;
+		
+		if (sectionNumber > 0) {
+			// This looks like something we can renumber... Get the preceding number
+			IFIntelSymbol* lastSection = [section previousSibling];
+			int lastLineNumber = [intel lineForSymbol: lastSection];
+			NSArray* lastWords = [[storage textForLine: lastLineNumber] componentsSeparatedByString: @" "];
+			
+			int lastSectionNumber = [lastWords count]>1?[[lastWords objectAtIndex: 1] intValue]:0;
+			
+			if (lastSectionNumber > 0 && lastSectionNumber+1 != sectionNumber) {
+				// This section needs renumbering
+				NSMutableArray* newWords = [words mutableCopy];			// Spoons!
+				
+				if ([newWords count] == 2) {
+					// Must be followed by a newline
+					[newWords replaceObjectAtIndex: 1
+										withObject: [NSString stringWithFormat: @"%i\n", lastSectionNumber+1]];
+				} else {
+					// Must not be followed by a newline
+					[newWords replaceObjectAtIndex: 1
+										withObject: [NSString stringWithFormat: @"%i", lastSectionNumber+1]];
+				}
+				
+				// OK, replace the text (IFSyntaxStorage's replaceCharactersInRange:withString: should fix things
+				// up so that if the file length changes, future sections are still pointing to the right placec)
+				[storage replaceLine: lineNumber
+							withLine: [newWords componentsJoinedByString: @" "]];
+				
+				[newWords release];
+			}
+		}
+		
+		// Onwards!
+		section = [section nextSymbol];
+	}
+	[storage endEditing];
 }
 
 @end
