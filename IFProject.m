@@ -199,8 +199,26 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 
 - (BOOL) removeFile: (NSString*) oldFile {
 	if ([sourceFiles objectForKey: oldFile] == nil) return YES; // Deleting a non-existant file always succeeds
+	if (singleFile) return NO;
 	
 	[sourceFiles removeObjectForKey: oldFile];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectFilesChangedNotification
+														object: self];
+	return YES;
+}
+
+- (BOOL) renameFile: (NSString*) oldFile 
+		withNewName: (NSString*) newFile {
+	if ([sourceFiles objectForKey: oldFile] == nil) return NO;
+	if ([sourceFiles objectForKey: newFile] != nil) return NO;
+	if (singleFile) return NO;
+	
+	NSTextStorage* oldFileStorage = [[sourceFiles objectForKey: oldFile] retain];
+	
+	[sourceFiles removeObjectForKey: oldFile];
+	[sourceFiles setObject: oldFileStorage
+					forKey: newFile];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectFilesChangedNotification
 														object: self];

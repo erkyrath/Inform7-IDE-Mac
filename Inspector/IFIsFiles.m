@@ -138,7 +138,7 @@ static int stringComparer(id a, id b, void * context) {
 - (IBAction) removeFile: (id) sender {
 	if (activeWin == nil) return;
 	if ([filenames count] <= 0) return;
-	if ([filesView selectedRow] == NSNotFound) return;
+	if ([filesView selectedRow] < 0) return;
 	
 	NSBundle* mB = [NSBundle mainBundle];
 	
@@ -248,12 +248,34 @@ static int stringComparer(id a, id b, void * context) {
 	}
 }
 
+- (void)tableView:(NSTableView *)aTableView 
+   setObjectValue:(id)anObject 
+   forTableColumn:(NSTableColumn *)aTableColumn 
+			  row:(int)rowIndex {
+	NSString* oldFile = [filenames objectAtIndex: rowIndex];
+	if (![[aTableColumn identifier] isEqualToString: @"filename"]) return;
+	if (oldFile == nil) return;
+	
+	IFProjectController* activeController = [activeWin windowController];
+	
+	if (![anObject isKindOfClass: [NSString class]]) return;
+	if ([(NSString*)anObject length] <= 0) return;
+	if ([[(NSString*)anObject pathComponents] count] != 1) return;
+	
+	if ([activeController isKindOfClass: [IFProjectController class]]) {
+		IFProject* proj = [activeController document];
+		
+		[proj renameFile: oldFile
+			 withNewName: [(NSString*)anObject stringByAppendingPathExtension: [oldFile pathExtension]]];
+	}
+}
+
 // = Delegation is the key to success, apparently =
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
 	NSString* filename = nil;
 	
-	if ([filesView selectedRow] != NSNotFound)
+	if ([filesView selectedRow] >= 0)
 		filename = [filenames objectAtIndex: [filesView selectedRow]];
 	
 	if (filename) {
