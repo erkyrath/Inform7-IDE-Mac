@@ -11,6 +11,7 @@
 
 #import "IFSyntaxStorage.h"
 #import "IFNaturalHighlighter.h"
+#import "IFInform6Highlighter.h"
 
 NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotification";
 
@@ -23,7 +24,8 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 	if ([extn isEqualToString: @"inf"] ||
 		[extn isEqualToString: @"i6"] ||
 		[extn isEqualToString: @"h"]) {
-		// Inform 6 highlighter not yet available
+		// Inform 6 file
+		return [[[IFInform6Highlighter alloc] init] autorelease];
 	} else if ([extn isEqualToString: @"ni"]) {
 		// Natural Inform file
 		return [[[IFNaturalHighlighter alloc] init] autorelease];
@@ -218,7 +220,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
         NSString* theFile = [NSString stringWithContentsOfFile: fileName];
 		
 		IFSyntaxStorage* text = [[IFSyntaxStorage alloc] initWithString: theFile];
-		[text setHighlighter: nil]; // FIXME: Inform 6 syntax highlighter
+		[text setHighlighter: [[[IFInform6Highlighter alloc] init] autorelease]];
         
         if (sourceFiles) [sourceFiles release];
         sourceFiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:

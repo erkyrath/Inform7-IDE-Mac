@@ -26,7 +26,7 @@ enum {
     IFSyntaxMonospace,
     
     // Inform 6 syntax types
-    IFSyntaxDirective = 0x40,
+    IFSyntaxDirective,
     IFSyntaxProperty,
     IFSyntaxFunction,
     IFSyntaxCode,
@@ -106,6 +106,8 @@ typedef unsigned char IFSyntaxStyle;
 // Communication from the highlighter
 - (void) pushState;
 - (IFSyntaxState) popState;
+- (void) backtrackWithStyle: (IFSyntaxStyle) newStyle
+					 length: (int) backtrackLength;
 
 // Actually performing highlighting
 - (void) highlightRangeSoon: (NSRange) range;

@@ -371,6 +371,16 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	return poppedState;
 }
 
+- (void) backtrackWithStyle: (IFSyntaxStyle) newStyle
+					 length: (int) backtrackLength {
+	// Change the styles, going backwards for the specified length
+	int x;
+	
+	for (x=syntaxPos-backtrackLength; x<syntaxPos; x++) {
+		if (x > 0) charStyles[x] = newStyle;
+	}
+}
+
 // = Actually performing highlighting =
 
 - (void) highlightRange: (NSRange) range {
