@@ -258,7 +258,46 @@ static NSDictionary* boldAttributes;
 
 // = Functions that the search thread uses to communicate with the main thread =
 
-int resultComparator(id a, id b, void* context) {
+static NSString* startingNumber(NSString* string) {
+	// Returns an empty string if string doesn't begin with a number
+	int pos = 0;
+	int length = [string length];
+	
+	// Skip initial whitespace (actually, only spaces, but this should do for our purposes
+	while (pos < length && [string characterAtIndex: pos] == ' ') pos++;
+	
+	// Read a number of the form xx.xx
+	BOOL gotDecimal = NO;
+	
+	int startPos = pos;
+	
+	while (pos < length) {
+		unichar chr = [string characterAtIndex: pos];
+		
+		if (chr == '.' && gotDecimal)  {
+			break;
+		}
+		if (chr == '.') {
+			gotDecimal = YES;
+			pos++;
+			continue;
+		}
+		
+		if (chr > 127 || !isdigit(chr)) {
+			break;
+		}
+		
+		pos++;
+	}
+	
+	if (pos == startPos) return nil; // No number at start
+	if (gotDecimal && pos == startPos+1) return nil; // String would be just '.' which isn't a number
+	
+	// startPos - pos is a decimal number
+	return [string substringWithRange: NSMakeRange(startPos, pos - startPos)];
+}
+
+static int resultComparator(id a, id b, void* context) {
 	NSDictionary* one = a;
 	NSDictionary* two = b;
 	
@@ -279,20 +318,27 @@ int resultComparator(id a, id b, void* context) {
 	str2 = [two objectForKey: @"displayname"];
 	
 	// If str1 and str2 both begin with a number, then compare numerically (floating-point)
-	// (MAYBE FIXME: deal with spaces at the start)
-	unichar chr1 = [str1 characterAtIndex: 0];
-	unichar chr2 = [str2 characterAtIndex: 0];
-	
-	if (chr1 < 128 && chr2 < 128 && isdigit(chr1) && isdigit(chr2)) {
-		double v1 = [str1 doubleValue];
-		double v2 = [str2 doubleValue];
-				
-		if (v1 < v2)
-			return NSOrderedAscending;
-		else if (v1 > v2)
-			return NSOrderedDescending;
-		else
-			return NSOrderedSame;
+	NSString* num1 = startingNumber(str1);
+	NSString* num2 = startingNumber(str2);
+		
+	if (num1 && num2) {
+		// Section ordering. IE, 10.1 < 10.14 here
+		NSArray* nums1 = [num1 componentsSeparatedByString: @"."];
+		NSArray* nums2 = [num2 componentsSeparatedByString: @"."];
+		
+		int pos = 0;
+		
+		while (pos < [nums1 count] && pos < [nums2 count]) {
+			int v1 = [[nums1 objectAtIndex: pos] intValue];
+			int v2 = [[nums2 objectAtIndex: pos] intValue];
+			
+			if (v1 < v2)
+				return NSOrderedAscending;
+			else if (v1 > v2)
+				return NSOrderedDescending;
+			
+			pos++;
+		}
 	}
 	
 	// Otherwise compare alphanumerically
@@ -300,12 +346,12 @@ int resultComparator(id a, id b, void* context) {
 	if (res != NSOrderedSame) return res;
 	
 	// Finally, compare locations
-	NSNumber* num1, *num2;
+	NSNumber* loc1, *loc2;
 	
-	num1 = [one objectForKey: @"location"];
-	num2 = [two objectForKey: @"location"];
+	loc1 = [one objectForKey: @"location"];
+	loc2 = [two objectForKey: @"location"];
 	
-	return [num1 compare: num2];
+	return [loc1 compare: loc2];
 }
 
 - (void) threadHasFinishedSearching {
