@@ -1,8 +1,18 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = IFDebugSettings; LANGUAGE = ObjC; SUPERCLASS = IFSetting; }, 
         {
+            CLASS = IFDebugSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                donotCompileNaturalInform = NSButton; 
+                runBuildSh = NSButton; 
+                runLoudly = NSButton; 
+            }; 
+            SUPERCLASS = IFSetting; 
+        }, 
+        {
+            ACTIONS = {settingsHaveChanged = id; }; 
             CLASS = IFSetting; 
             LANGUAGE = ObjC; 
             OUTLETS = {settingView = NSView; }; 
