@@ -36,6 +36,7 @@
 
 - (void) dealloc {
 	if (extensions) [extensions release];
+	if (extensionPath) [extensionPath release];
 	
 	[activeExtensions release];
 	
@@ -72,6 +73,9 @@
 	if (extensions) [extensions release];
 	extensions = [[NSMutableArray alloc] init];
 	
+	if (extensionPath) [extensionPath release];
+	extensionPath = [[NSMutableDictionary alloc] init];
+	
 	// Get the list of extensions
 	NSArray* directories = [self directoriesToSearch];
 	
@@ -100,8 +104,42 @@
 			if ([extensions indexOfObjectIdenticalTo: extn] != NSNotFound) continue;
 			
 			[extensions addObject: extn];
+			[extensionPath setObject: extnPath
+							  forKey: extn];
 		}
 	}
+}
+
+- (NSString*) pathForExtension: (NSString*) extension {
+	return [extensionPath objectForKey: extension];
+}
+
+// = Compiler settings  =
+
+- (NSArray*) includePathForCompiler: (NSString*) compiler {
+	if (![compiler isEqualToString: IFCompilerInform6]) return nil;
+	
+	NSMutableArray* res = [NSMutableArray array];
+	
+	NSEnumerator* extnEnum = [activeExtensions objectEnumerator];
+	NSString* extn;
+	
+	NSLog(@"%@", activeExtensions);
+	
+	while (extn = [extnEnum nextObject]) {
+		NSString* extnPath = [self pathForExtension: extn];
+		
+		if (extnPath != nil) {
+			NSLog(@"Extension path for %@ is %@", extn, extnPath);
+			[res addObject: extnPath];
+		} else {
+			NSLog(@"No extension path for %@", extn);
+		}
+	}
+	
+	NSLog(@"%@", res);
+			
+	return res;
 }
 
 // = Table data source =
@@ -124,5 +162,21 @@
 	}
 }
 
+- (void)	tableView: (NSTableView*) aTableView 
+	   setObjectValue: (id) anObject 
+	   forTableColumn: (NSTableColumn*) col
+				  row: (int) rowIndex {
+	if ([[col identifier] isEqualToString: @"libname"]) {
+		// Do nothing: can't set this
+	} else if ([[col identifier] isEqualToString: @"libactive"]) {
+		NSString* libname = [extensions objectAtIndex: rowIndex];
+		
+		if ([anObject boolValue]) {
+			[activeExtensions addObject: libname];
+		} else {
+			[activeExtensions removeObject: libname];
+		}
+	}
+}
 
 @end

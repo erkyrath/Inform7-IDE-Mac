@@ -35,6 +35,7 @@ extern NSString* IFSettingHasChangedNotification;
 - (void) setSettingsFor: (IFCompilerSettings*) settings;
 - (BOOL) enableForCompiler: (NSString*) compiler;
 - (NSArray*) commandLineOptionsForCompiler: (NSString*) compiler;
+- (NSArray*) includePathForCompiler: (NSString*) compiler;
 - (void) updateFromCompilerSettings: (IFCompilerSettings*) settings;
 
 // Notifying the controller about things

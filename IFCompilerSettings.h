@@ -73,6 +73,7 @@ extern NSString* IFCompilerNaturalInform;
 
 // Generic settings (IFSetting)
 - (void)      setGenericSettings: (NSArray*) genericSettings;
+- (NSArray*)  includePathsForCompiler: (NSString*) compiler;
 - (NSArray*)  genericCommandLineForCompiler: (NSString*) compiler;
 
 // Getting command line arguments, etc

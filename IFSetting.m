@@ -67,6 +67,10 @@ NSString* IFSettingHasChangedNotification = @"IFSettingHasChangedNotification";
 	return nil;
 }
 
+- (NSArray*) includePathForCompiler: (NSString*) compiler {
+	return nil;
+}
+
 - (void) updateFromCompilerSettings: (IFCompilerSettings*) settings {
 	// Do nothing
 }

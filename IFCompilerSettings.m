@@ -313,6 +313,10 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     
     [includePath addObject: @"./"];
     [includePath addObject: @"../Source/"];
+	
+	// Include paths from settings modules
+	
+	[includePath addObjectsFromArray: [self includePathsForCompiler: IFCompilerInform6]];
 
     // Finish up paths
 
@@ -561,7 +565,22 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 	while (setting = [settingEnum nextObject]) {
 		NSArray* settingOptions = [setting commandLineOptionsForCompiler: compiler];
 		
-		[result addObjectsFromArray: settingOptions];
+		if (settingOptions) [result addObjectsFromArray: settingOptions];
+	}
+	
+	return result;
+}
+
+- (NSArray*) includePathsForCompiler: (NSString*) compiler {
+	NSEnumerator* settingEnum = [genericSettings objectEnumerator];
+	IFSetting* setting;
+	
+	NSMutableArray* result = [NSMutableArray array];
+	
+	while (setting = [settingEnum nextObject]) {
+		NSArray* settingOptions = [setting includePathForCompiler: compiler];
+		
+		if (settingOptions) [result addObjectsFromArray: settingOptions];
 	}
 	
 	return result;

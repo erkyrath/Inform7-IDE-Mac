@@ -13,6 +13,7 @@
 @interface IFInform6Extensions : IFSetting {
 	// Data on what's available
 	NSMutableArray* extensions;
+	NSMutableDictionary* extensionPath;
 	BOOL needRefresh;
 	
 	// Which extensions we're using
