@@ -248,7 +248,6 @@ static NSDictionary* styles[256];
 		[wView setPolicyDelegate: self];
 		[wView setResourceLoadDelegate: self];
 		[docTabView setView: wView];
-		//[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource: @"index" ofType: @"html"]]] autorelease]];
 		[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: @"inform:/index.html"]] autorelease]];
 	} else {
 		wView = nil;
@@ -397,11 +396,6 @@ static NSDictionary* styles[256];
     NSLayoutManager* layout = [sourceText layoutManager];
     
     NSRange ourLine;
-    NSRange ourGlyph = [layout glyphRangeForCharacterRange: NSMakeRange(linepos,lineLength)
-                                      actualCharacterRange: &ourLine];
-
-    //NSRect lineLocation = [layout lineFragmentRectForGlyphAtIndex: ourGlyph.location
-    //                                               effectiveRange: nil];
 
     // Time to scroll
 	[sourceText scrollRangeToVisible: NSMakeRange(linepos, 1)];

@@ -979,7 +979,7 @@ static NSDictionary*  itemDictionary = nil;
 
 // = Documentation controls =
 - (void) docIndex: (id) sender {
-	[[self auxPane] openURL: [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource: @"index" ofType: @"html"]]];
+	[[self auxPane] openURL: [NSURL URLWithString: @"inform:/index.html"]];
 }
 
 // = Adding files =
