@@ -16,6 +16,7 @@ enum {
 	IFNaturalStateText = IFSyntaxStateDefault,
 	IFNaturalStateComment,
 	IFNaturalStateQuote,
+	IFNaturalStateSubstitution,
 	
 	IFNaturalStateHeading,
 	IFNaturalStateBlankLine,

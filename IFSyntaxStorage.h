@@ -40,6 +40,7 @@ enum {
     IFSyntaxHeading = 0x80,				// Heading style
 	IFSyntaxPlain,						// 'No highlighting' style - lets user defined styles show through
 	IFSyntaxGameText,					// Text that appears in the game
+	IFSyntaxSubstitution,				// Substitution instructions
 	
 	IFSyntaxStyleNotHighlighted = 0xf0,	// Used internally by the highlighter to indicate that the highlights are invalid for a particular range
     

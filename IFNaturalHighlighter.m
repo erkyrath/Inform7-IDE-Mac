@@ -94,11 +94,16 @@
 						return [activeStorage popState];
 					}
 					return IFNaturalStateComment;
-					
+				
+				case IFNaturalStateSubstitution:
+					if (chr == ']')
+						return IFNaturalStateQuote;
 				case IFNaturalStateQuote:
 					if (chr == '"')
 						return IFNaturalStateText;
-					return IFNaturalStateQuote;
+					if (chr == '[')
+						return IFNaturalStateSubstitution;
+					return lastState;
 					
 				case IFNaturalStateHeading:
 					if (chr == '\n')
@@ -145,13 +150,20 @@
 			switch (lastState) {
 				case IFNaturalStateText:
 				case IFNaturalStateBlankLine:
-					if (chr == '[') return IFSyntaxComment;
-					if (chr == '"') return IFSyntaxGameText;
-						return IFSyntaxNone;
+					if (nextState == IFNaturalStateComment) return IFSyntaxComment;
+					if (nextState == IFNaturalStateQuote) return IFSyntaxGameText;
+					return IFSyntaxNone;
+					
+				case IFNaturalStateSubstitution:
+					return IFSyntaxSubstitution;
+					
 				case IFNaturalStateQuote:
+					if (nextState == IFNaturalStateSubstitution) return IFSyntaxSubstitution;
 					return IFSyntaxGameText;
+					
 				case IFNaturalStateComment:
 					return IFSyntaxComment;
+					
 				case IFNaturalStateHeading:
 					return IFSyntaxHeading;
 				default:
