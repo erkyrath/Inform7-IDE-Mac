@@ -565,15 +565,8 @@ static NSDictionary*  itemDictionary = nil;
 	[[self document] reloadIndexFile];
 	
 	// Update the index in the controller
+	[[IFIsFiles sharedIFIsFiles] updateFiles];
 	[[IFIsIndex sharedIFIsIndex] updateIndexFrom: self];
-	
-	if ([self pathToIndexFile] != nil) {
-		[[IFInspectorWindow sharedInspectorWindow] setInspectorState: YES
-															  forKey: IFIsIndexInspector];
-	} else {
-		[[IFInspectorWindow sharedInspectorWindow] setInspectorState: NO
-															  forKey: IFIsIndexInspector];
-	}
 
     if (exitCode == 0) {
         // Success!
