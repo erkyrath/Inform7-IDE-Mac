@@ -23,7 +23,9 @@
 
 // = Setting up =
 
-- (void) updateFromCompilerSettings: (IFCompilerSettings*) settings {
+- (void) updateFromCompilerSettings {
+    IFCompilerSettings* settings = [self compilerSettings];
+
     // Library versions
 	NSArray* libraryDirectory = [IFCompilerSettings availableLibraries];
     
@@ -42,7 +44,9 @@
     }
 }
 
-- (void) setSettingsFor: (IFCompilerSettings*) settings {
+- (void) setSettings {
+    IFCompilerSettings* settings = [self compilerSettings];
+
 	[settings setLibraryToUse: [libraryVersion itemTitleAtIndex: [libraryVersion indexOfSelectedItem]]];
 }
 

@@ -23,7 +23,9 @@
 
 // = Setting up =
 
-- (void) updateFromCompilerSettings: (IFCompilerSettings*) settings {
+- (void) updateFromCompilerSettings {
+    IFCompilerSettings* settings = [self compilerSettings];
+
 	// Supported Z-Machine versions
 	NSArray* supportedZMachines = [settings supportedZMachines];
 	
@@ -50,7 +52,9 @@
     }
 }
 
-- (void) setSettingsFor: (IFCompilerSettings*) settings {
+- (void) setSettings {
+    IFCompilerSettings* settings = [self compilerSettings];
+
 	[settings setZCodeVersion: [[zmachineVersion selectedCell] tag]];
 }
 

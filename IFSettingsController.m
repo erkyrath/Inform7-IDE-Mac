@@ -98,6 +98,9 @@ static NSMutableArray* standardSettingsClasses = nil;
 	[settingsView finishRearranging];
 	
 	[compilerSettings setGenericSettings: settings];
+
+	[settings makeObjectsPerformSelector: @selector(setCompilerSettings:)
+							  withObject: [self compilerSettings]];
 }
 
 - (IFSettingsView*) settingsView {
@@ -127,7 +130,7 @@ static NSMutableArray* standardSettingsClasses = nil;
 	if ([sender isKindOfClass: [IFSetting class]]) {
 		// A specific settings object has changed
 		settingsChanging = YES;
-		[(IFSetting*)sender setSettingsFor: [self compilerSettings]];
+		[(IFSetting*)sender setSettings];
 		settingsChanging = NO;
 		
 		[self updateAllSettings];
@@ -162,6 +165,9 @@ static NSMutableArray* standardSettingsClasses = nil;
 	// Store the new compiler settings object
 	compilerSettings = [cSettings retain];
 	[compilerSettings setGenericSettings: settings];
+	
+	[settings makeObjectsPerformSelector: @selector(setCompilerSettings:)
+							  withObject: compilerSettings];
 
 	// Update ourselves when the compiler settings change
 	[[NSNotificationCenter defaultCenter] addObserver: self
@@ -177,10 +183,9 @@ static NSMutableArray* standardSettingsClasses = nil;
 	// Get each setting object to reflect the status of the current compilerSettings
 	NSEnumerator* settingEnum = [settings objectEnumerator];
 	IFSetting* setting;
-	IFCompilerSettings* cSettings = [self compilerSettings];
 	
 	while (setting = [settingEnum nextObject]) {
-		[setting updateFromCompilerSettings: cSettings];
+		[setting updateFromCompilerSettings];
 	}
 }
 
@@ -188,6 +193,7 @@ static NSMutableArray* standardSettingsClasses = nil;
 
 - (void) addSettingsObject: (IFSetting*) setting {
 	[settings addObject: setting];
+	[setting setCompilerSettings: [self compilerSettings]];
 }
 
 @end

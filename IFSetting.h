@@ -20,6 +20,8 @@ extern NSString* IFSettingHasChangedNotification;
 // may be some overlap with the model here.
 @interface IFSetting : NSObject {
 	IBOutlet NSView* settingView;
+	
+	IFCompilerSettings* compilerSettings;
 }
 
 - (id) initWithNibName: (NSString*) nibName;
@@ -31,12 +33,17 @@ extern NSString* IFSettingHasChangedNotification;
 // Information about this settings view
 - (NSString*) title;
 
+// Setting/retrieving the model
+- (void) setCompilerSettings: (IFCompilerSettings*) compilerSettings; // NOT RETAINED
+- (IFCompilerSettings*) compilerSettings;
+- (NSMutableDictionary*) dictionary;
+
 // Communicating with the IFCompilerSettings object
-- (void) setSettingsFor: (IFCompilerSettings*) settings;
+- (void) setSettings;
 - (BOOL) enableForCompiler: (NSString*) compiler;
 - (NSArray*) commandLineOptionsForCompiler: (NSString*) compiler;
 - (NSArray*) includePathForCompiler: (NSString*) compiler;
-- (void) updateFromCompilerSettings: (IFCompilerSettings*) settings;
+- (void) updateFromCompilerSettings;
 
 // Notifying the controller about things
 - (IBAction) settingsHaveChanged: (id) sender;

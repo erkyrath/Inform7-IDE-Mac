@@ -23,14 +23,18 @@
 
 // = Setting up =
 
-- (void) updateFromCompilerSettings: (IFCompilerSettings*) settings {
-    [donotCompileNaturalInform setState:
+- (void) updateFromCompilerSettings {
+    IFCompilerSettings* settings = [self compilerSettings];
+	
+	[donotCompileNaturalInform setState:
         (![settings compileNaturalInformOutput])?NSOnState:NSOffState];
     [runBuildSh setState: [settings runBuildScript]?NSOnState:NSOffState];
     [runLoudly setState: [settings loudly]?NSOnState:NSOffState];
 }
 
-- (void) setSettingsFor: (IFCompilerSettings*) settings {
+- (void) setSettings {
+    IFCompilerSettings* settings = [self compilerSettings];
+
 	[settings setRunBuildScript: [runBuildSh state]==NSOnState];
 	[settings setCompileNaturalInformOutput: [donotCompileNaturalInform state]!=NSOnState];
 	[settings setLoudly: [runLoudly state]==NSOnState];

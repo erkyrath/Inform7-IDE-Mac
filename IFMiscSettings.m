@@ -23,13 +23,17 @@
 
 // = Setting up =
 
-- (void) updateFromCompilerSettings: (IFCompilerSettings*) settings {
+- (void) updateFromCompilerSettings {
+    IFCompilerSettings* settings = [self compilerSettings];
+
     [strictMode setState: [settings strict]?NSOnState:NSOffState];
     [infixMode setState: [settings infix]?NSOnState:NSOffState];
     [debugMode setState: [settings debug]?NSOnState:NSOffState];
 }
 
-- (void) setSettingsFor: (IFCompilerSettings*) settings {
+- (void) setSettings {
+    IFCompilerSettings* settings = [self compilerSettings];
+
 	[settings setStrict: [strictMode state]==NSOnState];
 	[settings setInfix: [infixMode state]==NSOnState];
 	[settings setDebug: [debugMode state]==NSOnState];

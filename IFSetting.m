@@ -53,9 +53,27 @@ NSString* IFSettingHasChangedNotification = @"IFSettingHasChangedNotification";
 	return @"Setting";
 }
 
+// = Setting/retrieving the model =
+
+- (void) setCompilerSettings: (IFCompilerSettings*) newSettings {
+	compilerSettings = newSettings;
+}
+
+- (IFCompilerSettings*) compilerSettings {
+	return compilerSettings;
+}
+
+- (NSMutableDictionary*) dictionary {
+	return nil;
+}
+
 // = Communicating with the IFCompilerSettings object =
 
-- (void) setSettingsFor: (IFCompilerSettings*) settings {
+- (void) setSettings {
+	// Do nothing
+}
+
+- (void) updateFromCompilerSettings {
 	// Do nothing
 }
 
@@ -69,10 +87,6 @@ NSString* IFSettingHasChangedNotification = @"IFSettingHasChangedNotification";
 
 - (NSArray*) includePathForCompiler: (NSString*) compiler {
 	return nil;
-}
-
-- (void) updateFromCompilerSettings: (IFCompilerSettings*) settings {
-	// Do nothing
 }
 
 // = Notifying the controller about things =

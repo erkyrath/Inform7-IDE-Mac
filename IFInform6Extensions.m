@@ -176,6 +176,8 @@
 		} else {
 			[activeExtensions removeObject: libname];
 		}
+	} else {
+		// Nothing to do
 	}
 }
 

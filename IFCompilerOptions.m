@@ -30,7 +30,9 @@
 
 // = Setting up =
 
-- (void) updateFromCompilerSettings: (IFCompilerSettings*) settings {
+- (void) updateFromCompilerSettings {
+    IFCompilerSettings* settings = [self compilerSettings];
+
     // Compiler versions
     double version = [settings compilerVersion];
     NSEnumerator* compilerEnum = [[IFCompiler availableCompilers] objectEnumerator];
@@ -55,7 +57,9 @@
 	[naturalInform setState: [settings usingNaturalInform]?NSOnState:NSOffState];
 }
 
-- (void) setSettingsFor: (IFCompilerSettings*) settings {
+- (void) setSettings {
+    IFCompilerSettings* settings = [self compilerSettings];
+
 	// Compiler version
 	int item = [compilerVersion indexOfSelectedItem];
 	double newVersion;

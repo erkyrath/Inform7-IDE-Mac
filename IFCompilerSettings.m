@@ -217,7 +217,11 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 
 - (void) dealloc {
     [store release];
-	if (genericSettings) [genericSettings release];
+	if (genericSettings) {
+		[genericSettings makeObjectsPerformSelector: @selector(setCompilerSettings:)
+										 withObject: nil];
+		[genericSettings release];
+	}
 
     [super dealloc];
 }
@@ -551,8 +555,10 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 // = Generic settings =
+
 - (void) setGenericSettings: (NSArray*) newGenericSettings {
-	if (genericSettings) [genericSettings release];
+	if (newGenericSettings == genericSettings) return;
+	
 	genericSettings = [newGenericSettings retain];
 }
 
@@ -587,6 +593,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 // = NSCoding =
+
 - (void)encodeWithCoder:(NSCoder *)encoder {
     [encoder encodeObject: store];
 }
