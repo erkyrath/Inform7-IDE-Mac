@@ -26,5 +26,7 @@
 - (IBAction) newInformFile: (id) sender;
 
 - (void) updateExtensions;
+- (NSMutableArray*) extensionsInDirectory: (NSString*) directory;
+- (NSArray*) directoriesToSearch: (NSString*) extensionSubdirectory;
 
 @end

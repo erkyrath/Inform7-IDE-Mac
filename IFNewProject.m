@@ -13,6 +13,7 @@
 #import "IFEmptyProject.h"
 #import "IFStandardProject.h"
 #import "IFEmptyNaturalProject.h"
+#import "IFNaturalExtensionProject.h"
 
 @implementation IFNewProject
 
@@ -25,6 +26,7 @@ static NSMutableDictionary* projectDictionary = nil;
     // List of projects
     projects = [[NSArray arrayWithObjects:
         [[IFEmptyNaturalProject alloc] init],
+		[[IFNaturalExtensionProject alloc] init],
         [[IFEmptyProject alloc] init],
         [[IFStandardProject alloc] init],
         nil] retain];
@@ -114,11 +116,74 @@ static NSMutableDictionary* projectDictionary = nil;
 }
 
 // = Interface =
+
+- (void) manuallyCreateProject {
+	// Use information from the project type to create the project
+	IFProjectFile* theFile = [[IFProjectFile alloc] initDirectoryWithFileWrappers: [NSDictionary dictionary]];
+	BOOL success;
+	
+	[theFile setFilename: [projectType saveFilename]];
+	[projectType setupFile: theFile
+				  fromView: projectView];
+	
+	success = [theFile writeToFile: [projectType saveFilename]
+						atomically: YES
+				   updateFilenames: YES];
+	
+	if (success) {
+		[self autorelease];
+		
+		// Owing to a bug in NSFileWrapper (I think), we can't set the
+		// 'hidden extension' attribute there, so we use NSFileManager
+		// to do this instead.
+		if (hideExtension) {
+			NSMutableDictionary* attributes = [[[NSFileManager defaultManager] fileAttributesAtPath: [projectLocation stringValue] traverseLink: YES] mutableCopy];
+			[attributes setObject: [NSNumber numberWithBool: YES]
+						   forKey: NSFileExtensionHidden];
+			[[NSFileManager defaultManager] changeFileAttributes: attributes
+														  atPath: [projectLocation stringValue]];
+			[attributes release];
+		}
+
+		NSDocument* newDoc = [[IFProject alloc] initWithContentsOfFile: [projectType saveFilename]
+																ofType: [projectType openAsType]];
+		
+		[[NSDocumentController sharedDocumentController] addDocument: [newDoc autorelease]];
+		[newDoc makeWindowControllers];
+		[newDoc showWindows];
+		
+		[theFile release];		
+	} else {
+		[projectPaneView addSubview: currentView];
+		NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Unable to create project"
+																 value: @"Unable to create project"
+																 table: nil],
+						  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+																 value: @"Cancel"
+																 table: nil],
+						  nil, nil,
+						  [self window],
+						  nil,
+						  nil,
+						  nil,
+						  nil,
+						  [[NSBundle mainBundle] localizedStringForKey: @"Inform was unable to save the project file"
+																 value: @"Inform was unable to save the project file"
+																 table: nil]);
+	}
+}
+
 - (IBAction) nextView:     (id) sender {
     [currentView removeFromSuperview];
+	
+	BOOL shouldUseFinalPage = YES;
+	
+	if (projectType && [projectType respondsToSelector: @selector(showFinalPage)]) {
+		shouldUseFinalPage = [projectType showFinalPage];
+	}
 
     if ((currentView == projectTypeView && projectView == nil) ||
-        (projectView != nil && currentView == [projectView view])) {
+        (projectView != nil && currentView == [projectView view] && shouldUseFinalPage)) {
         // Change to the file location view
         currentView = projectLocationView;
 		
@@ -141,6 +206,67 @@ static NSMutableDictionary* projectDictionary = nil;
         [nextButton setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Next"
 																	 value: @"Next"
 																	 table: nil]];
+		
+		if (!shouldUseFinalPage) {
+			[nextButton setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Finished"
+																		 value: @"Finished"
+																		 table: nil]];
+		}
+	} else if (currentView == [projectView view] && !shouldUseFinalPage) {
+		[projectPaneView addSubview: currentView];
+
+		// Get the file to save and finish up (must implement these selectors now)
+		NSString* confirm = nil;
+		NSString* error = nil;
+		
+		if ([projectType respondsToSelector: @selector(errorMessage)]) {
+			error = [projectType errorMessage];
+		}
+		
+		if (!error && [projectType respondsToSelector: @selector(confirmationMessage)]) {
+			confirm = [projectType confirmationMessage];
+		}
+		
+		if (error) {
+			// Display an error message
+            NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Unable to create project"
+																	 value: @"Unable to create project"
+																	 table: nil],
+                              [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+																	 value: @"Cancel"
+																	 table: nil],
+                              nil, nil,
+                              [self window],
+                              nil,
+                              nil,
+                              nil,
+                              nil,
+                              error);			
+			return;
+		}
+		
+		if (confirm) {
+			// Display a confirmation message (FIXME: do something about the result)
+            NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Are you sure you wish to create this project?"
+																	 value: @"Are you sure you wish to create this project?"
+																	 table: nil],
+                              [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+																	 value: @"Cancel"
+																	 table: nil],
+							  [[NSBundle mainBundle] localizedStringForKey: @"Create"
+																	 value: @"Create"
+																	 table: nil],
+							  nil,
+                              [self window],
+                              nil,
+                              nil,
+                              nil,
+                              nil,
+                              confirm);			
+			return;			
+		}
+		
+		[self manuallyCreateProject];
     } else if (currentView == projectLocationView) {
         // Save and finish up
         IFProjectFile* theFile = [[IFProjectFile alloc] initWithEmptyProject];

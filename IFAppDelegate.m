@@ -277,6 +277,7 @@ static int stringCompare(id a, id b, void* context) {
 }
 
 - (void) openExtension: (id) sender {
+	// Work out the directory to use
 	NSString* extnDir = nil;
 	
 	switch ([sender tag]) {
