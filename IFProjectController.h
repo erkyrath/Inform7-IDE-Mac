@@ -37,6 +37,9 @@ enum lineStyle {
 
     // Action after a compile has finished
     SEL compileFinishedAction;
+	
+	// Debugging
+	BOOL waitingAtBreakpoint;
 }
 
 - (void) layoutPanes;
@@ -54,5 +57,8 @@ enum lineStyle {
 						  inFile: (NSString*) file
                            style: (enum lineStyle) style;
 - (NSArray*) highlightsForFile: (NSString*) file;
+
+// Debugging
+- (void) hitBreakpoint: (int) pc;
 
 @end

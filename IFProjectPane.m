@@ -309,7 +309,10 @@ static NSDictionary* styles[256];
     }
     
     [parent moveToSourceFileLine: line];
-    [parent highlightSourceFileLine: line]; // FIXME: error level?. Filename?
+	[parent removeHighlightsInFileOfStyle: IFLineStyleError];
+    [parent highlightSourceFileLine: line
+							 inFile: openSourceFile
+							  style: IFLineStyleError]; // FIXME: error level?. Filename?
 }
 
 - (IFCompilerController*) compilerController {
@@ -441,6 +444,7 @@ static NSDictionary* styles[256];
 		if (textStorage) { [textStorage release]; textStorage = nil; }
 		textStorage = [mainFile retain];
         [self selectHighlighterForCurrentFile];
+		[self updateHighlightedLines];
 
 		[mainFile endEditing];
         
@@ -503,8 +507,85 @@ static NSDictionary* styles[256];
     [NSApp stopModal];
 }
 
-- (void) updateHighlightedLines {
+- (NSRange) findLine: (int) line {
+    NSString* store = [[sourceText textStorage] string];
+    int length = [store length];
 	
+    int x, lineno, linepos;
+    lineno = 1;
+    for (x=0; x<length; x++) {
+        unichar chr = [store characterAtIndex: x];
+        
+        if (chr == '\n' || chr == '\r') {
+            unichar otherchar = chr == '\n'?'r':'n';
+            
+            lineno++;
+            linepos = x + 1;
+            
+            // Deal with DOS line endings
+            if ([store characterAtIndex: linepos] == otherchar) {
+                x++; linepos++;
+            }
+            
+            if (lineno == line) {
+                break;
+            }
+        }
+    }
+	
+    if (lineno != line) {
+        return NSMakeRange(NSNotFound, 0);
+    }
+	
+	// Find the end of this line
+	for (x=linepos; x<length; x++) {
+        unichar chr = [store characterAtIndex: x];
+        
+        if (chr == '\n' || chr == '\r') {
+			break;
+		}
+	}
+	
+	return NSMakeRange(linepos, x - linepos + 1);
+}
+
+- (void) updateHighlightedLines {
+	NSEnumerator* highEnum;
+	NSArray* highlight;
+	
+	[[sourceText layoutManager] removeTemporaryAttribute: NSBackgroundColorAttributeName
+									   forCharacterRange: NSMakeRange(0, [[sourceText textStorage] length])];
+	
+	// Highlight the lines as appropriate
+	highEnum = [[parent highlightsForFile: openSourceFile] objectEnumerator];
+	
+	while (highlight = [highEnum nextObject]) {
+		int line = [[highlight objectAtIndex: 0] intValue];
+		enum lineStyle style = [[highlight objectAtIndex: 1] intValue];
+		NSColor* background = nil;
+		
+		switch (style) {
+			case IFLineStyleNeutral:
+				background = [NSColor colorWithDeviceRed: 0.3 green: 0.3 blue: 0.8 alpha: 1.0];
+				break;
+				
+			case IFLineStyleExecutionPoint:
+				background = [NSColor colorWithDeviceRed: 0.8 green: 0.8 blue: 0.3 alpha: 1.0];
+				break;
+				
+			default:
+				background = [NSColor colorWithDeviceRed: 0.8 green: 0.3 blue: 0.3 alpha: 1.0];
+				break;
+		}
+		
+		NSRange lineRange = [self findLine: line];
+		
+		if (lineRange.location != NSNotFound) {
+			[[sourceText layoutManager] setTemporaryAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+				background, NSBackgroundColorAttributeName, nil]
+											 forCharacterRange: lineRange];
+		}
+	}
 }
 
 // = Settings =
@@ -979,12 +1060,10 @@ static NSDictionary* styles[256];
     [self createHighlighterTickerIfRequired: 0.2];
 }
 
-- (void) refreshTemporaryHighlights {
-	NSArray* highlights = [parent highlightsForFile: openSourceFile];
-	
-	if ([highlights length] == 0) return; // Nothing to do
-	
-	// IMPLEMENT ME
+// == Debugging ==
+
+- (void) hitBreakpoint: (int) pc {
+	[parent hitBreakpoint: pc];
 }
 
 // == Documentation ==

@@ -109,7 +109,11 @@ static NSDictionary*  itemDictionary = nil;
 	
     [stopItem setAction: @selector(stopProcess:)];
 	[pauseItem setAction: @selector(pauseProcess:)];
+	
 	[continueItem setAction: @selector(continueProcess:)];
+	[stepItem setAction: @selector(stepIntoProcess:)];
+	[stepOverItem setAction: @selector(stepOverProcess:)];
+	[stepOutItem setAction: @selector(stepOutProcess:)];
 }
 
 // == Initialistion ==
@@ -308,12 +312,19 @@ static NSDictionary*  itemDictionary = nil;
 		return isRunning;
 	}
 	
+	if (item == continueItem || item == stepOutItem || item == stepOverItem || item == stepItem) {
+		return isRunning?waitingAtBreakpoint:NO;
+	}
+	
 	return YES;
 }
 
 // == View selection functions ==
 - (IBAction) compile: (id) sender {
     IFProject* doc = [self document];
+	
+	[self removeHighlightsOfStyle: IFLineStyleError];
+	[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];
 
     compileFinishedAction = @selector(saveCompilerOutput);
 
@@ -356,6 +367,7 @@ static NSDictionary*  itemDictionary = nil;
 - (IBAction) compileAndRun: (id) sender {
     [self compile: self];
 
+	waitingAtBreakpoint = NO;
     compileFinishedAction = @selector(runCompilerOutput);
 }
 
@@ -389,7 +401,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) runCompilerOutput {
-    // FIXME: Ideally needs to work from the last error pane
+	waitingAtBreakpoint = NO;
     [[projectPanes objectAtIndex: 1] startRunningGame: [[[self document] compiler] outputFile]];
 }
 
@@ -578,6 +590,48 @@ static NSDictionary*  itemDictionary = nil;
     [[self window] makeFirstResponder: [thePane activeView]];
 }
 
+- (void) removeHighlightsInFile: (NSString*) file
+						ofStyle: (enum lineStyle) style {
+	file = [[self document] pathForFile: file];
+	
+	NSMutableArray* lineHighlight = [lineHighlighting objectForKey: file];
+	if (lineHighlight == nil) return;
+	
+	BOOL updated = NO;
+	
+	// Loop through each highlight, and remove any of this style
+	int x;
+	for (x=0; x<[lineHighlight count]; x++) {
+		if ([[[lineHighlight objectAtIndex: x] objectAtIndex: 1] intValue] == style) {
+			[lineHighlight removeObjectAtIndex: x];
+			updated = YES;
+			x--;
+		}
+	}
+	
+	if (updated) {
+		NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+		IFProjectPane* pane;
+	
+		while (pane = [paneEnum nextObject]) {
+			if ([[[self document] pathForFile: [pane currentFile]] isEqualToString: file]) {
+				[pane updateHighlightedLines];
+			}
+		}
+	}
+}
+
+- (void) removeHighlightsOfStyle: (enum lineStyle) style {
+	// Remove highlights in all files
+	NSEnumerator* fileEnum = [lineHighlighting keyEnumerator];
+	NSString* file;
+	
+	while (file = [fileEnum nextObject]) {
+		[self removeHighlightsInFile: file
+							 ofStyle: style];
+	}
+}
+
 - (void) highlightSourceFileLine: (int) line
 						  inFile: (NSString*) file {
     [self highlightSourceFileLine: line
@@ -607,7 +661,7 @@ static NSDictionary*  itemDictionary = nil;
 	
 	while (pane = [paneEnum nextObject]) {
 		if ([[[self document] pathForFile: [pane currentFile]] isEqualToString: file]) {
-			[pane refreshTemporaryHighlights];
+			[pane updateHighlightedLines];
 		}
 	}
 }
@@ -632,6 +686,65 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) pauseProcess: (id) sender {
 	[[self gamePane] pauseRunningGame];
+}
+
+- (void) continueProcess: (id) sender {
+	BOOL isRunning = [[self gamePane] isRunningGame];
+
+	if (isRunning && waitingAtBreakpoint) {
+		waitingAtBreakpoint = NO;
+		[[[[self gamePane] zoomView] zMachine] continueFromBreakpoint];
+	}
+}
+
+- (void) stepOverProcess: (id) sender {
+	BOOL isRunning = [[self gamePane] isRunningGame];
+
+	if (isRunning && waitingAtBreakpoint) {
+		waitingAtBreakpoint = NO;
+		[[[[self gamePane] zoomView] zMachine] stepFromBreakpoint];
+	}
+}
+
+- (void) stepOutProcess: (id) sender {
+	BOOL isRunning = [[self gamePane] isRunningGame];
+
+	if (isRunning && waitingAtBreakpoint) {
+		waitingAtBreakpoint = NO;
+		[[[[self gamePane] zoomView] zMachine] finishFromBreakpoint];
+	}
+}
+
+- (void) stepIntoProcess: (id) sender {
+	BOOL isRunning = [[self gamePane] isRunningGame];
+
+	if (isRunning && waitingAtBreakpoint) {
+		waitingAtBreakpoint = NO;
+		[[[[self gamePane] zoomView] zMachine] stepIntoFromBreakpoint];
+	}
+}
+
+- (void) hitBreakpoint: (int) pc {
+	// (IMPLEMENT ME:) move to the appropriate place in the source
+	
+	// Retrieve the game view
+	IFProjectPane* gamePane = [self gamePane];
+	ZoomView* zView = [gamePane zoomView];
+	
+	NSString* filename = [[zView zMachine] sourceFileForAddress: pc];
+	int line_no = [[zView zMachine] lineForAddress: pc];
+		
+	if (line_no > -1 && filename != nil) {
+		[[self sourcePane] showSourceFile: filename];
+		[[self sourcePane] moveToLine: line_no];
+		[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];
+		[self highlightSourceFileLine: line_no
+							   inFile: filename
+								style: IFLineStyleExecutionPoint];
+		[[self window] makeFirstResponder: [[self sourcePane] activeView]];
+	}
+	
+	waitingAtBreakpoint = YES;
 }
 
 // = Documentation controls =

@@ -145,8 +145,6 @@ enum IFProjectPaneType {
 - (void) highlightEntireFile;
 - (void) highlightRange: (NSRange) charRange;
 
-- (void) refreshTemporaryHighlights;
-
 // The documentation view
 - (void) openURL: (NSURL*) url;
 
