@@ -828,8 +828,21 @@ static IFCompilerController* activeController = nil;
 		}
 		
 		// General URL policy
+		WebDataSource* activeSource = [frame dataSource];
+		
+		if (activeSource == nil) {
+			activeSource = [frame provisionalDataSource];
+			if (activeSource != nil) {
+				NSLog(@"Using the provisional data source - frame not finished loading?");
+			}
+		}
+		
+		if (activeSource == nil) {
+			NSLog(@"Unable to establish a datasource for this frame: will probably redirect anyway");
+		}
+		
 		NSURL* absolute1 = [[[request URL] absoluteURL] standardizedURL];
-		NSURL* absolute2 = [[[[[frame dataSource] request] URL] absoluteURL] standardizedURL];
+		NSURL* absolute2 = [[[[activeSource request] URL] absoluteURL] standardizedURL];
 		
 		// We only redirect if the page is different to the current one
 		if (!([[absolute1 scheme] caseInsensitiveCompare: [absolute2 scheme]] == 0 &&

@@ -101,8 +101,29 @@
 		
 		// General redirects
 		if (redirectToDocs) {
+			WebDataSource* activeSource = [frame dataSource];
+			
+			if (activeSource == nil) {
+				activeSource = [frame provisionalDataSource];
+				if (activeSource != nil) {
+					NSLog(@"Using the provisional data source - frame not finished loading?");
+				}
+			}
+			
+			if (activeSource == nil) {
+				NSLog(@"Unable to establish a datasource for this frame: will probably redirect anyway");
+			}
+			
+			if ([activeSource request] == nil) {
+				NSLog(@"Source found, but unable to retrieve the request");
+			} else if ([[activeSource request] URL] == nil) {
+				NSLog(@"Source found, but unable to retrieve the URL from the request");
+			} else {
+				NSLog(@"Source frame URL is %@", [[activeSource request] URL]);
+			}
+			
 			NSURL* absolute1 = [[[request URL] absoluteURL] standardizedURL];
-			NSURL* absolute2 = [[[[[frame dataSource] request] URL] absoluteURL] standardizedURL];
+			NSURL* absolute2 = [[[[activeSource request] URL] absoluteURL] standardizedURL];
 
 			// We only redirect if the page is different to the current one
 			if (!([[absolute1 scheme] caseInsensitiveCompare: [absolute2 scheme]] == 0 &&
