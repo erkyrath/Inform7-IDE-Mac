@@ -645,7 +645,9 @@ static IFCompilerController* activeController = nil;
                 NSTabViewItem* splitViewItem;
 
                 splitViewItem = [[NSTabViewItem alloc] init];
-                [splitViewItem setLabel: @"Compiler"];
+                [splitViewItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Compiler" 
+																				value: @"Compiler"
+																				table: @"CompilerOutput"]];
                 [splitViewItem setView: splitView];
 
                 [fileTabView addTabViewItem: splitViewItem];
@@ -698,7 +700,9 @@ static IFCompilerController* activeController = nil;
             NSTabViewItem* fileItem;
             fileItem = [[NSTabViewItem alloc] init];
 
-            [fileItem setLabel: [key stringByDeletingPathExtension]];
+            [fileItem setLabel: [[NSBundle mainBundle] localizedStringForKey: key 
+																	   value: [key stringByDeletingPathExtension] 
+																	   table: @"CompilerOutput"]];
             [fileItem setView: newView];
 
             [fileTabView addTabViewItem: fileItem];

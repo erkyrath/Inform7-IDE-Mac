@@ -71,7 +71,7 @@ NSString* quoteInformString(NSString* stringIn) {
 
 - (NSAttributedString*) projectDescription {
     return [[[NSAttributedString alloc] initWithString:
-        @"Creates an Inform 6.21 project using the standard library and containing a single room"] autorelease];
+        @"Creates an Inform 6.3 project using the standard library and containing a single room"] autorelease];
 }
 
 - (NSObject<IFProjectSetupView>*) configView {
