@@ -142,6 +142,12 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 				notes = newNotes;
 			}
 		}
+		
+		// Load the skein file (if present)
+		NSFileWrapper* skeinWrapper = [[projectFile fileWrappers] objectForKey: @"Skein.skein"];
+		if (skeinWrapper != nil && [skeinWrapper regularFileContents] != nil) {
+			[skein parseXmlData: [skeinWrapper regularFileContents]];
+		}
         
 		// Load the index file (if present)
 		[self reloadIndexFile];
@@ -302,7 +308,15 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 	[notesWrapper setPreferredFilename: @"notes.rtf"];
 	[projectFile removeFileWrapper: [[projectFile fileWrappers] objectForKey: @"notes.rtf"]];
 	[projectFile addFileWrapper: notesWrapper];
-
+	
+	// The skein file
+	NSFileWrapper* skeinWrapper = [[[NSFileWrapper alloc] initRegularFileWithContents:
+		[[@"<?xml version=\"1.0\"?>\n" stringByAppendingString: [skein xmlData]] dataUsingEncoding: NSUTF8StringEncoding]] autorelease];
+	
+	[skeinWrapper setPreferredFilename: @"Skein.skein"];
+	[projectFile removeFileWrapper: [[projectFile fileWrappers] objectForKey: @"Skein.skein"]];
+	[projectFile addFileWrapper: skeinWrapper];
+	
     // Setup the settings
     [projectFile setSettings: settings];
 }
