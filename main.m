@@ -10,6 +10,10 @@
 
 #define DEBUG_BUILD
 #ifdef DEBUG_BUILD
+
+#include <sys/types.h>
+#include <unistd.h>
+
 static void reportLeaks(void) {
     // List just the unreferenced memory
     char flup[256];

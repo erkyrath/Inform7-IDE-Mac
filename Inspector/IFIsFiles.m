@@ -80,7 +80,7 @@ static int stringComparer(id a, id b, void * context) {
 	NSWindowController* control = [newWindow windowController];
 	
 	if (control != nil && [control isKindOfClass: [IFProjectController class]]) {
-		activeController = control;
+		activeController = (IFProjectController*)control;
 		activeProject = [[control document] retain];
 	}
 	

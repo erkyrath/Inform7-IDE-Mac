@@ -9,6 +9,8 @@
 #import "IFIsTitleView.h"
 #import "IFInspectorView.h"
 
+#import "objc/objc-runtime.h"
+
 
 @implementation IFIsTitleView
 

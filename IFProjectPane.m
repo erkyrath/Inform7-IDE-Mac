@@ -401,11 +401,6 @@ static NSDictionary* styles[256];
         lineLength++;
     }
         
-    // Find out where it is in the layoutManager
-    NSLayoutManager* layout = [sourceText layoutManager];
-    
-    NSRange ourLine;
-
     // Time to scroll
 	[sourceText scrollRangeToVisible: NSMakeRange(linepos, 1)];
     [sourceText setSelectedRange: NSMakeRange(linepos,0)];

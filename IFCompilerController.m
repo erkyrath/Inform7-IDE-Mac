@@ -41,8 +41,6 @@ static IFCompilerController* activeController = nil;
     NSFont* bigFont  = [NSFont labelFontOfSize: 10];
     NSFont* boldFont = [[NSFontManager sharedFontManager] convertFont: bigFont
                                                           toHaveTrait: NSBoldFontMask];
-    NSFont* smallBoldFont = [[NSFontManager sharedFontManager] convertFont: baseFont
-                                                          toHaveTrait: NSBoldFontMask];
     NSFont* italicFont = [[NSFontManager sharedFontManager] convertFont: boldFont
                                                             toHaveTrait: NSItalicFontMask];
 
@@ -602,7 +600,7 @@ static IFCompilerController* activeController = nil;
     // obj is an array of the form [message, line, type]
     NSArray* msg = (NSArray*) obj;
 
-    NSString* message = [msg objectAtIndex: 0];
+    // NSString* message = [msg objectAtIndex: 0];
     int       line    = [[msg objectAtIndex: 1] intValue];
     // IFLex type        = [[msg objectAtIndex: 2] intValue];
 	fileNum = [[msg objectAtIndex: 3] intValue];

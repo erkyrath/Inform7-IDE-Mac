@@ -40,7 +40,7 @@ extern NSString* IFCompilerFinishedNotification;
     int finishCount; // When =3, notify the delegate that the task is dead
 
     // Delegate
-    NSObject* delegate;
+    id delegate;
 }
 
 //+ (NSString*) compilerExecutable;
