@@ -15,7 +15,8 @@
 
 // Approximate maximum length of file to highlight in one 'iteration'
 #define maxHighlightAmount 512
-#undef  showHighlighting
+#undef  showHighlighting        // Show what's being highlighted
+#undef  highlightAll            // Always highlight the entire file (does not necessarily recalculate all highlighting)
 
 static NSDictionary* styles[256];
 
@@ -206,7 +207,7 @@ static NSDictionary* styles[256];
     
     [tabView setDelegate: self];
     
-    [sourceText setUsesFindPanel: YES];
+    //[sourceText setUsesFindPanel: YES]; -- Not 10.2
 }
 
 - (void) setController: (IFProjectController*) p {
@@ -639,6 +640,10 @@ static NSDictionary* styles[256];
         
         if (remainingFileToProcess.location == NSNotFound || remainingFileToProcess.length == 0)
             break;
+        
+#ifdef highlightAll
+        [self highlightRange: NSMakeRange(0, [[sourceText textStorage] length])];
+#endif
 
         // Highlight!
         if (remainingFileToProcess.length < amountToHighlight) {

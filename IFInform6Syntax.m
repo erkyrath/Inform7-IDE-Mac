@@ -189,12 +189,12 @@ static int compare(const void* a, const void* b) {
     
     if (range.location > 0) {
         range.location -= 1;
-        range.length += 1;
+        range.length += 2;
     }
     
     // First, invalidate as the line list currently stands
     // (This deals with deletions)
-    // [self _invalidateRange: range];
+    [self _invalidateRange: range];
     
     // Next, recalculate the line endings, and delete/add any lines that
     // have appeared/been removed (extra lines go just after the f
@@ -282,11 +282,13 @@ static int compare(const void* a, const void* b) {
             lines[x].colour = NULL;
             lines[x].invalid = YES;
         }
+
+        lines[firstLine].invalid = YES;
     } else if (nLines < oldnLines) {
         // Deleted lines are after firstLine
         int diff = oldnLines - nLines;
         
-        firstLine++;
+        //firstLine++;
         for (x = firstLine; x < nLines; x++) {
             if (lines[x].colour) free(lines[x].colour);
             
@@ -295,6 +297,8 @@ static int compare(const void* a, const void* b) {
             lines[x].invalid = NO;
             lines[x].needsDisplay = NO;
         }
+        
+        lines[firstLine].invalid = YES;
     }
         
     
