@@ -433,7 +433,7 @@ static NSDictionary* styles[256];
 	
 	[fileStorage endEditing];
 	
-	[[IFIsFiles sharedIFIsFiles] setSelectedFile];
+	[[IFIsFiles sharedIFIsFiles] updateFiles]; // have to update for the case where we select an 'unknown' file
 }
 
 - (NSRange) findLine: (int) line {

@@ -10,6 +10,7 @@
 
 #import "IFInspector.h"
 #import "IFProject.h"
+#import "IFProjectController.h"
 
 extern NSString* IFIsFilesInspector;
 
@@ -19,6 +20,7 @@ extern NSString* IFIsFilesInspector;
 	IBOutlet NSButton* removeFileButton;
 	
 	IFProject* activeProject;
+	IFProjectController* activeController;
 	NSArray* filenames;
 	NSWindow* activeWin;
 }

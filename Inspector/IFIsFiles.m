@@ -33,6 +33,7 @@ NSString* IFIsFilesInspector = @"IFIsFilesInspector";
 															   value: @"Files"
 															   table: nil]];
 		activeProject = nil;
+		activeController = nil;
 		filenames = nil;
 		
 		// Set the icon column to NSImageCell
@@ -72,12 +73,14 @@ static int stringComparer(id a, id b, void * context) {
 		//[[activeProject notes] removeLayoutManager: [text layoutManager]];
 		[activeProject release];
 	}
+	activeController = nil;
 	activeProject = nil;
 	
 	// Get the active project, if applicable
 	NSWindowController* control = [newWindow windowController];
 	
 	if (control != nil && [control isKindOfClass: [IFProjectController class]]) {
+		activeController = control;
 		activeProject = [[control document] retain];
 	}
 	
@@ -110,8 +113,6 @@ static int stringComparer(id a, id b, void * context) {
 }
 
 - (void) setSelectedFile {
-	IFProjectController* activeController = [activeWin windowController];
-
 	if (activeController && [activeController isKindOfClass: [IFProjectController class]]) {
 		int fileRow = [filenames indexOfObject: [[activeController selectedSourceFile] lastPathComponent]];
 		
@@ -176,17 +177,17 @@ static int stringComparer(id a, id b, void * context) {
 	if (fileInfo == nil) return;
 	
 	NSString* filename = [fileInfo objectForKey: @"fileToRemove"];
-	IFProjectController* activeController = [fileInfo objectForKey: @"windowController"];
+	IFProjectController* controller = [fileInfo objectForKey: @"windowController"];
 	
-	if (filename == nil || activeController == nil) return;
+	if (filename == nil || controller == nil) return;
 	
-	if (![activeController isKindOfClass: [IFProjectController class]]) {
+	if (![controller isKindOfClass: [IFProjectController class]]) {
 		return;
 	}
 
 	if (returnCode == NSAlertAlternateReturn) {
 		// Delete this file
-		[(IFProject*)[activeController document] removeFile: filename];
+		[(IFProject*)[controller document] removeFile: filename];
 	}
 }
 
@@ -195,20 +196,46 @@ static int stringComparer(id a, id b, void * context) {
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {
 	if (activeProject == nil) return 0;
 	
-	return [filenames count];
+	int fileRow = [filenames indexOfObject: [[activeController selectedSourceFile] lastPathComponent]];
+	
+	if (fileRow == NSNotFound)
+		return [filenames count] + 1;
+	else
+		return [filenames count];
 }
 
 - (id)				tableView:(NSTableView *)aTableView 
 	objectValueForTableColumn:(NSTableColumn *)aTableColumn 
-						  row:(int)rowIndex {	
-	NSString* path = [filenames objectAtIndex: rowIndex];
-	NSString* fullPath = [activeProject pathForFile: path];
+						  row:(int)rowIndex {
+	NSString* path;
+	NSString* fullPath;
+	NSColor* fileColour = nil;
+	
+	if (rowIndex >= [filenames count]) {
+		fullPath = [activeController selectedSourceFile];
+		path = [fullPath lastPathComponent];
+		
+		fileColour = [NSColor blueColor];
+	} else {
+		path = [filenames objectAtIndex: rowIndex];
+		fullPath = [activeProject pathForFile: path];
+	}
 	
 	if (path == nil) return nil;
 	if (fullPath == nil) return nil;
-
+	
+	if (![[NSFileManager defaultManager] fileExistsAtPath: fullPath]) {
+		fileColour = [NSColor redColor];
+	}
+	
 	if ([[aTableColumn identifier] isEqualToString: @"filename"]) {
-		return [path stringByDeletingPathExtension];
+		if (fileColour == nil) fileColour = [NSColor blackColor];
+		
+		NSString* filenameToUse = [path stringByDeletingPathExtension];
+		
+		return [[[NSAttributedString alloc] initWithString: filenameToUse
+												attributes: [NSDictionary dictionaryWithObjectsAndKeys: fileColour, NSForegroundColorAttributeName, nil]]
+			autorelease];
 	} else if ([[aTableColumn identifier] isEqualToString: @"icon"]) {
 		NSImage* icon;
 		
@@ -255,9 +282,7 @@ static int stringComparer(id a, id b, void * context) {
 	NSString* oldFile = [filenames objectAtIndex: rowIndex];
 	if (![[aTableColumn identifier] isEqualToString: @"filename"]) return;
 	if (oldFile == nil) return;
-	
-	IFProjectController* activeController = [activeWin windowController];
-	
+		
 	if (![anObject isKindOfClass: [NSString class]]) return;
 	if ([(NSString*)anObject length] <= 0) return;
 	if ([[(NSString*)anObject pathComponents] count] != 1) return;
@@ -279,8 +304,6 @@ static int stringComparer(id a, id b, void * context) {
 		filename = [filenames objectAtIndex: [filesView selectedRow]];
 	
 	if (filename) {
-		IFProjectController* activeController = [activeWin windowController];
-		
 		if ([activeController isKindOfClass: [IFProjectController class]]) {
 			[activeController selectSourceFile: filename];
 		}
