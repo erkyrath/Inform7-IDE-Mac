@@ -9,6 +9,7 @@
 #import <AppKit/AppKit.h>
 #import "IFInspector.h"
 
+@class IFInspectorView;
 @interface IFInspectorWindow : NSWindowController {
 	NSMutableDictionary* inspectorDict;
 	
@@ -24,6 +25,9 @@
 	// Whether or not the main window should pop up when inspectors suddenly show up
 	BOOL hidden;
 	BOOL shouldBeShown;
+	
+	// List of most/least recently shown inspectors
+	NSMutableArray* shownInspectors;
 }
 
 // The shared instance
@@ -44,6 +48,9 @@
 // Dealing with updates
 - (void) updateInspectors;
 - (NSWindow*) activeWindow;
+
+- (void) inspectorViewDidChange: (IFInspectorView*) view
+						toState: (BOOL) expanded;
 
 // Status
 - (BOOL) isHidden;

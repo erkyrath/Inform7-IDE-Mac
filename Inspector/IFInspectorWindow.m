@@ -83,6 +83,8 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 												   object: nil];
 		newMainWindow = NO;
 		activeMainWindow = nil;
+		
+		shownInspectors = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
@@ -138,12 +140,46 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 	[self updateInspectors];
 }
 
+- (void) shrinkInspectorsToFit {
+	// Work out the maximum height of the inspector window
+	NSRect screenRect = [[[self window] screen] frame];
+	NSRect currentFrame = [[self window] frame];
+	float difference = currentFrame.size.height - [[[self window] contentView] frame].size.height;
+
+	float maxHeight = screenRect.size.height - (NSMaxY(screenRect) - NSMaxY(currentFrame));
+	maxHeight -= difference;
+		
+	// Return if there's only one open inspector
+	if ([shownInspectors count] <= 1) return;
+	
+	// Work out the current height of the inspector window
+	NSEnumerator* inspectorEnum = [inspectorViews objectEnumerator];
+	NSEnumerator* realInspectorEnum = [inspectors objectEnumerator];
+	IFInspectorView* insView;
+	IFInspector* inspector;
+	float currentHeight = 0;
+	
+	while (insView = [inspectorEnum nextObject]) {
+		inspector = [realInspectorEnum nextObject];
+		
+		if ([inspector available]) {
+			currentHeight += [insView frame].size.height;
+		}
+	}
+	
+	NSLog(@"%g %g", currentHeight, maxHeight);
+	
+	// Close least recently used inspectors until there's only one shown, or everything fits on the screen	
+	if (currentHeight > maxHeight) {
+		// (Will recurse if this changes the state any)
+		[[shownInspectors objectAtIndex: 0] setExpanded: NO];
+	}
+}
+
 - (void) setInspectorState: (BOOL) shown
 					forKey: (NSString*) key {
 	NSNumber* insNum = [inspectorDict objectForKey: key];
-	
-	NSLog(@"setInspectorState: %@ -> %@", shown?@"YES":@"NO", key);
-	
+		
 	if (insNum == nil) {
 		NSLog(@"BUG: attempt to show/hide unknown inspector '%@'", key);
 		return;
@@ -151,6 +187,19 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 	
 	[[inspectorViews objectAtIndex: [insNum intValue]] setExpanded: shown];
 }
+
+- (void) inspectorViewDidChange: (IFInspectorView*) view
+						toState: (BOOL) expanded {
+	if (expanded && [shownInspectors indexOfObjectIdenticalTo: view] != NSNotFound) return;
+	
+	[shownInspectors removeObjectIdenticalTo: view];
+	if (expanded) {
+		[shownInspectors addObject: view];
+	}
+
+	[self shrinkInspectorsToFit];
+}
+
 
 - (BOOL) inspectorStateForKey: (NSString*) key {
 	NSNumber* insNum = [inspectorDict objectForKey: key];

@@ -7,6 +7,7 @@
 //
 
 #import "IFInspectorView.h"
+#import "IFInspectorWindow.h"
 #import "IFAppDelegate.h"
 
 #define TitleHeight 20
@@ -148,6 +149,13 @@
 			break;
 		}
 	}
+
+	// Notify the containingwindow of the change in state
+	IFInspectorWindow* control = [[self window] windowController];
+	if (control && [control isKindOfClass: [IFInspectorWindow class]]) {
+		[control inspectorViewDidChange: self
+								toState: [arrow intValue] == 3];
+	}	
 }
 
 - (void) openChanged: (id) sender {
