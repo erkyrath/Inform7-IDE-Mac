@@ -232,6 +232,10 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 					   withString: (NSString*) newString {
 	int strLen = [string length];
 	int newLen = [newString length];
+	
+	NSRange highlightRange = range;
+	if (highlightRange.location > 0) { highlightRange.location--; highlightRange.length++; }
+	if (highlightRange.location + highlightRange.length < strLen) { highlightRange.length++; }
 
 	// The range of lines to be replaced
 	int firstLine = [self lineForIndex: range.location];
@@ -344,7 +348,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	
 	// Have to force the highlighting to happen later: will mess up NSTextView otherwise (cursor will move to the wrong position)
 	[self stopBackgroundHighlighting];
-	[self highlightRangeSoon: NSMakeRange(range.location, newLen)];
+	[self highlightRangeSoon: NSMakeRange(highlightRange.location, newLen+2)];
 }
 
 - (void) setAttributes: (NSDictionary*) attributes
