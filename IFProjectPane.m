@@ -229,6 +229,10 @@ NSDictionary* IFSyntaxAttributes[256];
     [[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
 
     NSTextStorage* mainFile = [doc storageForFile: [doc mainSourceFile]];
+	if (mainFile == nil) {
+		NSLog(@"BUG: no main file!");
+		mainFile = [[[NSTextStorage alloc] init] autorelease];
+	}
     NSString* mainFilename =  [doc mainSourceFile];
     
     [openSourceFile release];
@@ -467,6 +471,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	textStorage = [fileStorage retain];
 	
 	[fileStorage endEditing];
+	
+	[sourceText setEditable: ![[parent document] fileIsTemporary: file]];
 	
 	[[IFIsFiles sharedIFIsFiles] updateFiles]; // have to update for the case where we select an 'unknown' file
 }

@@ -344,6 +344,10 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
     } else if ([fileType isEqualToString: @"Inform source file"] ||
                [fileType isEqualToString: @"Inform header file"]) {
         NSTextStorage* theFile = [self storageForFile: [self mainSourceFile]];
+		
+		if (theFile == nil) {
+			NSLog(@"Bug: no file storage found");
+		}
         
         return [[theFile string] writeToFile: fileName
                                   atomically: YES];
@@ -523,7 +527,10 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 	NSString* originalSourceFile = sourceFile;
 	NSString* sourceDir = [[[self fileName] stringByAppendingPathComponent: @"Source"] stringByStandardizingPath];
 	
-	if (editingExtension) sourceDir = [[self fileName] stringByStandardizingPath];
+	if (editingExtension) {
+		// Special case: we're editing an extension, so source files are in the root directory
+		sourceDir = [[self fileName] stringByStandardizingPath];
+	}
 	
 	if (projectFile == nil && [[sourceFile lastPathComponent] isEqualToString: [[self fileName] lastPathComponent]]) {
 		if (![sourceFile isAbsolutePath]) {
@@ -549,7 +556,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 		}
 		
 		if (![[NSFileManager defaultManager] fileExistsAtPath: sourceFile]) {
-			NSLog(@"IFProject: WARNING: Unable to find file '%@'", sourceFile);
+			return nil;
 		}
 		
 		// Temporary text storage
@@ -558,13 +565,58 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 		storage = [[self class] storageWithString: textData
 									  forFilename: sourceFile];
 		
-		NSLog(@"IFProject: Using temporary storage from %@", sourceFile);
 		return storage;
 	} else {
 		// Not absolute path
 	}
 	
     return [sourceFiles objectForKey: sourceFile];
+}
+
+- (BOOL) fileIsTemporary: (NSString*) sourceFile {
+	NSString* sourceDir = [[[self fileName] stringByAppendingPathComponent: @"Source"] stringByStandardizingPath];
+	
+	if (editingExtension) {
+		// Special case: we're editing an extension, so source files are in the root directory
+		sourceDir = [[self fileName] stringByStandardizingPath];
+	}
+	
+	if (projectFile == nil && [[sourceFile lastPathComponent] isEqualToString: [[self fileName] lastPathComponent]]) {
+		if (![sourceFile isAbsolutePath]) {
+			// Special case: when we're editing an individual file, then we always use that filename if possible
+			sourceFile = [self fileName];
+		}
+	}
+	
+	sourceFile = [sourceFile stringByStandardizingPath];
+	sourceDir = [sourceDir stringByStandardizingPath];	
+	NSString* filename = [[self fileName] stringByStandardizingPath];
+	
+	if ([sourceFile isAbsolutePath]) {
+		// Must begin with our filename/source
+		if (projectFile == nil) {
+			// Must be our filename
+			if ([filename isEqualToString: sourceFile])
+				return NO;
+			else
+				return YES;
+		}
+		
+		if ([[sourceFile stringByDeletingLastPathComponent] isEqualToString: sourceDir]) {
+			return NO;
+		} else {
+			return YES;
+		}
+	} else {
+		// Must be in the list of project files
+		if ([sourceFiles objectForKey: sourceFile] != nil) {
+			return NO;
+		} else {
+			return YES;
+		}
+	}
+	
+	return YES;
 }
 
 - (IFProjectFile*) projectFile {

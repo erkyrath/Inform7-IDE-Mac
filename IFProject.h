@@ -46,6 +46,7 @@ extern NSString* IFProjectFilesChangedNotification;
 - (BOOL) singleFile;
 - (NSString*) mainSourceFile;
 - (NSTextStorage*) storageForFile: (NSString*) sourceFile;
+- (BOOL) fileIsTemporary: (NSString*) sourceFile;
 - (BOOL) addFile: (NSString*) newFile;
 - (BOOL) removeFile: (NSString*) oldFile;
 - (BOOL) renameFile: (NSString*) oldFile 

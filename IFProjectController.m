@@ -238,6 +238,8 @@ static NSDictionary*  itemDictionary = nil;
     [projectPanes release];
     [splitViews release];
 	
+	[lastFilename release];
+	
 	[lineHighlighting release];
 	
 	[generalPolicy release];
@@ -789,10 +791,40 @@ static NSDictionary*  itemDictionary = nil;
 	return [self auxPane];
 }
 
-- (BOOL) selectSourceFile: (NSString*) fileName {
-    // IMPLEMENT ME: multiple file types (?) [Think this point has become moot]
-	[[self sourcePane] showSourceFile: fileName];
-	
+- (BOOL) selectSourceFile: (NSString*) fileName {	
+	if ([[self document] storageForFile: fileName] != nil) {
+		// Load this file
+		[projectPanes makeObjectsPerformSelector: @selector(showSourceFile:)
+									  withObject: fileName];
+		
+		// Display a warning if this is a temporary file
+		if (![lastFilename isEqualToString: fileName] && [[self document] fileIsTemporary: fileName]) {
+			NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Opening temporary file"
+																	 value: @"Opening temporary file"
+																	 table: nil],
+							  @"Continue",nil,nil,
+							  [self window],
+							  nil,nil,nil,nil,
+							  [[NSBundle mainBundle] localizedStringForKey: @"You are opening a temporary file"
+																	 value: @"You are opening a temporary file"
+																	 table: nil]);
+		}
+	} else {
+		// Display an error if we couldn't find the file
+		NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Unable to open source file"
+																 value: @"Unable to open source file"
+																 table: nil],
+						  @"Cancel",nil,nil,
+						  [self window],
+						  nil,nil,nil,nil,
+						  [[NSBundle mainBundle] localizedStringForKey: @"Unable to open source file description"
+																 value: @"Unable to open source file description"
+																 table: nil]);
+	}
+
+	[lastFilename release];
+	lastFilename = [fileName copy];
+
     return YES; // Only one source file ATM (Not any more... changed this)
 }
 

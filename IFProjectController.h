@@ -50,6 +50,9 @@ enum lineStyle {
     // Action after a compile has finished
     SEL compileFinishedAction;
 	
+	// The last file selected
+	NSString* lastFilename;
+	
 	// Debugging
 	BOOL waitingAtBreakpoint;
 	
