@@ -7,9 +7,9 @@
 	objects = {
 		080E96DDFE201D6D7F000001 = {
 			children = (
-				4BCF78A50641A4A400516872,
 				4B96DF4F04F11BF500A8E303,
 				4B96DF5004F11BF500A8E303,
+				4BCF78A50641A4A400516872,
 				4B96DF5D04F126FC00A8E303,
 				4B96DF5C04F126F200A8E303,
 				4BE6AB2C04FD09D900A8E303,
@@ -409,6 +409,7 @@
 		};
 		4B0BADBA04ED10A500A8E303 = {
 			children = (
+				4B2CE3F40668AFCA006DCED3,
 				4B133E020587890E00742783,
 				4B96DFE204F12F4400A8E303,
 				4B96DF9C04F12D5300A8E303,
@@ -951,6 +952,26 @@
 		};
 		4B259F3A05E161F800C7BAE2 = {
 			fileRef = 4B259F3805E161F800C7BAE2;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4B2CE3F40668AFCA006DCED3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = "compiled.mach-o.executable";
+			name = ni;
+			path = ../ni_binary/ni;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4B2CE3F50668AFCA006DCED3 = {
+			fileRef = 4B2CE3F40668AFCA006DCED3;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4B2CE4010668AFCD006DCED3 = {
+			fileRef = 4B2CE3F40668AFCA006DCED3;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -3971,6 +3992,7 @@
 		};
 		4B96DF7804F12A7700A8E303 = {
 			children = (
+				4BBBF71C0668ABC1001F77F1,
 				4B96DFE304F12FA100A8E303,
 				4B96DF7904F12AF200A8E303,
 				4B96DF7A04F12AF800A8E303,
@@ -4866,6 +4888,14 @@
 			settings = {
 			};
 		};
+		4BBBF71C0668ABC1001F77F1 = {
+			children = (
+			);
+			isa = PBXGroup;
+			name = natural;
+			refType = 4;
+			sourceTree = "<group>";
+		};
 		4BC326960614C6A000B2533B = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -5141,13 +5171,14 @@
 			files = (
 			);
 			inputPaths = (
+				"",
 			);
 			isa = PBXShellScriptBuildPhase;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo *** Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\n# mkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Biplatform\ncp ${SRCROOT}/Library/Biplatform/Standard/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\ncp ${SRCROOT}/Library/lib611/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\necho -n \"6.11\" >${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n#ln -sf ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11 ${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n";
+			shellScript = "echo *** Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Natural\n# mkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Biplatform\n\ncp ${SRCROOT}/Library/Biplatform/Standard/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\ncp ${SRCROOT}/Library/lib611/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\necho -n \"6.11\" >${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n#ln -sf ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11 ${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n\ncp ${SRCROOT}/Library/natural/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/Natural\n\n\n# Inform 7 rules\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Graham\\ Nelson\n\ncp ${SRCROOT}/Library/Extensions/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions\ncp ${SRCROOT}/Library/Extensions/Graham\\ Nelson/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Graham\\ Nelson\n\necho *** Done";
 		};
 		4BD959F3055EE949008DEFF4 = {
 			buildPhases = (
@@ -5515,6 +5546,7 @@
 				4B89715B0668AA4100F666D7,
 				4B89715C0668AA4100F666D7,
 				4B89715D0668AA4100F666D7,
+				4B2CE3F50668AFCA006DCED3,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5721,6 +5753,7 @@
 			dstPath = Compilers;
 			dstSubfolderSpec = 7;
 			files = (
+				4B2CE4010668AFCD006DCED3,
 				4B6A2DAA05890C7C00CFA634,
 				4B133E4A05878A1600742783,
 			);

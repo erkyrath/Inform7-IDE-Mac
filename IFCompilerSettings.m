@@ -31,6 +31,32 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 @implementation IFCompilerSettings
 
 // == Possible locations for the library ==
++ (NSArray*) inform7LibraryPaths {
+	static NSArray* libPaths = nil;
+	
+	if (libPaths == nil) {
+		NSMutableArray* res = [NSMutableArray array];
+		NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+		
+		// User-supplied library directories
+		NSEnumerator* libEnum;
+		NSString* lib;
+		
+		libEnum = [libraries objectEnumerator];
+		while (lib = [libEnum nextObject]) {
+			[res addObject: [[lib stringByAppendingPathComponent: @"Inform"] stringByAppendingPathComponent: @"Inform7"]];
+		}
+		
+		// Internal library directories
+		NSString* bundlePath = [[NSBundle mainBundle] resourcePath];
+		[res addObject: [bundlePath stringByAppendingPathComponent: @"Inform7"]];
+		
+		libPaths = [res copy];
+	}
+	
+	return libPaths;
+}
+
 + (NSArray*) libraryPaths {
 	static NSArray* libPaths = nil;
 	
@@ -115,6 +141,45 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 	}
 	
 	return result;
+}
+
++ (NSString*) pathForInform7Library: (NSString*) library {
+	NSArray* searchPaths = [[self class] inform7LibraryPaths];
+	
+	NSEnumerator* searchEnum = [searchPaths objectEnumerator];
+	NSString* path;
+	
+	while (path = [searchEnum nextObject]) {
+		NSString* libDir = [path stringByAppendingPathComponent: library];
+		BOOL isDir;
+		
+		if ([[NSFileManager defaultManager] fileExistsAtPath: libDir
+												 isDirectory: &isDir]) {
+			if (isDir == NO) {
+				// Should be a file containing the actual library directory
+				// (We do this because we can't rely on the finder to reliably copy
+				// symbolic links)
+				// Must be a directory
+				NSString* newDir = [NSString stringWithContentsOfFile: libDir];
+				
+				libDir = [path stringByAppendingPathComponent: newDir];
+				
+				if (![[NSFileManager defaultManager] fileExistsAtPath: libDir
+														  isDirectory: &isDir]) {
+					NSLog(@"Couldn't find library link (%@) from %@ in %@", newDir, library, path);
+					continue;
+				}
+				if (!isDir) {
+					NSLog(@"Library link to %@ not a directory in %@", newDir, path);
+					continue;
+				}
+			}
+			
+			return libDir;
+		}
+	}
+	
+	return nil;
 }
 
 // == Initialisation ==
@@ -262,6 +327,12 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     if (isLoudly) {
         [res addObject: @"-loudly"];
     }
+	
+	NSString* extensions = [[self class] pathForInform7Library: @"Extensions"];
+	if (extensions != nil) {
+		[res addObject: @"-rules"];
+		[res addObject: extensions];
+	}
     
     return res;
 }

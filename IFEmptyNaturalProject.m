@@ -37,6 +37,7 @@
     IFCompilerSettings* settings = [[IFCompilerSettings alloc] init];
 
     [settings setUsingNaturalInform: YES];
+	[settings setLibraryToUse: @"Natural"];
 
     [file setSettings: [settings autorelease]];
     [file addSourceFile: @"story.ni"];
