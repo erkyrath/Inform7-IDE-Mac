@@ -235,7 +235,7 @@ static NSDictionary* styles[256];
         [self setupFromController];
         [self stopRunningGame];
     }
-    
+	    
 	if ((int)[[NSApp delegate] isWebKitAvailable]) {
 		// The documentation tab
 		wView = [[WebView alloc] init];

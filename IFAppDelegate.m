@@ -41,7 +41,7 @@
 	return haveWebkit;
 }
 
-- (void) applicationDidFinishLaunching: (NSNotification*) not {
+- (void) applicationWillFinishLaunching: (NSNotification*) not {
 	haveWebkit = [[self class] isWebKitAvailable];
 	
 	if (haveWebkit) {
@@ -49,7 +49,9 @@
 		// [NSURLProtocol registerClass: [IFNoDocProtocol class]];
 		[NSURLProtocol registerClass: [IFInformProtocol class]];
 	}
-	
+}
+
+- (void) applicationDidFinishLaunching: (NSNotification*) not {	
 	// Show the inspector window
 	[[IFInspectorWindow sharedInspectorWindow] showWindow: self];
 	
