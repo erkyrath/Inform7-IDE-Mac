@@ -1176,7 +1176,7 @@ static NSDictionary* styles[256];
 			[fileView setHostWindow: [paneView window]];
 			
 			// Load the HTML
-			[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: fullPath]] autorelease]];
+			[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [IFProjectPolicy fileURLWithPath: fullPath]] autorelease]];
 			
 			// Create the tab to put this view in
 			NSTabViewItem* newTab = [[[NSTabViewItem alloc] init] autorelease];

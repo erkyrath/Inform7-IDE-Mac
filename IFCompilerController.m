@@ -12,6 +12,7 @@
 
 #import "IFCompiler.h"
 #import "IFError.h"
+#import "IFProjectController.h"
 
 // Possible styles (stored in the styles dictionary)
 NSString* IFStyleBase               = @"IFStyleBase";
@@ -684,7 +685,7 @@ static IFCompilerController* activeController = nil;
 				
 				// Load the HTML from the appropriate file
 				NSString* file = [path stringByAppendingPathComponent: key];
-				[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: file]] autorelease]];
+				[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [IFProjectPolicy fileURLWithPath: file]] autorelease]];
 				
 				[fileView setFrame: [fileTabView contentRect]];
 				[fileView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];

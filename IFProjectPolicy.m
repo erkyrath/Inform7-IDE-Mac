@@ -14,6 +14,60 @@
 
 @implementation IFProjectPolicy
 
+// = Annoying bug workaround =
++ (NSURL*) fileURLWithPath: (NSString*) file {
+	NSMutableString* url;
+	unsigned char chr;
+	int x;
+	
+	url = [[NSMutableString alloc] initWithString: @"file:///"];
+	const unsigned char* utf8 = [file UTF8String];
+	
+	// Create a URL string
+	for (x=0; utf8[x] != 0; x++) {
+		chr = utf8[x];
+		
+		switch (chr) {
+			case ';':
+			case ':':
+			case ' ':
+			case '?':
+			case '%':
+			case '@':
+			case '=':
+			case '$':
+			case '+':
+			case ',':
+			case '&':
+				[url appendFormat: @"%%%02X", (unsigned int)chr];
+				break;
+				
+			default:
+				// Very annoying that Cocoa has no really good way to add single (or multiple) characters to a string without creating another string object
+				if (isalnum(chr)) {
+					unichar theChar = chr;
+					NSString* s = [[NSString alloc] initWithCharacters: &theChar
+																length: 1];
+					[url appendString: s];
+					[s release];
+					break;
+				} else {
+					[url appendFormat: @"%%%02X", (unsigned int)chr];
+				}
+		}
+	}
+	
+	NSURL* res = [NSURL URLWithString: url];
+	
+	if (res == nil) {
+		res = [NSURL fileURLWithPath: file];
+	}
+	
+	[url release];
+	
+	return res;
+}
+
 // = Initialisation =
 
 - (id) initWithProjectController: (IFProjectController*) controller {

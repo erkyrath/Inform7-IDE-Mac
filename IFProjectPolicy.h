@@ -14,6 +14,9 @@
 	BOOL redirectToDocs;
 }
 
+// Bug workaround
++ (NSURL*) fileURLWithPath: (NSString*) path;
+
 // Initialisation
 - (id) initWithProjectController: (IFProjectController*) pane;
 
