@@ -34,6 +34,8 @@ extern NSString* IFProjectFilesChangedNotification;
 	BOOL editingExtension;
     
     BOOL singleFile;
+	
+	NSMutableArray* watchExpressions;
 }
 
 - (IFCompilerSettings*) settings;
@@ -62,5 +64,12 @@ extern NSString* IFProjectFilesChangedNotification;
 - (ZoomSkein*) skein;
 
 - (BOOL) editingExtension;
+
+- (void) addWatchExpression: (NSString*) expression;
+- (void) replaceWatchExpressionAtIndex: (unsigned) index
+						withExpression: (NSString*) expression;
+- (NSString*) watchExpressionAtIndex: (unsigned) index;
+- (unsigned) watchExpressionCount;
+- (void) removeWatchExpressionAtIndex: (unsigned) index;
 
 @end

@@ -89,6 +89,8 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
         compiler = [[IFCompiler allocWithZone: [self zone]] init];
 		
 		notes = [[NSTextStorage alloc] initWithString: @""];
+		
+		watchExpressions = [[NSMutableArray alloc] init];
     }
 
     return self;
@@ -203,6 +205,22 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 		if (skeinWrapper != nil && [skeinWrapper regularFileContents] != nil) {
 			[skein parseXmlData: [skeinWrapper regularFileContents]];
 			[skein setActiveItem: [skein rootItem]];
+		}
+		
+		// Load the watchpoints file (if present)
+		NSFileWrapper* watchWrapper = [[projectFile fileWrappers] objectForKey: @"Watchpoints.plist"];
+		if (watchWrapper != nil && [watchWrapper regularFileContents] != nil) {
+			NSString* propError = nil;
+			NSPropertyListFormat format = NSPropertyListXMLFormat_v1_0;
+			NSArray* watchpointsLoaded = [NSPropertyListSerialization propertyListFromData: [watchWrapper regularFileContents]
+																		  mutabilityOption: NSPropertyListImmutable
+																					format: &format
+																		  errorDescription: &propError];
+			
+			if (watchpointsLoaded && [watchpointsLoaded isKindOfClass: [NSArray class]]) {
+				[watchExpressions release];
+				watchExpressions = [watchpointsLoaded mutableCopy];
+			}
 		}
         
 		// Load the index file (if present)
@@ -495,6 +513,23 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 	[projectFile removeFileWrapper: [[projectFile fileWrappers] objectForKey: @"Skein.skein"]];
 	[projectFile addFileWrapper: skeinWrapper];
 	
+	// The watchpoints file
+	[projectFile removeFileWrapper: [[projectFile fileWrappers] objectForKey: @"Watchpoints.plist"]];
+	
+	if ([watchExpressions count] > 0) {
+		NSString* plistError = nil;
+		
+		NSFileWrapper* watchWrapper = [[NSFileWrapper alloc] initRegularFileWithContents: 
+			[NSPropertyListSerialization dataFromPropertyList: watchExpressions
+													   format: NSPropertyListXMLFormat_v1_0
+											 errorDescription: &plistError]];
+		
+		[watchWrapper setPreferredFilename: @"Watchpoints.plist"];
+		[projectFile addFileWrapper: watchWrapper];
+		
+		[watchWrapper release];
+	}
+	
     // Setup the settings
     [projectFile setSettings: settings];
 }
@@ -655,6 +690,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 }
 
 // = The index file =
+
 - (IFIndexFile*) indexFile {
 	return indexFile;
 }
@@ -673,8 +709,33 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 }
 
 // = The skein =
+
 - (ZoomSkein*) skein {
 	return skein;
+}
+
+// = Watch expressions =
+
+- (void) addWatchExpression: (NSString*) expression {
+	[watchExpressions addObject: [[expression copy] autorelease]];
+}
+
+- (void) replaceWatchExpressionAtIndex: (unsigned) index
+						withExpression: (NSString*) expression {
+	[watchExpressions replaceObjectAtIndex: index
+								withObject: [[expression copy] autorelease]];
+}
+
+- (void) removeWatchExpressionAtIndex: (unsigned) index {
+	[watchExpressions removeObjectAtIndex: index];
+}
+
+- (NSString*) watchExpressionAtIndex: (unsigned) index {
+	return [watchExpressions objectAtIndex: index];
+}
+
+- (unsigned) watchExpressionCount {
+	return [watchExpressions count];
 }
 
 @end

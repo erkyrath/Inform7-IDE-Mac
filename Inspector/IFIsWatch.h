@@ -31,6 +31,7 @@ enum {
 @interface IFIsWatch : IFInspector {
 	IBOutlet NSTextField* expression;
 	IBOutlet NSTextField* expressionResult;
+	IBOutlet NSTableView* watchTable;
 
 	NSWindow* activeWin;
 	IFProject* activeProject;

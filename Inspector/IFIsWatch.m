@@ -119,6 +119,8 @@ NSString* IFIsWatchInspector = @"IFIsWatchInspector";
 	// The 'top' expression
 	unsigned topAnswer = [self evaluateExpression: [expression stringValue]];
 	[expressionResult setStringValue: [self numericValueForAnswer: topAnswer]];
+	
+	[watchTable reloadData];
 }
 
 // = The standard evaluator =
@@ -128,5 +130,91 @@ NSString* IFIsWatchInspector = @"IFIsWatchInspector";
 }
 
 // = Tableview delegate and data source =
+
+- (int)numberOfRowsInTableView: (NSTableView*) aTableView {
+	if (!activeProject) return 0;
+	
+	int count = [activeProject watchExpressionCount] + 1;
+	
+	// Minimum of 9 rows (ensures that the user can start editing anywhere)
+	if (count < 9) count = 9;
+	
+	return count;
+}
+
+- (id)				tableView: (NSTableView*) aTableView 
+	objectValueForTableColumn: (NSTableColumn*) aTableColumn
+						  row: (int) rowIndex {
+	// If there's no active project, this should never actually end up being called
+	if (!activeProject) return @"## No active project";
+	
+	// Generic information
+	unsigned numberOfRows = [activeProject watchExpressionCount];
+	NSString* expr= @"";
+	
+	if (rowIndex >= numberOfRows) return @"";		// Last row is blank
+	
+	expr = [activeProject watchExpressionAtIndex: rowIndex];
+	
+	// Column-specific information
+	NSString* ident = [aTableColumn identifier];
+	
+	if ([ident isEqualToString: @"expression"]) {
+		return expr;
+	}
+	
+	unsigned answer = [self evaluateExpression: expr];
+	
+	NSString* value = @"## Bad column";
+	
+	if ([ident isEqualToString: @"value"]) {
+		value = [self numericValueForAnswer: answer];
+	} else if ([ident isEqualToString: @"object"]) {
+		value = [self textualValueForExpression: answer];
+	}
+	
+	if ([[value substringToIndex: 2] isEqualToString: @"##"]) {
+		return [[[NSAttributedString alloc] initWithString: value
+												attributes: [NSDictionary dictionaryWithObject: [NSColor redColor]
+																						forKey: NSForegroundColorAttributeName]]
+			autorelease];
+	} else {
+		return value;
+	}
+}
+
+- (void)		tableView: (NSTableView*) aTableView 
+		   setObjectValue: (id) anObject 
+		   forTableColumn: (NSTableColumn *) aTableColumn 
+					  row: (int)rowIndex {
+	if (![[aTableColumn identifier] isEqualToString: @"expression"]) return;		// Can only edit the value column
+	if (!activeProject) return;		// Can't edit anything if there's no active project
+	
+	unsigned numberOfRows = [activeProject watchExpressionCount];
+	
+	if (![anObject isKindOfClass: [NSString class]]) return;	// Must be a string of some sort
+	
+	if ([anObject isEqualToString: @""]) {
+		// Blank expression - delete this row
+		if (rowIndex >= numberOfRows) return;	// Nothing to do
+		
+		[activeProject removeWatchExpressionAtIndex: rowIndex];
+		[watchTable reloadData];
+		
+		return;
+	}
+	
+	if (rowIndex >= numberOfRows) {
+		// New expression: add a new row
+		[activeProject addWatchExpression: anObject];
+		
+		[watchTable reloadData];
+	} else {
+		// Replace an existing row
+		[activeProject replaceWatchExpressionAtIndex: rowIndex
+									  withExpression: anObject];
+	}
+}
+
 
 @end
