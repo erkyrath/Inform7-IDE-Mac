@@ -1066,16 +1066,6 @@ static NSDictionary* styles[256];
 		highlighterTicker = nil;
 	}
 	
-	BOOL useSystemFont = YES;
-	
-    if (highlighter) [highlighter release];
-    highlighter = nil;
-	
-	remainingFileToProcess.location = NSNotFound;
-	remainingFileToProcess.length   = 0;
-    
-    NSString* fileType = [openSourceFile pathExtension];
-	
 	// In the future, we'll also meddle with the paragraph styles while formatting (to maintain indentation over
 	// multiple lines). But for now, we'll just set the style for the whole document
 	BOOL applyTabStyle = NO;
@@ -1091,7 +1081,19 @@ static NSDictionary* styles[256];
 		[tab release];
 	}
 	[tabStyle setTabStops: tabStops];
+
+	// Various bits & bobs
+	BOOL useSystemFont = YES;
+	
+    if (highlighter) [highlighter release];
+    highlighter = nil;
+	
+	remainingFileToProcess.location = NSNotFound;
+	remainingFileToProcess.length   = 0;
     
+    NSString* fileType = [openSourceFile pathExtension];
+    
+	// Actually work out which highlighter to use
     if ([fileType isEqualToString: @"inf"] ||
         [fileType isEqualToString: @"h"] ||
 		[fileType isEqualToString: @"i6"]) {
