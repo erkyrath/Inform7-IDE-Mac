@@ -70,7 +70,7 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 		// The sole purpose of IFIsFlippedView is to return YES to isFlipped...
 		[[self window] setContentView: [[[IFIsFlippedView alloc] init] autorelease]];
 		
-		// - Easy, but broken
+		// - Easy, but broken (doesn't handle the changing size of the window correctly)
 		//[self setWindowFrameAutosaveName: @"InspectorWindowFrame"];
 		
 		[[NSNotificationCenter defaultCenter] addObserver: self
