@@ -10,7 +10,126 @@
 
 #import "IFTranscriptString.h"
 
+// Positional dictionary entries
+static NSString* firstCommandText = @"FirstCommandText";
+static NSString* actualTextPosition = @"ActualTextPosition";
+static NSString* expectedTextPosition = @"ExpectedTextPosition";
+static NSString* commandsPosition = @"CommandsPosition";
+static NSString* finalPosition = @"FinalPosition";
+
+static NSString* itemStartPosition = @"FirstCommandText";
+
+// Order of sections as they appear in the string
+static NSArray* sectionOrder = nil;
+static unsigned sectionOrderCount;
+
 @implementation IFTranscriptStorage
+
+// = Standard attributes =
+
+static NSDictionary* defaultAttributes = nil;
+static NSDictionary* command1Attributes = nil;
+static NSDictionary* command2Attributes = nil;
+static NSDictionary* activeCommandAttributes = nil;
+static NSDictionary* resultAttributes = nil;
+static NSDictionary* expectedAttributes = nil;
+
++ (void) initialize {
+	NSFont* gillSans = [NSFont fontWithName: @"GillSans" size: 11.0];
+	if (!gillSans) gillSans = [NSFont systemFontOfSize: 11.0];
+	
+	// Default attributes
+	defaultAttributes = [[NSDictionary alloc] initWithObjectsAndKeys:
+		NSBaselineOffsetAttributeName, [NSNumber numberWithFloat: 0.0],
+		NSFontAttributeName, gillSans,
+		NSForegroundColorAttributeName, [NSColor blackColor],
+		NSKernAttributeName, [NSNumber numberWithFloat: 0.0],
+		NSLigatureAttributeName, [NSNumber numberWithInt: 1],
+		NSParagraphStyleAttributeName, [NSParagraphStyle defaultParagraphStyle],
+		NSSuperscriptAttributeName, [NSNumber numberWithInt: 0],
+		NSStrokeWidthAttributeName, [NSNumber numberWithInt: 0],
+		NSStrikethroughStyleAttributeName, [NSNumber numberWithInt: 0],
+		NSObliquenessAttributeName, [NSNumber numberWithFloat: 0.0],
+		NSExpansionAttributeName, [NSNumber numberWithFloat: 0.0],
+		nil];
+	
+	NSMutableDictionary* attr; // Used to build new attributes
+	NSMutableParagraphStyle* pStyle;
+	
+	// Command result attributes
+	attr = [defaultAttributes mutableCopy];
+	
+	[attr setObject: [NSColor colorWithDeviceRed: 0.6 green: 1.0 blue: 0.6 alpha: 1.0]
+			 forKey: NSBackgroundColorAttributeName];
+	
+	resultAttributes = [attr copy];
+	[attr release]; attr = nil;
+	
+	// Active command attributes
+	attr = [defaultAttributes mutableCopy];
+	
+	[attr setObject: [NSFont boldSystemFontOfSize: 11.0]
+			 forKey: NSFontAttributeName];
+	[attr setObject: [NSColor colorWithDeviceRed: 0.6 green: 0.6 blue: 1.0 alpha: 1.0]
+			 forKey: NSBackgroundColorAttributeName];
+		
+	activeCommandAttributes = [attr copy];
+	[attr release]; attr = nil;
+	
+	// 'Command 1' attributes
+	attr = [defaultAttributes mutableCopy];
+	
+	[attr setObject: [NSFont boldSystemFontOfSize: 10.0]
+			 forKey: NSFontAttributeName];
+	[attr setObject: [NSColor colorWithDeviceRed: 1.0 green: 0.7 blue: 0.7 alpha: 1.0]
+			 forKey: NSBackgroundColorAttributeName];
+
+	pStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[pStyle setAlignment: NSCenterTextAlignment];
+	[pStyle setParagraphSpacing: 6.0];
+	
+	[attr setObject: pStyle
+			 forKey: NSParagraphStyleAttributeName];
+	[pStyle release];
+	
+	command1Attributes = [attr copy];
+	[attr release]; attr = nil;
+
+	// 'Command 2' attributes
+	attr = [defaultAttributes mutableCopy];
+	
+	[attr setObject: [NSFont boldSystemFontOfSize: 10.0]
+			 forKey: NSFontAttributeName];
+	[attr setObject: [NSColor colorWithDeviceRed: 1.0 green: 0.5 blue: 0.5 alpha: 1.0]
+			 forKey: NSBackgroundColorAttributeName];
+	
+	pStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[pStyle setAlignment: NSCenterTextAlignment];
+	[pStyle setParagraphSpacing: 12.0];
+
+	[attr setObject: pStyle
+			 forKey: NSParagraphStyleAttributeName];
+	[pStyle release];
+	
+	command2Attributes = [attr copy];
+	[attr release]; attr = nil;
+	
+	// 'Expected text' attributes
+	attr = [defaultAttributes mutableCopy];
+	
+	[attr setObject: [NSColor colorWithDeviceRed: 0.8 green: 0.8 blue: 0.8 alpha: 1.0]
+			 forKey: NSBackgroundColorAttributeName];	
+	
+	expectedAttributes = [attr copy];
+	[attr release]; attr = nil;
+
+	// Order of items as they appear in the string
+	if (!sectionOrder) {
+		sectionOrder = [[NSArray arrayWithObjects: firstCommandText, actualTextPosition, expectedTextPosition, commandsPosition, finalPosition, nil] retain];
+		sectionOrderCount = [sectionOrder count];
+	}
+	
+}
 
 // = Initialisation =
 
@@ -18,6 +137,7 @@
 	self = [super init];
 	
 	if (self) {
+		theString = [[NSMutableString alloc] init];
 	}
 	
 	return self;
@@ -27,51 +147,136 @@
 	[transcriptItems release];
 	[itemPositionData release];
 	[finalItem release];
+	[theString release];
 	
 	[super dealloc];
+}
+
+// = Item info =
+
+- (NSString*) itemSectionAtIndex: (unsigned) index
+						itemData: (NSDictionary*) itemData {	
+	// Retrieve the section of the item that exists at the given index
+	unsigned foundIndex = NSNotFound; // Location in sectionOrder
+	unsigned x;
+	
+	for (x=0; x<sectionOrderCount; x++) {
+		NSNumber* pos = [itemData objectForKey: [sectionOrder objectAtIndex: x]];
+		
+		if (index < [pos intValue]) {
+			foundIndex = x;
+			break;
+		}
+	}
+	
+	if (foundIndex == 0 || foundIndex == NSNotFound) {
+		// Index is outside this item
+		return nil;
+	}
+	
+	// Otherwise, index is in the section preceding the one marked by foundIndex
+	return [sectionOrder objectAtIndex: foundIndex-1];
 }
 
 // = Standard NSTextStorage methods =
 
 - (NSString*) string {
-	if (!string) string = [[IFTranscriptString alloc] initWithTranscriptStorage: self];
-	return string;
+	return theString;
 }
 
 - (NSDictionary*) attributesAtIndex: (unsigned) index
 					 effectiveRange: (NSRangePointer) range {
-	static NSDictionary* dict = nil;
+	NSDictionary* attr = defaultAttributes;
 	
-	if (!dict) dict = [[NSDictionary alloc] init];
+	// Find the item
+	unsigned item = [self indexOfItemAtCharacterPosition: index];
+	NSDictionary* itemData = nil;
+	
+	if (item != NSNotFound) itemData = [itemPositionData objectAtIndex: item];
+		
+	// Work out which set of attributes to use
+	NSString* attribute = [self itemSectionAtIndex: index
+										  itemData: itemData];
+	
+	if (attribute == firstCommandText) {
+		attr = activeCommandAttributes;
+	} else if (attribute == actualTextPosition) {
+		attr = resultAttributes;
+	} else if (attribute == expectedTextPosition) {
+		attr = expectedAttributes;
+	} else if (attribute == commandsPosition) {
+		attr = command1Attributes;
+	}
 	
 	if (range) {
-		range->location = 0;
-		range->length = [[[itemPositionData lastObject] objectForKey: @"FinalPosition"] intValue];
+		if (attribute) {
+			NSString* nextAttribute = [sectionOrder objectAtIndex: [sectionOrder indexOfObjectIdenticalTo: attribute] + 1];
 		
-		if (index >= range->length) {
+			range->location = [[itemData objectForKey: attribute] intValue];
+			range->length = [[itemData objectForKey: nextAttribute] intValue] - range->location;
+		} else {
 			range->location = index;
 			range->length = 1;
 		}
 	}
 	
-	return dict;
+	return attr;
 }
 
 - (void) replaceCharactersInRange: (NSRange) range
 					   withString: (NSString*) string {
 	// Not implemented yet
+	NSLog(@"replaceCharacters: %@", string);
 }
 
 - (void) setAttributes: (NSDictionary*) attributes
 				 range: (NSRange) range {
-	// Attributes can't be changed
+	// We have to support attribute changing, as otherwise nothing gets displayed!
+	// Not sure why: I think certain attributes must be present or the layout manager keels over.
+	// I suspect this behaviour will change, so just providing the required attributes will be
+	// a recipe for disaster after future OS updates. 
+	
+	// Work out which attribute to use
+	// Assume the range does not cross a boundary, which would be annoying, and wouldn't work
+	// properly, anyway
+
+	// Find the item
+	unsigned item = [self indexOfItemAtCharacterPosition: range.location];
+	NSDictionary* itemData = nil;
+	
+	if (item != NSNotFound) itemData = [itemPositionData objectAtIndex: item];
+	
+	// Work out which set of attributes to update
+	NSString* attribute = [self itemSectionAtIndex: range.location
+										  itemData: itemData];
+	
+	if (attribute == firstCommandText) {
+		[activeCommandAttributes release];
+		activeCommandAttributes = [attributes copy];
+	} else if (attribute == actualTextPosition) {
+		[resultAttributes release];
+		resultAttributes = [attributes copy];
+	} else if (attribute == expectedTextPosition) {
+		[expectedAttributes release];
+		expectedAttributes = [attributes copy];
+	} else if (attribute == commandsPosition) {
+		[command1Attributes release];
+		command1Attributes = [attributes copy];
+	} else {
+		[defaultAttributes release];
+		defaultAttributes = [attributes copy];
+	}
+	
+	
+	[self edited: NSTextStorageEditedCharacters
+		   range: range
+  changeInLength: 0];
 }
 
 // = Setting up what to display/edit =
 
 - (void) calculatePositionForItemAtIndex: (unsigned) itemIndex {
 	// Recalculate the position data for a particular item
-	
 	if (itemIndex > [itemPositionData count]) {
 		// Oops, can't insert this item!
 		[NSException raise: @"IFCantInsertItemException"
@@ -85,7 +290,10 @@
 		return;
 	}
 	
+	NSMutableString* itemString = [[NSMutableString alloc] init];	
+	
 	ZoomSkeinItem* item = [transcriptItems objectAtIndex: itemIndex];
+	NSDictionary* oldItem = nil;
 	
 	// An item has four pieces of positional information relative to the storage object:
 	//	 The 'actual' text position
@@ -96,48 +304,80 @@
 	
 	if (itemIndex > 0) {
 		// Get the information for the previous item
-		lastItemEnd = [[[itemPositionData objectAtIndex: itemIndex-1] objectForKey: @"FinalPosition"] intValue];
+		lastItemEnd = [[[itemPositionData objectAtIndex: itemIndex-1] objectForKey: finalPosition] intValue];
+	}
+	
+	if (itemIndex+1 < [itemPositionData count]) {
+		// Get the old item data
+		oldItem = [itemPositionData objectAtIndex: itemIndex];
 	}
 	
 	// Calculate the information for this item
-	int actualText = lastItemEnd;
+	int itemStart = lastItemEnd;
+	int firstCommandText = lastItemEnd;
+	int actualText;
 	int expectedText;
 	int commands;
 	int itemEnd;
 	
-	int commandLength = 0;
+	// 'Input' command
+	[itemString appendString: @"> "];
+	[itemString appendString: [item command]];
+	[itemString appendString: @"\n"];
+	actualText = itemStart + [itemString length];
 	
-	// Length of the list of commands
+	// 'Actual' text
+	[itemString appendString: [item result]];
+	[itemString appendString: @"\n"];
+	expectedText = itemStart + [itemString length];
+	
+	// 'Expected' text
+	commands = itemStart + [itemString length];
+	
+	// Commands
 	NSEnumerator* childEnum = [[item children] objectEnumerator];
 	ZoomSkeinItem* itemChild;
 	
 	while (itemChild = [childEnum nextObject]) {
-		commandLength += [[itemChild command] length] + 1;
+		[itemString appendString: [itemChild command]];
+		[itemString appendString: @" "];
 	}
-	
-	if (commandLength > 0) commandLength--; // Last command has no space following it
-	
-	// Actual values
-	expectedText = actualText + [[item result] length];
-	commands = expectedText + 0; // FIXME: no support for this in the skeins yet
-	itemEnd = commands + commandLength;
-	
+	[itemString appendString: @"\n"]; // Will be forced into 
+
+	itemEnd = itemStart + [itemString length];
+		
 	// Store the result
 	NSDictionary* newItem = [NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt: actualText],   @"ActualTextPosition",
-		[NSNumber numberWithInt: expectedText], @"ExpectedTextPosition",
-		[NSNumber numberWithInt: commands],		@"CommandsPosition",
-		[NSNumber numberWithInt: itemEnd],		@"FinalPosition",
+		[NSNumber numberWithInt: firstCommandText], @"FirstCommandText",
+		[NSNumber numberWithInt: actualText],		actualTextPosition,
+		[NSNumber numberWithInt: expectedText],		expectedTextPosition,
+		[NSNumber numberWithInt: commands],			commandsPosition,
+		[NSNumber numberWithInt: itemEnd],			finalPosition,
 		nil];
 	
 	if (itemIndex >= [itemPositionData count]) {
 		[itemPositionData addObject: newItem];
+		
+		// Append on to the end of the 'real' string
+		[theString appendString: itemString];
 	} else {
+		[oldItem retain];
 		[itemPositionData replaceObjectAtIndex: itemIndex
 									withObject: newItem];
+		
+		// Replace the old item with the new item
+		if (oldItem) {
+			int oldStart = [[oldItem objectForKey: itemStartPosition] intValue];
+			int oldEnd = [[oldItem objectForKey: finalPosition] intValue];
+			
+			[theString replaceCharactersInRange: NSMakeRange(oldStart, oldEnd-oldStart)
+									 withString: itemString];
+		}
+		[oldItem release];
 	}
 	
 	// Done.
+	[itemString release];
 }
 
 - (void) calculatePositionForItem: (ZoomSkeinItem*) item {
@@ -151,9 +391,11 @@
 - (void) recalculateAllItemPositions {
 	unsigned int x;
 	unsigned int oldLength = [self length];
+	
+	[self beginEditing];
 
 	if (itemPositionData) {
-		oldLength = [[[itemPositionData lastObject] objectForKey: @"FinalPosition"] intValue];
+		oldLength = [[[itemPositionData lastObject] objectForKey: finalPosition] intValue];
 		
 		[itemPositionData release];
 		itemPositionData = nil;
@@ -166,11 +408,12 @@
 	}
 	
 	// Mark ourselves as updated
-	unsigned int newLength = [[[itemPositionData lastObject] objectForKey: @"FinalPosition"] intValue];
+	unsigned int newLength = [[[itemPositionData lastObject] objectForKey: finalPosition] intValue];
 	
-	[self edited: NSTextStorageEditedCharacters
-		   range: NSMakeRange(0, newLength)
-  changeInLength: 0];
+	[self edited: NSTextStorageEditedCharacters|NSTextStorageEditedAttributes
+		   range: NSMakeRange(0, oldLength)
+  changeInLength: newLength - oldLength];
+	[self endEditing];
 }
 
 - (void) setTranscriptToPoint: (ZoomSkeinItem*) fI {
@@ -227,8 +470,8 @@
 		
 		NSDictionary* item = [itemPositionData objectAtIndex: middle];
 		
-		int startChar = [[item objectForKey: @"ActualTextPosition"] intValue];
-		int endChar = [[item objectForKey: @"FinalPosition"] intValue];
+		int startChar = [[item objectForKey: itemStartPosition] intValue];
+		int endChar = [[item objectForKey: finalPosition] intValue];
 		
 		if (pos < startChar) {
 			bottom = middle - 1;

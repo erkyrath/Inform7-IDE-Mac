@@ -16,7 +16,7 @@
 	NSMutableArray* itemPositionData;
 	ZoomSkeinItem*  finalItem;
 	
-	IFTranscriptString* string;
+	NSMutableString* theString;
 }
 
 // Setting up what to display/edit
