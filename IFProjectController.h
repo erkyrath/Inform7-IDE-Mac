@@ -12,6 +12,8 @@
 #import "IFProjectPolicy.h"
 #import "IFProgress.h"
 
+#import "IFIntelFile.h"
+
 enum lineStyle {
     IFLineStyleNeutral = 0,
     
@@ -95,6 +97,7 @@ enum lineStyle {
 - (void) removeAllTemporaryHighlights;
 
 - (NSString*) pathToIndexFile;
+- (IFIntelFile*) currentIntelligence;
 
 - (IBAction) addNewFile: (id) sender;
 

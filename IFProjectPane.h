@@ -133,6 +133,8 @@ enum IFProjectPaneType {
 
 - (void) updateHighlightedLines;
 
+- (IFIntelFile*) currentIntelligence;
+
 // The game view
 - (void) activateDebug;
 - (void) startRunningGame: (NSString*) fileName;

@@ -10,6 +10,8 @@
 
 #import "IFIntelSymbol.h"
 
+extern NSString* IFIntelFileHasChangedNotification;
+
 //
 // 'Intelligence' data for a file.
 // Basically, maintains a linked list of symbols gathered from a file.
@@ -20,6 +22,9 @@
 	// Data
 	NSMutableArray* symbols;
 	int* symbolLines;			// We access this a lot: C-style array is faster
+	
+	// Notifications
+	BOOL notificationPending;
 }
 
 // Adding and removing symbols
@@ -31,8 +36,12 @@
 			atLine: (int) line;
 
 // Finding symbols
+- (IFIntelSymbol*) firstSymbol;
 - (IFIntelSymbol*) firstSymbolOnLine: (int) line;
 - (IFIntelSymbol*) lastSymbolOnLine: (int) line;
 - (int) lineForSymbol: (IFIntelSymbol*) symbolToFind;
+
+// Sending notifications
+- (void) intelFileHasChanged;
 
 @end

@@ -10,6 +10,7 @@
 
 // FIXME: symbols are supposed to be deliniated by type, so we should really be using one of these objects
 // per symbol type;
+NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotification";
 
 @implementation IFIntelFile
 
@@ -36,6 +37,7 @@
 	
 	bottom = 0;
 	top = nSymbols - 1;
+	middle = 0;
 	while (top >= bottom) {
 		middle = (top + bottom)>>1;
 		
@@ -83,6 +85,8 @@
 	for (symbol=firstSymbol; symbol<nSymbols; symbol++) {
 		symbolLines[symbol]++;
 	}
+	
+	[self intelFileHasChanged];
 }
 
 - (void) removeLines: (NSRange) lines {
@@ -97,6 +101,8 @@
 	for (symbol=firstSymbol; symbol<nSymbols; symbol++) {
 		symbolLines[symbol] -= lines.length;
 	}
+	
+	[self intelFileHasChanged];
 }
 
 - (void) clearSymbolsForLines: (NSRange) lines {
@@ -116,8 +122,18 @@
 		return;
 	
 	// Remove symbols between firstSymbol and lastSymbol
+	int x;
+	
+	for (x=firstSymbol+1; x<lastSymbol; x++) {
+		IFIntelSymbol* thisSymbol = [symbols objectAtIndex: x];
+		thisSymbol->nextSymbol = nil;
+		thisSymbol->lastSymbol = nil;
+	}
+	
 	[symbols removeObjectsInRange: NSMakeRange(firstSymbol+1, lastSymbol-(firstSymbol+1))];
 	memmove(symbolLines + (firstSymbol+1), symbolLines + lastSymbol, sizeof(*symbolLines)*(lastSymbol-(firstSymbol+1)));
+	
+	[self intelFileHasChanged];
 }
 
 - (void) addSymbol: (IFIntelSymbol*) newSymbol
@@ -148,6 +164,8 @@
 		newSymbol->lastSymbol->nextSymbol = newSymbol;
 	if (newSymbol->nextSymbol)
 		newSymbol->nextSymbol->lastSymbol = newSymbol;
+	
+	[self intelFileHasChanged];
 }
 
 // = Debug =
@@ -200,6 +218,28 @@
 	}
 	
 	return NSNotFound;
+}
+
+- (IFIntelSymbol*) firstSymbol {
+	if ([symbols count] <= 0)
+		return nil;
+	
+	return [symbols objectAtIndex: 0];
+}
+
+- (void) intelFileHasChanged {
+	if (!notificationPending) {
+		notificationPending = YES;
+		[self performSelector: @selector(finishNotifyingChange)
+				   withObject: self
+				   afterDelay: 2.0];
+	}
+}
+
+- (void) finishNotifyingChange {
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFIntelFileHasChangedNotification
+														object: self];
+	notificationPending = NO;
 }
 
 @end

@@ -127,15 +127,21 @@ NSString* IFSectionSymbolType = @"IFSectionSymbolType";
 
 - (IFIntelSymbol*) sibling {
 	IFIntelSymbol* sibling = nextSymbol;
+	int myLevel = [self level];
 	
+	while (sibling != nil && [sibling level] > myLevel) sibling = sibling->nextSymbol;
+		
 	if (sibling == nil) return nil;
-	if ([sibling level] == [self level]) return sibling;
+	if ([sibling level] == myLevel) return sibling;
 	
 	return nil;
 }
 
 - (IFIntelSymbol*) previousSibling {
 	IFIntelSymbol* sibling = lastSymbol;
+	int myLevel = [self level];
+	
+	while (sibling != nil && [sibling level] > myLevel) sibling = sibling->lastSymbol;
 	
 	if (sibling == nil) return nil;
 	if ([sibling level] == [self level]) return sibling;

@@ -1157,6 +1157,10 @@ static NSDictionary*  itemDictionary = nil;
 		return nil;
 }
 
+- (IFIntelFile*) currentIntelligence {
+	return [[self sourcePane] currentIntelligence];
+}
+
 // = Documentation controls =
 - (void) docIndex: (id) sender {
 	[[self auxPane] openURL: [NSURL URLWithString: @"inform:/index.html"]];

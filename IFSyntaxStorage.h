@@ -165,5 +165,6 @@ typedef unsigned char IFSyntaxStyle;
 // Gathering/retrieving intelligence data
 - (void) setIntelligence: (id<IFSyntaxIntelligence>) intel;
 - (id<IFSyntaxIntelligence>) intelligence;
+- (IFIntelFile*) intelligenceData;
 
 @end

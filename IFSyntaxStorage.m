@@ -337,7 +337,7 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 		for (x=0; x<nNewLines; x++) {
 			lineStarts[firstLine+1+x] = newLineStarts[x];
 
-			[lineStyles removeObjectAtIndex: x];
+			[lineStyles removeObjectAtIndex: firstLine+1+x];
 		}
 		
 		if (intelData) {
@@ -904,6 +904,10 @@ static inline BOOL IsWhitespace(unichar c) {
 
 - (id<IFSyntaxIntelligence>) intelligence {
 	return intelSource;
+}
+
+- (IFIntelFile*) intelligenceData {
+	return intelData;
 }
 
 @end

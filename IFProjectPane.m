@@ -756,11 +756,15 @@ NSDictionary* IFSyntaxAttributes[256];
     return YES;
 }
 
-// = Text view delegate =
+// = Intelligence =
 
-// FIXME: storage delegate should be the document, NOT the view, as this causes weirdness
-
-- (void)textStorageDidProcessEditing: (NSNotification*) not {
+- (IFIntelFile*) currentIntelligence {
+	// IQ: 0
+	if ([textStorage isKindOfClass: [IFSyntaxStorage class]]) {
+		return [(IFSyntaxStorage*)textStorage intelligenceData];
+	} else {
+		return nil;
+	}
 }
 
 // = Syntax highlighting =
