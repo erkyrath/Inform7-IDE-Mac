@@ -18,6 +18,7 @@
 #import "IFTranscriptController.h"
 
 #import "IFSyntaxStorage.h"
+#import "IFProgress.h"
 
 enum IFProjectPaneType {
     IFSourcePane = 1,
@@ -66,6 +67,8 @@ enum IFProjectPaneType {
     ZoomView*        zView;
     NSString*        gameToRun;
 	ZoomSkeinItem*   pointToRunTo;
+	
+	IFProgress*      gameRunningProgress;
 
     // Documentation
     IBOutlet NSView* docView;

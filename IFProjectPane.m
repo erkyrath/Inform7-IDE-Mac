@@ -155,6 +155,12 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 - (void) dealloc {
+	if (gameRunningProgress) {
+		[parent removeProgressIndicator: gameRunningProgress];
+		[gameRunningProgress release];
+		gameRunningProgress = nil;
+	}
+	
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     
     // FIXME: memory leak?
@@ -549,7 +555,16 @@ NSDictionary* IFSyntaxAttributes[256];
     
     if (gameToRun) [gameToRun release];
     gameToRun = [fileName copy];
+	
+	if (!gameRunningProgress) {
+		gameRunningProgress = [[IFProgress alloc] init];
+		[parent addProgressIndicator: gameRunningProgress];
+	}
     
+	[gameRunningProgress setMessage: [[NSBundle mainBundle] localizedStringForKey: @"Loading story file"
+																			value: @"Loading story file"
+																			table: nil]];
+	
     zView = [[ZoomView allocWithZone: [self zone]] init];
     [zView setDelegate: self];
 	[[[parent document] skein] zoomInterpreterRestart];
@@ -612,7 +627,7 @@ NSDictionary* IFSyntaxAttributes[256];
 - (void) zMachineStarted: (id) sender {	
     [[zView zMachine] loadStoryFile: 
         [NSData dataWithContentsOfFile: gameToRun]];
-
+	
 	[[zView zMachine] loadDebugSymbolsFrom: [[[[parent document] fileName] stringByAppendingPathComponent: @"Build"] stringByAppendingPathComponent: @"gameinfo.dbg"]
 							withSourcePath: [[[parent document] fileName] stringByAppendingPathComponent: @"Source"]];
 	
@@ -636,6 +651,13 @@ NSDictionary* IFSyntaxAttributes[256];
 	
     [tabView selectTabViewItem: gameTabView];
     [[paneView window] makeFirstResponder: [zView textView]];
+	
+	[gameRunningProgress setMessage: [[NSBundle mainBundle] localizedStringForKey: @"Story started"
+																			value: @"Story started"
+																			table: nil]];
+	[parent removeProgressIndicator: gameRunningProgress];
+	[gameRunningProgress release];
+	gameRunningProgress = nil;
 }
 
 // = Tab view delegate =

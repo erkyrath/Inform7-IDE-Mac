@@ -1140,7 +1140,6 @@ static NSDictionary*  itemDictionary = nil;
 	if (totalPercentage <= 0) {
 		if (progressing) {
 			// Disable progress bars
-			NSLog(@"Stopped progress");
 			[progress stopAnimation: self];
 			[self performSelector: @selector(clearStatus:)
 					   withObject: [NSNumber numberWithInt: progressNum]
