@@ -26,6 +26,8 @@
 	NSMutableArray* customDirectories;
 	
 	NSString* subdirectory;
+	
+	NSDictionary* tempExtensions;
 }
 
 // Setting up

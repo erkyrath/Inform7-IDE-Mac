@@ -8,6 +8,7 @@
 
 #import "IFExtensionsManager.h"
 
+#import "IFTempObject.h"
 
 @implementation IFExtensionsManager
 
@@ -20,6 +21,8 @@
 		extensionDirectories = [[NSMutableArray alloc] init];
 		customDirectories = [[NSMutableArray alloc] init];
 		subdirectory = [@"Extensions" retain];
+		
+		tempExtensions = nil;
 		
 		// Get the list of directories where extensions might live
 		NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
@@ -42,6 +45,12 @@
 	[subdirectory release]; subdirectory = nil;
 	
 	[super dealloc];
+}
+
+// = Temporary objects =
+
+- (void) temporaryObjectHasDeallocated: (NSObject*) obj {
+	if (obj == tempExtensions) tempExtensions = nil;
 }
 
 // = Setting up =
@@ -120,6 +129,8 @@
 }
 
 - (NSDictionary*) extensionDictionary {
+	if (tempExtensions) return tempExtensions;
+	
 	NSFileManager* manager = [NSFileManager defaultManager];
 	
 	// First, we work out the list of directories to search
@@ -158,9 +169,10 @@
 		}
 	}
 	
-	// IMPLEMENT ME: cache the results temporarily so that we can re-use it again
-	//		Could do this with a tempcache class of some variety that notifies it's delegate when it (and
-	//		thus its data) gets destroyed.
+	// Cache the results: this will ensure future calls to this function will be faster (at least until the
+	// autorelease pool is destroyed)
+	[[[IFTempObject alloc] initWithObject: tempExtensions=resultSet
+								 delegate: self] autorelease];
 	
 	// Return the result
 	return resultSet;
