@@ -36,6 +36,10 @@ enum IFProjectPaneType {
 
     // Source
     IBOutlet NSTextView* sourceText;
+    IBOutlet NSPanel*    addFilePanel;
+    
+    // The add file panel
+    IBOutlet NSTextField* newFileName;
 
     // The compiler (as for IFCompilerController.h)
     IBOutlet NSTextView* compilerResults;
@@ -78,6 +82,7 @@ enum IFProjectPaneType {
 
     // Other variables
     NSMutableArray* sourceFiles;
+    NSString*       openSourceFile;
 
     BOOL awake;
     IFProjectController* parent;
@@ -107,6 +112,10 @@ enum IFProjectPaneType {
 // The source view
 - (void) updateFiles;
 - (void) moveToLine: (int) line;
+- (IBAction) selectSourceFile: (id) sender;
+
+- (IBAction) addFileClicked: (id) sender;
+- (IBAction) cancelAddFile: (id) sender;
 
 // The game view
 - (void) startRunningGame: (NSString*) fileName;
@@ -117,6 +126,7 @@ enum IFProjectPaneType {
 - (IBAction) settingsHaveChanged: (id) sender;
 
 // Syntax highlighting
+- (void) selectHighlighterForCurrentFile;
 - (void) highlightEntireFile;
 - (void) highlightRange: (NSRange) charRange;
 

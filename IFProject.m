@@ -83,13 +83,22 @@
             NSTextStorage* text;
             NSString*      textData;
 
-            textData = [[NSString alloc] initWithData:
-                [[[sourceDir fileWrappers] objectForKey: key] regularFileContents]
-                                             encoding: NSISOLatin1StringEncoding];
+            if ([[key pathExtension] isEqualToString: @"rtf"]) {
+                NSAttributedString* attr = [[NSAttributedString alloc] initWithRTF: 
+                    [[[sourceDir fileWrappers] objectForKey: key] regularFileContents]
+                                                                documentAttributes: nil];
+                
+                text = [[NSTextStorage allocWithZone: [self zone]] initWithAttributedString:
+                    attr];
+            } else {
+                textData = [[NSString alloc] initWithData:
+                    [[[sourceDir fileWrappers] objectForKey: key] regularFileContents]
+                                                 encoding: NSISOLatin1StringEncoding];
 
-            text = [[NSTextStorage allocWithZone: [self zone]] initWithString:
-                textData];
-            [textData release];
+                text = [[NSTextStorage allocWithZone: [self zone]] initWithString:
+                    textData];
+                [textData release];
+            }
 
             [sourceFiles setObject: [text autorelease]
                             forKey: key];
@@ -117,6 +126,15 @@
     }
     
     return NO;
+}
+
+- (BOOL) addFile: (NSString*) newFile {
+    if ([sourceFiles objectForKey: newFile] != nil) return NO;
+    
+    [sourceFiles setObject: [[[NSTextStorage alloc] init] autorelease]
+                    forKey: newFile];
+    
+    return YES;
 }
 
 // == General housekeeping ==
@@ -154,8 +172,18 @@
     [source setFilename: @"Source"];
 
     while (key = [keyEnum nextObject]) {
-        NSData*        data = [[[sourceFiles objectForKey: key] string] dataUsingEncoding: NSISOLatin1StringEncoding];
-        NSFileWrapper* file = [[NSFileWrapper alloc] initRegularFileWithContents: data];
+        NSData*        data;
+        NSFileWrapper* file;
+        
+        if ([[key pathExtension] isEqualToString: @"rtf"]) {
+            NSAttributedString* str = [sourceFiles objectForKey: key];
+            
+            data = [str RTFFromRange: NSMakeRange(0, [str length]) documentAttributes: nil];
+        } else {
+            data = [[[sourceFiles objectForKey: key] string] dataUsingEncoding: NSISOLatin1StringEncoding];
+        }
+        file = [[NSFileWrapper alloc] initRegularFileWithContents: data];
+
         [file setFilename: key];
         [file setPreferredFilename: key];
 
@@ -197,6 +225,10 @@
 
 - (IFProjectFile*) projectFile {
     return projectFile;
+}
+
+- (NSDictionary*) sourceFiles {
+    return sourceFiles;
 }
 
 @end

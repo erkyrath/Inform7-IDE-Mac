@@ -17,10 +17,16 @@
             SUPERCLASS = NSObject; 
         }, 
         {
-            ACTIONS = {settingsHaveChanged = id; }; 
+            ACTIONS = {
+                addFileClicked = id; 
+                cancelAddFile = id; 
+                selectSourceFile = id; 
+                settingsHaveChanged = id; 
+            }; 
             CLASS = IFProjectPane; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                addFilePanel = NSPanel; 
                 columnButton = NSButton; 
                 compController = IFCompilerController; 
                 compilerMessages = NSOutlineView; 
@@ -38,6 +44,7 @@
                 lineButton = NSButton; 
                 messageScroller = NSScrollView; 
                 naturalInform = NSButton; 
+                newFileName = NSTextField; 
                 paneView = NSView; 
                 resultScroller = NSScrollView; 
                 runBuildSh = NSButton; 

@@ -11,6 +11,7 @@
 #import "IFProjectController.h"
 
 #import "IFInform6Syntax.h"
+#import "IFNaturalInformSyntax.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
 #define maxHighlightAmount 512
@@ -103,6 +104,7 @@ static NSDictionary* styles[256];
         highlighter = [[IFInform6Syntax alloc] init];
 
         sourceFiles = [[NSMutableArray allocWithZone: [self zone]] init];
+        [openSourceFile release];
 
         remainingFileToProcess.location = NSNotFound;
         remainingFileToProcess.length   = 0;
@@ -123,6 +125,7 @@ static NSDictionary* styles[256];
     [compController release];
     [sourceFiles    release];
     [highlighter    release];
+    [addFilePanel   release];
     
     if (zView) [zView release];
     if (gameToRun) [gameToRun release];
@@ -171,9 +174,13 @@ static NSDictionary* styles[256];
     [[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
 
     NSTextStorage* mainFile = [doc storageForFile: [doc mainSourceFile]];
-
+    NSString* mainFilename =  [doc mainSourceFile];
+    
+    [openSourceFile release];
+    openSourceFile = [mainFilename copy];
+    
     [mainFile addLayoutManager: [sourceText layoutManager]];
-    [self highlightEntireFile];
+    [self selectHighlighterForCurrentFile];
 
     [compController setCompiler: [doc compiler]];
     [compController setDelegate: self];
@@ -273,6 +280,11 @@ static NSDictionary* styles[256];
     [parent highlightSourceFileLine: line]; // FIXME: error level?
 }
 
+- (IFCompilerController*) compilerController {
+    return compController;
+}
+
+// = The source view =
 - (void) moveToLine: (int) line {
     // Find out where the line is in the source view
     NSString* store = [[sourceText textStorage] string];
@@ -330,13 +342,9 @@ static NSDictionary* styles[256];
     [sourceText setSelectedRange: NSMakeRange(linepos,0)];
 }
 
-- (IFCompilerController*) compilerController {
-    return compController;
-}
-
 - (void) updateFiles {
     IFProject* project = [parent document];
-    NSFileWrapper* files = [[[project projectFile] fileWrappers] objectForKey: @"Source"];
+    NSDictionary* files = [project sourceFiles];
 
     if (files == nil || project == nil) {
         NSLog(@"No files found");
@@ -346,17 +354,73 @@ static NSDictionary* styles[256];
 
     [sourcePopup removeAllItems];
 
-    NSEnumerator* keyEnum = [[files fileWrappers] keyEnumerator];
+    NSEnumerator* keyEnum = [files keyEnumerator];
     NSString* key;
     [sourceFiles removeAllObjects];
+    
+    int selectedItem = -1;
+    
+    [sourcePopup addItemWithTitle: openSourceFile];
+    [sourceFiles addObject: openSourceFile];
 
-    while (key = [keyEnum nextObject]) {
-        [sourcePopup addItemWithTitle: key];
-        [sourceFiles addObject: key];
+    while (key = [keyEnum nextObject]) {        
+        if (![key isEqualToString: openSourceFile]) {
+            [sourcePopup addItemWithTitle: key];
+            [sourceFiles addObject: key];
+        } else {
+            selectedItem = 0;
+        }
+    }
+    
+    if (selectedItem == -1) {
+        NSLog(@"(BUG?) can't find currently open source file in project");
+    } else {
+        [sourcePopup selectItemAtIndex: selectedItem];
     }
 
     [[sourcePopup menu] addItem: [NSMenuItem separatorItem]];
     [sourcePopup addItemWithTitle: @"Add file..."]; // FIXME: internationalisation
+}
+
+- (IBAction) selectSourceFile: (id) sender {
+    int item = [sourcePopup indexOfSelectedItem];
+    
+    if (item < [sourceFiles count]) {
+        // Select a new source file
+        [[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
+        
+        NSTextStorage* mainFile = [[parent document] storageForFile: [sourceFiles objectAtIndex: item]];
+        
+        [openSourceFile release];
+        openSourceFile = [[sourceFiles objectAtIndex: item] copy];
+        
+        [mainFile addLayoutManager: [sourceText layoutManager]];
+        [self selectHighlighterForCurrentFile];
+        
+        [self updateFiles];
+    } else {
+        // Show the 'add source files' dialog
+        [NSApp beginSheet: addFilePanel
+           modalForWindow: [parent window]
+            modalDelegate: nil
+           didEndSelector: nil
+              contextInfo: nil];
+        [NSApp runModalForWindow: addFilePanel];
+        [NSApp endSheet: addFilePanel];
+        [addFilePanel orderOut: self];
+        
+        [self updateFiles];
+    }
+}
+
+- (IBAction) addFileClicked: (id) sender {
+    [NSApp stopModal];
+    
+    [[parent document] addFile: [newFileName stringValue]];
+}
+
+- (IBAction) cancelAddFile: (id) sender {
+    [NSApp stopModal];
 }
 
 // = Settings =
@@ -620,6 +684,36 @@ static NSDictionary* styles[256];
     free(buf);
 
     [[sourceText textStorage] setDelegate: self];
+}
+
+- (void) selectHighlighterForCurrentFile {
+    if (highlighter) [highlighter release];
+    highlighter = nil;
+    
+    NSString* fileType = [openSourceFile pathExtension];
+    
+    if ([fileType isEqualToString: @"inf"] ||
+        [fileType isEqualToString: @"h"]) {
+        // Inform 6 file
+        highlighter = [[IFInform6Syntax alloc] init];
+        [sourceText setRichText: NO];
+    } else if ([fileType isEqualToString: @"ni"] ||
+               [fileType isEqualToString: @"nih"]) {
+        // Natural inform file
+        highlighter = [[IFNaturalInformSyntax alloc] init];
+        [sourceText setRichText: NO];
+    } else if ([fileType isEqualToString: @"rtf"]) {
+        // Rich text file
+        highlighter = [[IFSyntaxHighlighter alloc] init];
+        [sourceText setRichText: YES];
+    } else {
+        // Unknown file type
+        highlighter = [[IFSyntaxHighlighter alloc] init];
+        [sourceText setRichText: NO];
+    }
+    
+    [highlighter setFile: [[sourceText textStorage] string]];
+    [self highlighterIteration];
 }
 
 @end

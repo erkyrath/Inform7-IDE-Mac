@@ -25,10 +25,12 @@
 - (IFCompilerSettings*) settings;
 - (IFCompiler*)         compiler;
 - (IFProjectFile*)      projectFile;
+- (NSDictionary*)       sourceFiles;
 
 - (void) prepareForSaving;
 
 - (NSString*) mainSourceFile;
 - (NSTextStorage*) storageForFile: (NSString*) sourceFile;
+- (BOOL) addFile: (NSString*) newFile;
 
 @end
