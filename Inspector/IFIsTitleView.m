@@ -29,7 +29,7 @@ static NSString* IFNSShadowAttributeName = @"NSShadow";
 	[bgImage setFlipped: YES];
 	
 	// Font to use for titles, etc
-	titleFont = [[NSFont systemFontOfSize: 13] retain];
+	titleFont = [[NSFont systemFontOfSize: 11] retain];
 	titleHeight = [titleFont ascender] + [titleFont descender];
 	titleHeight /= 2;
 	
@@ -50,6 +50,10 @@ static NSString* IFNSShadowAttributeName = @"NSShadow";
 		shadow, IFNSShadowAttributeName,
 		nil] retain];
 
+}
+
++ (float) titleHeight {
+	return [titleFont ascender] + [titleFont descender] + 7;
 }
 
 - (id)initWithFrame:(NSRect)frame {
@@ -139,6 +143,7 @@ static NSString* IFNSShadowAttributeName = @"NSShadow";
 	imgRect.origin = NSMakePoint(0,0);
 	imgRect.size = [bgImage size];
 	float w = imgRect.size.width;
+	imgRect.size.height = [IFIsTitleView titleHeight];
 	
 	while (x < rect.origin.x) x += w;
 	while (x < NSMaxX(rect)) {

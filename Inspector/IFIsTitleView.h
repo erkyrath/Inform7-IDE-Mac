@@ -16,6 +16,7 @@
 	NSString* modifiers;
 }
 
++ (float) titleHeight;
 - (void) setTitle: (NSString*) title;
 
 @end

@@ -19,6 +19,8 @@
 	if (sharedPrefController == nil) {
 		sharedPrefController = [[IFPreferenceController alloc] init];
 	}
+	
+	return sharedPrefController;
 }
 
 // = Initialisation =

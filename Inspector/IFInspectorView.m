@@ -10,8 +10,8 @@
 #import "IFInspectorWindow.h"
 #import "IFAppDelegate.h"
 
-#define TitleHeight 20
-#define ViewOffset  20
+#define TitleHeight [IFIsTitleView titleHeight]
+#define ViewOffset  [IFIsTitleView titleHeight]
 #define ViewPadding 1
 
 @implementation IFInspectorView
@@ -27,7 +27,7 @@
 		
 		willLayout = NO;
 		
-		titleView = [[IFIsTitleView alloc] initWithFrame: NSMakeRect(0, 0, frame.size.width, TitleHeight)];
+		titleView = [[IFIsTitleView alloc] initWithFrame: NSMakeRect(0, 0, frame.size.width, [IFIsTitleView titleHeight])];
 		[titleView setTitle: @"Untitled"];
 		
 		[self setAutoresizesSubviews: NO];
