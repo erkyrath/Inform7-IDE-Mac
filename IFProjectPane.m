@@ -534,6 +534,7 @@ static NSDictionary* styles[256];
 }
 
 // = Settings =
+
 - (void) updateSettings {
     if (!parent) {
         return; // Nothing to do
