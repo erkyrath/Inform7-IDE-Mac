@@ -43,6 +43,7 @@ extern NSString* IFCompilerNaturalInform;
 
 + (NSArray*) libraryPaths;
 + (NSString*) pathForLibrary: (NSString*) library;
++ (NSString*) pathForInform7Library: (NSString*) library;
 + (NSArray*) availableLibraries;
 
 // Setting up the settings

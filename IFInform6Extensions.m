@@ -23,7 +23,6 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 		extensions = nil;
 		needRefresh = YES;
 		
-		//activeExtensions = [[NSMutableSet alloc] init];
 		activeExtensions = nil;
 		
 		[extensionTable registerForDraggedTypes: [NSArray arrayWithObjects: NSFilenamesPboardType, nil]];
@@ -56,6 +55,10 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 
 // = Meta-information about what to look for =
 
+- (NSString*) extensionSubdirectory {
+	return @"Inform 6 Extensions";
+}
+
 - (NSArray*) directoriesToSearch {
 	NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 	NSMutableArray* libraryDirectories = [NSMutableArray array];
@@ -65,7 +68,7 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 	NSString* libPath;
 	
 	while (libPath = [libEnum nextObject]) {
-		NSString* extnPath = [[libPath stringByAppendingPathComponent: @"Inform"] stringByAppendingPathComponent: @"Inform 6 Extensions"];
+		NSString* extnPath = [[libPath stringByAppendingPathComponent: @"Inform"] stringByAppendingPathComponent: [self extensionSubdirectory]];
 		BOOL isDir;
 		
 		if ([[NSFileManager defaultManager] fileExistsAtPath: extnPath
@@ -78,6 +81,10 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 }
 
 // = Searching the extensions =
+
+static int stringCompare(id a, id b, void* context) {
+	return [(NSString*)a compare: b];
+}
 
 - (void) searchForExtensions {
 	// Clear out the old extensions
@@ -119,6 +126,10 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 							  forKey: extn];
 		}
 	}
+	
+	// Sort them
+	[extensions sortUsingFunction: stringCompare
+						  context: nil];
 }
 
 - (NSString*) pathForExtension: (NSString*) extension {
@@ -326,7 +337,7 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 		return NO;
 	}
 	
-	userDirectory = [userDirectory stringByAppendingPathComponent: @"Inform 6 Extensions"];
+	userDirectory = [userDirectory stringByAppendingPathComponent: [self extensionSubdirectory]];
 	userDirectory = [userDirectory stringByStandardizingPath];
 	
 	if (!userDirectory) return NO;
@@ -417,6 +428,124 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 	[self notifyThatExtensionsHaveChanged];
 
 	return YES;
+}
+
+// Actions
+
+- (IBAction) addExtension: (id) sender {
+	// Present a panel for adding new extensions
+	NSOpenPanel* panel = [NSOpenPanel openPanel];
+	
+	[panel setAccessoryView: nil];
+	[panel setCanChooseFiles: YES];
+	[panel setCanChooseDirectories: YES];
+	[panel setResolvesAliases: YES];
+	[panel setAllowsMultipleSelection: YES];
+	[panel setTitle: @"Add new extension"];
+	[panel setDelegate: self];
+	
+	[panel beginSheetForDirectory: @"~"
+							 file: nil
+							types: [NSArray arrayWithObjects: @"inf", @"h", nil]
+				   modalForWindow: [sender window]
+					modalDelegate: self
+				   didEndSelector: @selector(addExtensionPanelDidEnd:returnCode:contextInfo:)
+					  contextInfo: nil];
+}
+
+- (IBAction) deleteExtension: (id) sender {
+	if ([extensionTable numberOfSelectedRows] <= 0) return;
+	
+	// Display a confirm dialog
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: [extensionTable numberOfSelectedRows]>1?@"Can I Delete Extensions":@"Can I Delete Extension"
+															 value: @"Are you sure?" 
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"DoNotDeleteTheExtension"
+															 value: @"Delete" 
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"DeleteTheExtension"
+															 value: @"Delete" 
+															 table: nil],
+					  nil,
+					  [sender window],
+					  self, @selector(deleteExtensionConfirmed:returnCode:contextInfo:),
+					  nil, nil,
+					  [[NSBundle mainBundle] localizedStringForKey: @"ExtensionDeletionMessage"
+															 value: @"Noo, don't hurt the poor extensions!" 
+															 table: nil]);
+}
+
+- (void) addExtensionPanelDidEnd: (NSOpenPanel*) sheet
+					  returnCode: (int) returnCode
+					 contextInfo: (void*) contextInfo {
+	[sheet setDelegate: nil];
+	
+	if (returnCode != NSOKButton) return;
+	
+	// Add the files
+	NSEnumerator* fileEnum = [[sheet filenames] objectEnumerator];
+	NSString* file;
+	
+	while (file = [fileEnum nextObject]) {
+		if ([self canAcceptFile: file]) {
+			[self importExtensionFile: file];
+		}
+	}
+	
+	// Refresh everything
+	[self notifyThatExtensionsHaveChanged];
+}
+
+- (BOOL)panel:(id)sender isValidFilename:(NSString *)filename {
+	return [self canAcceptFile: filename];
+}
+
+- (BOOL)panel:(id)sender shouldShowFilename:(NSString *)filename {
+	return [self canAcceptFile: filename];
+}
+
+- (void) deleteExtensionConfirmed: (NSWindow*) sheet
+					   returnCode: (int) returnCode
+					  contextInfo: (void*) info {
+	// The alternate button is the 'delete' button
+	if (returnCode != NSAlertAlternateReturn) return;
+	
+	// Delete all extensions that are selected and in the user directory
+	NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+	NSString* userDirectory = [[libraries objectAtIndex: 0] stringByAppendingPathComponent: @"Inform"];
+	
+	userDirectory = [userDirectory stringByAppendingPathComponent: [self extensionSubdirectory]];
+	userDirectory = [userDirectory stringByStandardizingPath];
+	
+	userDirectory = [userDirectory lowercaseString];
+	
+	NSEnumerator* rowEnum = [extensionTable selectedRowEnumerator];
+	NSNumber* row;
+	while (row = [rowEnum nextObject]) {
+		NSString* extn = [extensions objectAtIndex: [row intValue]];
+		NSString* extnPath = [extensionPath objectForKey: extn];
+		
+		extnPath = [extnPath stringByStandardizingPath];
+		
+		if (extn != nil && extnPath != nil) {
+			// Must be in the user directory
+			extnPath = [extnPath lowercaseString];
+			
+			if ([extnPath length] < [userDirectory length]) continue;
+			if (![[extnPath substringToIndex: [userDirectory length]] isEqualToString: userDirectory]) continue;
+			
+			// OK, we can try to delete this directory - send it to the trash
+			int tag;
+			[[NSWorkspace sharedWorkspace] performFileOperation: NSWorkspaceRecycleOperation
+														 source: [extnPath stringByDeletingLastPathComponent]
+													destination: @""
+														  files: [NSArray arrayWithObject: [extnPath lastPathComponent]]
+															tag: &tag];
+		}
+	}
+	
+	// Notify of the changes
+	[self notifyThatExtensionsHaveChanged];
 }
 
 @end

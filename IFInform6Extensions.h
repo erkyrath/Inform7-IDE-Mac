@@ -23,6 +23,7 @@
 }
 
 // Meta-information about what to look for
+- (NSString*) extensionSubdirectory;
 - (NSArray*) directoriesToSearch;
 
 // Searching the extensions
@@ -36,5 +37,9 @@
 // Adding new extensions
 - (BOOL) importExtensionFile: (NSString*) file;
 - (void) notifyThatExtensionsHaveChanged;
+
+// Actions
+- (IBAction) addExtension: (id) sender;
+- (IBAction) deleteExtension: (id) sender;
 
 @end
