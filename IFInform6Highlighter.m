@@ -372,10 +372,10 @@ static inline BOOL FindKeyword(char** keywordList, int nKeywords, char* keyword)
             //                       colour as "property" colour).
 			
             else {
-                if (newState.bitmap.waitingForDirective) {
+                if (!newState.bitmap.waitingForDirective) {
                     newState.bitmap.colourBacktrack = 1;
                     newState.bitmap.backtrackColour = IFSyntaxDirective;
-                    newState.bitmap.waitingForDirective = 0;
+                    newState.bitmap.waitingForDirective = 1;
                 } else if (newState.bitmap.highlightAll) {
                     newState.bitmap.colourBacktrack = 1;
                     newState.bitmap.backtrackColour = IFSyntaxProperty;
@@ -396,7 +396,7 @@ static inline BOOL FindKeyword(char** keywordList, int nKeywords, char* keyword)
 		//                    Clear highlight-all.
 		
 		if (chr == ';') {
-			newState.bitmap.waitingForDirective = 1;
+			newState.bitmap.waitingForDirective = 0;
 			newState.bitmap.afterMarker = 0;
 			newState.bitmap.afterRestart = 0;
 			newState.bitmap.highlight = 0;

@@ -21,7 +21,7 @@ union IFInform6State {
 		int highlightAll:1;
 		int colourBacktrack:1;
 		int afterRestart:1;
-		int waitingForDirective:1;
+		int waitingForDirective:1;	// Inverted!
 		int dontKnowFlag:1;
 		
 		unsigned int backtrackColour: 5;
