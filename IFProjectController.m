@@ -223,6 +223,10 @@ static NSDictionary*  itemDictionary = nil;
         
         [self setShouldCloseDocument: YES];
         [self setWindowFrameAutosaveName: @"ProjectWindow"];
+		
+		generalPolicy = [[IFProjectPolicy alloc] initWithProjectController: self];
+		docPolicy = [[IFProjectPolicy alloc] initWithProjectController: self];
+		[docPolicy setRedirectToDocs: YES];
     }
 
     return self;
@@ -690,7 +694,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IFProjectPane*) auxPane {
 	// Returns the auxiliary pane: the one to use for displaying documentation, etc
-    int paneToUse = 0;
+    int paneToUse = -1;
     int x;
 	
     for (x=0; x<[projectPanes count]; x++) {
@@ -701,28 +705,26 @@ static NSDictionary*  itemDictionary = nil;
             paneToUse = x;
             break;
         }
-		
-        if ([thisPane currentView] == IFSourcePane) {
-            // Avoid a pane showing the source code
-            paneToUse = x+1;
-        }
     }
 	
-    for (x=0; x<[projectPanes count]; x++) {
-        IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
-		
-        if ([thisPane currentView] != IFSourcePane &&
-			[thisPane currentView] != IFGamePane) {
-			// Anything but the source or game...
-            paneToUse = x;
-            break;
-        }
-		
-        if ([thisPane currentView] == IFSourcePane) {
-            // Avoid a pane showing the source code
-            paneToUse = x+1;
-        }
-    }
+	if (paneToUse == -1) {
+		paneToUse = 1;
+		for (x=[projectPanes count]-1; x>=0; x++) {
+			IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
+			
+			if ([thisPane currentView] != IFSourcePane &&
+				[thisPane currentView] != IFGamePane) {
+				// Anything but the source or game...
+				paneToUse = x;
+				break;
+			}
+			
+			if ([thisPane currentView] == IFSourcePane) {
+				// Avoid a pane showing the source code
+				paneToUse = x+1;
+			}
+		}
+	}
 	
     if (paneToUse >= [projectPanes count]) {
         // All source views?
@@ -1015,7 +1017,7 @@ static NSDictionary*  itemDictionary = nil;
 		[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
 		[self runCompilerOutput];
 	} else {
-		//[self compileAndRun: self]; -- we do this when 'playToPoint' is calle
+		//[self compileAndRun: self]; -- we do this when 'playToPoint' is called
 	}
 }
 
@@ -1030,6 +1032,16 @@ static NSDictionary*  itemDictionary = nil;
 		[self compileAndRun: self];
 		[[projectPanes objectAtIndex: 1] setPointToRunTo: point];
 	}
+}
+
+// = Policy delegates =
+
+- (IFProjectPolicy*) generalPolicy {
+	return generalPolicy;
+}
+
+- (IFProjectPolicy*) docPolicy {
+	return docPolicy;
 }
 
 @end

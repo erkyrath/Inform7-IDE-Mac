@@ -826,6 +826,15 @@ static IFCompilerController* activeController = nil;
 			// Finished
 			return;
 		}
+		
+		// General URL policy
+		if (delegate &&
+			[delegate respondsToSelector: @selector(handleURLRequest:)]) {
+			if ([delegate handleURLRequest: request]) {
+				[listener ignore];
+				return;
+			}
+		}
 	}
 	
 	// default action

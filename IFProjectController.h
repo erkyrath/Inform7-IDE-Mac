@@ -9,6 +9,8 @@
 #import <AppKit/AppKit.h>
 #import <ZoomView/ZoomView.h>
 
+#import "IFProjectPolicy.h"
+
 enum lineStyle {
     IFLineStyleNeutral = 0,
     
@@ -50,6 +52,10 @@ enum lineStyle {
 	
 	// Debugging
 	BOOL waitingAtBreakpoint;
+	
+	// Policy delegates
+	IFProjectPolicy* generalPolicy;
+	IFProjectPolicy* docPolicy;
 }
 
 - (void) layoutPanes;
@@ -81,5 +87,9 @@ enum lineStyle {
 
 // Debugging
 - (void) hitBreakpoint: (int) pc;
+
+// Policy delegates
+- (IFProjectPolicy*) generalPolicy;
+- (IFProjectPolicy*) docPolicy;
 
 @end

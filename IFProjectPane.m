@@ -232,26 +232,29 @@ static NSDictionary* styles[256];
 	
 	[skeinView setSkein: [doc skein]];
 	[skeinView setDelegate: parent];
+	
+	if ([[NSApp delegate] isWebKitAvailable]) {
+		[wView setPolicyDelegate: [parent generalPolicy]];
+	}
 }
 
 - (void) awakeFromNib {
     awake = YES;
-
-    if (parent) {
-        [self setupFromController];
-        [self stopRunningGame];
-    }
 	    
 	if ((int)[[NSApp delegate] isWebKitAvailable]) {
 		// The documentation tab
 		wView = [[WebView alloc] init];
-		[wView setPolicyDelegate: self];
 		[wView setResourceLoadDelegate: self];
 		[docTabView setView: wView];
 		[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: @"inform:/index.html"]] autorelease]];
 	} else {
 		wView = nil;
 	}
+	
+    if (parent) {
+        [self setupFromController];
+        [self stopRunningGame];
+    }
 	
     [tabView setDelegate: self];
     
@@ -341,6 +344,12 @@ static NSDictionary* styles[256];
     [parent highlightSourceFileLine: line
 							 inFile: openSourceFile
 							  style: IFLineStyleError]; // FIXME: error level?. Filename?
+}
+
+- (BOOL) handleURLRequest: (NSURLRequest*) req {
+	[[parent auxPane] openURL: [[[req URL] copy] autorelease]];
+	
+	return YES;
 }
 
 - (IFCompilerController*) compilerController {
@@ -1112,64 +1121,6 @@ static NSDictionary* styles[256];
 	[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: url] autorelease]];
 }
 
-// = Web policy delegate methods =
-
-- (void)					webView: (WebView *)sender 
-	decidePolicyForNavigationAction: (NSDictionary *)actionInformation 
-							request: (NSURLRequest *)request 
-							  frame: (WebFrame *)frame 
-				   decisionListener: (id<WebPolicyDecisionListener>)listener {
-	// Blah. Link failure if WebKit isn't available here. Constants aren't weak linked
-	
-	// Double blah. WebNavigationTypeLinkClicked == null, but the action value == 0. Bleh
-	if ([[actionInformation objectForKey: WebActionNavigationTypeKey] intValue] == 0) {
-		NSURL* url = [request URL];
-		
-		if ([[url scheme] isEqualTo: @"source"]) {
-			// We deal with these ourselves
-			[listener ignore];
-			
-			// Format is 'source file name#line number'
-			NSString* path = [[[request URL] resourceSpecifier] stringByReplacingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
-			NSArray* components = [path componentsSeparatedByString: @"#"];
-			
-			if ([components count] != 2) {
-				NSLog(@"Bad source URL: %@", path);
-				if ([components count] < 2) return;
-				// (try anyway)
-			}
-			
-			NSString* sourceFile = [[components objectAtIndex: 0] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
-			NSString* sourceLine = [[components objectAtIndex: 1] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
-			
-			// sourceLine can have format 'line10' or '10'. 'line10' is more likely
-			int lineNumber = [sourceLine intValue];
-			
-			if (lineNumber == 0 && [[sourceLine substringToIndex: 4] isEqualToString: @"line"]) {
-				lineNumber = [[sourceLine substringFromIndex: 4] intValue];
-			}
-			
-			// Move to the appropriate place in the file
-			if (![parent selectSourceFile: sourceFile]) {
-				NSLog(@"Can't select source file '%@'", sourceFile);
-				return;
-			}			
-			
-			if (lineNumber >= 0) [parent moveToSourceFileLine: lineNumber];
-			[parent removeHighlightsOfStyle: IFLineStyleHighlight];
-			[parent highlightSourceFileLine: lineNumber
-									 inFile: sourceFile
-									  style: IFLineStyleHighlight];
-						
-			// Finished
-			return;
-		}
-	}
-	
-	// default action
-	[listener use];
-}
-
 // = The index view =
 
 - (void) updateIndexView {
@@ -1218,7 +1169,7 @@ static NSDictionary* styles[256];
 			[extension isEqualToString: @"skein"]) {
 			// Create a web view to view this file
 			WebView* fileView = [[WebView alloc] init];
-			[fileView setPolicyDelegate: self]; // Enables the 'source' protocol
+			[fileView setPolicyDelegate: [parent docPolicy]]; // Enables the 'source' protocol
 			[fileView autorelease];
 			
 			// Need to set a window, as we'll be part of a tab view in a tab view

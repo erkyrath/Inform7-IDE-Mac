@@ -104,6 +104,7 @@ extern NSString* IFStyleStatistics;
                    atLine: (int) line
                  withType: (IFLex) type
                   message: (NSString*) message;
+- (BOOL) handleURLRequest: (NSURLRequest*) request;
 
 @end
 
