@@ -12,30 +12,6 @@
 
 @implementation IFAppDelegate
 
-#if 0
-- (BOOL)application:(NSApplication *)theApplication
-           openFile:(NSString *)filename {
-    IFCompilerController* controller;
-
-    // Create a compiler instance for this file
-    // FIXME: check type of file (eventually we'll have our own file type)
-    if ([[filename pathExtension] isEqualTo: @"inf"]) {
-        controller = [[IFCompilerController allocWithZone: [self zone]] init];
-
-        [controller showWindow: self];
-        [[controller compiler] setSettings: [[[IFCompilerSettings alloc] init] autorelease]];
-        [[controller compiler] setInputFile: filename];
-        [controller startCompiling];
-
-        // [controller release];
-
-        return YES;
-    }
-
-    return NO;
-}
-#endif
-
 - (BOOL) applicationShouldOpenUntitledFile: (NSApplication*) sender {
     return NO;
 }
