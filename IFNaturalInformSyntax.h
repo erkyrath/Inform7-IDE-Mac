@@ -17,11 +17,30 @@
  * Text in square brackets [ ] is comments.
  * Text in quotes "" is text
  * All the rest is ordinary text
+ *
+ * As for the Inform 6 highlighter, we maintain state at the start of lines
  */
+
+typedef struct IFNaturalInformLine  IFNaturalInformLine;
+typedef enum   IFNaturalInformState IFNaturalInformState;
+
+enum IFNaturalInformState {
+	IFStateText,
+	IFStateComment,
+	IFStateQuote
+};
+
+struct IFNaturalInformLine {
+	IFNaturalInformState startState;
+	int length;
+	BOOL invalid;
+};
 
 @interface IFNaturalInformSyntax : IFSyntaxHighlighter {
 	NSString* file;
 	
+	int nLines;
+	IFNaturalInformLine* lines;
 }
 
 @end
