@@ -507,6 +507,7 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 			break;
 	}
 	
+#if 0
 	// Natural Inform tab stops
 	NSMutableParagraphStyle* tabStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
 	[tabStyle autorelease];
@@ -519,6 +520,7 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 		[tab release];
 	}
 	[tabStyle setTabStops: tabStops];
+#endif
 	
 	// Finally... build the actual set of styles
 	styles = [[NSMutableArray alloc] init];
@@ -528,7 +530,7 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 			[NSDictionary dictionaryWithObjectsAndKeys: 
 				[cacheFontStyles objectAtIndex: x], NSFontAttributeName,
 				[cacheColours objectAtIndex: x], NSForegroundColorAttributeName,
-				x>=0x80?tabStyle:nil, NSParagraphStyleAttributeName,
+				//x>=0x80?tabStyle:nil, NSParagraphStyleAttributeName,
 				nil]];
 	}
 }

@@ -75,6 +75,7 @@ typedef unsigned char IFSyntaxStyle;
 
 // Styles
 - (NSDictionary*) attributesForStyle: (IFSyntaxStyle) style;
+- (float) tabStopWidth;
 
 @end
 
@@ -91,6 +92,7 @@ typedef unsigned char IFSyntaxStyle;
 	NSMutableArray* lineStates;			// Syntax stack at the start of lines
 	
 	IFSyntaxStyle*  charStyles;			// Syntax state for each character
+	NSMutableArray* lineStyles;			// NSParagraphStyles for each line
 	
 	NSRange needsHighlighting;			// Range that still needs highlighting
 	int amountHighlighted;				// Amount highlighted this pass
@@ -103,6 +105,11 @@ typedef unsigned char IFSyntaxStyle;
 	
 	// The highlighter
 	id<IFSyntaxHighlighter,NSObject> highlighter;
+	
+	// Paragraph styles
+	NSMutableArray* tabStops;			// Tab stop array
+	NSMutableArray* paragraphStyles;	// Maps number of tabs at the start of a line to the appropriate paragraph style
+	BOOL enableWrapIndent;
 }
 
 // Setting/retrieving the highlighter
@@ -129,5 +136,7 @@ typedef unsigned char IFSyntaxStyle;
 - (void) stopBackgroundHighlighting;
 
 - (void) preferencesChanged: (NSNotification*) not;
+
+- (NSDictionary*) paragraphStyleForTabStops: (int) numberOfTabstops;
 
 @end

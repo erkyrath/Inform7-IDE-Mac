@@ -241,8 +241,13 @@ static BOOL IsInform6Style(IFSyntaxStyle style) {
 }
 
 // = Styles =
+
 - (NSDictionary*) attributesForStyle: (IFSyntaxStyle) style {
 	return [IFProjectPane attributeForStyle: style];
+}
+
+- (float) tabStopWidth {
+	return 56.0;
 }
 
 @end

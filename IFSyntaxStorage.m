@@ -29,6 +29,7 @@ static const int maxPassLength = 1024;
 		lineStates = [[NSMutableArray alloc] init];
 		
 		charStyles = NULL;
+		lineStyles = [[NSMutableArray alloc] initWithObjects: [NSDictionary dictionary], nil];
 		
 		syntaxStack = [[NSMutableArray alloc] init];
 		syntaxPos = 0;
@@ -48,6 +49,9 @@ static const int maxPassLength = 1024;
 		
 		needsHighlighting.location = NSNotFound;
 		amountHighlighted = 0;
+		
+		enableWrapIndent = YES;
+		[self paragraphStyleForTabStops: 8];
 		
 		// Register for preference change notifications
 		[[NSNotificationCenter defaultCenter] addObserver: self
@@ -106,10 +110,14 @@ static const int maxPassLength = 1024;
 	[lineStates release];
 	free(lineStarts);
 	free(charStyles);
+	[lineStyles release];
 	
 	[syntaxStack release];
 
 	[highlighter release];
+	
+	[paragraphStyles release];
+	[tabStops release];
 	
 	[super dealloc];
 }
@@ -186,7 +194,8 @@ static const int maxPassLength = 1024;
 
 // Temp storage
 static NSString* IFCombinedAttributes = @"IFCombinedAttributes";
-static NSString* IFStyleAttributes = @"IFCombinedAttributes";
+static NSString* IFStyleAttributes = @"IFStyleAttributes";
+static NSString* IFLineAttributes = @"IFLineAttributes";
 
 - (NSDictionary*) attributesAtIndex: (unsigned) index
 					 effectiveRange: (NSRangePointer) range {
@@ -218,11 +227,20 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	if ([stringAttributes objectForKey: IFStyleAttributes] == styleAttributes) {
 		return [stringAttributes objectForKey: IFCombinedAttributes];
 	}
+
+	// Get the attributes for this line
+	int line = [self lineForIndex: finalRange.location];
+	NSDictionary* lineAttributes = nil;
+	
+	if (line < [lineStyles count]) {
+		lineAttributes = [lineStyles objectAtIndex: line];
+	}
 	
 	// Create the result
 	NSMutableDictionary* attributes = [stringAttributes mutableCopy];
 	
-	[attributes addEntriesFromDictionary: styleAttributes];
+	if (lineAttributes) [attributes addEntriesFromDictionary: lineAttributes];
+	[attributes addEntriesFromDictionary: [NSDictionary dictionaryWithDictionary: styleAttributes]];
 	
 	if ([attributes objectForKey: IFStyleAttributes]) [attributes removeObjectForKey: IFStyleAttributes];
 	if ([attributes objectForKey: IFCombinedAttributes]) [attributes removeObjectForKey: IFCombinedAttributes];
@@ -278,7 +296,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	int lineDifference = ((int)nNewLines) - (int)(lastLine-firstLine);
 	
 #if HighlighterDebug
-	NSLog(@"Highlighter: %i new (or removed) lines", lineDifference);
+	NSLog(@"Highlighter: %i %@ lines (%i total)", lineDifference, nNewLines<(lastLine-firstLine)?@"new":@"removed",nLines);
 #endif
 	
 	// Replace the line positions (first line is still at the same position, with the same initial state, of course)
@@ -286,6 +304,8 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		// Update first
 		for (x=0; x<nNewLines; x++) {
 			lineStarts[firstLine+1+x] = newLineStarts[x];
+
+			[lineStyles removeObjectAtIndex: x];
 		}
 		
 		// Move lines down
@@ -302,6 +322,9 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 
 		// Update last
 		for (x=0; x<nNewLines; x++) {
+			[lineStyles insertObject: [self paragraphStyleForTabStops: 0]
+							 atIndex: firstLine+1];
+			
 			lineStarts[firstLine+1+x] = newLineStarts[x];
 		}
 	}
@@ -381,8 +404,9 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	if ([attributes objectForKey: IFStyleAttributes] || [attributes objectForKey: IFCombinedAttributes]) {
 		NSMutableDictionary* newAttr = [attributes mutableCopy];
 		
-		if ([attributes objectForKey: IFStyleAttributes]) [newAttr removeObjectForKey: IFStyleAttributes];
-		if ([attributes objectForKey: IFCombinedAttributes]) [newAttr removeObjectForKey: IFCombinedAttributes];
+		if ([newAttr objectForKey: IFStyleAttributes]) [newAttr removeObjectForKey: IFStyleAttributes];
+		if ([newAttr objectForKey: IFCombinedAttributes]) [newAttr removeObjectForKey: IFCombinedAttributes];
+		if ([newAttr objectForKey: IFLineAttributes]) [newAttr removeObjectForKey: IFLineAttributes];
 		
 		attributes = [newAttr autorelease];
 	}
@@ -402,6 +426,9 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 - (void) setHighlighter: (id<IFSyntaxHighlighter,NSObject>) newHighlighter {
 	if (highlighter) [highlighter release];
 	highlighter = [newHighlighter retain];
+	
+	[paragraphStyles release]; paragraphStyles = nil;
+	[tabStops release]; tabStops = nil;
 	
 	[self highlightRange: NSMakeRange(0, [self length])];
 }
@@ -511,10 +538,22 @@ static inline BOOL IsWhitespace(unichar c) {
 		
 		IFSyntaxState initialState = syntaxState;
 		
+		// Number of tab stops (used for paragraph highlighting later)
+		int numTabStops = 0;
+		BOOL countingTabs = YES;
+		
 		// Highlight this line
 		for (syntaxPos=firstChar; syntaxPos<lastChar; syntaxPos++) {
 			// Current state
 			unichar curChar = [[string string] characterAtIndex: syntaxPos];
+			
+			// Count tab stops
+			if (countingTabs) {
+				if (curChar == 9)
+					numTabStops++;
+				else
+					countingTabs = NO;
+			}
 			
 			// Next state
 			IFSyntaxState nextState = [highlighter stateForCharacter: curChar
@@ -541,6 +580,30 @@ static inline BOOL IsWhitespace(unichar c) {
 		[highlighter rehintLine: lineToHint
 						 styles: charStyles+firstChar
 				   initialState: initialState];
+		
+		// Use our own ability to set attributes to set the number of tab stops
+		if (enableWrapIndent) {
+			NSDictionary* lastStyle = nil;
+			NSDictionary* newStyle = [self paragraphStyleForTabStops: numTabStops];
+			
+			if ([lineStyles count] <= line) {
+				for (;[lineStyles count] <= line;) {
+					[lineStyles addObject: newStyle];
+				}
+			} else {
+				lastStyle = [lineStyles objectAtIndex: line];
+				[lineStyles replaceObjectAtIndex: line
+									  withObject: newStyle];
+			}
+			
+			if (newStyle != lastStyle) {
+				// Force an attribute update
+				[string removeAttribute: IFStyleAttributes 
+								  range: NSMakeRange(firstChar, lastChar-firstChar)];
+				[string addAttributes: newStyle
+								range: NSMakeRange(firstChar, lastChar-firstChar)];
+			}
+		}
 		
 		// Finish the stack
 		[syntaxStack addObject: 
@@ -591,7 +654,7 @@ static inline BOOL IsWhitespace(unichar c) {
 	[lastOldStack release];
 	[highlighter setSyntaxStorage: nil];
 	
-	// Mark as editied
+	// Mark as edited
 	unsigned firstChar = lineStarts[firstLine];
 	unsigned lastChar = (lastLine+1)<nLines?lineStarts[lastLine+1]:[string length];
 	
@@ -718,16 +781,61 @@ static inline BOOL IsWhitespace(unichar c) {
 
 - (void) preferencesChanged: (NSNotification*) not {
 	// Force a re-highlight of everything
-	[self stopBackgroundHighlighting];
+	[self highlightRange: NSMakeRange(0, [string length])];
+}
+
+// = Tabbing =
+
+- (NSDictionary*) generateParagraphStyleForTabStops: (int) numberOfTabStops {
+	float stopWidth = [highlighter tabStopWidth];
 	
-	int x;
-	for (x=0; x<[self length]; x++) {
-		charStyles[x] = IFSyntaxStyleNotHighlighted;
+	if (stopWidth < 1.0) stopWidth = 16.0;
+		
+	NSMutableParagraphStyle* res = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+	
+	// Standard tab stops
+	if (tabStops == nil) {
+		int x;
+		
+		tabStops = [[NSMutableArray alloc] init];
+		for (x=0; x<48; x++) {
+			NSTextTab* tab = [[NSTextTab alloc] initWithType: NSLeftTabStopType
+													location: stopWidth*(x+1)];
+			[tabStops addObject: tab];
+			[tab release];
+		}
 	}
 	
-	needsHighlighting = NSMakeRange(0, [self length]);
+	[res setTabStops: tabStops];
 	
-	[self startBackgroundHighlighting];
+	// headIndent value
+	[res setHeadIndent: stopWidth * ((float)numberOfTabStops) + (stopWidth/2.0)];
+	[res setFirstLineHeadIndent: 0];
+	
+	return [NSDictionary dictionaryWithObject: [[res copy] autorelease]
+									   forKey: NSParagraphStyleAttributeName];
+}
+
+- (NSDictionary*) paragraphStyleForTabStops: (int) numberOfTabStops {
+	if (!paragraphStyles) {
+		paragraphStyles = [[NSMutableArray alloc] init];
+	}
+	
+	if (numberOfTabStops < 0) numberOfTabStops = 0;		// Technically an error
+	if (numberOfTabStops > 48) numberOfTabStops = 48;	// Avoid eating all the pies^Wmemory
+	
+	// Use the cached version if available
+	if (numberOfTabStops < [paragraphStyles count]) {
+		return [paragraphStyles objectAtIndex: numberOfTabStops];
+	}
+	
+	// Generate missing tab stops if not
+	int x;
+	for (x=[paragraphStyles count]; x<=numberOfTabStops; x++) {
+		[paragraphStyles addObject: [self generateParagraphStyleForTabStops: x]];
+	}
+	
+	return [paragraphStyles objectAtIndex: numberOfTabStops];
 }
 
 @end

@@ -691,4 +691,8 @@ static int compare(const void* a, const void* b) {
 	return [IFProjectPane attributeForStyle: style];
 }
 
+- (float) tabStopWidth {
+	return 28.0;
+}
+
 @end
