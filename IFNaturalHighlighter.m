@@ -62,9 +62,11 @@
 							// Is top-level Inform 6
 							return IFSyntaxStateDefault;
 						} else {
-							// Is as if preceeded by '[;'
+							// Is as if preceeded by '[T;'
 							IFSyntaxState newState =  [inform6Highlighter stateForCharacter: '['
 																				 afterState: IFSyntaxStateDefault];
+							newState = [inform6Highlighter stateForCharacter: 'T'
+																  afterState: newState];
 							newState = [inform6Highlighter stateForCharacter: ';'
 																  afterState: newState];
 							return newState;
@@ -152,7 +154,7 @@
 				case IFNaturalStateBlankLine:
 					if (nextState == IFNaturalStateComment) return IFSyntaxComment;
 					if (nextState == IFNaturalStateQuote) return IFSyntaxGameText;
-					return IFSyntaxNone;
+					return IFSyntaxNaturalInform;
 					
 				case IFNaturalStateSubstitution:
 					return IFSyntaxSubstitution;

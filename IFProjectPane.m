@@ -94,19 +94,40 @@ NSDictionary* IFSyntaxAttributes[256];
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.73 green: 0.2 blue: 0.73 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-        
+	
+	// Natural Inform tab stops
+	NSMutableParagraphStyle* tabStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[tabStyle autorelease];
+
+	NSMutableArray* tabStops = [NSMutableArray array];
+	for (x=0; x<48; x++) {
+		NSTextTab* tab = [[NSTextTab alloc] initWithType: NSLeftTabStopType
+												location: 64.0*(x+1)];
+		[tabStops addObject: tab];
+		[tab release];
+	}
+	[tabStyle setTabStops: tabStops];
+	
     // Natural inform syntax types
+	IFSyntaxAttributes[IFSyntaxNaturalInform] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        systemFont, NSFontAttributeName, 
+        [NSColor blackColor], NSForegroundColorAttributeName,
+		tabStyle, NSParagraphStyleAttributeName,
+        nil] retain];	
     IFSyntaxAttributes[IFSyntaxHeading] = [[NSDictionary dictionaryWithObjectsAndKeys:
         headerSystemFont, NSFontAttributeName,
 		[NSColor blackColor], NSForegroundColorAttributeName,
+		tabStyle, NSParagraphStyleAttributeName,
         nil] retain];
 	IFSyntaxAttributes[IFSyntaxGameText] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.0 green: 0.3 blue: 0.6 alpha: 1.0], NSForegroundColorAttributeName,
+		tabStyle, NSParagraphStyleAttributeName,
         nil] retain];	
 	IFSyntaxAttributes[IFSyntaxSubstitution] = [[NSDictionary dictionaryWithObjectsAndKeys:
 		systemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.3 green: 0.3 blue: 1.0 alpha: 1.0], NSForegroundColorAttributeName,
+		tabStyle, NSParagraphStyleAttributeName,
         nil] retain];	
 	
 	// The 'plain' style is a bit of a special case. It's used for files that we want to run the syntax
