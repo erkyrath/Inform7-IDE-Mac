@@ -118,7 +118,7 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 - (void) clearSymbolsForLines: (NSRange) lines {
 	// These are EXCLUSIVE (remember?)
 	int firstSymbol = [self indexOfStartOfLine: lines.location];
-	int lastSymbol = [self indexOfEndOfLine: lines.location + lines.length];
+	int lastSymbol = [self indexOfStartOfLine: lines.location + lines.length] + 1;
 	int nSymbols = [symbols count];
 	
 	if (firstSymbol >= lastSymbol) {
@@ -139,12 +139,28 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 	// Remove symbols between firstSymbol and lastSymbol
 	int x;
 	
+	// First remove from the list
+	IFIntelSymbol* first = nil;
+	if (firstSymbol >= 0) first = [symbols objectAtIndex: firstSymbol];
+	
 	for (x=firstSymbol+1; x<lastSymbol; x++) {
 		IFIntelSymbol* thisSymbol = [symbols objectAtIndex: x];
+
+#if IntelDebug
+		NSLog(@"\tClearing symbol '%@' (line %i)", thisSymbol, symbolLines[x]);
+#endif
+		
 		thisSymbol->nextSymbol = nil;
 		thisSymbol->lastSymbol = nil;
 	}
 	
+	IFIntelSymbol* last = nil;
+	if (lastSymbol < [symbols count]) last = [symbols objectAtIndex: lastSymbol];
+	
+	if (first) first->nextSymbol = last;
+	if (last) last->lastSymbol = first;
+	
+	// Remove from the arrays
 	[symbols removeObjectsInRange: NSMakeRange(firstSymbol+1, lastSymbol-(firstSymbol+1))];
 	memmove(symbolLines + (firstSymbol+1), symbolLines + lastSymbol, sizeof(*symbolLines)*(nSymbols-(lastSymbol)));
 	
