@@ -79,23 +79,6 @@ enum IFProjectPaneType {
 	IBOutlet IFSettingsView* settingsView;
 	IBOutlet IFSettingsController* settingsController;
 	
-	// Old settings
-    IBOutlet NSScrollView* settingsScroller;
-    IBOutlet NSMatrix* zmachineVersion;
-
-    IBOutlet NSPopUpButton* compilerVersion;
-    IBOutlet NSButton* naturalInform;
-
-    IBOutlet NSPopUpButton* libraryVersion;
-
-    IBOutlet NSButton* strictMode;
-    IBOutlet NSButton* infixMode;
-    IBOutlet NSButton* debugMode;
-
-    IBOutlet NSButton* donotCompileNaturalInform;
-    IBOutlet NSButton* runBuildSh;
-    IBOutlet NSButton* runLoudly;
-
     // Other variables
     NSMutableArray* sourceFiles;
     NSString*       openSourceFile;
@@ -151,7 +134,6 @@ enum IFProjectPaneType {
 
 // Settings
 - (void) updateSettings;
-- (IBAction) settingsHaveChanged: (id) sender;
 
 // Syntax highlighting
 - (void) selectHighlighterForCurrentFile;
