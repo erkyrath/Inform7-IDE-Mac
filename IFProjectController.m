@@ -977,7 +977,7 @@ static NSDictionary*  itemDictionary = nil;
 	
 	NSString* newFile = [npf getNewFilename];
 	if (newFile) {
-		if (![[self document] addFile: newFile]) {
+		if (![(IFProject*)[self document] addFile: newFile]) {
 			NSBundle* mB = [NSBundle mainBundle];
 			
 			NSBeginAlertSheet([mB localizedStringForKey: @"Unable to create file"
