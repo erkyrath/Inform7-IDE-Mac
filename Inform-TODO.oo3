@@ -1,0 +1,540 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE outline PUBLIC "-//omnigroup.com//DTD OUTLINE 3.0//EN" "http://www.omnigroup.com/namespace/OmniOutliner/xmloutline-v3.dtd">
+<outline xmlns="http://www.omnigroup.com/namespace/OmniOutliner/v3">
+  <style-attribute-registry>
+    <style-attribute version="0" key="font-family" group="font" name="family" class="string">Helvetica</style-attribute>
+    <style-attribute version="0" key="font-size" group="font" name="size" class="number">12</style-attribute>
+    <style-attribute version="0" key="font-weight" group="font" name="weight" class="number">5</style-attribute>
+  </style-attribute-registry>
+  <settings/>
+  <editor is-spellchecking-enabled="yes"/>
+  <columns>
+    <column id=":29b9302840e9a18f059ce303" type="text" width="18" minimum-width="18" maximum-width="18" text-export-width="1" is-note-column="yes">
+      <title>
+        <text>
+          <p/>
+        </text>
+      </title>
+    </column>
+    <column id=":3f92302940e9a18f059ce303" type="text" width="510" minimum-width="13" maximum-width="1000000" text-export-width="72" is-outline-column="yes">
+      <title>
+        <text>
+          <p>
+            <run>
+              <lit>Topic</lit>
+            </run>
+          </p>
+        </text>
+      </title>
+    </column>
+  </columns>
+  <root>
+    <item id="dpKxt8MeSn5" expanded="yes" state="indeterminate">
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>Zoom bugs</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="ahIsv67qF1e" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>ZoomServer needs to go away if a crash happens</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="di-Xrt79jQN">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Dies if you try to switch from editing one skein item to editing another in a different view</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="mxwfoKbKoK2" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Fails to load single source files</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+    <item id="nL5kvLMS4-H" state="indeterminate">
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>Inform bugs</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="ndw0iBghRRH">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Problem with compiling single source files?</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <note>
+            <text>
+              <p>
+                <run>
+                  <lit>Natural Inform assumes that the directory is available, so it&apos;s quite probable that this is insoluble in this case. Seems to work fine for .inf files.</lit>
+                </run>
+              </p>
+            </text>
+          </note>
+        </item>
+        <item id="ijwLNOYHR_D" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Documentation disappears sometimes? Verrry odd</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <note>
+            <text>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                  <lit>I originally unpacked I7 into ~/tmp. When I later moved it to ~/src, my existing project files suffered: the &quot;documentation&quot; panel was blank. At this point, if I open any existing project file (including one created after the move), the documentation panel is blank.</lit>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                  <lit>Actually, I didn&apos;t try opening an existing project file *before* the move. So it&apos;s possible that this has nothing to do with moving the application.</lit>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-size">10</value>
+                    <value key="font-weight">9</value>
+                  </style>
+                  <lit>Aha. </lit>
+                </run>
+                <run>
+                  <lit>The problem is that applicationDidFinishLaunching: is called after the document window is created when you double-click a file to load it. This results in a flag being left as &apos;NO&apos; when it should be &apos;YES&apos;.</lit>
+                </run>
+              </p>
+            </text>
+          </note>
+        </item>
+        <item id="nANKGeDqaiH" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Syntax colouring crashes? (MAYBE FIXED)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <note>
+            <text>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                  <lit>(AP)</lit>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                  <lit>Hm, now I seem to have confused the file list entirely. In this new project, the story file isn&apos;t appearing, and text I type in the &quot;source&quot; window isn&apos;t being syntax-colored. Oh, the app just crashed. Ok.</lit>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                  <lit>(AH)</lit>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                  <lit>Hmm, looks like my heading syntax highlighter has aggravated this problem (to the point where it nearly always occurs?)</lit>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                  <lit>May have been fixed </lit>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                </run>
+              </p>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                  <lit>Rewritten the whole thing, so this bug definitely doesn&apos;t apply any more </lit>
+                </run>
+              </p>
+            </text>
+          </note>
+        </item>
+        <item id="gLt1TuDYioZ" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Inspectors fail to shrink sometimes </lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <note>
+            <text>
+              <p>
+                <run>
+                  <lit>After opening one project, closing it, then moving to another?</lit>
+                </run>
+              </p>
+              <p/>
+              <p>
+                <run>
+                  <lit>Appears to always happen after creating a new project.</lit>
+                </run>
+              </p>
+              <p/>
+              <p>
+                <run>
+                  <lit>Ah, happens when (for some reason) the routines are called from the wrong thread.</lit>
+                </run>
+              </p>
+            </text>
+          </note>
+        </item>
+        <item id="jDBezKae0T7" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Crash when collapsing certain items in the Index inspector</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <note>
+            <text>
+              <p>
+                <run>
+                  <lit>FIXED:</lit>
+                </run>
+              </p>
+              <p/>
+              <p>
+                <run>
+                  <lit>was hard to trace thanks to tail-call optimisation. Turning that off reveals that the problem is that if the Index selection goes to &apos;nothing&apos;, a bogus call to NSLog is made</lit>
+                </run>
+              </p>
+              <p/>
+            </text>
+          </note>
+        </item>
+        <item id="lHWey0_hc2E" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Crash when you switch away from Inform, then switch back, then use the Skein view</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <note>
+            <text>
+              <p>
+                <run>
+                  <lit>Appears to be an old leftover skein that causes the problem: apparently the name (??) is being deallocated as part of an item at some point....</lit>
+                </run>
+              </p>
+              <p/>
+              <p>
+                <run>
+                  <lit>Got it. The problem is caused by addTrackingRect/removeTrackingRect failing to work when the ZoomSkeinView is outside a window</lit>
+                </run>
+              </p>
+            </text>
+          </note>
+        </item>
+        <item id="dE2Ju8bQ2XP" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Syntax colouring not disappearing? (In particular, with section headings)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="eFs1Rhu_WTG" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Oops, make a way to have settings controllers store stuff in the IFCompilerSettings object rather than themselves</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+    <item id="pEW3i1sGaa9" expanded="yes" state="indeterminate">
+      <values>
+        <text>
+          <p>
+            <run>
+              <lit>Inform interface changes</lit>
+            </run>
+          </p>
+        </text>
+      </values>
+      <children>
+        <item id="kc1TK8KZqOb">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Way to auto-number sections?</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="fys1JUS-nEd" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Really want both source panes to contain the same thing</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="gPk38bTGNgz" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Error message for &apos;file not found&apos; when choosing a file that turns out not to exist</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+          <note>
+            <text>
+              <p>
+                <run>
+                  <style>
+                    <value key="font-family">Monaco</value>
+                    <value key="font-size">10</value>
+                  </style>
+                  <lit>The links under &quot;Graham Nelson / Standard Rules&quot; in the &quot;index&quot; floating thingie also are broken. When I click on it, it just beeps. This is true even for newly-created projects (for which the documentation panel does work).</lit>
+                </run>
+              </p>
+              <p/>
+            </text>
+          </note>
+        </item>
+        <item id="oun-J4Yd_Py" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Warning message when choosing a file outside the project</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="jPOcoutAC-N">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Put cursor at the end of new ni files</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="f4rPfCWHLBs" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Change the behaviour of the &apos;Help&apos; menu</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="is3EIC_uRPn" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Turn off spell checking by default</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="aZYQ4OguA-o" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Way to change fonts of headings, etc (syntax highlighting? see email)</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="hjP6dfIqMx9" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Hide non-source files from the XML index</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="dNGuKIn7P2P" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Shrink inspector pane when it gets too large</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ma6lMLvyOID" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Hyperlinks in error/progress windows should link to the documentation window, not the window they were clicked in</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+        <item id="ai1hO7vEeTw" state="checked">
+          <values>
+            <text>
+              <p>
+                <run>
+                  <lit>Stop loading web pages immediately: only create web views later on?</lit>
+                </run>
+              </p>
+            </text>
+          </values>
+        </item>
+      </children>
+    </item>
+  </root>
+</outline>
