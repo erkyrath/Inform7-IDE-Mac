@@ -238,8 +238,6 @@ static IFCompilerController* activeController = nil;
 																							 value:@"Compiling - '%@'..."
 																							 table:nil],
             [[compiler inputFile] lastPathComponent]]];
-    
-    [compiler prepareForLaunch];
 
     if (errorFiles) [errorFiles release];
     if (errorMessages) [errorMessages release];
@@ -254,6 +252,8 @@ static IFCompilerController* activeController = nil;
     
     [[[compilerResults textStorage] mutableString] setString: @""];
     highlightPos = 0;
+    
+    [compiler prepareForLaunch];
 
 	[compiler launch];
    

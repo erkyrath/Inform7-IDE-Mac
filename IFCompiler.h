@@ -46,6 +46,7 @@ extern NSString* IFCompilerFinishedNotification;
 + (NSDictionary*) parseCompilerFilename: (NSString*) pathname;
 + (double)    maxCompilerVersion;
 + (NSString*) compilerExecutableWithVersion: (double) ver; // 6.21, 6.30 etc
++ (NSArray*) compilerZMachineVersionsForCompiler: (NSString*) compilerPath;
 + (NSArray*) compilerPaths;
 + (NSArray*) availableCompilers;
 
@@ -74,6 +75,8 @@ extern NSString* IFCompilerFinishedNotification;
 - (id)   delegate;
 
 - (void) launch;
+
+- (void) sendStdOut: (NSString*) data;
 
 @end
 

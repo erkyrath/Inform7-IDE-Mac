@@ -69,6 +69,7 @@ extern NSString* IFSettingLoudly;
 // Getting command line arguments, etc
 - (NSArray*) commandLineArguments;
 - (NSString*) compilerToUse;
+- (NSArray*) supportedZMachines;
 
 - (NSString*) naturalInformCompilerToUse; // nil if not using natural inform
 - (NSArray*) naturalInformCommandLineArguments;

@@ -236,8 +236,28 @@ NSString* IFSettingNotification = @"IFSettingNotification";
         [switches appendString: @"w"];
     }
 
-    [switches appendString: [NSString stringWithFormat: @"v%i",
-        [self zcodeVersion]]];
+	// Select a zcode version
+	NSArray* supportedZCodeVersions = [self supportedZMachines];
+	int zcVersion = [self zcodeVersion];
+	
+	if (supportedZCodeVersions != nil && 
+		![supportedZCodeVersions containsObject: [NSNumber numberWithInt: zcVersion]]) {
+		// Use default version
+		zcVersion = [[supportedZCodeVersions objectAtIndex: 0] intValue];
+	}
+
+	if (zcVersion < 255) {
+		// ZCode
+		[switches appendString: [NSString stringWithFormat: @"v%i",
+			[self zcodeVersion]]];
+	} else {
+		// Glulx
+		
+		// FIXME: this assumes we only ever use a biplatform compiler
+		// Not sure this is an urgent fix, though: all future versions of Inform should be BP
+		[switches appendString: [NSString stringWithFormat: @"G",
+			[self zcodeVersion]]];
+	}
 
     [result addObject: switches];
 
@@ -297,6 +317,10 @@ NSString* IFSettingNotification = @"IFSettingNotification";
         compilerVersion = [NSNumber numberWithDouble: [IFCompiler maxCompilerVersion]];
     
     return [IFCompiler compilerExecutableWithVersion: [compilerVersion doubleValue]];
+}
+
+- (NSArray*) supportedZMachines {
+	return [IFCompiler compilerZMachineVersionsForCompiler: [self compilerToUse]];
 }
 
 

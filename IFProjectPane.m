@@ -531,18 +531,42 @@ static NSDictionary* styles[256];
         return; // Nothing to do
     }
 
+	// Update the settings pane to reflect the current settings
     IFCompilerSettings* settings = [[parent document] settings];
 
+	// Various modes
     [strictMode setState: [settings strict]?NSOnState:NSOffState];
     [infixMode setState: [settings infix]?NSOnState:NSOffState];
     [debugMode setState: [settings debug]?NSOnState:NSOffState];
 
     [naturalInform setState: [settings usingNaturalInform]?NSOnState:NSOffState];
 
+	// 'Debugging' settings: these will eventually be removed, I think (or at least hidden)
     [donotCompileNaturalInform setState:
         (![settings compileNaturalInformOutput])?NSOnState:NSOffState];
     [runBuildSh setState: [settings runBuildScript]?NSOnState:NSOffState];
 
+	// Z-Machine version
+	
+	// Supported Z-Machine versions
+	NSArray* supportedZMachines = [settings supportedZMachines];
+	
+	NSEnumerator* cellEnum = [[zmachineVersion cells] objectEnumerator];
+	NSCell* cell;
+	
+	while (cell = [cellEnum nextObject]) {
+		if (supportedZMachines == nil) {
+			[cell setEnabled: YES];
+		} else {
+			if ([supportedZMachines containsObject: [NSNumber numberWithInt: [cell tag]]]) {
+				[cell setEnabled: YES];
+			} else {
+				[cell setEnabled: NO];
+			}
+		}
+	}
+		
+	// Selected Z-Machine version
     if ([zmachineVersion cellWithTag: [settings zcodeVersion]] != nil) {
         [zmachineVersion selectCellWithTag: [settings zcodeVersion]];
     } else {

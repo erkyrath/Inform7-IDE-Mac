@@ -101,6 +101,48 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
 	return comp;
 }
 
++ (NSArray*) compilerZMachineVersionsForCompiler: (NSString*) compilerPath {
+	NSArray* compilers = [self availableCompilers];
+        
+    NSEnumerator* compEnum = [compilers objectEnumerator];
+    NSDictionary* compDetails;
+    
+    while (compDetails = [compEnum nextObject]) {
+        if ([[compDetails objectForKey: @"pathname"] isEqualToString: compilerPath]) {
+			NSString* compType = [compDetails objectForKey: @"platform"];
+			
+			// compType can be 'zcode', 'biplatform' or 'glulx'. Default is assumed to be 'zcode'
+			// First entry in the array is the 'default' type to be used if an unsupported version
+			// is selected
+			if ([compType isEqualToString: @"biplatform"]) {
+				return [NSArray arrayWithObjects:
+					[NSNumber numberWithInt: 5],
+					[NSNumber numberWithInt: 3],
+					[NSNumber numberWithInt: 4],
+					[NSNumber numberWithInt: 6],
+					[NSNumber numberWithInt: 7],
+					[NSNumber numberWithInt: 8],
+					[NSNumber numberWithInt: 256],
+					nil];
+			} else if ([compType isEqualToString: @"glulx"]) {
+				return [NSArray arrayWithObjects: [NSNumber numberWithInt: 256], nil];
+			} else {
+				// ZCode or 'other'
+				return [NSArray arrayWithObjects:
+					[NSNumber numberWithInt: 5],
+					[NSNumber numberWithInt: 3],
+					[NSNumber numberWithInt: 4],
+					[NSNumber numberWithInt: 6],
+					[NSNumber numberWithInt: 7],
+					[NSNumber numberWithInt: 8],
+					nil];
+			}
+        }
+    }
+	
+	return nil;
+}
+
 static NSArray* compilerCache = nil;
 
 + (NSArray*) compilerPaths {
@@ -352,6 +394,22 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     // Prepare the task
     theTask = [[NSTask allocWithZone: [self zone]] init];
     finishCount = 0;
+	
+	NSMutableString* executeString = [@"" mutableCopy];
+		
+	[executeString appendString: command];
+	[executeString appendString: @" \\\n\t"];
+
+	NSEnumerator* argEnum = [args objectEnumerator];;
+	NSString* arg;
+
+	while (arg = [argEnum nextObject]) {
+		[executeString appendString: arg];
+		[executeString appendString: @" "];
+	}
+		
+	[executeString appendString: @"\n"];
+	[self sendStdOut: executeString];
 
     [theTask setArguments:  args];
     [theTask setLaunchPath: command];
@@ -505,7 +563,23 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 
         theTask = [[NSTask allocWithZone: [self zone]] init];
         finishCount = 0;
-
+		
+		NSMutableString* executeString = [@"" mutableCopy];
+			
+		[executeString appendString: command];
+		[executeString appendString: @" \\\n\t"];
+			
+		NSEnumerator* argEnum = [args objectEnumerator];;
+		NSString* arg;
+			
+		while (arg = [argEnum nextObject]) {
+			[executeString appendString: arg];
+			[executeString appendString: @" "];
+		}
+			
+		[executeString appendString: @"\n"];
+		[self sendStdOut: executeString];
+		
         // Prepare the task
         [theTask setArguments:  args];
         [theTask setLaunchPath: command];
@@ -553,24 +627,27 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 }
 
 // == Notifications ==
+- (void) sendStdOut: (NSString*) data {
+	if (delegate &&
+		[delegate respondsToSelector: @selector(receivedFromStdOut:)]) {
+		[delegate receivedFromStdOut: data]; 
+	}
+	
+	NSDictionary* uiDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		data,
+		@"string",
+		nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFCompilerStdoutNotification
+														object: self
+													  userInfo: uiDict];
+}
+
 - (void) stdOutWaiting: (NSNotification*) not {
     NSData* inData = [stdOutH availableData];
 
     if ([inData length]) {
-        if (delegate &&
-            [delegate respondsToSelector: @selector(receivedFromStdErr:)]) {
-            [delegate receivedFromStdErr: [NSString stringWithCString: [inData bytes]
-                                                               length: [inData length]]]; 
-        }
-
-        NSDictionary* uiDict = [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSString stringWithCString: [inData bytes]
-                                 length: [inData length]],
-                @"string",
-                nil];
-        [[NSNotificationCenter defaultCenter] postNotificationName: IFCompilerStdoutNotification
-                                                            object: self
-                                                          userInfo: uiDict];
+		[self sendStdOut: [NSString stringWithCString: [inData bytes]
+											   length: [inData length]]];
 
         [stdOutH waitForDataInBackgroundAndNotify];
     } else {
