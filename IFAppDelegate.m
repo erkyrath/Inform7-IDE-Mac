@@ -20,6 +20,11 @@
 
 @implementation IFAppDelegate
 
+static NSRunLoop* mainRunLoop = nil;
++ (NSRunLoop*) mainRunLoop {
+	return mainRunLoop;
+}
+
 + (BOOL)isWebKitAvailable {
     static BOOL _webkitAvailable=NO;
     static BOOL _initialized=NO;
@@ -42,6 +47,8 @@
 }
 
 - (void) applicationWillFinishLaunching: (NSNotification*) not {
+	mainRunLoop = [NSRunLoop currentRunLoop];
+	
 	haveWebkit = [[self class] isWebKitAvailable];
 	
 	if (haveWebkit) {

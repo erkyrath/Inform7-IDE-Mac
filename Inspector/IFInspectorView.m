@@ -7,6 +7,7 @@
 //
 
 #import "IFInspectorView.h"
+#import "IFAppDelegate.h"
 
 #define TitleHeight 20
 #define ViewOffset  20
@@ -89,11 +90,12 @@
 
 - (void) queueLayout {
 	if (!willLayout) {
-		[[NSRunLoop currentRunLoop] performSelector: @selector(layoutViews)
-											 target: self
-										   argument: nil
-											  order: 64
-											  modes: [NSArray arrayWithObjects: NSDefaultRunLoopMode, NSModalPanelRunLoopMode, nil]];
+		// Annoyingly, this can be called from a different thread under certain circumstances
+		[[IFAppDelegate mainRunLoop] performSelector: @selector(layoutViews)
+											  target: self
+											argument: nil
+											   order: 64
+											   modes: [NSArray arrayWithObjects: NSDefaultRunLoopMode, NSModalPanelRunLoopMode, nil]];
 		willLayout = YES;
 	}
 }

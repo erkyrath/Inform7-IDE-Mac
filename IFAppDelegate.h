@@ -15,6 +15,7 @@
 	BOOL haveWebkit;
 }
 
++ (NSRunLoop*) mainRunLoop;
 + (BOOL)isWebKitAvailable;
 - (BOOL)isWebKitAvailable;
 
