@@ -50,4 +50,6 @@ extern NSString* IFIsSearchInspector;
 - (IBAction) startSearch: (id) sender;
 - (IBAction) changeSearchOption: (id) sender;
 
+- (IBAction) makeSearchKey: (id) sender;
+
 @end

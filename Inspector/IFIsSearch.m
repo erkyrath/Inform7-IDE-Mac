@@ -243,4 +243,27 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 	[self setControlsFromSettings];
 }
 
+- (IBAction) makeSearchKey: (id) sender {
+	// Make ourselves key
+	[[IFInspectorWindow sharedInspectorWindow] showInspector: self];
+		
+	// Hrm, not sure if there's a better way to do this. Spent hours looking though the docs, and can't find
+	// anything. Simulate a click in the search control in order to force it to become key
+
+	// performClick: fails to work if the window is not key. The window won't become key unless 
+	// setBecomesKeyOnlyIfNeeded is NO. Changing this would make the inspectors annoying to use, so
+	// this isn't going to happen. Temporarily turning this off fails. Permanently turning it off
+	// fails also. I've no idea how to make this work.
+	
+	// (makeFirstResponder fails too. Trying to manually set up the field editor fails. Even
+	// fabricating a mouseDown/mouseUp event pair fails. ARRRGH)
+	
+	// If you're reading this and you know a better way, email me.
+	
+	//[(NSPanel*)[inspectorView window] setBecomesKeyOnlyIfNeeded: NO];	// HACK! (doesn't work)
+	[[inspectorView window] makeKeyWindow];	// FAILS
+	[searchText performClick: self];		// Does nothing
+	//[(NSPanel*)[inspectorView window] setBecomesKeyOnlyIfNeeded: YES];	// HACK! (doesn't work)
+}
+
 @end

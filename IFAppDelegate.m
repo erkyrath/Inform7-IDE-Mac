@@ -309,4 +309,19 @@ static int stringCompare(id a, id b, void* context) {
 	[newDoc showWindows];
 }
 
+// = Some misc actions =
+
+- (IBAction) findInProject: (id) sender {
+	// NOT USED AT THE MOMENT
+	// Apple makes it impossible to force the inspector window to become key, so we can't programatically select
+	// the 'Search' box. Very ANNOYING.
+	
+	[self showInspectors: self];
+
+	// Open up the 'Search' inspector ready for action, make it key
+	[[IFInspectorWindow sharedInspectorWindow] showInspectorWithKey: IFIsSearchInspector];
+	
+	[[IFIsSearch sharedIFIsSearch] makeSearchKey: self];
+}
+
 @end
