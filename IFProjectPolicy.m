@@ -101,10 +101,18 @@
 		
 		// General redirects
 		if (redirectToDocs) {
-			[listener ignore];
-			[[projectController auxPane] openURL: [[[request URL] copy] autorelease]];
-			
-			return;
+			NSURL* absolute1 = [[[request URL] absoluteURL] standardizedURL];
+			NSURL* absolute2 = [[[[[frame dataSource] request] URL] absoluteURL] standardizedURL];
+
+			// We only redirect if the page is different to the current one
+			if (!([[absolute1 scheme] isEqualToString: [absolute2 scheme]] &&
+				  [[absolute1 path] isEqualToString: [absolute2 path]] &&
+				  ([absolute1 query] == [absolute2 query] || [[absolute1 query] isEqualToString: [absolute2 query]]))) {			
+				[listener ignore];
+				[[projectController auxPane] openURL: [[[request URL] copy] autorelease]];
+				
+				return;
+			}
 		}
 	}
 	

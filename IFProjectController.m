@@ -709,7 +709,7 @@ static NSDictionary*  itemDictionary = nil;
 	
 	if (paneToUse == -1) {
 		paneToUse = 1;
-		for (x=[projectPanes count]-1; x>=0; x++) {
+		for (x=[projectPanes count]-1; x>=0; x--) {
 			IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
 			
 			if ([thisPane currentView] != IFSourcePane &&
