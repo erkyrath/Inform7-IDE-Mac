@@ -62,7 +62,7 @@
 
 - (BOOL) available {
 	// Override to make inspectors disappear when required
-	return gotWindow;
+	return NO;
 }
 
 // = The controller =
@@ -75,6 +75,13 @@
 	// Should be overridden in subclasses
 	gotWindow = (window!=nil);
 	NSLog(@"BUG: Inspector doesn't know what to do");
+}
+
+// = The key =
+- (NSString*) key {
+	[NSException raise: @"IFInspectorHasNoKey" 
+				format: @"Attempt to register an inspector with no key"];
+	return @"IFNoSuchInspector";
 }
 
 @end

@@ -225,6 +225,7 @@ static NSDictionary* styles[256];
 	if ((int)[[NSApp delegate] isWebKitAvailable]) {
 		// The documentation tab
 		wView = [[WebView alloc] init];
+		[wView setPolicyDelegate: self];
 		[docTabView setView: wView];
 		[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource: @"index" ofType: @"html"]]] autorelease]];
 	} else {
@@ -1086,6 +1087,62 @@ static NSDictionary* styles[256];
 	[tabView selectTabViewItem: docTabView];
 
 	[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: url] autorelease]];
+}
+
+// = Web policy delegate methods =
+
+- (void)					webView: (WebView *)sender 
+	decidePolicyForNavigationAction: (NSDictionary *)actionInformation 
+							request: (NSURLRequest *)request 
+							  frame: (WebFrame *)frame 
+				   decisionListener: (id<WebPolicyDecisionListener>)listener {
+	// Blah. Link failure if WebKit isn't available here. Constants aren't weak linked
+	
+	// Double blah. WebNavigationTypeLinkClicked == null, but the action value == 0. Bleh
+	if ([[actionInformation objectForKey: WebActionNavigationTypeKey] intValue] == 0) {
+		NSURL* url = [request URL];
+		
+		if ([[url scheme] isEqualTo: @"source"]) {
+			// We deal with these ourselves
+			[listener ignore];
+			
+			// Format is 'source file name#line number'
+			NSString* path = [[[request URL] resourceSpecifier] stringByReplacingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+			NSArray* components = [path componentsSeparatedByString: @"#"];
+			
+			if ([components count] != 2) {
+				NSLog(@"Bad source URL: %@", path);
+				if ([components count] < 2) return;
+				// (try anyway)
+			}
+			
+			NSString* sourceFile = [[components objectAtIndex: 0] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
+			NSString* sourceLine = [[components objectAtIndex: 1] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
+			
+			// Move to the appropriate place in the file
+			if (![parent selectSourceFile: sourceFile]) {
+				NSLog(@"Can't select source file '%@'", sourceFile);
+				return;
+			}
+	
+			if (![parent selectSourceFile: sourceFile]) {
+				// Maybe implement me: show an error alert?
+				return;
+			}
+			
+			[parent moveToSourceFileLine: [sourceLine intValue]];
+			[parent removeHighlightsOfStyle: IFLineStyleError];
+			[parent highlightSourceFileLine: [sourceLine intValue]
+									 inFile: sourceFile
+									  style: IFLineStyleError]; // FIXME: error level?. Filename?			
+						
+			// Finished
+			return;
+		}
+	}
+	
+	// default action
+	[listener use];
 }
 
 @end

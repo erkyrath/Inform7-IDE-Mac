@@ -32,7 +32,7 @@ static NSString* IFNSShadowAttributeName = @"NSShadow";
 	
 	// Font attributes
 	NSShadow* shadow = nil;
-	if (objc_lookUpClass("NSShadow") != nil) {
+	if (objc_lookUpClass("NSShadow") != nil && 0) {
 		shadow = [[NSShadow alloc] init];
 		
 		[shadow setShadowOffset:NSMakeSize(1, -2)];

@@ -12,7 +12,6 @@
 
 @interface IFInspector : NSObject {
 	IBOutlet NSView* inspectorView;
-	IBOutlet id delegate;
 	
 	NSResponder* owner;
 	
@@ -38,6 +37,9 @@
 - (BOOL) expanded;
 
 - (BOOL) available;
+
+// (Should be overridden by subclasses). The unique key for this inspector.
+- (NSString*) key;
 
 // The controller
 - (void) setInspectorWindow: (IFInspectorWindow*) window;

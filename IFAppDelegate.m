@@ -11,6 +11,11 @@
 #import "IFNewProject.h"
 #import "IFInspectorWindow.h"
 
+#import "IFIsNotes.h"
+#import "IFIsIndex.h"
+
+#import "IFNoDocProtocol.h"
+
 @implementation IFAppDelegate
 
 + (BOOL)isWebKitAvailable {
@@ -37,23 +42,17 @@
 - (void) applicationDidFinishLaunching: (NSNotification*) not {
 	haveWebkit = [[self class] isWebKitAvailable];
 	
+	if (haveWebkit) {
+		// Register some custom URL handlers
+		[NSURLProtocol registerClass: [IFNoDocProtocol class]];
+	}
+	
+	// Show the inspector window
 	[[IFInspectorWindow sharedInspectorWindow] showWindow: self];
-		
-	NSView* innerView1 = [[NSTextView alloc] initWithFrame: NSMakeRect(0,0,240,120)];
-	NSView* innerView2 = [[NSTextView alloc] initWithFrame: NSMakeRect(0,0,240,120)];
-	NSView* innerView3 = [[NSTextView alloc] initWithFrame: NSMakeRect(0,0,240,120)];
 	
-	IFInspector* ins1 = [[IFInspector alloc] init];
-	IFInspector* ins2 = [[IFInspector alloc] init];
-	IFInspector* ins3 = [[IFInspector alloc] init];
-	
-	[ins1 setTitle: @"Inspector 1"]; [ins1 setInspectorView: innerView1];
-	[ins2 setTitle: @"Inspector 2"]; [ins2 setInspectorView: innerView2];
-	[ins3 setTitle: @"Inspector 3"]; [ins3 setInspectorView: innerView3];
-	
-	[[IFInspectorWindow sharedInspectorWindow] addInspector: ins1];
-	[[IFInspectorWindow sharedInspectorWindow] addInspector: ins2];
-	[[IFInspectorWindow sharedInspectorWindow] addInspector: ins3];
+	// The standard inspectors
+	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsNotes sharedIFIsNotes]];
+	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsIndex sharedIFIsIndex]];
 }
 
 - (BOOL) applicationShouldOpenUntitledFile: (NSApplication*) sender {

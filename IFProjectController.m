@@ -8,7 +8,8 @@
 
 #import "IFProject.h"
 #import "IFProjectController.h"
-#import "IFProjectPane.h";
+#import "IFProjectPane.h"
+#import "IFIsIndex.h"
 
 
 @implementation IFProjectController
@@ -536,6 +537,9 @@ static NSDictionary*  itemDictionary = nil;
         [[pane compilerController] showContentsOfFilesIn: buildDir
 												fromPath: buildPath];
     }
+	
+	// Update the index in the controller
+	[[IFIsIndex sharedIFIsIndex] updateIndexFrom: self];
 
     if (exitCode == 0) {
         // Success!
@@ -660,8 +664,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (BOOL) selectSourceFile: (NSString*) fileName {
-    // IMPLEMENT ME: multiple file types
-	NSLog(@"Implement me: set source file to %@", fileName);
+    // IMPLEMENT ME: multiple file types (?)
 	[[self sourcePane] showSourceFile: fileName];
 	
     return YES; // Only one source file ATM (Not any more... changed this)
@@ -872,6 +875,18 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Docs say we shouldn't do this, but how else are we to force the toolbar to update correctly?
 	[toolbar validateVisibleItems];
+}
+
+- (NSString*) pathToIndexFile {
+	IFProject* proj = [self document];
+	
+	NSString* buildPath = [NSString stringWithFormat: @"%@/Build", [proj fileName]];
+	NSString* indexPath = [buildPath stringByAppendingPathComponent: @"index.html"];
+	
+	if ([[NSFileManager defaultManager] fileExistsAtPath: indexPath])
+		return indexPath;
+	else
+		return nil;
 }
 
 // = Documentation controls =

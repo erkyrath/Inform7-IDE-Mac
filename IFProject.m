@@ -25,6 +25,8 @@
         singleFile  = YES;
 
         compiler = [[IFCompiler allocWithZone: [self zone]] init];
+		
+		notes = [[NSTextStorage alloc] initWithString: @"No notes yet"];
         
         /*
         sourceFiles = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -37,12 +39,14 @@
 }
 
 - (void) dealloc {
-    [settings release];
-    [compiler release];
-    if (projectFile) [projectFile release];
     if (sourceFiles) [sourceFiles release];
+    if (projectFile) [projectFile release];
     if (mainSource)  [mainSource  release];
-    
+	if (notes)       [notes release];
+
+	[settings release];
+    [compiler release];
+
     [super dealloc];
 }
 
@@ -86,6 +90,7 @@
         if (mainSource) [mainSource release];
         mainSource = nil;
 
+		// Load all the source files
         while (key = [sourceEnum nextObject]) {
             NSTextStorage* text;
             NSString*      textData;
@@ -118,6 +123,18 @@
         }
 
         singleFile = NO;
+		
+		// Load the notes (if present)
+		NSFileWrapper* noteWrapper = [[projectFile fileWrappers] objectForKey: @"notes.rtf"];
+		if (noteWrapper != nil && [noteWrapper regularFileContents] != nil) {
+			NSTextStorage* newNotes = [[NSTextStorage alloc] initWithRTF: [noteWrapper regularFileContents]
+													  documentAttributes: nil];
+			
+			if (newNotes) {
+				if (notes) [notes release];
+				notes = newNotes;
+			}
+		}
         
         return YES;
     } else if ([fileType isEqualTo: @"Inform source file"] ||
@@ -236,6 +253,15 @@
     // Replace the source file wrapper
     [projectFile removeFileWrapper: [[projectFile fileWrappers] objectForKey: @"Source"]];
     [projectFile addFileWrapper: [source autorelease]];
+	
+	// The notes file
+	NSFileWrapper* notesWrapper = [[[NSFileWrapper alloc] initRegularFileWithContents: 
+		[notes RTFFromRange: NSMakeRange(0, [notes length])
+		 documentAttributes: nil]] autorelease];
+	
+	[notesWrapper setPreferredFilename: @"notes.rtf"];
+	[projectFile removeFileWrapper: [[projectFile fileWrappers] objectForKey: @"notes.rtf"]];
+	[projectFile addFileWrapper: notesWrapper];
 
     // Setup the settings
     [projectFile setSettings: settings];
@@ -313,6 +339,10 @@
 	// FIXME: search libraries
 	
 	return file;
+}
+
+- (NSTextStorage*) notes {
+	return notes;
 }
 
 @end

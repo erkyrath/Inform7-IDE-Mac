@@ -10,6 +10,8 @@
 #import "IFInspector.h"
 
 @interface IFInspectorWindow : NSWindowController {
+	NSMutableDictionary* inspectorDict;
+	
 	NSMutableArray* inspectors;
 	NSMutableArray* inspectorViews;
 	
@@ -30,8 +32,17 @@
 // Dealing with inspector views
 - (void) addInspector: (IFInspector*) newInspector;
 
+- (void) setInspectorState: (BOOL) shown
+					forKey: (NSString*) key;
+
+- (void) showInspector: (IFInspector*) inspector;
+- (void) showInspectorWithKey: (NSString*) key;
+- (void) hideInspector: (IFInspector*) inspector;
+- (void) hideInspectorWithKey: (NSString*) key;
+
 // Dealing with updates
 - (void) updateInspectors;
+- (NSWindow*) activeWindow;
 
 // Status
 - (BOOL) isHidden;

@@ -57,6 +57,8 @@
 		
 		[window setDelegate: self];
 		
+		inspectorDict = [[NSMutableDictionary alloc] init];
+		
 		// The sole purpose of IFIsFlippedView is to return YES to isFlipped...
 		[[self window] setContentView: [[[IFIsFlippedView alloc] init] autorelease]];
 		
@@ -79,6 +81,7 @@
 }
 
 - (void) dealloc {
+	[inspectorDict release];
 	[inspectors release];
 	[inspectorViews release];
 	
@@ -109,8 +112,46 @@
 	[[[self window] contentView] addSubview: insView];
 	[inspectorViews addObject: [insView autorelease]];
 	
+	// Add the inspector key map thingie
+	if ([inspectorDict objectForKey: [newInspector key]] != nil) {
+		NSLog(@"BUG: inspector added twice");
+	} else {
+		[inspectorDict setObject: [NSNumber numberWithInt: [inspectors count]-1]
+						  forKey: [newInspector key]];
+	}
+
 	// Update the list of inspectors
 	[self updateInspectors];
+}
+
+- (void) setInspectorState: (BOOL) shown
+					forKey: (NSString*) key {
+	NSNumber* insNum = [inspectorDict objectForKey: key];
+	
+	if (insNum == nil) {
+		NSLog(@"BUG: attempt to show/hide unknown inspector '%@'", key);
+		return;
+	}
+	
+	[[inspectorViews objectAtIndex: [insNum intValue]] setExpanded: shown];
+}
+
+- (void) showInspector: (IFInspector*) inspector {
+	[self showInspectorWithKey: [inspector key]];
+}
+
+- (void) showInspectorWithKey: (NSString*) key {
+	[self setInspectorState: YES
+					 forKey: key];
+}
+
+- (void) hideInspector: (IFInspector*) inspector {
+	[self hideInspectorWithKey: [inspector key]];
+}
+
+- (void) hideInspectorWithKey: (NSString*) key {
+	[self setInspectorState: NO
+					 forKey: key];
 }
 
 // = Dealing with updates =
@@ -193,6 +234,9 @@
 }
 
 // = Dealing with window changes =
+- (NSWindow*) activeWindow {
+	return activeMainWindow;
+}
 
 - (void) newMainWindow: (NSNotification*) notification {
 	// Notify the inspectors of the change

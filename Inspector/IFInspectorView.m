@@ -177,4 +177,9 @@
 	return NO;
 }
 
+- (void) setExpanded: (BOOL) isExpanded {
+	[arrow setOpen: isExpanded];
+	[self layoutViews];
+}
+
 @end

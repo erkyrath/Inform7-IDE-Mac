@@ -28,4 +28,6 @@
 - (void) queueLayout;
 - (void) layoutViews;
 
+- (void) setExpanded: (BOOL) isExpanded;
+
 @end

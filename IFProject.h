@@ -20,6 +20,8 @@
 
     NSMutableDictionary* sourceFiles;
     NSString*            mainSource;
+	
+	NSTextStorage*       notes;
     
     BOOL singleFile;
 }
@@ -37,5 +39,7 @@
 - (BOOL) addFile: (NSString*) newFile;
 
 - (NSString*) pathForFile: (NSString*) file;
+
+- (NSTextStorage*) notes;
 
 @end

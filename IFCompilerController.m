@@ -676,6 +676,7 @@ static IFCompilerController* activeController = nil;
 														 [type isEqualTo: @"htm"])) {
 				// Create a WebView to display this file in
 				WebView* fileView = [[WebView alloc] init];
+				[fileView setPolicyDelegate: self];
 				
 				// We need to set a host window for views handled in this way
 				[fileView setHostWindow: [[splitView superview] window]];
@@ -760,6 +761,52 @@ static IFCompilerController* activeController = nil;
 
 - (NSObject*) delegate {
     return delegate;
+}
+
+// = Web policy delegate methods =
+
+- (void)					webView: (WebView *)sender 
+	decidePolicyForNavigationAction: (NSDictionary *)actionInformation 
+							request: (NSURLRequest *)request 
+							  frame: (WebFrame *)frame 
+				   decisionListener: (id<WebPolicyDecisionListener>)listener {
+	// Blah. Link failure if WebKit isn't available here. Constants aren't weak linked
+	
+	// Double blah. WebNavigationTypeLinkClicked == null, but the action value == 0. Bleh
+	if ([[actionInformation objectForKey: WebActionNavigationTypeKey] intValue] == 0) {
+		NSURL* url = [request URL];
+		
+		if ([[url scheme] isEqualTo: @"source"]) {
+			// We deal with these ourselves
+			[listener ignore];
+			
+			// Format is 'source file name#line number'
+			NSString* path = [[[request URL] resourceSpecifier] stringByReplacingPercentEscapesUsingEncoding: NSASCIIStringEncoding];
+			NSArray* components = [path componentsSeparatedByString: @"#"];
+			
+			if ([components count] != 2) {
+				NSLog(@"Bad source URL: %@", path);
+				if ([components count] < 2) return;
+				// (try anyway)
+			}
+			
+			NSString* sourceFile = [[components objectAtIndex: 0] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
+			NSString* sourceLine = [[components objectAtIndex: 1] stringByReplacingPercentEscapesUsingEncoding: NSUnicodeStringEncoding];
+			
+			if (delegate &&
+				[delegate respondsToSelector: @selector(errorMessageHighlighted:atLine:inFile:)]) {
+				[delegate errorMessageHighlighted: self
+										   atLine: [sourceLine intValue]
+										   inFile: sourceFile];
+			}
+			
+			// Finished
+			return;
+		}
+	}
+	
+	// default action
+	[listener use];
 }
 
 @end

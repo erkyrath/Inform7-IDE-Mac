@@ -62,6 +62,8 @@ enum lineStyle {
 						ofStyle: (enum lineStyle) style;
 - (void) removeHighlightsOfStyle: (enum lineStyle) style;
 
+- (NSString*) pathToIndexFile;
+
 // Debugging
 - (void) hitBreakpoint: (int) pc;
 
