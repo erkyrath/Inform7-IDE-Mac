@@ -61,21 +61,7 @@
 }
 
 - (void) setSettings: (IFCompilerSettings*) settings {
-#if 0
-    // Create the settings data
-    NSMutableData* settingsData = [NSMutableData data];
-    NSArchiver*    theCoder = [[NSArchiver alloc] initForWritingWithMutableData:
-        settingsData]; // NSKeyedArchiver doesn't exist in 10.1
-
-    [theCoder encodeObject: @"Inform UI"];               // Creator
-    int version = 1;
-    [theCoder encodeValueOfObjCType:@encode(int) at:&version]; // Version number
-    [theCoder encodeObject: settings];
-
-    [theCoder release];
-#endif
-
-    // Add it to the wrapper
+    // Add the settings plist to the wrapper
     NSFileWrapper* settingsWrapper;
     [self removeFileWrapper: [[self fileWrappers] objectForKey:
         @"Settings.plist"]];

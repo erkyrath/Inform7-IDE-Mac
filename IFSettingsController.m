@@ -149,6 +149,8 @@ static NSMutableArray* standardSettingsClasses = nil;
 }
 
 - (void) setCompilerSettings: (IFCompilerSettings*) cSettings {
+	if (cSettings == compilerSettings) return;
+	
 	// NOTE: this implementation assumes a one-to-one relationship between the IFCompilerSettings object
 	// and ourselves: things may go a bit wonky if multiple settings controllers refer to the same
 	// IFCompilerSettings object.
@@ -170,6 +172,7 @@ static NSMutableArray* standardSettingsClasses = nil;
 	
 	[settings makeObjectsPerformSelector: @selector(setCompilerSettings:)
 							  withObject: compilerSettings];
+	[compilerSettings reloadAllSettings];
 
 	// Update ourselves when the compiler settings change
 	[[NSNotificationCenter defaultCenter] addObserver: self

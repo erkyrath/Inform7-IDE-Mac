@@ -49,7 +49,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 // (Legacy-type stuff: ie, tentacles that are too much bother to remove)
 #include "IFDebugSettings.h"
 #include "IFOutputSettings.h"
-#include "IFCompilerSettings.h"
+#include "IFCompilerOptions.h"
 #include "IFLibrarySettings.h"
 #include "IFMiscSettings.h"
 
@@ -418,13 +418,13 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (void) setUsingNaturalInform: (BOOL) setting {
-    [[self dictionaryForClass: [IFCompilerSettings class]] setObject: [NSNumber numberWithBool: setting]
-															  forKey: IFSettingNaturalInform];
+    [[self dictionaryForClass: [IFCompilerOptions class]] setObject: [NSNumber numberWithBool: setting]
+															 forKey: IFSettingNaturalInform];
     [self settingsHaveChanged];
 }
 
 - (BOOL) usingNaturalInform {
-    NSNumber* usingNaturalInform = [[self dictionaryForClass: [IFCompilerSettings class]] objectForKey: IFSettingNaturalInform];
+    NSNumber* usingNaturalInform = [[self dictionaryForClass: [IFCompilerOptions class]] objectForKey: IFSettingNaturalInform];
 
     if (usingNaturalInform) {
         return [usingNaturalInform boolValue];
@@ -545,13 +545,13 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (void) setCompilerVersion: (double) version {
-    [[self dictionaryForClass: [IFCompilerSettings class]] setObject: [NSNumber numberWithDouble: version]
-															  forKey: IFSettingCompilerVersion];
+    [[self dictionaryForClass: [IFCompilerOptions class]] setObject: [NSNumber numberWithDouble: version]
+															 forKey: IFSettingCompilerVersion];
     [self settingsHaveChanged];
 }
 
 - (double) compilerVersion {
-    NSNumber* compilerVersion = [[self dictionaryForClass: [IFCompilerSettings class]] objectForKey: IFSettingCompilerVersion];
+    NSNumber* compilerVersion = [[self dictionaryForClass: [IFCompilerOptions class]] objectForKey: IFSettingCompilerVersion];
     
     if (compilerVersion == nil)
         return [IFCompiler maxCompilerVersion];

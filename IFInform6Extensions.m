@@ -583,22 +583,30 @@ static int stringCompare(id a, id b, void* context) {
 		}
 	}
 	
+	// Clear out the active extensions
 	[activeExtensions removeAllObjects];
 	
 	// Add everything that's set to true in the dictionary to the active extensions list
-	NSEnumerator* keyEnum = [entries objectEnumerator];
+	NSEnumerator* keyEnum = [entries keyEnumerator];
 	NSString* key;
 	
 	while (key = [keyEnum nextObject]) {
-		if (![[entries objectForKey: key] isKindOfClass: [NSNumber class]]) continue;
+		if (![[entries objectForKey: key] isKindOfClass: [NSNumber class]]) {
+			continue;
+		}
 		
 		BOOL keyValue = [[entries objectForKey: key] boolValue];
 		
-		if (keyValue) [activeExtensions addObject: key];
+		if (keyValue) {
+			[activeExtensions addObject: key];
+		}
 	}
 	
 	// Notify that something has changed
 	[self updateFromCompilerSettings];
+	
+	needRefresh = YES;
+	[extensionTable reloadData];
 }
 
 @end
