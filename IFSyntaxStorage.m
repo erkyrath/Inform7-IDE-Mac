@@ -235,7 +235,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	
 	// The range of lines to be replaced
 	int firstLine = [self lineForIndex: range.location];
-	int lastLine = range.length>0?[self lineForIndex: range.location + range.length - 1]:firstLine;
+	int lastLine = range.length>0?[self lineForIndex: range.location + range.length]:firstLine;
 	
 #if HighlighterDebug
 	NSLog(@"Highlighter: editing lines in the range %i-%i", firstLine, lastLine);
@@ -342,6 +342,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	NSRange highlightRange = range;
 	highlightRange.length = newLen;
 	
+	/*
 	if (highlightRange.location > 0) {
 		highlightRange.location--;
 		highlightRange.length++;
@@ -350,6 +351,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	if (highlightRange.location + highlightRange.length+1 < [string length]) {
 		highlightRange.length++;
 	}
+	 */
 	
 	// Characters no longer have valid states
 	for (x=0; x<highlightRange.length; x++) {
