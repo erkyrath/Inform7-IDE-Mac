@@ -141,6 +141,7 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 		[[activeController document] displayName]]];
 	[ctrl setSearchPhrase: [searchText stringValue]];
 	[ctrl setSearchType: willSearchType];
+	[ctrl setCaseSensitive: willCaseSensitive];
 	
 	[ctrl setDelegate: activeController];
 	
@@ -150,73 +151,17 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 	
 	// Documents (we search these last)
 	if (willSearchDocs) {
-		// Find the documents to search
-		NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
-		
-		// Get all .htm and .html documents from the resources
-		NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtPath: resourcePath];
-		NSString* path;
-		
-		while (path = [dirEnum nextObject]) {
-			NSString* extension = [path pathExtension];
-			NSString* description = [[[path lastPathComponent] stringByDeletingPathExtension] lowercaseString];
-			
-			// Must be an html file...
-			// and must be the index or a docxxx file
-			if ([description isEqualToString: @"index"] ||
-				([description length] > 3 && [[description substringToIndex: 3] isEqualToString: @"doc"])) {
-				if ([extension isEqualToString: @"html"] ||
-					[extension isEqualToString: @"htm"]) {
-					[ctrl addSearchFile: [resourcePath stringByAppendingPathComponent: path]
-								   type: @"Documentation"];
-				}
-			}
-		}
+		[ctrl addDocumentation];
 	}
 	
 	// Extensions
 	if (willSearchExtensions) {
-		// Search all the extensions that the app delegate returns
-		NSArray* extensions = [[NSApp delegate] directoriesToSearch: @"Extensions"];
-		NSEnumerator* extnEnum = [extensions objectEnumerator];
-		
-		NSString* extnDirectory = nil;
-		
-		// Iterate through all the various places extensions can be hidden
-		while (extnDirectory = [extnEnum nextObject]) {
-			// Get all the files from the extensions
-			NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtPath: extnDirectory];
-			NSString* path;
-			
-			while (path = [dirEnum nextObject]) {
-				NSString* extnPath = [extnDirectory stringByAppendingPathComponent: path];
-				BOOL isDir;
-				
-				if ([[NSFileManager defaultManager] fileExistsAtPath: extnPath 
-														 isDirectory: &isDir]) {
-					if (!isDir) {
-						[ctrl addSearchFile: extnPath
-									   type: @"Extension File"];
-					}
-				}
-			}
-		}
+		[ctrl addExtensions];
 	}
 	
 	// Source files (searched first)
 	if (willSearchSources) {
-		NSDictionary* sourceFiles = [activeProject sourceFiles];
-		NSTextStorage* file;
-		NSString* filename;
-		NSEnumerator* fileEnum = [sourceFiles keyEnumerator];
-		
-		while (filename = [fileEnum nextObject]) {
-			file = [sourceFiles objectForKey: filename];
-			
-			[ctrl addSearchStorage: [file string]
-					  withFileName: filename
-							  type: @"Source File"];
-		}
+		[ctrl addFilesFromProject: activeProject];
 	}
 	
 	// Display the window

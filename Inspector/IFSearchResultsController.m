@@ -8,6 +8,8 @@
 
 #import "IFSearchResultsController.h"
 
+#import "IFAppDelegate.h"
+
 #define contextLength 12
 
 static NSFont* normalFont;
@@ -664,6 +666,76 @@ static int resultComparator(id a, id b, void* context) {
 	[self autorelease];
 	
 	[primaryPool release];
+}
+
+// = Adding specific groups of files =
+
+- (void) addDocumentation {
+	// Find the documents to search
+	NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
+	
+	// Get all .htm and .html documents from the resources
+	NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtPath: resourcePath];
+	NSString* path;
+	
+	while (path = [dirEnum nextObject]) {
+		NSString* extension = [path pathExtension];
+		NSString* description = [[[path lastPathComponent] stringByDeletingPathExtension] lowercaseString];
+		
+		// Must be an html file...
+		// and must be the index or a docxxx file
+		if ([description isEqualToString: @"index"] ||
+			([description length] > 3 && [[description substringToIndex: 3] isEqualToString: @"doc"])) {
+			if ([extension isEqualToString: @"html"] ||
+				[extension isEqualToString: @"htm"]) {
+				[self addSearchFile: [resourcePath stringByAppendingPathComponent: path]
+							   type: @"Documentation"];
+			}
+		}
+	}
+}
+
+- (void) addExtensions {
+	// Search all the extensions that the app delegate returns
+	NSArray* extensions = [[NSApp delegate] directoriesToSearch: @"Extensions"];
+	NSEnumerator* extnEnum = [extensions objectEnumerator];
+	
+	NSString* extnDirectory = nil;
+	
+	// Iterate through all the various places extensions can be hidden
+	while (extnDirectory = [extnEnum nextObject]) {
+		// Get all the files from the extensions
+		NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtPath: extnDirectory];
+		NSString* path;
+		
+		while (path = [dirEnum nextObject]) {
+			NSString* extnPath = [extnDirectory stringByAppendingPathComponent: path];
+			BOOL isDir;
+			
+			if ([[NSFileManager defaultManager] fileExistsAtPath: extnPath 
+													 isDirectory: &isDir]) {
+				if (!isDir) {
+					[self addSearchFile: extnPath
+								   type: @"Extension File"];
+				}
+			}
+		}
+	}
+}
+
+- (void) addFilesFromProject: (IFProject*) project {
+	NSDictionary* sourceFiles = [project sourceFiles];
+	NSTextStorage* file;
+	NSString* filename;
+	NSEnumerator* fileEnum = [sourceFiles keyEnumerator];
+	
+	while (filename = [fileEnum nextObject]) {
+		file = [sourceFiles objectForKey: filename];
+		
+		[self addSearchStorage: [file string]
+				  withFileName: filename
+						  type: @"Source File"];
+	}
 }
 
 @end

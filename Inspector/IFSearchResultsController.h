@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFProject.h"
+
 enum IFSearchType {
 	IFSearchContains = 1,
 	IFSearchStartsWith = 2,
@@ -57,6 +59,10 @@ enum IFSearchType {
 					 type: (NSString*) type;
 - (void) addSearchFile: (NSString*) filename
 				  type: (NSString*) type;
+
+- (void) addDocumentation;
+- (void) addExtensions;
+- (void) addFilesFromProject: (IFProject*) project;
 
 // Controlling the search itself
 - (void) startSearch;

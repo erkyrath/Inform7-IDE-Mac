@@ -19,6 +19,8 @@
 #import "IFIsWatch.h"
 #import "IFIsBreakpoints.h"
 
+#import "IFSearchResultsController.h"
+
 // = Preferences =
 
 NSString* IFSplitViewSizes = @"IFSplitViewSizes";
@@ -45,6 +47,9 @@ static NSToolbarItem* indexItem		    = nil;
 
 static NSToolbarItem* watchItem			= nil;
 static NSToolbarItem* breakpointItem	= nil;
+
+static NSToolbarItem* searchDocsItem	= nil;
+static NSToolbarItem* searchProjectItem	= nil;
 
 static NSDictionary*  itemDictionary = nil;
 
@@ -74,6 +79,9 @@ static NSDictionary*  itemDictionary = nil;
 
 	watchItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"watchItem"];
     breakpointItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"breakpointItem"];
+	
+	searchDocsItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"searchDocsItem"];
+	searchProjectItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"searchProjectItem"];
 
     itemDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
         compileItem, @"compileItem",
@@ -90,9 +98,11 @@ static NSDictionary*  itemDictionary = nil;
 		indexItem, @"indexItem",
 		watchItem, @"watchItem",
 		breakpointItem, @"breakpointItem",
+		searchDocsItem, @"searchDocsItem",
+		searchProjectItem, @"searchProjectItem",
         nil];
 
-    // FIXME: localisation
+	// Images
 	[compileItem setImage: [NSImage imageNamed: @"compile"]];
 	[compileAndRunItem setImage: [NSImage imageNamed: @"run"]];
 	[compileAndDebugItem setImage: [NSImage imageNamed: @"debug"]];
@@ -112,6 +122,7 @@ static NSDictionary*  itemDictionary = nil;
 	[watchItem setImage: [NSImage imageNamed: @"watch"]];
 	[breakpointItem setImage: [NSImage imageNamed: @"breakpoint"]];
 
+	// Labels
     [compileItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Compile"
 																  value: @"Compile"
 																  table: nil]];
@@ -159,6 +170,14 @@ static NSDictionary*  itemDictionary = nil;
 																	 value: @"Breakpoints"
 																	 table: nil]];
 	
+
+	[searchDocsItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Search Documentation"
+																	 value: @"Search Documentation"
+																	 table: nil]];
+	[searchProjectItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Search Project"
+																		value: @"Search Project"
+																		table: nil]];
+
 	// The tooltips
     [compileItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"CompileTip"
 																	value: nil
@@ -206,6 +225,13 @@ static NSDictionary*  itemDictionary = nil;
 	[breakpointItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"BreakpointsTip"
 																	 value: nil
 																	 table: nil]];
+
+	[searchDocsItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"SearchDocsTip"
+																	   value: nil
+																	   table: nil]];
+	[searchProjectItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"SearchProjectTip"
+																		  value: nil
+																		  table: nil]];
 	
     // The action heroes
     [compileItem setAction: @selector(compile:)];
@@ -517,13 +543,58 @@ static NSDictionary*  itemDictionary = nil;
 	// Actually, I thought you could share NSToolbarItems between windows, but you can't (the images disappear,
 	// weirdly). However, copying the item is just as good as creating a new one here, and makes the code
 	// somewhat more readable.
-    return [[[itemDictionary objectForKey: itemIdentifier] copy] autorelease];
+
+	NSToolbarItem* item = [[[itemDictionary objectForKey: itemIdentifier] copy] autorelease];	
+	[item setPaletteLabel: [item label]];
+	
+	// The search views need to be set up here
+	if ([itemIdentifier isEqualToString: @"searchDocsItem"]) {
+		NSSearchField* searchDocs = [[NSSearchField alloc] initWithFrame: NSMakeRect(0,0,150,22)];
+		[[searchDocs cell] setPlaceholderString: [[NSBundle mainBundle] localizedStringForKey: @"Documentation"
+																						value: @"Documentation"
+																						table: nil]];
+
+		[item setMinSize: NSMakeSize(100, 22)];
+		[item setMaxSize: NSMakeSize(150, 22)];
+		[item setView: [searchDocs autorelease]];
+		[searchDocs sizeToFit];
+		
+		[searchDocs setContinuous: NO];
+		[[searchDocs cell] setSendsWholeSearchString: YES];
+		[searchDocs setTarget: self];
+		[searchDocs setAction: @selector(searchDocs:)];
+		
+		[item setLabel: nil];
+		
+		return item;
+	} else if ([itemIdentifier isEqualToString: @"searchProjectItem"]) {
+		NSSearchField* searchProject = [[NSSearchField alloc] initWithFrame: NSMakeRect(0,0,150,22)];
+		[[searchProject cell] setPlaceholderString: [[NSBundle mainBundle] localizedStringForKey: @"Project"
+																						   value: @"Project"
+																						   table: nil]];
+		
+		[item setMinSize: NSMakeSize(100, 22)];
+		[item setMaxSize: NSMakeSize(150, 22)];
+		[item setView: [searchProject autorelease]];
+		[searchProject sizeToFit];
+
+		[searchProject setContinuous: NO];
+		[[searchProject cell] setSendsWholeSearchString: YES];
+		[searchProject setTarget: self];
+		[searchProject setAction: @selector(searchProject:)];
+		
+		[item setLabel: nil];
+		
+		return item;
+	}
+	
+	return item;
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
         @"compileItem", @"compileAndRunItem", @"replayItem", @"compileAndDebugItem", @"pauseItem", @"continueItem", @"stepItem", 
-		@"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem",
+		@"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem", @"searchDocsItem", @"searchProjectItem",
 		NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, 
 		@"releaseItem",
         nil];
@@ -1587,6 +1658,62 @@ static NSDictionary*  itemDictionary = nil;
 		section = [section nextSymbol];
 	}
 	[storage endEditing];
+}
+
+// = Searching =
+
+- (void) searchDocs: (id) sender {
+	if ([[sender stringValue] isEqualToString: @""] || [sender stringValue] == nil) return;
+	
+	// Create a new SearchResultsController to handle the search
+	IFSearchResultsController* ctrl = [[IFSearchResultsController alloc] init];
+	
+	// Set up the controller
+	[ctrl setSearchLabelText: [NSString stringWithFormat: @"\"%@\" in documentation for %@", 
+		[sender stringValue], 
+		[[self document] displayName]]];
+	[ctrl setSearchPhrase: [sender stringValue]];
+	[ctrl setSearchType: IFSearchStartsWith];
+	[ctrl setCaseSensitive: NO];
+	
+	[ctrl setDelegate: self];
+	
+	// Find the files and data to search
+	[ctrl addDocumentation];
+	
+	// Display the window
+	[ctrl showWindow: self];
+	// ctrl will autorelease itself when done
+	
+	// Start the search
+	[ctrl startSearch];
+}
+
+- (void) searchProject: (id) sender {
+	if ([[sender stringValue] isEqualToString: @""] || [sender stringValue] == nil) return;
+
+	// Create a new SearchResultsController to handle the search
+	IFSearchResultsController* ctrl = [[IFSearchResultsController alloc] init];
+	
+	// Set up the controller
+	[ctrl setSearchLabelText: [NSString stringWithFormat: @"\"%@\" in %@", 
+		[sender stringValue], 
+		[[self document] displayName]]];
+	[ctrl setSearchPhrase: [sender stringValue]];
+	[ctrl setSearchType: IFSearchStartsWith];
+	[ctrl setCaseSensitive: NO];
+	
+	[ctrl setDelegate: self];
+	
+	// Find the files and data to search
+	[ctrl addFilesFromProject: [self document]];
+	
+	// Display the window
+	[ctrl showWindow: self];
+	// ctrl will autorelease itself when done
+	
+	// Start the search
+	[ctrl startSearch];
 }
 
 @end
