@@ -13,6 +13,7 @@
 #import "IFPretendWebView.h"
 
 #import "IFIsFiles.h"
+#import "IFIsWatch.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
 #define minHighlightAmount 2048
@@ -739,7 +740,12 @@ NSDictionary* IFSyntaxAttributes[256];
 // == Debugging ==
 
 - (void) hitBreakpoint: (int) pc {
+	[[IFIsWatch sharedIFIsWatch] refreshExpressions];
 	[parent hitBreakpoint: pc];
+}
+
+- (void) zoomWaitingForInput {
+	[[IFIsWatch sharedIFIsWatch] refreshExpressions];
 }
 
 // == Documentation ==

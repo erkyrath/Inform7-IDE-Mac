@@ -14,6 +14,7 @@
 #import "IFIsIndex.h"
 
 #import "IFIsFiles.h"
+#import "IFIsWatch.h"
 
 @implementation IFProjectController
 
@@ -207,6 +208,8 @@ static NSDictionary*  itemDictionary = nil;
 	[stepItem setAction: @selector(stepIntoProcess:)];
 	[stepOverItem setAction: @selector(stepOverProcess:)];
 	[stepOutItem setAction: @selector(stepOutProcess:)];
+	
+	[watchItem setAction: @selector(showWatchPoints:)];
 }
 
 // == Initialistion ==
@@ -1216,6 +1219,13 @@ static NSDictionary*  itemDictionary = nil;
 	if (progressing) {
 		[statusInfo setStringValue: newMessage];
 	}
+}
+
+// = Debugging =
+
+- (void) showWatchPoints: (id) sender {
+	[[IFInspectorWindow sharedInspectorWindow] showWindow: self];
+	[[IFInspectorWindow sharedInspectorWindow] showInspectorWithKey: IFIsWatchInspector];
 }
 
 @end

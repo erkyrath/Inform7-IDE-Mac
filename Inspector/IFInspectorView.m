@@ -163,6 +163,12 @@
 }
 
 - (void) mouseUp: (NSEvent*) evt {
+	NSPoint region = [evt locationInWindow];
+	region = [self convertPoint: region
+					   fromView: nil];
+	
+	if (!NSPointInRect(region, [titleView frame])) return; // Not in the title view
+	
 	// Clicking in the title will open the view if it's not already (you need to use the arrow to close it, though)
 	if ([arrow intValue] != 3) {
 		[arrow setIntValue: 3];
