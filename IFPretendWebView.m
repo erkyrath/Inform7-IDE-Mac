@@ -52,8 +52,6 @@
 }
 
 - (void) morphMe {
-	NSLog(@"Real webview created");
-	
 	// Schedule our destruction
 	[[self retain] autorelease];
 	
