@@ -16,12 +16,12 @@
 }
 
 - (NSString*) projectHeading {
-    return @"Inform 6.21";
+    return @"Inform 6.3";
 }
 
 - (NSAttributedString*) projectDescription {
     return [[[NSAttributedString alloc] initWithString:
-        @"Creates an empty Inform 6.21 project"] autorelease];
+        @"Creates an empty Inform 6.3 project"] autorelease];
 }
 
 - (NSObject<IFProjectSetupView>*) configView {

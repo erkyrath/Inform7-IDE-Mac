@@ -12,7 +12,10 @@
 
 
 @interface IFAppDelegate : NSObject {
-
+	BOOL haveWebkit;
 }
+
++ (BOOL)isWebKitAvailable;
+- (BOOL)isWebKitAvailable;
 
 @end
