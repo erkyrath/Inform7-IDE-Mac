@@ -24,9 +24,9 @@ static NSMutableDictionary* projectDictionary = nil;
 + (void) initialize {
     // List of projects
     projects = [[NSArray arrayWithObjects:
+        [[IFEmptyNaturalProject alloc] init],
         [[IFEmptyProject alloc] init],
         [[IFStandardProject alloc] init],
-        [[IFEmptyNaturalProject alloc] init],
         nil] retain];
 
     // Project dictionary

@@ -326,7 +326,10 @@ static NSDictionary* expectedAttributes = nil;
 	actualText = itemStart + [itemString length];
 	
 	// 'Actual' text
-	[itemString appendString: [item result]];
+	NSString* result = [item result];
+	if (result == nil) result = @"";
+	
+	[itemString appendString: result];
 	[itemString appendString: @"\n"];
 	expectedText = itemStart + [itemString length];
 	
@@ -409,9 +412,7 @@ static NSDictionary* expectedAttributes = nil;
 	
 	// Mark ourselves as updated
 	unsigned int newLength = [[[itemPositionData lastObject] objectForKey: finalPosition] intValue];
-	
-	NSLog(@"NewLength = %i, OldLength = %i", newLength, oldLength);
-		
+			
 	[self edited: NSTextStorageEditedCharacters|NSTextStorageEditedAttributes
 		   range: NSMakeRange(0, oldLength)
   changeInLength: newLength - oldLength];
