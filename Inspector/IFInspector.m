@@ -30,6 +30,7 @@
 }
 
 // = Titles =
+
 - (void) setTitle: (NSString*) newTitle {
 	title = [newTitle copy];
 
@@ -65,11 +66,13 @@
 }
 
 // = The controller =
+
 - (void) setInspectorWindow: (IFInspectorWindow*) window {
 	inspectorWin = window;
 }
 
 // = Inspecting things =
+
 - (void) inspectWindow: (NSWindow*) window {
 	// Should be overridden in subclasses
 	gotWindow = (window!=nil);
@@ -77,6 +80,7 @@
 }
 
 // = The key =
+
 - (NSString*) key {
 	[NSException raise: @"IFInspectorHasNoKey" 
 				format: @"Attempt to register an inspector with no key"];

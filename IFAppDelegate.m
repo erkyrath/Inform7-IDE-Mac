@@ -89,9 +89,6 @@ static NSRunLoop* mainRunLoop = nil;
 }
 
 - (void) applicationDidFinishLaunching: (NSNotification*) not {	
-	// Show the inspector window
-	[[IFInspectorWindow sharedInspectorWindow] showWindow: self];
-	
 	// The standard inspectors
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsFiles sharedIFIsFiles]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsNotes sharedIFIsNotes]];

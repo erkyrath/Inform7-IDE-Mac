@@ -12,6 +12,7 @@
 #import "IFIsFlippedView.h"
 
 static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
+static NSString* IFInspectorShown = @"IFInspectorShown";
 
 @implementation IFInspectorWindow
 
@@ -20,6 +21,14 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 	
 	if (sharedWindow == nil) {
 		sharedWindow = [[[self class] alloc] init];
+		
+		NSNumber* shown = [[NSUserDefaults standardUserDefaults] objectForKey: IFInspectorShown];
+		
+		if ([shown isKindOfClass: [NSNumber class]] && [shown boolValue] == YES) {
+			[sharedWindow showWindow: nil];
+		} else {
+			[sharedWindow close];
+		}
 	}
 	
 	return sharedWindow;
@@ -27,7 +36,11 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 
 + (void) initialize {
 	// Register our defaults (which inspectors are open/closed)
-	[[NSUserDefaults standardUserDefaults] registerDefaults: [NSDictionary dictionaryWithObjectsAndKeys: [NSDictionary dictionary], IFInspectorDefaults, nil]];
+	[[NSUserDefaults standardUserDefaults] registerDefaults: 
+		[NSDictionary dictionaryWithObjectsAndKeys: 
+			[NSDictionary dictionary], IFInspectorDefaults, 
+			[NSNumber numberWithBool: YES], IFInspectorShown, 
+			nil]];
 }
 
 - (id) init {
@@ -364,12 +377,20 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 }
 
 // Whether or not we're hidden
-- (void)windowWillClose:(NSNotification *)aNotification {
+- (BOOL)windowShouldClose:(NSNotification *)aNotification {
 	hidden = YES;
+	
+	[[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: NO]
+											  forKey: IFInspectorShown];
+	
+	return YES;
 }
 
 - (void) showWindow: (id) sender {
 	hidden = NO;
+	
+	[[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithBool: YES]
+											  forKey: IFInspectorShown];
 	
 	if (shouldBeShown) {
 		[super showWindow: sender];
