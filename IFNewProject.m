@@ -106,7 +106,9 @@ static NSMutableDictionary* projectDictionary = nil;
     [projectPaneView addSubview: projectTypeView];
 
     [previousButton setEnabled: NO];
-    [nextButton setTitle: @"Next"];
+    [nextButton setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Next"
+																 value: @"Next"
+																 table: nil]];
 
     currentView =  projectTypeView;
 }
@@ -122,14 +124,18 @@ static NSMutableDictionary* projectDictionary = nil;
 
         [previousButton setEnabled: YES];
         [nextButton setEnabled: ![[projectLocation stringValue] isEqualTo: @""]];
-        [nextButton setTitle: @"Finished"];
+        [nextButton setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Finished"
+																	 value: @"Finished"
+																	 table: nil]];
     } else if (currentView == projectTypeView) {
         // Change to the project type view
         currentView = [projectView view];
 
         [previousButton setEnabled: YES];
         [nextButton setEnabled: YES];
-        [nextButton setTitle: @"Next"];
+        [nextButton setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Next"
+																	 value: @"Next"
+																	 table: nil]];
     } else if (currentView == projectLocationView) {
         // Save and finish up
         IFProjectFile* theFile = [[IFProjectFile alloc] initWithEmptyProject];
@@ -174,20 +180,28 @@ static NSMutableDictionary* projectDictionary = nil;
             [theFile release];
         } else {
             [projectPaneView addSubview: currentView];
-            NSBeginAlertSheet(@"Unable to create project",
-                              @"Cancel",
+            NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Unable to create project"
+																	 value: @"Unable to create project"
+																	 table: nil],
+                              [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+																	 value: @"Cancel"
+																	 table: nil],
                               nil, nil,
                               [self window],
                               nil,
                               nil,
                               nil,
                               nil,
-                              @"Inform was unable to save the project file");
+                              [[NSBundle mainBundle] localizedStringForKey: @"Inform was unable to save the project file"
+																	 value: @"Inform was unable to save the project file"
+																	 table: nil]);
         }
     } else {
         // Change to the project type view
         [previousButton setEnabled: NO];
-        [nextButton setTitle: @"Next"];
+        [nextButton setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Next"
+																	 value: @"Next"
+																	 table: nil]];
         [nextButton setEnabled: YES];
 
         currentView =  projectTypeView;        
@@ -210,7 +224,9 @@ static NSMutableDictionary* projectDictionary = nil;
         currentView =  projectTypeView;
     }
 
-    [nextButton setTitle: @"Next"];
+    [nextButton setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Next"
+																 value: @"Next"
+																 table: nil]];
     [nextButton setEnabled: YES];
 
     [currentView setFrame: [projectPaneView bounds]];
@@ -229,7 +245,9 @@ static NSMutableDictionary* projectDictionary = nil;
     [panel setRequiredFileType: @"inform"];
     [panel setCanSelectHiddenExtension: YES];
     [panel setDelegate: self];
-    [panel setPrompt: @"Create"];
+    [panel setPrompt: [[NSBundle mainBundle] localizedStringForKey: @"Create"
+															 value: @"Create"
+															 table: nil]];
     [panel setTreatsFilePackagesAsDirectories: NO];
 
     // Show it
@@ -340,7 +358,9 @@ static NSMutableDictionary* projectDictionary = nil;
     if (obj == nil ||
         ![obj conformsToProtocol: @protocol(IFProjectType)]) {
         [nextButton setEnabled: NO];
-        [[[projectDescriptionView textStorage] mutableString] setString: @"Please choose a project type"];
+        [[[projectDescriptionView textStorage] mutableString] setString: [[NSBundle mainBundle] localizedStringForKey: @"Please choose a project type"
+																												value: @"Please choose a project type"
+																												table: nil]];
         return;
     }
 

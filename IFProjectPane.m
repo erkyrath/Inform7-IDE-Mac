@@ -418,7 +418,9 @@ static NSDictionary* styles[256];
     }
 
     [[sourcePopup menu] addItem: [NSMenuItem separatorItem]];
-    [sourcePopup addItemWithTitle: @"Add file..."]; // FIXME: internationalisation
+    [sourcePopup addItemWithTitle: [[NSBundle mainBundle] localizedStringForKey: @"Add file..."
+																		  value: @"Add file..."
+																		  table: nil]];
 }
 
 - (IBAction) selectSourceFile: (id) sender {

@@ -62,16 +62,22 @@ NSString* quoteInformString(NSString* stringIn) {
 @implementation IFStandardProject
 
 - (NSString*) projectName {
-    return @"Single room";
+    return [[NSBundle mainBundle] localizedStringForKey: @"Single room"
+												  value: @"Single room"
+												  table: nil];
 }
 
 - (NSString*) projectHeading {
-    return @"Inform 6.21";
+    return [[NSBundle mainBundle] localizedStringForKey: @"InformVersion"
+												  value: @"Inform 6.3"
+												  table: nil];
 }
 
 - (NSAttributedString*) projectDescription {
     return [[[NSAttributedString alloc] initWithString:
-        @"Creates an Inform 6.3 project using the standard library and containing a single room"] autorelease];
+        [[NSBundle mainBundle] localizedStringForKey: @"Creates an Inform project using the standard library and containing a single room"
+											   value: @"Creates an Inform project using the standard library and containing a single room"
+											   table: nil]] autorelease];
 }
 
 - (NSObject<IFProjectSetupView>*) configView {

@@ -88,24 +88,95 @@ static NSDictionary*  itemDictionary = nil;
 	[watchItem setImage: [NSImage imageNamed: @"watch"]];
 	[breakpointItem setImage: [NSImage imageNamed: @"breakpoint"]];
 
-    [compileItem setLabel: @"Compile"];
-    [compileAndRunItem setLabel: @"Go!"];
-	[compileAndDebugItem setLabel: @"Debug"];
-    [releaseItem setLabel: @"Release"];
+    [compileItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Compile"
+																  value: @"Compile"
+																  table: nil]];
+    [compileAndRunItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Go!"
+																		value: @"Go!"
+																		table: nil]];
+	[compileAndDebugItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Debug"
+																		  value: @"Debug"
+																		  table: nil]];
+    [releaseItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Release"
+																  value: @"Release"
+																  table: nil]];
 	
-	[stepItem setLabel: @"Step"];
-	[stepOverItem setLabel: @"Step over"];
-	[stepOutItem setLabel: @"Step out"];
+	[stepItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Step"
+															   value: @"Step"
+															   table: nil]];
+	[stepOverItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Step over"
+																   value: @"Step over"
+																   table: nil]];
+	[stepOutItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Step out"
+																  value: @"Step out"
+																  table: nil]];
 	
-	[stopItem setLabel: @"Stop"];
-	[pauseItem setLabel: @"Pause"];
-	[continueItem setLabel: @"Continue"];
+	[stopItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Stop"
+															   value: @"Stop"
+															   table: nil]];
+	[pauseItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Pause"
+																value: @"Pause"
+																table: nil]];
+	[continueItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Continue"
+																   value: @"Continue"
+																   table: nil]];
 
-	[indexItem setLabel: @"Index"];
+	[indexItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Index"
+																value: @"Index"
+																table: nil]];
 	
-	[watchItem setLabel: @"Watch"];
-	[breakpointItem setLabel: @"Breakpoints"];
-
+	[watchItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Watch"
+																value: @"Watch"
+																table: nil]];
+	[breakpointItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Breakpoints"
+																	 value: @"Breakpoints"
+																	 table: nil]];
+	
+	// The tooltips
+    [compileItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"CompileTip"
+																	value: nil
+																	table: nil]];
+    [compileAndRunItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"GoTip"
+																		  value: nil
+																		  table: nil]];
+	[compileAndDebugItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"DebugTip"
+																			value: nil
+																			table: nil]];
+    [releaseItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"ReleaseTip"
+																	value: nil
+																	table: nil]];
+	
+	[stepItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"StepTip"
+																 value: nil
+																 table: nil]];
+	[stepOverItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"StepOverTip"
+																	 value: nil
+																	 table: nil]];
+	[stepOutItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"StepOutTip"
+																	value: nil
+																	table: nil]];
+	
+	[stopItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"StopTip"
+																 value: nil
+																 table: nil]];
+	[pauseItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"PauseTip"
+																  value: nil
+																  table: nil]];
+	[continueItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"ContinueTip"
+																   value: nil
+																   table: nil]];
+	
+	[indexItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"IndexTip"
+																value: nil
+																table: nil]];
+	
+	[watchItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"WatchTip"
+																  value: nil
+																  table: nil]];
+	[breakpointItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"BreakpointsTip"
+																	 value: nil
+																	 table: nil]];
+	
     // The action heroes
     [compileItem setAction: @selector(compile:)];
     [compileAndRunItem setAction: @selector(compileAndRun:)];

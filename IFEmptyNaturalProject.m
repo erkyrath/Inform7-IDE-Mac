@@ -12,11 +12,15 @@
 @implementation IFEmptyNaturalProject
 
 - (NSString*) projectName {
-    return @"Empty project";
+    return [[NSBundle mainBundle] localizedStringForKey: @"Empty project"
+												  value: @"Empty project"
+												  table: nil];
 }
 
 - (NSString*) projectHeading {
-    return @"Natural Inform";
+    return [[NSBundle mainBundle] localizedStringForKey: @"Natural Inform"
+												  value: @"Natural Inform"
+												  table: nil];
 }
 
 - (NSAttributedString*) projectDescription {

@@ -12,16 +12,22 @@
 @implementation IFEmptyProject
 
 - (NSString*) projectName {
-    return @"Empty project";
+    return [[NSBundle mainBundle] localizedStringForKey: @"Empty project"
+												  value: @"Empty project"
+												  table: nil];
 }
 
 - (NSString*) projectHeading {
-    return @"Inform 6.3";
+    return [[NSBundle mainBundle] localizedStringForKey: @"InformVersion"
+												  value: @"Inform 6.3"
+												  table: nil];
 }
 
 - (NSAttributedString*) projectDescription {
     return [[[NSAttributedString alloc] initWithString:
-        @"Creates an empty Inform 6.3 project"] autorelease];
+        [[NSBundle mainBundle] localizedStringForKey: @"Creates an empty Inform project"
+											   value: @"Creates an empty Inform project"
+											   table: nil]] autorelease];
 }
 
 - (NSObject<IFProjectSetupView>*) configView {
