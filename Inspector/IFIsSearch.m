@@ -9,6 +9,8 @@
 #import "IFIsSearch.h"
 #import "IFSearchResultsController.h"
 
+#import "IFAppDelegate.h"
+
 // Inspector key
 NSString* IFIsSearchInspector = @"IFIsSearchInspector";
 
@@ -174,6 +176,25 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 	
 	// Extensions
 	if (willSearchExtensions) {
+		// For the moment, we only search the editable extensions
+		NSString* extnDirectory = [[[NSApp delegate] directoriesToSearch: @"Extensions"] objectAtIndex: 0];
+		
+		// Get all the files from the extensions
+		NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtPath: extnDirectory];
+		NSString* path;
+		
+		while (path = [dirEnum nextObject]) {
+			NSString* extnPath = [extnDirectory stringByAppendingPathComponent: path];
+			BOOL isDir;
+			
+			if ([[NSFileManager defaultManager] fileExistsAtPath: extnPath 
+													 isDirectory: &isDir]) {
+				if (!isDir) {
+					[ctrl addSearchFile: extnPath
+								   type: @"Extension File"];
+				}
+			}
+		}
 	}
 	
 	// Source files (searched first)
