@@ -21,6 +21,8 @@
 
     if (self) {
         parent = nil;
+        zView = nil;
+        gameToRun = nil;
         awake = NO;
 
         sourceFiles = [[NSMutableArray allocWithZone: [self zone]] init];
@@ -39,6 +41,9 @@
     [paneView       release];
     [compController release];
     [sourceFiles    release];
+    
+    if (zView) [zView release];
+    if (gameToRun) [gameToRun release];
 
     [super dealloc];
 }
@@ -92,7 +97,10 @@
 
     if (parent) {
         [self setupFromController];
+        [self stopRunningGame];
     }
+    
+    [tabView setDelegate: self];
 }
 
 - (void) setController: (IFProjectController*) p {
@@ -307,6 +315,72 @@
         NSLog(@"Interface BUG: unknown/unimplemented setting control");
         [self updateSettings];
     }
+}
+
+// = The game view =
+- (void) startRunningGame: (NSString*) fileName {
+    if (zView) {
+        [zView removeFromSuperview];
+        [zView release];
+        zView = nil;
+    }
+    
+    if (gameToRun) [gameToRun release];
+    gameToRun = [fileName copy];
+    
+    zView = [[ZoomView allocWithZone: [self zone]] init];
+    [zView setDelegate: self];
+    [zView runNewServer: nil];
+    
+    [zView setColours: [NSArray arrayWithObjects:
+        [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 1],
+        [NSColor colorWithDeviceRed: 1 green: 0 blue: 0 alpha: 1],
+        [NSColor colorWithDeviceRed: 0 green: 1 blue: 0 alpha: 1],
+        [NSColor colorWithDeviceRed: 1 green: 1 blue: 0 alpha: 1],
+        [NSColor colorWithDeviceRed: 0 green: 0 blue: 1 alpha: 1],
+        [NSColor colorWithDeviceRed: 1 green: 0 blue: 1 alpha: 1],
+        [NSColor colorWithDeviceRed: 0 green: 1 blue: 1 alpha: 1],
+        [NSColor colorWithDeviceRed: 1 green: 1 blue: 1 alpha: 1],
+        
+        [NSColor colorWithDeviceRed: .73 green: .73 blue: .73 alpha: 1],
+        [NSColor colorWithDeviceRed: .53 green: .53 blue: .53 alpha: 1],
+        [NSColor colorWithDeviceRed: .26 green: .26 blue: .26 alpha: 1],
+        nil]];
+    
+    [zView setFrame: [gameView bounds]];
+    [zView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+    [gameView addSubview: zView];
+}
+
+- (void) stopRunningGame {
+    if (zView) {
+        [zView removeFromSuperview];
+        [zView release];
+        zView = nil;
+    }
+    
+    if ([tabView selectedTabViewItem] == gameTabView) {
+        [tabView selectTabViewItem: errorsView];
+    }
+}
+
+// (ZoomView delegate functions)
+- (void) zMachineStarted: (id) sender {
+    [[zView zMachine] loadStoryFile: 
+        [NSData dataWithContentsOfFile: gameToRun]];
+    [tabView selectTabViewItem: gameTabView];
+    [[paneView window] makeFirstResponder: [zView textView]];
+}
+
+// = Tab view delegate =
+- (BOOL)            tabView: (NSTabView *)view 
+    shouldSelectTabViewItem:(NSTabViewItem *)item {
+    if (item == gameTabView && zView == nil) {
+        // FIXME: if another view is running a game, then display the tabView in there
+        return NO;
+    }
+
+    return YES;
 }
 
 @end

@@ -230,6 +230,8 @@ static NSDictionary*  itemDictionary = nil;
 
     // Save the document
     [doc saveDocument: self];
+    
+    [projectPanes makeObjectsPerformSelector: @selector(stopRunningGame)];
 
     // Set up the compiler
     IFCompiler* theCompiler = [doc compiler];
@@ -288,9 +290,8 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) runCompilerOutput {
-    // FIXME: launch in our own Zoom subprocess
-    [[NSWorkspace sharedWorkspace] openFile:
-        [[[self document] compiler] outputFile]];
+    // FIXME: Ideally needs to work from the last error pane
+    [[projectPanes objectAtIndex: 1] startRunningGame: [[[self document] compiler] outputFile]];
 }
 
 - (void) compilerFinished: (NSNotification*) not {

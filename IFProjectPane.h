@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "IFCompilerController.h"
 
+#import <ZoomView/ZoomView.h>
+
 
 enum IFProjectPaneType {
     IFSourcePane = 1,
@@ -49,6 +51,9 @@ enum IFProjectPaneType {
 
     // The game view
     IBOutlet NSView* gameView;
+    
+    ZoomView*        zView;
+    NSString*        gameToRun;
 
     // Documentation
     IBOutlet NSView* docView;
@@ -95,6 +100,10 @@ enum IFProjectPaneType {
 // The source view
 - (void) updateFiles;
 - (void) moveToLine: (int) line;
+
+// The game view
+- (void) startRunningGame: (NSString*) fileName;
+- (void) stopRunningGame;
 
 // Settings
 - (void) updateSettings;

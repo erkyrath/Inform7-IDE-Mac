@@ -7,6 +7,7 @@
 //
 
 #import <AppKit/AppKit.h>
+#import <ZoomView/ZoomView.h>
 
 enum lineStyle {
     IFLineStyleNeutral,
