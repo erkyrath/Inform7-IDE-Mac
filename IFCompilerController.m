@@ -488,7 +488,11 @@ static IFCompilerController* activeController = nil;
     // Finish up
 	[storage endEditing];
 	
-	[self scrollToEnd];
+	[[NSRunLoop currentRunLoop] performSelector: @selector(scrollToEnd)
+										 target: self
+									   argument: nil
+										  order: 128
+										  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
 }
 
 // == The error OutlineView ==
