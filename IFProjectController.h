@@ -21,6 +21,7 @@ enum lineStyle {
     IFLineStyleExecutionPoint
 };
 
+@class IFProjectPane;
 @interface IFProjectController : NSWindowController {
     IBOutlet NSView* panesView;
     
@@ -32,13 +33,17 @@ enum lineStyle {
     NSMutableArray* splitViews;
 	
 	// Highlighting (indexed by file)
-	NSDictionary* lineHighlighting;
+	NSMutableDictionary* lineHighlighting;
 
     // Action after a compile has finished
     SEL compileFinishedAction;
 }
 
 - (void) layoutPanes;
+
+- (IFProjectPane*) sourcePane;
+- (IFProjectPane*) gamePane;
+- (IFProjectPane*) auxPane;
 
 // Communication from the containing panes (maybe other uses, too - scripting?)
 - (BOOL) selectSourceFile: (NSString*) fileName;

@@ -99,6 +99,10 @@ static NSDictionary* styles[256];
     styles[IFSyntaxHeading] = [[NSDictionary dictionaryWithObjectsAndKeys:
         headerSystemFont, NSFontAttributeName,
         nil] retain];
+	styles[IFSyntaxGameText] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        boldSystemFont, NSFontAttributeName,
+        [NSColor colorWithDeviceRed: 0.0 green: 0.3 blue: 0.6 alpha: 1.0], NSForegroundColorAttributeName,
+        nil] retain];	
 	
 	// The 'plain' style is a bit of a special case. It's used for files that we want to run the syntax
 	// highlighter on, but where we want the user to be able to set styles. The user will be able to set
@@ -774,6 +778,18 @@ static NSDictionary* styles[256];
 	
 	[textStorage endEditing];
 	
+	if (selected.location + selected.length > [[textStorage string] length]) {
+		int newLen = selected.length;
+		
+		newLen = [[textStorage string] length] - selected.location;
+		if (newLen <= 0) {
+			newLen = 0;
+			selected.location = [[textStorage string] length];
+		}
+		
+		selected.length = newLen;
+	}
+	
 	[sourceText setSelectedRange: selected];
 	[textStorage setDelegate: self];
         
@@ -868,8 +884,16 @@ static NSDictionary* styles[256];
 			}
 #else
             [textStorage addAttributes: attr
-											  range: r];
+								 range: r];
 #endif
+			
+			
+#ifdef showHighlighting
+			[[sourceText textStorage] addAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+				[NSColor colorWithDeviceRed: 0.8 green: 0.0 blue: 0.0 alpha: 1.0],
+				NSForegroundColorAttributeName, nil]
+											  range: r];
+#endif			
             
             startPos = curPos;
         }
@@ -961,6 +985,14 @@ static NSDictionary* styles[256];
 	if ([highlights length] == 0) return; // Nothing to do
 	
 	// IMPLEMENT ME
+}
+
+// == Documentation ==
+
+- (void) openURL: (NSURL*) url  {
+	[tabView selectTabViewItem: docTabView];
+
+	[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: url] autorelease]];
 }
 
 @end

@@ -41,6 +41,8 @@ struct IFNaturalInformLine {
 	
 	int nLines;
 	IFNaturalInformLine* lines;
+	
+	NSRange invalidRange;
 }
 
 @end

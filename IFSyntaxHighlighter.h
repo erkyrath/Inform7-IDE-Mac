@@ -72,8 +72,9 @@ enum IFSyntaxType {
     IFSyntaxEscapeCharacter,
     
     // Natural inform syntax types
-    IFSyntaxHeading = 0x80,
+    IFSyntaxHeading = 0x80,		// Heading style
 	IFSyntaxPlain,				// 'No highlighting' style - lets user defined styles show through
+	IFSyntaxGameText,			// Text that appears in the game
     
     // Debugging syntax types
     IFSyntaxDebugHighlight = 0xa0
@@ -82,7 +83,6 @@ enum IFSyntaxType {
 typedef enum IFSyntaxType IFSyntaxType;
 
 @interface IFSyntaxHighlighter : NSObject {
-    NSRange invalidRange;
 }
 
 // Changes the file we're using; does not invalidate any state information, though

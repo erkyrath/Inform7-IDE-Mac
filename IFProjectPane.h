@@ -147,4 +147,7 @@ enum IFProjectPaneType {
 
 - (void) refreshTemporaryHighlights;
 
+// The documentation view
+- (void) openURL: (NSURL*) url;
+
 @end

@@ -26,6 +26,8 @@ static NSToolbarItem* stepItem			= nil;
 static NSToolbarItem* stepOverItem		= nil;
 static NSToolbarItem* stepOutItem		= nil;
 
+static NSToolbarItem* indexItem		    = nil;
+
 static NSToolbarItem* watchItem			= nil;
 static NSToolbarItem* breakpointItem	= nil;
 
@@ -43,6 +45,8 @@ static NSDictionary*  itemDictionary = nil;
 	stepItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stepItem"];
     stepOverItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stepOverItem"];
     stepOutItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stepOutItem"];
+	
+	indexItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"indexItem"];
 
 	watchItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"watchItem"];
     breakpointItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"breakpointItem"];
@@ -57,6 +61,7 @@ static NSDictionary*  itemDictionary = nil;
 		stepItem, @"stepItem",
 		stepOverItem, @"stepOverItem",
 		stepOutItem, @"stepOutItem",
+		indexItem, @"indexItem",
 		watchItem, @"watchItem",
 		breakpointItem, @"breakpointItem",
         nil];
@@ -72,6 +77,8 @@ static NSDictionary*  itemDictionary = nil;
 	[stepItem setImage: [NSImage imageNamed: @"step"]];
 	[stepOverItem setImage: [NSImage imageNamed: @"stepover"]];
 	[stepOutItem setImage: [NSImage imageNamed: @"stepout"]];
+
+	[indexItem setImage: [NSImage imageNamed: @"index"]];
 	
 	[watchItem setImage: [NSImage imageNamed: @"watch"]];
 	[breakpointItem setImage: [NSImage imageNamed: @"breakpoint"]];
@@ -87,6 +94,8 @@ static NSDictionary*  itemDictionary = nil;
 	[stopItem setLabel: @"Stop"];
 	[pauseItem setLabel: @"Pause"];
 	[continueItem setLabel: @"Continue"];
+
+	[indexItem setLabel: @"Index"];
 	
 	[watchItem setLabel: @"Watch"];
 	[breakpointItem setLabel: @"Breakpoints"];
@@ -95,6 +104,8 @@ static NSDictionary*  itemDictionary = nil;
     [compileItem setAction: @selector(compile:)];
     [compileAndRunItem setAction: @selector(compileAndRun:)];
     [releaseItem setAction: @selector(release:)];
+	
+	[indexItem setAction: @selector(docIndex:)];
 	
     [stopItem setAction: @selector(stopProcess:)];
 	[pauseItem setAction: @selector(pauseProcess:)];
@@ -110,6 +121,8 @@ static NSDictionary*  itemDictionary = nil;
         toolbar = nil;
         projectPanes = [[NSMutableArray allocWithZone: [self zone]] init];
         splitViews   = [[NSMutableArray allocWithZone: [self zone]] init];
+		
+		lineHighlighting = [[NSMutableDictionary allocWithZone: [self zone]] init];
         
         [self setShouldCloseDocument: YES];
         [self setWindowFrameAutosaveName: @"ProjectWindow"];
@@ -122,6 +135,8 @@ static NSDictionary*  itemDictionary = nil;
     if (toolbar) [toolbar release];
     [projectPanes release];
     [splitViews release];
+	
+	[lineHighlighting release];
 
     [super dealloc];
 }
@@ -274,14 +289,14 @@ static NSDictionary*  itemDictionary = nil;
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
-        @"compileItem", @"compileAndRunItem", @"pauseItem", @"continueItem", @"stepItem", @"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, @"releaseItem"
-        , nil];
+        @"compileItem", @"compileAndRunItem", @"pauseItem", @"continueItem", @"stepItem", @"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem" ,NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, @"releaseItem",
+        nil];
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects: @"compileItem", @"compileAndRunItem", 
 		NSToolbarSeparatorItemIdentifier,  @"stopItem", @"pauseItem", NSToolbarSeparatorItemIdentifier, @"continueItem", @"stepOutItem", @"stepOverItem", @"stepItem",
-        NSToolbarSeparatorItemIdentifier,  @"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"breakpointItem", @"watchItem",nil];
+        NSToolbarSeparatorItemIdentifier,  @"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"indexItem", NSToolbarSeparatorItemIdentifier, @"breakpointItem", @"watchItem",nil];
 }
 
 // == Toolbar item validation ==
@@ -449,6 +464,7 @@ static NSDictionary*  itemDictionary = nil;
 
 // = Communication from the containing panes =
 - (IFProjectPane*) sourcePane {
+	// Returns the current pane containing the source code (or an appropriate pane that source code can be displayed in)
     int paneToUse = 0;
     int x;
 	
@@ -469,6 +485,50 @@ static NSDictionary*  itemDictionary = nil;
 	
     if (paneToUse >= [projectPanes count]) {
         // All error views?
+        paneToUse = 0;
+    }
+	
+	return [projectPanes objectAtIndex: paneToUse];
+}
+
+- (IFProjectPane*) auxPane {
+	// Returns the auxiliary pane: the one to use for displaying documentation, etc
+    int paneToUse = 0;
+    int x;
+	
+    for (x=0; x<[projectPanes count]; x++) {
+        IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
+		
+        if ([thisPane currentView] == IFDocumentationPane) {
+			// Doc pane has priority
+            paneToUse = x;
+            break;
+        }
+		
+        if ([thisPane currentView] == IFSourcePane) {
+            // Avoid a pane showing the source code
+            paneToUse = x+1;
+        }
+    }
+	
+    for (x=0; x<[projectPanes count]; x++) {
+        IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
+		
+        if ([thisPane currentView] != IFSourcePane &&
+			[thisPane currentView] != IFGamePane) {
+			// Anything but the source or game...
+            paneToUse = x;
+            break;
+        }
+		
+        if ([thisPane currentView] == IFSourcePane) {
+            // Avoid a pane showing the source code
+            paneToUse = x+1;
+        }
+    }
+	
+    if (paneToUse >= [projectPanes count]) {
+        // All source views?
         paneToUse = 0;
     }
 	
@@ -572,6 +632,11 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) pauseProcess: (id) sender {
 	[[self gamePane] pauseRunningGame];
+}
+
+// = Documentation controls =
+- (void) docIndex: (id) sender {
+	[[self auxPane] openURL: [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource: @"index" ofType: @"html"]]];
 }
 
 @end
