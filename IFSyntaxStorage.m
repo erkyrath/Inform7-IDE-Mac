@@ -347,12 +347,15 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		// Annoying corner case when deleted range ends in a newline: this ensures that the
 		// syntax at the start of the new line is properly updated.
 		charStyles[range.location-1] = IFSyntaxStyleNotHighlighted;
+		
+		[self stopBackgroundHighlighting];
 		[self highlightRangeSoon: NSMakeRange(range.location-1, 2)];
+	} else {
+		// Have to force the highlighting to happen later: will mess up NSTextView otherwise (cursor will move to the wrong position)
+		[self stopBackgroundHighlighting];
+		[self highlightRangeSoon: NSMakeRange(range.location, newLen)];
 	}
-	
-	// Have to force the highlighting to happen later: will mess up NSTextView otherwise (cursor will move to the wrong position)
-	[self stopBackgroundHighlighting];
-	[self highlightRangeSoon: NSMakeRange(range.location, newLen)];
+
 	[self endEditing];
 }
 
