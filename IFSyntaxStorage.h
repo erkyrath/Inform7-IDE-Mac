@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFIntelFile.h"
+
 //
 // Predefined states
 //
@@ -80,6 +82,23 @@ typedef unsigned char IFSyntaxStyle;
 @end
 
 //
+// Classes must implement this to provide syntax intelligence (real-time indexing and autocomplete)
+//
+@protocol IFSyntaxIntelligence
+
+// Notifying of the highlighter currently in use
+- (void) setSyntaxStorage: (IFSyntaxStorage*) storage;
+
+// Gathering information (works like rehint)
+- (void) gatherIntelForLine: (NSString*) line
+					 styles: (IFSyntaxStyle*) styles
+			   initialState: (IFSyntaxState) state
+				 lineNumber: (int) lineNumber
+				   intoData: (IFIntelFile*) data;
+
+@end
+
+//
 // An NSTextStorage object that performs syntax highlighting
 //
 @interface IFSyntaxStorage : NSTextStorage {
@@ -110,6 +129,10 @@ typedef unsigned char IFSyntaxStyle;
 	NSMutableArray* tabStops;			// Tab stop array
 	NSMutableArray* paragraphStyles;	// Maps number of tabs at the start of a line to the appropriate paragraph style
 	BOOL enableWrapIndent;
+	
+	// 'Intelligence'
+	id<IFSyntaxIntelligence,NSObject> intelSource;
+	IFIntelFile* intelData;				// 'Intelligence' data
 }
 
 // Setting/retrieving the highlighter
@@ -138,5 +161,9 @@ typedef unsigned char IFSyntaxStyle;
 - (void) preferencesChanged: (NSNotification*) not;
 
 - (NSDictionary*) paragraphStyleForTabStops: (int) numberOfTabstops;
+
+// Gathering/retrieving intelligence data
+- (void) setIntelligence: (id<IFSyntaxIntelligence>) intel;
+- (id<IFSyntaxIntelligence>) intelligence;
 
 @end

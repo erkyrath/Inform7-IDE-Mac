@@ -114,7 +114,15 @@ static const int maxPassLength = 1024;
 	
 	[syntaxStack release];
 
-	[highlighter release];
+	if (highlighter) {
+		[highlighter setSyntaxStorage: nil];
+		[highlighter release];
+	}
+	
+	if (intelSource) {
+		[intelSource setSyntaxStorage: nil];
+		[intelSource release];
+	}
 	
 	[paragraphStyles release];
 	[tabStops release];
@@ -332,6 +340,11 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 			[lineStyles removeObjectAtIndex: x];
 		}
 		
+		if (intelData) {
+			// Remove the lines from the intelligence data
+			[intelData removeLines: NSMakeRange(firstLine+1, nNewLines)];
+		}
+		
 		// Move lines down
 		memmove(lineStarts + firstLine + nNewLines + 1,
 				lineStarts + lastLine + 1,
@@ -350,6 +363,8 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 							 atIndex: firstLine+1];
 			
 			lineStarts[firstLine+1+x] = newLineStarts[x];
+			
+			if (intelData) [intelData insertLineBeforeLine: firstLine+1]; // Might be slow with cut+paste sometimes?
 		}
 	}
 		
@@ -604,6 +619,15 @@ static inline BOOL IsWhitespace(unichar c) {
 		[highlighter rehintLine: lineToHint
 						 styles: charStyles+firstChar
 				   initialState: initialState];
+		
+		if (intelSource && intelData) {
+			// Gather intelligence for the line, if we have something to gather it with
+			[intelSource gatherIntelForLine: lineToHint
+									 styles: charStyles+firstChar
+							   initialState: initialState
+								 lineNumber: line
+								   intoData: intelData];
+		}
 		
 		// Use our own ability to set attributes to set the number of tab stops
 		if (enableWrapIndent) {
@@ -863,6 +887,23 @@ static inline BOOL IsWhitespace(unichar c) {
 	}
 	
 	return [paragraphStyles objectAtIndex: numberOfTabStops];
+}
+
+// = Gathering/retrieving intelligence data =
+
+- (void) setIntelligence: (id<IFSyntaxIntelligence>) intel {
+	if (intelData) [intelData release];
+	if (intelSource) [intelSource release];
+	
+	intelData = [[IFIntelFile alloc] init];
+	intelSource = [(NSObject*)intel retain];
+	
+	// If this ever might be called AFTER setHighlighter, then we need to rehighlight here. For the moment, this
+	// doesn't happen, so we don't do this for efficiency reasons
+}
+
+- (id<IFSyntaxIntelligence>) intelligence {
+	return intelSource;
 }
 
 @end

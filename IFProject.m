@@ -13,6 +13,8 @@
 #import "IFNaturalHighlighter.h"
 #import "IFInform6Highlighter.h"
 
+#import "IFNaturalIntel.h"
+
 NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotification";
 NSString* IFProjectWatchExpressionsChangedNotification = @"IFProjectWatchExpressionsChangedNotification";
 NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChangedNotification";
@@ -38,10 +40,29 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 	return nil;
 }
 
++ (id<IFSyntaxIntelligence,NSObject>) intelligenceForFilename: (NSString*) filename {
+	NSString* extn = [[filename pathExtension] lowercaseString];
+	
+	if ([extn isEqualToString: @"inf"] ||
+		[extn isEqualToString: @"i6"] ||
+		[extn isEqualToString: @"h"]) {
+		// Inform 6 file
+		return nil;
+	} else if ([extn isEqualToString: @"ni"] ||
+			   [extn isEqualToString: @""]) {
+		// Natural Inform file
+		return [[[IFNaturalIntel alloc] init] autorelease];
+	}
+	
+	// No intelligence
+	return nil;
+}
+
 + (IFSyntaxStorage*) storageWithString: (NSString*) string
 						 forFilename: (NSString*) filename {
 	IFSyntaxStorage* res = [[IFSyntaxStorage alloc] initWithString: string];
 	
+	[res setIntelligence: [[self class] intelligenceForFilename: filename]];
 	[res setHighlighter: [[self class] highlighterForFilename: filename]];
 	
 	return [res autorelease];
@@ -51,6 +72,7 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 									 forFilename: (NSString*) filename {
 	IFSyntaxStorage* res = [[IFSyntaxStorage alloc] initWithAttributedString: string];
 	
+	[res setIntelligence: [[self class] intelligenceForFilename: filename]];
 	[res setHighlighter: [[self class] highlighterForFilename: filename]];
 	
 	return [res autorelease];
@@ -291,6 +313,7 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
         NSString* theFile = [NSString stringWithContentsOfFile: fileName];
 
 		IFSyntaxStorage* text = [[IFSyntaxStorage alloc] initWithString: theFile];
+		[text setIntelligence: [[[IFNaturalIntel alloc] init] autorelease]];
 		[text setHighlighter: [[[IFNaturalHighlighter alloc] init] autorelease]];
 
         if (sourceFiles) [sourceFiles release];
