@@ -79,8 +79,11 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
 	if (canDisplay) {
 		IFProjectController* proj = [activeWindow windowController];
+		
+		int selectedRow = [indexList selectedRow];
+		if (selectedRow < 0) return; // Nothing to do
 
-		id selectedItem = [indexList itemAtRow: [indexList selectedRow]];
+		id selectedItem = [indexList itemAtRow: selectedRow];
 		IFIndexFile* index = [[proj document] indexFile];
 		
 		NSString* filename = [index filenameForItem: selectedItem];
