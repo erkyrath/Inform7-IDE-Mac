@@ -117,7 +117,23 @@ static int compare(const void* a, const void* b) {
     return self;
 }
 
+- (void) clearLine: (int) lineNo {
+    if (lineNo < 0 || lineNo >= nLines) return;
+    
+    if (lines[lineNo].colour) free(lines[lineNo].colour);
+    lines[lineNo].colour = NULL;
+    lines[lineNo].invalid = YES;
+    lines[lineNo].needsDisplay = YES;
+}
+
 - (void) dealloc {
+	int x;
+	
+	for (x=0; x<nLines; x++) {
+		[self clearLine: x];
+	}
+	if (lines) free(lines);
+	
     if (file) [file release];
     
     [super dealloc];
@@ -129,15 +145,6 @@ static int compare(const void* a, const void* b) {
 }
 
 // = Noting that things have changed in the file =
-- (void) clearLine: (int) lineNo {
-    if (lineNo < 0 || lineNo >= nLines) return;
-    
-    if (lines[lineNo].colour) free(lines[lineNo].colour);
-    lines[lineNo].colour = NULL;
-    lines[lineNo].invalid = YES;
-    lines[lineNo].needsDisplay = YES;
-}
-
 - (void) clearAllLines {
     int x;
     
