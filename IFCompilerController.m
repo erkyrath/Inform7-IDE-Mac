@@ -14,6 +14,8 @@
 #import "IFError.h"
 #import "IFProjectController.h"
 
+#import "IFPretendWebView.h"
+
 // Possible styles (stored in the styles dictionary)
 NSString* IFStyleBase               = @"IFStyleBase";
 
@@ -674,6 +676,24 @@ static IFCompilerController* activeController = nil;
 			
 			if ([[NSApp delegate] isWebKitAvailable] && ([type isEqualTo: @"html"] ||
 														 [type isEqualTo: @"htm"])) {
+				// Create a parent view
+				NSView* aView = [[NSView alloc] initWithFrame: [fileTabView contentRect]];
+				[aView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+				newView = aView;
+				
+				// Create a 'fake' web view which will get replaced when the view is actually displayed on screen
+				IFPretendWebView* pretendView = [[IFPretendWebView alloc] initWithFrame: [aView bounds]];
+				
+				NSString* file = [path stringByAppendingPathComponent: key];
+				[pretendView setHostWindow: [[splitView superview] window]];
+				[pretendView setRequest: [[[NSURLRequest alloc] initWithURL: [IFProjectPolicy fileURLWithPath: file]] autorelease]];
+				[pretendView setPolicyDelegate: self];
+				
+				[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+				
+				// Add it to aView
+				[aView addSubview: [pretendView autorelease]];
+#if 0
 				// Create a WebView to display this file in
 				WebView* fileView = [[WebView alloc] init];
 				[fileView setPolicyDelegate: self];
@@ -689,6 +709,7 @@ static IFCompilerController* activeController = nil;
 				[fileView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 				
 				newView = fileView;
+#endif
 			} else {
 				// Create an NSTextView to display this file in			
 				NSTextView*   textView = [[NSTextView alloc] init];

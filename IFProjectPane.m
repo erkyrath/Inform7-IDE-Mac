@@ -10,6 +10,7 @@
 #import "IFProject.h"
 #import "IFProjectController.h"
 #import "IFAppDelegate.h"
+#import "IFPretendWebView.h"
 
 #import "IFIsFiles.h"
 
@@ -824,6 +825,22 @@ NSDictionary* IFSyntaxAttributes[256];
 		if ([extension isEqualToString: @"htm"] ||
 			[extension isEqualToString: @"html"] ||
 			[extension isEqualToString: @"skein"]) {
+			// Create a parent view
+			NSView* fileView = [[NSView alloc] init];
+			[fileView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+			
+			// Create a 'fake' web view which will get replaced when the view is actually displayed on screen
+			IFPretendWebView* pretendView = [[IFPretendWebView alloc] initWithFrame: [fileView bounds]];
+			
+			[pretendView setHostWindow: [paneView window]];
+			[pretendView setRequest: [[[NSURLRequest alloc] initWithURL: [IFProjectPolicy fileURLWithPath: fullPath]] autorelease]];
+			[pretendView setPolicyDelegate: [parent docPolicy]];
+			
+			[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+			
+			// Add it to fileView
+			[fileView addSubview: [pretendView autorelease]];
+#if 0
 			// Create a web view to view this file
 			WebView* fileView = [[WebView alloc] init];
 			[fileView setPolicyDelegate: [parent docPolicy]]; // Enables the 'source' protocol
@@ -834,6 +851,7 @@ NSDictionary* IFSyntaxAttributes[256];
 			
 			// Load the HTML
 			[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [IFProjectPolicy fileURLWithPath: fullPath]] autorelease]];
+#endif
 			
 			// Create the tab to put this view in
 			NSTabViewItem* newTab = [[[NSTabViewItem alloc] init] autorelease];
