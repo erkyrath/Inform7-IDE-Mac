@@ -283,6 +283,10 @@ static NSDictionary*  itemDictionary = nil;
 	[self setWindowFrameAutosaveName: @"ProjectWindow"];
 }
 
+- (void) windowWillClose: (NSNotification*) not {
+	[[self gamePane] stopRunningGame];
+}
+
 - (void) awakeFromNib {
 	// Register for settings updates
     [[NSNotificationCenter defaultCenter] addObserver: self

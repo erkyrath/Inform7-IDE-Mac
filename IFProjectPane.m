@@ -185,12 +185,17 @@ NSDictionary* IFSyntaxAttributes[256];
 		[textStorage removeLayoutManager: [sourceText layoutManager]];
 		[textStorage release];
 	}
-    if (zView) [zView release];
+    if (zView) {
+		[zView setDelegate: nil];
+		[zView killTask];
+		[zView release];
+	}
 	if (pointToRunTo) [pointToRunTo release];
     if (gameToRun) [gameToRun release];
 	if (wView) [wView release];
 	
 	if (lastAnnotation) [lastAnnotation release];
+	if (transcriptController) [transcriptController release];
     
     [super dealloc];
 }
