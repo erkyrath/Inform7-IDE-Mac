@@ -371,19 +371,28 @@ static NSDictionary*  itemDictionary = nil;
 - (NSToolbarItem *)toolbar: (NSToolbar *) toolbar
      itemForItemIdentifier: (NSString *)  itemIdentifier
  willBeInsertedIntoToolbar: (BOOL)        flag {
-    return [itemDictionary objectForKey: itemIdentifier];
+	// Cheat!
+	// Actually, I thought you could share NSToolbarItems between windows, but you can't (the images disappear,
+	// weirdly). However, copying the item is just as good as creating a new one here, and makes the code
+	// somewhat more readable.
+    return [[[itemDictionary objectForKey: itemIdentifier] copy] autorelease];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
-        @"compileItem", @"compileAndRunItem", @"compileAndDebugItem", @"pauseItem", @"continueItem", @"stepItem", @"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem" ,NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, @"releaseItem",
+        @"compileItem", @"compileAndRunItem", @"compileAndDebugItem", @"pauseItem", @"continueItem", @"stepItem", 
+		@"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem",
+		NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, 
+		@"releaseItem",
         nil];
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects: @"compileItem", @"compileAndRunItem", @"compileAndDebugItem",
-		NSToolbarSeparatorItemIdentifier,  @"stopItem", @"pauseItem", NSToolbarSeparatorItemIdentifier, @"continueItem", @"stepOutItem", @"stepOverItem", @"stepItem",
-        NSToolbarSeparatorItemIdentifier,  @"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"indexItem", NSToolbarSeparatorItemIdentifier, @"breakpointItem", @"watchItem",nil];
+		NSToolbarSeparatorItemIdentifier,  @"stopItem", @"pauseItem", NSToolbarSeparatorItemIdentifier, 
+		@"continueItem", @"stepOutItem", @"stepOverItem", @"stepItem", NSToolbarSeparatorItemIdentifier,
+		@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"indexItem", NSToolbarSeparatorItemIdentifier, 
+		@"breakpointItem", @"watchItem", nil];
 }
 
 // == Toolbar item validation ==
@@ -391,11 +400,14 @@ static NSDictionary*  itemDictionary = nil;
 - (BOOL) validateToolbarItem: (NSToolbarItem*) item {
 	BOOL isRunning = [[self gamePane] isRunningGame];
 	
-	if (item == stopItem || item == pauseItem) {
+	if ([[item itemIdentifier] isEqualToString: [stopItem itemIdentifier]] || [[item itemIdentifier] isEqualToString: [pauseItem itemIdentifier]]) {
 		return isRunning;
 	}
 	
-	if (item == continueItem || item == stepOutItem || item == stepOverItem || item == stepItem) {
+	if ([[item itemIdentifier] isEqualToString: [continueItem itemIdentifier]] || 
+		[[item itemIdentifier] isEqualToString: [stepOutItem itemIdentifier]] || 
+		[[item itemIdentifier] isEqualToString: [stepOverItem itemIdentifier]] || 
+		[[item itemIdentifier] isEqualToString: [stepItem itemIdentifier]]) {
 		return isRunning?waitingAtBreakpoint:NO;
 	}
 	
