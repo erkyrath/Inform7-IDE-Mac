@@ -18,7 +18,7 @@
 - (NSView*) settingView {
 }
 
-- (IBOutlet) setSettingView: (NSView*) settingView {
+- (IBOutlet void) setSettingView: (NSView*) settingView {
 }
 
 @end
