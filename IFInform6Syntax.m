@@ -3,7 +3,7 @@
 //  Inform
 //
 //  Created by Andrew Hunter on Sun Nov 30 2003.
-//  Copyright (c) 2003 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2003 Andrew Hunter. All rights reserved.
 //
 
 #import "IFInform6Syntax.h"
@@ -19,11 +19,43 @@ static const IFInform6State initialState = {
     IFSyntaxNone
 };
 
-static NSSet* codeKeywords;
-static NSSet* otherKeywords;
+static NSSet* codeKwSet;
+static NSSet* otherKwSet;
+
+// We use cStrings instead for speed reasons (NSSets are very slow for the amount of
+// lookups we need to do)
+static int    numCodeKeywords = 0;
+static char** codeKeywords = NULL;
+static int    numOtherKeywords = 0;
+static char** otherKeywords = NULL;
+
+static inline BOOL FindKeyword(char** keywordList, int nKeywords, const char* keyword) {
+    int bottom = 0;
+    int top = nKeywords-1;
+    
+    int pos;
+    
+    while (top > bottom) {
+        pos = (top+bottom)>>1;
+        
+        int cmp = strcmp(keywordList[pos], keyword);
+        
+        if (cmp == 0) return YES;
+        if (cmp < 0) bottom = pos+1;
+        if (cmp > 0) top = pos-1;
+    }
+    
+    if (top == bottom && strcmp(keywordList[top], keyword) == 0) return YES;
+    
+    return NO;
+}
+
+static int compare(const void* a, const void* b) {
+    return strcmp(*((const char**)a),*((const char**)b));
+}
 
 + (void) initialize {
-    codeKeywords = [[NSSet setWithObjects:
+    codeKwSet = [[NSSet setWithObjects:
         @"box", @"break", @"child", @"children", @"continue", @"default",
         @"do", @"elder", @"eldest", @"else", @"false", @"font", @"for", @"give",
         @"has", @"hasnt", @"if", @"in", @"indirect", @"inversion", @"jump",
@@ -34,10 +66,38 @@ static NSSet* otherKeywords;
         @"true", @"until", @"while", @"younger", @"youngest", nil]
         retain];
     
-    otherKeywords = [[NSSet setWithObjects: 
+    otherKwSet = [[NSSet setWithObjects: 
         @"first", @"last", @"meta", @"only", @"private", @"replace", @"reverse",
         @"string", @"table", nil]
         retain];
+    
+    NSEnumerator* enumerator = [codeKwSet objectEnumerator];
+    NSString* key;
+    
+    while (key = [enumerator nextObject]) {
+        const char* str = [[key lowercaseString] cString];
+        
+        numCodeKeywords++;
+        
+        codeKeywords = realloc(codeKeywords, sizeof(char*) * (numCodeKeywords+1));
+        codeKeywords[numCodeKeywords-1] = malloc(strlen(str)+1);
+        strcpy(codeKeywords[numCodeKeywords-1], str);
+    }
+    
+    enumerator = [otherKwSet objectEnumerator];
+    
+    while (key = [enumerator nextObject]) {
+        const char* str = [[key lowercaseString] cString];
+        
+        numOtherKeywords++;
+        
+        otherKeywords = realloc(otherKeywords, sizeof(char*) * (numOtherKeywords+1));
+        otherKeywords[numOtherKeywords-1] = malloc(strlen(str)+1);
+        strcpy(otherKeywords[numOtherKeywords-1], str);
+    }
+    
+    qsort(codeKeywords, numCodeKeywords, sizeof(char*), compare);
+    qsort(otherKeywords, numOtherKeywords, sizeof(char*), compare);
 }
 
 - (id) init {
@@ -335,7 +395,7 @@ static inline BOOL IsIdentifier(int chr) {
         
         chr = str[x];
         
-        if (colour != IFSyntaxCode &&
+        if (colour != IFSyntaxCodeAlpha &&
             colour != IFSyntaxNone) {
             // No further highlighting will be required
             continue;
@@ -358,7 +418,7 @@ static inline BOOL IsIdentifier(int chr) {
         
         unsigned char newColour = 0xff;
 
-        if (colour == IFSyntaxCode) {
+        if (colour == IFSyntaxCodeAlpha) {
             // If an identifier is in code colour, then:
 
             if (identifierStart > 0 && str[identifierStart-1] == '@') {
@@ -380,13 +440,13 @@ static inline BOOL IsIdentifier(int chr) {
                 //       "true"  "until"  "while"  "younger"  "youngest"
         
                 //     we recolour the identifier to "codealpha colour".
+                char* identifier = malloc(identifierLen+1);
+                identifier = strncpy(identifier, str + identifierStart, identifierLen);
+                identifier[identifierLen] = 0;
                 
-#if 0
-                NSString* idString = [str substringWithRange: NSMakeRange(identifierStart, identifierLen)];
-                idString = [idString lowercaseString];
+                if (FindKeyword(codeKeywords, numCodeKeywords, identifier)) newColour = IFSyntaxCode;
                 
-                if (![codeKeywords containsObject: idString]) newColour = IFSyntaxCodeAlpha;
-#endif
+                free(identifier);
             }
         } else if (colour == IFSyntaxNone) {
             // On the other hand, if an identifier is in foreground colour, then we
@@ -397,12 +457,13 @@ static inline BOOL IsIdentifier(int chr) {
         
             // If it is, we recolour it in directive colour.
 
-#if 0
-            NSString* idString = [str substringWithRange: NSMakeRange(identifierStart, identifierLen)];
-            idString = [idString lowercaseString];
-
-            if ([otherKeywords containsObject: idString]) newColour = IFSyntaxDirective;
-#endif
+            char* identifier = malloc(identifierLen+1);
+            identifier = strncpy(identifier, str + identifierStart, identifierLen);
+            identifier[identifierLen] = 0;
+            
+            if (FindKeyword(otherKeywords, numOtherKeywords, identifier)) newColour = IFSyntaxDirective;
+            
+            free(identifier);
         }
         
         if (newColour != 0xff) {
@@ -590,25 +651,6 @@ static inline BOOL IsIdentifier(int chr) {
 }
 
 // = Getting information about a character = 
-#if 0 // Superceded
-- (enum IFSyntaxType) colourForCharacterAtIndex: (int) index {    
-    // Get the colour
-    int pos;
-    int line;
-
-    line = [self lineForChar: index
-                    position: &pos];
-    
-    index -= pos;
-    if (index >= lines[line].length) {
-        NSLog(@"BUG: ran over end of line");
-        return IFSyntaxNone;
-    }
-    
-    return (IFSyntaxType)(lines[line].colour[index]);
-}
-#endif
-
 - (void) colourForCharacterRange: (NSRange) range
                           buffer: (unsigned char*) buf {
     int x;
@@ -1012,7 +1054,7 @@ static inline BOOL IsIdentifier(int chr) {
     if (state.outer.statement) {
         if (chr == '[' || chr == ']') return IFSyntaxFunction;
         if (chr == '\'' || chr == '"') return IFSyntaxString;
-        return IFSyntaxCode;
+        return IFSyntaxCodeAlpha;
     }
     
     if (chr == ',' || chr == ';' || chr == '*' || chr == '>') return IFSyntaxDirective;
