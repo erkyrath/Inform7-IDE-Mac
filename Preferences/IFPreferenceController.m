@@ -71,6 +71,8 @@
 		[preferenceToolbar setDisplayMode: NSToolbarDisplayModeIconAndLabel];
 		[[self window] setToolbar: preferenceToolbar];
 		[preferenceToolbar setVisible: YES];
+		
+		[self switchToPreferencePane: [[preferenceViews objectAtIndex: 0] identifier]];
 	}
 
 	[super showWindow: sender];	
