@@ -280,8 +280,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 }
 
 // == General housekeeping ==
-- (void)windowControllerDidLoadNib:(NSWindowController *) aController
-{
+- (void)windowControllerDidLoadNib:(NSWindowController *) aController {
     [super windowControllerDidLoadNib:aController];
 }
 
