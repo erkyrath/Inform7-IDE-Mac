@@ -78,4 +78,15 @@ NSString* IFSettingHasChangedNotification = @"IFSettingHasChangedNotification";
 														object: self];
 }
 
+// = Saving settings =
+
+- (NSDictionary*) plistEntries {
+	return [NSDictionary dictionary]; // No settings
+}
+
+- (void) updateSettings: (IFCompilerSettings*) settings
+	   withPlistEntries: (NSDictionary*) entries {
+	// Do nothing
+}
+
 @end

@@ -6,12 +6,25 @@
 //  Copyright (c) 2003 Andrew Hunter. All rights reserved.
 //
 
+//
+// We've got a bit of an evolutionary thing going on here. Originally, this was going to be the 
+// repository of all settings. Back in those days, Inform.app was just a front-end for the Inform 6
+// compiler and didn't really do anything fancy. Now, I've redesigned things so that we can have
+// 'IFSetting' objects: these are controller objects for individual sets of settings, and can have
+// their own store. But we've still got this object, which acts as the interface to the compiler itself,
+// so the 'older' settings are stored here and not as part of the new settings system.
+//
+// At some point, the settings that are here should probably be moved into their respective IFSetting 
+// objects, but for the moment, they will remain.
+//
+
 #import "IFCompilerSettings.h"
 #import "IFCompiler.h"
+#import "IFSetting.h"
 
-NSString* IFSettingLibraryToUse  = @"IFSettingLibraryToUse";
+NSString* IFSettingLibraryToUse    = @"IFSettingLibraryToUse";
 NSString* IFSettingCompilerVersion = @"IFSettingCompilerVersion";
-NSString* IFSettingZCodeVersion  = @"IFSettingZCodeVersion";
+NSString* IFSettingZCodeVersion    = @"IFSettingZCodeVersion";
 
 NSString* IFSettingNaturalInform = @"IFSettingNaturalInform";
 NSString* IFSettingStrict        = @"IFSettingStrict";
@@ -20,10 +33,14 @@ NSString* IFSettingDEBUG         = @"IFSettingDEBUG";
 
 // Debug
 NSString* IFSettingCompileNatOutput = @"IFSettingCompileNatOutput";
-NSString* IFSettingRunBuildScript = @"IFSettingRunBuildScript";
+NSString* IFSettingRunBuildScript   = @"IFSettingRunBuildScript";
 
 // Natural Inform
 NSString* IFSettingLoudly = @"IFSettingLoudly";
+
+// Compiler types
+NSString* IFCompilerInform6		  = @"IFCompilerInform6";
+NSString* IFCompilerNaturalInform = @"IFCompilerNaturalInform";
 
 // Notifications
 NSString* IFSettingNotification = @"IFSettingNotification";
@@ -200,6 +217,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 
 - (void) dealloc {
     [store release];
+	if (genericSettings) [genericSettings release];
 
     [super dealloc];
 }
@@ -310,6 +328,9 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     }
 
     [result addObject: incString];
+	
+	// Command line options from the set of generic settings objects
+	[result addObjectsFromArray: [self genericCommandLineForCompiler: IFCompilerInform6]];
     
     return result;
 }
@@ -361,6 +382,8 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 		[res addObject: @"-rules"];
 		[res addObject: extensions];
 	}
+	
+	[res addObjectsFromArray: [self genericCommandLineForCompiler: IFCompilerNaturalInform]];
     
     return res;
 }
@@ -521,6 +544,27 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 
 - (NSString*) libraryToUse {
     return [store objectForKey: IFSettingLibraryToUse];
+}
+
+// = Generic settings =
+- (void) setGenericSettings: (NSArray*) newGenericSettings {
+	if (genericSettings) [genericSettings release];
+	genericSettings = [newGenericSettings retain];
+}
+
+- (NSArray*) genericCommandLineForCompiler: (NSString*) compiler {
+	NSEnumerator* settingEnum = [genericSettings objectEnumerator];
+	IFSetting* setting;
+	
+	NSMutableArray* result = [NSMutableArray array];
+	
+	while (setting = [settingEnum nextObject]) {
+		NSArray* settingOptions = [setting commandLineOptionsForCompiler: compiler];
+		
+		[result addObjectsFromArray: settingOptions];
+	}
+	
+	return result;
 }
 
 // = NSCoding =

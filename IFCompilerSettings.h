@@ -31,9 +31,14 @@ extern NSString* IFSettingNotification;
 // Natural Inform
 extern NSString* IFSettingLoudly;
 
+// Compiler types
+extern NSString* IFCompilerInform6;
+extern NSString* IFCompilerNaturalInform;
+
 // The settings dictionary object
 @interface IFCompilerSettings : NSObject<NSCoding>  {
     NSMutableDictionary* store;
+	NSArray* genericSettings;
 }
 
 + (NSArray*) libraryPaths;
@@ -65,6 +70,10 @@ extern NSString* IFSettingLoudly;
 
 - (void)      setLoudly: (BOOL) loudly;
 - (BOOL)      loudly;
+
+// Generic settings (IFSetting)
+- (void)      setGenericSettings: (NSArray*) genericSettings;
+- (NSArray*)  genericCommandLineForCompiler: (NSString*) compiler;
 
 // Getting command line arguments, etc
 - (NSArray*) commandLineArguments;

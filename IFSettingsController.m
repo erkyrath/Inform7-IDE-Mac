@@ -96,6 +96,8 @@ static NSMutableArray* standardSettingsClasses = nil;
 											   object: [self compilerSettings]];
 	
 	[settingsView finishRearranging];
+	
+	[compilerSettings setGenericSettings: settings];
 }
 
 - (IFSettingsView*) settingsView {
@@ -142,6 +144,13 @@ static NSMutableArray* standardSettingsClasses = nil;
 }
 
 - (void) setCompilerSettings: (IFCompilerSettings*) cSettings {
+	// NOTE: this implementation assumes a one-to-one relationship between the IFCompilerSettings object
+	// and ourselves: things may go a bit wonky if multiple settings controllers refer to the same
+	// IFCompilerSettings object.
+	
+	// (FIXME: this actually happens, as each pane has its own SettingsController. Though I don't think
+	// this will cause any pain for now)
+
 	// Deregister/release the compiler settings if we're not using them any more
 	if (compilerSettings) {
 		[[NSNotificationCenter defaultCenter] removeObserver: self
@@ -152,6 +161,7 @@ static NSMutableArray* standardSettingsClasses = nil;
 	
 	// Store the new compiler settings object
 	compilerSettings = [cSettings retain];
+	[compilerSettings setGenericSettings: settings];
 
 	// Update ourselves when the compiler settings change
 	[[NSNotificationCenter defaultCenter] addObserver: self

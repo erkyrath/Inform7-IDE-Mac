@@ -15,6 +15,9 @@ extern NSString* IFSettingHasChangedNotification;
 
 // Representation of a class of settings
 // Technically a controller object
+//
+// It's usually pretty pointless to make extra model objects beyond IFCompilerSettings, so there
+// may be some overlap with the model here.
 @interface IFSetting : NSObject {
 	IBOutlet NSView* settingView;
 }
@@ -36,6 +39,11 @@ extern NSString* IFSettingHasChangedNotification;
 
 // Notifying the controller about things
 - (IBAction) settingsHaveChanged: (id) sender;
+
+// Saving settings
+- (NSDictionary*) plistEntries;
+- (void) updateSettings: (IFCompilerSettings*) settings
+	   withPlistEntries: (NSDictionary*) entries;
 
 @end
 
