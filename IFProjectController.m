@@ -17,9 +17,14 @@
 #import "IFIsWatch.h"
 #import "IFIsBreakpoints.h"
 
+// = Preferences =
+
+NSString* IFSplitViewSizes = @"IFSplitViewSizes";
+
 @implementation IFProjectController
 
 // == Toolbar items ==
+
 static NSToolbarItem* compileItem       = nil;
 static NSToolbarItem* compileAndRunItem = nil;
 static NSToolbarItem* replayItem		= nil;
@@ -42,6 +47,13 @@ static NSToolbarItem* breakpointItem	= nil;
 static NSDictionary*  itemDictionary = nil;
 
 + (void) initialize {
+	// Register our preferences
+	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+	[defaults registerDefaults: [NSDictionary dictionaryWithObjectsAndKeys: 
+		[NSArray arrayWithObjects: [NSNumber numberWithFloat: 0.625], [NSNumber numberWithFloat: 0.375], nil], IFSplitViewSizes, 
+		nil]];
+	
+	// Create the toolbar items
     compileItem   = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileItem"];
     compileAndRunItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileAndRunItem"];
     compileAndDebugItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileAndDebugItem"];
@@ -383,6 +395,33 @@ static NSDictionary*  itemDictionary = nil;
         double remaining = [panesView bounds].size.width - dividerWidth*(double)(nviews-1);
         double totalRemaining = [panesView bounds].size.width;
         double viewWidth = floor(remaining / (double)nviews);
+		
+		// Work out the widths of the dividers using the preferences
+		NSMutableArray* realDividerWidths = [NSMutableArray array];
+		NSArray* dividerProportions = [[NSUserDefaults standardUserDefaults] objectForKey: IFSplitViewSizes];
+		
+		if (![dividerProportions isKindOfClass: [NSArray class]] || [dividerProportions count] <= 0) 
+			dividerProportions = [NSArray arrayWithObject: [NSNumber numberWithFloat: 1.0]];
+		
+		float totalWidth = 0;
+		
+		for (view=0; view<nviews; view++) {
+			float width;
+			
+			if (view >= [dividerProportions count]) {
+				width = [[dividerProportions objectAtIndex: [dividerProportions count]-1] floatValue];
+			} else {
+				width = [[dividerProportions objectAtIndex: view] floatValue];
+			}
+			
+			if (width <= 0) width = 1.0;
+			[realDividerWidths addObject: [NSNumber numberWithFloat: width]];
+			
+			totalWidth += width;
+		}
+		
+		// Work out the actual widths to use, and size and add the views appropriately
+		float proportion = remaining / totalWidth;
 
         //NSRect paneBounds = [panesView bounds];
         
@@ -395,13 +434,8 @@ static NSDictionary*  itemDictionary = nil;
             NSView*        thisPane = [[projectPanes objectAtIndex: view] paneView];
 
             [pane setController: self];
-
-            if (view == 0) {
-                viewWidth *= 1.25;
-                viewWidth = floor(viewWidth);
-            } else {
-                viewWidth = floor(remaining / (double)(nviews-view));
-            }
+			
+			viewWidth = floorf(proportion * [[realDividerWidths objectAtIndex: view] floatValue]);
 
             // Resize the splitview
             NSRect splitFrame;
@@ -428,6 +462,7 @@ static NSDictionary*  itemDictionary = nil;
 
             [thisPane setFrame: paneFrame];
             [thisView addSubview: thisPane];
+			[thisView setDelegate: self];
 
             lastView = thisView;
 
@@ -449,6 +484,26 @@ static NSDictionary*  itemDictionary = nil;
         [lastView addSubview: finalPane];
         [lastView adjustSubviews];
     }
+}
+
+- (void)splitViewDidResizeSubviews:(NSNotification *)aNotification {
+	// Update the preferences with the view widths
+	int nviews = [projectPanes count];
+	int view;
+	
+	NSMutableArray* viewSizes = [NSMutableArray array];
+	
+	float totalWidth = [[self window] frame].size.width;
+	
+	for (view=0; view<nviews; view++) {
+		IFProjectPane* pane = [projectPanes objectAtIndex: view];
+		NSRect paneFrame = [[pane paneView] frame];
+		
+		[viewSizes addObject: [NSNumber numberWithFloat: paneFrame.size.width/totalWidth]];
+	}
+	
+	[[NSUserDefaults standardUserDefaults] setObject: viewSizes
+											  forKey: IFSplitViewSizes];
 }
 
 // == Toolbar delegate functions ==

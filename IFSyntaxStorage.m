@@ -260,9 +260,9 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 																	  (CFDictionaryRef)stringAttributes);
 		
 	if (lineAttributes) 
-		[(NSDictionary*)attributes addEntriesFromDictionary: lineAttributes];
+		[(NSMutableDictionary*)attributes addEntriesFromDictionary: lineAttributes];
 	if (styleAttributes)
-		[(NSDictionary*)attributes addEntriesFromDictionary: styleAttributes];
+		[(NSMutableDictionary*)attributes addEntriesFromDictionary: styleAttributes];
 	
 	if (CFDictionaryContainsKey(attributes, IFStyleAttributes))
 		CFDictionaryRemoveValue(attributes, IFStyleAttributes);
