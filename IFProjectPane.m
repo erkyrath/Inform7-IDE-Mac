@@ -265,8 +265,6 @@ NSDictionary* IFSyntaxAttributes[256];
     [compController setCompiler: [doc compiler]];
     [compController setDelegate: self];
     [self updateSettings];
-
-    [[sourceText textStorage] setDelegate: self];
 	
 	[self updateIndexView];
 	
@@ -531,7 +529,6 @@ NSDictionary* IFSyntaxAttributes[256];
 	NSLayoutManager* layout = [[sourceText layoutManager] retain];
 	
 	[sourceText setSelectedRange: NSMakeRange(0,0)];
-	[[sourceText textStorage] setDelegate: nil];
 	[[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
 	
 	[openSourceFile release];

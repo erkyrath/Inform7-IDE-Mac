@@ -24,7 +24,7 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 
 @implementation IFProject
 
-+ (id<IFSyntaxHighlighter,NSObject>) highlighterForFilename: (NSString*) filename {
+- (id<IFSyntaxHighlighter,NSObject>) highlighterForFilename: (NSString*) filename {
 	NSString* extn = [[filename pathExtension] lowercaseString];
 	
 	if (![[IFPreferences sharedPreferences] enableSyntaxHighlighting]) return nil;
@@ -44,7 +44,7 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 	return nil;
 }
 
-+ (id<IFSyntaxIntelligence,NSObject>) intelligenceForFilename: (NSString*) filename {
+- (id<IFSyntaxIntelligence,NSObject>) intelligenceForFilename: (NSString*) filename {
 	NSString* extn = [[filename pathExtension] lowercaseString];
 	
 	if (![[IFPreferences sharedPreferences] enableIntelligence]) return nil;
@@ -64,27 +64,29 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 	return nil;
 }
 
-+ (IFSyntaxStorage*) storageWithString: (NSString*) string
-						 forFilename: (NSString*) filename {
+- (IFSyntaxStorage*) storageWithString: (NSString*) string
+						   forFilename: (NSString*) filename {
 	IFSyntaxStorage* res = [[IFSyntaxStorage alloc] initWithString: string];
 	
-	[res setIntelligence: [[self class] intelligenceForFilename: filename]];
-	[res setHighlighter: [[self class] highlighterForFilename: filename]];
+	[res setIntelligence: [self intelligenceForFilename: filename]];
+	[res setHighlighter: [self highlighterForFilename: filename]];
+	[res setDelegate: self];
 	
 	return [res autorelease];
 }
 
-+ (IFSyntaxStorage*) storageWithAttributedString: (NSAttributedString*) string
+- (IFSyntaxStorage*) storageWithAttributedString: (NSAttributedString*) string
 									 forFilename: (NSString*) filename {
 	IFSyntaxStorage* res = [[IFSyntaxStorage alloc] initWithAttributedString: string];
 	
-	[res setIntelligence: [[self class] intelligenceForFilename: filename]];
-	[res setHighlighter: [[self class] highlighterForFilename: filename]];
+	[res setIntelligence: [self intelligenceForFilename: filename]];
+	[res setHighlighter: [self highlighterForFilename: filename]];
+	[res setDelegate: self];
 	
 	return [res autorelease];
 }
 
-+ (IFSyntaxStorage*) storageWithData: (NSData*) fileContents
+- (IFSyntaxStorage*) storageWithData: (NSData*) fileContents
 						 forFilename: (NSString*) filename {
 	BOOL loadAsRtf = NO;
 	
@@ -92,13 +94,13 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 		loadAsRtf = YES;
 	
 	if (loadAsRtf) {
-		return [[self class] storageWithAttributedString: [[[NSAttributedString alloc] initWithRTF: fileContents
-																				documentAttributes: nil] autorelease]
-											 forFilename: filename];
+		return [self storageWithAttributedString: [[[NSAttributedString alloc] initWithRTF: fileContents
+																		documentAttributes: nil] autorelease]
+									 forFilename: filename];
 	} else {
-		return [[self class] storageWithString: [[[NSString alloc] initWithData: fileContents
-																	   encoding: NSISOLatin1StringEncoding] autorelease]
-								   forFilename: filename];
+		return [self storageWithString: [[[NSString alloc] initWithData: fileContents
+															   encoding: NSISOLatin1StringEncoding] autorelease]
+						   forFilename: filename];
 	}
 }
 
@@ -193,8 +195,8 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 
 			NSData* regularFileContents = [[source objectForKey: key] regularFileContents];
 			
-			text = [[self class] storageWithData: regularFileContents
-									 forFilename: key];
+			text = [self storageWithData: regularFileContents
+							 forFilename: key];
 
             [sourceFiles setObject: text
                             forKey: key];
@@ -375,8 +377,8 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 			
 			NSData* regularFileContents = [[source objectForKey: key] regularFileContents];
 			
-			text = [[self class] storageWithData: regularFileContents
-									 forFilename: key];
+			text = [self storageWithData: regularFileContents
+							 forFilename: key];
 			
             [sourceFiles setObject: text
                             forKey: key];
@@ -392,8 +394,8 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 		// Create an 'Untitled' file if there's no mainSource
 		if (!mainSource) {
 			mainSource = [@"Untitled" retain];
-			[sourceFiles setObject: [[self class] storageWithString: @""
-														forFilename: @"Untitled"]
+			[sourceFiles setObject: [self storageWithString: @""
+												forFilename: @"Untitled"]
 							forKey: mainSource];
 		}
 		
@@ -435,8 +437,8 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
     if ([sourceFiles objectForKey: newFile] != nil) return NO;
     if (singleFile) return NO;
 	    
-    [sourceFiles setObject: [[self class] storageWithString: @""
-												forFilename: newFile]
+    [sourceFiles setObject: [self storageWithString: @""
+										forFilename: newFile]
                     forKey: newFile];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectFilesChangedNotification
@@ -665,8 +667,8 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 		// Temporary text storage
 		NSString* textData = [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: sourceFile]
 												   encoding: NSISOLatin1StringEncoding];
-		storage = [[self class] storageWithString: textData
-									  forFilename: sourceFile];
+		storage = [self storageWithString: textData
+							  forFilename: sourceFile];
 		
 		return storage;
 	} else {
@@ -858,6 +860,32 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 	}
 	
 	[self removeBreakpointAtIndex: index];
+}
+
+// = SyntaxStorage delegate =
+
+- (void) rewroteCharactersInStorage: (IFSyntaxStorage*) storage
+							  range: (NSRange) range
+					 originalString: (NSString*) originalString
+				  replacementString: (NSString*) replacementString {
+	NSUndoManager* undo = [self undoManager];
+
+	[undo setActionName: [[NSBundle mainBundle] localizedStringForKey: @"Auto Typing"
+																value: @"Auto Typing"
+																table: nil]];
+	[undo beginUndoGrouping];
+
+	// This ensure that we can redo this action
+	[[undo prepareWithInvocationTarget: self] rewroteCharactersInStorage: storage
+																   range: NSMakeRange(range.location, [replacementString length])
+														  originalString: replacementString
+													   replacementString: originalString];
+	
+	// Store the undo information
+	[[undo prepareWithInvocationTarget: storage] replaceCharactersInRange: NSMakeRange(range.location, [replacementString length])
+															   withString: originalString];
+	
+	[undo endUndoGrouping];
 }
 
 @end

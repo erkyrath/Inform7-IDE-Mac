@@ -190,3 +190,16 @@ typedef unsigned char IFSyntaxStyle;
 			withLine: (NSString*) newLine;			// DANGEROUS! May change styles, invoke the highlighter, etc
 
 @end
+
+//
+// Extra delegate methods for the IFSyntaxStorage object
+// Enables other objects to ensure that undo works as intended
+//
+@interface NSObject(IFSyntaxStorageDelegate)
+
+- (void) rewroteCharactersInStorage: (IFSyntaxStorage*) storage
+							  range: (NSRange) range
+					 originalString: (NSString*) originalString
+				  replacementString: (NSString*) replacementString;
+
+@end

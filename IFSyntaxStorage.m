@@ -302,6 +302,16 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 		
 		NSString* rewritten = [intelSource rewriteInput: newString];
 		if (rewritten) {
+			// Tell the delegate about this
+			id delegate = [self delegate];
+			if (delegate && [delegate respondsToSelector: @selector(rewroteCharactersInStorage:range:originalString:replacementString:)]) {
+				[delegate rewroteCharactersInStorage: self
+											   range: NSMakeRange(range.location, [newString length])
+									  originalString: [[newString copy] autorelease]
+								   replacementString: [[rewritten copy] autorelease]];
+			}
+
+			// The string we're inserting is now the contents of rewritten
 			newString = rewritten;
 			newLen = [newString length];
 		}
@@ -1010,11 +1020,13 @@ static inline BOOL IsWhitespace(unichar c) {
 
 - (void) callbackForEditing: (SEL) selector
 				  withValue: (id) parameter {
+	[self beginEditing];
 	[[NSRunLoop currentRunLoop] performSelector: selector
 										 target: intelSource
 									   argument: parameter
 										  order: 9
 										  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+	[self endEditing];
 }
 
 - (void) replaceLine: (int) lineNumber
@@ -1025,8 +1037,20 @@ static inline BOOL IsWhitespace(unichar c) {
 	int lineStart = lineStarts[lineNumber];
 	int lineEnd = lineNumber+1<nLines?lineStarts[lineNumber+1]:[string length];
 	
+	// Inform the delegate
+	id delegate = [self delegate];
+	if (delegate && [delegate respondsToSelector: @selector(rewroteCharactersInStorage:range:originalString:replacementString:)]) {
+		[delegate rewroteCharactersInStorage: self
+									   range: NSMakeRange(lineStart, lineEnd-lineStart)
+							  originalString: [[string string] substringWithRange: NSMakeRange(lineStart, lineEnd-lineStart)]
+						   replacementString: newLine];
+	}
+	
+	// Perform the operation
 	[self replaceCharactersInRange: NSMakeRange(lineStart, lineEnd-lineStart)
 						withString: newLine];
 }
+
+- (BOOL)fixesAttributesLazily { return YES; }
 
 @end
