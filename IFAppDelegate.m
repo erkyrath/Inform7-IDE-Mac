@@ -19,6 +19,13 @@
 #import "IFNoDocProtocol.h"
 #import "IFInformProtocol.h"
 
+#import "IFSettingsController.h"
+#import "IFMiscSettings.h"
+#import "IFOutputSettings.h"
+#import "IFCompilerOptions.h"
+#import "IFLibrarySettings.h"
+#import "IFDebugSettings.h"
+
 #import <ZoomView/ZoomSkein.h>
 #import <ZoomView/ZoomSkeinView.h>
 
@@ -60,6 +67,13 @@ static NSRunLoop* mainRunLoop = nil;
 		// [NSURLProtocol registerClass: [IFNoDocProtocol class]];
 		[NSURLProtocol registerClass: [IFInformProtocol class]];
 	}
+	
+	// Standard settings
+	[IFSettingsController addStandardSettingsClass: [IFCompilerOptions class]];
+	[IFSettingsController addStandardSettingsClass: [IFLibrarySettings class]];
+	[IFSettingsController addStandardSettingsClass: [IFOutputSettings class]];
+	[IFSettingsController addStandardSettingsClass: [IFMiscSettings class]];
+	[IFSettingsController addStandardSettingsClass: [IFDebugSettings class]];
 }
 
 - (void) applicationDidFinishLaunching: (NSNotification*) not {	

@@ -1,4 +1,19 @@
 {
-    IBClasses = ({CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }); 
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = IFMiscSettings; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {debugMode = NSButton; infixMode = NSButton; strictMode = NSButton; }; 
+            SUPERCLASS = IFSetting; 
+        }, 
+        {
+            ACTIONS = {settingsHaveChanged = id; }; 
+            CLASS = IFSetting; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {settingView = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
     IBVersion = 1; 
 }

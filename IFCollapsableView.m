@@ -14,7 +14,7 @@
 
 @implementation IFCollapsableView
 
-#define BORDER 4.0
+#define BORDER 8.0
 #define FONTSIZE 20
 
 // = Init/housekeeping =
@@ -47,21 +47,16 @@
 
 // = Drawing =
 - (BOOL) isOpaque {
-	return YES;
+	return NO;
 }
 
 - (void)drawRect:(NSRect)rect {
 	NSFont* titleFont = [NSFont boldSystemFontOfSize: FONTSIZE];
-	NSColor* backgroundColour = [NSColor whiteColor];
 	NSDictionary* titleAttributes = 
 		[NSDictionary dictionaryWithObjectsAndKeys: 
 			titleFont, NSFontAttributeName,
 			[NSColor blackColor], NSForegroundColorAttributeName,
-			backgroundColour, NSBackgroundColorAttributeName,
 			nil];
-	
-	[backgroundColour set];
-	NSRectFill(rect);
 	
 	NSRect bounds = [self bounds];
 	

@@ -8,13 +8,15 @@
 
 #import <Cocoa/Cocoa.h>
 
+// Notification strings
+extern NSString* IFSettingHasChangedNotification;
 
 @class IFCompilerSettings;
 
 // Representation of a class of settings
 // Technically a controller object
 @interface IFSetting : NSObject {
-	NSView* settingView;
+	IBOutlet NSView* settingView;
 }
 
 - (id) initWithNibName: (NSString*) nibName;
@@ -30,6 +32,10 @@
 - (void) setSettingsFor: (IFCompilerSettings*) settings;
 - (BOOL) enableForCompiler: (NSString*) compiler;
 - (NSArray*) commandLineOptionsForCompiler: (NSString*) compiler;
+- (void) updateFromCompilerSettings: (IFCompilerSettings*) settings;
+
+// Notifying the controller about things
+- (IBAction) settingsHaveChanged: (id) sender;
 
 @end
 

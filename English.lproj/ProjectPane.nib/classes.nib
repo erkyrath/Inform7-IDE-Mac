@@ -1,6 +1,7 @@
 {
     IBClasses = (
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = IFCollapsableView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
             ACTIONS = {showWindow = id; }; 
             CLASS = IFCompilerController; 
@@ -42,7 +43,9 @@
                 resultScroller = NSScrollView; 
                 runBuildSh = NSButton; 
                 runLoudly = NSButton; 
+                settingsController = IFSettingsController; 
                 settingsScroller = NSScrollView; 
+                settingsView = IFSettingsView; 
                 skeinView = ZoomSkeinView; 
                 sourceText = NSTextView; 
                 sourceView = NSTabViewItem; 
@@ -53,6 +56,14 @@
             }; 
             SUPERCLASS = NSObject; 
         }, 
+        {CLASS = IFSetting; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = IFSettingsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {compilerSettings = IFCompilerSettings; settingsView = IFSettingsView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = IFSettingsView; LANGUAGE = ObjC; SUPERCLASS = IFCollapsableView; }, 
         {CLASS = IFSourceFileView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
         {
             ACTIONS = {

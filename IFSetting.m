@@ -9,6 +9,8 @@
 #import "IFSetting.h"
 
 
+NSString* IFSettingHasChangedNotification = @"IFSettingHasChangedNotification";
+
 @implementation IFSetting
 
 // = Initialisation =
@@ -63,6 +65,17 @@
 
 - (NSArray*) commandLineOptionsForCompiler: (NSString*) compiler {
 	return nil;
+}
+
+- (void) updateFromCompilerSettings: (IFCompilerSettings*) settings {
+	// Do nothing
+}
+
+// = Notifying the controller about things =
+
+- (IBAction) settingsHaveChanged: (id) sender {
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFSettingHasChangedNotification
+														object: self];
 }
 
 @end

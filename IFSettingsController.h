@@ -19,6 +19,8 @@
 
 	// Settings to display
 	NSMutableArray* settings;		// Array of IFSetting
+	
+	BOOL settingsChanging;
 }
 
 // Plug-in support
@@ -28,9 +30,13 @@
 - (IFSettingsView*) settingsView;
 - (void) setSettingsView: (IFSettingsView*) view;
 
+- (IBAction) settingsHaveChanged: (id) sender;
+
 // Model
 - (IFCompilerSettings*) compilerSettings;
 - (void) setCompilerSettings: (IFCompilerSettings*) settings;
+
+- (void) updateAllSettings;
 
 // The settings to display
 - (void) addSettingsObject: (IFSetting*) setting;

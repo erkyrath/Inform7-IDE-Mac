@@ -14,6 +14,8 @@
 #import <ZoomView/ZoomView.h>
 #import <ZoomView/ZoomSkeinView.h>
 
+#import "IFSettingsView.h"
+#import "IFSettingsController.h"
 
 enum IFProjectPaneType {
     IFSourcePane = 1,
@@ -74,6 +76,10 @@ enum IFProjectPaneType {
 	IBOutlet ZoomSkeinView* skeinView;
 
     // Settings
+	IBOutlet IFSettingsView* settingsView;
+	IBOutlet IFSettingsController* settingsController;
+	
+	// Old settings
     IBOutlet NSScrollView* settingsScroller;
     IBOutlet NSMatrix* zmachineVersion;
 
