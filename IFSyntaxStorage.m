@@ -36,7 +36,13 @@ static const int maxPassLength = 1024;
 		// Initial state
 		lineStarts[0] = 0;
 		nLines = 1;
-		[lineStates addObject: [NSMutableArray arrayWithObjects: [NSNumber numberWithUnsignedInt: IFSyntaxStateDefault], nil]]; // Initial stack starts with the default state
+		[lineStates addObject: 
+			[NSMutableArray arrayWithObjects: 
+				[NSArray arrayWithObjects:
+					[NSNumber numberWithUnsignedInt: IFSyntaxStateDefault],
+					[NSNumber numberWithUnsignedInt: 0],
+					nil],
+				nil]]; // Initial stack starts with the default state
 		
 		needsHighlighting.location = NSNotFound;
 		amountHighlighted = 0;	}
@@ -81,6 +87,20 @@ static const int maxPassLength = 1024;
 	}
 	
 	return self;
+}
+
+- (void) dealloc {
+	[string release];
+	
+	[lineStates release];
+	free(lineStarts);
+	free(charStyles);
+	
+	[syntaxStack release];
+
+	[highlighter release];
+	
+	[super dealloc];
 }
 
 // = Utility methods =
@@ -235,7 +255,12 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 			newLineStarts = realloc(newLineStarts, sizeof(*newLineStarts)*nNewLines);
 			newLineStarts[nNewLines-1] = x + range.location+1;
 
-			[newLineStates addObject: [NSMutableArray arrayWithObject: [NSNumber numberWithUnsignedInt: IFSyntaxStateNotHighlighted]]];
+			[newLineStates addObject: 
+				[NSMutableArray arrayWithObject: 
+					[NSArray arrayWithObjects:
+						[NSNumber numberWithUnsignedInt: IFSyntaxStateNotHighlighted],
+						[NSNumber numberWithUnsignedInt: 0],
+						nil]]];
 		}
 	}
 	
@@ -272,7 +297,6 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		
 	[lineStates replaceObjectsInRange: NSMakeRange(firstLine+1, lastLine-firstLine)
 				 withObjectsFromArray: newLineStates];
-	
 	
 	// Update the remaining line positions
 	nLines += lineDifference;
@@ -361,11 +385,15 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 // = Communication from the highlighter =
 
 - (void) pushState {
-	[syntaxStack addObject: [NSNumber numberWithUnsignedInt: syntaxState]];
+	[syntaxStack addObject: [NSArray arrayWithObjects: 
+		[NSNumber numberWithUnsignedInt: syntaxState],
+		[NSNumber numberWithUnsignedInt: syntaxMode],
+		nil]];
 }
 
 - (IFSyntaxState) popState {
-	IFSyntaxState poppedState = [[syntaxStack lastObject] unsignedIntValue];
+	IFSyntaxState poppedState = [[[syntaxStack lastObject] objectAtIndex: 0] unsignedIntValue];
+	syntaxMode = [[[syntaxStack lastObject] objectAtIndex: 1] unsignedIntValue];
 	[syntaxStack removeLastObject];
 	
 	return poppedState;
@@ -379,6 +407,48 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	for (x=syntaxPos-backtrackLength; x<syntaxPos; x++) {
 		if (x > 0) charStyles[x] = newStyle;
 	}
+}
+
+- (void) setHighlighterMode: (IFHighlighterMode) newMode {
+	// Sets the 'mode' of the highlighter (additional state info, basically)
+	syntaxMode = newMode;
+}
+
+- (IFHighlighterMode) highlighterMode {
+	// Retrieves the mode
+	return syntaxMode;
+}
+
+static inline BOOL IsWhitespace(unichar c) {
+	if (c == ' ' || c == '\t') 
+		return YES;
+	else
+		return NO;
+}
+
+- (BOOL) preceededByKeyword: (NSString*) keyword
+					 offset: (int) offset {
+	// If the given keyword preceeds the current position (case insensitively), this returns true
+	if (syntaxPos == 0) return NO;
+	
+	int pos = syntaxPos-1-offset;
+	NSString* str = [string string];
+	
+	// Skip whitespace
+	while (pos > 0 && IsWhitespace([str characterAtIndex: pos]))
+		pos--;
+	
+	// pos should now point at the last letter of the keyword (if it is the keyword)
+	pos++;
+	
+	// See if the keyword is there
+	int keywordLen = [keyword length];
+	if (pos < keywordLen)
+		return NO;
+	
+	NSString* substring = [str substringWithRange: NSMakeRange(pos-keywordLen, keywordLen)];
+	
+	return [substring caseInsensitiveCompare: keyword]==NSOrderedSame;
 }
 
 // = Actually performing highlighting =
@@ -407,7 +477,8 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		// Set up the state
 		[syntaxStack setArray: [lineStates objectAtIndex: line]];
 
-		syntaxState = [[syntaxStack lastObject] unsignedIntValue];
+		syntaxState = [[[syntaxStack lastObject] objectAtIndex: 0] unsignedIntValue];
+		syntaxMode = [[[syntaxStack lastObject] objectAtIndex: 1] unsignedIntValue];
 		[syntaxStack removeLastObject];
 		
 		IFSyntaxState initialState = syntaxState;
@@ -444,7 +515,11 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 				   initialState: initialState];
 		
 		// Finish the stack
-		[syntaxStack addObject: [NSNumber numberWithUnsignedInt: syntaxState]];
+		[syntaxStack addObject: 
+			[NSArray arrayWithObjects:
+				[NSNumber numberWithUnsignedInt: syntaxState],
+				[NSNumber numberWithUnsignedInt: syntaxMode],
+				nil]];
 		
 		// Store the stack
 		[lastOldStack release];

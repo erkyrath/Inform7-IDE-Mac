@@ -9,14 +9,25 @@
 #import <Cocoa/Cocoa.h>
 
 #import "IFSyntaxStorage.h"
+#import "IFInform6Highlighter.h"
 
+// Natural Inform states
 enum {
 	IFNaturalStateText = IFSyntaxStateDefault,
 	IFNaturalStateComment,
 	IFNaturalStateQuote,
 	
 	IFNaturalStateHeading,
-	IFNaturalStateBlankLine
+	IFNaturalStateBlankLine,
+	
+	IFNaturalStateMaybeInform6
+};
+
+// Natural Inform modes
+enum {
+	IFNaturalModeStandard = 0,
+	IFNaturalModeInform6,
+	IFNaturalModeInform6MightEnd
 };
 
 //
@@ -24,6 +35,8 @@ enum {
 //
 @interface IFNaturalHighlighter : NSObject<IFSyntaxHighlighter> {
 	IFSyntaxStorage* activeStorage;
+	
+	IFInform6Highlighter* inform6Highlighter;
 }
 
 @end

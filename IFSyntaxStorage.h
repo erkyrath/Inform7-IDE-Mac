@@ -33,6 +33,8 @@ enum {
     IFSyntaxCodeAlpha,
     IFSyntaxAssembly,
     IFSyntaxEscapeCharacter,
+	
+	// Styles between 0x20-0x40 are the same as above but with a flag set
     
     // Natural inform syntax types
     IFSyntaxHeading = 0x80,				// Heading style
@@ -45,6 +47,7 @@ enum {
     IFSyntaxDebugHighlight = 0xa0
 };
 
+typedef unsigned int  IFHighlighterMode;
 typedef unsigned int  IFSyntaxState;
 typedef unsigned char IFSyntaxStyle;
 
@@ -81,19 +84,20 @@ typedef unsigned char IFSyntaxStyle;
 	NSMutableAttributedString* string;
 	
 	// Syntax state (static)
-	int				nLines;			// Number of lines
-	unsigned*		lineStarts;		// Start positions of each line
-	NSMutableArray* lineStates;		// Syntax stack at the start of lines
+	int				nLines;				// Number of lines
+	unsigned*		lineStarts;			// Start positions of each line
+	NSMutableArray* lineStates;			// Syntax stack at the start of lines
 	
-	IFSyntaxStyle*  charStyles;		// Syntax state for each character
+	IFSyntaxStyle*  charStyles;			// Syntax state for each character
 	
-	NSRange needsHighlighting;		// Range that still needs highlighting
-	int amountHighlighted;			// Amount highlighted this pass
+	NSRange needsHighlighting;			// Range that still needs highlighting
+	int amountHighlighted;				// Amount highlighted this pass
 	
 	// Syntax state (dynamic)
-	NSMutableArray* syntaxStack;	// Current syntax stack
-	int				syntaxPos;		// Current highlighter position
-	IFSyntaxState   syntaxState;	// Active state
+	NSMutableArray*   syntaxStack;		// Current syntax stack
+	int				  syntaxPos;		// Current highlighter position
+	IFSyntaxState     syntaxState;		// Active state
+	IFHighlighterMode syntaxMode;		// 'Mode' - possible extra state from the highlighter
 	
 	// The highlighter
 	id<IFSyntaxHighlighter,NSObject> highlighter;
@@ -106,8 +110,14 @@ typedef unsigned char IFSyntaxStyle;
 // Communication from the highlighter
 - (void) pushState;
 - (IFSyntaxState) popState;
+
 - (void) backtrackWithStyle: (IFSyntaxStyle) newStyle
 					 length: (int) backtrackLength;
+
+- (void) setHighlighterMode: (IFHighlighterMode) newMode;
+- (IFHighlighterMode) highlighterMode;
+- (BOOL) preceededByKeyword: (NSString*) keyword
+					 offset: (int) offset;
 
 // Actually performing highlighting
 - (void) highlightRangeSoon: (NSRange) range;
