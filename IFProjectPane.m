@@ -13,7 +13,8 @@
 #import "IFInform6Syntax.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
-#define maxHighlightAmount 256
+#define maxHighlightAmount 2048
+#undef  showHighlighting
 
 @implementation IFProjectPane
 
@@ -33,6 +34,9 @@
         highlighter = [[IFInform6Syntax alloc] init];
 
         sourceFiles = [[NSMutableArray allocWithZone: [self zone]] init];
+
+        remainingFileToProcess.location = NSNotFound;
+        remainingFileToProcess.length   = 0;
     }
 
     return self;
@@ -417,8 +421,9 @@
     
     NSRange invalidRange = [highlighter invalidRange];
     
-    if (invalidRange.location != NSNotFound && invalidRange.length != 0) {
-        highlighterTicker = [NSTimer timerWithTimeInterval:0.005
+    if ((invalidRange.location != NSNotFound && invalidRange.length != 0) ||
+        (remainingFileToProcess.location != NSNotFound && remainingFileToProcess.length != 0)) {
+        highlighterTicker = [NSTimer timerWithTimeInterval:0.001
                                                     target:self
                                                   selector:@selector(highlighterIteration)
                                                   userInfo:nil
@@ -430,27 +435,45 @@
 }
 
 - (void) highlighterIteration {
-    NSRange invalidRange;
-    int len = 0;
+    NSRange invalid = [highlighter invalidRange];
     
-    [[sourceText textStorage] setDelegate: nil];
-    
-    invalidRange = [highlighter invalidRange];
-    while (invalidRange.location != NSNotFound && invalidRange.length > 0 && len < maxHighlightAmount) {
-        [self highlightRange: invalidRange];
-        
-        len += invalidRange.length;
-        invalidRange = [highlighter invalidRange];
+    if (invalid.location != NSNotFound && invalid.length != 0) {
+        if (remainingFileToProcess.location == NSNotFound || remainingFileToProcess.length == 0) {
+            remainingFileToProcess = invalid;
+        } else {
+            remainingFileToProcess = NSUnionRange(remainingFileToProcess, invalid);
+        }
     }
-    
+
+    if (remainingFileToProcess.location != NSNotFound) {
+        if (remainingFileToProcess.length < maxHighlightAmount) {
+            [self highlightRange: remainingFileToProcess];
+        
+            remainingFileToProcess.location = NSNotFound;
+            remainingFileToProcess.length   = 0;
+        } else {
+            [self highlightRange: NSMakeRange(remainingFileToProcess.location,
+                                              maxHighlightAmount)];
+            remainingFileToProcess.location += maxHighlightAmount;
+            remainingFileToProcess.length   -= maxHighlightAmount;
+        }
+    }
+        
     [self createHighlighterTickerIfRequired];
 }
 
 - (void)textStorageDidProcessEditing: (NSNotification*) not {
     NSRange editedRange = [[sourceText textStorage] editedRange];
     
+#ifdef showHighlighting
+    [[sourceText textStorage] addAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+        [NSColor colorWithDeviceRed: 0.8 green: 0.8 blue: 1.0 alpha: 1.0],
+        NSForegroundColorAttributeName, nil]
+                                      range: NSMakeRange(0, [[sourceText textStorage] length])];
+#endif
+    
     // Redo any necessary highlighting
-    [highlighter invalidateCharacter: editedRange.location]; // FIXME: rest of the range
+    [highlighter invalidateRange: editedRange];
     
     [self highlighterIteration];
     
@@ -536,11 +559,19 @@
     int startPos = charRange.location;
     int curPos;
     
+    if (charRange.location + charRange.length > [[[sourceText textStorage] string] length]) {
+        charRange.length = [[[sourceText textStorage] string] length] - charRange.location;
+    }
+    
     [[sourceText textStorage] setDelegate: nil];
+    
+    unsigned char* buf = malloc(charRange.length);
+    [highlighter colourForCharacterRange: charRange
+                                  buffer: buf];
     
     // Do the highlighting
     for (curPos = charRange.location; curPos < charRange.location + charRange.length; curPos++) {
-        IFSyntaxType thisSyntax = [highlighter colourForCharacterAtIndex: curPos];
+        IFSyntaxType thisSyntax = buf[curPos-charRange.location];
         
         if (thisSyntax != lastSyntax && curPos != 0) {
             NSRange r;

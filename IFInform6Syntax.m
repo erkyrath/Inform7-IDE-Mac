@@ -8,6 +8,7 @@
 
 #import "IFInform6Syntax.h"
 
+#undef  logInvalidates
 
 @implementation IFInform6Syntax
 
@@ -47,6 +48,9 @@ static NSSet* otherKeywords;
         lines = NULL;
         
         lastIndex = 0;
+        lastLine = 0;
+        lastPos = 0;
+        
         lastState = initialState;
     }
     
@@ -71,6 +75,7 @@ static NSSet* otherKeywords;
     if (lines[lineNo].colour) free(lines[lineNo].colour);
     lines[lineNo].colour = NULL;
     lines[lineNo].invalid = YES;
+    lines[lineNo].needsDisplay = YES;
 }
 
 - (void) clearAllLines {
@@ -87,25 +92,122 @@ static NSSet* otherKeywords;
 
 - (void) invalidateAll {
     lastIndex = 0;
+    lastLine = 0;
+    lastPos = 0;
+    
     lastState = initialState;
     
     [self clearAllLines];
 }
 
-- (void) invalidateCharacter: (int) chr {
-    // Get the colour
-    int pos;
-    int line = [self lineForChar: chr
-                        position: &pos];
+- (void) _invalidateRange: (NSRange) range {
+    int line;
+    int pos = 0;
+
+    lastIndex = lastPos = lastLine = 0;
+
+    for (line = 0; line < nLines; line++) {
+        NSRange lineRange = NSMakeRange(pos, lines[line].length);
+        
+        if (NSIntersectionRange(lineRange, range).length != 0) {
+            lines[line].invalid = YES;
+            lines[line].needsDisplay = YES;
+
+#ifdef logInvalidates
+            NSLog(@"Line %i invalidated: editing", line);
+#endif
+        }
+        
+        pos += lines[line].length;
+    }
+}
+
+- (void) invalidateRange: (NSRange) range {
+    int line, pos;
+    int lineLength;
+    int len;
     
-    lines[line].invalid = YES;
+    if (range.location > 0) {
+        range.location -= 1;
+        range.length += 1;
+    }
     
-    // Recalculate the length of the line
-    lines[line].length = 1;
-    while (pos < [file length] && [file characterAtIndex: pos] != '\n' && [file characterAtIndex: pos] != '\r') {
-        lines[line].length++;
+    // First, invalidate as the line list currently stands
+    // (This deals with deletions)
+    [self _invalidateRange: range];
+    
+    // Next, recalculate the line endings, and delete/add any lines that
+    // have appeared/been removed
+    line = 0;
+    pos = 0;
+    len = [file length];
+    lineLength = 0;
+    
+    if (lines == NULL) {
+        nLines = 1;
+        lines = realloc(lines, sizeof(IFInform6Line)*nLines);
+        lines[line].invalid = YES;
+        lines[line].needsDisplay = YES;
+        lines[line].length = 0;
+        lines[line].colour = NULL;
+    }
+    
+    while (pos < len) {
+        lineLength++;
+        int chr = [file characterAtIndex: pos];
+        
+        if (chr == '\n' || chr == '\r' || pos == (len-1)) {
+            // Line ending reached
+            if (lines[line].length != lineLength) {
+                lines[line].length = lineLength;
+                lines[line].invalid = YES;
+                lines[line].needsDisplay = YES;
+                
+#ifdef logInvalidates
+                NSLog(@"Line %i invalidated: length different", line);
+#endif
+            }
+
+            // Next line
+            line++;
+            lineLength = 0;
+            
+            if (line >= nLines) {
+                nLines++;
+                lines = realloc(lines, sizeof(IFInform6Line)*nLines);
+                lines[line].invalid = YES;
+                lines[line].needsDisplay = YES;
+                lines[line].length = 0;
+                lines[line].colour = NULL;                
+
+#ifdef logInvalidates
+                NSLog(@"Line %i invalidated: # lines in file different", line);
+#endif
+            }
+        }
+        
         pos++;
     }
+        
+    int x;
+        
+    for (x=line; x<nLines; x++) {
+        [self clearLine: x];
+    }
+        
+    nLines = (line+1);
+    lines = realloc(lines, sizeof(IFInform6Line)*nLines);
+    lines[line].invalid = YES;
+    lines[line].needsDisplay = YES;
+    lines[line].length = 0;
+    lines[line].colour = NULL;                
+    
+#ifdef logInvalidates
+    NSLog(@"Line %i invalidated: end of file", line);
+#endif
+    
+    // Now, invalidate against the new line list
+    [self _invalidateRange: range];
 }
 
 - (NSRange) invalidRange {
@@ -121,7 +223,7 @@ static NSSet* otherKeywords;
     NSRange res = NSMakeRange(NSNotFound, 0);
     
     for (line=0; line<nLines; line++) {
-        if (lines[line].invalid && lines[line].length > 0) {
+        if ((lines[line].invalid || lines[line].needsDisplay) && lines[line].length > 0) {
             if (res.location == NSNotFound) {
                 res = NSMakeRange(pos, lines[line].length);
             } else {
@@ -130,6 +232,12 @@ static NSSet* otherKeywords;
         }
         
         pos += lines[line].length;
+    }
+    
+    if (res.location != NSNotFound && res.length != 0) {
+        if (res.location + res.length > [file length]) {
+            res.length = [file length] - res.location;
+        }
     }
     
     return res;
@@ -172,7 +280,7 @@ static inline BOOL IsIdentifier(int chr) {
 }
 
 - (void) refineLine: (int) line 
-         characters: (NSString*) str {
+         characters: (const char*) str {
     int x;
     int chr;
     
@@ -183,7 +291,7 @@ static inline BOOL IsIdentifier(int chr) {
     
     for (x=0; x<lines[line].length; x++) {
         if (lines[line].colour[x] == IFSyntaxString) {
-            chr = [str characterAtIndex: x];
+            chr = str[x];
             
             switch (chr) {
                 case '~': case '^': case '\\':
@@ -194,7 +302,7 @@ static inline BOOL IsIdentifier(int chr) {
                     lines[line].colour[x] = IFSyntaxEscapeCharacter;
                     
                     if ((x+1) < lines[line].length) {
-                        chr = [str characterAtIndex: x+1];
+                        chr = str[x+1];
                         
                         if (chr == '@') {
                             x++;
@@ -206,7 +314,7 @@ static inline BOOL IsIdentifier(int chr) {
                         x++;
                         if (x >= lines[line].length) break;
                         
-                        chr = [str characterAtIndex: x];
+                        chr = str[x];
                         
                         if (isdigit(chr)) lines[line].colour[x] = IFSyntaxEscapeCharacter;
                     } while (isdigit(chr));
@@ -225,7 +333,7 @@ static inline BOOL IsIdentifier(int chr) {
         int identifierStart = x;
         unsigned char colour = lines[line].colour[identifierStart];
         
-        chr = [str characterAtIndex: x];
+        chr = str[x];
         
         if (colour != IFSyntaxCode &&
             colour != IFSyntaxNone) {
@@ -239,7 +347,7 @@ static inline BOOL IsIdentifier(int chr) {
             x++;
             if (x >= lines[line].length) break;
             
-            chr = [str characterAtIndex: x];
+            chr = str[x];
         }
         
         if (identifierLen == 0) continue;
@@ -253,7 +361,7 @@ static inline BOOL IsIdentifier(int chr) {
         if (colour == IFSyntaxCode) {
             // If an identifier is in code colour, then:
 
-            if (identifierStart > 0 && [str characterAtIndex: identifierStart-1] == '@') {
+            if (identifierStart > 0 && str[identifierStart-1] == '@') {
                 //     If it follows an "@", recolour the "@" and the identifier in
                 //        assembly-language colour.
                 identifierStart--;
@@ -273,9 +381,12 @@ static inline BOOL IsIdentifier(int chr) {
         
                 //     we recolour the identifier to "codealpha colour".
                 
+#if 0
                 NSString* idString = [str substringWithRange: NSMakeRange(identifierStart, identifierLen)];
                 idString = [idString lowercaseString];
+                
                 if (![codeKeywords containsObject: idString]) newColour = IFSyntaxCodeAlpha;
+#endif
             }
         } else if (colour == IFSyntaxNone) {
             // On the other hand, if an identifier is in foreground colour, then we
@@ -286,9 +397,12 @@ static inline BOOL IsIdentifier(int chr) {
         
             // If it is, we recolour it in directive colour.
 
+#if 0
             NSString* idString = [str substringWithRange: NSMakeRange(identifierStart, identifierLen)];
             idString = [idString lowercaseString];
+
             if ([otherKeywords containsObject: idString]) newColour = IFSyntaxDirective;
+#endif
         }
         
         if (newColour != 0xff) {
@@ -329,14 +443,21 @@ static inline BOOL IsIdentifier(int chr) {
         // Create an initial line
         lines = malloc(sizeof(IFInform6Line));
         lines[0].invalid = YES;
+        lines[0].needsDisplay = YES;
         lines[0].initialState = initialState;
         lines[0].length = 0;
         lines[0].colour = NULL;
         nLines = 1;
+
+#ifdef logInvalidates
+        NSLog(@"Line %i invalidated: start of file", line);
+#endif
     }
     
     if (line >= nLines) {
+#ifdef logInvalidates
         NSLog(@"BUG: tripped over the end of the lines");
+#endif
         return;
     }
     
@@ -345,7 +466,9 @@ static inline BOOL IsIdentifier(int chr) {
     
     lineStart = pos;
     lines[line].length = 0;
+    lines[line].needsDisplay = YES;
     
+    // Actually perform the highlighting
     do {
         chr = [file characterAtIndex: pos];
         
@@ -380,56 +503,50 @@ static inline BOOL IsIdentifier(int chr) {
     } while (pos < len && chr != '\n' && chr != '\r');
     
     [self refineLine: line
-          characters: [file substringWithRange: NSMakeRange(lineStart, lines[line].length)]];
+          characters: [[file substringWithRange: NSMakeRange(lineStart, lines[line].length)] cString]];
     
     lines[line].invalid = NO;
-    
-#if 0
-    NSMutableString* highlights = [NSMutableString string];
-    
-    NSLog(@"Pos: %i Length: %i End: %i Start state: %@", pos-lines[line].length, lines[line].length, pos, [self stateToString: lines[line].initialState]);
-    NSLog(@"Line: '%@'", [file substringWithRange: NSMakeRange(pos - lines[line].length, lines[line].length)]);
-    
-    int q;
-    for (q=0; q<lines[line].length; q++) {
-        int c = '?';
-        
-        switch (lines[line].colour[q]) {
-            case IFSyntaxNone: c = 'F'; break;
-            case IFSyntaxString: c = 'Q'; break;
-            case IFSyntaxComment: c = 'C'; break;
-            
-            // Inform 6 syntax types
-            case IFSyntaxDirective: c = 'D'; break;
-            case IFSyntaxProperty: c = 'P'; break;
-            case IFSyntaxFunction: c = 'f'; break;
-            case IFSyntaxCode: c = 'S'; break;
-            case IFSyntaxCodeAlpha: c = 'c'; break;
-            case IFSyntaxAssembly: c = '@'; break;
-            case IFSyntaxEscapeCharacter: c = 'E'; break;
-        }
-        
-        [highlights appendFormat: @"%c", c];
-    }
-    
-    NSLog(@"Attr: '%@'", highlights);
-#endif
-    
+   
     if (nLines <= line+1) {
         // Add the following line
         nLines++;
         lines = realloc(lines, sizeof(IFInform6Line)*nLines);
         lines[line+1].invalid = YES;
+        lines[line+1].needsDisplay = YES;
         lines[line+1].length = 0;
         lines[line+1].colour = NULL;
+
+#ifdef logInvalidates
+        NSLog(@"Line %i invalidated: newly added", line);
+#endif
     } else {
         if (!cmpStates(state, lines[line+1].initialState)) {
             // Following line has become invalidated
             [self clearLine: line+1];
+
+#ifdef logInvalidates
+            NSLog(@"Line %i invalidated: state different", line+1);
+#endif
         }
     }
 
     lines[line+1].initialState = state;
+    
+    // Delete any lines that fall off the end of the file
+    if (pos >= len) {
+        int x;
+        
+        for (x = (line+1); x < nLines; x++) {
+            [self clearLine: x];
+            lines[x].length = 0;
+        }
+        
+        if (nLines > line+1) {
+            nLines = line+1;
+            
+            lines = realloc(lines, sizeof(IFInform6Line)*nLines);
+        }
+    }
 }
 
 - (int) lineForChar: (int) index
@@ -437,7 +554,13 @@ static inline BOOL IsIdentifier(int chr) {
     int x, pos;
     
     if (nLines == 0) [self highlightLine: 0];
+    
+    if (index < lastIndex) {
+        // Reset if we move backwards
+        lastIndex = lastPos = lastLine = 0;
+    }
 
+    // Otherwise move forward from where we were
     pos = 0;
     
     for (x=0; x<nLines; x++) {
@@ -447,7 +570,13 @@ static inline BOOL IsIdentifier(int chr) {
         
         if (posOut) *posOut = pos;
         pos += lines[x].length;
-        if (pos > index) return x;
+
+        if (pos > index) {
+            lastPos = *posOut;
+            lastLine = x;
+            
+            return x;
+        }
     }
     
     NSLog(@"??? Ran over end of file ???");
@@ -461,11 +590,14 @@ static inline BOOL IsIdentifier(int chr) {
 }
 
 // = Getting information about a character = 
+#if 0 // Superceded
 - (enum IFSyntaxType) colourForCharacterAtIndex: (int) index {    
     // Get the colour
     int pos;
-    int line = [self lineForChar: index
-                        position: &pos];
+    int line;
+
+    line = [self lineForChar: index
+                    position: &pos];
     
     index -= pos;
     if (index >= lines[line].length) {
@@ -474,6 +606,39 @@ static inline BOOL IsIdentifier(int chr) {
     }
     
     return (IFSyntaxType)(lines[line].colour[index]);
+}
+#endif
+
+- (void) colourForCharacterRange: (NSRange) range
+                          buffer: (unsigned char*) buf {
+    int x;
+    int index = range.location;
+    int line, pos;
+    
+    // Get the start of the line
+    line = [self lineForChar: index
+                    position: &pos];
+    
+    index -= pos;    
+    
+    lines[line].needsDisplay = NO;
+    
+    // Fill the buffer
+    for (x=0; x<range.length; x++) {
+        buf[x] = lines[line].colour[index];
+        
+        if (x<range.length-1) {
+            index++;
+            if (index >= lines[line].length) {
+                pos += lines[line].length;
+                line++;
+                if (pos < [file length]) [self highlightLine: line];
+                index = 0;
+            
+                lines[line].needsDisplay = NO;
+            }
+        }
+    }
 }
 
 // = The statemachine itself =

@@ -43,11 +43,12 @@ typedef enum IFSyntaxType IFSyntaxType;
 
 // Noting that things have changed in the file
 - (void) invalidateAll;
-- (void) invalidateCharacter: (int) chr;
+- (void) invalidateRange: (NSRange) range;
 
 - (NSRange) invalidRange;
 
 // Getting information about a character
-- (enum IFSyntaxType) colourForCharacterAtIndex: (int) index;
+- (void) colourForCharacterRange: (NSRange) range
+                          buffer: (unsigned char*) buf;
 
 @end

@@ -19,7 +19,7 @@
 - (void) invalidateAll {
 }
 
-- (void) invalidateCharacter: (int) chr {
+- (void) invalidateRange: (NSRange) range {
 }
 
 - (NSRange) invalidRange {
@@ -27,8 +27,13 @@
 }
 
 // Getting information about a character
-- (enum IFSyntaxType) colourForCharacterAtIndex: (int) index {
-    return IFSyntaxNone;
+- (void) colourForCharacterRange: (NSRange) range
+                          buffer: (unsigned char*) buf {
+    int x;
+    
+    for (x=0; x<range.length; x++) {
+        buf[x] = IFSyntaxNone;
+    }
 }
 
 @end

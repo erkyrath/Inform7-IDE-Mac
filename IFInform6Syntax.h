@@ -34,7 +34,8 @@ struct IFInform6State {
 };
 
 struct IFInform6Line {
-    BOOL invalid;
+    BOOL invalid; // Needs rehighlighting
+    BOOL needsDisplay; // Needs redisplaying
     IFInform6State initialState;
     
     int length;
@@ -48,7 +49,11 @@ struct IFInform6Line {
     NSString* file;
     
     IFInform6State lastState;
+
+    // Last colourForCharacter character
     int lastIndex;
+    int lastLine;
+    int lastPos;
 }
 
 // Running the state machine (see the inform techincal manual)

@@ -84,6 +84,8 @@ enum IFProjectPaneType {
     
     NSTimer*             highlighterTicker;
     IFSyntaxHighlighter* highlighter;
+    
+    NSRange              remainingFileToProcess;
 }
 
 + (IFProjectPane*) standardPane;
