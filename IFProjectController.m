@@ -230,7 +230,11 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) awakeFromNib {
     // Create the view switch toolbar
-    toolbar = [[NSToolbar allocWithZone: [self zone]] initWithIdentifier: @"ProjectToolbar"];
+	if ([[[self document] settings] usingNaturalInform]) {
+		toolbar = [[NSToolbar allocWithZone: [self zone]] initWithIdentifier: @"ProjectNiToolbar"];
+	} else {
+		toolbar = [[NSToolbar allocWithZone: [self zone]] initWithIdentifier: @"ProjectToolbar"];
+	}
 
     [toolbar setDelegate: self];
     [toolbar setAllowsUserCustomization: YES];
@@ -388,11 +392,16 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects: @"compileItem", @"compileAndRunItem", @"compileAndDebugItem",
-		NSToolbarSeparatorItemIdentifier,  @"stopItem", @"pauseItem", NSToolbarSeparatorItemIdentifier, 
-		@"continueItem", @"stepOutItem", @"stepOverItem", @"stepItem", NSToolbarSeparatorItemIdentifier,
-		@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"indexItem", NSToolbarSeparatorItemIdentifier, 
-		@"breakpointItem", @"watchItem", nil];
+	if ([[toolbar identifier] isEqualToString: @"ProjectNiToolbar"]) {
+		return [NSArray arrayWithObjects: @"compileAndRunItem", @"stopItem", NSToolbarSeparatorItemIdentifier, 
+			@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"indexItem", nil];
+	} else {
+		return [NSArray arrayWithObjects: @"compileAndRunItem", @"compileAndDebugItem",
+			NSToolbarSeparatorItemIdentifier,  @"stopItem", @"pauseItem", NSToolbarSeparatorItemIdentifier, 
+			@"continueItem", @"stepOutItem", @"stepOverItem", @"stepItem", NSToolbarSeparatorItemIdentifier,
+			@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"indexItem", NSToolbarSeparatorItemIdentifier, 
+			@"breakpointItem", @"watchItem", nil];
+	}
 }
 
 // == Toolbar item validation ==
