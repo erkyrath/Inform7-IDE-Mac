@@ -296,6 +296,12 @@ static NSDictionary*  itemDictionary = nil;
 											 selector: @selector(updateSettings)
 												 name: IFSettingNotification
 											   object: [[self document] settings]];
+	
+	// Register for breakpoints updates
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(updatedBreakpoints:)
+												 name: IFProjectBreakpointsChangedNotification
+											   object: [self document]];
 
     // Setup the default panes
     [projectPanes removeAllObjects];
@@ -1232,6 +1238,36 @@ static NSDictionary*  itemDictionary = nil;
 - (void) showWatchPoints: (id) sender {
 	[[IFInspectorWindow sharedInspectorWindow] showWindow: self];
 	[[IFInspectorWindow sharedInspectorWindow] showInspectorWithKey: IFIsWatchInspector];
+}
+
+// = Breakpoints =
+
+// (Grr, need to be able to make IFProjectPane the first responder or something, but it isn't
+// listening to messages from the main menu. Or at least, it's not being called that way)
+// This may not work the way the user expects if she has two source panes open. Blerh.
+
+- (IBAction) setBreakpoint: (id) sender {
+	[[self sourcePane] setBreakpoint: sender];
+}
+
+- (IBAction) deleteBreakpoint: (id) sender {
+	[[self sourcePane] deleteBreakpoint: sender];
+}
+
+- (void) updatedBreakpoints: (NSNotification*) not {
+	// Update the breakpoint highlights
+	[self removeHighlightsOfStyle: IFLineStyleBreakpoint];
+	
+	int x;
+	
+	for (x=0; x<[[self document] breakpointCount]; x++) {
+		int line = [[self document] lineForBreakpointAtIndex: x];
+		NSString* file = [[self document] fileForBreakpointAtIndex: x];
+		
+		[self highlightSourceFileLine: line+1
+							   inFile: file
+								style: IFLineStyleBreakpoint];
+	}
 }
 
 @end

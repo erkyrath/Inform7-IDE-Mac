@@ -14,6 +14,8 @@
 #import "IFInform6Highlighter.h"
 
 NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotification";
+NSString* IFProjectWatchExpressionsChangedNotification = @"IFProjectWatchExpressionsChangedNotification";
+NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChangedNotification";
 
 
 @implementation IFProject
@@ -91,6 +93,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 		notes = [[NSTextStorage alloc] initWithString: @""];
 		
 		watchExpressions = [[NSMutableArray alloc] init];
+		breakpoints = [[NSMutableArray alloc] init];
     }
 
     return self;
@@ -106,6 +109,9 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 
 	[settings release];
     [compiler release];
+	
+	[watchExpressions release];
+	[breakpoints release];
 
     [super dealloc];
 }
@@ -220,6 +226,22 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 			if (watchpointsLoaded && [watchpointsLoaded isKindOfClass: [NSArray class]]) {
 				[watchExpressions release];
 				watchExpressions = [watchpointsLoaded mutableCopy];
+			}
+		}
+		
+		// Load the breakpoints file (if present)
+		NSFileWrapper* breakWrapper = [[projectFile fileWrappers] objectForKey: @"Breakpoints.plist"];
+		if (breakWrapper != nil && [breakWrapper regularFileContents] != nil) {
+			NSString* propError = nil;
+			NSPropertyListFormat format = NSPropertyListXMLFormat_v1_0;
+			NSArray* breakpointsLoaded = [NSPropertyListSerialization propertyListFromData: [breakWrapper regularFileContents]
+																		  mutabilityOption: NSPropertyListImmutable
+																					format: &format
+																		  errorDescription: &propError];
+			
+			if (breakpointsLoaded && [breakpointsLoaded isKindOfClass: [NSArray class]]) {
+				[breakpoints release];
+				breakpoints = [breakpointsLoaded mutableCopy];
 			}
 		}
         
@@ -530,6 +552,23 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 		[watchWrapper release];
 	}
 	
+	// The breakpoints file
+	[projectFile removeFileWrapper: [[projectFile fileWrappers] objectForKey: @"Breakpoints.plist"]];
+	
+	if ([breakpoints count] > 0) {
+		NSString* plistError = nil;
+		
+		NSFileWrapper* breakWrapper = [[NSFileWrapper alloc] initRegularFileWithContents: 
+			[NSPropertyListSerialization dataFromPropertyList: breakpoints
+													   format: NSPropertyListXMLFormat_v1_0
+											 errorDescription: &plistError]];
+		
+		[breakWrapper setPreferredFilename: @"Breakpoints.plist"];
+		[projectFile addFileWrapper: breakWrapper];
+		
+		[breakWrapper release];
+	}
+	
     // Setup the settings
     [projectFile setSettings: settings];
 }
@@ -736,6 +775,60 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 
 - (unsigned) watchExpressionCount {
 	return [watchExpressions count];
+}
+
+// Breakpoints
+
+- (void) breakpointsHaveChanged {
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectBreakpointsChangedNotification
+														object: self];
+}
+
+- (void) addBreakpointAtLine: (int) line
+					  inFile: (NSString*) filename {
+	[breakpoints addObject: [NSArray arrayWithObjects: [NSNumber numberWithInt: line], [[filename copy] autorelease], nil]];
+	
+	[self breakpointsHaveChanged];
+}
+
+- (void) replaceBreakpointAtIndex: (unsigned) index
+			 withBreakpointAtLine: (int) line
+						   inFile: (NSString*) filename {
+	[breakpoints replaceObjectAtIndex: index
+						   withObject: [NSArray arrayWithObjects: [NSNumber numberWithInt: line], [[filename copy] autorelease], nil]];
+	
+	[self breakpointsHaveChanged];
+}
+
+- (int) lineForBreakpointAtIndex: (unsigned) index {
+	return [[[breakpoints objectAtIndex: index] objectAtIndex: 0] intValue];
+}
+
+- (NSString*) fileForBreakpointAtIndex: (unsigned) index {
+	return [[breakpoints objectAtIndex: index] objectAtIndex: 1];
+}
+
+- (unsigned) breakpointCount {
+	return [breakpoints count];
+}
+
+- (void) removeBreakpointAtIndex: (unsigned) index {
+	[breakpoints removeObjectAtIndex: index];
+	
+	[self breakpointsHaveChanged];
+}
+
+- (void) removeBreakpointAtLine: (int) line
+						 inFile: (NSString*) file {
+	NSArray* bp =  [NSArray arrayWithObjects: [NSNumber numberWithInt: line], [[file copy] autorelease], nil];
+	unsigned index = [breakpoints indexOfObject: bp];
+	
+	if (index == NSNotFound) {
+		NSLog(@"Attempt to remove nonexistant breakpoint %@:%i", file, line);
+		return;
+	}
+	
+	[self removeBreakpointAtIndex: index];
 }
 
 @end

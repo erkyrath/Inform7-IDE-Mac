@@ -234,6 +234,11 @@ NSDictionary* IFSyntaxAttributes[256];
 											 selector: @selector(updateSettings)
 												 name: IFSettingNotification
 											   object: [[parent document] settings]];
+	
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(updatedBreakpoints:)
+												 name: IFProjectBreakpointsChangedNotification
+											   object: [parent document]];
 
     doc = [parent document];
 
@@ -350,6 +355,10 @@ NSDictionary* IFSyntaxAttributes[256];
 		case IFTranscriptPane:
 			toSelect = transcriptTabView;
 			break;
+			
+		case IFUnknownPane:
+			// No idea
+			break;
     }
 
     if (toSelect) {
@@ -407,6 +416,37 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (NSString*) currentFile {
 	return [[parent document] pathForFile: openSourceFile];
+}
+
+- (int) currentLine {
+	int selPos = [sourceText selectedRange].location;
+	
+	if (selPos < 0 || selPos >= [textStorage length]) return -1;
+	
+	// Count the number of newlines until the current line
+	// (Take account of CRLF or LFCR style things)
+	int x;
+	int line = 0;
+	
+	unichar lastNewline = 0;
+	
+	for (x=0; x<selPos; x++) {
+		unichar chr = [[textStorage string] characterAtIndex: x];
+		
+		if (chr == '\n' || chr == '\r') {
+			if (lastNewline != 0 && chr != lastNewline) {
+				// CRLF combination
+				lastNewline = 0;
+			} else {
+				lastNewline = chr;
+				line++;
+			}
+		} else {
+			lastNewline = 0;
+		}
+	}
+	
+	return line;
 }
 
 // = The source view =
@@ -647,9 +687,23 @@ NSDictionary* IFSyntaxAttributes[256];
 	[[zView zMachine] loadDebugSymbolsFrom: [[[[parent document] fileName] stringByAppendingPathComponent: @"Build"] stringByAppendingPathComponent: @"gameinfo.dbg"]
 							withSourcePath: [[[parent document] fileName] stringByAppendingPathComponent: @"Source"]];
 	
+	// Set the initial breakpoint if 'Debug' was selected
 	if (setBreakpoint) {
 		if (![[zView zMachine] setBreakpointAtName: @"Initialise"]) {
 			[[zView zMachine] setBreakpointAtName: @"main"];
+		}
+	}
+	
+	// Set the other breakpoints anyway
+	int breakpoint;
+	for (breakpoint = 0; breakpoint < [[parent document] breakpointCount]; breakpoint++) {
+		int line = [[parent document] lineForBreakpointAtIndex: breakpoint];
+		NSString* file = [[parent document] fileForBreakpointAtIndex: breakpoint];
+		
+		if (line >= 0) {
+			if (![[zView zMachine] setBreakpointAtName: [NSString stringWithFormat: @"%@:%i", file, line+1]]) {
+				NSLog(@"Failed to set breakpoint at %@:%i", file, line+1);
+			}
 		}
 	}
 	
@@ -730,6 +784,10 @@ NSDictionary* IFSyntaxAttributes[256];
 				
 			case IFLineStyleError:
 				background = [NSColor colorWithDeviceRed: 1.0 green: 0.3 blue: 0.3 alpha: 1.0];
+				break;
+				
+			case IFLineStyleBreakpoint:
+				background = [NSColor colorWithDeviceRed: 1.0 green: 0.7 blue: 0.4 alpha: 1.0];
 				break;
 				
 			default:
@@ -888,6 +946,77 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (IFTranscriptController*) transcriptController {
 	return transcriptController;
+}
+
+// = Breakpoints =
+
+- (IBAction) setBreakpoint: (id) sender {
+	// Sets a breakpoint at the current location in the current source file
+	
+	// If we're not at the source pane, then do nothing
+	if ([self currentView] != IFSourcePane) return;
+	
+	// Work out which file and line we're in
+	NSString* currentFile = [self currentFile];
+	int currentLine = [self currentLine];
+	
+	if (currentLine >= 0) {
+		NSLog(@"Added breakpoint at %@:%i", currentFile, currentLine);
+		
+		[[parent document] addBreakpointAtLine: currentLine
+										inFile: currentFile];
+	}
+}
+
+- (IBAction) deleteBreakpoint: (id) sender {
+	// Sets a breakpoint at the current location in the current source file
+	
+	// If we're not at the source pane, then do nothing
+	if ([self currentView] != IFSourcePane) return;
+	
+	// Work out which file and line we're in
+	NSString* currentFile = [self currentFile];
+	int currentLine = [self currentLine];
+	
+	if (currentLine >= 0) {
+		NSLog(@"Deleted breakpoint at %@:%i", currentFile, currentLine);
+		
+		[[parent document] removeBreakpointAtLine: currentLine
+										   inFile: currentFile];
+	}	
+}
+
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+	// Can't add breakpoints if we're not showing the source view
+	// (Moot: this never gets called at any point where it is useful at the moment)
+	if ([menuItem action] == @selector(setBreakpoint:) ||
+		[menuItem action] == @selector(deleteBreakpoint:)) {
+		return [self currentView]==IFSourcePane;
+	}
+	
+	return YES;
+}
+
+- (void) updatedBreakpoints: (NSNotification*) not {
+	// Give up if there's no Z-Machine running
+	if (!zView) return;
+	if (![zView zMachine]) return;
+	
+	// Clear out the old breakpoints
+	[[zView zMachine] removeAllBreakpoints];
+	
+	// Set the breakpoints
+	int breakpoint;
+	for (breakpoint = 0; breakpoint < [[parent document] breakpointCount]; breakpoint++) {
+		int line = [[parent document] lineForBreakpointAtIndex: breakpoint];
+		NSString* file = [[parent document] fileForBreakpointAtIndex: breakpoint];
+		
+		if (line >= 0) {
+			if (![[zView zMachine] setBreakpointAtName: [NSString stringWithFormat: @"%@:%i", file, line+1]]) {
+				NSLog(@"Failed to set breakpoint at %@:%i", file, line+1);
+			}
+		}
+	}
 }
 
 @end

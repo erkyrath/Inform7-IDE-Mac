@@ -26,7 +26,9 @@ enum IFProjectPaneType {
     IFGamePane = 3,
     IFDocumentationPane = 4,
 	IFIndexPane = 5,
-	IFTranscriptPane = 8
+	IFTranscriptPane = 8,
+	
+	IFUnknownPane = 256
 };
 
 @class IFProjectController;
@@ -126,6 +128,7 @@ enum IFProjectPaneType {
 
 - (void) showSourceFile: (NSString*) file;
 - (NSString*) currentFile;
+- (int) currentLine;
 
 - (void) updateHighlightedLines;
 
@@ -155,5 +158,9 @@ enum IFProjectPaneType {
 
 // The transcript view
 - (IFTranscriptController*) transcriptController;
+
+// Breakpoints
+- (IBAction) setBreakpoint: (id) sender;
+- (IBAction) deleteBreakpoint: (id) sender;
 
 @end

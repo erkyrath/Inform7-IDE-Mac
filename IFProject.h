@@ -15,6 +15,8 @@
 #import "ZoomView/ZoomSkein.h"
 
 extern NSString* IFProjectFilesChangedNotification;
+extern NSString* IFProjectWatchExpressionsChangedNotification;
+extern NSString* IFProjectBreakpointsChangedNotification;
 
 @interface IFProject : NSDocument {
     // The data for this project
@@ -36,7 +38,10 @@ extern NSString* IFProjectFilesChangedNotification;
     BOOL singleFile;
 	
 	NSMutableArray* watchExpressions;
+	NSMutableArray* breakpoints;
 }
+
+// The files and settings associated with the project
 
 - (IFCompilerSettings*) settings;
 - (IFCompiler*)         compiler;
@@ -44,6 +49,8 @@ extern NSString* IFProjectFilesChangedNotification;
 - (NSDictionary*)       sourceFiles;
 
 - (void) prepareForSaving;
+
+// Properties associated with the project
 
 - (BOOL) singleFile;
 - (NSString*) mainSourceFile;
@@ -56,6 +63,10 @@ extern NSString* IFProjectFilesChangedNotification;
 
 - (NSString*) pathForFile: (NSString*) file;
 
+- (BOOL) editingExtension;
+
+// 'Subsidiary' files
+
 - (NSTextStorage*) notes;
 - (IFIndexFile*)   indexFile;
 
@@ -63,7 +74,7 @@ extern NSString* IFProjectFilesChangedNotification;
 
 - (ZoomSkein*) skein;
 
-- (BOOL) editingExtension;
+// Watchpoints
 
 - (void) addWatchExpression: (NSString*) expression;
 - (void) replaceWatchExpressionAtIndex: (unsigned) index
@@ -71,5 +82,19 @@ extern NSString* IFProjectFilesChangedNotification;
 - (NSString*) watchExpressionAtIndex: (unsigned) index;
 - (unsigned) watchExpressionCount;
 - (void) removeWatchExpressionAtIndex: (unsigned) index;
+
+// Breakpoints
+
+- (void) addBreakpointAtLine: (int) line
+					  inFile: (NSString*) filename;
+- (void) replaceBreakpointAtIndex: (unsigned) index
+			 withBreakpointAtLine: (int) line
+						   inFile: (NSString*) filename;
+- (int) lineForBreakpointAtIndex: (unsigned) index;
+- (NSString*) fileForBreakpointAtIndex: (unsigned) index;
+- (unsigned) breakpointCount;
+- (void) removeBreakpointAtIndex: (unsigned) index;
+- (void) removeBreakpointAtLine: (int) line
+						 inFile: (NSString*) file;
 
 @end
