@@ -434,9 +434,9 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 																		 blue: 0.7 
 																		alpha: 1.0]];
 			[cacheColourSet replaceObjectAtIndex: IFSyntaxCode
-									  withObject: [NSColor colorWithDeviceRed: 1.0
-																		green: 0.0
-																		 blue: 0.7 
+									  withObject: [NSColor colorWithDeviceRed: 0.8
+																		green: 0.3
+																		 blue: 0 
 																		alpha: 1.0]];
 			[cacheColourSet replaceObjectAtIndex: IFSyntaxAssembly
 									  withObject: [NSColor colorWithDeviceRed: 1.0
@@ -444,8 +444,8 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 																		 blue: 0
 																		alpha: 1.0]];
 			[cacheColourSet replaceObjectAtIndex: IFSyntaxCodeAlpha
-									  withObject: [NSColor colorWithDeviceRed: 1.0
-																		green: 0.5
+									  withObject: [NSColor colorWithDeviceRed: 0
+																		green: 0
 																		 blue: 0
 																		alpha: 1.0]];
 			[cacheColourSet replaceObjectAtIndex: IFSyntaxEscapeCharacter
