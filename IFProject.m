@@ -22,6 +22,7 @@
         projectFile = nil;
         sourceFiles = nil;
         mainSource  = nil;
+        singleFile  = YES;
 
         compiler = [[IFCompiler allocWithZone: [self zone]] init];
     }
@@ -110,6 +111,31 @@
             }
         }
 
+        singleFile = NO;
+        
+        return YES;
+    } else if ([fileType isEqualTo: @"Inform source file"] ||
+               [fileType isEqualTo: @"Inform header file"]) {
+        // No project file
+        if (projectFile) [projectFile release];
+        projectFile = nil;
+        
+        // Default settings
+        if (settings) [settings release];
+        settings = [[IFCompilerSettings allocWithZone: [self zone]] init];
+        
+        // Load the single file
+        NSString* theFile = [NSString stringWithContentsOfFile: fileName];
+        
+        if (sourceFiles) [sourceFiles release];
+        sourceFiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+            [[[NSTextStorage alloc] initWithString: theFile] autorelease],
+            [fileName lastPathComponent], nil];
+        
+        if (mainSource) [mainSource release];
+        mainSource = [[fileName lastPathComponent] copy];
+        
+        singleFile = YES;
         return YES;
     }
     
@@ -123,6 +149,12 @@
         return [projectFile writeToFile: fileName
                              atomically: YES
                         updateFilenames: YES];
+    } else if ([fileType isEqualToString: @"Inform source file"] ||
+               [fileType isEqualToString: @"Inform header file"]) {
+        NSTextStorage* theFile = [self storageForFile: [self mainSourceFile]];
+        
+        return [[theFile string] writeToFile: fileName
+                                  atomically: YES];
     }
     
     return NO;
@@ -130,6 +162,7 @@
 
 - (BOOL) addFile: (NSString*) newFile {
     if ([sourceFiles objectForKey: newFile] != nil) return NO;
+    if (singleFile) return NO;
     
     [sourceFiles setObject: [[[NSTextStorage alloc] init] autorelease]
                     forKey: newFile];
@@ -156,6 +189,10 @@
 
 - (IFCompiler*) compiler {
     return compiler;
+}
+
+- (BOOL) singleFile {
+    return singleFile;
 }
 
 // == Getting the files ==
@@ -199,6 +236,8 @@
 }
 
 - (NSString*) mainSourceFile {
+    if (singleFile) return mainSource;
+    
     NSFileWrapper* sourceDir = [[projectFile fileWrappers] objectForKey: @"Source"];
 
     NSDictionary* source = [sourceDir fileWrappers];

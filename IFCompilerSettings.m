@@ -117,6 +117,8 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     if (libPath) {
         [includePath addObject: libPath];
     }
+    
+    [includePath addObject: @"./"];
 
     // Finish up paths
 

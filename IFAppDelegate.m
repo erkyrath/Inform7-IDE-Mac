@@ -12,6 +12,7 @@
 
 @implementation IFAppDelegate
 
+#if 0
 - (BOOL)application:(NSApplication *)theApplication
            openFile:(NSString *)filename {
     IFCompilerController* controller;
@@ -33,6 +34,7 @@
 
     return NO;
 }
+#endif
 
 - (BOOL) applicationShouldOpenUntitledFile: (NSApplication*) sender {
     return NO;

@@ -20,6 +20,8 @@
 
     NSMutableDictionary* sourceFiles;
     NSString*            mainSource;
+    
+    BOOL singleFile;
 }
 
 - (IFCompilerSettings*) settings;
@@ -29,6 +31,7 @@
 
 - (void) prepareForSaving;
 
+- (BOOL) singleFile;
 - (NSString*) mainSourceFile;
 - (NSTextStorage*) storageForFile: (NSString*) sourceFile;
 - (BOOL) addFile: (NSString*) newFile;

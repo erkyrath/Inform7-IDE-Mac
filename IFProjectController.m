@@ -240,19 +240,25 @@ static NSDictionary*  itemDictionary = nil;
     IFCompiler* theCompiler = [doc compiler];
     [theCompiler setSettings: [doc settings]];
 
-    [theCompiler setOutputFile: [NSString stringWithFormat: @"%@/Build/output.z5",
-        [doc fileName]]];
+    if (![doc singleFile]) {
+        [theCompiler setOutputFile: [NSString stringWithFormat: @"%@/Build/output.z5",
+            [doc fileName]]];
 
-    if ([[doc settings] usingNaturalInform]) {
+        if ([[doc settings] usingNaturalInform]) {
+            [theCompiler setInputFile: [NSString stringWithFormat: @"%@",
+                [doc fileName]]];
+        } else {
+            [theCompiler setInputFile: [NSString stringWithFormat: @"%@/Source/%@",
+                [doc fileName], [doc mainSourceFile]]];
+        }
+        
+        [theCompiler setDirectory: [NSString stringWithFormat: @"%@/Build", [doc fileName]]];
+    } else {
         [theCompiler setInputFile: [NSString stringWithFormat: @"%@",
             [doc fileName]]];
-    } else {
-        [theCompiler setInputFile: [NSString stringWithFormat: @"%@/Source/%@",
-            [doc fileName], [doc mainSourceFile]]];
+        
+        [theCompiler setDirectory: [NSString stringWithFormat: @"%@", [[doc fileName] stringByDeletingLastPathComponent]]];
     }
-
-    
-    [theCompiler setDirectory: [NSString stringWithFormat: @"%@/Build", [doc fileName]]];
 
     // Time to go!
     [theCompiler prepareForLaunch];
