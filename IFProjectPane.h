@@ -39,16 +39,12 @@ enum IFProjectPaneType {
 
     // Source
     IBOutlet NSTextView* sourceText;
-    IBOutlet NSPanel*    addFilePanel;
 	
 	NSTextStorage* textStorage;
 	
 	// The documentation view
 	WebView* wView;
     
-    // The add file panel
-    IBOutlet NSTextField* newFileName;
-
     // The compiler (as for IFCompilerController.h)
     IBOutlet NSTextView* compilerResults;
     IBOutlet NSScrollView* resultScroller;
@@ -56,9 +52,6 @@ enum IFProjectPaneType {
     IBOutlet NSSplitView*   splitView;
     IBOutlet NSScrollView*  messageScroller;
     IBOutlet NSOutlineView* compilerMessages;
-
-    // The various status displays
-    IBOutlet NSPopUpButton* sourcePopup;
 
     // The game view
     IBOutlet NSView* gameView;
@@ -124,12 +117,7 @@ enum IFProjectPaneType {
 - (enum IFProjectPaneType) currentView;
 
 // The source view
-- (void) updateFiles;
 - (void) moveToLine: (int) line;
-- (IBAction) selectSourceFile: (id) sender;
-
-- (IBAction) addFileClicked: (id) sender;
-- (IBAction) cancelAddFile: (id) sender;
 
 - (void) updateHighlightedLines;
 

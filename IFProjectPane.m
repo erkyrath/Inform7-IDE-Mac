@@ -147,7 +147,6 @@ static NSDictionary* styles[256];
     [compController release];
     [sourceFiles    release];
     [highlighter    release];
-    [addFilePanel   release];
     
 	if (textStorage) {
 		// Hrm? Cocoa seems to like deallocating NSTextStorage despite it's retain count.
@@ -222,7 +221,6 @@ static NSDictionary* styles[256];
 
     [compController setCompiler: [doc compiler]];
     [compController setDelegate: self];
-    [self updateFiles];
     [self updateSettings];
 
     [[sourceText textStorage] setDelegate: self];
@@ -354,7 +352,7 @@ static NSDictionary* styles[256];
     int length = [store length];
 
     int x, lineno, linepos, lineLength;
-    lineno = 1;
+    lineno = 1; linepos = 0;
     for (x=0; x<length; x++) {
         unichar chr = [store characterAtIndex: x];
         
@@ -405,91 +403,6 @@ static NSDictionary* styles[256];
     [sourceText setSelectedRange: NSMakeRange(linepos,0)];
 }
 
-- (void) updateFiles {
-    IFProject* project = [parent document];
-    NSDictionary* files = [project sourceFiles];
-
-    if (files == nil || project == nil) {
-        NSLog(@"No files found");
-        NSBeep();
-        return; // Doh!
-    }
-
-    [sourcePopup removeAllItems];
-
-    NSEnumerator* keyEnum = [files keyEnumerator];
-    NSString* key;
-    [sourceFiles removeAllObjects];
-    
-    int selectedItem = -1;
-    
-    [sourcePopup addItemWithTitle: [openSourceFile lastPathComponent]];
-    [sourceFiles addObject: openSourceFile];
-
-    while (key = [keyEnum nextObject]) {        
-        if (![key isEqualToString: [openSourceFile lastPathComponent]]) {
-            [sourcePopup addItemWithTitle: key];
-            [sourceFiles addObject: key];
-        } else {
-            selectedItem = 0;
-        }
-    }
-    
-    if (selectedItem == -1) {
-		// Used to be a bug, but can legitimately happen now
-    } else {
-        [sourcePopup selectItemAtIndex: selectedItem];
-    }
-
-    [[sourcePopup menu] addItem: [NSMenuItem separatorItem]];
-    [sourcePopup addItemWithTitle: [[NSBundle mainBundle] localizedStringForKey: @"Add file..."
-																		  value: @"Add file..."
-																		  table: nil]];
-}
-
-- (IBAction) selectSourceFile: (id) sender {
-    int item = [sourcePopup indexOfSelectedItem];
-    
-    if (item < [sourceFiles count]) {
-        // Select a new source file
-		NSLayoutManager* layout = [[sourceText layoutManager] retain];
-
-		[sourceText setSelectedRange: NSMakeRange(0,0)];
-		[[sourceText textStorage] setDelegate: nil];
-		[[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
-      
-        NSTextStorage* mainFile = [[parent document] storageForFile: [sourceFiles objectAtIndex: item]];
-        
-		[mainFile beginEditing];
-		
-        [openSourceFile release];
-        openSourceFile = [[[parent document] pathForFile: [sourceFiles objectAtIndex: item]] copy];
-        
-        [mainFile addLayoutManager: [layout autorelease]];
-		[mainFile setDelegate: self];
-		if (textStorage) { [textStorage release]; textStorage = nil; }
-		textStorage = [mainFile retain];
-        [self selectHighlighterForCurrentFile];
-		[self updateHighlightedLines];
-
-		[mainFile endEditing];
-        
-        [self updateFiles];
-    } else {
-        // Show the 'add source files' dialog
-        [NSApp beginSheet: addFilePanel
-           modalForWindow: [parent window]
-            modalDelegate: nil
-           didEndSelector: nil
-              contextInfo: nil];
-        [NSApp runModalForWindow: addFilePanel];
-        [NSApp endSheet: addFilePanel];
-        [addFilePanel orderOut: self];
-        
-        [self updateFiles];
-    }
-}
-
 - (void) showSourceFile: (NSString*) file {
 	if ([[[parent document] pathForFile: file] isEqualToString: [[parent document] pathForFile: openSourceFile]]) {
 		// Nothing to do
@@ -520,18 +433,7 @@ static NSDictionary* styles[256];
 	
 	[fileStorage endEditing];
 	
-	[self updateFiles];
 	[[IFIsFiles sharedIFIsFiles] setSelectedFile];
-}
-
-- (IBAction) addFileClicked: (id) sender {
-    [NSApp stopModal];
-    
-    [[parent document] addFile: [newFileName stringValue]];
-}
-
-- (IBAction) cancelAddFile: (id) sender {
-    [NSApp stopModal];
 }
 
 - (NSRange) findLine: (int) line {
@@ -539,7 +441,7 @@ static NSDictionary* styles[256];
     int length = [store length];
 	
     int x, lineno, linepos;
-    lineno = 1;
+    lineno = 1; linepos = 0;
     for (x=0; x<length; x++) {
         unichar chr = [store characterAtIndex: x];
         
