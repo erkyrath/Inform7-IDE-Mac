@@ -30,12 +30,12 @@ static NSSet* otherKeywords;
         @"ofclass", @"or", @"parent", @"print", @"print_ret", @"provides", @"quit",
         @"random", @"read", @"remove", @"restore", @"return", @"rfalse", @"rtrue",
         @"save", @"sibling", @"spaces", @"string", @"style", @"switch", @"to",
-        @"true", @"until", @"while", @"younger", @"youngest"]
+        @"true", @"until", @"while", @"younger", @"youngest", nil]
         retain];
     
     otherKeywords = [[NSSet setWithObjects: 
         @"first", @"last", @"meta", @"only", @"private", @"replace", @"reverse",
-        @"string", @"table"]
+        @"string", @"table", nil]
         retain];
 }
 
