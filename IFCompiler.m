@@ -223,6 +223,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
         stdOut = stdErr = nil;
         delegate = nil;
         workingDirectory = nil;
+		release = NO;
 
         deleteOutputFile = YES;
         runQueue = [[NSMutableArray allocWithZone: [self zone]] init];
@@ -253,6 +254,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 }
 
 // == Setup ==
+
+- (void) setBuildForRelease: (BOOL) willRelease {
+	release = willRelease;
+}
 
 - (void) setSettings: (IFCompilerSettings*) set {
     if (settings) [settings release];
@@ -325,7 +330,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     if (!outputFile) [self outputFile];
     
     // Prepare the arguments
-    NSMutableArray* args = [NSMutableArray arrayWithArray: [settings commandLineArguments]];
+    NSMutableArray* args = [NSMutableArray arrayWithArray: [settings commandLineArgumentsForRelease: release]];
 
     [args addObject: @"-x"];
    

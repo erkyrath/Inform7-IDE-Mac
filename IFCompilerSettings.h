@@ -68,6 +68,7 @@ extern NSString* IFSettingLoudly;
 
 // Getting command line arguments, etc
 - (NSArray*) commandLineArguments;
+- (NSArray*) commandLineArgumentsForRelease: (BOOL) release;
 - (NSString*) compilerToUse;
 - (NSArray*) supportedZMachines;
 

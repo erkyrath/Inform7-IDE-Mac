@@ -206,6 +206,10 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 
 // == The command line ==
 - (NSArray*) commandLineArguments {
+	return [self commandLineArgumentsForRelease: NO];
+}
+
+- (NSArray*) commandLineArgumentsForRelease: (BOOL) release {
     NSMutableArray* result = [NSMutableArray array];
 
     // Switches
@@ -213,19 +217,19 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 	[switches appendString: @"k"];
     [switches appendString: @"E2"];
 
-    if ([self strict]) {
+    if ([self strict] && !release) {
         [switches appendString: @"S"];
     } else {
         [switches appendString: @"~S"];
     }
 
-    if ([self infix]) {
+    if ([self infix] && !release) {
         [switches appendString: @"X"];
     } else {
         // Off by default
     }
 
-    if ([self debug]) {
+    if ([self debug] && !release) {
         [switches appendString: @"D"];
     } else {
         [switches appendString: @"~D"];

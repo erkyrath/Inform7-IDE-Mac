@@ -21,6 +21,7 @@ extern NSString* IFCompilerFinishedNotification;
 
     // Settings, input, output
     IFCompilerSettings* settings;
+	BOOL release;
     NSString* inputFile;
     NSString* outputFile;
     NSString* workingDirectory;
@@ -50,6 +51,7 @@ extern NSString* IFCompilerFinishedNotification;
 + (NSArray*) compilerPaths;
 + (NSArray*) availableCompilers;
 
+- (void) setBuildForRelease: (BOOL) willRelease;
 - (void) setSettings: (IFCompilerSettings*) settings;
 - (void) setInputFile: (NSString*) path;
 - (void) setDirectory: (NSString*) path;

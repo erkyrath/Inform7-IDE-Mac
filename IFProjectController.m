@@ -453,27 +453,26 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 // == View selection functions ==
-- (IBAction) compile: (id) sender {
+- (void) performCompileWithRelease: (BOOL) release {
     IFProject* doc = [self document];
 	
 	[self removeHighlightsOfStyle: IFLineStyleError];
 	[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];
-
-    compileFinishedAction = @selector(saveCompilerOutput);
-
+		
     // Save the document
     [doc saveDocument: self];
     
     [projectPanes makeObjectsPerformSelector: @selector(stopRunningGame)];
-
+	
     // Set up the compiler
     IFCompiler* theCompiler = [doc compiler];
+	[theCompiler setBuildForRelease: release];
     [theCompiler setSettings: [doc settings]];
-
+	
     if (![doc singleFile]) {
         [theCompiler setOutputFile: [NSString stringWithFormat: @"%@/Build/output.z5",
             [doc fileName]]];
-
+		
         if ([[doc settings] usingNaturalInform]) {
             [theCompiler setInputFile: [NSString stringWithFormat: @"%@",
                 [doc fileName]]];
@@ -489,36 +488,46 @@ static NSDictionary*  itemDictionary = nil;
         
         [theCompiler setDirectory: [NSString stringWithFormat: @"%@", [[doc fileName] stringByDeletingLastPathComponent]]];
     }
-
+	
     // Time to go!
     [theCompiler prepareForLaunch];
     [theCompiler launch];
-
+	
     [[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
+}
+
+- (IBAction) release: (id) sender {
+    compileFinishedAction = @selector(saveCompilerOutput);
+	[self performCompileWithRelease: YES];
+}
+
+- (IBAction) compile: (id) sender {
+    compileFinishedAction = @selector(saveCompilerOutput);
+	[self performCompileWithRelease: NO];
 }
 
 - (IBAction) compileAndRun: (id) sender {
 	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
-    [self compile: self];
+    compileFinishedAction = @selector(runCompilerOutput);
+    [self performCompileWithRelease: NO];
 
 	waitingAtBreakpoint = NO;
-    compileFinishedAction = @selector(runCompilerOutput);
 }
 
 - (IBAction) replayUsingSkein: (id) sender {
-	[self compile: self];
+    compileFinishedAction = @selector(runCompilerOutputAndReplay);
+	[self performCompileWithRelease: NO];
 	
 	waitingAtBreakpoint = NO;
-    compileFinishedAction = @selector(runCompilerOutputAndReplay);
 }
 
 - (IBAction) compileAndDebug: (id) sender {
 	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
-    [self compile: self];
+	compileFinishedAction = @selector(debugCompilerOutput);
+    [self performCompileWithRelease: NO];
 	
 	waitingAtBreakpoint = NO;
-    compileFinishedAction = @selector(debugCompilerOutput);
-}
+ }
 
 - (IBAction) stopProcess: (id) sender {
 	[projectPanes makeObjectsPerformSelector: @selector(stopRunningGame)];
