@@ -1075,6 +1075,22 @@ static NSDictionary* styles[256];
 	remainingFileToProcess.length   = 0;
     
     NSString* fileType = [openSourceFile pathExtension];
+	
+	// In the future, we'll also meddle with the paragraph styles while formatting (to maintain indentation over
+	// multiple lines). But for now, we'll just set the style for the whole document
+	BOOL applyTabStyle = NO;
+	NSMutableParagraphStyle* tabStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[tabStyle autorelease];
+	
+	int x;
+	NSMutableArray* tabStops = [NSMutableArray array];
+	for (x=0; x<48; x++) {
+		NSTextTab* tab = [[NSTextTab alloc] initWithType: NSLeftTabStopType
+												location: 64.0*(x+1)];
+		[tabStops addObject: tab];
+		[tab release];
+	}
+	[tabStyle setTabStops: tabStops];
     
     if ([fileType isEqualToString: @"inf"] ||
         [fileType isEqualToString: @"h"] ||
@@ -1082,11 +1098,13 @@ static NSDictionary* styles[256];
         // Inform 6 file
         highlighter = [[IFInform6Syntax alloc] init];
         [sourceText setRichText: NO];
+		applyTabStyle = YES;
     } else if ([fileType isEqualToString: @"ni"] ||
                [fileType isEqualToString: @"nih"]) {
         // Natural inform file
         highlighter = [[IFNaturalInformSyntax alloc] init];
         [sourceText setRichText: YES];
+		applyTabStyle = YES;
     } else if ([fileType isEqualToString: @"rtf"]) {
         // Rich text file
         highlighter = [[IFSyntaxHighlighter alloc] init];
@@ -1108,6 +1126,14 @@ static NSDictionary* styles[256];
 	}
 	
     [highlighter setFile: [[sourceText textStorage] string]];
+	
+	if (applyTabStyle) {
+		// (Will call the highlighter)
+		[[sourceText textStorage] addAttribute: NSParagraphStyleAttributeName
+										 value: tabStyle
+										 range: NSMakeRange(0, [[sourceText textStorage] length])];
+	}
+
 	[self highlightRange: NSMakeRange(0, [[sourceText textStorage] length])];
     [self createHighlighterTickerIfRequired: 0.2];
 }
