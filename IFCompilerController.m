@@ -693,23 +693,6 @@ static IFCompilerController* activeController = nil;
 				
 				// Add it to aView
 				[aView addSubview: [pretendView autorelease]];
-#if 0
-				// Create a WebView to display this file in
-				WebView* fileView = [[WebView alloc] init];
-				[fileView setPolicyDelegate: self];
-				
-				// We need to set a host window for views handled in this way
-				[fileView setHostWindow: [[splitView superview] window]];
-				
-				// Load the HTML from the appropriate file
-				NSString* file = [path stringByAppendingPathComponent: key];
-				[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [IFProjectPolicy fileURLWithPath: file]] autorelease]];
-				
-				[fileView setFrame: [fileTabView contentRect]];
-				[fileView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-				
-				newView = fileView;
-#endif
 			} else {
 				// Create an NSTextView to display this file in			
 				NSTextView*   textView = [[NSTextView alloc] init];

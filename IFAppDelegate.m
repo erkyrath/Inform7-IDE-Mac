@@ -92,18 +92,6 @@ static NSRunLoop* mainRunLoop = nil;
 	
 	[self updateExtensions];
 
-#if 0
-	// Allow skeins to be rendered in web views
-	[WebView registerViewClass: [ZoomSkeinView class]
-		   representationClass: [ZoomSkein class]
-				   forMIMEType: @"application/x-zoom-skein"];
-	
-	NSLog(@"(%i) As HTML: %i", [WebView canShowMIMEType: @"application/x-zoom-skein"],
-		  [WebView canShowMIMETypeAsHTML: @"application/x-zoom-skein"]);
-	NSLog(@"%i %i", [ZoomSkeinView conformsToProtocol: @protocol(WebDocumentView)],
-		  [ZoomSkein conformsToProtocol: @protocol(WebDocumentRepresentation)]);
-#endif
-
 	[NSURLProtocol registerClass: [IFInformProtocol class]];
 }
 

@@ -17,25 +17,6 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
 
 @implementation IFCompiler
 
-#if 0
-+ (NSString*) compilerExecutable {
-    // Implement me: allow for compilers installed other than inside the bundle
-    // Implement me: allow for compilers with different versions inside the bundle
-    /*
-    NSString* compString = [NSString stringWithFormat: @"%@/Compilers/inform-6.21-zcode",
-        [[NSBundle mainBundle] resourcePath]];
-     */
-    NSString* compString = [NSString stringWithFormat: @"%@/Compilers/inform-6.3-biplatform",
-        [[NSBundle mainBundle] resourcePath]];
-
-    if ([[NSFileManager defaultManager] fileExistsAtPath: compString]) {
-        return compString;
-    } else {
-        return nil; // No compiler available
-    }
-}
-#endif
-
 // = Compiler versioning =
 + (NSDictionary*) parseCompilerFilename: (NSString*) pathname {
     // Compiler filenames have the form xxx-n.nn-[zcode|biplatform|glulx]

@@ -703,89 +703,6 @@ NSDictionary* IFSyntaxAttributes[256];
 	}
 }
 
-#if 0
-- (void) selectHighlighterForCurrentFile {
-	if (highlighterTicker) {
-		[highlighterTicker invalidate];
-		[highlighterTicker release];
-		highlighterTicker = nil;
-	}
-	
-	// In the future, we'll also meddle with the paragraph styles while formatting (to maintain indentation over
-	// multiple lines). But for now, we'll just set the style for the whole document
-	BOOL applyTabStyle = NO;
-	NSMutableParagraphStyle* tabStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-	[tabStyle autorelease];
-	
-	int x;
-	NSMutableArray* tabStops = [NSMutableArray array];
-	for (x=0; x<48; x++) {
-		NSTextTab* tab = [[NSTextTab alloc] initWithType: NSLeftTabStopType
-												location: 64.0*(x+1)];
-		[tabStops addObject: tab];
-		[tab release];
-	}
-	[tabStyle setTabStops: tabStops];
-
-	// Various bits & bobs
-	BOOL useSystemFont = YES;
-	
-    if (highlighter) [highlighter release];
-    highlighter = nil;
-	
-	remainingFileToProcess.location = NSNotFound;
-	remainingFileToProcess.length   = 0;
-    
-    NSString* fileType = [openSourceFile pathExtension];
-    
-	// Actually work out which highlighter to use
-    if ([fileType isEqualToString: @"inf"] ||
-        [fileType isEqualToString: @"h"] ||
-		[fileType isEqualToString: @"i6"]) {
-        // Inform 6 file
-        highlighter = [[IFInform6Syntax alloc] init];
-        [sourceText setRichText: NO];
-		applyTabStyle = YES;
-    } else if ([fileType isEqualToString: @"ni"] ||
-               [fileType isEqualToString: @"nih"]) {
-        // Natural inform file
-        highlighter = [[IFNaturalInformSyntax alloc] init];
-        [sourceText setRichText: NO];
-		applyTabStyle = YES;
-    } else if ([fileType isEqualToString: @"rtf"]) {
-        // Rich text file
-        highlighter = [[IFSyntaxHighlighter alloc] init];
-        [sourceText setRichText: YES];
-		useSystemFont = NO;
-    } else {
-        // Unknown file type
-        highlighter = [[IFSyntaxHighlighter alloc] init];
-        [sourceText setRichText: NO];
-    }
-	
-	if (useSystemFont) {
-		[[sourceText textStorage] setDelegate: nil];
-
-		[[sourceText textStorage] addAttributes: [self attributeForStyle: IFSyntaxNone]
-										  range: NSMakeRange(0, [[sourceText textStorage] length])];
-		
-		[[sourceText textStorage] setDelegate: self];
-	}
-	
-    [highlighter setFile: [[sourceText textStorage] string]];
-	
-	if (applyTabStyle) {
-		// (Will call the highlighter)
-		[[sourceText textStorage] addAttribute: NSParagraphStyleAttributeName
-										 value: tabStyle
-										 range: NSMakeRange(0, [[sourceText textStorage] length])];
-	}
-
-	[self highlightRange: NSMakeRange(0, [[sourceText textStorage] length])];
-    [self createHighlighterTickerIfRequired: 0.2];
-}
-#endif
-
 // == Debugging ==
 
 - (void) hitBreakpoint: (int) pc {
@@ -862,18 +779,6 @@ NSDictionary* IFSyntaxAttributes[256];
 			
 			// Add it to fileView
 			[fileView addSubview: [pretendView autorelease]];
-#if 0
-			// Create a web view to view this file
-			WebView* fileView = [[WebView alloc] init];
-			[fileView setPolicyDelegate: [parent docPolicy]]; // Enables the 'source' protocol
-			[fileView autorelease];
-			
-			// Need to set a window, as we'll be part of a tab view in a tab view
-			[fileView setHostWindow: [paneView window]];
-			
-			// Load the HTML
-			[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [IFProjectPolicy fileURLWithPath: fullPath]] autorelease]];
-#endif
 			
 			// Create the tab to put this view in
 			NSTabViewItem* newTab = [[[NSTabViewItem alloc] init] autorelease];

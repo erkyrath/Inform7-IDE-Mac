@@ -787,7 +787,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (BOOL) selectSourceFile: (NSString*) fileName {
-    // IMPLEMENT ME: multiple file types (?)
+    // IMPLEMENT ME: multiple file types (?) [Think this point has become moot]
 	[[self sourcePane] showSourceFile: fileName];
 	
     return YES; // Only one source file ATM (Not any more... changed this)
@@ -798,33 +798,6 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) moveToSourceFileLine: (int) line {
-#if 0
-    int paneToUse = 0;
-    int x;
-
-    for (x=0; x<[projectPanes count]; x++) {
-        IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
-
-        if ([thisPane currentView] == IFSourcePane) {
-            // Always use the first source pane found
-            paneToUse = x;
-            break;
-        }
-
-        if ([thisPane currentView] == IFErrorPane) {
-            // Avoid a pane showing error messages
-            paneToUse = x+1;
-        }
-    }
-
-    if (paneToUse >= [projectPanes count]) {
-        // All error views?
-        paneToUse = 0;
-    }
-
-    IFProjectPane* thePane = [projectPanes objectAtIndex: paneToUse];
-#endif
-	
 	IFProjectPane* thePane = [self sourcePane];
 
     [thePane selectView: IFSourcePane];
