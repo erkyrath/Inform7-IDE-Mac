@@ -13,7 +13,7 @@
 //
 
 enum {
-	IFSyntaxStateNotHighlighted = 0xff,
+	IFSyntaxStateNotHighlighted = 0xffffffff,
 	IFSyntaxStateDefault = 0
 };
 
@@ -35,17 +35,17 @@ enum {
     IFSyntaxEscapeCharacter,
     
     // Natural inform syntax types
-    IFSyntaxHeading = 0x80,			// Heading style
-	IFSyntaxPlain,					// 'No highlighting' style - lets user defined styles show through
-	IFSyntaxGameText,				// Text that appears in the game
+    IFSyntaxHeading = 0x80,				// Heading style
+	IFSyntaxPlain,						// 'No highlighting' style - lets user defined styles show through
+	IFSyntaxGameText,					// Text that appears in the game
 	
-	IFSyntaxNotHighlighted = 0xf0,	// Used internally by the highlighter to indicate that the highlights are invalid for a particular range
+	IFSyntaxStyleNotHighlighted = 0xf0,	// Used internally by the highlighter to indicate that the highlights are invalid for a particular range
     
     // Debugging syntax types
     IFSyntaxDebugHighlight = 0xa0
 };
 
-typedef unsigned char IFSyntaxState;
+typedef unsigned int  IFSyntaxState;
 typedef unsigned char IFSyntaxStyle;
 
 @class IFSyntaxStorage;
@@ -62,7 +62,8 @@ typedef unsigned char IFSyntaxStyle;
 - (IFSyntaxState) stateForCharacter: (unichar) chr
 						 afterState: (IFSyntaxState) lastState;
 - (IFSyntaxStyle) styleForCharacter: (unichar) chr
-							  state: (IFSyntaxState) state;
+						  nextState: (IFSyntaxState) nextState
+						  lastState: (IFSyntaxState) lastState;
 - (void) rehintLine: (NSString*) line
 			 styles: (IFSyntaxStyle*) styles
 	   initialState: (IFSyntaxState) state;
@@ -104,7 +105,7 @@ typedef unsigned char IFSyntaxStyle;
 
 // Communication from the highlighter
 - (void) pushState;
-- (void) popState;
+- (IFSyntaxState) popState;
 
 // Actually performing highlighting
 - (void) highlightRangeSoon: (NSRange) range;

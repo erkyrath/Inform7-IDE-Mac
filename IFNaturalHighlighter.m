@@ -57,8 +57,9 @@
 }
 
 - (IFSyntaxStyle) styleForCharacter: (unichar) chr
-							  state: (IFSyntaxState) state {
-	switch (state) {
+						  nextState: (IFSyntaxState) nextState
+						  lastState: (IFSyntaxState) lastState {
+	switch (lastState) {
 		case IFNaturalStateText:
 		case IFNaturalStateBlankLine:
 			if (chr == '[') return IFSyntaxComment;

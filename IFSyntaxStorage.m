@@ -36,7 +36,7 @@ static const int maxPassLength = 1024;
 		// Initial state
 		lineStarts[0] = 0;
 		nLines = 1;
-		[lineStates addObject: [NSMutableArray arrayWithObjects: [NSNumber numberWithUnsignedChar: IFSyntaxStateDefault], nil]]; // Initial stack starts with the default state
+		[lineStates addObject: [NSMutableArray arrayWithObjects: [NSNumber numberWithUnsignedInt: IFSyntaxStateDefault], nil]]; // Initial stack starts with the default state
 		
 		needsHighlighting.location = NSNotFound;
 		amountHighlighted = 0;	}
@@ -235,7 +235,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 			newLineStarts = realloc(newLineStarts, sizeof(*newLineStarts)*nNewLines);
 			newLineStarts[nNewLines-1] = x + range.location+1;
 
-			[newLineStates addObject: [NSMutableArray arrayWithObject: [NSNumber numberWithUnsignedChar: IFSyntaxStateNotHighlighted]]];
+			[newLineStates addObject: [NSMutableArray arrayWithObject: [NSNumber numberWithUnsignedInt: IFSyntaxStateNotHighlighted]]];
 		}
 	}
 	
@@ -306,7 +306,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	
 	// Characters no longer have valid states
 	for (x=0; x<newLen; x++) {
-		charStyles[x+range.location] = IFSyntaxStateNotHighlighted;
+		charStyles[x+range.location] = IFSyntaxStyleNotHighlighted;
 	}
 	
 	// Update the actual characters
@@ -361,11 +361,14 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 // = Communication from the highlighter =
 
 - (void) pushState {
-	[syntaxStack addObject: [NSNumber numberWithUnsignedChar: syntaxState]];
+	[syntaxStack addObject: [NSNumber numberWithUnsignedInt: syntaxState]];
 }
 
-- (void) popState {
+- (IFSyntaxState) popState {
+	IFSyntaxState poppedState = [[syntaxStack lastObject] unsignedIntValue];
 	[syntaxStack removeLastObject];
+	
+	return poppedState;
 }
 
 // = Actually performing highlighting =
@@ -394,7 +397,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		// Set up the state
 		[syntaxStack setArray: [lineStates objectAtIndex: line]];
 
-		syntaxState = [[syntaxStack lastObject] unsignedCharValue];
+		syntaxState = [[syntaxStack lastObject] unsignedIntValue];
 		[syntaxStack removeLastObject];
 		
 		IFSyntaxState initialState = syntaxState;
@@ -410,7 +413,8 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 			
 			// Next style
 			IFSyntaxStyle nextStyle = [highlighter styleForCharacter: curChar
-															   state: nextState];
+														   nextState: nextState
+														   lastState: syntaxState];
 			
 			// Store the style
 			charStyles[syntaxPos] = nextStyle;
@@ -430,7 +434,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 				   initialState: initialState];
 		
 		// Finish the stack
-		[syntaxStack addObject: [NSNumber numberWithUnsignedChar: syntaxState]];
+		[syntaxStack addObject: [NSNumber numberWithUnsignedInt: syntaxState]];
 		
 		// Store the stack
 		[lastOldStack release];
@@ -459,7 +463,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 			unsigned lastChar = (line+1)<nLines?lineStarts[line+1]:[string length];
 			
 			unsigned x;
-			for (x=firstChar; x<lastChar; x++) charStyles[x] = IFSyntaxNotHighlighted;
+			for (x=firstChar; x<lastChar; x++) charStyles[x] = IFSyntaxStyleNotHighlighted;
 			
 			NSRange newInvalidRange = NSMakeRange(firstChar, lastChar-firstChar);
 			
@@ -530,7 +534,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	
 	// Find the first character that needs highlighting
 	for (x=0; x<needsHighlighting.length; x++) {
-		if (charStyles[needsHighlighting.location + x] == IFSyntaxNotHighlighted) {
+		if (charStyles[needsHighlighting.location + x] == IFSyntaxStyleNotHighlighted) {
 			highlightStart = needsHighlighting.location+x;
 			break;
 		}
@@ -549,7 +553,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		highlightEnd = highlightStart + maxAmountToHighlight;
 	
 	for (x=highlightStart; x<highlightEnd; x++) {
-		if (charStyles[x] != IFSyntaxNotHighlighted)
+		if (charStyles[x] != IFSyntaxStyleNotHighlighted)
 			break;
 	}
 	highlightEnd = x;
