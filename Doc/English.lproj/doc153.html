@@ -1,14 +1,12 @@
-<html><head><title>11.15. The return context</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc152.html><img src=../Back.tif></a><a href=doc154.html><img src=../Forward.tif></a></td><td><b>11.15. The return context</b></td></tr></table><p>
+<html><head><title>10.10. Consider is not the same as follow</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc152.html><img src=../Back.tif></a><a href=doc154.html><img src=../Forward.tif></a></td><td><b>10.10. Consider is not the same as follow</b></td></tr></table><p>
 <p>
-<p>I7 has a number of conceptually different ways to define code - as phrases which are not compiled inline, as phrases to decide conditions, as rules and so on. All these are compiled to I6 routines, and return values have different meanings in the different cases. For type-checking reasons, I7 needs to detect when a return might occur in order to make sure that a condition does not end with the wrong kind of result, and so on.
+<p>&quot;Consider&quot; looks as if it duplicates the effect of &quot;follow&quot;, but in fact it is a simpler business altogether. Unlike &quot;follow&quot;, it doesn't get side-tracked into consulting the procedural rules, with all of the resultant change which might result from that. This is a finicky but important distinction. A great many rules and rulebooks make use of each other when actions are being processed, but we only want the procedural rules to be looked at once, right at the start.
 <p>
-<p>Inline phrases which cause a return should declare what happens like so:
+<p>The general rule is that if rule A needs to use rule B, and both are engaged in the same basic activity - for instance both are basically processing actions - then A should use &quot;consider B&quot;. Only if B is something entirely unrelated should A use &quot;follow B&quot;. Thus:
 <p>
-<p><blockquote><font color="#000080">To stop the action: (- rtrue; -) - outcome.</font></blockquote>
+<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
 <p>
-<p>&quot;Outcome&quot;, used for rules, is one of four possibilities. The others are &quot;void&quot; (a return with no value), &quot;value&quot; (with a value) or &quot;condition&quot; (used to signal a result of a phrase to decide whether something is true). Thus the phrases &quot;yes&quot; and &quot;stop the action&quot; have the same definition, but a different context:
-<p>
-<p><blockquote><font color="#000080">To yes: (- rtrue; -) - condition.</font></blockquote>
+<p>...is a case where rule A, the one about processing the &quot;switch on the machine&quot; action, is engaged in a completely different activity to rule B, which is all about telling the player what a wonderful amount of progress has been made so far. &quot;Follow&quot; is therefore appropriate.
 <p>
 <p><hr><p><a href=doc152.html>Previous</a> / <a href=doc154.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

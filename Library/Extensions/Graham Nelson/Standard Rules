@@ -1,6 +1,4 @@
-Version 1/040604 of the Standard Rules by Graham Nelson begins here.
-
-[This is a prototype for use with early preview releases of Inform 7.]
+Version 1/040731 of the Standard Rules by Graham Nelson begins here.
 
 
 Part SR1 - Kinds
@@ -57,6 +55,14 @@ A thing can be fixed in place or portable. A thing is usually portable.
 
 A thing can be wearable. A thing is usually not wearable.
 A thing can be worn. A thing is usually not worn.
+
+A thing can be initially carried.
+
+A thing can be handled.
+
+Something worn is usually wearable and initially carried.
+
+Something initially carried is usually handled.
 
 A thing can be pushable between rooms.
 
@@ -168,6 +174,8 @@ The east is a direction with opposite west, Inform property "e_to" and Inform ob
 The west is a direction with opposite east, Inform property "w_to" and Inform object "w_obj".
 The up is a direction with opposite down, Inform property "u_to" and Inform object "u_obj".
 The down is a direction with opposite up, Inform property "d_to" and Inform object "d_obj".
+The inside is a direction with opposite outside, Inform property "in_to" and Inform object "in_obj".
+The outside is a direction with opposite inside, Inform property "out_to" and Inform object "out_obj".
 
 Include (- class CompassDirection, -) when defining a direction.
 Include (- with name 'n//' 'north' 'wall', door_dir n_to, -) when defining the north.
@@ -180,6 +188,8 @@ Include (- with name 'e//' 'east' 'wall', door_dir e_to, -) when defining the ea
 Include (- with name 'w//' 'west' 'wall', door_dir w_to, -) when defining the west.
 Include (- with name 'u//' 'up' 'ceiling', door_dir u_to, -) when defining up.
 Include (- with name 'd//' 'down' 'floor', door_dir d_to, -) when defining down.
+Include (- with name 'in//' 'inside', door_dir in_to, -) when defining inside.
+Include (- with name 'out//' 'outside', door_dir out_to, -) when defining outside.
 
 Above means up from.
 Above is means up is.
@@ -242,8 +252,6 @@ The Inform object of yourself is "selfobj".
 The carrying capacity of the player is X means that the carrying
 capacity of yourself is X.
 
-Initially carried means in yourself.
-
 
 Section SR1/9 - Vehicles
 
@@ -302,13 +310,25 @@ Pushable between rooms translates into Inform as "pushable".
 Carrying capacity translates into Inform as "capacity".
 Indefinite article translates into Inform as "article".
 Inventory listing translates into Inform as "invent".
+Initially carried translates into Inform as "initially_carried".
+Handled translates into Inform as "moved".
 
 The noun is an object that varies.
 The second noun is an object that varies.
 The object in question is an object that varies.
+The item in question is an object that varies.
+The this object is an object that varies.
+
+The location is an object that varies.
+
+The command prompt is a classified that varies.
+The left hand status line is a classified that varies.
+The right hand status line is a classified that varies.
 
 The score is a number that varies.
+The turn count is a number that varies.
 The time of day is a time that varies.
+
 
 Part SR2 - Rules
 
@@ -368,6 +388,8 @@ The last turn sequence rule:
 	consider the adjust light rule;
 	consider the note object acquisitions rule.
 
+The non-player character action rule corresponds to routine I7_NPCA.
+
 
 Section SR2/3 - Accessibility of objects
 
@@ -415,6 +437,7 @@ The first action-processing rule:
 The last action-processing rule:
 	abide by the primitive accessibility rule;
 	abide by the instead rules;
+	abide by the non-player character action rule;
 	abide by the action-specific rules;
 	abide by the carry out rules;
 	the rule succeeds.
@@ -437,17 +460,31 @@ The first after rule:
 	abide by the general after rules.
 
 
+Section SR2/5 - Activity rules
+
+[Activities must not be created until the basic rulebooks are
+in place.]
+
+Describing something is an activity.
+Listing contents of something is an activity.
+Grouping together something is an activity.
+Constructing the status line is an activity.
+
+The last for describing rule:
+	cause the description to take place.
+The last for listing contents rule:
+	cause the listing to take place.
+
 Part SR3 - Actions
 
 Section SR3/1 - Generic action patterns
 
-Doing something corresponds to action "_Pattern_".
+[Doing something corresponds to action "_Pattern_".
 Doing something to corresponds to action "_Pattern_".
 Doing something with corresponds to action "_Pattern_".
 Doing anything corresponds to action "_Pattern_".
 Doing anything to corresponds to action "_Pattern_".
-Doing anything with corresponds to action "_Pattern_".
-
+Doing anything with corresponds to action "_Pattern_".]
 
 Section SR3/2 - Actions which move things
 
@@ -487,7 +524,7 @@ Taking is an action corresponding to Take
 	don't report successful implicit takes rule = TakeSub_R1
 	standard report taking rule = TakeSub_R2.
 
-Removing is an action corresponding to Remove
+Removing it from is an action corresponding to Remove
 	applying to two things
 	- check -
 	can't remove from closed containers rule = RemoveSub_C1
@@ -540,7 +577,7 @@ Putting it on is an action corresponding to PutOn
 	- report -
 	standard report putting rule = PutOnSub_R1;
 
-Inserting is an action corresponding to Insert
+Inserting it into is an action corresponding to Insert
 	applying to two things
 	- check -
 	convert insert to drop where possible rule = InsertSub_C1
@@ -636,7 +673,7 @@ Section SR3/4 - Actions involving sight
 
 Looking is an action corresponding to Look
 	applying to nothing
-	requiring light
+	[requiring light]
 	- check -
 	none
 	- carry-out -
@@ -697,7 +734,7 @@ Consulting it about is an action corresponding to Consult
 
 Section SR3/5 - Actions which change the state of things
 
-Locking is an action corresponding to Lock
+Locking it with is an action corresponding to Lock
 	applying to two things
 	- check -
 	can't lock without a lock rule = LockSub_C1
@@ -709,7 +746,7 @@ Locking is an action corresponding to Lock
 	- report -
 	standard report locking rule = LockSub_R1.
 
-Unlocking is an action corresponding to Unlock
+Unlocking it with is an action corresponding to Unlock
 	applying to two things
 	- check -
 	can't unlock without a lock rule = UnlockSub_C1
@@ -1280,8 +1317,8 @@ Section SR3/9 - Grammar
 
 Understand "take [things]" as taking.
 Understand "take off [something]" as taking off.
-Understand "take [things inside] from [something]" as removing.
-Understand "take [things inside] off [something]" as removing.
+Understand "take [things inside] from [something]" as removing it from.
+Understand "take [things inside] off [something]" as removing it from.
 Understand "take inventory" as taking inventory.
 Understand the verbs "carry" and "hold" as "take".
 
@@ -1289,7 +1326,7 @@ Understand "get out/off/up" as exiting.
 Understand "get [things]" as taking.
 Understand "get in/into/on/onto [something]" as entering.
 Understand "get off [something]" as getting off.
-Understand "get [things inside] from [something]" as removing.
+Understand "get [things inside] from [something]" as removing it from.
 
 Understand "pick up [things]" or "pick [things] up" as taking.
 
@@ -1298,7 +1335,7 @@ Understand "stand on [something]" as entering.
 
 Understand "remove [something held]" as taking off.
 Understand "remove [things]" as taking.
-Understand "remove [things inside] from [something]" as removing.
+Understand "remove [things inside] from [something]" as removing it from.
 
 Understand "shed [something held]" as taking off.
 Understand the verbs "doff" and "disrobe" as "shed".
@@ -1306,15 +1343,15 @@ Understand the verbs "doff" and "disrobe" as "shed".
 Understand "wear [something held]" as wearing.
 Understand the verb "don" as "wear".
 
-Understand "put [other things] in/inside/into [something]" as inserting.
+Understand "put [other things] in/inside/into [something]" as inserting it into.
 Understand "put [other things] on/onto [something]" as putting it on.
 Understand "put on [something held]" as wearing.
 Understand "put down [things held]" or "put [things held] down" as dropping.
 
-Understand "insert [other things] in/into [something]" as inserting.
+Understand "insert [other things] in/into [something]" as inserting it into.
 
 Understand "drop [things held]" as dropping.
-Understand "drop [other things] in/into/down [something]" as inserting.
+Understand "drop [other things] in/into/down [something]" as inserting it into.
 Understand "drop [other things] on/onto [something]" as putting it on.
 Understand "drop [something held] at/against/on/onto [something]" as throwing it at.
 Understand the verbs "throw" and "discard" as "drop".
@@ -1346,7 +1383,7 @@ Understand the verb "l" as "look".
 Understand "consult [something] on/about [text]" as consulting it about.
 
 Understand "open [something]" as opening.
-Understand "open [something] with [something held]" as unlocking.
+Understand "open [something] with [something held]" as unlocking it with.
 Understand the verbs "unwrap", "uncover" as "open".
 
 Understand "close [something]" as closing.
@@ -1408,9 +1445,9 @@ Understand the verbs "rotate", "twist", "unscrew" and "screw" as "turn".
 Understand "switch [something]" or "switch [something] on" as switching on.
 Understand "switch [something] off" or "switch off [something]" as switching off.
 
-Understand "lock [something] with [something held]" as locking.
+Understand "lock [something] with [something held]" as locking it with.
 
-Understand "unlock [something] with [something held]" as unlocking.
+Understand "unlock [something] with [something held]" as unlocking it with.
 
 Understand "attack [something]" as attacking.
 Understand the verbs "break", "smash", "hit", "fight", "torture", "wreck",
@@ -1500,6 +1537,49 @@ Understand "dig [something]" as digging.
 
 Part SR4 - Phrasebook
 
+Section SR4/0 - Saying
+
+To say (something - string-of-text):
+	(- print (string) {something}; -).
+To say (something - number):
+	(- print (say__n={something}); -).
+To say s: (- { if (say__n ~= 1) print "s"; } -).
+To say (something - time):
+	(- print (PrintTimeOfDay) {something}; -).
+To say (something - time) in words:
+	(- print (PrintTimeOfDayEnglish) {something}; -).
+To say (something - number) in words:
+	(- print (number) {something}; -).
+To say the (something - number) in words:
+	(- print (number) {something}; -).
+To say (something - object):
+	(- print (name) {something}; -).
+To say a (something - object):
+	(- print (a) {something}; -).
+To say an (something - object):
+	(- print (a) {something}; -).
+To say the (something - object):
+	(- print (the) {something}; -).
+To say The (something - object):
+	(- print (The) {something}; -).
+To say the player's surroundings:
+	(- SL_Location(); -).
+To say list of extension credits:
+	(- I7ExtensionVersions(); -).
+To say if (c - condition):
+	(- {/} 
+.{L#}; if ({c}) say__c=true; else jump {L##}; -).
+To say end if:
+	(- {/} 
+.{L#}; say__c = false; -).
+To say otherwise:
+	(- {/}
+.{L#}; if (say__c==false) say__c=true; else jump {L##}; -).
+To say line break:
+	(- if (say__p) new_line; say__p = 0; -).
+To say paragraph break:
+	(- if (say__p) new_line; new_line; say__p = 0; -).
+
 Section SR4/1 - The score and the outcome
 
 To start the player in (somewhere - a room):
@@ -1524,26 +1604,54 @@ To resume the game:
 Section SR4/2 - Causing and responding to actions
 
 To try (doing something - action):
-	(- <{doing something}>; -).
+	(- {doing something}; -).
 To silently try (doing something - action):
-	(- keep_silent=1;<{doing something}>;keep_silent=0; -).
+	(- keep_silent=1;{doing something};keep_silent=0; -).
+To try silently (doing something - action):
+	(- keep_silent=1;{doing something};keep_silent=0; -).
 
 To stop the action:
 	(- rtrue; -) - outcome.
 To continue the action:
 	(- rfalse; -) - outcome.
-To decide if action type (A - action):
-	(- (action == ##{A}) -).
 
+To carry out the (A - activity) activity:
+	(- CarryOutActivity({A}); -).
+To begin the (A - activity) activity:
+	(- BeginActivity({A}); -).
+To decide whether the (A - activity) is required:
+	(- (~~(ForActivity({A}))) -).
+To end the (A - activity) activity:
+	(- EndActivity({A}); -).
+To carry out the (A - activity) activity with (O - object):
+	(- CarryOutActivity({A}, {O}); -).
+To begin the (A - activity) activity with (O - object):
+	(- BeginActivity({A}, {O}); -).
+To decide whether the (A - activity) with (O - object) is required:
+	(- (~~(ForActivity({A}, {O}))) -).
+To end the (A - activity) activity with (O - object):
+	(- EndActivity({A}, {O}); -).
+To decide whether the (A - activity) activity is going on:
+	(- (TestActivity({A})) -).
+
+To do nothing:
+	(- ; -).
 
 Section SR4/3 - Moving and removing things
 
 To remove (something - a thing) from play:
 	(- remove {something}; -).
-To move (something - a thing) to (something else - a thing):
-	(- move {something} to {something else}; -).
-To move (something - a thing) to (somewhere - a room):
-	(- move {something} to {somewhere}; -).
+To move (something - a thing) to (something else - object),
+	without printing a room description
+	or printing an abbreviated room description:
+	(- I7_Move({something}, {something else}, {phrase options}); -).
+
+To decide which thing is holder of (something - object):
+	(- (parent({something})) -).
+To decide which thing is next thing held after (something - object):
+	(- (sibling({something})) -).
+To decide which thing is first thing held by (something - object):
+	(- (child({something})) -).
 
 To decide whether in (somewhere - a room):
 	(- (real_location=={somewhere}) -).
@@ -1551,10 +1659,6 @@ To decide whether in darkness:
 	(- (location==thedark) -).
 To decide whether the player is wearing (something - wearable):
 	(- ({something} has worn) -).
-To decide whether (something - a thing) is carried:
-	(- ({something} in player) -).
-To decide whether (something - a thing) is not carried:
-	(- ({something} notin player) -).
 
 
 Section SR4/4 - Arithmetic and comparing numbers
@@ -1594,6 +1698,8 @@ To decide which time is (n - number) minutes:
 	(- (({n})%(60*24)) -).
 To decide which time is (n - number) hours:
 	(- (({n}*60)%(60*24)) -).
+To (R - rule) in (t - number) turn from now:
+	(- SetI7Timer({R}, {t}+1, 0); -).
 To (R - rule) in (t - number) turns from now:
 	(- SetI7Timer({R}, {t}+1, 0); -).
 To (R - rule) at (t - time):
@@ -1677,9 +1783,68 @@ To change (o - object) to (p - property):
 	(- if (PermitAttribute(true, {o}, {p})) give {o} {p}; -).
 To change (o - object) to (w - value):
 	(- WriteAccessProp({o},{*w},{w}); -).
+To decide if (o - object) has a (p - property):
+	(- ({o} provides {p}) -).
+To decide if (o - object) has an (p - property):
+	(- ({o} provides {p}) -).
 
 
-Section SR4/9 - Loops and conditionals
+Section SR4/9 - Listing things in a given place
+
+To list the contents of (O - an object),
+	with newlines,
+	indented,
+	giving inventory information,
+	as a sentence,
+	including contents,
+	including all contents, 
+	tersely,
+	giving brief inventory information,
+	using the definite article,
+	listing marked items only,
+	prefacing with is/are
+	and/or not listing concealed items:
+	(- WriteListFrom(child({O}), {phrase options}); -).
+To do style the list,
+	with newlines,
+	indented,
+	giving inventory information,
+	as a sentence,
+	including contents,
+	including all contents, 
+	tersely,
+	giving brief inventory information,
+	using the definite article,
+	listing marked items only,
+	prefacing with is/are
+	and/or not listing concealed items:
+	(- c_style = c_style | {phrase options}; -).
+To do not style the list,
+	with newlines,
+	indented,
+	giving inventory information,
+	as a sentence,
+	including contents,
+	including all contents, 
+	tersely,
+	giving brief inventory information,
+	using the definite article,
+	listing marked items only,
+	prefacing with is/are
+	and/or not listing concealed items:
+	(- c_style = c_style & (~ {phrase options}); -).
+To say contents of (O - an object):
+	list the contents of O, as a sentence.
+To say the contents of (O - an object):
+	list the contents of O, as a sentence, using the definite article.
+To group (OS - object-specification) together:
+	(- objectloop (say__c provides list_together) if ({OS}) 
+		say__c.list_together = {_LT}; -).
+To group (OS - object-specification) together as (T - text):
+	(- objectloop (say__c provides list_together) if ({OS}) 
+		say__c.list_together = {T}; -).
+
+Section SR4/10 - Loops and conditionals
 
 To if (c - condition) then (ph - phrase):
 	(- if {c} {ph} -).
@@ -1689,12 +1854,6 @@ To otherwise (ph - phrase):
 	(- else {ph} -).
 To if (c - condition) begin *:
 	(- if {c}  -).
-To say if (c - condition):
-	(- {/} say__f = {c}; if (say__f) say__c=true; -).
-To say end if:
-	(- {/} say__f = true; say__c = false; -).
-To say otherwise:
-	(- {/} say__f = (say__c==false); -).
 To while (c - condition) repeatedly (ph - phrase):
 	(- while {c} {ph} -).
 To while (c - condition) , (ph - phrase):
@@ -1705,8 +1864,8 @@ To repeat with (loopvar - number variable)
 	running from (v - number) to (w - number) begin *:
 		(- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).
 To repeat with (loopvar - object variable)
-	running through contents of (v - object) begin *:
-		(- objectloop ({loopvar} in {v})  -).
+	running through (c - condition) begin * +1:
+		(- for ({loopvar}={c}, {loopvar+}={loopvar}, {loopvar+}={\c}: {loopvar}: {loopvar}={loopvar+}, {loopvar+}={\c})  -).
 To issue the error (message - text):
 	(- print ">--> ", (string) {message}, "^^"; rtrue; -).
 To stop:
@@ -1718,48 +1877,11 @@ To no:
 To result (something - returned):
 	(- return {something}; -) - value.
 
-Section SR4/10 - Saying and listing
-
-To say (something - number):
-	(- print {something}; -).
-To say (something - time):
-	(- print (PrintTimeOfDay) {something}; -).
-To say (something - time) in words:
-	(- print (PrintTimeOfDayEnglish) {something}; -).
-To say (something - number) in words:
-	(- print (number) {something}; -).
-To say the (something - number) in words:
-	(- print (number) {something}; -).
-To say (something - string-of-text):
-	(- print (string) {something}; -).
-To say (something - object):
-	(- print (name) {something}; -).
-To say a (something - object):
-	(- print (a) {something}; -).
-To say an (something - object):
-	(- print (a) {something}; -).
-To say the (something - object):
-	(- print (the) {something}; -).
-To say The (something - object):
-	(- print (The) {something}; -).
-
-To list the contents of (O - an object),
-	with newlines, indented, as a sentence, including contents,
-	including all contents, giving inventory information,
-	giving brief inventory information, using the definite article,
-	listing marked items only, prefacing with is/are
-	and/or not listing concealed items:
-	(- WriteListFrom(child({O}), {phrase options}); -).
-To say contents of (O - an object):
-	list the contents of O, as a sentence.
-To say the contents of (O - an object):
-	list the contents of O, as a sentence, using the definite article.
-
 
 Section SR4/11 - Accessibility
 
 To decide whether (o - object) is inaccessible, saying if not:
-	(- (ObjectIsUntouchable({o}, ~~({saying if not})) -).
+	(- (ObjectIsUntouchable({o}, ~~({saying if not}))) -).
 To allow access:
 	(- RulebookSucceeds(); rtrue; -).
 To deny access:
@@ -1774,7 +1896,23 @@ To stop (RL - a rule):
 	(- SetDaemonRule({RL},0); -).
 
 
-Section SR4/13 - Following rules
+Section SR4/13 - Fonts and visual effects
+
+To say bold type:
+	(- style bold; -).
+To say italic type:
+	(- style underline; -).
+To say roman type:
+	(- style roman; -).
+To say fixed letter spacing:
+	(- font off; -).
+To say variable letter spacing:
+	(- font on; -).
+To display the boxed quotation (Q - boxed-quotation):
+	(- I7_box = {Q}; -).
+
+
+Section SR4/14 - Following rules
 
 To follow (RL - a rule):
 	(- FollowRulebook({RL}); -).
@@ -1790,7 +1928,7 @@ To abide by (RL - a rule) for (O - object):
 	(- if (ProcessRulebook({RL}, {O})) rtrue; -).
 
 
-Section SR4/14 - Success and failure of rules
+Section SR4/15 - Success and failure of rules
 
 To make no decision: (- rfalse; -).
 To the rule succeeds:
@@ -1816,7 +1954,7 @@ To decide if the rule failed with result (O - classified):
 To decide which classified is the result of the rule:
 	(- (ResultOfRule()) -).
 
-Section SR4/15 - Procedural manipulation of rules
+Section SR4/16 - Procedural manipulation of rules
 
 To ignore (RL - a rule):
 	(- SuppressRule({RL}); -).
@@ -1837,7 +1975,7 @@ To move (RL1 - a rule) to after (RL2 - a rule):
 
 
 
-Section SR4/16 - Unindexed
+Section SR4/17 - Unindexed
 
 To abide by Inform GamePreRoutine:
 	(- if (GamePreRoutine()~=0) rtrue; -).
@@ -1861,6 +1999,11 @@ To abide by Inform object after:
 
 To cause the action to take place:
 	(- _I6_ActionPrimitive(); rtrue; -).
+
+To cause the description to take place:
+	(- I6_PSN__(parameter_object); -).
+To cause the listing to take place:
+	(- I7_WLF(child(parameter_object), 0); -).
 
 
 Part SR5 - Bibliographic data

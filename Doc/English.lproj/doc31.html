@@ -1,22 +1,26 @@
-<html><head><title>3.4. New either/or properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc30.html><img src=../Back.tif></a><a href=doc32.html><img src=../Forward.tif></a></td><td><b>3.4. New either/or properties</b></td></tr></table><p>
+<html><head><title>3.3. Plural assertions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc30.html><img src=../Back.tif></a><a href=doc32.html><img src=../Forward.tif></a></td><td><b>3.3. Plural assertions</b></td></tr></table><p>
 <p>
-<p>Properties can only be given to something if its kind will permit that: we cannot make a chair &quot;dark&quot; or a room &quot;portable&quot;, for instance. When creating kinds, then, we need a way to specify the properties which that kind of thing will allow, and this will need to include new properties of our own devising.
+<p>As the following examples show, sentences can make several assertions at once by using the plural. Suppose we have defined a kind called &quot;high-up fixture&quot;, for instance like so:
 <p>
-<p><blockquote><font color="#000080">A dead end is either secret or ordinary.</font></blockquote>
+<p><blockquote><font color="#000080">A high-up fixture is a kind of thing. A high-up fixture is usually fixed in place.</font></blockquote>
 <p>
-<p>This creates just one new property, not two, as the names are taken as the two states of a single either/or property: secret means not ordinary, ordinary means not secret. Alternatively, we could just say:
+<p>Then the following sentence creates two such objects and puts them in their place:
 <p>
-<p><blockquote><font color="#000080">A dead end can be secret.</font></blockquote>
+<p><blockquote><font color="#000080">The high shelf and the skylight window are high-up fixtures in the Lumber Room.</font></blockquote>
 <p>
-<p>in which case the opposite of &quot;secret&quot; would be &quot;not secret&quot;.
+<p>since it is equivalent to saying:
 <p>
-<p>Note that we are free to add to the definitions of kinds which already exist, not just those we have created ourselves: for instance,
+<p><blockquote><font color="#000080">The high shelf is a high-up fixture. The skylight window is a high-up fixture. The high shelf is in the Lumber Room. The skylight window is in the Lumber Room.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">A room is either indoors or outdoors.</font></blockquote>
+<p>Such plurals are allowed in almost any context, and we could even define two kinds at once:
 <p>
-<p>creates a new property which all rooms either possess or don't. And so on. If we make the above definitions then by default, any dead ends created will be &quot;ordinary&quot; and any rooms created will be &quot;outdoors&quot;: that is, in the absence of other information it is assumed that a new either/or property will not be held. We could reverse this behaviour by adding:
+<p><blockquote><font color="#000080">Bucket and basket are kinds of container.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">A dead end is usually secret. A room is usually indoors.</font></blockquote>
+<p>Inform constructs plurals by a fairly primitive rule, and English is so irregular a language that a more complicated rule would probably not be very much better. We sometimes need to intervene:
+<p>
+<p><blockquote><font color="#000080">The plural of ox is oxen. An ox is a kind of animal.</font></blockquote>
+<p>
+<p>Note that we specify the plural <i>before</i> creating the kind called &quot;ox&quot;: otherwise it will have plural &quot;oxes&quot;, that being the best that Inform knew at the time.
 <p>
 <p><hr><p><a href=doc30.html>Previous</a> / <a href=doc32.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

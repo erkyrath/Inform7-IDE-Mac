@@ -1,26 +1,18 @@
-<html><head><title>10.4. New rulebooks</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc128.html><img src=../Back.tif></a><a href=doc130.html><img src=../Forward.tif></a></td><td><b>10.4. New rulebooks</b></td></tr></table><p>
+<html><head><title>8.10. Adding and removing rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc128.html><img src=../Back.tif></a><a href=doc130.html><img src=../Forward.tif></a></td><td><b>8.10. Adding and removing rows</b></td></tr></table><p>
 <p>
-<p>Creating a new rulebook is also straightforward, as we see in the following modest example game:
+<p>Writing in new rows is simple:
 <p>
-<p><blockquote><font color="#000080">&quot;Appraisal&quot;</font></blockquote>
+<p><blockquote><font color="#000080">choose a blank row in Table 3;<br>change element entry to &quot;Fluorine&quot;;<br>change symbol to &quot;F&quot;;<br>change atomic number to 9;<br>change atomic weight to 19;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.</font></blockquote>
+<p>This will produce an error if there are no blank rows left in Table 3, so it can be important to worry about free space. To that end we can not only find the number of rows (as we have already seen) but also the number currently blank and not blank. Thus these:
 <p>
-<p><blockquote><font color="#000080">Appraisal rules is a rulebook.</font></blockquote>
+<p><blockquote><font color="#000080">the number of blank rows in Table 3<br>the number of filled rows in Table 3</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">An appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;</font></blockquote>
+<p>always add up to &quot;the number of rows in Table 3&quot;.
 <p>
-<p><blockquote><font color="#000080">An appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;</font></blockquote>
+<p>To delete a row, we first choose it and then &quot;blank out the whole row&quot;. Thus, for abdication purposes:
 <p>
-<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
-<p>
-<p>The creation of the rulebook is all very well, but without the final sentence it would never be used. The crucial new phrase here is &quot;follow ...&quot;, which is the first of several phrases allowing us to use rules whenever we want to (rather than simply at predetermined times such as when a particular action is being tried, or at the end of every turn, and such).
-<p>
-<p>Like &quot;number&quot; or &quot;text&quot;, &quot;rule&quot; and &quot;rulebook&quot; are kinds of value built into Inform: &quot;the blossom rule&quot; is a value whose kind is &quot;rule&quot;, whereas &quot;the every turn rules&quot; is a value whose kind is &quot;rulebook&quot;. In fact, Inform considers a rulebook to be a special case of a rule, so that whenever a rule is required it is legal to name a rulebook instead, but not vice versa. The &quot;follow&quot; phrase here...
-<p>
-<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
-<p>
-<p>...expects to be applied to a value of kind &quot;rule&quot;; &quot;the appraisal rules&quot; is in fact a rulebook, but since that counts as a rule and the phrase makes sense to Inform. To follow a rulebook means to run through all its rules in turn; to follow a single rule means just that one, of course.
+<p><blockquote><font color="#000080">choose row with name of &quot;Edward VIII&quot; in the Table of Recent Monarchs;<br>blank out the whole row;</font></blockquote>
 <p>
 <p><hr><p><a href=doc128.html>Previous</a> / <a href=doc130.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,30 +1,24 @@
-<html><head><title>9.6. Understanding values</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc120.html><img src=../Back.tif></a><a href=doc122.html><img src=../Forward.tif></a></td><td><b>9.6. Understanding values</b></td></tr></table><p>
+<html><head><title>8.2. Looking up entries</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc120.html><img src=../Back.tif></a><a href=doc122.html><img src=../Forward.tif></a></td><td><b>8.2. Looking up entries</b></td></tr></table><p>
 <p>
-<p>So far every &quot;Understand&quot; sentence has ended with &quot;as&quot; and a description of an action. But we can also use &quot;Understand&quot; to supply new ways to express values, as in the final paragraph of the following example game.
+<p>The simplest way to access the information inside tables is to ask explicitly for it, specifying the row number, the column name and what table is to be consulted. So, given our example table
 <p>
-<p><blockquote><font color="#000080">&quot;Palette&quot;</font></blockquote>
+<p><center><img src=table2.tiff></center>
 <p>
-<p><blockquote><font color="#000080">The Atelier is a room. &quot;The floridly untidy loft space used by a moderately unsuccessful artist (you, that is).&quot; The canvas, palette and paint brush are here. Understand &quot;painting&quot; as the canvas.</font></blockquote>
+<p>we can write the following description:
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are white, red, blue and green.</font></blockquote>
+<p><blockquote><font color="#000080">symbol in row 3 of the Table of Selected Elements</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The canvas is allowed to have a colour. The canvas is white. The printed name of the canvas is &quot;largely [colour] canvas&quot;.</font></blockquote>
+<p>to produce the value &quot;Zn&quot;. Or the following will run off some chemical data:
 <p>
-<p><blockquote><font color="#000080">Painting is an action applying to one thing and one colour. Check painting: if the noun is not the canvas then say &quot;Centuries of tradition suggest that canvas is the natural home of paint.&quot; instead. Carry out painting: change the colour of the canvas to the colour understood. Report painting: say &quot;You splash away at the now [canvas].&quot;</font></blockquote>
+<p><blockquote><font color="#000080">repeat with N running from 1 to the number of rows in the Table of Selected Elements begin;<br>say &quot;The atomic weight of [element in row N of the Table of Selected Elements] is [atomic weight in row N of the Table of Selected Elements].&quot;;<br>end repeat.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Understand &quot;paint [something] [a colour]&quot; as painting.</font></blockquote>
+<p>The result of which will be:
 <p>
-<p><blockquote><font color="#000080">Understand &quot;calico&quot; as white. Understand &quot;cerulean&quot; or &quot;cerulean blue&quot; as blue.</font></blockquote>
+<p><blockquote><font color="#000080">The atomic weight of Hydrogen is 1.<br>The atomic weight of Iron is 56.<br>The atomic weight of Zinc is 65.<br>The atomic weight of Uranium is 238.</font></blockquote>
 <p>
-<p>Similarly, we might conceivably want to allow new ways to recognise numbers:
+<p>Note that the first row in a table is row number 1, and that the last can be found with the special value:
 <p>
-<p><blockquote><font color="#000080">Understand &quot;eleventy-one&quot; as 111.</font></blockquote>
-<p>
-<p>Whereas we did not need to say:
-<p>
-<p><blockquote><font color="#000080">Understand &quot;canvas&quot; as the canvas. Understand &quot;red&quot; as red. Understand &quot;111&quot; as 111.</font></blockquote>
-<p>
-<p>since these are all done automatically.
+<p><blockquote><font color="#000080">the number of rows in the (name of table here)</font></blockquote>
 <p>
 <p><hr><p><a href=doc120.html>Previous</a> / <a href=doc122.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

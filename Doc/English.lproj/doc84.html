@@ -1,20 +1,28 @@
-<html><head><title>7.1. Fitting values into phrases</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 7: Phrases</h2><p><table><tr><td><a href=doc83.html><img src=../Back.tif></a><a href=doc85.html><img src=../Forward.tif></a></td><td><b>7.1. Fitting values into phrases</b></td></tr></table><p>
+<html><head><title>5.18. Material not for release</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc83.html><img src=../Back.tif></a><a href=doc85.html><img src=../Forward.tif></a></td><td><b>5.18. Material not for release</b></td></tr></table><p>
 <p>
-<p>We are now able to set up the model world, to respond to certain actions of the player within it, and to make changes over time, giving the game a start and an end. But although we have defined many rules, none of them have done more than to use a few basic phrases: saying something to the player, changing some property or moving things around.
+<p>Special testing verbs, like &quot;test&quot; and &quot;rules&quot;, are automatically excluded from the game if it is compiled as a Release version. We sometimes want to write our own for-testing-purposes-only code, though, and for this purpose we are allowed to designate whole headings as being &quot;not for release&quot;:
 <p>
-<p>A phrase is a pattern of words which instructs the computer to do something immediately. For instance:
+<blockquote><font color="#000080">Section 10 - Open sesame - Not for release
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">say &quot;Look out!&quot;<br>award 20 points</font></blockquote>
+<blockquote><font color="#000080">Universal opening is an action applying to nothing.
+<br>Understand &quot;open sesame&quot; as universal opening.
+</font></blockquote><p>
 <p>
-<p>are instructions using two phrases, &quot;say ...&quot; and &quot;award ... points&quot;. Phrases are not the same things as rules: rules lay out what should happen under what circumstances, but it is phrases that actually do what needs to be done.
+<blockquote><font color="#000080">Carry out universal opening:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through doors begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change item to open;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
 <p>
-<p>Where the &quot;20&quot; appears in &quot;award 20 points&quot;, any number would have done. This does not need to be a literal number expressed in digits: it can be any value known to Inform which works out as a number. For instance, &quot;the score&quot; is always acceptable as a number, since it is the name of a number variable: its value at any point in play is the current score.
+<blockquote><font color="#000080">Report universal opening: say &quot;Open Sesame!&quot;
+</font></blockquote><p>
 <p>
-<p>We are also allowed simple formulae such as
+<p>Clearly we do not wish the final reader to be able to type &quot;open sesame&quot;, so this whole heading will be disregarded in the Release version, as will any heading whose name includes &quot;not for release&quot;.
 <p>
-<p><blockquote><font color="#000080">change the score to the score + 10</font></blockquote>
+<p>Note that if a chapter, say, is marked as &quot;not for release&quot;, then its subheadings (mere sections) will also not be for release. If in doubt, check the &quot;Contents&quot; index: if any section is &quot;not for release&quot; then so are all of its subheadings.
 <p>
-<p>and similarly for &quot;-&quot;, &quot;*&quot; and &quot;/&quot;. Note the space around the plus sign: as far as Inform is concerned, &quot;+&quot; is a word like any other. (In this early release of I7, complicated formulae may not behave the way we expect: support for proper expression parsing is limited at best.)
+<p><i>[At present the Release button does not run the NI compiler with the &quot;-release&quot; switch set, so the exclusion won't actually happen yet, but it's all working at the NI end. The next version of the Inform.app OS X application will fix this.]</i>
 <p>
 <p><hr><p><a href=doc83.html>Previous</a> / <a href=doc85.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

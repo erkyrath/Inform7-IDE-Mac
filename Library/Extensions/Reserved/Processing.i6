@@ -38,21 +38,35 @@ Constant GAME_ENDS_RB = 23;
 ! procedural rules, then process the rulebook, then clear
 ! the frame back off the stack:
 
+Global rule_frames = 0;
 [ BeginFollowRulebook;
   PushRuleChange(RS_FRAME, RS_FRAME, RS_FRAME);
+  rule_frames++;
+  if (rule_frames == 20) {
+      print ">--> Too many rulebooks are being followed at once. 
+          Rulebooks pile up when the rules governing one
+          action call for another action to take place first,
+          and when the limit (20) is reached, this usually
+          indicates that an action is directly or indirectly
+          duplicating itself: for instance, 'Before going
+          north, try going north.' has this effect.^^";
+      rule_frames = -1;
+      return;
+  }
   ProcessRulebook(PROC_RB);
 ];
 [ EndFollowRulebook;
+  rule_frames--;
   while ((rulechange_sp > 0) && 
       (rulechange_stack-->rulechange_sp ~= RS_FRAME))
       rulechange_sp = rulechange_sp - 3;
   if (rulechange_sp > 0) rulechange_sp = rulechange_sp - 3;
+  else rule_frames = 0;
 ];
 [ FollowRulebook rulebook par;
-  if (rulebook == PROC_RB) rfalse;
-  BeginFollowRulebook();
+  if (rulebook ~= PROC_RB) BeginFollowRulebook();
   ProcessRulebook(rulebook, par);
-  EndFollowRulebook();
+  if (rulebook ~= PROC_RB) EndFollowRulebook();
 ];
 
 ! The rule changes pushed on to the stack have the following
@@ -115,12 +129,38 @@ Global debugging_rules = 0;
       }
   }
 ];
-Verb "dbr"
+[ RulesOnSub;
+  debug_rules = 1;
+  "Rules tracing is now switched on. Type ~rules off~ to switch it off again,
+   or ~rules all~ to include even rules which do not apply.";
+];
+[ RulesAllSub;
+  debug_rules = 2;
+  "Rules tracing is now switched to ~all~. Type ~rules off~ to switch it off again.";
+];
+[ RulesOffSub;
+  debug_rules = 0;
+  "Rules tracing is now switched off. Type ~rules~ to switch it on again.";
+];
+[ DB_Rule r f l;
+  l = PhraseNames-->r;
+  if (l==0) return;
+  print "@31[Rule ~", (string) RuleTexts-->l, "~ ";
+  if (f==0) "applies.]";
+  "does not apply.]";
+];
+
+Verb meta "dbr"
 	* number -> DebugRb
 	* number "off" -> DebugRbOff;
+Verb meta "rules"
+	* -> RulesOn
+	* "all" -> RulesAll
+	* "off" -> RulesOff;
 
-[ ProcessRulebook rulebook par ignore_movements
+[ ProcessRulebook rulebook par activity_flag ignore_movements
   i rv bits x frame_base substituted_rule usage rule1 rule2 sdbr posthumous;
+  if (rule_frames<0) rfalse;
   if (rulebook == GAME_ENDS_RB) posthumous = true;
   if (par) parameter_object = par;
   for (x = rulechange_sp-3: x>=0: x = x - 3) {
@@ -153,7 +193,7 @@ Verb "dbr"
       if ((usage == RS_SUBSTITUTE) && (rule1 == rulebook))
           substituted_rule = rule2;
       if ((usage == RS_MOVEBEFORE) && (rule2 == rulebook)) {
-           rv = ProcessRulebook(rule1, par, true);
+           rv = ProcessRulebook(rule1, par, activity_flag, true);
            if (rv) { return rv; }
       }
   } !print "Bits: ", bits, "^";
@@ -162,12 +202,16 @@ Verb "dbr"
   AdjustDbr(substituted_rule); if (debugging_rules) DebugRulebooks(substituted_rule, par);
   ! (A routine defined in the I7 code generator)
   process_rulebook_count = process_rulebook_count + debugging_rules;
-  if (substituted_rule < 256) {
+  if (substituted_rule < HIGHEST_RULEBOOK_NO) {
       substituted_rule = rulebooks_array-->substituted_rule;
       for (i=0, rv=0: (substituted_rule-->i~=$ffff) && ((posthumous) || (deadflag==false)): i++)
-          if ((rv = (ProcessRulebook(substituted_rule-->i, par)))
+          if ((rv = (ProcessRulebook(substituted_rule-->i, par, activity_flag)))
               && (bits & RS_USERESULT_BIT)) break;
-  } else rv = indirect(substituted_rule);
+  } else {
+      if ((say__p) && (activity_flag==false)) { new_line; say__p=0; }
+      rv = indirect(substituted_rule);
+      ! if ((say__p) && (activity_flag==false)) { new_line; say__p=0; }
+  }
   if (rv && (bits & RS_USERESULT_BIT)) {
       AdjustDbr(substituted_rule);
   	  process_rulebook_count = process_rulebook_count - debugging_rules;
@@ -187,7 +231,7 @@ Verb "dbr"
       rule1 = rulechange_stack-->(x+1);
       rule2 = rulechange_stack-->(x+2);
       if ((usage == RS_MOVEAFTER) && (rule2 == rulebook)) {
-          rv = ProcessRulebook(rule1, par, true);
+          rv = ProcessRulebook(rule1, par, activity_flag, true);
           if (rv) { process_rulebook_count--;
               debugging_rules = sdbr;
       	      return rv;
@@ -393,11 +437,22 @@ Global untouchable_object;
       k = k*2; if (k == 256) { k = 1; j++; }
   }
 ];
+Global debug_rule_nesting;
+[ SetString31 d;
+  switch(d) {
+      0: string 31 "";
+      1: string 31 "    ";
+      2: string 31 "        ";
+      3: string 31 "            ";
+      4: string 31 "                ";
+      default:
+         string 31 "                    ";
+  }
+];
 [ ActionPrimitive sa sn mf mt mb mth;
   sa = action; sn = noun; mf = move_from; mt = move_to;
   mb = move_by; mth = move_through;
-  self = noun;
-  if (action == ##Answer) noun = second;
+  self = noun; say__p = 0;
   if (action == ##Consult or ##Ask or ##Tell or ##NotUnderstood or ##Answer) {
       inp2 = 1; second = consult_from + 256*consult_words;
   }
@@ -431,8 +486,13 @@ Global untouchable_object;
       }
       #ENDIF;
   }
+  if ((debug_rules) && (FindAction())) {
+      print "@31["; DB_Action(); print "]^"; }
+  SetString31(++debug_rule_nesting);
   TrackActions();
-  ProcessRulebook(APROC_RB);
+  BeginActionProcessing();
+  if (meta) { _I6_ActionPrimitive(); say__p = 1; }
+  else ProcessRulebook(APROC_RB);
   #IFDEF DEBUG;
   if (debug_flag & 2 ~= 0) {
       switch (rulechange_stack-->rulechange_sp) {
@@ -446,6 +506,7 @@ Global untouchable_object;
       SetActionBitmap(noun, action);
       if (action == ##Go) SetActionBitmap(location, ##Enter);
   }
+  SetString31(--debug_rule_nesting);
   EndActionProcessing();
   move_from = mf; move_to = mt; action = sa; noun = sn;
   move_by = mb; move_through = mth;
@@ -505,11 +566,56 @@ Global untouchable_object;
   }
   ">--> You tried to start or stop a rule which was not a daemon.";
 ];
+
+[ DA_Name n; print (name) n; ];
+[ DA_Topic ignore a b c d i;
+  print "~";
+  for (a=consult_from:d<consult_words:d++,a++) {
+      wn = a; b = WordAddress(a); c = WordLength(a);
+      for (i=b:i<b+c:i++) {
+          print (char) 0->i;
+      }
+      if (d<consult_words-1) print " ";
+  }
+  print "~";
+];
+[ DA_Number n; print n; ];
+[ FindAction t;
+  t = 1;
+  while (t <= ActionData-->0) {
+      if (action == ActionData-->t) return t;
+      t = t+9;
+  }
+  rfalse;
+];
+[ DB_Action t l j v c;
+  t = 1;
+  while (t <= ActionData-->0) {
+      if (action == ActionData-->t) {
+          l = t+9; t = t+4;
+          while ((v = ActionData-->t) ~= $ffff) {
+              if (v ofclass Routine) {
+                  if (c==0) { (v)(noun); }
+                  else { (v)(second); }
+                  c++;
+              } else print (string) v;
+              t++;
+              if (t == l) break;
+              if (ActionData-->t ~= $ffff) print " ";
+          }
+          if (keep_silent) print " - silently";
+          return;
+      }
+      t = t+9;
+  }
+];
+
 [ RoundOffTime t1 t2; return ((t1+t2/2)/t2)*t2; ];
-[ PrintTimeOfDay t aop;
+[ PrintTimeOfDay t h aop;
   if (t<0) { print "<no time>"; return; }
   if (t >= 60*12) { aop = "pm"; t=t-60*12; } else aop = "am";
-  print t/60, ":";
+  h = t/60; if (h==0) h=12;
+  print h, ":";
   if (t%60<10) print "0"; print t%60, " ", (string) aop;
 ];
 [ PrintTimeOfDayEnglish t h m dir aop;
@@ -549,3 +655,91 @@ Global untouchable_object;
   rfalse; ];
 [ WriteAccessProp obj pr val;
   if (PermitAttribute(false, obj, pr)) obj.pr = val; ];
+[ I7_Para x; say__p = 1; ];
+[ I7_LineBreak; if (say__p) { new_line; say__p=0; } ];
+[ I7_ParaBreak; if (say__p) { new_line; new_line; say__p=0; } ];
+[ I7_Prompt i;
+  ! print "^";
+  style roman;
+  I7_LineBreak();
+  switch(metaclass(I7_prompt_text)) {
+      String: print (string) I7_prompt_text;
+      Routine: I7_prompt_text();
+  }
+  if (I7_box) {
+      for (i=0: I7_boxes_appeared-->i: i++)
+          if (I7_boxes_appeared-->i == I7_box) {
+              I7_box = 0;
+              return;
+          }
+      I7_boxes_appeared-->i = I7_box;
+      I7_box();
+      I7_box = 0;
+  }
+];
+[ SL_Score_Moves;
+  print sline1, "/", sline2;
+];
+[ SL_Location;
+   if (location == thedark) print (name) location;
+   else
+   {   FindVisibilityLevels();
+       if (visibility_ceiling == location)
+           print (name) location;
+       else print (The) visibility_ceiling;
+   }
+];
+[ DrawStatusLine width posb;
+   BeginActivity(3);
+   @split_window 1; @set_window 1; @set_cursor 1 1; style reverse;
+   width = 0->33; posb = width-15;
+   spaces width;
+   if (ForActivity(3) == false) {
+   @set_cursor 1 2;
+   switch(metaclass(I7_left_sl)) {
+       String: print (string) I7_left_sl;
+       Routine: I7_left_sl();
+   }
+   @set_cursor 1 posb;
+   switch(metaclass(I7_right_sl)) {
+       String: print (string) I7_right_sl;
+       Routine: I7_right_sl();
+   }
+   }
+   @set_cursor 1 1; style roman; @set_window 0;
+   EndActivity(3);
+];
+[ I7_parent o; if (o==0) return 0; return parent(o); ];
+
+Global activities_sp = 0;
+Array activities_stack --> 25;
+[ BeginActivity A o;
+  if (activities_sp == 25) ">--> Too many activities going on at once.";
+  activities_stack-->(activities_sp++) = A;
+  ProcessRulebook(Activity_before_rulebooks-->A, o, true);
+];
+[ ForActivity A o;
+  return ProcessRulebook(Activity_when_rulebooks-->A, o, true);
+];
+[ EndActivity A o;
+  if (activities_sp == 0) jump BadEnd;
+  if (activities_stack-->(activities_sp-1) == A) {
+      ProcessRulebook(Activity_after_rulebooks-->A, o, true);
+      activities_sp--; return; }
+  .BadEnd; ">--> Tried to end activity which wasn't going on.";
+];
+[ CarryOutActivity A o;
+  BeginActivity(A,o); ForActivity(A,o); EndActivity(A,o); ];
+[ TestActivity A i;
+  for (i=0:i<activities_sp:i++)
+      if (activities_stack-->i == A) rtrue;
+  rfalse;
+];
+[ I7_Move F T opt;
+  if (F == player) PlayerTo(T, opt); else move F to T;
+];
+[ I7_NPCA;
+  if (actor == player) rfalse;
+  L__M(##Order, 1, actor);
+  RulebookFails(); rtrue;
+];

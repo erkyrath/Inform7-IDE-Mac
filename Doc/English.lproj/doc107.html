@@ -1,20 +1,24 @@
-<html><head><title>8.6. Repeating through tables</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc106.html><img src=../Back.tif></a><a href=doc108.html><img src=../Forward.tif></a></td><td><b>8.6. Repeating through tables</b></td></tr></table><p>
+<html><head><title>7.6. Begin and end</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc106.html><img src=../Back.tif></a><a href=doc108.html><img src=../Forward.tif></a></td><td><b>7.6. Begin and end</b></td></tr></table><p>
 <p>
-<p>We very often want to run through a table doing something to, or with, each row in turn, so a special loop is provided for this. Rather than having to write all this out:
+<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
 <p>
-<p><blockquote><font color="#000080">To list the succession:<br>say &quot;The Succession List runs as follows...&quot;;<br>repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;<br>choose row N of the Table of Recent Monarchs;<br>say &quot;[accession entry]: [name entry] ([family entry]).&quot;;<br>end repeat.</font></blockquote>
+<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
 <p>
-<p>We can simply write this instead:
+<blockquote><font color="#000080">To comment upon (whatever - a thing):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">To list the succession:<br>say &quot;The Succession List runs as follows...&quot;;<br>repeat through the Table of Recent Monarchs begin;<br>say &quot;[accession entry]: [name entry] ([family entry]).&quot;;<br>end repeat.</font></blockquote>
+<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
 <p>
-<p>As we might expect, this runs through the rows in order, starting at the top and choosing each in turn. (No loop variable is needed here.) We can alternatively go through in reverse order, or in order of the values in any column:
+<p>Similarly for while:
 <p>
-<p><blockquote><font color="#000080">repeat through the Table of Recent Monarchs in reverse order begin; ...<br>repeat through the Table of Recent Monarchs in name order begin; ...<br>repeat through the Table of Recent Monarchs in reverse accession order begin; ...<br></font></blockquote>
+<p><blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while</font></blockquote>
 <p>
-<p>Here text is placed in alphabetical order, numbers are in numerical order, times in chronological order and so forth. (In a loop like this, the data is not searched very efficiently, which is fine for modest-sized tables like the examples in this chapter, but might be a problem for much larger tables: see the later section on sorting.)
-<p>
-<p>&quot;Repeat through...&quot; does something else, too: it skips any blank rows in the table, which brings us to the business of blankness.
+<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
 <p>
 <p><hr><p><a href=doc106.html>Previous</a> / <a href=doc108.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,24 +1,20 @@
-<html><head><title>10.12. In what order?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc136.html><img src=../Back.tif></a><a href=doc138.html><img src=../Forward.tif></a></td><td><b>10.12. In what order?</b></td></tr></table><p>
+<html><head><title>9.4. Actions applying to kinds of value</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc136.html><img src=../Back.tif></a><a href=doc138.html><img src=../Forward.tif></a></td><td><b>9.4. Actions applying to kinds of value</b></td></tr></table><p>
 <p>
-<p>Large works created by Inform are heaped high with rules, most of them instead rules, but with a leavening of befores and afters as well. What will happen if these conflict with each other? For instance:
+<p>Almost all actions apply to things: the player picks them up, pushes them, looks at them and so on. Only occasionally do we need to recognise other kinds of value: but when we do, we can, as in the example called &quot;Safety&quot;:
 <p>
-<p><blockquote><font color="#000080">Instead of opening a container, say &quot;Your mother-in-law looks on with such evident disappointment that you withdraw your hand again.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">&quot;Safety&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of opening an open container, say &quot;Your daughter tuts in theatrical exasperation at your, like, lameness.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don't get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.</font></blockquote>
 <p>
-<p>If the player tries to open something which is closed, there is no conflict and it is clearly the mother-in-law who gets in the way. But what if the player tries to open a container which is already open? In this case both rules are applicable, but they cannot both take effect: they are instead rules and whichever happens first will stop the action.
+<p><blockquote><font color="#000080">Spinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;</font></blockquote>
 <p>
-<p>The answer is that Inform does not allow rules simply to heap up chaotically, nor simply list them in the order they are described, but sorts them according to what it believes to be a logical sequence. Given any two rules A and B, it tries to see which rule is more specific - narrower in application, that is - and applies that one first. In this case Inform finds that any open container is also a container, but not vice versa. That means that the daughter rule is more specific than the mother-in-law rule, so it is given priority. But the following rule would trump either of them:
+<p><blockquote><font color="#000080">Understand &quot;spin [something] to [a number]&quot; as spinning it to.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of opening the jewelled box, say &quot;Such exquisite boxes are notorious for traps such as poisoned needles concealed around the lid.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">After spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [contents of the Safe].&quot;</font></blockquote>
 <p>
-<p>Note that a rule applying only in certain rooms always beats a rule which is applicable everywhere. Here is a larger example:
+<p>The substitution &quot;[a number]&quot; matches any number (actually any whole number that is not too large) typed by the player. Inform checks the various kinds being used to make sure that everything matches, so, for instance, this would be disallowed:
 <p>
-<p><blockquote><font color="#000080">(R1) Before taking something in the Swamp: ...<br>(R2) Before taking the bucket: ...<br>(R3) Before taking the frog: ...<br>(R4) Before taking an open container: ...<br>(R5) Before taking a container: ...<br>(R6) Before taking something: ...</font></blockquote>
-<p>
-<p>Rule (R1) wins because it specifies a room, whereas (R2) and (R3) do not. (R2) and (R3) then trump the others because they name specific objects, not general classes of objects. We then have (R4), (R5) and (R6) in that order since every open container is also a container, and every container is a thing.
-<p>
-<p>The full method used by Inform to sort rules is complicated, and will not always be quite right - though, as we shall later see, there are ways to intervene if this becomes a problem. But in practice, when we need rule A to come before rule B, it will usually be a clear-cut case which comes out right. In trickier cases to judge, it mostly doesn't matter anyway.
+<p><blockquote><font color="#000080">Understand &quot;spin [something] to [something]&quot; as spinning it to.</font></blockquote>
 <p>
 <p><hr><p><a href=doc136.html>Previous</a> / <a href=doc138.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

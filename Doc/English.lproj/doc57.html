@@ -1,22 +1,19 @@
-<html><head><title>4.17. New actions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc56.html><img src=../Back.tif></a><a href=doc58.html><img src=../Forward.tif></a></td><td><b>4.17. New actions</b></td></tr></table><p>
+<html><head><title>4.14. In the presence of, and when</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc56.html><img src=../Back.tif></a><a href=doc58.html><img src=../Forward.tif></a></td><td><b>4.14. In the presence of, and when</b></td></tr></table><p>
 <p>
-<p>It is not often that we need to create new actions, but a large work of interactive fiction with no novelty actions is a flavourless dish. Here we shall create an action for photographing things.
+<p>Two further elaborations of action descriptions increase the range of possibilities further.
 <p>
-<p><blockquote><font color="#000080">The Ruins is a room. &quot;You find this clearing in the rainforest oddly familiar.&quot; The camera is in the Ruins. &quot;Your elephantine camera hangs from a convenient branch.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Instead of eating something in the presence of Lady Bracknell, say &quot;Lady Bracknell disapproves thoroughly of gentlemen who snack between meals, and there are few disapprovals in this world quite so thorough as Lady Bracknell's.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.</font></blockquote>
+<p>As might be guessed, this applies when the action takes place in the same location as the person named: and of course that person can also be described more vaguely (&quot;... in the presence of a woman&quot;, say), and can just as easily be an inanimate thing (&quot;... in the presence of the radio set&quot;).
 <p>
-<p>In theory that text is already sufficient in to make the new action, but what we have so far is rudimentary to say the least. The two qualifications give Inform the useful information that we cannot photograph in the dark, and that we need to be photographing something - not, as in the case of waiting or taking inventory, acting without reference to any particular thing external to ourselves. The word &quot;visible&quot; here tells Inform that we do not need to be able to touch the thing in question: a line of sight is good enough. These two stipulations were necessary because the default arrangement is that any object must be in touching range, and that most actions can be performed in darkness. As further examples, here we create &quot;blinking&quot; and &quot;scraping X with Y&quot;. Note the use of &quot;it&quot; to indicate that the name of an object should go here.
+<p>Lady Bracknell is a pushover compared to some matriarchs:
 <p>
-<p><blockquote><font color="#000080">Blinking is an action applying to nothing. Scraping it with is an action applying to two things.</font></blockquote>
+<blockquote><font color="#000080">Instead of doing something other than looking, examining or waiting in the presence of the Queen: say &quot;I'm afraid they take what you might call a zero tolerance approach to court etiquette here.&quot;; end the game saying &quot;You have been summarily beheaded&quot;.
+</font></blockquote><p>
 <p>
-<p>The photographing action now exists, but with two provisos: (a) it never happens, because Inform does not know what instructions by the player should cause it, and (b) even if it were to happen, nothing would follow, because Inform does not know how to carry it out.
+<p>The last of the optional clauses we can tack on to the description of an action is the most general of all. We can add &quot;when&quot; and then any condition at all, as in:
 <p>
-<p>The first problem is easily overcome:
-<p>
-<p><blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.</font></blockquote>
-<p>
-<p>We will return to the whole subject of parsing, as this process of understanding the player's commands is called, later. But this gives the gist of it.
+<p><blockquote><font color="#000080">Instead of eating something when the radio set is switched on, say &quot;Something about the howling short-wave static puts you right off luncheon.&quot;</font></blockquote>
 <p>
 <p><hr><p><a href=doc56.html>Previous</a> / <a href=doc58.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

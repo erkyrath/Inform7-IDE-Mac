@@ -1,18 +1,34 @@
-<html><head><title>4.11. In the presence of, and when</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc50.html><img src=../Back.tif></a><a href=doc52.html><img src=../Forward.tif></a></td><td><b>4.11. In the presence of, and when</b></td></tr></table><p>
+<html><head><title>4.8. Giving instructions to other people</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc50.html><img src=../Back.tif></a><a href=doc52.html><img src=../Forward.tif></a></td><td><b>4.8. Giving instructions to other people</b></td></tr></table><p>
 <p>
-<p>Two further elaborations of action descriptions increase the range of possibilities further.
+<p>In interactive fiction, it is conventional to ask other characters to do something like so:
 <p>
-<p><blockquote><font color="#000080">Instead of eating something in the presence of Lady Bracknell, say &quot;Lady Bracknell disapproves thoroughly of gentlemen who snack between meals, and there are few disapprovals in this world quite so thorough as Lady Bracknell's.&quot;</font></blockquote>
+<blockquote><font color="#000080">> marcel, put the biscuit in the tea
+<br>> will, go west
+</font></blockquote><p>
 <p>
-<p>As might be guessed, this applies when the action takes place in the same location as the person named: and of course that person can also be described more vaguely (&quot;... in the presence of a woman&quot;, say), and can just as easily be an inanimate thing (&quot;... in the presence of the radio set&quot;).
+<p>and so on. Clearly &quot;will, go west&quot; should not produce the same action as &quot;go west&quot;, because a different person will be trying it: this person is called the &quot;actor&quot;, and while the actor is ordinarily the player, here it is the character of Will. The actions produced are:
 <p>
-<p>The last of these optional clauses we can tack on to the description of an action is the most general of all. We can add &quot;when&quot; and then any condition at all, as in:
+<blockquote><font color="#000080">> go west -> going west
+<br>> will, go west -> asking will to try going west
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Instead of eating something when the radio set is switched on, say &quot;Something about the howling short-wave static puts you right off luncheon.&quot;</font></blockquote>
+<p>We can thus write rules like so:
 <p>
-<p>As something of an afterthought, it is occasionally useful to use &quot;not&quot; when describing actions, even though it does make some curious-looking sentences:
+<blockquote><font color="#000080">Instead of asking will to try going west, say &quot;Will scratches his head, baffled.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Instead of not waiting, say &quot;Be patient.&quot;</font></blockquote>
+<p>which apply only to the command &quot;will, go west&quot; and do not affect the command &quot;go west&quot;. Actions carried out by other people get as far as completing the &quot;instead&quot; rules but then, if no rule has intervened by then, fail like so:
+<p>
+<blockquote><font color="#000080">> will, go west
+<br>Will has better things to do.
+</font></blockquote><p>
+<p>
+<p>Similarly, we can also have phrases like so:
+<p>
+<blockquote><font color="#000080">try asking the Sybil to try waiting
+</font></blockquote><p>
+<p>
+<p>which simulate the player having typed &quot;sybil, wait&quot;.
 <p>
 <p><hr><p><a href=doc50.html>Previous</a> / <a href=doc52.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

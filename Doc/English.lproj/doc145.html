@@ -1,12 +1,20 @@
-<html><head><title>11.7. Extensions can include other extensions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc144.html><img src=../Back.tif></a><a href=doc146.html><img src=../Forward.tif></a></td><td><b>11.7. Extensions can include other extensions</b></td></tr></table><p>
+<html><head><title>10.2. Named rules and rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc144.html><img src=../Back.tif></a><a href=doc146.html><img src=../Forward.tif></a></td><td><b>10.2. Named rules and rulebooks</b></td></tr></table><p>
 <p>
-<p>As was mentioned earlier, the same extension is sometimes requested several times. For instance, suppose the main source text asks to include version 2 of extension X, and also to include extension Y. Suppose further that Y contains a request to include version 4 of X. We now have two different requests for X. Inform works out the minimum version number needed to satisfy these requests (in this case 4) and gives an error if the extension it actually loads turns out to be earlier.
+<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns (usually visible on the &quot;status line&quot; displayed above the window of a game in progress) and advances the clock (usually not visible, but ticking away behind the scenes) by a given number of minutes.
 <p>
-<p>This is especially useful when it comes to the Standard Rules. Suppose an extension is written which works with version 3 or later of the Standard Rules, but not with version 2. All the extension needs to do is to say:
+<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
 <p>
-<p><blockquote><font color="#000080">Include version 3 of the Standard Rules by Graham Nelson.</font></blockquote>
+<p><blockquote><font color="#000080">advance time = the advance time rule</font></blockquote>
 <p>
-<p>If an extension does include other extensions, it should do so in a paragraph immediately following the introductory sentence, so that anyone looking at the file can see these mutual dependencies at a glance.
+<p><blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence</font></blockquote>
+<p>
+<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p>
+<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We will only seldom need to refer to them directly, in phrases like this one (of which more later):
+<p>
+<p><blockquote><font color="#000080">ignore the can't go through closed doors rule;</font></blockquote>
+<p>
+<p>...which are verbose, but this is a situation where clarity is very much better than brevity.
 <p>
 <p><hr><p><a href=doc144.html>Previous</a> / <a href=doc146.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

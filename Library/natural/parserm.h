@@ -626,7 +626,8 @@ Object InformParser "(Inform Parser)"
 
 !  Print the prompt, and read in the words and dictionary addresses
 
-    L__M(##Prompt);
+	#IFDEF NI_BUILD_COUNT; I7_Prompt(); #ENDIF;
+	#IFNDEF NI_BUILD_COUNT; L__M(##Prompt); #ENDIF;
     AfterPrompt();
     #IFV5; DrawStatusLine(); #ENDIF;
     KeyboardPrimitive(a_buffer, a_table);
@@ -3706,12 +3707,12 @@ Object InformLibrary "(Inform Library)"
            {   inputobjs-->2=actor; actor=player; action=##Ask;
            }
     
-           !  Convert "ask P for X" to "P, give X to me"
+           !  Convert "ask P for X" to "P, give X to me" - not used in I7
     
-           if (action==##AskFor && inputobjs-->2~=player && actor==player)
-           {   actor=inputobjs-->2; inputobjs-->2=inputobjs-->3;
-               inputobjs-->3=player; action=##Give;
-           }
+           !if (action==##AskFor && inputobjs-->2~=player && actor==player)
+           !{   actor=inputobjs-->2; inputobjs-->2=inputobjs-->3;
+           !   inputobjs-->3=player; action=##Give;
+           !}
     
            !  For old, obsolete code: special_word contains the topic word
            !  in conversation
@@ -3750,7 +3751,9 @@ Object InformLibrary "(Inform Library)"
            !  "say grrr to floyd").  If it was a good command, it is finally
            !  offered to the Order: part of the other person's "life"
            !  property, the old-fashioned way of dealing with conversation.
-    
+
+#ifdef NI_BUILD_COUNT;
+#ifnot;
                j=RunRoutines(player,orders);
                if (j==0)
                {   j=RunRoutines(actor,orders);
@@ -3763,6 +3766,7 @@ Object InformLibrary "(Inform Library)"
                    }
                }
                jump turn__end;
+#endif;
            }
 
            !  --------------------------------------------------------------
@@ -3823,9 +3827,11 @@ Object InformLibrary "(Inform Library)"
            print "^^    ";
            #IFV5; style bold; #ENDIF;
            print "***";
-           if (deadflag==1) L__M(##Miscellany,3);
-           if (deadflag==2) L__M(##Miscellany,4);
-           if (deadflag>2)  { print " "; DeathMessage(); print " "; }
+           switch(deadflag) {
+               1: L__M(##Miscellany,3);
+               2: L__M(##Miscellany,4);
+               default: print " "; DeathMessage(); print " ";
+           }
            print "***";
            #IFV5; style roman; #ENDIF;
            print "^^^";
@@ -4123,7 +4129,8 @@ Object InformLibrary "(Inform Library)"
 ];
 
 [ NotifyTheScore;
-   print "^[";  L__M(##Miscellany, 50, score-last_score);  print ".]^";
+   if (say__p) { new_line; say__p = 0; }
+   print "[";  L__M(##Miscellany, 50, score-last_score);  print ".]^";
 ];
 
 ! ----------------------------------------------------------------------------
@@ -4456,6 +4463,27 @@ Array StorageForShortName --> 161;
    print (PSN__) o;
 ];
 
+#ifdef NI_BUILD_COUNT;
+[ PSN__ o;
+   CarryOutActivity(0, o);
+];
+[ I6_PSN__ o;
+   if (o==0) { print (string) NOTHING__TX; rtrue; }
+   switch(metaclass(o))
+   {   Routine: print "<routine ", o, ">"; rtrue;
+       String:  print "<string ~", (string) o, "~>"; rtrue;
+       nothing: print "<illegal object number ", o, ">"; rtrue;
+   }
+   if (o==player) { print (string) YOURSELF__TX; rtrue; }
+   #ifdef LanguagePrintShortName;
+   if (LanguagePrintShortName(o)) rtrue;
+   #endif;
+   if (indef_mode && o.&short_name_indef~=0
+       && PrintOrRun(o, short_name_indef, 1)~=0) rtrue;
+   if (o.&short_name~=0 && PrintOrRun(o,short_name,1)~=0) rtrue;
+   @print_obj o;
+];
+#ifnot;
 [ PSN__ o;
    if (o==0) { print (string) NOTHING__TX; rtrue; }
    switch(metaclass(o))
@@ -4472,6 +4500,7 @@ Array StorageForShortName --> 161;
    if (o.&short_name~=0 && PrintOrRun(o,short_name,1)~=0) rtrue;
    @print_obj o;
 ];
+#endif;
 
 [ Indefart o i;
    i = indef_mode; indef_mode = true;

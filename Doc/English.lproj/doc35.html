@@ -1,16 +1,28 @@
-<html><head><title>3.8. Kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc34.html><img src=../Back.tif></a><a href=doc36.html><img src=../Forward.tif></a></td><td><b>3.8. Kinds of value</b></td></tr></table><p>
+<html><head><title>3.7. Text with numbers</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc34.html><img src=../Back.tif></a><a href=doc36.html><img src=../Forward.tif></a></td><td><b>3.7. Text with numbers</b></td></tr></table><p>
 <p>
-<p>Several kinds of value have appeared so far, chiefly numbers, 1, 2, 3, ... and 0, -1, -2, ... and texts, such as &quot;Jackdaws love my big sphinx of quartz&quot;. We can give objects properties holding such values, and we can also endow them with either/or properties such as &quot;dark&quot;/&quot;lighted&quot;.
+<p>When a numerical value is given in a square-bracketed substitution, it is ordinarily printed out in digits. Thus:
 <p>
-<p>These arrangements are all very well, but not ideal when it comes to simulating something which can be in, say, one of four states. Suppose we would like the candle lantern to burn down, gradually diminishing in brightness. A property attached to the lantern should hold the current strength of the flame. We could do this like so:
+<blockquote><font color="#000080">&quot;You've been wandering around for [number of turns] turns now.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The lantern has a number called the brightness level.</font></blockquote>
+<p>might print as &quot;You've been wandering around for 213 turns now.&quot;, if the game has been played out for exactly that many commands. Alternatively, we can add &quot;...in words&quot;, thus:
 <p>
-<p>(Thus far we have only given new properties to kinds, but in fact we can also give them to individual things, as here. It would be cumbersome to make a new kind called, say, &quot;lamp&quot; and then make the lantern the only lamp in the game, just as a way of attaching a number to it.) We could then set the brightness level to be 1, 2, 3 or 4 according to the strength of flame, and find some way of conveying this to the player. That would work, but is not very elegant. Brightness is not, in the end, a number, and it seems strange to have to pretend that it is. A much better solution is:
+<blockquote><font color="#000080">&quot;You've been wandering around for [number of turns in words] turns now.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Brightness is a kind of value. The brightnesses are guttering, weak, radiant and blazing.</font></blockquote>
+<p>to get the more conversational &quot;You've been wandering around for two hundred and thirteen turns now.&quot;
 <p>
-<p>This makes &quot;brightness&quot; a kind of value on a par with (for instance) &quot;number&quot; or &quot;text&quot;, except that there are only four possible values, named as above.
+<p>Either way, though, there is some risk of the following:
+<p>
+<blockquote><font color="#000080">You've been wandering around for one turns now.
+</font></blockquote><p>
+<p>
+<p>We can avoid this using the special substitution &quot;[s]&quot;, which prints a letter &quot;s&quot; unless the last number printed was 1. So:
+<p>
+<blockquote><font color="#000080">&quot;You've been wandering around for [number of turns in words] turn[s] now.&quot;
+</font></blockquote><p>
+<p>
+<p>will produce &quot;... for one turn now.&quot; or &quot;... for two turns now.&quot; as appropriate. This only solves one case (what about all the other plural endings, from &quot;women&quot; to &quot;cherubim&quot;?), and as we shall see we can get the same effect and very much more using the methods in the next section, so &quot;[s]&quot; is something of an anomaly. But it's memorable, and even if it only solves one small need, this is a need which turns up often.
 <p>
 <p><hr><p><a href=doc34.html>Previous</a> / <a href=doc36.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

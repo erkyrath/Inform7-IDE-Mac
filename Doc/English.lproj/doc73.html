@@ -1,22 +1,14 @@
-<html><head><title>6.5. Every turn</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc72.html><img src=../Back.tif></a><a href=doc74.html><img src=../Forward.tif></a></td><td><b>6.5. Every turn</b></td></tr></table><p>
+<html><head><title>5.7. Moving things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc72.html><img src=../Back.tif></a><a href=doc74.html><img src=../Forward.tif></a></td><td><b>5.7. Moving things</b></td></tr></table><p>
 <p>
-<p>The passage of time in interactive fiction is broken up into a succession of turns, in each of which the player types a request and is given a response. Usually each such request triggers one action, but sometimes a whole sequence are fired off, as when the player types &quot;get all&quot; in a cluttered room.
+<p>We have now seen how to change the properties of rooms and things, and also any freestanding values which may have a bearing on the model world. We are not allowed to change the kind of anything during play. Our remaining freedom is to move things around. It would make no sense to move rooms around, because rooms are the fixed reference points in our geography, but anything else is mobile. This even includes things which are supposedly &quot;fixed in place&quot;, for unlike the player, we have god-like powers.
 <p>
-<p>One of the last things to happen in each turn is that Inform will apply any rules which have been set to occur &quot;every turn&quot;, like so:
+<p>At any given time, most things are inside a single other thing or room, sometimes called the &quot;parent&quot; because diagrams are traditionally drawn which resemble family trees. You can see these initial containments by looking at the Index panel. Here is how to move something:
 <p>
-<p><blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">move the genie's lamp to Aladdin's Cave</font></blockquote>
 <p>
-<p>This is equivalent to writing:
+<p>The first object named has to be a thing; the destination can be a room, as here, or another object - this will usually need to be a container, a supporter or a person, since Inform understands what it would mean for these to have contents, but there is no absolute restriction.
 <p>
-<p><blockquote><font color="#000080">An every turn rule: say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
-<p>
-<p>Note that the text about blossom, which will quickly become tiresome, is said at the end of every turn, not at the beginning, and in particular not before the player's first opportunity to type a command.
-<p>
-<p>As usual when defining rules, we can add stipulations:
-<p>
-<p><blockquote><font color="#000080">Every turn in the Orchard, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Every turn in the presence of the rotting fish, say &quot;Your nose twitches involuntarily.&quot;</font></blockquote>
+<p>When something is moved, all its contents (and all their contents, and so on) move with it.
 <p>
 <p><hr><p><a href=doc72.html>Previous</a> / <a href=doc74.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

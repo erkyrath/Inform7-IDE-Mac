@@ -1,18 +1,37 @@
-<html><head><title>8.8. Blank columns</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc108.html><img src=../Back.tif></a><a href=doc110.html><img src=../Forward.tif></a></td><td><b>8.8. Blank columns</b></td></tr></table><p>
+<html><head><title>7.8. Repeat</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc108.html><img src=../Back.tif></a><a href=doc110.html><img src=../Forward.tif></a></td><td><b>7.8. Repeat</b></td></tr></table><p>
 <p>
-<p>An entire column of blank entries &quot;--&quot; is problematic:
+<p>The following kind of loop could if necessary be achieved just as well with a suitable &quot;while&quot;, but occurs so often that it is convenient to have a standard form. Repeat loops also have the great advantage of being certain to finish.
 <p>
-<p><center><img src=table4.tiff></center>
+<blockquote><font color="#000080">repeat with my counter running from 1 to 10 begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(phrases)
+<br>end repeat;
+</font></blockquote><p>
 <p>
-<p>Inform is unable to work out what kind of value should go into the &quot;atomic weight&quot; column here, since it has no examples to guess from. We can get around this by writing in the name of a kind of value:
+<p>This is similar to the old FOR/NEXT loop from BASIC, for those with long memories, and runs through the given phrases ten times. Within those phrases, a special value called &quot;my counter&quot; has the value 1 the first time through, then the value 2, then 3 and so on up to 10. This value exists only within the loop, so it makes no sense to talk about &quot;my counter&quot; elsewhere. (It can of course be called whatever we like: this is only an example.)
 <p>
-<p><center><img src=table5.tiff></center>
+<p>The &quot;begin&quot; and &quot;end repeat&quot; are compulsory for repeat loops, in the interests of clarity.
 <p>
-<p>That top entry in the &quot;atomic weight&quot; column is also blank, but now Inform knows that anything put into the column in future will be a number.
+<p>We are allowed to &quot;nest&quot; loops, that is, to put one inside another.
 <p>
-<p>If there are many rows, and perhaps several blank columns, it would become very tedious to have to keep typing out &quot;--&quot;. So this is optional <i>at the end of a row</i>: it remains compulsory for a blank value appearing in between two values which aren't blank. This is the general idea:
+<blockquote><font color="#000080">To plot a grid with size (S - a number):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with x running from 1 to S begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Row [x]:&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeat with y running from 1 to S begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; [y]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
 <p>
-<p><center><img src=table8.tiff></center>
+<p>If we then write
+<p>
+<p><blockquote><font color="#000080">plot a grid with size 5</font></blockquote>
+<p>
+<p>then the result is
+<p>
+<p><blockquote><font color="#000080">Row 1: 1 2 3 4 5.<br>Row 2: 1 2 3 4 5.<br>Row 3: 1 2 3 4 5.<br>Row 4: 1 2 3 4 5.<br>Row 5: 1 2 3 4 5.</font></blockquote>
+<p>
+<p>Thus the innermost phrase, the say which mentions &quot;y&quot;, happens 25 times.
 <p>
 <p><hr><p><a href=doc108.html>Previous</a> / <a href=doc110.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

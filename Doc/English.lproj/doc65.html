@@ -1,24 +1,30 @@
-<html><head><title>5.5. Moving and removing things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc64.html><img src=../Back.tif></a><a href=doc66.html><img src=../Forward.tif></a></td><td><b>5.5. Moving and removing things</b></td></tr></table><p>
+<html><head><title>4.22. Check, carry out, report</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc64.html><img src=../Back.tif></a><a href=doc66.html><img src=../Forward.tif></a></td><td><b>4.22. Check, carry out, report</b></td></tr></table><p>
 <p>
-<p>We have now seen how to change the properties of rooms and things, and also any freestanding values which may have a bearing on the model world. We are not allowed to change the kind of anything during play. Our remaining freedom is to move things around. It would make no sense to move rooms around, because rooms are the fixed reference points in our geography, but anything else is mobile. This even includes things which are supposedly &quot;fixed in place&quot;, for unlike the player, we have god-like powers.
+<p>We recall that, apart from the whole paraphernalia about before, instead and after rules, about checking for light and that the player can touch whatever needs to be in range, an action comes down to three stages:
 <p>
-<p>At any given time, most things are inside a single other thing or room, sometimes called the &quot;parent&quot; because diagrams are traditionally drawn which resemble family trees. You can see these initial containments by looking at the Index panel. Here is how to move something:
+<p><blockquote><font color="#000080">(i) Check. In the case of photographing, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">move the genie's lamp to Aladdin's Cave</font></blockquote>
+<p><blockquote><font color="#000080">(ii) Carry out. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.</font></blockquote>
 <p>
-<p>The first object named has to be a thing; the destination can be a room, as here, or another object - this will usually need to be a container, a supporter or a person, since Inform understands what it would mean for these to have contents, but there is no absolute restriction.
+<p><blockquote><font color="#000080">(iii) Report. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.</font></blockquote>
 <p>
-<p>When something is moved, all its contents (and all their contents, and so on) move with it.
+<p>When any action, such as &quot;photographing&quot;, is created, three new rulebooks are created with it: &quot;check photographing&quot;, &quot;carry out photographing&quot; and &quot;report photographing&quot;. So far we have not really gone into the business of what rulebooks are, and we don't do so here either. Suffice to say that we can now create whatever rules we need.
 <p>
-<p>Some things will occasionally be in a limbo state called being &quot;out of play&quot;: like chess pieces which have been taken, or cards not yet dealt, they wait on the sidelines, perhaps to be needed again, perhaps not. Anything created with no apparent location will start the game out of play, as in the case of the lamp here:
+<p><blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Aladdin's Cave is a room. The genie's lamp is a container.</font></blockquote>
+<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
 <p>
-<p>To move something back into play, we simply &quot;move&quot; it back onto the board, so to speak: back to a room, or to something else which is currently in play. To remove something, we use the phrase:
+<p><blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">remove the gold coin from play</font></blockquote>
+<p><blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;</font></blockquote>
 <p>
-<p>(We are not permitted to remove rooms from play.)
+<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
+<p>
+<p>We can continue to add rules at any point, and a classic thing that happens when play-testing a new work is that the designer realises there is a case which has not been thought of:
+<p>
+<p><blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.</font></blockquote>
+<p>
+<p>We can equally add such rules to the existing, in-built actions if we like: and on that equable note, we have said all there is to be said about actions.
 <p>
 <p><hr><p><a href=doc64.html>Previous</a> / <a href=doc66.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,20 +1,20 @@
-<html><head><title>2.11. Locks and keys</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc19.html><img src=../Back.tif></a><a href=doc21.html><img src=../Forward.tif></a></td><td><b>2.11. Locks and keys</b></td></tr></table><p>
+<html><head><title>2.10. Doors</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc19.html><img src=../Back.tif></a><a href=doc21.html><img src=../Forward.tif></a></td><td><b>2.10. Doors</b></td></tr></table><p>
 <p>
-<p>It seems unwise for a door in Notting Hill to be unlocked, so:
+<p>The map of an interactive fiction is the layout of rooms and the entrances and exits which connect them. So far, these map connections have always run from one room to another, like so:
 <p>
-<p><blockquote><font color="#000080">The blue door is lockable and locked. The matching key of the blue door is the brass Yale key.</font></blockquote>
+<p><blockquote><font color="#000080">The Painted Room is north of the Undertomb.</font></blockquote>
 <p>
-<p>Since the second sentence here is a little clumsy, you can equivalently say
+<p>However, we can also interpose doors between rooms, like so:
 <p>
-<p><blockquote><font color="#000080">The brass Yale key unlocks the blue door.</font></blockquote>
+<p><blockquote><font color="#000080">The red rock stair is east of the Orchard and above the Undertomb. The stair is an open door.</font></blockquote>
 <p>
-<p>Yet a third way to say this is:
+<p>The second sentence is needed since otherwise Inform will take &quot;red rock stair&quot; to be the name of a third room, whereas what we want is for the stair to be something physically present in both the Orchard and in the Undertomb, and acting as a conduit between them. To this end it needs to be a &quot;door&quot;, a kind we have not so far seen. In the absence of any other instruction, a newly created door will be fixed in place, closed and openable. Fixed in place is certainly right here, but not closed, which is why we specified that it should be &quot;open&quot;.
 <p>
-<p><blockquote><font color="#000080">The blue door has matching key the brass Yale key.</font></blockquote>
+<p>In real life, most doors are two-sided, and can be used from either of the rooms which they join, but this is not always convenient for interactive fiction. Here is a one-sided door:
 <p>
-<p>(In effect, &quot;has&quot; and &quot;have&quot; mean &quot;is with&quot;.) This introduces three new properties: a door can be locked or unlocked; lockable or not lockable; and it can have a matching key, which must be another thing. The same thing can be the matching key of many different locks: and note that a door can be locked and even lockable without having a matching key at all, in which case the player trying to open it will be permanently out of luck. Doors are ordinarily unlocked, not lockable, and without a matching key.
+<p><blockquote><font color="#000080">The blue door is a door. It is south of Notting Hill. Through it is the Flat Landing.</font></blockquote>
 <p>
-<p>Containers can also have locks, in exactly the same way, and are allowed to have the same properties. On the other hand supporters never have locks: it makes no sense to be able to lock a tabletop, for instance, and Inform will not allow any discussion of the matching key of a supporter, or of a supporter being locked or unlocked.
+<p>(Note the use of &quot;it&quot; here as an optional abbreviation.) This will make a door visible only on the Notting Hill side; no map connection will be made in the reverse direction, unless we ask for one.
 <p>
 <p><hr><p><a href=doc19.html>Previous</a> / <a href=doc21.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -212,6 +212,22 @@ Constant NOARTICLE_BIT 4096;  !  Print no articles, definite or not
 [ Print__Spaces n;         ! To avoid a bug occurring in Inform 6.01 to 6.10
   if (n==0) return; spaces n; ];
 
+#ifdef NI_BUILD_COUNT;
+Global c_depth;
+[ WriteListFrom o style depth a ol;
+  c_style=style; c_depth=depth;
+  if (o~=child(parent(o))) { I7_WLF(o, depth); return; }
+  objectloop (ol provides list_together)
+      ol.list_together = 0;
+  CarryOutActivity(1, parent(o));
+];
+[ I7_WLF o depth;
+  if (o==child(parent(o))) {
+      SortOutList(o); o=child(parent(o)); }
+  wlf_indent=0; WriteListR(o,c_depth); say__p=1;
+  rtrue;
+];
+#ifnot;
 [ WriteListFrom o style depth;
   if (o==child(parent(o)))
   {   SortOutList(o); o=child(parent(o)); }
@@ -219,6 +235,7 @@ Constant NOARTICLE_BIT 4096;  !  Print no articles, definite or not
   wlf_indent=0; WriteListR(o,depth);
   rtrue;
 ];
+#endif;
 
 [ WriteListR o depth stack_pointer  classes_p sizes_p i j k k2 l m n q senc mr;
 
@@ -301,16 +318,23 @@ Constant NOARTICLE_BIT 4096;  !  Print no articles, definite or not
               }
 !              print " [", listing_size, "] ";
               if (listing_size==1) jump Omit_WL2;
+              q=c_style;
+              ! #ifdef NI_BUILD_COUNT;
+              BeginActivity(2,j);
+              if (ForActivity(2,j)) { c_style = c_style &~ NEWLINE_BIT; jump RuleOmitted2; }
+              ! #endif;
               if (c_style & INDENT_BIT ~= 0)
                   Print__Spaces(2*(depth+wlf_indent));
               if (k2==3)
-              {   q=0; for (l=0:l<listing_size:l++) q=q+sizes_p->(l+i);
-                  EnglishNumber(q); print " ";
+              {   @push q;
+                  q=0; for (l=0:l<listing_size:l++) q=q+sizes_p->(l+i);
+                  EnglishNumber(q);
+                  @pull q;
+                  print " ";
                   print (string) j.list_together;
                   if (c_style & ENGLISH_BIT ~= 0) print " (";
                   if (c_style & INDENT_BIT ~= 0) print ":^";
               }
-              q=c_style;
               if (k2~=3)
               {   inventory_stage=1;
                   parser_one=j; parser_two=depth+wlf_indent;
@@ -330,7 +354,11 @@ Constant NOARTICLE_BIT 4096;  !  Print no articles, definite or not
                   parser_one=j; parser_two=depth+wlf_indent;
                   RunRoutines(j,list_together);
               }
-             .Omit__Sublist2;
+              !#ifdef NI_BUILD_COUNT;
+              .RuleOmitted2;
+              EndActivity(2,j);
+              !#endif;
+              .Omit__Sublist2;
               if (q & NEWLINE_BIT ~= 0 && c_style & NEWLINE_BIT == 0)
                   new_line;
               c_style=q;
@@ -384,17 +412,21 @@ Constant NOARTICLE_BIT 4096;  !  Print no articles, definite or not
           if (k==2 or 3)
           {   if (c_style & INDENT_BIT ~= 0)
                   Print__Spaces(2*(depth+wlf_indent));
+              q=c_style;
+              BeginActivity(2,j);
+              if (ForActivity(2,j)) { c_style = c_style &~ NEWLINE_BIT; jump RuleOmitted; }
               if (k==3)
-              {   q=j; l=0;
+              {   @push q;
+                  q=j; l=0;
                   do
                   {   q=NextEntry(q,depth); l++;
                   } until (q==0 || q.list_together~=j.list_together);
+                  @pull q;
                   EnglishNumber(l); print " ";
                   print (string) j.list_together;
                   if (c_style & ENGLISH_BIT ~= 0) print " (";
                   if (c_style & INDENT_BIT ~= 0) print ":^";
               }
-              q=c_style;
               if (k~=3)
               {   inventory_stage=1;
                   parser_one=j; parser_two=depth+wlf_indent;
@@ -407,13 +439,15 @@ Constant NOARTICLE_BIT 4096;  !  Print no articles, definite or not
               @pull listing_size; @pull listing_together; @pull lt_value;
 
               if (k==3)
-              {   if (q & ENGLISH_BIT ~= 0) print ")";
+              {   if (c_style & ENGLISH_BIT ~= 0) print ")";
               }
               else
               {   inventory_stage=2;
                   parser_one=j; parser_two=depth+wlf_indent;
                   RunRoutines(j,list_together);
               }
+             .RuleOmitted;
+              EndActivity(2,j);
              .Omit__Sublist;
               if (q & NEWLINE_BIT ~= 0 && c_style & NEWLINE_BIT == 0) new_line;
               c_style=q;

@@ -1,14 +1,16 @@
-<html><head><title>6.6. Daemons!</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc73.html><img src=../Back.tif></a><a href=doc75.html><img src=../Forward.tif></a></td><td><b>6.6. Daemons!</b></td></tr></table><p>
+<html><head><title>5.8. Moving the player</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc73.html><img src=../Back.tif></a><a href=doc75.html><img src=../Forward.tif></a></td><td><b>5.8. Moving the player</b></td></tr></table><p>
 <p>
-<p>A daemon is a rule which is applied every turn, but only when it is active: the rest of the time it sleeps. Traditionally, rules like this in interactive fiction have been imagined as being somehow independently acting, hence the term &quot;daemon&quot;. There's not much to say about daemons:
+<p>The player is a thing, too, and can also be moved, which has the effect of instantaneous transportation, without the need for a suitable map connection to the new location. For instance:
 <p>
-<p><blockquote><font color="#000080">The lightning daemon: say &quot;Lightning strikes, suddenly.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">move the player to the Bodleian Library</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">In the Keep is a lever. The lever is fixed in place. Instead of pulling the lever: say &quot;Zzzing...&quot;; start the lightning daemon. Instead of pushing the lever: say &quot;Zzzap...&quot;; stop the lightning daemon.</font></blockquote>
+<p>This will ordinarily result in a room description of the Bodleian Library being printed up, but that might not always be desirable. For instance:
 <p>
-<p>The name of a daemon must always have &quot;daemon&quot; as its final word. When play begins, daemons are normally asleep, so if we need one of them to be active right from the start then we must add a further rule:
+<p><blockquote><font color="#000080">Instead of waiting in the Schola Maleficorum: say &quot;A bored demon catches your eye (they really do have very inquisitive fingers) and throws you back out into the Antechamber.&quot;; move the player to the Antechamber, without printing a room description.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">When play begins, start the lightning daemon.</font></blockquote>
+<p>Thus tacking on the option &quot;without printing a room description&quot;, remembering to add the comma, omits the description which would otherwise be produced. A compromise is to use the option &quot;printing an abbreviated room description&quot;: this gives a full description if the player has never been here before, but only a brief one if it is a familiar scene.
+<p>
+<p>We will see further examples of phrase options such as &quot;without printing a room description&quot;, which can modify the normal behaviour of phrases, in subsequent chapters.
 <p>
 <p><hr><p><a href=doc73.html>Previous</a> / <a href=doc75.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,28 +1,36 @@
-<html><head><title>4.8. Reading and talking</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc47.html><img src=../Back.tif></a><a href=doc49.html><img src=../Forward.tif></a></td><td><b>4.8. Reading and talking</b></td></tr></table><p>
+<html><head><title>4.5. Before rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc47.html><img src=../Back.tif></a><a href=doc49.html><img src=../Forward.tif></a></td><td><b>4.5. Before rules</b></td></tr></table><p>
 <p>
-<p>A few actions apply not to items alone, but also involve what might be called conversation. The first is the one used for looking things up in books (which is conversation of a kind, even if the author is not present): &quot;consulting ... about ...&quot;. For example,
+<p>Despite what was said in the previous section, instead rules do not quite bypass all of the usual rules. Inform knows that certain actions require light: for instance,
 <p>
-<p><blockquote><font color="#000080">In the Grove is a book of sybilline verses.</font></blockquote>
+<p><blockquote><font color="#000080">examining the napkin; looking; looking under the dining table</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">After consulting the book about &quot;grove&quot;, say &quot;The Grove is a sacred yadda, yadda. There's a tree, that sort of thing. Wisdom.&quot;</font></blockquote>
+<p>and if it is dark then none of these actions will be allowed, and any instead rules about them will not even be reached. Similarly, Inform knows that most actions require physical access to their objects: so &quot;taking the napkin&quot; would be blocked if the napkin were, say, inside a closed glass bottle, whereas &quot;examining the napkin&quot; would not. So an instead rule can only take effect if the action has already passed these basic reasonability tests.
 <p>
-<p><blockquote><font color="#000080">After consulting the book about &quot;future events&quot;, say &quot;It's a bit, what's the word? Delphic.&quot;</font></blockquote>
+<p>&quot;Before&quot; rules genuinely precede checking of any kind. They also differ from instead rules in that they do not automatically stop the action in its tracks. Rather, they are provided as an opportunity to ensure that something else is done first. For example:
 <p>
-<p>Note that what follows &quot;about&quot; here is a piece of text in double-quotes, and not the name of something. It can be almost any text at all, and in fact we shall later see (in the chapter on &quot;Understanding&quot;) that we can match complicated patterns of words, too.
+<p><blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.</font></blockquote>
 <p>
-<p>Similar actions are used for conversing with people:
+<p>whence
 <p>
-<p><blockquote><font color="#000080">After asking the Sybil about &quot;verses&quot;, say &quot;She blushes.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">&gt;GET NAPKIN<br>(first unfolding its delicate origami swan)<br>Taken.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">After telling the Sybil about &quot;persians&quot;, say &quot;She nods gravely.&quot;</font></blockquote>
+<p>We have seen that instead rules automatically stop actions, whereas before rules automatically allow them to continue. We sometimes want to change this. The magic word &quot;instead&quot; can therefore be tacked on to any instruction in a before rule, and will have the effect of immediately stopping the action at that instruction. Thus the following two rules are (almost) equivalent:
 <p>
-<p><blockquote><font color="#000080">After answering the Sybil that &quot;I am mad&quot;, say &quot;She sighs.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Before removing the key, instead say &quot;It seems to be soldered to the keyhole.&quot;</font></blockquote>
 <p>
-<p>These would be produced by commands like &quot;ask sybil about verses&quot;, &quot;tell sybil about persians&quot; and &quot;answer i am mad&quot;. Answering is very seldom used and can be forgotten about, but the distinction between asking and telling is often worth preserving, which is why there are two different actions for these. If you would prefer to make &quot;tell sybil about X&quot; do the same as &quot;ask sybil about X&quot;, the following rule would serve:
+<p><blockquote><font color="#000080">Instead of removing the key, say &quot;It seems to be soldered to the keyhole.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of telling the Sybil about something, try asking the Sybil about it.</font></blockquote>
+<p>Two special phrases can also be used: &quot;stop the action&quot; and &quot;continue the action&quot;. Yet a third way to achieve the same effect, then, would be:
 <p>
-<p>Games with a lot of conversation often involve great heaps of rules like the ones above, which can be repetitious to type out. We shall also later see (in the chapter on &quot;Tables&quot;) that we can tabulate questions and answers in a much more concise way, if we prefer.
+<p><blockquote><font color="#000080">Before removing the key: say &quot;It seems to be soldered to the keyhole.&quot;; stop the action.</font></blockquote>
+<p>
+<p>And to round off the discussion, these are also (almost) equivalent:
+<p>
+<p><blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Instead of taking the napkin: say &quot;(first unfolding its delicate origami swan)&quot;; continue the action.</font></blockquote>
+<p>
+<p>As a general principle, it is good style to use instead rules whenever blocking actions, and before rules only when it is genuinely necessary to do something first but then to continue: in fact, it is good style to use &quot;stop the action&quot; or &quot;continue the action&quot; as little as possible.
 <p>
 <p><hr><p><a href=doc47.html>Previous</a> / <a href=doc49.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

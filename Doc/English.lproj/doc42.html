@@ -1,38 +1,26 @@
-<html><head><title>4.2. Say</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc41.html><img src=../Back.tif></a><a href=doc43.html><img src=../Forward.tif></a></td><td><b>4.2. Say</b></td></tr></table><p>
+<html><head><title>3.14. Bibliographic data</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc41.html><img src=../Back.tif></a><a href=doc43.html><img src=../Forward.tif></a></td><td><b>3.14. Bibliographic data</b></td></tr></table><p>
 <p>
-<p>The phrase &quot;say&quot; is a way to print up something on screen. We can use it to print one thing alone:
+<p>Inform has four special named values to hold the bibliographic data about the work being created - who wrote it, what it is called, what genre it has and what its release number is.
 <p>
-<p><blockquote><font color="#000080">say &quot;Hello!&quot;;</font></blockquote>
+<p>These can be set as follows:
 <p>
-<p>In practice it is much more convenient to use substitutions once again:
+<p><blockquote><font color="#000080">The story title is &quot;Mansfield Perk&quot;. The story author is &quot;Janet Austen&quot;. The story genre is &quot;An Interactive Romance&quot;. The release number is 7.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">say &quot;Please proceed to [the destination] where [prize total] points are available to the diligent player.&quot;;</font></blockquote>
+<p>A convenient abbreviation provides that if the first sentence of the source text consists solely of text in quotation marks, then that is considered the title. Thus if the source begins:
 <p>
-<p>This is equivalent to:
+<p><blockquote><font color="#000080">&quot;Mansfield Perk&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">say &quot;Please proceed to &quot;, the destination, &quot; where &quot;, prize total, &quot; points are available to the diligent player.&quot;;</font></blockquote>
+<p>then that will be the story title. Further, we can write
 <p>
-<p>(which would also work). So we would end up reading something like
+<p><blockquote><font color="#000080">&quot;Mansfield Perk&quot; by Janet Austen</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Please proceed to Marley Wood where 12 points are available to the diligent player.</font></blockquote>
+<p>with the obvious effect: quotation marks around the author's name are optional here, for convenience, but note that we'd better have them in cases like:
 <p>
-<p>Other sorts of things you can say are demonstrated by:
+<p><blockquote><font color="#000080">&quot;Three Men in a Boat&quot; by &quot;Jerome K. Jerome&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">say &quot;Your score is now [total score in words] thanks to having acquired [the treasure item] from [a donor]. [The treasure item] is well worth having.&quot;;</font></blockquote>
+<p>as otherwise the full stop after the K will end the sentence prematurely.
 <p>
-<p>which might, assuming the above values all make sense, produce something like:
-<p>
-<p><blockquote><font color="#000080">Your score is now thirty-two thanks to having acquired the plover's egg from a giant. The plover's egg is well worth having.</font></blockquote>
-<p>
-<p>Line breaks are automatically printed accordingly to the following simple rule: if a quoted piece of text ends with a full stop, a question mark or an exclamation mark, then a new-line is added; and otherwise not. Thus the sentence just quoted is printed with a new-line, but this would not be:
-<p>
-<p><blockquote><font color="#000080">say &quot;reddish jar&quot;;</font></blockquote>
-<p>
-<p>If you have a further sentence to print without breaking the paragraph, this works nicely:
-<p>
-<p><blockquote><font color="#000080">say &quot;The lawn spreads wide and green. &quot;;</font></blockquote>
-<p>
-<p>because the full stop is the penultimate character, not the last.
+<p>If unspecified, the story genre is &quot;An Interactive Fiction&quot;, in accordance with tradition, and the release number is 1.
 <p>
 <p><hr><p><a href=doc41.html>Previous</a> / <a href=doc43.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

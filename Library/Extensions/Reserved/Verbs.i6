@@ -113,8 +113,10 @@ Global take_after_recipient;
   if (noun in parent(player)) return L__M(##Drop,1,noun); rfalse; ];
 [ DropSub_C3;
   if (noun notin player) return L__M(##Drop,2,noun); rfalse; ];
-[ DropSub_C4;
-  if (noun has worn) { L__M(##Drop,3,noun); <Disrobe noun>;
+[ DropSub_C4 k;
+  if (noun has worn) { L__M(##Drop,3,noun); say__p=0;
+      k = keep_silent; keep_silent = 1; <Disrobe noun>;
+      keep_silent = k;
       if (noun has worn && noun in player) rtrue;
   } rfalse; ];
 [ DropSub_O1; move noun to parent(player); give noun ~worn; rfalse; ];
@@ -137,8 +139,9 @@ Global take_after_recipient;
   if (second hasnt supporter) return L__M(##PutOn,3,second); rfalse; ];
 [ PutOnSub_C6;
   if (ac_common_ancestor == player) return L__M(##PutOn,4); rfalse; ];
-[ PutOnSub_C7;
-  if (noun has worn) { L__M(##PutOn,5,noun); <Disrobe noun>;
+[ PutOnSub_C7 k;
+  if (noun has worn) { L__M(##PutOn,5,noun); say__p=0;
+      k = keep_silent; keep_silent = 1; <Disrobe noun>; keep_silent = k;
       if (noun has worn) rtrue; } rfalse; ];
 [ PutOnSub_C8;
   if (children(second)>=ValueOrRun(second,capacity))
@@ -174,9 +177,11 @@ Global take_after_recipient;
   } rfalse; ];
 [ InsertSub_C6;
   if (second hasnt container) return L__M(##Insert,2,second); rfalse; ];
-[ InsertSub_C7;
+[ InsertSub_C7 k;
   if (noun has worn) {
-      L__M(##Insert,6,noun); <Disrobe noun>; if (noun has worn) rtrue;
+      L__M(##Insert,6,noun);
+      say__p=0; k = keep_silent; keep_silent = 1; <Disrobe noun>;
+      keep_silent = k; if (noun has worn) rtrue;
   } rfalse; ];
 [ InsertSub_C8;
   if (children(second) >= ValueOrRun(second,capacity))
@@ -316,7 +321,7 @@ Global go_dir_prop;
   i = parent(player);
   if (go_with_vehicle) i = parent(go_with_vehicle);
   if (go_to_location == nothing) {
-      PrintOrRun(i, cant_go); rtrue; }
+      PrintOrRun(i, cant_go); say__p = 1; rtrue; }
   rfalse; ];
 
 [ GoSub_C9;
@@ -393,7 +398,7 @@ Global visibility_levels;
       if (i has supporter) L__M(##Look,1,i);
                       else L__M(##Look,2,i);
 
-  if (print_player_flag==1) L__M(##Look,3,player);
+  if (print_player_flag==1) L__M(##Look,3,player); say__p = 0;
   new_line; rfalse;
 ];
 
@@ -406,11 +411,12 @@ Global visibility_levels;
               else PrintOrRun(location,description);
           }
       }
+      say__p = 0;
   } rfalse;
 ];
 
 [ LookSub_O4 i j k;
-  if (visibility_levels == 0) Locale(thedark);
+  if (visibility_levels == 0) { Locale(thedark); say__p = 1; }
   else
   {   for (i=player, j=visibility_levels: j>0: j--, i=parent(i))
           give i workflag;
@@ -418,8 +424,8 @@ Global visibility_levels;
       for (j=visibility_levels: j>0: j--)
       {   for (i=player, k=0: k<j: k++) i=parent(i);
           if (i.inside_description~=0)
-          {   new_line; PrintOrRun(i,inside_description); }
-          Locale(i);
+          { new_line; PrintOrRun(i,inside_description); }
+          Locale(i); say__p = 1;
       }
   }
   action=##Look; rfalse;
@@ -442,7 +448,7 @@ Global visibility_levels;
   } rfalse;
 ];
 [ ExamineSub_O4;
-  PrintOrRun(noun, description); rfalse;
+  PrintOrRun(noun, description); say__p = 1; rfalse;
 ];
 [ ExamineSub_O5;
   if (noun has switchable) L__M(##Examine,3,noun); rfalse;
@@ -485,7 +491,7 @@ Global visibility_levels;
 [ UnlockSub_C1;
   if (noun hasnt lockable) { L__M(##Unlock,1,noun); RulebookFails(); rtrue; } rfalse; ];
 [ UnlockSub_C2;
-  if (noun has locked) { L__M(##Unlock,2,noun); RulebookFails(); rtrue; } rfalse; ];
+  if (noun hasnt locked) { L__M(##Unlock,2,noun); RulebookFails(); rtrue; } rfalse; ];
 [ UnlockSub_C3;
   if (noun.with_key~=second) { L__M(##Unlock,3,noun); RulebookFails(); rtrue; } rfalse; ];
 [ UnlockSub_O1; give noun ~locked; rfalse; ];
@@ -544,7 +550,7 @@ Global visibility_levels;
   if (noun hasnt edible) { L__M(##Eat,1,noun); RulebookFails(); rtrue; } rfalse; ];
 [ EatSub_C2;
   if (noun has worn) {
-  	  L__M(##Drop,3,noun);
+  	  L__M(##Drop,3,noun); say__p=0;
       <Disrobe noun>;
       if (noun has worn) { RulebookFails(); rtrue; } 
   }
@@ -622,10 +628,11 @@ Global visibility_levels;
       if (RunRoutines(second,before)~=0) { action=##ThrowAt; rtrue; }
       action=##ThrowAt;
   } rfalse; ];
-[ ThrowAtSub_C2;
+[ ThrowAtSub_C2 k;
   if (noun has worn) {
-      L__M(##Drop,3,noun);
-      <Disrobe noun>;
+      L__M(##Drop,3,noun); say__p=0;
+      k = keep_silent; keep_silent = 1; <Disrobe noun>;
+      keep_silent = k;
       if (noun has worn && noun in player) rtrue;
   } rfalse; ];
 [ ThrowAtSub_C3;

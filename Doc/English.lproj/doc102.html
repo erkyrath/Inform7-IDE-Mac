@@ -1,18 +1,20 @@
-<html><head><title>8.1. Laying out tables</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 8: Tables</h2><p><table><tr><td><a href=doc101.html><img src=../Back.tif></a><a href=doc103.html><img src=../Forward.tif></a></td><td><b>8.1. Laying out tables</b></td></tr></table><p>
+<html><head><title>7.1. Fitting values into phrases</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 7: Phrases</h2><p><table><tr><td><a href=doc101.html><img src=../Back.tif></a><a href=doc103.html><img src=../Forward.tif></a></td><td><b>7.1. Fitting values into phrases</b></td></tr></table><p>
 <p>
-<p>We have already seen the Table of Rankings, which Inform uses automatically to score the progress of the current game. Here is a more general example:
+<p>We are now able to set up the model world, to respond to certain actions of the player within it, and to make changes over time, giving the game a start and an end. But although we have defined many rules, none of them have done more than to use a few basic phrases: saying something to the player, changing some property or moving things around.
 <p>
-<p><center><img src=table2.tiff></center>
+<p>A phrase is a pattern of words which instructs the computer to do something immediately. For instance:
 <p>
-<p>After the two titling lines, each line represents one row in the table, and entries on a line must be separated by at least one tab character. A table must occupy a single whole paragraph, with no skipped lines or missing entries.
+<p><blockquote><font color="#000080">say &quot;Look out!&quot;<br>award 20 points</font></blockquote>
 <p>
-<p>The top line is a title, the first word of which must be the word 'Table'. We can then either give a table number (this need not actually be a number: Table C2, or some such, would be fine), or give a name, or both - as in this case. The possible titling formats are:
+<p>are instructions using two phrases, &quot;say ...&quot; and &quot;award ... points&quot;. Phrases are not the same things as rules: rules lay out what should happen under what circumstances, but it is phrases that actually do what needs to be done.
 <p>
-<p><blockquote><font color="#000080">Table 2.3<br>Table of Population Statistics<br>Table 2.3 - Population Statistics</font></blockquote>
+<p>Where the &quot;20&quot; appears in &quot;award 20 points&quot;, any number would have done. This does not need to be a literal number expressed in digits: it can be any value known to Inform which works out as a number. For instance, &quot;the score&quot; is always acceptable as a number, since it is the name of a number variable: its value at any point in play is the current score.
 <p>
-<p>In the last example we could call the table either &quot;Table 2.3&quot; or &quot;Table of Population Statistics&quot;.
+<p>We are also allowed simple formulae such as
 <p>
-<p>Each column then has a name, and the contents must all be the same kind of value. Here the &quot;Score&quot; column contains only numbers and the &quot;Rank&quot; column only text, but any kinds of value will do, so long as all the entries in the column are mutually compatible. (Mixing rooms and things in a single column would be fine, as these can be reconciled, but mixing numbers and rooms would not.)
+<p><blockquote><font color="#000080">change the score to the score + 10</font></blockquote>
+<p>
+<p>and similarly for &quot;-&quot;, &quot;*&quot; and &quot;/&quot;. Note the space around the plus sign: as far as Inform is concerned, &quot;+&quot; is a word like any other. (In this early release of I7, complicated formulae may not behave the way we expect: support for proper expression parsing is limited at best.)
 <p>
 <p><hr><p><a href=doc101.html>Previous</a> / <a href=doc103.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

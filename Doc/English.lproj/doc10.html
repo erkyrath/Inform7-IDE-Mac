@@ -1,20 +1,12 @@
-<html><head><title>2.1. Descriptions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 2: Simulation</h2><p><table><tr><td><a href=doc9.html><img src=../Back.tif></a><a href=doc11.html><img src=../Forward.tif></a></td><td><b>2.1. Descriptions</b></td></tr></table><p>
+<html><head><title>1.10. The Skein</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc9.html><img src=../Back.tif></a><a href=doc11.html><img src=../Forward.tif></a></td><td><b>1.10. The Skein</b></td></tr></table><p>
 <p>
-<p>At its simplest, the interactive fiction will be simulating a physical world to explore. The forerunner of today's IF is generally agreed to be a computer simulation by Will Crowther of the exploration of a cave system in the Mammoth and Flint Ridge chain of caves in Kentucky, a part of which might be described in Inform thus:
+<p>The skein is a radical new feature in recent test releases of Inform, and the documentation is not written yet. Briefly, the idea is that they automatically record the different sequences of commands one tries when exploring a game for testing purposes: using the diagram in the Skein panel, one can then automatically replay these sequences against updated versions of the game, and so on.
 <p>
-<p><blockquote><font color="#000080">&quot;Cave Entrance&quot;</font></blockquote>
+<p>Moving the mouse over a command in the Skein panel causes a cluster of little icon buttons to appear. Andrew Hunter writes:
 <p>
-<p><blockquote><font color="#000080">The Cobble Crawl is a room. &quot;You are crawling over cobbles in a low passage. There is a dim light at the east end of the passage.&quot;</font></blockquote>
+<p>&quot;The three buttons that work are mostly pretty obvious: add, delete and lock. 'Unlocked' items will eventually be tidied up automatically: this is to try to keep the skein under control when playing manually through the game many times. The limit may be a bit high at the moment, so this won't happen often. It basically works on the width of the skein. 'Locked' items should never be deleted. The two states are distinguished by the colour of the lock icon (yellow for unlocked, green for locked) and the colour of the lines linking skein items together (blue for unlocked, black for locked).
 <p>
-<p><blockquote><font color="#000080">A wicker cage is here. &quot;There is a small wicker cage discarded nearby.&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The Debris Room is west of the Crawl. &quot;You are in a debris room filled with stuff washed in from the surface. A low wide passage with cobbles becomes plugged with mud and debris here, but an awkward canyon leads upward and west. A note on the wall says, Magic word XYZZY.&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The black rod is here. &quot;A three foot black rod with a rusty star on one end lies nearby.&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Above the Debris Room is the Sloping E/W Canyon. West of the Canyon is the Orange River Chamber.</font></blockquote>
-<p>
-<p>Here we sketch in four of Crowther's locations, and two objects: just enough to be able to walk around the caves and pick up the rod and the cage. The text in quotation marks will appear verbatim as paragraphs shown to the player as the caves are explored. The first paragraph, as we have seen, is the title of the work. The other quotations describe the places and objects introduced.
+<p>The two that don't work, in the upper left corner, will eventually provide some control over the 'extra' data stored with the skein. The button that looks like a 'play' button will link to the transcript window: I haven't fully worked out the details of this yet, but the idea is to show a single flat branch of the skein with both commands and responses. The user will be able to add 'expected' responses as well, the idea being that you can design the game by writing a transcript, have the skein follow along with the commands, and then test your code to see how well it fits as you go. (The trick is, of course, ensuring that it's obvious how the transcript and the skein relate to each other). The other button will provide a more simple means of annotating the skein: it will add an annotation above a particular item. I also plan to change the background colour of the skein from that point down to the bottom (highlighting the entire branch). The idea is to make it easy to find particular areas of the game while scrolling around with a large skein.&quot;
 <p>
 <p><hr><p><a href=doc9.html>Previous</a> / <a href=doc11.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

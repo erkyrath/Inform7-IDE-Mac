@@ -1,18 +1,22 @@
-<html><head><title>11.5. A simple example extension</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc142.html><img src=../Back.tif></a><a href=doc144.html><img src=../Forward.tif></a></td><td><b>11.5. A simple example extension</b></td></tr></table><p>
+<html><head><title>9.10. In what order?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc142.html><img src=../Back.tif></a><a href=doc144.html><img src=../Forward.tif></a></td><td><b>9.10. In what order?</b></td></tr></table><p>
 <p>
-<p>Extensions look very much like passages of Inform source, because except for a special introductory and concluding sentence, that is all they are:
+<p>When several different lines of grammar are supplied to meet the same circumstances, it makes a big difference what order they are tried in. For instance, suppose we have:
 <p>
-<p><blockquote><font color="#000080">The Ducking Action by Graham Nelson begins here.</font></blockquote>
+<p><blockquote><font color="#000080">Understand &quot;photograph [a door]&quot; as photographing.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Ducking is an action applying to nothing. Report ducking: say &quot;You duck!&quot; Understand &quot;duck&quot; as ducking.</font></blockquote>
+<p><blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Ducking Action ends here.</font></blockquote>
+<p>The second line is more specific than the first, so Inform takes these grammar lines the other way around: it checks for &quot;open door&quot; before it checks for &quot;door&quot;. That didn't matter here, since both lines came out with the same result (the action of photographing), but it matters very much in the next example:
 <p>
-<p>Not a useful or interesting extension, but those few words add a whole new action and everything needed to make it work. It is the ability in Inform 7 to mix up rooms, things, kinds, grammar, phrases and rules, in more or less any order, which makes it possible for extensions to work. If all the kinds (say) had to be defined in a single run of paragraphs, it would be impossible for different extensions each to contribute kinds of its own.
+<p><blockquote><font color="#000080">Understand &quot;employ [a door]&quot; as opening.</font></blockquote>
 <p>
-<p>The introductory sentence should be placed as the only content of line 1 of the file. Inform does not care, but this would help any other tools which might be developed later for archiving or cataloguing extensions.
+<p><blockquote><font color="#000080">Understand &quot;employ [an open door]&quot; as entering.</font></blockquote>
 <p>
-<p>(In case the name is a plural, we are allowed to write &quot;begin&quot; and &quot;end&quot; instead of &quot;begins&quot; and &quot;ends&quot;. For instance, the last line of the standard rules is &quot;The Standard Rules end here.&quot;)
+<p>More subtle is a line already seen:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.</font></blockquote>
+<p>
+<p>Here Inform puts &quot;on top of&quot; before &quot;on/in/inside&quot;, since otherwise only the &quot;on&quot; of &quot;on top of&quot; will be recognised.
 <p>
 <p><hr><p><a href=doc142.html>Previous</a> / <a href=doc144.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,18 +1,20 @@
-<html><head><title>10.13. First and last rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc137.html><img src=../Back.tif></a><a href=doc139.html><img src=../Forward.tif></a></td><td><b>10.13. First and last rules</b></td></tr></table><p>
+<html><head><title>9.5. Understanding kinds of value</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc137.html><img src=../Back.tif></a><a href=doc139.html><img src=../Forward.tif></a></td><td><b>9.5. Understanding kinds of value</b></td></tr></table><p>
 <p>
-<p>This is the final technicality on rulebooks. Rulebooks are, as we have seen, automatically sorted in order of how specific the conditions for invoking the relevant rules are, so that for instance
+<p>Newly created kinds of value can also be understood, which we make good use of in the example game &quot;Studious&quot;:
 <p>
-<p><blockquote><font color="#000080">Instead of taking a container, ...</font></blockquote>
+<p><blockquote><font color="#000080">&quot;Studious&quot;</font></blockquote>
 <p>
-<p>will always come before
+<p><blockquote><font color="#000080">The Studio is a room. &quot;The unreal world of the photographic studio, full of fake furniture, cantilevered stands and silver-white shades like miniature parachutes.&quot; The lumpy black camera is in the Studio. &quot;A lumpy black camera hangs from a tripod.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of taking something, ...</font></blockquote>
+<p><blockquote><font color="#000080">The rake-thin model is a woman in the Studio. &quot;A rake-thin model, exquisitely bored and boringly exquisite, angles herself indolently.&quot;</font></blockquote>
 <p>
-<p>Sometimes, though, and especially with rulebooks where there is no particular ordering because conditions are usually not attached anyway (for instance, with &quot;every turn&quot; rules), it is useful to be certain that a particular rule comes first or last: especially if there is some housekeeping to do. For instance, the &quot;turn sequence&quot; rulebook, which is used behind the scenes to organise what happens at the end of each turn, has a crucial piece of housekeeping to do in order to maintain the consistency of the world model: it has to find out if the player's location has been plunged into darkness or, conversely, has been lit up since the last turn. It is essential that this happens last of all so that the situation cannot change again before the next time the player types at the keyboard.
+<p><blockquote><font color="#000080">Limb is a kind of value. The limbs are left leg, left arm, right leg and right arm.</font></blockquote>
 <p>
-<p>Each rulebook, then, can have two special rules, the designated &quot;first&quot; rule and the designated &quot;last&quot; rule. These, if defined, have no individual names, so that nobody can displace them from their positions or meddle with them: they belong to whoever created the rulebook.
+<p><blockquote><font color="#000080">Detailing is an action applying to one limb and one visible thing, requiring light. Check detailing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead. Report detailing: say &quot;Click! You take a detail photograph of the [limb understood] of [the second noun].&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The last appraisal rule: say &quot;The Speak-Your-Progress machine sputters to a halt. You decide not to take this as a comment on your recent performance.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Understand &quot;photograph [limb] of [a person]&quot; as detailing.</font></blockquote>
+<p>
+<p>Note the way we can refer to the limb mentioned by the player as the &quot;limb understood&quot;. Similarly, we could talk about the &quot;number understood&quot; if the value parsed had been a number, and so on.
 <p>
 <p><hr><p><a href=doc137.html>Previous</a> / <a href=doc139.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

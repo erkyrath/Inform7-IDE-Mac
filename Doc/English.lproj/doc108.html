@@ -1,16 +1,24 @@
-<html><head><title>8.7. Blank entries</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc107.html><img src=../Back.tif></a><a href=doc109.html><img src=../Forward.tif></a></td><td><b>8.7. Blank entries</b></td></tr></table><p>
+<html><head><title>7.7. Otherwise</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc107.html><img src=../Back.tif></a><a href=doc109.html><img src=../Forward.tif></a></td><td><b>7.7. Otherwise</b></td></tr></table><p>
 <p>
-<p>We are allowed to leave certain entries blank (perhaps to be filled in later, perhaps not) by writing &quot;--&quot; instead of the relevant value:
+<p>We often need code which does one thing in one circumstance, and another the rest of the time. We could do this like so:
 <p>
-<p><center><img src=table3.tiff></center>
+<blockquote><font color="#000080">if N is 2 begin; ...; end if;
+<br>if N is not 2 begin; ...; end if;
+</font></blockquote><p>
 <p>
-<p>Should we do this, then the condition
+<p>but this is not very elegant, and besides, what if the action we take when N is 2 changes N so that it becomes something else?
 <p>
-<p><blockquote><font color="#000080">if there is a symbol corresponding to an atomic number of 30 in the Table of Standard Elements ...</font></blockquote>
+<p>Instead we use &quot;otherwise&quot;:
 <p>
-<p>will be false, and any attempt to get the value there will result in an error when the game is in play. Similarly, this will also prove false:
+<p><blockquote><font color="#000080">if N is 2 begin;<br>...;<br>otherwise;<br>...;<br>end if;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">if there is an atomic number in row 2 of the Table of Standard Elements ...</font></blockquote>
+<p>Note that there is only one &quot;end if&quot;: the &quot;otherwise&quot; phrase occurs inside the &quot;if ... end if&quot; block of phrases.
+<p>
+<p>When there is only a single phrase we can use the shortened form:
+<p>
+<p><blockquote><font color="#000080">if N is 2 then say &quot;Hooray, N is 2!&quot;;<br>otherwise say &quot;Boo, N is not 2...&quot;</font></blockquote>
+<p>
+<p>(In almost every computer programming language ever devised, including previous versions of Inform, the word &quot;else&quot; is used rather than &quot;otherwise&quot;: for the sake of familiarity, &quot;else&quot; can also be used here. All the same, &quot;otherwise&quot; seems closer to natural English.)
 <p>
 <p><hr><p><a href=doc107.html>Previous</a> / <a href=doc109.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,14 +1,22 @@
-<html><head><title>11.13. Handling phrase options</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc150.html><img src=../Back.tif></a><a href=doc152.html><img src=../Forward.tif></a></td><td><b>11.13. Handling phrase options</b></td></tr></table><p>
+<html><head><title>10.8. Success and failure</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc150.html><img src=../Back.tif></a><a href=doc152.html><img src=../Forward.tif></a></td><td><b>10.8. Success and failure</b></td></tr></table><p>
 <p>
-<p>The Standard Rules use the Inform list-writer with the following definitions, which show how a much more complicated I6 routine can be given a natural-language expression.
+<p>Though we have blurred over this point so far, every rule has one of three outcomes: success, failure and neither. The default outcome is neither, and for many rules (the every turn rules, for instance) success or failure would be ignored anyway, which is how we managed not to mention all this before. Indeed, the instruction
 <p>
-<p><blockquote><font color="#000080">To list the contents of (O - an object), with newlines, indented, as a sentence, including contents, including all contents, giving inventory information, giving brief inventory information, using the definite article, listing marked items only, prefacing with is/are and/or not listing concealed items: (- WriteListFrom(child({O}), {phrase options}); -).</font></blockquote>
+<p><blockquote><font color="#000080">follow the appraisal rules</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">To say contents of (O - an object): list the contents of O, as a sentence.</font></blockquote>
+<p>throws away the result, whatever it may be, which is why results have not come up in the discussion so far. All the same, results can make a difference even in examples like this one. When a rulebook is working through a list of rules, any rule which stops causes the rulebook to stop at once, so that no subsequent rules in the book will be invoked.
 <p>
-<p><blockquote><font color="#000080">To say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.</font></blockquote>
+<p>In the event of either success or failure, we say that it &quot;stops&quot;, and a value can optionally also result.
 <p>
-<p>&quot;{phrase options}&quot; is a special substitution: it is a bitmap which assigns the given options one bit each, starting with the least significant bit for the first-mentioned option (&quot;with newlines&quot; above) and going up to the most significant bit for the last (&quot;not listing concealed items&quot;).
+<p>Generally speaking, stops are needed for different reasons in different rulebooks, so there are specialised syntaxes for bringing them about (as we shall see). However, the following phrases always work in any rule:
+<p>
+<p><blockquote><font color="#000080">the rule succeeds<br>the rule fails<br>the rule succeeds with result (...)<br>the rule fails with result (...)</font></blockquote>
+<p>
+<p>The result can be a room, a thing or a text. It can be referred to as
+<p>
+<p><blockquote><font color="#000080">the result of the rule</font></blockquote>
+<p>
+<p>which is nothing if the rule ended without success or failure.
 <p>
 <p><hr><p><a href=doc150.html>Previous</a> / <a href=doc152.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,20 +1,20 @@
-<html><head><title>8.5. Choosing rows</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc105.html><img src=../Back.tif></a><a href=doc107.html><img src=../Forward.tif></a></td><td><b>8.5. Choosing rows</b></td></tr></table><p>
+<html><head><title>7.5. While</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc105.html><img src=../Back.tif></a><a href=doc107.html><img src=../Forward.tif></a></td><td><b>7.5. While</b></td></tr></table><p>
 <p>
-<p>The following would be one way to print out a list of recent Kings and Queens:
+<p>The other main control phrase is &quot;while&quot;, which has the form:
 <p>
-<p><blockquote><font color="#000080">To list the succession:<br>say &quot;The Succession List runs as follows...&quot;;<br>repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;<br>say &quot;[accession in row N of the Table of Recent Monarchs]: [name in row N of the Table of Recent Monarchs] ([family in row N of the Table of Recent Monarchs]).&quot;;<br>end repeat.</font></blockquote>
+<p><blockquote><font color="#000080">while (... condition ...) repeatedly (... another whole phrase ...)</font></blockquote>
 <p>
-<p>This works, but is repetitive. We often want to work on a single row for a while, either to change things or think about the contents, and it is tiresome to keep specifying the row over and over again. The following shorthand provides some relief:
+<p>which keeps on applying the same phrase as long as the condition holds. If it never holds, even at the start, then the phrase is never applied at all and nothing happens. Just as the word &quot;then&quot; in an &quot;if&quot; can be abbreviated with a comma, so can the word &quot;repeatedly&quot; here.
 <p>
-<p><blockquote><font color="#000080">choose row N of the Table of Recent Monarchs;<br>say &quot;[accession entry]: [name entry] ([family entry]).&quot;;</font></blockquote>
+<p>We must be careful not to commit mistakes like the following:
 <p>
-<p>That is, if &quot;accession&quot; is a column name then &quot;accession entry&quot; will mean the entry in that column of the currently chosen row. This notation can only be used if a &quot;choose&quot; has certainly already happened, and it is a good idea to make that choice somewhere close by in the source code (and certainly in the same rule or phrase definition) for the sake of avoiding errors. We can also choose rows by specifying something about them, like so:
+<p><blockquote><font color="#000080">while eggs is eggs repeatedly say &quot;again and &quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">choose row with a name of &quot;Victoria&quot; in the Table of Recent Monarchs;<br>change name entry to &quot;Clytemnestra Honeytongue III&quot;;</font></blockquote>
+<p>which, as sure as eggs is eggs (which is very sure indeed), writes out
 <p>
-<p>This will choose the first row with the given entry: an error will result if there are no rows which qualify. We can also choose a row quite at random:
+<p><blockquote><font color="#000080">again and again and again and again and again and ...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">choose a random row in the Table of Recent Monarchs;<br>say &quot;Your eye falls upon the reign of [name entry].&quot;</font></blockquote>
+<p>forever. (Inform won't prevent this: we will find out the hard way when the game is played.) While we would probably never write anything so blatant as that, the mistake is all too easy to commit in disguised form. We should never design a loop, as repetitions like this are called, without worrying about if and when it will finish.
 <p>
 <p><hr><p><a href=doc105.html>Previous</a> / <a href=doc107.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

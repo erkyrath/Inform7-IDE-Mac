@@ -53,7 +53,9 @@ Constant I7_TABLE_NOVALUE $7fe3;
   if (col == 0) rfalse;
   k = ((tab-->1)-->0)-1;
   for (i=1:i<=k:i++) {
+  ! print "Checking row ", i, "^";
       v = (tab-->col)-->(i+1);
+      if (v == I7_TABLE_NOVALUE) continue;
       if (f) {
           if ((v)(consult_from, consult_words) ~= GPR_FAIL)
               return i;
@@ -61,6 +63,7 @@ Constant I7_TABLE_NOVALUE $7fe3;
           if (v == entry) return i;
       }
   }
+  ! print "Giving up^";
   return 0;
 ];
 
@@ -170,7 +173,7 @@ Constant I7_TABLE_NOVALUE $7fe3;
 
 [ TableRandomRow tab i j k;
   i = TableRows(tab);
-  j = TableBlankRows(tab);
+  j = TableFilledRows(tab);
   if (j==0) ">--> Attempt to choose a random row in an entirely blank table^";
   if (j>1) j = random(j);
   for (k=1:k<=i:k++) {

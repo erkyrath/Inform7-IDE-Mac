@@ -1,32 +1,16 @@
-<html><head><title>7.3. Pattern matching</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc85.html><img src=../Back.tif></a><a href=doc87.html><img src=../Forward.tif></a></td><td><b>7.3. Pattern matching</b></td></tr></table><p>
+<html><head><title>6.2. Awarding points</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc85.html><img src=../Back.tif></a><a href=doc87.html><img src=../Forward.tif></a></td><td><b>6.2. Awarding points</b></td></tr></table><p>
 <p>
-<p>The following are all valid phrases:
+<p>Traditionally-written games award points throughout play, as an indication of progress. If we want to be traditional, we can award points as follows:
 <p>
-<p><blockquote><font color="#000080">award 2 points<br>award 8 points<br>award 30 points</font></blockquote>
+<p><blockquote><font color="#000080">award 5 points;</font></blockquote>
 <p>
-<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
+<p>substituting whatever number we feel is appropriate. We should be careful not to give out the same points over and over, that is, not to reward the same basic achievement many times over if the player simply repeats the same action. This, for instance, is open to abuse:
 <p>
-<p><blockquote><font color="#000080">To award (some - a number) points: ...</font></blockquote>
+<p><blockquote><font color="#000080">After taking the trophy: award 5 points; say &quot;Well done!&quot;</font></blockquote>
 <p>
-<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
+<p>The player may simply take the trophy, drop it again, take it again, ... and win five points every time around. We can prevent this by phrasing the rule more carefully:
 <p>
-<p><blockquote><font color="#000080">award &quot;blue cheese&quot; points;</font></blockquote>
-<p>
-<p>which results in the following error:
-<p>
-<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.</font></blockquote>
-<p>
-<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
-<p>
-<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
-<p>
-<p><blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.</font></blockquote>
-<p>
-<p>Which would not match, for instance, this:
-<p>
-<p><blockquote><font color="#000080">slam shut the black door;</font></blockquote>
-<p>
-<p>because the black door is not an open container.
+<p><blockquote><font color="#000080">After taking the trophy for the first time: award 5 points; say &quot;Well done!&quot;</font></blockquote>
 <p>
 <p><hr><p><a href=doc85.html>Previous</a> / <a href=doc87.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

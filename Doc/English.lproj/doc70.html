@@ -1,16 +1,16 @@
-<html><head><title>6.2. Awarding points</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc69.html><img src=../Back.tif></a><a href=doc71.html><img src=../Forward.tif></a></td><td><b>6.2. Awarding points</b></td></tr></table><p>
+<html><head><title>5.4. Change of either/or properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc69.html><img src=../Back.tif></a><a href=doc71.html><img src=../Forward.tif></a></td><td><b>5.4. Change of either/or properties</b></td></tr></table><p>
 <p>
-<p>Traditionally-written games award points throughout play, as an indication of progress. If we want to be traditional, we can award points as follows:
+<p>When we have an either/or property, we can set it like so:
 <p>
-<p><blockquote><font color="#000080">award 5 points;</font></blockquote>
+<p><blockquote><font color="#000080">Instead of waiting when the oaken door is closed: say &quot;There is a slow, creaky click! sort of noise as the door swings open, apparently all by itself.&quot;; change the oaken door to open.</font></blockquote>
 <p>
-<p>substituting whatever number we feel is appropriate. We should be careful not to give out the same points over and over, that is, not to reward the same basic achievement many times over if the player simply repeats the same action. This, for instance, is open to abuse:
+<p>If it is open already, nothing changes: in any case nothing is said to the player unless we give explicit instructions to that effect, as we've done here.
 <p>
-<p><blockquote><font color="#000080">After taking the trophy: award 5 points; say &quot;Well done!&quot;</font></blockquote>
+<p>Inform protects its model world from accidental damage in several ways, one of which is to ensure that things are not given properties which they are not allowed to have. So this, for instance, will not be accepted:
 <p>
-<p>The player may simply take the trophy, drop it again, take it again, ... and win five points every time around. We can prevent this by phrasing the rule more carefully:
+<p><blockquote><font color="#000080">change the oaken door to unvisited</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">After taking the trophy for the first time: award 5 points; say &quot;Well done!&quot;</font></blockquote>
+<p>More subtle problems arise if it is not possible to tell, when the game is being constructed, what the object in question will be: for instance, if we try to change a randomly chosen object to be &quot;unvisited&quot;. Inform therefore makes additional checks during play, printing up a suitable message only if the rules are violated. The net effect is that it is impossible for the oaken door ever to have the &quot;unvisited&quot; property.
 <p>
 <p><hr><p><a href=doc69.html>Previous</a> / <a href=doc71.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,14 +1,26 @@
-<html><head><title>11.9. Headings and subheadings</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc146.html><img src=../Back.tif></a><a href=doc148.html><img src=../Forward.tif></a></td><td><b>11.9. Headings and subheadings</b></td></tr></table><p>
+<html><head><title>10.4. New rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc146.html><img src=../Back.tif></a><a href=doc148.html><img src=../Forward.tif></a></td><td><b>10.4. New rulebooks</b></td></tr></table><p>
 <p>
-<p>Every extension, including the Standard Rules, has the right to its own set of headings and subheadings, independently of those used by the main source for the work or by any other extension which may be included. So if the extension is divided into four sections and finishes on Section D, say, that doesn't mean that Section D will continue outside the extension as the main source of the game runs on.
+<p>Creating a new rulebook is also straightforward, as we see in the following modest example game:
 <p>
-<p>Extensions should, of course, never produce errors, so at first sight it appears that these headings will never be outwardly visible. In fact, though, they are used when indexing phrases (and also actions) to group similar phrases together. For instance, the Standard Rules contain the heading:
+<p><blockquote><font color="#000080">&quot;Appraisal&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Section SR4/7 - Searching and sorting tables</font></blockquote>
+<p><blockquote><font color="#000080">The Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.</font></blockquote>
 <p>
-<p>The half-dozen phrases defined in this section of the Standard Rules are then indexed under the subheading &quot;Searching and sorting tables&quot;: Inform looks for a hyphen in the heading and then uses any text which follows the hyphen. (If there is no hyphen, the entire heading text is used.)
+<p><blockquote><font color="#000080">Appraisal rules is a rulebook.</font></blockquote>
 <p>
-<p>If an extension contains no headings, its phrases (or actions) are indexed simply as &quot;Miscellaneous&quot;.
+<p><blockquote><font color="#000080">An appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">An appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
+<p>
+<p>The creation of the rulebook is all very well, but without the final sentence it would never be used. The crucial new phrase here is &quot;follow ...&quot;, which is the first of several phrases allowing us to use rules whenever we want to (rather than simply at predetermined times such as when a particular action is being tried, or at the end of every turn, and such).
+<p>
+<p>Like &quot;number&quot; or &quot;text&quot;, &quot;rule&quot; and &quot;rulebook&quot; are kinds of value built into Inform: &quot;the blossom rule&quot; is a value whose kind is &quot;rule&quot;, whereas &quot;the every turn rules&quot; is a value whose kind is &quot;rulebook&quot;. In fact, Inform considers a rulebook to be a special case of a rule, so that whenever a rule is required it is legal to name a rulebook instead, but not vice versa. The &quot;follow&quot; phrase here...
+<p>
+<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
+<p>
+<p>...expects to be applied to a value of kind &quot;rule&quot;; &quot;the appraisal rules&quot; is in fact a rulebook, but since that counts as a rule and the phrase makes sense to Inform. To follow a rulebook means to run through all its rules in turn; to follow a single rule means just that one, of course.
 <p>
 <p><hr><p><a href=doc146.html>Previous</a> / <a href=doc148.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

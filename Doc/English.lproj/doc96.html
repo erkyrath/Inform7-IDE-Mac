@@ -1,28 +1,16 @@
-<html><head><title>7.13. Another example: a pushable box</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc95.html><img src=../Back.tif></a><a href=doc97.html><img src=../Forward.tif></a></td><td><b>7.13. Another example: a pushable box</b></td></tr></table><p>
+<html><head><title>6.12. Calculating times</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc95.html><img src=../Back.tif></a><a href=doc97.html><img src=../Forward.tif></a></td><td><b>6.12. Calculating times</b></td></tr></table><p>
 <p>
-<p>More on using kinds of value inside phrases, this time to simulate something new: a box which, although it cannot be picked up, can be pushed around between three different places on the floor. A much fuller version of this example can be found in the example game &quot;Lumbersome&quot;.
+<p>We will occasionally need to perform more complex calculations with time, and in order to do that, we have a way to convert the time of day to numbers. Thus the phrase &quot;the minutes part of ...&quot; takes a time and produces a number from 0 to 59; similarly &quot;the hours part of ...&quot; extracts a number from 0 to 23, using the twenty-four hour clock.
 <p>
-<p><blockquote><font color="#000080">Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase.</font></blockquote>
+<p>To go the other way, we can convert any number to a duration by writing &quot;minutes&quot; or &quot;hours&quot; after it. For instance:
 <p>
-<p><blockquote><font color="#000080">To shove the box to (destination - a box position):<br>say &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;; let the current box position be the destination.</font></blockquote>
+<p><blockquote><font color="#000080">The clock error is a number that varies. To thump the mechanism: change the clock error to a random number from -10 to 10.</font></blockquote>
 <p>
-<p>So, for instance:
+<p><blockquote><font color="#000080">The broken grandfather clock is in the Chamber. &quot;An erratic grandfather clock seems to say it is [clock error minutes after the time of day].&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">shove the box to over by the window;</font></blockquote>
+<p><blockquote><font color="#000080">When play begins, thump the mechanism. Instead of attacking the broken clock: thump the mechanism; say &quot;You thump the clock, which now reads [clock error minutes after the time of day].&quot;.</font></blockquote>
 <p>
-<p>might result in the following on screen:
-<p>
-<p><blockquote><font color="#000080">With some effort, you shove the old box from under the shelf to over by the window.</font></blockquote>
-<p>
-<p>And we can write conditions like so:
-<p>
-<p><blockquote><font color="#000080">if the current box position is over by the window then...</font></blockquote>
-<p>
-<p>Using a new kind of value is a good way to set up simulations like this one because Inform will ensure that the &quot;current box position&quot; always, no matter what we do, holds one of the three legal box positions. Similarly, a line like
-<p>
-<p><blockquote><font color="#000080">if the current box position is green then ...</font></blockquote>
-<p>
-<p>will be disallowed because box positions and colours are incomparable.
+<p>Note that &quot;clock error&quot; is a number, but &quot;clock error minutes&quot; is a time.
 <p>
 <p><hr><p><a href=doc95.html>Previous</a> / <a href=doc97.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

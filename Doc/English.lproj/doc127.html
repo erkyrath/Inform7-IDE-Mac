@@ -1,20 +1,18 @@
-<html><head><title>10.2. Named rules and rulebooks</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc126.html><img src=../Back.tif></a><a href=doc128.html><img src=../Forward.tif></a></td><td><b>10.2. Named rules and rulebooks</b></td></tr></table><p>
+<html><head><title>8.8. Blank columns</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc126.html><img src=../Back.tif></a><a href=doc128.html><img src=../Forward.tif></a></td><td><b>8.8. Blank columns</b></td></tr></table><p>
 <p>
-<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns (usually visible on the &quot;status line&quot; displayed above the window of a game in progress) and advances the clock (usually not visible, but ticking away behind the scenes) by a given number of minutes.
+<p>An entire column of blank entries &quot;--&quot; is problematic:
 <p>
-<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
+<p><center><img src=table4.tiff></center>
 <p>
-<p><blockquote><font color="#000080">advance time = the advance time rule</font></blockquote>
+<p>Inform is unable to work out what kind of value should go into the &quot;atomic weight&quot; column here, since it has no examples to guess from. We can get around this by writing in the name of a kind of value:
 <p>
-<p><blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence</font></blockquote>
+<p><center><img src=table5.tiff></center>
 <p>
-<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p>That top entry in the &quot;atomic weight&quot; column is also blank, but now Inform knows that anything put into the column in future will be a number.
 <p>
-<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We will only seldom need to refer to them directly, in phrases like this one (of which more later):
+<p>If there are many rows, and perhaps several blank columns, it would become very tedious to have to keep typing out &quot;--&quot;. So this is optional <i>at the end of a row</i>: it remains compulsory for a blank value appearing in between two values which aren't blank. This is the general idea:
 <p>
-<p><blockquote><font color="#000080">ignore the can't go through closed doors rule;</font></blockquote>
-<p>
-<p>...which are verbose, but this is a situation where clarity is very much better than brevity.
+<p><center><img src=table8.tiff></center>
 <p>
 <p><hr><p><a href=doc126.html>Previous</a> / <a href=doc128.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,24 +1,18 @@
-<html><head><title>7.15. Arithmetic on new kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc97.html><img src=../Back.tif></a><a href=doc99.html><img src=../Forward.tif></a></td><td><b>7.15. Arithmetic on new kinds of value</b></td></tr></table><p>
+<html><head><title>6.14. Actions as conditions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc97.html><img src=../Back.tif></a><a href=doc99.html><img src=../Forward.tif></a></td><td><b>6.14. Actions as conditions</b></td></tr></table><p>
 <p>
-<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
+<p>There are two ways that descriptions of actions can be used as conditions. First, we can simply describe an action, and then the condition will be true if that is what the player is trying to do, and not otherwise:
 <p>
-<p><blockquote><font color="#000080">change the score to the score + 4</font></blockquote>
+<p><blockquote><font color="#000080">... if taking a container then ...</font></blockquote>
 <p>
-<p>In Inform, &quot;+&quot; is a phrase like any other. Its definition behind the scenes begins:
+<p>This is actually an abbreviation for the longer, some would say preferable form:
 <p>
-<p><blockquote><font color="#000080">To decide which number is (X - number) + (Y - number): ...</font></blockquote>
+<p><blockquote><font color="#000080">... if we are taking a container then ...</font></blockquote>
 <p>
-<p>Thus Inform will only recognise &quot;+&quot; as valid if it applies to two numbers, which is as it should be. We cannot normally apply &quot;+&quot; to values like these:
+<p>Secondly, we can talk about the past as well as the present, which is very useful since interactive fiction often contains situations which are changed by earlier events.
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.</font></blockquote>
+<p><blockquote><font color="#000080">Instead of waiting when we have taken the lantern, say &quot;No, your acquisitive nature is roused now, and simply waiting will no longer do.&quot;</font></blockquote>
 <p>
-<p>However, we do automatically have two ways to make new colours from old:
-<p>
-<p><blockquote><font color="#000080">the colour after C<br>the colour before C</font></blockquote>
-<p>
-<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
-<p>
-<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not.
+<p>More on the past tense later, too: note that &quot;we are taking&quot; has become &quot;we have taken&quot;. For the rule to apply, it is not enough that the action &quot;taking the lantern&quot; has been tried: it must have succeeded.
 <p>
 <p><hr><p><a href=doc97.html>Previous</a> / <a href=doc99.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -37,11 +37,11 @@ CompassDirection -> u_obj "ceiling"
                     with name 'u//' 'up' 'ceiling',    door_dir u_to;
 CompassDirection -> d_obj "floor"
                     with name 'd//' 'down' 'floor',    door_dir d_to;
-ENDIF;
 CompassDirection -> out_obj "outside"
                     with                               door_dir out_to;
 CompassDirection -> in_obj "inside"
                     with                               door_dir in_to;
+ENDIF;
 ! ---------------------------------------------------------------------------
 !   Part II.   Vocabulary
 ! ---------------------------------------------------------------------------
@@ -333,6 +333,7 @@ Constant WHICH__TX    = "which ";
 ];
 
 [ LanguageLM n x1;
+  I7_Para(1);
   Prompt:  print "^>";
   Miscellany:
            switch(n)

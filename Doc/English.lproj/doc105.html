@@ -1,18 +1,32 @@
-<html><head><title>8.4. Changing entries</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc104.html><img src=../Back.tif></a><a href=doc106.html><img src=../Forward.tif></a></td><td><b>8.4. Changing entries</b></td></tr></table><p>
+<html><head><title>7.4. If</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc104.html><img src=../Back.tif></a><a href=doc106.html><img src=../Forward.tif></a></td><td><b>7.4. If</b></td></tr></table><p>
 <p>
-<p>Here is another rather definitive, immutable-looking table:
+<p>We now run through a few special phrases which control other phrases: causing them to repeat, perhaps, or to be skipped. These phrases are equivalent to the &quot;control structures&quot; of other computer programming languages: no system for interactive fiction can possibly be adequate unless it allows us to carry out arbitrary computations, so the pretence that Inform is not really a programming language must dropped sooner or later. That time is now.
 <p>
-<p><center><img src=table9.tiff></center>
+<p>The phrase:
 <p>
-<p>But table entries can be changed as freely as variables: that is, any value can be entered so long as it has the right kind. We cannot put a dynasty into the &quot;Name&quot; column, or text in the &quot;Accession&quot; column. The phrase needed is &quot;change ... to ...&quot;, just as it is for properties or variables:
+<p><blockquote><font color="#000080">if (... condition ...) then (... another whole phrase ...)</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Dynasty is a kind of value. The dynasties are Stuart, Hanover, Saxe-Coburg-Gotha and Windsor.</font></blockquote>
+<p>causes the phrase after &quot;then&quot; to be followed only if the condition holds. Some people prefer to use a comma, which is treated just the same:
 <p>
-<p><blockquote><font color="#000080">The Succession is in the Table Office. &quot;But the Succession, a ponderous list of English monarchs, takes pride of place.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">if (... condition ...), (... another whole phrase ...)</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of examining the Succession: say &quot;The Succession List runs as follows...&quot;; repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin; say &quot;[accession in row N of Table 4]: [name in row N of Table 4] ([family in row N of Table 4]).&quot;; end repeat.</font></blockquote>
+<p>There are many different forms of condition in Inform (and, as we shall see, we can easily add more), but the simplest is:
 <p>
-<p><blockquote><font color="#000080">Instead of attacking the Succession: change (the family corresponding to an accession of 1720 in the Table of Recent Monarchs) to Stuart; change the name in row 4 of the Table of Recent Monarchs to &quot;Graham I&quot;; change the name in row 5 of the Table of Recent Monarchs to &quot;Trixibelle IV&quot;; say &quot;You deface the English succession, making suitable amendments with a quill pen. Considering it is supposed to be mightier than the sword the effect is a little disappointing.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">(first value) is (second value)</font></blockquote>
+<p>
+<p>As always, Inform checks that these two values are of kinds which can be compared. The following will produce an objection, for instance:
+<p>
+<p><blockquote><font color="#000080">if 10 is a door then say &quot;Huzzah!&quot;</font></blockquote>
+<p>
+<p>since it makes no sense to ask the question, and the only result will be the baffled reply:
+<p>
+<p><blockquote><font color="#000080"><b>Problem.</b> In the line 'if 10 is a door then say &quot;Huzzah!&quot;' <img src=../Reveal.tif>, I can't determine whether or not '10 is a door', because it seems to ask if a number is some sort of door.</font></blockquote>
+<p>
+<p>This, however, would be fine:
+<p>
+<p><blockquote><font color="#000080">To comment upon (whatever - a thing): if whatever is transparent then say &quot;I see right through this!&quot;; if whatever is an open door then say &quot;Oh look, an open door!&quot;.</font></blockquote>
+<p>
+<p>since &quot;whatever&quot; is known to be a thing, and Inform knows that things are indeed sometimes transparent and sometimes open doors.
 <p>
 <p><hr><p><a href=doc104.html>Previous</a> / <a href=doc106.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,14 +1,16 @@
-<html><head><title>2.5. Properties depend on kind</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc13.html><img src=../Back.tif></a><a href=doc15.html><img src=../Forward.tif></a></td><td><b>2.5. Properties depend on kind</b></td></tr></table><p>
+<html><head><title>2.4. Either/or properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc13.html><img src=../Back.tif></a><a href=doc15.html><img src=../Forward.tif></a></td><td><b>2.4. Either/or properties</b></td></tr></table><p>
 <p>
-<p>Properties depend very much on kind. It makes no sense to ask whether a room is transparent or opaque, for instance, so Inform will not allow this either to be specified or queried.
+<p>Some containers, like bottles, can be opened: others, like buckets, cannot. If they can be opened, then sometimes they will be open, and sometimes closed. These are examples of properties, which can change during play. The following source sets some properties:
 <p>
-<p>Another way that kind influences properties can be seen from an earlier example:
+<p><blockquote><font color="#000080">The cardboard box is closed. The glass bottle is a transparent open container. The box is fixed in place and openable.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Gazebo is a room. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup.</font></blockquote>
+<p>There are only four different properties referred to here. Closed means not open, and vice versa, so these two adjectives both refer to the same property. (As might be expected, when a container is open, one can see inside and place things within, or take them out.) The glass bottle being a container is a matter of its kind, which is something fundamental and immutable, so that does not count as a property.
 <p>
-<p>The cup, the pistol and the table are all allowed to have the &quot;fixed in place&quot; property, but in fact only the table actually has it: the cup and the pistol are created as &quot;portable&quot; instead. This is because Inform knows that most things are portable, but that supporters - such as the table - are usually fixed in place. If this assumption is wrong, we need only add the line:
+<p>A &quot;transparent&quot; container is one which we can see inside even when it is closed, and the opposite is an &quot;opaque&quot; container.
 <p>
-<p><blockquote><font color="#000080">The table is portable.</font></blockquote>
+<p>The property of being &quot;fixed in place&quot; ensures that the player cannot pick the item up and walk away with it: this is useful for such things as oak trees or heavy furniture. The opposite condition is to be &quot;portable&quot;.
+<p>
+<p>Finally, a container which is &quot;openable&quot; can be opened or closed by the player. This property has no friendly adjective for its opposite, so we would need to write &quot;not openable&quot;.
 <p>
 <p><hr><p><a href=doc13.html>Previous</a> / <a href=doc15.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

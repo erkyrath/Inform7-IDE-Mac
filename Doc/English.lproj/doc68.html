@@ -1,16 +1,16 @@
-<html><head><title>5.8. Stipulations on testing</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc67.html><img src=../Back.tif></a><a href=doc69.html><img src=../Forward.tif></a></td><td><b>5.8. Stipulations on testing</b></td></tr></table><p>
+<html><head><title>5.2. Changing the command prompt</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc67.html><img src=../Back.tif></a><a href=doc69.html><img src=../Forward.tif></a></td><td><b>5.2. Changing the command prompt</b></td></tr></table><p>
 <p>
-<p>Many tests will only be sensible in given places, which may be hard to reach from the initial position; or with the aid of given things, which may be difficult to obtain. We are therefore allowed to add stipulations to test scripts:
+<p>The command prompt is the text printed by Inform to ask the player for another command. Ordinarily this is simply a greater-than-sign, &quot;>&quot;, so we tend not to notice it as text at all. Internally, though, it is a variable value called &quot;command prompt&quot;, which means we can change it.
 <p>
-<p><blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot; holding the balloon.</font></blockquote>
+<p>For example, this will be a more conversational sort of prompt:
 <p>
-<p>The &quot;... holding the balloon&quot; means that the balloon will be transferred to the player's ownership immediately before the test script is run, unless it is already held. Similarly:
+<p><blockquote><font color="#000080">When play begins: change the command prompt to &quot;What now? &quot;.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen.</font></blockquote>
+<p>Whereas this will be more up-to-the-minute and demanding:
 <p>
-<p>Or we might want to say both:
+<p><blockquote><font color="#000080">When play begins: change the command prompt to &quot;[time of day] >&quot;.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen holding the jam.</font></blockquote>
+<p>(&quot;Time of day&quot; is another variable value, which is fairly self-explanatory, but will be covered in detail later on.) The prompt can be changed at any point, so can be used to indicate the current situation, or even as a sly way to introduce a sort of conversation between computer and player.
 <p>
 <p><hr><p><a href=doc67.html>Previous</a> / <a href=doc69.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

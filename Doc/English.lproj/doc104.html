@@ -1,30 +1,32 @@
-<html><head><title>8.3. Corresponding entries</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc103.html><img src=../Back.tif></a><a href=doc105.html><img src=../Forward.tif></a></td><td><b>8.3. Corresponding entries</b></td></tr></table><p>
+<html><head><title>7.3. Pattern matching</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc103.html><img src=../Back.tif></a><a href=doc105.html><img src=../Forward.tif></a></td><td><b>7.3. Pattern matching</b></td></tr></table><p>
 <p>
-<p>Continuing our example of the elements:
+<p>The following are all valid phrases:
 <p>
-<p><center><img src=table2.tiff></center>
+<p><blockquote><font color="#000080">award 2 points<br>award 8 points<br>award 30 points</font></blockquote>
 <p>
-<p>If we want to know the atomic number of Uranium, say, it seems artificial to have to talk about the particular row number where the information happens to be. So we are also allowed to cross-reference, like so:
+<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
 <p>
-<p><blockquote><font color="#000080">the atomic number corresponding to a symbol of &quot;Fe&quot; in the Table of Selected Elements</font></blockquote>
+<p><blockquote><font color="#000080">To award (some - a number) points: ...</font></blockquote>
 <p>
-<p>This results in 26, and similarly
+<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
 <p>
-<p><blockquote><font color="#000080">the symbol corresponding to an atomic number of 26 in the Table of Selected Elements</font></blockquote>
+<p><blockquote><font color="#000080">award &quot;blue cheese&quot; points;</font></blockquote>
 <p>
-<p>results in &quot;Fe&quot;. But we have to be careful:
+<p>which results in the following error:
 <p>
-<p><blockquote><font color="#000080">the element corresponding to an atomic number of 27 in the Table of Selected Elements</font></blockquote>
+<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.</font></blockquote>
 <p>
-<p>This is not allowed (it produces an error at run-time), because there is no row with atomic number 27 in this rather limited table. We can check this in advance with the condition:
+<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
 <p>
-<p><blockquote><font color="#000080">if there is an element corresponding to an atomic number of 27 in the Table of Standard Elements ...</font></blockquote>
+<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
 <p>
-<p>Or more simply:
+<p><blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">if there is an atomic number of 27 in the Table of Standard Elements ...</font></blockquote>
+<p>Which would not match, for instance, this:
 <p>
-<p>The condition &quot;if there is...&quot; can be used with any reference to a table entry: for instance, &quot;if there is a symbol in row 5 of the Table of Standard Elements&quot; would be false, because there are only four rows.
+<p><blockquote><font color="#000080">slam shut the black door;</font></blockquote>
+<p>
+<p>because the black door is not an open container.
 <p>
 <p><hr><p><a href=doc103.html>Previous</a> / <a href=doc105.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,20 +1,18 @@
-<html><head><title>9.5. Understanding kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc119.html><img src=../Back.tif></a><a href=doc121.html><img src=../Forward.tif></a></td><td><b>9.5. Understanding kinds of value</b></td></tr></table><p>
+<html><head><title>8.1. Laying out tables</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 8: Tables</h2><p><table><tr><td><a href=doc119.html><img src=../Back.tif></a><a href=doc121.html><img src=../Forward.tif></a></td><td><b>8.1. Laying out tables</b></td></tr></table><p>
 <p>
-<p>Newly created kinds of value can also be understood, which we make good use of in the example game &quot;Studious&quot;:
+<p>We have already seen the Table of Rankings, which Inform uses automatically to score the progress of the current game. Here is a more general example:
 <p>
-<p><blockquote><font color="#000080">&quot;Studious&quot;</font></blockquote>
+<p><center><img src=table2.tiff></center>
 <p>
-<p><blockquote><font color="#000080">The Studio is a room. &quot;The unreal world of the photographic studio, full of fake furniture, cantilevered stands and silver-white shades like miniature parachutes.&quot; The lumpy black camera is in the Studio. &quot;A lumpy black camera hangs from a tripod.&quot;</font></blockquote>
+<p>After the two titling lines, each line represents one row in the table, and entries on a line must be separated by at least one tab character. A table must occupy a single whole paragraph, with no skipped lines or missing entries.
 <p>
-<p><blockquote><font color="#000080">The rake-thin model is a woman in the Studio. &quot;A rake-thin model, exquisitely bored and boringly exquisite, angles herself indolently.&quot;</font></blockquote>
+<p>The top line is a title, the first word of which must be the word 'Table'. We can then either give a table number (this need not actually be a number: Table C2, or some such, would be fine), or give a name, or both - as in this case. The possible titling formats are:
 <p>
-<p><blockquote><font color="#000080">Limb is a kind of value. The limbs are left leg, left arm, right leg and right arm.</font></blockquote>
+<p><blockquote><font color="#000080">Table 2.3<br>Table of Population Statistics<br>Table 2.3 - Population Statistics</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Detailing is an action applying to one limb and one visible thing, requiring light. Check detailing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead. Report detailing: say &quot;Click! You take a detail photograph of the [limb understood] of [the second noun].&quot;</font></blockquote>
+<p>In the last example we could call the table either &quot;Table 2.3&quot; or &quot;Table of Population Statistics&quot;.
 <p>
-<p><blockquote><font color="#000080">Understand &quot;photograph [limb] of [a person]&quot; as detailing.</font></blockquote>
-<p>
-<p>Note the way we can refer to the limb mentioned by the player as the &quot;limb understood&quot;. Similarly, we could talk about the &quot;number understood&quot; if the value parsed had been a number, and so on.
+<p>Each column then has a name, and the contents must all be the same kind of value. Here the &quot;Score&quot; column contains only numbers and the &quot;Rank&quot; column only text, but any kinds of value will do, so long as all the entries in the column are mutually compatible. (Mixing rooms and things in a single column would be fine, as these can be reconciled, but mixing numbers and rooms would not.)
 <p>
 <p><hr><p><a href=doc119.html>Previous</a> / <a href=doc121.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,24 +1,31 @@
-<html><head><title>4.13. Going by, going through, going with</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc52.html><img src=../Back.tif></a><a href=doc54.html><img src=../Forward.tif></a></td><td><b>4.13. Going by, going through, going with</b></td></tr></table><p>
+<html><head><title>4.10. Rules applying to more than one action</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc52.html><img src=../Back.tif></a><a href=doc54.html><img src=../Forward.tif></a></td><td><b>4.10. Rules applying to more than one action</b></td></tr></table><p>
 <p>
-<p>Adding to the previous example game, we apply rules which depend on travelling by a particular vehicle:
+<p>A description can include more than one choice of action. For instance:
 <p>
-<p><blockquote><font color="#000080">The book trolley is in the Musicology Section. &quot;The book trolley, a sort of motorised tractor for trundling around through the stacks, is parked here.&quot; The trolley is a vehicle. Instead of going nowhere by the trolley, say &quot;Don't go crashing the trolley into walls.&quot;</font></blockquote>
+<blockquote><font color="#000080">examining or searching the desk
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Instead of going to the Front Stacks by the trolley, say &quot;The Front Stacks are far too confined for the trolley to manoeuvre into them.&quot;</font></blockquote>
+<p>matches either of &quot;examining the desk&quot; or &quot;searching the desk&quot;. We can have more than two actions, of course:
 <p>
-<p>And, lastly, rules which apply to movements through particular doors:
+<blockquote><font color="#000080">examining, looking under or searching the desk
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The green baize door is east of the Catalogue Room and west of the Clerk's Office. The green baize door is an open door.</font></blockquote>
+<p>The actions combined like this need to be compatible with each other, at least a little. For instance, this will generate a problem message:
 <p>
-<p><blockquote><font color="#000080">Before going through the green baize door, say &quot;Through you go...&quot; After going through the green baize door: try looking; say &quot;...and here you are.&quot;</font></blockquote>
+<blockquote><font color="#000080">waiting or searching the desk
+</font></blockquote><p>
 <p>
-<p>(Note that these apply whether the action is &quot;going east&quot; or &quot;entering the green baize door&quot;, each having the same effect.) The last rule is worth a second look: the normal way that a &quot;going&quot; action is reported is to produce the room description of the new location. So if an &quot;after&quot; rule stops the action before we get to reporting, we have to produce any room description by hand (hence the &quot;try looking&quot; to cause the looking action). Alternatively, we could simply say something and let the normal course of events take place:
+<p>because it makes no sense to &quot;wait the desk&quot;. On the other hand, this is fine:
 <p>
-<p><blockquote><font color="#000080">After going through the green baize door: say &quot;...and here you are:&quot;; continue the action.</font></blockquote>
+<blockquote><font color="#000080">waiting or searching
+</font></blockquote><p>
 <p>
-<p>Finally, going is an action which can also happen while the player is pushing something from one room to another, and we can describe this like so:
+<p>The general rule is that if we specify one or more objects (&quot;the desk&quot; in the above example), then each of the actions we quote must take at least that many objects.
 <p>
-<p><blockquote><font color="#000080">Instead of going from the Office with the trolley, say &quot;But it looks perfectly placed here. Why push any further?&quot;</font></blockquote>
+<p>For example, the following saves us writing the same basic rule three times over:
+<p>
+<blockquote><font color="#000080">Instead of examining, looking under or searching the desk: say &quot;There's no use poking around in that old desk.&quot;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc52.html>Previous</a> / <a href=doc54.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,14 +1,18 @@
-<html><head><title>3.7. Text with variations</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc33.html><img src=../Back.tif></a><a href=doc35.html><img src=../Forward.tif></a></td><td><b>3.7. Text with variations</b></td></tr></table><p>
+<html><head><title>3.6. Text with substitutions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc33.html><img src=../Back.tif></a><a href=doc35.html><img src=../Forward.tif></a></td><td><b>3.6. Text with substitutions</b></td></tr></table><p>
 <p>
-<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
+<p>The example about the sound of an underground river is all very well, but what can we do with this new property now that we have created it? The following example gives one idea.
 <p>
-<p><blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.</font></blockquote>
+<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came, consoled only by [river sound].&quot; A dead end is usually dark.</font></blockquote>
 <p>
-<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
+<p><blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove. In the Undertomb is the lantern. It is a light source.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">A dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.</font></blockquote>
 <p>
-<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
+<p>The novelty here is the text in square brackets in the first paragraph above. They imply more or less what they would when a journalist is quoting something in, say, a newspaper article. The actual words &quot;river sound&quot; are not part of the text. Instead, when Inform prints up the description of a dead end, it will substitute the appropriate river sound in place of these words.
+<p>
+<p>Thus the description of the Collapsed Dead End is &quot;This is a dead end. You'll have to go back the way you came, consoled only by a faint whispering of running water.&quot;, whereas the description of the Tortuous Alcove is &quot;This is a dead end. You'll have to go back the way you came, consoled only by a gurgle of running water.&quot; As the player explores these dead ends, subtle differences will appear in their room descriptions.
+<p>
+<p>We can put almost any description of a value in square brackets in text, and Inform will work out what kind of value it is and print something accordingly. For instance, &quot;You admire [the lantern].&quot; will expand to &quot;You admire the candle lantern.&quot;, spelling out the full name of the lantern.
 <p>
 <p><hr><p><a href=doc33.html>Previous</a> / <a href=doc35.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

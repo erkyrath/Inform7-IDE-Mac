@@ -1,18 +1,26 @@
-<html><head><title>8.14. Another scoring example</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc114.html><img src=../Back.tif></a><a href=doc116.html><img src=../Forward.tif></a></td><td><b>8.14. Another scoring example</b></td></tr></table><p>
+<html><head><title>7.14. Phrases to decide</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc114.html><img src=../Back.tif></a><a href=doc116.html><img src=../Forward.tif></a></td><td><b>7.14. Phrases to decide</b></td></tr></table><p>
 <p>
-<p><blockquote><font color="#000080">To record (T - text) as achieved:<br>choose row with a citation of T in the Table of Tasks Achieved;<br>if there is no time entry begin;<br>change time entry to the time of day;<br>award (points entry) points;<br>end if.</font></blockquote>
+<p>We can create new conditions by defining a phrase with &quot;to decide whether&quot; (or equivalently &quot;to decide if&quot;):
 <p>
-<p>The phrase above expects to see a table like this one:
+<p><blockquote><font color="#000080">To decide whether danger lurks:<br>if in darkness then yes;<br>if the Control Room has been visited then no;<br>otherwise yes.</font></blockquote>
 <p>
-<p><center><img src=table10.tiff></center>
+<p>As can be seen, such a phrase must always resolve itself with &quot;yes&quot; or &quot;no&quot;: the first to be reached will be the answer. We can now write, for instance,
 <p>
-<p>The middle column records the tasks to be achieved, the first column records the points on offer for each: the final column, initially blank, will store the times at which the tasks are first achieved.
+<p><blockquote><font color="#000080">if danger lurks then ...</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Before eating, record &quot;gluttony&quot; as achieved.</font></blockquote>
+<p>In fact, &quot;danger lurks&quot; is now a condition as good as any other, and can be used wherever a condition would be given. Rules can apply only &quot;when danger lurks&quot;, for instance.
 <p>
-<p>The first time we record &quot;gluttony&quot; as achieved, 2 points will be awarded and the time will be logged in the Table, but on all subsequent occasions nothing will happen. So the combination of the phrase and the Table will look after a scoring system based on achieving specific goals (probably not the seven deadly sins, of course). We can, if we choose, use the same system to display a log of recent accomplishments:
+<p>A condition is a yes/no decision, but we can also take decisions where the result is a value. Suppose we want to create a concept of the &quot;grand prize&quot;, which will have different values at different times in play. Each time the &quot;grand prize&quot; is referred to, Inform will have to decide what its value is, and the following tells Inform how to make that decision:
 <p>
-<p><blockquote><font color="#000080">repeat through the Table of Tasks Achieved in reverse time order begin;<br>say &quot;[time entry]: [citation entry] ([points entry]).&quot;;<br>end repeat.</font></blockquote>
+<p><blockquote><font color="#000080">To decide which treasure is the grand prize:<br>if the Dark Room has been visited then result the silver bars;<br>result the plover's egg.</font></blockquote>
+<p>
+<p>Note that we have to say what kind the answer will be: here it's a kind of thing called &quot;treasure&quot; (which we're supposing has already been created), and as it turns out only two treasures are ever eligible anyway (we're also supposing that the plover's egg and the silver bars are treasures already created, of course.) Now that we have &quot;grand prize&quot; created, we can use it just as we would use any other value, so for instance:
+<p>
+<p><blockquote><font color="#000080">if taking the grand prize then ...</font></blockquote>
+<p>
+<p>As this is something of a dialect difference between English speakers, &quot;what&quot; and &quot;which&quot; are synonymous here, i.e., we could equally well write something like:
+<p>
+<p><blockquote><font color="#000080">To decide what number is the target score: ...</font></blockquote>
 <p>
 <p><hr><p><a href=doc114.html>Previous</a> / <a href=doc116.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

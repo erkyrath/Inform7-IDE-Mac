@@ -1,12 +1,30 @@
-<html><head><title>11.1. What are extensions?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 11: Extensions</h2><p><table><tr><td><a href=doc138.html><img src=../Back.tif></a><a href=doc140.html><img src=../Forward.tif></a></td><td><b>11.1. What are extensions?</b></td></tr></table><p>
+<html><head><title>9.6. Understanding values</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc138.html><img src=../Back.tif></a><a href=doc140.html><img src=../Forward.tif></a></td><td><b>9.6. Understanding values</b></td></tr></table><p>
 <p>
-<p>The range of simulation offered by Inform's model world is intentionally limited to a core of basic essentials. We could argue at the margins, and the choice of what's in and what's out is partly traditional, but most people find the model reasonable as far as it goes.
+<p>So far every &quot;Understand&quot; sentence has ended with &quot;as&quot; and a description of an action. But we can also use &quot;Understand&quot; to supply new ways to express values, as in the final paragraph of the following example game.
 <p>
-<p>A flourishing part of Inform culture since 1993 has been the development of a huge range of &quot;library extensions&quot;, most of which aimed to fill out the model by simulating other aspects of life, too: money, clothing, pourable liquids and the like. None of these extensions was official and all of them were: it was a free-for-all, and in several cases different authors wrote rival extensions to model the same basic ideas. The development of Inform 7 was strongly influenced by the recognition that the base of rules and grammar inside a typical modern game are never written by a single author: they combine the standard Inform material with extensions by several third parties, together with anything specific to the game in question.
+<p><blockquote><font color="#000080">&quot;Palette&quot;</font></blockquote>
 <p>
-<p>Inform now provides better support for extensions. This chapter discusses where they are kept, how to use them and how to create them.
+<p><blockquote><font color="#000080">The Atelier is a room. &quot;The floridly untidy loft space used by a moderately unsuccessful artist (you, that is).&quot; The canvas, palette and paint brush are here. Understand &quot;painting&quot; as the canvas.</font></blockquote>
 <p>
-<p>In this chapter, some of the instructions on how to write an extension are not in fact requirements of Inform, but are &quot;only&quot; stylistic points intended to make the range of extensions easier to work with and contribute to. Extension writers are asked to join in the spirit of the rules and help make the whole cooperative enterprise work harmoniously.
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are white, red, blue and green.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">The canvas is allowed to have a colour. The canvas is white. The printed name of the canvas is &quot;largely [colour] canvas&quot;.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Painting is an action applying to one thing and one colour. Check painting: if the noun is not the canvas then say &quot;Centuries of tradition suggest that canvas is the natural home of paint.&quot; instead. Carry out painting: change the colour of the canvas to the colour understood. Report painting: say &quot;You splash away at the now [canvas].&quot;</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Understand &quot;paint [something] [a colour]&quot; as painting.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Understand &quot;calico&quot; as white. Understand &quot;cerulean&quot; or &quot;cerulean blue&quot; as blue.</font></blockquote>
+<p>
+<p>Similarly, we might conceivably want to allow new ways to recognise numbers:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;eleventy-one&quot; as 111.</font></blockquote>
+<p>
+<p>Whereas we did not need to say:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;canvas&quot; as the canvas. Understand &quot;red&quot; as red. Understand &quot;111&quot; as 111.</font></blockquote>
+<p>
+<p>since these are all done automatically.
 <p>
 <p><hr><p><a href=doc138.html>Previous</a> / <a href=doc140.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

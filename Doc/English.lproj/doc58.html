@@ -1,18 +1,18 @@
-<html><head><title>4.18. Irregular English verbs</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc57.html><img src=../Back.tif></a><a href=doc59.html><img src=../Forward.tif></a></td><td><b>4.18. Irregular English verbs</b></td></tr></table><p>
+<html><head><title>4.15. Going from, going to</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc57.html><img src=../Back.tif></a><a href=doc59.html><img src=../Forward.tif></a></td><td><b>4.15. Going from, going to</b></td></tr></table><p>
 <p>
-<p>Our three example actions can be recognised in play using the following:
+<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
 <p>
-<p><blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.</font></blockquote>
+<p><blockquote><font color="#000080">&quot;Going Going&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Understand &quot;blink&quot; as blinking.</font></blockquote>
+<p><blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Understand &quot;scrape [something] with [something]&quot; as scraping.</font></blockquote>
+<p><blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;</font></blockquote>
 <p>
-<p>The last of these examples shows why Inform does not risk generating this automatically: English is so full of irregular verbs. Inform could have guessed &quot;blink&quot; and &quot;photograph&quot;, but might then have opted for &quot;scrap&quot; instead of &quot;scrape&quot;.
+<p><blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;</font></blockquote>
 <p>
-<p>Inform does risk automatically generating the past participle of an action (many past participles are never needed, so the stakes are lower if Inform gets this wrong). All that happens is that the &quot;-ing&quot; is replaced with &quot;-ed&quot;, which happens to be correct in these three cases: photographed, blinked, scraped. It would be disastrously wrong for something like taking, though: we need taken, not taked. We can get around this like so:
+<p><blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Weaving is an action with past participle woven, applying to one thing.</font></blockquote>
+<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east.
 <p>
 <p><hr><p><a href=doc57.html>Previous</a> / <a href=doc59.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

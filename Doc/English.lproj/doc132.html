@@ -1,22 +1,19 @@
-<html><head><title>10.7. Success and failure</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc131.html><img src=../Back.tif></a><a href=doc133.html><img src=../Forward.tif></a></td><td><b>10.7. Success and failure</b></td></tr></table><p>
+<html><head><title>8.13. Topic columns</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc131.html><img src=../Back.tif></a><a href=doc133.html><img src=../Forward.tif></a></td><td><b>8.13. Topic columns</b></td></tr></table><p>
 <p>
-<p>Though we have blurred over this point so far, every rule has one of three outcomes: success, failure and neither. The default outcome is neither, and for many rules (the every turn rules, for instance) success or failure would be ignored anyway, which is how we managed not to mention all this before. Indeed, the instruction
+<p>When double-quoted matter appears in a column of a table, Inform will normally treat that as text for printing out. The exception is when the column is called &quot;topic&quot;, where it is treated as text for comparing against what the player has typed. There is really only one operation allowed with topic columns, the &quot;...listed in...&quot; construction, but fortunately it is the one most often needed.
 <p>
-<p><blockquote><font color="#000080">follow the appraisal rules</font></blockquote>
+<p>Let us suppose that the Sybil has a penchant for telling passers-by which is the Greek muse for what. We might write:
 <p>
-<p>throws away the result, whatever it may be, which is why results have not come up in the discussion so far. All the same, results can make a difference even in examples like this one. When a rulebook is working through a list of rules, any rule which stops causes the rulebook to stop at once, so that no subsequent rules in the book will be invoked.
+<p><blockquote><font color="#000080">After asking the Sybil about a topic listed in the Table of Sybil's Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;</font></blockquote>
 <p>
-<p>In the event of either success or failure, we say that it &quot;stops&quot;, and a value can optionally also result.
+<p>We can then provide a simple table giving her responses:
 <p>
-<p>Generally speaking, stops are needed for different reasons in different rulebooks, so there are specialised syntaxes for bringing them about (as we shall see). However, the following phrases always work in any rule:
+<p><center><img src=table12.tiff></center>
 <p>
-<p><blockquote><font color="#000080">the rule succeeds<br>the rule fails<br>the rule succeeds with result (...)<br>the rule fails with result (...)</font></blockquote>
+<p>Topics can use the full range of abilities of the &quot;understanding&quot; system which Inform uses to parse text, and which will be the subject of a later chapter. For now, note that the Sybil's topics might equally include &quot;flora/eve&quot; (matching the single word &quot;flora&quot; or the single word &quot;eve&quot;), or something more elaborate such as:
 <p>
-<p>The result can be a room, a thing or a text. It can be referred to as
-<p>
-<p><blockquote><font color="#000080">the result of the rule</font></blockquote>
-<p>
-<p>which is nothing if the rule ended without success or failure.
+<blockquote><font color="#000080">&quot;Bridget&quot; or &quot;Bridge&quot; or &quot;Bridget Jones&quot;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc131.html>Previous</a> / <a href=doc133.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,22 +1,22 @@
-<html><head><title>5.3. Change of properties with values</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc62.html><img src=../Back.tif></a><a href=doc64.html><img src=../Forward.tif></a></td><td><b>5.3. Change of properties with values</b></td></tr></table><p>
+<html><head><title>4.20. New actions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc62.html><img src=../Back.tif></a><a href=doc64.html><img src=../Forward.tif></a></td><td><b>4.20. New actions</b></td></tr></table><p>
 <p>
-<p>Changing properties with values is very similar:
+<p>It is not often that we need to create new actions, but a large work of interactive fiction with no novelty actions is a flavourless dish. Here we shall create an action for photographing things.
 <p>
-<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The Ruins is a room. &quot;You find this clearing in the rainforest oddly familiar.&quot; The camera is in the Ruins. &quot;Your elephantine camera hangs from a convenient branch.&quot;</font></blockquote>
 <p>
-<p>Inform checks three different things to ensure that this change is safe to perform. Firstly, the value must be the right kind for the property in question, so this for instance would be rejected:
+<p><blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">change the printed name of the Closet to 7</font></blockquote>
+<p>In theory that text is already sufficient in to make the new action, but what we have so far is rudimentary to say the least. The two qualifications give Inform the useful information that we cannot photograph in the dark, and that we need to be photographing something - not, as in the case of waiting or taking inventory, acting without reference to any particular thing external to ourselves. The word &quot;visible&quot; here tells Inform that we do not need to be able to touch the thing in question: a line of sight is good enough. These two stipulations were necessary because the default arrangement is that any object must be in touching range, and that most actions can be performed in darkness. As further examples, here we create &quot;blinking&quot; and &quot;scraping X with Y&quot;. Note the use of &quot;it&quot; to indicate that the name of an object should go here.
 <p>
-<p>Secondly, the object in question has to be allowed to have the given property. This, for instance, would be disallowed:
+<p><blockquote><font color="#000080">Blinking is an action applying to nothing. Scraping it with is an action applying to two things.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">change the initial appearance of the Closet to &quot;Dusty&quot;</font></blockquote>
+<p>The photographing action now exists, but with two provisos: (a) it never happens, because Inform does not know what instructions by the player should cause it, and (b) even if it were to happen, nothing would follow, because Inform does not know how to carry it out.
 <p>
-<p>(since &quot;initial appearance&quot; is a property which only things can have, not rooms). Finally, the object has to actually have the property, not just have the right to have that property. Thus:
+<p>The first problem is easily overcome:
 <p>
-<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.</font></blockquote>
 <p>
-<p>...is only permitted if the Closet is designed with a &quot;printed name&quot;. In fact this is certain to be true: all rooms and things automatically have a printed name, which is the short boldface description in the case of rooms, and the usual text briefly describing something in the case of things.
+<p>We will return to the whole subject of parsing, as this process of understanding the player's commands is called, later. But this gives the gist of it.
 <p>
 <p><hr><p><a href=doc62.html>Previous</a> / <a href=doc64.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

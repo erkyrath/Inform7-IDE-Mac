@@ -1,24 +1,16 @@
-<html><head><title>2.14. Men, women and articles</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc22.html><img src=../Back.tif></a><a href=doc24.html><img src=../Forward.tif></a></td><td><b>2.14. Men, women and articles</b></td></tr></table><p>
+<html><head><title>2.13. Vehicles and pushable things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc22.html><img src=../Back.tif></a><a href=doc24.html><img src=../Forward.tif></a></td><td><b>2.13. Vehicles and pushable things</b></td></tr></table><p>
 <p>
-<p>Rounding out the standard kinds provided by Inform are three for living things: &quot;person&quot;, which is a kind of thing, and &quot;man&quot; and &quot;woman&quot;, both kinds of person. For instance:
+<p>Next in the tour of standard kinds is the &quot;vehicle&quot;. This behaves like (indeed, is) an enterable container, except that it will not be portable unless this is specified.
 <p>
-<p><blockquote><font color="#000080">In the Ballroom is a man called Mr Darcy.</font></blockquote>
+<p><blockquote><font color="#000080">In the Garage is a vehicle called the lawn mower.</font></blockquote>
 <p>
-<p>For the time being, men and women will be little more than waxworks: they will come to life only when we go beyond the present stage of creating an initial state of the world.
+<p>The player can enter the lawn mower and then move around riding inside it, by typing directions exactly as if on foot: and the game will print names of rooms with &quot;(in the lawn mower)&quot; appended, lest this be forgotten.
 <p>
-<p>When the Ballroom is visited, the man is listed in the description of the room as &quot;Mr Darcy&quot;, not as &quot;a Mr Darcy&quot;. This happened not because Inform recognised that Darcy is a proper name, or even because men tend to have proper names, but because Inform noticed that we did not use &quot;a&quot;, &quot;an&quot;, &quot;the&quot; or &quot;some&quot; in the sentence which created him. The following little example game shows most of the options:
+<p>We have already seen that some things are portable, others fixed in place. In fact we can also make a third sort of thing: those which, although not portable, can be pushed from one room to another with commands like &quot;push the lawn mover north&quot;. That seems a good idea for something like the lawn mower, so:
 <p>
-<p><blockquote><font color="#000080">&quot;Belfry&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The lawn mower is pushable between rooms.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton's wife is in the Belfry. A man called a bellringer is in the Belfry.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">In the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.</font></blockquote>
-<p>
-<p>In the resulting game, we read:
-<p>
-<p><blockquote><font color="#000080">You can see a bat, a bell, some woodworm, William Snelson, the sexton's wife, a bellringer and your local vicar here.</font></blockquote>
-<p>
-<p>The subtlest rule here is in the handling of &quot;the&quot;. We wrote &quot;The bell is in the Belfry&quot;, but this did not result in the bell always being called &quot;the&quot; bell: in fact, writing &quot;A bell is in the Belfry&quot; would have had the same effect. On the other hand, &quot;A woman called the sexton's wife is in the Belfry.&quot; led to the wife always being known as &quot;the&quot; sexton's wife, not &quot;a&quot; sexton's wife, because Inform thinks the choice of article after &quot;called&quot; shows more of our intention than it would elsewhere. These rules will never be perfect in all situations, so we are also allowed to specify indefinite articles by hand, as the vicar's case shows.
+<p>But of course this is a property which almost any thing can have, not just a vehicle. (Only &quot;almost&quot; because Inform will not allow a door to be pushable between rooms, in the interests of realism rather than surrealism.)
 <p>
 <p><hr><p><a href=doc22.html>Previous</a> / <a href=doc24.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
