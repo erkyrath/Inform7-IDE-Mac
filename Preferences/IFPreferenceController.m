@@ -8,7 +8,6 @@
 
 #import "IFPreferenceController.h"
 
-
 @implementation IFPreferenceController
 
 // = Construction =

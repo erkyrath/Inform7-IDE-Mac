@@ -15,6 +15,8 @@
 #import "IFIsFiles.h"
 #import "IFIsWatch.h"
 
+#import "IFPreferences.h"
+
 // Approximate maximum length of file to highlight in one 'iteration'
 #define minHighlightAmount 2048
 #define maxHighlightAmount 2048
@@ -202,7 +204,8 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 + (NSDictionary*) attributeForStyle: (IFSyntaxStyle) style {
-	return IFSyntaxAttributes[style];
+	return [[[IFPreferences sharedPreferences] styles] objectAtIndex: (unsigned)style];
+	// return IFSyntaxAttributes[style];
 }
 
 - (NSView*) paneView {

@@ -8,10 +8,18 @@
 
 #import "IFPreferences.h"
 
+#import "IFProjectPane.h"
+
 NSString* IFPreferencesDidChangeNotification = @"IFPreferencesDidChangeNotification";
 NSString* IFPreferencesChangedEarlierNotification = @"IFPreferencesChangedEarlierNotification";
 
 NSString* IFPreferencesDefault = @"IFApplicationPreferences";
+
+NSString* IFPreferencesBaseFont = @"IFPreferencesBaseFont";
+NSString* IFPreferencesBoldFont = @"IFPreferencesBoldFont";
+NSString* IFPreferencesItalicFont = @"IFPreferencesItalicFont";
+NSString* IFPreferencesHeaderFont = @"IFPreferencesHeaderFont";
+NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 
 @implementation IFPreferences
 
@@ -44,6 +52,8 @@ NSString* IFPreferencesDefault = @"IFApplicationPreferences";
 		}
 		
 		willNotifyLater = NO;
+		
+		[self recalculateStyles];
 	}
 	
 	return self;
@@ -62,6 +72,8 @@ NSString* IFPreferencesDefault = @"IFApplicationPreferences";
 	[[NSUserDefaults standardUserDefaults] setObject: [[preferences copy] autorelease]
 											  forKey: IFPreferencesDefault];
 	
+	[self recalculateStyles];
+	
 	// Send a notification
 	[[NSNotificationCenter defaultCenter] postNotificationName: IFPreferencesDidChangeNotification
 														object: self];
@@ -74,7 +86,7 @@ NSString* IFPreferencesDefault = @"IFApplicationPreferences";
 		willNotifyLater = YES;
 		[self performSelector: @selector(preferencesHaveChangedSomeTimeAgo)
 				   withObject: nil
-				   afterDelay: 10.0];
+				   afterDelay: 2.0];
 	}
 }
 
@@ -144,6 +156,385 @@ NSString* IFPreferencesDefault = @"IFApplicationPreferences";
 	[preferences setObject: [NSNumber numberWithInt: newColourSet]
 					forKey: @"colourSet"];
 	[self preferencesHaveChanged];
+}
+
+- (void) recalculateStyles {
+	int x;
+	
+	// Deallocate the caches if they're currently allocated
+	if (cacheFontSet)	 [cacheFontSet release];
+	if (cacheFontStyles) [cacheFontStyles release];
+	if (cacheColourSet)  [cacheColourSet release];
+	if (cacheColours)	 [cacheColours release];
+	
+	if (styles)			 [styles release];
+	
+	// Allocate the caches
+	cacheFontSet	= nil;
+	cacheFontStyles	= nil;
+	cacheColourSet	= nil;
+	cacheColours	= nil;
+	
+	styles			= [[NSMutableDictionary alloc] init];
+	
+	// Get the fonts to use
+	switch ([self fontSet]) {
+		default:
+		case IFFontSetStandard:
+			cacheFontSet = [[NSMutableDictionary dictionaryWithObjectsAndKeys: 
+				[NSFont systemFontOfSize: 11], IFPreferencesBaseFont,
+				[NSFont boldSystemFontOfSize: 11], IFPreferencesBoldFont,
+				[NSFont systemFontOfSize: 10], IFPreferencesItalicFont,
+				[NSFont boldSystemFontOfSize: 9],  IFPreferencesCommentFont,
+				[NSFont boldSystemFontOfSize: 12], IFPreferencesHeaderFont,
+				nil]
+				retain];
+			break;
+			
+		case IFFontSetProgrammer:
+			cacheFontSet = [[NSMutableDictionary dictionaryWithObjectsAndKeys: 
+				[NSFont fontWithName: @"Monaco" size: 10], IFPreferencesBaseFont,
+				[NSFont fontWithName: @"Monaco" size: 10], IFPreferencesBoldFont,
+				[NSFont fontWithName: @"Monaco" size: 9], IFPreferencesItalicFont,
+				[NSFont fontWithName: @"Monaco" size: 9], IFPreferencesCommentFont,
+				[NSFont fontWithName: @"Helvetica Bold" size: 12], IFPreferencesHeaderFont,
+				nil]
+				retain];
+			break;
+			
+		case IFFontSetStylised:
+			cacheFontSet = [[NSMutableDictionary dictionaryWithObjectsAndKeys: 
+				[NSFont fontWithName: @"Gill Sans" size: 12], IFPreferencesBaseFont,
+				[NSFont fontWithName: @"Gill Sans Bold" size: 12], IFPreferencesBoldFont,
+				[NSFont fontWithName: @"Gill Sans Italic" size: 10], IFPreferencesCommentFont,
+				[NSFont fontWithName: @"Gill Sans Italic" size: 12], IFPreferencesItalicFont,
+				[NSFont fontWithName: @"Gill Sans Bold Italic" size: 14], IFPreferencesHeaderFont,
+				nil]
+				retain];
+			break;
+	}
+	
+	// Map font styles to syntax styles
+	cacheFontStyles = [[NSMutableArray alloc] init];
+	
+	// Default is just the base font
+	NSFont* baseFont = [cacheFontSet objectForKey: IFPreferencesBaseFont];
+	for (x=0; x<256; x++) {
+		[cacheFontStyles addObject: baseFont];
+	}
+	
+	switch ([self fontStyling]) {
+		default:
+		case IFStylingSubtle:
+			// Header, comment and bold fonts are allowed
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxComment
+									   withObject: [cacheFontSet objectForKey: IFPreferencesCommentFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxProperty
+									   withObject: [cacheFontSet objectForKey: IFPreferencesBoldFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxAssembly
+									   withObject: [cacheFontSet objectForKey: IFPreferencesBoldFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxEscapeCharacter
+									   withObject: [cacheFontSet objectForKey: IFPreferencesBoldFont]];
+			
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxGameText
+									   withObject: [cacheFontSet objectForKey: IFPreferencesBoldFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxHeading
+									   withObject: [cacheFontSet objectForKey: IFPreferencesHeaderFont]];
+			break;
+			
+		case IFStylingNone:
+			// Nothing to do
+			break;
+			
+		case IFStylingOften:
+			// Italic font is also allowed now
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxComment
+									   withObject: [cacheFontSet objectForKey: IFPreferencesCommentFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxProperty
+									   withObject: [cacheFontSet objectForKey: IFPreferencesBoldFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxAssembly
+									   withObject: [cacheFontSet objectForKey: IFPreferencesBoldFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxEscapeCharacter
+									   withObject: [cacheFontSet objectForKey: IFPreferencesBoldFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxFunction
+									   withObject: [cacheFontSet objectForKey: IFPreferencesItalicFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxCode
+									   withObject: [cacheFontSet objectForKey: IFPreferencesItalicFont]];
+			
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxGameText
+									   withObject: [cacheFontSet objectForKey: IFPreferencesBoldFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxHeading
+									   withObject: [cacheFontSet objectForKey: IFPreferencesHeaderFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxSubstitution
+									   withObject: [cacheFontSet objectForKey: IFPreferencesItalicFont]];
+			break;
+	}
+	
+	// The set of allowable colours
+	cacheColourSet = [[NSMutableArray alloc] init];
+	
+	// Default is black
+	NSColor* black = [NSColor blackColor];
+	for (x=0; x<256; x++) {
+		[cacheColourSet addObject: black];
+	}
+	
+	switch ([self colourSet]) {
+		default:
+		case IFColoursStandard:
+			// Standard colour set
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxString
+									  withObject: [NSColor colorWithDeviceRed: 0.53
+																		green: 0.08
+																		 blue: 0.08 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxComment
+									  withObject: [NSColor colorWithDeviceRed: 0.14
+																		green: 0.43
+																		 blue: 0.14 
+																		alpha: 1.0]];
+			
+			// Inform 6
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxDirective
+									  withObject: [NSColor colorWithDeviceRed: 0.20
+																		green: 0.08
+																		 blue: 0.53 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxProperty
+									  withObject: [NSColor colorWithDeviceRed: 0.08
+																		green: 0.08
+																		 blue: 0.53 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxFunction
+									  withObject: [NSColor colorWithDeviceRed: 0.08
+																		green: 0.53
+																		 blue: 0.53 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxCode
+									  withObject: [NSColor colorWithDeviceRed: 0.46
+																		green: 0.06
+																		 blue: 0.31 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxAssembly
+									  withObject: [NSColor colorWithDeviceRed: 0.46
+																		green: 0.31
+																		 blue: 0.31 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxCodeAlpha
+									  withObject: [NSColor colorWithDeviceRed: 0.4
+																		green: 0.4
+																		 blue: 0.3
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxEscapeCharacter
+									  withObject: [NSColor colorWithDeviceRed: 0.4
+																		green: 0.4
+																		 blue: 0.3
+																		alpha: 1.0]];
+			
+			// Inform 7
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxGameText
+									  withObject: [NSColor colorWithDeviceRed: 0.0
+																		green: 0.3
+																		 blue: 0.6
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxSubstitution
+									  withObject: [NSColor colorWithDeviceRed: 0.3
+																		green: 0.3
+																		 blue: 1.0
+																		alpha: 1.0]];
+			break;
+			
+		case IFColoursSubdued:
+			// As for standard, but blacker
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxString
+									  withObject: [NSColor colorWithDeviceRed: 0.25
+																		green: 0.04
+																		 blue: 0.04 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxComment
+									  withObject: [NSColor colorWithDeviceRed: 0.07
+																		green: 0.2
+																		 blue: 0.07 
+																		alpha: 1.0]];
+			
+			// Inform 6
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxDirective
+									  withObject: [NSColor colorWithDeviceRed: 0.10
+																		green: 0.04
+																		 blue: 0.25 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxProperty
+									  withObject: [NSColor colorWithDeviceRed: 0.04
+																		green: 0.04
+																		 blue: 0.25 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxFunction
+									  withObject: [NSColor colorWithDeviceRed: 0.04
+																		green: 0.25
+																		 blue: 0.25 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxCode
+									  withObject: [NSColor colorWithDeviceRed: 0.23
+																		green: 0.03
+																		 blue: 0.15 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxAssembly
+									  withObject: [NSColor colorWithDeviceRed: 0.23
+																		green: 0.15
+																		 blue: 0.15 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxCodeAlpha
+									  withObject: [NSColor colorWithDeviceRed: 0.2
+																		green: 0.2
+																		 blue: 0.15
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxEscapeCharacter
+									  withObject: [NSColor colorWithDeviceRed: 0.2
+																		green: 0.2
+																		 blue: 0.15
+																		alpha: 1.0]];
+			
+			// Inform 7
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxGameText
+									  withObject: [NSColor colorWithDeviceRed: 0.0
+																		green: 0.15
+																		 blue: 0.3
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxSubstitution
+									  withObject: [NSColor colorWithDeviceRed: 0.15
+																		green: 0.15
+																		 blue: 0.5
+																		alpha: 1.0]];
+			break;
+			
+		case IFColoursPsychedlic:
+			// Primary colours only
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxString
+									  withObject: [NSColor blueColor]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxComment
+									  withObject: [NSColor colorWithDeviceRed: 0
+																		green: 0.8
+																		 blue: 0
+																		alpha: 1.0]];
+			
+			// Inform 6
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxDirective
+									  withObject: [NSColor colorWithDeviceRed: 0.5
+																		green: 0.0
+																		 blue: 1.0 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxProperty
+									  withObject: [NSColor colorWithDeviceRed: 0.0
+																		green: 0.5
+																		 blue: 1.0
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxFunction
+									  withObject: [NSColor colorWithDeviceRed: 0.0
+																		green: 0.7
+																		 blue: 0.7 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxCode
+									  withObject: [NSColor colorWithDeviceRed: 1.0
+																		green: 0.0
+																		 blue: 0.7 
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxAssembly
+									  withObject: [NSColor colorWithDeviceRed: 1.0
+																		green: 0
+																		 blue: 0
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxCodeAlpha
+									  withObject: [NSColor colorWithDeviceRed: 1.0
+																		green: 0.5
+																		 blue: 0
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxEscapeCharacter
+									  withObject: [NSColor colorWithDeviceRed: 0.0
+																		green: 0.0
+																		 blue: 1.0
+																		alpha: 1.0]];
+			
+			// Inform 7
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxGameText
+									  withObject: [NSColor colorWithDeviceRed: 0.0
+																		green: 0.0
+																		 blue: 1.0
+																		alpha: 1.0]];
+			[cacheColourSet replaceObjectAtIndex: IFSyntaxSubstitution
+									  withObject: [NSColor colorWithDeviceRed: 1.0
+																		green: 0
+																		 blue: 1.0
+																		alpha: 1.0]];
+			break;
+	}
+	
+	// The set of used colours
+	switch ([self changeColours]) {
+		case IFChangeColsOften:
+			// Colours are the complete set
+			cacheColours = [cacheColourSet mutableCopy];
+			break;
+			
+		case IFChangeColsRarely:
+			// Colours are not quite the complete set
+			cacheColours = [cacheColourSet mutableCopy];
+			
+			// Code colours are all the same
+			NSColor* codeColour = [[[cacheColourSet objectAtIndex: IFSyntaxCodeAlpha] retain] autorelease];
+			[cacheColours replaceObjectAtIndex: IFSyntaxCode
+									withObject: codeColour];
+			[cacheColours replaceObjectAtIndex: IFSyntaxCodeAlpha
+									withObject: codeColour];
+			[cacheColours replaceObjectAtIndex: IFSyntaxAssembly
+									withObject: codeColour];
+			
+			[cacheColours replaceObjectAtIndex: IFSyntaxProperty
+									withObject: [cacheColourSet objectAtIndex: IFSyntaxDirective]];
+			
+			// Substitutions aren't highlighted
+			[cacheColours replaceObjectAtIndex: IFSyntaxSubstitution
+									withObject: [cacheColourSet objectAtIndex: IFSyntaxGameText]];
+			break;
+			
+		case IFChangeColsNever:
+			// You can have any colour so long as it's black
+			cacheColours = [[NSMutableArray alloc] init];
+			
+			NSColor* black = [NSColor blackColor];
+			for (x=0; x<256; x++) {
+				[cacheColours addObject: black];
+			}
+			break;
+	}
+	
+	// Natural Inform tab stops
+	NSMutableParagraphStyle* tabStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+	[tabStyle autorelease];
+	
+	NSMutableArray* tabStops = [NSMutableArray array];
+	for (x=0; x<48; x++) {
+		NSTextTab* tab = [[NSTextTab alloc] initWithType: NSLeftTabStopType
+												location: 64.0*(x+1)];
+		[tabStops addObject: tab];
+		[tab release];
+	}
+	[tabStyle setTabStops: tabStops];
+	
+	// Finally... build the actual set of styles
+	styles = [[NSMutableArray alloc] init];
+	
+	for (x=0; x<256; x++) {
+		[styles addObject:
+			[NSDictionary dictionaryWithObjectsAndKeys: 
+				[cacheFontStyles objectAtIndex: x], NSFontAttributeName,
+				[cacheColours objectAtIndex: x], NSForegroundColorAttributeName,
+				x>=0x80?tabStyle:nil, NSParagraphStyleAttributeName,
+				nil]];
+	}
+}
+
+- (NSArray*) styles {
+	return styles;
 }
 
 @end

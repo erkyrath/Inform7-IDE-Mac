@@ -8,6 +8,8 @@
 
 #import "IFSyntaxStorage.h"
 
+#import "IFPreferences.h"
+
 static const int maxPassLength = 1024;
 
 #define HighlighterDebug 0
@@ -45,7 +47,14 @@ static const int maxPassLength = 1024;
 				nil]]; // Initial stack starts with the default state
 		
 		needsHighlighting.location = NSNotFound;
-		amountHighlighted = 0;	}
+		amountHighlighted = 0;
+		
+		// Register for preference change notifications
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(preferencesChanged:)
+													 name: IFPreferencesChangedEarlierNotification
+												   object: [IFPreferences sharedPreferences]];
+	}
 	
 	return self;
 }
@@ -90,6 +99,8 @@ static const int maxPassLength = 1024;
 }
 
 - (void) dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+
 	[string release];
 	
 	[lineStates release];
@@ -701,6 +712,22 @@ static inline BOOL IsWhitespace(unichar c) {
 	[[self class] cancelPreviousPerformRequestsWithTarget: self
 												 selector: @selector(backgroundHighlight)
 												   object: nil];
+}
+
+// = Notifications from the preferences object =
+
+- (void) preferencesChanged: (NSNotification*) not {
+	// Force a re-highlight of everything
+	[self stopBackgroundHighlighting];
+	
+	int x;
+	for (x=0; x<[self length]; x++) {
+		charStyles[x] = IFSyntaxStyleNotHighlighted;
+	}
+	
+	needsHighlighting = NSMakeRange(0, [self length]);
+	
+	[self startBackgroundHighlighting];
 }
 
 @end

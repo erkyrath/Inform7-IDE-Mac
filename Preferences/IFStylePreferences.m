@@ -8,6 +8,9 @@
 
 #import "IFStylePreferences.h"
 
+#import "IFSyntaxStorage.h"
+#import "IFInform6Highlighter.h"
+
 #import "IFPreferences.h"
 
 @implementation IFStylePreferences
@@ -22,6 +25,15 @@
 												 selector: @selector(reflectCurrentPreferences)
 													 name: IFPreferencesDidChangeNotification
 												   object: [IFPreferences sharedPreferences]];
+		
+		// Switch the preview with a IFInform6Highlighter
+		NSTextStorage* oldStorage = [previewView textStorage];
+		previewStorage = [[IFSyntaxStorage alloc] initWithString: [oldStorage string]];
+		
+		[previewStorage setHighlighter: [[[IFInform6Highlighter alloc] init] autorelease]];
+		
+		[oldStorage removeLayoutManager: [previewView layoutManager]];
+		[previewStorage addLayoutManager: [previewView layoutManager]];
 	}
 	
 	return self;
@@ -55,6 +67,9 @@
 	[fontStyle selectItem:		[[fontStyle menu]		itemWithTag: [prefs fontStyling]]];
 	[colourSet selectItem:		[[colourSet menu]		itemWithTag: [prefs colourSet]]];
 	[changeColours selectItem:	[[changeColours menu]	itemWithTag: [prefs changeColours]]];
+	
+	[previewStorage preferencesChanged: nil];
+	[previewStorage highlighterPass];
 }
 
 @end

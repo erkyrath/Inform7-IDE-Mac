@@ -10,11 +10,16 @@
 
 #import "IFPreferencePane.h"
 
+#import "IFSyntaxStorage.h"
+
 @interface IFStylePreferences : IFPreferencePane {
 	IBOutlet NSPopUpButton* fontSet;
 	IBOutlet NSPopUpButton* fontStyle;
 	IBOutlet NSPopUpButton* changeColours;
 	IBOutlet NSPopUpButton* colourSet;
+	IBOutlet NSTextView* previewView;
+	
+	IFSyntaxStorage* previewStorage;
 }
 
 // Receiving data from/updating the interface

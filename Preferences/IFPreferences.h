@@ -12,6 +12,13 @@
 extern NSString* IFPreferencesDidChangeNotification;
 extern NSString* IFPreferencesChangedEarlierNotification;	// Delayed version of the above
 
+// Types of font
+extern NSString* IFPreferencesBaseFont;				// Base font
+extern NSString* IFPreferencesBoldFont;				// Bold font (only used for 'Subtle' styling or more)
+extern NSString* IFPreferencesItalicFont;			// Italic font (only used for 'Often' styling)
+extern NSString* IFPreferencesHeaderFont;			// Font used for NI header
+extern NSString* IFPreferencesCommentFont;			// Font used for comments
+
 // Choices
 enum IFPreferencesFontSet {
 	IFFontSetStandard=0,	// SystemFont/boldSystemFont
@@ -52,6 +59,12 @@ enum IFPreferencesColourSet {
 	BOOL willNotifyLater;
 	
 	// Caches
+	NSMutableDictionary* cacheFontSet;		// Maps 'font types' to fonts
+	NSMutableArray* cacheFontStyles;		// Maps styles to fonts
+	NSMutableArray* cacheColourSet;			// Choice of colours
+	NSMutableArray* cacheColours;			// Maps styles to colours
+	
+	NSMutableArray* styles;
 }
 
 // Constructing the object
@@ -71,5 +84,8 @@ enum IFPreferencesColourSet {
 - (void) setFontStyling: (enum IFPreferencesFontStyling) newFontStyling;
 - (void) setChangeColours: (enum IFPreferencesColourChanges) newColourChanges;
 - (void) setColourSet: (enum IFPreferencesColourSet) newColourSet;
+
+- (void) recalculateStyles;
+- (NSArray*) styles;
 
 @end

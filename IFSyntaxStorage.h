@@ -128,4 +128,6 @@ typedef unsigned char IFSyntaxStyle;
 - (void) startBackgroundHighlighting;
 - (void) stopBackgroundHighlighting;
 
+- (void) preferencesChanged: (NSNotification*) not;
+
 @end
