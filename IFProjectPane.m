@@ -243,7 +243,8 @@ static NSDictionary* styles[256];
 		wView = [[WebView alloc] init];
 		[wView setPolicyDelegate: self];
 		[docTabView setView: wView];
-		[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource: @"index" ofType: @"html"]]] autorelease]];
+		//[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: [[NSBundle mainBundle] pathForResource: @"index" ofType: @"html"]]] autorelease]];
+		[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: @"inform:/index.html"]] autorelease]];
 	} else {
 		wView = nil;
 	}

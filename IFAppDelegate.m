@@ -16,6 +16,7 @@
 #import "IFIsFiles.h"
 
 #import "IFNoDocProtocol.h"
+#import "IFInformProtocol.h"
 
 @implementation IFAppDelegate
 
@@ -45,7 +46,8 @@
 	
 	if (haveWebkit) {
 		// Register some custom URL handlers
-		[NSURLProtocol registerClass: [IFNoDocProtocol class]];
+		// [NSURLProtocol registerClass: [IFNoDocProtocol class]];
+		[NSURLProtocol registerClass: [IFInformProtocol class]];
 	}
 	
 	// Show the inspector window

@@ -405,7 +405,7 @@ static NSDictionary*  itemDictionary = nil;
 	}
 	
 	if ([[item itemIdentifier] isEqualToString: [continueItem itemIdentifier]] || 
-		[[item itemIdentifier] isEqualToString: [stepOutItem itemIdentifier]] || 
+		[[item itemIdentifier] isEqualToString: [stepOutItem itemIdentifier]]  || 
 		[[item itemIdentifier] isEqualToString: [stepOverItem itemIdentifier]] || 
 		[[item itemIdentifier] isEqualToString: [stepItem itemIdentifier]]) {
 		return isRunning?waitingAtBreakpoint:NO;
