@@ -43,8 +43,10 @@
 - (unichar) characterAtIndex: (unsigned)index {
 	unsigned itemIndex = [storage indexOfItemAtCharacterPosition: index];
 	
+	NSLog(@"CharAtIndex: %i", index);
+	
 	// Return a space if the character is not found
-	if (index == NSNotFound) return ' ';
+	if (itemIndex == NSNotFound) return ' ';
 	
 	// Find the relevant string to get the character from
 	NSDictionary* itemData = [[storage itemPositionData] objectAtIndex: itemIndex];

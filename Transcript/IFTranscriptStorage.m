@@ -34,12 +34,27 @@
 // = Standard NSTextStorage methods =
 
 - (NSString*) string {
-	return [[[IFTranscriptString alloc] initWithTranscriptStorage: self] autorelease];
+	if (!string) string = [[IFTranscriptString alloc] initWithTranscriptStorage: self];
+	return string;
 }
 
 - (NSDictionary*) attributesAtIndex: (unsigned) index
 					 effectiveRange: (NSRangePointer) range {
-	return [NSDictionary dictionary];
+	static NSDictionary* dict = nil;
+	
+	if (!dict) dict = [[NSDictionary alloc] init];
+	
+	if (range) {
+		range->location = 0;
+		range->length = [[[itemPositionData lastObject] objectForKey: @"FinalPosition"] intValue];
+		
+		if (index >= range->length) {
+			range->location = index;
+			range->length = 1;
+		}
+	}
+	
+	return dict;
 }
 
 - (void) replaceCharactersInRange: (NSRange) range
@@ -55,6 +70,8 @@
 // = Setting up what to display/edit =
 
 - (void) calculatePositionForItemAtIndex: (unsigned) itemIndex {
+	// Recalculate the position data for a particular item
+	
 	if (itemIndex > [itemPositionData count]) {
 		// Oops, can't insert this item!
 		[NSException raise: @"IFCantInsertItemException"
@@ -133,8 +150,11 @@
 
 - (void) recalculateAllItemPositions {
 	unsigned int x;
+	unsigned int oldLength = [self length];
 
 	if (itemPositionData) {
+		oldLength = [[[itemPositionData lastObject] objectForKey: @"FinalPosition"] intValue];
+		
 		[itemPositionData release];
 		itemPositionData = nil;
 	}
@@ -144,6 +164,13 @@
 	for (x=0; x<[transcriptItems count]; x++) {
 		[self calculatePositionForItemAtIndex: x];
 	}
+	
+	// Mark ourselves as updated
+	unsigned int newLength = [[[itemPositionData lastObject] objectForKey: @"FinalPosition"] intValue];
+	
+	[self edited: NSTextStorageEditedCharacters
+		   range: NSMakeRange(0, newLength)
+  changeInLength: 0];
 }
 
 - (void) setTranscriptToPoint: (ZoomSkeinItem*) fI {
@@ -190,10 +217,10 @@
 
 - (unsigned) indexOfItemAtCharacterPosition: (unsigned) pos {
 	// Binary search!
-	unsigned top, bottom, middle;
+	int top, bottom, middle;
 	
 	top = 0;
-	bottom = [itemPositionData count];
+	bottom = [itemPositionData count]-1;
 	
 	while (top <= bottom) {
 		middle = (top + bottom) >> 1;

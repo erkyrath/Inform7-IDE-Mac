@@ -43,4 +43,78 @@
 
 @implementation IFTranscriptController
 
+// = Initialisation =
+
+- (id) init {
+	self = [super init];
+	
+	if (self) {
+		transcriptStorage = [[IFTranscriptStorage alloc] init];
+	}
+	
+	return self;
+}
+
+- (void) dealloc {
+	[transcriptStorage release];
+	[transcriptTextView release];
+	
+	[super dealloc];
+}
+
+// = Setting the skein =
+- (void) setSkein: (ZoomSkein*) skein {
+	// (TEST)
+	ZoomSkeinItem* bottomItem;
+	ZoomSkeinItem* nextItem;
+	
+	bottomItem = nil;
+	nextItem = [skein rootItem];
+	
+	while (nextItem != nil) {
+		bottomItem = nextItem;
+		
+		if ([[nextItem children] count] <= 0) break;
+		nextItem = [[[nextItem children] allObjects] objectAtIndex: 0];
+	}
+	
+	// Set the transcript appropriately
+	[transcriptStorage setTranscriptToPoint: bottomItem];
+	
+	// FIXME: actually store the skein, etc
+	NSLog(@"Hrm - %@", [transcriptStorage string]);
+}
+
+// = Communications =
+
+- (void) setTranscriptStorage: (IFTranscriptStorage*) storage {
+	// Destroy the old storage
+	if (transcriptTextView) {
+		[transcriptStorage removeLayoutManager: [transcriptTextView layoutManager]];
+	}
+	[transcriptStorage release];
+	
+	// Set ourselves up with the new storage
+	transcriptStorage = [storage retain];
+	if (transcriptTextView) [transcriptStorage addLayoutManager: [transcriptTextView layoutManager]];
+}
+
+- (IFTranscriptStorage*) transcriptStorage {
+	return transcriptStorage;
+}
+
+- (void) setTranscriptTextView: (NSTextView*) textview {
+	// Delete the old view
+	if (transcriptTextView) {
+		[transcriptStorage removeLayoutManager: [transcriptTextView layoutManager]];
+		[transcriptTextView release];
+	}
+	
+	// Store the new view
+	transcriptTextView = [textview retain];
+	
+	// Add the new view's layout manager
+	[transcriptStorage addLayoutManager: [transcriptTextView layoutManager]];
+}
+
 @end

@@ -10,8 +10,12 @@
 
 #import <ZoomView/ZoomSkein.h>
 
-@interface IFTranscriptController : NSObject {
+#import "IFTranscriptStorage.h"
 
+@interface IFTranscriptController : NSObject {
+	IBOutlet NSTextView* transcriptTextView;
+	
+	IFTranscriptStorage* transcriptStorage;
 }
 
 // Setting the skein
@@ -22,5 +26,10 @@
 - (void) refreshTranscript;
 - (void) updateSkeinItem: (ZoomSkeinItem*) item;
 
+// Communications
+- (void) setTranscriptTextView: (NSTextView*) textview;
+
+- (void) setTranscriptStorage: (IFTranscriptStorage*) storage;
+- (IFTranscriptStorage*) transcriptStorage;
 
 @end

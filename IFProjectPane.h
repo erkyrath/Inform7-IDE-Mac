@@ -16,6 +16,7 @@
 
 #import "IFSettingsView.h"
 #import "IFSettingsController.h"
+#import "IFTranscriptController.h"
 
 enum IFProjectPaneType {
     IFSourcePane = 1,
@@ -81,6 +82,9 @@ enum IFProjectPaneType {
     // Settings
 	IBOutlet IFSettingsView* settingsView;
 	IBOutlet IFSettingsController* settingsController;
+	
+	// The transcript view
+	IBOutlet IFTranscriptController* transcriptController;
 	
     // Other variables
     NSMutableArray* sourceFiles;

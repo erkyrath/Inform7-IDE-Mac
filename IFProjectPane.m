@@ -232,6 +232,7 @@ static NSDictionary* styles[256];
 	
 	[self updateIndexView];
 	
+	// The skein view
 	[skeinView setSkein: [doc skein]];
 	[skeinView setDelegate: parent];
 
@@ -245,6 +246,9 @@ static NSDictionary* styles[256];
 	if ([[NSApp delegate] isWebKitAvailable]) {
 		[wView setPolicyDelegate: [parent generalPolicy]];
 	}
+	
+	// The transcript controller
+	[transcriptController setSkein: [doc skein]];
 }
 
 - (void) awakeFromNib {

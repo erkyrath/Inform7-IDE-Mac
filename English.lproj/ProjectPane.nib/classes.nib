@@ -43,6 +43,7 @@
                 sourceView = NSTabViewItem; 
                 splitView = NSSplitView; 
                 tabView = NSTabView; 
+                transcriptController = IFTranscriptController; 
             }; 
             SUPERCLASS = NSObject; 
         }, 
@@ -55,6 +56,12 @@
         }, 
         {CLASS = IFSettingsView; LANGUAGE = ObjC; SUPERCLASS = IFCollapsableView; }, 
         {CLASS = IFSourceFileView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
+        {
+            CLASS = IFTranscriptController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {transcriptTextView = NSTextView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             ACTIONS = {
                 compileCompletedAndFailed = id; 
