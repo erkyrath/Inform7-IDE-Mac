@@ -349,14 +349,13 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 		// Update first
 		for (x=0; x<nNewLines; x++) {
 			lineStarts[firstLine+1+x] = newLineStarts[x];
-
-			[lineStyles removeObjectAtIndex: firstLine+1+x];
 		}
 		
 		if (intelData) {
 			// Remove the appropriate lines from the intelligence data
-			[intelData removeLines: NSMakeRange(firstLine+1, nNewLines)];
+			[intelData removeLines: NSMakeRange(firstLine+1, -lineDifference)];
 		}
+		[lineStyles removeObjectsInRange: NSMakeRange(firstLine+1, -lineDifference)];
 		
 		// Move lines down
 		memmove(lineStarts + firstLine + nNewLines + 1,
