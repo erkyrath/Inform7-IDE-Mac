@@ -30,6 +30,7 @@
         (![settings compileNaturalInformOutput])?NSOnState:NSOffState];
     [runBuildSh setState: [settings runBuildScript]?NSOnState:NSOffState];
     [runLoudly setState: [settings loudly]?NSOnState:NSOffState];
+	[debugMemory setState: [settings debugMemory]?NSOnState:NSOffState];
 }
 
 - (void) setSettings {
@@ -38,6 +39,7 @@
 	[settings setRunBuildScript: [runBuildSh state]==NSOnState];
 	[settings setCompileNaturalInformOutput: [donotCompileNaturalInform state]!=NSOnState];
 	[settings setLoudly: [runLoudly state]==NSOnState];
+	[settings setDebugMemory: [debugMemory state]==NSOnState];
 }
 
 @end

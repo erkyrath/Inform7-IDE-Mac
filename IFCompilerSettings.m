@@ -36,6 +36,7 @@ NSString* IFSettingDEBUG         = @"IFSettingDEBUG";
 // Debug
 NSString* IFSettingCompileNatOutput = @"IFSettingCompileNatOutput";
 NSString* IFSettingRunBuildScript   = @"IFSettingRunBuildScript";
+NSString* IFSettingMemoryDebug		= @"IFSettingMemoryDebug";
 
 // Natural Inform
 NSString* IFSettingLoudly = @"IFSettingLoudly";
@@ -531,6 +532,17 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 
 - (BOOL) loudly {
     return [[[self dictionaryForClass: [IFDebugSettings class]] objectForKey: IFSettingLoudly] boolValue];
+}
+
+
+- (void) setDebugMemory: (BOOL) memDebug {
+    [[self dictionaryForClass: [IFDebugSettings class]] setObject: [NSNumber numberWithBool: memDebug]
+														   forKey: IFSettingMemoryDebug];
+    [self settingsHaveChanged];
+}
+
+- (BOOL) debugMemory {
+    return [[[self dictionaryForClass: [IFDebugSettings class]] objectForKey: IFSettingMemoryDebug] boolValue];
 }
 
 - (void) setZCodeVersion: (int) version {

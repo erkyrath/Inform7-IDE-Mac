@@ -24,6 +24,7 @@ extern NSString* IFSettingDEBUG;         // default YES
 // Debug
 extern NSString* IFSettingCompileNatOutput;
 extern NSString* IFSettingRunBuildScript;
+extern NSString* IFSettingMemoryDebug;
 
 // Notifications
 extern NSString* IFSettingNotification;
@@ -73,6 +74,9 @@ extern NSString* IFCompilerNaturalInform;
 
 - (void)      setLoudly: (BOOL) loudly;
 - (BOOL)      loudly;
+
+- (void)	  setDebugMemory: (BOOL) memDebug;
+- (BOOL)	  debugMemory;
 
 - (void) settingsHaveChanged;
 

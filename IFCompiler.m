@@ -383,6 +383,29 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     theTask = [[NSTask allocWithZone: [self zone]] init];
     finishCount = 0;
 	
+	if ([settings debugMemory]) {
+		NSMutableDictionary* newEnvironment = [[theTask environment] mutableCopy];
+		if (!newEnvironment) newEnvironment = [[NSMutableDictionary alloc] init];
+		
+		NSLog(@"Memory debugging ENABLED");
+		
+		[newEnvironment setObject: @"1"
+						   forKey: @"MallocGuardEdges"];
+		[newEnvironment setObject: @"1"
+						   forKey: @"MallocScribble"];
+		[newEnvironment setObject: @"1"
+						   forKey: @"MallocBadFreeAbort"];
+		[newEnvironment setObject: @"512"
+						   forKey: @"MallocCheckHeapStart"];
+		[newEnvironment setObject: @"256"
+						   forKey: @"MallocCheckHeapEach"];
+		[newEnvironment setObject: @"1"
+						   forKey: @"MallocStackLogging"];
+		
+		[theTask setEnvironment: newEnvironment];
+		[newEnvironment release];
+	}
+	
 	NSMutableString* executeString = [@"" mutableCopy];
 		
 	[executeString appendString: command];
@@ -552,6 +575,29 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 
         theTask = [[NSTask allocWithZone: [self zone]] init];
         finishCount = 0;
+		
+		if ([settings debugMemory]) {
+			NSMutableDictionary* newEnvironment = [[theTask environment] mutableCopy];
+			if (!newEnvironment) newEnvironment = [[NSMutableDictionary alloc] init];
+			
+			NSLog(@"Memory debugging ENABLED");
+			
+			[newEnvironment setObject: @"1"
+							   forKey: @"MallocGuardEdges"];
+			[newEnvironment setObject: @"1"
+							   forKey: @"MallocScribble"];
+			[newEnvironment setObject: @"1"
+							   forKey: @"MallocBadFreeAbort"];
+			[newEnvironment setObject: @"512"
+							   forKey: @"MallocCheckHeapStart"];
+			[newEnvironment setObject: @"256"
+							   forKey: @"MallocCheckHeapEach"];
+			[newEnvironment setObject: @"1"
+							   forKey: @"MallocStackLogging"];
+			
+			[theTask setEnvironment: newEnvironment];
+			[newEnvironment release];
+		}
 		
 		NSMutableString* executeString = [@"" mutableCopy];
 			

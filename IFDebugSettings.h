@@ -13,7 +13,8 @@
 @interface IFDebugSettings : IFSetting {
     IBOutlet NSButton* donotCompileNaturalInform;
     IBOutlet NSButton* runBuildSh;
-    IBOutlet NSButton* runLoudly;	
+    IBOutlet NSButton* runLoudly;
+	IBOutlet NSButton* debugMemory;
 }
 
 @end

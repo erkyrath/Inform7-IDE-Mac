@@ -338,23 +338,26 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		   range: range
   changeInLength: newLen - range.length];
 	
-	// Characters no longer have valid states
-	for (x=0; x<newLen; x++) {
-		charStyles[x+range.location] = IFSyntaxStyleNotHighlighted;
+	// Highlight 'around' the range
+	NSRange highlightRange = range;
+	highlightRange.length = newLen;
+	
+	if (highlightRange.location > 0) {
+		highlightRange.location--;
+		highlightRange.length++;
 	}
 	
-	if (newLen == 0 && range.location > 0) {
-		// Annoying corner case when deleted range ends in a newline: this ensures that the
-		// syntax at the start of the new line is properly updated.
-		charStyles[range.location-1] = IFSyntaxStyleNotHighlighted;
-		
-		[self stopBackgroundHighlighting];
-		[self highlightRangeSoon: NSMakeRange(range.location-1, 2)];
-	} else {
-		// Have to force the highlighting to happen later: will mess up NSTextView otherwise (cursor will move to the wrong position)
-		[self stopBackgroundHighlighting];
-		[self highlightRangeSoon: NSMakeRange(range.location, newLen)];
+	if (highlightRange.location + highlightRange.length+1 < [string length]) {
+		highlightRange.length++;
 	}
+	
+	// Characters no longer have valid states
+	for (x=0; x<highlightRange.length; x++) {
+		charStyles[x+highlightRange.location] = IFSyntaxStyleNotHighlighted;
+	}
+	
+	[self stopBackgroundHighlighting];
+	[self highlightRangeSoon: highlightRange];
 
 	[self endEditing];
 }
