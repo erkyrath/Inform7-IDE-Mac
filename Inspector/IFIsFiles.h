@@ -28,5 +28,6 @@ extern NSString* IFIsFilesInspector;
 - (IBAction) removeFile: (id) sender;
 
 - (void) updateFiles;
+- (void) setSelectedFile;
 
 @end

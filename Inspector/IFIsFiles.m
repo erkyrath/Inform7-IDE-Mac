@@ -69,7 +69,7 @@ static int stringComparer(id a, id b, void * context) {
 	
 	if (activeProject) {
 		// Need to remove the layout manager to prevent potential weirdness
-		[[activeProject notes] removeLayoutManager: [text layoutManager]];
+		//[[activeProject notes] removeLayoutManager: [text layoutManager]];
 		[activeProject release];
 	}
 	activeProject = nil;
@@ -92,23 +92,13 @@ static int stringComparer(id a, id b, void * context) {
 	
 	if (!activeProject) return;
 	
-	IFProjectController* activeController = [activeWin windowController];
-	
 	filenames = [[[activeProject sourceFiles] allKeys] sortedArrayUsingFunction: stringComparer
 																		context: nil];
 	[filenames retain];
-	
-	if (activeController && [activeController isKindOfClass: [IFProjectController class]]) {
-		int fileRow = [filenames indexOfObject: [[activeController selectedSourceFile] lastPathComponent]];
-			
-		if (fileRow != NSNotFound)
-		{
-			[filesView selectRow: fileRow
-			byExtendingSelection: NO];
-		}
-	}
 
 	[filesView reloadData];
+	
+	[self setSelectedFile];
 }
 
 - (BOOL) available {
@@ -118,6 +108,22 @@ static int stringComparer(id a, id b, void * context) {
 - (NSString*) key {
 	return IFIsFilesInspector;
 }
+
+- (void) setSelectedFile {
+	IFProjectController* activeController = [activeWin windowController];
+
+	if (activeController && [activeController isKindOfClass: [IFProjectController class]]) {
+		int fileRow = [filenames indexOfObject: [[activeController selectedSourceFile] lastPathComponent]];
+		
+		if (fileRow != NSNotFound) {
+			[filesView selectRow: fileRow
+			byExtendingSelection: NO];
+		} else {
+			[filesView deselectAll: self];
+		}
+	}
+}
+
 
 // = Actions =
 - (IBAction) addNewFile: (id) sender {
@@ -130,6 +136,58 @@ static int stringComparer(id a, id b, void * context) {
 }
 
 - (IBAction) removeFile: (id) sender {
+	if (activeWin == nil) return;
+	if ([filenames count] <= 0) return;
+	if ([filesView selectedRow] == NSNotFound) return;
+	
+	NSBundle* mB = [NSBundle mainBundle];
+	
+	NSString* fileToRemove = [filenames objectAtIndex: [filesView selectedRow]];
+	if (fileToRemove == nil) return;
+	
+	NSDictionary* status = [NSDictionary dictionaryWithObjectsAndKeys: 
+		fileToRemove, @"fileToRemove", [activeWin windowController], @"windowController", nil];
+	
+	NSBeginAlertSheet([mB localizedStringForKey: @"FileRemove - Are you sure"
+										  value: @"Are you sure you want to remove this file?" 
+										  table: nil],
+					  [mB localizedStringForKey: @"FileRemove - keep file" 
+										  value: @"Keep it" 
+										  table: nil],
+					  [mB localizedStringForKey: @"FileRemove - delete file" 
+										  value: @"Delete it" 
+										  table: nil],
+					  nil, activeWin,
+					  self, 
+					  @selector(deleteFileFinished:returnCode:contextInfo:), nil, 
+					  [status retain],
+					  [mB localizedStringForKey: @"FileRemove - description" 
+										  value: @"Are you sure you wish to permanently remove the file '%@' from the project? This action cannot be undone" 
+										  table: nil],
+					  fileToRemove);
+}
+
+- (void) deleteFileFinished: (NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+	NSDictionary* fileInfo = contextInfo;
+	[fileInfo autorelease];
+	
+	// Verify that we're all set up to delete the file
+	if (activeWin == nil) return;
+	if (fileInfo == nil) return;
+	
+	NSString* filename = [fileInfo objectForKey: @"fileToRemove"];
+	IFProjectController* activeController = [fileInfo objectForKey: @"windowController"];
+	
+	if (filename == nil || activeController == nil) return;
+	
+	if (![activeController isKindOfClass: [IFProjectController class]]) {
+		return;
+	}
+
+	if (returnCode == NSAlertAlternateReturn) {
+		// Delete this file
+		[(IFProject*)[activeController document] removeFile: filename];
+	}
 }
 
 // = Our life as a data source =
@@ -193,7 +251,10 @@ static int stringComparer(id a, id b, void * context) {
 // = Delegation is the key to success, apparently =
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
-	NSString* filename = [filenames objectAtIndex: [filesView selectedRow]];
+	NSString* filename = nil;
+	
+	if ([filesView selectedRow] != NSNotFound)
+		filename = [filenames objectAtIndex: [filesView selectedRow]];
 	
 	if (filename) {
 		IFProjectController* activeController = [activeWin windowController];

@@ -39,6 +39,7 @@ extern NSString* IFProjectFilesChangedNotification;
 - (NSString*) mainSourceFile;
 - (NSTextStorage*) storageForFile: (NSString*) sourceFile;
 - (BOOL) addFile: (NSString*) newFile;
+- (BOOL) removeFile: (NSString*) oldFile;
 
 - (NSString*) pathForFile: (NSString*) file;
 

@@ -197,6 +197,16 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
     return YES;
 }
 
+- (BOOL) removeFile: (NSString*) oldFile {
+	if ([sourceFiles objectForKey: oldFile] == nil) return YES; // Deleting a non-existant file always succeeds
+	
+	[sourceFiles removeObjectForKey: oldFile];
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectFilesChangedNotification
+														object: self];
+	return YES;
+}
+
 // == General housekeeping ==
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {

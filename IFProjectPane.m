@@ -14,6 +14,8 @@
 #import "IFInform6Syntax.h"
 #import "IFNaturalInformSyntax.h"
 
+#import "IFIsFiles.h"
+
 // Approximate maximum length of file to highlight in one 'iteration'
 #define minHighlightAmount 2048
 #define maxHighlightAmount 2048
@@ -509,7 +511,8 @@ static NSDictionary* styles[256];
 	
 	[fileStorage endEditing];
 	
-	[self updateFiles];	
+	[self updateFiles];
+	[[IFIsFiles sharedIFIsFiles] setSelectedFile];
 }
 
 - (IBAction) addFileClicked: (id) sender {

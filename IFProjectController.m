@@ -13,6 +13,8 @@
 #import "IFNewProjectFile.h"
 #import "IFIsIndex.h"
 
+#import "IFIsFiles.h"
+
 
 @implementation IFProjectController
 
@@ -915,9 +917,23 @@ static NSDictionary*  itemDictionary = nil;
 	NSString* newFile = [npf getNewFilename];
 	if (newFile) {
 		if (![[self document] addFile: newFile]) {
-			// FIXME: show error message
+			NSBundle* mB = [NSBundle mainBundle];
+			
+			NSBeginAlertSheet([mB localizedStringForKey: @"Unable to create file"
+												  value: @"Unable to create file"
+												  table: nil],
+							  [mB localizedStringForKey: @"FileUnable - Cancel"
+												  value: @"Cancel"
+												  table: nil], nil, nil,
+							  [self window], nil, nil, nil, nil,
+							  [mB localizedStringForKey: @"FileUnable - Description"
+												  value: @"Inform was unable to create that file: most probably because a file already exists with that name"
+												  table: nil]);
 		}
 	}
+	
+	[[IFIsFiles sharedIFIsFiles] updateFiles];
+	[npf release];
 }
 
 @end
