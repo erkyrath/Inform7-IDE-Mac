@@ -9,6 +9,7 @@
 #import "IFProject.h"
 #import "IFProjectController.h"
 #import "IFProjectPane.h"
+#import "IFInspectorWindow.h"
 #import "IFIsIndex.h"
 
 
@@ -540,6 +541,14 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Update the index in the controller
 	[[IFIsIndex sharedIFIsIndex] updateIndexFrom: self];
+	
+	if ([self pathToIndexFile] != nil) {
+		[[IFInspectorWindow sharedInspectorWindow] setInspectorState: YES
+															  forKey: IFIsIndexInspector];
+	} else {
+		[[IFInspectorWindow sharedInspectorWindow] setInspectorState: NO
+															  forKey: IFIsIndexInspector];
+	}
 
     if (exitCode == 0) {
         // Success!
