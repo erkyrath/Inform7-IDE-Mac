@@ -20,7 +20,11 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
 + (NSString*) compilerExecutable {
     // Implement me: allow for compilers installed other than inside the bundle
     // Implement me: allow for compilers with different versions inside the bundle
+    /*
     NSString* compString = [NSString stringWithFormat: @"%@/Compilers/inform-6.21-zcode",
+        [[NSBundle mainBundle] resourcePath]];
+     */
+    NSString* compString = [NSString stringWithFormat: @"%@/Compilers/inform-6.3-biplatform",
         [[NSBundle mainBundle] resourcePath]];
 
     if ([[NSFileManager defaultManager] fileExistsAtPath: compString]) {
