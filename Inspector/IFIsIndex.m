@@ -84,7 +84,53 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 
 // = NSOutlineView delegate methods =
 
+- (void) cacheSiblingsOf: (IFIntelSymbol*) symbol 
+				 inCache: (NSMutableArray*) cache {
+	// Static data (saves some space)
+	static NSArray* noChildren = nil;
+	if (!noChildren) noChildren = [[NSArray array] retain];
+	
+	// We store things in symbol, children order
+ 	IFIntelSymbol* currentSymbol = symbol;
+	
+	do {
+		IFIntelSymbol* child = [currentSymbol child];
+		IFIntelSymbol* sibling = [currentSymbol sibling];
+		
+		if (child) {
+			NSMutableArray* childrenArray = [NSMutableArray array];
+			
+			[self cacheSiblingsOf: child
+						  inCache: childrenArray];
+			
+			[cache addObject: [NSArray arrayWithObjects: currentSymbol, childrenArray, nil]];
+		} else {
+			[cache addObject: [NSArray arrayWithObjects: currentSymbol, noChildren, nil]];
+		}
+		
+		currentSymbol = sibling;
+	} while (currentSymbol);
+}
+
+- (void) cacheItems {
+	// Cache the outline tree as it currently is
+	if (itemCache) return;
+	
+	// The item cache exists to make sure all the items that we might display are retained, as they might
+	// otherwise disappear
+	itemCache = [[NSMutableArray alloc] init];
+	IFProjectController* proj = [activeWindow windowController];
+
+	if (![proj isKindOfClass: [IFProjectController class]]) return;
+	
+	[self cacheSiblingsOf: [[proj currentIntelligence] firstSymbol]
+				  inCache: itemCache];
+}
+
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
+	[self cacheItems];
+	return;
+	
 	if (canDisplay) {
 		IFProjectController* proj = [activeWindow windowController];
 		
@@ -132,92 +178,80 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 - (id)outlineView: (NSOutlineView *)outlineView 
 			child: (int)childIndex 
 		   ofItem: (id)item {
-	// Retrieve the intelligence data
-	int x;
-
+	[self cacheItems];
+	
 	if (item == nil) {
-		// Root item
-		IFProjectController* proj = [activeWindow windowController];
-		IFIntelFile* intel = [proj currentIntelligence];
-
-		IFIntelSymbol* child = [intel firstSymbol];
-		
-		for (x=0; x<childIndex; x++) {
-			child = [child sibling];
-		}
-		
-		return child;
+		return [itemCache objectAtIndex: childIndex];
+	} else if ([item isKindOfClass: [NSArray class]]) {
+		return [[item objectAtIndex: 1] objectAtIndex: childIndex];
 	} else {
-		// Find the child
-		IFIntelSymbol* child = [(IFIntelSymbol*)item child];
-		
-		for (x=0; x<childIndex; x++) {
-			child = [child sibling];
-		}
-		
-		return child;
+		return @"<< BAD CHILD (no cookie!) >>";
 	}
 }
 
 - (BOOL)outlineView: (NSOutlineView *)outlineView
    isItemExpandable: (id)item {
-	if ([(IFIntelSymbol*)item child] != nil)
-		return YES;
-	else
+	[self cacheItems];
+	
+	if ([item isKindOfClass: [NSArray class]]) {
+		return [[item objectAtIndex: 1] count] > 0;
+	} else {
 		return NO;
+	}
 }
 
 - (int)			outlineView:(NSOutlineView *)outlineView 
 	 numberOfChildrenOfItem:(id)item {
-	int count = 0;
-	IFIntelSymbol* child = nil;
+	[self cacheItems];
 	
 	if (item == nil) {
-		// Root item
-		IFProjectController* proj = [activeWindow windowController];
-		IFIntelFile* intel = [proj currentIntelligence];
-		
-		 child = [intel firstSymbol];
+		return [itemCache count];
+	} else if ([item isKindOfClass: [NSArray class]]) {
+		return [[item objectAtIndex: 1] count];
 	} else {
-		// Find the child
-		child = [(IFIntelSymbol*)item child];
+		return 0;
 	}	
-
-	
-	while (child != nil) {
-		count++;
-		child = [child sibling];
-	}
-	
-	return count;
 }
 
 - (id)				outlineView:(NSOutlineView *)outlineView 
 	  objectValueForTableColumn:(NSTableColumn *)tableColumn
 						 byItem:(id)item {
+	[self cacheItems];
+	
+	if ([item isKindOfClass: [NSString class]]) return item;
+
 	// Valid column identifiers are 'title' and 'line'
 	NSString* identifier = [tableColumn identifier];
 	
 	if (item == nil) {
 		// Root item
 		return nil;
-	} else {
+	}
+	
+	if ([item isKindOfClass: [NSArray class]]) {
 		if ([identifier isEqualToString: @"title"]) {
-			return [item name];
+			return [[item objectAtIndex: 0] name];
 		} else if ([identifier isEqualToString: @"line"]) {
 			IFProjectController* proj = [activeWindow windowController];
 			IFIntelFile* intel = [proj currentIntelligence];
 			
-			int line = [intel lineForSymbol: item];
+			int line = [intel lineForSymbol: [item objectAtIndex: 0]];
 			
 			return [NSString stringWithFormat: @"%i", line];
 		} else {
 			return @"--";
 		}
 	}
+	
+	return @"<< BAD ITEM >>";
 }
 
 - (void) intelFileChanged: (NSNotification*) not {
+	[itemCache release]; 
+	itemCache = nil;
+	
+	[self cacheItems];
+	
 	[indexList reloadData];
 }
 

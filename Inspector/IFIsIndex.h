@@ -18,6 +18,8 @@ extern NSString* IFIsIndexInspector;
 	
 	BOOL canDisplay;
 	NSWindow* activeWindow;
+	
+	NSMutableArray* itemCache;
 }
 
 + (IFIsIndex*) sharedIFIsIndex;

@@ -420,24 +420,10 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 	
 	// Note the edit
 	[self beginEditing];
-	[self edited: NSTextStorageEditedCharacters
-		   range: range
-  changeInLength: newLen - range.length];
 	
 	// Highlight 'around' the range
 	NSRange highlightRange = range;
 	highlightRange.length = newLen;
-	
-	/*
-	if (highlightRange.location > 0) {
-		highlightRange.location--;
-		highlightRange.length++;
-	}
-	
-	if (highlightRange.location + highlightRange.length+1 < [string length]) {
-		highlightRange.length++;
-	}
-	 */
 	
 	// Characters no longer have valid states
 	for (x=0; x<highlightRange.length; x++) {
@@ -447,8 +433,12 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 	[self stopBackgroundHighlighting];
 	[self highlightRangeSoon: highlightRange];
 
+	[self edited: NSTextStorageEditedCharacters
+		   range: range
+  changeInLength: newLen - range.length];
+	
 	[self endEditing];
-}
+}	
 
 - (void) setAttributes: (NSDictionary*) attributes
 				 range: (NSRange) range {
@@ -725,6 +715,31 @@ static inline BOOL IsWhitespace(unichar c) {
 	
 	// Add to the number of highlighted characters
 	amountHighlighted += (lastChar-firstChar);
+}
+
+- (void) highlightRangeLater: (NSRange) range {
+	// Hack: improves apparent update performance for deeply mysterious reasons
+	//
+	// The text layout system doesn't like us calling back to finish the highlighting job finished
+	// after the user started it by editing the text, which creates a weird effect: when add a line
+	// by hitting enter, there's a delay before the update takes place. Taking this out removes the
+	// delay, but stuffs the highlighting up a bit.
+	//
+	// This callback ensures that the extra highlighting happens after the runloop runs through twice
+	// rather than once. This doesn't appear to eliminate the delay, but certainly appears to improve
+	// it.
+	//
+	// Unfortunately, this creates a visible delay in highlighting :-/
+
+	[[NSRunLoop currentRunLoop] performSelector: @selector(highlightRangeSooner:)
+										 target: self
+									   argument: [NSValue valueWithRange: range]
+										  order: 9
+										  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+}
+
+- (void) highlightRangeSooner: (NSValue*) value {
+	[self highlightRangeSoon: [value rangeValue]];
 }
 
 - (void) highlightRangeSoon: (NSRange) range {
