@@ -599,6 +599,14 @@ static NSDictionary* styles[256];
 				background = [NSColor colorWithDeviceRed: 0.8 green: 0.8 blue: 0.3 alpha: 1.0];
 				break;
 				
+			case IFLineStyleHighlight:
+				background = [NSColor colorWithDeviceRed: 0.3 green: 0.8 blue: 0.8 alpha: 1.0];
+				break;
+				
+			case IFLineStyleError:
+				background = [NSColor colorWithDeviceRed: 1.0 green: 0.3 blue: 0.3 alpha: 1.0];
+				break;
+				
 			default:
 				background = [NSColor colorWithDeviceRed: 0.8 green: 0.3 blue: 0.3 alpha: 1.0];
 				break;
@@ -1152,17 +1160,12 @@ static NSDictionary* styles[256];
 				NSLog(@"Can't select source file '%@'", sourceFile);
 				return;
 			}
-	
-			if (![parent selectSourceFile: sourceFile]) {
-				// Maybe implement me: show an error alert?
-				return;
-			}
 			
 			[parent moveToSourceFileLine: [sourceLine intValue]];
-			[parent removeHighlightsOfStyle: IFLineStyleError];
+			[parent removeHighlightsOfStyle: IFLineStyleHighlight];
 			[parent highlightSourceFileLine: [sourceLine intValue]
 									 inFile: sourceFile
-									  style: IFLineStyleError]; // FIXME: error level?. Filename?			
+									  style: IFLineStyleHighlight];
 						
 			// Finished
 			return;

@@ -770,6 +770,18 @@ static NSDictionary*  itemDictionary = nil;
 	}
 }
 
+- (void) removeAllTemporaryHighlights {
+	if (!temporaryHighlights) return;
+	
+	int style;
+	
+	for (style = IFLineStyle_Temporary; style<IFLineStyle_LastTemporary; style++) {
+		[self removeHighlightsOfStyle: style];
+	}
+	
+	temporaryHighlights = NO;
+}
+
 - (void) highlightSourceFileLine: (int) line
 						  inFile: (NSString*) file {
     [self highlightSourceFileLine: line
@@ -793,6 +805,9 @@ static NSDictionary*  itemDictionary = nil;
 	[lineHighlight addObject: [NSArray arrayWithObjects: [NSNumber numberWithInt: line], 
 		[NSNumber numberWithInt: style], 
 		nil]];
+	
+	if (style >= IFLineStyle_Temporary && style < IFLineStyle_LastTemporary)
+		temporaryHighlights = YES;
 	
 	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
 	IFProjectPane* pane;

@@ -17,7 +17,4 @@
 	NSArray* highlights;
 }
 
-- (void) updateHighlights;
-- (void) highlightFromArray: (NSArray*) highlightArray;
-
 @end

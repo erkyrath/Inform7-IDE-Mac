@@ -10,13 +10,22 @@
 #import <ZoomView/ZoomView.h>
 
 enum lineStyle {
-    IFLineStyleNeutral,
+    IFLineStyleNeutral = 0,
     
-    IFLineStyleWarning,
-    IFLineStyleError,
-    IFLineStyleFatalError,
+	// Temporary highlights
+	IFLineStyle_Temporary = 1, // Dummy style
 
-    // For later
+    IFLineStyleWarning = 1,// Temp highlight
+    IFLineStyleError,      // Temp highlight
+    IFLineStyleFatalError, // Temp highlight
+	IFLineStyleHighlight,
+	
+	IFLineStyle_LastTemporary,
+
+	// 'Permanent highlights'
+	IFLineStyle_Permanent = 0xfff, // Dummy style
+
+	// Debugging
     IFLineStyleBreakpoint,
     IFLineStyleExecutionPoint
 };
@@ -34,6 +43,7 @@ enum lineStyle {
 	
 	// Highlighting (indexed by file)
 	NSMutableDictionary* lineHighlighting;
+	BOOL temporaryHighlights;
 
     // Action after a compile has finished
     SEL compileFinishedAction;
@@ -63,6 +73,7 @@ enum lineStyle {
 - (void) removeHighlightsInFile: (NSString*) file
 						ofStyle: (enum lineStyle) style;
 - (void) removeHighlightsOfStyle: (enum lineStyle) style;
+- (void) removeAllTemporaryHighlights;
 
 - (NSString*) pathToIndexFile;
 
