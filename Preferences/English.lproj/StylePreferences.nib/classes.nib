@@ -7,7 +7,18 @@
             OUTLETS = {preferenceView = NSView; }; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = IFStylePreferences; LANGUAGE = ObjC; SUPERCLASS = IFPreferencePane; }
+        {
+            ACTIONS = {styleSetHasChanged = id; }; 
+            CLASS = IFStylePreferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                changeColours = NSPopUpButton; 
+                colourSet = NSPopUpButton; 
+                fontSet = NSPopUpButton; 
+                fontStyle = NSPopUpButton; 
+            }; 
+            SUPERCLASS = IFPreferencePane; 
+        }
     ); 
     IBVersion = 1; 
 }

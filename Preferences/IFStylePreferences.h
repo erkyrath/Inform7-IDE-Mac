@@ -11,7 +11,14 @@
 #import "IFPreferencePane.h"
 
 @interface IFStylePreferences : IFPreferencePane {
-
+	IBOutlet NSPopUpButton* fontSet;
+	IBOutlet NSPopUpButton* fontStyle;
+	IBOutlet NSPopUpButton* changeColours;
+	IBOutlet NSPopUpButton* colourSet;
 }
+
+// Receiving data from/updating the interface
+- (IBAction) styleSetHasChanged: (id) sender;
+- (void) reflectCurrentPreferences;
 
 @end

@@ -8,6 +8,7 @@
 
 #import "IFStylePreferences.h"
 
+#import "IFPreferences.h"
 
 @implementation IFStylePreferences
 
@@ -15,6 +16,12 @@
 	self = [super initWithNibName: @"StylePreferences"];
 	
 	if (self) {
+		[self reflectCurrentPreferences];
+		
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(reflectCurrentPreferences)
+													 name: IFPreferencesDidChangeNotification
+												   object: [IFPreferences sharedPreferences]];
 	}
 	
 	return self;
@@ -28,6 +35,26 @@
 
 - (NSImage*) toolbarImage {
 	return [NSImage imageNamed: @"Styles"];
+}
+
+// = Receiving data from/updating the interface =
+
+- (IBAction) styleSetHasChanged: (id) sender {
+	IFPreferences* prefs = [IFPreferences sharedPreferences];
+	
+	if (sender == fontSet)			[prefs setFontSet:			[[fontSet selectedItem] tag]];
+	if (sender == fontStyle)		[prefs setFontStyling:		[[fontStyle selectedItem] tag]];
+	if (sender == colourSet)		[prefs setColourSet:		[[colourSet selectedItem] tag]];
+	if (sender == changeColours)	[prefs setChangeColours:	[[changeColours selectedItem] tag]];
+}
+
+- (void) reflectCurrentPreferences {
+	IFPreferences* prefs = [IFPreferences sharedPreferences];
+	
+	[fontSet selectItem:		[[fontSet menu]			itemWithTag: [prefs fontSet]]];
+	[fontStyle selectItem:		[[fontStyle menu]		itemWithTag: [prefs fontStyling]]];
+	[colourSet selectItem:		[[colourSet menu]		itemWithTag: [prefs colourSet]]];
+	[changeColours selectItem:	[[changeColours menu]	itemWithTag: [prefs changeColours]]];
 }
 
 @end
