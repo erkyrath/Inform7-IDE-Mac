@@ -24,6 +24,7 @@ NSString* IFSettingHasChangedNotification = @"IFSettingHasChangedNotification";
 	
 	if (self) {
 		settingView = nil;
+		settingsChanging = NO;
 		
 		if (nibName != nil)
 			[NSBundle loadNibNamed: nibName
@@ -63,10 +64,6 @@ NSString* IFSettingHasChangedNotification = @"IFSettingHasChangedNotification";
 	return compilerSettings;
 }
 
-- (NSMutableDictionary*) dictionary {
-	return nil;
-}
-
 // = Communicating with the IFCompilerSettings object =
 
 - (void) setSettings {
@@ -89,22 +86,23 @@ NSString* IFSettingHasChangedNotification = @"IFSettingHasChangedNotification";
 	return nil;
 }
 
+- (NSMutableDictionary*) dictionary {
+	if (compilerSettings) {
+		return [compilerSettings dictionaryForClass: [self class]];
+	}
+	
+	return nil;
+}
+
 // = Notifying the controller about things =
 
 - (IBAction) settingsHaveChanged: (id) sender {
+	if (settingsChanging) return;
+	
+	settingsChanging = YES;
 	[[NSNotificationCenter defaultCenter] postNotificationName: IFSettingHasChangedNotification
 														object: self];
-}
-
-// = Saving settings =
-
-- (NSDictionary*) plistEntries {
-	return [NSDictionary dictionary]; // No settings
-}
-
-- (void) updateSettings: (IFCompilerSettings*) settings
-	   withPlistEntries: (NSDictionary*) entries {
-	// Do nothing
+	settingsChanging = NO;
 }
 
 @end

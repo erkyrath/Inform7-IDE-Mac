@@ -45,6 +45,14 @@ NSString* IFCompilerNaturalInform = @"IFCompilerNaturalInform";
 // Notifications
 NSString* IFSettingNotification = @"IFSettingNotification";
 
+// The classes the settings are associated with
+// (Legacy-type stuff: ie, tentacles that are too much bother to remove)
+#include "IFDebugSettings.h"
+#include "IFOutputSettings.h"
+#include "IFCompilerSettings.h"
+#include "IFLibrarySettings.h"
+#include "IFMiscSettings.h"
+
 @implementation IFCompilerSettings
 
 // == Possible locations for the library ==
@@ -397,19 +405,24 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 // = Setting up the settings =
+
+// Originally, there was only this object for dealing with settings, which did not require the 
+// structured approach we're now using. Using these routines is deprecated: use a settings controller
+// instead where possible.
+
 - (void) settingsHaveChanged {
     [[NSNotificationCenter defaultCenter] postNotificationName: IFSettingNotification
                                                         object: self];
 }
 
 - (void) setUsingNaturalInform: (BOOL) setting {
-    [store setObject: [NSNumber numberWithBool: setting]
-              forKey: IFSettingNaturalInform];
+    [[self dictionaryForClass: [IFCompilerSettings class]] setObject: [NSNumber numberWithBool: setting]
+															  forKey: IFSettingNaturalInform];
     [self settingsHaveChanged];
 }
 
 - (BOOL) usingNaturalInform {
-    NSNumber* usingNaturalInform = [store objectForKey: IFSettingNaturalInform];
+    NSNumber* usingNaturalInform = [[self dictionaryForClass: [IFCompilerSettings class]] objectForKey: IFSettingNaturalInform];
 
     if (usingNaturalInform) {
         return [usingNaturalInform boolValue];
@@ -419,13 +432,13 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (void) setStrict: (BOOL) setting {
-    [store setObject: [NSNumber numberWithBool: setting]
-              forKey: IFSettingStrict];
+    [[self dictionaryForClass: [IFMiscSettings class]] setObject: [NSNumber numberWithBool: setting]
+														  forKey: IFSettingStrict];
     [self settingsHaveChanged];
 }
 
 - (BOOL) strict {
-    NSNumber* setting = [store objectForKey: IFSettingStrict];
+    NSNumber* setting = [[self dictionaryForClass: [IFMiscSettings class]] objectForKey: IFSettingStrict];
 
     if (setting) {
         return [setting boolValue];
@@ -435,13 +448,13 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (void) setInfix: (BOOL) setting {
-    [store setObject: [NSNumber numberWithBool: setting]
-              forKey: IFSettingInfix];
+    [[self dictionaryForClass: [IFMiscSettings class]] setObject: [NSNumber numberWithBool: setting]
+														  forKey: IFSettingInfix];
     [self settingsHaveChanged];
 }
 
 - (BOOL) infix {
-    NSNumber* setting = [store objectForKey: IFSettingInfix];
+    NSNumber* setting = [[self dictionaryForClass: [IFMiscSettings class]] objectForKey: IFSettingInfix];
 
     if (setting) {
         return [setting boolValue];
@@ -451,13 +464,13 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (void) setDebug: (BOOL) setting {
-    [store setObject: [NSNumber numberWithBool: setting]
-              forKey: IFSettingDEBUG];
+    [[self dictionaryForClass: [IFMiscSettings class]] setObject: [NSNumber numberWithBool: setting]
+														  forKey: IFSettingDEBUG];
     [self settingsHaveChanged];
 }
 
 - (BOOL) debug {
-    NSNumber* setting = [store objectForKey: IFSettingDEBUG];
+    NSNumber* setting = [[self dictionaryForClass: [IFMiscSettings class]] objectForKey: IFSettingDEBUG];
 
     if (setting) {
         return [setting boolValue];
@@ -467,13 +480,13 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (void) setCompileNaturalInformOutput: (BOOL) setting {
-    [store setObject: [NSNumber numberWithBool: setting]
-              forKey: IFSettingCompileNatOutput];
+    [[self dictionaryForClass: [IFDebugSettings class]] setObject: [NSNumber numberWithBool: setting]
+														   forKey: IFSettingCompileNatOutput];
     [self settingsHaveChanged];
 }
 
 - (BOOL) compileNaturalInformOutput {
-    NSNumber* setting = [store objectForKey: IFSettingCompileNatOutput];
+    NSNumber* setting = [[self dictionaryForClass: [IFDebugSettings class]] objectForKey: IFSettingCompileNatOutput];
 
     if (setting) {
         return [setting boolValue];
@@ -483,13 +496,13 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (void) setRunBuildScript: (BOOL) setting {
-    [store setObject: [NSNumber numberWithBool: setting]
-              forKey: IFSettingRunBuildScript];
+    [[self dictionaryForClass: [IFDebugSettings class]] setObject: [NSNumber numberWithBool: setting]
+														   forKey: IFSettingRunBuildScript];
     [self settingsHaveChanged];
 }
 
 - (BOOL) runBuildScript {
-    NSNumber* setting = [store objectForKey: IFSettingRunBuildScript];
+    NSNumber* setting = [[self dictionaryForClass: [IFDebugSettings class]] objectForKey: IFSettingRunBuildScript];
 
     if (setting) {
         return [setting boolValue];
@@ -499,23 +512,23 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (void) setLoudly: (BOOL) setting {
-    [store setObject: [NSNumber numberWithBool: setting]
-              forKey: IFSettingLoudly];
+    [[self dictionaryForClass: [IFDebugSettings class]] setObject: [NSNumber numberWithBool: setting]
+														   forKey: IFSettingLoudly];
     [self settingsHaveChanged];
 }
 
 - (BOOL) loudly {
-    return [[store objectForKey: IFSettingLoudly] boolValue];
+    return [[[self dictionaryForClass: [IFDebugSettings class]] objectForKey: IFSettingLoudly] boolValue];
 }
 
 - (void) setZCodeVersion: (int) version {
-    [store setObject: [NSNumber numberWithInt: version]
-              forKey: IFSettingZCodeVersion];
+    [[self dictionaryForClass: [IFOutputSettings class]] setObject: [NSNumber numberWithInt: version]
+															forKey: IFSettingZCodeVersion];
     [self settingsHaveChanged];
 }
 
 - (int) zcodeVersion {
-    NSNumber* setting = [store objectForKey: IFSettingZCodeVersion];
+    NSNumber* setting = [[self dictionaryForClass: [IFOutputSettings class]] objectForKey: IFSettingZCodeVersion];
 
     if (setting) {
         return [setting intValue];
@@ -530,13 +543,13 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (void) setCompilerVersion: (double) version {
-    [store setObject: [NSNumber numberWithDouble: version]
-                                          forKey: IFSettingCompilerVersion];
+    [[self dictionaryForClass: [IFCompilerSettings class]] setObject: [NSNumber numberWithDouble: version]
+															  forKey: IFSettingCompilerVersion];
     [self settingsHaveChanged];
 }
 
 - (double) compilerVersion {
-    NSNumber* compilerVersion = [store objectForKey: IFSettingCompilerVersion];
+    NSNumber* compilerVersion = [[self dictionaryForClass: [IFCompilerSettings class]] objectForKey: IFSettingCompilerVersion];
     
     if (compilerVersion == nil)
         return [IFCompiler maxCompilerVersion];
@@ -545,13 +558,13 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (void) setLibraryToUse: (NSString*) library {
-    [store setObject: [[library copy] autorelease]
-              forKey: IFSettingLibraryToUse];
+    [[self dictionaryForClass: [IFLibrarySettings class]] setObject: [[library copy] autorelease]
+															 forKey: IFSettingLibraryToUse];
     [self settingsHaveChanged];
 }
 
 - (NSString*) libraryToUse {
-    return [store objectForKey: IFSettingLibraryToUse];
+    return [[self dictionaryForClass: [IFLibrarySettings class]] objectForKey: IFSettingLibraryToUse];
 }
 
 // = Generic settings =
@@ -592,6 +605,19 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 	return result;
 }
 
+- (NSMutableDictionary*) dictionaryForClass: (Class) cls {
+	NSMutableDictionary* dict = [store objectForKey: [cls description]];
+	
+	if (dict == nil) {
+		dict = [NSMutableDictionary dictionary];
+		
+		[store setObject: dict
+				  forKey: [cls description]];
+	}
+	
+	return dict;
+}
+
 // = NSCoding =
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
@@ -603,6 +629,9 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 
     [store release];
     store = [[decoder decodeObject] retain];
+	
+	// Convert from the old format to the new format
+	
 
     return self;
 }

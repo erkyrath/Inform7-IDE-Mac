@@ -26,17 +26,67 @@
 - (void) updateFromCompilerSettings {
     IFCompilerSettings* settings = [self compilerSettings];
 
-    [strictMode setState: [settings strict]?NSOnState:NSOffState];
-    [infixMode setState: [settings infix]?NSOnState:NSOffState];
-    [debugMode setState: [settings debug]?NSOnState:NSOffState];
+    [strictMode setState: [self strict]?NSOnState:NSOffState];
+    [infixMode setState: [self infix]?NSOnState:NSOffState];
+    [debugMode setState: [self debug]?NSOnState:NSOffState];
 }
 
 - (void) setSettings {
     IFCompilerSettings* settings = [self compilerSettings];
 
-	[settings setStrict: [strictMode state]==NSOnState];
-	[settings setInfix: [infixMode state]==NSOnState];
-	[settings setDebug: [debugMode state]==NSOnState];
+	[self setStrict: [strictMode state]==NSOnState];
+	[self setInfix: [infixMode state]==NSOnState];
+	[self setDebug: [debugMode state]==NSOnState];
+}
+
+// = The settings =
+
+- (void) setStrict: (BOOL) setting {
+    [[self dictionary] setObject: [NSNumber numberWithBool: setting]
+						  forKey: IFSettingStrict];
+    [self settingsHaveChanged: self];
+}
+
+- (BOOL) strict {
+    NSNumber* setting = [[self dictionary] objectForKey: IFSettingStrict];
+	
+    if (setting) {
+        return [setting boolValue];
+    } else {
+        return YES;
+    }
+}
+
+- (void) setInfix: (BOOL) setting {
+    [[self dictionary] setObject: [NSNumber numberWithBool: setting]
+						  forKey: IFSettingInfix];
+    [self settingsHaveChanged: self];
+}
+
+- (BOOL) infix {
+    NSNumber* setting = [[self dictionary] objectForKey: IFSettingInfix];
+	
+    if (setting) {
+        return [setting boolValue];
+    } else {
+        return NO;
+    }
+}
+
+- (void) setDebug: (BOOL) setting {
+    [[self dictionary] setObject: [NSNumber numberWithBool: setting]
+						  forKey: IFSettingDEBUG];
+    [self settingsHaveChanged: self];
+}
+
+- (BOOL) debug {
+    NSNumber* setting = [[self dictionary] objectForKey: IFSettingDEBUG];
+	
+    if (setting) {
+        return [setting boolValue];
+    } else {
+        return YES;
+    }
 }
 
 @end

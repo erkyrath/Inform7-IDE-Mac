@@ -16,4 +16,11 @@
     IBOutlet NSButton* debugMode;	
 }
 
+- (void) setStrict: (BOOL) setting;
+- (void) setInfix: (BOOL) setting;
+- (void) setDebug: (BOOL) setting;
+- (BOOL) strict;
+- (BOOL) infix;
+- (BOOL) debug;
+
 @end

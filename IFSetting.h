@@ -22,6 +22,8 @@ extern NSString* IFSettingHasChangedNotification;
 	IBOutlet NSView* settingView;
 	
 	IFCompilerSettings* compilerSettings;
+	
+	BOOL settingsChanging;
 }
 
 - (id) initWithNibName: (NSString*) nibName;
@@ -49,9 +51,9 @@ extern NSString* IFSettingHasChangedNotification;
 - (IBAction) settingsHaveChanged: (id) sender;
 
 // Saving settings
-- (NSDictionary*) plistEntries;
-- (void) updateSettings: (IFCompilerSettings*) settings
-	   withPlistEntries: (NSDictionary*) entries;
+//- (NSDictionary*) plistEntries;
+//- (void) updateSettings: (IFCompilerSettings*) settings
+//	   withPlistEntries: (NSDictionary*) entries;
 
 @end
 

@@ -138,6 +138,8 @@ static NSMutableArray* standardSettingsClasses = nil;
 		// Same as all settings changed, really
 		[self settingsHaveChanged: nil];
 	}
+	
+	[compilerSettings settingsHaveChanged];
 }
 
 // = Model =

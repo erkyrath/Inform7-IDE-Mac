@@ -55,9 +55,9 @@ extern NSString* IFCompilerNaturalInform;
 - (BOOL) usingNaturalInform;
 - (BOOL) strict;
 - (BOOL) infix;
+- (BOOL) debug;
 - (BOOL) compileNaturalInformOutput;
 - (BOOL) runBuildScript;
-- (BOOL) debug;
 
 - (void) setCompilerVersion: (double) version;
 - (void) setLibraryToUse: (NSString*) library;
@@ -71,10 +71,13 @@ extern NSString* IFCompilerNaturalInform;
 - (void)      setLoudly: (BOOL) loudly;
 - (BOOL)      loudly;
 
+- (void) settingsHaveChanged;
+
 // Generic settings (IFSetting)
 - (void)      setGenericSettings: (NSArray*) genericSettings;
 - (NSArray*)  includePathsForCompiler: (NSString*) compiler;
 - (NSArray*)  genericCommandLineForCompiler: (NSString*) compiler;
+- (NSMutableDictionary*) dictionaryForClass: (Class) cls;
 
 // Getting command line arguments, etc
 - (NSArray*) commandLineArguments;
