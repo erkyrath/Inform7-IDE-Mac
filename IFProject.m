@@ -128,6 +128,20 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
                 mainSource = [key copy];
             }
         }
+		
+		// Re-create the settings as required
+		if (settings == nil) {
+			if ([[mainSource pathExtension] isEqualTo: @"ni"]) {
+				// Standard natural inform settings
+				settings = [[IFCompilerSettings alloc] init];
+				
+				[settings setLibraryToUse: @"Natural"];
+				[settings setUsingNaturalInform: YES];
+			} else {
+				// Standard settings
+				settings = [[IFCompilerSettings alloc] init];
+			}
+		}
 
         singleFile = NO;
 		
@@ -177,7 +191,32 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
         
         singleFile = YES;
         return YES;
-    }
+    } else if ([fileType isEqualTo: @"Natural Inform source file"]) {
+        // No project file
+        if (projectFile) [projectFile release];
+        projectFile = nil;
+        
+        // Default settings (Natural Inform)
+        if (settings) [settings release];
+        settings = [[IFCompilerSettings allocWithZone: [self zone]] init];
+		
+		[settings setLibraryToUse: @"Natural"];
+		[settings setUsingNaturalInform: YES];
+        
+        // Load the single file
+        NSString* theFile = [NSString stringWithContentsOfFile: fileName];
+        
+        if (sourceFiles) [sourceFiles release];
+        sourceFiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+            [[[NSTextStorage alloc] initWithString: theFile] autorelease],
+            [fileName lastPathComponent], nil];
+        
+        if (mainSource) [mainSource release];
+        mainSource = [[fileName lastPathComponent] copy];
+        
+        singleFile = YES;
+        return YES;
+	}
     
     return NO;
 }
@@ -349,6 +388,13 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 	NSTextStorage* storage;
 	NSString* originalSourceFile = sourceFile;
 	NSString* sourceDir = [[[self fileName] stringByAppendingPathComponent: @"Source"] stringByStandardizingPath];
+	
+	if (projectFile == nil && [[sourceFile lastPathComponent] isEqualToString: [[self fileName] lastPathComponent]]) {
+		if (![sourceFile isAbsolutePath]) {
+			// Special case: when we're editing an individual file, then we always use that filename if possible
+			sourceFile = [self fileName];
+		}
+	}
 	
 	if (![sourceFile isAbsolutePath]) {
 		// Force absolute path

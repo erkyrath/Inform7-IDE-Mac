@@ -90,7 +90,8 @@
     NSFileWrapper* settingsFile = [[self fileWrappers] objectForKey: @"Settings"];
 
     if (settingsFile == nil) {
-        return [[[IFCompilerSettings alloc] init] autorelease];
+		return nil;
+        //return [[[IFCompilerSettings alloc] init] autorelease];
     }
 
     NSData* settingsData = [settingsFile regularFileContents];
