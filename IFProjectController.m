@@ -391,8 +391,8 @@ static NSDictionary*  itemDictionary = nil;
         nil];
 }
 
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-	if ([[toolbar identifier] isEqualToString: @"ProjectNiToolbar"]) {
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)tb {
+	if ([[tb identifier] isEqualToString: @"ProjectNiToolbar"]) {
 		return [NSArray arrayWithObjects: @"compileAndRunItem", @"stopItem", NSToolbarSeparatorItemIdentifier, 
 			@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"indexItem", nil];
 	} else {
