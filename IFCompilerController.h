@@ -21,6 +21,7 @@ extern NSString* IFStyleCompilerMessage;
 extern NSString* IFStyleCompilerWarning;
 extern NSString* IFStyleCompilerError;
 extern NSString* IFStyleCompilerFatalError;
+extern NSString* IFStyleProgress;
 
 extern NSString* IFStyleFilename;
 

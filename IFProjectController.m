@@ -226,12 +226,18 @@ static NSDictionary*  itemDictionary = nil;
 		generalPolicy = [[IFProjectPolicy alloc] initWithProjectController: self];
 		docPolicy = [[IFProjectPolicy alloc] initWithProjectController: self];
 		[docPolicy setRedirectToDocs: YES];
+		
+		progressIndicators = [[NSMutableArray alloc] init];
+		progressing = NO;
     }
 
     return self;
 }
 
 - (void) dealloc {
+	[progressIndicators makeObjectsPerformSelector: @selector(setDelegate:)
+										withObject: nil];
+	
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 
     if (toolbar) [toolbar release];
@@ -244,6 +250,8 @@ static NSDictionary*  itemDictionary = nil;
 	
 	[generalPolicy release];
 	[docPolicy release];
+
+	[progressIndicators release];
 	
     [super dealloc];
 }
@@ -311,6 +319,8 @@ static NSDictionary*  itemDictionary = nil;
 	[toolbar setAutosavesConfiguration: YES];
     
     [[self window] setToolbar: toolbar];
+	
+	[statusInfo setStringValue: @""];
 }
 
 // == Project pane layout ==
@@ -497,6 +507,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 // == View selection functions ==
+
 - (void) performCompileWithRelease: (BOOL) release {
     IFProject* doc = [self document];
 	
@@ -534,6 +545,7 @@ static NSDictionary*  itemDictionary = nil;
     }
 	
     // Time to go!
+	[self addProgressIndicator: [theCompiler progress]];
     [theCompiler prepareForLaunch];
     [theCompiler launch];
 	
@@ -623,6 +635,8 @@ static NSDictionary*  itemDictionary = nil;
     int exitCode = [[[not userInfo] objectForKey: @"exitCode"] intValue];
 
     NSFileWrapper* buildDir;
+	
+	[self removeProgressIndicator: [[[self document] compiler] progress]];
 
     // Can't do this: things break.
     //buildDir = [[[(IFProject*)[self document] projectFile] fileWrappers] objectForKey: @"Build"];
@@ -1110,6 +1124,92 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IFProjectPolicy*) docPolicy {
 	return docPolicy;
+}
+
+// = Displaying progress =
+
+- (void) clearStatus: (NSNumber*) oldNum {
+	if (!progressing && [oldNum intValue] == progressNum) {
+		[statusInfo setStringValue: @""];
+	}
+}
+
+- (void) updateProgress {
+	float totalPercentage = 100.0 * [progressIndicators count];
+	
+	if (totalPercentage <= 0) {
+		if (progressing) {
+			// Disable progress bars
+			NSLog(@"Stopped progress");
+			[progress stopAnimation: self];
+			[self performSelector: @selector(clearStatus:)
+					   withObject: [NSNumber numberWithInt: progressNum]
+					   afterDelay: 20.0];
+			
+			progressing = NO;
+		}
+
+		return;
+	}
+	
+	// Enable progress bars
+	if (!progressing) {
+		[progress startAnimation: self];
+
+		progressNum++;
+		progressing = YES;
+	}
+	
+	[progress setMaxValue: totalPercentage];
+	
+	// Set percentage
+	float actualPercentage = -1.0;
+	
+	NSEnumerator* progressEnum = [progressIndicators objectEnumerator];
+	IFProgress* indicator;
+	
+	while (indicator = [progressEnum nextObject]) {
+		float iPercent = [indicator percentage];
+		
+		if (iPercent >= 0) {
+			if (actualPercentage < 0) actualPercentage = 0;
+			
+			actualPercentage += iPercent;
+		}
+	}
+	
+	if (actualPercentage < 0) {
+		[progress setIndeterminate: YES];
+	} else {
+		[progress setIndeterminate: NO];
+		[progress setDoubleValue: actualPercentage];
+	}
+}
+
+- (void) addProgressIndicator: (IFProgress*) indicator {
+	[indicator setDelegate: self];
+	[progressIndicators addObject: indicator];
+	
+	[self updateProgress];
+}
+
+- (void) removeProgressIndicator: (IFProgress*) indicator {
+	[indicator setDelegate: nil];
+	[progressIndicators removeObjectIdenticalTo: indicator];
+	
+	[self updateProgress];
+}
+
+- (void) progressIndicator: (IFProgress*) indicator
+				percentage: (float) newPercentage {
+	[self updateProgress];
+}
+
+- (void) progressIndicator: (IFProgress*) indicator
+				   message: (NSString*) newMessage {
+	if (progressing) {
+		[statusInfo setStringValue: newMessage];
+	}
 }
 
 @end

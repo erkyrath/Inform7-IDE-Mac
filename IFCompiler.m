@@ -205,6 +205,8 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
         delegate = nil;
         workingDirectory = nil;
 		release = NO;
+		
+		progress = [[IFProgress alloc] init];
 
         deleteOutputFile = YES;
         runQueue = [[NSMutableArray allocWithZone: [self zone]] init];
@@ -230,6 +232,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     //if (delegate) [delegate release];
 
     [runQueue release];
+	[progress release];
 
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 
@@ -280,7 +283,8 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 
 - (void) addCustomBuildStage: (NSString*) command
                withArguments: (NSArray*) arguments
-              nextStageInput: (NSString*) file {
+              nextStageInput: (NSString*) file
+					   named: (NSString*) stageName {
     if (theTask) {
         // This starts a new build process, so we kill the old task if it's still
         // running
@@ -294,7 +298,9 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     [runQueue addObject: [NSArray arrayWithObjects:
         [NSString stringWithString: command],
         [NSArray arrayWithArray: arguments],
-        [NSString stringWithString: file], nil]];
+        [NSString stringWithString: file],
+		[[stageName copy] autorelease],
+		nil]];
 }
 
 - (void) addNaturalInformStage {
@@ -310,7 +316,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 
     [self addCustomBuildStage: [settings naturalInformCompilerToUse]
                 withArguments: args
-               nextStageInput: [NSString stringWithFormat: @"%@/Build/auto.inf", [self currentStageInput]]];
+               nextStageInput: [NSString stringWithFormat: @"%@/Build/auto.inf", [self currentStageInput]]
+						named: [[NSBundle mainBundle] localizedStringForKey: @"Compiling Natural Inform source" 
+																	  value: @"Compiling Natural Inform source"
+																	  table: nil]];
 }
 
 - (void) addStandardInformStage {
@@ -326,7 +335,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 
     [self addCustomBuildStage: [settings compilerToUse]
                 withArguments: args
-               nextStageInput: outputFile];
+               nextStageInput: outputFile
+						named: [[NSBundle mainBundle] localizedStringForKey: @"Compiling Inform 6 source" 
+																	  value: @"Compiling Inform 6 source"
+																	  table: nil]];
 }
 
 - (NSString*) currentStageInput {
@@ -355,8 +367,8 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
             
             [self addCustomBuildStage: buildsh
                         withArguments: [NSArray array]
-                       nextStageInput: [self currentStageInput]];
-            
+                       nextStageInput: [self currentStageInput]
+								named: @"Debug build stage"];
         }
         
         if ([settings usingNaturalInform]) {
@@ -377,6 +389,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     [args addObject: [NSString stringWithString: outputFile]];
      */
     
+	NSString* stageName = [[runQueue objectAtIndex: 0] objectAtIndex: 3];
+	[progress setMessage: stageName];
+	[progress setPercentage: -1.0];
+	
     NSArray* args     = [[runQueue objectAtIndex: 0] objectAtIndex: 1];
     NSString* command = [[runQueue objectAtIndex: 0] objectAtIndex: 0];
     [[args retain] autorelease];
@@ -568,7 +584,11 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
             [theTask release];
             theTask = nil;
         }
-
+		
+		NSString* stageName = [[runQueue objectAtIndex: 0] objectAtIndex: 3];
+		[progress setMessage: stageName];
+		[progress setPercentage: -1.0];
+		
         NSArray* args     = [[runQueue objectAtIndex: 0] objectAtIndex: 1];
         NSString* command = [[runQueue objectAtIndex: 0] objectAtIndex: 0];
         [[args retain] autorelease];
@@ -730,6 +750,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     if (finishCount == 3) {
         [self taskHasReallyFinished];
     }
+}
+
+- (IFProgress*) progress {
+	return progress;
 }
 
 @end

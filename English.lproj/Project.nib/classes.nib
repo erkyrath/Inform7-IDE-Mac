@@ -3,9 +3,14 @@
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {CLASS = IFCompiler; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
         {
+            ACTIONS = {addNewFile = id; }; 
             CLASS = IFProjectController; 
             LANGUAGE = ObjC; 
-            OUTLETS = {panesView = NSView; }; 
+            OUTLETS = {
+                panesView = NSView; 
+                progress = NSProgressIndicator; 
+                statusInfo = NSTextField; 
+            }; 
             SUPERCLASS = NSWindowController; 
         }, 
         {CLASS = NSObject; LANGUAGE = ObjC; }

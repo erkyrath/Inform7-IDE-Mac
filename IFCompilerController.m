@@ -25,6 +25,7 @@ NSString* IFStyleCompilerMessage    = @"IFStyleCompilerMessage";
 NSString* IFStyleCompilerWarning    = @"IFStyleCompilerWarning";
 NSString* IFStyleCompilerError      = @"IFStyleCompilerError";
 NSString* IFStyleCompilerFatalError = @"IFStyleCompilerFatalError";
+NSString* IFStyleProgress			= @"IFStyleProgress";
 
 NSString* IFStyleFilename   = @"IFStyleFilename";
 
@@ -39,6 +40,7 @@ static IFCompilerController* activeController = nil;
 
 // == Styles ==
 + (NSDictionary*) defaultStyles {
+    NSFont* smallFont = [NSFont labelFontOfSize: 6];
     NSFont* baseFont = [NSFont labelFontOfSize: 10];
     NSFont* bigFont  = [NSFont labelFontOfSize: 10];
     NSFont* boldFont = [[NSFontManager sharedFontManager] convertFont: bigFont
@@ -83,13 +85,19 @@ static IFCompilerController* activeController = nil;
         NSForegroundColorAttributeName,
         italicFont, NSFontAttributeName,
         0];
-
+    NSDictionary* progressStyle = [NSDictionary dictionaryWithObjectsAndKeys:
+        [NSColor colorWithDeviceRed: 0.0 green: 0 blue: 0.6 alpha: 1.0],
+        NSForegroundColorAttributeName,
+        smallFont, NSFontAttributeName,
+        0];
+	
     return [NSDictionary dictionaryWithObjectsAndKeys:
         baseStyle, IFStyleBase,
         versionStyle, IFStyleCompilerVersion,
         messageStyle, IFStyleCompilerMessage, warningStyle, IFStyleCompilerWarning,
         errorStyle, IFStyleCompilerError, fatalErrorStyle, IFStyleCompilerFatalError,
         filenameStyle, IFStyleFilename,
+		progressStyle, IFStyleProgress,
         0];
 }
 
@@ -315,6 +323,11 @@ static IFCompilerController* activeController = nil;
     NSString* msg;
 
     if (exitCode == 0) {
+		[[compiler progress] setMessage: [NSString stringWithFormat: [[NSBundle mainBundle] localizedStringForKey: @"Compilation succeeded" 
+																											value: @"Compilation succeeded"
+																											table: nil], exitCode]];
+		
+		
         msg = [[NSBundle mainBundle] localizedStringForKey: @"Success"
 													 value: @"Success"
 													 table: nil];
@@ -324,6 +337,23 @@ static IFCompilerController* activeController = nil;
             [delegate compileCompletedAndSucceeded: self];
         }
     } else {
+		switch (exitCode) {
+			case SIGILL:
+			case SIGABRT:
+			case SIGBUS:
+			case SIGSEGV:
+				[[compiler progress] setMessage: [NSString stringWithFormat: [[NSBundle mainBundle] localizedStringForKey: @"Compiler crashed with code %i" 
+																													value: @"Compiler crashed with code %i"
+																													table: nil], exitCode]];
+				break;
+				
+			default:
+				[[compiler progress] setMessage: [NSString stringWithFormat: [[NSBundle mainBundle] localizedStringForKey: @"Compilation failed with code %i" 
+																													value: @"Compilation failed with code %i"
+																													table: nil], exitCode]];
+				break;
+		}
+
         msg = [[NSBundle mainBundle] localizedStringForKey: @"Failed"
 													 value: @"Failed"
 													 table: nil];
@@ -358,6 +388,7 @@ static IFCompilerController* activeController = nil;
 }
 
 // == Dealing with highlighting of the compiler output ==
+
 - (NSString*) styleForLine: (NSString*) line {
     activeController = self;
     IFLex res = IFErrorScanString([line cString]);
@@ -389,6 +420,21 @@ static IFCompilerController* activeController = nil;
             
         case IFLexStatistics:
             return IFStyleStatistics;
+			
+		case IFLexProgress:
+			[[compiler progress] setPercentage: IFLexLastProgress];
+			
+			if (IFLexLastProgressString) {
+				NSString* msg;
+				
+				msg = [[NSString alloc] initWithBytes: IFLexLastProgressString
+											   length: strlen(IFLexLastProgressString)-2
+											 encoding: NSUTF8StringEncoding];
+				
+				[[compiler progress] setMessage: [msg autorelease]];
+			}
+	
+			return IFStyleProgress;
     }
 
     return nil;

@@ -10,6 +10,7 @@
 #import <ZoomView/ZoomView.h>
 
 #import "IFProjectPolicy.h"
+#import "IFProgress.h"
 
 enum lineStyle {
     IFLineStyleNeutral = 0,
@@ -35,6 +36,8 @@ enum lineStyle {
 @class IFProjectPane;
 @interface IFProjectController : NSWindowController {
     IBOutlet NSView* panesView;
+	IBOutlet NSTextField* statusInfo;
+	IBOutlet NSProgressIndicator* progress;
     
     // The toolbar
     NSToolbar* toolbar;
@@ -59,6 +62,11 @@ enum lineStyle {
 	// Policy delegates
 	IFProjectPolicy* generalPolicy;
 	IFProjectPolicy* docPolicy;
+	
+	// Progress indicators
+	BOOL progressing;
+	int  progressNum;
+	NSMutableArray* progressIndicators;
 }
 
 - (void) layoutPanes;
@@ -95,5 +103,9 @@ enum lineStyle {
 // Policy delegates
 - (IFProjectPolicy*) generalPolicy;
 - (IFProjectPolicy*) docPolicy;
+
+// Displaying progress
+- (void) addProgressIndicator: (IFProgress*) indicator;
+- (void) removeProgressIndicator: (IFProgress*) indicator;
 
 @end

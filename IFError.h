@@ -21,7 +21,12 @@ typedef enum {
     IFLexAssembly,
     IFLexHexDump,
     IFLexStatistics,
+	
+	IFLexProgress,
 } IFLex;
+
+extern int IFLexLastProgress;
+extern char* IFLexLastProgressString;
 
 extern int  IFErrorScanString(const char* string);
 extern void IFErrorAddError  (const char* file,

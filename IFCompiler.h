@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #import "IFCompilerSettings.h"
+#import "IFProgress.h"
 
 extern NSString* IFCompilerStartingNotification;
 extern NSString* IFCompilerStdoutNotification;
@@ -38,7 +39,10 @@ extern NSString* IFCompilerFinishedNotification;
     NSFileHandle* stdOutH;
 
     int finishCount; // When =3, notify the delegate that the task is dead
-
+	
+	// Progress
+	IFProgress* progress;
+	
     // Delegate
     id delegate;
 }
@@ -63,7 +67,8 @@ extern NSString* IFCompilerFinishedNotification;
 
 - (void) addCustomBuildStage: (NSString*) command
                withArguments: (NSArray*) arguments
-              nextStageInput: (NSString*) file;
+              nextStageInput: (NSString*) file
+					   named: (NSString*) stageName;
 - (void) addNaturalInformStage;
 - (void) addStandardInformStage;
 - (NSString*) currentStageInput;
@@ -79,6 +84,8 @@ extern NSString* IFCompilerFinishedNotification;
 - (void) launch;
 
 - (void) sendStdOut: (NSString*) data;
+
+- (IFProgress*) progress;
 
 @end
 

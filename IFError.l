@@ -13,6 +13,9 @@
     
 #include "IFError.h"
 
+int IFLexLastProgress;
+char* IFLexLastProgressString;
+
 struct errorValue {
     IFLex style;
     int line;
@@ -29,6 +32,25 @@ static struct errorValue currentError;
 %%
 
 .*\ Inform\ [0-9]+\.[0-9]+\ \(.*\)\n { return IFLexCompilerVersion; }
+
+\+\+\ ([0-9]+)\%\n {
+	// A progress line
+	IFLexLastProgress = atoi(yytext+3);
+	IFLexLastProgressString = NULL;
+	
+	return IFLexProgress;
+}
+
+\+\+\ ([0-9]+)\%\ \(.*\)\n {
+	// A progress line with status text
+	IFLexLastProgress = atoi(yytext+3);
+	IFLexLastProgressString = yytext+3;
+	
+	while (IFLexLastProgressString[0] != '(') IFLexLastProgressString++;
+	IFLexLastProgressString++;
+
+	return IFLexProgress;
+}
 
 File\ \".*\";\ Line\  {
     // Beginning of an MPW-style error message
