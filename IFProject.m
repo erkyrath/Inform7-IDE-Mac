@@ -147,6 +147,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 		NSFileWrapper* skeinWrapper = [[projectFile fileWrappers] objectForKey: @"Skein.skein"];
 		if (skeinWrapper != nil && [skeinWrapper regularFileContents] != nil) {
 			[skein parseXmlData: [skeinWrapper regularFileContents]];
+			[skein setActiveItem: [skein rootItem]];
 		}
         
 		// Load the index file (if present)
