@@ -142,7 +142,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 		if (selectedRow < 0) return; // Nothing to do
 
 		id selectedItem = [indexList itemAtRow: selectedRow];
-		if ([selectedItem isKindOfClass: [NSArray class]]) selectedItem = [selectedItem objectAtIndex: 0];
+		if ([selectedItem isKindOfClass: [NSArray class]] && [selectedItem count] == 2) selectedItem = [selectedItem objectAtIndex: 0];
 		
 		if ([selectedItem isKindOfClass: [IFIntelSymbol class]]) {
 			int lineNumber = [[proj currentIntelligence] lineForSymbol: selectedItem]+1;
@@ -187,7 +187,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 	
 	if (item == nil) {
 		return [itemCache objectAtIndex: childIndex];
-	} else if ([item isKindOfClass: [NSArray class]]) {
+	} else if ([item isKindOfClass: [NSArray class]] && [item count] == 2) {
 		return [[item objectAtIndex: 1] objectAtIndex: childIndex];
 	} else {
 		return @"<< BAD CHILD (no cookie!) >>";
@@ -198,7 +198,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
    isItemExpandable: (id)item {
 	[self cacheItems];
 	
-	if ([item isKindOfClass: [NSArray class]]) {
+	if ([item isKindOfClass: [NSArray class]] && [item count] == 2) {
 		return [[item objectAtIndex: 1] count] > 0;
 	} else {
 		return NO;
@@ -211,7 +211,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 	
 	if (item == nil) {
 		return [itemCache count];
-	} else if ([item isKindOfClass: [NSArray class]]) {
+	} else if ([item isKindOfClass: [NSArray class]] && [item count] == 2) {
 		return [[item objectAtIndex: 1] count];
 	} else {
 		return 0;
@@ -233,7 +233,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 		return nil;
 	}
 	
-	if ([item isKindOfClass: [NSArray class]]) {
+	if ([item isKindOfClass: [NSArray class]] && [item count] == 2) {
 		if ([identifier isEqualToString: @"title"]) {
 			return [[item objectAtIndex: 0] name];
 		} else if ([identifier isEqualToString: @"line"]) {
