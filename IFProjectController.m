@@ -1011,16 +1011,25 @@ static NSDictionary*  itemDictionary = nil;
 // = Skein delegate =
 
 - (void) restartGame {
-	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
-	[self runCompilerOutput];
+	if ([[projectPanes objectAtIndex: 1] isRunningGame]) {
+		[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
+		[self runCompilerOutput];
+	} else {
+		//[self compileAndRun: self]; -- we do this when 'playToPoint' is called
+	}
 }
 
 - (void) playToPoint: (ZoomSkeinItem*) point
 		   fromPoint: (ZoomSkeinItem*) currentPoint {
-	id inputSource = [ZoomSkein inputSourceFromSkeinItem: currentPoint
+	if ([[projectPanes objectAtIndex: 1] isRunningGame]) {
+		id inputSource = [ZoomSkein inputSourceFromSkeinItem: currentPoint
 												  toItem: point];
 	
-	[[[projectPanes objectAtIndex: 1] zoomView] setInputSource: inputSource];
+		[[[projectPanes objectAtIndex: 1] zoomView] setInputSource: inputSource];
+	} else {
+		[self compileAndRun: self];
+		[[projectPanes objectAtIndex: 1] setPointToRunTo: point];
+	}
 }
 
 @end
