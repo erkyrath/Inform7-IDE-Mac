@@ -7,6 +7,7 @@
 //
 
 #import "IFIsSearch.h"
+#import "IFSearchResultsController.h"
 
 // Inspector key
 NSString* IFIsSearchInspector = @"IFIsSearchInspector";
@@ -129,6 +130,42 @@ NSString* IFIsSearchType			= @"IFIsSearchType";
 }
 
 - (IBAction) startSearch: (id) sender {
+	// Create a new SearchResultsController to handle the search
+	IFSearchResultsController* ctrl = [[IFSearchResultsController alloc] init];
+	
+	// Set up the controller
+	[ctrl setSearchLabelText: [NSString stringWithFormat: @"\"%@\" in %@", 
+		[searchText stringValue], 
+		[[activeController document] displayName]]];
+	[ctrl setSearchPhrase: [searchText stringValue]];
+	[ctrl setSearchType: willSearchType];
+	
+	// Find the files and data to search
+	if (willSearchDocs) {
+		// Find the documents to search
+		NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
+		
+		// Get all .htm and .html documents from the resources
+		NSDirectoryEnumerator* dirEnum = [[NSFileManager defaultManager] enumeratorAtPath: resourcePath];
+		NSString* path;
+		
+		while (path = [dirEnum nextObject]) {
+			NSString* extension = [path pathExtension];
+			
+			if ([extension isEqualToString: @"html"] ||
+				[extension isEqualToString: @"htm"]) {
+				[ctrl addSearchFile: [resourcePath stringByAppendingPathComponent: path]
+							   type: @"Documentation"];
+			}
+		}
+	}
+	
+	// Display the window
+	[ctrl showWindow: self];
+	// ctrl will autorelease itself when done
+	
+	// Start the search
+	[ctrl startSearch];
 }
 
 - (IBAction) changeSearchOption: (id) sender {
