@@ -18,7 +18,8 @@ enum IFProjectPaneType {
     IFSourcePane = 1,
     IFErrorPane = 2,
     IFGamePane = 3,
-    IFDocumentationPane = 4
+    IFDocumentationPane = 4,
+	IFIndexPane = 5
 };
 
 @class IFProjectController;
@@ -34,6 +35,7 @@ enum IFProjectPaneType {
     IBOutlet NSTabViewItem* errorsView;
     IBOutlet NSTabViewItem* gameTabView;
     IBOutlet NSTabViewItem* docTabView;
+	IBOutlet NSTabViewItem* indexTabView;
 
     // Source
     IBOutlet NSTextView* sourceText;
@@ -57,8 +59,6 @@ enum IFProjectPaneType {
 
     // The various status displays
     IBOutlet NSPopUpButton* sourcePopup;
-    IBOutlet NSButton*      lineButton;
-    IBOutlet NSButton*      columnButton;
 
     // The game view
     IBOutlet NSView* gameView;
@@ -68,6 +68,12 @@ enum IFProjectPaneType {
 
     // Documentation
     IBOutlet NSView* docView;
+	
+	// The index view
+	IBOutlet NSView* indexView;
+	BOOL indexAvailable;
+	
+	NSTabView* indexTabs;
 
     // Settings
     IBOutlet NSScrollView* settingsScroller;
@@ -138,6 +144,9 @@ enum IFProjectPaneType {
 
 - (ZoomView*) zoomView;
 - (BOOL) isRunningGame;
+
+// The index view
+- (void) updateIndexView;
 
 // Settings
 - (void) updateSettings;

@@ -16,20 +16,23 @@
     // First we have to create the source directory, etc
     NSFileWrapper* srcDir;
     NSFileWrapper* bldDir;
+    NSFileWrapper* indexDir;
 
     srcDir = [[NSFileWrapper alloc] initDirectoryWithFileWrappers: [NSDictionary dictionary]];
     bldDir = [[NSFileWrapper alloc] initDirectoryWithFileWrappers: [NSDictionary dictionary]];
+    indexDir = [[NSFileWrapper alloc] initDirectoryWithFileWrappers: [NSDictionary dictionary]];
     [srcDir setPreferredFilename: @"Source"];
     [bldDir setPreferredFilename: @"Build"];
+    [indexDir setPreferredFilename: @"Index"];
 
-    [srcDir autorelease]; [bldDir autorelease];
+    [srcDir autorelease]; [bldDir autorelease]; [indexDir autorelease];
 
     if (srcDir == nil || bldDir == nil) {
         return nil;
     }
   
     self = [super initDirectoryWithFileWrappers:
-        [NSDictionary dictionaryWithObjectsAndKeys: srcDir, @"Source", bldDir, @"Build", nil]];
+        [NSDictionary dictionaryWithObjectsAndKeys: srcDir, @"Source", bldDir, @"Build", indexDir, @"Index", nil]];
 
     if (self) {
         sourceDirectory = [srcDir retain];

@@ -530,6 +530,7 @@ static NSDictionary*  itemDictionary = nil;
     //buildDir = [[[(IFProject*)[self document] projectFile] fileWrappers] objectForKey: @"Build"];
     //[buildDir updateFromPath: [NSString stringWithFormat: @"%@/Build", [[self document] fileName]]];
 
+	// Show the 'build results' file
 	NSString* buildPath = [NSString stringWithFormat: @"%@/Build", [[self document] fileName]];
     buildDir = [[NSFileWrapper alloc] initWithPath: buildPath];
     [buildDir autorelease];
@@ -541,6 +542,12 @@ static NSDictionary*  itemDictionary = nil;
         [[pane compilerController] showContentsOfFilesIn: buildDir
 												fromPath: buildPath];
     }
+	
+	// Update the index tab(s) (if there's anything to update)
+	for (x=0; x<[projectPanes count]; x++) {
+        IFProjectPane* pane = [projectPanes objectAtIndex: x];
+		[pane updateIndexView];
+	}
 	
 	// Update the index in the controller
 	[[IFIsIndex sharedIFIsIndex] updateIndexFrom: self];

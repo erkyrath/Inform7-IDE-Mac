@@ -226,6 +226,8 @@ static NSDictionary* styles[256];
     [self updateSettings];
 
     [[sourceText textStorage] setDelegate: self];
+	
+	[self updateIndexView];
 }
 
 - (void) awakeFromNib {
@@ -289,6 +291,10 @@ static NSDictionary* styles[256];
         case IFDocumentationPane:
             toSelect = docTabView;
             break;
+			
+		case IFIndexPane:
+			toSelect = indexTabView;
+			break;
     }
 
     if (toSelect) {
@@ -309,6 +315,8 @@ static NSDictionary* styles[256];
         return IFGamePane;
     } else if (selectedView == docTabView) {
         return IFDocumentationPane;
+	} else if (selectedView == indexTabView) {
+		return IFIndexPane;
     } else {
         NSLog(@"BUG: unknown tab pane selected (assuming is a source pane)");
         return IFSourcePane;
@@ -801,6 +809,10 @@ static NSDictionary* styles[256];
         // FIXME: if another view is running a game, then display the tabView in there
         return NO;
     }
+	
+	if (item == indexTabView && !indexAvailable) {
+		return NO;
+	}
 
     return YES;
 }
@@ -1159,6 +1171,77 @@ static NSDictionary* styles[256];
 	
 	// default action
 	[listener use];
+}
+
+// = The index view =
+
+- (void) updateIndexView {
+	indexAvailable = NO;
+	
+	if (![IFAppDelegate isWebKitAvailable]) return;
+	
+	// The index path
+	NSString* indexPath = [NSString stringWithFormat: @"%@/Index", [[parent document] fileName]];
+	BOOL isDir = NO;
+	
+	// Check that it exists and is a directory
+	if (indexPath == nil) return;
+	if (![[NSFileManager defaultManager] fileExistsAtPath: indexPath
+											  isDirectory: &isDir]) return;
+	if (!isDir) return;		
+	
+	// Create the tab view that will eventually go into the main view
+	if (indexTabs != nil) {
+		[indexTabs removeFromSuperview];
+		[indexTabs release];
+		indexTabs = nil;
+	}
+	
+	indexTabs = [[NSTabView alloc] initWithFrame: [indexView bounds]];
+	[indexTabs setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+	[indexView addSubview: indexTabs];
+	
+	[indexTabs setControlSize: NSSmallControlSize];
+	[indexTabs setFont: [NSFont systemFontOfSize: 10]];
+	[indexTabs setAllowsTruncatedLabels: YES];
+
+	// Iterate through the files
+	NSArray* files = [[NSFileManager defaultManager] directoryContentsAtPath: indexPath];
+	NSEnumerator* fileEnum = [files objectEnumerator];
+	NSString* theFile;
+	
+	NSBundle* mB = [NSBundle mainBundle];
+	
+	while (theFile = [fileEnum nextObject]) {
+		NSString* extension = [[theFile pathExtension] lowercaseString];
+		NSString* fullPath = [indexPath stringByAppendingPathComponent: theFile];
+		
+		if ([extension isEqualToString: @"htm"] ||
+			[extension isEqualToString: @"html"]) {
+			// Create a web view to view this file
+			WebView* fileView = [[WebView alloc] init];
+			[fileView setPolicyDelegate: self]; // Enables the 'source' protocol
+			[fileView autorelease];
+			
+			// Need to set a window, as we'll be part of a tab view in a tab view
+			[fileView setHostWindow: [paneView window]];
+			
+			// Load the HTML
+			[[fileView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL fileURLWithPath: fullPath]] autorelease]];
+			
+			// Create the tab to put this view in
+			NSTabViewItem* newTab = [[[NSTabViewItem alloc] init] autorelease];
+			
+			[newTab setView: fileView];
+			[newTab setLabel: [mB localizedStringForKey: theFile
+												  value: [theFile stringByDeletingPathExtension]
+												  table: @"CompilerOutput"]];
+			
+			// Add the tab
+			[indexTabs addTabViewItem: newTab];
+			indexAvailable = YES;
+		}
+	}
 }
 
 @end
