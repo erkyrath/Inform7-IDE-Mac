@@ -166,9 +166,7 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 			currentHeight += [insView frame].size.height;
 		}
 	}
-	
-	NSLog(@"%g %g", currentHeight, maxHeight);
-	
+		
 	// Close least recently used inspectors until there's only one shown, or everything fits on the screen	
 	if (currentHeight > maxHeight) {
 		// (Will recurse if this changes the state any)

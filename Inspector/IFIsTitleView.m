@@ -158,7 +158,7 @@ static NSString* IFNSShadowAttributeName = @"NSShadow";
 	}
 	
 	// Draw a line underneath
-	[[NSColor colorWithDeviceWhite: 0.4 alpha: 1.0] set];
+	[[NSColor controlShadowColor] set];
 	NSRectFill(NSMakeRect(rect.origin.x, bounds.origin.y+bounds.size.height-1, rect.size.width, 1));
 			
 	// Draw the title text

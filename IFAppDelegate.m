@@ -17,6 +17,7 @@
 #import "IFIsSkein.h"
 #import "IFIsWatch.h"
 #import "IFIsBreakpoints.h"
+#import "IFIsSearch.h"
 
 #import "IFNoDocProtocol.h"
 #import "IFInformProtocol.h"
@@ -93,6 +94,7 @@ static NSRunLoop* mainRunLoop = nil;
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsSkein sharedIFIsSkein]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsWatch sharedIFIsWatch]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsBreakpoints sharedIFIsBreakpoints]];
+	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsSearch sharedIFIsSearch]];
 	
 	[self updateExtensions];
 
