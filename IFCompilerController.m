@@ -45,8 +45,7 @@ static IFCompilerController* activeController = nil;
     NSFont* baseFont = [NSFont labelFontOfSize: 10];
     NSFont* bigFont  = [NSFont labelFontOfSize: 10];
 	
-	smallFont = [NSFont fontWithName: @"Monaco" size: 6.0];
-	baseFont = bigFont = [NSFont fontWithName: @"Monaco" size: 10.0];
+	smallFont = baseFont = bigFont = [NSFont fontWithName: @"Monaco" size: 10.0];
     NSFont* boldFont = [[NSFontManager sharedFontManager] convertFont: bigFont
                                                           toHaveTrait: NSBoldFontMask];
     NSFont* italicFont = [[NSFontManager sharedFontManager] convertFont: boldFont
@@ -377,17 +376,21 @@ static IFCompilerController* activeController = nil;
 
 - (void) gotStdout: (NSNotification*) not {
     NSString* data = [[not userInfo] objectForKey: @"string"];
-    
-    [[[compilerResults textStorage] mutableString] appendString: data];
+	NSAttributedString* newString = [[[NSAttributedString alloc] initWithString: data
+																	 attributes: [styles objectForKey: IFStyleBase]] autorelease];
+	
+	[[compilerResults textStorage] appendAttributedString: newString];
 
     [self scrollToEnd];
 }
 
 - (void) gotStderr: (NSNotification*) not {
     NSString* data = [[not userInfo] objectForKey: @"string"];
-
-    [[[compilerResults textStorage] mutableString] appendString: data];
-
+	NSAttributedString* newString = [[[NSAttributedString alloc] initWithString: data
+																	 attributes: [styles objectForKey: IFStyleBase]] autorelease];
+	
+	[[compilerResults textStorage] appendAttributedString: newString];
+		
     [self scrollToEnd];
 }
 
@@ -461,8 +464,6 @@ static IFCompilerController* activeController = nil;
     
     // Set the text to the base style
 	[storage beginEditing];
-    [storage setAttributes: [styles objectForKey: IFStyleBase]
-                     range: [storage editedRange]];
 
     // For each line since highlightPos...
     NSString* str = [storage string];
@@ -499,7 +500,7 @@ static IFCompilerController* activeController = nil;
     } while (newlinePos != -1);
     
     // Finish up
-	[storage endEdting];
+	[storage endEditing];
 }
 
 // == The error OutlineView ==
