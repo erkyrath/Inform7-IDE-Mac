@@ -13,13 +13,82 @@
 #import "IFInform6Syntax.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
-#define maxHighlightAmount 2048
+#define maxHighlightAmount 512
 #undef  showHighlighting
+
+static NSDictionary* styles[256];
 
 @implementation IFProjectPane
 
 + (IFProjectPane*) standardPane {
     return [[[self alloc] init] autorelease];
+}
+
++ (void) initialize {
+    NSFont* systemFont       = [NSFont systemFontOfSize: 11];
+    NSFont* smallFont        = [NSFont boldSystemFontOfSize: 9];
+    NSFont* boldSystemFont   = [NSFont boldSystemFontOfSize: 11];
+    NSFont* headerSystemFont = [NSFont boldSystemFontOfSize: 16];
+    
+    // Default style
+    NSDictionary* defaultStyle = [[NSDictionary dictionaryWithObjectsAndKeys:
+        systemFont, NSFontAttributeName, 
+        [NSColor blackColor], NSForegroundColorAttributeName,
+        nil] retain];
+    int x;
+    
+    for (x=0; x<256; x++) {
+        styles[x] = defaultStyle;
+    }
+    
+    // This set of styles will eventually be the 'colourful' set
+    // We also need a 'no styles' set (probably just turn off the highlighter, gives
+    // speed advantages), and a 'subtle' set (styles indicated only by font changes)
+    
+    // Styles for various kinds of code
+    styles[IFSyntaxString] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        systemFont, NSFontAttributeName,
+        [NSColor colorWithDeviceRed: 0.53 green: 0.08 blue: 0.08 alpha: 1.0], NSForegroundColorAttributeName,
+        nil] retain];
+    styles[IFSyntaxComment] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        smallFont, NSFontAttributeName,
+        [NSColor colorWithDeviceRed: 0.14 green: 0.43 blue: 0.14 alpha: 1.0], NSForegroundColorAttributeName,
+        nil] retain];
+        
+    // Inform 6 syntax types
+    styles[IFSyntaxDirective] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        systemFont, NSFontAttributeName,
+        [NSColor colorWithDeviceRed: 0.20 green: 0.08 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
+        nil] retain];
+    styles[IFSyntaxProperty] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        boldSystemFont, NSFontAttributeName,
+        [NSColor colorWithDeviceRed: 0.08 green: 0.08 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
+        nil] retain];
+    styles[IFSyntaxFunction] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        boldSystemFont, NSFontAttributeName,
+        [NSColor colorWithDeviceRed: 0.08 green: 0.53 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
+        nil] retain];
+    styles[IFSyntaxCode] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        boldSystemFont, NSFontAttributeName,
+        [NSColor colorWithDeviceRed: 0.46 green: 0.06 blue: 0.31 alpha: 1.0], NSForegroundColorAttributeName,
+        nil] retain];
+    styles[IFSyntaxAssembly] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        boldSystemFont, NSFontAttributeName,
+        [NSColor colorWithDeviceRed: 0.46 green: 0.31 blue: 0.31 alpha: 1.0], NSForegroundColorAttributeName,
+        nil] retain];
+    styles[IFSyntaxCodeAlpha] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        systemFont, NSFontAttributeName,
+        [NSColor colorWithDeviceRed: 0.5 green: 0.5 blue: 0.5 alpha: 1.0], NSForegroundColorAttributeName,
+        nil] retain];
+    styles[IFSyntaxEscapeCharacter] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        boldSystemFont, NSFontAttributeName,
+        [NSColor colorWithDeviceRed: 0.53 green: 0.08 blue: 0.08 alpha: 1.0], NSForegroundColorAttributeName,
+        nil] retain];
+        
+    // Natural inform syntax types
+    styles[IFSyntaxHeading] = [[NSDictionary dictionaryWithObjectsAndKeys:
+        headerSystemFont, NSFontAttributeName,
+        nil] retain];
 }
 
 - (id) init {
@@ -49,6 +118,7 @@
     //    -- Caused by a bug in NSTextView it appears (just creating
     //       anything with an NSTextView causes the same leak).
     //       Doesn't always happen. Not very much memory. Still annoying.
+    // (Better in Panther?)
     [paneView       release];
     [compController release];
     [sourceFiles    release];
@@ -435,27 +505,40 @@
 }
 
 - (void) highlighterIteration {
-    NSRange invalid = [highlighter invalidRange];
+    int amountToHighlight = maxHighlightAmount;
     
-    if (invalid.location != NSNotFound && invalid.length != 0) {
-        if (remainingFileToProcess.location == NSNotFound || remainingFileToProcess.length == 0) {
-            remainingFileToProcess = invalid;
-        } else {
-            remainingFileToProcess = NSUnionRange(remainingFileToProcess, invalid);
-        }
-    }
+    while (amountToHighlight > 0) {
+        NSRange invalid = [highlighter invalidRange];
 
-    if (remainingFileToProcess.location != NSNotFound) {
-        if (remainingFileToProcess.length < maxHighlightAmount) {
-            [self highlightRange: remainingFileToProcess];
+        // Add anything that needs highlighting to the range that we're working on
+        if (invalid.location != NSNotFound && invalid.length != 0) {
+            if (remainingFileToProcess.location == NSNotFound || remainingFileToProcess.length == 0) {
+                remainingFileToProcess = invalid;
+            } else {
+                remainingFileToProcess = NSUnionRange(remainingFileToProcess, invalid);
+            }
+        }
         
+        if (remainingFileToProcess.location == NSNotFound || remainingFileToProcess.length == 0)
+            break;
+
+        // Highlight!
+        if (remainingFileToProcess.length < amountToHighlight) {
+            // Highlight everything if that's all there is to do
+            [self highlightRange: remainingFileToProcess];
+            
+            amountToHighlight -= remainingFileToProcess.length;
+           
             remainingFileToProcess.location = NSNotFound;
             remainingFileToProcess.length   = 0;
         } else {
+            // Highlight up to the maximum amount
             [self highlightRange: NSMakeRange(remainingFileToProcess.location,
-                                              maxHighlightAmount)];
-            remainingFileToProcess.location += maxHighlightAmount;
-            remainingFileToProcess.length   -= maxHighlightAmount;
+                                              amountToHighlight)];
+            remainingFileToProcess.location += amountToHighlight;
+            remainingFileToProcess.length   -= amountToHighlight;
+            
+            amountToHighlight = 0;
         }
     }
         
@@ -482,71 +565,7 @@
 
 // = Syntax highlighting =
 - (NSDictionary*) attributeForStyle: (enum IFSyntaxType) style {
-    switch (style) {
-        case IFSyntaxNone:
-            return [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor blueColor], NSForegroundColorAttributeName, nil];
-            
-        case IFSyntaxString:
-            return [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor grayColor], NSForegroundColorAttributeName, nil];
-
-        case IFSyntaxComment:
-            return [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor greenColor], NSForegroundColorAttributeName, nil];
-        
-        // Inform 6 syntax types
-        case IFSyntaxDirective:
-            return [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor blackColor], NSForegroundColorAttributeName, nil];
-            
-        case IFSyntaxProperty:
-            return [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor redColor], NSForegroundColorAttributeName, nil];
-            
-        case IFSyntaxFunction:
-            return [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor redColor], NSForegroundColorAttributeName, nil];
-            
-        case IFSyntaxCode:
-            return [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor blueColor], NSForegroundColorAttributeName, nil];
-            
-        case IFSyntaxCodeAlpha:
-            return [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor greenColor], NSForegroundColorAttributeName, nil];
-            
-        case IFSyntaxAssembly:
-            return [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor magentaColor], NSForegroundColorAttributeName, nil];
-            
-        case IFSyntaxEscapeCharacter:
-            return [NSDictionary dictionaryWithObjectsAndKeys:
-                [NSColor redColor], NSForegroundColorAttributeName, nil];
-                        
-        // Natural inform syntax types
-        case IFSyntaxHeading:
-            
-        // Debug syntax types
-        default:
-            printf("Unknown: %x (%x)\n", (int)style, IFSyntaxDebugHighlight);
-            if ((long)style >= IFSyntaxDebugHighlight) {
-                NSMutableDictionary* style = [[self attributeForStyle: (IFSyntaxType)(style - IFSyntaxDebugHighlight)] mutableCopy];
-                
-                
-                
-                [style setObject: [NSNumber numberWithInt: NSUnderlineStyleThick]
-                          forKey: NSUnderlineStyleAttributeName];
-                [style setObject: [NSColor redColor]
-                          forKey: NSUnderlineColorAttributeName];
-                
-                return [style autorelease];
-            }
-        
-            // Default syntax colouring
-            return [NSDictionary dictionaryWithObjectsAndKeys: 
-                [NSFont systemFontOfSize: 12], NSFontAttributeName, nil];
-    }
+    return styles[style];
 }
 
 - (void) highlightEntireFile {
@@ -597,6 +616,8 @@
         [[sourceText textStorage] addAttributes: attr
                                         range: r];
     }
+    
+    free(buf);
 
     [[sourceText textStorage] setDelegate: self];
 }
