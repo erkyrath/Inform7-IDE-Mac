@@ -22,7 +22,11 @@
 
 - (void) keyDown: (NSEvent*) event {
 	IFProjectController* controller = [[self window] windowController];
-	[controller removeAllTemporaryHighlights];
+	[[NSRunLoop currentRunLoop] performSelector: @selector(removeAllTemporaryHighlights)
+										 target: controller
+									   argument: nil
+										  order: 8
+										  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
 
 	[super keyDown: event];
 }

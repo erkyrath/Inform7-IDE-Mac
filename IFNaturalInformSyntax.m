@@ -237,7 +237,8 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
 	}
 	
 	// Last line
-	lines = realloc(lines, sizeof(IFNaturalInformLine)*(nLines+1));
+	if (nLines >= oldnLines)
+		lines = realloc(lines, sizeof(IFNaturalInformLine)*(nLines+1));
 	
 	lines[nLines].length     = x - startPos;
 	
@@ -254,7 +255,7 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
 		lineStart += lines[lastLine].length;
 	}
 	
-	if (lastLine > nLines) {
+	if (lastLine >= nLines) {
 		lastLine--;
 		lineStart -= lines[lastLine].length;
 	}
@@ -268,6 +269,15 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
         for (x = nLines-1; x > (firstLine+diff); x--) {
             lines[x].startState = lines[x-diff].startState;
             lines[x].invalid = lines[x-diff].invalid;
+			
+#ifdef SANITY_CHECKS
+			if (x < 0 || x >= nLines) {
+				NSLog(@"IFNaturalInformSyntax: OOps, overwrote heap!"); abort();
+			}
+			if (x-diff < 0) {
+				NSLog(@"IFNaturalInformSyntax: Oops, read from wrong place! %i %i %i %i %i", x, nLines, oldnLines, x+diff, diff);
+			}
+#endif
         }		
 	} else if (nLines < oldnLines) {
         int diff = oldnLines - nLines;
@@ -275,6 +285,15 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
         for (x = firstLine; x < nLines; x++) {
 			lines[x].startState = lines[x+diff].startState;
 			lines[x].invalid = lines[x+diff].invalid;
+			
+#ifdef SANITY_CHECKS
+			if (x < 0 || x >= nLines) {
+				NSLog(@"IFNaturalInformSyntax: OOps, overwrote heap!"); abort();
+			}
+			if (x+diff >= oldnLines) {
+				NSLog(@"IFNaturalInformSyntax: Oops, read from wrong place! %i %i %i %i %i", x, nLines, oldnLines, x+diff, diff);
+			}
+#endif
         }
 	}
 	
@@ -334,6 +353,17 @@ static inline unsigned char Colour(IFNaturalInformState state, int chr) {
 			invalid = invalidRange;
 		else
 			invalid = NSUnionRange(invalid, invalidRange);
+	}
+	
+	if (invalid.location != NSNotFound) {
+		if (invalid.location < 0) {
+			invalid.location = 0;
+			NSLog(@"invalid.location < 0");
+		}
+		if (invalid.length+invalid.location > [file length]) {
+			invalid.length = [file length] - invalid.location;
+			NSLog(@"invalid.length > file size");
+		}
 	}
 	
 	return invalid;

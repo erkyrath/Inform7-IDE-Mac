@@ -1015,7 +1015,7 @@ static NSDictionary*  itemDictionary = nil;
 		[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
 		[self runCompilerOutput];
 	} else {
-		//[self compileAndRun: self]; -- we do this when 'playToPoint' is called
+		//[self compileAndRun: self]; -- we do this when 'playToPoint' is calle
 	}
 }
 

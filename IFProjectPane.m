@@ -398,13 +398,11 @@ static NSDictionary* styles[256];
     NSRange ourGlyph = [layout glyphRangeForCharacterRange: NSMakeRange(linepos,lineLength)
                                       actualCharacterRange: &ourLine];
 
-    NSRect lineLocation = [layout boundingRectForGlyphRange: ourGlyph
-                                            inTextContainer: [sourceText textContainer]];
     //NSRect lineLocation = [layout lineFragmentRectForGlyphAtIndex: ourGlyph.location
     //                                               effectiveRange: nil];
 
     // Time to scroll
-    [sourceText scrollRectToVisible: lineLocation];
+	[sourceText scrollRangeToVisible: NSMakeRange(linepos, 1)];
     [sourceText setSelectedRange: NSMakeRange(linepos,0)];
 }
 
@@ -872,6 +870,7 @@ static NSDictionary* styles[256];
 		selected.length = newLen;
 	}
 	
+	[sourceText scrollRangeToVisible: selected];
 	[sourceText setSelectedRange: selected];
 	[textStorage setDelegate: self];
         
@@ -908,11 +907,24 @@ static NSDictionary* styles[256];
 	
 	//[self highlightRange: highlightRange];
 	
-	[self highlighterIteration];
+	//[self highlighterIteration];
 	
 	// Create a highlighter ticker to highlight everything that's changed (the delay ensures that
 	// we can type without being interrupted by the highlighter)
-	[self createHighlighterTickerIfRequired: 0.5];
+	//[self createHighlighterTickerIfRequired: 0.2];
+	
+	// Check if we're in the wrong run loop?? (Yep, Apple sometimes calls these things from different threads)
+	if ([NSRunLoop currentRunLoop] != [IFAppDelegate mainRunLoop]) {
+		NSBeep();
+		NSLog(@"Oops, wrong run loop!!");
+	}
+
+	// Vague attempt to avoid a crash that keeps occuring while editing
+	[[IFAppDelegate mainRunLoop] performSelector: @selector(highlighterIteration)
+										  target: self
+										argument: nil
+										   order: 10
+										   modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
     
     [[sourceText textStorage] setDelegate: self];
 }
