@@ -101,6 +101,8 @@
     }
     
     [tabView setDelegate: self];
+    
+    [sourceText setUsesFindPanel: YES];
 }
 
 - (void) setController: (IFProjectController*) p {
@@ -289,6 +291,8 @@
     } else {
         [zmachineVersion deselectAllCells];
     }
+    
+    [runLoudly setState: [settings loudly]?NSOnState:NSOffState];
 }
 
 - (IBAction) settingsHaveChanged: (id) sender {
@@ -311,6 +315,8 @@
         [settings setRunBuildScript: [sender state]==NSOnState];
     } else if (sender == zmachineVersion) {
         [settings setZCodeVersion: [[sender selectedCell] tag]];
+    } else if (sender == runLoudly) {
+        [settings setLoudly: [sender state]==NSOnState];
     } else {
         NSLog(@"Interface BUG: unknown/unimplemented setting control");
         [self updateSettings];

@@ -28,6 +28,9 @@ extern NSString* IFSettingRunBuildScript;
 // Notifications
 extern NSString* IFSettingNotification;
 
+// Natural Inform
+extern NSString* IFSettingLoudly;
+
 // The settings dictionary object
 @interface IFCompilerSettings : NSObject<NSCoding>  {
     NSMutableDictionary* store;
@@ -50,6 +53,9 @@ extern NSString* IFSettingNotification;
 - (void)      setZCodeVersion: (int) version;
 - (int)       zcodeVersion;
 - (NSString*) fileExtension;
+
+- (void)      setLoudly: (BOOL) loudly;
+- (BOOL)      loudly;
 
 // Getting command line arguments, etc
 - (NSArray*) commandLineArguments;

@@ -22,6 +22,9 @@ NSString* IFSettingDEBUG         = @"IFSettingDEBUG";
 NSString* IFSettingCompileNatOutput = @"IFSettingCompileNatOutput";
 NSString* IFSettingRunBuildScript = @"IFSettingRunBuildScript";
 
+// Natural Inform
+NSString* IFSettingLoudly = @"IFSettingLoudly";
+
 // Notifications
 NSString* IFSettingNotification = @"IFSettingNotification";
 
@@ -158,7 +161,15 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (NSArray*) naturalInformCommandLineArguments {
-    return [NSArray array];
+    NSMutableArray* res = [NSMutableArray array];
+    
+    BOOL isLoudly = [self loudly];
+    
+    if (isLoudly) {
+        [res addObject: @"-loudly"];
+    }
+    
+    return res;
 }
 
 // = Setting up the settings =
@@ -261,6 +272,16 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     } else {
         return NO;
     }
+}
+
+- (void) setLoudly: (BOOL) setting {
+    [store setObject: [NSNumber numberWithBool: setting]
+              forKey: IFSettingLoudly];
+    [self settingsHaveChanged];
+}
+
+- (BOOL) loudly {
+    return [[store objectForKey: IFSettingLoudly] boolValue];
 }
 
 - (void) setZCodeVersion: (int) version {

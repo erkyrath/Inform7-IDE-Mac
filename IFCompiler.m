@@ -322,6 +322,32 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
                                                             object: self
                                                           userInfo: uiDict];
     } else {
+        int exitCode = [theTask terminationStatus];
+        
+        if (exitCode != 0) {
+            // The task failed
+            if (delegate &&
+                [delegate respondsToSelector: @selector(taskFinished:)]) {
+                [delegate taskFinished: exitCode];
+            }
+            
+            // Notify everyone of the failure
+            NSDictionary* uiDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                [NSNumber numberWithInt: exitCode],
+                @"exitCode",
+                nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName: IFCompilerFinishedNotification
+                                                                object: self
+                                                              userInfo: uiDict];
+            
+            // Give up
+            [runQueue removeAllObjects];
+            [theTask release];
+            theTask = nil;
+            
+            return;
+        }
+        
         // Prepare the next task for launch
         if (theTask) {
             if ([theTask isRunning]) {

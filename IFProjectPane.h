@@ -73,6 +73,7 @@ enum IFProjectPaneType {
 
     IBOutlet NSButton* donotCompileNaturalInform;
     IBOutlet NSButton* runBuildSh;
+    IBOutlet NSButton* runLoudly;
 
     // Other variables
     NSMutableArray* sourceFiles;
