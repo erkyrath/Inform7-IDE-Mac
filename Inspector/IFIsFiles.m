@@ -245,7 +245,7 @@ static int stringComparer(id a, id b, void * context) {
 		} else {
 			icon = [[NSWorkspace sharedWorkspace] iconForFileType: [fullPath pathExtension]];
 		}
-
+		
 		// Pick the smallest representation of the icon
 		NSArray* reps = [icon representations];
 		NSEnumerator* repEnum = [reps objectEnumerator];

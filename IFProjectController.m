@@ -238,6 +238,9 @@ static NSDictionary*  itemDictionary = nil;
     [splitViews release];
 	
 	[lineHighlighting release];
+	
+	[generalPolicy release];
+	[docPolicy release];
 
     [super dealloc];
 }

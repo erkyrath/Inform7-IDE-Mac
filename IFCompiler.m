@@ -415,6 +415,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 		
 	[executeString appendString: @"\n"];
 	[self sendStdOut: executeString];
+	[executeString release]; executeString = nil;
 
     [theTask setArguments:  args];
     [theTask setLaunchPath: command];
@@ -584,6 +585,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 			
 		[executeString appendString: @"\n"];
 		[self sendStdOut: executeString];
+		[executeString release]; executeString = nil;
 		
         // Prepare the task
         [theTask setArguments:  args];
