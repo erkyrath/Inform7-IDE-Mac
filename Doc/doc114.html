@@ -1,0 +1,22 @@
+<html><head><title>9.9. In what order?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>9.9. In what order?</b>
+<p>
+<p>When several different lines of grammar are supplied to meet the same circumstances, it makes a big difference what order they are tried in. For instance, suppose we have:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;photograph [a door]&quot; as photographing.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.</font></blockquote>
+<p>
+<p>The second line is more specific than the first, so Inform takes these grammar lines the other way around: it checks for &quot;open door&quot; before it checks for &quot;door&quot;. That didn't matter here, since both lines came out with the same result (the action of photographing), but it matters very much in the next example:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;employ [a door]&quot; as opening.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Understand &quot;employ [an open door]&quot; as entering.</font></blockquote>
+<p>
+<p>More subtle is a line already seen:
+<p>
+<p><blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.</font></blockquote>
+<p>
+<p>Here Inform puts &quot;on top of&quot; before &quot;on/in/inside&quot;, since otherwise only the &quot;on&quot; of &quot;on top of&quot; will be recognised.
+<p>
+<p><hr><p><a href=doc113.html>Previous</a> / <a href=doc115.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>

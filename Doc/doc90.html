@@ -1,0 +1,32 @@
+<html><head><title>7.17. In what order?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><b>7.17. In what order?</b>
+<p>
+<p>Recall the definition:
+<p>
+<p><blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.</font></blockquote>
+<p>
+<p>Suppose we then try to &quot;slam shut the wall safe&quot; at a time during play when the wall safe is already closed. An error message will then be printed during play, since there must be a mistake in the design. The combination of checking both at construction time and continuously during play guarantees that, in all cases, a varying item such as &quot;box&quot; in the definition of &quot;To slam shut (box - open container)&quot; always satisfies the condition laid down.
+<p>
+<p>Instead suppose we also have the following definition:
+<p>
+<p><blockquote><font color="#000080">To slam shut (box - a container): say &quot;You are unable to slam shut [the box], which is already closed.&quot;.</font></blockquote>
+<p>
+<p>We now have two definitions of &quot;slam shut&quot;. Sometimes the box it's applied to will be closed, in which case only the second definition fits, and will be the one used. But if the box is open, both definitions fit. Which will happen? The rule is:
+<p>
+<p><blockquote><font color="#000080">1. A narrower condition takes precedence over a broader one;</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">2. If neither condition is narrower than the other, then whichever phrase was defined later in the source code is the one taking precedence;</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">3. Except that if the phrase is being used in the definition of phrase P, then P is always last in precedence order, so that recursion is always the very last possibility considered. This allows more specific or later definitions to make use of less specific or earlier ones in a natural way.</font></blockquote>
+<p>
+<p>Rule 1 ensures that a definition involving &quot;open container&quot; takes priority over one which merely involves &quot;container&quot;, for instance.
+<p>
+<p>And therefore when the box is open, it's the more specific phrase to do with open containers which is invoked: so, with great panache, the box is slammed shut.
+<p>
+<p>On the other hand, neither of these patterns is narrower than the other:
+<p>
+<p><blockquote><font color="#000080">To describe (something - transparent): ...<br>To describe (something - container): ...</font></blockquote>
+<p>
+<p>Some containers are transparent, some not; some transparent things are containers, some not. Rule 1 therefore does not apply, so it is the most recently defined of the two phrases which takes effect.
+<p>
+<p><hr><p><a href=doc89.html>Previous</a> / <a href=doc91.html>Next</a> / <a href=index.html>Contents</a><p></font></body></html>
