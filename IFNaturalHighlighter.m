@@ -27,8 +27,10 @@
 				return IFNaturalStateBlankLine;
 			// ObRAIF: here is why fall-through cases are a *good* thing
 		case IFNaturalStateText:
-			if (chr == '[') 
+			if (chr == '[') {
+				[activeStorage pushState];
 				return IFNaturalStateComment;
+			}
 			if (chr == '"')
 				return IFNaturalStateQuote;
 				if (chr == '\n')
@@ -36,8 +38,13 @@
 				return IFNaturalStateText;
 			
 		case IFNaturalStateComment:
-			if (chr == ']')
-				return IFNaturalStateText;
+			if (chr == '[') {
+				[activeStorage pushState];
+				return IFNaturalStateComment;
+			}
+			if (chr == ']') {
+				return [activeStorage popState];
+			}
 			return IFNaturalStateComment;
 			
 		case IFNaturalStateQuote:
