@@ -1,22 +1,22 @@
-<html><head><title>3.1. New kinds</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 3: Kinds</h2><p><table><tr><td><a href=doc26.html><img src=../Back.tif></a><a href=doc28.html><img src=../Forward.tif></a></td><td><b>3.1. New kinds</b></td></tr></table><p>
+<html><head><title>2.18. Parts of things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc26.html><img src=../Back.tif></a><a href=doc28.html><img src=../Forward.tif></a></td><td><b>2.18. Parts of things</b></td></tr></table><p>
 <p>
-<p>Everything has one and only one kind: but kinds can have more specific kinds. Inform makes the world out of three fundamental kinds of object, &quot;room&quot;, &quot;thing&quot; and &quot;direction&quot;: browsing the Kinds index will give an idea of how the others fit together. A container, for instance, is a kind of thing.
+<p>Everything has one and only one kind. This is both good and bad: good for clarity, bad if something needs to behave in two different ways at once. How might we simulate a car with an ignition key, given that no single thing can be both a &quot;vehicle&quot; and a &quot;device&quot; at the same time?
 <p>
-<p>Any new kind must be created as a special case of an existing one. Here we sub-categorise rooms:
+<p>The Inform world model takes the view that such a car is too complicated to be simulated with a single thing. Instead it should be simulated as a vehicle (the car) which has a device (the ignition) attached. This is done using a third kind of containment to those seen so far (&quot;in...&quot; and &quot;on...&quot;): &quot;part of&quot;.
 <p>
-<p><blockquote><font color="#000080">A dead end is a kind of room.</font></blockquote>
+<p><blockquote><font color="#000080">&quot;Buttons&quot;</font></blockquote>
 <p>
-<p>Any dead end that we make is also a room, but can also have other properties in addition, if we so decide. For the purposes of this example, it's useful to mention a property not seen so far: rooms can be &quot;dark&quot; or &quot;lighted&quot;, all the examples so far having been lighted. Similarly, a thing with the property of being a &quot;light source&quot; will enable the player to see inside dark rooms, and to carry out other activities requiring light, such as examining items.
+<p><blockquote><font color="#000080">The Confectionary Workshop is a room. The Chocolate Machine is here. &quot;The Chocolate Machine has pride of place. A lever and two buttons, one white, the other brown, seem to be the only controls. On top is a hopper.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came.&quot; A dead end is usually dark.</font></blockquote>
+<p><blockquote><font color="#000080">A container called the hopper is part of the Chocolate Machine. The lever, the white button and the brown button are parts of the Chocolate Machine.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove.</font></blockquote>
+<p><blockquote><font color="#000080">The Chocolatier's desk is here. &quot;The Chocolatier evidently works at the imposing green-leather topped desk facing the Machine. It has three drawers with brass handles.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">In the Undertomb is the candle lantern. It is a light source.</font></blockquote>
+<p><blockquote><font color="#000080">The upper drawer, the middle drawer and the lower drawer are parts of the desk. The upper drawer, the middle drawer and the lower drawer are openable closed containers. In the middle drawer is a sugared almond. In the lower drawer is a Battenburg cake. On the desk is a liquorice twist.</font></blockquote>
 <p>
-<p>Three different rooms adjoin the Undertomb as a result. Notice how much more concise this is thanks to having the &quot;dead end&quot; kind to hand.
+<p>The machine and the desk each have several &quot;parts&quot; representing subsidiary pieces of themselves. The desk is a &quot;supporter&quot; (it needs to be, for the liquorice twist to be on top) but also has three &quot;containers&quot; attached, each of which can be opened or closed independently.
 <p>
-<p>What is a kind, really? In the end it is a name for a bundle of properties, and the key differences between a kind (such as &quot;container&quot;) and a property (such as &quot;fixed in place&quot;) are that, firstly, something only has one kind (except in the sense that a container is also a thing, and so on), and secondly, it has that kind forever, whereas properties may change.
+<p>In the interests of realism, the standard rules of play protect these composite things. Thus if the desk were to be moved elsewhere (rolling on sugar casters perhaps) then its parts would move with it, and the player is not allowed to detach parts of things: the drawers can be opened or closed, but not pulled out altogether.
 <p>
 <p><hr><p><a href=doc26.html>Previous</a> / <a href=doc28.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

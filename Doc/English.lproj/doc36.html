@@ -1,26 +1,20 @@
-<html><head><title>3.10. Bibliographic data</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc35.html><img src=../Back.tif></a><a href=doc37.html><img src=../Forward.tif></a></td><td><b>3.10. Bibliographic data</b></td></tr></table><p>
+<html><head><title>3.9. Using new kinds of value in properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc35.html><img src=../Back.tif></a><a href=doc37.html><img src=../Forward.tif></a></td><td><b>3.9. Using new kinds of value in properties</b></td></tr></table><p>
 <p>
-<p>Inform has four special named values to hold the bibliographic data about the work being created - who wrote it, what it is called, what genre it has and what its release number is.
+<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
 <p>
-<p>These can be set as follows:
+<p><blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The story title is &quot;Mansfield Perk&quot;. The story author is &quot;Janet Austen&quot;. The story genre is &quot;An Interactive Romance&quot;. The release number is 7.</font></blockquote>
+<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
 <p>
-<p>A convenient abbreviation provides that if the first sentence of the source text consists solely of text in quotation marks, then that is considered the title. Thus if the source begins:
+<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
 <p>
-<p><blockquote><font color="#000080">&quot;Mansfield Perk&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.</font></blockquote>
 <p>
-<p>then that will be the story title. Further, we can write
+<p>New kinds of value are very convenient when substituting variations in text:
 <p>
-<p><blockquote><font color="#000080">&quot;Mansfield Perk&quot; by Janet Austen</font></blockquote>
+<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.</font></blockquote>
 <p>
-<p>with the obvious effect: quotation marks around the author's name are optional here, for convenience, but note that we'd better have them in cases like:
-<p>
-<p><blockquote><font color="#000080">&quot;Three Men in a Boat&quot; by &quot;Jerome K. Jerome&quot;</font></blockquote>
-<p>
-<p>as otherwise the full stop after the K will end the sentence prematurely.
-<p>
-<p>If unspecified, the story genre is &quot;An Interactive Fiction&quot;, in accordance with tradition, and the release number is 1.
+<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
 <p>
 <p><hr><p><a href=doc35.html>Previous</a> / <a href=doc37.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

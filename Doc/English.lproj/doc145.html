@@ -1,10 +1,12 @@
-<html><head><title>11.10. Using Inform 6 within Inform 7</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc144.html><img src=../Back.tif></a><a href=doc146.html><img src=../Forward.tif></a></td><td><b>11.10. Using Inform 6 within Inform 7</b></td></tr></table><p>
+<html><head><title>11.7. Extensions can include other extensions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc144.html><img src=../Back.tif></a><a href=doc146.html><img src=../Forward.tif></a></td><td><b>11.7. Extensions can include other extensions</b></td></tr></table><p>
 <p>
-<p>The final sections of this chapter bring in how Inform 7, the current version, and Inform 6 can be made to work together, and will make little or no sense to those who do not already use I6 (as we will henceforth write).
+<p>As was mentioned earlier, the same extension is sometimes requested several times. For instance, suppose the main source text asks to include version 2 of extension X, and also to include extension Y. Suppose further that Y contains a request to include version 4 of X. We now have two different requests for X. Inform works out the minimum version number needed to satisfy these requests (in this case 4) and gives an error if the extension it actually loads turns out to be earlier.
 <p>
-<p>As will become clear, it would be easy to write highly hybridised code, constantly mixing I6 and I7. The methods for incorporating I6 code into I7 have been designed to encourage people to use I6 in as self-contained a way as possible: that is, to isolate the relatively few functions which need to be written in I6, and to give them natural language expression. Ideally, all I6 content would be confined to self-contained extensions, so that the source for actual works of interactive fiction can be purely natural.
+<p>This is especially useful when it comes to the Standard Rules. Suppose an extension is written which works with version 3 or later of the Standard Rules, but not with version 2. All the extension needs to do is to say:
 <p>
-<p>So why provide I6 features at all, even for extensions? It's true that extensions do not actually <i>need</i> them either, but it's anticipated that (especially in these early days) many people will want a simple way to adapt existing I6 extensions to work in I7 as well. Besides that, for complex computational tasks better suited to a C-like computer programming language it may be entirely appropriate to drop down into I6. Lastly, the features of I7 used to mesh with I6 are essential to the workings of the Standard Rules, so it would be sensible to document those features somewhere.
+<p><blockquote><font color="#000080">Include version 3 of the Standard Rules by Graham Nelson.</font></blockquote>
+<p>
+<p>If an extension does include other extensions, it should do so in a paragraph immediately following the introductory sentence, so that anyone looking at the file can see these mutual dependencies at a glance.
 <p>
 <p><hr><p><a href=doc144.html>Previous</a> / <a href=doc146.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,20 +1,18 @@
-<html><head><title>8.12. Listed in...</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc109.html><img src=../Back.tif></a><a href=doc111.html><img src=../Forward.tif></a></td><td><b>8.12. Listed in...</b></td></tr></table><p>
+<html><head><title>8.9. Blank rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc109.html><img src=../Back.tif></a><a href=doc111.html><img src=../Forward.tif></a></td><td><b>8.9. Blank rows</b></td></tr></table><p>
 <p>
-<p>Tables are especially useful for combining a run of basically similar rules in a simple and concise way. The &quot;listed in&quot; condition, as in
+<p>There is no difficulty about entirely blank rows: or rather, the only difficulty is once again that they are boring to type out. We can avoid the necessity by appending &quot;with ... blank rows&quot; at the foot of the table:
 <p>
-<p><blockquote><font color="#000080">if the newfound object is an item listed in the table of treasures...</font></blockquote>
+<p><center><img src=table6.tiff></center>
 <p>
-<p>looks through a given table (here &quot;table of treasures&quot;), in a given column (&quot;item&quot;), to see if a given value is present (&quot;the newfound object&quot;). If this is successful, the row where it was found is automatically chosen.
+<p>(These words cannot be placed in between rows, but only at the bottom.) And indeed the table can start out completely empty:
 <p>
-<p>We can similarly use &quot;... listed in ...&quot; in a description used when specifying an action. Thus:
+<p><center><img src=table7.tiff></center>
 <p>
-<p><blockquote><font color="#000080">After taking an item listed in the table of treasures:<br>if there is no time entry begin;<br>change the time entry to the time of day;<br>award (value entry) points;<br>end if;<br>say &quot;Taken!&quot;</font></blockquote>
+<p>Blank rows are useful because they enable us to add new data to a table. In effect, they are invisible when not used. A repeat loop like
 <p>
-<p>This assumes a table in the following shape:
+<p><blockquote><font color="#000080">repeat through Table 3 begin; ...; end repeat</font></blockquote>
 <p>
-<p><center><img src=table11.tiff></center>
-<p>
-<p>In effect the table has allowed us to combine three very similar rules into one. The time column records the first time at which the item has been picked up, which starts out blank since at the start of play it has never been picked up. This enables us to award the appropriate number of points on the first occasion only.
+<p>automatically skips blank rows, so it would initially do nothing at all. Similarly, choosing a &quot;random&quot; row will never choose a blank one.
 <p>
 <p><hr><p><a href=doc109.html>Previous</a> / <a href=doc111.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,14 +1,16 @@
-<html><head><title>4.7. After rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc43.html><img src=../Back.tif></a><a href=doc45.html><img src=../Forward.tif></a></td><td><b>4.7. After rules</b></td></tr></table><p>
+<html><head><title>4.4. Instead rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc43.html><img src=../Back.tif></a><a href=doc45.html><img src=../Forward.tif></a></td><td><b>4.4. Instead rules</b></td></tr></table><p>
 <p>
-<p>There is pleasantly little to be said about &quot;after&quot; rules. If an action has survived all the rules in its way, and has actually succeeded, then we need to give the player a response which acknowledges this. Inform's normal rules will be sufficient to say something undramatic: for instance, if &quot;taking the napkin&quot; has succeeded then it will reply &quot;Taken.&quot; to the player.
+<p>An action is ordinarily handled by running it through Inform's extensive rulebooks of what might be called normal behaviour. An action such as &quot;taking the napkin&quot;, for instance, will be run through numerous checks to see if it is physically reasonable, and then provided all is well, the napkin will be moved into the possession of the player.
 <p>
-<p>An after rule is an opportunity to say something more interesting:
+<p>Instead, though, we can bypass that whole process and do something else:
 <p>
-<p><blockquote><font color="#000080">After taking the diamonds, say &quot;Taken!&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Instead of eating the napkin: say &quot;Why not wait for the actual dinner to arrive?&quot;</font></blockquote>
 <p>
-<p>(Well, slightly more interesting.) After rules automatically end the action (as a success), which is what we would want in the above case. Allowing it to continue would simply result in &quot;Taken.&quot; being printed as well. However, should we really need to do something and then carry on:
+<p>This is an example of a &quot;rule&quot;: a set of circumstances followed by a list of instructions. When those circumstances apply, the instructions are carried out. In the case of an &quot;instead&quot; rule, after this is done the action is immediately ended (and counts as a failure, since the original intention has been thwarted).
 <p>
-<p><blockquote><font color="#000080">After taking the diamonds: say &quot;(Mr Beebe looks up sharply.) &quot;; continue the action.</font></blockquote>
+<p>A friendly alternative can be used when there is only a single instruction, as here: in such rules the colon can be replaced with a comma. Thus:
+<p>
+<p><blockquote><font color="#000080">Instead of eating the napkin, say &quot;Why not wait for the actual dinner to arrive?&quot;</font></blockquote>
 <p>
 <p><hr><p><a href=doc43.html>Previous</a> / <a href=doc45.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -488,7 +488,7 @@ Global visibility_levels;
   if (noun has locked) { L__M(##Unlock,2,noun); RulebookFails(); rtrue; } rfalse; ];
 [ UnlockSub_C3;
   if (noun.with_key~=second) { L__M(##Unlock,3,noun); RulebookFails(); rtrue; } rfalse; ];
-[ UnlockSub_O1; give noun locked; rfalse; ];
+[ UnlockSub_O1; give noun ~locked; rfalse; ];
 [ UnlockSub_R1; L__M(##Unlock,4,noun); RulebookSucceeds(); rtrue; ];
 
 [ SwitchOnSub_C1;
@@ -502,7 +502,7 @@ Global visibility_levels;
   if (noun hasnt switchable) { L__M(##SwitchOff,1,noun); RulebookFails(); rtrue; } rfalse; ];
 [ SwitchOffSub_C2;
   if (noun hasnt on) { L__M(##SwitchOff,2,noun); RulebookFails(); rtrue; } rfalse; ];
-[ SwitchOffSub_O1; give noun on; rfalse; ];
+[ SwitchOffSub_O1; give noun ~on; rfalse; ];
 [ SwitchOffSub_R1; L__M(##SwitchOff,3,noun); RulebookSucceeds(); rtrue; ];
 
 [ OpenSub_C1;

@@ -200,7 +200,6 @@ static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 	[self shrinkInspectorsToFit];
 }
 
-
 - (BOOL) inspectorStateForKey: (NSString*) key {
 	NSNumber* insNum = [inspectorDict objectForKey: key];
 	

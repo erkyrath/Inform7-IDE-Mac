@@ -1,10 +1,22 @@
-<html><head><title>6.8. Approximate times, lengths of time</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc72.html><img src=../Back.tif></a><a href=doc74.html><img src=../Forward.tif></a></td><td><b>6.8. Approximate times, lengths of time</b></td></tr></table><p>
+<html><head><title>6.5. Every turn</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc72.html><img src=../Back.tif></a><a href=doc74.html><img src=../Forward.tif></a></td><td><b>6.5. Every turn</b></td></tr></table><p>
 <p>
-<p>Clocks and watches vary considerably in how much detail they show, and we tend not to report the time over-precisely: half-past ten is an elastic concept. The following room description for the Clock Chamber comes across much more naturally:
+<p>The passage of time in interactive fiction is broken up into a succession of turns, in each of which the player types a request and is given a response. Usually each such request triggers one action, but sometimes a whole sequence are fired off, as when the player types &quot;get all&quot; in a cluttered room.
 <p>
-<p><blockquote><font color="#000080">The Clock Chamber is a room. &quot;The dark chamber behind the clock face, a mill-room of gears which grind down the seconds. Through the glass you can see the reversed hands reading [the time of day to the nearest five minutes in words].&quot;</font></blockquote>
+<p>One of the last things to happen in each turn is that Inform will apply any rules which have been set to occur &quot;every turn&quot;, like so:
 <p>
-<p>The phrase &quot;... to the nearest ...&quot; rounds off the given time, just as it sounds. For instance, &quot;9:58 PM to the nearest ten minutes&quot; is 10:00 PM. As this shows, we can also quote lengths of time, not just times of day: for instance &quot;7 hours&quot;, &quot;one hour 14 minutes&quot;, or &quot;90 minutes&quot; all validly describe durations. We never (ordinarily) deal in periods of time longer than a single day.
+<p><blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<p>
+<p>This is equivalent to writing:
+<p>
+<p><blockquote><font color="#000080">An every turn rule: say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<p>
+<p>Note that the text about blossom, which will quickly become tiresome, is said at the end of every turn, not at the beginning, and in particular not before the player's first opportunity to type a command.
+<p>
+<p>As usual when defining rules, we can add stipulations:
+<p>
+<p><blockquote><font color="#000080">Every turn in the Orchard, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Every turn in the presence of the rotting fish, say &quot;Your nose twitches involuntarily.&quot;</font></blockquote>
 <p>
 <p><hr><p><a href=doc72.html>Previous</a> / <a href=doc74.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

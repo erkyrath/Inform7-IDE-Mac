@@ -1,20 +1,28 @@
-<html><head><title>11.13. Defining loops</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc147.html><img src=../Back.tif></a><a href=doc149.html><img src=../Forward.tif></a></td><td><b>11.13. Defining loops</b></td></tr></table><p>
+<html><head><title>11.10. Making new assertion sentences</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc147.html><img src=../Back.tif></a><a href=doc149.html><img src=../Forward.tif></a></td><td><b>11.10. Making new assertion sentences</b></td></tr></table><p>
 <p>
-<p>The two I7 versions of &quot;while&quot; are defined in the Standard Rules as follows:
+<p>The following feature is best used sparingly if at all. We have already seen that the following sentences are equivalent:
 <p>
-<p><blockquote><font color="#000080">To while (c - condition) repeatedly (ph - phrase): (- while {c} {ph} -).</font></blockquote>
+<p><blockquote><font color="#000080">The matching key of the blue door is the brass key.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">To while (c - condition) begin *: (- while {c}  -).</font></blockquote>
+<p><blockquote><font color="#000080">The brass key unlocks the blue door.</font></blockquote>
 <p>
-<p>The second case is the one which involves a block of code, to be ended later with an &quot;end while&quot;. The asterisk signals to I7 that such a block is expected. The I6 code should be such that an I6 code block, starting and ending with a brace, can legally follow it.
+<p>This comes about because the Standard Rules include the following line:
 <p>
-<p>Variables can be created as part of a loop which exist only within it. All that needs to be done is to supply their type and declare them to be &quot;variable&quot;:
+<p><blockquote><font color="#000080">X unlocks Y means that the matching key of Y is X.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">To repeat with (loopvar - number variable) running from (v - number) to (w - number) begin *: (- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).</font></blockquote>
+<p>We can make definitions like this at any point, but had better do so with some care and forethought. They make it possible to talk very elegantly about things belonging to new kinds, but the potential for havoc is considerable if they take effect in an unintended context. Up to four different variables are allowed, but must be called W, X, Y or Z for clarity: and note that they can be matched by empty text. Similarly, Inform also defines
 <p>
-<p><blockquote><font color="#000080">To repeat with (loopvar - object variable) running through contents of (v - object) begin *: (- objectloop ({loopvar} in {v})  -).</font></blockquote>
+<p><blockquote><font color="#000080">Above means up from. Below means down from.</font></blockquote>
 <p>
-<p>I7 will compile this using a local variable for &quot;loopvar&quot;: it may well re-use this variable later for other loops, so its value cannot be relied upon outside of the code block following the loop.
+<p>This tells Inform to transform &quot;above&quot; into &quot;up from&quot; whenever it occurs in an assertion, and similarly for &quot;below&quot;. Thus
+<p>
+<p><blockquote><font color="#000080">The Skylight is above the Conservatory.</font></blockquote>
+<p>
+<p>is transformed to
+<p>
+<p><blockquote><font color="#000080">The Skylight is up from the Conservatory.</font></blockquote>
+<p>
+<p>Notice that &quot;means that&quot; applies a change only to an entire sentence, whereas &quot;means&quot; applies to smaller pieces of text. Because of this, &quot;means&quot; has to be used with even more care.
 <p>
 <p><hr><p><a href=doc147.html>Previous</a> / <a href=doc149.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

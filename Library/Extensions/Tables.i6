@@ -72,6 +72,7 @@ Constant I7_TABLE_NOVALUE $7fe3;
 [ TableLookUpCorr tab col lookup_col lookup_value write_flag write_value i j v;
   if (col >= 100) col=TableFindCol(tab, col, true);
   if (lookup_col >= 100) lookup_col=TableFindCol(tab, lookup_col, true);
+  col = tab-->col;
   lookup_col = tab-->lookup_col;
   j = lookup_col-->0;
   for (i=2:i<=j:i++)

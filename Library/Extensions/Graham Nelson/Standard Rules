@@ -1504,6 +1504,8 @@ Section SR4/1 - The score and the outcome
 
 To start the player in (somewhere - a room):
 	(- location={somewhere}; -).
+To start the player at (somewhere - a room):
+	(- location={somewhere}; -).
 To change the player to (O - a player-character):
 	(- ChangePlayer({O}); -).
 To award (some - number) point:
@@ -1610,11 +1612,11 @@ To decide whether a random chance of (N - number) in (M - number) succeeds:
 
 Section SR4/7 - Tables
 
-To decide which number is the number of rows in (T - table):
+To decide which number is number of rows in (T - table-name):
 	(- TableRows({T}) -).
-To decide which number is the number of blank rows in (T - table):
+To decide which number is number of blank rows in (T - table-name):
 	(- TableBlankRows({T}) -).
-To decide which number is the number of filled rows in (T - table):
+To decide which number is number of filled rows in (T - table-name):
 	(- TableFilledRows({T}) -).
 To decide if there is (TR - table-reference):
 	(- (Exists{TR}) -).
@@ -1626,40 +1628,40 @@ To delete (tr - table-reference):
 	(- {tr}{-},1,I7_TABLE_NOVALUE); -).
 To blank out the whole row:
 	(- {+}TableBlankOutRow(ct_0, ct_1); -).
-To choose a blank row in (T - table):
+To choose a blank row in (T - table-name):
 	(- {+}ct_0 = {T}; ct_1 = TableBlankRow(ct_0); -).
-To choose a random row in (T - table):
+To choose a random row in (T - table-name):
 	(- {+}ct_0 = {T}; ct_1 = TableRandomRow(ct_0); -).
-To choose row (N - number) in (T - table):
+To choose row (N - number) in (T - table-name):
 	(- {+}ct_0 = {T}; ct_1 = {N}; -).
-To choose row with (TC - table-column) of (w - value) in (T - table):
+To choose row with (TC - table-column) of (w - value) in (T - table-name):
 	(- {+}ct_0 = {T}; ct_1 = TableRowCorr(ct_0, {TC}, {w}); -).
 
 Section SR4/7 - Searching and sorting tables
 
-To repeat through (T - table) begin *:
+To repeat through (T - table-name) begin *:
 	(- {+}ct_0 = {T}; for (ct_1=1:ct_1<=TableRows(ct_0):ct_1++) if (TableRowIsBlank(ct_0,ct_1)==false)  -).
-To repeat through (T - table) in reverse order begin *:
+To repeat through (T - table-name) in reverse order begin *:
 	(- {+}ct_0 = {T}; for (ct_1=TableRows(ct_0):ct_1>=1:ct_1--) if (TableRowIsBlank(ct_0,ct_1)==false)  -).
-To repeat through (T - table) in (TC - table-column) order begin *:
+To repeat through (T - table-name) in (TC - table-column) order begin *:
 	(- {+}ct_0 = {T}; for (ct_1=TableNextRow(ct_0,{TC},0,1):ct_1~=0:ct_1=TableNextRow(ct_0,{TC},ct_1,1))  -).
-To repeat through (T - table) in reverse (TC - table-column) order begin *:
+To repeat through (T - table-name) in reverse (TC - table-column) order begin *:
 	(- {+}ct_0 = {T}; for (ct_1=TableNextRow(ct_0,{TC},0,-1):ct_1~=0:ct_1=TableNextRow(ct_0,{TC},ct_1,-1))  -).
-To sort (T - table) in random order:
+To sort (T - table-name) in random order:
     (- TableShuffle({T}); -).
-To sort (T - table) in (TC - table-column) order:
+To sort (T - table-name) in (TC - table-column) order:
 	(- TableSort({T}, {TC}, 1); -).
-To sort (T - table) in reverse (TC - table-column) order:
+To sort (T - table-name) in reverse (TC - table-column) order:
 	(- TableSort({T}, {TC}, -1); -).
 
 
-Section SR4/4 - Changing properties and variables
+Section SR4/8 - Changing properties and variables
 
 To let (n - number variable) be (m - number):
 	(- {n} = {m}; -). 
 To let (n - time variable) be (m - time):
 	(- {n} = {m}; -). 
-To let (o - string variable) be (p - string):
+To let (o - string-of-text variable) be (p - string-of-text):
 	(- {o} = {p}; -). 
 To let (r - object variable) be (s - object):
 	(- {r} = {s}; -). 
@@ -1673,17 +1675,29 @@ To change (gv - global variable) to (w - value):
 	(- {gv} = {w}; -).
 To change (o - object) to (p - property):
 	(- if (PermitAttribute(true, {o}, {p})) give {o} {p}; -).
+To change (o - object) to (w - value):
+	(- WriteAccessProp({o},{*w},{w}); -).
 
 
-Section SR4/1 - Loops and conditionals
+Section SR4/9 - Loops and conditionals
 
 To if (c - condition) then (ph - phrase):
+	(- if {c} {ph} -).
+To if (c - condition) , (ph - phrase):
 	(- if {c} {ph} -).
 To otherwise (ph - phrase):
 	(- else {ph} -).
 To if (c - condition) begin *:
 	(- if {c}  -).
+To say if (c - condition):
+	(- {/} say__f = {c}; if (say__f) say__c=true; -).
+To say end if:
+	(- {/} say__f = true; say__c = false; -).
+To say otherwise:
+	(- {/} say__f = (say__c==false); -).
 To while (c - condition) repeatedly (ph - phrase):
+	(- while {c} {ph} -).
+To while (c - condition) , (ph - phrase):
 	(- while {c} {ph} -).
 To while (c - condition) begin *:
 	(- while {c}  -).
@@ -1704,7 +1718,7 @@ To no:
 To result (something - returned):
 	(- return {something}; -) - value.
 
-Section SR4/2 - Saying and listing
+Section SR4/10 - Saying and listing
 
 To say (something - number):
 	(- print {something}; -).
@@ -1716,7 +1730,7 @@ To say (something - number) in words:
 	(- print (number) {something}; -).
 To say the (something - number) in words:
 	(- print (number) {something}; -).
-To say (something - string):
+To say (something - string-of-text):
 	(- print (string) {something}; -).
 To say (something - object):
 	(- print (name) {something}; -).
@@ -1742,7 +1756,7 @@ To say the contents of (O - an object):
 	list the contents of O, as a sentence, using the definite article.
 
 
-Section SR4/2 - Accessibility
+Section SR4/11 - Accessibility
 
 To decide whether (o - object) is inaccessible, saying if not:
 	(- (ObjectIsUntouchable({o}, ~~({saying if not})) -).
@@ -1752,7 +1766,7 @@ To deny access:
 	(- RulebookFails(); rtrue; -).
 
 
-Section SR4/2 - Daemons
+Section SR4/12 - Daemons
 
 To start (RL - a rule):
 	(- SetDaemonRule({RL},1); -).
@@ -1760,7 +1774,7 @@ To stop (RL - a rule):
 	(- SetDaemonRule({RL},0); -).
 
 
-Section SR4/2 - Following rules
+Section SR4/13 - Following rules
 
 To follow (RL - a rule):
 	(- FollowRulebook({RL}); -).
@@ -1776,7 +1790,7 @@ To abide by (RL - a rule) for (O - object):
 	(- if (ProcessRulebook({RL}, {O})) rtrue; -).
 
 
-Section SR4/2 - Success and failure of rules
+Section SR4/14 - Success and failure of rules
 
 To make no decision: (- rfalse; -).
 To the rule succeeds:
@@ -1802,7 +1816,7 @@ To decide if the rule failed with result (O - classified):
 To decide which classified is the result of the rule:
 	(- (ResultOfRule()) -).
 
-Section SR4/2 - Procedural manipulation of rules
+Section SR4/15 - Procedural manipulation of rules
 
 To ignore (RL - a rule):
 	(- SuppressRule({RL}); -).
@@ -1823,7 +1837,7 @@ To move (RL1 - a rule) to after (RL2 - a rule):
 
 
 
-Section SR4/2 - Unindexed
+Section SR4/16 - Unindexed
 
 To abide by Inform GamePreRoutine:
 	(- if (GamePreRoutine()~=0) rtrue; -).

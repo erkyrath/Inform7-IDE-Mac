@@ -1,18 +1,20 @@
-<html><head><title>10.13. First and last rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc134.html><img src=../Back.tif></a><a href=doc136.html><img src=../Forward.tif></a></td><td><b>10.13. First and last rules</b></td></tr></table><p>
+<html><head><title>10.10. Reaching inside rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc134.html><img src=../Back.tif></a><a href=doc136.html><img src=../Forward.tif></a></td><td><b>10.10. Reaching inside rules</b></td></tr></table><p>
 <p>
-<p>This is the final technicality on rulebooks. Rulebooks are, as we have seen, automatically sorted in order of how specific the conditions for invoking the relevant rules are, so that for instance
+<p>So far we have seen rules which apply to actions, and rules which do not apply to anything specific - &quot;every turn&quot; rules, for instance. We can also have rules which apply to a specific object.
 <p>
-<p><blockquote><font color="#000080">Instead of taking a container, ...</font></blockquote>
+<p>An example of rules applying to given objects is provided by the way that Inform decides whether the player can reach something or not. For instance, suppose the following:
 <p>
-<p>will always come before
+<p><blockquote><font color="#000080">The Laboratory is a room. In the Laboratory is a conical flask. The flask is closed and transparent. In the flask is an antibumping granule.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of taking something, ...</font></blockquote>
+<p>The player will be able to examine the granule but not to take it, as that would require reaching through glass. Internally, what happens if the player tries to take the granule is this: a rulebook called the &quot;reaching inside rules&quot; is applied to the conical flask. This normally contains the following three rules:
 <p>
-<p>Sometimes, though, and especially with rulebooks where there is no particular ordering because conditions are usually not attached anyway (for instance, with &quot;every turn&quot; rules), it is useful to be certain that a particular rule comes first or last: especially if there is some housekeeping to do. For instance, the &quot;turn sequence&quot; rulebook, which is used behind the scenes to organise what happens at the end of each turn, has a crucial piece of housekeeping to do in order to maintain the consistency of the world model: it has to find out if the player's location has been plunged into darkness or, conversely, has been lit up since the last turn. It is essential that this happens last of all so that the situation cannot change again before the next time the player types at the keyboard.
+<p><blockquote><font color="#000080">the can't reach inside closed containers rule<br>the can't take people's possessions rule<br>the can't take component parts rule</font></blockquote>
 <p>
-<p>Each rulebook, then, can have two special rules, the designated &quot;first&quot; rule and the designated &quot;last&quot; rule. These, if defined, have no individual names, so that nobody can displace them from their positions or meddle with them: they belong to whoever created the rulebook.
+<p>Two of these rules apply only to actions of taking and removing: if the player only wants to push the granule, for instance, only the &quot;can't reach inside closed containers&quot; rule is applicable. This is the gist of it:
 <p>
-<p><blockquote><font color="#000080">The last appraisal rule: say &quot;The Speak-Your-Progress machine sputters to a halt. You decide not to take this as a comment on your recent performance.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The can't reach inside closed containers rule: if the object in question is a closed container begin; say &quot;[The object in question] is closed!&quot;; deny access; end if.</font></blockquote>
+<p>
+<p>In such a rule the &quot;object in question&quot; is the object to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
 <p>
 <p><hr><p><a href=doc134.html>Previous</a> / <a href=doc136.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

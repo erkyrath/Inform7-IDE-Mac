@@ -1,18 +1,28 @@
-<html><head><title>5.4. Whose property?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc60.html><img src=../Back.tif></a><a href=doc62.html><img src=../Forward.tif></a></td><td><b>5.4. Whose property?</b></td></tr></table><p>
+<html><head><title>5.1. Change of values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 5: Change</h2><p><table><tr><td><a href=doc60.html><img src=../Back.tif></a><a href=doc62.html><img src=../Forward.tif></a></td><td><b>5.1. Change of values that vary</b></td></tr></table><p>
 <p>
-<p>This seems a useful point to clarify something already seen. We normally call a property with a value something like:
+<p>So far, what we have done in response to the player's commands amounts to little more than a few ripostes. The simulated world does change during play, as the player moves from room to room or picks up things, but all of this is happening automatically, not at our direct instruction. How then can we make the world change?
 <p>
-<p><blockquote><font color="#000080">the printed name of the West Ballroom</font></blockquote>
+<p>Recall that the world consists of rooms, in which are things, and that all of these have properties appropriate to their kinds. Some properties are either/or (&quot;open&quot; or &quot;closed&quot; but not both and not neither), while others have values (the &quot;matching key&quot; of a lockable door, for instance). Finally, we may also have created some free-standing values or &quot;variables&quot;.
 <p>
-<p>We are sometimes allowed to omit the &quot;of the ...&quot; part, and simply call it &quot;the printed name&quot;, for the sake of brevity. For instance, the following room description:
+<p>We take the last example first, as it is the simplest. Suppose we have:
 <p>
-<p><blockquote><font color="#000080">The West Ballroom is a room. &quot;A handsome sweep of chequered floor beckons the eye into the [printed name].&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is northwest.</font></blockquote>
 <p>
-<p>will result in &quot;West Ballroom&quot; being substituted for &quot;[printed name]&quot;. Since the text belongs to the West Ballroom, that is assumed to be the owner of any properties named in its description. Similarly:
+<p><blockquote><font color="#000080">The Blasted Heath is a room. &quot;Merely an arena for the play of witches and kings, my dear, where the [prevailing wind] wind blows.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of examining something, say &quot;Hmm, let me see: [printed name]...&quot;</font></blockquote>
+<p><blockquote><font color="#000080">Instead of waiting when the prevailing wind is northwest: say &quot;A fresh gust of wind bowls you over.&quot;; change the prevailing wind to the east.</font></blockquote>
 <p>
-<p>Here the owner of the &quot;printed name&quot; is assumed to be the noun referred to in the action - in other words, the &quot;something&quot; alluded to in the rule.
+<p>The new phrase here is &quot;change&quot;. This automatically checks that the new value is one which makes sense in the given context, so for instance it would not allow either of these:
+<p>
+<p><blockquote><font color="#000080">change the prevailing wind to 25; change the prevailing wind to the Heath;</font></blockquote>
+<p>
+<p>the former being a number, and the latter a room, so that neither is a direction. Similarly, &quot;change&quot; will not allow values to be changed, only values which vary. So
+<p>
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are blue, red and mauve. Instead of pulling the psychedelic lever: change blue to mauve.</font></blockquote>
+<p>
+<p>...will result in a complaint like so:
+<p>
+<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'change blue to mauve' <img src=../Reveal.tif>, but 'blue' is not something which can ever change.</font></blockquote>
 <p>
 <p><hr><p><a href=doc60.html>Previous</a> / <a href=doc62.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,16 +1,30 @@
-<html><head><title>5.2. Change of either/or properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc58.html><img src=../Back.tif></a><a href=doc60.html><img src=../Forward.tif></a></td><td><b>5.2. Change of either/or properties</b></td></tr></table><p>
+<html><head><title>4.19. Check, carry out, report</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc58.html><img src=../Back.tif></a><a href=doc60.html><img src=../Forward.tif></a></td><td><b>4.19. Check, carry out, report</b></td></tr></table><p>
 <p>
-<p>When we have an either/or property, we can set it like so:
+<p>We recall that, apart from the whole paraphernalia about before, instead and after rules, about checking for light and that the player can touch whatever needs to be in range, an action comes down to three stages:
 <p>
-<p><blockquote><font color="#000080">Instead of waiting when the oaken door is closed: say &quot;There is a slow, creaky click! sort of noise as the door swings open, apparently all by itself.&quot;; change the oaken door to open.</font></blockquote>
+<p><blockquote><font color="#000080">(i) Check. In the case of photographing, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.</font></blockquote>
 <p>
-<p>If it is open already, nothing changes: in any case nothing is said to the player unless we give explicit instructions to that effect, as we've done here.
+<p><blockquote><font color="#000080">(ii) Carry out. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.</font></blockquote>
 <p>
-<p>Inform protects its model world from accidental damage in several ways, one of which is to ensure that things are not given properties which they are not allowed to have. So this, for instance, will not be accepted:
+<p><blockquote><font color="#000080">(iii) Report. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">change the oaken door to unvisited</font></blockquote>
+<p>When any action, such as &quot;photographing&quot;, is created, three new rulebooks are created with it: &quot;check photographing&quot;, &quot;carry out photographing&quot; and &quot;report photographing&quot;. So far we have not really gone into the business of what rulebooks are, and we don't do so here either. Suffice to say that we can now create whatever rules we need.
 <p>
-<p>More subtle problems arise if it is not possible to tell, when the game is being constructed, what the object in question will be: for instance, if we try to change a randomly chosen object to be &quot;unvisited&quot;. Inform therefore makes additional checks during play, printing up a suitable message only if the rules are violated. The net effect is that it is impossible for the oaken door ever to have the &quot;unvisited&quot; property.
+<p><blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.</font></blockquote>
+<p>
+<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
+<p>
+<p><blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;</font></blockquote>
+<p>
+<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
+<p>
+<p>We can continue to add rules at any point, and a classic thing that happens when play-testing a new work is that the designer realises there is a case which has not been thought of:
+<p>
+<p><blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.</font></blockquote>
+<p>
+<p>We can equally add such rules to the existing, in-built actions if we like: and on that equable note, we have said all there is to be said about actions.
 <p>
 <p><hr><p><a href=doc58.html>Previous</a> / <a href=doc60.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

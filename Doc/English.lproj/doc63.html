@@ -1,28 +1,22 @@
-<html><head><title>5.6. Randomness</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc62.html><img src=../Back.tif></a><a href=doc64.html><img src=../Forward.tif></a></td><td><b>5.6. Randomness</b></td></tr></table><p>
+<html><head><title>5.3. Change of properties with values</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc62.html><img src=../Back.tif></a><a href=doc64.html><img src=../Forward.tif></a></td><td><b>5.3. Change of properties with values</b></td></tr></table><p>
 <p>
-<p>Sometimes we want to introduce random behaviour into play. We usually do this by generating random values, and then acting differently depending on what they are. The following:
+<p>Changing properties with values is very similar:
 <p>
-<p><blockquote><font color="#000080">a random number from 2 to 5</font></blockquote>
+<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
 <p>
-<p>produces, as it suggests, a random number drawn from the choices 2, 3, 4 or 5, each of which is equally likely to come up.
+<p>Inform checks three different things to ensure that this change is safe to perform. Firstly, the value must be the right kind for the property in question, so this for instance would be rejected:
 <p>
-<p>We can also use random conditions:
+<p><blockquote><font color="#000080">change the printed name of the Closet to 7</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">if a random chance of 2 in 3 succeeds then ...</font></blockquote>
+<p>Secondly, the object in question has to be allowed to have the given property. This, for instance, would be disallowed:
 <p>
-<p>Here is a rule which applies only 15% of the time:
+<p><blockquote><font color="#000080">change the initial appearance of the Closet to &quot;Dusty&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Instead of waiting when a random chance of 15 in 100 succeeds: ...</font></blockquote>
+<p>(since &quot;initial appearance&quot; is a property which only things can have, not rooms). Finally, the object has to actually have the property, not just have the right to have that property. Thus:
 <p>
-<p>If we make a new kind of value, we can also take random values from it, as in the following miniature world:
+<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">&quot;Weathering&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">A cloud pattern is a kind of value. The cloud patterns are cumulus, altocumulus, cumulonimbus, stratus, cirrus, nimbus, nimbostratus.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The Mount Pisgah Station is a room. &quot;The rocky peak of Mt. Pisgah (altitude 872m) is graced only by an automatic weather station. The clouds, close enough almost to touch, are [a random cloud pattern]. Temperature: [a random number from 7 to 17] degrees, barometric pressure: [950 + a random number from 0 to 15] millibars.&quot;</font></blockquote>
-<p>
-<p>The value &quot;a random cloud pattern&quot; produces a random choice from the seven cloud patterns, each equally likely.
+<p>...is only permitted if the Closet is designed with a &quot;printed name&quot;. In fact this is certain to be true: all rooms and things automatically have a printed name, which is the short boldface description in the case of rooms, and the usual text briefly describing something in the case of things.
 <p>
 <p><hr><p><a href=doc62.html>Previous</a> / <a href=doc64.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,19 +1,28 @@
-<html><head><title>4.1. Giving instructions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 4: Actions</h2><p><table><tr><td><a href=doc37.html><img src=../Back.tif></a><a href=doc39.html><img src=../Forward.tif></a></td><td><b>4.1. Giving instructions</b></td></tr></table><p>
+<html><head><title>3.11. Values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc37.html><img src=../Back.tif></a><a href=doc39.html><img src=../Forward.tif></a></td><td><b>3.11. Values that vary</b></td></tr></table><p>
 <p>
-<p>This is a different sort of sentence to any seen so far:
+<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
 <p>
-<p><blockquote><font color="#000080">When play begins: start the player at the Library; say &quot;Welcome to Old Marston Grange, a country house cut off by fog.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.</font></blockquote>
 <p>
-<p>This is not a passive statement of facts (&quot;The Library is a room&quot;) but takes the form of an instruction to someone: that person is the computer, acting as our agent in talking with the player. It is an example of a &quot;rule&quot;, the analogy being with the rules written inside the box-lid of an old board game, rather than rules in the scientific sense.
+<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
 <p>
-<p>The sentence opens by identifying the circumstances in which the rule applies, leading up to the colon, and then gives a list of things to do, divided by semicolons except that the last ends with a full stop. In this case it's a list of two steps to follow, but rules vary in length from only one step to hundreds.
+<p><blockquote><font color="#000080">The target is a number variable. The target is 23.</font></blockquote>
 <p>
-<p>There's nothing to stop us laying this out as a vertical list, if we prefer:
+<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
 <p>
-<blockquote>When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;start the player at the Library;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Welcome to Old Marston Grange, a country house cut off by fog.&quot;.
-</blockquote><p>
+<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
+<p>
+<p><blockquote><font color="#000080">The receptacle is a container that varies.</font></blockquote>
+<p>
+<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
+<p>
+<p><blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.</font></blockquote>
+<p>
+<p>without ever having defined any colours. Something else we are not permitted is:
+<p>
+<p><blockquote><font color="#000080">The receptacle is an open container that varies.</font></blockquote>
+<p>
+<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
 <p>
 <p><hr><p><a href=doc37.html>Previous</a> / <a href=doc39.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

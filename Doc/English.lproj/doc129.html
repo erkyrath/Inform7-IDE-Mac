@@ -1,22 +1,26 @@
-<html><head><title>10.7. Success and failure</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc128.html><img src=../Back.tif></a><a href=doc130.html><img src=../Forward.tif></a></td><td><b>10.7. Success and failure</b></td></tr></table><p>
+<html><head><title>10.4. New rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc128.html><img src=../Back.tif></a><a href=doc130.html><img src=../Forward.tif></a></td><td><b>10.4. New rulebooks</b></td></tr></table><p>
 <p>
-<p>Though we have blurred over this point so far, every rule has one of three outcomes: success, failure and neither. The default outcome is neither, and for many rules (the every turn rules, for instance) success or failure would be ignored anyway, which is how we managed not to mention all this before. Indeed, the instruction
+<p>Creating a new rulebook is also straightforward, as we see in the following modest example game:
 <p>
-<p><blockquote><font color="#000080">follow the appraisal rules</font></blockquote>
+<p><blockquote><font color="#000080">&quot;Appraisal&quot;</font></blockquote>
 <p>
-<p>throws away the result, whatever it may be, which is why results have not come up in the discussion so far. All the same, results can make a difference even in examples like this one. When a rulebook is working through a list of rules, any rule which stops causes the rulebook to stop at once, so that no subsequent rules in the book will be invoked.
+<p><blockquote><font color="#000080">The Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.</font></blockquote>
 <p>
-<p>In the event of either success or failure, we say that it &quot;stops&quot;, and a value can optionally also result.
+<p><blockquote><font color="#000080">Appraisal rules is a rulebook.</font></blockquote>
 <p>
-<p>Generally speaking, stops are needed for different reasons in different rulebooks, so there are specialised syntaxes for bringing them about (as we shall see). However, the following phrases always work in any rule:
+<p><blockquote><font color="#000080">An appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">the rule succeeds<br>the rule fails<br>the rule succeeds with result (...)<br>the rule fails with result (...)</font></blockquote>
+<p><blockquote><font color="#000080">An appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;</font></blockquote>
 <p>
-<p>The result can be a room, a thing or a text. It can be referred to as
+<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">the result of the rule</font></blockquote>
+<p>The creation of the rulebook is all very well, but without the final sentence it would never be used. The crucial new phrase here is &quot;follow ...&quot;, which is the first of several phrases allowing us to use rules whenever we want to (rather than simply at predetermined times such as when a particular action is being tried, or at the end of every turn, and such).
 <p>
-<p>which is nothing if the rule ended without success or failure.
+<p>Like &quot;number&quot; or &quot;text&quot;, &quot;rule&quot; and &quot;rulebook&quot; are kinds of value built into Inform: &quot;the blossom rule&quot; is a value whose kind is &quot;rule&quot;, whereas &quot;the every turn rules&quot; is a value whose kind is &quot;rulebook&quot;. In fact, Inform considers a rulebook to be a special case of a rule, so that whenever a rule is required it is legal to name a rulebook instead, but not vice versa. The &quot;follow&quot; phrase here...
+<p>
+<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
+<p>
+<p>...expects to be applied to a value of kind &quot;rule&quot;; &quot;the appraisal rules&quot; is in fact a rulebook, but since that counts as a rule and the phrase makes sense to Inform. To follow a rulebook means to run through all its rules in turn; to follow a single rule means just that one, of course.
 <p>
 <p><hr><p><a href=doc128.html>Previous</a> / <a href=doc130.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,22 +1,18 @@
-<html><head><title>10.8. Consider and abide</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc129.html><img src=../Back.tif></a><a href=doc131.html><img src=../Forward.tif></a></td><td><b>10.8. Consider and abide</b></td></tr></table><p>
+<html><head><title>10.5. Procedural rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc129.html><img src=../Back.tif></a><a href=doc131.html><img src=../Forward.tif></a></td><td><b>10.5. Procedural rules</b></td></tr></table><p>
 <p>
-<p>It often happens that one rule needs to invoke another one. (Indeed, this happens whenever a rulebook is followed: it invokes all its rules one by one until one of them stops.) The best way to do this is with the phrase:
+<p>Before any rule or rulebook is followed - either by a &quot;follow&quot; as we have just seen, or automatically as in the example of the &quot;every turn rules&quot; - a special rulebook is always consulted first. This is called the &quot;procedural rules&quot;, and it starts out empty: so if we write no procedural rules, empty it will remain.
 <p>
-<p><blockquote><font color="#000080">consider ...name of the rule or rulebook...</font></blockquote>
+<p>Like the points of order which precede a debate, the procedural rules are not intended to contribute to any decision in themselves, but merely to sort out which voices are to be heard when the time for decision comes. Should some rules be suppressed, or others substituted? Should the rulebook be rearranged, in certain circumstances? And so on. Procedural rules offer enormous flexibility and with them one could deconstruct Inform and put it back together again, but in practical situations they will only occasionally be needed.
 <p>
-<p>This throws away the result: indeed, it makes no difference whether the rule succeeds, fails or has no outcome. More often, though, we want not only to invoke another rule, but also to be guided by its advice. For this, we use the otherwise identical phrase
+<p>Procedural rules are not allowed to say anything, or indeed to do anything which might have practical consequences; they are only allowed to think about the current situation (if they need to) and then use special phrases (if they choose to) which affect how other rules are to be followed. For instance:
 <p>
-<p><blockquote><font color="#000080">abide by ...name of the rule or rulebook...</font></blockquote>
+<p><blockquote><font color="#000080">A procedural rule: if in the Timeless Void then ignore the advance time rule.</font></blockquote>
 <p>
-<p>Here, if the rule being abided by comes to a stop (i.e., succeeds or fails) then the original rule also stops, at once and without going on to any further instructions. For example, the following duplicates the effect of a rulebook of four rules: it tries each in turn, and stops as soon as any of them stop.
+<p>Since the &quot;advance time rule&quot; is the one which moves on the number of turns and the clock, this means that the Timeless Void lives up to its name. Or we might want something like this, perhaps for testing purposes in an early version of a game:
 <p>
-<p><blockquote><font color="#000080">The omnibus rule: abide by the first rule; abide by the second rule; abide by the third rule; abide by the fourth rule.</font></blockquote>
+<p><blockquote><font color="#000080">A procedural rule: ignore the can't go through closed doors rule.</font></blockquote>
 <p>
-<p>Abide might be used in examples like this one:
-<p>
-<p><blockquote><font color="#000080">A thing can be fragile or robust. The can't handle fragile things roughly rule: if the noun is fragile then say &quot;[The noun] is too fragile for such rough handling.&quot; instead. A check dropping rule: abide by the can't handle fragile things roughly rule. A check throwing rule: abide by the can't handle fragile things roughly rule.</font></blockquote>
-<p>
-<p>Had we used &quot;consider&quot; instead of &quot;abide by&quot;, then in the event of the player typing &quot;drop angel&quot; the text &quot;The glass angel is too fragile for such rough handling&quot; would be printed, which is correct - but then the action would continue as though no difficulty had occurred, which is definitely not correct.
+<p>The &quot;can't go through closed doors rule&quot; is one of those belonging to the &quot;check going&quot; rulebook. These names are explanatory when written out, but hard to remember: fortunately we don't need to remember them, as the Index panel contains a full inventory of the check, carry out and report rules for every action, showing all of their names.
 <p>
 <p><hr><p><a href=doc129.html>Previous</a> / <a href=doc131.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

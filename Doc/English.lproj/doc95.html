@@ -1,24 +1,44 @@
-<html><head><title>7.15. Arithmetic on new kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc94.html><img src=../Back.tif></a><a href=doc96.html><img src=../Forward.tif></a></td><td><b>7.15. Arithmetic on new kinds of value</b></td></tr></table><p>
+<html><head><title>7.12. An example: tinted wallpaper</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc94.html><img src=../Back.tif></a><a href=doc96.html><img src=../Forward.tif></a></td><td><b>7.12. An example: tinted wallpaper</b></td></tr></table><p>
 <p>
-<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
+<p>Kinds of value come into their own inside phrases, as the following worked example may suggest. Suppose we have declared that:
 <p>
-<p><blockquote><font color="#000080">change the score to the score + 4</font></blockquote>
+<p><blockquote><font color="#000080">Colour is a kind of value. The colours are green, aquamarine and darkish purple.</font></blockquote>
 <p>
-<p>In Inform, &quot;+&quot; is a phrase like any other. Its definition behind the scenes begins:
+<p>The effect is that &quot;colour&quot; is now a kind of value on a par with, for instance, &quot;number&quot;. We are allowed, for instance, in a phrase to write
 <p>
-<p><blockquote><font color="#000080">To decide which number is (X - number) + (Y - number): ...</font></blockquote>
+<p><blockquote><font color="#000080">let the tint be aquamarine;</font></blockquote>
 <p>
-<p>Thus Inform will only recognise &quot;+&quot; as valid if it applies to two numbers, which is as it should be. We cannot normally apply &quot;+&quot; to values like these:
+<p>to create a temporary quantity called &quot;tint&quot;, which always holds a colour, initially aquamarine. (If, later in the same phrase, we were to try &quot;let the tint be 15&quot;, we would be rebuffed because a colour can't be a number or vice versa. The tint may change colour, but must always be a colour.) We can also
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.</font></blockquote>
+<p><blockquote><font color="#000080">say &quot;The wallpaper has a distinctly [tint] wash.&quot;;</font></blockquote>
 <p>
-<p>However, we do automatically have two ways to make new colours from old:
+<p>which results in
 <p>
-<p><blockquote><font color="#000080">the colour after C<br>the colour before C</font></blockquote>
+<p><blockquote><font color="#000080">The wallpaper has a distinctly green wash.<br>The wallpaper has a distinctly aquamarine wash.<br>The wallpaper has a distinctly darkish purple wash.</font></blockquote>
 <p>
-<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
+<p>as may be. As might be expected, we can also test conditions:
 <p>
-<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not.
+<p><blockquote><font color="#000080">if the tint is darkish purple then ...</font></blockquote>
+<p>
+<p>When a property is created that has the same name as a kind of value, like so:
+<p>
+<p><blockquote><font color="#000080">A door is allowed to have a colour.</font></blockquote>
+<p>
+<p>it becomes a property whose value is required at all times to fit that quality. Thus
+<p>
+<p><blockquote><font color="#000080">The colour of a door is usually green.<br>The colour of the lounge door is aquamarine.<br>...<br>say &quot;The lounge door is [colour of lounge door].&quot;;<br>if the colour of the lounge door is green then ...</font></blockquote>
+<p>
+<p>However, this is obviously rather cumbersome in English, so we can also more naturally write any of these:
+<p>
+<p><blockquote><font color="#000080">A door is usually green.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">The lounge door is aquamarine.</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">if the lounge door is green then ...</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">Before putting something into an aquamarine container: ...</font></blockquote>
+<p>
+<p>which are unambiguous since &quot;green&quot; is a colour and in the context of an object must imply the colour of that object.
 <p>
 <p><hr><p><a href=doc94.html>Previous</a> / <a href=doc96.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,17 +1,14 @@
-<html><head><title>11.18. Inform 6 properties and attributes</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc152.html><img src=../Back.tif></a><img src=../ForwardDisabled.tif></td><td><b>11.18. Inform 6 properties and attributes</b></td></tr></table><p>
+<html><head><title>11.15. The return context</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc152.html><img src=../Back.tif></a><a href=doc154.html><img src=../Forward.tif></a></td><td><b>11.15. The return context</b></td></tr></table><p>
 <p>
-<p>I7's properties are compiled sometimes as I6 properties, sometimes as I6 attributes, depending on whether they need to hold values or not (and in future it will probably automatically store excess attributes in a property bitmap, to avoid running out of attributes). However, we can override I7 by telling it that one of its property names is equivalent to an already-existing I6 property or attribute: if so then I7 will use that name and will not compile any directive to create it. For example:
+<p>I7 has a number of conceptually different ways to define code - as phrases which are not compiled inline, as phrases to decide conditions, as rules and so on. All these are compiled to I6 routines, and return values have different meanings in the different cases. For type-checking reasons, I7 needs to detect when a return might occur in order to make sure that a condition does not end with the wrong kind of result, and so on.
 <p>
-<p><blockquote><font color="#000080">Switched on translates into Inform as &quot;on&quot;.</font></blockquote>
+<p>Inline phrases which cause a return should declare what happens like so:
 <p>
-<p><blockquote><font color="#000080">Score for visiting translates into Inform as &quot;score&quot;.</font></blockquote>
+<p><blockquote><font color="#000080">To stop the action: (- rtrue; -) - outcome.</font></blockquote>
 <p>
-<p>We do not need to translate &quot;switched off&quot;, the opposite to &quot;switched on&quot;: I7 will now compile this to &quot;~on&quot;.
+<p>&quot;Outcome&quot;, used for rules, is one of four possibilities. The others are &quot;void&quot; (a return with no value), &quot;value&quot; (with a value) or &quot;condition&quot; (used to signal a result of a phrase to decide whether something is true). Thus the phrases &quot;yes&quot; and &quot;stop the action&quot; have the same definition, but a different context:
 <p>
-<p>I7 is a single-inheritance system which aims to use unchanging kinds to describe function, whereas I6... isn't. For example, both have the concept of &quot;container&quot;, but in I7 this is a kind, whereas in I6 it is a mere ephemeral attribute. The Standard Rules get around this mismatch with the following trick:
+<p><blockquote><font color="#000080">To yes: (- rtrue; -) - condition.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">A thing can be an Inform library container. [...] A container is always an Inform library container. [...] Inform library container translates into Inform as &quot;container&quot;.</font></blockquote>
-<p>
-<p>Thus any object of kind &quot;container&quot; automatically gets the I6 attribute &quot;container&quot;, without the I7 designer noticing that any property has been assigned.
-<p><hr><p><a href=doc152.html>Previous</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc152.html>Previous</a> / <a href=doc154.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

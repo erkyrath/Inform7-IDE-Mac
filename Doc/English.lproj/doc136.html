@@ -1,12 +1,22 @@
-<html><head><title>11.1. What are extensions?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 11: Extensions</h2><p><table><tr><td><a href=doc135.html><img src=../Back.tif></a><a href=doc137.html><img src=../Forward.tif></a></td><td><b>11.1. What are extensions?</b></td></tr></table><p>
+<html><head><title>10.11. Changing reachability</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc135.html><img src=../Back.tif></a><a href=doc137.html><img src=../Forward.tif></a></td><td><b>10.11. Changing reachability</b></td></tr></table><p>
 <p>
-<p>The range of simulation offered by Inform's model world is intentionally limited to a core of basic essentials. We could argue at the margins, and the choice of what's in and what's out is partly traditional, but most people find the model reasonable as far as it goes.
+<p>The business of what the player can, and cannot, reach is of considerable importance in interactive fiction. It contains some of the subtlest rules in the model world, though these rules often go unnoticed. In many games the designer never feels any need to alter the rules on what can be touched from where, but it is important to have the ability all the same: when it is needed, there is often no other way to achieve the same effect.
 <p>
-<p>A flourishing part of Inform culture since 1993 has been the development of a huge range of &quot;library extensions&quot;, most of which aimed to fill out the model by simulating other aspects of life, too: money, clothing, pourable liquids and the like. None of these extensions was official and all of them were: it was a free-for-all, and in several cases different authors wrote rival extensions to model the same basic ideas. The development of Inform 7 was strongly influenced by the recognition that the base of rules and grammar inside a typical modern game are never written by a single author: they combine the standard Inform material with extensions by several third parties, together with anything specific to the game in question.
+<p>Returning to the conical flask:
 <p>
-<p>Inform now provides better support for extensions. This chapter discusses where they are kept, how to use them and how to create them.
+<p><blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.</font></blockquote>
 <p>
-<p>In this chapter, some of the instructions on how to write an extension are not in fact requirements of Inform, but are &quot;only&quot; stylistic points intended to make the range of extensions easier to work with and contribute to. Extension writers are asked to join in the spirit of the rules and help make the whole cooperative enterprise work harmoniously.
+<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) Rules for this rulebook need not have any restriction on the object applied to:
+<p>
+<p><blockquote><font color="#000080">A reaching inside rule: if Barabbas's Nefarious Amulet is worn then ignore the can't take people's possessions rule.</font></blockquote>
+<p>
+<p>More generally, we could give the usual flexible description of what the rule applies to:
+<p>
+<p><blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large.&quot;; deny access.</font></blockquote>
+<p>
+<p>There is also a reaching outside rulebook, used if the player is inside something and wants to reach an object in the wider room. (It's the difference between a bed and a cage.) This ordinarily contains just one rule:
+<p>
+<p><blockquote><font color="#000080">the can't reach outside closed containers rule</font></blockquote>
 <p>
 <p><hr><p><a href=doc135.html>Previous</a> / <a href=doc137.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

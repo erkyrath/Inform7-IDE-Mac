@@ -1,18 +1,24 @@
-<html><head><title>11.2. The Standard Rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc136.html><img src=../Back.tif></a><a href=doc138.html><img src=../Forward.tif></a></td><td><b>11.2. The Standard Rules</b></td></tr></table><p>
+<html><head><title>10.12. In what order?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc136.html><img src=../Back.tif></a><a href=doc138.html><img src=../Forward.tif></a></td><td><b>10.12. In what order?</b></td></tr></table><p>
 <p>
-<p>When any source text is run through Inform, a secret first line is inserted, which reads:
+<p>Large works created by Inform are heaped high with rules, most of them instead rules, but with a leavening of befores and afters as well. What will happen if these conflict with each other? For instance:
 <p>
-<p><blockquote><font color="#000080">Include the Standard Rules by Graham Nelson.</font></blockquote>
+<p><blockquote><font color="#000080">Instead of opening a container, say &quot;Your mother-in-law looks on with such evident disappointment that you withdraw your hand again.&quot;</font></blockquote>
 <p>
-<p>The &quot;Standard Rules&quot; file contains the definitions of the basic kinds, phrases, actions and grammar described in this documentation: for instance, it includes lines like
+<p><blockquote><font color="#000080">Instead of opening an open container, say &quot;Your daughter tuts in theatrical exasperation at your, like, lameness.&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">A container is a kind of thing.</font></blockquote>
+<p>If the player tries to open something which is closed, there is no conflict and it is clearly the mother-in-law who gets in the way. But what if the player tries to open a container which is already open? In this case both rules are applicable, but they cannot both take effect: they are instead rules and whichever happens first will stop the action.
 <p>
-<p>...without which Inform would be lost. Although including the Standard Rules is compulsory, it is treated internally as if it were any other &quot;extension&quot;.
+<p>The answer is that Inform does not allow rules simply to heap up chaotically, nor simply list them in the order they are described, but sorts them according to what it believes to be a logical sequence. Given any two rules A and B, it tries to see which rule is more specific - narrower in application, that is - and applies that one first. In this case Inform finds that any open container is also a container, but not vice versa. That means that the daughter rule is more specific than the mother-in-law rule, so it is given priority. But the following rule would trump either of them:
 <p>
-<p>What happens when an &quot;Include&quot; sentence is reached is that the sentence is replaced with the whole text of the file in question (often many paragraphs long).
+<p><blockquote><font color="#000080">Instead of opening the jewelled box, say &quot;Such exquisite boxes are notorious for traps such as poisoned needles concealed around the lid.&quot;</font></blockquote>
 <p>
-<p>If the file has already been included, then the sentence is simply ignored. This is so that we can have two extensions, each of which needs the other: if A says to include B, and B says to include A, the result is that including one automatically includes the other, so we always get both which ever we ask for - not that there is a hideous infinite regress.
+<p>Note that a rule applying only in certain rooms always beats a rule which is applicable everywhere. Here is a larger example:
+<p>
+<p><blockquote><font color="#000080">(R1) Before taking something in the Swamp: ...<br>(R2) Before taking the bucket: ...<br>(R3) Before taking the frog: ...<br>(R4) Before taking an open container: ...<br>(R5) Before taking a container: ...<br>(R6) Before taking something: ...</font></blockquote>
+<p>
+<p>Rule (R1) wins because it specifies a room, whereas (R2) and (R3) do not. (R2) and (R3) then trump the others because they name specific objects, not general classes of objects. We then have (R4), (R5) and (R6) in that order since every open container is also a container, and every container is a thing.
+<p>
+<p>The full method used by Inform to sort rules is complicated, and will not always be quite right - though, as we shall later see, there are ways to intervene if this becomes a problem. But in practice, when we need rule A to come before rule B, it will usually be a clear-cut case which comes out right. In trickier cases to judge, it mostly doesn't matter anyway.
 <p>
 <p><hr><p><a href=doc136.html>Previous</a> / <a href=doc138.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

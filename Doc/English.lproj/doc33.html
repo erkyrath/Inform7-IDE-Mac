@@ -1,16 +1,18 @@
-<html><head><title>3.7. Kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc32.html><img src=../Back.tif></a><a href=doc34.html><img src=../Forward.tif></a></td><td><b>3.7. Kinds of value</b></td></tr></table><p>
+<html><head><title>3.6. Text with substitutions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc32.html><img src=../Back.tif></a><a href=doc34.html><img src=../Forward.tif></a></td><td><b>3.6. Text with substitutions</b></td></tr></table><p>
 <p>
-<p>Several kinds of value have appeared so far, chiefly numbers, 1, 2, 3, ... and 0, -1, -2, ... and texts, such as &quot;Jackdaws love my big sphinx of quartz&quot;. We can give objects properties holding such values, and we can also endow them with either/or properties such as &quot;dark&quot;/&quot;lighted&quot;.
+<p>The example about the sound of an underground river is all very well, but what can we do with this new property now that we have created it? The following example gives one idea.
 <p>
-<p>These arrangements are all very well, but not ideal when it comes to simulating something which can be in, say, one of four states. Suppose we would like the candle lantern to burn down, gradually diminishing in brightness. A property attached to the lantern should hold the current strength of the flame. We could do this like so:
+<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came, consoled only by [river sound].&quot; A dead end is usually dark.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The lantern has a number called the brightness level.</font></blockquote>
+<p><blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove. In the Undertomb is the lantern. It is a light source.</font></blockquote>
 <p>
-<p>(Thus far we have only given new properties to kinds, but in fact we can also give them to individual things, as here. It would be cumbersome to make a new kind called, say, &quot;lamp&quot; and then make the lantern the only lamp in the game, just as a way of attaching a number to it.) We could then set the brightness level to be 1, 2, 3 or 4 according to the strength of flame, and find some way of conveying this to the player. That would work, but is not very elegant. Brightness is not, in the end, a number, and it seems strange to have to pretend that it is. A much better solution is:
+<p><blockquote><font color="#000080">A dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Brightness is a kind of value. The brightnesses are guttering, weak, radiant and blazing.</font></blockquote>
+<p>The novelty here is the text in square brackets in the first paragraph above. They imply more or less what they would when a journalist is quoting something in, say, a newspaper article. The actual words &quot;river sound&quot; are not part of the text. Instead, when Inform prints up the description of a dead end, it will substitute the appropriate river sound in place of these words.
 <p>
-<p>This makes &quot;brightness&quot; a kind of value on a par with (for instance) &quot;number&quot; or &quot;text&quot;, except that there are only four possible values, named as above.
+<p>Thus the description of the Collapsed Dead End is &quot;This is a dead end. You'll have to go back the way you came, consoled only by a faint whispering of running water.&quot;, whereas the description of the Tortuous Alcove is &quot;This is a dead end. You'll have to go back the way you came, consoled only by a gurgle of running water.&quot; As the player explores these dead ends, subtle differences will appear in their room descriptions.
+<p>
+<p>We can put almost any description of a value in square brackets in text, and Inform will work out what kind of value it is and print something accordingly. For instance, &quot;You admire [the lantern].&quot; will expand to &quot;You admire the candle lantern.&quot;, spelling out the full name of the lantern.
 <p>
 <p><hr><p><a href=doc32.html>Previous</a> / <a href=doc34.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

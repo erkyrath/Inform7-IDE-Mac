@@ -1,24 +1,32 @@
-<html><head><title>7.7. Otherwise</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc86.html><img src=../Back.tif></a><a href=doc88.html><img src=../Forward.tif></a></td><td><b>7.7. Otherwise</b></td></tr></table><p>
+<html><head><title>7.4. If</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc86.html><img src=../Back.tif></a><a href=doc88.html><img src=../Forward.tif></a></td><td><b>7.4. If</b></td></tr></table><p>
 <p>
-<p>We often need code which does one thing in one circumstance, and another the rest of the time. We could do this like so:
+<p>We now run through a few special phrases which control other phrases: causing them to repeat, perhaps, or to be skipped. These phrases are equivalent to the &quot;control structures&quot; of other computer programming languages: no system for interactive fiction can possibly be adequate unless it allows us to carry out arbitrary computations, so the pretence that Inform is not really a programming language must dropped sooner or later. That time is now.
 <p>
-<blockquote>if N is 2 begin; ...; end if;
-<br>if N is not 2 begin; ...; end if;
-</blockquote><p>
+<p>The phrase:
 <p>
-<p>but this is not very elegant, and besides, what if the action we take when N is 2 changes N so that it becomes something else?
+<p><blockquote><font color="#000080">if (... condition ...) then (... another whole phrase ...)</font></blockquote>
 <p>
-<p>Instead we use &quot;otherwise&quot;:
+<p>causes the phrase after &quot;then&quot; to be followed only if the condition holds. Some people prefer to use a comma, which is treated just the same:
 <p>
-<p><blockquote><font color="#000080">if N is 2 begin;<br>...;<br>otherwise;<br>...;<br>end if;</font></blockquote>
+<p><blockquote><font color="#000080">if (... condition ...), (... another whole phrase ...)</font></blockquote>
 <p>
-<p>Note that there is only one &quot;end if&quot;: the &quot;otherwise&quot; phrase occurs inside the &quot;if ... end if&quot; block of phrases.
+<p>There are many different forms of condition in Inform (and, as we shall see, we can easily add more), but the simplest is:
 <p>
-<p>When there is only a single phrase we can use the shortened form:
+<p><blockquote><font color="#000080">(first value) is (second value)</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">if N is 2 then say &quot;Hooray, N is 2!&quot;;<br>otherwise say &quot;Boo, N is not 2...&quot;</font></blockquote>
+<p>As always, Inform checks that these two values are of kinds which can be compared. The following will produce an objection, for instance:
 <p>
-<p>(In almost every computer programming language ever devised, including previous versions of Inform, the word &quot;else&quot; is used rather than &quot;otherwise&quot;: for the sake of familiarity, &quot;else&quot; can also be used here. All the same, &quot;otherwise&quot; seems closer to natural English.)
+<p><blockquote><font color="#000080">if 10 is a door then say &quot;Huzzah!&quot;</font></blockquote>
+<p>
+<p>since it makes no sense to ask the question, and the only result will be the baffled reply:
+<p>
+<p><blockquote><font color="#000080"><b>Problem.</b> In the line 'if 10 is a door then say &quot;Huzzah!&quot;' <img src=../Reveal.tif>, I can't determine whether or not '10 is a door', because it seems to ask if a number is some sort of door.</font></blockquote>
+<p>
+<p>This, however, would be fine:
+<p>
+<p><blockquote><font color="#000080">To comment upon (whatever - a thing): if whatever is transparent then say &quot;I see right through this!&quot;; if whatever is an open door then say &quot;Oh look, an open door!&quot;.</font></blockquote>
+<p>
+<p>since &quot;whatever&quot; is known to be a thing, and Inform knows that things are indeed sometimes transparent and sometimes open doors.
 <p>
 <p><hr><p><a href=doc86.html>Previous</a> / <a href=doc88.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,24 +1,32 @@
-<html><head><title>7.6. Begin and end</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc85.html><img src=../Back.tif></a><a href=doc87.html><img src=../Forward.tif></a></td><td><b>7.6. Begin and end</b></td></tr></table><p>
+<html><head><title>7.3. Pattern matching</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc85.html><img src=../Back.tif></a><a href=doc87.html><img src=../Forward.tif></a></td><td><b>7.3. Pattern matching</b></td></tr></table><p>
 <p>
-<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
+<p>The following are all valid phrases:
 <p>
-<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
+<p><blockquote><font color="#000080">award 2 points<br>award 8 points<br>award 30 points</font></blockquote>
 <p>
-<blockquote>To comment upon (whatever - a thing):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</blockquote><p>
+<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
 <p>
-<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
+<p><blockquote><font color="#000080">To award (some - a number) points: ...</font></blockquote>
 <p>
-<p>Similarly for while:
+<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
 <p>
-<p><blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while</font></blockquote>
+<p><blockquote><font color="#000080">award &quot;blue cheese&quot; points;</font></blockquote>
 <p>
-<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
+<p>which results in the following error:
+<p>
+<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.</font></blockquote>
+<p>
+<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
+<p>
+<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
+<p>
+<p><blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.</font></blockquote>
+<p>
+<p>Which would not match, for instance, this:
+<p>
+<p><blockquote><font color="#000080">slam shut the black door;</font></blockquote>
+<p>
+<p>because the black door is not an open container.
 <p>
 <p><hr><p><a href=doc85.html>Previous</a> / <a href=doc87.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

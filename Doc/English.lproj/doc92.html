@@ -1,44 +1,13 @@
-<html><head><title>7.12. An example: tinted wallpaper</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc91.html><img src=../Back.tif></a><a href=doc93.html><img src=../Forward.tif></a></td><td><b>7.12. An example: tinted wallpaper</b></td></tr></table><p>
+<html><head><title>7.9. Repeats without numbers</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc91.html><img src=../Back.tif></a><a href=doc93.html><img src=../Forward.tif></a></td><td><b>7.9. Repeats without numbers</b></td></tr></table><p>
 <p>
-<p>Kinds of value come into their own inside phrases, as the following worked example may suggest. Suppose we have declared that:
+<p>One other form of &quot;repeat&quot; is also allowed (and others will certainly be added in later releases of Inform).
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are green, aquamarine and darkish purple.</font></blockquote>
+<blockquote><font color="#000080">repeat with item running through contents of Marley Wood begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;... phrases ...
+<br>end repeat;
+</font></blockquote><p>
 <p>
-<p>The effect is that &quot;colour&quot; is now a kind of value on a par with, for instance, &quot;number&quot;. We are allowed, for instance, in a phrase to write
-<p>
-<p><blockquote><font color="#000080">let the tint be aquamarine;</font></blockquote>
-<p>
-<p>to create a temporary quantity called &quot;tint&quot;, which always holds a colour, initially aquamarine. (If, later in the same phrase, we were to try &quot;let the tint be 15&quot;, we would be rebuffed because a colour can't be a number or vice versa. The tint may change colour, but must always be a colour.) We can also
-<p>
-<p><blockquote><font color="#000080">say &quot;The wallpaper has a distinctly [tint] wash.&quot;;</font></blockquote>
-<p>
-<p>which results in
-<p>
-<p><blockquote><font color="#000080">The wallpaper has a distinctly green wash.<br>The wallpaper has a distinctly aquamarine wash.<br>The wallpaper has a distinctly darkish purple wash.</font></blockquote>
-<p>
-<p>as may be. As might be expected, we can also test conditions:
-<p>
-<p><blockquote><font color="#000080">if the tint is darkish purple then ...</font></blockquote>
-<p>
-<p>When a property is created that has the same name as a kind of value, like so:
-<p>
-<p><blockquote><font color="#000080">A door is allowed to have a colour.</font></blockquote>
-<p>
-<p>it becomes a property whose value is required at all times to fit that quality. Thus
-<p>
-<p><blockquote><font color="#000080">The colour of a door is usually green.<br>The colour of the lounge door is aquamarine.<br>...<br>say &quot;The lounge door is [colour of lounge door].&quot;;<br>if the colour of the lounge door is green then ...</font></blockquote>
-<p>
-<p>However, this is obviously rather cumbersome in English, so we can also more naturally write any of these:
-<p>
-<p><blockquote><font color="#000080">A door is usually green.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The lounge door is aquamarine.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">if the lounge door is green then ...</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Before putting something into an aquamarine container: ...</font></blockquote>
-<p>
-<p>which are unambiguous since &quot;green&quot; is a colour and in the context of an object must imply the colour of that object.
+<p>Once again we create a new value, &quot;item&quot;, of only temporary validity. This time the phrases are repeated once for each of the things in the given room (or it may be a thing such as a container, of course). If there's nothing in the given place, the phrases are never run through at all.
 <p>
 <p><hr><p><a href=doc91.html>Previous</a> / <a href=doc93.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,14 +1,18 @@
-<html><head><title>8.13. Topic columns</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc110.html><img src=../Back.tif></a><a href=doc112.html><img src=../Forward.tif></a></td><td><b>8.13. Topic columns</b></td></tr></table><p>
+<html><head><title>8.10. Adding and removing rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc110.html><img src=../Back.tif></a><a href=doc112.html><img src=../Forward.tif></a></td><td><b>8.10. Adding and removing rows</b></td></tr></table><p>
 <p>
-<p>When double-quoted matter appears in a column of a table, Inform will normally treat that as text for printing out. The exception is when the column is called &quot;topic&quot;, where it is treated as text for comparing against what the player has typed. There is really only one operation allowed with topic columns, the &quot;...listed in...&quot; construction, but fortunately it is the one most often needed.
+<p>Writing in new rows is simple:
 <p>
-<p>Let us suppose that the Sybil has a penchant for telling passers-by which is the Greek muse for what. We might write:
+<p><blockquote><font color="#000080">choose a blank row in Table 3;<br>change element entry to &quot;Fluorine&quot;;<br>change symbol to &quot;F&quot;;<br>change atomic number to 9;<br>change atomic weight to 19;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">After asking the Sybil about a topic listed in the Table of Sybil's Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;</font></blockquote>
+<p>This will produce an error if there are no blank rows left in Table 3, so it can be important to worry about free space. To that end we can not only find the number of rows (as we have already seen) but also the number currently blank and not blank. Thus these:
 <p>
-<p>We can then provide a simple table giving her responses:
+<p><blockquote><font color="#000080">the number of blank rows in Table 3<br>the number of filled rows in Table 3</font></blockquote>
 <p>
-<p><center><img src=table12.tiff></center>
+<p>always add up to &quot;the number of rows in Table 3&quot;.
+<p>
+<p>To delete a row, we first choose it and then &quot;blank out the whole row&quot;. Thus, for abdication purposes:
+<p>
+<p><blockquote><font color="#000080">choose row with name of &quot;Edward VIII&quot; in the Table of Recent Monarchs;<br>blank out the whole row;</font></blockquote>
 <p>
 <p><hr><p><a href=doc110.html>Previous</a> / <a href=doc112.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

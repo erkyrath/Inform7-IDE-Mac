@@ -56,10 +56,12 @@ ENDIF;
 ! ============================================================================
 !   Global variables and their associated Constant and Array declarations
 ! ----------------------------------------------------------------------------
+IFNDEF NI_BUILD_COUNT;
 Global location = InformLibrary;     ! Must be first global defined
 Global sline1;                       ! Must be second
 Global sline2;                       ! Must be third
                                      ! (for status line display)
+ENDIF;
 ! ------------------------------------------------------------------------------
 !   Z-Machine and interpreter issues
 ! ------------------------------------------------------------------------------
@@ -4109,7 +4111,7 @@ Object InformLibrary "(Inform Library)"
 ! ----------------------------------------------------------------------------
 
 [ DisplayStatus;
-   if (the_time==NULL)
+   if ((0->1)&2 == 0)
    {   sline1=score; sline2=turns; }
    else
    {   sline1=the_time/60; sline2=the_time%60; }

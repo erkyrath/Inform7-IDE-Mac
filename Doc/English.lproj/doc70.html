@@ -1,22 +1,16 @@
-<html><head><title>6.5. Every turn</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc69.html><img src=../Back.tif></a><a href=doc71.html><img src=../Forward.tif></a></td><td><b>6.5. Every turn</b></td></tr></table><p>
+<html><head><title>6.2. Awarding points</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc69.html><img src=../Back.tif></a><a href=doc71.html><img src=../Forward.tif></a></td><td><b>6.2. Awarding points</b></td></tr></table><p>
 <p>
-<p>The passage of time in interactive fiction is broken up into a succession of turns, in each of which the player types a request and is given a response. Usually each such request triggers one action, but sometimes a whole sequence are fired off, as when the player types &quot;get all&quot; in a cluttered room.
+<p>Traditionally-written games award points throughout play, as an indication of progress. If we want to be traditional, we can award points as follows:
 <p>
-<p>One of the last things to happen in each turn is that Inform will apply any rules which have been set to occur &quot;every turn&quot;, like so:
+<p><blockquote><font color="#000080">award 5 points;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<p>substituting whatever number we feel is appropriate. We should be careful not to give out the same points over and over, that is, not to reward the same basic achievement many times over if the player simply repeats the same action. This, for instance, is open to abuse:
 <p>
-<p>This is equivalent to writing:
+<p><blockquote><font color="#000080">After taking the trophy: award 5 points; say &quot;Well done!&quot;</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">An every turn rule: say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
+<p>The player may simply take the trophy, drop it again, take it again, ... and win five points every time around. We can prevent this by phrasing the rule more carefully:
 <p>
-<p>Note that the text about blossom, which will quickly become tiresome, is said at the end of every turn, not at the beginning, and in particular not before the player's first opportunity to type a command.
-<p>
-<p>As usual when defining rules, we can add stipulations:
-<p>
-<p><blockquote><font color="#000080">Every turn in the Orchard, say &quot;The summer breeze shakes the apple-blossom.&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Every turn in the presence of the rotting fish, say &quot;Your nose twitches involuntarily.&quot;</font></blockquote>
+<p><blockquote><font color="#000080">After taking the trophy for the first time: award 5 points; say &quot;Well done!&quot;</font></blockquote>
 <p>
 <p><hr><p><a href=doc69.html>Previous</a> / <a href=doc71.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,16 +1,20 @@
-<html><head><title>11.17. Inform 6 grammar, actions and rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc151.html><img src=../Back.tif></a><a href=doc153.html><img src=../Forward.tif></a></td><td><b>11.17. Inform 6 grammar, actions and rules</b></td></tr></table><p>
+<html><head><title>11.14. Defining loops</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc151.html><img src=../Back.tif></a><a href=doc153.html><img src=../Forward.tif></a></td><td><b>11.14. Defining loops</b></td></tr></table><p>
 <p>
-<p>Inform 6 grammar (&quot;Verb&quot; and &quot;Extend&quot;) should not be used, unless there is no alternative: instead I7 equivalents should be given. But I6 actions can certainly be used, and indeed the Standard Rules use almost the whole gamut of I6 actions. They define actions using a convenient shorthand:
+<p>The two I7 versions of &quot;while&quot; are defined in the Standard Rules as follows:
 <p>
-<p><blockquote><font color="#000080">Wearing is an action corresponding to Wear<br>past participle worn<br>applying to one thing<br>- check -<br>can't wear what's not clothing rule = WearSub_C1<br>can't wear what's not held rule = WearSub_C2<br>can't wear what's already worn rule = WearSub_C3<br>- carry-out -<br>standard wearing rule = WearSub_O1<br>- report -<br>standard report wearing rule = WearSub_R1.</font></blockquote>
+<p><blockquote><font color="#000080">To while (c - condition) repeatedly (ph - phrase): (- while {c} {ph} -).</font></blockquote>
 <p>
-<p>The clause &quot;corresponding to Wear&quot; tells I7 to call the action &quot;Wear&quot;, thus making it match the I6 action of the same name. The remainder constructs the three rulebooks for the action, supplying names for suitable rules and moreover giving the names of I6-defined routines which will carry them out. The five I6 routines named are the fragments of the old I6 library's &quot;WearSub&quot;: for instance,
+<p><blockquote><font color="#000080">To while (c - condition) begin *: (- while {c}  -).</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">[ WearSub_C3; if (noun has worn) { L__M(##Wear,3,noun); rtrue; } rfalse; ];</font></blockquote>
+<p>The second case is the one which involves a block of code, to be ended later with an &quot;end while&quot;. The asterisk signals to I7 that such a block is expected. The I6 code should be such that an I6 code block, starting and ending with a brace, can legally follow it.
 <p>
-<p>We can also create named rules corresponding to I6 routines like so:
+<p>Variables can be created as part of a loop which exist only within it. All that needs to be done is to supply their type and declare them to be &quot;variable&quot;:
 <p>
-<p><blockquote><font color="#000080">The time passes rule corresponds to routine TS4_R.</font></blockquote>
+<p><blockquote><font color="#000080">To repeat with (loopvar - number variable) running from (v - number) to (w - number) begin *: (- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).</font></blockquote>
+<p>
+<p><blockquote><font color="#000080">To repeat with (loopvar - object variable) running through contents of (v - object) begin *: (- objectloop ({loopvar} in {v})  -).</font></blockquote>
+<p>
+<p>I7 will compile this using a local variable for &quot;loopvar&quot;: it may well re-use this variable later for other loops, so its value cannot be relied upon outside of the code block following the loop.
 <p>
 <p><hr><p><a href=doc151.html>Previous</a> / <a href=doc153.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,28 +1,26 @@
-<html><head><title>11.9. Making new assertion sentences</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc143.html><img src=../Back.tif></a><a href=doc145.html><img src=../Forward.tif></a></td><td><b>11.9. Making new assertion sentences</b></td></tr></table><p>
+<html><head><title>11.6. Version numbering</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc143.html><img src=../Back.tif></a><a href=doc145.html><img src=../Forward.tif></a></td><td><b>11.6. Version numbering</b></td></tr></table><p>
 <p>
-<p>The following feature is best used sparingly if at all. We have already seen that the following sentences are equivalent:
+<p>As we have seen, extensions are referred to by name and author, but they can also (optionally) be referred to by version. For instance:
 <p>
-<p><blockquote><font color="#000080">The matching key of the blue door is the brass key.</font></blockquote>
+<p><blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The brass key unlocks the blue door.</font></blockquote>
+<p><blockquote><font color="#000080">Version 1/040426 of the Ducking Action by Graham Nelson begins here.</font></blockquote>
 <p>
-<p>This comes about because the Standard Rules include the following line:
+<p>A version number must be a whole number 1, 2, ... (version 0 is not allowed, and nor are decimal points), optionally followed by a slash '/' and then a six-figure date, in the form YYMMDD: so 040426 means 26 April 2004.
 <p>
-<p><blockquote><font color="#000080">X unlocks Y means that the matching key of Y is X.</font></blockquote>
+<p>A request to include version 2 of something implicitly means &quot;version 2 or later&quot;, and similarly &quot;version 2/040426&quot; means version 2 with a date of 26 April 2004 or later, or else any version higher than 2. If Inform loads the extension but finds that its version is not good enough, an error is issued.
 <p>
-<p>We can make definitions like this at any point, but had better do so with some care and forethought. They make it possible to talk very elegantly about things belonging to new kinds, but the potential for havoc is considerable if they take effect in an unintended context. Up to four different variables are allowed, but must be called W, X, Y or Z for clarity: and note that they can be matched by empty text. Similarly, Inform also defines
+<p>Where no version number is quoted, the rule is that an unspecified version predates any numbered version. This means that the line
 <p>
-<p><blockquote><font color="#000080">Above means up from. Below means down from.</font></blockquote>
+<p><blockquote><font color="#000080">Include the Ducking Action by Graham Nelson.</font></blockquote>
 <p>
-<p>This tells Inform to transform &quot;above&quot; into &quot;up from&quot; whenever it occurs in an assertion, and similarly for &quot;below&quot;. Thus
+<p>will be happy with any version of the extension at all, whether numbered or not; but
 <p>
-<p><blockquote><font color="#000080">The Skylight is above the Conservatory.</font></blockquote>
+<p><blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.</font></blockquote>
 <p>
-<p>is transformed to
+<p>will only accept the extension if it has a version number attached (and with that number being 2 or higher).
 <p>
-<p><blockquote><font color="#000080">The Skylight is up from the Conservatory.</font></blockquote>
-<p>
-<p>Notice that &quot;means that&quot; applies a change only to an entire sentence, whereas &quot;means&quot; applies to smaller pieces of text. Because of this, &quot;means&quot; has to be used with even more care.
+<p>During play of any game compiled by Inform 7, typing &quot;version&quot; lists various serial numbers of the pieces of software used to make it. The list concludes with names, authors and version numbers of any extensions used. So every author whose work contributes to a game automatically gets a modest credit within it.
 <p>
 <p><hr><p><a href=doc143.html>Previous</a> / <a href=doc145.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

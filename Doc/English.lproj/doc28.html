@@ -1,18 +1,22 @@
-<html><head><title>3.2. Degrees of certainty</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc27.html><img src=../Back.tif></a><a href=doc29.html><img src=../Forward.tif></a></td><td><b>3.2. Degrees of certainty</b></td></tr></table><p>
+<html><head><title>3.1. New kinds</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 3: Kinds</h2><p><table><tr><td><a href=doc27.html><img src=../Back.tif></a><a href=doc29.html><img src=../Forward.tif></a></td><td><b>3.1. New kinds</b></td></tr></table><p>
 <p>
-<p>When we write:
+<p>Everything has one and only one kind: but kinds can have more specific kinds. Inform makes the world out of three fundamental kinds of object, &quot;room&quot;, &quot;thing&quot; and &quot;direction&quot;: browsing the Kinds index will give an idea of how the others fit together. A container, for instance, is a kind of thing.
 <p>
-<p><blockquote><font color="#000080">A dead end is usually dark.</font></blockquote>
+<p>Any new kind must be created as a special case of an existing one. Here we sub-categorise rooms:
 <p>
-<p>we are saying that it will be dark rather than lighted unless we should specify otherwise. So it would be fine to add:
+<p><blockquote><font color="#000080">A dead end is a kind of room.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Tortuous Alcove is lighted.</font></blockquote>
+<p>Any dead end that we make is also a room, but can also have other properties in addition, if we so decide. For the purposes of this example, it's useful to mention a property not seen so far: rooms can be &quot;dark&quot; or &quot;lighted&quot;, all the examples so far having been lighted. Similarly, a thing with the property of being a &quot;light source&quot; will enable the player to see inside dark rooms, and to carry out other activities requiring light, such as examining items.
 <p>
-<p>because although dead ends are usually dark, this one is evidently an exception. On the other hand, if we had originally written
+<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came.&quot; A dead end is usually dark.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">A dead end is always dark.</font></blockquote>
+<p><blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove.</font></blockquote>
 <p>
-<p>then Inform would not have permitted any exception to be made, and would have reported a problem if we had tried to make the Tortuous Alcove lighted. Besides &quot;usually&quot; and &quot;always&quot;, we can also employ &quot;seldom&quot; and &quot;never&quot;, which are their negatives. Thus, &quot;never lighted&quot; means the same as &quot;always dark&quot;.
+<p><blockquote><font color="#000080">In the Undertomb is the candle lantern. It is a light source.</font></blockquote>
+<p>
+<p>Three different rooms adjoin the Undertomb as a result. Notice how much more concise this is thanks to having the &quot;dead end&quot; kind to hand.
+<p>
+<p>What is a kind, really? In the end it is a name for a bundle of properties, and the key differences between a kind (such as &quot;container&quot;) and a property (such as &quot;fixed in place&quot;) are that, firstly, something only has one kind (except in the sense that a container is also a thing, and so on), and secondly, it has that kind forever, whereas properties may change.
 <p>
 <p><hr><p><a href=doc27.html>Previous</a> / <a href=doc29.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,20 +1,48 @@
-<html><head><title>7.1. Fitting values into phrases</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 7: Phrases</h2><p><table><tr><td><a href=doc80.html><img src=../Back.tif></a><a href=doc82.html><img src=../Forward.tif></a></td><td><b>7.1. Fitting values into phrases</b></td></tr></table><p>
+<html><head><title>6.13. The past and perfect tenses</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc80.html><img src=../Back.tif></a><a href=doc82.html><img src=../Forward.tif></a></td><td><b>6.13. The past and perfect tenses</b></td></tr></table><p>
 <p>
-<p>We are now able to set up the model world, to respond to certain actions of the player within it, and to make changes over time, giving the game a start and an end. But although we have defined many rules, none of them have done more than to use a few basic phrases: saying something to the player, changing some property or moving things around.
+<p>The remaining sections of this chapter go into more technical ways to think about the progress of the game through time, and can be skipped at a first reading.
 <p>
-<p>A phrase is a pattern of words which instructs the computer to do something immediately. For instance:
+<p>Conditions are clauses which require Inform to make a decision: is such-and-such true, or not true? We have already seen conditions attached to rules using &quot;when&quot;:
 <p>
-<p><blockquote><font color="#000080">say &quot;Look out!&quot;<br>award 20 points</font></blockquote>
+<p><blockquote><font color="#000080">Instead of waiting when the Sorting Hat is in the Hall: ...</font></blockquote>
 <p>
-<p>are instructions using two phrases, &quot;say ...&quot; and &quot;award ... points&quot;. Phrases are not the same things as rules: rules lay out what should happen under what circumstances, but it is phrases that actually do what needs to be done.
+<p>and, as we shall later see, we will often want to write instructions like:
 <p>
-<p>Where the &quot;20&quot; appears in &quot;award 20 points&quot;, any number would have done. This does not need to be a literal number expressed in digits: it can be any value known to Inform which works out as a number. For instance, &quot;the score&quot; is always acceptable as a number, since it is the name of a number variable: its value at any point in play is the current score.
+<p><blockquote><font color="#000080">if the Sorting Hat is in the Hall then say &quot;Hermione blinks apprehensively.&quot;</font></blockquote>
 <p>
-<p>We are also allowed simple formulae such as
+<p>The condition is &quot;the Sorting Hat is in the Hall&quot;, and during play this will sometimes be true and sometimes false.
 <p>
-<p><blockquote><font color="#000080">change the score to the score + 10</font></blockquote>
+<p>A condition in the form:
 <p>
-<p>and similarly for &quot;-&quot;, &quot;*&quot; and &quot;/&quot;. Note the space around the plus sign: as far as Inform is concerned, &quot;+&quot; is a word like any other. (In this early release of I7, complicated formulae may not behave the way we expect: support for proper expression parsing is limited at best.)
+<p><blockquote><font color="#000080">X is Y</font></blockquote>
+<p>
+<p>is of course written the present tense, and refers to the current state of affairs. Three other tenses are allowed. First, the present perfect:
+<p>
+<p><blockquote><font color="#000080">if X has been Y ...</font></blockquote>
+<p>
+<p>is true if it has ever been the case that &quot;X is Y&quot; at the start of any turn (or any action). So, for instance,
+<p>
+<p><blockquote><font color="#000080">if the gate has been open ...</font></blockquote>
+<p>
+<p>will be valid if and only if the gate has ever been made open by any action (even if it is closed now), or if it started out by being open when play began.
+<p>
+<p>Next is the past tense:
+<p>
+<p><blockquote><font color="#000080">if X was Y ...</font></blockquote>
+<p>
+<p>holds if and only if &quot;X is Y&quot; was true at the start of the most recent action. This is convenient when trying to describe what has changed in the course of the action, but sometimes also when making the action itself happen. For instance:
+<p>
+<p><blockquote><font color="#000080">if the lantern was switched on then change the lantern to switched off;<br>if the lantern was switched off then change the lantern to switched on;</font></blockquote>
+<p>
+<p>Completing the set is the past perfect:
+<p>
+<p><blockquote><font color="#000080">if X had been Y ...</font></blockquote>
+<p>
+<p>which records whether &quot;X has been Y&quot; was true at the start of the most recent action. All these verbs can of course be negated (though &quot;wasn't&quot; and &quot;hadn't&quot; are disallowed as poor style: we use &quot;was not&quot; and &quot;had not&quot; instead). So for example,
+<p>
+<p><blockquote><font color="#000080">if the player had not been in the Ballroom ...</font></blockquote>
+<p>
+<p>is true if the player hadn't visited the Ballroom at the start of the most recent action.
 <p>
 <p><hr><p><a href=doc80.html>Previous</a> / <a href=doc82.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,20 +1,22 @@
-<html><head><title>10.10. Reaching inside rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc131.html><img src=../Back.tif></a><a href=doc133.html><img src=../Forward.tif></a></td><td><b>10.10. Reaching inside rules</b></td></tr></table><p>
+<html><head><title>10.7. Success and failure</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc131.html><img src=../Back.tif></a><a href=doc133.html><img src=../Forward.tif></a></td><td><b>10.7. Success and failure</b></td></tr></table><p>
 <p>
-<p>So far we have seen rules which apply to actions, and rules which do not apply to anything specific - &quot;every turn&quot; rules, for instance. We can also have rules which apply to a specific object.
+<p>Though we have blurred over this point so far, every rule has one of three outcomes: success, failure and neither. The default outcome is neither, and for many rules (the every turn rules, for instance) success or failure would be ignored anyway, which is how we managed not to mention all this before. Indeed, the instruction
 <p>
-<p>An example of rules applying to given objects is provided by the way that Inform decides whether the player can reach something or not. For instance, suppose the following:
+<p><blockquote><font color="#000080">follow the appraisal rules</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The Laboratory is a room. In the Laboratory is a conical flask. The flask is closed and transparent. In the flask is an antibumping granule.</font></blockquote>
+<p>throws away the result, whatever it may be, which is why results have not come up in the discussion so far. All the same, results can make a difference even in examples like this one. When a rulebook is working through a list of rules, any rule which stops causes the rulebook to stop at once, so that no subsequent rules in the book will be invoked.
 <p>
-<p>The player will be able to examine the granule but not to take it, as that would require reaching through glass. Internally, what happens if the player tries to take the granule is this: a rulebook called the &quot;reaching inside rules&quot; is applied to the conical flask. This normally contains the following three rules:
+<p>In the event of either success or failure, we say that it &quot;stops&quot;, and a value can optionally also result.
 <p>
-<p><blockquote><font color="#000080">the can't reach inside closed containers rule<br>the can't take people's possessions rule<br>the can't take component parts rule</font></blockquote>
+<p>Generally speaking, stops are needed for different reasons in different rulebooks, so there are specialised syntaxes for bringing them about (as we shall see). However, the following phrases always work in any rule:
 <p>
-<p>Two of these rules apply only to actions of taking and removing: if the player only wants to push the granule, for instance, only the &quot;can't reach inside closed containers&quot; rule is applicable. This is the gist of it:
+<p><blockquote><font color="#000080">the rule succeeds<br>the rule fails<br>the rule succeeds with result (...)<br>the rule fails with result (...)</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">The can't reach inside closed containers rule: if the object in question is a closed container begin; say &quot;[The object in question] is closed!&quot;; deny access; end if.</font></blockquote>
+<p>The result can be a room, a thing or a text. It can be referred to as
 <p>
-<p>In such a rule the &quot;object in question&quot; is the object to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
+<p><blockquote><font color="#000080">the result of the rule</font></blockquote>
+<p>
+<p>which is nothing if the rule ended without success or failure.
 <p>
 <p><hr><p><a href=doc131.html>Previous</a> / <a href=doc133.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

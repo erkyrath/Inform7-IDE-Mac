@@ -1,14 +1,14 @@
-<html><head><title>11.12. Handling phrase options</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc146.html><img src=../Back.tif></a><a href=doc148.html><img src=../Forward.tif></a></td><td><b>11.12. Handling phrase options</b></td></tr></table><p>
+<html><head><title>11.9. Headings and subheadings</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc146.html><img src=../Back.tif></a><a href=doc148.html><img src=../Forward.tif></a></td><td><b>11.9. Headings and subheadings</b></td></tr></table><p>
 <p>
-<p>The Standard Rules use the Inform list-writer with the following definitions, which show how a much more complicated I6 routine can be given a natural-language expression.
+<p>Every extension, including the Standard Rules, has the right to its own set of headings and subheadings, independently of those used by the main source for the work or by any other extension which may be included. So if the extension is divided into four sections and finishes on Section D, say, that doesn't mean that Section D will continue outside the extension as the main source of the game runs on.
 <p>
-<p><blockquote><font color="#000080">To list the contents of (O - an object), with newlines, indented, as a sentence, including contents, including all contents, giving inventory information, giving brief inventory information, using the definite article, listing marked items only, prefacing with is/are and/or not listing concealed items: (- WriteListFrom(child({O}), {phrase options}); -).</font></blockquote>
+<p>Extensions should, of course, never produce errors, so at first sight it appears that these headings will never be outwardly visible. In fact, though, they are used when indexing phrases (and also actions) to group similar phrases together. For instance, the Standard Rules contain the heading:
 <p>
-<p><blockquote><font color="#000080">To say contents of (O - an object): list the contents of O, as a sentence.</font></blockquote>
+<p><blockquote><font color="#000080">Section SR4/7 - Searching and sorting tables</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">To say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.</font></blockquote>
+<p>The half-dozen phrases defined in this section of the Standard Rules are then indexed under the subheading &quot;Searching and sorting tables&quot;: Inform looks for a hyphen in the heading and then uses any text which follows the hyphen. (If there is no hyphen, the entire heading text is used.)
 <p>
-<p>&quot;{phrase options}&quot; is a special substitution: it is a bitmap which assigns the given options one bit each, starting with the least significant bit for the first-mentioned option (&quot;with newlines&quot; above) and going up to the most significant bit for the last (&quot;not listing concealed items&quot;).
+<p>If an extension contains no headings, its phrases (or actions) are indexed simply as &quot;Miscellaneous&quot;.
 <p>
 <p><hr><p><a href=doc146.html>Previous</a> / <a href=doc148.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

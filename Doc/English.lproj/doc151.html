@@ -1,14 +1,14 @@
-<html><head><title>11.16. Inform 6 objects and classes</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc150.html><img src=../Back.tif></a><a href=doc152.html><img src=../Forward.tif></a></td><td><b>11.16. Inform 6 objects and classes</b></td></tr></table><p>
+<html><head><title>11.13. Handling phrase options</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc150.html><img src=../Back.tif></a><a href=doc152.html><img src=../Forward.tif></a></td><td><b>11.13. Handling phrase options</b></td></tr></table><p>
 <p>
-<p>We are free to mix in I6 object and class definitions, and the I6 and I7 objects should coexist peaceably, with object-oriented code for the I6 items still functioning (&quot;before&quot;, &quot;react_before&quot;, &quot;each_turn&quot; and so forth) alongside I7 rules.
+<p>The Standard Rules use the Inform list-writer with the following definitions, which show how a much more complicated I6 routine can be given a natural-language expression.
 <p>
-<p>As might be expected, I7 compiles an I6 class for each kind, and an I6 object for each of its own world objects. We can meddle with its compilation process here using a further refinement of Include. For instance, the Standard Rules say this about vehicles:
+<p><blockquote><font color="#000080">To list the contents of (O - an object), with newlines, indented, as a sentence, including contents, including all contents, giving inventory information, giving brief inventory information, using the definite article, listing marked items only, prefacing with is/are and/or not listing concealed items: (- WriteListFrom(child({O}), {phrase options}); -).</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Include (- with before [; Go: return 1; ], -) when defining a vehicle.</font></blockquote>
+<p><blockquote><font color="#000080">To say contents of (O - an object): list the contents of O, as a sentence.</font></blockquote>
 <p>
-<p>This glues in a new property to the class compiled to represent the I7 kind &quot;vehicle&quot;. (See the DM4 for why.) And similarly:
+<p><blockquote><font color="#000080">To say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Include (- has my_funny_attribute, -) when defining the hot air balloon.</font></blockquote>
+<p>&quot;{phrase options}&quot; is a special substitution: it is a bitmap which assigns the given options one bit each, starting with the least significant bit for the first-mentioned option (&quot;with newlines&quot; above) and going up to the most significant bit for the last (&quot;not listing concealed items&quot;).
 <p>
 <p><hr><p><a href=doc150.html>Previous</a> / <a href=doc152.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,16 +1,14 @@
-<html><head><title>6.9. Comparing and shifting times</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc73.html><img src=../Back.tif></a><a href=doc75.html><img src=../Forward.tif></a></td><td><b>6.9. Comparing and shifting times</b></td></tr></table><p>
+<html><head><title>6.6. Daemons!</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc73.html><img src=../Back.tif></a><a href=doc75.html><img src=../Forward.tif></a></td><td><b>6.6. Daemons!</b></td></tr></table><p>
 <p>
-<p>Carrying out easy calculations with times is straightforward:
+<p>A daemon is a rule which is applied every turn, but only when it is active: the rest of the time it sleeps. Traditionally, rules like this in interactive fiction have been imagined as being somehow independently acting, hence the term &quot;daemon&quot;. There's not much to say about daemons:
 <p>
-<p><blockquote><font color="#000080">The chronometer is in the Clock Chamber. &quot;On one wall is a terribly self-important chronometer showing the time in major world cities. London: [time of day]. Paris: [one hour after the time of day]. Tokyo: [9 hours after the time of day]. Cupertino, California: [7 hours before the time of day].&quot;</font></blockquote>
+<p><blockquote><font color="#000080">The lightning daemon: say &quot;Lightning strikes, suddenly.&quot;</font></blockquote>
 <p>
-<p>The phrase &quot;9 hours after the time of day&quot; takes the time of day and adds 9 hours, but this is not the same as ordinary addition of numbers: 9 hours after 11 AM is 8 PM. (This is why we don't use the symbols &quot;+&quot; and &quot;-&quot; when adding times: it would be confusing to the reader.) Similarly, we have conditions
+<p><blockquote><font color="#000080">In the Keep is a lever. The lever is fixed in place. Instead of pulling the lever: say &quot;Zzzing...&quot;; start the lightning daemon. Instead of pushing the lever: say &quot;Zzzap...&quot;; stop the lightning daemon.</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">if the time of day is before 10:45 AM then ...<br>Instead of waiting when the time of day is after 4:00 PM: ...</font></blockquote>
+<p>The name of a daemon must always have &quot;daemon&quot; as its final word. When play begins, daemons are normally asleep, so if we need one of them to be active right from the start then we must add a further rule:
 <p>
-<p>for putting times in order. In recognition of the fact that very few games begin before 4 AM, whereas many run on past midnight, the start of the day is taken to be 4 AM: thus 3:59 AM is after 11:10 PM, but 4:04 AM is before it. Almost all comparisons of time involve the time of day, so we allow the following abbreviations:
-<p>
-<p><blockquote><font color="#000080">if it is before 10:45 AM then ...<br>Instead of waiting when it is after 4:00 PM: ...</font></blockquote>
+<p><blockquote><font color="#000080">When play begins, start the lightning daemon.</font></blockquote>
 <p>
 <p><hr><p><a href=doc73.html>Previous</a> / <a href=doc75.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

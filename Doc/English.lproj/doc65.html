@@ -1,16 +1,24 @@
-<html><head><title>5.8. Stipulations on testing</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc64.html><img src=../Back.tif></a><a href=doc66.html><img src=../Forward.tif></a></td><td><b>5.8. Stipulations on testing</b></td></tr></table><p>
+<html><head><title>5.5. Moving and removing things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc64.html><img src=../Back.tif></a><a href=doc66.html><img src=../Forward.tif></a></td><td><b>5.5. Moving and removing things</b></td></tr></table><p>
 <p>
-<p>Many tests will only be sensible in given places, which may be hard to reach from the initial position; or with the aid of given things, which may be difficult to obtain. We are therefore allowed to add stipulations to test scripts:
+<p>We have now seen how to change the properties of rooms and things, and also any freestanding values which may have a bearing on the model world. We are not allowed to change the kind of anything during play. Our remaining freedom is to move things around. It would make no sense to move rooms around, because rooms are the fixed reference points in our geography, but anything else is mobile. This even includes things which are supposedly &quot;fixed in place&quot;, for unlike the player, we have god-like powers.
 <p>
-<p><blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot; holding the balloon.</font></blockquote>
+<p>At any given time, most things are inside a single other thing or room, sometimes called the &quot;parent&quot; because diagrams are traditionally drawn which resemble family trees. You can see these initial containments by looking at the Index panel. Here is how to move something:
 <p>
-<p>The &quot;... holding the balloon&quot; means that the balloon will be transferred to the player's ownership immediately before the test script is run, unless it is already held. Similarly:
+<p><blockquote><font color="#000080">move the genie's lamp to Aladdin's Cave</font></blockquote>
 <p>
-<p><blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen.</font></blockquote>
+<p>The first object named has to be a thing; the destination can be a room, as here, or another object - this will usually need to be a container, a supporter or a person, since Inform understands what it would mean for these to have contents, but there is no absolute restriction.
 <p>
-<p>Or we might want to say both:
+<p>When something is moved, all its contents (and all their contents, and so on) move with it.
 <p>
-<p><blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen holding the jam.</font></blockquote>
+<p>Some things will occasionally be in a limbo state called being &quot;out of play&quot;: like chess pieces which have been taken, or cards not yet dealt, they wait on the sidelines, perhaps to be needed again, perhaps not. Anything created with no apparent location will start the game out of play, as in the case of the lamp here:
+<p>
+<p><blockquote><font color="#000080">Aladdin's Cave is a room. The genie's lamp is a container.</font></blockquote>
+<p>
+<p>To move something back into play, we simply &quot;move&quot; it back onto the board, so to speak: back to a room, or to something else which is currently in play. To remove something, we use the phrase:
+<p>
+<p><blockquote><font color="#000080">remove the gold coin from play</font></blockquote>
+<p>
+<p>(We are not permitted to remove rooms from play.)
 <p>
 <p><hr><p><a href=doc64.html>Previous</a> / <a href=doc66.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,26 +1,16 @@
-<html><head><title>2.3. Kinds</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc10.html><img src=../Back.tif></a><a href=doc12.html><img src=../Forward.tif></a></td><td><b>2.3. Kinds</b></td></tr></table><p>
+<html><head><title>2.2. Mapping</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc10.html><img src=../Back.tif></a><a href=doc12.html><img src=../Forward.tif></a></td><td><b>2.2. Mapping</b></td></tr></table><p>
 <p>
-<p>Consider the following design. Unlike the previous example, this one not only places things within rooms, but also places them very specifically with respect to each other, so it is a surprisingly intricate design despite running to only 33 words.
+<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders, and in and out, which are less used but occasionally seem more natural. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
 <p>
-<p><blockquote><font color="#000080">&quot;Midsummer Day&quot;</font></blockquote>
+<p>One of the map connections in the Mammoth Cave simulation was made by the sentence:
 <p>
-<p><blockquote><font color="#000080">East of the Garden is the Gazebo. Above is the Treehouse. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup.</font></blockquote>
+<p><blockquote><font color="#000080">The Debris Room is west of the Crawl.</font></blockquote>
 <p>
-<p>Inform needs to identify the places and objects being described by the nouns here, and to guess what it can about them. For instance, the pistol can be picked up but not walked inside, whereas the Summer House is the reverse. (This is obvious to someone who knows what these words mean, less obvious to a computer which does not, but the text contains sufficient clues.) Inform does this by sorting the various nouns into different categories, which are called &quot;kinds&quot;. For instance:
+<p>Besides reading this sentence at face value, Inform also deduced that the Crawl was probably meant to be east of the Debris Room: in other words, that the path between them is a two-way one. When Inform makes guesses like this, it treats them as being less certain than anything explicitly stated in the source. Inform will quietly overturn its assumption if information later comes to hand which shows that it was wrong. That might happen in this case if a later sentence read:
 <p>
-<p><blockquote><font color="#000080">Garden, Gazebo, Treehouse - <b>room</b><br>billiards table - <b>supporter</b><br>cup - <b>container</b><br>starting pistol - <b>thing</b><br>East, up (implied by &quot;above&quot;) - <b>direction</b></font></blockquote>
+<p><blockquote><font color="#000080">The Hidden Alcove is east of the Debris Room.</font></blockquote>
 <p>
-<p>(A container is something which can contain other things, and a supporter similarly.) For instance Inform knows that if one thing is in another, then the second thing is either a room or a container, and if one thing is on another, the second thing is a supporter. This worked nicely for the design above, but:
-<p>
-<p><blockquote><font color="#000080">In the Treehouse is a cardboard box.</font></blockquote>
-<p>
-<p>results in the cardboard box being made only a &quot;thing&quot;: because nothing has been put inside it, there is no reason for Inform - which does not know what a cardboard box looks like - to guess that it is a &quot;container&quot;. So we need to add:
-<p>
-<p><blockquote><font color="#000080">The box is a container.</font></blockquote>
-<p>
-<p>It is rather clumsy to have to write two sentences like this, so we would normally write this instead:
-<p>
-<p><blockquote><font color="#000080">In the Treehouse is a container called the cardboard box.</font></blockquote>
+<p>These two sentences are not contradictory: Inform allows them both, simply accepting that the world is more complicated than it first assumed. There are relatively few situations where Inform has to make educated guesses, but when it does, it tries always to follow Occam's Razor by constructing the simplest model world consistent with the information in the Source text.
 <p>
 <p><hr><p><a href=doc10.html>Previous</a> / <a href=doc12.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

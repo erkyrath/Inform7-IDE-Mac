@@ -1,18 +1,18 @@
-<html><head><title>3.6. Text with substitutions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc31.html><img src=../Back.tif></a><a href=doc33.html><img src=../Forward.tif></a></td><td><b>3.6. Text with substitutions</b></td></tr></table><p>
+<html><head><title>3.5. New value properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc31.html><img src=../Back.tif></a><a href=doc33.html><img src=../Forward.tif></a></td><td><b>3.5. New value properties</b></td></tr></table><p>
 <p>
-<p>The example about the sound of an underground river is all very well, but what can we do with this new property now that we have created it? The following example gives one idea.
-<p>
-<p><blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came, consoled only by [river sound].&quot; A dead end is usually dark.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove. In the Undertomb is the lantern. It is a light source.</font></blockquote>
+<p>Moving on to properties which contain values, such as the &quot;matching key&quot; property of a door or a container, we need to use a different formulation.
 <p>
 <p><blockquote><font color="#000080">A dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.</font></blockquote>
 <p>
-<p>The novelty here is the text in square brackets in the first paragraph above. They imply more or less what they would when a journalist is quoting something in, say, a newspaper article. The actual words &quot;river sound&quot; are not part of the text. Instead, when Inform prints up the description of a dead end, it will substitute the appropriate river sound in place of these words.
+<p>The property &quot;river sound&quot; is now applicable only to dead ends, and we would not be allowed to talk about it in any other context. As can be seen, it holds a piece of text. If we tried the following:
 <p>
-<p>Thus the description of the Collapsed Dead End is &quot;This is a dead end. You'll have to go back the way you came, consoled only by a faint whispering of running water.&quot;, whereas the description of the Tortuous Alcove is &quot;This is a dead end. You'll have to go back the way you came, consoled only by a gurgle of running water.&quot; As the player explores these dead ends, subtle differences will appear in their room descriptions.
+<p><blockquote><font color="#000080">The river sound of the Tortuous Alcove is 7.</font></blockquote>
 <p>
-<p>We can put almost any description of a value in square brackets in text, and Inform will work out what kind of value it is and print something accordingly. For instance, &quot;You admire [the lantern].&quot; will expand to &quot;You admire the candle lantern.&quot;, spelling out the full name of the lantern.
+<p>...then Inform would object, because the number 7 is the wrong kind of value to go into the &quot;river sound&quot; property. If we need a numerical property, we can try this instead:
+<p>
+<p><blockquote><font color="#000080">A dead end has a number called the difficulty rating. The Tortuous Alcove has difficulty rating 7.</font></blockquote>
+<p>
+<p>(When we say &quot;has a property called...&quot; we implicitly allow it to hold either text or the name of a room or object, since it is often convenient to be able to store both interchangeably in the same property.)
 <p>
 <p><hr><p><a href=doc31.html>Previous</a> / <a href=doc33.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
