@@ -147,7 +147,19 @@ static NSDictionary* styles[256];
     [highlighter    release];
     [addFilePanel   release];
     
-	if (textStorage) [textStorage release];
+	if (textStorage) {
+		// Hrm? Cocoa seems to like deallocating NSTextStorage despite it's retain count.
+		// Ah, wait, NSTextView does not retain a text storage added using [NSTextStorage addLayoutManager:]
+		// so, it does honour the retain count, but doesn't monitor it correctly.
+		// Regardless, this fixes the problem. Not sure if this is a Cocoa bug or not.
+		// Weirdly, this causes a problem if the NSTextView is not the last owner of the NSTextStorage.
+		// Hrm, likely cause: if the NSTextStorage is deallocated first, it deregisters itself gracefully.
+		// If the NSTextView is deallocated first, it deallocates the NSTextStorage, but we're still using
+		// it elsewhere. KABOOOM!
+		
+		[textStorage removeLayoutManager: [sourceText layoutManager]];
+		[textStorage release];
+	}
     if (zView) [zView release];
     if (gameToRun) [gameToRun release];
 	if (wView) [wView release];
