@@ -18,6 +18,7 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
 @implementation IFCompiler
 
 // = Compiler versioning =
+
 + (NSDictionary*) parseCompilerFilename: (NSString*) pathname {
     // Compiler filenames have the form xxx-n.nn-[zcode|biplatform|glulx]
     NSString* filename = [pathname lastPathComponent];
@@ -41,15 +42,50 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
     
     return [NSDictionary dictionaryWithObjectsAndKeys:
         [components objectAtIndex: 0], @"name",
-        [NSNumber numberWithDouble: [[components objectAtIndex: 1] doubleValue]], @"version", 
+        [components objectAtIndex: 1], @"version", 
         [components objectAtIndex: 2], @"platform",
         filename, @"filename",
         pathname, @"pathname",
         nil];
 }
 
-+ (double) maxCompilerVersion {
-    double maxVersion = 0;
++ (int) majorVersionFromCompilerVersion: (NSString*) version {
+	NSArray* versions = [version componentsSeparatedByString: @"."];
+	
+	if ([versions count] < 2) return 0;
+	
+	return [[versions objectAtIndex: 0] intValue];
+}
+
++ (int) minorVersionFromCompilerVersion: (NSString*) version {
+	NSArray* versions = [version componentsSeparatedByString: @"."];
+	
+	if ([versions count] < 2) return 0;
+	
+	return [[versions objectAtIndex: 1] intValue];
+}
+
++ (NSComparisonResult) compareCompilerVersion: (NSString*) version1
+									toVersion: (NSString*) version2 {
+	Class ourClass = [self class];
+	
+	int majorVersion1 = [ourClass majorVersionFromCompilerVersion: version1];
+	int majorVersion2 = [ourClass majorVersionFromCompilerVersion: version2];
+	
+	if (majorVersion1 > majorVersion2) return NSOrderedDescending;
+	if (majorVersion2 > majorVersion1) return NSOrderedAscending;
+	
+	int minorVersion1 = [ourClass minorVersionFromCompilerVersion: version1];
+	int minorVersion2 = [ourClass minorVersionFromCompilerVersion: version2];
+	
+	if (minorVersion1 > minorVersion2) return NSOrderedDescending;
+	if (minorVersion2 > minorVersion1) return NSOrderedAscending;
+	
+	return NSOrderedSame;
+}
+
++ (NSString*) maxCompilerVersion {
+    NSString* maxVersion = nil;
     
     NSArray* compilers = [self availableCompilers];
     
@@ -57,15 +93,16 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
     NSDictionary* compDetails;
     
     while (compDetails = [compEnum nextObject]) {
-        if ([[compDetails objectForKey: @"version"] doubleValue] > maxVersion) {
-            maxVersion = [[compDetails objectForKey: @"version"] doubleValue];
-        }
+		if ([[self class] compareCompilerVersion: [compDetails objectForKey: @"version"]
+									   toVersion: maxVersion] == NSOrderedDescending) {
+			maxVersion = [compDetails objectForKey: @"version"];
+		}
     }
     
     return maxVersion;
 }
 
-+ (NSString*) compilerExecutableWithVersion: (double) ver {
++ (NSString*) compilerExecutableWithVersion: (NSString*) ver {
 	NSArray* compilers = [self availableCompilers];
     
     NSString* comp = nil;
@@ -74,9 +111,10 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
     NSDictionary* compDetails;
     
     while (compDetails = [compEnum nextObject]) {
-        if ([[compDetails objectForKey: @"version"] doubleValue] == ver) {
-            comp = [compDetails objectForKey: @"pathname"];
-        }
+		if ([IFCompiler compareCompilerVersion: ver
+									 toVersion: [compDetails objectForKey: @"version"]] == NSOrderedSame) {
+			comp = [compDetails objectForKey: @"pathname"];
+		}
     }
 	
 	return comp;

@@ -49,11 +49,16 @@ extern NSString* IFCompilerFinishedNotification;
 
 //+ (NSString*) compilerExecutable;
 + (NSDictionary*) parseCompilerFilename: (NSString*) pathname;
-+ (double)    maxCompilerVersion;
-+ (NSString*) compilerExecutableWithVersion: (double) ver; // 6.21, 6.30 etc
-+ (NSArray*) compilerZMachineVersionsForCompiler: (NSString*) compilerPath;
-+ (NSArray*) compilerPaths;
-+ (NSArray*) availableCompilers;
++ (NSString*)	  maxCompilerVersion;
++ (NSString*)	  compilerExecutableWithVersion: (NSString*) ver; // 6.21, 6.30 etc
++ (NSArray*)	  compilerZMachineVersionsForCompiler: (NSString*) compilerPath;
++ (NSArray*)	  compilerPaths;
++ (NSArray*)	  availableCompilers;
+
++ (int) majorVersionFromCompilerVersion: (NSString*) version;
++ (int) minorVersionFromCompilerVersion: (NSString*) version;
++ (NSComparisonResult) compareCompilerVersion: (NSString*) version1
+									toVersion: (NSString*) version2;
 
 - (void) setBuildForRelease: (BOOL) willRelease;
 - (void) setSettings: (IFCompilerSettings*) settings;

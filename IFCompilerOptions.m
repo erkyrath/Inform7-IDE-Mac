@@ -34,21 +34,22 @@
     IFCompilerSettings* settings = [self compilerSettings];
 
     // Compiler versions
-    double version = [settings compilerVersion];
+    NSString* version = [settings compilerVersion];
     NSEnumerator* compilerEnum = [[IFCompiler availableCompilers] objectEnumerator];
     
     [compilerVersion removeAllItems];
     NSDictionary* compilerInfo;
     
     while (compilerInfo = [compilerEnum nextObject]) {
-        NSString* compilerStr = [NSString stringWithFormat: @"%@ %.2f (%@)",
+        NSString* compilerStr = [NSString stringWithFormat: @"%@ %@ (%@)",
             [compilerInfo objectForKey: @"name"],
-            [[compilerInfo objectForKey: @"version"] doubleValue],
+            [compilerInfo objectForKey: @"version"],
             [compilerInfo objectForKey: @"platform"]];
         
         [compilerVersion addItemWithTitle: compilerStr];
         
-        if ([[compilerInfo objectForKey: @"version"] doubleValue] == version) {
+        if ([IFCompiler compareCompilerVersion: version
+									 toVersion: [compilerInfo objectForKey: @"version"]] == NSOrderedSame) {
             [compilerVersion selectItemAtIndex: [compilerVersion numberOfItems]-1];
         }
     }
@@ -62,9 +63,9 @@
 
 	// Compiler version
 	int item = [compilerVersion indexOfSelectedItem];
-	double newVersion;
+	NSString* newVersion;
 	
-	newVersion = [[[[IFCompiler availableCompilers] objectAtIndex: item] objectForKey: @"version"] doubleValue];
+	newVersion = [[[IFCompiler availableCompilers] objectAtIndex: item] objectForKey: @"version"];
 	
 	[settings setCompilerVersion: newVersion];	
 	

@@ -447,6 +447,12 @@
 			settings = {
 			};
 		};
+		4B0FE70F075A8F8E00FEC1DD = {
+			fileRef = 4B4970BE0714A32D00E9BEE1;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		4B128A14073E932400F745F0 = {
 			fileRef = 4B25AA06067C806300257941;
 			isa = PBXBuildFile;
@@ -2319,12 +2325,6 @@
 			path = IFSetting.m;
 			refType = 4;
 			sourceTree = "<group>";
-		};
-		4B4970C00714A32D00E9BEE1 = {
-			fileRef = 4B4970BE0714A32D00E9BEE1;
-			isa = PBXBuildFile;
-			settings = {
-			};
 		};
 		4B4970C10714A32D00E9BEE1 = {
 			fileRef = 4B4970BF0714A32D00E9BEE1;
@@ -11493,7 +11493,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \\*\\*\\* Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Natural\n# mkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Biplatform\n\ncp ${SRCROOT}/Library/Biplatform/Standard/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\ncp ${SRCROOT}/Library/lib611/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\necho -n \"6.11\" >${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n#ln -sf ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11 ${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n\ncp ${SRCROOT}/Library/natural/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/Natural\n\n\n# Inform 7 rules\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Graham\\ Nelson\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Reserved\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Emily\\ Short\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Roger\\ Firth\n\n#cp ${SRCROOT}/Library/Extensions/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions\ncp ${SRCROOT}/Library/Extensions/Graham\\ Nelson/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Graham\\ Nelson\ncp ${SRCROOT}/Library/Extensions/Emily\\ Short/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Emily\\ Short\ncp ${SRCROOT}/Library/Extensions/Roger\\ Firth/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Roger\\ Firth\ncp ${SRCROOT}/Library/Extensions/Reserved/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Reserved\n\necho \\*\\*\\* Done";
+			shellScript = "echo \\*\\*\\* Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Natural\n# mkdir ${OBJROOT}/Inform.app/Contents/Resources/Library/Biplatform\n\ncp ${SRCROOT}/Library/Biplatform/Standard/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.10\ncp ${SRCROOT}/Library/lib611/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11\necho -n \"6.11\" >${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n#ln -sf ${OBJROOT}/Inform.app/Contents/Resources/Library/6.11 ${OBJROOT}/Inform.app/Contents/Resources/Library/Standard\n\ncp ${SRCROOT}/Library/natural/*.h ${OBJROOT}/Inform.app/Contents/Resources/Library/Natural\n\n\n# Inform 7 rules\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Graham\\ Nelson\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Reserved\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Emily\\ Short\nmkdir ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Roger\\ Firth\n\n#cp ${SRCROOT}/Library/Extensions/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions\ncp ${SRCROOT}/Library/Extensions/Graham\\ Nelson/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Graham\\ Nelson\ncp ${SRCROOT}/Library/Extensions/Emily\\ Short/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Emily\\ Short\ncp ${SRCROOT}/Library/Extensions/Roger\\ Firth/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Roger\\ Firth\ncp ${SRCROOT}/Library/Extensions/Reserved/* ${OBJROOT}/Inform.app/Contents/Resources/Inform7/Extensions/Reserved\n\n# ARGH! Bloody Xcode deleting shell script edits\n# HACK: XCode won't let us change target product names\nmv ${OBJROOT}/Inform.app/Contents/Resources/Compilers/inform-6.3-biplatform ${OBJROOT}/Inform.app/Contents/Resources/Compilers/inform-6.30-biplatform\n\necho \\*\\*\\* Done";
 		};
 		4BD959F3055EE949008DEFF4 = {
 			buildPhases = (
@@ -11583,7 +11583,6 @@
 				4B496FD707149A1200E9BEE1,
 				4B4970A60714A2AA00E9BEE1,
 				4B4970AC0714A2C200E9BEE1,
-				4B4970C00714A32D00E9BEE1,
 				4B4901A20719884700F0DD28,
 				4B49020907198B8500F0DD28,
 				4B49021507198BBB00F0DD28,
@@ -11597,6 +11596,7 @@
 				4B2B6F80074D28D000732DEF,
 				4B2B724D074D678200732DEF,
 				4B0FE5E6075A4F5200FEC1DD,
+				4B0FE70F075A8F8E00FEC1DD,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

@@ -63,9 +63,9 @@ extern NSString* IFCompilerNaturalInform;
 - (BOOL) compileNaturalInformOutput;
 - (BOOL) runBuildScript;
 
-- (void) setCompilerVersion: (double) version;
+- (void) setCompilerVersion: (NSString*) version;
 - (void) setLibraryToUse: (NSString*) library;
-- (double) compilerVersion;
+- (NSString*) compilerVersion;
 - (NSString*) libraryToUse;
 
 - (void)      setZCodeVersion: (int) version;

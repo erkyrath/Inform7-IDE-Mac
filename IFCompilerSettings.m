@@ -365,12 +365,12 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (NSString*) compilerToUse {
-    NSNumber* compilerVersion = [store objectForKey: IFSettingCompilerVersion];
+	NSString* compilerVersion = [self compilerVersion];
     
     if (compilerVersion == nil)
-        compilerVersion = [NSNumber numberWithDouble: [IFCompiler maxCompilerVersion]];
+        compilerVersion = [IFCompiler maxCompilerVersion];
     
-    return [IFCompiler compilerExecutableWithVersion: [compilerVersion doubleValue]];
+    return [IFCompiler compilerExecutableWithVersion: compilerVersion];
 }
 
 - (NSArray*) supportedZMachines {
@@ -566,19 +566,29 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     return [NSString stringWithFormat: @"z%i", version];
 }
 
-- (void) setCompilerVersion: (double) version {
-    [[self dictionaryForClass: [IFCompilerOptions class]] setObject: [NSNumber numberWithDouble: version]
+- (void) setCompilerVersion: (NSString*) version {
+    [[self dictionaryForClass: [IFCompilerOptions class]] setObject: version
 															 forKey: IFSettingCompilerVersion];
     [self settingsHaveChanged];
 }
 
-- (double) compilerVersion {
-    NSNumber* compilerVersion = [[self dictionaryForClass: [IFCompilerOptions class]] objectForKey: IFSettingCompilerVersion];
+- (NSString*) compilerVersion {
+    NSString* compilerVersion = [[self dictionaryForClass: [IFCompilerOptions class]] objectForKey: IFSettingCompilerVersion];
     
     if (compilerVersion == nil)
         return [IFCompiler maxCompilerVersion];
+	
+	if ([compilerVersion isKindOfClass: [NSNumber class]]) {
+		// (Old-style compiler version - fix this)
+		NSString* newCompilerVersion = [NSString stringWithFormat: @"%.2f", [(NSNumber*)compilerVersion doubleValue]];
+
+		[[self dictionaryForClass: [IFCompilerOptions class]] setObject: newCompilerVersion
+																 forKey: IFSettingCompilerVersion];
+
+		return newCompilerVersion;
+	}
     
-    return [compilerVersion doubleValue];
+    return compilerVersion;
 }
 
 - (void) setLibraryToUse: (NSString*) library {
