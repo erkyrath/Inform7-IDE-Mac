@@ -354,7 +354,7 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 		}
 		
 		if (intelData) {
-			// Remove the lines from the intelligence data
+			// Remove the appropriate lines from the intelligence data
 			[intelData removeLines: NSMakeRange(firstLine+1, nNewLines)];
 		}
 		
@@ -370,14 +370,16 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 				lineStarts + lastLine + 1,
 				sizeof(*lineStarts)*(nLines - (lastLine + 1)));
 
+		[lineStyles removeObjectsInRange: NSMakeRange(firstLine+1, lastLine-(firstLine))];
+		if (intelData) [intelData removeLines: NSMakeRange(firstLine+1, lastLine-(firstLine))];
+
 		// Update last
 		for (x=0; x<nNewLines; x++) {
 			[lineStyles insertObject: [self paragraphStyleForTabStops: 0]
 							 atIndex: firstLine+1];
+			if (intelData) [intelData insertLineBeforeLine: firstLine+1]; // Might be slow with cut+paste sometimes?
 			
 			lineStarts[firstLine+1+x] = newLineStarts[x];
-			
-			if (intelData) [intelData insertLineBeforeLine: firstLine+1]; // Might be slow with cut+paste sometimes?
 		}
 	}
 		
@@ -967,9 +969,13 @@ static inline BOOL IsWhitespace(unichar c) {
 }
 
 - (NSString*) textForLine: (int) lineNumber {
+	if (lineNumber >= nLines) return @"";
+	
 	// Get the start/end of the line
 	int lineStart = lineStarts[lineNumber];
 	int lineEnd = lineNumber+1<nLines?lineStarts[lineNumber+1]:[string length];
+	
+	NSLog(@"textForLine: %i (%i-%i)", lineNumber, lineStart, lineEnd);
 	
 	return [[string string] substringWithRange: NSMakeRange(lineStart, lineEnd-lineStart)];
 }
@@ -994,6 +1000,27 @@ static inline BOOL IsWhitespace(unichar c) {
 	// pos-1 will always be a newline, so pos-2 is the actual last character. '\n' indicates the last line was
 	// blank in this case
 	return [[string string] characterAtIndex: pos-2];
+}
+
+- (void) callbackForEditing: (SEL) selector
+				  withValue: (id) parameter {
+	[[NSRunLoop currentRunLoop] performSelector: selector
+										 target: intelSource
+									   argument: parameter
+										  order: 9
+										  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+}
+
+- (void) replaceLine: (int) lineNumber
+			withLine: (NSString*) newLine {
+	if (lineNumber >= nLines) NSLog(@"Attempt to replace line %i (but we only have %i lines)", lineNumber, nLines);
+
+	// Get the start/end of the line
+	int lineStart = lineStarts[lineNumber];
+	int lineEnd = lineNumber+1<nLines?lineStarts[lineNumber+1]:[string length];
+	
+	[self replaceCharactersInRange: NSMakeRange(lineStart, lineEnd-lineStart)
+						withString: newLine];
 }
 
 @end

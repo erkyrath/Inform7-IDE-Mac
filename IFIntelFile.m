@@ -8,7 +8,7 @@
 
 #import "IFIntelFile.h"
 
-#define IntelDebug 0
+#define IntelDebug 1
 
 // FIXME: symbols are supposed to be deliniated by type, so we should really be using one of these objects
 // per symbol type;
@@ -226,6 +226,7 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 	int nSymbols = [symbols count];
 	int symbol = [self indexOfStartOfLine: line];
 	
+	if (symbol < 0) return nil;
 	if (symbol >= nSymbols) return nil;
 	if (symbol+1 == nSymbols) return [symbols objectAtIndex: symbol];
 	if (symbolLines[symbol+1] == line) return [symbols objectAtIndex: symbol+1];
@@ -237,6 +238,7 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 	int nSymbols = [symbols count];
 	int symbol = [self indexOfStartOfLine: line];
 	
+	if (symbol < 0) return nil;
 	if (symbol+1 >= nSymbols) return nil;
 	if (symbolLines[symbol+1] != line) return nil;
 	
@@ -246,7 +248,7 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 - (IFIntelSymbol*) lastSymbolOnLine: (int) line {
 	int symbol = [self indexOfEndOfLine: line];
 	
-	if (symbol == 0) return nil;
+	if (symbol <= 0) return nil;
 	if (symbolLines[symbol-1] != line) return nil;
 	
 	return [symbols objectAtIndex: symbol-1];

@@ -203,7 +203,8 @@ static NSArray* majorUnits;
 				// Insert a suitable new heading number
 				res = [NSMutableString stringWithFormat: @" %i - ", lastHeadingNumber+1];
 				
-				// IMPLEMENT ME: renumber the following sections
+				[highlighter callbackForEditing: @selector(renumberSectionsAfterLine:)
+									  withValue: [NSNumber numberWithInt: lineNumber]];
 			}
 			
 			return res;
@@ -212,6 +213,67 @@ static NSArray* majorUnits;
 	
 	// No behaviour defined: just fall through
 	return nil;
+}
+
+- (void) renumberSectionsAfterLine: (NSNumber*) lineObject {
+	// Gather some information about what we're about to do
+	int lineNumber = [lineObject intValue];
+	IFIntelFile* data = [highlighter intelligenceData];
+	IFIntelSymbol* firstSymbol = [data nearestSymbolToLine: lineNumber];
+	
+	if (firstSymbol == nil) return;
+	
+	int currentSectionNumber = [IFNaturalIntel numberOfHeading: [firstSymbol name]];
+
+	if (currentSectionNumber <= 0) return;
+	
+	// Renumber all the siblings
+	IFIntelSymbol* symbol = [firstSymbol sibling];
+	
+	NSMutableArray* todoList = [NSMutableArray array];
+	
+	while (symbol != nil) {
+		currentSectionNumber++;
+		
+		int symbolSectionNumber = [IFNaturalIntel numberOfHeading: [firstSymbol name]];
+		
+		if (symbolSectionNumber != currentSectionNumber) {
+			// Get the data for the line this symbol is on
+			int symbolLineNumber = [data lineForSymbol: symbol];
+			NSString* line = [highlighter textForLine: symbolLineNumber];
+						
+			// Renumber this symbol
+			NSMutableArray* words = [[line componentsSeparatedByString: @" "] mutableCopy];
+			
+			if ([words count] > 1) {
+				[words replaceObjectAtIndex: 1
+								 withObject: [NSString stringWithFormat: @"%i", currentSectionNumber]];
+				NSString* newString = [words componentsJoinedByString: @" "];
+			
+				[words release];
+			
+				// Add to our 'todo' list
+				[todoList addObject: [NSArray arrayWithObjects: [NSNumber numberWithInt: symbolLineNumber], newString, nil]];
+			}
+		}
+		
+		symbol = [symbol sibling];
+	}
+	
+	// Renumber everything in the todo list
+	// (We put things in a todo list to avoid accidently stuffing up the symbol list while we're working on it)
+	[highlighter beginEditing];
+
+	NSEnumerator* todoEnum = [todoList objectEnumerator];
+	NSArray* todo;
+	while (todo = [todoEnum nextObject]) {
+		[highlighter replaceLine: [[todo objectAtIndex: 0] intValue]
+						withLine: [todo objectAtIndex: 1]];
+	}
+	
+	[highlighter endEditing];
+	
+	// We're done
 }
 
 @end

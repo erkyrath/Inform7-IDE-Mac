@@ -182,4 +182,9 @@ typedef unsigned char IFSyntaxStyle;
 
 - (unichar) characterAtEndOfLine: (int) lineNumber;
 
+- (void) callbackForEditing: (SEL) selector
+				  withValue: (id) parameter;
+- (void) replaceLine: (int) lineNumber
+			withLine: (NSString*) newLine;			// DANGEROUS! May change styles, invoke the highlighter, etc
+
 @end
