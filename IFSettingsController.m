@@ -60,6 +60,8 @@ static NSMutableArray* standardSettingsClasses = nil;
 	[compilerSettings release];
 	[settings release];
 
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+
 	[super dealloc];
 }
 

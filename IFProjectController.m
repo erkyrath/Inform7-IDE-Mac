@@ -222,7 +222,6 @@ static NSDictionary*  itemDictionary = nil;
 		lineHighlighting = [[NSMutableDictionary allocWithZone: [self zone]] init];
         
         [self setShouldCloseDocument: YES];
-        [self setWindowFrameAutosaveName: @"ProjectWindow"];
 		
 		generalPolicy = [[IFProjectPolicy alloc] initWithProjectController: self];
 		docPolicy = [[IFProjectPolicy alloc] initWithProjectController: self];
@@ -268,6 +267,10 @@ static NSDictionary*  itemDictionary = nil;
 		
 		[[self window] setToolbar: toolbar];
 	}
+}
+
+- (void) windowDidLoad {
+	[self setWindowFrameAutosaveName: @"ProjectWindow"];
 }
 
 - (void) awakeFromNib {

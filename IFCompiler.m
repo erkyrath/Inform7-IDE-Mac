@@ -230,7 +230,9 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     //if (delegate) [delegate release];
 
     [runQueue release];
-    
+
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+
     [super dealloc];
 }
 

@@ -53,6 +53,9 @@ NSString* IFIsFilesInspector = @"IFIsFilesInspector";
 - (void) dealloc {
 	if (filenames) [filenames release];
 	if (activeProject) [activeProject release];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	
 	[super dealloc];
 }
 
