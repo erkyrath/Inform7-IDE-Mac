@@ -387,8 +387,6 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 		NSMutableDictionary* newEnvironment = [[theTask environment] mutableCopy];
 		if (!newEnvironment) newEnvironment = [[NSMutableDictionary alloc] init];
 		
-		NSLog(@"Memory debugging ENABLED");
-		
 		[newEnvironment setObject: @"1"
 						   forKey: @"MallocGuardEdges"];
 		[newEnvironment setObject: @"1"
@@ -579,8 +577,6 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 		if ([settings debugMemory]) {
 			NSMutableDictionary* newEnvironment = [[theTask environment] mutableCopy];
 			if (!newEnvironment) newEnvironment = [[NSMutableDictionary alloc] init];
-			
-			NSLog(@"Memory debugging ENABLED");
 			
 			[newEnvironment setObject: @"1"
 							   forKey: @"MallocGuardEdges"];
