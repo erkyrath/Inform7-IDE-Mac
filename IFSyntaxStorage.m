@@ -124,6 +124,14 @@ static const int maxPassLength = 1024;
 
 // = Utility methods =
 
+#if HighlighterDebug
+- (void) edited: (unsigned)editedMask range: (NSRange)range changeInLength: (int)delta {
+	NSLog(@"Highlighter: edited range (%i, %i) mask %x, change in length %i", range.location, range.length, editedMask, delta);
+	
+	[super edited: editedMask range: range changeInLength: delta];
+}
+#endif
+
 - (int) lineForIndex: (unsigned) index {
 	// Yet Another Binary Search
 	int low = 0;
@@ -224,7 +232,7 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 	if (range) *range = finalRange;
 	
 	// Use the cached attributes if available
-	if ([stringAttributes objectForKey: IFStyleAttributes] == styleAttributes) {
+	if ([[stringAttributes objectForKey: IFStyleAttributes] pointerValue] == styleAttributes) {
 		return [stringAttributes objectForKey: IFCombinedAttributes];
 	}
 
@@ -232,29 +240,40 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 	int line = [self lineForIndex: finalRange.location];
 	NSDictionary* lineAttributes = nil;
 	
+#if HighlighterDebug
+	NSLog(@"Attributes: recalculating attributes at line %i. Old attributes were %p, new attributes are %p. Attribute range (%i, %i)",
+		  line, [[stringAttributes objectForKey: IFStyleAttributes] pointerValue], styleAttributes, finalRange.location, finalRange.length);
+#endif
+
 	if (line < [lineStyles count]) {
 		lineAttributes = [lineStyles objectAtIndex: line];
 	}
 	
-	// Create the result
-	NSMutableDictionary* attributes = [stringAttributes mutableCopy];
+	// Create the result (we're using CF calls for speed reasons)
+	CFMutableDictionaryRef attributes = CFDictionaryCreateMutableCopy(kCFAllocatorDefault,
+																	  0,
+																	  (CFDictionaryRef)stringAttributes);
+		
+	if (lineAttributes) 
+		[attributes addEntriesFromDictionary: lineAttributes];
+	if (styleAttributes)
+		[attributes addEntriesFromDictionary: styleAttributes];
 	
-	if (lineAttributes) [attributes addEntriesFromDictionary: lineAttributes];
-	[attributes addEntriesFromDictionary: [NSDictionary dictionaryWithDictionary: styleAttributes]];
-	
-	if ([attributes objectForKey: IFStyleAttributes]) [attributes removeObjectForKey: IFStyleAttributes];
-	if ([attributes objectForKey: IFCombinedAttributes]) [attributes removeObjectForKey: IFCombinedAttributes];
+	if (CFDictionaryContainsKey(attributes, IFStyleAttributes))
+		CFDictionaryRemoveValue(attributes, IFStyleAttributes);
+	if (CFDictionaryContainsKey(attributes, IFCombinedAttributes))
+		CFDictionaryRemoveValue(attributes, IFCombinedAttributes);
 	
 	// Cache it
-	[string addAttribute: IFStyleAttributes
-				   value: styleAttributes
-				   range: finalRange];
 	[string addAttribute: IFCombinedAttributes
-				   value: attributes
+				   value: (NSDictionary*)attributes
+				   range: finalRange];
+	[string addAttribute: IFStyleAttributes
+				   value: [NSValue valueWithPointer: styleAttributes]
 				   range: finalRange];
 	
 	// Return it
-	return [attributes autorelease];
+	return [(NSDictionary*)attributes autorelease];
 }
 
 - (void) replaceCharactersInRange: (NSRange) range
@@ -675,10 +694,14 @@ static inline BOOL IsWhitespace(unichar c) {
 }
 
 - (void) highlightRangeNow: (NSValue*) range {
+	if (highlighter == nil) return;	// Nothing to do
+	
 	amountHighlighted = 0;
 	
 	// Highlight the range
 	[self beginEditing];
+	
+	NSLog(@"Highlighting range: %i %i", [range rangeValue].location, [range rangeValue].length);
 	[self highlightRange: [range rangeValue]];
 	
 	// Highlight anything else that might need it
