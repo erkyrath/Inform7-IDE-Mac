@@ -1140,6 +1140,7 @@ static NSDictionary*  itemDictionary = nil;
 	if (totalPercentage <= 0) {
 		if (progressing) {
 			// Disable progress bars
+			[progress setUsesThreadedAnimation: NO];
 			[progress stopAnimation: self];
 			[self performSelector: @selector(clearStatus:)
 					   withObject: [NSNumber numberWithInt: progressNum]
@@ -1153,7 +1154,9 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Enable progress bars
 	if (!progressing) {
+		[progress setAnimationDelay: 0.05];
 		[progress startAnimation: self];
+		[progress setUsesThreadedAnimation: YES];
 
 		progressNum++;
 		progressing = YES;
