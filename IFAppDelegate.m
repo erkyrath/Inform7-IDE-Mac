@@ -24,4 +24,14 @@
     // newProj releases itself when done
 }
 
+- (IBAction) newInformFile: (id) sender {
+    [[NSDocumentController sharedDocumentController] openUntitledDocumentOfType: @"Inform source file"
+                                                                        display: YES];
+}
+
+- (IBAction) newHeaderFile: (id) sender {
+    [[NSDocumentController sharedDocumentController] openUntitledDocumentOfType: @"Inform header file"
+                                                                        display: YES];
+}
+
 @end
