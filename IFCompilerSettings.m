@@ -22,6 +22,8 @@
 #import "IFCompiler.h"
 #import "IFSetting.h"
 
+#import "IFSettingsController.h"
+
 NSString* IFSettingLibraryToUse    = @"IFSettingLibraryToUse";
 NSString* IFSettingCompilerVersion = @"IFSettingCompilerVersion";
 NSString* IFSettingZCodeVersion    = @"IFSettingZCodeVersion";
@@ -216,6 +218,14 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 
         // Default settings
         [self setUsingNaturalInform: NO];
+		
+		genericSettings = [[IFSettingsController makeStandardSettings] retain];
+		
+		NSEnumerator* setEnum = [genericSettings objectEnumerator];
+		IFSetting* setting;
+		while (setting = [setEnum nextObject]) {
+			[setting setCompilerSettings: self];
+		}
     }
 
     return self;
@@ -574,6 +584,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 - (void) setGenericSettings: (NSArray*) newGenericSettings {
 	if (newGenericSettings == genericSettings) return;
 	
+	if (genericSettings) [genericSettings release];
 	genericSettings = [newGenericSettings retain];
 }
 
@@ -654,8 +665,10 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 	NSEnumerator* settingEnum = [genericSettings objectEnumerator];
 	IFSetting* setting;
 	while (setting = [settingEnum nextObject]) {
-		[plData setObject: [setting plistEntries]
-				   forKey: [[setting class] description]];
+		if ([setting plistEntries]) {
+			[plData setObject: [setting plistEntries]
+					   forKey: [[setting class] description]];
+		}
 	}
 	
 	// Update the original list to reflect the current one

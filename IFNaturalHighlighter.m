@@ -47,10 +47,6 @@
 		case IFNaturalModeStandard:
 			// Natural Inform mode
 			switch (lastState) {
-				case IFNaturalStateBlankLine:
-					if (chr == ' ' || chr == '\n' || chr == '\t' || chr == '\r')
-						return IFNaturalStateBlankLine;
-					// ObRAIF: here is why fall-through cases are a *good* thing
 				case IFNaturalStateMaybeInform6:
 					if (chr == '-') {
 						// Switch to Inform 6 mode
@@ -72,6 +68,11 @@
 							return newState;
 						}
 					}
+				case IFNaturalStateBlankLine:
+					if (chr == ' ' || chr == '\n' || chr == '\t' || chr == '\r')
+						return IFNaturalStateBlankLine;
+					// ObRAIF: here is why fall-through cases are a *good* thing
+					// (Of course, first time I tried this, I got these conditions the wrong way round... Mmm, bug)
 				case IFNaturalStateText:
 					// Just plain ole text
 					if (chr == '[') {

@@ -26,6 +26,8 @@
 // Plug-in support
 + (void) addStandardSettingsClass: (Class) settingClass;
 
++ (NSMutableArray*) makeStandardSettings;
+
 // User interface
 - (IFSettingsView*) settingsView;
 - (void) setSettingsView: (IFSettingsView*) view;

@@ -32,22 +32,28 @@ static NSMutableArray* standardSettingsClasses = nil;
 	[standardSettingsClasses addObject: settingClass];
 }
 
++ (NSMutableArray*) makeStandardSettings {
+	NSMutableArray* res = [[NSMutableArray alloc] init];
+
+	// Create all the 'standard' classes
+	// These must know how to initialise themselves with just an init call
+	NSEnumerator* stdSettingEnum = [standardSettingsClasses objectEnumerator];
+	Class settingClass;
+	
+	while (settingClass = [stdSettingEnum nextObject]) {
+		[res addObject: [[[settingClass alloc] init] autorelease]];
+	}
+	
+	return [res autorelease];
+}
+
 // = Initialisation, etc =
 
 - (id) init {
 	self = [super init];
 	
 	if (self) {
-		settings = [[NSMutableArray alloc] init];
-		
-		// Create all the 'standard' classes
-		// These must know how to initialise themselves with just an init call
-		NSEnumerator* stdSettingEnum = [standardSettingsClasses objectEnumerator];
-		Class settingClass;
-		
-		while (settingClass = [stdSettingEnum nextObject]) {
-			[settings addObject: [[[settingClass alloc] init] autorelease]];
-		}
+		settings = [[[self class] makeStandardSettings] retain];
 		
 		settingsChanging = NO;
 	}
