@@ -37,7 +37,8 @@ enum {
 
 // = Actions =
 - (NSString*) getNewFilename {
-	if ([[[projectController document] settings] usingNaturalInform]) {
+	if ([[[projectController document] settings] usingNaturalInform] ||
+		[[projectController document] editingExtension]) {
 		// Default is to create a 'ni' file
 		[fileType selectItem: [[fileType menu] itemWithTag: niFileTag]];
 	} else {
@@ -77,7 +78,8 @@ enum {
 	
 	switch ([[fileType selectedItem] tag]) {
 		case inform6FileTag:
-			if ([[[projectController document] settings] usingNaturalInform]) {
+			if ([[[projectController document] settings] usingNaturalInform] ||
+				[[projectController document] editingExtension]) {
 				// With Natural Inform, the extension is '.i6'
 				extension = @"i6";
 			} else {
@@ -86,7 +88,10 @@ enum {
 			}
 			break;
 		case niFileTag:
-			extension = @"ni";
+			if ([[projectController document] editingExtension])
+				extension = nil;
+			else
+				extension = @"ni";
 			break;
 		case textFileTag:
 			extension = @"txt";
@@ -100,6 +105,8 @@ enum {
 	NSString* file = [[fileName stringValue] lastPathComponent];
 	if (extension && file && [file length] > 0) {
 		newFilename = [[file stringByAppendingPathExtension: extension] retain];
+	} else if (file && [file length] > 0) {
+		newFilename = [file copy];
 	}
 }
 

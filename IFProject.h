@@ -60,4 +60,6 @@ extern NSString* IFProjectFilesChangedNotification;
 
 - (ZoomSkein*) skein;
 
+- (BOOL) editingExtension;
+
 @end

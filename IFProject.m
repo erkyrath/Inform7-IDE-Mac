@@ -266,6 +266,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 	} else if ([fileType isEqualTo: @"Inform Extension Directory"]) {
 		// Opening a plain ole extension
 		editingExtension = YES;
+		singleFile = NO;
 		
         // Open the directory
         projectFile = [[IFProjectFile allocWithZone: [self zone]]
@@ -599,6 +600,10 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 	indexFile = nil;
 	
 	indexFile = [[IFIndexFile alloc] initWithContentsOfFile: [[[self fileName] stringByAppendingPathComponent: @"Index"] stringByAppendingPathComponent: @"Headings.xml"]];
+}
+
+- (BOOL) editingExtension {
+	return editingExtension;
 }
 
 // = The skein =
