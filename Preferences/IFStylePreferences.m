@@ -9,7 +9,7 @@
 #import "IFStylePreferences.h"
 
 #import "IFSyntaxStorage.h"
-#import "IFInform6Highlighter.h"
+#import "IFNaturalHighlighter.h"
 
 #import "IFPreferences.h"
 
@@ -30,7 +30,7 @@
 		NSTextStorage* oldStorage = [previewView textStorage];
 		previewStorage = [[IFSyntaxStorage alloc] initWithString: [oldStorage string]];
 		
-		[previewStorage setHighlighter: [[[IFInform6Highlighter alloc] init] autorelease]];
+		[previewStorage setHighlighter: [[[IFNaturalHighlighter alloc] init] autorelease]];
 		
 		[oldStorage removeLayoutManager: [previewView layoutManager]];
 		[previewStorage addLayoutManager: [previewView layoutManager]];

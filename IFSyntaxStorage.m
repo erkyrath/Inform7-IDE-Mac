@@ -433,7 +433,7 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	int x;
 	
 	for (x=syntaxPos-backtrackLength; x<syntaxPos; x++) {
-		if (x > 0) charStyles[x] = newStyle;
+		if (x >= 0) charStyles[x] = newStyle;
 	}
 }
 
