@@ -35,9 +35,11 @@ enum {
     IFSyntaxEscapeCharacter,
     
     // Natural inform syntax types
-    IFSyntaxHeading = 0x80,		// Heading style
-	IFSyntaxPlain,				// 'No highlighting' style - lets user defined styles show through
-	IFSyntaxGameText,			// Text that appears in the game
+    IFSyntaxHeading = 0x80,			// Heading style
+	IFSyntaxPlain,					// 'No highlighting' style - lets user defined styles show through
+	IFSyntaxGameText,				// Text that appears in the game
+	
+	IFSyntaxNotHighlighted = 0xf0,	// Used internally by the highlighter to indicate that the highlights are invalid for a particular range
     
     // Debugging syntax types
     IFSyntaxDebugHighlight = 0xa0
@@ -78,10 +80,14 @@ typedef unsigned char IFSyntaxStyle;
 	NSMutableAttributedString* string;
 	
 	// Syntax state (static)
-	NSMutableArray* linePositions;	// Locations of the start of lines
+	int				nLines;			// Number of lines
+	unsigned*		lineStarts;		// Start positions of each line
 	NSMutableArray* lineStates;		// Syntax stack at the start of lines
 	
 	IFSyntaxStyle*  charStyles;		// Syntax state for each character
+	
+	NSRange needsHighlighting;		// Range that still needs highlighting
+	int amountHighlighted;			// Amount highlighted this pass
 	
 	// Syntax state (dynamic)
 	NSMutableArray* syntaxStack;	// Current syntax stack
@@ -101,7 +107,9 @@ typedef unsigned char IFSyntaxStyle;
 - (void) popState;
 
 // Actually performing highlighting
+- (void) highlightRangeSoon: (NSRange) range;
 - (void) highlightRange: (NSRange) rangeToHighlight;
+- (BOOL) highlighterPass;
 - (void) startBackgroundHighlighting;
 - (void) stopBackgroundHighlighting;
 

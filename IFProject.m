@@ -9,10 +9,65 @@
 #import "IFProject.h"
 #import "IFProjectController.h"
 
+#import "IFSyntaxStorage.h"
+#import "IFNaturalHighlighter.h"
+
 NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotification";
 
 
 @implementation IFProject
+
++ (id<IFSyntaxHighlighter,NSObject>) highlighterForFilename: (NSString*) filename {
+	NSString* extn = [[filename pathExtension] lowercaseString];
+	
+	if ([extn isEqualToString: @"inf"] ||
+		[extn isEqualToString: @"i6"] ||
+		[extn isEqualToString: @"h"]) {
+		// Inform 6 highlighter not yet available
+	} else if ([extn isEqualToString: @"ni"]) {
+		// Natural Inform file
+		return [[[IFNaturalHighlighter alloc] init] autorelease];
+	}
+	
+	// No highlighter
+	return nil;
+}
+
++ (IFSyntaxStorage*) storageWithString: (NSString*) string
+						 forFilename: (NSString*) filename {
+	IFSyntaxStorage* res = [[IFSyntaxStorage alloc] initWithString: string];
+	
+	[res setHighlighter: [[self class] highlighterForFilename: filename]];
+	
+	return [res autorelease];
+}
+
++ (IFSyntaxStorage*) storageWithAttributedString: (NSAttributedString*) string
+									 forFilename: (NSString*) filename {
+	IFSyntaxStorage* res = [[IFSyntaxStorage alloc] initWithAttributedString: string];
+	
+	[res setHighlighter: [[self class] highlighterForFilename: filename]];
+	
+	return [res autorelease];
+}
+
++ (IFSyntaxStorage*) storageWithData: (NSData*) fileContents
+						 forFilename: (NSString*) filename {
+	BOOL loadAsRtf = NO;
+	
+	if ([[[filename pathExtension] lowercaseString] isEqualToString: @"rtf"])
+		loadAsRtf = YES;
+	
+	if (loadAsRtf) {
+		return [[self class] storageWithAttributedString: [[[NSAttributedString alloc] initWithRTF: fileContents
+																				documentAttributes: nil] autorelease]
+											 forFilename: filename];
+	} else {
+		return [[self class] storageWithString: [[[NSString alloc] initWithData: fileContents
+																	   encoding: NSISOLatin1StringEncoding] autorelease]
+								   forFilename: filename];
+	}
+}
 
 // == Initialisation ==
 
@@ -31,12 +86,6 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
         compiler = [[IFCompiler allocWithZone: [self zone]] init];
 		
 		notes = [[NSTextStorage alloc] initWithString: @""];
-        
-        /*
-        sourceFiles = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
-            [[[NSTextStorage alloc] init] autorelease], @"untitled.inf", nil] retain];
-        mainSource = [@"untitled.inf" retain];
-         */
     }
 
     return self;
@@ -99,27 +148,14 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 
 		// Load all the source files
         while (key = [sourceEnum nextObject]) {
-            NSTextStorage* text;
-            NSString*      textData;
+            IFSyntaxStorage* text;
+			
+			NSData* regularFileContents = [[source objectForKey: key] regularFileContents];
+			
+			text = [[self class] storageWithData: regularFileContents
+									 forFilename: key];
 
-            if ([[key pathExtension] isEqualToString: @"rtf"]) {
-                NSAttributedString* attr = [[NSAttributedString alloc] initWithRTF: 
-                    [[[sourceDir fileWrappers] objectForKey: key] regularFileContents]
-                                                                documentAttributes: nil];
-                
-                text = [[NSTextStorage allocWithZone: [self zone]] initWithAttributedString:
-                    attr];
-            } else {
-                textData = [[NSString alloc] initWithData:
-                    [[[sourceDir fileWrappers] objectForKey: key] regularFileContents]
-                                                 encoding: NSISOLatin1StringEncoding];
-
-                text = [[NSTextStorage allocWithZone: [self zone]] initWithString:
-                    textData];
-                [textData release];
-            }
-
-            [sourceFiles setObject: [text autorelease]
+            [sourceFiles setObject: text
                             forKey: key];
 
             if ([[key pathExtension] isEqualTo: @"inf"] ||
@@ -180,10 +216,13 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
         
         // Load the single file
         NSString* theFile = [NSString stringWithContentsOfFile: fileName];
+		
+		IFSyntaxStorage* text = [[IFSyntaxStorage alloc] initWithString: theFile];
+		[text setHighlighter: nil]; // FIXME: Inform 6 syntax highlighter
         
         if (sourceFiles) [sourceFiles release];
         sourceFiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-            [[[NSTextStorage alloc] initWithString: theFile] autorelease],
+            [text autorelease],
             [fileName lastPathComponent], nil];
         
         if (mainSource) [mainSource release];
@@ -205,10 +244,13 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
         
         // Load the single file
         NSString* theFile = [NSString stringWithContentsOfFile: fileName];
-        
+
+		IFSyntaxStorage* text = [[IFSyntaxStorage alloc] initWithString: theFile];
+		[text setHighlighter: [[[IFNaturalHighlighter alloc] init] autorelease]];
+
         if (sourceFiles) [sourceFiles release];
         sourceFiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-            [[[NSTextStorage alloc] initWithString: theFile] autorelease],
+            [text autorelease],
             [fileName lastPathComponent], nil];
         
         if (mainSource) [mainSource release];
@@ -243,7 +285,8 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
     if ([sourceFiles objectForKey: newFile] != nil) return NO;
     if (singleFile) return NO;
 	    
-    [sourceFiles setObject: [[[NSTextStorage alloc] initWithString: @""] autorelease]
+    [sourceFiles setObject: [[self class] storageWithString: @""
+												forFilename: newFile]
                     forKey: newFile];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectFilesChangedNotification
@@ -418,10 +461,11 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 		// Temporary text storage
 		NSString* textData = [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: sourceFile]
 												   encoding: NSISOLatin1StringEncoding];
-		storage = [[NSTextStorage alloc] initWithString: [textData autorelease]];
+		storage = [[self class] storageWithString: textData
+									  forFilename: sourceFile];
 		
 		NSLog(@"IFProject: Using temporary storage from %@", sourceFile);
-		return [storage autorelease];
+		return storage;
 	} else {
 		// Not absolute path
 	}

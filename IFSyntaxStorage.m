@@ -8,20 +8,22 @@
 
 #import "IFSyntaxStorage.h"
 
+static const int maxPassLength = 1024;
+
+#define HighlighterDebug 0
 
 @implementation IFSyntaxStorage
 
 // = Initialisation =
 
-- (id) init {
-	// Designated initialiser
+- (id) sharedInit {
 	self = [super init];
 	
 	if (self) {
 		// Setup variables
 		string = [[NSMutableAttributedString alloc] initWithString: @""];
 		
-		linePositions = [[NSMutableArray alloc] init];
+		lineStarts = malloc(sizeof(*lineStarts));
 		lineStates = [[NSMutableArray alloc] init];
 		
 		charStyles = NULL;
@@ -32,8 +34,50 @@
 		highlighter = nil;
 		
 		// Initial state
-		[linePositions addObject: [NSNumber numberWithUnsignedInt: 0]]; // First line always starts at character 0
+		lineStarts[0] = 0;
+		nLines = 1;
 		[lineStates addObject: [NSMutableArray arrayWithObjects: [NSNumber numberWithUnsignedChar: IFSyntaxStateDefault], nil]]; // Initial stack starts with the default state
+		
+		needsHighlighting.location = NSNotFound;
+		amountHighlighted = 0;	}
+	
+	return self;
+}
+
+- (id) init {
+	// Designated initialiser
+	self = [self sharedInit];
+	
+	if (self) {
+	}
+	
+	return self;
+}
+
+- (id) initWithString: (NSString*) newString {
+	// Designated initialiser
+	self = [self sharedInit];
+	
+	if (self) {
+		// Update the string
+		[self replaceCharactersInRange: NSMakeRange(0,0)
+							withString: newString];
+	}
+	
+	return self;
+}
+
+- (id) initWithAttributedString: (NSAttributedString*) newString {
+	// Designated initialiser
+	self = [self sharedInit];
+	
+	if (self) {		
+		// Update the string
+		[self replaceCharactersInRange: NSMakeRange(0,0)
+							withString: [newString string]];
+		
+		[string release];
+		string = [newString mutableCopy];
 	}
 	
 	return self;
@@ -42,8 +86,6 @@
 // = Utility methods =
 
 - (int) lineForIndex: (unsigned) index {
-	int nLines = [linePositions count];
-
 	// Yet Another Binary Search
 	int low = 0;
 	int high = nLines - 1;
@@ -51,7 +93,7 @@
 	while (low <= high) {
 		int middle = (low + high)>>1;
 		
-		unsigned lineStart = [[linePositions objectAtIndex: middle] unsignedIntValue];
+		unsigned lineStart = lineStarts[middle];
 		
 		if (index < lineStart) {
 			// Not this line: search the lower half
@@ -59,9 +101,9 @@
 			continue;
 		}
 		
-		unsigned lineEnd = middle<(nLines-1)?[[linePositions objectAtIndex: middle+1] unsignedIntValue]:[string length];
+		unsigned lineEnd = middle<(nLines-1)?lineStarts[middle+1]:[string length];
 		
-		if (index > lineEnd) {
+		if (index >= lineEnd) {
 			// Not this line: search the upper half
 			low = middle+1;
 			continue;
@@ -93,8 +135,8 @@
 		
 		unsigned strLen = [string length];
 		
-		while (range->location+range->length+1 < strLen) {
-			if (charStyles[range->location+range->length+1] == style) {
+		while (range->location+range->length < strLen) {
+			if (charStyles[range->location+range->length] == style) {
 				range->length++;
 			} else {
 				break;
@@ -139,6 +181,8 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	
 	NSRange finalRange = NSIntersectionRange(styleRange, stringRange);
 	
+	if (range) *range = finalRange;
+	
 	// Use the cached attributes if available
 	if ([stringAttributes objectForKey: IFStyleAttributes] == styleAttributes) {
 		return [stringAttributes objectForKey: IFCombinedAttributes];
@@ -166,15 +210,20 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 
 - (void) replaceCharactersInRange: (NSRange) range
 					   withString: (NSString*) newString {
-	unsigned strLen = [string length];
-	unsigned newLen = [newString length];
+	int strLen = [string length];
+	int newLen = [newString length];
 
 	// The range of lines to be replaced
 	int firstLine = [self lineForIndex: range.location];
 	int lastLine = range.length>0?[self lineForIndex: range.location + range.length - 1]:firstLine;
 	
+#if HighlighterDebug
+	NSLog(@"Highlighter: editing lines in the range %i-%i", firstLine, lastLine);
+#endif
+	
 	// Build the array of new lines
-	NSMutableArray* newLinePositions = [[NSMutableArray alloc] init];
+	unsigned* newLineStarts = NULL;
+	int		  nNewLines = 0;
 	NSMutableArray* newLineStates = [[NSMutableArray alloc] init];
 	
 	unsigned x;
@@ -182,25 +231,67 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		unichar thisChar = [newString characterAtIndex: x];
 		
 		if (thisChar == '\n') {
-			[newLinePositions addObject: [NSNumber numberWithUnsignedInt: x + range.location]];
+			nNewLines++;
+			newLineStarts = realloc(newLineStarts, sizeof(*newLineStarts)*nNewLines);
+			newLineStarts[nNewLines-1] = x + range.location+1;
+
 			[newLineStates addObject: [NSMutableArray arrayWithObject: [NSNumber numberWithUnsignedChar: IFSyntaxStateNotHighlighted]]];
 		}
 	}
 	
+	int lineDifference = ((int)nNewLines) - (int)(lastLine-firstLine);
+	
+#if HighlighterDebug
+	NSLog(@"Highlighter: %i new (or removed) lines", lineDifference);
+#endif
+	
 	// Replace the line positions (first line is still at the same position, with the same initial state, of course)
-	[linePositions replaceObjectsInRange: NSMakeRange(firstLine+1, lastLine-firstLine)
-					withObjectsFromArray: newLinePositions];
+	if (nNewLines < (lastLine-firstLine)) {
+		// Update first
+		for (x=0; x<nNewLines; x++) {
+			lineStarts[firstLine+1+x] = newLineStarts[x];
+		}
+		
+		// Move lines down
+		memmove(lineStarts + firstLine + nNewLines + 1,
+				lineStarts + lastLine + 1,
+				sizeof(*lineStarts)*(nLines - (lastLine + 1)));
+		lineStarts = realloc(lineStarts, sizeof(*lineStarts)*(nLines + lineDifference));
+	} else {
+		// Move lines up
+		lineStarts = realloc(lineStarts, sizeof(*lineStarts)*(nLines + lineDifference));
+		memmove(lineStarts + firstLine + nNewLines + 1,
+				lineStarts + lastLine + 1,
+				sizeof(*lineStarts)*(nLines - (lastLine + 1)));
+
+		// Update last
+		for (x=0; x<nNewLines; x++) {
+			lineStarts[firstLine+1+x] = newLineStarts[x];
+		}
+	}
+		
 	[lineStates replaceObjectsInRange: NSMakeRange(firstLine+1, lastLine-firstLine)
 				 withObjectsFromArray: newLineStates];
 	
-	[newLinePositions release];
+	
+	// Update the remaining line positions
+	nLines += lineDifference;
+	
+	int charDifference = newLen - range.length;	
+	for (x=firstLine + nNewLines+1; x<nLines; x++) {
+		lineStarts[x] += charDifference;
+	}
+	
+	// Clean up data we don't need any more
 	[newLineStates release];
+	free(newLineStarts);
+	newLineStarts = NULL;
 	
 	// Update the character positions
 	if (newLen < range.length) {
 		// Move characters down
-		memmove(charStyles + range.location + range.length,
-				charStyles + range.location + newLen,
+		memmove(charStyles + range.location + newLen,
+				charStyles + range.location + range.length,
 				sizeof(*charStyles)*(strLen - (range.location + range.length)));
 		
 		charStyles = realloc(charStyles, strLen + (newLen - range.length));
@@ -208,8 +299,8 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		// Move charactes up
 		charStyles = realloc(charStyles, strLen + (newLen - range.length));
 
-		memmove(charStyles + range.location + range.length,
-				charStyles + range.location + newLen,
+		memmove(charStyles + range.location + newLen,
+				charStyles + range.location + range.length,
 				sizeof(*charStyles)*(strLen - (range.location + range.length)));
 	}
 	
@@ -222,18 +313,14 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	[string replaceCharactersInRange: range
 						  withString: newString];
 	
-	// Rehighlight, update
-	[self beginEditing];
-	
+	// Rehighlight, update	
 	[self edited: NSTextStorageEditedCharacters
 		   range: range
   changeInLength: newLen - range.length];
 	
+	// Have to force the highlighting to happen later: will mess up NSTextView otherwise (cursor will move to the wrong position)
 	[self stopBackgroundHighlighting];
-	[self highlightRange: NSMakeRange(range.location, newLen)];
-	[self startBackgroundHighlighting];
-	
-	[self endEditing];
+	[self highlightRangeSoon: NSMakeRange(range.location, newLen)];
 }
 
 - (void) setAttributes: (NSDictionary*) attributes
@@ -263,6 +350,8 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 - (void) setHighlighter: (id<IFSyntaxHighlighter,NSObject>) newHighlighter {
 	if (highlighter) [highlighter release];
 	highlighter = [newHighlighter retain];
+	
+	[self highlightRange: NSMakeRange(0, [self length])];
 }
 
 - (id<IFSyntaxHighlighter>) highlighter {
@@ -286,6 +375,10 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	int firstLine = [self lineForIndex: range.location];
 	int lastLine = range.length>0?[self lineForIndex: range.location + range.length - 1]:firstLine;
 	
+#if HighlighterDebug
+	NSLog(@"Highlighter: highlighting range %i-%i (lines %i-%i)", range.location, range.location + range.length, firstLine, lastLine);
+#endif
+	
 	// Setup
 	[highlighter setSyntaxStorage: self];
 		
@@ -295,8 +388,8 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	
 	for (line=firstLine; line<=lastLine; line++) {
 		// The range of characters to be highlighted
-		unsigned firstChar = [[linePositions objectAtIndex: line] unsignedIntValue];
-		unsigned  lastChar = (line+1)<[linePositions count]?[[linePositions objectAtIndex: line+1] unsignedIntValue]:[string length];
+		unsigned firstChar = lineStarts[line];
+		unsigned  lastChar = (line+1)<nLines?lineStarts[line+1]:[string length];
 
 		// Set up the state
 		[syntaxStack setArray: [lineStates objectAtIndex: line]];
@@ -327,7 +420,12 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 		}
 		
 		// Provide an opportunity for the highlighter to hint keywords, etc
-		[highlighter rehintLine: [[string string] substringWithRange: NSMakeRange(firstChar, lastChar-firstChar)]
+		NSString* lineToHint = [[string string] substringWithRange: NSMakeRange(firstChar, lastChar-firstChar)];
+#if HighlighterDebug
+		NSLog(@"Highlighter: finished line %i: '%@', rehinting", line, lineToHint);
+#endif
+		
+		[highlighter rehintLine: lineToHint
 						 styles: charStyles+firstChar
 				   initialState: initialState];
 		
@@ -346,11 +444,29 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	}
 	
 	// If the next line needs highlighting, mark it so
-	if (line+1 < [lineStates count]) {
+#if HighlighterDebug
+	NSLog(@"Highlighter: Finished at line %i", line);
+#endif
+	
+	if (line < nLines) {
+#if HighlighterDebug
+		NSLog(@"Highlighter: Previous stack is %@, but stack now is %@", lastOldStack, [lineStates objectAtIndex: line]);
+#endif
+		
 		if (![lastOldStack isEqualToArray: [lineStates objectAtIndex: line]]) {
-			// The state at the start of this line has changed
-			[lineStates replaceObjectAtIndex: line+1
-								  withObject: [NSArray arrayWithObject: [NSNumber numberWithUnsignedChar: IFSyntaxStateNotHighlighted]]];
+			// The state at the start of this line has changed: mark it as invalid
+			unsigned firstChar = lineStarts[line];
+			unsigned lastChar = (line+1)<nLines?lineStarts[line+1]:[string length];
+			
+			unsigned x;
+			for (x=firstChar; x<lastChar; x++) charStyles[x] = IFSyntaxNotHighlighted;
+			
+			NSRange newInvalidRange = NSMakeRange(firstChar, lastChar-firstChar);
+			
+			if (needsHighlighting.location == NSNotFound)
+				needsHighlighting = newInvalidRange;
+			else
+				needsHighlighting = NSUnionRange(needsHighlighting, newInvalidRange);
 		}
 	}
 
@@ -359,29 +475,126 @@ static NSString* IFStyleAttributes = @"IFCombinedAttributes";
 	[highlighter setSyntaxStorage: nil];
 	
 	// Mark as editied
-	unsigned firstChar = [[linePositions objectAtIndex: firstLine] unsignedIntValue];
-	unsigned lastChar = (lastLine+1)<[linePositions count]?[[linePositions objectAtIndex: lastLine+1] unsignedIntValue]:[string length];
+	unsigned firstChar = lineStarts[firstLine];
+	unsigned lastChar = (lastLine+1)<nLines?lineStarts[lastLine+1]:[string length];
 	
 	[self edited: NSTextStorageEditedAttributes
 		   range: NSMakeRange(firstChar, lastChar-firstChar)
   changeInLength: 0];
+	
+	// Add to the number of highlighted characters
+	amountHighlighted += (lastChar-firstChar);
+}
+
+- (void) highlightRangeSoon: (NSRange) range {
+	[[NSRunLoop currentRunLoop] performSelector: @selector(highlightRangeNow:)
+										 target: self
+									   argument: [NSValue valueWithRange: range]
+										  order: 8
+										  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+}
+
+- (void) highlightRangeNow: (NSValue*) range {
+	amountHighlighted = 0;
+	
+	// Highlight the range
+	[self beginEditing];
+	[self highlightRange: [range rangeValue]];
+	
+	// Highlight anything else that might need it
+	while (amountHighlighted < maxPassLength && [self highlighterPass]);
+	[self endEditing];
+	
+	// Continue highlighting in the background if required
+	[self startBackgroundHighlighting];
+}
+
+- (BOOL) highlighterPass {
+	// Highlight anything that needs highlighting
+	if (needsHighlighting.location == NSNotFound) return NO;
+	
+	unsigned strLen = [string length];
+	
+	if (needsHighlighting.location >= strLen) {
+		// Outside the string
+		needsHighlighting.location = NSNotFound;
+		return NO;
+	}
+	
+	needsHighlighting = NSIntersectionRange(needsHighlighting, NSMakeRange(0, strLen));
+	
+	unsigned highlightStart = needsHighlighting.location;
+	unsigned highlightEnd = needsHighlighting.location + needsHighlighting.length;
+	
+	int x;
+	
+	// Find the first character that needs highlighting
+	for (x=0; x<needsHighlighting.length; x++) {
+		if (charStyles[needsHighlighting.location + x] == IFSyntaxNotHighlighted) {
+			highlightStart = needsHighlighting.location+x;
+			break;
+		}
+	}
+	
+	if (x == needsHighlighting.length) {
+		// Everything is highlighted
+		needsHighlighting.location = NSNotFound;
+		return NO;
+	}
+	
+	// Find the last character that needs highlighting
+	int maxAmountToHighlight = maxPassLength - (amountHighlighted>0?amountHighlighted:(maxPassLength-1));
+	
+	if (highlightEnd-highlightStart > maxAmountToHighlight)
+		highlightEnd = highlightStart + maxAmountToHighlight;
+	
+	for (x=highlightStart; x<highlightEnd; x++) {
+		if (charStyles[x] != IFSyntaxNotHighlighted)
+			break;
+	}
+	highlightEnd = x;
+	
+	// Perform this pass
+	[self highlightRange: NSMakeRange(highlightStart, highlightEnd - highlightStart)];
+	
+	// Update the 'needsHighlighting' range to start at 'highlightEnd'
+	needsHighlighting.length -= highlightEnd-needsHighlighting.location;
+	needsHighlighting.location = highlightEnd;
+	
+	if (needsHighlighting.length <= 0)
+		needsHighlighting.location = NSNotFound;
+	
+	return YES;
 }
 
 - (void) highlightInTime: (NSTimeInterval) waitFor {
-	unsigned firstLine = [lineStates indexOfObject: [NSArray arrayWithObject: [NSNumber numberWithUnsignedChar: IFSyntaxStateNotHighlighted]]];
-		
-	if (firstLine != NSNotFound) {
-		// Need to highlight
+	[self stopBackgroundHighlighting];
+	
+	if (needsHighlighting.location != NSNotFound) {
+		// Queue a highlight event
+		[self performSelector: @selector(backgroundHighlight)
+				   withObject: nil
+				   afterDelay: waitFor];
 	}
 }
 
+- (void) backgroundHighlight {
+	[self beginEditing];
+	amountHighlighted = 0;
+	while (amountHighlighted < maxPassLength && [self highlighterPass]);
+	[self endEditing];
+
+	[self highlightInTime: 0.02];
+}
+
 - (void) startBackgroundHighlighting {
-	[self stopBackgroundHighlighting];
-	
-	[self highlightInTime: 0.5];
+	[self highlightInTime: 0.25];
 }
 
 - (void) stopBackgroundHighlighting {
+	[[self class] cancelPreviousPerformRequestsWithTarget: self
+												 selector: @selector(backgroundHighlight)
+												   object: nil];
 }
 
 @end

@@ -11,9 +11,6 @@
 #import "IFProjectController.h"
 #import "IFAppDelegate.h"
 
-#import "IFInform6Syntax.h"
-#import "IFNaturalInformSyntax.h"
-
 #import "IFIsFiles.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
@@ -22,7 +19,7 @@
 #undef  showHighlighting        // Show what's being highlighted
 #undef  highlightAll            // Always highlight the entire file (does not necessarily recalculate all highlighting)
 
-NSDictionary* IFSyntaxStyle[256];
+NSDictionary* IFSyntaxAttributes[256];
 
 @implementation IFProjectPane
 
@@ -46,7 +43,7 @@ NSDictionary* IFSyntaxStyle[256];
     int x;
     
     for (x=0; x<256; x++) {
-        IFSyntaxStyle[x] = defaultStyle;
+        IFSyntaxAttributes[x] = defaultStyle;
     }
     
     // This set of styles will eventually be the 'colourful' set
@@ -54,55 +51,55 @@ NSDictionary* IFSyntaxStyle[256];
     // speed advantages), and a 'subtle' set (styles indicated only by font changes)
     
     // Styles for various kinds of code
-    IFSyntaxStyle[IFSyntaxString] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxString] = [[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.53 green: 0.08 blue: 0.08 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    IFSyntaxStyle[IFSyntaxComment] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxComment] = [[NSDictionary dictionaryWithObjectsAndKeys:
         smallFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.14 green: 0.43 blue: 0.14 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    IFSyntaxStyle[IFSyntaxMonospace] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxMonospace] = [[NSDictionary dictionaryWithObjectsAndKeys:
         monospaceFont, NSFontAttributeName,
         [NSColor blackColor], NSForegroundColorAttributeName,
         nil] retain];
     
     // Inform 6 syntax types
-    IFSyntaxStyle[IFSyntaxDirective] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxDirective] = [[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.20 green: 0.08 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    IFSyntaxStyle[IFSyntaxProperty] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxProperty] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.08 green: 0.08 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    IFSyntaxStyle[IFSyntaxFunction] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxFunction] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.08 green: 0.53 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    IFSyntaxStyle[IFSyntaxCode] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxCode] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.46 green: 0.06 blue: 0.31 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    IFSyntaxStyle[IFSyntaxAssembly] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxAssembly] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.46 green: 0.31 blue: 0.31 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    IFSyntaxStyle[IFSyntaxCodeAlpha] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxCodeAlpha] = [[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.5 green: 0.5 blue: 0.5 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
-    IFSyntaxStyle[IFSyntaxEscapeCharacter] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxEscapeCharacter] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.73 green: 0.2 blue: 0.73 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];
         
     // Natural inform syntax types
-    IFSyntaxStyle[IFSyntaxHeading] = [[NSDictionary dictionaryWithObjectsAndKeys:
+    IFSyntaxAttributes[IFSyntaxHeading] = [[NSDictionary dictionaryWithObjectsAndKeys:
         headerSystemFont, NSFontAttributeName,
 		[NSColor blackColor], NSForegroundColorAttributeName,
         nil] retain];
-	IFSyntaxStyle[IFSyntaxGameText] = [[NSDictionary dictionaryWithObjectsAndKeys:
+	IFSyntaxAttributes[IFSyntaxGameText] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.0 green: 0.3 blue: 0.6 alpha: 1.0], NSForegroundColorAttributeName,
         nil] retain];	
@@ -110,7 +107,7 @@ NSDictionary* IFSyntaxStyle[256];
 	// The 'plain' style is a bit of a special case. It's used for files that we want to run the syntax
 	// highlighter on, but where we want the user to be able to set styles. The user will be able to set
 	// certain styles even for things that are affected by the highlighter.
-	IFSyntaxStyle[IFSyntaxPlain] = [[NSDictionary dictionary] retain];
+	IFSyntaxAttributes[IFSyntaxPlain] = [[NSDictionary dictionary] retain];
 }
 
 - (id) init {
@@ -122,13 +119,8 @@ NSDictionary* IFSyntaxStyle[256];
         gameToRun = nil;
         awake = NO;
         
-        highlighter = [[IFInform6Syntax alloc] init];
-
         sourceFiles = [[NSMutableArray allocWithZone: [self zone]] init];
         [openSourceFile release];
-
-        remainingFileToProcess.location = NSNotFound;
-        remainingFileToProcess.length   = 0;
 		
 		textStorage = nil;
     }
@@ -147,7 +139,6 @@ NSDictionary* IFSyntaxStyle[256];
     [paneView       release];
     [compController release];
     [sourceFiles    release];
-    [highlighter    release];
     
 	if (textStorage) {
 		// Hrm? Cocoa seems to like deallocating NSTextStorage despite it's retain count.
@@ -166,16 +157,14 @@ NSDictionary* IFSyntaxStyle[256];
 	if (pointToRunTo) [pointToRunTo release];
     if (gameToRun) [gameToRun release];
 	if (wView) [wView release];
-
-    if (highlighterTicker) {
-        [highlighterTicker invalidate];
-        [highlighterTicker release];
-        highlighterTicker = nil;
-    }
 	
 	if (lastAnnotation) [lastAnnotation release];
     
     [super dealloc];
+}
+
++ (NSDictionary*) attributeForStyle: (IFSyntaxStyle) style {
+	return IFSyntaxAttributes[style];
 }
 
 - (NSView*) paneView {
@@ -222,7 +211,6 @@ NSDictionary* IFSyntaxStyle[256];
     [mainFile addLayoutManager: [sourceText layoutManager]];
 	if (textStorage) { [textStorage release]; textStorage = nil; }
 	textStorage = [mainFile retain];
-    [self selectHighlighterForCurrentFile];
 
     [compController setCompiler: [doc compiler]];
     [compController setDelegate: self];
@@ -451,7 +439,6 @@ NSDictionary* IFSyntaxStyle[256];
 	[fileStorage setDelegate: self];
 	if (textStorage) { [textStorage release]; textStorage = nil; }
 	textStorage = [fileStorage retain];
-	[self selectHighlighterForCurrentFile];
 	
 	[fileStorage endEditing];
 	
@@ -498,53 +485,6 @@ NSDictionary* IFSyntaxStyle[256];
 	}
 	
 	return NSMakeRange(linepos, x - linepos + 1);
-}
-
-- (void) updateHighlightedLines {
-	NSEnumerator* highEnum;
-	NSArray* highlight;
-	
-	[[sourceText layoutManager] removeTemporaryAttribute: NSBackgroundColorAttributeName
-									   forCharacterRange: NSMakeRange(0, [[sourceText textStorage] length])];
-	
-	// Highlight the lines as appropriate
-	highEnum = [[parent highlightsForFile: openSourceFile] objectEnumerator];
-	
-	while (highlight = [highEnum nextObject]) {
-		int line = [[highlight objectAtIndex: 0] intValue];
-		enum lineStyle style = [[highlight objectAtIndex: 1] intValue];
-		NSColor* background = nil;
-		
-		switch (style) {
-			case IFLineStyleNeutral:
-				background = [NSColor colorWithDeviceRed: 0.3 green: 0.3 blue: 0.8 alpha: 1.0];
-				break;
-				
-			case IFLineStyleExecutionPoint:
-				background = [NSColor colorWithDeviceRed: 0.8 green: 0.8 blue: 0.3 alpha: 1.0];
-				break;
-				
-			case IFLineStyleHighlight:
-				background = [NSColor colorWithDeviceRed: 0.3 green: 0.8 blue: 0.8 alpha: 1.0];
-				break;
-				
-			case IFLineStyleError:
-				background = [NSColor colorWithDeviceRed: 1.0 green: 0.3 blue: 0.3 alpha: 1.0];
-				break;
-				
-			default:
-				background = [NSColor colorWithDeviceRed: 0.8 green: 0.3 blue: 0.3 alpha: 1.0];
-				break;
-		}
-		
-		NSRange lineRange = [self findLine: line];
-		
-		if (lineRange.location != NSNotFound) {
-			[[sourceText layoutManager] setTemporaryAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-				background, NSBackgroundColorAttributeName, nil]
-											 forCharacterRange: lineRange];
-		}
-	}
 }
 
 // = Settings =
@@ -685,253 +625,59 @@ NSDictionary* IFSyntaxStyle[256];
 
 // FIXME: storage delegate should be the document, NOT the view, as this causes weirdness
 
-- (void) createHighlighterTickerIfRequired: (NSTimeInterval) timeout {
-    if (highlighterTicker) {
-        [highlighterTicker invalidate];
-        [highlighterTicker release];
-        highlighterTicker = nil;
-    }
-    
-    NSRange invalidRange = [highlighter invalidRange];
-    
-    if ((invalidRange.location != NSNotFound && invalidRange.length != 0) ||
-        (remainingFileToProcess.location != NSNotFound && remainingFileToProcess.length != 0)) {
-        highlighterTicker = [NSTimer timerWithTimeInterval:timeout
-                                                    target:self
-                                                  selector:@selector(highlighterIteration)
-                                                  userInfo:nil
-                                                   repeats: NO];
-        [[NSRunLoop currentRunLoop] addTimer: highlighterTicker
-                                     forMode: NSDefaultRunLoopMode];
-        [highlighterTicker retain];
-    }
-}
-
-- (void) highlighterIteration {
-	int amountToHighlight = minHighlightAmount;
-	//int amountToHighlight = [[sourceText textStorage] length] / 16;
-	//int amountToHighlight = [[sourceText textStorage] length];
-	
-	//if (amountToHighlight < minHighlightAmount) amountToHighlight = minHighlightAmount;
-	//if (amountToHighlight > maxHighlightAmount) amountToHighlight = maxHighlightAmount;
-		
-	NSRange selected = [sourceText selectedRange];
-	    
-	[textStorage setDelegate: nil];
-	[textStorage beginEditing];
-	
-    while (amountToHighlight > 0) {
-        NSRange invalid = [highlighter invalidRange];
-
-        // Add anything that needs highlighting to the range that we're working on
-        if (invalid.location != NSNotFound && invalid.length != 0) {
-            if (remainingFileToProcess.location == NSNotFound || remainingFileToProcess.length == 0) {
-                remainingFileToProcess = invalid;
-            } else {
-                remainingFileToProcess = NSUnionRange(remainingFileToProcess, invalid);
-            }
-        }
-        
-        if (remainingFileToProcess.location == NSNotFound || remainingFileToProcess.length == 0)
-            break;
-        
-#ifdef highlightAll
-		int start = clock();
-		[self highlightRange: remainingFileToProcess];
-		remainingFileToProcess.location = NSNotFound;
-		remainingFileToProcess.length = 0;
-		NSLog(@"Time: %.04f\n", (float)(clock() - start) / (float)CLOCKS_PER_SEC);
-#else
-        // Highlight!
-        if (remainingFileToProcess.length < amountToHighlight) {
-            // Highlight everything if that's all there is to do
-            [self highlightRange: remainingFileToProcess];
-            
-            amountToHighlight -= remainingFileToProcess.length;
-           
-            remainingFileToProcess.location = NSNotFound;
-            remainingFileToProcess.length   = 0;
-        } else {
-            // Highlight up to the maximum amount
-            [self highlightRange: NSMakeRange(remainingFileToProcess.location,
-                                              amountToHighlight)];
-            remainingFileToProcess.location += amountToHighlight;
-            remainingFileToProcess.length   -= amountToHighlight;
-            
-            amountToHighlight = 0;
-        }
-#endif
-    }
-	
-	[textStorage endEditing];
-	
-	if (selected.location + selected.length > [[textStorage string] length]) {
-		int newLen = selected.length;
-		
-		newLen = [[textStorage string] length] - selected.location;
-		if (newLen <= 0) {
-			newLen = 0;
-			selected.location = [[textStorage string] length];
-		}
-		
-		selected.length = newLen;
-	}
-	
-	[sourceText scrollRangeToVisible: selected];
-	[sourceText setSelectedRange: selected];
-	[textStorage setDelegate: self];
-        
-    [self createHighlighterTickerIfRequired: 0.01];
-}
-
 - (void)textStorageDidProcessEditing: (NSNotification*) not {
-    NSRange editedRange = [[sourceText textStorage] editedRange];
-    
-	[[sourceText textStorage] setDelegate: nil];
-
-#ifdef showHighlighting
-    [[sourceText textStorage] addAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-        [NSColor colorWithDeviceRed: 0.8 green: 0.8 blue: 1.0 alpha: 1.0],
-        NSForegroundColorAttributeName, nil]
-                                      range: NSMakeRange(0, [[sourceText textStorage] length])];
-#endif
-    
-    // Redo any necessary highlighting
-    [highlighter invalidateRange: editedRange];
-    
-	// Highlighting a bit around the edited range
-	NSRange highlightRange = editedRange;
-	
-	if (highlightRange.location > 10)
-		highlightRange.location -= 10;
-	else
-		highlightRange.location = 0;
-	
-	highlightRange.length += 15;
-	if (highlightRange.location + highlightRange.length > [textStorage length]) {
-		highlightRange.length = [textStorage length] - highlightRange.location;
-	}
-	
-	//[self highlightRange: highlightRange];
-	
-	//[self highlighterIteration];
-	
-	// Create a highlighter ticker to highlight everything that's changed (the delay ensures that
-	// we can type without being interrupted by the highlighter)
-	//[self createHighlighterTickerIfRequired: 0.2];
-	
-	// Check if we're in the wrong run loop?? (Yep, Apple sometimes calls these things from different threads)
-	if ([NSRunLoop currentRunLoop] != [IFAppDelegate mainRunLoop]) {
-		NSBeep();
-		NSLog(@"Oops, wrong run loop!!");
-	}
-
-	// Vague attempt to avoid a crash that keeps occuring while editing
-	[[IFAppDelegate mainRunLoop] performSelector: @selector(highlighterIteration)
-										  target: self
-										argument: nil
-										   order: 10
-										   modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
-    
-    [[sourceText textStorage] setDelegate: self];
 }
 
 // = Syntax highlighting =
-- (NSDictionary*) attributeForStyle: (enum IFSyntaxType) style {
-    return IFSyntaxStyle[style];
-}
 
-+ (NSDictionary*) attributeForStyle: (unsigned char) style {
-	return IFSyntaxStyle[style];
-}
-
-- (void) highlightEntireFile {
-    [highlighter setFile: [[sourceText textStorage] string]];
-    [self highlightRange: NSMakeRange(0, [[sourceText textStorage] length])];
-}
-
-- (void) highlightRange: (NSRange) charRange {
-    IFSyntaxType lastSyntax = IFSyntaxNone;
-    int startPos = charRange.location;
-    int curPos;
+- (void) updateHighlightedLines {
+	NSEnumerator* highEnum;
+	NSArray* highlight;
 	
-    if (charRange.location + charRange.length > [[textStorage string] length]) {
-        charRange.length = [[textStorage string] length] - charRange.location;
-    }
-    	
-	id oldDelegate = [textStorage delegate];
-    [textStorage setDelegate: nil];
-    
-    unsigned char* buf = malloc(charRange.length);
-    [highlighter colourForCharacterRange: charRange
-                                  buffer: buf];
-    
-    // Do the highlighting
-	[textStorage beginEditing];
-    for (curPos = charRange.location; curPos < charRange.location + charRange.length; curPos++) {
-        IFSyntaxType thisSyntax = buf[curPos-charRange.location];
-        
-        if (thisSyntax != lastSyntax && curPos != 0) {
-            NSRange r;
-            NSDictionary* attr = [self attributeForStyle: lastSyntax];
-            
-            r = NSMakeRange(startPos, curPos - startPos);
-            
-#ifdef useTemporaryAttributes
-			if (r.length > 0) {
-				[[sourceText layoutManager] removeTemporaryAttribute: NSForegroundColorAttributeName
-												   forCharacterRange: r];
-				attr = [NSDictionary dictionaryWithObject: [attr objectForKey: NSForegroundColorAttributeName]
-												   forKey: NSForegroundColorAttributeName];
-				[[sourceText layoutManager] addTemporaryAttributes: attr
-												 forCharacterRange: r];
-				[[sourceText layoutManager] invalidateDisplayForCharacterRange: r];
-			}
-#else
-            [textStorage addAttributes: attr
-								 range: r];
-#endif
-			
-			
-#ifdef showHighlighting
-			[[sourceText textStorage] addAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-				[NSColor colorWithDeviceRed: 0.8 green: 0.0 blue: 0.0 alpha: 1.0],
-				NSForegroundColorAttributeName, nil]
-											  range: r];
-#endif			
-            
-            startPos = curPos;
-        }
-        
-        lastSyntax = thisSyntax;
-    }
-    
-    // Final attributes
-    NSRange r;
-    NSDictionary* attr = [self attributeForStyle: lastSyntax];
-    
-    r = NSMakeRange(startPos, curPos - startPos);
-    if (r.length > 0) {
-#ifdef UseTemporaryAttributes
-		[[sourceText layoutManager] removeTemporaryAttribute: NSForegroundColorAttributeName
-										   forCharacterRange: r];
-		attr = [NSDictionary dictionaryWithObject: [attr objectForKey: NSForegroundColorAttributeName]
-										   forKey: NSForegroundColorAttributeName];
-		[[sourceText layoutManager] addTemporaryAttributes: attr
-										 forCharacterRange: r];
-		[[sourceText layoutManager] invalidateDisplayForCharacterRange: r];
-#else
-        [textStorage addAttributes: attr
-							 range: r];
-#endif
-    }
-    
-    free(buf);
-
-	[textStorage endEditing];
-    [textStorage setDelegate: oldDelegate];
+	[[sourceText layoutManager] removeTemporaryAttribute: NSBackgroundColorAttributeName
+									   forCharacterRange: NSMakeRange(0, [[sourceText textStorage] length])];
+	
+	// Highlight the lines as appropriate
+	highEnum = [[parent highlightsForFile: openSourceFile] objectEnumerator];
+	
+	while (highlight = [highEnum nextObject]) {
+		int line = [[highlight objectAtIndex: 0] intValue];
+		enum lineStyle style = [[highlight objectAtIndex: 1] intValue];
+		NSColor* background = nil;
+		
+		switch (style) {
+			case IFLineStyleNeutral:
+				background = [NSColor colorWithDeviceRed: 0.3 green: 0.3 blue: 0.8 alpha: 1.0];
+				break;
+				
+			case IFLineStyleExecutionPoint:
+				background = [NSColor colorWithDeviceRed: 0.8 green: 0.8 blue: 0.3 alpha: 1.0];
+				break;
+				
+			case IFLineStyleHighlight:
+				background = [NSColor colorWithDeviceRed: 0.3 green: 0.8 blue: 0.8 alpha: 1.0];
+				break;
+				
+			case IFLineStyleError:
+				background = [NSColor colorWithDeviceRed: 1.0 green: 0.3 blue: 0.3 alpha: 1.0];
+				break;
+				
+			default:
+				background = [NSColor colorWithDeviceRed: 0.8 green: 0.3 blue: 0.3 alpha: 1.0];
+				break;
+		}
+		
+		NSRange lineRange = [self findLine: line];
+		
+		if (lineRange.location != NSNotFound) {
+			[[sourceText layoutManager] setTemporaryAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+				background, NSBackgroundColorAttributeName, nil]
+											 forCharacterRange: lineRange];
+		}
+	}
 }
 
+#if 0
 - (void) selectHighlighterForCurrentFile {
 	if (highlighterTicker) {
 		[highlighterTicker invalidate];
@@ -1012,6 +758,7 @@ NSDictionary* IFSyntaxStyle[256];
 	[self highlightRange: NSMakeRange(0, [[sourceText textStorage] length])];
     [self createHighlighterTickerIfRequired: 0.2];
 }
+#endif
 
 // == Debugging ==
 

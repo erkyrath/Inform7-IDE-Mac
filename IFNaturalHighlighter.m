@@ -7,9 +7,8 @@
 //
 
 #import "IFNaturalHighlighter.h"
+#import "IFProjectPane.h"
 
-
-@class IFProjectPane;
 @implementation IFNaturalHighlighter
 
 // = Notifying of the highlighter currently in use =

@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import <WebKit/WebKit.h>
 #import "IFCompilerController.h"
-#import "IFSyntaxHighlighter.h"
 
 #import <ZoomView/ZoomView.h>
 #import <ZoomView/ZoomSkeinView.h>
@@ -17,6 +16,8 @@
 #import "IFSettingsView.h"
 #import "IFSettingsController.h"
 #import "IFTranscriptController.h"
+
+#import "IFSyntaxStorage.h"
 
 enum IFProjectPaneType {
     IFSourcePane = 1,
@@ -94,17 +95,12 @@ enum IFProjectPaneType {
 
     BOOL awake;
     IFProjectController* parent;
-    
-    NSTimer*             highlighterTicker;
-    IFSyntaxHighlighter* highlighter;
-    
-    NSRange              remainingFileToProcess;
 	
 	BOOL setBreakpoint;
 }
 
 + (IFProjectPane*) standardPane;
-+ (NSDictionary*) attributeForStyle: (unsigned char) style;
++ (NSDictionary*) attributeForStyle: (IFSyntaxStyle) style;
 
 // Our controller
 - (void) setController: (IFProjectController*) parent;
@@ -123,10 +119,10 @@ enum IFProjectPaneType {
 // The source view
 - (void) moveToLine: (int) line;
 
-- (void) updateHighlightedLines;
-
 - (void) showSourceFile: (NSString*) file;
 - (NSString*) currentFile;
+
+- (void) updateHighlightedLines;
 
 // The game view
 - (void) activateDebug;
@@ -144,11 +140,6 @@ enum IFProjectPaneType {
 
 // Settings
 - (void) updateSettings;
-
-// Syntax highlighting
-- (void) selectHighlighterForCurrentFile;
-- (void) highlightEntireFile;
-- (void) highlightRange: (NSRange) charRange;
 
 // The documentation view
 - (void) openURL: (NSURL*) url;
