@@ -52,6 +52,9 @@ static NSDictionary*  itemDictionary = nil;
         toolbar = nil;
         projectPanes = [[NSMutableArray allocWithZone: [self zone]] init];
         splitViews   = [[NSMutableArray allocWithZone: [self zone]] init];
+        
+        [self setShouldCloseDocument: YES];
+        [self setWindowFrameAutosaveName: @"ProjectWindow"];
     }
 
     return self;
