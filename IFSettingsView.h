@@ -11,7 +11,7 @@
 #import "IFCollapsableView.h"
 
 
-@interface IFSettingsView : NSView {
+@interface IFSettingsView : IFCollapsableView {
 
 }
 

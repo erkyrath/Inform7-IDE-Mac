@@ -9,6 +9,10 @@
 #import <Cocoa/Cocoa.h>
 
 
+@class IFCompilerSettings;
+
+// Representation of a class of settings
+// Technically a controller object
 @interface IFSetting : NSObject {
 	NSView* settingView;
 }
@@ -19,4 +23,14 @@
 - (NSView*) settingView;
 - (IBOutlet void) setSettingView: (NSView*) settingView;
 
+// Information about this settings view
+- (NSString*) title;
+
+// Communicating with the IFCompilerSettings object
+- (void) setSettingsFor: (IFCompilerSettings*) settings;
+- (BOOL) enableForCompiler: (NSString*) compiler;
+- (NSArray*) commandLineOptionsForCompiler: (NSString*) compiler;
+
 @end
+
+#import "IFCompilerSettings.h"

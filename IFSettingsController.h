@@ -18,8 +18,11 @@
 	IBOutlet IFCompilerSettings* compilerSettings;
 
 	// Settings to display
-	NSMutableArray* settings;
+	NSMutableArray* settings;		// Array of IFSetting
 }
+
+// Plug-in support
++ (void) addStandardSettingsClass: (Class) settingClass;
 
 // User interface
 - (IFSettingsView*) settingsView;

@@ -20,6 +20,7 @@
 
 - (void) addSubview: (NSView*) subview
 		  withTitle: (NSString*) title;
+- (void) removeAllSubviews;
 - (void) startRearranging;
 - (void) finishRearranging;
 - (void) rearrangeSubviews;

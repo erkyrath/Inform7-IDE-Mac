@@ -103,6 +103,21 @@
 
 // = Management =
 
+- (void) removeAllSubviews {
+	NSView* subview;
+	NSEnumerator* viewEnum = [views objectEnumerator];
+	
+	while (subview = [viewEnum nextObject]) {
+		[subview removeFromSuperview];
+	}
+
+	[views removeAllObjects];
+	[titles removeAllObjects];
+	[states removeAllObjects];
+	
+	[self rearrangeSubviews];
+}
+
 - (void) addSubview: (NSView*) subview
 		  withTitle: (NSString*) title {
 	[views addObject: subview];
