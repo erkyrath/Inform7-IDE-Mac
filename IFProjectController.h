@@ -16,7 +16,7 @@ enum lineStyle {
     IFLineStyleError,
     IFLineStyleFatalError,
 
-    // For later :-)
+    // For later
     IFLineStyleBreakpoint,
     IFLineStyleExecutionPoint
 };

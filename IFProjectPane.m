@@ -536,6 +536,7 @@ static NSDictionary* styles[256];
 // = The game view =
 - (void) startRunningGame: (NSString*) fileName {
     if (zView) {
+		[zView killTask];
         [zView removeFromSuperview];
         [zView release];
         zView = nil;
@@ -570,9 +571,10 @@ static NSDictionary* styles[256];
 
 - (void) stopRunningGame {
     if (zView) {
-        [zView removeFromSuperview];
-        [zView release];
-        zView = nil;
+		[zView killTask];
+        //[zView removeFromSuperview];
+        //[zView release];
+        //zView = nil;
     }
     
     if ([tabView selectedTabViewItem] == gameTabView) {

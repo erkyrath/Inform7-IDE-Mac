@@ -17,6 +17,7 @@
 static NSToolbarItem* compileItem       = nil;
 static NSToolbarItem* compileAndRunItem = nil;
 static NSToolbarItem* releaseItem       = nil;
+static NSToolbarItem* stopItem          = nil;
 
 static NSDictionary*  itemDictionary = nil;
 
@@ -24,11 +25,13 @@ static NSDictionary*  itemDictionary = nil;
     compileItem   = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileItem"];
     compileAndRunItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileAndRunItem"];
     releaseItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"releaseItem"];
+    stopItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stopItem"];
 
     itemDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
         compileItem, @"compileItem",
         compileAndRunItem, @"compileAndRunItem",
         releaseItem, @"releaseItem",
+		stopItem, @"stopItem",
         nil];
 
     // FIXME: localisation
@@ -36,11 +39,13 @@ static NSDictionary*  itemDictionary = nil;
     [compileItem setLabel: @"Compile"];
     [compileAndRunItem setLabel: @"Go!"];
     [releaseItem setLabel: @"Release"];
+	[stopItem setLabel: @"Stop"];
 
     // The action heroes
-    [compileItem setAction: @selector(compilerMan:)];
-    [compileAndRunItem setAction: @selector(compileAndRunMan:)];
-    [releaseItem setAction: @selector(releaseMan:)];
+    [compileItem setAction: @selector(compile:)];
+    [compileAndRunItem setAction: @selector(compileAndRun:)];
+    [releaseItem setAction: @selector(release:)];
+    [stopItem setAction: @selector(stopProcess:)];
 }
 
 // == Initialistion ==
@@ -216,17 +221,17 @@ static NSDictionary*  itemDictionary = nil;
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
-        @"compileItem", @"compileAndRunItem", @"releaseItem",
-        NSToolbarSeparatorItemIdentifier, nil];
+        @"compileItem", @"compileAndRunItem", @"stopItem", NSToolbarSeparatorItemIdentifier, @"releaseItem"
+        , nil];
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
-    return [NSArray arrayWithObjects: @"compileAndRunItem", @"compileItem", @"releaseItem",
-        NSToolbarSeparatorItemIdentifier, nil];
+    return [NSArray arrayWithObjects: @"compileAndRunItem", @"compileItem", @"stopItem",
+        NSToolbarSeparatorItemIdentifier,  @"releaseItem", nil];
 }
 
 // == View selection functions ==
-- (IBAction) compilerMan: (id) sender {
+- (IBAction) compile: (id) sender {
     IFProject* doc = [self document];
 
     compileFinishedAction = @selector(saveCompilerOutput);
@@ -267,10 +272,14 @@ static NSDictionary*  itemDictionary = nil;
     [[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
 }
 
-- (IBAction) compileAndRunMan: (id) sender {
-    [self compilerMan: self];
+- (IBAction) compileAndRun: (id) sender {
+    [self compile: self];
 
     compileFinishedAction = @selector(runCompilerOutput);
+}
+
+- (IBAction) stopProcess: (id) sender {
+	[projectPanes makeObjectsPerformSelector: @selector(stopRunningGame)];
 }
 
 // = Things to do after the compiler has finished =
