@@ -1154,7 +1154,7 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Enable progress bars
 	if (!progressing) {
-		[progress setAnimationDelay: 0.05];
+		[progress setAnimationDelay: 0.1];
 		[progress startAnimation: self];
 		[progress setUsesThreadedAnimation: YES];
 

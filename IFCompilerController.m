@@ -15,6 +15,7 @@
 #import "IFProjectController.h"
 
 #import "IFPretendWebView.h"
+#import "IFPretendTextView.h"
 
 // Possible styles (stored in the styles dictionary)
 NSString* IFStyleBase               = @"IFStyleBase";
@@ -740,9 +741,34 @@ static IFCompilerController* activeController = nil;
 				// Add it to aView
 				[aView addSubview: [pretendView autorelease]];
 			} else {
+				// Create the 'parent' view
+				NSView* aView = [[NSView alloc] initWithFrame: [fileTabView contentRect]];
+
+				// Create the 'pretend' text view
+				IFPretendTextView* pretendView = [[IFPretendTextView alloc] initWithFrame: [aView bounds]];
+
+				[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+
+				// Load the data for the file
+				NSString* textData = [[NSString alloc] initWithData:
+					[[[files fileWrappers] objectForKey: key] regularFileContents]
+														   encoding: NSISOLatin1StringEncoding];
+				
+				// Set up the view
+				[pretendView setEventualString: textData];
+				
+				// This is our new view
+				[aView addSubview: [pretendView autorelease]];
+
+				newView = aView;
+				
+				[textData release];
+#if 0
 				// Create an NSTextView to display this file in			
 				NSTextView*   textView = [[NSTextView alloc] init];
 				NSScrollView* scrollView = [[NSScrollView alloc] init];
+				
+				[[textView layoutManager] setBackgroundLayoutEnabled: NO]; // DEBUG
 				
 				[[textView textContainer] setWidthTracksTextView: NO];
 				[[textView textContainer] setContainerSize: NSMakeSize(1e8, 1e8)];
@@ -765,6 +791,7 @@ static IFCompilerController* activeController = nil;
 				[[[textView textStorage] mutableString] setString: [textData autorelease]];
 				
 				newView = scrollView;
+#endif
 			}
 
             NSTabViewItem* fileItem;

@@ -78,7 +78,6 @@
 	if (aRequest) {
 		[[replacementView mainFrame] loadRequest: aRequest];
 	}
-	
 }
 
 @end
