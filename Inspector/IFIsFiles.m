@@ -289,9 +289,24 @@ static int stringComparer(id a, id b, void * context) {
 	
 	if ([activeController isKindOfClass: [IFProjectController class]]) {
 		IFProject* proj = [activeController document];
+		NSString* newName = (NSString*)anObject;
+		
+		if ([oldFile pathExtension] &&
+			![[oldFile pathExtension] isEqualToString: @""]) {
+			newName = [newName stringByAppendingPathExtension: [oldFile pathExtension]];
+		}
 		
 		[proj renameFile: oldFile
-			 withNewName: [(NSString*)anObject stringByAppendingPathExtension: [oldFile pathExtension]]];
+			 withNewName: newName];
+		
+		[aTableView reloadData];
+		
+		int newIndex = [filenames indexOfObjectIdenticalTo: newName];
+		if (newIndex != NSNotFound) {
+			[aTableView selectRow: newIndex
+			 byExtendingSelection: NO];
+			[self setSelectedFile];
+		}
 	}
 }
 

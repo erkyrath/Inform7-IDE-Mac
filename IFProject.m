@@ -318,7 +318,15 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
                 if (mainSource) [mainSource release];
                 mainSource = [key copy];
             }
-        }		
+        }
+		
+		// Create an 'Untitled' file if there's no mainSource
+		if (!mainSource) {
+			mainSource = [@"Untitled" retain];
+			[sourceFiles setObject: [[self class] storageWithString: @""
+														forFilename: @"Untitled"]
+							forKey: mainSource];
+		}
 		
 		return YES;
 	}
@@ -488,7 +496,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 }
 
 - (NSString*) mainSourceFile {
-    if (singleFile) return mainSource;
+    if (singleFile || editingExtension) return mainSource;
     
     NSFileWrapper* sourceDir = [[projectFile fileWrappers] objectForKey: @"Source"];
 

@@ -295,6 +295,7 @@ static int stringCompare(id a, id b, void* context) {
 	// Open this extension
 	NSDocument* newDoc = [[IFProject alloc] initWithContentsOfFile: [extnDir stringByAppendingPathComponent: [sender title]]
 															ofType: @"Inform Extension Directory"];
+	[[newDoc settings] setUsingNaturalInform: [sender tag]==1];
 	
 	[[NSDocumentController sharedDocumentController] addDocument: [newDoc autorelease]];
 	[newDoc makeWindowControllers];
