@@ -12,6 +12,8 @@
 #import "IFProjectFile.h"
 #import "IFIndexFile.h"
 
+#import "ZoomView/ZoomSkein.h"
+
 extern NSString* IFProjectFilesChangedNotification;
 
 @interface IFProject : NSDocument {
@@ -26,6 +28,8 @@ extern NSString* IFProjectFilesChangedNotification;
 	
 	NSTextStorage*       notes;
 	IFIndexFile*         indexFile;
+	
+	ZoomSkein*			  skein;
     
     BOOL singleFile;
 }
@@ -51,5 +55,7 @@ extern NSString* IFProjectFilesChangedNotification;
 - (IFIndexFile*)   indexFile;
 
 - (void) reloadIndexFile;
+
+- (ZoomSkein*) skein;
 
 @end

@@ -668,6 +668,8 @@ static NSDictionary* styles[256];
     
     zView = [[ZoomView allocWithZone: [self zone]] init];
     [zView setDelegate: self];
+	[[[parent document] skein] zoomInterpreterRestart];
+	[zView addOutputReceiver: [[parent document] skein]];
     [zView runNewServer: nil];
     
     [zView setColours: [NSArray arrayWithObjects:

@@ -25,6 +25,8 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
         sourceFiles = nil;
         mainSource  = nil;
         singleFile  = YES;
+		
+		skein = [[ZoomSkein alloc] init];
 
         compiler = [[IFCompiler allocWithZone: [self zone]] init];
 		
@@ -46,6 +48,7 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
     if (mainSource)  [mainSource  release];
 	if (notes)       [notes release];
 	if (indexFile)   [indexFile release];
+	if (skein)		 [skein release];
 
 	[settings release];
     [compiler release];
@@ -404,6 +407,11 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 	indexFile = nil;
 	
 	indexFile = [[IFIndexFile alloc] initWithContentsOfFile: [[[self fileName] stringByAppendingPathComponent: @"Index"] stringByAppendingPathComponent: @"Headings.xml"]];
+}
+
+// = The skein =
+- (ZoomSkein*) skein {
+	return skein;
 }
 
 @end

@@ -19,4 +19,8 @@
 + (BOOL)isWebKitAvailable;
 - (BOOL)isWebKitAvailable;
 
+- (IBAction) showInspectors: (id) sender;
+- (IBAction) newHeaderFile: (id) sender;
+- (IBAction) newInformFile: (id) sender;
+
 @end

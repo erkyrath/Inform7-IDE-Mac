@@ -15,8 +15,14 @@
 #import "ZoomView/ZoomSkein.h"
 #import "ZoomView/ZoomSkeinView.h"
 
-@interface IFIsSkein : IFInspector {
+extern NSString* IFIsSkeinInspector;
 
+@interface IFIsSkein : IFInspector {
+	NSWindow* activeWin;
+	IFProject* activeProject;
+	IFProjectController* activeController;
+	
+	IBOutlet ZoomSkeinView* skeinView;
 }
 
 + (IFIsSkein*) sharedIFIsSkein;

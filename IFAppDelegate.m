@@ -14,6 +14,7 @@
 #import "IFIsNotes.h"
 #import "IFIsIndex.h"
 #import "IFIsFiles.h"
+#import "IFIsSkein.h"
 
 #import "IFNoDocProtocol.h"
 #import "IFInformProtocol.h"
@@ -66,6 +67,7 @@ static NSRunLoop* mainRunLoop = nil;
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsFiles sharedIFIsFiles]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsNotes sharedIFIsNotes]];
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsIndex sharedIFIsIndex]];
+	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsSkein sharedIFIsSkein]];
 }
 
 - (BOOL) applicationShouldOpenUntitledFile: (NSApplication*) sender {
