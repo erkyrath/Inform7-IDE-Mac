@@ -92,6 +92,9 @@ static int intValueComparer(id a, id b, void* context) {
 				int line   = [[item objectForKey: @"Line"] intValue];
 				NSString* title = [item objectForKey: @"Title"];
 				
+				// HACK: only include the source files
+				if (![[filename stringByDeletingLastPathComponent] isEqualToString: @"Source"]) continue;
+				
 				// Get the initial index for this file
 				NSMutableArray* indexForFilename = [filenamesToIndexes objectForKey: filename];
 				if (indexForFilename == nil) {

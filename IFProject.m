@@ -574,6 +574,12 @@ NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotificatio
 }
 
 - (BOOL) fileIsTemporary: (NSString*) sourceFile {
+	// If the filename is Source/Whatever, make it just Whatever
+	if ([[sourceFile stringByDeletingLastPathComponent] isEqualToString: @"Source"]) {
+		sourceFile = [sourceFile lastPathComponent];
+	}
+	
+	// Work out the source directory
 	NSString* sourceDir = [[[self fileName] stringByAppendingPathComponent: @"Source"] stringByStandardizingPath];
 	
 	if (editingExtension) {
