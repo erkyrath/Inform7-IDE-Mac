@@ -207,6 +207,7 @@ static NSDictionary* styles[256];
 
     doc = [parent document];
 
+	[sourceText setContinuousSpellCheckingEnabled: NO];
     [[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
 
     NSTextStorage* mainFile = [doc storageForFile: [doc mainSourceFile]];
@@ -1067,7 +1068,7 @@ static NSDictionary* styles[256];
                [fileType isEqualToString: @"nih"]) {
         // Natural inform file
         highlighter = [[IFNaturalInformSyntax alloc] init];
-        [sourceText setRichText: YES];
+        [sourceText setRichText: NO];
 		applyTabStyle = YES;
     } else if ([fileType isEqualToString: @"rtf"]) {
         // Rich text file
