@@ -7,7 +7,21 @@
             OUTLETS = {inspectorView = NSView; }; 
             SUPERCLASS = NSObject; 
         }, 
-        {CLASS = IFIsSearch; LANGUAGE = ObjC; SUPERCLASS = IFInspector; }
+        {
+            ACTIONS = {changeSearchOption = id; startSearch = id; }; 
+            CLASS = IFIsSearch; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                caseSensitive = NSButton; 
+                searchButton = NSButton; 
+                searchDocs = NSButton; 
+                searchExtensions = NSButton; 
+                searchSources = NSButton; 
+                searchText = NSTextField; 
+                searchType = NSPopUpButton; 
+            }; 
+            SUPERCLASS = IFInspector; 
+        }
     ); 
     IBVersion = 1; 
 }
