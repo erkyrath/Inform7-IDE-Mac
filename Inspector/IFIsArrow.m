@@ -34,6 +34,10 @@
 	return [[self cell] intValue] == 3;
 }
 
+- (void) performFlip {
+	[(IFIsArrowCell*)[self cell] performFlip];
+}
+
 - (BOOL) acceptsFirstMouse: (NSEvent*) evt {
 	return YES;
 }

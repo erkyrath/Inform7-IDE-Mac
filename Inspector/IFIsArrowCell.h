@@ -19,6 +19,10 @@
 	// The 'up/down' animation
 	int endState;
 	NSTimer* animationTimeout;
+	
+	NSView* lastControlView;
 }
+
+- (void) performFlip;
 
 @end

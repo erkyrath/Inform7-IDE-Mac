@@ -17,4 +17,6 @@
 - (void) setOpen: (BOOL) open;
 - (BOOL) open;
 
+- (void) performFlip;
+
 @end

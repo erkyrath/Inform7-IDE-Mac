@@ -74,6 +74,15 @@ static NSImage* arrow3;
 		   fromRect: imgRect
 		  operation: NSCompositeSourceOver
 		   fraction: 1.0];
+	
+	if ([controlView isKindOfClass: [NSControl class]]) lastControlView = controlView;
+}
+
+- (NSView*) controlView {
+	NSView* superView = [super controlView];
+	if (superView != nil) return superView;
+	
+	return lastControlView;
 }
 
 - (BOOL)trackMouse:(NSEvent *)theEvent
@@ -124,28 +133,32 @@ static NSImage* arrow3;
 		   mouseIsUp: (BOOL)flag {
 	if ([self point: stopPoint
 			inImage: [self activeImage]]) {		
-		// The final state
-		endState = [self intValue]==3?1:3;
-
-		// Set to the 'in between' state
-		[self setIntValue: 2];
-		
-		// Create the timer
-		if (animationTimeout) {
-			[animationTimeout invalidate];
-			[animationTimeout release];
-			animationTimeout = nil;
-		}
-
-		animationTimeout = [NSTimer timerWithTimeInterval: AnimationTime
-												   target: self
-												 selector: @selector(finishRotating:)
-												 userInfo: nil
-												  repeats: NO];
-		[[NSRunLoop currentRunLoop] addTimer: animationTimeout
-									 forMode: NSDefaultRunLoopMode];
-		[animationTimeout retain];
+		[self performFlip];
 	}
+}
+
+- (void) performFlip {
+	// The final state
+	endState = [self intValue]==3?1:3;
+	
+	// Set to the 'in between' state
+	[self setIntValue: 2];
+	
+	// Create the timer
+	if (animationTimeout) {
+		[animationTimeout invalidate];
+		[animationTimeout release];
+		animationTimeout = nil;
+	}
+	
+	animationTimeout = [NSTimer timerWithTimeInterval: AnimationTime
+											   target: self
+											 selector: @selector(finishRotating:)
+											 userInfo: nil
+											  repeats: NO];
+	[[NSRunLoop currentRunLoop] addTimer: animationTimeout
+								 forMode: NSDefaultRunLoopMode];
+	[animationTimeout retain];
 }
 
 - (void) finishRotating: (void*) userInfo {	

@@ -21,10 +21,10 @@
     if (self) {
 		innerView = nil;
 		
-		arrow = [[IFIsArrow alloc] initWithFrame: NSMakeRect(0, 0, 24, 28)];
+		arrow = [[IFIsArrow alloc] initWithFrame: NSMakeRect(8, 0, 24, 28)];
 		[self addSubview: arrow];
 		[arrow sizeToFit];
-		
+				
 		willLayout = NO;
 		
 		titleView = [[IFIsTitleView alloc] initWithFrame: NSMakeRect(0, 0, frame.size.width, [IFIsTitleView titleHeight])];
@@ -38,7 +38,7 @@
 		[arrow setAction: @selector(openChanged:)];
 		
 		[self addSubview: titleView];
-		[self addSubview: arrow];
+		[titleView addSubview: arrow];
     }
     return self;
 }
@@ -170,13 +170,7 @@
 	if (!NSPointInRect(region, [titleView frame])) return; // Not in the title view
 	
 	// Clicking in the title will open the view if it's not already (you need to use the arrow to close it, though)
-	if ([arrow intValue] != 3) {
-		[arrow setIntValue: 3];
-		[self queueLayout];
-	} else {
-		[arrow setIntValue: 1];
-		[self queueLayout];
-	}
+	[arrow performFlip];
 }
 
 - (BOOL) acceptsFirstMouse: (NSEvent*) evt {
@@ -184,6 +178,7 @@
 }
 
 // = Drawing =
+
 - (void)drawRect:(NSRect)rect {
 #if ViewPadding > 0
 	NSRect bounds = [self bounds];
