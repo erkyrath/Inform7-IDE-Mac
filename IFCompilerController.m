@@ -460,6 +460,7 @@ static IFCompilerController* activeController = nil;
     NSTextStorage* storage = [compilerResults textStorage];
     
     // Set the text to the base style
+	[storage beginEditing];
     [storage setAttributes: [styles objectForKey: IFStyleBase]
                      range: [storage editedRange]];
 
@@ -498,6 +499,7 @@ static IFCompilerController* activeController = nil;
     } while (newlinePos != -1);
     
     // Finish up
+	[storage endEdting];
 }
 
 // == The error OutlineView ==
