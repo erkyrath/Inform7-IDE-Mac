@@ -197,6 +197,8 @@ typedef unsigned char IFSyntaxStyle;
 //
 @interface NSObject(IFSyntaxStorageDelegate)
 
+// Called when the syntax storage replaces some text automatically. A delegate can use this to ensure that the
+// undo manager is up to date
 - (void) rewroteCharactersInStorage: (IFSyntaxStorage*) storage
 							  range: (NSRange) range
 					 originalString: (NSString*) originalString
