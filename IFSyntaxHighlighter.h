@@ -26,7 +26,10 @@ enum IFSyntaxType {
     IFSyntaxEscapeCharacter,
     
     // Natural inform syntax types
-    IFSyntaxHeading = 0x80
+    IFSyntaxHeading = 0x80,
+    
+    // Debugging syntax types
+    IFSyntaxDebugHighlight = 0xa0
 };
 
 typedef enum IFSyntaxType IFSyntaxType;
@@ -41,6 +44,8 @@ typedef enum IFSyntaxType IFSyntaxType;
 // Noting that things have changed in the file
 - (void) invalidateAll;
 - (void) invalidateCharacter: (int) chr;
+
+- (NSRange) invalidRange;
 
 // Getting information about a character
 - (enum IFSyntaxType) colourForCharacterAtIndex: (int) index;

@@ -72,10 +72,39 @@ static const IFInform6State initialState = {
 }
 
 - (void) invalidateCharacter: (int) chr {
-    lastIndex = 0;
-    lastState = initialState;
+    // Get the colour
+    int pos;
+    int line = [self lineForChar: chr
+                        position: &pos];
     
-    [self clearAllLines]; // FIXME: just the line with this character on
+    lines[line].invalid = YES;
+}
+
+- (NSRange) invalidRange {
+    int pos = 0;
+    int line;
+    
+    if (nLines == 0) {
+        // Whole file has been invalidated
+        return NSMakeRange(0, [file length]);
+    }
+    
+    // Range is all the invalid lines
+    NSRange res = NSMakeRange(NSNotFound, 0);
+    
+    for (line=0; line<nLines; line++) {
+        if (lines[line].invalid && lines[line].length > 0) {
+            if (res.location == NSNotFound) {
+                res = NSMakeRange(pos, lines[line].length);
+            } else {
+                res = NSUnionRange(res, NSMakeRange(pos, lines[line].length));
+            }
+        }
+        
+        pos += lines[line].length;
+    }
+    
+    return res;
 }
 
 static BOOL cmpStates(IFInform6State a, IFInform6State b) {
@@ -98,8 +127,97 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
     return YES;
 }
 
+- (NSString*) stateToString: (IFInform6State) state {
+    return [NSString stringWithFormat: @"Com: %i sQ: %i dQ: %i S: %i aM: %i hl: %i hlA: %i cB: %i aR: %i wfD: %i dkF: %i. Inner: %x",
+        state.outer.comment, state.outer.singleQuote, state.outer.doubleQuote, state.outer.statement, state.outer.afterMarker,
+        state.outer.highlight, state.outer.highlightAll, state.outer.colourBacktrack, state.outer.afterRestart,
+        state.outer.waitingForDirective, state.outer.dontKnowFlag,
+        state.inner];
+}
+
+- (void) refineLine: (int) line 
+         characters: (NSString*) str {
+    int x;
+    int chr;
+    
+    // Firstly, any characters with colour Q (quoted-text) which have special
+    // meanings are given "escape-character colour" instead.  This applies
+    // to "~", "^", "\" and "@" followed by (possibly) another "@" and a
+    // number of digits.
+    
+    for (x=0; x<lines[line].length; x++) {
+        if (lines[line].colour[x] == IFSyntaxString) {
+            int chr2;
+            
+            chr = [str characterAtIndex: x];
+            
+            switch (chr) {
+                case '~': case '^': case '\\':
+                    lines[line].colour[x] = IFSyntaxEscapeCharacter;
+                    break;
+                    
+                case '@':
+                    lines[line].colour[x] = IFSyntaxEscapeCharacter;
+                    
+                    if ((x+1) < lines[line].length) {
+                        chr = [str characterAtIndex: x+1];
+                        
+                        if (chr == '@') {
+                            x++;
+                            lines[line].colour[x] = IFSyntaxEscapeCharacter;
+                        }
+                    }
+                    
+                    do {
+                        x++;
+                        if (x >= lines[line].length) break;
+                        
+                        chr = [str characterAtIndex: x];
+                        
+                        if (isdigit(chr)) lines[line].colour[x] = IFSyntaxEscapeCharacter;
+                    } while (isdigit(chr));
+                    break;
+            }
+        }
+    }
+
+    // Next we look for identifiers.  An identifier for these purposes includes
+    // a number, for it is just a sequence of:
+
+    //      "_" or "$" or "#" or "0" to "9" or "a" to "z" or "A" to "Z".
+
+    // The initial colouring of an identifier tells us its context.  We're
+    // only interested in those in foreground colour (these must be used
+    // in the body of a directive) or code colour (used in statements).
+
+    // If an identifier is in code colour, then:
+
+    //     If it follows an "@", recolour the "@" and the identifier in
+    //        assembly-language colour.
+    //     Otherwise, unless it is one of the following:
+
+    //       "box"  "break"  "child"  "children"  "continue"  "default"
+    //       "do"  "elder"  "eldest"  "else"  "false"  "font"  "for"  "give"
+    //       "has"  "hasnt"  "if"  "in"  "indirect"  "inversion"  "jump"
+    //       "metaclass"  "move"  "new_line"  "nothing"  "notin"  "objectloop"
+    //       "ofclass"  "or"  "parent"  "print"  "print_ret"  "provides"  "quit"
+    //       "random"  "read"  "remove"  "restore"  "return"  "rfalse"  "rtrue"
+    //       "save"  "sibling"  "spaces"  "string"  "style"  "switch"  "to"
+    //       "true"  "until"  "while"  "younger"  "youngest"
+
+    //     we recolour the identifier to "codealpha colour".
+
+    // On the other hand, if an identifier is in foreground colour, then we
+    // check it to see if it's one of the following interesting keywords:
+
+    //       "first"  "last"  "meta"  "only"  "private"  "replace"  "reverse"
+    //       "string"  "table"
+
+    // If it is, we recolour it in directive colour.
+}
+
 - (void) highlightLine: (int) line {
-    int x, pos;
+    int x, pos, lineStart;
     int len = [file length];
     
     // Highlight any preceeding lines that need highlighting
@@ -140,6 +258,7 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
     int chr;
     IFInform6State state = lines[line].initialState;
     
+    lineStart = pos;
     lines[line].length = 0;
     
     do {
@@ -153,14 +272,21 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
         lines[line].colour[lines[line].length-1] = [self initialColourForState:newState character:chr];
         
         if (newState.outer.colourBacktrack) {
-            int backLen = state.inner >> 8;
+            int backLen = newState.inner;
             int z;
             
+            backLen &= ~0x8000;
+            backLen >>= 8;
+            backLen++;
+            
             newState.outer.colourBacktrack = 0;
+            
+            if (backLen == 0) { backLen = 1; printf("-- 0 --\n"); }
                 
-            for (z=0; z<(backLen+2); z++) {
+            for (z=0; z<backLen; z++) {
                 if (z < lines[line].length)
                     lines[line].colour[lines[line].length-z-1] = newState.backtrackColour;
+                    //lines[line].colour[lines[line].length-z-1] = newState.backtrackColour;
             }
         }
 
@@ -168,27 +294,31 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
         pos++;
     } while (pos < len && chr != '\n' && chr != '\r');
     
+    [self refineLine: line
+          characters: [file substringWithRange: NSMakeRange(lineStart, lines[line].length)]];
+    
     lines[line].invalid = NO;
     
 #if 0
     NSMutableString* highlights = [NSMutableString string];
     
-    NSLog(@"Line: %@", [file substringWithRange: NSMakeRange(pos - lines[line].length, lines[line].length)]);
+    NSLog(@"Pos: %i Length: %i End: %i Start state: %@", pos-lines[line].length, lines[line].length, pos, [self stateToString: lines[line].initialState]);
+    NSLog(@"Line: '%@'", [file substringWithRange: NSMakeRange(pos - lines[line].length, lines[line].length)]);
     
     int q;
     for (q=0; q<lines[line].length; q++) {
         int c = '?';
         
         switch (lines[line].colour[q]) {
-            case IFSyntaxNone: c = 'N'; break;
+            case IFSyntaxNone: c = 'F'; break;
             case IFSyntaxString: c = 'Q'; break;
-            case IFSyntaxComment: c = '!'; break;
+            case IFSyntaxComment: c = 'C'; break;
             
             // Inform 6 syntax types
             case IFSyntaxDirective: c = 'D'; break;
             case IFSyntaxProperty: c = 'P'; break;
-            case IFSyntaxFunction: c = 'F'; break;
-            case IFSyntaxCode: c = 'C'; break;
+            case IFSyntaxFunction: c = 'f'; break;
+            case IFSyntaxCode: c = 'S'; break;
             case IFSyntaxCodeAlpha: c = 'c'; break;
             case IFSyntaxAssembly: c = '@'; break;
             case IFSyntaxEscapeCharacter: c = 'E'; break;
@@ -197,7 +327,7 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
         [highlights appendFormat: @"%c", c];
     }
     
-    NSLog(@"Attr: %@", highlights);
+    NSLog(@"Attr: '%@'", highlights);
 #endif
     
     if (nLines <= line+1) {
@@ -205,7 +335,6 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
         nLines++;
         lines = realloc(lines, sizeof(IFInform6Line)*nLines);
         lines[line+1].invalid = YES;
-        lines[line+1].initialState = state;
         lines[line+1].length = 0;
         lines[line+1].colour = NULL;
     } else {
@@ -214,6 +343,8 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
             [self clearLine: line+1];
         }
     }
+
+    lines[line+1].initialState = state;
 }
 
 - (int) lineForChar: (int) index
@@ -257,7 +388,7 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
         return IFSyntaxNone;
     }
     
-    return lines[line].colour[index];
+    return (IFSyntaxType)(lines[line].colour[index]);
 }
 
 // = The statemachine itself =
@@ -340,7 +471,7 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
         
         //           If the after-restart bit is clear, stop.
         
-        if (state.outer.afterRestart) {
+        if (state.outer.afterRestart == 0) {
             return newState;
         }
         
@@ -374,7 +505,7 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
         
         if (chr == '[') {
             newState.outer.statement = 1;
-            if (newState.outer.afterMarker)
+            if (newState.outer.afterMarker == 0)
                 newState.outer.afterRestart = 1;
             return newState;
         }
@@ -409,7 +540,7 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
             //                    Set highlight.
             //                    Clear highlight-all.
             
-            else if (newState.inner == 0x404) {
+            else if (newState.inner == 0x8404) {
                 newState.outer.colourBacktrack = 1;
                 newState.backtrackColour = IFSyntaxDirective;
                 newState.outer.afterMarker = 1;
@@ -425,7 +556,7 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
             //                    Clear highlight.
             //                    Set highlight-all.
             
-            else if (newState.inner == 0x313 || newState.inner == 0x525) {
+            else if (newState.inner == 0x8313 || newState.inner == 0x8525) {
                 newState.outer.colourBacktrack = 1;
                 newState.backtrackColour = IFSyntaxDirective;
                 newState.outer.afterMarker = 1;
@@ -462,6 +593,7 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
                     newState.backtrackColour = IFSyntaxProperty;
                 }
             }
+        }
             
             //              Is the character ";"?
             //                 If so:
@@ -488,7 +620,6 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
                 newState.outer.afterMarker = 1;
                 newState.outer.highlight = 1;
             }
-        }
 
         //           Stop.
         
@@ -502,7 +633,10 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
                  character: (int) chr {
     BOOL terminalFlag = NO;
     
-    chr = tolower(chr);
+    //chr = tolower(chr);
+    if (state->inner >= 0x8000) {
+        state->inner = 0;
+    }
     
     if (state->inner == 0) {
         switch (chr) {
@@ -513,7 +647,7 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
                 state->inner = 3;
                 terminalFlag = YES;
                 break;
-            case ' ': case '#': case '\n': case '\r':
+            case ' ': case '\t': case '#': case '\n': case '\r':
                 state->inner = 0;
                 break;
             case '_':
@@ -543,15 +677,15 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
     } else if (state->inner == 3) {
         state->inner = 0;
     } else if (state->inner == 0xff) {
-        if (chr == ' ' || chr == '\n' || chr == '\r') {
+        if (chr == ' ' || chr == '\t' || chr == '\n' || chr == '\r') {
             state->inner = 0;
         } else {
             state->inner = 0xff;
         }
-    } else if (state->inner >= 0x100) {
+    } else if (state->inner >= 0x100 && state->inner < 0x8000) {
         if (!(isalpha(chr) || isdigit(chr))) {
             state->inner += 0x8000;
-            terminalFlag = YES;
+            return terminalFlag = YES;
         }        
 
         switch (state->inner) {
@@ -611,16 +745,13 @@ static BOOL cmpStates(IFInform6State a, IFInform6State b) {
                 break;
                 
             default:
-                if (state->inner < 0x8000) {
-                    if (isalpha(chr) || isdigit(chr)) {
-                        state->inner += 0x100;
-                    }
-                } else {
-                    state->inner = 0;
+                if (isalpha(chr) || isdigit(chr)) {
+                    state->inner += 0x100;
                 }
+                break;
         }
     }
-        
+    
     return terminalFlag;
 }
 

@@ -82,6 +82,7 @@ enum IFProjectPaneType {
     BOOL awake;
     IFProjectController* parent;
     
+    NSTimer*             highlighterTicker;
     IFSyntaxHighlighter* highlighter;
 }
 

@@ -22,6 +22,10 @@
 - (void) invalidateCharacter: (int) chr {
 }
 
+- (NSRange) invalidRange {
+    return NSMakeRange(NSNotFound, 0);
+}
+
 // Getting information about a character
 - (enum IFSyntaxType) colourForCharacterAtIndex: (int) index {
     return IFSyntaxNone;

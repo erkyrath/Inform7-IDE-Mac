@@ -12,6 +12,9 @@
 
 #import "IFInform6Syntax.h"
 
+// Approximate maximum length of file to highlight in one 'iteration'
+#define maxHighlightAmount 256
+
 @implementation IFProjectPane
 
 + (IFProjectPane*) standardPane {
@@ -50,6 +53,12 @@
     if (zView) [zView release];
     if (gameToRun) [gameToRun release];
 
+    if (highlighterTicker) {
+        [highlighterTicker invalidate];
+        [highlighterTicker release];
+        highlighterTicker = nil;
+    }
+    
     [super dealloc];
 }
 
@@ -96,6 +105,8 @@
     [compController setDelegate: self];
     [self updateFiles];
     [self updateSettings];
+
+    [[sourceText textStorage] setDelegate: self];
 }
 
 - (void) awakeFromNib {
@@ -395,6 +406,57 @@
     return YES;
 }
 
+// = Text view delegate =
+
+- (void) createHighlighterTickerIfRequired {
+    if (highlighterTicker) {
+        [highlighterTicker invalidate];
+        [highlighterTicker release];
+        highlighterTicker = nil;
+    }
+    
+    NSRange invalidRange = [highlighter invalidRange];
+    
+    if (invalidRange.location != NSNotFound && invalidRange.length != 0) {
+        highlighterTicker = [NSTimer timerWithTimeInterval:0.005
+                                                    target:self
+                                                  selector:@selector(highlighterIteration)
+                                                  userInfo:nil
+                                                   repeats: NO];
+        [[NSRunLoop currentRunLoop] addTimer: highlighterTicker
+                                     forMode: NSDefaultRunLoopMode];
+        [highlighterTicker retain];
+    }
+}
+
+- (void) highlighterIteration {
+    NSRange invalidRange;
+    int len = 0;
+    
+    [[sourceText textStorage] setDelegate: nil];
+    
+    invalidRange = [highlighter invalidRange];
+    while (invalidRange.location != NSNotFound && invalidRange.length > 0 && len < maxHighlightAmount) {
+        [self highlightRange: invalidRange];
+        
+        len += invalidRange.length;
+        invalidRange = [highlighter invalidRange];
+    }
+    
+    [self createHighlighterTickerIfRequired];
+}
+
+- (void)textStorageDidProcessEditing: (NSNotification*) not {
+    NSRange editedRange = [[sourceText textStorage] editedRange];
+    
+    // Redo any necessary highlighting
+    [highlighter invalidateCharacter: editedRange.location]; // FIXME: rest of the range
+    
+    [self highlighterIteration];
+    
+    [[sourceText textStorage] setDelegate: self];
+}
+
 // = Syntax highlighting =
 - (NSDictionary*) attributeForStyle: (enum IFSyntaxType) style {
     switch (style) {
@@ -441,8 +503,24 @@
                         
         // Natural inform syntax types
         case IFSyntaxHeading:
-        
+            
+        // Debug syntax types
         default:
+            printf("Unknown: %x (%x)\n", (int)style, IFSyntaxDebugHighlight);
+            if ((long)style >= IFSyntaxDebugHighlight) {
+                NSMutableDictionary* style = [[self attributeForStyle: (IFSyntaxType)(style - IFSyntaxDebugHighlight)] mutableCopy];
+                
+                
+                
+                [style setObject: [NSNumber numberWithInt: NSUnderlineStyleThick]
+                          forKey: NSUnderlineStyleAttributeName];
+                [style setObject: [NSColor redColor]
+                          forKey: NSUnderlineColorAttributeName];
+                
+                return [style autorelease];
+            }
+        
+            // Default syntax colouring
             return [NSDictionary dictionaryWithObjectsAndKeys: 
                 [NSFont systemFontOfSize: 12], NSFontAttributeName, nil];
     }
@@ -455,8 +533,10 @@
 
 - (void) highlightRange: (NSRange) charRange {
     IFSyntaxType lastSyntax = IFSyntaxNone;
-    int startPos = 0;
+    int startPos = charRange.location;
     int curPos;
+    
+    [[sourceText textStorage] setDelegate: nil];
     
     // Do the highlighting
     for (curPos = charRange.location; curPos < charRange.location + charRange.length; curPos++) {
@@ -468,7 +548,7 @@
             
             r = NSMakeRange(startPos, curPos - startPos);
             
-            [[sourceText textStorage] setAttributes: attr
+            [[sourceText textStorage] addAttributes: attr
                                             range: r];
             
             startPos = curPos;
@@ -483,9 +563,11 @@
     
     r = NSMakeRange(startPos, curPos - startPos);
     if (r.length > 0) {
-        [[sourceText textStorage] setAttributes: attr
+        [[sourceText textStorage] addAttributes: attr
                                         range: r];
     }
+
+    [[sourceText textStorage] setDelegate: self];
 }
 
 @end
