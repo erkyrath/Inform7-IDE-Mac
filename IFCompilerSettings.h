@@ -11,7 +11,7 @@
 #import <Foundation/Foundation.h>
 
 // The settings keys
-extern NSString* IFSettingCompilerName; // default is inform-6.21-zcode
+extern NSString* IFSettingCompilerVersion; // default is inform-6.21-zcode
 extern NSString* IFSettingLibraryToUse; // default is `Standard'
 extern NSString* IFSettingZCodeVersion; // default is 5, 256 = GLULX
 
@@ -49,6 +49,11 @@ extern NSString* IFSettingLoudly;
 - (BOOL) compileNaturalInformOutput;
 - (BOOL) runBuildScript;
 - (BOOL) debug;
+
+- (void) setCompilerVersion: (double) version;
+- (void) setLibraryToUse: (NSString*) library;
+- (double) compilerVersion;
+- (NSString*) libraryToUse;
 
 - (void)      setZCodeVersion: (int) version;
 - (int)       zcodeVersion;

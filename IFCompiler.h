@@ -42,7 +42,11 @@ extern NSString* IFCompilerFinishedNotification;
     NSObject* delegate;
 }
 
-+ (NSString*) compilerExecutable;
+//+ (NSString*) compilerExecutable;
++ (NSDictionary*) parseCompilerFilename: (NSString*) pathname;
++ (double)    maxCompilerVersion;
++ (NSString*) compilerExecutableWithVersion: (double) ver; // 6.21, 6.30 etc
++ (NSArray*) availableCompilers;
 
 - (void) setSettings: (IFCompilerSettings*) settings;
 - (void) setInputFile: (NSString*) path;

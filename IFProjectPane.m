@@ -454,6 +454,45 @@ static NSDictionary* styles[256];
     }
     
     [runLoudly setState: [settings loudly]?NSOnState:NSOffState];
+    
+    // Compiler versions
+    double version = [settings compilerVersion];
+    NSEnumerator* compilerEnum = [[IFCompiler availableCompilers] objectEnumerator];
+    
+    [compilerVersion removeAllItems];
+    NSDictionary* compilerInfo;
+    
+    while (compilerInfo = [compilerEnum nextObject]) {
+        NSString* compilerStr = [NSString stringWithFormat: @"%@ %.2f (%@)",
+            [compilerInfo objectForKey: @"name"],
+            [[compilerInfo objectForKey: @"version"] doubleValue],
+            [compilerInfo objectForKey: @"platform"]];
+        
+        [compilerVersion addItemWithTitle: compilerStr];
+        
+        if ([[compilerInfo objectForKey: @"version"] doubleValue] == version) {
+            [compilerVersion selectItemAtIndex: [compilerVersion numberOfItems]-1];
+        }
+    }
+    
+    // Library versions
+    NSString* libPath = [NSString stringWithFormat: @"%@/Library",
+        [[NSBundle mainBundle] resourcePath]];
+    NSArray* libraryDirectory = [[NSFileManager defaultManager] directoryContentsAtPath: libPath];
+    
+    NSEnumerator* libEnum = [libraryDirectory objectEnumerator];
+    NSString* libVer;
+    NSString* currentLibVer = [settings libraryToUse];
+    
+    [libraryVersion removeAllItems];
+    
+    while (libVer = [libEnum nextObject]) {
+        [libraryVersion addItemWithTitle: libVer];
+        
+        if ([libVer isEqualToString: currentLibVer]) {
+            [libraryVersion selectItemAtIndex: [libraryVersion numberOfItems]-1];
+        }
+    }
 }
 
 - (IBAction) settingsHaveChanged: (id) sender {
@@ -478,6 +517,15 @@ static NSDictionary* styles[256];
         [settings setZCodeVersion: [[sender selectedCell] tag]];
     } else if (sender == runLoudly) {
         [settings setLoudly: [sender state]==NSOnState];
+    } else if (sender == compilerVersion) {
+        int item = [compilerVersion indexOfSelectedItem];
+        double newVersion;
+        
+        newVersion = [[[[IFCompiler availableCompilers] objectAtIndex: item] objectForKey: @"version"] doubleValue];
+        
+        [settings setCompilerVersion: newVersion];
+    } else if (sender == libraryVersion) {
+        [settings setLibraryToUse: [libraryVersion itemTitleAtIndex: [libraryVersion indexOfSelectedItem]]];
     } else {
         NSLog(@"Interface BUG: unknown/unimplemented setting control");
         [self updateSettings];

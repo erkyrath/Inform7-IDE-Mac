@@ -10,7 +10,7 @@
 #import "IFCompiler.h"
 
 NSString* IFSettingLibraryToUse  = @"IFSettingLibraryToUse";
-NSString* IFSettingCompilerName  = @"IFSettingCompilerName";
+NSString* IFSettingCompilerVersion = @"IFSettingCompilerVersion";
 NSString* IFSettingZCodeVersion  = @"IFSettingZCodeVersion";
 
 NSString* IFSettingNaturalInform = @"IFSettingNaturalInform";
@@ -139,7 +139,12 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (NSString*) compilerToUse {
-    return [IFCompiler compilerExecutable];
+    NSNumber* compilerVersion = [store objectForKey: IFSettingCompilerVersion];
+    
+    if (compilerVersion == nil)
+        compilerVersion = [NSNumber numberWithDouble: [IFCompiler maxCompilerVersion]];
+    
+    return [IFCompiler compilerExecutableWithVersion: [compilerVersion doubleValue]];
 }
 
 
@@ -305,6 +310,31 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 - (NSString*) fileExtension {
     int version = [self zcodeVersion];
     return [NSString stringWithFormat: @"z%i", version];
+}
+
+- (void) setCompilerVersion: (double) version {
+    [store setObject: [NSNumber numberWithDouble: version]
+                                          forKey: IFSettingCompilerVersion];
+    [self settingsHaveChanged];
+}
+
+- (double) compilerVersion {
+    NSNumber* compilerVersion = [store objectForKey: IFSettingCompilerVersion];
+    
+    if (compilerVersion == nil)
+        return [IFCompiler maxCompilerVersion];
+    
+    return [compilerVersion doubleValue];
+}
+
+- (void) setLibraryToUse: (NSString*) library {
+    [store setObject: [[library copy] autorelease]
+              forKey: IFSettingLibraryToUse];
+    [self settingsHaveChanged];
+}
+
+- (NSString*) libraryToUse {
+    return [store objectForKey: IFSettingLibraryToUse];
 }
 
 // = NSCoding =

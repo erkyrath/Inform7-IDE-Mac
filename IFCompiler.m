@@ -17,6 +17,7 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
 
 @implementation IFCompiler
 
+#if 0
 + (NSString*) compilerExecutable {
     // Implement me: allow for compilers installed other than inside the bundle
     // Implement me: allow for compilers with different versions inside the bundle
@@ -32,6 +33,109 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
     } else {
         return nil; // No compiler available
     }
+}
+#endif
+
+// = Compiler versioning =
++ (NSDictionary*) parseCompilerFilename: (NSString*) pathname {
+    // Compiler filenames have the form xxx-n.nn-[zcode|biplatform|glulx]
+    NSString* filename = [pathname lastPathComponent];
+    
+    int x;
+    int lastComponent = 0;
+    NSMutableArray* components = [NSMutableArray array];
+    
+    for (x=0; x<[filename length]; x++) {
+        if ([filename characterAtIndex: x] == '-') {
+            [components addObject: [filename substringWithRange: NSMakeRange(lastComponent,
+                                                                             x-lastComponent)]];
+            lastComponent = x+1;
+        }
+    }
+    
+    [components addObject: [filename substringWithRange: NSMakeRange(lastComponent,
+                                                                     x-lastComponent)]];
+        
+    if ([components count] != 3) return nil;
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+        [components objectAtIndex: 0], @"name",
+        [NSNumber numberWithDouble: [[components objectAtIndex: 1] doubleValue]], @"version", 
+        [components objectAtIndex: 2], @"platform",
+        filename, @"filename",
+        pathname, @"pathname",
+        nil];
+}
+
++ (double) maxCompilerVersion {
+    NSString* compilerLocation = [NSString stringWithFormat: @"%@/Compilers",
+        [[NSBundle mainBundle] resourcePath]];
+    double maxVersion = 0;
+    
+    NSArray* compilers = [[NSFileManager defaultManager] directoryContentsAtPath: compilerLocation];
+    
+    NSEnumerator* compEnum = [compilers objectEnumerator];
+    NSString* compString;
+    
+    while (compString = [compEnum nextObject]) {
+        NSDictionary* compDetails = [self parseCompilerFilename: compString];
+        
+        if ([[compDetails objectForKey: @"version"] doubleValue] > maxVersion) {
+            maxVersion = [[compDetails objectForKey: @"version"] doubleValue];
+        }
+    }
+    
+    return maxVersion;
+}
+
++ (NSString*) compilerExecutableWithVersion: (double) ver {
+    NSString* compilerLocation = [NSString stringWithFormat: @"%@/Compilers",
+        [[NSBundle mainBundle] resourcePath]];
+
+    NSArray* compilers = [[NSFileManager defaultManager] directoryContentsAtPath: compilerLocation];
+    
+    NSString* comp = nil;
+    
+    NSEnumerator* compEnum = [compilers objectEnumerator];
+    NSString* compString = [compilers objectAtIndex: 0];
+    
+    while (compString = [compEnum nextObject]) {
+        NSDictionary* compDetails = [self parseCompilerFilename: compString];
+        
+        if ([[compDetails objectForKey: @"version"] doubleValue] == ver) {
+            comp = [compDetails objectForKey: @"filename"];
+        }
+    }
+    
+    NSString* compName = [NSString stringWithFormat: @"%@/Compilers/%@",
+        [[NSBundle mainBundle] resourcePath], comp];
+        
+    return compName;
+}
+
+static NSArray* compilerCache = nil;
+
++ (NSArray*) availableCompilers {
+    if (compilerCache) return compilerCache;
+    
+    NSMutableArray* result = [NSMutableArray array];
+    
+    NSString* compilerLocation = [NSString stringWithFormat: @"%@/Compilers",
+        [[NSBundle mainBundle] resourcePath]];
+    
+    NSArray* compilers = [[NSFileManager defaultManager] directoryContentsAtPath: compilerLocation];
+        
+    NSEnumerator* compEnum = [compilers objectEnumerator];
+    NSString* compString = [compilers objectAtIndex: 0];
+    
+    while (compString = [compEnum nextObject]) {
+        NSDictionary* compDetails = [self parseCompilerFilename: compString];
+        
+        [result addObject: compDetails];
+    }
+    
+    compilerCache = [result copy];
+    return result;
 }
 
 // == Initialisation, etc ==
