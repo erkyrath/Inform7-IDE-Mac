@@ -134,22 +134,15 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 	
 	NSEnumerator* extnEnum = [activeExtensions objectEnumerator];
 	NSString* extn;
-	
-	NSLog(@"%@", activeExtensions);
-	
+		
 	while (extn = [extnEnum nextObject]) {
 		NSString* extnPath = [self pathForExtension: extn];
 		
 		if (extnPath != nil) {
-			NSLog(@"Extension path for %@ is %@", extn, extnPath);
 			[res addObject: extnPath];
-		} else {
-			NSLog(@"No extension path for %@", extn);
 		}
 	}
-	
-	NSLog(@"%@", res);
-			
+				
 	return res;
 }
 
@@ -411,82 +404,13 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 	if (pbFiles == nil || ![pbFiles isKindOfClass: [NSArray class]]) {
 		return NO;
 	}
-	
-#if 0
-	// Create the user library directory if required
-	NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-	NSString* userDirectory = [[libraries objectAtIndex: 0] stringByAppendingPathComponent: @"Inform"];
-	BOOL exists, isDir;
-	
-	if (!userDirectory) return NO;
-	
-	if (![[NSFileManager defaultManager] fileExistsAtPath: userDirectory]) {
-		[[NSFileManager defaultManager] createDirectoryAtPath: userDirectory
-												   attributes: nil];
-	}
-	
-	exists = [[NSFileManager defaultManager] fileExistsAtPath: userDirectory
-												  isDirectory: &isDir];
-	if (!exists || !isDir) {
-		NSLog(@"%@ is not a directory", userDirectory);
-		return NO;
-	}
-	
-	userDirectory = [userDirectory stringByAppendingPathComponent: @"Inform 6 Extensions"];
-	
-	if (!userDirectory) return NO;
-	
-	if (![[NSFileManager defaultManager] fileExistsAtPath: userDirectory]) {
-		[[NSFileManager defaultManager] createDirectoryAtPath: userDirectory
-												   attributes: nil];
-	}
-	
-	exists = [[NSFileManager defaultManager] fileExistsAtPath: userDirectory
-												  isDirectory: &isDir];
-	if (!exists || !isDir) {
-		NSLog(@"%@ is not a directory", userDirectory);
-		return NO;
-	}
-#endif
-	
+		
 	// Copy the files into the user directory
 	NSEnumerator* fileEnum = [pbFiles objectEnumerator];
 	NSString* file;
 	
 	while (file = [fileEnum nextObject]) {
 		[self importExtensionFile: file];
-		
-#if 0
-		NSString* extnName = [self directoryNameForExtension: file];
-		BOOL exists, isDir;
-		
-		exists = [[NSFileManager defaultManager] fileExistsAtPath: file
-													  isDirectory: &isDir];
-		
-		if (!exists) {
-			NSLog(@"Oops: %@ disappeared", file);
-			continue;
-		}
-		
-		NSString* finalPath = [userDirectory stringByAppendingPathComponent: extnName];
-		
-		if (isDir) {
-			// Just copy the directory
-			[[NSFileManager defaultManager] copyPath: file
-											  toPath: finalPath
-											 handler: nil];
-		} else {
-			// Create the directory, then copy the file
-			[[NSFileManager defaultManager] createDirectoryAtPath: finalPath
-													   attributes: nil];
-
-			[[NSFileManager defaultManager] copyPath: file
-											  toPath: [finalPath stringByAppendingPathComponent: [file lastPathComponent]]
-											 handler: nil];
-		}
-		
-		NSLog(@"%@ -> %@", file, [userDirectory stringByAppendingPathComponent: extnName]);
-#endif
 	}
 	
 	// Update the tables
