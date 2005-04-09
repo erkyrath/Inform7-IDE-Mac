@@ -10,7 +10,37 @@
 
 #import "IFTempObject.h"
 
+NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
+
 @implementation IFExtensionsManager
+
+// = Shared extension managers =
+
++ (IFExtensionsManager*) sharedInform6ExtensionManager {
+	static IFExtensionsManager* mgr = nil;
+	
+	if (!mgr) {
+		mgr = [[IFExtensionsManager alloc] init];
+		
+		[mgr setSubdirectory: @"Inform 6 Extensions"];
+		[mgr setMergesMultipleExtensions: NO];
+	}
+	
+	return mgr;
+}
+
++ (IFExtensionsManager*) sharedNaturalInformExtensionsManager {
+	static IFExtensionsManager* mgr = nil;
+	
+	if (!mgr) {
+		mgr = [[IFExtensionsManager alloc] init];
+		
+		[mgr setSubdirectory: @"Extensions"];
+		[mgr setMergesMultipleExtensions: YES];
+	}
+	
+	return mgr;
+}
 
 // = Initialisation =
 
@@ -23,6 +53,8 @@
 		subdirectory = [@"Extensions" retain];
 		
 		tempExtensions = nil;
+		
+		updateOutlineData = NO;
 		
 		// Get the list of directories where extensions might live
 		NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
@@ -44,14 +76,21 @@
 	[customDirectories release]; customDirectories = nil;
 	[subdirectory release]; subdirectory = nil;
 	
+	[extensionNames release]; extensionNames = nil;
+	[extensionContents release]; extensionContents = nil;
+	
+	[outlineViewData release]; outlineViewData = nil;
+	
 	[super dealloc];
 }
 
 // = Temporary objects =
 
-- (void) temporaryObjectHasDeallocated: (NSObject*) obj {
-	if (obj == tempExtensions) tempExtensions = nil;
-	else if (obj == tempAvailableExtensions) tempAvailableExtensions = nil;
+- (void) tempObjectHasDeallocated: (NSObject*) obj {
+	if (obj == tempExtensions) 
+		tempExtensions = nil;
+	else if (obj == tempAvailableExtensions) 
+		tempAvailableExtensions = nil;
 }
 
 // = Setting up =
@@ -134,7 +173,7 @@
 }
 
 - (NSDictionary*) extensionDictionary {
-	if (tempExtensions) return tempExtensions;
+	if (tempExtensions) return [[tempExtensions retain] autorelease];
 	
 	NSFileManager* manager = [NSFileManager defaultManager];
 	
@@ -297,6 +336,255 @@
 	}
 	
 	return result;
+}
+
+// = Data source support functions =
+
+static const float updateFrequency = 0.75;				// Maximum frequency
+
+//
+// Occasionally we might need to update the data associated with the table or the outline view.
+// We can't update immediately (as a data source, we have no means of informing the table of the
+// update), so instead we use the runloop mechanism to delay the update until later.
+//
+// Change the 'updateFrequency' constant above to change how often updates occur.
+//
+
+- (void) updateTableData {
+	// Queues a request to update the table data, if one is not already pending
+	if (!updatingTableData) {
+		[self performSelector: @selector(reallyUpdateTableData)
+				   withObject: nil
+				   afterDelay: updateFrequency];
+		
+		updatingTableData = YES;
+	}
+}
+
+static int compare_insensitive(id a, id b, void* context) {
+	return [a caseInsensitiveCompare: b];
+}
+
+- (void) reallyUpdateTableData: (BOOL) notify {
+	BOOL hasChanged = NO;
+	
+	// Actually performs the update, and notifies if anything has changed
+	updatingTableData = NO;
+	
+	NSArray* newTableData = [self availableExtensions];
+	newTableData = [newTableData sortedArrayUsingFunction: compare_insensitive
+												  context: nil];
+	
+	if (![newTableData isEqualToArray: extensionNames]) {
+		// Table data has updated
+		[extensionNames release]; extensionNames = nil;
+		
+		extensionNames = [newTableData copy];
+		
+		hasChanged = YES;
+	}
+	
+	if (updateOutlineData) {
+		// Also update the data for the outline view
+		NSMutableDictionary* newContentData = [NSMutableDictionary dictionary];
+		
+		NSEnumerator* extnEnum = [extensionNames objectEnumerator];
+		NSString* extn;
+		
+		while (extn = [extnEnum nextObject]) {
+			NSArray* contents = [[self sourceFilesInExtensionWithName: extn] sortedArrayUsingFunction: compare_insensitive
+																							  context: nil];
+			
+			if (contents != nil) {
+				[newContentData setObject: contents
+								   forKey: extn];
+			}
+		}
+		
+		if (![newContentData isEqualToDictionary: extensionContents]) {
+			[extensionContents release];
+			extensionContents = [newContentData retain];
+			
+			hasChanged = YES;
+		}
+	}
+	
+	if (hasChanged && updateOutlineData) {
+		// Build the data that forms the final outline view
+		// (Annoyingly, we have to keep the objects around, hence this seemingly pointless bit)
+		[outlineViewData release]; outlineViewData = nil;
+		
+		outlineViewData = [[NSMutableArray alloc] init];
+		
+		NSEnumerator* extnEnum = [extensionNames objectEnumerator];
+		NSString* extn;
+		
+		while (extn = [extnEnum nextObject]) {
+			// Build the details for the contents of this extension
+			NSMutableArray* extnContents = [NSMutableArray array];
+			
+			NSArray* contents = [extensionContents objectForKey: extn];
+			NSEnumerator* contentEnum = [contents objectEnumerator];
+			NSString* extnContent;
+
+			while (extnContent = [contentEnum nextObject]) {
+				// view items are arrays of type (type, name, data)
+				// type is 'Source' or 'Directory'
+				[extnContents addObject: [NSArray arrayWithObjects: @"Source", [extnContent lastPathComponent], extnContent, nil]];
+			}
+			
+			// Store this extension
+			// view items are arrays of type (type, name, data)
+			// type is 'Source' or 'Directory'
+			[outlineViewData addObject: [NSArray arrayWithObjects: @"Directory", extn, extnContents, nil]];
+		}
+	}
+
+	if (hasChanged && notify) {
+		// Tell anything that wants to know that the data has been updated
+		[[NSNotificationCenter defaultCenter] postNotificationName: IFExtensionsUpdatedNotification
+															object: self];
+	}
+}
+
+- (void) reallyUpdateTableData {
+	[self reallyUpdateTableData: YES];
+}
+
+// = Table view datasource =
+
+//
+// When acting as a table view datasource, we display the list of installed 'master' extension names only.
+// The setting for mergesMultipleExtensions doesn't matter in this mode.
+//
+// Recognised table column names:
+//		'extension'		- the name of the extension
+//
+
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
+	if (!extensionNames)
+		[self reallyUpdateTableData: NO];		// Need update now
+	
+	return [extensionNames count];
+}
+
+
+- (id)				tableView: (NSTableView *) aTableView 
+	objectValueForTableColumn: (NSTableColumn *) aTableColumn
+						  row: (int)rowIndex {
+	if (!extensionNames)
+		[self reallyUpdateTableData: NO];		// Need update now
+
+	NSString* identifier = [aTableColumn identifier];
+	
+	if ([identifier isEqualToString: @"extension"]) {
+		if (rowIndex < 0 || rowIndex >= [extensionNames count]) return @"== BAD ROW INDEX ==";
+		
+		return [extensionNames objectAtIndex: rowIndex];
+	}
+	
+	return nil;		// Unknown column type
+}
+
+// = Outline view datasource =
+
+//
+// When acting as an outline view datasource, we show the extensions and all source files.
+// The setting for mergesMultipleExtensions determines whether or not we get the files from all the
+// extension directories with a given name or just one.
+//
+// Recognised table column names:
+//		'extension'		- the name of the extension (or the name of the file within the extension)
+//
+
+- (id) outlineView: (NSOutlineView*) outlineView 
+			 child: (int) index 
+			ofItem: (id) item {
+	// Make sure we've got all the info we need
+	if (!extensionContents) {
+		updateOutlineData = YES;
+		[self reallyUpdateTableData: NO];
+	}
+	
+	if (item == nil) {
+		// Root item
+		return [outlineViewData objectAtIndex: index];
+	} else if ([item isKindOfClass: [NSArray class]]) {
+		// Extension item (Directory or Source)
+		if ([[item objectAtIndex: 0] isEqualToString: @"Directory"]) {
+			// Source item
+			return [[item objectAtIndex: 2] objectAtIndex: index];
+		} else {
+			// Extensions don't go down any further
+			return nil;
+		}
+	}
+	
+	return nil;
+}
+
+- (BOOL) outlineView: (NSOutlineView*) outlineView
+	isItemExpandable: (id) item {
+	// Make sure we've got all the info we need
+	if (!extensionContents) {
+		updateOutlineData = YES;
+		[self reallyUpdateTableData: NO];
+	}
+	
+	if ([item isKindOfClass: [NSArray class]]) {
+		if ([[item objectAtIndex: 0] isEqualToString: @"Directory"]) {
+			return YES;
+		} else {
+			return NO;
+		}
+	}
+
+	return NO;
+}
+
+- (int)		outlineView: (NSOutlineView*) outlineView 
+ numberOfChildrenOfItem: (id) item {
+	// Make sure we've got all the info we need
+	if (!extensionContents) {
+		updateOutlineData = YES;
+		[self reallyUpdateTableData: NO];
+	}
+	
+	if (item == nil) {
+		// Root item
+		return [outlineViewData count];
+	} else if ([item isKindOfClass: [NSArray class]]) {
+		// Either a source or a directory item
+		if ([[item objectAtIndex: 0] isEqualToString: @"Directory"]) {
+			// Directory item
+			return [[item objectAtIndex: 2] count];
+		} else {
+			// Source item (ie no children)
+			return 0;
+		}
+	}
+
+	return 0;
+}
+
+- (id)			outlineView: (NSOutlineView*) outlineView
+  objectValueForTableColumn: (NSTableColumn*) tableColumn 
+					 byItem: (id)item {
+	// Make sure we've got all the info we need
+	if (!extensionContents) {
+		updateOutlineData = YES;
+		[self reallyUpdateTableData: NO];
+	}
+	
+	if ([item isKindOfClass: [NSString class]]) {
+		// Strings are returned as is
+		return item;
+	} else if ([item isKindOfClass: [NSArray class]]) {
+		// Arrays are of the (kind, description) variety
+		return [item objectAtIndex: 1];
+	}
+
+	return nil;
 }
 
 @end

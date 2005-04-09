@@ -172,7 +172,7 @@ NSDictionary* IFSyntaxAttributes[256];
     //    -- Caused by a bug in NSTextView it appears (just creating
     //       anything with an NSTextView causes the same leak).
     //       Doesn't always happen. Not very much memory. Still annoying.
-    // (Better in Panther?)
+    // (Better in Panther? Looks like it)
     [paneView       release];
     [compController release];
     [sourceFiles    release];

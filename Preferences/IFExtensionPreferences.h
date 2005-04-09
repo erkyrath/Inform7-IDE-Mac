@@ -11,7 +11,9 @@
 #import "IFPreferencePane.h"
 
 @interface IFExtensionPreferences : IFPreferencePane {
-
+	// Connections to interface building
+	IBOutlet NSOutlineView* naturalExtensionView;
+	IBOutlet NSTableView* inform6ExtensionView;
 }
 
 @end

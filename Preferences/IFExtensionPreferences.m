@@ -8,6 +8,7 @@
 
 #import "IFExtensionPreferences.h"
 
+#import "IFExtensionsManager.h"
 
 @implementation IFExtensionPreferences
 
@@ -15,6 +16,8 @@
 	self = [super initWithNibName: @"ExtensionPreferences"];
 	
 	if (self) {
+		[naturalExtensionView setDataSource: [IFExtensionsManager sharedNaturalInformExtensionsManager]];
+		[inform6ExtensionView setDataSource: [IFExtensionsManager sharedInform6ExtensionManager]];
 	}
 	
 	return self;
