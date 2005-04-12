@@ -118,4 +118,10 @@ enum lineStyle {
 - (IBAction) shiftRight: (id) sender;
 - (IBAction) renumberSections: (id) sender;
 
+// Undoing
+- (NSRange) shiftRangeLeft: (NSRange) range
+				 inStorage: (NSTextStorage*) textStorage;
+- (NSRange) shiftRangeRight: (NSRange) range
+				  inStorage: (NSTextStorage*) textStorage;
+
 @end

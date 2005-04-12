@@ -1484,12 +1484,12 @@ static NSDictionary*  itemDictionary = nil;
 
 // = Menu options =
 
-- (void) shiftRange: (NSRange) range
-		  inStorage: (NSTextStorage*) storage
-		   tabStops: (int) tabStops {
+- (NSRange) shiftRange: (NSRange) range
+			 inStorage: (NSTextStorage*) storage
+			  tabStops: (int) tabStops {
 	int x;
 
-	if (tabStops == 0) return;
+	if (tabStops == 0) return NSMakeRange(0,0);
 	
 	NSMutableString* string = [storage mutableString];
 	
@@ -1550,6 +1550,61 @@ static NSDictionary*  itemDictionary = nil;
 		
 		if (range.location+x >= [string length]) break;
 	}
+	
+	return range;
+}
+
+- (NSRange) shiftRangeLeft: (NSRange) range
+				 inStorage: (NSTextStorage*) textStorage {
+	// These functions are used to help with undo
+	[textStorage beginEditing];
+	
+	// This works because the undo manager for the text view will always be the same as the undo manager for this controller
+	// If this ever changes, you will need to rewrite this somehow
+	NSUndoManager* undo = [[self document] undoManager];
+	[undo setActionName: [[NSBundle mainBundle] localizedStringForKey: @"Shift Left"
+																value: @"Shift Left"
+																table: nil]];
+	[undo beginUndoGrouping];
+	
+	NSRange newRange = [self shiftRange: range
+							  inStorage: textStorage
+							   tabStops: -1];
+	[[undo prepareWithInvocationTarget: self] shiftRangeRight: newRange
+													inStorage: textStorage];
+		
+	[undo endUndoGrouping];
+	
+	[textStorage endEditing];
+	
+	return newRange;
+}
+
+
+- (NSRange) shiftRangeRight: (NSRange) range
+				  inStorage: (NSTextStorage*) textStorage {
+	// These functions are used to help with undo
+	[textStorage beginEditing];
+	
+	// This works because the undo manager for the text view will always be the same as the undo manager for this controller
+	// If this ever changes, you will need to rewrite this somehow
+	NSUndoManager* undo = [[self document] undoManager];
+	[undo setActionName: [[NSBundle mainBundle] localizedStringForKey: @"Shift Right"
+																value: @"Shift Right"
+																table: nil]];
+	[undo beginUndoGrouping];
+	
+	NSRange newRange = [self shiftRange: range
+							  inStorage: textStorage
+							   tabStops: 1];
+	[[undo prepareWithInvocationTarget: self] shiftRangeLeft: newRange
+												   inStorage: textStorage];
+	
+	[undo endUndoGrouping];
+	
+	[textStorage endEditing];
+	
+	return newRange;
 }
 
 - (IBAction) shiftLeft: (id) sender {
@@ -1564,13 +1619,10 @@ static NSDictionary*  itemDictionary = nil;
 	
 	if (!storage) return;
 	
-	[storage beginEditing];
+	NSRange newRange = [self shiftRangeLeft: selRange
+								  inStorage: storage];
 	
-	[self shiftRange: selRange
-		   inStorage: storage
-			tabStops: -1];
-	
-	[storage endEditing];
+	[textView setSelectedRange: newRange];
 }
 
 - (IBAction) shiftRight: (id) sender {
@@ -1585,13 +1637,11 @@ static NSDictionary*  itemDictionary = nil;
 	
 	if (!storage) return;
 	
-	[storage beginEditing];
 	
-	[self shiftRange: selRange
-		   inStorage: storage
-			tabStops: 1];
+	NSRange newRange = [self shiftRangeRight: selRange
+								   inStorage: storage];
 	
-	[storage endEditing];
+	[textView setSelectedRange: newRange];
 }
 
 - (IBAction) renumberSections: (id) sender {
