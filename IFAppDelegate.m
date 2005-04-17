@@ -40,6 +40,8 @@
 #import <ZoomView/ZoomSkein.h>
 #import <ZoomView/ZoomSkeinView.h>
 
+#import <GlkView/GlkHub.h>
+
 @implementation IFAppDelegate
 
 static NSRunLoop* mainRunLoop = nil;
@@ -87,6 +89,10 @@ static NSRunLoop* mainRunLoop = nil;
 	[IFSettingsController addStandardSettingsClass: [IFNaturalExtensions class]];
 	[IFSettingsController addStandardSettingsClass: [IFInform6Extensions class]];
 	[IFSettingsController addStandardSettingsClass: [IFDebugSettings class]];
+	
+	// Glk hub
+	[[GlkHub sharedGlkHub] setRandomHubCookie];
+	[[GlkHub sharedGlkHub] setHubName: @"GlkInform"];
 }
 
 - (void) applicationDidFinishLaunching: (NSNotification*) not {	

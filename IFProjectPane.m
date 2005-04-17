@@ -195,6 +195,11 @@ NSDictionary* IFSyntaxAttributes[256];
 		[zView killTask];
 		[zView release];
 	}
+	if (gView) {
+		[gView setDelegate: nil];
+		[gView terminateClient];
+		[gView release];
+	}
 	if (pointToRunTo) [pointToRunTo release];
     if (gameToRun) [gameToRun release];
 	if (wView) [wView release];
@@ -651,7 +656,7 @@ NSDictionary* IFSyntaxAttributes[256];
 		[gView setInputFilename: fileName];
 		[gView launchClientApplication: [[NSBundle mainBundle] pathForResource: @"glulxe"
 																		ofType: @""
-																   inDirectory: @"glk"]
+																   inDirectory: @""]
 						 withArguments: nil];
 	} else {
 		// Start running as a Zoom task
@@ -719,6 +724,18 @@ NSDictionary* IFSyntaxAttributes[256];
 	return (zView != nil && [zView isRunning]) || (gView != nil);
 }
 
+// (GlkView delegate functions)
+- (void) taskHasStarted {
+    [tabView selectTabViewItem: gameTabView];
+
+	[gameRunningProgress setMessage: [[NSBundle mainBundle] localizedStringForKey: @"Story started"
+																			value: @"Story started"
+																			table: nil]];
+	[parent removeProgressIndicator: gameRunningProgress];
+	[gameRunningProgress release];
+	gameRunningProgress = nil;	
+}
+
 // (ZoomView delegate functions)
 - (void) zMachineStarted: (id) sender {	
     [[zView zMachine] loadStoryFile: 
@@ -773,7 +790,7 @@ NSDictionary* IFSyntaxAttributes[256];
 // = Tab view delegate =
 - (BOOL)            tabView: (NSTabView *)view 
     shouldSelectTabViewItem:(NSTabViewItem *)item {
-    if (item == gameTabView && zView == nil) {
+    if (item == gameTabView && (zView == nil && gView == nil)) {
         // FIXME: if another view is running a game, then display the tabView in there
         return NO;
     }
