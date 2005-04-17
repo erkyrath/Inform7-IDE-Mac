@@ -127,6 +127,10 @@
 					ProductGroup = 4B81D30E08112E5B00CF609F;
 					ProjectRef = 4B81D2CF08112C5700CF609F;
 				},
+				{
+					ProductGroup = 4B28B8AA0812A32B00D39021;
+					ProjectRef = 4B28B8A70812A32600D39021;
+				},
 			);
 			targets = (
 				4BD959F3055EE949008DEFF4,
@@ -137,6 +141,7 @@
 		};
 		29B97314FDCFA39411CA2CEA = {
 			children = (
+				4B28B8A70812A32600D39021,
 				4B81D2CF08112C5700CF609F,
 				4BA9115D055D99CB00A6E9CC,
 				4B4C4D2E04F3B26400A8E303,
@@ -1074,6 +1079,98 @@
 			isa = PBXBuildFile;
 			settings = {
 			};
+		};
+		4B28B8A70812A32600D39021 = {
+			isa = PBXFileReference;
+			lastKnownFileType = "wrapper.pb-project";
+			name = ZoomCocoa.xcode;
+			path = ../zoom/ZoomCocoa.xcode;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4B28B8AA0812A32B00D39021 = {
+			children = (
+				4B28B8AB0812A32B00D39021,
+				4B28B8AC0812A32B00D39021,
+				4B28B8AD0812A32B00D39021,
+				4B28B8AE0812A32B00D39021,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4B28B8AB0812A32B00D39021 = {
+			fileType = "compiled.mach-o.executable";
+			isa = PBXReferenceProxy;
+			path = ZoomServer;
+			refType = 3;
+			remoteRef = 4B28B8AF0812A34900D39021;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4B28B8AC0812A32B00D39021 = {
+			fileType = "compiled.mach-o.executable";
+			isa = PBXReferenceProxy;
+			path = Builder;
+			refType = 3;
+			remoteRef = 4B28B8B00812A34900D39021;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4B28B8AD0812A32B00D39021 = {
+			fileType = wrapper.application;
+			isa = PBXReferenceProxy;
+			path = Zoom.app;
+			refType = 3;
+			remoteRef = 4B28B8B10812A34900D39021;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4B28B8AE0812A32B00D39021 = {
+			fileType = wrapper.framework;
+			isa = PBXReferenceProxy;
+			path = ZoomView.framework;
+			refType = 3;
+			remoteRef = 4B28B8B20812A34900D39021;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4B28B8AF0812A34900D39021 = {
+			containerPortal = 4B28B8A70812A32600D39021;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4B1E3F5C050F7B2500A8E303;
+			remoteInfo = ZoomServer;
+		};
+		4B28B8B00812A34900D39021 = {
+			containerPortal = 4B28B8A70812A32600D39021;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4B1E3F7A050F7C3900A8E303;
+			remoteInfo = Builder;
+		};
+		4B28B8B10812A34900D39021 = {
+			containerPortal = 4B28B8A70812A32600D39021;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4BCF3F3D050FB1B400A8E303;
+			remoteInfo = Zoom;
+		};
+		4B28B8B20812A34900D39021 = {
+			containerPortal = 4B28B8A70812A32600D39021;
+			isa = PBXContainerItemProxy;
+			proxyType = 2;
+			remoteGlobalIDString = 4BDFA4BA0535E64900A8E303;
+			remoteInfo = ZoomView;
+		};
+		4B28B8B30812A34E00D39021 = {
+			containerPortal = 4B28B8A70812A32600D39021;
+			isa = PBXContainerItemProxy;
+			proxyType = 1;
+			remoteGlobalIDString = 4BDFA4B90535E64900A8E303;
+			remoteInfo = ZoomView;
+		};
+		4B28B8B40812A34E00D39021 = {
+			isa = PBXTargetDependency;
+			name = "ZoomView (from ZoomCocoa.xcode)";
+			targetProxy = 4B28B8B30812A34E00D39021;
 		};
 		4B2B6B2A074CB58800732DEF = {
 			fileEncoding = 4;
@@ -12544,6 +12641,7 @@
 				4B81D33508112EF500CF609F,
 				4B81D33708112EF500CF609F,
 				4B81D33908112EF500CF609F,
+				4B28B8B40812A34E00D39021,
 			);
 			isa = PBXNativeTarget;
 			name = Inform;
