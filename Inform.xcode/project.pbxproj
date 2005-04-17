@@ -1051,6 +1051,24 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \\*\\*\\* Erasing .svn files\n\nfind ${OBJROOT}/Inform.app -name \".svn\" -type d -exec \"rm\" \"-r\" \"{}\" \";\"\n\necho \\*\\*\\* Done";
 		};
+		4B28B7D6081270A800D39021 = {
+			fileRef = 4B81D31008112E5B00CF609F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4B28B8270812732400D39021 = {
+			fileRef = 4B81D33D08112F6C00CF609F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4B28B8280812732400D39021 = {
+			fileRef = 4B81D33E08112F6C00CF609F;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		4B2B6B2A074CB58800732DEF = {
 			fileEncoding = 4;
 			isa = PBXFileReference;
@@ -3275,7 +3293,6 @@
 			dstPath = glk;
 			dstSubfolderSpec = 7;
 			files = (
-				4B81D4070811303500CF609F,
 			);
 			isa = PBXCopyFilesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3408,41 +3425,41 @@
 			isa = PBXFileReference;
 			lastKnownFileType = wrapper.application;
 			name = CocoaGlk.app;
-			path = /Users/ahunter/prog/CocoaGlk/build/CocoaGlk.app;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../CocoaGlk/build/CocoaGlk.app;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4B81D33D08112F6C00CF609F = {
+			explicitFileType = wrapper.framework;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
 			name = GlkClient.framework;
-			path = /Users/ahunter/prog/CocoaGlk/build/GlkClient.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../CocoaGlk/build/GlkClient.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		4B81D33E08112F6C00CF609F = {
+			explicitFileType = wrapper.framework;
 			isa = PBXFileReference;
-			lastKnownFileType = wrapper.framework;
 			name = GlkView.framework;
-			path = /Users/ahunter/prog/CocoaGlk/build/GlkView.framework;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../CocoaGlk/build/GlkView.framework;
+			refType = 2;
+			sourceTree = SOURCE_ROOT;
 		};
 		4B81D33F08112F6C00CF609F = {
 			isa = PBXFileReference;
-			lastKnownFileType = "compiled.mach-o.executable";
+			lastKnownFileType = file;
 			name = glulxe;
-			path = /Users/ahunter/prog/CocoaGlk/build/glulxe;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../CocoaGlk/build/glulxe;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4B81D34008112F6C00CF609F = {
 			isa = PBXFileReference;
 			lastKnownFileType = "compiled.mach-o.executable";
 			name = multiwin;
-			path = /Users/ahunter/prog/CocoaGlk/build/multiwin;
-			refType = 0;
-			sourceTree = "<absolute>";
+			path = ../../CocoaGlk/build/multiwin;
+			refType = 3;
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4B81D36A08112F7600CF609F = {
 			children = (
@@ -3459,24 +3476,6 @@
 		};
 		4B81D3C008112FA200CF609F = {
 			fileRef = 4B81D33E08112F6C00CF609F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		4B81D3E30811301B00CF609F = {
-			fileRef = 4B81D33D08112F6C00CF609F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		4B81D4060811302A00CF609F = {
-			fileRef = 4B81D33E08112F6C00CF609F;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		4B81D4070811303500CF609F = {
-			fileRef = 4B81D33F08112F6C00CF609F;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -12524,7 +12523,8 @@
 				INFOPLIST_FILE = "Info-Inform__Upgraded_.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = "";
-				MACOSX_DEPLOYMENT_TARGET = 10.1;
+				LIBRARY_STYLE = DYNAMIC;
+				MACOSX_DEPLOYMENT_TARGET = 10.2;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = Inform;
 				SECTORDER_FLAGS = "";
@@ -13220,6 +13220,7 @@
 				4BD95A20055EE949008DEFF4,
 				4B81D3C008112FA200CF609F,
 				4BC3269E0614C70200B2533B,
+				4B28B7D6081270A800D39021,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -13253,8 +13254,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				4B81D3E30811301B00CF609F,
-				4B81D4060811302A00CF609F,
+				4B28B8270812732400D39021,
+				4B28B8280812732400D39021,
 				4BD95A2F055EE949008DEFF4,
 			);
 			isa = PBXCopyFilesBuildPhase;

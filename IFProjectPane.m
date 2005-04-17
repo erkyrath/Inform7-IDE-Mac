@@ -605,6 +605,7 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 // = The game view =
+
 - (void) activateDebug {
 	setBreakpoint = YES;
 }
@@ -618,6 +619,13 @@ NSDictionary* IFSyntaxAttributes[256];
         [zView release];
         zView = nil;
     }
+	
+	if (gView) {
+		[gView terminateClient];
+		[gView removeFromSuperview];
+		[gView release];
+		gView = nil;
+	}
     
     if (gameToRun) [gameToRun release];
     gameToRun = [fileName copy];
@@ -631,30 +639,47 @@ NSDictionary* IFSyntaxAttributes[256];
 																			value: @"Loading story file"
 																			table: nil]];
 	
-    zView = [[ZoomView allocWithZone: [self zone]] init];
-    [zView setDelegate: self];
-	[[[parent document] skein] zoomInterpreterRestart];
-	[zView addOutputReceiver: [[parent document] skein]];
-    [zView runNewServer: nil];
-    
-    [zView setColours: [NSArray arrayWithObjects:
-        [NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 1],
-        [NSColor colorWithDeviceRed: 1 green: 0 blue: 0 alpha: 1],
-        [NSColor colorWithDeviceRed: 0 green: 1 blue: 0 alpha: 1],
-        [NSColor colorWithDeviceRed: 1 green: 1 blue: 0 alpha: 1],
-        [NSColor colorWithDeviceRed: 0 green: 0 blue: 1 alpha: 1],
-        [NSColor colorWithDeviceRed: 1 green: 0 blue: 1 alpha: 1],
-        [NSColor colorWithDeviceRed: 0 green: 1 blue: 1 alpha: 1],
-        [NSColor colorWithDeviceRed: 1 green: 1 blue: 1 alpha: 1],
-        
-        [NSColor colorWithDeviceRed: .73 green: .73 blue: .73 alpha: 1],
-        [NSColor colorWithDeviceRed: .53 green: .53 blue: .53 alpha: 1],
-        [NSColor colorWithDeviceRed: .26 green: .26 blue: .26 alpha: 1],
-        nil]];
-    
-    [zView setFrame: [gameView bounds]];
-    [zView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-    [gameView addSubview: zView];
+	if ([[gameToRun pathExtension] isEqualToString: @"ulx"]) {
+		// Start running as a glulxe task
+		gView = [[GlkView alloc] init];
+		[gView setDelegate: self];
+		
+		[gView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+		[gView setFrame: [gameView bounds]];
+		[gameView addSubview: gView];
+		
+		[gView setInputFilename: fileName];
+		[gView launchClientApplication: [[NSBundle mainBundle] pathForResource: @"glulxe"
+																		ofType: @""
+																   inDirectory: @"glk"]
+						 withArguments: nil];
+	} else {
+		// Start running as a Zoom task
+		zView = [[ZoomView allocWithZone: [self zone]] init];
+		[zView setDelegate: self];
+		[[[parent document] skein] zoomInterpreterRestart];
+		[zView addOutputReceiver: [[parent document] skein]];
+		[zView runNewServer: nil];
+		
+		[zView setColours: [NSArray arrayWithObjects:
+			[NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 1],
+			[NSColor colorWithDeviceRed: 1 green: 0 blue: 0 alpha: 1],
+			[NSColor colorWithDeviceRed: 0 green: 1 blue: 0 alpha: 1],
+			[NSColor colorWithDeviceRed: 1 green: 1 blue: 0 alpha: 1],
+			[NSColor colorWithDeviceRed: 0 green: 0 blue: 1 alpha: 1],
+			[NSColor colorWithDeviceRed: 1 green: 0 blue: 1 alpha: 1],
+			[NSColor colorWithDeviceRed: 0 green: 1 blue: 1 alpha: 1],
+			[NSColor colorWithDeviceRed: 1 green: 1 blue: 1 alpha: 1],
+			
+			[NSColor colorWithDeviceRed: .73 green: .73 blue: .73 alpha: 1],
+			[NSColor colorWithDeviceRed: .53 green: .53 blue: .53 alpha: 1],
+			[NSColor colorWithDeviceRed: .26 green: .26 blue: .26 alpha: 1],
+			nil]];
+		
+		[zView setFrame: [gameView bounds]];
+		[zView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+		[gameView addSubview: zView];
+	}
 }
 
 - (void) setPointToRunTo: (ZoomSkeinItem*) item {
@@ -665,10 +690,11 @@ NSDictionary* IFSyntaxAttributes[256];
 - (void) stopRunningGame {
     if (zView) {
 		[zView killTask];
-        //[zView removeFromSuperview];
-        //[zView release];
-        //zView = nil;
     }
+	
+	if (gView) {
+		[gView terminateClient];
+	}
     
     if ([tabView selectedTabViewItem] == gameTabView) {
         [tabView selectTabViewItem: errorsView];
@@ -685,8 +711,12 @@ NSDictionary* IFSyntaxAttributes[256];
 	return zView;
 }
 
+- (GlkView*) glkView {
+	return gView;
+}
+
 - (BOOL) isRunningGame {
-	return zView != nil && [zView isRunning];
+	return (zView != nil && [zView isRunning]) || (gView != nil);
 }
 
 // (ZoomView delegate functions)

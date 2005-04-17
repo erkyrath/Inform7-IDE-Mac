@@ -145,6 +145,7 @@ enum IFProjectPaneType {
 - (void) pauseRunningGame;										// Forcibly pauses the running game and enters the debugger
 
 - (ZoomView*) zoomView;											// The zoom view associated with the currently running game (NULL if a GLK game is running)
+- (GlkView*) glkView;											// The glk view associated with the currently running game (if applicable)
 - (BOOL) isRunningGame;											// YES if a game is running
 
 - (void) setPointToRunTo: (ZoomSkeinItem*) item;				// Sets the skein item to run to as soon as the game has started
