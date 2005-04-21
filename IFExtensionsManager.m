@@ -37,6 +37,10 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		
 		[mgr setSubdirectory: @"Extensions"];
 		[mgr setMergesMultipleExtensions: YES];
+		
+		[mgr addExtensionDirectory: [[NSBundle mainBundle] pathForResource: @"Extensions"
+																	ofType: @""
+															   inDirectory: @"Inform7"]];
 	}
 	
 	return mgr;
@@ -66,12 +70,20 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 			// FIXME: should really go in 'Application Data/Inform'
 			[extensionDirectories addObject: [libDirectory stringByAppendingPathComponent: @"Inform"]];
 		}
+		
+		// We check for updates every time the application becomes active
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(updateTableData)
+													 name: NSApplicationWillBecomeActiveNotification
+												   object: nil];
 	}
 	
 	return self;
 }
 
 - (void) dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	
 	[extensionDirectories release]; extensionDirectories = nil;
 	[customDirectories release]; customDirectories = nil;
 	[subdirectory release]; subdirectory = nil;
@@ -205,6 +217,9 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 			exists = [manager fileExistsAtPath: fullPath
 								   isDirectory: &isDir];
 			
+			// 'reserved' is a special case and never shows up in the list
+			if ([[filename lowercaseString] isEqualToString: @"reserved"]) exists = NO;
+			
 			if (exists && isDir) {
 				// Add to the list of paths for this name
 				NSString* dirKey = [filename lowercaseString];
@@ -313,6 +328,8 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	NSEnumerator* fileEnum = [files objectEnumerator];
 	NSString* file;
 	
+	BOOL isGrahamNelson = [[name lowercaseString] isEqualToString: @"graham nelson"];
+	
 	while (file = [fileEnum nextObject]) {
 		// File must exist and not be a directory
 		BOOL exists, isDir;
@@ -325,6 +342,12 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		// File must not begin with a '.'
 		if ([[file lastPathComponent] characterAtIndex: 0] == '.') continue;
 		
+		// 'Standard Rules' in 'Graham Nelson' is a special case and is never returned (even though it's a source file, and will always be present in the natural inform extensions)
+		if (isGrahamNelson && [[[file lastPathComponent] lowercaseString] isEqualToString: @"standard rules"]) {
+			NSLog(@"Skipped standard rules");
+			continue;
+		}
+		
 		// File must have a suitable extension
 		NSString* extn = [[file pathExtension] lowercaseString];
 		if (extn == nil || [extn isEqualToString: @""] || 
@@ -336,6 +359,132 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	}
 	
 	return result;
+}
+
+// = Editing the installed extensions =
+
+- (BOOL) addExtension: (NSString*) extensionPath {
+	// We can add directories (of all sorts, but with no subdirectories, and no larger than 1Mb total)
+	// We can also add .h, .inf and .i6 files on their own, creating a directory to do so
+	NSFileManager* mgr = [NSFileManager defaultManager];
+	
+	extensionPath = [extensionPath stringByStandardizingPath];
+	
+	// Check that we can add this file
+	BOOL exists, isDir;
+	
+	exists = [mgr fileExistsAtPath: extensionPath
+					   isDirectory: &isDir];
+	if (!exists) return NO;										// Can't add something that does not exist
+	
+	if (!isDir) {
+		NSString* extn = [[extensionPath pathExtension] lowercaseString];
+		
+		if (!([extn isEqualToString: @"h"] || [extn isEqualToString: @"inf"] || [extn isEqualToString: @"i6"])) {
+			// File is probably not an Inform source file
+			return NO;
+		}
+	} else {
+		// The directory must not contain any subdirectories or be larger than 1Mb
+		NSDirectoryEnumerator* dirEnum = [mgr enumeratorAtPath: extensionPath];
+		int size = 0;
+		
+		NSString* file;
+		while (file = [dirEnum nextObject]) {
+			NSString* path = [extensionPath stringByAppendingPathComponent: file];
+			
+			BOOL fExists, fIsDir;
+			
+			fExists = [mgr fileExistsAtPath: path
+								isDirectory: &fIsDir];
+			
+			if (!fExists || fIsDir) return NO;				// Subdirectories are not allowed
+				
+			size += [[[mgr fileAttributesAtPath: path
+								   traverseLink: NO] objectForKey: NSFileSize]
+				intValue];
+			
+			if (size > 1048576) return NO;					// Not valid if >1Mb
+		}
+	}
+	
+	// We should be able to add the file/directory
+	
+	// Try to create the destination. First extensionDirectory should be the writable one
+	NSString* directory = [extensionDirectories objectAtIndex: 0];
+	NSString* destDir;
+	
+	if (isDir) {
+		destDir = [directory stringByAppendingPathComponent: [extensionPath lastPathComponent]];
+	} else {
+		destDir = [directory stringByAppendingPathComponent: [[extensionPath lastPathComponent] stringByDeletingPathExtension]];
+	}
+	
+	destDir = [destDir stringByStandardizingPath];
+	
+	if ([[destDir lowercaseString] isEqualToString: [extensionPath lowercaseString]]) return NO;		// Trying to re-add an extension that already exists
+	
+	// If the old directory exists and we're not merging, then move the old directory to the trash
+	BOOL oldExists = [mgr fileExistsAtPath: destDir];
+	
+	if (!mergesMultipleExtensions && oldExists) {
+		if (![[NSWorkspace sharedWorkspace] performFileOperation: NSWorkspaceRecycleOperation
+														  source: [destDir stringByDeletingLastPathComponent]
+													 destination: @""
+														   files: [NSArray arrayWithObject: [destDir lastPathComponent]]
+															 tag: 0]) {
+			// Failed to move to the trash
+			return NO;
+		}
+		
+		oldExists = [mgr fileExistsAtPath: destDir];
+		if (oldExists) return NO;								// Er, should probably never happen
+	}
+
+	// The list of extensions may have changed
+	[self updateTableData];
+
+	// If the directory does not exist, create it
+	if (!oldExists) {
+		if (![mgr createDirectoryAtPath: destDir
+							 attributes: nil]) {
+			// Can't create the extension directory
+			return NO;
+		}
+	}
+	
+	// Copy the files into the extension
+	if (isDir) {
+		NSDirectoryEnumerator* extnEnum = [mgr enumeratorAtPath: extensionPath];
+		
+		NSString* file;
+		while (file = [extnEnum nextObject]) {
+			NSString* path = [extensionPath stringByAppendingPathComponent: file];
+			
+			// (Silently fail if we can't copy for some reason here)
+			[mgr copyPath: path
+				   toPath: [destDir stringByAppendingPathComponent: file]
+				  handler: nil];
+		}
+	} else {
+		if (![mgr copyPath: extensionPath
+					toPath: [destDir stringByAppendingPathComponent: [extensionPath lastPathComponent]]
+				   handler: nil]) {
+			// Couldn't finish installing the extension
+			return NO;
+		}
+	}
+	
+	// Success
+	[self updateTableData];
+	[[NSWorkspace sharedWorkspace] noteFileSystemChanged: [destDir stringByDeletingLastPathComponent]];
+	return YES;
+}
+
+- (BOOL) addFile: (NSString*) filePath
+	 toExtension: (NSString*) extensionName {
+	// We can add .h, .inf, .i6 or extensionless files
+	return NO;
 }
 
 // = Data source support functions =

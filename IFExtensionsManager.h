@@ -69,4 +69,12 @@ extern NSString* IFExtensionsUpdatedNotification;				// Sent when the extensions
 - (NSArray*) filesInExtensionWithName: (NSString*) name;
 - (NSArray*) sourceFilesInExtensionWithName: (NSString*) name;
 
+// Editing the installed extensions
+- (BOOL) addExtension: (NSString*) extensionPath;						// Creates an extension from the file/directory at the given path (if a directory, the directory is copied/merged as appropriate. If a file, the file is put in a new extension directory)
+- (BOOL) addFile: (NSString*) filePath									// Adds a file to an existing extension
+	 toExtension: (NSString*) extensionName;
+
+// Outline/Table view data source support functions
+- (void) updateTableData;												// Forces a refresh of the table data (won't happen immediately)
+
 @end

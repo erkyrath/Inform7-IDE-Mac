@@ -16,11 +16,35 @@
 	self = [super initWithNibName: @"ExtensionPreferences"];
 	
 	if (self) {
+		// Set the data sources
 		[naturalExtensionView setDataSource: [IFExtensionsManager sharedNaturalInformExtensionsManager]];
 		[inform6ExtensionView setDataSource: [IFExtensionsManager sharedInform6ExtensionManager]];
+		
+		// Receive updates on the extensions
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(reloadExtensions:)
+													 name: IFExtensionsUpdatedNotification
+												   object: nil];
 	}
 	
 	return self;
+}
+
+- (void) reloadExtensions: (NSNotification*) not {
+	NSObject* obj = [not object];
+	
+	if (obj == [IFExtensionsManager sharedNaturalInformExtensionsManager]) {
+		[naturalExtensionView reloadData];
+	} else if (obj == [IFExtensionsManager sharedInform6ExtensionManager]) {
+		[inform6ExtensionView reloadData];
+	}
+}
+
+- (void) dealloc {
+	// Will probably never be called
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	
+	[super dealloc];
 }
 
 // = PreferencePane overrides =
