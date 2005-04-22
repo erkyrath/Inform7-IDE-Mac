@@ -661,7 +661,7 @@ static int compare_insensitive(id a, id b, void* context) {
 			while (extnContent = [contentEnum nextObject]) {
 				// view items are arrays of type (type, name, data)
 				// type is 'Source' or 'Directory'
-				[extnContents addObject: [NSArray arrayWithObjects: @"Source", [extnContent lastPathComponent], extnContent, nil]];
+				[extnContents addObject: [NSArray arrayWithObjects: @"Source", [extnContent lastPathComponent], extnContent, extn, nil]];
 			}
 			
 			// Store this extension
@@ -680,6 +680,48 @@ static int compare_insensitive(id a, id b, void* context) {
 
 - (void) reallyUpdateTableData {
 	[self reallyUpdateTableData: YES];
+}
+
+- (void) retrieveDataForItem: (id) item
+			   extensionName: (NSString**) extension
+					fileName: (NSString**) filename {
+	if (!extensionContents) {
+		updateOutlineData = YES;
+		[self reallyUpdateTableData: NO];
+	}
+
+	// Clear out the items
+	if (extension) *extension = nil;
+	if (filename) *filename = nil;
+	
+	if ([item isKindOfClass: [NSString class]]) {
+		// Will be a table view item (not sure of the circumstances these can arrive here, but deal with them anyway)
+		if (extension) *extension = item;
+		return;
+	} else if ([item isKindOfClass: [NSArray class]]) {
+		// Will be an outline view item
+		NSString* type = [item objectAtIndex: 0];
+		
+		if (![type isKindOfClass: [NSString class]]) return;					// Uh... Wasn't an item
+		
+		if ([type isEqualToString: @"Directory"]) {
+			if (extension) *extension = [item objectAtIndex: 1];
+		} else if ([type isEqualToString: @"Source"]) {
+			if (extension) *extension = [item objectAtIndex: 3];
+			if (filename) *filename = [item objectAtIndex: 1];
+		}
+	}
+}
+
+- (NSString*) extensionForRow: (int) rowIndex {
+	if (!extensionNames)
+		[self reallyUpdateTableData: NO];		// Need update now
+
+	// Return nil if the row does not exist
+	if (rowIndex < 0) return nil;
+	if (rowIndex >= [extensionNames count]) return nil;
+
+	return [extensionNames objectAtIndex: rowIndex];
 }
 
 // = Table view datasource =
@@ -722,6 +764,8 @@ static int compare_insensitive(id a, id b, void* context) {
 				  proposedRow: (int)row
 		proposedDropOperation: (NSTableViewDropOperation)operation {
 	// Outline view drops follow NI semantics (which is different from Inform 6 in many ways)
+	if (!extensionNames)
+		[self reallyUpdateTableData: NO];		// Need update now
 	
 	// We can accept files dropped on the outline view
 	NSArray* pbFiles = [[info draggingPasteboard] propertyListForType: NSFilenamesPboardType];

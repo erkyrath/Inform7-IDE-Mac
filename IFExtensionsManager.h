@@ -61,13 +61,13 @@ extern NSString* IFExtensionsUpdatedNotification;				// Sent when the extensions
 - (void) setMergesMultipleExtensions: (BOOL) mergeMultipleExtensions;	// If YES, then behave as for Natural Inform extensions: ie, if there is an extension with the same author name in multiple directories, functions like filesInExtensionWithName: iterate through all possible directories
 
 // Retrieving the list of installed extensions
-- (NSArray*) availableExtensions;
-- (NSArray*) pathsForExtensionWithName: (NSString*) name;
-- (NSString*) pathForExtensionWithName: (NSString*) name;
+- (NSArray*) availableExtensions;										// List of extensions being handled by this manager
+- (NSArray*) pathsForExtensionWithName: (NSString*) name;				// Full list of paths for the extension with the given name. If merging is off, only the first applies.
+- (NSString*) pathForExtensionWithName: (NSString*) name;				// Path for the extension with the given name. Other paths may apply if merging is on
 
 // ... and the list of files within a given extension (full paths)
-- (NSArray*) filesInExtensionWithName: (NSString*) name;
-- (NSArray*) sourceFilesInExtensionWithName: (NSString*) name;
+- (NSArray*) filesInExtensionWithName: (NSString*) name;				// Complete list of files in the given extension
+- (NSArray*) sourceFilesInExtensionWithName: (NSString*) name;			// Complete list of source files in the given extension
 
 // Editing the installed extensions
 - (BOOL) addExtension: (NSString*) extensionPath;						// Creates an extension from the file/directory at the given path (if a directory, the directory is copied/merged as appropriate. If a file, the file is put in a new extension directory)
@@ -76,5 +76,9 @@ extern NSString* IFExtensionsUpdatedNotification;				// Sent when the extensions
 
 // Outline/Table view data source support functions
 - (void) updateTableData;												// Forces a refresh of the table data (won't happen immediately)
+- (void) retrieveDataForItem: (id) item									// Turns an item (outline view) into some more comprehensible data
+			   extensionName: (NSString**) extension
+					fileName: (NSString**) filename;
+- (NSString*) extensionForRow: (int) rowIndex;							// Gets the extension at the given row index (table view)
 
 @end
