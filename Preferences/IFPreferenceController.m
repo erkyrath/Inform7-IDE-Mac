@@ -39,7 +39,7 @@
 		[[self window] setTitle: [[NSBundle mainBundle] localizedStringForKey: @"Inform Preferences"
 																		value: @"Inform Preferences"
 																		table: nil]];
-		
+				
 		// Set up preference toolbar
 		toolbarItems = [[NSMutableDictionary alloc] init];
 		

@@ -344,7 +344,6 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		
 		// 'Standard Rules' in 'Graham Nelson' is a special case and is never returned (even though it's a source file, and will always be present in the natural inform extensions)
 		if (isGrahamNelson && [[[file lastPathComponent] lowercaseString] isEqualToString: @"standard rules"]) {
-			NSLog(@"Skipped standard rules");
 			continue;
 		}
 		
@@ -363,13 +362,47 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 
 // = Editing the installed extensions =
 
+- (void) createRecursiveDir: (NSString*) dir {
+	if (dir == nil || [dir isEqualToString: @""] || [dir isEqualToString: @"/"]) return;
+	
+	BOOL exists, isDir;
+	
+	exists = [[NSFileManager defaultManager] fileExistsAtPath: dir
+												  isDirectory: &isDir];
+	if (exists) return;
+
+	[self createRecursiveDir: [dir stringByDeletingLastPathComponent]];
+	
+	[[NSFileManager defaultManager] createDirectoryAtPath: dir
+											   attributes: nil];
+}
+
+- (void) createDefaultExtnDir {
+	// Create the directory that will contain the extensions (if necessary)
+	NSString* directory = [[extensionDirectories objectAtIndex: 0] stringByAppendingPathComponent: subdirectory];
+	
+	if (directory == nil) return;
+	
+	// Do nothing if the directory already exists
+	BOOL exists, isDir;
+	
+	exists = [[NSFileManager defaultManager] fileExistsAtPath: directory
+												  isDirectory: &isDir];
+	if (exists) return;
+	
+	// Otherwise, create the directory (and the hierarchy)
+	[self createRecursiveDir: directory];
+}
+
 - (BOOL) addExtension: (NSString*) extensionPath {
 	// We can add directories (of all sorts, but with no subdirectories, and no larger than 1Mb total)
 	// We can also add .h, .inf and .i6 files on their own, creating a directory to do so
 	NSFileManager* mgr = [NSFileManager defaultManager];
 	
 	extensionPath = [extensionPath stringByStandardizingPath];
-	
+
+	[self createDefaultExtnDir];
+
 	// Check that we can add this file
 	BOOL exists, isDir;
 	
@@ -411,8 +444,10 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	// We should be able to add the file/directory
 	
 	// Try to create the destination. First extensionDirectory should be the writable one
-	NSString* directory = [extensionDirectories objectAtIndex: 0];
+	NSString* directory = [[extensionDirectories objectAtIndex: 0] stringByAppendingPathComponent: subdirectory];
 	NSString* destDir;
+	
+	if (directory == nil) return NO;
 	
 	if (isDir) {
 		destDir = [directory stringByAppendingPathComponent: [extensionPath lastPathComponent]];
@@ -484,7 +519,54 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 - (BOOL) addFile: (NSString*) filePath
 	 toExtension: (NSString*) extensionName {
 	// We can add .h, .inf, .i6 or extensionless files
-	return NO;
+	NSFileManager* mgr = [NSFileManager defaultManager];
+	
+	filePath = [filePath stringByStandardizingPath];
+	
+	[self createDefaultExtnDir];
+	
+	NSString* directory = [[extensionDirectories objectAtIndex: 0] stringByAppendingPathComponent: subdirectory];
+	
+	// Check the extension
+	NSString* extn = [[filePath pathExtension] lowercaseString];
+	
+	if (!(extn == nil || [extn isEqualToString: @""] || [extn isEqualToString: @"h"] || [extn isEqualToString: @"inf"] || [extn isEqualToString: @"i6"])) {
+		// Invalid file extension
+		return NO;
+	}
+	
+	BOOL exists, isDir;
+	
+	exists = [mgr fileExistsAtPath: filePath
+					   isDirectory: &isDir];
+	if (!exists || isDir) return NO;
+
+	// Create the extension directory if necessary
+	NSString* extnDir = [directory stringByAppendingPathComponent: extensionName];
+		
+	exists = [mgr fileExistsAtPath: extnDir
+					   isDirectory: &isDir];
+	
+	if (exists && !isDir) return NO;						// Is not a directory
+	if (!exists) {
+		// Does not exist: attempt to create the extension directory
+		if (![mgr createDirectoryAtPath: extnDir
+							 attributes: nil]) {
+			return NO;
+		}
+		
+		[self updateTableData];
+	}
+	
+	// Copy the extension into the directory
+	if (![mgr copyPath: filePath
+				toPath: [extnDir stringByAppendingPathComponent: [filePath lastPathComponent]]
+			   handler: nil])
+		return NO;
+	
+	[self updateTableData];
+	
+	return YES;
 }
 
 // = Data source support functions =
@@ -635,6 +717,72 @@ static int compare_insensitive(id a, id b, void* context) {
 	return nil;		// Unknown column type
 }
 
+- (NSDragOperation) tableView: (NSTableView*) tableView 
+				 validateDrop: (id<NSDraggingInfo>) info 
+				  proposedRow: (int)row
+		proposedDropOperation: (NSTableViewDropOperation)operation {
+	// Outline view drops follow NI semantics (which is different from Inform 6 in many ways)
+	
+	// We can accept files dropped on the outline view
+	NSArray* pbFiles = [[info draggingPasteboard] propertyListForType: NSFilenamesPboardType];
+	
+	if (pbFiles == nil || ![pbFiles isKindOfClass: [NSArray class]]) {
+		return NSDragOperationNone;
+	}
+	
+	// We accept directories or files of the right type
+	NSEnumerator* fileEnum = [pbFiles objectEnumerator];
+	NSString* file;
+	
+	while (file = [fileEnum nextObject]) {
+		BOOL exists, isDir;
+		
+		exists = [[NSFileManager defaultManager] fileExistsAtPath: file
+													  isDirectory: &isDir];
+		
+		if (!exists) return NSDragOperationNone;
+		
+		if (!isDir) {
+			// File type must be right
+			NSString* extn = [file pathExtension];
+			if (![extn isEqualToString: @"h"] && ![extn isEqualToString: @"inf"] && ![extn isEqualToString: @"i6"]) return NSDragOperationNone;
+		}
+	}
+	
+	return NSDragOperationCopy;
+}
+
+- (BOOL)tableView: (NSTableView*) tableView 
+	   acceptDrop: (id<NSDraggingInfo>) info 
+			  row: (int) row 
+	dropOperation: (NSTableViewDropOperation) operation {	
+	if ([self tableView: tableView
+			 validateDrop: info
+			proposedRow: row
+  proposedDropOperation: operation] == NSDragOperationNone) {
+		// Can't accept if we can't validate the drop
+		return NO;
+	}
+	
+	// Get the files associated with this drop
+	NSArray* pbFiles = [[info draggingPasteboard] propertyListForType: NSFilenamesPboardType];
+	
+	if (pbFiles == nil || ![pbFiles isKindOfClass: [NSArray class]]) {
+		return NO;
+	}
+	
+	// Add the new item(s) as a new extension
+	NSEnumerator* fileEnum = [pbFiles objectEnumerator];
+	NSString* file;
+	
+	while (file = [fileEnum nextObject]) {
+		if (![self addExtension: file]) 
+			return NO;
+	}
+	
+	return YES;
+}
+
 // = Outline view datasource =
 
 //
@@ -734,6 +882,116 @@ static int compare_insensitive(id a, id b, void* context) {
 	}
 
 	return nil;
+}
+
+- (NSDragOperation) outlineView: (NSOutlineView*) outlineView
+				   validateDrop: (id<NSDraggingInfo>) info 
+				   proposedItem: (id)item 
+			 proposedChildIndex: (int)index {
+	// Outline view drops follow NI semantics (which is different from Inform 6 in many ways)
+	
+	// We can accept files dropped on the outline view
+	NSArray* pbFiles = [[info draggingPasteboard] propertyListForType: NSFilenamesPboardType];
+	
+	if (pbFiles == nil || ![pbFiles isKindOfClass: [NSArray class]]) {
+		return NSDragOperationNone;
+	}
+	
+	if (item == NULL) {
+		// We accept directories (only) dropped on the parent item
+		NSEnumerator* fileEnum = [pbFiles objectEnumerator];
+		NSString* file;
+		
+		while (file = [fileEnum nextObject]) {
+			BOOL exists, isDir;
+			
+			exists = [[NSFileManager defaultManager] fileExistsAtPath: file
+														  isDirectory: &isDir];
+			
+			if (!exists || !isDir) return NSDragOperationNone;
+		}
+		
+		return NSDragOperationCopy;
+	} else {
+		NSString* type = [item objectAtIndex: 0];
+		
+		if (![type isEqualToString: @"Directory"]) return NSDragOperationNone;
+
+		// We accept files with no extension to put in the extension directories themselves
+		NSEnumerator* fileEnum = [pbFiles objectEnumerator];
+		NSString* file;
+		
+		while (file = [fileEnum nextObject]) {
+			BOOL exists, isDir;
+			
+			exists = [[NSFileManager defaultManager] fileExistsAtPath: file
+														  isDirectory: &isDir];
+			
+			if (!exists || isDir) return NSDragOperationNone;
+			
+			NSString* extn = [file pathExtension];
+			if (extn != nil && ![extn isEqualToString: @""]) return NSDragOperationNone;
+		}
+		
+		return NSDragOperationCopy;
+	}
+	
+	return NSDragOperationNone;
+}
+
+- (BOOL) outlineView: (NSOutlineView*) outlineView
+		  acceptDrop: (id<NSDraggingInfo>) info 
+				item: (id) item 
+		  childIndex: (int)index {	
+	if ([self outlineView: outlineView
+			 validateDrop: info
+			 proposedItem: item
+	   proposedChildIndex: index] == NSDragOperationNone) {
+		// Can't accept if we can't validate the drop
+		return NO;
+	}
+	
+	// Get the files associated with this drop
+	NSArray* pbFiles = [[info draggingPasteboard] propertyListForType: NSFilenamesPboardType];
+	
+	if (pbFiles == nil || ![pbFiles isKindOfClass: [NSArray class]]) {
+		return NO;
+	}
+	
+	if (item == nil) {
+		// Add the new item(s) as a new extension
+		NSEnumerator* fileEnum = [pbFiles objectEnumerator];
+		NSString* file;
+		
+		while (file = [fileEnum nextObject]) {
+			if (![self addExtension: file]) 
+				return NO;
+		}
+		
+		return YES;
+	} else {
+		// Add to a specific extension
+		NSString* type = [item objectAtIndex: 0];
+		
+		if (![type isEqualToString: @"Directory"]) return NO;
+		
+		// Get the extension to add to
+		NSString* extensionName = [item objectAtIndex: 1];
+		
+		// Add the files
+		NSEnumerator* fileEnum = [pbFiles objectEnumerator];
+		NSString* file;
+
+		while (file = [fileEnum nextObject]) {
+			if (![self addFile: file
+				   toExtension: extensionName]) 
+				return NO;
+		}
+		
+		return YES;
+	}
+	
+	return NO;
 }
 
 @end

@@ -20,6 +20,10 @@
 		[naturalExtensionView setDataSource: [IFExtensionsManager sharedNaturalInformExtensionsManager]];
 		[inform6ExtensionView setDataSource: [IFExtensionsManager sharedInform6ExtensionManager]];
 		
+		// Register for drag+drop
+		[naturalExtensionView registerForDraggedTypes: [NSArray arrayWithObject: NSFilenamesPboardType]];
+		[inform6ExtensionView registerForDraggedTypes: [NSArray arrayWithObject: NSFilenamesPboardType]];
+		
 		// Receive updates on the extensions
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(reloadExtensions:)
