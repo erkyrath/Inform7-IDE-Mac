@@ -752,10 +752,10 @@ static int compare_insensitive(id a, id b, void* context) {
 	return NSDragOperationCopy;
 }
 
-- (BOOL)tableView: (NSTableView*) tableView 
-	   acceptDrop: (id<NSDraggingInfo>) info 
-			  row: (int) row 
-	dropOperation: (NSTableViewDropOperation) operation {	
+- (BOOL) tableView: (NSTableView*) tableView 
+		acceptDrop: (id<NSDraggingInfo>) info 
+			   row: (int) row 
+	 dropOperation: (NSTableViewDropOperation) operation {	
 	if ([self tableView: tableView
 			 validateDrop: info
 			proposedRow: row
@@ -886,8 +886,8 @@ static int compare_insensitive(id a, id b, void* context) {
 
 - (NSDragOperation) outlineView: (NSOutlineView*) outlineView
 				   validateDrop: (id<NSDraggingInfo>) info 
-				   proposedItem: (id)item 
-			 proposedChildIndex: (int)index {
+				   proposedItem: (id) item 
+			 proposedChildIndex: (int) index {
 	// Outline view drops follow NI semantics (which is different from Inform 6 in many ways)
 	
 	// We can accept files dropped on the outline view
@@ -942,7 +942,7 @@ static int compare_insensitive(id a, id b, void* context) {
 - (BOOL) outlineView: (NSOutlineView*) outlineView
 		  acceptDrop: (id<NSDraggingInfo>) info 
 				item: (id) item 
-		  childIndex: (int)index {	
+		  childIndex: (int) index {	
 	if ([self outlineView: outlineView
 			 validateDrop: info
 			 proposedItem: item
