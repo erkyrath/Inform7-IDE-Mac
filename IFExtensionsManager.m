@@ -569,6 +569,63 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	return YES;
 }
 
+- (BOOL) deleteExtension: (NSString*) extensionName {
+	// Get the location of the extension (as it would be if installed in the user's directory)
+ 	NSString* extn = [[[extensionDirectories objectAtIndex: 0] stringByAppendingPathComponent: subdirectory] stringByAppendingPathComponent: extensionName];
+	extn = [extn stringByStandardizingPath];
+	
+	// Check that it exists and is a directory
+	BOOL exists, isDir;
+	exists = [[NSFileManager defaultManager] fileExistsAtPath: extn
+												  isDirectory: &isDir];
+	
+	if (!exists || !isDir) return NO;
+	
+	// Try to move it to the trash
+	if (![[NSWorkspace sharedWorkspace] performFileOperation: NSWorkspaceRecycleOperation
+													  source: [extn stringByDeletingLastPathComponent]
+												 destination: @""
+													   files: [NSArray arrayWithObject: [extn lastPathComponent]]
+														 tag: 0]) {
+		return NO;
+	}
+	
+	// Success
+	return YES;
+}
+
+- (BOOL) deleteFile: (NSString*) file
+		inExtension: (NSString*) extensionName {
+	// Get the location of the extension file (as it would be if installed in the user's directory)
+	NSString* extn = [[[extensionDirectories objectAtIndex: 0] stringByAppendingPathComponent: subdirectory] stringByAppendingPathComponent: extensionName];
+	extn = [extn stringByStandardizingPath];
+	
+	NSString* extnFile = [extn stringByAppendingPathComponent: file];
+	extnFile = [extnFile stringByStandardizingPath];
+	
+	// Check that the extension file and the extension directory exist
+	BOOL exists, isDir;
+	exists = [[NSFileManager defaultManager] fileExistsAtPath: extn
+												  isDirectory: &isDir];
+	
+	if (!exists || !isDir) return NO;
+	
+	exists = [[NSFileManager defaultManager] fileExistsAtPath: extnFile];
+	if (!exists) return NO;
+	
+	// Try to move the file to trash
+	if (![[NSWorkspace sharedWorkspace] performFileOperation: NSWorkspaceRecycleOperation
+													  source: extn
+												 destination: @""
+													   files: [NSArray arrayWithObject: file]
+														 tag: 0]) {
+		return NO;
+	}
+	
+	// Success
+	return YES;
+}
+
 // = Data source support functions =
 
 static const float updateFrequency = 0.75;				// Maximum frequency
