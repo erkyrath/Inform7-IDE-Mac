@@ -61,4 +61,155 @@
 	return [NSImage imageNamed: @"Extensions"];
 }
 
+// = Actions =
+
+- (IBAction) addNaturalExtension: (id) sender {
+}
+
+- (IBAction) deleteNaturalExtension: (id) sender {
+	if ([preferenceView window] == nil) return;
+	if ([[naturalExtensionView selectedRowEnumerator] nextObject] == nil) return;
+	
+	// Request confirmation
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Can I Delete Extension"
+															 value: @"Delete natural extension?"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															 value: @"Cancel"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Delete"
+															 value: @"Delete"
+															 table: nil],
+					  nil,
+					  [preferenceView window],
+					  self, @selector(deleteNaturalConfirm:returnCode:contextInfo:), nil, nil,
+					  [[NSBundle mainBundle] localizedStringForKey: @"ExtensionDeletionMessage"
+															 value: @"Delete natural extension?"
+															 table: nil]);
+}
+
+- (IBAction) addInform6Extension: (id) sender {
+}
+
+- (IBAction) deleteInform6Extension: (id) sender {
+	if ([preferenceView window] == nil) return;
+	if ([[inform6ExtensionView selectedRowEnumerator] nextObject] == nil) return;
+	
+	// Request confirmation
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Can I Delete Extension"
+															 value: @"Delete natural extension?"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															 value: @"Cancel"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Delete"
+															 value: @"Delete"
+															 table: nil],
+					  nil,
+					  [preferenceView window],
+					  self, @selector(deleteInform6Confirm:returnCode:contextInfo:), nil, nil,
+					  [[NSBundle mainBundle] localizedStringForKey: @"ExtensionDeletionMessage"
+															 value: @"Delete natural extension?"
+															 table: nil]);
+}
+
+- (void) failedToDeleteExtensions: (NSArray*) extns {
+	// Called when some extensions fail to delete for some reason
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"FailedToDeleteExtension"
+															 value: @"Failed to delete extension"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															 value: @"Cancel"
+															 table: nil],
+					  nil,
+					  nil,
+					  [preferenceView window],
+					  self, nil, nil, nil,
+					  [[NSBundle mainBundle] localizedStringForKey: @"FailedToDeleteExtensionMessage"
+															 value: @"The extension failed to delete for some reason"
+															 table: nil]);
+}
+
+- (void) deleteInform6Confirm: (NSWindow*) sheet 
+				   returnCode: (int) returnCode 
+				  contextInfo: (void*) contextInfo {
+	// User has clicked 'Delete' or 'Cancel' when asked if she wants to delete an Inform 6 extension
+	if (returnCode == NSAlertAlternateReturn) {
+		// Will contain the list of extensions we couldn't delete
+		NSMutableArray* failedExtensions = [NSMutableArray array];
+		
+		// Loop through the selected items
+		NSEnumerator* rowEnum = [inform6ExtensionView selectedRowEnumerator];
+		NSNumber* row;
+		while (row = [rowEnum nextObject]) {
+			// Get the extension associated with this item
+			NSString* extnName = [[IFExtensionsManager sharedInform6ExtensionManager] extensionForRow: [row intValue]];
+			
+			if (extnName != nil) {
+				// Delete an extension
+				if (![[IFExtensionsManager sharedInform6ExtensionManager] deleteExtension: extnName]) {
+					[failedExtensions addObject: extnName];
+				}			
+			}
+		}
+		
+		// If some or all of the extensions failed to delete, then queue an error message
+		if ([failedExtensions count] > 0) {
+			[[NSRunLoop currentRunLoop] performSelector: @selector(failedToDeleteExtensions:)
+												 target: self
+											   argument: failedExtensions
+												  order: 256
+												  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+		}
+	}
+}
+
+- (void) deleteNaturalConfirm: (NSWindow*) sheet 
+				   returnCode: (int) returnCode 
+				  contextInfo: (void*) contextInfo {
+	// User has clicked 'Delete' or 'Cancel' when asked if she wants to delete a Natural Inform extension
+	if (returnCode == NSAlertAlternateReturn) {
+		// Will contain the list of extensions we couldn't delete
+		NSMutableArray* failedExtensions = [NSMutableArray array];
+		
+		// Loop through the selected items
+		NSEnumerator* rowEnum = [naturalExtensionView selectedRowEnumerator];
+		NSNumber* row;
+		while (row = [rowEnum nextObject]) {
+			// Get the item
+			id item = [naturalExtensionView itemAtRow: [row intValue]];
+			
+			// Get the extension associated with this item
+			NSString* extnName = nil;
+			NSString* fileName = nil;
+			
+			[[IFExtensionsManager sharedNaturalInformExtensionsManager] retrieveDataForItem: item
+																			  extensionName: &extnName
+																				   fileName: &fileName];
+			
+			if (extnName != nil && fileName != nil) {
+				// Delete a file
+				if (![[IFExtensionsManager sharedNaturalInformExtensionsManager] deleteFile: fileName
+																				inExtension: extnName]) {
+					[failedExtensions addObject: [[extnName stringByAppendingString: @"/"] stringByAppendingString: fileName]];
+				}
+			} else if (extnName != nil) {
+				// Delete an extension
+				if (![[IFExtensionsManager sharedNaturalInformExtensionsManager] deleteExtension: extnName]) {
+					[failedExtensions addObject: extnName];
+				}			
+			}
+		}
+		
+		// If some or all of the extensions failed to delete, then queue an error message
+		if ([failedExtensions count] > 0) {
+			[[NSRunLoop currentRunLoop] performSelector: @selector(failedToDeleteExtensions:)
+												 target: self
+											   argument: failedExtensions
+												  order: 256
+												  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+		}
+	}
+}
+
 @end

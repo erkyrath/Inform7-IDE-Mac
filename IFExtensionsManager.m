@@ -590,6 +590,8 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		return NO;
 	}
 	
+	[self updateTableData];
+	
 	// Success
 	return YES;
 }
@@ -621,6 +623,8 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 														 tag: 0]) {
 		return NO;
 	}
+	
+	[self updateTableData];
 	
 	// Success
 	return YES;

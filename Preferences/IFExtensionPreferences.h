@@ -16,4 +16,11 @@
 	IBOutlet NSTableView* inform6ExtensionView;
 }
 
+// Actions
+- (IBAction) addNaturalExtension: (id) sender;
+- (IBAction) deleteNaturalExtension: (id) sender;
+
+- (IBAction) addInform6Extension: (id) sender;
+- (IBAction) deleteInform6Extension: (id) sender;
+
 @end
