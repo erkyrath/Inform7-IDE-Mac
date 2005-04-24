@@ -12,7 +12,7 @@
 
 // Works almost like IFInform6Extensions
 @interface IFNaturalExtensions : IFInform6Extensions {
-
+	IBOutlet NSOutlineView* extnOutline;
 }
 
 @end

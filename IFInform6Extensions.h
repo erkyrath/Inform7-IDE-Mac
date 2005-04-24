@@ -9,11 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 #import "IFSetting.h"
+#import "IFExtensionsManager.h"
 
 @interface IFInform6Extensions : IFSetting {
 	// Data on what's available
-	NSMutableArray* extensions;
-	NSMutableDictionary* extensionPath;
+	IFExtensionsManager* extnMgr;
 	BOOL needRefresh;
 	
 	// Which extensions we're using
@@ -22,21 +22,12 @@
 	IBOutlet NSTableView* extensionTable;
 }
 
-// Meta-information about what to look for
-- (NSString*) extensionSubdirectory;
-- (NSArray*) directoriesToSearch;
-
-// Searching the extensions
-- (void) searchForExtensions;
-
 // Used to determine what types of file we can drag and drop
 - (BOOL) canAcceptFile: (NSString*) filename;
 - (BOOL) canAcceptPasteboard: (NSPasteboard*) pasteboard;
-- (NSString*) directoryNameForExtension: (NSString*) extn;
 
 // Adding new extensions
 - (BOOL) importExtensionFile: (NSString*) file;
-- (void) notifyThatExtensionsHaveChanged;
 
 // Actions
 - (IBAction) addExtension: (id) sender;

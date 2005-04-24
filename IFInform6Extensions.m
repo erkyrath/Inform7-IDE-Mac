@@ -20,8 +20,8 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 	self = [super initWithNibName: nibName];
 	
 	if (self) {
-		extensions = nil;
 		needRefresh = YES;
+		extnMgr = [[IFExtensionsManager sharedInform6ExtensionManager] retain];
 		
 		activeExtensions = nil;
 		
@@ -29,7 +29,7 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 		
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(updateTable:)
-													 name: IFExtensionsChangedNotification
+													 name: IFExtensionsUpdatedNotification
 												   object: nil];
 	}
 	
@@ -45,95 +45,11 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 
-	if (extensions) [extensions release];
-	if (extensionPath) [extensionPath release];
+	[extnMgr release];
 	
 	[activeExtensions release];
 	
 	[super dealloc];
-}
-
-// = Meta-information about what to look for =
-
-- (NSString*) extensionSubdirectory {
-	return @"Inform 6 Extensions";
-}
-
-- (NSArray*) directoriesToSearch {
-	NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-	NSMutableArray* libraryDirectories = [NSMutableArray array];
-	
-	// Look for 'Inform 6 Extensions' directories in each library directory
-	NSEnumerator* libEnum = [libraries objectEnumerator];
-	NSString* libPath;
-	
-	while (libPath = [libEnum nextObject]) {
-		NSString* extnPath = [[libPath stringByAppendingPathComponent: @"Inform"] stringByAppendingPathComponent: [self extensionSubdirectory]];
-		BOOL isDir;
-		
-		if ([[NSFileManager defaultManager] fileExistsAtPath: extnPath
-												 isDirectory: &isDir]) {
-			if (isDir) [libraryDirectories addObject: extnPath];
-		}
-	}
-	
-	return libraryDirectories;
-}
-
-// = Searching the extensions =
-
-static int stringCompare(id a, id b, void* context) {
-	return [(NSString*)a compare: b];
-}
-
-- (void) searchForExtensions {
-	// Clear out the old extensions
-	if (extensions) [extensions release];
-	extensions = [[NSMutableArray alloc] init];
-	
-	if (extensionPath) [extensionPath release];
-	extensionPath = [[NSMutableDictionary alloc] init];
-	
-	// Get the list of extensions
-	NSArray* directories = [self directoriesToSearch];
-	
-	// An extension lives in a directory in one of the directories specified above
-	NSEnumerator* dirEnum = [directories objectEnumerator];
-	NSString* dir;
-
-	while (dir = [dirEnum nextObject]) {
-		// Get the contents of this directory
-		NSArray* dirContents = [[NSFileManager defaultManager] directoryContentsAtPath: dir];
-		
-		if (!dirContents) continue;
-		
-		// Iterate through: add any directories found as an extension
-		NSEnumerator* extnEnum = [dirContents objectEnumerator];
-		NSString* extn;
-		
-		while (extn = [extnEnum nextObject]) {
-			NSString* extnPath = [dir stringByAppendingPathComponent: extn];
-			BOOL exists, isDir;
-			
-			exists = [[NSFileManager defaultManager] fileExistsAtPath: extnPath
-														  isDirectory: &isDir];
-			
-			if (!exists || !isDir) continue;
-			if ([extensions indexOfObjectIdenticalTo: extn] != NSNotFound) continue;
-			
-			[extensions addObject: extn];
-			[extensionPath setObject: extnPath
-							  forKey: extn];
-		}
-	}
-	
-	// Sort them
-	[extensions sortUsingFunction: stringCompare
-						  context: nil];
-}
-
-- (NSString*) pathForExtension: (NSString*) extension {
-	return [extensionPath objectForKey: extension];
 }
 
 // = Compiler settings  =
@@ -147,7 +63,7 @@ static int stringCompare(id a, id b, void* context) {
 	NSString* extn;
 		
 	while (extn = [extnEnum nextObject]) {
-		NSString* extnPath = [self pathForExtension: extn];
+		NSString* extnPath = [extnMgr pathForExtensionWithName: extn];
 		
 		if (extnPath != nil) {
 			[res addObject: extnPath];
@@ -180,24 +96,19 @@ static int stringCompare(id a, id b, void* context) {
 	[extensionTable reloadData];
 }
 
-- (void) notifyThatExtensionsHaveChanged {
-	[[NSNotificationCenter defaultCenter] postNotificationName: IFExtensionsChangedNotification
-														object: self];
-}
-
 - (int)numberOfRowsInTableView: (NSTableView*) tableView {
-	if (needRefresh) [self searchForExtensions];
-	
-	return [extensions count];
+	return [extnMgr numberOfRowsInTableView: tableView];
 }
 
 - (id)				tableView: (NSTableView*) tableView 
 	objectValueForTableColumn: (NSTableColumn*) col
 						  row: (int) row {
-	if ([[col identifier] isEqualToString: @"libname"]) {
-		return [extensions objectAtIndex: row];
+	if ([[col identifier] isEqualToString: @"extension"]) {
+		return [extnMgr tableView: tableView
+			objectValueForTableColumn: col
+								  row: row];
 	} else if ([[col identifier] isEqualToString: @"libactive"]) {
-		return [NSNumber numberWithBool: [activeExtensions containsObject: [extensions objectAtIndex: row]]];
+		return [NSNumber numberWithBool: [activeExtensions containsObject: [extnMgr extensionForRow: row]]];
 	} else {
 		return @"UNKNOWN COLUMN";
 	}
@@ -207,10 +118,10 @@ static int stringCompare(id a, id b, void* context) {
 	   setObjectValue: (id) anObject 
 	   forTableColumn: (NSTableColumn*) col
 				  row: (int) rowIndex {
-	if ([[col identifier] isEqualToString: @"libname"]) {
+	if ([[col identifier] isEqualToString: @"extension"]) {
 		// Do nothing: can't set this
 	} else if ([[col identifier] isEqualToString: @"libactive"]) {
-		NSString* libname = [extensions objectAtIndex: rowIndex];
+		NSString* libname = [extnMgr extensionForRow: rowIndex];
 		
 		if ([anObject boolValue]) {
 			[activeExtensions addObject: libname];
@@ -279,6 +190,7 @@ static int stringCompare(id a, id b, void* context) {
 	return NSDragOperationCopy;
 }
 
+#if 0
 - (NSString*) directoryNameForExtension: (NSString*) extn {
 	NSString* coreName = [[extn stringByDeletingPathExtension] lastPathComponent];
 	NSString* realName = coreName;
@@ -312,92 +224,10 @@ static int stringCompare(id a, id b, void* context) {
 	
 	return realName;
 }
+#endif
 
 - (BOOL) importExtensionFile: (NSString*) file {
-	file = [file stringByStandardizingPath];
-	if (!file) return NO;
-	
-	// Create the user library directory if required
-	NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-	NSString* userDirectory = [[libraries objectAtIndex: 0] stringByAppendingPathComponent: @"Inform"];
-	BOOL exists, isDir;
-	
-	userDirectory = [userDirectory stringByStandardizingPath];
-	if (!userDirectory) return NO;
-	
-	if (![[NSFileManager defaultManager] fileExistsAtPath: userDirectory]) {
-		[[NSFileManager defaultManager] createDirectoryAtPath: userDirectory
-												   attributes: nil];
-	}
-	
-	exists = [[NSFileManager defaultManager] fileExistsAtPath: userDirectory
-												  isDirectory: &isDir];
-	if (!exists || !isDir) {
-		NSLog(@"%@ is not a directory", userDirectory);
-		return NO;
-	}
-	
-	userDirectory = [userDirectory stringByAppendingPathComponent: [self extensionSubdirectory]];
-	userDirectory = [userDirectory stringByStandardizingPath];
-	
-	if (!userDirectory) return NO;
-	
-	if (![[NSFileManager defaultManager] fileExistsAtPath: userDirectory]) {
-		[[NSFileManager defaultManager] createDirectoryAtPath: userDirectory
-												   attributes: nil];
-	}
-	
-	exists = [[NSFileManager defaultManager] fileExistsAtPath: userDirectory
-												  isDirectory: &isDir];
-	if (!exists || !isDir) {
-		NSLog(@"%@ is not a directory", userDirectory);
-		return NO;
-	}
-		
-	// Refuse to install if the extension already exists as part of the user directory
-	NSString* lowerFile = [file lowercaseString];
-	NSString* lowerDir = [userDirectory lowercaseString];
-	
-	if ([lowerFile length] >= [lowerDir length] &&
-		[[lowerFile substringToIndex: [lowerDir length]] isEqualToString: lowerDir]) {
-		// Files are the same
-		NSLog(@"Extensions %@ already appears to be installed", file);
-		return NO;
-	}
-	
-	// Install the extension in the appropriate directory
-	// Directories are copied as-is
-	// Files have a directory created and are then copied
-	NSString* extnName = [self directoryNameForExtension: file];
-	
-	exists = [[NSFileManager defaultManager] fileExistsAtPath: file
-												  isDirectory: &isDir];
-	
-	if (!exists) {
-		NSLog(@"Oops: %@ disappeared", file);
-		return NO;
-	}
-	
-	NSString* finalPath = [userDirectory stringByAppendingPathComponent: extnName];
-	
-	if (isDir) {
-		// Just copy the directory
-		[[NSFileManager defaultManager] copyPath: file
-										  toPath: finalPath
-										 handler: nil];
-	} else {
-		// Create the directory, then copy the file
-		[[NSFileManager defaultManager] createDirectoryAtPath: finalPath
-												   attributes: nil];
-		
-		[[NSFileManager defaultManager] copyPath: file
-										  toPath: [finalPath stringByAppendingPathComponent: [file lastPathComponent]]
-										 handler: nil];
-	}
-	
-	[[NSWorkspace sharedWorkspace] noteFileSystemChanged: file];
-	
-	return YES;
+	return [extnMgr addExtension: file];
 }
 
 - (BOOL) tableView: (NSTableView *) tableView 
@@ -423,14 +253,11 @@ static int stringCompare(id a, id b, void* context) {
 	while (file = [fileEnum nextObject]) {
 		[self importExtensionFile: file];
 	}
-	
-	// Update the tables
-	[self notifyThatExtensionsHaveChanged];
 
 	return YES;
 }
 
-// Actions
+// = Actions =
 
 - (IBAction) addExtension: (id) sender {
 	// Present a panel for adding new extensions
@@ -491,9 +318,6 @@ static int stringCompare(id a, id b, void* context) {
 			[self importExtensionFile: file];
 		}
 	}
-	
-	// Refresh everything
-	[self notifyThatExtensionsHaveChanged];
 }
 
 - (BOOL)panel:(id)sender isValidFilename:(NSString *)filename {
@@ -514,7 +338,7 @@ static int stringCompare(id a, id b, void* context) {
 	NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
 	NSString* userDirectory = [[libraries objectAtIndex: 0] stringByAppendingPathComponent: @"Inform"];
 	
-	userDirectory = [userDirectory stringByAppendingPathComponent: [self extensionSubdirectory]];
+	userDirectory = [userDirectory stringByAppendingPathComponent: [extnMgr subdirectory]];
 	userDirectory = [userDirectory stringByStandardizingPath];
 	
 	userDirectory = [userDirectory lowercaseString];
@@ -522,30 +346,10 @@ static int stringCompare(id a, id b, void* context) {
 	NSEnumerator* rowEnum = [extensionTable selectedRowEnumerator];
 	NSNumber* row;
 	while (row = [rowEnum nextObject]) {
-		NSString* extn = [extensions objectAtIndex: [row intValue]];
-		NSString* extnPath = [extensionPath objectForKey: extn];
+		NSString* extn = [extnMgr extensionForRow: [row intValue]];
 		
-		extnPath = [extnPath stringByStandardizingPath];
-		
-		if (extn != nil && extnPath != nil) {
-			// Must be in the user directory
-			extnPath = [extnPath lowercaseString];
-			
-			if ([extnPath length] < [userDirectory length]) continue;
-			if (![[extnPath substringToIndex: [userDirectory length]] isEqualToString: userDirectory]) continue;
-			
-			// OK, we can try to delete this directory - send it to the trash
-			int tag;
-			[[NSWorkspace sharedWorkspace] performFileOperation: NSWorkspaceRecycleOperation
-														 source: [extnPath stringByDeletingLastPathComponent]
-													destination: @""
-														  files: [NSArray arrayWithObject: [extnPath lastPathComponent]]
-															tag: &tag];
-		}
+		[extnMgr deleteExtension: extn];
 	}
-	
-	// Notify of the changes
-	[self notifyThatExtensionsHaveChanged];
 }
 
 // = PList =
@@ -553,7 +357,7 @@ static int stringCompare(id a, id b, void* context) {
 - (NSDictionary*) plistEntries {
 	// Need to turn our set into a dictionary
 	NSMutableDictionary* res = [NSMutableDictionary dictionary];
-	NSEnumerator* extnEnum = [extensions objectEnumerator];
+	NSEnumerator* extnEnum = [[extnMgr availableExtensions] objectEnumerator];
 	NSString* extn;
 	NSNumber* trueValue = [NSNumber numberWithBool: YES];
 	NSNumber* falseValue = [NSNumber numberWithBool: NO];
