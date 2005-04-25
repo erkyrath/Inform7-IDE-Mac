@@ -10,6 +10,7 @@
 #import "IFCompilerController.h"
 #import "IFNewProject.h"
 #import "IFInspectorWindow.h"
+#import "IFExtensionsManager.h"
 
 #import "IFIsNotes.h"
 #import "IFIsIndex.h"
