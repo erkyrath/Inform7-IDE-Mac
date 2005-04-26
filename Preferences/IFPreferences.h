@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFInspector.h"
+
 // Notifications
 extern NSString* IFPreferencesDidChangeNotification;
 extern NSString* IFPreferencesChangedEarlierNotification;	// Delayed version of the above
@@ -87,6 +89,11 @@ enum IFPreferencesColourSet {
 
 - (void) recalculateStyles;
 - (NSArray*) styles;
+
+// Inspector preferences
+- (BOOL) enableInspector: (IFInspector*) inspector;
+- (void) setEnable: (BOOL) enable
+	  forInspector: (IFInspector*) inspector;
 
 // Intelligence preferences
 - (BOOL) enableSyntaxHighlighting;

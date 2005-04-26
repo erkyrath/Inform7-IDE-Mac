@@ -539,6 +539,40 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 	return styles;
 }
 
+// Inspector preferences
+- (BOOL) enableInspector: (IFInspector*) inspector {
+	NSDictionary* dict = [preferences objectForKey: @"enableInspector"];
+	NSNumber* value = [dict objectForKey: [inspector key]];
+	
+	if (!value) return YES;
+	
+	return [value boolValue];
+}
+
+- (void) setEnable: (BOOL) enable
+	  forInspector: (IFInspector*) inspector {
+	NSDictionary* dict = [preferences objectForKey: @"enableInspector"];
+	NSMutableDictionary* mutDict;
+	
+	// Make dict mutable if necessary
+	if ([dict isKindOfClass: [NSMutableDictionary class]]) {
+		mutDict = (NSMutableDictionary*)dict;
+	} else {
+		mutDict = [[dict mutableCopy] autorelease];
+	}
+	
+	if (mutDict == nil) mutDict = [NSMutableDictionary dictionary];
+	
+	// Set the value for the inspector
+	[mutDict setObject: [NSNumber numberWithBool: enable]
+				forKey: [inspector key]];
+	
+	// Update the preferences
+	[preferences setObject: mutDict
+					forKey: @"enableInspector"];
+	[self preferencesHaveChanged];
+}
+
 // = Intelligence preferences =
 
 - (BOOL) enableSyntaxHighlighting {

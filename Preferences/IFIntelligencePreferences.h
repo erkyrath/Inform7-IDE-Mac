@@ -20,6 +20,8 @@
 	IBOutlet NSButton* autoNumberSections;
 }
 
+// Receiving data from/updating the interface
 - (IBAction) setPreference: (id) sender;
+- (void) reflectCurrentPreferences;
 
 @end

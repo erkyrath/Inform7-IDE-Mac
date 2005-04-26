@@ -11,7 +11,13 @@
 #import "IFPreferencePane.h"
 
 @interface IFInspectorPreferences : IFPreferencePane {
-
+	NSArray* inspectors;						// Maps tags to inspectors
+	
+	IBOutlet NSMatrix* activeInspectors;		// Matrix of active inspector buttons
 }
+
+// Receiving data from/updating the interface
+- (IBAction) setPreference: (id) sender;
+- (void) reflectCurrentPreferences;
 
 @end

@@ -11,6 +11,8 @@
 #import "IFInspectorView.h"
 #import "IFIsFlippedView.h"
 
+#import "IFPreferences.h"
+
 static NSString* IFInspectorDefaults = @"IFInspectorDefaults";
 static NSString* IFInspectorShown = @"IFInspectorShown";
 
@@ -172,10 +174,12 @@ static NSString* IFInspectorShown = @"IFInspectorShown";
 	IFInspector* inspector;
 	float currentHeight = 0;
 	
+	IFPreferences* prefs = [IFPreferences sharedPreferences];
+	
 	while (insView = [inspectorEnum nextObject]) {
 		inspector = [realInspectorEnum nextObject];
 		
-		if ([inspector available]) {
+		if ([prefs enableInspector: inspector] && [inspector available]) {
 			currentHeight += [insView frame].size.height;
 		}
 	}
@@ -269,6 +273,8 @@ static NSString* IFInspectorShown = @"IFInspectorShown";
 	
 	NSMutableDictionary* inspectorState = [[NSMutableDictionary alloc] init];
 	
+	IFPreferences* prefs = [IFPreferences sharedPreferences];
+	
 	// Position all the inspectors
 	float ypos = contentFrame.origin.y;
 	while (insView = [inspectorEnum nextObject]) {
@@ -277,7 +283,7 @@ static NSString* IFInspectorShown = @"IFInspectorShown";
 		[inspectorState setObject: [NSNumber numberWithBool: [inspector expanded]]
 						   forKey: [inspector key]];
 		
-		if ([inspector available]) {
+		if ([prefs enableInspector: inspector] && [inspector available]) {
 			NSRect insFrame = [insView frame];
 		
 			insFrame.origin = NSMakePoint(contentFrame.origin.x, ypos);
