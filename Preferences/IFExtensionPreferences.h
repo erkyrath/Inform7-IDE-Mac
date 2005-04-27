@@ -10,6 +10,9 @@
 
 #import "IFPreferencePane.h"
 
+//
+// Preference pane that allows the user to manage her set of Inform 6 and Natural Inform extensions
+//
 @interface IFExtensionPreferences : IFPreferencePane {
 	// Connections to interface building
 	IBOutlet NSOutlineView* naturalExtensionView;

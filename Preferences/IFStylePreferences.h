@@ -12,6 +12,9 @@
 
 #import "IFSyntaxStorage.h"
 
+//
+// Preference pane that allows the user to select the styles she wants to see
+//
 @interface IFStylePreferences : IFPreferencePane {
 	IBOutlet NSPopUpButton* fontSet;
 	IBOutlet NSPopUpButton* fontStyle;

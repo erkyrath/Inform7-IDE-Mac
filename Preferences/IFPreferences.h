@@ -66,42 +66,41 @@ enum IFPreferencesColourSet {
 	NSMutableArray* cacheColourSet;			// Choice of colours
 	NSMutableArray* cacheColours;			// Maps styles to colours
 	
-	NSMutableArray* styles;
+	NSMutableArray* styles;					// The array of actual styles (array of attribute dictionaries)
 }
 
 // Constructing the object
-+ (IFPreferences*) sharedPreferences;
++ (IFPreferences*) sharedPreferences;										// The shared preference object
 
-// = Preferences =
-
-- (void) preferencesHaveChanged;
+// Preferences
+- (void) preferencesHaveChanged;											// Generates a notification that preferences have changed
 
 // Style preferences
-- (enum IFPreferencesFontSet) fontSet;
-- (enum IFPreferencesFontStyling) fontStyling;
-- (enum IFPreferencesColourChanges) changeColours;
-- (enum IFPreferencesColourSet) colourSet;
+- (enum IFPreferencesFontSet) fontSet;										// The currently active font set
+- (enum IFPreferencesFontStyling) fontStyling;								// ... styling
+- (enum IFPreferencesColourChanges) changeColours;							// ... colour changes
+- (enum IFPreferencesColourSet) colourSet;									// ... colour set
 
-- (void) setFontSet: (enum IFPreferencesFontSet) newFontSet;
-- (void) setFontStyling: (enum IFPreferencesFontStyling) newFontStyling;
-- (void) setChangeColours: (enum IFPreferencesColourChanges) newColourChanges;
-- (void) setColourSet: (enum IFPreferencesColourSet) newColourSet;
+- (void) setFontSet: (enum IFPreferencesFontSet) newFontSet;				// Set the currently active font set
+- (void) setFontStyling: (enum IFPreferencesFontStyling) newFontStyling;	// ... styling
+- (void) setChangeColours: (enum IFPreferencesColourChanges) newColourChanges; // ... colour changes
+- (void) setColourSet: (enum IFPreferencesColourSet) newColourSet;			// ... colour set
 
-- (void) recalculateStyles;
-- (NSArray*) styles;
+- (void) recalculateStyles;													// Regenerate the array of attribute dictionaries that make up the styles
+- (NSArray*) styles;														// Retrieves an array of attribute dictionaries that describe how the styles should be displayed
 
 // Inspector preferences
-- (BOOL) enableInspector: (IFInspector*) inspector;
-- (void) setEnable: (BOOL) enable
+- (BOOL) enableInspector: (IFInspector*) inspector;							// YES if a given inspector should be enabled
+- (void) setEnable: (BOOL) enable											// Sets whether or not a given inspector is enabled
 	  forInspector: (IFInspector*) inspector;
 
 // Intelligence preferences
-- (BOOL) enableSyntaxHighlighting;
-- (BOOL) indentWrappedLines;
-- (BOOL) enableIntelligence;
-- (BOOL) intelligenceIndexInspector;
-- (BOOL) indentAfterNewline;
-- (BOOL) autoNumberSections;
+- (BOOL) enableSyntaxHighlighting;											// YES if source code should be displayed with syntax highlighting
+- (BOOL) indentWrappedLines;												// ... and indentation
+- (BOOL) enableIntelligence;												// YES if source should be tracked for important structural elements
+- (BOOL) intelligenceIndexInspector;										// ... which is placed in the index
+- (BOOL) indentAfterNewline;												// ... which is used to generate indentation
+- (BOOL) autoNumberSections;												// ... which is used to auto-type section numbers
 
 - (void) setEnableSyntaxHighlighting: (BOOL) value;
 - (void) setIndentWrappedLines: (BOOL) value;

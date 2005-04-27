@@ -10,6 +10,9 @@
 
 #import "IFSetting.h"
 
+//
+// The Z-Machine (or glulx) version settings
+//
 @interface IFOutputSettings : IFSetting {
     IBOutlet NSMatrix* zmachineVersion;
 }

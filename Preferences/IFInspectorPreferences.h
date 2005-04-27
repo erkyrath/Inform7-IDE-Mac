@@ -10,6 +10,9 @@
 
 #import "IFPreferencePane.h"
 
+//
+// Preference pane that allows the user to select the inspectors she wants to see
+//
 @interface IFInspectorPreferences : IFPreferencePane {
 	NSArray* inspectors;						// Maps tags to inspectors
 	

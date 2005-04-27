@@ -10,6 +10,9 @@
 
 #import "IFPreferencePane.h"
 
+//
+// Preference pane that allows the user to manage how intelligent Inform is
+//
 @interface IFIntelligencePreferences : IFPreferencePane {
 	IBOutlet NSButton* enableSyntaxHighlighting;
 	IBOutlet NSButton* indentWrappedLines;

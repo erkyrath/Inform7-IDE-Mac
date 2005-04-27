@@ -10,6 +10,9 @@
 
 #import "IFSetting.h"
 
+//
+// The version of the compiler to use (and whether or not to pre-process with NI)
+//
 @interface IFCompilerOptions : IFSetting {
     IBOutlet NSPopUpButton* compilerVersion;
     IBOutlet NSButton* naturalInform;	

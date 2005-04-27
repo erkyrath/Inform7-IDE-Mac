@@ -10,7 +10,11 @@
 
 #import "IFInform6Extensions.h"
 
+//
+// The Natural Inform extensions
+//
 // Works almost like IFInform6Extensions
+//
 @interface IFNaturalExtensions : IFInform6Extensions {
 	IBOutlet NSOutlineView* extnOutline;
 }

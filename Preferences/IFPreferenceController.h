@@ -17,18 +17,18 @@
 ///
 @interface IFPreferenceController : NSWindowController {
 	// The toolbar
-	NSToolbar* preferenceToolbar;
-	NSMutableArray* preferenceViews;
-	NSMutableDictionary* toolbarItems;
+	NSToolbar* preferenceToolbar;					// Contains the list of settings panes
+	NSMutableArray* preferenceViews;				// The settings panes themselves
+	NSMutableDictionary* toolbarItems;				// The toolbar items
 }
 
 // Construction, etc
-+ (IFPreferenceController*) sharedPreferenceController;
++ (IFPreferenceController*) sharedPreferenceController;			// The general preference controller
 
 // Adding new preference views
-- (void) addPreferencePane: (IFPreferencePane*) newPane;
+- (void) addPreferencePane: (IFPreferencePane*) newPane;		// Adds a new preference pane
 
 // Choosing a preference pane
-- (void) switchToPreferencePane: (NSString*) paneIdentifier;
+- (void) switchToPreferencePane: (NSString*) paneIdentifier;	// Switches to a specific preference pane
 
 @end

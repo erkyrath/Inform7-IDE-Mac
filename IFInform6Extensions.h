@@ -11,6 +11,9 @@
 #import "IFSetting.h"
 #import "IFExtensionsManager.h"
 
+//
+// The installed Inform 6 extensions and which extensions to use in the current project
+//
 @interface IFInform6Extensions : IFSetting {
 	// Data on what's available
 	IFExtensionsManager* extnMgr;

@@ -36,20 +36,22 @@ extern NSString* IFSettingLoudly;
 extern NSString* IFCompilerInform6;
 extern NSString* IFCompilerNaturalInform;
 
-// The settings dictionary object
+//
+// Object used to describe the settings for the compilers
+//
 @interface IFCompilerSettings : NSObject<NSCoding>  {
-    NSMutableDictionary* store;
-	NSArray* genericSettings;
+    NSMutableDictionary* store;						// (DEPRECATED) Maps keys to settings
+	NSArray* genericSettings;						// IFSetting object that deals with specific settings areas
 	
-	NSDictionary* originalPlist;
+	NSDictionary* originalPlist;					// The PList we loaded to construct this object (used if there's some settings in the plist that aren't handled)
 }
 
-+ (NSArray*) libraryPaths;
-+ (NSString*) pathForLibrary: (NSString*) library;
-+ (NSString*) pathForInform7Library: (NSString*) library;
-+ (NSArray*) availableLibraries;
++ (NSArray*) libraryPaths;									// The paths to Inform 6 libraries
++ (NSString*) pathForLibrary: (NSString*) library;			// Path to an Inform 6 library with a specific name
++ (NSString*) pathForInform7Library: (NSString*) library;	// Path to an Inform 7 library with a specific name
++ (NSArray*) availableLibraries;							// Set of available Inform 6 library
 
-// Setting up the settings
+// Setting up the settings (deprecated: use an IFSetting object if at all possible)
 - (void) setUsingNaturalInform: (BOOL) setting;
 - (void) setStrict: (BOOL) setting;
 - (void) setInfix: (BOOL) setting;
@@ -78,27 +80,27 @@ extern NSString* IFCompilerNaturalInform;
 - (void)	  setDebugMemory: (BOOL) memDebug;
 - (BOOL)	  debugMemory;
 
-- (void) settingsHaveChanged;
+- (void) settingsHaveChanged;										// Generates a settings changed notification
 
 // Generic settings (IFSetting)
-- (void)      setGenericSettings: (NSArray*) genericSettings;
-- (NSArray*)  includePathsForCompiler: (NSString*) compiler;
-- (NSArray*)  genericCommandLineForCompiler: (NSString*) compiler;
-- (NSMutableDictionary*) dictionaryForClass: (Class) cls;
+- (void)      setGenericSettings: (NSArray*) genericSettings;		// Sets the set of IFSetting objects to use
+- (NSArray*)  includePathsForCompiler: (NSString*) compiler;		// Gets the list of include paths to use for a specific compiler (IFCompilerInform6 or IFCompilerNaturalInform)
+- (NSArray*)  genericCommandLineForCompiler: (NSString*) compiler;	// Gets the list of 'generic' compiler options for a specific compiler (IFCompilerInform6 or IFCompilerNaturalInform)
+- (NSMutableDictionary*) dictionaryForClass: (Class) cls;			// Gets the dictionary for a given IFSetting class
 
 // Getting command line arguments, etc
-- (NSArray*) commandLineArguments;
-- (NSArray*) commandLineArgumentsForRelease: (BOOL) release;
-- (NSString*) compilerToUse;
-- (NSArray*) supportedZMachines;
+- (NSArray*) commandLineArguments;									// Retrieves the command line arguments to pass to the Inform 6 compiler
+- (NSArray*) commandLineArgumentsForRelease: (BOOL) release;		// Retrieves the command line arguments to pass to the Inform 6 compiler. If release is YES, debugging options are turned off
+- (NSString*) compilerToUse;										// Retrieves the path to the Inform 6 compiler that should be used
+- (NSArray*) supportedZMachines;									// Retrieves a list of supported Z-Machine versions for the Inform 6 compiler that should be used
 
-- (NSString*) naturalInformCompilerToUse; // nil if not using natural inform
-- (NSArray*) naturalInformCommandLineArguments;
+- (NSString*) naturalInformCompilerToUse;							// Retrieves the path to the Natural Inform compiler to use (nil if ni shouldn't be used)
+- (NSArray*) naturalInformCommandLineArguments;						// Retrieves the command line arguments to use with the NI compiler
 
 // Getting the data as a plist
-- (void)	reloadAllSettings;
-- (void)	reloadSettingsForClass: (NSString*) class;
-- (NSData*) currentPlist;
-- (BOOL)    restoreSettingsFromPlist: (NSData*) plist;
+- (void)	reloadAllSettings;										// Reloads the settings from the original Plist values
+- (void)	reloadSettingsForClass: (NSString*) class;				// Reloads the settings for a specific generic settings class from the original Plist values
+- (NSData*) currentPlist;											// Generates a plist from the current settings
+- (BOOL)    restoreSettingsFromPlist: (NSData*) plist;				// Restores the settings from a Plist file
 
 @end

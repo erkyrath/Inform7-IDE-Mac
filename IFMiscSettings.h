@@ -10,6 +10,9 @@
 
 #import "IFSetting.h"
 
+//
+// Some miscellaneous Inform 6 settings
+//
 @interface IFMiscSettings : IFSetting {
     IBOutlet NSButton* strictMode;
     IBOutlet NSButton* infixMode;
