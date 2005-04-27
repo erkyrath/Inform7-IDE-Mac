@@ -75,7 +75,6 @@
 
 - (void) inspectWindow: (NSWindow*) window {
 	// Should be overridden in subclasses
-	gotWindow = (window!=nil);
 	NSLog(@"BUG: Inspector doesn't know what to do");
 }
 

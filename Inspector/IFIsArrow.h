@@ -8,15 +8,16 @@
 
 #import <AppKit/AppKit.h>
 
-// The InSpector arrow
-
+//
+// The Inspector arrow control
+//
 @interface IFIsArrow : NSControl {
 
 }
 
-- (void) setOpen: (BOOL) open;
-- (BOOL) open;
+- (void) setOpen: (BOOL) open;							// Sets whether the arrow is in the 'open' or 'closed' state
+- (BOOL) open;											// YES if the arrow is in the open state
 
-- (void) performFlip;
+- (void) performFlip;									// Flips the arrow (animates it)
 
 @end
