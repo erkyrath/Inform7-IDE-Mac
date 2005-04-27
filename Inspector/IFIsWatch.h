@@ -29,20 +29,20 @@ enum {
 // we don't do that.
 //
 @interface IFIsWatch : IFInspector {
-	IBOutlet NSTextField* expression;
-	IBOutlet NSTextField* expressionResult;
-	IBOutlet NSTableView* watchTable;
+	IBOutlet NSTextField* expression;						// The 'quick watch' expression
+	IBOutlet NSTextField* expressionResult;					// Field that contains the result of evaluating the quick watch expression
+	IBOutlet NSTableView* watchTable;						// Table of more permanent watch expressions
 
-	NSWindow* activeWin;
-	IFProject* activeProject;
-	IFProjectController* activeController;
+	NSWindow* activeWin;									// The currently active window
+	IFProject* activeProject;								// The currently active project
+	IFProjectController* activeController;					// The active window controller (if it's a ProjectController)
 }
 
-+ (IFIsWatch*) sharedIFIsWatch;
++ (IFIsWatch*) sharedIFIsWatch;								// The shared watch inspector
 
-- (IBAction) expressionChanged: (id) sender;
+- (IBAction) expressionChanged: (id) sender;				// Called when the quick watch expression has changed to a new value
 
-- (unsigned) evaluateExpression: (NSString*) expression;
-- (void) refreshExpressions;
+- (unsigned) evaluateExpression: (NSString*) expression;	// Returns the integer result of evaluating an Inform expression
+- (void) refreshExpressions;								// Refreshes the expressions displayed in the watch table
 
 @end

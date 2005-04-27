@@ -17,14 +17,17 @@
 
 extern NSString* IFIsSkeinInspector;
 
+//
+// The skein inspector
+//
 @interface IFIsSkein : IFInspector {
-	NSWindow* activeWin;
-	IFProject* activeProject;
-	IFProjectController* activeController;
+	NSWindow* activeWin;								// The currently active window
+	IFProject* activeProject;							// The currently active project
+	IFProjectController* activeController;				// The currently active window controller, if a ProjectController
 	
-	IBOutlet ZoomSkeinView* skeinView;
+	IBOutlet ZoomSkeinView* skeinView;					// The view we'll be displaying the skein in
 }
 
-+ (IFIsSkein*) sharedIFIsSkein;
++ (IFIsSkein*) sharedIFIsSkein;							// The shared skein inspector
 
 @end

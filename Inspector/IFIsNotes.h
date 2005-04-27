@@ -13,12 +13,15 @@
 
 extern NSString* IFIsNotesInspector;
 
+//
+// RTF notes inspector
+//
 @interface IFIsNotes : IFInspector {
-	IFProject* activeProject;
+	IFProject* activeProject;				// Currently selected project
 	
-	IBOutlet NSTextView* text;
+	IBOutlet NSTextView* text;				// The text view that will contain the notes
 }
 
-+ (IFIsNotes*) sharedIFIsNotes;
++ (IFIsNotes*) sharedIFIsNotes;				// Gets the shared instance of the inspector class
 
 @end
