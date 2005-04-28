@@ -12,25 +12,32 @@
 
 @protocol IFProjectSetupView;
 
+//
+// Objects implementing this protocol specify a type of project that can be created via the
+// new project dialog.
+//
 @protocol IFProjectType
 
-- (NSString*)           projectName;
-- (NSString*)           projectHeading;
-- (NSAttributedString*) projectDescription;
+- (NSString*)           projectName;						// The name of the project that appears in the project type list
+- (NSString*)           projectHeading;						// The heading that the name comes under
+- (NSAttributedString*) projectDescription;					// A more detailed description that is displayed when the project is selected
 
-- (NSObject<IFProjectSetupView>*) configView;
+- (NSObject<IFProjectSetupView>*) configView;				// nil, or a project type-specific view that can be used to customise the new project. Should be reallocated every time this is called.
 
-- (void) setupFile: (IFProjectFile*) file
+- (void) setupFile: (IFProjectFile*) file					// Request to setup a file from the given IFProjectSetupView (which will have been previously created by configView)
           fromView: (NSObject<IFProjectSetupView>*) view;
 
 @end
 
 @protocol IFProjectSetupView
 
-- (NSView*) view;
+- (NSView*) view;											// The view that's displayed for this projects custom settings
 
 @end
 
+//
+// Objects implementing the IFProjectType protocol may also implement these functions.
+//
 @interface NSObject(IFProjectTypeOptionalMethods)
 
 - (BOOL) showFinalPage;				// Defaults to YES. If NO, the 'save project' page is not shown

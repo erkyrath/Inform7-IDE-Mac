@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "IFProjectType.h"
 
+//
+// Project type that creates a project with an empty Inform 6 file
+//
 @interface IFEmptyProject : NSObject<IFProjectType> {
 
 }

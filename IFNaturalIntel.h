@@ -15,7 +15,7 @@
 // Class to gather intelligence data on Natural Inform files
 //
 @interface IFNaturalIntel : NSObject<IFSyntaxIntelligence> {
-	IFSyntaxStorage* highlighter;
+	IFSyntaxStorage* highlighter;				// The highlighter that wants us to gather intelligence
 }
 
 @end

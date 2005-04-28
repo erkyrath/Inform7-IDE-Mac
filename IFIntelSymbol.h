@@ -25,14 +25,14 @@ extern NSString* IFSectionSymbolType;	// Natural Inform section
 //
 @interface IFIntelSymbol : NSObject {
 	// Our data
-	NSString* name;
-	NSString* type;
-	int level;
-	enum IFSymbolRelation relation;
-	int levelDelta;
+	NSString* name;							// Name of the symbol (as displayed in the index)
+	NSString* type;							// Type of the symbol (see above)
+	int level;								// Level of the symbol in the tree (calculated)
+	enum IFSymbolRelation relation;			// If IFSymbolDeltaLevel, level is relative to the level of the preceding symbol
+	int levelDelta;							// If relation is IFSymbolDelta, the difference in levels, otherwise the absolute level
 	
 	// The file we're stored in
-	IFIntelFile* ourFile;
+	IFIntelFile* ourFile;					// The IntelFile that owns this symbol
 	
 	// Our relation in the list of symbols
 @public
@@ -56,12 +56,12 @@ extern NSString* IFSectionSymbolType;	// Natural Inform section
 
 // (If we're stored in an IFIntelFile, our relation to other symbols in the file)
 - (IFIntelSymbol*) parent;			// May go down multiple levels
-- (IFIntelSymbol*) child;
-- (IFIntelSymbol*) sibling;
-- (IFIntelSymbol*) previousSibling;
+- (IFIntelSymbol*) child;			// Symbol that comes below us (if there is one)
+- (IFIntelSymbol*) sibling;			// Next symbol on the same level
+- (IFIntelSymbol*) previousSibling;	// Previous symbol on the same level
 
-- (IFIntelSymbol*) nextSymbol;
-- (IFIntelSymbol*) lastSymbol;
+- (IFIntelSymbol*) nextSymbol;		// Next symbol (nearest)
+- (IFIntelSymbol*) lastSymbol;		// Previous symbol (nearest)
 
 @end
 

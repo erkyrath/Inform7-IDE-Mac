@@ -9,6 +9,10 @@
 #ifndef __IFError_h
 #define __IFError_h
 
+//
+// A flex source that scans Inform files for errors
+//
+
 typedef enum {
     IFLexBase = 1,
 
@@ -28,10 +32,10 @@ typedef enum {
 extern int IFLexLastProgress;
 extern char* IFLexLastProgressString;
 
-extern int  IFErrorScanString(const char* string);
+extern int  IFErrorScanString(const char* string);				// Scans a string (presumably from the compiler) for anything that looks like an error
 extern void IFErrorAddError  (const char* file,
                               int line,
                               IFLex type, // Limited to Message, Warning or Error
-                              const char* message);
+                              const char* message);				// (Defined in IFCompilerController.h - called whenever a new error is encountered)
 
 #endif

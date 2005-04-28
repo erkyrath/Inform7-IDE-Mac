@@ -10,6 +10,9 @@
 
 #import "IFProjectType.h"
 
+//
+// Project type that makes it possible to create new Natural Inform extensions directories
+//
 @class IFNaturalExtensionView;
 @interface IFNaturalExtensionProject : NSObject<IFProjectType> {
 	IFNaturalExtensionView* vw;

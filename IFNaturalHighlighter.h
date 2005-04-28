@@ -35,9 +35,9 @@ enum {
 // Natural Inform syntax highlighter
 //
 @interface IFNaturalHighlighter : NSObject<IFSyntaxHighlighter> {
-	IFSyntaxStorage* activeStorage;
+	IFSyntaxStorage* activeStorage;					// Syntax storage that we're using
 	
-	IFInform6Highlighter* inform6Highlighter;
+	IFInform6Highlighter* inform6Highlighter;		// Highlighter for portions of the file that are Inform 6 code
 }
 
 @end

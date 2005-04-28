@@ -9,21 +9,24 @@
 #import <AppKit/AppKit.h>
 #import "IFProjectController.h"
 
-
+//
+// Window controller that handles the dialog that's presented when we want to add a new file to
+// a project
+//
 @interface IFNewProjectFile : NSWindowController {
-	IFProjectController* projectController;
+	IFProjectController* projectController;			// The project controller for the project that's getting a new file
 	
-	IBOutlet NSPopUpButton* fileType;
-	IBOutlet NSTextField*   fileName;
+	IBOutlet NSPopUpButton* fileType;				// Used to select the type of file
+	IBOutlet NSTextField*   fileName;				// Used to enter the new file name
 	
-	NSString* newFilename;
+	NSString* newFilename;							// Stores the filename that the new file will have
 }
 
-- (id) initWithProjectController: (IFProjectController*) control;
+- (id) initWithProjectController: (IFProjectController*) control;	// Initialises this object
 
-- (IBAction) cancel: (id) sender;
-- (IBAction) addFile: (id) sender;
+- (IBAction) cancel: (id) sender;									// Cancels the action
+- (IBAction) addFile: (id) sender;									// Performs the action
 
-- (NSString*) getNewFilename;
+- (NSString*) getNewFilename;										// Retrieves the name of the file that should be created
 
 @end

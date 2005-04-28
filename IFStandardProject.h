@@ -10,22 +10,26 @@
 #import "IFProjectType.h"
 
 
-// Standard project interface
+//
+// Project type that creates an Inform 6 project with a simple initial source file
+//
 @interface IFStandardProject : NSObject<IFProjectType> {
 
 }
 
 @end
 
-// The setup view for a standard project
+//
+// Setup view for a standard Inform 6 project
+//
 @interface IFStandardProjectView : NSObject<IFProjectSetupView> {
-    IBOutlet NSTextField* name;
-    IBOutlet NSTextField* headline;
-    IBOutlet NSTextView*  teaser;
-    IBOutlet NSTextField* initialRoom;
-    IBOutlet NSTextView*  initialRoomDescription;
+    IBOutlet NSTextField* name;						// Field that contains the initial name of the game
+    IBOutlet NSTextField* headline;					// Field that contains the games initial headline
+    IBOutlet NSTextView*  teaser;					// Field that contains the games initial teaser
+    IBOutlet NSTextField* initialRoom;				// Field that contains the name of the games initial room
+    IBOutlet NSTextView*  initialRoomDescription;	// Field that contains the description of the games initial room
 
-    IBOutlet NSView*      view;
+    IBOutlet NSView*      view;						// View that contains the lot
 }
 
 - (NSString*) name;
