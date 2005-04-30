@@ -39,7 +39,7 @@ NSDictionary* IFSyntaxAttributes[256];
     NSFont* monospaceFont    = [NSFont fontWithName: @"Monaco"
                                                size: 9];
 	
-	// [[ZoomPreferences globalPreferences] setDisplayWarnings: YES];
+	[[ZoomPreferences globalPreferences] setDisplayWarnings: NO];
 	    
     // Default style
     NSDictionary* defaultStyle = [[NSDictionary dictionaryWithObjectsAndKeys:
