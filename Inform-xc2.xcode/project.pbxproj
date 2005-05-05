@@ -9,6 +9,7 @@
 			children = (
 				4B96DF4F04F11BF500A8E303,
 				4B96DF5004F11BF500A8E303,
+				4BC623F308295992007827B5,
 				4BB2B49907DB786700FD7E0E,
 				4BCF78A50641A4A400516872,
 				4B96DF5D04F126FC00A8E303,
@@ -12125,6 +12126,81 @@
 			settings = {
 			};
 		};
+		4BC623F308295992007827B5 = {
+			children = (
+				4BC623F8082A6088007827B5,
+				4BC62433082A6A4C007827B5,
+				4BC6242B082A6994007827B5,
+				4BC6242C082A6994007827B5,
+			);
+			isa = PBXGroup;
+			path = AppleScript;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4BC623F8082A6088007827B5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = ASNotes.txt;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4BC6242B082A6994007827B5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.h;
+			path = IFasProject.h;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4BC6242C082A6994007827B5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.c.objc;
+			path = IFasProject.m;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4BC6242D082A6994007827B5 = {
+			fileRef = 4BC6242B082A6994007827B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4BC6242E082A6994007827B5 = {
+			fileRef = 4BC6242C082A6994007827B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4BC62433082A6A4C007827B5 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			lastKnownFileType = text.sdef;
+			path = Inform.sdef;
+			refType = 4;
+			sourceTree = "<group>";
+		};
+		4BC62434082A6A4C007827B5 = {
+			fileRef = 4BC62433082A6A4C007827B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		4BC6243F082A71E4007827B5 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			isa = PBXShellScriptBuildPhase;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \\*\\*\\* Building script dictionaries\ncd ${OBJROOT}/Inform.app/Contents/Resources\n\nSCRIPTSUITES=\"/Developer/Examples/Scripting Definitions\"\n\n# rm *.scriptSuite\n# rm *.scriptTerminology\nsdp -fs -i \"${SCRIPTSUITES}/NSCoreSuite.sdef\" -i \"${SCRIPTSUITES}/NSTextSuite.sdef\" \"${OBJROOT}/Inform.app/Contents/Resources/Inform.sdef\"\n\nsdp -ft -i \"${SCRIPTSUITES}/NSCoreSuite.sdef\" -i \"${SCRIPTSUITES}/NSTextSuite.sdef\" \"${OBJROOT}/Inform.app/Contents/Resources/Inform.sdef\"\n";
+		};
 		4BC84A3D07ABC04A0076B993 = {
 			children = (
 				4BC84A3E07ABC04A0076B993,
@@ -12616,6 +12692,7 @@
 				4B81D2E408112D1300CF609F,
 				4BD36FA1055EEC0D00F98A80,
 				4B274FAB0754FBAC00851A38,
+				4BC6243F082A71E4007827B5,
 			);
 			buildRules = (
 			);
@@ -12727,6 +12804,7 @@
 				4BB2B49C07DB787F00FD7E0E,
 				4BDF9CF007DFB18B0006A354,
 				4B0ACEAD081BB1EE005EF5A4,
+				4BC6242D082A6994007827B5,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -13108,6 +13186,7 @@
 				4B34332C07B144060022C278,
 				4BD699CF07B7FCCD00BFDF2B,
 				4BA63FA807BA70C700694946,
+				4BC62434082A6A4C007827B5,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -13238,6 +13317,7 @@
 				4BDF9CF107DFB18B0006A354,
 				4B28BB08081844DF00D39021,
 				4B0ACEAE081BB1EF005EF5A4,
+				4BC6242E082A6994007827B5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

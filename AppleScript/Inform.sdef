@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<dictionary title="Dictionary">
+	<suite name="Inform suite" code="IFas" description="Suite of actions for Inform">
+		<cocoa name="Inform"/>
+		<classes>
+			<class name="project" code="Iprj" description="Representation of an Inform project" plural="projects" inherits="document">
+				<cocoa class="IFProject"/>
+				<elements>
+					<element description="A specific source file contained in a project" type="source file" access="r">
+						<cocoa method="asSourceFileWithName:"/>
+						<accessor style="name"/>
+					</element>
+				</elements>
+				<properties>
+					<property name="main source file" code="Imsr" description="The primary source file contained in a project." type="source file" access="r">
+						<cocoa method="asPrimarySourceFile"/>
+					</property>
+				</properties>
+			</class>
+			<class name="source file" code="Isrc" description="Source file contained by an Inform project" plural="source files" inherits="text">
+				<cocoa class="NSTextStorage"/>
+			</class>
+		</classes>
+	</suite>
+</dictionary>
