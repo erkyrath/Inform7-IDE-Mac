@@ -20,16 +20,34 @@
 	if (self) {
 		project = [proj retain];
 		name = [nm copy];
+		
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(sourceFileRenamed:)
+													 name: IFProjectSourceFileRenamedNotification
+												   object: project];
 	}
 	
 	return self;
 }
 
 - (void) dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	
 	[project release];
 	[name release];
 	
 	[super dealloc];
+}
+
+- (void) sourceFileRenamed: (NSNotification*) not {
+	NSDictionary* dict = [not userInfo];
+	NSString* oldFilename = [dict objectForKey: @"OldFilename"];
+	NSString* newFilename = [dict objectForKey: @"NewFilename"];
+	
+	if ([[oldFilename lowercaseString] isEqualToString: [name lowercaseString]]) {
+		[name autorelease];
+		name = [newFilename copy];
+	}
 }
 
 // = Applescript functions (see the .sdef file for more details) =

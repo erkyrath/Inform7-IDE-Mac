@@ -249,7 +249,12 @@ NSDictionary* IFSyntaxAttributes[256];
 											 selector: @selector(updatedBreakpoints:)
 												 name: IFProjectBreakpointsChangedNotification
 											   object: [parent document]];
-
+	
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(sourceFileRenamed:)
+												 name: IFProjectSourceFileRenamedNotification 
+											   object: [parent document]];
+		
     doc = [parent document];
 
 	[sourceText setContinuousSpellCheckingEnabled: NO];
@@ -552,6 +557,26 @@ NSDictionary* IFSyntaxAttributes[256];
 	[sourceText setEditable: ![[parent document] fileIsTemporary: file]];
 	
 	[[IFIsFiles sharedIFIsFiles] updateFiles]; // have to update for the case where we select an 'unknown' file
+}
+
+- (void) sourceFileRenamed: (NSNotification*) not {
+	// Called when a source file is renamed in the document. We need to do nothing, unless the source file
+	// is the one we're displaying, in which we need to update the name of the source file we're displaying
+	NSDictionary* dict = [not userInfo];
+	NSString* oldName = [dict objectForKey: @"OldFilename"];
+	NSString* newName = [dict objectForKey: @"NewFilename"];
+	
+	if ([[oldName lowercaseString] isEqualToString: [[openSourceFile lastPathComponent] lowercaseString]]) {
+		// The file being renamed is the one currently being displayed
+		NSString* newSourceFile = [[[parent document] pathForFile: newName] copy];
+		
+		if (newSourceFile) {
+			[openSourceFile release];
+			openSourceFile = newSourceFile;
+		}
+
+		[[IFIsFiles sharedIFIsFiles] updateFiles];
+	}
 }
 
 - (NSRange) findLine: (int) line {

@@ -20,7 +20,8 @@
 NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotification";
 NSString* IFProjectWatchExpressionsChangedNotification = @"IFProjectWatchExpressionsChangedNotification";
 NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChangedNotification";
-
+NSString* IFProjectSourceFileRenamedNotification = @"IFProjectSourceFileRenamedNotification";
+NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedNotification";
 
 @implementation IFProject
 
@@ -452,6 +453,11 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 	
 	[sourceFiles removeObjectForKey: oldFile];
 	
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectSourceFileDeletedNotification
+														object: self
+													  userInfo: [NSDictionary dictionaryWithObjectsAndKeys: 
+														  oldFile, @"OldFilename",
+														  nil]];
 	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectFilesChangedNotification
 														object: self];
 	return YES;
@@ -467,8 +473,14 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 	
 	[sourceFiles removeObjectForKey: oldFile];
 	[sourceFiles setObject: oldFileStorage
-					forKey: newFile];
+					forKey: [[newFile copy] autorelease]];
 	
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectSourceFileRenamedNotification
+														object: self
+													  userInfo: [NSDictionary dictionaryWithObjectsAndKeys: 
+														  [[oldFile copy] autorelease], @"OldFilename",
+														  [[newFile copy] autorelease], @"NewFilename",
+														  nil]];
 	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectFilesChangedNotification
 														object: self];
 	return YES;
@@ -651,6 +663,11 @@ NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChange
 		if (![[NSFileManager defaultManager] fileExistsAtPath: sourceFile]) {
 			// project/Source/whatever doesn't exist: try project/whatever
 			sourceFile = [[[self fileName] stringByAppendingPathComponent: originalSourceFile] stringByStandardizingPath];
+			
+			if (![[NSFileManager defaultManager] fileExistsAtPath: sourceFile]) {
+				// If neither exists, use project/Source/whatever by default
+				sourceFile = [[sourceDir stringByAppendingPathComponent: sourceFile] stringByStandardizingPath];
+			}
 		}
 	}
 	

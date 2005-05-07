@@ -17,6 +17,8 @@
 extern NSString* IFProjectFilesChangedNotification;
 extern NSString* IFProjectWatchExpressionsChangedNotification;
 extern NSString* IFProjectBreakpointsChangedNotification;
+extern NSString* IFProjectSourceFileRenamedNotification;
+extern NSString* IFProjectSourceFileDeletedNotification;
 
 @interface IFProject : NSDocument {
     // The data for this project
