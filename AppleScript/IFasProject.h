@@ -16,7 +16,7 @@
 @interface IFProject(IFasProject)
 
 // Dealing with source files
-- (NSTextStorage*) asSourceFileWithName: (NSString*) name;			// Retrieves a specific source file
+- (NSArray*) asSourceFiles;											// Retrieves the source files as an array of IFasSources
 - (NSTextStorage*) asPrimarySourceFile;								// Retrieves the 'primary' source file
 
 // Dealing with the compiler

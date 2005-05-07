@@ -8,25 +8,33 @@
 
 #import "IFasProject.h"
 
+#import "IFasSource.h"
 
 @implementation IFProject(IFasProject)
 
 // = Dealing with source files =
 
-- (NSTextStorage*) asSourceFileWithName: (NSString*) name {
-	// Retrieve the source file
-	NSTextStorage* res = [self storageForFile: name];
-	if (res == nil) return nil;
+- (NSArray*) asSourceFiles {
+	// Build the list of source files (using the IFasSource proxy object)
+	NSMutableArray* res = [NSMutableArray array];
+	NSEnumerator* srcEnum = [[self sourceFiles] keyEnumerator];
+	NSString* srcName;
 	
-	// Fail if the result is temporary
-	if ([self fileIsTemporary: name]) return nil;
+	while (srcName = [srcEnum nextObject]) {
+		IFasSource* sourceFile = [[IFasSource alloc] initWithProject: self
+																name: srcName];
+		
+		[res addObject: sourceFile];
+		[sourceFile release];
+	}
 	
-	// Finish up
 	return res;
 }
 
 - (NSTextStorage*) asPrimarySourceFile {
-	return [self asSourceFileWithName: [self mainSourceFile]];
+	return [[[IFasSource alloc] initWithProject: self
+										   name: [self mainSourceFile]] autorelease];
+	//return [self storageForFile: [self mainSourceFile]];
 }
 
 @end
