@@ -595,7 +595,7 @@ NSDictionary* IFSyntaxAttributes[256];
             linepos = x + 1;
             
             // Deal with DOS line endings
-            if ([store characterAtIndex: linepos] == otherchar) {
+            if (linepos < length && [store characterAtIndex: linepos] == otherchar) {
                 x++; linepos++;
             }
             

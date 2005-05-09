@@ -34,7 +34,7 @@
 					</element>
 				</elements>
 				<properties>
-					<property name="main source file" code="Imsr" description="The primary source file contained in a project." type="source file" access="r">
+					<property name="main source file" code="Imsr" description="The primary source file contained in a project. This is the file that is passed to the Inform or Natural Inform compiler." type="source file" access="r">
 						<cocoa method="asPrimarySourceFile"/>
 					</property>
 				</properties>
@@ -60,5 +60,12 @@
 				</properties>
 			</class>
 		</classes>
+		<commands>
+			<command name="compile" code="IFasIcmp" description="Begin compiling the main source file of the project, using the debug style. Any currently running compilation jobs are aborted."/>
+			<command name="compile for release" code="IFasIrls" description="Starts compiling the main source code for release (turning off debug options)."/>
+		</commands>
+		<events>
+			<event name="finished compiling" description="Event caused when the project has finished compiling"/>
+		</events>
 	</suite>
 </dictionary>
