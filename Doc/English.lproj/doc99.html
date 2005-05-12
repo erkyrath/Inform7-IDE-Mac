@@ -1,12 +1,18 @@
-<html><head><title>8.3. Introducing tables: rankings</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc98.html><img src=../Back.tif></a><a href=doc100.html><img src=../Forward.tif></a></td><td><b>8.3. Introducing tables: rankings</b></td></tr></table><p>
+<html><head><title>7.8. Moving the player</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc98.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc100.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.8. Moving the player</b></td></tr></table><p>
 <p>
-<p>Another tradition of interactive fiction is that there is a maximum score, and that the player has a current 'rank' according to how far his or her score has got. We can (but need not) choose to provide such rankings, and should do so by specifying a table like this:
+<p>The player is a thing, too, and can also be moved, which has the effect of instantaneous transportation, without the need for a suitable map connection to the new location. For instance:
 <p>
-<p><center><img src=table.tiff></center>
+<blockquote><font color="#000080">move the player to the Bodleian Library
+</font></blockquote><p>
 <p>
-<p>Typographically, tables in Inform look as much as possible like those found in non-fiction books: they can have many columns, so this is only a simple example (drawn from the actual rankings used by Infocom's <i>Zork I</i>, 1979). Each line in the source represents one row in the table, and the entries on a line must be separated by at least one tab character. (An entry might of course have several words with spaces in between, so a space is not enough to separate entries: this is the only context when Inform distinguishes between spaces and tabs.) The table must occupy a single whole paragraph, with no skipped lines or missing entries. We are free to use extra tabs to indent it if we like.
+<p>This will ordinarily result in a room description of the Bodleian Library being printed up, but that might not always be desirable. For instance:
 <p>
-<p>Ordinarily we must explicitly ask to use the information presented in a table, but the table of rankings is a special case: Inform uses it automatically, if it is provided at all. To be recognised it must have the name &quot;Rankings&quot; and must have two columns named and arranged as shown. The scores should be given in ascending order, and the score in the final row should be the maximum possible achieved in the game - so that only a player with maximum possible score can be awarded the final ranking.
+<blockquote><font color="#000080">Instead of waiting in the Schola Maleficorum: say &quot;A bored demon catches your eye (they really do have very inquisitive fingers) and throws you back out into the Antechamber.&quot;; move the player to the Antechamber, without printing a room description.
+</font></blockquote><p>
+<p>
+<p>Thus tacking on the option &quot;without printing a room description&quot;, remembering to add the comma, omits the description which would otherwise be produced. A compromise is to use the option &quot;printing an abbreviated room description&quot;: this gives a full description if the player has never been here before, but only a brief one if it is a familiar scene.
+<p>
+<p>We will see further examples of phrase options such as &quot;without printing a room description&quot;, which can modify the normal behaviour of phrases, in subsequent chapters.
 <p>
 <p><hr><p><a href=doc98.html>Previous</a> / <a href=doc100.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

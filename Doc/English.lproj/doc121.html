@@ -1,37 +1,11 @@
-<html><head><title>9.8. Repeat</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc120.html><img src=../Back.tif></a><a href=doc122.html><img src=../Forward.tif></a></td><td><b>9.8. Repeat</b></td></tr></table><p>
+<html><head><title>8.10. Approximate times, lengths of time</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc120.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc122.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.10. Approximate times, lengths of time</b></td></tr></table><p>
 <p>
-<p>The following kind of loop could if necessary be achieved just as well with a suitable &quot;while&quot;, but occurs so often that it is convenient to have a standard form. Repeat loops also have the great advantage of being certain to finish.
+<p>Clocks and watches vary considerably in how much detail they show, and we tend not to report the time over-precisely: half-past ten is an elastic concept. The following room description for the Clock Chamber comes across much more naturally:
 <p>
-<blockquote><font color="#000080">repeat with my counter running from 1 to 10 begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;(phrases)
-<br>end repeat;
+<blockquote><font color="#000080">The Clock Chamber is a room. &quot;The dark chamber behind the clock face, a mill-room of gears which grind down the seconds. Through the glass you can see the reversed hands reading [the time of day to the nearest five minutes in words].&quot;
 </font></blockquote><p>
 <p>
-<p>This is similar to the old FOR/NEXT loop from BASIC, for those with long memories, and runs through the given phrases ten times. Within those phrases, a special value called &quot;my counter&quot; has the value 1 the first time through, then the value 2, then 3 and so on up to 10. This value exists only within the loop, so it makes no sense to talk about &quot;my counter&quot; elsewhere. (It can of course be called whatever we like: this is only an example.)
-<p>
-<p>The &quot;begin&quot; and &quot;end repeat&quot; are compulsory for repeat loops, in the interests of clarity.
-<p>
-<p>We are allowed to &quot;nest&quot; loops, that is, to put one inside another.
-<p>
-<blockquote><font color="#000080">To plot a grid with size (S - a number):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with x running from 1 to S begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Row [x]:&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeat with y running from 1 to S begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; [y]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
-</font></blockquote><p>
-<p>
-<p>If we then write
-<p>
-<p><blockquote><font color="#000080">plot a grid with size 5</font></blockquote>
-<p>
-<p>then the result is
-<p>
-<p><blockquote><font color="#000080">Row 1: 1 2 3 4 5.<br>Row 2: 1 2 3 4 5.<br>Row 3: 1 2 3 4 5.<br>Row 4: 1 2 3 4 5.<br>Row 5: 1 2 3 4 5.</font></blockquote>
-<p>
-<p>Thus the innermost phrase, the say which mentions &quot;y&quot;, happens 25 times.
+<p>The phrase &quot;... to the nearest ...&quot; rounds off the given time, just as it sounds. For instance, &quot;9:58 PM to the nearest ten minutes&quot; is 10:00 PM. As this shows, we can also quote lengths of time, not just times of day: for instance &quot;7 hours&quot;, &quot;one hour 14 minutes&quot;, or &quot;90 minutes&quot; all validly describe durations. We never (ordinarily) deal in periods of time longer than a single day.
 <p>
 <p><hr><p><a href=doc120.html>Previous</a> / <a href=doc122.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,24 +1,23 @@
-<html><head><title>3.14. Men, women and articles</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc30.html><img src=../Back.tif></a><a href=doc32.html><img src=../Forward.tif></a></td><td><b>3.14. Men, women and articles</b></td></tr></table><p>
+<html><head><title>3.12. Doors</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc30.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc32.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.12. Doors</b></td></tr></table><p>
 <p>
-<p>Rounding out the standard kinds provided by Inform are three for living things: &quot;person&quot;, which is a kind of thing, and &quot;man&quot; and &quot;woman&quot;, both kinds of person. For instance:
+<p>The map of an interactive fiction is the layout of rooms and the entrances and exits which connect them. So far, these map connections have always run from one room to another, like so:
 <p>
-<p><blockquote><font color="#000080">In the Ballroom is a man called Mr Darcy.</font></blockquote>
+<blockquote><font color="#000080">The Painted Room is north of the Undertomb.
+</font></blockquote><p>
 <p>
-<p>For the time being, men and women will be little more than waxworks: they will come to life only when we go beyond the present stage of creating an initial state of the world.
+<p>However, we can also interpose doors between rooms, like so:
 <p>
-<p>When the Ballroom is visited, the man is listed in the description of the room as &quot;Mr Darcy&quot;, not as &quot;a Mr Darcy&quot;. This happened not because Inform recognised that Darcy is a proper name, or even because men tend to have proper names, but because Inform noticed that we did not use &quot;a&quot;, &quot;an&quot;, &quot;the&quot; or &quot;some&quot; in the sentence which created him. The following little example game shows most of the options:
+<blockquote><font color="#000080">The red rock stair is east of the Orchard and above the Undertomb. The stair is an open door.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">&quot;Belfry&quot;</font></blockquote>
+<p>The second sentence is needed since otherwise Inform will take &quot;red rock stair&quot; to be the name of a third room, whereas what we want is for the stair to be something physically present in both the Orchard and in the Undertomb, and acting as a conduit between them. To this end it needs to be a &quot;door&quot;, a kind we have not so far seen. In the absence of any other instruction, a newly created door will be fixed in place, closed and openable. Fixed in place is certainly right here, but not closed, which is why we specified that it should be &quot;open&quot;.
 <p>
-<p><blockquote><font color="#000080">The Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton's wife is in the Belfry. A man called a bellringer is in the Belfry.</font></blockquote>
+<p>In real life, most doors are two-sided, and can be used from either of the rooms which they join, but this is not always convenient for interactive fiction. Here is a one-sided door:
 <p>
-<p><blockquote><font color="#000080">In the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.</font></blockquote>
+<blockquote><font color="#000080">The blue door is a door. It is south of Notting Hill. Through it is the Flat Landing.
+</font></blockquote><p>
 <p>
-<p>In the resulting game, we read:
-<p>
-<p><blockquote><font color="#000080">You can see a bat, a bell, some woodworm, William Snelson, the sexton's wife, a bellringer and your local vicar here.</font></blockquote>
-<p>
-<p>The subtlest rule here is in the handling of &quot;the&quot;. We wrote &quot;The bell is in the Belfry&quot;, but this did not result in the bell always being called &quot;the&quot; bell: in fact, writing &quot;A bell is in the Belfry&quot; would have had the same effect. On the other hand, &quot;A woman called the sexton's wife is in the Belfry.&quot; led to the wife always being known as &quot;the&quot; sexton's wife, not &quot;a&quot; sexton's wife, because Inform thinks the choice of article after &quot;called&quot; shows more of our intention than it would elsewhere. These rules will never be perfect in all situations, so we are also allowed to specify indefinite articles by hand, as the vicar's case shows.
+<p>(Note the use of &quot;it&quot; here as an optional abbreviation.) This will make a door visible only on the Notting Hill side; no map connection will be made in the reverse direction, unless we ask for one.
 <p>
 <p><hr><p><a href=doc30.html>Previous</a> / <a href=doc32.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

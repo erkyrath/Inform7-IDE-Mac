@@ -1,32 +1,33 @@
-<html><head><title>9.3. Pattern matching</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc115.html><img src=../Back.tif></a><a href=doc117.html><img src=../Forward.tif></a></td><td><b>9.3. Pattern matching</b></td></tr></table><p>
+<html><head><title>8.5. When play ends</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc115.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc117.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.5. When play ends</b></td></tr></table><p>
 <p>
-<p>The following are all valid phrases:
+<p>Short of something like a power cut, the game can only end when one of the two participants chooses to end it: either the player, by deciding that enough is enough, or us.
 <p>
-<p><blockquote><font color="#000080">award 2 points<br>award 8 points<br>award 30 points</font></blockquote>
+<p>If we decide that a conclusion of some kind, happy or not, has been reached, we can herald that moment with phrases like so:
 <p>
-<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
+<blockquote><font color="#000080">end the game in death
+<br>end the game in victory
+<br>end the game saying &quot;You have come to a full stop&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">To award (some - a number) points: ...</font></blockquote>
+<p>The phrase &quot;end the game in death&quot; is equivalent to ending it saying &quot;You have died&quot;, and similarly victory simply means announcing &quot;You have won&quot;. The more general phrase allows any text (short, please) to be used:
 <p>
-<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
+<blockquote><font color="#000080">Instead of eating the fish, end the game saying &quot;You have been poisoned&quot;.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">award &quot;blue cheese&quot; points;</font></blockquote>
+<p>The rulebook &quot;when play ends&quot; is the matching bookend to &quot;when play begins&quot;. It is followed when the game decides to end (not when the player simply gives up and quits), and before any epitaph like
 <p>
-<p>which results in the following error:
+<blockquote><font color="#000080">*** You have been poisoned ***
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.</font></blockquote>
+<p>appears. For example:
 <p>
-<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
+<blockquote><font color="#000080">When play ends, say &quot;Oh dear.&quot;
+</font></blockquote><p>
 <p>
-<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
+<p>In such a rule, the phrase &quot;resume the game&quot; will cause play to continue exactly as if no ending had been reached at all:
 <p>
-<p><blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.</font></blockquote>
-<p>
-<p>Which would not match, for instance, this:
-<p>
-<p><blockquote><font color="#000080">slam shut the black door;</font></blockquote>
-<p>
-<p>because the black door is not an open container.
+<blockquote><font color="#000080">When play ends: say &quot;Oh dear. Still, here's another chance.&quot;; resume the game.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc115.html>Previous</a> / <a href=doc117.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,24 +1,25 @@
-<html><head><title>9.6. Begin and end</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc118.html><img src=../Back.tif></a><a href=doc120.html><img src=../Forward.tif></a></td><td><b>9.6. Begin and end</b></td></tr></table><p>
+<html><head><title>8.8. The time of day</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc118.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc120.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.8. The time of day</b></td></tr></table><p>
 <p>
-<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
+<p>Inform keeps track of the time of day automatically: play ordinarily begins at 9 AM and each turn takes one minute. In some works of interactive fiction, time of day is crucial: in others, it is irrelevant or even, by a sort of tacit convention, non-existent. So Inform does nothing to act upon the time, or to reveal it to the player, without instruction. Nevertheless it is there.
 <p>
-<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
+<p>A sentence like the following allows the initial time to be set up as something other than 9 AM:
 <p>
-<blockquote><font color="#000080">To comment upon (whatever - a thing):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">The time of day is 3:13 PM.
 </font></blockquote><p>
 <p>
-<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
+<p>Here, &quot;3:13 PM&quot; is a constant value of a kind not seen before: it's a kind of value called &quot;time&quot;, and the value &quot;time of day&quot; is a time that varies. After one turn it will be 3:14 PM, then 3:15 PM and so on.
 <p>
-<p>Similarly for while:
+<p>Note that the sentence above is an assertion (a statement about the initial state of affairs), not an instruction which can be part of a rule. It would be equivalent to write:
 <p>
-<p><blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while</font></blockquote>
+<blockquote><font color="#000080">When play begins, change the time of day to 3:13 PM.
+</font></blockquote><p>
 <p>
-<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
+<p>We more often use &quot;change the time of day to ...&quot; to take care of drastic events:
+<p>
+<blockquote><font color="#000080">When the player loses consciousness:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to 10:12 AM;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A mist comes over your vision, and when you come to, it is morning and you are in bed.&quot;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc118.html>Previous</a> / <a href=doc120.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

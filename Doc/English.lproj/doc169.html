@@ -1,24 +1,39 @@
-<html><head><title>12.13. In what order?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc168.html><img src=../Back.tif></a><a href=doc170.html><img src=../Forward.tif></a></td><td><b>12.13. In what order?</b></td></tr></table><p>
+<html><head><title>12.3. Whereabouts on a scale?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc168.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc170.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.3. Whereabouts on a scale?</b></td></tr></table><p>
 <p>
-<p>Large works created by Inform are heaped high with rules, most of them instead rules, but with a leavening of befores and afters as well. What will happen if these conflict with each other? For instance:
+<p>Adjectives are often used in English to give a sense of where something is on a sliding scale. We talk about &quot;a tall man&quot; and &quot;a short man&quot;, but without meaning that all men are either tall or short. If pushed, we might say that tall means about 6 feet and up, short means about 5 feet 6 and down, but we more often compare one person's height against another's.
 <p>
-<p><blockquote><font color="#000080">Instead of opening a container, say &quot;Your mother-in-law looks on with such evident disappointment that you withdraw your hand again.&quot;</font></blockquote>
+<p>Inform allows us to use adjectives in the same way. For example, every container has a number called its &quot;carrying capacity&quot;. We can define:
 <p>
-<p><blockquote><font color="#000080">Instead of opening an open container, say &quot;Your daughter tuts in theatrical exasperation at your, like, lameness.&quot;</font></blockquote>
+<blockquote><font color="#000080">Definition: A container is huge if its carrying capacity is 20 or more.
+<br>Definition: A container is large if its carrying capacity is 10 or more.
+<br>Definition: A container is standard if its carrying capacity is 7.
+<br>Definition: A container is small if its carrying capacity is 5 or less.
+</font></blockquote><p>
 <p>
-<p>If the player tries to open something which is closed, there is no conflict and it is clearly the mother-in-law who gets in the way. But what if the player tries to open a container which is already open? In this case both rules are applicable, but they cannot both take effect: they are instead rules and whichever happens first will stop the action.
+<p>These definitions are similar to those in the previous section, but have a very specific (and strictly enforced) shape to them. The adjective must be a single word. We have to say &quot;its&quot; (i.e., of it), not the ungrammatical &quot;it's&quot;; we have to specify a property, and a literal value of it, and we must either give an exact value or else conclude with &quot;or more&quot; or &quot;or less&quot;. If we create something with one of these properties:
 <p>
-<p>The answer is that Inform does not allow rules simply to heap up chaotically, nor simply list them in the order they are described, but sorts them according to what it believes to be a logical sequence. Given any two rules A and B, it tries to see which rule is more specific - narrower in application, that is - and applies that one first. In this case Inform finds that any open container is also a container, but not vice versa. That means that the daughter rule is more specific than the mother-in-law rule, so it is given priority. But the following rule would trump either of them:
+<blockquote><font color="#000080">The basket is a large container in the Shop. The thimble is a small container in the Shop. The matchbox is a standard container in the Shop.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Instead of opening the jewelled box, say &quot;Such exquisite boxes are notorious for traps such as poisoned needles concealed around the lid.&quot;</font></blockquote>
+<p>then they will have the most moderate values they can have, that is, the basket will have carrying capacity 10 and the thimble 5 (and of course the matchbox 7). The following tests will then, not surprisingly, fail:
 <p>
-<p>Note that a rule applying only in certain rooms always beats a rule which is applicable everywhere. Here is a larger example:
+<blockquote><font color="#000080">if the basket is huge ...
+<br>if the basket is a small container ...
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">(R1) Before taking something in the Swamp: ...<br>(R2) Before taking the bucket: ...<br>(R3) Before taking the frog: ...<br>(R4) Before taking an open container: ...<br>(R5) Before taking a container: ...<br>(R6) Before taking something: ...</font></blockquote>
+<p>because the basket is neither huge nor small, but somewhere in between.
 <p>
-<p>Rule (R1) wins because it specifies a room, whereas (R2) and (R3) do not. (R2) and (R3) then trump the others because they name specific objects, not general classes of objects. We then have (R4), (R5) and (R6) in that order since every open container is also a container, and every container is a thing.
+<p>Sometimes the meaning of adjectives must depend on their context, as we see from the following example, where we assess heights in inches:
 <p>
-<p>The full method used by Inform to sort rules is complicated, and will not always be quite right - though, as we shall later see, there are ways to intervene if this becomes a problem. But in practice, when we need rule A to come before rule B, it will usually be a clear-cut case which comes out right. In trickier cases to judge, it mostly doesn't matter anyway.
+<blockquote><font color="#000080">A person has a number called height. Definition: A man is tall if his height is 72 or more. Definition: A woman is tall if her height is 68 or more.
+</font></blockquote><p>
+<p>
+<p>Inform then judges whether someone is or is not &quot;tall&quot; using different standards for men and for women, and
+<p>
+<blockquote><font color="#000080">In the Shop are a tall man and a tall woman.
+</font></blockquote><p>
+<p>
+<p>creates a man 72 inches tall and a woman 68 inches tall.
 <p>
 <p><hr><p><a href=doc168.html>Previous</a> / <a href=doc170.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,16 +1,10 @@
-<html><head><title>14.22. Inform 6 grammar, actions and rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc206.html><img src=../Back.tif></a><a href=doc208.html><img src=../Forward.tif></a></td><td><b>14.22. Inform 6 grammar, actions and rules</b></td></tr></table><p>
+<html><head><title>15.1. On rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 15: Rules</h2><p><table><tr><td><a href=doc206.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc208.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.1. On rules</b></td></tr></table><p>
 <p>
-<p>Inform 6 grammar (&quot;Verb&quot; and &quot;Extend&quot;) should not be used, unless there is no alternative: instead I7 equivalents should be given. But I6 actions can certainly be used, and indeed the Standard Rules use almost the whole gamut of I6 actions. They define actions using a convenient shorthand:
+<p>We have seen that actions, the great sluice of change in the simulated world, work their way through a great mass of rules, each applying in a different circumstance. The chapter on actions vaguely described these rules as belonging to different &quot;rulebooks&quot;: for instance, the &quot;instead rules&quot; or the &quot;carry out dropping rules&quot;.
 <p>
-<p><blockquote><font color="#000080">Wearing is an action corresponding to Wear<br>past participle worn<br>applying to one thing<br>- check -<br>can't wear what's not clothing rule = WearSub_C1<br>can't wear what's not held rule = WearSub_C2<br>can't wear what's already worn rule = WearSub_C3<br>- carry-out -<br>standard wearing rule = WearSub_O1<br>- report -<br>standard report wearing rule = WearSub_R1.</font></blockquote>
+<p>Inform is largely a rule-based system, and this extends beyond actions to other considerations, too. The &quot;every turn&quot; rules, for instance, form another rulebook but which has nothing to do with actions as such.
 <p>
-<p>The clause &quot;corresponding to Wear&quot; tells I7 to call the action &quot;Wear&quot;, thus making it match the I6 action of the same name. The remainder constructs the three rulebooks for the action, supplying names for suitable rules and moreover giving the names of I6-defined routines which will carry them out. The five I6 routines named are the fragments of the old I6 library's &quot;WearSub&quot;: for instance,
-<p>
-<p><blockquote><font color="#000080">[ WearSub_C3; if (noun has worn) { L__M(##Wear,3,noun); rtrue; } rfalse; ];</font></blockquote>
-<p>
-<p>We can also create named rules corresponding to I6 routines like so:
-<p>
-<p><blockquote><font color="#000080">The time passes rule corresponds to routine TS4_R.</font></blockquote>
+<p>This chapter goes into how rules and rulebooks work in much more detail, and we shall also see how to create not just new rules but new rulebooks.
 <p>
 <p><hr><p><a href=doc206.html>Previous</a> / <a href=doc208.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

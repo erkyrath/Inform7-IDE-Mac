@@ -1,25 +1,23 @@
-<html><head><title>5.3. Defining new adjectives</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc52.html><img src=../Back.tif></a><a href=doc54.html><img src=../Forward.tif></a></td><td><b>5.3. Defining new adjectives</b></td></tr></table><p>
+<html><head><title>4.14. Using new kinds of value in properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc52.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc54.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.14. Using new kinds of value in properties</b></td></tr></table><p>
 <p>
-<p>Suppose we want to coin a word for supporters currently supporting something. We can do so with the following sentence:
+<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
 <p>
-<blockquote><font color="#000080">Definition: a supporter is occupied if something is on it.
+<blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.
 </font></blockquote><p>
 <p>
-<p>Note the colon, which is essential, and the usage of &quot;it&quot; in the definition part to refer to the object in question.
+<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
 <p>
-<p>This creates the adjective &quot;occupied&quot;, and gives it a definition valid for supporters. That restriction on validity means that non-supporters would always fail the description &quot;something occupied&quot;; which might be unfortunate if we wanted to walk about rooms being occupied. We could give a second definition thus:
+<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
 <p>
-<blockquote><font color="#000080">Definition: a room is occupied if a person is in it.
+<blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.
 </font></blockquote><p>
 <p>
-<p>These are entirely different senses of the word &quot;occupied&quot; - a mantelpiece is occupied if an invitation is on it, but for a drawing room to be occupied there must be human presence - and Inform applies whichever sense is relevant when deciding whether or not a given object is &quot;occupied&quot;.
+<p>New kinds of value are very convenient when substituting variations in text:
 <p>
-<p>Newly defined adjectives cannot be used when creating things, because they are not explicit enough. Inform could not satisfy:
-<p>
-<blockquote><font color="#000080">The Ballroom is occupied.
+<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.
 </font></blockquote><p>
 <p>
-<p>because it does not understand &quot;occupied&quot; well enough, and after all, there is not enough information: by whom is the Ballroom to be occupied? On the other hand, newly defined adjectives are very helpful in conditions and for rules, as we shall see later on.
+<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
 <p>
 <p><hr><p><a href=doc52.html>Previous</a> / <a href=doc54.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

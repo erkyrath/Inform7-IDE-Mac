@@ -1,20 +1,29 @@
-<html><head><title>14.11. New activities</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc195.html><img src=../Back.tif></a><a href=doc197.html><img src=../Forward.tif></a></td><td><b>14.11. New activities</b></td></tr></table><p>
+<html><head><title>14.1. Understand</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 14: Understanding</h2><p><table><tr><td><a href=doc195.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc197.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.1. Understand</b></td></tr></table><p>
 <p>
-<p>The original Inform 6 library allowed itself to be customised by providing &quot;entry point routines&quot;; in Inform 7, this method was replaced by activities. If an extension contains any elaborate mechanisms then it, too, should consider setting them up as activities. This is easily done. For instance:
+<p>During play, the computer and the player alternate in writing messages to each other: in the player's case, these are short instructions, usually saying what to do next. A wide range of such &quot;commands&quot; are automatically understood, but these only apply to the standard built-in actions. If we want the player to be able to command new actions, then we need to specify what is to be understood as what. For this, we supply special sentences starting with the word &quot;Understand&quot;.
 <p>
-<blockquote><font color="#000080">Assaying is an activity. The last for assaying rule: ...
+<p>Suppose we return to the earlier example of a newly created action:
+<p>
+<blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Analysing something is an activity. The last for analysing rule: ...
+<p>We then supply lines of grammar (as they are called) for Inform to recognise, like so:
+<p>
+<blockquote><font color="#000080">Understand &quot;photograph [someone]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>The former activity does not apply to any particular object, while the latter does: the difference is in the word &quot;something&quot;. (Equivalently, it could end &quot;of something&quot;, as the standard rules' activity &quot;listing contents of something&quot; does.) We can then carry out the activities with phrases like so:
-<p>
-<blockquote><font color="#000080">carry out the assaying activity;
-<br>carry out the analysing activity with the dustbin;
+<blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>It may be worth noting that an activity can still be worth creating even when it is hard to imagine useful rules attached to it, because the activity also gives us a new context for other rules. The designer might well be grateful for the chance to define a &quot;rule for printing the name of a container while assaying&quot;, for instance.
+<p>As usual, the square brackets indicate something which stands for text, rather than text to be taken verbatim. &quot;[someone]&quot; needs to be the name of anything of the kind &quot;person&quot;, for instance (though as usual that person will need to be in sight of the player for the name to be accepted). The first word - in these examples &quot;photograph&quot; - must be something definite, not a substitution like this.
+<p>
+<p>For obvious reasons, this pattern of words needs to match the expectations of the action. Photographing applies to &quot;one visible thing&quot; - the &quot;visible&quot; just means it does not need to be touched, only seen - so neither of these would be allowable:
+<p>
+<blockquote><font color="#000080">Understand &quot;photograph&quot; as photographing.
+<br>Understand &quot;photograph [someone] standing next to [something]&quot; as photographing.
+</font></blockquote><p>
+<p>
+<p>The first is bad because it supplies no things at all, the second because it supplies two: what we want, of course, is just the one.
 <p>
 <p><hr><p><a href=doc195.html>Previous</a> / <a href=doc197.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

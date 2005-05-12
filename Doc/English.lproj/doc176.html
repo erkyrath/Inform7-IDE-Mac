@@ -1,27 +1,21 @@
-<html><head><title>13.6. Listing contents of something</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc175.html><img src=../Back.tif></a><a href=doc177.html><img src=../Forward.tif></a></td><td><b>13.6. Listing contents of something</b></td></tr></table><p>
+<html><head><title>12.10. Arithmetic with units</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc175.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc177.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.10. Arithmetic with units</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> When taking inventory, the list is produced by the activity &quot;listing contents of yourself&quot;; when looking, a list of items which do not deserve their own paragraphs is produced by &quot;listing contents of&quot; the location; when a say &quot;[contents of ...]&quot; is performed. In short, whenever a list is needed.
+<p>Inform allows us to perform arithmetic on units only where that would make sense, and it keeps track of the results. For instance,
 <p>
-<p><b>2. The default behaviour.</b> The list is printed out.
-<p>
-<p><b>3. Examples.</b> (a) We have already seen that it can be elegant to elaborate on a description in the context of a list. Here we add &quot;discarded&quot; to a sweet wrapper which is found on the ground.
-<p>
-<blockquote><font color="#000080">Rule for printing the name of the wrapper while listing contents of a room: say &quot;discarded sweet wrapper&quot;.
+<blockquote><font color="#000080">The Weightbridge is a room. &quot;A sign declares that the maximum load is [100kg multiplied by 3].&quot;
 </font></blockquote><p>
 <p>
-<p>(b) Lists can be considerably shortened and tidied up if similar items are grouped together. We do this by specifying what should be grouped together before listing contents, using the special phrase &quot;group ... together&quot;:
+<p>...will produce the text &quot;A sign declares that the maximum load is 300kg.&quot; Here Inform knows that it makes sense to multiply a weight by 3, and that the result will be a weight. Similarly, Inform allows us to add and subtract weights, and several different forms of division are allowed:
 <p>
-<blockquote><font color="#000080">Utensil is a kind of thing. The knife, the fork and the spoon are utensils. Before listing contents: group utensils together as &quot;utensils&quot;.
+<blockquote><font color="#000080">The blackboard is in the Weightbridge. &quot;A blackboard propped against one wall reads: '122 / 10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; but 122kg / 10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; and 122kg / 10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot;
 </font></blockquote><p>
 <p>
-<p>The result will be, say, &quot;two utensils (knife and spoon)&quot;, if both are found in the same place.
+<p>When we visit the Weightbridge, we find:
 <p>
-<p>(c) We can less obtrusively group items together like so:
-<p>
-<blockquote><font color="#000080">Before listing contents while taking inventory: group utensils together.
+<blockquote><font color="#000080">A blackboard propped against one wall reads: &quot;122 / 10 is 12 remainder 2; but 122kg / 10kg is 12 remainder 2kg; and 122kg / 10 is 12kg remainder 2kg.&quot;
 </font></blockquote><p>
 <p>
-<p>Now they will be rolled into a single inventory line: say, &quot;fork and spoon&quot; rather than &quot;two utensils (fork and spoon)&quot;.
+<p>Whereas we are not allowed to divide 122 by 10kg: that would make no sense, since 122 is a number and not made up of kilograms. Inform will produce a problem message if we try.
 <p>
 <p><hr><p><a href=doc175.html>Previous</a> / <a href=doc177.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

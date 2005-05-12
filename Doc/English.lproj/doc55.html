@@ -1,30 +1,35 @@
-<html><head><title>5.5. The lexicon of description words</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc54.html><img src=../Back.tif></a><a href=doc56.html><img src=../Forward.tif></a></td><td><b>5.5. The lexicon of description words</b></td></tr></table><p>
+<html><head><title>4.16. Values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc54.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc56.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.16. Values that vary</b></td></tr></table><p>
 <p>
-<p>Inform's lexicon is not just a figure of speech: it actually does maintain an alphabetical list of nouns and adjectives which can be used in descriptions, and that lexicon can be found in a project's Index.
+<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
 <p>
-<p>To summarise. Nouns are straightforward: they refer to specific things (&quot;wine cask&quot;) or specific kinds (even &quot;something&quot;, which refers to &quot;thing&quot;). Adjectives, however, come from three possible sources:
-<p>
-<p>(a) From either/or properties. For instance, &quot;open&quot; and &quot;closed&quot;, which are antonyms: what is not open is closed, and vice versa.
-<p>
-<p>(b) When we create a new kind of value, and allow it to be a property of a given kind, we also create new adjectives:
-<p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour.
+<blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.
 </font></blockquote><p>
 <p>
-<p>We can now use the adjective &quot;green&quot; (for instance) in descriptions:
+<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
 <p>
-<blockquote><font color="#000080">Instead of taking a green building block, say &quot;For some reason you have an aversion to the colour green.&quot;
+<blockquote><font color="#000080">The target is a number variable. The target is 23.
 </font></blockquote><p>
 <p>
-<p>And similarly when we use the more convenient form for single things, such as the cask in this example:
+<p>In fact, we have seen a value that varies already: &quot;location&quot;, which holds the room in which the game is presently taking place.
 <p>
-<blockquote><font color="#000080">The cask is either customs sealed, liable to tax or stolen goods.
+<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
+<p>
+<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
+<p>
+<blockquote><font color="#000080">The receptacle is a container that varies.
 </font></blockquote><p>
 <p>
-<p>(c) From direct definitions, such as the adjective &quot;occupied&quot; created by:
+<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
 <p>
-<blockquote><font color="#000080">Definition: a supporter is occupied if something is on it.
+<blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.
 </font></blockquote><p>
+<p>
+<p>without ever having defined any colours. Something else we are not permitted is:
+<p>
+<blockquote><font color="#000080">The receptacle is an open container that varies.
+</font></blockquote><p>
+<p>
+<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
 <p>
 <p><hr><p><a href=doc54.html>Previous</a> / <a href=doc56.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

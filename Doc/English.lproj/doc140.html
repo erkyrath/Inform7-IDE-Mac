@@ -1,18 +1,40 @@
-<html><head><title>10.8. Blank columns</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc139.html><img src=../Back.tif></a><a href=doc141.html><img src=../Forward.tif></a></td><td><b>10.8. Blank columns</b></td></tr></table><p>
+<html><head><title>10.3. Pattern matching</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc139.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc141.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.3. Pattern matching</b></td></tr></table><p>
 <p>
-<p>An entire column of blank entries &quot;--&quot; is problematic:
+<p>The following are all valid phrases:
 <p>
-<p><center><img src=table4.tiff></center>
+<blockquote><font color="#000080">award 2 points
+<br>award 8 points
+<br>award 30 points
+</font></blockquote><p>
 <p>
-<p>Inform is unable to work out what kind of value should go into the &quot;atomic weight&quot; column here, since it has no examples to guess from. We can get around this by writing in the name of a kind of value:
+<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
 <p>
-<p><center><img src=table5.tiff></center>
+<blockquote><font color="#000080">To award (some - a number) points: ...
+</font></blockquote><p>
 <p>
-<p>That top entry in the &quot;atomic weight&quot; column is also blank, but now Inform knows that anything put into the column in future will be a number.
+<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
 <p>
-<p>If there are many rows, and perhaps several blank columns, it would become very tedious to have to keep typing out &quot;--&quot;. So this is optional <i>at the end of a row</i>: it remains compulsory for a blank value appearing in between two values which aren't blank. This is the general idea:
+<blockquote><font color="#000080">award &quot;blue cheese&quot; points;
+</font></blockquote><p>
 <p>
-<p><center><img src=table8.tiff></center>
+<p>which results in the following error:
+<p>
+<blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.
+</font></blockquote><p>
+<p>
+<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
+<p>
+<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
+<p>
+<blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.
+</font></blockquote><p>
+<p>
+<p>Which would not match, for instance, this:
+<p>
+<blockquote><font color="#000080">slam shut the black door;
+</font></blockquote><p>
+<p>
+<p>because the black door is not an open container.
 <p>
 <p><hr><p><a href=doc139.html>Previous</a> / <a href=doc141.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

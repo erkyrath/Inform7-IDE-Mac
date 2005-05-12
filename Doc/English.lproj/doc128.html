@@ -1,16 +1,30 @@
-<html><head><title>9.15. Phrases to decide other things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc127.html><img src=../Back.tif></a><a href=doc129.html><img src=../Forward.tif></a></td><td><b>9.15. Phrases to decide other things</b></td></tr></table><p>
+<html><head><title>8.17. How many turns?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc127.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc129.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.17. How many turns?</b></td></tr></table><p>
 <p>
-<p>A condition is a yes/no decision, but we can also take decisions where the result is a value. Suppose we want to create a concept of the &quot;grand prize&quot;, which will have different values at different times in play. Each time the &quot;grand prize&quot; is referred to, Inform will have to decide what its value is, and the following tells Inform how to make that decision:
+<p>So much for &quot;times&quot; - spells in which a condition is true. We can also test the length of time, in turns of play, that something has been true. Thus:
 <p>
-<p><blockquote><font color="#000080">To decide which treasure is the grand prize:<br>if the Dark Room has been visited then result the silver bars;<br>result the plover's egg.</font></blockquote>
+<blockquote><font color="#000080">if <condition> for three turns;
+</font></blockquote><p>
 <p>
-<p>Note that we have to say what kind the answer will be: here it's a kind of thing called &quot;treasure&quot; (which we're supposing has already been created), and as it turns out only two treasures are ever eligible anyway (we're also supposing that the plover's egg and the silver bars are treasures already created, of course.) Now that we have &quot;grand prize&quot; created, we can use it just as we would use any other value, so for instance:
+<p>means that the condition holds now, and held at the start of this turn, at the start of last turn, and at the start of the turn before that. In particular:
 <p>
-<p><blockquote><font color="#000080">if taking the grand prize then ...</font></blockquote>
+<blockquote><font color="#000080">if the floppy hat has been worn for three turns ...
+</font></blockquote><p>
 <p>
-<p>As this is something of a dialect difference between English speakers, &quot;what&quot; and &quot;which&quot; are synonymous here, i.e., we could equally well write something like:
+<p>will be false if the hat is not currently worn (even if it has been often in the past) and, on the other hand, will be true if the hat has been worn for twenty turns. Here again we can be more specific. These are synonymous:
 <p>
-<p><blockquote><font color="#000080">To decide what number is the target score: ...</font></blockquote>
+<blockquote><font color="#000080">if the floppy hat is worn for the third turn ...
+<br>if the floppy hat has been worn for only 3 turns ...
+<br>if the floppy hat has been worn for exactly three turns ...
+</font></blockquote><p>
+<p>
+<p>all requiring that the hat wasn't worn four turns ago. As before, &quot;more than&quot;, &quot;less than&quot;, &quot;at least&quot; and &quot;at most&quot; so forth can also be used - say, &quot;for at least 21 turns&quot;.
+<p>
+<p>A warning: we must be careful when writing something like
+<p>
+<blockquote><font color="#000080">if the noun has been open ...
+</font></blockquote><p>
+<p>
+<p>since this tests whether it has ever been true that the noun of the then action was open: not whether the current noun-object has ever been open.
 <p>
 <p><hr><p><a href=doc127.html>Previous</a> / <a href=doc129.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,20 +1,28 @@
-<html><head><title>3.1. Descriptions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 3: Simulation</h2><p><table><tr><td><a href=doc17.html><img src=../Back.tif></a><a href=doc19.html><img src=../Forward.tif></a></td><td><b>3.1. Descriptions</b></td></tr></table><p>
+<html><head><title>2.9. Use options</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc17.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc19.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>2.9. Use options</b></td></tr></table><p>
 <p>
-<p>At its simplest, the interactive fiction will be simulating a physical world to explore. The forerunner of today's IF is generally agreed to be a computer simulation by Will Crowther of the exploration of a cave system in the Mammoth and Flint Ridge chain of caves in Kentucky, a part of which might be described in Inform thus:
+<p>One more preliminary. Inform has a number of optional settings which affect the result of translating the source. The sentence:
 <p>
-<p><blockquote><font color="#000080">&quot;Cave Entrance&quot;</font></blockquote>
+<blockquote><font color="#000080">Use American dialect.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The Cobble Crawl is a room. &quot;You are crawling over cobbles in a low passage. There is a dim light at the east end of the passage.&quot;</font></blockquote>
+<p>makes the resulting work of IF use American spellings (except where the designer spells otherwise) and the American convention for spelling out numbers (thus, &quot;one hundred seventeen&quot; not &quot;one hundred and seventeen&quot;). Similarly:
 <p>
-<p><blockquote><font color="#000080">A wicker cage is here. &quot;There is a small wicker cage discarded nearby.&quot;</font></blockquote>
+<blockquote><font color="#000080">Use the serial comma.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The Debris Room is west of the Crawl. &quot;You are in a debris room filled with stuff washed in from the surface. A low wide passage with cobbles becomes plugged with mud and debris here, but an awkward canyon leads upward and west. A note on the wall says, Magic word XYZZY.&quot;</font></blockquote>
+<p>uses a comma when printing lists: thus &quot;Julian, Dick, George, and Anne&quot; rather than &quot;Julian, Dick, George and Anne&quot;. Lastly, for the benefit of Inform 6 users or for projects which overflow Inform 6's normal limits, we can specify settings like:
 <p>
-<p><blockquote><font color="#000080">The black rod is here. &quot;A three foot black rod with a rusty star on one end lies nearby.&quot;</font></blockquote>
+<blockquote><font color="#000080">Use MAX_ZCODE_SIZE of 60000.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Above the Debris Room is the Sloping E/W Canyon. West of the Canyon is the Orange River Chamber.</font></blockquote>
+<p>(or any of I6's other memory settings): the effect is to raise the setting if need be, but never to lower it.
 <p>
-<p>Here we sketch in four of Crowther's locations, and two objects: just enough to be able to walk around the caves and pick up the rod and the cage. The text in quotation marks will appear verbatim as paragraphs shown to the player as the caves are explored. The first paragraph, as we have seen, is the title of the work. The other quotations describe the places and objects introduced.
+<p>We can combine any number of options in a single &quot;Use&quot; sentence, so for example:
+<p>
+<blockquote><font color="#000080">Use American dialect and the serial comma.
+</font></blockquote><p>
+<p>
+<p>brings about both of these changes.
 <p>
 <p><hr><p><a href=doc17.html>Previous</a> / <a href=doc19.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

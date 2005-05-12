@@ -38,22 +38,34 @@ Global take_after_recipient;
 [ TakeSub_C3;
   if (noun has animate) return L__M(##Take,3,noun); rfalse; ];
 [ TakeSub_C4 i;
-  if (noun provides component_part_of)
-      return L__M(##Take,7,noun.component_part_of);
-  ac_common_ancestor = CommonAncestor(player, noun);
+!  if (noun provides component_part_of)
+!      return L__M(##Take,7,noun.component_part_of);
+  ac_common_ancestor = OIU_CommonAncestor(player, noun);
   if (ac_common_ancestor == 0) {
       i = ObjectScopedBySomething(noun);
       if (i ~= 0) ac_common_ancestor = CommonAncestor(player, i);
   } rfalse; ];
-[ TakeSub_C5;
-  if (ac_common_ancestor == 0) return L__M(##Take,8,noun); rfalse; ];
+
+[ OIUB_AP i;
+  if (noun ~= ac_common_ancestor) {
+      i = OIU_Parent(noun);
+      while (i~=ac_common_ancestor && i) {
+          if (i has animate) return L__M(##Take,6,i);
+          i = OIU_Parent(i);
+      }
+  }
+  rfalse;
+];
+
+![ TakeSub_C5;
+!  if (ac_common_ancestor == 0) return L__M(##Take,8,noun); rfalse; ];
 [ TakeSub_C6;
   if (ac_common_ancestor == noun) return L__M(##Take,4,noun); rfalse; ];
 [ TakeSub_C7;
   if (noun in player) return L__M(##Take,5,noun); rfalse; ];
 [ TakeSub_C8 i k;
   i=parent(noun); take_after_recipient = 0;
-  if (i ~= ac_common_ancestor && (i has container || i has supporter))
+  if (i && (i ~= ac_common_ancestor) && (i has container || i has supporter))
   {   take_after_recipient=i;
       k=action; action=##LetGo;
       if (RunRoutines(i,before)~=0) { action=k; rtrue; }
@@ -81,7 +93,18 @@ Global take_after_recipient;
   k=0; objectloop (j in player) if (j hasnt worn) k++;
   if (k >= ValueOrRun(player,capacity)) return L__M(##Take,12);
   rfalse; ];
-[ TakeSub_O1; move noun to player; rfalse; ];
+[ TakeSub_O1 rest i;
+  if ((noun provides component_part_of) && (rest = (noun.component_part_of))) {
+      noun.component_part_of = nothing;
+      if (rest provides add_to_scope) {
+          for (i=0: i<(rest.#add_to_scope)/2: i++) {
+              if ((rest.&add_to_scope)-->i == noun)
+                  (rest.&add_to_scope)-->i = nothing;
+          }
+      }
+  }
+  move noun to player;
+  rfalse; ];
 [ TakeSub_O2 k;
   if (take_after_recipient) {
       k=action; action=##LetGo;
@@ -127,7 +150,8 @@ Global take_after_recipient;
 [ PutOnSub_C2;
   if (parent(noun)~=player) return L__M(##PutOn,1,noun); rfalse; ];
 [ PutOnSub_C3;
-  ac_common_ancestor = CommonAncestor(noun, second);
+  if (OIU_Core(noun) == OIU_Core(second)) return L__M(##PutOn,2,noun);
+  ac_common_ancestor = OIU_CommonAncestor(noun, second);
   if (ac_common_ancestor == noun) return L__M(##PutOn,2,noun); rfalse; ];
 [ PutOnSub_C4;
   if (second ~= ac_common_ancestor)
@@ -162,7 +186,8 @@ Global take_after_recipient;
 [ InsertSub_C2;
   if (parent(noun)~=player) return L__M(##Insert,1,noun); rfalse; ];
 [ InsertSub_C3;
-  ac_common_ancestor = CommonAncestor(noun, second);
+  if (OIU_Core(noun) == OIU_Core(second)) return L__M(##Insert, 5, noun);
+  ac_common_ancestor = OIU_CommonAncestor(noun, second);
   if (ac_common_ancestor == noun) return L__M(##Insert, 5, noun); rfalse; ];
 [ InsertSub_C4;
   if (second ~= ac_common_ancestor) {
@@ -211,7 +236,7 @@ Global take_after_recipient;
   if (noun has container && noun hasnt open) return L__M(##Enter,3,noun);
   rfalse; ];
 [ EnterSub_C6;
-  ac_common_ancestor = CommonAncestor(player, noun); rfalse; ];
+  ac_common_ancestor = OIU_CommonAncestor(player, noun); rfalse; ];
 [ EnterSub_C7;
   if (ac_common_ancestor == player) return L__M(##Enter,4,noun);
   rfalse; ];
@@ -220,7 +245,7 @@ Global take_after_recipient;
       while (player notin ac_common_ancestor)
       {   j = parent(player);
           k = keep_silent; 
-          if (parent(j) ~= ac_common_ancestor || noun ~= ac_common_ancestor)
+          if (OIU_parent(j) ~= ac_common_ancestor || noun ~= ac_common_ancestor)
           {   L__M(##Enter,6,j);
               keep_silent = 1;
           }
@@ -229,15 +254,19 @@ Global take_after_recipient;
           if (player in j) return;
       }
       if (player in noun) return;
-      if (noun notin ac_common_ancestor)
-      {   j = parent(noun);
-          while (parent(j) ~= ac_common_ancestor) j = parent(j);
-          L__M(##Enter,7,j);
-          k = keep_silent; keep_silent = 1;
-          <Enter j>;
-          keep_silent = k;
-          if (player notin j) return;
-          <<Enter noun>>;
+      if (noun notin ac_common_ancestor) {
+          if ((noun provides component_part_of) && (noun.component_part_of)) {
+			  j = OIU_Parent(noun); if (j) j = OIU_Parent(j);
+		  } else j = OIU_parent(noun);
+		  while (j && (OIU_parent(j) ~= ac_common_ancestor)) j = OIU_parent(j);
+		  if (j) {
+			  L__M(##Enter,7,j);
+			  k = keep_silent; keep_silent = 1;
+			  <Enter j>;
+			  keep_silent = k;
+			  if (player notin j) return;
+			  <<Enter noun>>;
+          }
       }
   } rfalse;
 ];
@@ -259,7 +288,7 @@ Global take_after_recipient;
   p=parent(player);
   if (p has container && p hasnt open) return L__M(##Exit,2,p);
   rfalse; ];
-[ ExitSub_O1; noun = parent(player); move player to parent(noun); rfalse; ];
+[ ExitSub_O1; noun = parent(player); move player to OIU_Parent(noun); rfalse; ];
 [ ExitSub_R1; L__M(##Exit,3,noun); rfalse; ];
 [ ExitSub_R2; LookSub_P(1); rfalse; ];
 
@@ -393,7 +422,7 @@ Global visibility_levels;
   }
   style roman;
 
-  for (j=1, i=parent(player):j<visibility_levels:j++, i=parent(i))
+  for (j=1, i=Vis_parent(player):j<visibility_levels:j++, i=Vis_parent(i))
       if (i has supporter) L__M(##Look,1,i);
                       else L__M(##Look,2,i);
 
@@ -417,11 +446,11 @@ Global visibility_levels;
 [ LookSub_O4 i j k;
   if (visibility_levels == 0) { Locale(thedark); say__p = 1; }
   else
-  {   for (i=player, j=visibility_levels: j>0: j--, i=parent(i))
+  {   for (i=player, j=visibility_levels: j>0: j--, i=Vis_parent(i))
           give i workflag;
       
       for (j=visibility_levels: j>0: j--)
-      {   for (i=player, k=0: k<j: k++) i=parent(i);
+      {   for (i=player, k=0: k<j: k++) i=Vis_parent(i);
           if (i.inside_description~=0)
           { new_line; PrintOrRun(i,inside_description); }
           Locale(i); say__p = 1;
@@ -593,7 +622,7 @@ Global visibility_levels;
   if (noun has animate)  return L__M(##Pull,4,noun); rfalse; ];
 [ TurnSub_R1; return L__M(##Turn,3,noun); ];
 
-[ PushDirSub_C1; return L__M(##PushDir,1,noun); ];
+[ PushDirSub_C1 *; return L__M(##PushDir,1,noun); ];
 
 [ SqueezeSub_C1;
   if (noun has animate) return L__M(##Squeeze,1,noun); rfalse; ];

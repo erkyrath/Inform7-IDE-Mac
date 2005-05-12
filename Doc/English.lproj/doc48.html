@@ -1,30 +1,28 @@
-<html><head><title>4.13. Values that vary</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc47.html><img src=../Back.tif></a><a href=doc49.html><img src=../Forward.tif></a></td><td><b>4.13. Values that vary</b></td></tr></table><p>
+<html><head><title>4.9. Text with numbers</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc47.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc49.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.9. Text with numbers</b></td></tr></table><p>
 <p>
-<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
+<p>When a numerical value is given in a square-bracketed substitution, it is ordinarily printed out in digits. Thus:
 <p>
-<p><blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.</font></blockquote>
+<blockquote><font color="#000080">&quot;You've been wandering around for [turn count] turns now.&quot;
+</font></blockquote><p>
 <p>
-<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
+<p>might print as &quot;You've been wandering around for 213 turns now.&quot;, if the game has been played out for exactly that many commands. Alternatively, we can add &quot;...in words&quot;, thus:
 <p>
-<p><blockquote><font color="#000080">The target is a number variable. The target is 23.</font></blockquote>
+<blockquote><font color="#000080">&quot;You've been wandering around for [turn count in words] turns now.&quot;
+</font></blockquote><p>
 <p>
-<p>In fact, we have seen a value that varies already: &quot;location&quot;, which holds the room in which the game is presently taking place.
+<p>to get the more conversational &quot;You've been wandering around for two hundred and thirteen turns now.&quot;
 <p>
-<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
+<p>Either way, though, there is some risk of the following:
 <p>
-<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
+<blockquote><font color="#000080">You've been wandering around for one turns now.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The receptacle is a container that varies.</font></blockquote>
+<p>We can avoid this using the special substitution &quot;[s]&quot;, which prints a letter &quot;s&quot; unless the last number printed was 1. So:
 <p>
-<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
+<blockquote><font color="#000080">&quot;You've been wandering around for [turn count in words] turn[s] now.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.</font></blockquote>
-<p>
-<p>without ever having defined any colours. Something else we are not permitted is:
-<p>
-<p><blockquote><font color="#000080">The receptacle is an open container that varies.</font></blockquote>
-<p>
-<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
+<p>will produce &quot;... for one turn now.&quot; or &quot;... for two turns now.&quot; as appropriate. This only solves one case (what about all the other plural endings, from &quot;women&quot; to &quot;cherubim&quot;?), and as we shall see we can get the same effect and very much more using the methods in the next section, so &quot;[s]&quot; is something of an anomaly. But it's memorable, and even if it only solves one small need, this is a need which turns up often.
 <p>
 <p><hr><p><a href=doc47.html>Previous</a> / <a href=doc49.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

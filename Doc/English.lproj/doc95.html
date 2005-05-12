@@ -1,16 +1,18 @@
-<html><head><title>7.17. Stipulations on testing</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc94.html><img src=../Back.tif></a><a href=doc96.html><img src=../Forward.tif></a></td><td><b>7.17. Stipulations on testing</b></td></tr></table><p>
+<html><head><title>7.4. Change of either/or properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc94.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc96.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.4. Change of either/or properties</b></td></tr></table><p>
 <p>
-<p>Many tests will only be sensible in given places, which may be hard to reach from the initial position; or with the aid of given things, which may be difficult to obtain. We are therefore allowed to add stipulations to test scripts:
+<p>When we have an either/or property, we can set it like so:
 <p>
-<p><blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot; holding the balloon.</font></blockquote>
+<blockquote><font color="#000080">Instead of waiting when the oaken door is closed: say &quot;There is a slow, creaky click! sort of noise as the door swings open, apparently all by itself.&quot;; change the oaken door to open.
+</font></blockquote><p>
 <p>
-<p>The &quot;... holding the balloon&quot; means that the balloon will be transferred to the player's ownership immediately before the test script is run, unless it is already held. Similarly:
+<p>If it is open already, nothing changes: in any case nothing is said to the player unless we give explicit instructions to that effect, as we've done here.
 <p>
-<p><blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen.</font></blockquote>
+<p>Inform protects its model world from accidental damage in several ways, one of which is to ensure that things are not given properties which they are not allowed to have. So this, for instance, will not be accepted:
 <p>
-<p>Or we might want to say both:
+<blockquote><font color="#000080">change the oaken door to unvisited
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen holding the jam.</font></blockquote>
+<p>More subtle problems arise if it is not possible to tell, when the game is being constructed, what the object in question will be: for instance, if we try to change a randomly chosen object to be &quot;unvisited&quot;. Inform therefore makes additional checks during play, printing up a suitable message only if the rules are violated. The net effect is that it is impossible for the oaken door ever to have the &quot;unvisited&quot; property.
 <p>
 <p><hr><p><a href=doc94.html>Previous</a> / <a href=doc96.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

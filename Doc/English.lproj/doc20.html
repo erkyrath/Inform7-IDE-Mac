@@ -1,26 +1,26 @@
-<html><head><title>3.3. Kinds</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc19.html><img src=../Back.tif></a><a href=doc21.html><img src=../Forward.tif></a></td><td><b>3.3. Kinds</b></td></tr></table><p>
+<html><head><title>3.1. Descriptions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 3: Things</h2><p><table><tr><td><a href=doc19.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc21.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.1. Descriptions</b></td></tr></table><p>
 <p>
-<p>Consider the following design. Unlike the previous example, this one not only places things within rooms, but also places them very specifically with respect to each other, so it is a surprisingly intricate design despite running to only 33 words.
+<p>At its simplest, the interactive fiction will be simulating a physical world to explore. The forerunner of today's IF is generally agreed to be a computer simulation by Will Crowther of the exploration of a cave system in the Mammoth and Flint Ridge chain of caves in Kentucky, a part of which might be described in Inform thus:
 <p>
-<p><blockquote><font color="#000080">&quot;Midsummer Day&quot;</font></blockquote>
+<blockquote><font color="#000080">&quot;Cave Entrance&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">East of the Garden is the Gazebo. Above is the Treehouse. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup.</font></blockquote>
+<blockquote><font color="#000080">The Cobble Crawl is a room. &quot;You are crawling over cobbles in a low passage. There is a dim light at the east end of the passage.&quot;
+</font></blockquote><p>
 <p>
-<p>Inform needs to identify the places and objects being described by the nouns here, and to guess what it can about them. For instance, the pistol can be picked up but not walked inside, whereas the Summer House is the reverse. (This is obvious to someone who knows what these words mean, less obvious to a computer which does not, but the text contains sufficient clues.) Inform does this by sorting the various nouns into different categories, which are called &quot;kinds&quot;. For instance:
+<blockquote><font color="#000080">A wicker cage is here. &quot;There is a small wicker cage discarded nearby.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Garden, Gazebo, Treehouse - <b>room</b><br>billiards table - <b>supporter</b><br>cup - <b>container</b><br>starting pistol - <b>thing</b><br>East, up (implied by &quot;above&quot;) - <b>direction</b></font></blockquote>
+<blockquote><font color="#000080">The Debris Room is west of the Crawl. &quot;You are in a debris room filled with stuff washed in from the surface. A low wide passage with cobbles becomes plugged with mud and debris here, but an awkward canyon leads upward and west. A note on the wall says, Magic word XYZZY.&quot;
+</font></blockquote><p>
 <p>
-<p>(A container is something which can contain other things, and a supporter similarly.) For instance Inform knows that if one thing is in another, then the second thing is either a room or a container, and if one thing is on another, the second thing is a supporter. This worked nicely for the design above, but:
+<blockquote><font color="#000080">The black rod is here. &quot;A three foot black rod with a rusty star on one end lies nearby.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">In the Treehouse is a cardboard box.</font></blockquote>
+<blockquote><font color="#000080">Above the Debris Room is the Sloping E/W Canyon. West of the Canyon is the Orange River Chamber.
+</font></blockquote><p>
 <p>
-<p>results in the cardboard box being made only a &quot;thing&quot;: because nothing has been put inside it, there is no reason for Inform - which does not know what a cardboard box looks like - to guess that it is a &quot;container&quot;. So we need to add:
-<p>
-<p><blockquote><font color="#000080">The box is a container.</font></blockquote>
-<p>
-<p>It is rather clumsy to have to write two sentences like this, so we would normally write this instead:
-<p>
-<p><blockquote><font color="#000080">In the Treehouse is a container called the cardboard box.</font></blockquote>
+<p>Here we sketch in four of Crowther's locations, and two objects: just enough to be able to walk around the caves and pick up the rod and the cage. The text in quotation marks will appear verbatim as paragraphs shown to the player as the caves are explored. The first paragraph, as we have seen, is the title of the work. The other quotations describe the places and objects introduced.
 <p>
 <p><hr><p><a href=doc19.html>Previous</a> / <a href=doc21.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

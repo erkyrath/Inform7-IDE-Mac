@@ -1,26 +1,33 @@
-<html><head><title>12.4. New rulebooks</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc159.html><img src=../Back.tif></a><a href=doc161.html><img src=../Forward.tif></a></td><td><b>12.4. New rulebooks</b></td></tr></table><p>
+<html><head><title>11.4. To carry, to wear, to have</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc159.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc161.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.4. To carry, to wear, to have</b></td></tr></table><p>
 <p>
-<p>Creating a new rulebook is also straightforward, as we see in the following modest example game:
+<p>Inform has altogether five mutually exclusive ways in which one thing can be physically joined to another one:
 <p>
-<p><blockquote><font color="#000080">&quot;Appraisal&quot;</font></blockquote>
+<blockquote><font color="#000080">containment relation - The coin is in the purse.
+<br>support relation - The coin is on the table.
+<br>incorporation relation - The coin is part of the sculpture.
+<br>carrying relation - The coin is carried by Peter.
+<br>wearing relation - The jacket is worn by Peter.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.</font></blockquote>
+<p>This is why we cannot have
 <p>
-<p><blockquote><font color="#000080">Appraisal rules is a rulebook.</font></blockquote>
+<blockquote><font color="#000080">The coin is on the table.
+<br>The coin is part of the table.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">An appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;</font></blockquote>
+<p>simultaneously, and it is a rare exception to the general rule that having one relation does not affect having another.
 <p>
-<p><blockquote><font color="#000080">An appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;</font></blockquote>
+<p>But there is also a sixth relation used in Inform for these meanings: the possession relation, which is the meaning of the verb &quot;to have&quot;. At first sight this looks the same as the carrying relation, but in fact it is a convenient shorthand for &quot;carrying or wearing&quot;:
 <p>
-<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
+<blockquote><font color="#000080">Mr Darcy has a rapier.
+</font></blockquote><p>
 <p>
-<p>The creation of the rulebook is all very well, but without the final sentence it would never be used. The crucial new phrase here is &quot;follow ...&quot;, which is the first of several phrases allowing us to use rules whenever we want to (rather than simply at predetermined times such as when a particular action is being tried, or at the end of every turn, and such).
+<p>says that Darcy is carrying the rapier at the start of play, but
 <p>
-<p>Like &quot;number&quot; or &quot;text&quot;, &quot;rule&quot; and &quot;rulebook&quot; are kinds of value built into Inform: &quot;the blossom rule&quot; is a value whose kind is &quot;rule&quot;, whereas &quot;the every turn rules&quot; is a value whose kind is &quot;rulebook&quot;. In fact, Inform considers a rulebook to be a special case of a rule, so that whenever a rule is required it is legal to name a rulebook instead, but not vice versa. The &quot;follow&quot; phrase here...
+<blockquote><font color="#000080">if Mr Darcy has a wet shirt ...
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.</font></blockquote>
-<p>
-<p>...expects to be applied to a value of kind &quot;rule&quot;; &quot;the appraisal rules&quot; is in fact a rulebook, but since that counts as a rule and the phrase makes sense to Inform. To follow a rulebook means to run through all its rules in turn; to follow a single rule means just that one, of course.
+<p>will be true during play if he is either carrying or wearing the shirt.
 <p>
 <p><hr><p><a href=doc159.html>Previous</a> / <a href=doc161.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

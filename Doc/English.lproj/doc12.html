@@ -1,13 +1,40 @@
-<html><head><title>2.4. Problems</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc11.html><img src=../Back.tif></a><a href=doc13.html><img src=../Forward.tif></a></td><td><b>2.4. Problems</b></td></tr></table><p>
+<html><head><title>2.3. Punctuation</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc11.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc13.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>2.3. Punctuation</b></td></tr></table><p>
 <p>
-<p>The language used in the source reads as if it were English aimed at a human reader (and this is intentional: the designer, after all, is a human reader and needs to be able to understand his or her own source), but in reality Inform can only understand a very modest range of sentences and will complain if its limits are passed. Subtler problems arise if the source contains contradictions. For instance, the following &quot;Problem&quot; might be produced:
+<p>The example rule just given demonstrates one of Inform's conventions about punctuation, and is worth pausing to look at again.
 <p>
-<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'A starting pistol is in the cup' <img src=../Reveal.tif>, but in another sentence 'A Panama hat is on the cup' <img src=../Reveal.tif>: the trophy cup cannot both contain things and support things, which is what you're implying here. If you need both, the easiest way is to make it either a supporter with a container attached or vice versa. For instance: 'A desk is here. On the desk is a newspaper. An openable container called the drawer is part of the desk. In the drawer is a stapler.'</font></blockquote>
+<blockquote><font color="#000080">Instead of taking the crate, say &quot;It's far too heavy to lift.&quot;
+</font></blockquote><p>
 <p>
-<p>This is a rather discursive error message, and a similar problem were to occur in the same run through, it would be curtailed to:
+<p>In English grammar, it's usual to regard a full stop as closing its sentence even when it occurs inside quotation marks, provided there is no indication to the contrary, and this is also the rule used by Inform. Thus:
 <p>
-<p><blockquote><font color="#000080"><b>Problem.</b> You wrote 'A firing pistol is in the box' <img src=../Reveal.tif>, but in another sentence 'A fedora hat is on the box' <img src=../Reveal.tif>: again, the croquet box cannot both contain things and support things.</font></blockquote>
+<blockquote><font color="#000080">The description is &quot;Shiny.&quot; It is valuable.
+</font></blockquote><p>
 <p>
+<p>is read as equivalent to
+<p>
+<blockquote><font color="#000080">The description is &quot;Shiny.&quot;. It is valuable.
+</font></blockquote><p>
+<p>
+<p>Sentence breaks like this occur only when the final character of the quoted text is a full stop, question mark or exclamation mark (or one of these three followed by a close bracket) and the next word begins, in the source code, with a capital letter. A paragraph break also divides sentences, behaving as if it were a full stop.
+<p>
+<p>Double quotation marks can't be used in text, because they would end the piece of text then and there. Instead, we use single quotation marks:
+<p>
+<blockquote><font color="#000080">Instead of taking the crate, say &quot;Simon says, 'It's far too heavy to lift.'&quot;
+</font></blockquote><p>
+<p>
+<p>Inform will automatically convert the speech marks to double-quotes when it prints, resulting in:
+<p>
+<blockquote><font color="#000080">Simon says, &quot;It's far too heavy to lift.&quot;
+</font></blockquote><p>
+<p>
+<p>Text in square brackets [like so] is &quot;comment&quot;, in computing jargon: it is considered as being an aside, a private note by the author, and not read in by Inform. This allows us to make notes to ourselves like so:
+<p>
+<blockquote><font color="#000080">The China Shop is a room. [Remember to work out what happens if the bull gets in here!]
+</font></blockquote><p>
+<p>
+<p>As these examples begin to show, Inform source imitates the conventions of printed books whenever there is a question of how to write something not easily fitting into words. The first example of this is how Inform handles headings, but to see why these are so useful we first look at Problems.
+<p>
+<p><hr><img border=0 src=beta.png>Apostrophes used to contracted speech at the end of words are wrongly converted to double-quotes: thus &quot;Lucy snaps, 'What's the matter? You don't trust my cookin' mister?'&quot; has the apostrophe in &quot;cookin'&quot; wrongly converted. For now, best avoid such contractions.
 <p>
 <p><hr><p><a href=doc11.html>Previous</a> / <a href=doc13.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

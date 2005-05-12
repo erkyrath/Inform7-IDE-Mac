@@ -1,30 +1,21 @@
-<html><head><title>9.9. Repeat running through</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc121.html><img src=../Back.tif></a><a href=doc123.html><img src=../Forward.tif></a></td><td><b>9.9. Repeat running through</b></td></tr></table><p>
+<html><head><title>8.11. Comparing and shifting times</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc121.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc123.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.11. Comparing and shifting times</b></td></tr></table><p>
 <p>
-<p>Inform is not used very much for numerical work, so the kind of repeat loop described in the previous section is not much used. Inform's natural domain is really the world of things and rooms, so the following kind of repeat is much more useful.
+<p>Carrying out easy calculations with times is straightforward:
 <p>
-<blockquote><font color="#000080">repeat with item running through open containers begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;... phrases ...
-<br>end repeat;
+<blockquote><font color="#000080">The chronometer is in the Clock Chamber. &quot;On one wall is a terribly self-important chronometer showing the time in major world cities. London: [time of day]. Paris: [one hour after the time of day]. Tokyo: [9 hours after the time of day]. Cupertino, California: [7 hours before the time of day].&quot;
 </font></blockquote><p>
 <p>
-<p>Once again we create a new value, &quot;item&quot;, of only temporary validity. This time the phrases are repeated once for each open container presently found in the world. (If there are no containers, or they are all closed, the phrases will not be followed at all.)
+<p>The phrase &quot;9 hours after the time of day&quot; takes the time of day and adds 9 hours, but this is not the same as ordinary addition of numbers: 9 hours after 11 AM is 8 PM. (This is why we don't use the symbols &quot;+&quot; and &quot;-&quot; when adding times: it would be confusing to the reader.) Similarly, we have conditions
 <p>
-<p>As with counting the &quot;number of ...&quot; objects satisfying some property, we can run through a wide variety of possibilities. For example:
-<p>
-<blockquote><font color="#000080">repeat with dinner guest running through the people in the Dining Room begin; ...
+<blockquote><font color="#000080">if the time of day is before 10:45 AM then ...
+<br>Instead of waiting when the time of day is after 4:00 PM: ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">repeat with possession running through things carried begin; ...
+<p>for putting times in order. In recognition of the fact that very few games begin before 4 AM, whereas many run on past midnight, the start of the day is taken to be 4 AM: thus 3:59 AM is after 11:10 PM, but 4:04 AM is before it. Almost all comparisons of time involve the time of day, so we allow the following abbreviations:
+<p>
+<blockquote><font color="#000080">if it is before 10:45 AM then ...
+<br>Instead of waiting when it is after 4:00 PM: ...
 </font></blockquote><p>
-<p>
-<p>The following lists the whereabouts of all men in lighted rooms:
-<p>
-<blockquote><font color="#000080">repeat with suspect running through the men who are in a lighted room (called the scene) begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The suspect] is in [the scene].&quot;;
-<br>end repeat.
-</font></blockquote><p>
-<p>
-<p>Note the way we are allowed to give a name to the vaguely described place &quot;lighted room&quot;, so that we can refer to it inside the loop. This wasn't really necessary (&quot;holder of the suspect&quot; would have had the same effect) but improved the clarity of the source.
 <p>
 <p><hr><p><a href=doc121.html>Previous</a> / <a href=doc123.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,18 +1,28 @@
-<html><head><title>14.13. Implications</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc197.html><img src=../Back.tif></a><a href=doc199.html><img src=../Forward.tif></a></td><td><b>14.13. Implications</b></td></tr></table><p>
+<html><head><title>14.3. Standard tokens of grammar</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc197.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc199.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.3. Standard tokens of grammar</b></td></tr></table><p>
 <p>
-<p>Extensions often need to define kinds, which we want to make as helpful as possible for the user. In particular, we want to make new instances of those kinds easy to create. An interesting example of this came up in Chapter 2, when clothing was introduced. For something to be a fully practical garment, worn by the player when play begins, it needs to be &quot;worn&quot;, &quot;wearable&quot; and &quot;initially carried&quot;: if the source forgets to specify the latter two properties, the results are mysterious and unfortunate.
+<p>We have already seen &quot;[something]&quot; and &quot;[someone]&quot;, which are standard examples of &quot;tokens of grammar&quot; - patterns matched by suitable named things. There are several other standard tokens, provided not so much from necessity but to allow the game parser to be more graceful and responsive. &quot;[someone]&quot; matches the same possibilities as &quot;[a person]&quot; would, but the parser handles it a little better in cases of failure. These special tokens are best explained by looking at some of the examples in the standard grammar, which can be browsed in the Index of any game.
 <p>
-<p>The Standard Rules solve this problem by including the following line:
-<p>
-<blockquote><font color="#000080">Something worn is usually wearable and initially carried.
+<blockquote><font color="#000080">Understand &quot;wear [something held]&quot; as wearing.
 </font></blockquote><p>
 <p>
-<p>Such a sentence is called an &quot;implication&quot;, as it is in the form &quot;Condition A implies Condition B&quot;. Inform never overrides certainties with mere implications, and is cautious about allowing them to build overly long chains of argument. This is to prevent the following kind of difficulty:
+<p>The named item must be held by the player, but the game will automatically pick it up if necessary, minimising nuisance.
 <p>
-<blockquote><font color="#000080">An open door is usually closed. A closed door is usually open.
+<blockquote><font color="#000080">Understand &quot;take [things]&quot; as taking.
+<br>Understand &quot;drop [things held]&quot; as dropping.
 </font></blockquote><p>
 <p>
-<p>Implications have not been mentioned up to now since they are only really needed by extensions, but also because they can be tricky, with unforeseen consequences. Handle with care.
+<p>&quot;[things]&quot; is like &quot;[something]&quot; but allows a list of items, or a vague plural like &quot;all&quot;, to be typed. The result will be a sequence of actions, one for each item thus described. &quot;[things held]&quot; is the analogous token for &quot;[something held]&quot;.
+<p>
+<blockquote><font color="#000080">Understand &quot;take [things inside] from [something]&quot; as removing.
+</font></blockquote><p>
+<p>
+<p>&quot;[things inside]&quot; matches only what is inside the second-named thing, and ensures that (for instance) the command &quot;take all from box&quot; does not also try to take the box.
+<p>
+<blockquote><font color="#000080">Understand &quot;put [other things] in/inside/into [something]&quot; as inserting it into.
+</font></blockquote><p>
+<p>
+<p>Similarly, &quot;[other things]&quot; will allow anything except the second-named thing.
+<p>(Like &quot;[things inside]&quot; it is really only needed for handling containers.)
 <p>
 <p><hr><p><a href=doc197.html>Previous</a> / <a href=doc199.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

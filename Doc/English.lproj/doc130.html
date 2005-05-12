@@ -1,37 +1,30 @@
-<html><head><title>9.17. Making new kinds of arithmetic</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc129.html><img src=../Back.tif></a><a href=doc131.html><img src=../Forward.tif></a></td><td><b>9.17. Making new kinds of arithmetic</b></td></tr></table><p>
+<html><head><title>9.2. Creating a scene</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc129.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc131.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.2. Creating a scene</b></td></tr></table><p>
 <p>
-<p>Because &quot;+&quot; is a phrase like any other, we are free to extend its definition to other kinds of value beyond numbers (which might be called &quot;overloading the operator +&quot; in computing jargon). The following example game defines a way to add a colour to a number, producing another colour:
+<p>As usual, we only need to say that something is a scene to make it so:
 <p>
-<p><blockquote><font color="#000080">&quot;Overloading&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.</font></blockquote>
-<p>
-<blockquote><font color="#000080">To decide which colour is (C - a colour) + (N - a number):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;while N is not 0 begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if N < 0 begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let C be the colour before C;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let N be N + 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let C be the colour after C;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let N be N - 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end while;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;result C.
+<blockquote><font color="#000080">Train Stop is a scene.
 </font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The Counting House is a room. &quot;Prominent on the wall is a sign reading: The Magic Number is [the magic number].&quot;</font></blockquote>
+<p>We conventionally write scene names with capital letters, as this demonstrates.
 <p>
-<p><blockquote><font color="#000080">The magic number is a number that varies.</font></blockquote>
+<p>This works, and shows up in the &quot;Scenes&quot; index, but does nothing. We have given no instructions on when it begins - no cue, in stage-play terms - so it never will begin, and even if it did, nobody would notice since it does nothing. First, to give it a beginning:
 <p>
-<p><blockquote><font color="#000080">In the House is a lever. Instead of pushing the lever: change the magic number to the magic number + 1; say &quot;The magic number increases to [magic number].&quot; Instead of pulling the lever: change the magic number to the magic number - 1; say &quot;The magic number decreases to [magic number].&quot;</font></blockquote>
+<blockquote><font color="#000080">Train Stop begins when the player is in the Station for the third turn.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The beam colour is a colour that varies.</font></blockquote>
+<p>Every scene has two rulebooks attached, one at each end, so to speak. These are look very like &quot;when play begins&quot; and &quot;when play ends&quot;, and work in the same way. Thus:
 <p>
-<p><blockquote><font color="#000080">The prism is in the House. &quot;A prismatic wedge of glass (oh, all right, a prism) splits a beam of white light so that a fine line of [beam colour] light falls across the sign.&quot;</font></blockquote>
+<blockquote><font color="#000080">When Train Stop begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the Flying Scotsman to the Station;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman pulls up at the platform, to a billow of steam and hammering.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The button is in the House. Instead of pushing the button: change the beam colour to the beam colour + the magic number; say &quot;The prism swivels, and after a blur the beam falling on the sign settles at [beam colour].&quot;</font></blockquote>
+<blockquote><font color="#000080">When Train Stop ends:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the Flying Scotsman from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is in the Station, say &quot;The Flying Scotsman inches away, with a squeal of released brakes, gathering speed invincibly until it disappears around the hill. All is abruptly still once more.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The prism, button and lever are fixed in place.</font></blockquote>
+<p>Thus when the scene begins, our imaginary stage-hands wheel in a steam train; when it ends, they get rid of it again. Note that we know where the player will be at the start of the scene, but by the end he may have wandered off across the fields, so we must be careful not to report something he might not be in a position to see.
 <p>
 <p><hr><p><a href=doc129.html>Previous</a> / <a href=doc131.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

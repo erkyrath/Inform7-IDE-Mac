@@ -1,30 +1,21 @@
-<html><head><title>6.22. Check, carry out, report</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc76.html><img src=../Back.tif></a><a href=doc78.html><img src=../Forward.tif></a></td><td><b>6.22. Check, carry out, report</b></td></tr></table><p>
+<html><head><title>6.10. The other four senses</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc76.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc78.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.10. The other four senses</b></td></tr></table><p>
 <p>
-<p>We recall that, apart from the whole paraphernalia about before, instead and after rules, about checking for light and that the player can touch whatever needs to be in range, an action comes down to three stages:
+<p>The five senses are all simulated with actions. Sight is so informative that it is handled by a whole range of actions: &quot;looking&quot;, which describes the general scene; &quot;examining something&quot;, which takes a closer look at a specific thing; &quot;looking under something&quot;, and so on.
 <p>
-<p><blockquote><font color="#000080">(i) Check. In the case of photographing, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.</font></blockquote>
+<p>The other senses have one action each: &quot;listening to something&quot;, &quot;touching something&quot;, &quot;tasting something&quot; and &quot;smelling something&quot;. It makes no sense to touch or taste the general scene, but listening and smelling are a different matter: we often just listen, without listening to anything specific. If the player types the command &quot;listen&quot;, Inform understands that as listening to the current location: similarly for the bare command &quot;smell&quot;. Thus:
 <p>
-<p><blockquote><font color="#000080">(ii) Carry out. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.</font></blockquote>
+<blockquote><font color="#000080">Instead of listening to the Seashore, say &quot;The song of gulls.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">(iii) Report. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.</font></blockquote>
+<blockquote><font color="#000080">Instead of smelling the Cave, say &quot;Salt and old seaweed.&quot;
+</font></blockquote><p>
 <p>
-<p>When any action, such as &quot;photographing&quot;, is created, three new rulebooks are created with it: &quot;check photographing&quot;, &quot;carry out photographing&quot; and &quot;report photographing&quot;. So far we have not really gone into the business of what rulebooks are, and we don't do so here either. Suffice to say that we can now create whatever rules we need.
+<p>(Note the difference between this and saying:
 <p>
-<p><blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.</font></blockquote>
+<blockquote><font color="#000080">Instead of listening <b>in</b> the Seashore, say &quot;The song of gulls.&quot;
+</font></blockquote><p>
 <p>
-<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
-<p>
-<p><blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;</font></blockquote>
-<p>
-<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
-<p>
-<p>We can continue to add rules at any point, and a classic thing that happens when play-testing a new work is that the designer realises there is a case which has not been thought of:
-<p>
-<p><blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.</font></blockquote>
-<p>
-<p>We can equally add such rules to the existing, in-built actions if we like: and on that equable note, we have said all there is to be said about actions.
+<p>With this rule, even typing &quot;listen to shell&quot; when at the Seashore would result in the song of gulls: fine if the gulls drown all else out, but otherwise incongruous.)
 <p>
 <p><hr><p><a href=doc76.html>Previous</a> / <a href=doc78.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

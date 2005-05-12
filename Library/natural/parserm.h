@@ -1514,10 +1514,7 @@ Object InformParser "(Inform Parser)"
 [ ScopeCeiling person act;
   act = parent(person); if (act == 0) return person;
   if (person == player && location == thedark) return thedark;
-  while (parent(act)~=0
-         && (act has transparent || act has supporter
-             || (act has container && act has open)))
-      act = parent(act);
+  while (Vis_parent(act)) act = Vis_parent(act);
   return act;
 ];
 
@@ -3233,7 +3230,7 @@ Constant UNLIT_BIT  =  32;
        else
        {   n=domain.#add_to_scope;
            for (i=0:(2*i)<n:i++)
-               ScopeWithin_O(ad-->i,0,context);
+               if (ad-->i) ScopeWithin_O(ad-->i,0,context);
        }
    }
 ];
@@ -4255,6 +4252,11 @@ Object InformLibrary "(Inform Library)"
    if (i has light) rtrue;
    objectloop (j in i)
        if (HasLightSource(j)==1) rtrue;
+   if ((i provides component_part_of) && (i.component_part_of)) {
+       if ((i has container) && (i hasnt open) && (i hasnt transparent))
+           rfalse;
+       return OffersLight(OIU_parent(i.component_part_of));
+   }
    if (i has container)
    {   if (i has open || i has transparent)
            return OffersLight(parent(i));
@@ -4289,7 +4291,7 @@ Object InformLibrary "(Inform Library)"
        }
        else
        {   for (j=0:(2*j)<i.#add_to_scope:j++)
-               if (HasLightSource(ad-->j)==1) rtrue;
+               if ((ad-->j) && (HasLightSource(ad-->j)==1)) rtrue;
        }
    }
    rfalse;

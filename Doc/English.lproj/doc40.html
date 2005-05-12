@@ -1,22 +1,26 @@
-<html><head><title>4.5. New value properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc39.html><img src=../Back.tif></a><a href=doc41.html><img src=../Forward.tif></a></td><td><b>4.5. New value properties</b></td></tr></table><p>
+<html><head><title>4.1. New kinds</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 4: Kinds</h2><p><table><tr><td><a href=doc39.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc41.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.1. New kinds</b></td></tr></table><p>
 <p>
-<p>Moving on to properties which contain values, such as the &quot;matching key&quot; property of a door or a container, we need to use a different formulation.
+<p>Everything has one and only one kind: but kinds can have more specific kinds. Inform makes the world out of three fundamental kinds of object, &quot;room&quot;, &quot;thing&quot; and &quot;direction&quot;: browsing the Kinds index will give an idea of how the others fit together. A container, for instance, is a kind of thing.
 <p>
-<p><blockquote><font color="#000080">A dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.</font></blockquote>
+<p>Any new kind must be created as a special case of an existing one. Here we sub-categorise rooms:
 <p>
-<p>The property &quot;river sound&quot; is now applicable only to dead ends, and we would not be allowed to talk about it in any other context. As can be seen, it holds a piece of text. If we tried the following:
+<blockquote><font color="#000080">A dead end is a kind of room.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The river sound of the Tortuous Alcove is 7.</font></blockquote>
+<p>Any dead end that we make is also a room, but can also have other properties in addition, if we so decide. For the purposes of this example, it's useful to mention a property not seen so far: rooms can be &quot;dark&quot; or &quot;lighted&quot;, all the examples so far having been lighted. Similarly, a thing with the property of being &quot;lit&quot; will enable the player to see inside dark rooms, and to carry out other activities requiring light, such as examining items.
 <p>
-<p>...then Inform would object, because the number 7 is the wrong kind of value to go into the &quot;river sound&quot; property. If we need a numerical property, we can try this instead:
+<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came.&quot; A dead end is usually dark.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">A dead end has a number called the difficulty rating. The Tortuous Alcove has difficulty rating 7.</font></blockquote>
+<blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove.
+</font></blockquote><p>
 <p>
-<p>(When we say &quot;has a property called...&quot; we implicitly allow it to hold either text or the name of a room or object, since it is often convenient to be able to store both interchangeably in the same property.)
+<blockquote><font color="#000080">In the Undertomb is the candle lantern. It is lit.
+</font></blockquote><p>
 <p>
-<p>If we ever need to check whether or not a given object has a property, we can test something like this:
+<p>Three different rooms adjoin the Undertomb as a result. Notice how much more concise this is thanks to having the &quot;dead end&quot; kind to hand.
 <p>
-<p><blockquote><font color="#000080">If the location has a river sound, ...</font></blockquote>
+<p>What is a kind, really? In the end it is a name for a bundle of properties, and the key differences between a kind (such as &quot;container&quot;) and a property (such as &quot;fixed in place&quot;) are that, firstly, something only has one kind (except in the sense that a container is also a thing, and so on), and secondly, it has that kind forever, whereas properties may change.
 <p>
 <p><hr><p><a href=doc39.html>Previous</a> / <a href=doc41.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

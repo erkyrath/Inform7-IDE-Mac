@@ -141,6 +141,7 @@ Constant I7_TABLE_NOVALUE $7fe3;
 ! (R must be a legal row number.)
 
 [ TableBlankOutRow tab j k;
+  if (tab==0) ">--> Attempt to blank out a row from a non-existent table";
   for (k=1:k<=tab-->0:k++) (tab-->k)-->(j+1) = I7_TABLE_NOVALUE;
 ];
 

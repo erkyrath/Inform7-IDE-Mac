@@ -1,29 +1,39 @@
-<html><head><title>8.5. When play ends</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc100.html><img src=../Back.tif></a><a href=doc102.html><img src=../Forward.tif></a></td><td><b>8.5. When play ends</b></td></tr></table><p>
+<html><head><title>7.10. Now...</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc100.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc102.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.10. Now...</b></td></tr></table><p>
 <p>
-<p>Short of something like a power cut, the game can only end when one of the two participants chooses to end it: either the player, by deciding that enough is enough, or us.
+<p>As Chapter 5 has already discussed, Inform looks at a whole range of &quot;relations&quot; between objects, many of which we can change. The general rule is as follows. Suppose S is a sentence about a relationship between things. Then there are three things we can do with S:
 <p>
-<p>If we decide that a conclusion of some kind, happy or not, has been reached, we can herald that moment with phrases like so:
-<p>
-<blockquote><font color="#000080">end the game in death
-<br>end the game in victory
-<br>end the game saying &quot;You have come to a full stop&quot;
+<blockquote><font color="#000080">S. - The relation holds at the start of play.
 </font></blockquote><p>
 <p>
-<p>The phrase &quot;end the game in death&quot; is equivalent to ending it saying &quot;You have died&quot;, and similarly victory simply means announcing &quot;You have won&quot;. The more general phrase allows any text (short, please) to be used:
+<blockquote><font color="#000080">if S, ...; - Does the relation hold right now?
+<br>now S; - Make the relation hold from now on.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Instead of eating the fish, end the game saying &quot;You have been poisoned&quot;.</font></blockquote>
+<p>For instance,
 <p>
-<p>The rulebook &quot;when play ends&quot; is the matching bookend to &quot;when play begins&quot;. It is followed when the game decides to end (not when the player simply gives up and quits), and before any epitaph like
+<blockquote><font color="#000080">The apple is in the basket.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">*** You have been poisoned ***</font></blockquote>
+<blockquote><font color="#000080">if the apple is in the basket, ...;
+<br>now the apple is in the basket;
+</font></blockquote><p>
 <p>
-<p>appears. For example:
+<p>The effect of &quot;now the apple is in the basket&quot; is identical to &quot;move the apple to the basket&quot;, so this appears to offer nothing new; and &quot;now&quot; duplicates other things already available, too, because &quot;now the oaken door is open&quot; does the same thing as &quot;change the oaken door to open&quot;. But &quot;now&quot; is more general and more flexible. For instance,
 <p>
-<p><blockquote><font color="#000080">When play ends, say &quot;Oh dear.&quot;</font></blockquote>
+<blockquote><font color="#000080">now the top hat is worn by Mr Darcy;
+</font></blockquote><p>
 <p>
-<p>In such a rule, the phrase &quot;resume the game&quot; will cause play to continue exactly as if no ending had been reached at all:
+<p>will make the hat worn, rather than simply carried, by Darcy: this is something which could not be done with the &quot;move&quot; phrase. We can also apply &quot;now&quot; to many things at once:
 <p>
-<p><blockquote><font color="#000080">When play ends: say &quot;Oh dear. Still, here's another chance.&quot;; resume the game.</font></blockquote>
+<blockquote><font color="#000080">now all the doors are open;
+<br>now all of the things in the sack are in the box;
+</font></blockquote><p>
+<p>
+<p>The second of these moves the entire contents of the sack to the box. And if, as in the examples at the end of Chapter 5, we have defined new assertion verbs like <i>to love</i> and <i>to suspect</i>, then we can use &quot;now&quot; to change the relations they deal with:
+<p>
+<blockquote><font color="#000080">now Elizabeth loves Darcy;
+<br>now Dalgliesh is suspected by Miss Marple;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc100.html>Previous</a> / <a href=doc102.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

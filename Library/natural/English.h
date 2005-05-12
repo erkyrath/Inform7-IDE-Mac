@@ -361,6 +361,9 @@ Constant WHICH__TX    = "which ";
                   if (deadflag==2 && AMUSING_PROVIDED==0)
                       print ", see some suggestions for AMUSING things to do";
 #endif;
+#ifdef I7_SERIAL_COMMA;
+                  print ",";
+#endif;
                   " or QUIT?";
                6: "[Your interpreter does not provide ~undo~.  Sorry!]";
                7: "~Undo~ failed.  [Not all interpreters provide it.]";

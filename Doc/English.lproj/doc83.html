@@ -1,22 +1,31 @@
-<html><head><title>7.5. Change of properties with values</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc82.html><img src=../Back.tif></a><a href=doc84.html><img src=../Forward.tif></a></td><td><b>7.5. Change of properties with values</b></td></tr></table><p>
+<html><head><title>6.16. Going from, going to</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc82.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc84.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.16. Going from, going to</b></td></tr></table><p>
 <p>
-<p>Changing properties with values is very similar:
+<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
 <p>
-<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
+<blockquote><font color="#000080">&quot;Going Going&quot;
+</font></blockquote><p>
 <p>
-<p>Inform checks three different things to ensure that this change is safe to perform. Firstly, the value must be the right kind for the property in question, so this for instance would be rejected:
+<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">change the printed name of the Closet to 7</font></blockquote>
+<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
+</font></blockquote><p>
 <p>
-<p>Secondly, the object in question has to be allowed to have the given property. This, for instance, would be disallowed:
+<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">change the initial appearance of the Closet to &quot;Dusty&quot;</font></blockquote>
+<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
+</font></blockquote><p>
 <p>
-<p>(since &quot;initial appearance&quot; is a property which only things can have, not rooms). Finally, the object has to actually have the property, not just have the right to have that property. Thus:
+<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
 <p>
-<p><blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;</font></blockquote>
+<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
 <p>
-<p>...is only permitted if the Closet is designed with a &quot;printed name&quot;. In fact this is certain to be true: all rooms and things automatically have a printed name, which is the short boldface description in the case of rooms, and the usual text briefly describing something in the case of things.
+<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
+<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
+</font></blockquote><p>
+<p>
+<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
 <p>
 <p><hr><p><a href=doc82.html>Previous</a> / <a href=doc84.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

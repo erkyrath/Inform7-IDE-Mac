@@ -1,28 +1,24 @@
-<html><head><title>13.11. Supplying a missing noun/second noun</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc180.html><img src=../Back.tif></a><a href=doc182.html><img src=../Forward.tif></a></td><td><b>13.11. Supplying a missing noun/second noun</b></td></tr></table><p>
+<html><head><title>12.15. The lead pig and the paper bag</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc180.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc182.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.15. The lead pig and the paper bag</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> (Two different activities here, but identical except for applying to different nouns.) Suppose that, because of an instruction to Understand something even though it would be lacking a noun - say, 'Understand &quot;take&quot; as taking.' - an incomplete action is generated, one which is required to have a noun, but doesn't. &quot;Supplying a missing noun&quot; takes place to remedy the problem. It can either:
+<p>The final example uses a few features which will not be explained until later chapters, but it shows the kind of &quot;realism&quot; rules which could be introduced using weights. Not entirely realistic: we do not bother to rupture containers out of the player's sight.
 <p>
-<p>(i) Set a noun, printing text like &quot;(presumably the black bag)&quot; if it wants, in which case the action goes forward, though it is still subject to the full rules on accessibility exactly as any other action would be; or
-<p>
-<p>(ii) Make no choice, in which case no action takes place and the player's command is rejected. If the activity printed nothing, Inform will produce a generic reply to the player that &quot;You must supply a noun.&quot;.
-<p>
-<p><b>2. The default behaviour.</b> In the default grammar for Inform, only three such half-finished actions are ever Understood. One is &quot;going&quot; with no direction, for which this activity simply prints a refusal. The other two are the two undirected senses, &quot;smelling&quot; and &quot;listening&quot;. In each case, the &quot;supplying a missing noun&quot; activity sets the noun to the current location: so, for instance, typing the bare command &quot;listen&quot; might generate the action &quot;listening to the Shoreline&quot;.
-<p>
-<p><b>3. Examples.</b> (a) This is the definition Inform uses to make &quot;listen&quot; work as outlined above:
-<p>
-<blockquote><font color="#000080">Rule for supplying a missing noun while listening (this is the ambient sound rule): change the noun to the location.
+<blockquote><font color="#000080">&quot;Lead Cuts Paper&quot;
 </font></blockquote><p>
 <p>
-<p>(b) It can be elegant to allow second nouns to be dropped with habitual actions, or where the choice is obvious:
-<p>
-<blockquote><font color="#000080">Understand &quot;unlock [something]&quot; as unlocking it with.
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Rule for supplying a missing second noun while unlocking:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the skeleton key is carried, change the second noun to the skeleton key;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;
+<blockquote><font color="#000080">A container has a weight called breaking strain. The breaking strain of a container is usually 50kg. Definition: A container is bursting if the total weight of things in it is greater than its breaking strain.
 </font></blockquote><p>
 <p>
+<blockquote><font color="#000080">A lead pig, a feather, a silver coin and a paper bag are in a room called the Metallurgy Workshop. The paper bag is a container with breaking strain 2kg.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when a container (called the sack) held by someone visible (called the chump) is bursting:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The sack] splits and breaks under the weight! [if the player is the chump]You discard[otherwise][The chump] discards[end if] its ruined remains, looking miserably down at [the list of things in the sack] on the floor.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now all of the things in the sack are in the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the sack from play.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc180.html>Previous</a> / <a href=doc182.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

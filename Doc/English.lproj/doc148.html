@@ -1,25 +1,29 @@
-<html><head><title>11.2. Other standard tokens of grammar</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc147.html><img src=../Back.tif></a><a href=doc149.html><img src=../Forward.tif></a></td><td><b>11.2. Other standard tokens of grammar</b></td></tr></table><p>
+<html><head><title>10.11. Temporary variables</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc147.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc149.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.11. Temporary variables</b></td></tr></table><p>
 <p>
-<p>We have already seen &quot;[something]&quot; and &quot;[someone]&quot;, which are standard examples of &quot;tokens of grammar&quot; - patterns matched by suitable named things. There are several other standard tokens, provided not so much from necessity but to allow the game parser to be more graceful and responsive. &quot;[someone]&quot; matches the same possibilities as &quot;[a person]&quot; would, but the parser handles it a little better in cases of failure. These special tokens are best explained by looking at some of the examples in the standard grammar, which can be browsed in the Index of any game.
+<p>A variable, as we have seen, is a name for a value which changes, though always remaining of the same kind. For instance, if &quot;target&quot; is a number variable (or &quot;number that varies&quot;) then it may change value from 2 to 4, but not from 2 to &quot;fishknife&quot;.
 <p>
-<p><blockquote><font color="#000080">Understand &quot;wear [something held]&quot; as wearing.</font></blockquote>
+<p>To make complicated decisions, phrases often need to remember values on a temporary basis. We have already seen this for the counter in a &quot;repeat&quot; loop, which exists only inside that loop, and then is no longer needed. Now we define named values which exist only inside the current phrase. For instance:
 <p>
-<p>The named item must be held by the player, but the game will automatically pick it up if necessary, minimising nuisance.
-<p>
-<blockquote><font color="#000080">Understand &quot;take [things]&quot; as taking.
-<br>Understand &quot;drop [things held]&quot; as dropping.
+<blockquote><font color="#000080">let outer bull be 25;
+<br>let the current appearance be &quot;reddish brown&quot;;
+<br>let the special room be Marley Wood;
 </font></blockquote><p>
 <p>
-<p>&quot;[things]&quot; is like &quot;[something]&quot; but allows a list of items, or a vague plural like &quot;all&quot;, to be typed. The result will be a sequence of actions, one for each item thus described. &quot;[things held]&quot; is the analogous token for &quot;[something held]&quot;.
+<p>creates temporary variables &quot;outer bull&quot;, &quot;current appearance&quot; and &quot;special room&quot;. The kinds of these are deduced from the values given, so that, for instance,
 <p>
-<p><blockquote><font color="#000080">Understand &quot;take [things inside] from [something]&quot; as removing.</font></blockquote>
+<blockquote><font color="#000080">say &quot;The outer bull scores [the outer bull in words] when you practice archery in [special room].&quot;
+</font></blockquote><p>
 <p>
-<p>&quot;[things inside]&quot; matches only what is inside the second-named thing, and ensures that (for instance) the command &quot;take all from box&quot; does not also try to take the box.
+<p>produces
 <p>
-<p><blockquote><font color="#000080">Understand &quot;put [other things] in/inside/into [something]&quot; as inserting it into.</font></blockquote>
+<blockquote><font color="#000080">The outer bull scores twenty-five when you practice archery in Marley Wood.
+</font></blockquote><p>
 <p>
-<p>Similarly, &quot;[other things]&quot; will allow anything except the second-named thing.
-<p>(Like &quot;[things inside]&quot; it is really only needed for handling containers.)
+<p>Temporary variables made by &quot;let&quot; are only temporarily in existence while a phrase is being carried out; and we can let them be one thing, then another, then another still during the same phrase. But although we are allowed to change the value of such a variable, we are not allowed to change the kind of value, so something like this will not be allowed:
+<p>
+<blockquote><font color="#000080">let x be 45;
+<br>let x be &quot;Norway&quot;;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc147.html>Previous</a> / <a href=doc149.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

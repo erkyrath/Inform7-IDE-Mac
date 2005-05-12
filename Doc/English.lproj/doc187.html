@@ -1,18 +1,34 @@
-<html><head><title>14.2. The Standard Rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc186.html><img src=../Back.tif></a><a href=doc188.html><img src=../Forward.tif></a></td><td><b>14.2. The Standard Rules</b></td></tr></table><p>
+<html><head><title>13.6. Repeating through tables</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc186.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc188.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.6. Repeating through tables</b></td></tr></table><p>
 <p>
-<p>When any source text is run through Inform, a secret first line is inserted, which reads:
+<p>We very often want to run through a table doing something to, or with, each row in turn, so a special loop is provided for this. Rather than having to write all this out:
 <p>
-<p><blockquote><font color="#000080">Include the Standard Rules by Graham Nelson.</font></blockquote>
+<blockquote><font color="#000080">To list the succession:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Succession List runs as follows...&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose row N of the Table of Recent Monarchs;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[accession entry]: [name entry] ([family entry]).&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
 <p>
-<p>The &quot;Standard Rules&quot; file contains the definitions of the basic kinds, phrases, actions and grammar described in this documentation: for instance, it includes lines like
+<p>We can simply write this instead:
 <p>
-<p><blockquote><font color="#000080">A container is a kind of thing.</font></blockquote>
+<blockquote><font color="#000080">To list the succession:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Succession List runs as follows...&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Recent Monarchs begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[accession entry]: [name entry] ([family entry]).&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
 <p>
-<p>...without which Inform would be lost. Although including the Standard Rules is compulsory, it is treated internally as if it were any other &quot;extension&quot;.
+<p>As we might expect, this runs through the rows in order, starting at the top and choosing each in turn. (No loop variable is needed here.) We can alternatively go through in reverse order, or in order of the values in any column:
 <p>
-<p>What happens when an &quot;Include&quot; sentence is reached is that the sentence is replaced with the whole text of the file in question (often many paragraphs long).
+<blockquote><font color="#000080">repeat through the Table of Recent Monarchs in reverse order begin; ...
+<br>repeat through the Table of Recent Monarchs in name order begin; ...
+<br>repeat through the Table of Recent Monarchs in reverse accession order begin; ...
+</font></blockquote><p>
 <p>
-<p>If the file has already been included, then the sentence is simply ignored. This is so that we can have two extensions, each of which needs the other: if A says to include B, and B says to include A, the result is that including one automatically includes the other, so we always get both which ever we ask for - not that there is a hideous infinite regress.
+<p>Here text is placed in alphabetical order, numbers are in numerical order, times in chronological order and so forth. (In a loop like this, the data is not searched very efficiently, which is fine for modest-sized tables like the examples in this chapter, but might be a problem for much larger tables: see the later section on sorting.)
+<p>
+<p>&quot;Repeat through...&quot; does something else, too: it skips any blank rows in the table, which brings us to the business of blankness.
 <p>
 <p><hr><p><a href=doc186.html>Previous</a> / <a href=doc188.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

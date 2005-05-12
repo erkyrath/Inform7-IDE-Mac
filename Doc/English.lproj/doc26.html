@@ -1,20 +1,16 @@
-<html><head><title>3.9. Three descriptions of things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc25.html><img src=../Back.tif></a><a href=doc27.html><img src=../Forward.tif></a></td><td><b>3.9. Three descriptions of things</b></td></tr></table><p>
+<html><head><title>3.7. Properties depend on kind</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc25.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc27.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.7. Properties depend on kind</b></td></tr></table><p>
 <p>
-<p>The player's first sight of something is the text used as its &quot;initial appearance&quot;:
+<p>Properties depend very much on kind. It makes no sense to ask whether a room is transparent or opaque, for instance, so Inform will not allow this either to be specified or queried.
 <p>
-<p><blockquote><font color="#000080">The plain ring is here. &quot;Cast aside, as if worthless, is a plain brass ring.&quot;</font></blockquote>
+<p>Another way that kind influences properties can be seen from an earlier example:
 <p>
-<p>This text appears as a separate paragraph in the text describing the Painted Room. It will continue to be used until the first time player picks the ring up (if this ever happens), so it normally describes things in their original, undisturbed context.
+<blockquote><font color="#000080">The Gazebo is a room. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup.
+</font></blockquote><p>
 <p>
-<p>Thus when a piece of text stands alone as a sentence in its own right, then this is either the &quot;description&quot; of the most recently discussed room, or the &quot;initial appearance&quot; of the most recently discussed thing. Either way, it is used verbatim as a paragraph in the text shown to the player visiting the room in question.
+<p>The cup, the pistol and the table are all allowed to have the &quot;fixed in place&quot; property, but in fact only the table actually has it: the cup and the pistol are created as &quot;portable&quot; instead. This is because Inform knows that most things are portable, but that supporters - such as the table - are usually fixed in place. If this assumption is wrong, we need only add the line:
 <p>
-<p>But a thing also has an ordinary &quot;description&quot;, which is used to give a close-up look at it. This text is ordinarily only revealed to the player when a command like &quot;examine ring&quot; is keyed in:
-<p>
-<p><blockquote><font color="#000080">The description of the plain ring is &quot;No better than the loops of metal the old women use for fastening curtains.&quot;</font></blockquote>
-<p>
-<p>Lastly, a thing has an &quot;inventory listing&quot;, used in inventories. This is ordinarily much the same as its &quot;printed name&quot;, but can also be set to something else:
-<p>
-<p><blockquote><font color="#000080">The inventory listing of the plain ring is &quot;that worthless old ring&quot;.</font></blockquote>
+<blockquote><font color="#000080">The table is portable.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc25.html>Previous</a> / <a href=doc27.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

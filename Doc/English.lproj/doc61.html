@@ -1,22 +1,25 @@
-<html><head><title>6.6. Try and try silently</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc60.html><img src=../Back.tif></a><a href=doc62.html><img src=../Forward.tif></a></td><td><b>6.6. Try and try silently</b></td></tr></table><p>
+<html><head><title>5.4. Defining new adjectives</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc60.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc62.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.4. Defining new adjectives</b></td></tr></table><p>
 <p>
-<p>A useful little phrase allows us to trigger off actions ourselves, rather than waiting for the player to type something which generates them. Thus:
+<p>Suppose we want to coin a word for supporters currently supporting something. We can do so with the following sentence:
 <p>
-<p><blockquote><font color="#000080">Instead of entering the trapdoor, try going up.</font></blockquote>
+<blockquote><font color="#000080">Definition: A supporter is occupied if something is on it.
+</font></blockquote><p>
 <p>
-<p>The effect of this is that the original action is stopped and converted into a new one. The word &quot;try&quot; is chosen to make clear that there is no guarantee of success. For example:
+<p>Note the colon, which is essential, and the usage of &quot;it&quot; in the definition part to refer to the object in question. (For this purpose we would write &quot;it&quot; even if we were defining a term about, say, a woman instead of a supporter, so that &quot;she&quot; or &quot;her&quot; might seem more appropriate.)
 <p>
-<p><blockquote><font color="#000080">Before locking the front door, try closing the front door.</font></blockquote>
+<p>This creates the adjective &quot;occupied&quot;, and gives it a definition valid for supporters. That restriction on validity means that non-supporters would always fail the description &quot;something occupied&quot;; which might be unfortunate if we wanted to walk about rooms being occupied. We could give a second definition thus:
 <p>
-<p>&quot;Try&quot; can be modified with the word &quot;silently&quot; thus:
+<blockquote><font color="#000080">Definition: A room is occupied if a person is in it.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">try silently taking the napkin;</font></blockquote>
+<p>These are entirely different senses of the word &quot;occupied&quot; - a mantelpiece is occupied if an invitation is on it, but for a drawing room to be occupied there must be human presence - and Inform applies whichever sense is relevant when deciding whether or not a given object is &quot;occupied&quot;.
 <p>
-<p>Silence is maintained only if this new action, the taking of the napkin, is successful: otherwise a suitable objection will be voiced. The following:
+<p>Newly defined adjectives cannot be used when creating things, because they are not explicit enough. Inform could not satisfy:
 <p>
-<p><blockquote><font color="#000080">Before locking the front door, try silently closing the front door.</font></blockquote>
+<blockquote><font color="#000080">The Ballroom is occupied. The bucket is a large container.
+</font></blockquote><p>
 <p>
-<p>is better than our previous attempt because the closing action is meant to be something that the player would do quite unconsciously, so that it seems inappropriate to mention it at all.
+<p>because there is not enough information: by whom is the Ballroom occupied? How large, exactly? On the other hand, newly defined adjectives are very helpful in conditions and for rules, as we shall see later on.
 <p>
 <p><hr><p><a href=doc60.html>Previous</a> / <a href=doc62.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

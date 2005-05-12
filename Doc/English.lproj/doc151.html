@@ -1,20 +1,34 @@
-<html><head><title>11.5. Understanding kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc150.html><img src=../Back.tif></a><a href=doc152.html><img src=../Forward.tif></a></td><td><b>11.5. Understanding kinds of value</b></td></tr></table><p>
+<html><head><title>10.14. New conditions, new adjectives</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc150.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc152.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.14. New conditions, new adjectives</b></td></tr></table><p>
 <p>
-<p>Newly created kinds of value can also be understood, which we make good use of in the example game &quot;Studious&quot;:
+<p>We can create new conditions by defining a phrase with &quot;to decide whether&quot; (or equivalently &quot;to decide if&quot;):
 <p>
-<p><blockquote><font color="#000080">&quot;Studious&quot;</font></blockquote>
+<blockquote><font color="#000080">To decide whether danger lurks:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if in darkness then yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the Control Room has been visited then no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise yes.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The Studio is a room. &quot;The unreal world of the photographic studio, full of fake furniture, cantilevered stands and silver-white shades like miniature parachutes.&quot; The lumpy black camera is in the Studio. &quot;A lumpy black camera hangs from a tripod.&quot;</font></blockquote>
+<p>As can be seen, such a phrase must always resolve itself with &quot;yes&quot; or &quot;no&quot;: the first to be reached will be the answer. We can now write, for instance,
 <p>
-<p><blockquote><font color="#000080">The rake-thin model is a woman in the Studio. &quot;A rake-thin model, exquisitely bored and boringly exquisite, angles herself indolently.&quot;</font></blockquote>
+<blockquote><font color="#000080">if danger lurks then ...
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Limb is a kind of value. The limbs are left leg, left arm, right leg and right arm.</font></blockquote>
+<p>In fact, &quot;danger lurks&quot; is now a condition as good as any other, and can be used wherever a condition would be given. Rules can apply only &quot;when danger lurks&quot;, for instance.
 <p>
-<p><blockquote><font color="#000080">Detailing is an action applying to one limb and one visible thing, requiring light. Check detailing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead. Report detailing: say &quot;Click! You take a detail photograph of the [limb understood] of [the second noun].&quot;</font></blockquote>
+<p>We can also supply definitions of adjectives like this. So far, new adjectives have been defined like so:
 <p>
-<p><blockquote><font color="#000080">Understand &quot;photograph [limb] of [a person]&quot; as detailing.</font></blockquote>
+<blockquote><font color="#000080">Definition: a supporter is occupied if it is described and something is on it.
+</font></blockquote><p>
 <p>
-<p>Note the way we can refer to the limb mentioned by the player as the &quot;limb understood&quot;. Similarly, we could talk about the &quot;number understood&quot; if the value parsed had been a number, and so on.
+<p>If we want to give a definition which involves more complex logic, we can use a special form allowing us to make arbitrary decisions. In this longer format, the same definition would look like so:
+<p>
+<blockquote><font color="#000080">Definition: a supporter is occupied:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if it is undescribed then no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something is on it then yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise no.
+</font></blockquote><p>
+<p>
+<p>Here &quot;it&quot; refers to the supporter in question. Note that there are now two colons in this sentence, one after &quot;Definition&quot;, the other after the clause being defined. But that apart, it's a phrase like any other: it must end in &quot;yes&quot; or &quot;no&quot; just as the &quot;danger lurks&quot; example must.
 <p>
 <p><hr><p><a href=doc150.html>Previous</a> / <a href=doc152.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,22 +1,35 @@
-<html><head><title>9.11. Temporary variables</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc123.html><img src=../Back.tif></a><a href=doc125.html><img src=../Forward.tif></a></td><td><b>9.11. Temporary variables</b></td></tr></table><p>
+<html><head><title>8.13. Future events</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc123.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc125.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.13. Future events</b></td></tr></table><p>
 <p>
-<p>A variable, as we have seen, is a name for a value which changes, though always remaining of the same kind. For instance, if &quot;target&quot; is a number variable (or &quot;number that varies&quot;) then it may change value from 2 to 4, but not from 2 to &quot;fishknife&quot;.
+<p>We often want to arrange for something to happen at some point in the future. Here is yet another timepiece:
 <p>
-<p>To make complicated decisions, phrases often need to remember values on a temporary basis. We have already seen this for the counter in a &quot;repeat&quot; loop, which exists only inside that loop, and then is no longer needed. Now we define named values which exist only inside the current phrase. For instance:
+<blockquote><font color="#000080">An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">let outer bull be 25;<br>let the current appearance be &quot;reddish brown&quot;;<br>let the special room be Marley Wood;</font></blockquote>
+<blockquote><font color="#000080">When the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;
+</font></blockquote><p>
 <p>
-<p>creates temporary variables &quot;outer bull&quot;, &quot;current appearance&quot; and &quot;special room&quot;. The kinds of these are deduced from the values given, so that, for instance,
+<p>The event here is called &quot;the egg-timer clucks&quot;. It only happens if we instruct so, which we do by writing
 <p>
-<p><blockquote><font color="#000080">say &quot;The outer bull scores [the outer bull in words] when you practice archery in [special room].&quot;</font></blockquote>
+<blockquote><font color="#000080">the egg-timer clucks in four turns from now
+</font></blockquote><p>
 <p>
-<p>produces
+<p>meaning four turns after the turn in which the egg-timer is pushed. We could alternatively describe this future moment as something like &quot;in 18 minutes from now&quot;, or &quot;at 4:15 PM&quot;.
 <p>
-<p><blockquote><font color="#000080">The outer bull scores twenty-five when you practice archery in Marley Wood.</font></blockquote>
+<p>If we know in advance what time we want something to happen, we can more simply write:
 <p>
-<p>Temporary variables made by &quot;let&quot; are only temporarily in existence while a phrase is being carried out; and we can let them be one thing, then another, then another still during the same phrase. But although we are allowed to change the value of such a variable, we are not allowed to change the kind of value, so something like this will not be allowed:
+<blockquote><font color="#000080">At 4 PM: say &quot;The great bells of the clock tower chime four.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">let x be 45;<br>let x be &quot;Norway&quot;;</font></blockquote>
+<p>The following more complicated example creates a new phrase which schedules a sequence of events:
+<p>
+<blockquote><font color="#000080">When the penumbra appears: say &quot;The sunlight dies away to an eerie, brownish penumbra.&quot; When the eclipse begins: say &quot;The moon passes across the disc of the sun, plunging the world into darkness.&quot;; change the Chamber to dark. When the eclipse ends: say &quot;The moon passes away from the sun, and a gloomy penumbral light returns.&quot;; change the Chamber to lighted.  When normal sunlight returns: say &quot;The sun shines once more bright in the sky, not to be eclipsed again on this spot for another thirty-seven years.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To schedule an eclipse for (totality - a time): the penumbra appears at two minutes before totality; the eclipse begins at totality; the eclipse ends at three minutes after totality; normal sunlight returns at five minutes after totality. When play begins, schedule an eclipse for 3:27 PM.
+</font></blockquote><p>
+<p>
+<p>We shall see much more about creating phrases later.
+<p>
 <p>
 <p><hr><p><a href=doc123.html>Previous</a> / <a href=doc125.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

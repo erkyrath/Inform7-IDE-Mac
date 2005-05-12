@@ -1,28 +1,18 @@
-<html><head><title>7.15. Randomness</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc92.html><img src=../Back.tif></a><a href=doc94.html><img src=../Forward.tif></a></td><td><b>7.15. Randomness</b></td></tr></table><p>
+<html><head><title>7.2. Changing the command prompt</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc92.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc94.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.2. Changing the command prompt</b></td></tr></table><p>
 <p>
-<p>Sometimes we want to introduce random behaviour into play. We usually do this by generating random values, and then acting differently depending on what they are. The following:
+<p>The command prompt is the text printed by Inform to ask the player for another command. Ordinarily this is simply a greater-than-sign, &quot;>&quot;, so we tend not to notice it as text at all. Internally, though, it is a variable value called &quot;command prompt&quot;, which means we can change it.
 <p>
-<p><blockquote><font color="#000080">a random number from 2 to 5</font></blockquote>
+<p>For example, this will be a more conversational sort of prompt:
 <p>
-<p>produces, as it suggests, a random number drawn from the choices 2, 3, 4 or 5, each of which is equally likely to come up.
+<blockquote><font color="#000080">When play begins: change the command prompt to &quot;What now? &quot;.
+</font></blockquote><p>
 <p>
-<p>We can also use random conditions:
+<p>Whereas this will be more up-to-the-minute and demanding:
 <p>
-<p><blockquote><font color="#000080">if a random chance of 2 in 3 succeeds then ...</font></blockquote>
+<blockquote><font color="#000080">When play begins: change the command prompt to &quot;[time of day] >&quot;.
+</font></blockquote><p>
 <p>
-<p>Here is a rule which applies only 15% of the time:
-<p>
-<p><blockquote><font color="#000080">Instead of waiting when a random chance of 15 in 100 succeeds: ...</font></blockquote>
-<p>
-<p>If we make a new kind of value, we can also take random values from it, as in the following miniature world:
-<p>
-<p><blockquote><font color="#000080">&quot;Weathering&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">A cloud pattern is a kind of value. The cloud patterns are cumulus, altocumulus, cumulonimbus, stratus, cirrus, nimbus, nimbostratus.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">The Mount Pisgah Station is a room. &quot;The rocky peak of Mt. Pisgah (altitude 872m) is graced only by an automatic weather station. The clouds, close enough almost to touch, are [a random cloud pattern]. Temperature: [a random number from 7 to 17] degrees, barometric pressure: [950 + a random number from 0 to 15] millibars.&quot;</font></blockquote>
-<p>
-<p>The value &quot;a random cloud pattern&quot; produces a random choice from the seven cloud patterns, each equally likely.
+<p>(&quot;Time of day&quot; is another variable value, which is fairly self-explanatory, but will be covered in detail later on.) The prompt can be changed at any point, so can be used to indicate the current situation, or even as a sly way to introduce a sort of conversation between computer and player.
 <p>
 <p><hr><p><a href=doc92.html>Previous</a> / <a href=doc94.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

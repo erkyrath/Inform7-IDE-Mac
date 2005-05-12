@@ -1,18 +1,19 @@
-<html><head><title>14.5. A simple example extension</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc189.html><img src=../Back.tif></a><a href=doc191.html><img src=../Forward.tif></a></td><td><b>14.5. A simple example extension</b></td></tr></table><p>
+<html><head><title>13.9. Blank rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc189.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc191.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.9. Blank rows</b></td></tr></table><p>
 <p>
-<p>Extensions look very much like passages of Inform source, because except for a special introductory and concluding sentence, that is all they are:
+<p>There is no difficulty about entirely blank rows: or rather, the only difficulty is once again that they are boring to type out. We can avoid the necessity by appending &quot;with ... blank rows&quot; at the foot of the table:
 <p>
-<p><blockquote><font color="#000080">The Ducking Action by Graham Nelson begins here.</font></blockquote>
+<p><center><img src=table6.tiff></center>
 <p>
-<p><blockquote><font color="#000080">Ducking is an action applying to nothing. Report ducking: say &quot;You duck!&quot; Understand &quot;duck&quot; as ducking.</font></blockquote>
+<p>(These words cannot be placed in between rows, but only at the bottom.) And indeed the table can start out completely empty:
 <p>
-<p><blockquote><font color="#000080">The Ducking Action ends here.</font></blockquote>
+<p><center><img src=table7.tiff></center>
 <p>
-<p>Not a useful or interesting extension, but those few words add a whole new action and everything needed to make it work. It is the ability in Inform 7 to mix up rooms, things, kinds, grammar, phrases and rules, in more or less any order, which makes it possible for extensions to work. If all the kinds (say) had to be defined in a single run of paragraphs, it would be impossible for different extensions each to contribute kinds of its own.
+<p>Blank rows are useful because they enable us to add new data to a table. In effect, they are invisible when not used. A repeat loop like
 <p>
-<p>The introductory sentence should be placed as the only content of line 1 of the file. Inform does not care, but this would help any other tools which might be developed later for archiving or cataloguing extensions.
+<blockquote><font color="#000080">repeat through Table 3 begin; ...; end repeat
+</font></blockquote><p>
 <p>
-<p>(In case the name is a plural, we are allowed to write &quot;begin&quot; and &quot;end&quot; instead of &quot;begins&quot; and &quot;ends&quot;. For instance, the last line of the standard rules is &quot;The Standard Rules end here.&quot;)
+<p>automatically skips blank rows, so it would initially do nothing at all. Similarly, choosing a &quot;random&quot; row will never choose a blank one.
 <p>
 <p><hr><p><a href=doc189.html>Previous</a> / <a href=doc191.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

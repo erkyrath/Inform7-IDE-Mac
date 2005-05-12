@@ -1,16 +1,18 @@
-<html><head><title>5.2. Adjectives and nouns</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc51.html><img src=../Back.tif></a><a href=doc53.html><img src=../Forward.tif></a></td><td><b>5.2. Adjectives and nouns</b></td></tr></table><p>
+<html><head><title>4.13. Kinds of value</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc51.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc53.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.13. Kinds of value</b></td></tr></table><p>
 <p>
-<p>Nouns and adjectives can be fairly freely mixed:
+<p>Several kinds of value have appeared so far, chiefly numbers, 1, 2, 3, ... and 0, -1, -2, ... and texts, such as &quot;Jackdaws love my big sphinx of quartz&quot;. We can give objects properties holding such values, and we can also endow them with either/or properties such as &quot;dark&quot;/&quot;lighted&quot;.
 <p>
-<blockquote><font color="#000080">supporter = <i>the noun</i> supporter
-<br>closed = <i>the adjective</i> closed
-<br>the open wine cask = <i>the adjective</i> open + <i>the noun</i> wine cask
-<br>something portable = <i>the noun</i> something + <i>the adjective</i> portable
+<p>These arrangements are all very well, but not ideal when it comes to simulating something which can be in, say, one of four states. Suppose we would like the candle lantern to burn down, gradually diminishing in brightness. A property attached to the lantern should hold the current strength of the flame. We could do this like so:
+<p>
+<blockquote><font color="#000080">The lantern has a number called the brightness level.
 </font></blockquote><p>
 <p>
-<p>What we are not allowed is to have more than one noun in the same description (something English occasionally does allow as a coded form of emphasis, as in &quot;the man Jenkins&quot; or &quot;the harlot Helen&quot;).
+<p>(Thus far we have only given new properties to kinds, but in fact we can also give them to individual things, as here. It would be cumbersome to make a new kind called, say, &quot;lamp&quot; and then make the lantern the only lamp in the game, just as a way of attaching a number to it.) We could then set the brightness level to be 1, 2, 3 or 4 according to the strength of flame, and find some way of conveying this to the player. That would work, but is not very elegant. Brightness is not, in the end, a number, and it seems strange to have to pretend that it is. A much better solution is:
 <p>
-<p>Nouns are simple enough, referring either to kinds or specific things. The noun &quot;something&quot; is no exception: it means &quot;some thing&quot;, so is actually a reference to the kind &quot;thing&quot;. Adjectives are more complicated, come from several different sources, and are not always universally available, as we shall see.
+<blockquote><font color="#000080">Brightness is a kind of value. The brightnesses are guttering, weak, radiant and blazing.
+</font></blockquote><p>
+<p>
+<p>This makes &quot;brightness&quot; a kind of value on a par with (for instance) &quot;number&quot; or &quot;text&quot;, except that there are only four possible values, named as above.
 <p>
 <p><hr><p><a href=doc51.html>Previous</a> / <a href=doc53.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

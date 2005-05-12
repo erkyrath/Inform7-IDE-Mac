@@ -1,16 +1,30 @@
-<html><head><title>3.4. Either/or properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc20.html><img src=../Back.tif></a><a href=doc22.html><img src=../Forward.tif></a></td><td><b>3.4. Either/or properties</b></td></tr></table><p>
+<html><head><title>3.2. Rooms and the map</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc20.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc22.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.2. Rooms and the map</b></td></tr></table><p>
 <p>
-<p>Some containers, like bottles, can be opened: others, like buckets, cannot. If they can be opened, then sometimes they will be open, and sometimes closed. These are examples of properties, which can change during play. The following source sets some properties:
+<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
 <p>
-<p><blockquote><font color="#000080">The cardboard box is closed. The glass bottle is a transparent open container. The box is fixed in place and openable.</font></blockquote>
+<p>Two more directions are provided by Inform: &quot;inside&quot; and &quot;outside&quot;. These are best used when one location is, say, a meadow and the other is a woodcutter's hut in the middle of it; we might then say
 <p>
-<p>There are only four different properties referred to here. Closed means not open, and vice versa, so these two adjectives both refer to the same property. (As might be expected, when a container is open, one can see inside and place things within, or take them out.) The glass bottle being a container is a matter of its kind, which is something fundamental and immutable, so that does not count as a property.
+<blockquote><font color="#000080">Inside from the Meadow is the woodcutter's hut.
+</font></blockquote><p>
 <p>
-<p>A &quot;transparent&quot; container is one which we can see inside even when it is closed, and the opposite is an &quot;opaque&quot; container.
+<p>The &quot;from&quot; is important, as it clarifies that we intend to link two different locations, not to create an item - the hut - in a single location - the meadow.
 <p>
-<p>The property of being &quot;fixed in place&quot; ensures that the player cannot pick the item up and walk away with it: this is useful for such things as oak trees or heavy furniture. The opposite condition is to be &quot;portable&quot;.
+<p>A problem which sometimes arises when laying out maps is that Inform allows short forms of room names to be used as abbreviations. This is usually a good idea, but has unfortunate results if we write:
 <p>
-<p>Finally, a container which is &quot;openable&quot; can be opened or closed by the player. This property has no friendly adjective for its opposite, so we would need to write &quot;not openable&quot;.
+<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. The Airport is west of the Airport Road.
+</font></blockquote><p>
+<p>
+<p>...because &quot;Airport&quot; is taken as a reference to &quot;Airport Road&quot;, so Inform makes only two locations, one of which supernaturally leads to itself. We can avoid this by writing:
+<p>
+<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. A room called the Airport is west of the Airport Road.
+</font></blockquote><p>
+<p>
+<p>Using &quot;called&quot; is often a good way to specify something whose name might give rise to confusion otherwise. It always makes something new, and it is also neatly concise, because we can establish something's kind and name in the same sentence. But it is best not to use &quot;called&quot; twice in the same sentence, or we are back in ambiguity again. Consider:
+<p>
+<blockquote><font color="#000080">The kitchen cabinet contains a container called a mixing bowl and a portable supporter called a platter.
+</font></blockquote><p>
+<p>
+<p>It is unlikely that anyone would want to name something &quot;a mixing bowl and a portable supporter called a platter&quot;, but not impossible, and Inform tends not to be a good judge of what is likely.
 <p>
 <p><hr><p><a href=doc20.html>Previous</a> / <a href=doc22.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

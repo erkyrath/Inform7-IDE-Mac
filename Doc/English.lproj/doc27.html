@@ -1,20 +1,25 @@
-<html><head><title>3.10. Doors</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc26.html><img src=../Back.tif></a><a href=doc28.html><img src=../Forward.tif></a></td><td><b>3.10. Doors</b></td></tr></table><p>
+<html><head><title>3.8. Scenery</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc26.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc28.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.8. Scenery</b></td></tr></table><p>
 <p>
-<p>The map of an interactive fiction is the layout of rooms and the entrances and exits which connect them. So far, these map connections have always run from one room to another, like so:
+<p>As we have just seen, making something &quot;fixed in place&quot; will prevent it from being picked up or moved. But it remains substantial enough to be described in its own paragraph of text when the player visits its location. This can be unfortunate if it has also been described already in the body of the main description for that location. For instance, if we wrote:
 <p>
-<p><blockquote><font color="#000080">The Painted Room is north of the Undertomb.</font></blockquote>
+<blockquote><font color="#000080">The Orchard is a room. &quot;Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.&quot; The gnarled old oak tree is fixed in place in the Orchard.
+</font></blockquote><p>
 <p>
-<p>However, we can also interpose doors between rooms, like so:
+<p>This would end up describing the oak twice, once in the paragraph about the Orchard, then again in a list of things within it:
 <p>
-<p><blockquote><font color="#000080">The red rock stair is east of the Orchard and above the Undertomb. The stair is an open door.</font></blockquote>
+<blockquote><font color="#000080"><b>Orchard</b>
+<br>Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.
+</font></blockquote><p>
 <p>
-<p>The second sentence is needed since otherwise Inform will take &quot;red rock stair&quot; to be the name of a third room, whereas what we want is for the stair to be something physically present in both the Orchard and in the Undertomb, and acting as a conduit between them. To this end it needs to be a &quot;door&quot;, a kind we have not so far seen. In the absence of any other instruction, a newly created door will be fixed in place, closed and openable. Fixed in place is certainly right here, but not closed, which is why we specified that it should be &quot;open&quot;.
+<blockquote><font color="#000080">You can see a gnarled old oak tree here.
+</font></blockquote><p>
 <p>
-<p>In real life, most doors are two-sided, and can be used from either of the rooms which they join, but this is not always convenient for interactive fiction. Here is a one-sided door:
+<p>We avoid this by making it &quot;scenery&quot; instead of &quot;fixed in place&quot;:
 <p>
-<p><blockquote><font color="#000080">The blue door is a door. It is south of Notting Hill. Through it is the Flat Landing.</font></blockquote>
+<blockquote><font color="#000080">The gnarled old oak tree is scenery in the Orchard.
+</font></blockquote><p>
 <p>
-<p>(Note the use of &quot;it&quot; here as an optional abbreviation.) This will make a door visible only on the Notting Hill side; no map connection will be made in the reverse direction, unless we ask for one.
+<p>Any thing can be scenery, and this does not bar it from playing a part in the game: it simply means that it will be immobile and that it will not be described independently of its room.
 <p>
 <p><hr><p><a href=doc26.html>Previous</a> / <a href=doc28.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

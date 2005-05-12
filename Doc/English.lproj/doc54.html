@@ -1,38 +1,27 @@
-<html><head><title>5.4. On "is"</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc53.html><img src=../Back.tif></a><a href=doc55.html><img src=../Forward.tif></a></td><td><b>5.4. On "is"</b></td></tr></table><p>
+<html><head><title>4.15. Conditions of things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc53.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc55.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.15. Conditions of things</b></td></tr></table><p>
 <p>
-<p>What does &quot;is&quot; mean? There was much amusement when this became an issue in the absurd Senate trial of President Clinton, but the definition of &quot;to be&quot; spans a heroic twelve columns in the Oxford English Dictionary.
+<p>We have already seen that the names for either/or properties can be used as adjectives, so that we can talk about &quot;a dark room&quot; (meaning: a room which has the dark property rather than the lighted property). The same goes for the named possibilities for a newly created kind of value:
 <p>
-<p>Some descriptions are exact, in referring unambiguously to a specific thing whatever the circumstances: but most are vague. If we go back to:
-<p>
-<blockquote><font color="#000080">The cargo trunk is an openable container.
+<blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour.
 </font></blockquote><p>
 <p>
-<p>This sentence tells us that an exact description (the cargo trunk) &quot;is&quot; a vague one (an openable container). Here &quot;is&quot; means &quot;has a place among the things distinguished by a specified quality&quot; (OED meaning 9b: Inform also allows 9a and 9c but not 9d, for any OED junkies reading this). Inform also makes use of the more complicated meaning &quot;to have or occupy a place somewhere&quot; (OED 5a), as in
-<p>
-<blockquote><font color="#000080">The cargo trunk is in the attic.
+<blockquote><font color="#000080">In the playroom are a red building block and a green building block.
 </font></blockquote><p>
 <p>
-<p>On the other hand, Inform will reject
+<p>Potentially, at least, &quot;colour&quot; is a widely applicable kind of value, and we already have two different things which have colour. But it often happens that we need adjectives to apply just to a single thing, and if so then a shorthand form is allowed:
 <p>
-<blockquote><font color="#000080">The cargo trunk is the oak tree.
+<blockquote><font color="#000080">The cask is either customs sealed, liable to tax or stolen goods.
 </font></blockquote><p>
 <p>
-<p>And this is not inconsistent, because although it looks the same, here we have a different meaning of the verb &quot;to be&quot;: &quot;to exist as the thing known by a certain name; to be identical with&quot; (OED 10).
+<p>Inform deals with this by creating a new kind of value, whose possibilities are the named options supplied, and then giving the named object a property whose value has to be one of the possibilities. Initially the cask will be &quot;customs sealed&quot;, as that was the first value in the list. We could now write, for instance,
 <p>
-<p>We might call these meanings &quot;matches&quot; and &quot;equals&quot; for short, and they behave very differently when we come to conditions. Consider:
-<p>
-<blockquote><font color="#000080">... if the noun is the cargo trunk ... (&quot;equals&quot;)
-<br>... if the cargo trunk is an openable container ... (&quot;matches&quot;)
+<blockquote><font color="#000080">The description of the cask is &quot;A well-caulked Spanish wine cask. [if liable to tax]It really is a shame to have to pay duty on it!&quot;
 </font></blockquote><p>
 <p>
-<p>Most computer programming languages would strictly distinguish them: Perl, for instance, would write &quot;=~&quot; and &quot;==&quot; respectively. But Inform follows English and writes &quot;is&quot; for both meanings, and for the OED 5a meaning too, as we saw in only the previous section:
+<p>We will often not need to know this, but the kind of value and the property are both automatically given the name of the object with the word &quot;condition&quot; tacked on: so in this case &quot;cask condition&quot;. For instance, we could write:
 <p>
-<blockquote><font color="#000080">Definition: a room is occupied if a person is in it.
+<blockquote><font color="#000080">The printed name of the cask is &quot;wine cask ([cask condition])&quot;.
 </font></blockquote><p>
-<p>
-<p>The condition buried in here is &quot;a person is in it&quot;. Here &quot;is&quot; stands for a deceptively complicated question, involving not only the specific thing (the room) but also everything else in the world (the possible occupiers), and putting constraints on both things involved - one having to be a room, the other a person. Not bad for just five words.
-<p>
-<p>This all sounds like a pedantic digression, and perhaps it is. (A 9b &quot;is&quot;, by the way.) But it has a moral: that &quot;is&quot; can do far more than the simple value comparisons offered by most computer programming languages.
 <p>
 <p><hr><p><a href=doc53.html>Previous</a> / <a href=doc55.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

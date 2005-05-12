@@ -1,14 +1,29 @@
-<html><head><title>8.7. Daemons!</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc102.html><img src=../Back.tif></a><a href=doc104.html><img src=../Forward.tif></a></td><td><b>8.7. Daemons!</b></td></tr></table><p>
+<html><head><title>7.12. More flexible descriptions of whereabouts</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc102.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc104.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.12. More flexible descriptions of whereabouts</b></td></tr></table><p>
 <p>
-<p>A daemon is a rule which is applied every turn, but only when it is active: the rest of the time it sleeps. Traditionally, rules like this in interactive fiction have been imagined as being somehow independently acting, hence the term &quot;daemon&quot;. There's not much to say about daemons:
+<p>The examples just given were all basically of the form &quot;X <i>relation</i> Y&quot; where X and Y were specific names of things. For example,
 <p>
-<p><blockquote><font color="#000080">The lightning daemon: say &quot;Lightning strikes, suddenly.&quot;</font></blockquote>
+<blockquote><font color="#000080">if the genie's lamp is carried by Cinderella ...
+<br>if the genie's lamp is inside the cupboard ...
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">In the Keep is a lever. The lever is fixed in place. Instead of pulling the lever: say &quot;Zzzing...&quot;; start the lightning daemon. Instead of pushing the lever: say &quot;Zzzap...&quot;; stop the lightning daemon.</font></blockquote>
+<p>Just as actions could be described with patterns to be matched (&quot;taking an open container&quot;, say), so can the positions of things. Giving subtler descriptions of our X and Y sometimes broadens the possibilities, sometimes narrows them:
 <p>
-<p>The name of a daemon must always have &quot;daemon&quot; as its final word. When play begins, daemons are normally asleep, so if we need one of them to be active right from the start then we must add a further rule:
+<blockquote><font color="#000080">if the genie's lamp is carried by a woman ...
+<br>if the genie's lamp is inside the closed cupboard ...
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">When play begins, start the lightning daemon.</font></blockquote>
+<p>In the first case, Y is allowed to be one of a whole range of things - any of the women existing in the world. This makes for a broader condition. In the second case, Y has not only to be the cupboard, but at a time when it is closed: which makes for a narrower condition. We can, of course, also vary X:
+<p>
+<blockquote><font color="#000080">if an animal is inside the cupboard ...
+<br>if a container is carried ...
+</font></blockquote><p>
+<p>
+<p>And we can even vary both X and Y at once:
+<p>
+<blockquote><font color="#000080">if a woman is holding an animal ...
+</font></blockquote><p>
+<p>
+<p>a condition which will be true if, anywhere in the game's world, any woman is holding any animal.
 <p>
 <p><hr><p><a href=doc102.html>Previous</a> / <a href=doc104.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

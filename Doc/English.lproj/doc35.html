@@ -1,22 +1,29 @@
-<html><head><title>3.18. Parts of things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc34.html><img src=../Back.tif></a><a href=doc36.html><img src=../Forward.tif></a></td><td><b>3.18. Parts of things</b></td></tr></table><p>
+<html><head><title>3.16. Men, women, animals and articles</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc34.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc36.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.16. Men, women, animals and articles</b></td></tr></table><p>
 <p>
-<p>Everything has one and only one kind. This is both good and bad: good for clarity, bad if something needs to behave in two different ways at once. How might we simulate a car with an ignition key, given that no single thing can be both a &quot;vehicle&quot; and a &quot;device&quot; at the same time?
+<p>Rounding out the standard kinds provided by Inform are four for living things: &quot;person&quot;, which is a kind of thing, and &quot;man&quot;, &quot;woman&quot; and &quot;animal&quot;, all kinds of person. For instance:
 <p>
-<p>The Inform world model takes the view that such a car is too complicated to be simulated with a single thing. Instead it should be simulated as a vehicle (the car) which has a device (the ignition) attached. This is done using a third kind of containment to those seen so far (&quot;in...&quot; and &quot;on...&quot;): &quot;part of&quot;.
+<blockquote><font color="#000080">In the Ballroom is a man called Mr Darcy.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">&quot;Buttons&quot;</font></blockquote>
+<p>For the time being, men and women will be little more than waxworks: they will come to life only when we go beyond the present stage of creating an initial state of the world.
 <p>
-<p><blockquote><font color="#000080">The Confectionary Workshop is a room. The Chocolate Machine is here. &quot;The Chocolate Machine has pride of place. A lever and two buttons, one white, the other brown, seem to be the only controls. On top is a hopper.&quot;</font></blockquote>
+<p>When the Ballroom is visited, the man is listed in the description of the room as &quot;Mr Darcy&quot;, not as &quot;a Mr Darcy&quot;. This happened not because Inform recognised that Darcy is a proper name, or even because men tend to have proper names, but because Inform noticed that we did not use &quot;a&quot;, &quot;an&quot;, &quot;the&quot; or &quot;some&quot; in the sentence which created him. The following little example game shows most of the options:
 <p>
-<p><blockquote><font color="#000080">A container called the hopper is part of the Chocolate Machine. The lever, the white button and the brown button are parts of the Chocolate Machine.</font></blockquote>
+<blockquote><font color="#000080">&quot;Belfry&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The Chocolatier's desk is here. &quot;The Chocolatier evidently works at the imposing green-leather topped desk facing the Machine. It has three drawers with brass handles.&quot;</font></blockquote>
+<blockquote><font color="#000080">The Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton's wife is in the Belfry. A man called a bellringer is in the Belfry.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The upper drawer, the middle drawer and the lower drawer are parts of the desk. The upper drawer, the middle drawer and the lower drawer are openable closed containers. In the middle drawer is a sugared almond. In the lower drawer is a Battenburg cake. On the desk is a liquorice twist.</font></blockquote>
+<blockquote><font color="#000080">In the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.
+</font></blockquote><p>
 <p>
-<p>The machine and the desk each have several &quot;parts&quot; representing subsidiary pieces of themselves. The desk is a &quot;supporter&quot; (it needs to be, for the liquorice twist to be on top) but also has three &quot;containers&quot; attached, each of which can be opened or closed independently.
+<p>In the resulting game, we read:
 <p>
-<p>In the interests of realism, the standard rules of play protect these composite things. Thus if the desk were to be moved elsewhere (rolling on sugar casters perhaps) then its parts would move with it, and the player is not allowed to detach parts of things: the drawers can be opened or closed, but not pulled out altogether.
+<blockquote><font color="#000080">You can see a bat, a bell, some woodworm, William Snelson, the sexton's wife, a bellringer and your local vicar here.
+</font></blockquote><p>
+<p>
+<p>The subtlest rule here is in the handling of &quot;the&quot;. We wrote &quot;The bell is in the Belfry&quot;, but this did not result in the bell always being called &quot;the&quot; bell: in fact, writing &quot;A bell is in the Belfry&quot; would have had the same effect. On the other hand, &quot;A woman called the sexton's wife is in the Belfry.&quot; led to the wife always being known as &quot;the&quot; sexton's wife, not &quot;a&quot; sexton's wife, because Inform thinks the choice of article after &quot;called&quot; shows more of our intention than it would elsewhere. These rules will never be perfect in all situations, so we are also allowed to specify indefinite articles by hand, as the vicar's case shows.
 <p>
 <p><hr><p><a href=doc34.html>Previous</a> / <a href=doc36.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,18 +1,23 @@
-<html><head><title>10.10. Adding and removing rows</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc141.html><img src=../Back.tif></a><a href=doc143.html><img src=../Forward.tif></a></td><td><b>10.10. Adding and removing rows</b></td></tr></table><p>
+<html><head><title>10.5. While</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc141.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc143.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.5. While</b></td></tr></table><p>
 <p>
-<p>Writing in new rows is simple:
+<p>The other main control phrase is &quot;while&quot;, which has the form:
 <p>
-<p><blockquote><font color="#000080">choose a blank row in Table 3;<br>change element entry to &quot;Fluorine&quot;;<br>change symbol to &quot;F&quot;;<br>change atomic number to 9;<br>change atomic weight to 19;</font></blockquote>
+<blockquote><font color="#000080">while (... condition ...) repeatedly (... another whole phrase ...)
+</font></blockquote><p>
 <p>
-<p>This will produce an error if there are no blank rows left in Table 3, so it can be important to worry about free space. To that end we can not only find the number of rows (as we have already seen) but also the number currently blank and not blank. Thus these:
+<p>which keeps on applying the same phrase as long as the condition holds. If it never holds, even at the start, then the phrase is never applied at all and nothing happens. Just as the word &quot;then&quot; in an &quot;if&quot; can be abbreviated with a comma, so can the word &quot;repeatedly&quot; here.
 <p>
-<p><blockquote><font color="#000080">the number of blank rows in Table 3<br>the number of filled rows in Table 3</font></blockquote>
+<p>We must be careful not to commit mistakes like the following:
 <p>
-<p>always add up to &quot;the number of rows in Table 3&quot;.
+<blockquote><font color="#000080">while eggs is eggs repeatedly say &quot;again and &quot;
+</font></blockquote><p>
 <p>
-<p>To delete a row, we first choose it and then &quot;blank out the whole row&quot;. Thus, for abdication purposes:
+<p>which, as sure as eggs is eggs (which is very sure indeed), writes out
 <p>
-<p><blockquote><font color="#000080">choose row with name of &quot;Edward VIII&quot; in the Table of Recent Monarchs;<br>blank out the whole row;</font></blockquote>
+<blockquote><font color="#000080">again and again and again and again and again and ...
+</font></blockquote><p>
+<p>
+<p>forever. (Inform won't prevent this: we will find out the hard way when the game is played.) While we would probably never write anything so blatant as that, the mistake is all too easy to commit in disguised form. We should never design a loop, as repetitions like this are called, without worrying about if and when it will finish.
 <p>
 <p><hr><p><a href=doc141.html>Previous</a> / <a href=doc143.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

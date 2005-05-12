@@ -1,20 +1,28 @@
-<html><head><title>10.5. Choosing rows</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc136.html><img src=../Back.tif></a><a href=doc138.html><img src=../Forward.tif></a></td><td><b>10.5. Choosing rows</b></td></tr></table><p>
+<html><head><title>9.9. Multiple endings</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc136.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc138.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.9. Multiple endings</b></td></tr></table><p>
 <p>
-<p>The following would be one way to print out a list of recent Kings and Queens:
+<p>Interactive fictions vary considerably in the extent to which the player is allowed to influence the story-line. Sometimes the appearance of making choices is wholly bogus, as only one possible line is given more than lip service. But in other works, the player can radically change the outcome, and whole rafts of plot differ between one person's experience and another's. Inform allows multiple endings to its scenes to make this kind of branching story-line easy to achieve.
 <p>
-<p><blockquote><font color="#000080">To list the succession:<br>say &quot;The Succession List runs as follows...&quot;;<br>repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;<br>say &quot;[accession in row N of the Table of Recent Monarchs]: [name in row N of the Table of Recent Monarchs] ([family in row N of the Table of Recent Monarchs]).&quot;;<br>end repeat.</font></blockquote>
+<p>Any scene can have up to 8 alternate endings, differentiated by name. These are created as and when conditions are set for them:
 <p>
-<p>This works, but is repetitive. We often want to work on a single row for a while, either to change things or think about the contents, and it is tiresome to keep specifying the row over and over again. The following shorthand provides some relief:
+<blockquote><font color="#000080">Brief Encounter ends happily when ...
+<br>Brief Encounter ends wisely but sadly when ...
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">choose row N of the Table of Recent Monarchs;<br>say &quot;[accession entry]: [name entry] ([family entry]).&quot;;</font></blockquote>
+<p>&quot;Ends happily&quot; and &quot;ends wisely but sadly&quot; behave just like &quot;ends&quot;. We can have rules &quot;When Brief Encounter ends happily, ...&quot; and so forth, in addition to rules &quot;When Brief Encounter ends, ...&quot; - if a rule doesn't specify any particular ending, it applies to all of them.
 <p>
-<p>That is, if &quot;accession&quot; is a column name then &quot;accession entry&quot; will mean the entry in that column of the currently chosen row. This notation can only be used if a &quot;choose&quot; has certainly already happened, and it is a good idea to make that choice somewhere close by in the source code (and certainly in the same rule or phrase definition) for the sake of avoiding errors. We can also choose rows by specifying something about them, like so:
+<p>We can also link rules together from these branches, so
 <p>
-<p><blockquote><font color="#000080">choose row with a name of &quot;Victoria&quot; in the Table of Recent Monarchs;<br>change name entry to &quot;Clytemnestra Honeytongue III&quot;;</font></blockquote>
+<blockquote><font color="#000080">Stranger's Acceptance begins when Brief Encounter ends happily.
+<br>Stranger's Rejection begins when Brief Encounter ends wisely but sadly.
+</font></blockquote><p>
 <p>
-<p>This will choose the first row with the given entry: an error will result if there are no rows which qualify. We can also choose a row quite at random:
+<p>With this set-up and that of the previous section, there are now two possible paths through the story:
 <p>
-<p><blockquote><font color="#000080">choose a random row in the Table of Recent Monarchs;<br>say &quot;Your eye falls upon the reign of [name entry].&quot;</font></blockquote>
+<blockquote><font color="#000080">(i) Train Stop - Brief Encounter - Stranger's Acceptance - Bittersweet Ending
+<br>(ii) Train Stop - Brief Encounter - Stranger's Rejection - Bittersweet Ending
+</font></blockquote><p>
+<p>
+<p>This chapter began by observing that, in the part it plays in stories, time is like space. The endings of a scene (along with its beginning) are like the map connections leading out of a room. The Scenes index keeps track of the &quot;map of time&quot; through which these possible story-lines traverse. Some works of IF will have immensely complicated story-lines in only a few rooms, some will have no scenes at all despite a sprawling geography. The Scenes and World index tabs, side by side, show both kinds of map.
 <p>
 <p><hr><p><a href=doc136.html>Previous</a> / <a href=doc138.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

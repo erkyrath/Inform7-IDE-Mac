@@ -1,31 +1,35 @@
-<html><head><title>13.2. How activities work</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc171.html><img src=../Back.tif></a><a href=doc173.html><img src=../Forward.tif></a></td><td><b>13.2. How activities work</b></td></tr></table><p>
+<html><head><title>12.6. Units</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc171.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc173.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.6. Units</b></td></tr></table><p>
 <p>
-<p>All activities start, continue for a while and then finish: however, no activity ever runs on for more than a single turn. Several activities can be going on at the same time. For instance, suppose the following is printed as part of the description of a grocery:
+<p>Some of the examples in the last few sections were slightly strained because they used numbers where an English speaker not quite do so. We tend not to say &quot;Isabella has height 68&quot;: we would more normally say &quot;Isabella is 5 foot 8.&quot; Perhaps the computer will need to store that measurement as the number 68 in some register or other, but we really don't want to know that.
 <p>
-<blockquote><font color="#000080">You can see a banana, an apple and a star-fruit here.
+<p>Inform allows us to create new, basically numerical kinds of value, like so:
+<p>
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight.
 </font></blockquote><p>
 <p>
-<p>At the moment when Inform prints &quot;apple&quot;, two activities are under way: &quot;listing contents of the Grocery&quot;, and &quot;printing the name of the apple&quot;. The sequence of events was in fact:
+<p>By contrast, the kinds of value seen so far have been set up thus:
 <p>
-<blockquote><font color="#000080">say &quot;You can see &quot;
-<br>start listing contents of the Grocery
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;a &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;start printing the name of the banana
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;banana&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;finish printing the name of the banana
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;, an &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;start printing the name of the apple
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;apple&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;finish printing the name of the apple
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; and a &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;start printing the name of the star-fruit
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;star-fruit&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;finish printing the name of the star-fruit
-<br>finish listing contents of the Grocery
-<br>say &quot; here.&quot;
+<blockquote><font color="#000080">A colour is a kind of value. The colours are red, green and blue.
 </font></blockquote><p>
 <p>
-<p>The golden rule is: if activity B starts during activity A, it must also finish during activity A.
+<p>We can choose to make a new kind of value of either variety, but we can't mix the two in the same kind: it will either be numerical at heart (&quot;10kg&quot;) or verbal at heart (&quot;blue&quot;).
+<p>
+<p>The effect of &quot;10kg specifies a weight&quot; is to tell Inform that text matching this form is a constant value of kind &quot;weight&quot;. So, for instance,
+<p>
+<blockquote><font color="#000080">The maximum load is a weight that varies. The maximum load is 8000kg.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">if the maximum load <= 8000kg, ...
+</font></blockquote><p>
+<p>
+<p>Weights behave just like numbers in the ways we can compare them: but Inform respects the fact that a weight is not just any number, so it would not allow us to compare (say) &quot;8000kg&quot; and &quot;5 foot 8&quot;. Weights can meaningfully be compared only with other weights.
+<p>
+<p>We can also say weights:
+<p>
+<blockquote><font color="#000080">The Weightbridge is a room. &quot;A sign declares that the maximum load is [maximum load].&quot;
+</font></blockquote><p>
+<p>
+<p>...which will produce the text &quot;A sign declares that the maximum load is 8000kg.&quot;
 <p>
 <p><hr><p><a href=doc171.html>Previous</a> / <a href=doc173.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

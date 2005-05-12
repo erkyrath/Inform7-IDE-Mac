@@ -1,20 +1,31 @@
-<html><head><title>10.12. Listed in...</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc143.html><img src=../Back.tif></a><a href=doc145.html><img src=../Forward.tif></a></td><td><b>10.12. Listed in...</b></td></tr></table><p>
+<html><head><title>10.7. Otherwise</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc143.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc145.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.7. Otherwise</b></td></tr></table><p>
 <p>
-<p>Tables are especially useful for combining a run of basically similar rules in a simple and concise way. The &quot;listed in&quot; condition, as in
+<p>We often need code which does one thing in one circumstance, and another the rest of the time. We could do this like so:
 <p>
-<p><blockquote><font color="#000080">if the newfound object is an item listed in the table of treasures...</font></blockquote>
+<blockquote><font color="#000080">if N is 2 begin; ...; end if;
+<br>if N is not 2 begin; ...; end if;
+</font></blockquote><p>
 <p>
-<p>looks through a given table (here &quot;table of treasures&quot;), in a given column (&quot;item&quot;), to see if a given value is present (&quot;the newfound object&quot;). If this is successful, the row where it was found is automatically chosen.
+<p>but this is not very elegant, and besides, what if the action we take when N is 2 changes N so that it becomes something else?
 <p>
-<p>We can similarly use &quot;... listed in ...&quot; in a description used when specifying an action. Thus:
+<p>Instead we use &quot;otherwise&quot;:
 <p>
-<p><blockquote><font color="#000080">After taking an item listed in the table of treasures:<br>if there is no time entry begin;<br>change the time entry to the time of day;<br>award (value entry) points;<br>end if;<br>say &quot;Taken!&quot;</font></blockquote>
+<blockquote><font color="#000080">if N is 2 begin;
+<br>...;
+<br>otherwise;
+<br>...;
+<br>end if;
+</font></blockquote><p>
 <p>
-<p>This assumes a table in the following shape:
+<p>Note that there is only one &quot;end if&quot;: the &quot;otherwise&quot; phrase occurs inside the &quot;if ... end if&quot; block of phrases.
 <p>
-<p><center><img src=table11.tiff></center>
+<p>When there is only a single phrase we can use the shortened form:
 <p>
-<p>In effect the table has allowed us to combine three very similar rules into one. The time column records the first time at which the item has been picked up, which starts out blank since at the start of play it has never been picked up. This enables us to award the appropriate number of points on the first occasion only.
+<blockquote><font color="#000080">if N is 2 then say &quot;Hooray, N is 2!&quot;;
+<br>otherwise say &quot;Boo, N is not 2...&quot;
+</font></blockquote><p>
+<p>
+<p>(In almost every computer programming language ever devised, including previous versions of Inform, the word &quot;else&quot; is used rather than &quot;otherwise&quot;: for the sake of familiarity, &quot;else&quot; can also be used here. All the same, &quot;otherwise&quot; seems closer to natural English.)
 <p>
 <p><hr><p><a href=doc143.html>Previous</a> / <a href=doc145.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

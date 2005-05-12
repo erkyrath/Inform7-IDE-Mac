@@ -1,0 +1,16 @@
+<html><head><title>17.21. Inform 6 objects and classes</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc255.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc257.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.21. Inform 6 objects and classes</b></td></tr></table><p>
+<p>
+<p>We are free to mix in I6 object and class definitions, and the I6 and I7 objects should coexist peaceably, with object-oriented code for the I6 items still functioning (&quot;before&quot;, &quot;react_before&quot;, &quot;each_turn&quot; and so forth) alongside I7 rules.
+<p>
+<p>As might be expected, I7 compiles an I6 class for each kind, and an I6 object for each of its own world objects. We can meddle with its compilation process here using a further refinement of Include. For instance, the Standard Rules say this about vehicles:
+<p>
+<blockquote><font color="#000080">Include (- with before [; Go: return 1; ], -) when defining a vehicle.
+</font></blockquote><p>
+<p>
+<p>This glues in a new property to the class compiled to represent the I7 kind &quot;vehicle&quot;. (See the DM4 for why.) And similarly:
+<p>
+<blockquote><font color="#000080">Include (- has my_funny_attribute, -) when defining the hot air balloon.
+</font></blockquote><p>
+<p>
+<p><hr><p><a href=doc255.html>Previous</a> / <a href=doc257.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

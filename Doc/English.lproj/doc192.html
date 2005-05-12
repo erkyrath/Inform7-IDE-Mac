@@ -1,12 +1,17 @@
-<html><head><title>14.7. Extensions can include other extensions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc191.html><img src=../Back.tif></a><a href=doc193.html><img src=../Forward.tif></a></td><td><b>14.7. Extensions can include other extensions</b></td></tr></table><p>
+<html><head><title>13.11. Sorting</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc191.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc193.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.11. Sorting</b></td></tr></table><p>
 <p>
-<p>As was mentioned earlier, the same extension is sometimes requested several times. For instance, suppose the main source text asks to include version 2 of extension X, and also to include extension Y. Suppose further that Y contains a request to include version 4 of X. We now have two different requests for X. Inform works out the minimum version number needed to satisfy these requests (in this case 4) and gives an error if the extension it actually loads turns out to be earlier.
+<p>We are allowed to sort a table in two ways: first, at random.
 <p>
-<p>This is especially useful when it comes to the Standard Rules. Suppose an extension is written which works with version 3 or later of the Standard Rules, but not with version 2. All the extension needs to do is to say:
+<blockquote><font color="#000080">sort the Table of Recent Monarchs in random order;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Include version 3 of the Standard Rules by Graham Nelson.</font></blockquote>
+<p>Secondly, in order of the values in any column, either forwards or backwards. Blank values will be placed last, and entirely blank rows last of all. The method of sorting is &quot;stable&quot;, that is, if two rows have the same value then they will stay the same way round in the sorted table, rather than being swapped over.
 <p>
-<p>If an extension does include other extensions, it should do so in a paragraph immediately following the introductory sentence, so that anyone looking at the file can see these mutual dependencies at a glance.
+<blockquote><font color="#000080">sort the Table of Recent Monarchs in accession order;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">sort the Table of Recent Monarchs in reverse name order;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc191.html>Previous</a> / <a href=doc193.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

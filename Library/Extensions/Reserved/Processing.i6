@@ -42,6 +42,7 @@ Global rule_frames = 0;
 [ BeginFollowRulebook;
   PushRuleChange(RS_FRAME, RS_FRAME, RS_FRAME);
   rule_frames++;
+!print "+<", rule_frames, "/", rulechange_sp, ">";
   if (rule_frames == 20) {
       print ">--> Too many rulebooks are being followed at once. 
           Rulebooks pile up when the rules governing one
@@ -57,16 +58,19 @@ Global rule_frames = 0;
 ];
 [ EndFollowRulebook;
   rule_frames--;
-  while ((rulechange_sp > 0) && 
-      (rulechange_stack-->rulechange_sp ~= RS_FRAME))
+  while (rulechange_sp > 0) {
       rulechange_sp = rulechange_sp - 3;
-  if (rulechange_sp > 0) rulechange_sp = rulechange_sp - 3;
-  else rule_frames = 0;
+      if (rulechange_stack-->rulechange_sp == RS_FRAME) break;
+  }      
+  if (rulechange_sp == 0) rule_frames = 0;
+!print "-<", rule_frames, "/", rulechange_sp, ">";
 ];
 [ FollowRulebook rulebook par activity_flag rv;
+!print "^{", rulebook, "}";
   if (rulebook ~= PROC_RB) BeginFollowRulebook();
   rv = ProcessRulebook(rulebook, par, activity_flag);
   if (rulebook ~= PROC_RB) EndFollowRulebook();
+!print "{/", rulebook, "}";
   return rv;
 ];
 
@@ -179,10 +183,19 @@ Verb meta "rules"
   bits = bits | RS_ACTIVE_BIT;
   bits = bits | RS_USERESULT_BIT;
   substituted_rule = rulebook;
+!if (rulebook == GoSub_C10) { print "Want GSC10^x=", x, "^";
+!for (i=0; i<rulechange_sp: i = i + 3) {
+!      usage = rulechange_stack-->i;
+!      rule1 = rulechange_stack-->(i+1);
+!      rule2 = rulechange_stack-->(i+2);
+!      print "Stack: ", usage, " ", rule1, " ", rule2, "^";
+!}
+!}
   for (: x<rulechange_sp: x = x + 3) {
       usage = rulechange_stack-->x;
       rule1 = rulechange_stack-->(x+1);
       rule2 = rulechange_stack-->(x+2);
+ !     if (rulebook == GoSub_C10) print "Found ", usage, " ", rule1, " ", rule2, "^";
       if ((usage == RS_DONOTRUN) && (rule1 == rulebook))
           bits = bits & (~RS_ACTIVE_BIT);
       if ((usage == RS_RUN) && (rule1 == rulebook))
@@ -197,7 +210,7 @@ Verb meta "rules"
            rv = ProcessRulebook(rule1, par, activity_flag, true);
            if (rv) { return rv; }
       }
-  } !print "Bits: ", bits, "^";
+  } ! if (rulebook == GoSub_C10) print "Bits: ", bits, "^";
   if ((bits & RS_ACTIVE_BIT) == 0) { rfalse; }
   sdbr = debugging_rules;
   AdjustDbr(substituted_rule);
@@ -307,53 +320,97 @@ Verb meta "rules"
 ! Replaced from the I6 library:
 
 Global untouchable_object;
-[ ObjectIsUntouchable item flag1 flag2;
+Global touch_persona;
+[ ObjectIsUntouchable item flag1 flag2 p save_sp;
   untouchable_object = item;
-  if (ProcessRulebook(ACCESS_RB)) {
+  touch_persona = p;
+  save_sp = say__p; say__p = 0;
+  if (ProcessRulebook(ACCESS_RB, 0, 1)) {
+      if (say__p) save_sp = true; else say__p = save_sp;
       if (rulechange_stack-->rulechange_sp == RS_SUCCEEDS) {
           rfalse; ! No barrier
       } else {
           rtrue; ! Barrier
       }
   }
+  if (say__p) save_sp = true; else say__p = save_sp;
   ! No decision is interpreted as no barrier to access:
   rfalse;
 ];
 
-[ OIU_Scoped i;
-  i = ObjectScopedBySomething(untouchable_object);
-  if (i ~= 0) return ObjectIsUntouchable(i);
+[ OIU_Scoped i o;
+!  i = ObjectScopedBySomething(untouchable_object);
+!  if (i ~= 0) {
+!      o = parameter_object;
+!      if (ObjectIsUntouchable(i, 0, 0, touch_persona)) rtrue;
+!      parameter_object = i;
+!      return OIUB_CP();
+!  }
   rfalse;
 ];
 
-[ OIU_Barrier ancestor i;
-  ancestor = CommonAncestor(player, untouchable_object);
+[ OIU_Core o;
+  while (o && (o provides component_part_of) && (o.component_part_of))
+      o = o.component_part_of;
+  return o;
+];
+
+[ OIU_Parent o;
+  return OIU_Core(parent(OIU_Core(o)));
+];
+
+[ OIU_CommonAncestor o1 o2 i j;
+  !  Find the nearest object indirectly containing o1 and o2,
+  !  or return 0 if there is no common ancestor.
+
+  o1 = OIU_Core(o1);
+  o2 = OIU_Core(o2);
+  i = o1;
+  while (i ~= 0) {
+      j = o2;
+      while (j ~= 0) {
+          if (j == i) return i;
+          j = OIU_Parent(j);
+      }
+	  i = OIU_Parent(i);
+  }
+  return 0;
+];
+
+[ OIU_Barrier ancestor i j external p;
+  p = touch_persona; if (p == 0) p = player;
+
+  ancestor = OIU_CommonAncestor(p, untouchable_object);
+!  if (ancestor == 0) {
+!      RulebookFails(); ! Wholly different locations
+!      rtrue;
+!  }
+!  print "Doing OIU barriers for ", (the) p, " and ", (the) untouchable_object,
+!      ": common ancestor is ", (the) ancestor, ".^";
 
   ! First, a barrier between the player and the ancestor.
 
-  if (player ~= ancestor) {
-      i = parent(player);
+  if (OIU_Core(p) ~= ancestor) {
+      i = parent(OIU_Core(p)); j = OIU_Core(i); external = false;
+      if (j ~= i) { i = j; external = true; }
       while (i~=ancestor && i) {
-          if (ProcessRulebook(REACHOUT_RB, i)) {
-              if (rulechange_stack-->rulechange_sp == RS_FAILS) {
-                  rtrue; ! Barrier
-              }
-          }
-          i = parent(i);
+          if ((external == false) && (ProcessRulebook(REACHOUT_RB, i))
+			  && (rulechange_stack-->rulechange_sp == RS_FAILS)) rtrue; ! Barrier
+          i = parent(OIU_Core(i)); j = OIU_Core(i); external = false;
+          if (j ~= i) { i = j; external = true; }
       }
   }
 
   ! Second, a barrier between the item and the ancestor.
 
-  if (untouchable_object ~= ancestor)
-  {   i = parent(untouchable_object);
+  if (OIU_Core(untouchable_object) ~= ancestor) {
+      i = parent(OIU_Core(untouchable_object)); j = OIU_Core(i); external = false;
+      if (j ~= i) { i = j; external = true; }
       while (i~=ancestor && i) {
-          if (ProcessRulebook(REACHIN_RB, i)) {
-              if (rulechange_stack-->rulechange_sp == RS_FAILS) {
-                  rtrue; ! Barrier
-              }
-          }
-          i = parent(i);
+          if ((external == false) && (ProcessRulebook(REACHIN_RB, i))
+			  && (rulechange_stack-->rulechange_sp == RS_FAILS)) rtrue; ! Barrier
+          i = parent(OIU_Core(i)); j = OIU_Core(i); external = false;
+          if (j ~= i) { i = j; external = true; }
       }
   }
 
@@ -363,7 +420,7 @@ Global untouchable_object;
 
 [ OIUB_CCI;
   if (parameter_object has container && parameter_object hasnt open) {
-      L__M(##Take,9,parameter_object);
+      if (touch_persona == 0) L__M(##Take,9,parameter_object);
       RulebookFails();
       rtrue;
   }
@@ -372,7 +429,7 @@ Global untouchable_object;
 
 [ OIUB_CCO;
   if (parameter_object has container && parameter_object hasnt open) {
-      L__M(##Take,9,parameter_object);
+      if (touch_persona == 0) L__M(##Take,9,parameter_object);
       RulebookFails();
       rtrue;
   }
@@ -380,39 +437,20 @@ Global untouchable_object;
 ];
 
 [ OIUB_RI;
+! print parameter_object, "=", (the) parameter_object, "^";
   if (parameter_object && parameter_object ofclass K1_room) {
-      L__M(##Take,14,parameter_object);
+      if (touch_persona == 0) L__M(##Take,14,parameter_object);
       RulebookFails();
       rtrue;
-  }
-  rfalse;
-];
-
-[ OIUB_AP;
-  if (parameter_object has container) rfalse;
-  if (parameter_object has supporter) rfalse;
-  if (action == ##Take or ##Remove or ##Transfer) {
-  if (parameter_object has animate) {
-      L__M(##Take,6,parameter_object);
-      RulebookFails();
-      rtrue;
-  }
   }
   rfalse;
 ];
 
 [ OIUB_CP;
-  if (parameter_object has container) rfalse;
-  if (parameter_object has supporter) rfalse;
-  if (action == ##Take or ##Remove or ##Transfer) {
-  if (parameter_object has transparent) {
-      L__M(##Take,7,parameter_object);
-      RulebookFails();
-      rtrue;
-  }
-  L__M(##Take,8,parameter_object);
-  RulebookFails();
-  rtrue;
+  if ((noun provides component_part_of) && (noun.component_part_of)) {
+	  if (noun.component_part_of has transparent)
+	      return L__M(##Take,7,noun.component_part_of);
+	  return L__M(##Take,8,noun.component_part_of);
   }
   rfalse;
 ];
@@ -429,7 +467,7 @@ Global untouchable_object;
   rfalse; ];
 
 [ TestActionBitmap obj act i j k;
-  if (obj == nothing) return ((ActionHappened->j) ~= 0);
+  if (obj == nothing) return ((ActionHappened->act) ~= 0);
   if (~~(obj provides action_bitmap)) rfalse;
   ! for (i=0; i<10; i++) print (obj.&action_bitmap)->i, " ";
   for (i=0, k=1; i<ActionCount; i++) {
@@ -475,11 +513,15 @@ Global debug_rule_nesting;
   if (action == ##Consult or ##Ask or ##Tell or ##NotUnderstood or ##Answer) {
       inp2 = 1; second = consult_from + 256*consult_words;
   }
+!  print noun, "/", second, ";", inp1, "/", inp2, "^";
   if (I7_VerifyNouns()) return;
+!  print noun, "/", second, ";", inp1, "/", inp2, "^";
   if ((action == ##Go) && (noun)) {
       move_from = real_location; move_to = nothing;
       move_by = nothing; move_through = nothing;
       if ((parent(player) has container) && (parent(player) has enterable))
+          move_by = parent(player);
+      if ((parent(player) has supporter) && (parent(player) has enterable))
           move_by = parent(player);
       if (noun in compass) {
           move_to = move_from.(noun.door_dir);
@@ -491,7 +533,7 @@ Global debug_rule_nesting;
           move_to = move_to.door_to();
       }
       #IFDEF DEBUG;
-      if (debug_flag & 2 ~= 0) {
+      if ((debug_flag & 2 ~= 0)) {
           print "[Go with move_from = ";
           if (move_from) print (the) move_from; else print "nowhere";
           print ", move_to = ";
@@ -509,7 +551,7 @@ Global debug_rule_nesting;
 
   #IFDEF DEBUG;
   if ((debug_rules) && (FindAction())) {
-      print "@31["; DB_Action(); print "], df=", debug_flag, "^"; }
+      print "@31["; DB_Action(); print "]^"; }
   SetString31(++debug_rule_nesting);
   #ENDIF;
   TrackActions();
@@ -543,6 +585,8 @@ Global debug_rule_nesting;
   .HappyEnding; RulebookSucceeds(); rtrue;
 ];
 [ AllowPushDir i;
+  if ((noun provides i7_kind) && (noun hasnt pushable))
+      return L__M(##PushDir,1,noun);
   if (parent(second)~=compass) return L__M(##PushDir,2,noun);
   if (second==u_obj or d_obj)  return L__M(##PushDir,3,noun);
   AfterRoutines(); i=noun; move i to player; move_pushing = i;
@@ -648,7 +692,11 @@ Global debug_rule_nesting;
   if (m > 30) { m = 60-m; h = (h+1)%12; if (h==0) h=12; dir = "to"; }
   switch(m) {
   	15: print "quarter"; 30: print "half";
-  	default: print (number) m; if (m%5 ~= 0) print " minutes"; }
+  	default: print (number) m;
+  	    if (m%5 ~= 0) {
+  	        if (m == 1) print " minute"; else print " minutes";
+  	    }
+  }
   print " ", (string) dir, " ", (number) h;
 ];
 [ PermitAttributeR obj off i;
@@ -736,6 +784,7 @@ Global debug_rule_nesting;
 
 Global activities_sp = 0;
 Array activities_stack --> 25;
+Array activities_ostack --> 25;
 Global inhibit_flag = 0;
 Global inhibit_dr = 0;
 [ FixInhibitFlag n i_f;
@@ -750,19 +799,25 @@ Global inhibit_dr = 0;
   }
   inhibit_flag = i_f;
 ];
+[ FollowRulebookSelfed R o ss rv;
+  ss = self; if (o) self = o;
+  rv = FollowRulebook(R, o, true);
+  self = ss; return rv;
+];
 [ BeginActivity A o;
   if (activities_sp == 25) ">--> Too many activities going on at once.";
+  activities_ostack-->activities_sp = o;
   activities_stack-->(activities_sp++) = A;
   FixInhibitFlag();
-  return FollowRulebook(Activity_before_rulebooks-->A, o, true);
+  return FollowRulebookSelfed(Activity_before_rulebooks-->A, o);
 ];
 [ ForActivity A o;
-  return FollowRulebook(Activity_when_rulebooks-->A, o, true);
+  return FollowRulebookSelfed(Activity_when_rulebooks-->A, o);
 ];
 [ EndActivity A o rv;
   if (activities_sp == 0) jump BadEnd;
   if (activities_stack-->(activities_sp-1) == A) {
-      rv = FollowRulebook(Activity_after_rulebooks-->A, o, true);
+      rv = FollowRulebookSelfed(Activity_after_rulebooks-->A, o);
       activities_sp--; FixInhibitFlag(); return rv; }
   .BadEnd; ">--> Tried to abandon activity which wasn't going on.";
 ];
@@ -774,13 +829,26 @@ Global inhibit_dr = 0;
 ];
 [ CarryOutActivity A o;
   BeginActivity(A,o); ForActivity(A,o); EndActivity(A,o); ];
-[ TestActivity A i;
+[ TestActivity A Pattern i;
   for (i=0:i<activities_sp:i++)
-      if (activities_stack-->i == A) rtrue;
+      if (activities_stack-->i == A) {
+          if (Pattern == false) rtrue;
+          if ((Pattern)(activities_ostack-->i)) rtrue;
+      }
   rfalse;
 ];
 [ I7_Move F T opt;
+  if (F == false) ">--> You can't move nothing.";
+  give F ~worn;
   if (F == player) PlayerTo(T, opt); else move F to T;
+];
+[ I7_Wear F T opt;
+  if (F == false) rfalse;
+  I7_Move(F, T, opt);
+  give F worn;
+];
+[ I7_MakePart P Of;
+  print "Sorry, don't know how to make ", (the) P, " part of ", (the) Of, ".^";
 ];
 [ I7_NPCA;
   if (actor == player) rfalse;
@@ -806,5 +874,94 @@ Global inhibit_dr = 0;
   x = Activity_when_rulebooks-->AMUSING_ACT;
   if (((rulebooks_array-->x)-->0) == $ffff)
       rfalse;
+  rtrue;
+];
+[ I7_CarriedBy obj p; p = parent(obj);
+  if (p && (p ofclass K8_person) && (obj hasnt worn)) return p;
+  return nothing;
+];
+[ I7_WornBy obj p; p = parent(obj);
+  if (p && (p ofclass K8_person) && (obj has worn)) return p;
+  return nothing;
+];
+[ I7_HadBy obj p; p = parent(obj);
+  if (p && (p ofclass K8_person)) return p;
+  return nothing;
+];
+[ I7_Adjacent R1 R2 d pr;
+  objectloop (d in compass) {
+      pr = d.door_dir;
+      if ((R1 provides pr) && (R2 == R1.pr)) rtrue;
+  }
+  rfalse;
+];
+[ I7_string s; if (s ofclass String) { print (string) s; return; }
+  indirect(s);
+];
+[ I7_In rm region o;
+  if ((rm == nothing) || (region == nothing)) rfalse;
+  o = rm.I7_Map_Region;
+  if (o == region) rtrue;
+  if (o) return I7_In(o, region);
+  rfalse;
+];
+[ I7SwapWF obj lst;
+  objectloop (obj ofclass Object) {
+      lst = false;
+      if (obj has i7listflag) lst = true;
+      give obj ~i7listflag;
+      if (obj has workflag) give obj i7listflag;
+      give obj ~workflag;
+      if (lst) give obj workflag;
+  }
+];
+[ I7List supp obj par flag mixed ct defart;
+  objectloop (obj ofclass Object && obj has i7listflag) {
+      ct++;
+      if (flag == false) {
+          flag = true; par = parent(obj);
+      } else {
+          if (parent(obj) ~= par) mixed = true;
+      }
+  }
+  if (ct == 0) { print "nothing"; return; }
+  if (supp < 0) { supp = -supp; mixed = true; defart = true; }
+  if (supp & ISARE_BIT) {
+      if (ct > 1) print "are "; else print "is ";
+      supp = supp - ISARE_BIT;
+  }
+  if ((mixed == false) && (par)) {
+      ct = c_style;
+      I7SwapWF();
+      ! print "<";
+      WriteListFrom(child(par), ENGLISH_BIT+WORKFLAG_BIT+supp);
+      I7SwapWF();
+      ! print ">";
+      c_style = ct;
+      return;
+  }
+  objectloop (obj ofclass Object && obj has i7listflag) {
+      give obj ~i7listflag;
+      if (supp & DEFART_BIT) {
+          if (defart) print (The) obj; else print (the) obj;
+          defart = false;
+      } else print (a) obj;
+      ct--;
+#ifdef US_DIALECT;
+      if (ct == 1) print ", and ";
+#ifnot;
+      if (ct == 1) print " and ";
+#endif;
+      if (ct > 1) print ", ";
+ }
+! print ">";
+];
+[ I7_CanSee A B;
+  if (location == thedark) rfalse;
+  return TestScope(B, A);
+];
+[ I7_CanTouch A B;
+  if (TestScope(B,A) == false) rfalse;
+  if (ObjectIsUntouchable(B, 0, 0, A)) rfalse;
   rtrue;
 ];

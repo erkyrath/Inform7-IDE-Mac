@@ -1,34 +1,35 @@
-<html><head><title>6.8. Giving instructions to other people</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc62.html><img src=../Back.tif></a><a href=doc64.html><img src=../Forward.tif></a></td><td><b>6.8. Giving instructions to other people</b></td></tr></table><p>
+<html><head><title>5.6. To be able to see and touch</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc62.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc64.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.6. To be able to see and touch</b></td></tr></table><p>
 <p>
-<p>In interactive fiction, it is conventional to ask other characters to do something like so:
+<p>Two of the adjectives built into Inform are:
 <p>
-<blockquote><font color="#000080">> marcel, put the biscuit in the tea
-<br>> will, go west
+<blockquote><font color="#000080">&quot;visible&quot; - the player can see this
+<br>&quot;touchable&quot; - the player can touch this
 </font></blockquote><p>
 <p>
-<p>and so on. Clearly &quot;will, go west&quot; should not produce the same action as &quot;go west&quot;, because a different person will be trying it: this person is called the &quot;actor&quot;, and while the actor is ordinarily the player, here it is the character of Will. The actions produced are:
+<p>So we can write descriptions such as &quot;someone visible&quot; or &quot;a touchable container&quot;. We also have adjectives &quot;invisible&quot; and &quot;untouchable&quot;, as might be expected.
 <p>
-<blockquote><font color="#000080">> go west -> going west
-<br>> will, go west -> asking will to try going west
+<p>We can also talk about what other people can see and touch:
+<p>
+<blockquote><font color="#000080">something able to be seen by Helen
+<br>something which can be seen by Helen
 </font></blockquote><p>
 <p>
-<p>We can thus write rules like so:
+<p>are synonymous. Similarly for touch; and we can write such conditions as
 <p>
-<blockquote><font color="#000080">Instead of asking will to try going west, say &quot;Will scratches his head, baffled.&quot;
+<blockquote><font color="#000080">if Helen is unable to see Agamemnon, ...
+<br>if Cressida can see Troilus, ...
 </font></blockquote><p>
 <p>
-<p>which apply only to the command &quot;will, go west&quot; and do not affect the command &quot;go west&quot;. Actions carried out by other people get as far as completing the &quot;instead&quot; rules but then, if no rule has intervened by then, fail like so:
+<p>Note that it is essential to establish who does the seeing and touching: so &quot;something which can be seen&quot; will not be allowed, whereas &quot;something which can be seen by Helen&quot; will.
 <p>
-<blockquote><font color="#000080">> will, go west
-<br>Will has better things to do.
+<p>In fact, inside Inform the adjective &quot;invisible&quot; (for instance) has the following straightforward definition:
+<p>
+<blockquote><font color="#000080">Definition: Something is invisible if the player cannot see it.
 </font></blockquote><p>
 <p>
-<p>Similarly, we can also have phrases like so:
+<p>The exact definitions of visibility and touchability are complicated, because there are so many ways in which vision and touch can be obstructed, but the gist is that they behave as one would expect. Note that in darkness, nothing is visible, and that nobody can see from one room to another. In general anything invisible is also untouchable, but there are a few exceptions to do with being in the dark. Lastly, the player's own body (the player-character object, which is called &quot;yourself&quot; during play) is both visible (in light) and touchable.
 <p>
-<blockquote><font color="#000080">try asking the Sybil to try waiting
-</font></blockquote><p>
-<p>
-<p>which simulate the player having typed &quot;sybil, wait&quot;.
+<p><hr><img border=0 src=beta.png>One day &quot;something which Helen can see&quot; will be allowed, I hope, but for the moment &quot;who&quot; and &quot;which&quot; must be directly followed by the verb.
 <p>
 <p><hr><p><a href=doc62.html>Previous</a> / <a href=doc64.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

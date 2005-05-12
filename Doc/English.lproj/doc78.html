@@ -1,22 +1,31 @@
-<html><head><title>6.23. Recap of the action sequence</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc77.html><img src=../Back.tif></a><a href=doc79.html><img src=../Forward.tif></a></td><td><b>6.23. Recap of the action sequence</b></td></tr></table><p>
+<html><head><title>6.11. Rules applying to more than one action</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc77.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc79.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.11. Rules applying to more than one action</b></td></tr></table><p>
 <p>
-<p>To recap, actions are normally generated when the player types a command, but they can also be started by the &quot;try&quot; phrase. What then happens is as follows:
+<p>A description can include more than one choice of action. For instance:
 <p>
-<p><blockquote><font color="#000080">1. If any before rule applies then it is obeyed.</font></blockquote>
+<blockquote><font color="#000080">examining or searching the desk
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">2. If the action needs light to see by, that is checked; if it needs physical access to its objects, that too is checked.</font></blockquote>
+<p>matches either of &quot;examining the desk&quot; or &quot;searching the desk&quot;. We can have more than two actions, of course:
 <p>
-<p><blockquote><font color="#000080">3. If any instead rule applies then it is obeyed and the action is automatically stopped.</font></blockquote>
+<blockquote><font color="#000080">examining, looking under or searching the desk
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">4. The &quot;check&quot; rules for the given action are obeyed, to see if it is possible. For example, the &quot;check taking&quot; rules will prevent the player from taking something which is fixed in place.</font></blockquote>
+<p>The actions combined like this need to be compatible with each other, at least a little. For instance, this will generate a problem message:
 <p>
-<p><blockquote><font color="#000080">5. The &quot;carry out&quot; rules for the given action are obeyed. For example, the &quot;carry out taking&quot; rules actually move the given object into the player's possession. The action is now declared a success.</font></blockquote>
+<blockquote><font color="#000080">waiting or searching the desk
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">6. If any after rule applies then it is obeyed and the action is automatically stopped.</font></blockquote>
+<p>because it makes no sense to &quot;wait the desk&quot;. On the other hand, this is fine:
 <p>
-<p><blockquote><font color="#000080">7. The &quot;report&quot; rules for the given action are obeyed. For example, the &quot;report taking&quot; rules always just say &quot;Taken.&quot;</font></blockquote>
+<blockquote><font color="#000080">waiting or searching
+</font></blockquote><p>
 <p>
-<p>In practice we can forget about the check, carry out and report rules unless we are creating new actions or meddling with the definition of existing ones: almost everything we need to do can be done with before, instead and after rules.
+<p>The general rule is that if we specify one or more objects (&quot;the desk&quot; in the above example), then each of the actions we quote must take at least that many objects.
+<p>
+<p>For example, the following saves us writing the same basic rule three times over:
+<p>
+<blockquote><font color="#000080">Instead of examining, looking under or searching the desk: say &quot;There's no use poking around in that old desk.&quot;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc77.html>Previous</a> / <a href=doc79.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,30 +1,21 @@
-<html><head><title>11.6. Understanding values</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc151.html><img src=../Back.tif></a><a href=doc153.html><img src=../Forward.tif></a></td><td><b>11.6. Understanding values</b></td></tr></table><p>
+<html><head><title>10.15. Phrases to decide other things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc151.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc153.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.15. Phrases to decide other things</b></td></tr></table><p>
 <p>
-<p>So far every &quot;Understand&quot; sentence has ended with &quot;as&quot; and a description of an action. But we can also use &quot;Understand&quot; to supply new ways to express values, as in the final paragraph of the following example game.
+<p>A condition is a yes/no decision, but we can also take decisions where the result is a value. Suppose we want to create a concept of the &quot;grand prize&quot;, which will have different values at different times in play. Each time the &quot;grand prize&quot; is referred to, Inform will have to decide what its value is, and the following tells Inform how to make that decision:
 <p>
-<p><blockquote><font color="#000080">&quot;Palette&quot;</font></blockquote>
+<blockquote><font color="#000080">To decide which treasure is the grand prize:
+<br>if the Dark Room has been visited then result the silver bars;
+<br>result the plover's egg.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The Atelier is a room. &quot;The floridly untidy loft space used by a moderately unsuccessful artist (you, that is).&quot; The canvas, palette and paint brush are here. Understand &quot;painting&quot; as the canvas.</font></blockquote>
+<p>Note that we have to say what kind the answer will be: here it's a kind of thing called &quot;treasure&quot; (which we're supposing has already been created), and as it turns out only two treasures are ever eligible anyway (we're also supposing that the plover's egg and the silver bars are treasures already created, of course.) Now that we have &quot;grand prize&quot; created, we can use it just as we would use any other value, so for instance:
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are white, red, blue and green.</font></blockquote>
+<blockquote><font color="#000080">if taking the grand prize then ...
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The canvas is allowed to have a colour. The canvas is white. The printed name of the canvas is &quot;largely [colour] canvas&quot;.</font></blockquote>
+<p>As this is something of a dialect difference between English speakers, &quot;what&quot; and &quot;which&quot; are synonymous here, i.e., we could equally well write something like:
 <p>
-<p><blockquote><font color="#000080">Painting is an action applying to one thing and one colour. Check painting: if the noun is not the canvas then say &quot;Centuries of tradition suggest that canvas is the natural home of paint.&quot; instead. Carry out painting: change the colour of the canvas to the colour understood. Report painting: say &quot;You splash away at the now [canvas].&quot;</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Understand &quot;paint [something] [a colour]&quot; as painting.</font></blockquote>
-<p>
-<p><blockquote><font color="#000080">Understand &quot;calico&quot; as white. Understand &quot;cerulean&quot; or &quot;cerulean blue&quot; as blue.</font></blockquote>
-<p>
-<p>Similarly, we might conceivably want to allow new ways to recognise numbers:
-<p>
-<p><blockquote><font color="#000080">Understand &quot;eleventy-one&quot; as 111.</font></blockquote>
-<p>
-<p>Whereas we did not need to say:
-<p>
-<p><blockquote><font color="#000080">Understand &quot;canvas&quot; as the canvas. Understand &quot;red&quot; as red. Understand &quot;111&quot; as 111.</font></blockquote>
-<p>
-<p>since these are all done automatically.
+<blockquote><font color="#000080">To decide what number is the target score: ...
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc151.html>Previous</a> / <a href=doc153.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,22 +1,27 @@
-<html><head><title>4.4. New either/or properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc38.html><img src=../Back.tif></a><a href=doc40.html><img src=../Forward.tif></a></td><td><b>4.4. New either/or properties</b></td></tr></table><p>
+<html><head><title>3.20. Parts of things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc38.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc40.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.20. Parts of things</b></td></tr></table><p>
 <p>
-<p>Properties can only be given to something if its kind will permit that: we cannot make a chair &quot;dark&quot; or a room &quot;portable&quot;, for instance. When creating kinds, then, we need a way to specify the properties which that kind of thing will allow, and this will need to include new properties of our own devising.
+<p>Everything has one and only one kind. This is both good and bad: good for clarity, bad if something needs to behave in two different ways at once. How might we simulate a car with an ignition key, given that no single thing can be both a &quot;vehicle&quot; and a &quot;device&quot; at the same time?
 <p>
-<p><blockquote><font color="#000080">A dead end is either secret or ordinary.</font></blockquote>
+<p>The Inform world model takes the view that such a car is too complicated to be simulated with a single thing. Instead it should be simulated as a vehicle (the car) which has a device (the ignition) attached. This is done using a third kind of containment to those seen so far (&quot;in...&quot; and &quot;on...&quot;): &quot;part of&quot;.
 <p>
-<p>This creates just one new property, not two, as the names are taken as the two states of a single either/or property: secret means not ordinary, ordinary means not secret. Alternatively, we could just say:
+<blockquote><font color="#000080">&quot;Buttons&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">A dead end can be secret.</font></blockquote>
+<blockquote><font color="#000080">The Confectionary Workshop is a room. The Chocolate Machine is here. &quot;The Chocolate Machine has pride of place. A lever and two buttons, one white, the other brown, seem to be the only controls. On top is a hopper.&quot;
+</font></blockquote><p>
 <p>
-<p>in which case the opposite of &quot;secret&quot; would be &quot;not secret&quot;.
+<blockquote><font color="#000080">A container called the hopper is part of the Chocolate Machine. The lever, the white button and the brown button are parts of the Chocolate Machine.
+</font></blockquote><p>
 <p>
-<p>Note that we are free to add to the definitions of kinds which already exist, not just those we have created ourselves: for instance,
+<blockquote><font color="#000080">The Chocolatier's desk is here. &quot;The Chocolatier evidently works at the imposing green-leather topped desk facing the Machine. It has three drawers with brass handles.&quot;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">A room is either indoors or outdoors.</font></blockquote>
+<blockquote><font color="#000080">The upper drawer, the middle drawer and the lower drawer are parts of the desk. The upper drawer, the middle drawer and the lower drawer are openable closed containers. In the middle drawer is a sugared almond. In the lower drawer is a Battenburg cake. On the desk is a liquorice twist.
+</font></blockquote><p>
 <p>
-<p>creates a new property which all rooms either possess or don't. And so on. If we make the above definitions then by default, any dead ends created will be &quot;ordinary&quot; and any rooms created will be &quot;outdoors&quot;: that is, in the absence of other information it is assumed that a new either/or property will not be held. We could reverse this behaviour by adding:
+<p>The machine and the desk each have several &quot;parts&quot; representing subsidiary pieces of themselves. The desk is a &quot;supporter&quot; (it needs to be, for the liquorice twist to be on top) but also has three &quot;containers&quot; attached, each of which can be opened or closed independently.
 <p>
-<p><blockquote><font color="#000080">A dead end is usually secret. A room is usually indoors.</font></blockquote>
+<p>In the interests of realism, the standard rules of play protect these composite things. Thus if the desk were to be moved elsewhere (rolling on sugar casters perhaps) then its parts would move with it, and the player is not allowed to detach parts of things: the drawers can be opened or closed, but not pulled out altogether.
 <p>
 <p><hr><p><a href=doc38.html>Previous</a> / <a href=doc40.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

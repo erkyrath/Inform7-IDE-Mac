@@ -1,20 +1,23 @@
-<html><head><title>3.6. Scenery</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc22.html><img src=../Back.tif></a><a href=doc24.html><img src=../Forward.tif></a></td><td><b>3.6. Scenery</b></td></tr></table><p>
+<html><head><title>3.4. Regions and the index map</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc22.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc24.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.4. Regions and the index map</b></td></tr></table><p>
 <p>
-<p>As we have just seen, making something &quot;fixed in place&quot; will prevent it from being picked up or moved. But it remains substantial enough to be described in its own paragraph of text when the player visits its location. This can be unfortunate if it has also been described already in the body of the main description for that location. For instance, if we wrote:
+<p>Rooms represent individual places to which one can go, but we tend to think of the world around us in larger pieces: we think of a house and a garden, rather than each of the single rooms of the house and all corners of its garden. A collection of rooms is called a &quot;region&quot;, and we can create one like so:
 <p>
-<p><blockquote><font color="#000080">The Orchard is a room. &quot;Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.&quot; The gnarled old oak tree is in the Orchard. The oak is fixed in place.</font></blockquote>
+<blockquote><font color="#000080">The Arboretum is east of the Botanical Gardens. Northwest of the Gardens is the Tropical Greenhouse.
+</font></blockquote><p>
 <p>
-<p>This would end up describing the oak twice, once in the paragraph about the Orchard, then again in a list of things within it:
+<blockquote><font color="#000080">The Public Area is a region. The Arboretum and Gardens are in the Public Area.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080"><b>Orchard</b><br>Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.</font></blockquote>
+<p>The real usefulness of creating regions like &quot;Public Area&quot; will only appear later, when we begin defining rules of play which apply in some areas but not others, but in the mean time we can see the effect by turning to the Map tab of the Index. In the Map, Inform draws a stylised attempt at a diagram of the rooms and their connections: this will not always correspond to how we imagine things, but with any luck it should mostly be right.
 <p>
-<p><blockquote><font color="#000080">You can see a gnarled old oak tree here.</font></blockquote>
+<p>Rooms are represented by coloured squares, and the colour-coding is done by region. In the above example, the two &quot;Public Area&quot; rooms are coloured green (as it happens); the Greenhouse, since it belongs to no region, is a neutral grey.
 <p>
-<p>We avoid this by making it &quot;scenery&quot; instead of &quot;fixed in place&quot;:
+<p>Regions can be put inside each other:
 <p>
-<p><blockquote><font color="#000080">The oak is scenery.</font></blockquote>
+<blockquote><font color="#000080">The University Parks is a region. The Public Area is in the University Parks.
+</font></blockquote><p>
 <p>
-<p>Any thing can be scenery, and this does not bar it from playing a part in the game: it simply means that it will be immobile and that it will not be described independently of its room.
+<p>but they are not allowed to overlap other than by one being entirely inside the other.
 <p>
 <p><hr><p><a href=doc22.html>Previous</a> / <a href=doc24.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

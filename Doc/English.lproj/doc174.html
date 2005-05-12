@@ -1,24 +1,26 @@
-<html><head><title>13.4. While clauses</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc173.html><img src=../Back.tif></a><a href=doc175.html><img src=../Forward.tif></a></td><td><b>13.4. While clauses</b></td></tr></table><p>
+<html><head><title>12.8. Multiple-number specifications</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc173.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc175.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.8. Multiple-number specifications</b></td></tr></table><p>
 <p>
-<p>Rules applied to actions can become baroque (&quot;after going through a door in the presence of an animal when&quot; and so on and so forth), but activities are again simpler: they only have one possible clause attached, which is called &quot;while&quot;. For instance, the following would provide a fairly sledgehammer hint that the sack should not lightly be thrown away:
+<p>Natural language is full of notations for weights and measures which involve more than one number, and perhaps some punctuation. For instance, suppose we want a running time for some piece of music, in minutes and seconds: we might choose to write this in the old-fashioned way 4'33.
 <p>
-<blockquote><font color="#000080">The sack is a player's holdall. The sack is initially carried. Rule for printing the name of the sack while the sack is not carried: say &quot;your discarded sack&quot;.
+<blockquote><font color="#000080">A running time is a kind of value. 3'59 specifies a running time.
 </font></blockquote><p>
 <p>
-<p>Any condition can be given after the &quot;while&quot;.
+<p>The choice of &quot;3&quot; here makes no difference, much as the choice of &quot;10&quot; in the weight examples was arbitrary. But the &quot;59&quot; is significant. Numbers after the first one are expected to range from 0 up to the value we quote - so in this case, the number of seconds can be anything from 0 to 59. Or, for instance:
 <p>
-<p>In fact, though, there is another possibility: we can also specify that another activity has to be going on. Thus:
-<p>
-<blockquote><font color="#000080">Rule for printing the name of the lemon sherbet while listing contents: say &quot;curious sort of lemon sherbet sweet&quot;.
+<blockquote><font color="#000080">A height is a kind of value. 5 foot 11 specifies a height.
 </font></blockquote><p>
 <p>
-<p>This nicely distinguishes between contexts where it's appropriate for the game to be more verbose, and where it isn't. Thus:
+<p>A specification can contain up to four numbers like this: but see the caveats on the limited total size of those numbers in the next section.
 <p>
-<blockquote><font color="#000080">You can see a teaspoon and a curious sort of lemon sherbet sweet here.
-<br>> TAKE ALL
-<br>teaspoon: Taken.
-<br>lemon sherbet: Taken.
+<p>Specifications must not contain double-quotation marks because, even though people did once use these to denote minutes of arc, they would simply confuse programs like Inform's user interface which have to keep track of what is quoted text and what is not. But other punctuation marks are fine <i>provided they occur between two digits</i>. For instance, in
+<p>
+<blockquote><font color="#000080">A monetary value is a kind of value. $1.99 specifies a monetary value.
+</font></blockquote><p>
+<p>
+<p>the full stop between the 1 and the 99 is not interpreted as a division of two sentences; and similarly for colons in examples such as
+<p>
+<blockquote><font color="#000080">An aspect ratio is a kind of value. 16:9 specifies an aspect ratio.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc173.html>Previous</a> / <a href=doc175.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

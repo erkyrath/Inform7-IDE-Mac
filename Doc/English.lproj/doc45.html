@@ -1,16 +1,26 @@
-<html><head><title>4.10. Kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc44.html><img src=../Back.tif></a><a href=doc46.html><img src=../Forward.tif></a></td><td><b>4.10. Kinds of value</b></td></tr></table><p>
+<html><head><title>4.6. New either/or properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc44.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc46.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.6. New either/or properties</b></td></tr></table><p>
 <p>
-<p>Several kinds of value have appeared so far, chiefly numbers, 1, 2, 3, ... and 0, -1, -2, ... and texts, such as &quot;Jackdaws love my big sphinx of quartz&quot;. We can give objects properties holding such values, and we can also endow them with either/or properties such as &quot;dark&quot;/&quot;lighted&quot;.
+<p>Properties can only be given to something if its kind will permit that: we cannot make a chair &quot;dark&quot; or a room &quot;portable&quot;, for instance. When creating kinds, then, we need a way to specify the properties which that kind of thing will allow, and this will need to include new properties of our own devising.
 <p>
-<p>These arrangements are all very well, but not ideal when it comes to simulating something which can be in, say, one of four states. Suppose we would like the candle lantern to burn down, gradually diminishing in brightness. A property attached to the lantern should hold the current strength of the flame. We could do this like so:
+<blockquote><font color="#000080">A dead end is either secret or ordinary.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The lantern has a number called the brightness level.</font></blockquote>
+<p>This creates just one new property, not two, as the names are taken as the two states of a single either/or property: secret means not ordinary, ordinary means not secret. Alternatively, we could just say:
 <p>
-<p>(Thus far we have only given new properties to kinds, but in fact we can also give them to individual things, as here. It would be cumbersome to make a new kind called, say, &quot;lamp&quot; and then make the lantern the only lamp in the game, just as a way of attaching a number to it.) We could then set the brightness level to be 1, 2, 3 or 4 according to the strength of flame, and find some way of conveying this to the player. That would work, but is not very elegant. Brightness is not, in the end, a number, and it seems strange to have to pretend that it is. A much better solution is:
+<blockquote><font color="#000080">A dead end can be secret.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Brightness is a kind of value. The brightnesses are guttering, weak, radiant and blazing.</font></blockquote>
+<p>in which case the opposite of &quot;secret&quot; would be &quot;not secret&quot;.
 <p>
-<p>This makes &quot;brightness&quot; a kind of value on a par with (for instance) &quot;number&quot; or &quot;text&quot;, except that there are only four possible values, named as above.
+<p>Note that we are free to add to the definitions of kinds which already exist, not just those we have created ourselves: for instance,
+<p>
+<blockquote><font color="#000080">A room is either indoors or outdoors.
+</font></blockquote><p>
+<p>
+<p>creates a new property which all rooms either possess or don't. And so on. If we make the above definitions then by default, any dead ends created will be &quot;ordinary&quot; and any rooms created will be &quot;outdoors&quot;: that is, in the absence of other information it is assumed that a new either/or property will not be held. We could reverse this behaviour by adding:
+<p>
+<blockquote><font color="#000080">A dead end is usually secret. A room is usually indoors.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc44.html>Previous</a> / <a href=doc46.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

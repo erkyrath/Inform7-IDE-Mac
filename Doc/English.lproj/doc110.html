@@ -1,18 +1,19 @@
-<html><head><title>8.14. Actions as conditions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc109.html><img src=../Back.tif></a><a href=doc111.html><img src=../Forward.tif></a></td><td><b>8.14. Actions as conditions</b></td></tr></table><p>
+<html><head><title>7.19. Stipulations on testing</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc109.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc111.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.19. Stipulations on testing</b></td></tr></table><p>
 <p>
-<p>There are two ways that descriptions of actions can be used as conditions. First, we can simply describe an action, and then the condition will be true if that is what the player is trying to do, and not otherwise:
+<p>Many tests will only be sensible in given places, which may be hard to reach from the initial position; or with the aid of given things, which may be difficult to obtain. We are therefore allowed to add stipulations to test scripts:
 <p>
-<p><blockquote><font color="#000080">... if taking a container then ...</font></blockquote>
+<blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot; holding the balloon.
+</font></blockquote><p>
 <p>
-<p>This is actually an abbreviation for the longer, some would say preferable form:
+<p>The &quot;... holding the balloon&quot; means that the balloon will be transferred to the player's ownership immediately before the test script is run, unless it is already held. Similarly:
 <p>
-<p><blockquote><font color="#000080">... if we are taking a container then ...</font></blockquote>
+<blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen.
+</font></blockquote><p>
 <p>
-<p>Secondly, we can talk about the past as well as the present, which is very useful since interactive fiction often contains situations which are changed by earlier events.
+<p>Or we might want to say both:
 <p>
-<p><blockquote><font color="#000080">Instead of waiting when we have taken the lantern, say &quot;No, your acquisitive nature is roused now, and simply waiting will no longer do.&quot;</font></blockquote>
-<p>
-<p>More on the past tense later, too: note that &quot;we are taking&quot; has become &quot;we have taken&quot;. For the rule to apply, it is not enough that the action &quot;taking the lantern&quot; has been tried: it must have succeeded.
+<blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen holding the jam.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc109.html>Previous</a> / <a href=doc111.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

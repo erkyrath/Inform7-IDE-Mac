@@ -1,29 +1,27 @@
-<html><head><title>14.6. Version numbering</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc190.html><img src=../Back.tif></a><a href=doc192.html><img src=../Forward.tif></a></td><td><b>14.6. Version numbering</b></td></tr></table><p>
+<html><head><title>13.10. Adding and removing rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc190.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc192.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.10. Adding and removing rows</b></td></tr></table><p>
 <p>
-<p>As we have seen, extensions are referred to by name and author, but they can also (optionally) be referred to by version. For instance:
+<p>Writing in new rows is simple:
 <p>
-<p><blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.</font></blockquote>
+<blockquote><font color="#000080">choose a blank row in Table 3;
+<br>change element entry to &quot;Fluorine&quot;;
+<br>change symbol to &quot;F&quot;;
+<br>change atomic number to 9;
+<br>change atomic weight to 19;
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">Version 1/040426 of the Ducking Action by Graham Nelson begins here.</font></blockquote>
+<p>This will produce an error if there are no blank rows left in Table 3, so it can be important to worry about free space. To that end we can not only find the number of rows (as we have already seen) but also the number currently blank and not blank. Thus these:
 <p>
-<p>A version number must be a whole number 1, 2, ... (version 0 is not allowed, and nor are decimal points), optionally followed by a slash '/' and then a six-figure date, in the form YYMMDD: so 040426 means 26 April 2004.
+<blockquote><font color="#000080">the number of blank rows in Table 3
+<br>the number of filled rows in Table 3
+</font></blockquote><p>
 <p>
-<p>A request to include version 2 of something implicitly means &quot;version 2 or later&quot;, and similarly &quot;version 2/040426&quot; means version 2 with a date of 26 April 2004 or later, or else any version higher than 2. If Inform loads the extension but finds that its version is not good enough, an error is issued.
+<p>always add up to &quot;the number of rows in Table 3&quot;.
 <p>
-<p>Where no version number is quoted, the rule is that an unspecified version predates any numbered version. This means that the line
+<p>To delete a row, we first choose it and then &quot;blank out the whole row&quot;. Thus, for abdication purposes:
 <p>
-<p><blockquote><font color="#000080">Include the Ducking Action by Graham Nelson.</font></blockquote>
-<p>
-<p>will be happy with any version of the extension at all, whether numbered or not; but
-<p>
-<p><blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.</font></blockquote>
-<p>
-<p>will only accept the extension if it has a version number attached (and with that number being 2 or higher).
-<p>
-<p>During play of any game compiled by Inform 7, typing &quot;version&quot; lists various serial numbers of the pieces of software used to make it. The list concludes with names, authors and version numbers of any extensions used. So every author whose work contributes to a game automatically gets a modest credit within it. The same list can be printed, at the discretion of the designer, using the textual substitution:
-<p>
-<blockquote><font color="#000080">say &quot;[list of extension credits]&quot;
+<blockquote><font color="#000080">choose row with name of &quot;Edward VIII&quot; in the Table of Recent Monarchs;
+<br>blank out the whole row;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc190.html>Previous</a> / <a href=doc192.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -214,6 +214,7 @@ Constant NOARTICLE_BIT 4096;  !  Print no articles, definite or not
 
 #ifdef NI_BUILD_COUNT;
 Global c_depth;
+Global I7_wlf_sp;
 [ WriteListFrom o style depth a ol;
   if ((o==0) || (parent(o)==0)) {
       print (string) NOTHING__TX;
@@ -229,7 +230,7 @@ Global c_depth;
 [ I7_WLF o depth;
   if (o==child(parent(o))) {
       SortOutList(o); o=child(parent(o)); }
-  wlf_indent=0; WriteListR(o,c_depth); say__p=1;
+  wlf_indent=0; WriteListR(o,c_depth,I7_wlf_sp); say__p=1;
   rtrue;
 ];
 #ifnot;
@@ -273,6 +274,8 @@ Global c_depth;
   }
 
   stack_pointer = stack_pointer+j+1;
+  @push I7_wlf_sp;
+  I7_wlf_sp = stack_pointer;
 
   if (k<2) jump EconomyVersion;   ! It takes two to plural
   n=1;
@@ -306,8 +309,11 @@ Global c_depth;
   senc--;
 
   for (i=1, j=o, k=0, mr=0: senc>=0: i++, senc--)
-  {   while (((classes_p->k) ~= i)
+  {   ! print "^[i=", i, "j=", j, "k=", k, "senc=", senc, "]; /", classes_p, "/";
+      ! for (k2=0:k2<15:k2++) print classes_p->k2, " ";
+      while (((classes_p->k) ~= i)
              && ((classes_p->k) ~= -i)) { k++; j=NextEntry(j,depth); }
+      ! print "^[i=", i, "j=", j, "k=", k, "]^";
       if (j.list_together~=0 or lt_value)
       {   if (j.list_together==mr) { senc++; jump Omit_FL2a; }
           k2=NextEntry(j,depth);
@@ -322,15 +328,15 @@ Global c_depth;
                   {   l++; q=NextEntry(q,depth); }
                   if (q.list_together==j.list_together) listing_size++;
               }
-!              print " [", listing_size, "] ";
+              ! print "[j=", j, "q=", q, "ls=", listing_size, "] ";
               if (listing_size==1) jump Omit_WL2;
               q=c_style;
               ! #ifdef NI_BUILD_COUNT;
+              if (c_style & INDENT_BIT ~= 0)
+                  Print__Spaces(2*(depth+wlf_indent));
               BeginActivity(GROUP_ACT,j);
               if (ForActivity(GROUP_ACT,j)) { c_style = c_style &~ NEWLINE_BIT; jump RuleOmitted2; }
               ! #endif;
-              if (c_style & INDENT_BIT ~= 0)
-                  Print__Spaces(2*(depth+wlf_indent));
               if (k2==3)
               {   @push q;
                   q=0; for (l=0:l<listing_size:l++) q=q+sizes_p->(l+i);
@@ -365,6 +371,7 @@ Global c_depth;
               EndActivity(GROUP_ACT,j);
               !#endif;
               .Omit__Sublist2;
+              ! print "[j=", j, "q=", q, "ls=", listing_size, "] ";
               if (q & NEWLINE_BIT ~= 0 && c_style & NEWLINE_BIT == 0)
                   new_line;
               c_style=q;
@@ -402,6 +409,7 @@ Global c_depth;
       @pull c_style;
      .Omit_FL2a;
   }
+  @pull I7_wlf_sp;
   rtrue;
 
   .EconomyVersion;
@@ -488,6 +496,7 @@ Global c_depth;
       @pull c_style;
      .Omit_FLa;
   }
+  @pull I7_wlf_sp;
 ];
 
 [ WriteBeforeEntry o depth sentencepos  flag;
@@ -1015,7 +1024,7 @@ Global c_depth;
 ];
 
 [ ObjectScopedBySomething item i j k l m;
-  i = item;
+  i = item; if (i==0) rfalse;
   while (parent(i) ~= 0) i=parent(i);
   objectloop (j .& add_to_scope)
   {   l = j.&add_to_scope;
@@ -1028,13 +1037,16 @@ Global c_depth;
   rfalse;
 ];
 
-[ ObjectIsUntouchable item flag1 flag2 ancestor i;
+[ ObjectIsUntouchable item flag1 flag2 persona ancestor i;
 
   ! Determine if there's any barrier preventing the player from moving
   ! things to "item".  Return false if no barrier; otherwise print a
   ! suitable message and return true.
   ! If flag1 is set, do not print any message.
   ! If flag2 is set, also apply Take/Remove restrictions.
+  ! If persona is set, use that rather than the player.
+
+  if (persona == 0) persona = player;
 
   ! If the item has been added to scope by something, it's first necessary
   ! for that something to be touchable.
@@ -1045,14 +1057,14 @@ Global c_depth;
       ! An item immediately added to scope
   }
 
-  ancestor = CommonAncestor(player, item);
+  ancestor = CommonAncestor(persona, item);
 
-  ! First, a barrier between the player and the ancestor.  The player
+  ! First, a barrier between the persona and the ancestor.  The persona
   ! can only be in a sequence of enterable objects, and only closed
   ! containers form a barrier.
 
-  if (player ~= ancestor)
-  {   i = parent(player);
+  if (persona ~= ancestor)
+  {   i = parent(persona);
       while (i~=ancestor)
       {   if (i has container && i hasnt open)
           {   if (flag1) rtrue;
@@ -1576,6 +1588,7 @@ Global c_depth;
              if (o has supporter && child(o)~=0) SayWhatsOn(o);
       }
 
+  k=0; objectloop (o in descin) if (o has workflag) k++;
   if (k==0) return 0;
 
   if (text1~=0)
@@ -1635,17 +1648,33 @@ Global c_depth;
   }
 ];
 
+[ Vis_parent_dash o;
+  if (o == 0) rfalse;
+  if ((o provides component_part_of) &&
+      (o.component_part_of)) return Vis_parent_dash(o.component_part_of);
+  return parent(o);
+];
+
+[ Vis_parent o;
+  if (o == 0) rfalse;
+!  print "VP on ", (the) o, "^";
+  if ((o has container) && (o hasnt open) && (o hasnt transparent)) rfalse;
+  if ((o provides component_part_of) &&
+      (o.component_part_of)) return Vis_parent_dash(o.component_part_of);
+  return parent(o);
+];
+
 [ FindVisibilityLevels visibility_levels;
-  visibility_levels = 1;
-  visibility_ceiling = parent(player);
-  while ((parent(visibility_ceiling) ~= 0)
-         && (visibility_ceiling hasnt container
-             || visibility_ceiling has open
-             || visibility_ceiling has transparent))
-  {   visibility_ceiling = parent(visibility_ceiling);
-      visibility_levels++;
-  }      
-  return visibility_levels;
+  visibility_levels = 0;
+  visibility_ceiling = player;
+  .Around;
+  if (OIU_parent(visibility_ceiling) == 0) return visibility_levels;
+  visibility_ceiling = Vis_parent(visibility_ceiling);
+  if (visibility_ceiling == 0) return visibility_levels;
+  visibility_levels++;
+  if ((visibility_ceiling has container) && (visibility_ceiling hasnt open) &&
+      (visibility_ceiling hasnt transparent)) return visibility_levels;
+  jump Around;
 ];
 
 [ LookSub allow_abbrev  visibility_levels i j k;
@@ -2030,6 +2059,9 @@ ENDIF;
 [ XTestMove obj dest;
   if ((obj<=InformLibrary) || (obj == LibraryMessages) || (obj in 1))
      "[Can't move ", (name) obj, ": it's a system object.]";
+  if (obj.component_part_of)
+     "[Can't move ", (name) obj, ": it's part of ",
+     (the) obj.component_part_of, ".]";
   while (dest ~= 0)
   {   if (dest == obj)
           "[Can't move ", (name) obj, ": it would contain itself.]";

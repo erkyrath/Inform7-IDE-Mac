@@ -1,24 +1,12 @@
-<html><head><title>9.16. Arithmetic on new kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc128.html><img src=../Back.tif></a><a href=doc130.html><img src=../Forward.tif></a></td><td><b>9.16. Arithmetic on new kinds of value</b></td></tr></table><p>
+<html><head><title>9.1. Introduction to scenes</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 9: Scenes</h2><p><table><tr><td><a href=doc128.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc130.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.1. Introduction to scenes</b></td></tr></table><p>
 <p>
-<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
+<p>As we have seen, Inform divides up space into individual places called &quot;rooms&quot;, and allows us to group rooms together into &quot;regions&quot; if we find that convenient. And Inform also divides time up, into individual turns. These too we can group together: the equivalent of a region is a &quot;scene&quot;.
 <p>
-<p><blockquote><font color="#000080">change the score to the score + 4</font></blockquote>
+<p>To put this another way, if we think of the interactive fiction as a stage play, then up to now it has simply contained endless dialogue and stage directions - there has been no convenient way to divide up its running time into dramatic episodes, in the same way that a playwright might make Act I and Act II take place in the same drawing-room with the same characters, but (let us say) six months later, after many things have changed. The script contains cues for one scene to end and another to begin: when those cues are reached, the stage hands rearrange props, actors reposition themselves and so on.
 <p>
-<p>In Inform, &quot;+&quot; is a phrase like any other. Its definition behind the scenes begins:
+<p>Inform also allows us to create scenes, with cues for them to start and end, and some stage machinery (so to speak) making it easy to move the action on. But interactive fiction is <i>interactive</i>, so the metaphor of the theatre only goes so far. We can have several different scenes going on at once - perhaps with the relevant events taking place in different rooms, which the player is free to walk between. And the player may make a choice which changes the story-line, causing scenes to happen which otherwise would not have happened, and so on. Scenes can even repeat themselves.
 <p>
-<p><blockquote><font color="#000080">To decide which number is (X - number) + (Y - number): ...</font></blockquote>
-<p>
-<p>Thus Inform will only recognise &quot;+&quot; as valid if it applies to two numbers, which is as it should be. We cannot normally apply &quot;+&quot; to values like these:
-<p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.</font></blockquote>
-<p>
-<p>However, we do automatically have two ways to make new colours from old:
-<p>
-<p><blockquote><font color="#000080">the colour after C<br>the colour before C</font></blockquote>
-<p>
-<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
-<p>
-<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not.
+<p>So organising the story-line into scenes is not simply a matter of making a list (Scene 1, then Scene 2, then Scene 3, <i>finis</i>). It is more like a chart in which one scene can lead in several possible ways to others - a sort of map of time, which as we shall see Inform displays in its &quot;Scenes&quot; index.
 <p>
 <p><hr><p><a href=doc128.html>Previous</a> / <a href=doc130.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

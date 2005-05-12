@@ -1,31 +1,26 @@
-<html><head><title>6.11. Rules applying to more than one action</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc65.html><img src=../Back.tif></a><a href=doc67.html><img src=../Forward.tif></a></td><td><b>6.11. Rules applying to more than one action</b></td></tr></table><p>
+<html><head><title>5.9. Counting while comparing</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc65.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc67.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.9. Counting while comparing</b></td></tr></table><p>
 <p>
-<p>A description can include more than one choice of action. For instance:
+<p>Lastly we can also ask for a more specific number of possibilities, like so:
 <p>
-<blockquote><font color="#000080">examining or searching the desk
+<blockquote><font color="#000080">if two women are carrying animals
+<br>if at most three doors are open
+<br>if fewer than 10 portable containers are closed
+<br>if all but two of the devices are switched on
 </font></blockquote><p>
 <p>
-<p>matches either of &quot;examining the desk&quot; or &quot;searching the desk&quot;. We can have more than two actions, of course:
+<p>Likewise for &quot;less than&quot;, &quot;more than&quot;, &quot;at least&quot;, &quot;all except&quot;. Something to watch out for is that
 <p>
-<blockquote><font color="#000080">examining, looking under or searching the desk
+<blockquote><font color="#000080">if two doors are open
 </font></blockquote><p>
 <p>
-<p>The actions combined like this need to be compatible with each other, at least a little. For instance, this will generate a problem message:
+<p>will be found true if there are (say) three open doors: after all, if three doors are open, then certainly two doors are. So this is not quite counting. We can be more precise by writing
 <p>
-<blockquote><font color="#000080">waiting or searching the desk
+<blockquote><font color="#000080">if exactly two doors are open
 </font></blockquote><p>
 <p>
-<p>because it makes no sense to &quot;wait the desk&quot;. On the other hand, this is fine:
+<p>The &quot;all but&quot; counts - say, &quot;if all but two doors are open&quot; - are exact: if, in fact, all of the doors are open then this will be found false.
 <p>
-<blockquote><font color="#000080">waiting or searching
-</font></blockquote><p>
-<p>
-<p>The general rule is that if we specify one or more objects (&quot;the desk&quot; in the above example), then each of the actions we quote must take at least that many objects.
-<p>
-<p>For example, the following saves us writing the same basic rule three times over:
-<p>
-<blockquote><font color="#000080">Instead of examining, looking under or searching the desk: say &quot;There's no use poking around in that old desk.&quot;
-</font></blockquote><p>
+<p>Lastly, note that the &quot;the&quot; in text like &quot;two of the doors&quot; matters: without it, the phrase will not be recognised as a requirement on the number. (This is to make sure that names of things like &quot;two of hearts&quot; are not misinterpreted.)
 <p>
 <p><hr><p><a href=doc65.html>Previous</a> / <a href=doc67.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

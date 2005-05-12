@@ -1,28 +1,26 @@
-<html><head><title>7.18. Material not for release</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc95.html><img src=../Back.tif></a><a href=doc97.html><img src=../Forward.tif></a></td><td><b>7.18. Material not for release</b></td></tr></table><p>
+<html><head><title>7.5. Change of properties with values</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc95.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc97.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.5. Change of properties with values</b></td></tr></table><p>
 <p>
-<p>Special testing verbs, like &quot;test&quot; and &quot;rules&quot;, are automatically excluded from the game if it is compiled as a Release version. We sometimes want to write our own for-testing-purposes-only code, though, and for this purpose we are allowed to designate whole headings as being &quot;not for release&quot;:
+<p>Changing properties with values is very similar:
 <p>
-<blockquote><font color="#000080">Section 10 - Open sesame - Not for release
+<blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Universal opening is an action applying to nothing.
-<br>Understand &quot;open sesame&quot; as universal opening.
+<p>Inform checks three different things to ensure that this change is safe to perform. Firstly, the value must be the right kind for the property in question, so this for instance would be rejected:
+<p>
+<blockquote><font color="#000080">change the printed name of the Closet to 7
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out universal opening:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through doors begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change item to open;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<p>Secondly, the object in question has to be allowed to have the given property. This, for instance, would be disallowed:
+<p>
+<blockquote><font color="#000080">change the initial appearance of the Closet to &quot;Dusty&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report universal opening: say &quot;Open Sesame!&quot;
+<p>(since &quot;initial appearance&quot; is a property which only things can have, not rooms). Finally, the object has to actually have the property, not just have the right to have that property. Thus:
+<p>
+<blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;
 </font></blockquote><p>
 <p>
-<p>Clearly we do not wish the final reader to be able to type &quot;open sesame&quot;, so this whole heading will be disregarded in the Release version, as will any heading whose name includes &quot;not for release&quot;.
-<p>
-<p>Note that if a chapter, say, is marked as &quot;not for release&quot;, then its subheadings (mere sections) will also not be for release. If in doubt, check the &quot;Contents&quot; index: if any section is &quot;not for release&quot; then so are all of its subheadings.
-<p>
-<p><i>[At present the Release button does not run the NI compiler with the &quot;-release&quot; switch set, so the exclusion won't actually happen yet, but it's all working at the NI end. The next version of the Inform.app OS X application will fix this.]</i>
+<p>...is only permitted if the Closet is designed with a &quot;printed name&quot;. In fact this is certain to be true: all rooms and things automatically have a printed name, which is the short boldface description in the case of rooms, and the usual text briefly describing something in the case of things.
 <p>
 <p><hr><p><a href=doc95.html>Previous</a> / <a href=doc97.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,18 +1,37 @@
-<html><head><title>3.2. Mapping</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc18.html><img src=../Back.tif></a><a href=doc20.html><img src=../Forward.tif></a></td><td><b>3.2. Mapping</b></td></tr></table><p>
+<html><head><title>2.10. Does Inform really understand English?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc18.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc20.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>2.10. Does Inform really understand English?</b></td></tr></table><p>
 <p>
-<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
+<p>No. No computer does, and Inform does not even try to read the whole wide range of text: it is a practical tool for a particular purpose, and it deals only with certain forms of sentence useful to that purpose. Inform source text may look like &quot;natural language&quot;, the language we find natural among ourselves, but in the end it is a computer programming language. Many things which seem reasonable to the human reader are not understood by Inform. For instance, Inform understands
 <p>
-<p>One of the map connections in the Mammoth Cave simulation was made by the sentence:
+<blockquote><font color="#000080">something which is carried by the player
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The Debris Room is west of the Crawl.</font></blockquote>
+<p>but not (at present, anyway)
 <p>
-<p>Besides reading this sentence at face value, Inform also deduced that the Crawl was probably meant to be east of the Debris Room: in other words, that the path between them is a two-way one. When Inform makes guesses like this, it treats them as being less certain than anything explicitly stated in the source. Inform will quietly overturn its assumption if information later comes to hand which shows that it was wrong. That might happen in this case if a later sentence read:
+<blockquote><font color="#000080">something which the player carries
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The Hidden Alcove is east of the Debris Room.</font></blockquote>
+<p>even though both are perfectly good English. So it is not always safe to assume that Inform will understand any reasonable instruction it is given: when in doubt, we must go back to the manual.
 <p>
-<p>These two sentences are not contradictory: Inform allows them both, simply accepting that the world is more complicated than it first assumed. There are relatively few situations where Inform has to make educated guesses, but when it does, it tries always to follow Occam's Razor by constructing the simplest model world consistent with the information in the Source text.
+<p>More philosophically, to &quot;understand&quot; involves contextual knowledge. Just because Inform recognises and acts on a sentence, does it really understand what we meant? It will turn out that Inform is both good and bad at this. For instance, from
 <p>
-<p>Two more directions are provided by Inform: &quot;inside&quot; and &quot;outside&quot;. These are best used when one location is, say, a meadow and the other is a woodcutter's hut in the middle of it; we might then say &quot;Inside from the meadow is the woodcutter's hut&quot;. (The &quot;from&quot; is important, as it clarifies that we intend to link two different locations, not to create an item - the hut - in a single location - the meadow.)
+<blockquote><font color="#000080">Mr Darcy wears a top hat.
+</font></blockquote><p>
+<p>
+<p>Inform will correctly deduce that Darcy is a person, because inanimate objects do not ordinarily wear clothes, and that the top hat is clothing. But it will not automatically know that Darcy is a man rather than a woman because it does not know the social convention implied by &quot;Mr&quot;. Moreover, if instead we had written
+<p>
+<blockquote><font color="#000080">Mr Darcy carries a top hat.
+</font></blockquote><p>
+<p>
+<p>then Inform would not guess that the top hat is clothing. This is because it does not have the vast vocabulary and experience of a human reader: it is probably discovering the word &quot;hat&quot; for the first time.
+<p>
+<p>Finally, it is best to avoid ambiguities rather than rely on Inform to know which meaning is patently absurd. For instance, in
+<p>
+<blockquote><font color="#000080">Heatwave bone breaks clog hospital.
+</font></blockquote><p>
+<p>
+<p>(a headline once printed by the <i>Oxford Mail</i> newspaper) a human reader quickly realises that there is no clog hospital being broken. But if Inform had been taught the verbs <i>to break</i> and <i>to clog</i> then that is exactly the conclusion it would have drawn.
+<p>
+<p>That disclaimer completes the groundwork, and we are ready to begin on simulating a world to explore.
 <p>
 <p><hr><p><a href=doc18.html>Previous</a> / <a href=doc20.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

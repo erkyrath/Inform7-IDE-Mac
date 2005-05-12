@@ -1,22 +1,21 @@
-<html><head><title>4.12. Conditions of things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc46.html><img src=../Back.tif></a><a href=doc48.html><img src=../Forward.tif></a></td><td><b>4.12. Conditions of things</b></td></tr></table><p>
+<html><head><title>4.8. Text with substitutions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc46.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc48.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.8. Text with substitutions</b></td></tr></table><p>
 <p>
-<p>We have already seen that the names for either/or properties can be used as adjectives, so that we can talk about &quot;a dark room&quot; (meaning: a room which has the dark property rather than the lighted property). The same goes for the named possibilities for a newly created kind of value:
+<p>The example about the sound of an underground river is all very well, but what can we do with this new property now that we have created it? The following example gives one idea.
 <p>
-<p><blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour.</font></blockquote>
+<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came, consoled only by [river sound].&quot; A dead end is usually dark.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">In the playroom are a red building block and a green building block.</font></blockquote>
+<blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove. In the Undertomb is the lantern. It is lit.
+</font></blockquote><p>
 <p>
-<p>Potentially, at least, &quot;colour&quot; is a widely applicable kind of value, and we already have two different things which have colour. But it often happens that we need adjectives to apply just to a single thing, and if so then a shorthand form is allowed:
+<blockquote><font color="#000080">A dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.
+</font></blockquote><p>
 <p>
-<p><blockquote><font color="#000080">The cask is either customs sealed, liable to tax or stolen goods.</font></blockquote>
+<p>The novelty here is the text in square brackets in the first paragraph above. They imply more or less what they would when a journalist is quoting something in a newspaper article. The actual words &quot;river sound&quot; are not part of the text. Instead, when Inform prints up the description of a dead end, it will substitute the appropriate river sound in place of these words.
 <p>
-<p>Inform deals with this by creating a new kind of value, whose possibilities are the named options supplied, and then giving the named object a property whose value has to be one of the possibilities. Initially the cask will be &quot;customs sealed&quot;, as that was the first value in the list. We could now write, for instance,
+<p>Thus the description of the Collapsed Dead End is &quot;This is a dead end. You'll have to go back the way you came, consoled only by a faint whispering of running water.&quot;, whereas the description of the Tortuous Alcove is &quot;This is a dead end. You'll have to go back the way you came, consoled only by a gurgle of running water.&quot; As the player explores these dead ends, subtle differences will appear in their room descriptions.
 <p>
-<p><blockquote><font color="#000080">The description of the cask is &quot;A well-caulked Spanish wine cask. [if liable to tax]It really is a shame to have to pay duty on it!&quot;</font></blockquote>
-<p>
-<p>We will often not need to know this, but the kind of value and the property are both automatically given the name of the object with the word &quot;condition&quot; tacked on: so in this case &quot;cask condition&quot;. For instance, we could write:
-<p>
-<p><blockquote><font color="#000080">The printed name of the cask is &quot;wine cask ([cask condition])&quot;.</font></blockquote>
+<p>We can put almost any description of a value in square brackets in text, and Inform will work out what kind of value it is and print something accordingly. For instance, &quot;You admire [the lantern].&quot; will expand to &quot;You admire the candle lantern.&quot;, spelling out the full name of the lantern.
 <p>
 <p><hr><p><a href=doc46.html>Previous</a> / <a href=doc48.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

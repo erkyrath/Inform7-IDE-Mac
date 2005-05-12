@@ -1,87 +1,90 @@
 Version 1/040731 of the Standard Rules by Graham Nelson begins here.
 
-Document ACTIONS at doc58.
-Document ACTIVITIES at doc171.
-Document ARSUMMARY at doc78.
-Document EXTACTIVITIES at doc196.
-Document HEADINGS at doc13.
-Document KINDS at doc20.
-Document KINDSVALUE at doc45.
-Document NEWRULEBOOKS at doc160.
-Document PHRASES at doc114.
-Document ROOMPLAYBEGINS at doc97.
-Document act_all at doc183.
-Document act_amuse at doc185.
-Document act_csl at doc178.
-Document act_ds at doc180.
-Document act_gt at doc177.
-Document act_lc at doc176.
-Document act_lni at doc179.
-Document act_obit at doc184.
-Document act_pn at doc175.
-Document act_reading at doc182.
-Document act_smn at doc181.
-Document kind_backdrop at doc24.
-Document kind_device at doc29.
-Document kind_door at doc27.
-Document kind_person at doc31.
-Document kind_player's at doc34.
-Document kind_time at doc104.
-Document kind_vehicle at doc30.
-Document ph_allow at doc167.
-Document ph_blankout at doc142.
-Document ph_boxed at doc100.
-Document ph_carryout at doc196.
-Document ph_change at doc79.
-Document ph_changep at doc82.
-Document ph_changev at doc83.
-Document ph_chooserow at doc137.
-Document ph_consider at doc165.
-Document ph_daemons at doc103.
-Document ph_end at doc101.
-Document ph_follow at doc160.
-Document ph_future at doc109.
-Document ph_group at doc176.
-Document ph_holder at doc92.
-Document ph_if at doc117.
-Document ph_ignore at doc163.
-Document ph_list at doc123.
-Document ph_minspart at doc108.
-Document ph_move at doc85.
-Document ph_nearest at doc106.
-Document ph_numblank at doc142.
-Document ph_numrows at doc134.
-Document ph_omit at doc175.
-Document ph_otherwise at doc120.
-Document ph_plus at doc114.
-Document ph_random at doc93.
-Document ph_remove at doc87.
-Document ph_repeat at doc121.
-Document ph_result at doc127.
-Document ph_runthrough at doc122.
-Document ph_say at doc57.
-Document ph_sayif at doc43.
-Document ph_scope at doc180.
-Document ph_sort at doc143.
-Document ph_start at doc56.
-Document ph_stop at doc60.
-Document ph_succeeds at doc164.
-Document ph_surrounds at doc81.
-Document ph_tabrepeat at doc138.
-Document ph_thereis at doc139.
-Document ph_timeshift at doc107.
-Document ph_try at doc61.
-Document ph_types at doc44.
-Document ph_while at doc118.
-Document ph_yes at doc127.
-Document rules_after at doc62.
-Document rules_before at doc60.
-Document rules_d at doc103.
-Document rules_et at doc102.
-Document rules_instead at doc59.
-Document rules_ri at doc167.
-Document rules_wpb at doc97.
-Document rules_wpe at doc101.
+Document ACTIONS at doc70.
+Document ACTIVITIES at doc221.
+Document ARSUMMARY at doc91.
+Document EXTACTIVITIES at doc246.
+Document HEADINGS at doc14.
+Document KINDS at doc24.
+Document KINDSVALUE at doc52.
+Document NEWRULEBOOKS at doc210.
+Document PHRASES at doc138.
+Document ROOMPLAYBEGINS at doc112.
+Document SCENESINTRO at doc129.
+Document act_all at doc233.
+Document act_amuse at doc235.
+Document act_csl at doc228.
+Document act_ds at doc230.
+Document act_gt at doc227.
+Document act_lc at doc226.
+Document act_lni at doc229.
+Document act_obit at doc234.
+Document act_pn at doc225.
+Document act_reading at doc232.
+Document act_smn at doc231.
+Document kind_backdrop at doc28.
+Document kind_device at doc33.
+Document kind_door at doc31.
+Document kind_person at doc35.
+Document kind_player's at doc38.
+Document kind_time at doc119.
+Document kind_vehicle at doc34.
+Document ph_allow at doc217.
+Document ph_blankout at doc191.
+Document ph_boxed at doc115.
+Document ph_carryout at doc246.
+Document ph_change at doc92.
+Document ph_changep at doc95.
+Document ph_changev at doc96.
+Document ph_chooserow at doc186.
+Document ph_consider at doc215.
+Document ph_daemons at doc118.
+Document ph_end at doc116.
+Document ph_follow at doc210.
+Document ph_future at doc124.
+Document ph_group at doc226.
+Document ph_happening at doc133.
+Document ph_holder at doc106.
+Document ph_if at doc141.
+Document ph_ignore at doc213.
+Document ph_list at doc147.
+Document ph_minspart at doc123.
+Document ph_move at doc98.
+Document ph_nearest at doc121.
+Document ph_numblank at doc191.
+Document ph_numrows at doc183.
+Document ph_omit at doc225.
+Document ph_otherwise at doc144.
+Document ph_plus at doc168.
+Document ph_random at doc107.
+Document ph_remove at doc100.
+Document ph_repeat at doc145.
+Document ph_result at doc151.
+Document ph_runthrough at doc146.
+Document ph_say at doc69.
+Document ph_sayif at doc50.
+Document ph_scope at doc230.
+Document ph_sort at doc192.
+Document ph_start at doc68.
+Document ph_stop at doc72.
+Document ph_succeeds at doc214.
+Document ph_surrounds at doc94.
+Document ph_tabrepeat at doc187.
+Document ph_thereis at doc188.
+Document ph_timeshift at doc122.
+Document ph_try at doc73.
+Document ph_tsince at doc132.
+Document ph_types at doc51.
+Document ph_while at doc142.
+Document ph_yes at doc151.
+Document rules_after at doc74.
+Document rules_before at doc72.
+Document rules_d at doc118.
+Document rules_et at doc117.
+Document rules_instead at doc71.
+Document rules_ri at doc217.
+Document rules_wpb at doc112.
+Document rules_wpe at doc116.
 
 Use MAX_ARRAYS of 500.
 Use MAX_LABELS of 10000.
@@ -95,7 +98,7 @@ Part SR1 - Kinds
 Section SR1/1 - Primitive Kinds
 
 [The kind "kind" is not created here but by NI itself. The first through
-to eighth kinds created now follow: they must not be reordered or moved.]
+to ninth kinds created now follow: they must not be reordered or moved.]
 
 A room is a kind.
 A thing is a kind.
@@ -104,7 +107,9 @@ A door is a kind of thing.
 A container is a kind of thing.
 A supporter is a kind of thing.
 A backdrop is a kind of thing.
+The plural of person is people.
 A person is a kind of thing.
+A region is a kind.
 
 
 Section SR1/2 - Rooms
@@ -114,10 +119,11 @@ and outdoor, which are not necessarily areas in a building. A player in one
 room is mostly unable to sense, or interact with, anything in a different room.
 Rooms are arranged in a map."
 
-A room is allowed to have a description and a printed name.
 A room can be lighted or dark. A room is usually lighted.
 A room can be visited or unvisited. A room is usually unvisited.
+A room is allowed to have a map region, a description and a printed name.
 
+Definition: A room is adjacent if it is adjacent to the location.
 
 Section SR1/3 - Things
 
@@ -143,21 +149,14 @@ A thing can be scenery. A thing is usually not scenery.
 A thing can be fixed in place or portable. A thing is usually portable.
 
 A thing can be wearable. A thing is usually not wearable.
-A thing can be worn. A thing is usually not worn.
-
-A thing can be initially carried.
 
 A thing can be handled.
-
-Something worn is usually wearable and initially carried.
-
-Something initially carried is usually handled.
 
 A thing can be pushable between rooms.
 
 Include (-
   with before [;
-      PushDir: if (self has pushable) { AllowPushDir(); rtrue; }
+      PushDir: AllowPushDir(); rtrue;
   ],
 -) when defining a thing.
 
@@ -168,8 +167,17 @@ A thing can be an Inform library male.
 
 A thing can be marked for listing. A thing is usually not marked for listing.
 
-A thing is allowed to have a number called score for finding.
+The verb to be able to see (he is seen) implies the visibility relation.
 
+The verb to be able to touch (he is touched) implies the touchability relation.
+
+Definition: Something is visible if the player can see it.
+
+Definition: Something is touchable if the player can touch it.
+
+Definition: Something is invisible if the player cannot see it.
+
+Definition: Something is untouchable if the player cannot touch it.
 
 Section SR1/4 - Doors
 
@@ -182,7 +190,7 @@ the long slide. Through the long slide is the cellar.')."
 
 A door is always an Inform library door.
 A door can be open or closed.
-A door is usually closed. A door can be openable.
+A door is usually closed. A door can be openable or unopenable.
 A door is usually openable.
 A door can be lockable. A door is usually not lockable.
 A door can be locked or unlocked. A door is usually unlocked.
@@ -205,7 +213,7 @@ instead."
 
 A container is always an Inform library container.
 A container can be open or closed. A container is usually open.
-A container can be openable. A container is usually not openable.
+A container can be openable or unopenable. A container is usually unopenable.
 A container can be lockable. A container is usually not lockable.
 A container can be locked or unlocked. A container is usually
 unlocked. A container is allowed to have a matching key. 
@@ -226,7 +234,7 @@ is usually openable.
 
 Include (-
 Global SACK_OBJECT;
-Constant RUCKSACK_CLASS = K9_player_s_holdall;
+Constant RUCKSACK_CLASS = K10_player_s_holdall;
 -) before the library.
 
 The specification of supporter is "Represents a surface on which things can be
@@ -372,6 +380,7 @@ Description when on translates into Inform as "when_on".
 Description when off translates into Inform as "when_off".
 Initial appearance translates into Inform as "initial".
 The printed name translates into Inform as "short_name".
+Lit translates into Inform as "light".
 Lighted translates into Inform as "light".
 Switched on translates into Inform as "on".
 Score for visiting translates into Inform as "score".
@@ -405,6 +414,7 @@ Inventory listing translates into Inform as "invent".
 Initially carried translates into Inform as "initially_carried".
 Handled translates into Inform as "moved".
 Marked for listing translates into Inform as "workflag".
+Map region translates into Inform as "I7_Map_Region".
 
 The noun is an object that varies.
 The second noun is an object that varies.
@@ -421,6 +431,8 @@ The right hand status line is a classified that varies.
 The score is a number that varies.
 The turn count is a number that varies.
 The time of day is a time that varies.
+
+The say-parameter is an object that varies.
 
 The player's command is a snippet that varies.
 The matched text is a snippet that varies.
@@ -460,6 +472,7 @@ Daemons register is a rulebook.
 [From here on they can be meddled with.]
 
 Every turn rules is a rulebook.
+Scene changing rules is a rulebook.
 
 
 Section SR2/2 - Advance of time
@@ -472,7 +485,11 @@ The adjust light rule corresponds to routine TS5_R.
 The note object acquisitions rule corresponds to routine TS6_R.
 The timed events rule corresponds to routine ProcessI7Timers.
 
+The first when play begins rule:
+	consider the scene changing rules.
+
 The first turn sequence rule:
+	consider the scene changing rules;
 	consider the every turn rules;
 	consider the daemons register;
 	consider the timed events rule.
@@ -481,8 +498,12 @@ The timers and daemons rule is listed in the turn sequence rulebook.
 The each turn properties rule is listed in the turn sequence rulebook.
 The time passes rule is listed in the turn sequence rulebook.
 The last turn sequence rule:
+	consider the scene changing rules;
 	consider the adjust light rule;
 	consider the note object acquisitions rule.
+
+The last scene changing rule:
+	run scene change machinery.
 
 The non-player character action rule corresponds to routine I7_NPCA.
 
@@ -494,8 +515,6 @@ The access through barriers rule corresponds to routine OIU_Barrier.
 The can't reach inside closed containers rule corresponds to routine OIUB_CCI.
 The can't reach outside closed containers rule corresponds to routine OIUB_CCO.
 The can't reach inside rooms rule corresponds to routine OIUB_RI.
-The can't take people's possessions rule corresponds to routine OIUB_AP.
-The can't take component parts rule corresponds to routine OIUB_CP.
 
 The primitive accessibility rule corresponds to routine PA_R.
 
@@ -507,9 +526,7 @@ The last accessibility rule:
 
 The last reaching inside rule:
 	abide by the can't reach inside rooms rule;
-	abide by the can't reach inside closed containers rule;
-	abide by the can't take people's possessions rule;
-	abide by the can't take component parts rule.
+	abide by the can't reach inside closed containers rule.
 
 The last reaching outside rule:
 	abide by the can't reach outside closed containers rule.
@@ -538,7 +555,7 @@ The last action-processing rule:
 	abide by the non-player character action rule;
 	abide by the action-specific rules;
 	abide by the carry out rules;
-	the rule succeeds.
+	rule succeeds.
 
 The last before rule:
 	abide by the general before rules;
@@ -633,8 +650,10 @@ Taking is an action corresponding to Take
 	avoid unnecessary implicit taking rule = TakeSub_C1
 	can't take yourself rule = TakeSub_C2
 	can't take other people rule = TakeSub_C3
+	can't take component parts rule = OIUB_CP
 	determine common ancestor for taking rule = TakeSub_C4
-	can't take from distant locations rule = TakeSub_C5
+	can't take people's possessions rule = OIUB_AP
+	[can't take from distant locations rule = TakeSub_C5]
 	can't take what you're inside rule = TakeSub_C6
 	can't take what's already taken rule = TakeSub_C7
 	check let-go-before rule = TakeSub_C8
@@ -657,8 +676,10 @@ Removing it from is an action corresponding to Remove
 	can't remove from people rule = RemoveSub_C3
 	can't take yourself rule = qv
 	can't take other people rule = qv
+	can't take component parts rule = qv
 	determine common ancestor for taking rule = qv
-	can't take from distant locations rule = qv
+	can't take people's possessions rule = qv
+	[can't take from distant locations rule = qv]
 	can't take what you're inside rule = qv
 	can't take what's already taken rule = qv
 	check let-go-before rule = qv
@@ -708,6 +729,7 @@ Inserting it into is an action corresponding to Insert
 	convert insert to drop where possible rule = InsertSub_C1
 	can't insert what's not held rule = InsertSub_C2
 	can't insert something into itself rule = InsertSub_C3
+	can't insert component parts rule = OIUB_CP
 	check receive-before for container rule = InsertSub_C4
 	can't insert into closed containers rule = InsertSub_C5
 	can't insert into what's not a container rule = InsertSub_C6
@@ -1665,7 +1687,9 @@ Part SR4 - Phrasebook
 Section SR4/0 - Saying
 
 To say (something - string-of-text) documented ph_say:
-	(- print (string) {something}; -).
+	(- print (I7_string) {something}; -).
+To say (something - text-routine):
+	(- print (I7_string) {something}; -).
 To say (something - number):
 	(- print (say__n={something}); -).
 To say s: (- I7_say_s(); -).
@@ -1676,9 +1700,9 @@ To say (something - time) in words:
 To say (something - snippet):
 	(- print (PrintSnippet) {something}; -).
 To say (something - number) in words:
-	(- print (number) {something}; -).
+	(- print (number) say__n={something}; -).
 To say the (something - number) in words:
-	(- print (number) {something}; -).
+	(- print (number) say__n={something}; -).
 To say (something - object):
 	(- print (name) {something}; -).
 To say a (something - object):
@@ -1731,11 +1755,11 @@ To resume the game:
 Section SR4/2 - Causing and responding to actions
 
 To try (doing something - action) documented ph_try:
-	(- {doing something}; -).
+	(- @push actor; actor=player; {doing something}; @pull actor; -).
 To silently try (doing something - action):
-	(- keep_silent=1;{doing something};keep_silent=0; -).
+	(- @push actor; actor=player; keep_silent=1;{doing something};keep_silent=0; @pull actor; -).
 To try silently (doing something - action):
-	(- keep_silent=1;{doing something};keep_silent=0; -).
+	(- @push actor; actor=player; keep_silent=1;{doing something};keep_silent=0; @pull actor; -).
 
 To stop the action documented ph_stop:
 	(- rtrue; -) - outcome.
@@ -1746,7 +1770,7 @@ To carry out the (A - activity) activity documented ph_carryout:
 	(- CarryOutActivity({A}); -).
 To begin the (A - activity) activity:
 	(- BeginActivity({A}); -).
-To decide whether the (A - activity) is required:
+To decide whether handling (A - activity) activity:
 	(- (~~(ForActivity({A}))) -).
 To end the (A - activity) activity:
 	(- EndActivity({A}); -).
@@ -1754,11 +1778,11 @@ To carry out the (A - activity) activity with (O - object):
 	(- CarryOutActivity({A}, {O}); -).
 To begin the (A - activity) activity with (O - object):
 	(- BeginActivity({A}, {O}); -).
-To decide whether the (A - activity) with (O - object) is required:
+To decide whether handling (A - activity) activity with (O - object):
 	(- (~~(ForActivity({A}, {O}))) -).
 To end the (A - activity) activity with (O - object):
 	(- EndActivity({A}, {O}); -).
-To decide whether the (A - activity) activity is going on:
+To decide whether (A - activity) activity is going on:
 	(- (TestActivity({A})) -).
 
 To do nothing:
@@ -1772,37 +1796,56 @@ Section SR4/3 - Moving and removing things
 
 To remove (something - a thing) from play documented ph_remove:
 	(- remove {something}; -).
-To move (something - a thing) to (something else - object),
+To move (something - object) to (something else - object),
 	without printing a room description
 	or printing an abbreviated room description documented ph_move:
 	(- I7_Move({something}, {something else}, {phrase options}); -).
 
-To decide which thing is holder of (something - object) documented ph_holder:
+To decide which object is holder of (something - object) documented ph_holder:
 	(- (parent({something})) -).
-To decide which thing is next thing held after (something - object):
+To decide which object is next thing held after (something - object):
 	(- (sibling({something})) -).
-To decide which thing is first thing held by (something - object):
+To decide which object is first thing held by (something - object):
 	(- (child({something})) -).
 
 To decide whether in (somewhere - a room):
 	(- (real_location=={somewhere}) -).
+To decide whether in (somewhere - a region):
+	(- (I7_In(real_location,{somewhere})) -).
 To decide whether in darkness:
 	(- (location==thedark) -).
-To decide whether the player is wearing (something - wearable):
-	(- ({something} has worn) -).
 
 
-Section SR4/4 - Arithmetic and comparing numbers
+Section SR4/4 - Arithmetic
 
-To decide which number is (X - number) + (Y - number) documented ph_plus: (- ({X}+{Y}) -).
-To decide which number is (X - number) - (Y - number): (- ({X}-{Y}) -).
-To decide which number is (X - number) * (Y - number): (- ({X}*{Y}) -).
-To decide which number is (X - number) / (Y - number): (- ({X}/{Y}) -).
+To decide which number is (X - number) + (Y - number)
+	arithmetic 0 documented ph_plus: (- ({X}+{Y}) -).
+To decide which number is (X - number) - (Y - number) arithmetic 1:
+	(- ({X}-{Y}) -).
+To decide which number is (X - number) * (Y - number) arithmetic 2:
+	(- ({X}*{Y}) -).
+To decide which number is (X - number) / (Y - number) arithmetic 3:
+	(- ({X}/{Y}) -).
+To decide which number is (X - number) plus (Y - number) arithmetic 0:
+	(- ({X}+{Y}) -).
+To decide which number is (X - number) minus (Y - number) arithmetic 1:
+	(- ({X}-{Y}) -).
+To decide which number is (X - number) times (Y - number) arithmetic 2:
+	(- ({X}*{Y}) -).
+To decide which number is (X - number) multiplied by (Y - number) arithmetic 2:
+	(- ({X}*{Y}) -).
+To decide which number is (X - number) divided by (Y - number) arithmetic 3:
+	(- ({X}/{Y}) -).
+To decide which number is remainder after dividing (X - number)
+	by (Y - number) arithmetic 4:
+	(- ({X}%{Y}) -).
 
-To decide whether (X - number) < (Y - number): (- ({X}<{Y}) -).
+[To decide which number is (X - numerical-value) as a number: (- {X} -).]
+
+[To decide whether (X - number) < (Y - number): (- ({X}<{Y}) -).
 To decide whether (X - number) <= (Y - number): (- ({X}<={Y}) -).
 To decide whether (X - number) > (Y - number): (- ({X}>{Y}) -).
-To decide whether (X - number) >= (Y - number): (- ({X}>={Y}) -).
+To decide whether (X - number) >= (Y - number): (- ({X}>={Y}) -).]
 
 
 Section SR4/5 - Time
@@ -1837,6 +1880,22 @@ To (R - rule) at (t - time):
 	(- SetI7Timer({R}, {t}, 1); -).
 To (R - rule) in (t - time) from now:
 	(- SetI7Timer({R}, (the_time+{t})%(60*24), 1); -).
+To decide if (sc - scene) is happening documented ph_happening:
+	(- (scene_status-->({sc}-1)) -).
+To decide if (sc - scene) is not happening:
+	(- (scene_status-->({sc}-1) == 0) -).
+To decide if (sc - scene) has happened:
+	(- (scene_endings-->({sc}-1)) -).
+To decide if (sc - scene) has not happened:
+	(- (scene_endings-->({sc}-1) == 0) -).
+To decide if (sc - scene) has ended:
+	(- (scene_endings-->({sc}-1) > 1) -).
+To decide if (sc - scene) has not ended:
+	(- (scene_endings-->({sc}-1) <= 1) -).
+To decide which time is the time since (sc - scene) began documented ph_tsince:
+	(- ((the_time - scene_started-->({sc}-1))%(60*24)) -).
+To decide which time is the time when (sc - scene) began:
+	(- (scene_started-->({sc}-1)) -).
 
 
 Section SR4/6 - Randomness
@@ -1918,6 +1977,8 @@ To decide if (o - object) has a (p - property):
 	(- ({o} provides {p}) -).
 To decide if (o - object) has an (p - property):
 	(- ({o} provides {p}) -).
+To now (c - condition):
+	(- {$c} -).
 
 
 Section SR4/9 - Listing things in a given place
@@ -1968,6 +2029,26 @@ To say contents of (O - an object):
 	list the contents of O, as a sentence.
 To say the contents of (O - an object):
 	list the contents of O, as a sentence, using the definite article.
+To say list of (OS - object-specification):
+	(- objectloop (say__c ofclass Object) if ({OS}) 
+		give say__c i7listflag; else give say__c ~i7listflag;
+		I7List(0); -).
+To say the list of (OS - object-specification):
+	(- objectloop (say__c ofclass Object) if ({OS}) 
+		give say__c i7listflag; else give say__c ~i7listflag;
+		I7List(DEFART_BIT); -).
+To say The list of (OS - object-specification):
+	(- objectloop (say__c ofclass Object) if ({OS}) 
+		give say__c i7listflag; else give say__c ~i7listflag;
+		I7List(-DEFART_BIT); -).
+To say is/are list of (OS - object-specification):
+	(- objectloop (say__c ofclass Object) if ({OS}) 
+		give say__c i7listflag; else give say__c ~i7listflag;
+		I7List(ISARE_BIT); -).
+To say is/are the list of (OS - object-specification):
+	(- objectloop (say__c ofclass Object) if ({OS}) 
+		give say__c i7listflag; else give say__c ~i7listflag;
+		I7List(DEFART_BIT+ISARE_BIT); -).
 To group (OS - object-specification) together documented ph_group:
 	(- objectloop (say__c provides list_together) if ({OS}) 
 		say__c.list_together = {_LT}; -).
@@ -2018,8 +2099,8 @@ To repeat with (loopvar - number variable)
 	running from (v - number) to (w - number) begin * documented ph_repeat:
 		(- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).
 To repeat with (loopvar - object variable)
-	running through (c - condition) begin * +1 documented ph_runthrough:
-		(- for ({loopvar}={c}, {loopvar+}={loopvar}, {loopvar+}={\c}: {loopvar}: {loopvar}={loopvar+}, {loopvar+}={\c})  -).
+	running through (OS - object-specification-unsub) begin * +1 documented ph_runthrough:
+		(- for ({loopvar}={OS}, {loopvar+}={loopvar}, {loopvar+}={\OS}: {loopvar}: {loopvar}={loopvar+}, {loopvar+}={\OS})  -).
 To issue the error (message - text):
 	(- print ">--> ", (string) {message}, "^^"; rtrue; -).
 To stop:
@@ -2085,23 +2166,23 @@ To abide by (RL - a rule) for (O - object):
 Section SR4/15 - Success and failure of rules
 
 To make no decision: (- rfalse; -).
-To the rule succeeds documented ph_succeeds:
+To rule succeeds documented ph_succeeds:
 	(- RulebookSucceeds(); rtrue; -).
-To the rule fails:
+To rule fails:
 	(- RulebookFails(); rtrue; -).
-To the rule succeeds with result (O - a classified):
+To rule succeeds with result (O - a classified):
 	(- RulebookSucceeds(true,{O}); rtrue; -).
-To the rule fails with result (O - a classified):
+To rule fails with result (O - a classified):
 	(- RulebookFails(true,{O}); rtrue; -).
-To decide if the rule succeeded:
+To decide if rule succeeded:
 	(- (rulechange_stack-->rulechange_sp == RS_SUCCEEDS) -).
-To decide if the rule succeeded with result (O - classified):
+To decide if rule succeeded with result (O - classified):
 	(- ((rulechange_stack-->rulechange_sp == RS_SUCCEEDS)
 		&& (rulechange_stack-->(rulechange_sp+1) == true)
 		&& (rulechange_stack-->(rulechange_sp+2) == {O})) -).
-To decide if the rule failed:
+To decide if rule failed:
 	(- (rulechange_stack-->rulechange_sp == RS_FAILS) -).
-To decide if the rule failed with result (O - classified):
+To decide if rule failed with result (O - classified):
 	(- ((rulechange_stack-->rulechange_sp == RS_FAILS)
 		&& (rulechange_stack-->(rulechange_sp+1) == true)
 		&& (rulechange_stack-->(rulechange_sp+2) == {O})) -).
@@ -2128,7 +2209,6 @@ To move (RL1 - a rule) to after (RL2 - a rule):
 	(- MoveRuleAfter({RL1},{RL2}); -).
 
 
-
 Section SR4/17 - Unindexed
 
 To abide by I6 GamePreRoutine:
@@ -2150,6 +2230,9 @@ To abide by I6 react_after property:
 	(- scope_reason=REACT_AFTER_REASON; parser_one=0;SearchScope(ScopeCeiling(player),player,0); scope_reason=PARSING_REASON; if (parser_one~=0) rtrue; -).
 To abide by I6 object after:
 	(- if (inp1>1 && RunRoutines(inp1,after)~=0) rtrue; -).
+
+To run scene change machinery:
+	(- I7_SceneChange(); -).
 
 To cause the action to take place:
 	(- _I6_ActionPrimitive(); rtrue; -).

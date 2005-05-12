@@ -1,14 +1,18 @@
-<html><head><title>14.4. Where extensions are kept</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc188.html><img src=../Back.tif></a><a href=doc190.html><img src=../Forward.tif></a></td><td><b>14.4. Where extensions are kept</b></td></tr></table><p>
+<html><head><title>13.8. Blank columns</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc188.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc190.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.8. Blank columns</b></td></tr></table><p>
 <p>
-<p>This depends on the operating system we use. On Mac OS X, the prototype system, the extensions must live in
+<p>An entire column of blank entries &quot;--&quot; is problematic:
 <p>
-<p><blockquote><font color="#000080">~/Library/Inform/Extensions/</font></blockquote>
+<p><center><img src=table4.tiff></center>
 <p>
-<p>where &quot;~&quot; signifies your home folder. The extension &quot;Following People by Mary Brown&quot; would live in
+<p>Inform is unable to work out what kind of value should go into the &quot;atomic weight&quot; column here, since it has no examples to guess from. We can get around this by writing in the name of a kind of value:
 <p>
-<p><blockquote><font color="#000080">~/Library/Inform/Extensions/Mary Brown/Following People</font></blockquote>
+<p><center><img src=table5.tiff></center>
 <p>
-<p>(no filename extension is used).
+<p>That top entry in the &quot;atomic weight&quot; column is also blank, but now Inform knows that anything put into the column in future will be a number.
+<p>
+<p>If there are many rows, and perhaps several blank columns, it would become very tedious to have to keep typing out &quot;--&quot;. So this is optional <i>at the end of a row</i>: it remains compulsory for a blank value appearing in between two values which aren't blank. This is the general idea:
+<p>
+<p><center><img src=table8.tiff></center>
 <p>
 <p><hr><p><a href=doc188.html>Previous</a> / <a href=doc190.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
