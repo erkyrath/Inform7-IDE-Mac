@@ -36,7 +36,10 @@
 	float offset;							// Offset of this item from the top
 	
 	// Calculated data
+	int textEquality;						// -1 if empty, 0 if not equal, 1 if equal except for whitespace, 2 if exactly equal
+	
 	BOOL calculated;						// YES if the various calculations are up to date
+	float textHeight;
 	float height;							// Height of this item
 }
 
@@ -44,6 +47,9 @@
 - (void) setCommand: (NSString*) command;						// Command that precedes this item (may be nil)
 - (void) setTranscript: (NSString*) transcript;					// The actual transcript from the game (not editable)
 - (void) setExpected: (NSString*) expected;						// 'Expected' or 'comment' text (editable)
+
+- (void) setPlayed: (BOOL) played;								// Whether or not this item has been played in the story
+- (void) setChanged: (BOOL) changed;							// Whether or not this item changed on this run through
 
 - (void) setAttributes: (NSDictionary*) attributes;				// Set the attributes used for display
 

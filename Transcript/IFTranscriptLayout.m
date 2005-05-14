@@ -74,6 +74,9 @@
 		// [transItem setExpected: [item commentary]]; -- IMPLEMENT ME
 		[transItem setExpected: @"Rhubarb rhubarb rhubarb"];
 		
+		[transItem setPlayed: [item played]];
+		[transItem setChanged: [item changed]];
+		
 		// Add to the set of items
 		[transcriptItems insertObject: transItem
 							  atIndex: 0];
@@ -90,16 +93,18 @@
 
 		// Create the transcript item
 		IFTranscriptItem* transItem = [[IFTranscriptItem alloc] init];
-		
+				
 		[transItem setWidth: width];
 		[transItem setCommand: [item command]];
 		[transItem setTranscript: [item result]];
 		// [transItem setExpected: [item commentary]]; -- IMPLEMENT ME
 		[transItem setExpected: @"Rhubarb rhubarb rhubarb"];
 		
+		[transItem setPlayed: [item played]];
+		[transItem setChanged: [item changed]];
+		
 		// Add to the set of items
-		[transcriptItems insertObject: transItem
-							  atIndex: 0];
+		[transcriptItems addObject: transItem];
 		[transItem release];
 	}
 	
