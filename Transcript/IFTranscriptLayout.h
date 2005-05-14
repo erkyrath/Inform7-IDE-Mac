@@ -16,23 +16,54 @@
 //
 // Class that deals with laying out a transcript
 //
-// This functionality is seperated from the IFTranscriptView class so that we don't wind up performing the layout
-// more than once.
-//
 @interface IFTranscriptLayout : NSObject {
 	// Skein and the target item
-	ZoomSkein* skein;								// The skein that this transcript refers to
-	ZoomSkeinItem* targetItem;						// The 'target' item that we're transcripting to
+	ZoomSkein* skein;									// The skein that this transcript refers to
+	ZoomSkeinItem* targetItem;							// The 'target' item that we're transcripting to
 	
 	// The transcript items themselves
-	NSMutableArray* transcriptItems;				// Transcript items in order
-	int calculationPoint;							// How far we've got in the actual layout
+	NSMutableArray* transcriptItems;					// Transcript items in order
+	float width;										// Width that has been set
+	float height;										// Height that has been calculated
+	
+	// Running the layout
+	BOOL needsLayout;									// YES if we need to be laid out again
+	int layoutPosition;									// Position in the transcriptItems array that the layout has reached
+	BOOL layoutRunning;									// YES if we're in the process of laying stuff out
+	
+	// The delegate
+	id delegate;										// Is not retained
 }
 
 // Setting the skein and the item we're transcripting to
-- (void)       setSkein: (ZoomSkein*) skein;
-- (ZoomSkein*) skein;
+- (void)       setSkein: (ZoomSkein*) skein;			// Set the skein that we're getting items from
+- (ZoomSkein*) skein;									// Retrieve the skein that we're getting items from
 
-- (void) transcriptToPoint: (ZoomSkeinItem*) point;
+- (void) transcriptToPoint: (ZoomSkeinItem*) point;		// Develop the transcript to the given point
+
+// Performing the layout
+- (BOOL) needsLayout;									// YES if this object needs layout and the layout has not begun
+- (void) startLayout;									// Begins laying out the transcript
+- (void) cancelLayout;									// Cancels any layout that's currently being performed
+
+- (void) setWidth: (float) width;						// Sets the width of this layout
+
+- (float) height;										// Retrieves the height of this layout
+
+// Getting items to draw
+- (NSArray*) itemsInRect: (NSRect) rect;				// Retrieves the items that would be in the given rectangle (goes by y-offset only)
+
+// The delegate
+- (void) setDelegate: (id) delegate;					// Delegate is not retained
+- (id) delegate;										// Retrievest the delegate
+
+@end
+
+//
+// Layout delegate functions
+//
+@interface NSObject(IFTranscriptLayoutDelegate)
+
+- (void) transcriptHasUpdatedItems: (NSRange) itemRange;	// The layout has been performed for the specified items
 
 @end

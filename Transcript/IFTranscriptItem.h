@@ -33,6 +33,7 @@
 	
 	// View data
 	float width;							// Width of the view that contains this item
+	float offset;							// Offset of this item from the top
 	
 	// Calculated data
 	BOOL calculated;						// YES if the various calculations are up to date
@@ -48,6 +49,9 @@
 
 // Setting the data from the view
 - (void) setWidth: (float) newWidth;							// Total width of the view
+- (void) setOffset: (float) offset;								// Offset from the top
+
+- (float) offset;												// Offset from the top
 
 // Calculating the height of this item
 - (void) calculateItem;											// Calculates the data associated with this transcript item

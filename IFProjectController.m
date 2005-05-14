@@ -1321,8 +1321,8 @@ static NSDictionary*  itemDictionary = nil;
 	IFProjectPane* transcriptPane = [self transcriptPane];
 	
 	[transcriptPane selectView: IFTranscriptPane];
-	[[transcriptPane transcriptController] transcriptToPoint: point];
-	[[transcriptPane transcriptController] scrollToItem: point];
+	[[transcriptPane transcriptLayout] transcriptToPoint: point];
+	// [[transcriptPane transcriptController] scrollToItem: point]; // -- FIXME
 }
 
 // = Policy delegates =

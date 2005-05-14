@@ -17,7 +17,7 @@
 
 #import "IFSettingsView.h"
 #import "IFSettingsController.h"
-#import "IFTranscriptController.h"
+#import "IFTranscriptView.h"
 
 #import "IFSyntaxStorage.h"
 #import "IFProgress.h"
@@ -95,7 +95,7 @@ enum IFProjectPaneType {
 	IBOutlet IFSettingsController* settingsController;	// The settings controller
 	
 	// The transcript view
-	IBOutlet IFTranscriptController* transcriptController;	// The transcript controller
+	IBOutlet IFTranscriptView* transcriptView;			// The transcript view
 	
     // Other variables
     NSMutableArray* sourceFiles;						// The set of available source files
@@ -164,7 +164,7 @@ enum IFProjectPaneType {
 - (void) skeinDidChange: (NSNotification*) not;					// Called by Zoom to notify that the skein has changed
 
 // The transcript view
-- (IFTranscriptController*) transcriptController;				// Returns the transcript controller associated with this pane
+- (IFTranscriptLayout*) transcriptLayout;						// Returns the transcript layout object associated with this pane
 
 // Breakpoints
 - (IBAction) setBreakpoint: (id) sender;						// Sets a breakpoint at the current line in response to a menu selection

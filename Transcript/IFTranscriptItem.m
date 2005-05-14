@@ -23,8 +23,8 @@ static NSDictionary* defaultAttributes = nil;
 	
 	if (self) {
 		if (!defaultAttributes) {
-			defaultAttributes = [NSDictionary dictionaryWithObjectsAndKeys: 
-				[NSFont systemFontOfSize: 11], NSFontAttributeName, nil];
+			defaultAttributes = [[NSDictionary dictionaryWithObjectsAndKeys: 
+				[NSFont systemFontOfSize: 11], NSFontAttributeName, nil] retain];
 		}
 		
 		attributes = [defaultAttributes retain];
@@ -75,6 +75,14 @@ static NSDictionary* defaultAttributes = nil;
 	width = newWidth;
 	
 	calculated = NO;
+}
+
+- (void) setOffset: (float) newOffset {
+	offset = newOffset;
+}
+
+- (float) offset {
+	return offset;
 }
 
 // = Calculating the height of this item =

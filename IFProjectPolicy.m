@@ -25,7 +25,7 @@
 	}
 	
 	url = [[NSMutableString alloc] initWithString: @"file://"];
-	const unsigned char* utf8 = [file UTF8String];
+	const unsigned char* utf8 = (unsigned char*)[file UTF8String];
 	
 	// Create a URL string
 	for (x=0; utf8[x] != 0; x++) {

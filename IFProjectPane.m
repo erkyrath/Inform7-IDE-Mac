@@ -205,7 +205,6 @@ NSDictionary* IFSyntaxAttributes[256];
 	if (wView) [wView release];
 	
 	if (lastAnnotation) [lastAnnotation release];
-	if (transcriptController) [transcriptController release];
     
     [super dealloc];
 }
@@ -295,8 +294,8 @@ NSDictionary* IFSyntaxAttributes[256];
 		[wView setPolicyDelegate: [parent generalPolicy]];
 	}
 	
-	// The transcript controller
-	[transcriptController setSkein: [doc skein]];
+	// The transcript
+	[[transcriptView layout] setSkein: [doc skein]];
 	
 	// Misc stuff
 	[self updateHighlightedLines];
@@ -1030,8 +1029,8 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = The transcript view =
 
-- (IFTranscriptController*) transcriptController {
-	return transcriptController;
+- (IFTranscriptLayout*) transcriptLayout {
+	return [transcriptView layout];
 }
 
 // = Breakpoints =

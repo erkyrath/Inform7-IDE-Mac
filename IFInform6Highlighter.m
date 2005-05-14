@@ -676,7 +676,7 @@ static int compare(const void* a, const void* b) {
         
         if (newColour != 0xff) {
             register int y;
-			register char* col = styles + identifierStart;
+			register unsigned char* col = styles + identifierStart;
 			
             for (y=0; y<identifierLen; y++) {
                 *(col++) = newColour;

@@ -8,9 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFTranscriptLayout.h"
 
+//
+// The transcript view
+//
 @interface IFTranscriptView : NSView {
-
+	// Laying out the view
+	IFTranscriptLayout* layout;
 }
+
+// Retrieving the layout
+- (IFTranscriptLayout*) layout;
 
 @end
