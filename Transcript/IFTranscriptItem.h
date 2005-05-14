@@ -53,6 +53,8 @@
 
 - (void) setAttributes: (NSDictionary*) attributes;				// Set the attributes used for display
 
+- (NSDictionary*) attributes;									// Retrieve the attributes used for display
+
 // Setting the data from the view
 - (void) setWidth: (float) newWidth;							// Total width of the view
 - (void) setOffset: (float) offset;								// Offset from the top

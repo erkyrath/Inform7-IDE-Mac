@@ -79,6 +79,10 @@ static NSDictionary* defaultAttributes = nil;
 	calculated = NO;
 }
 
+- (NSDictionary*) attributes {
+	return attributes;
+}
+
 // = Setting the data from the view =
 
 - (void) setWidth: (float) newWidth {
