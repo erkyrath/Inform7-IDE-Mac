@@ -71,8 +71,7 @@
 		[transItem setWidth: width];
 		[transItem setCommand: [item command]];
 		[transItem setTranscript: [item result]];
-		// [transItem setExpected: [item commentary]]; -- IMPLEMENT ME
-		[transItem setExpected: @"Rhubarb rhubarb rhubarb"];
+		[transItem setExpected: [item commentary]];
 		
 		[transItem setPlayed: [item played]];
 		[transItem setChanged: [item changed]];
@@ -97,8 +96,7 @@
 		[transItem setWidth: width];
 		[transItem setCommand: [item command]];
 		[transItem setTranscript: [item result]];
-		// [transItem setExpected: [item commentary]]; -- IMPLEMENT ME
-		[transItem setExpected: @"Rhubarb rhubarb rhubarb"];
+		[transItem setExpected: [item commentary]];
 		
 		[transItem setPlayed: [item played]];
 		[transItem setChanged: [item changed]];
