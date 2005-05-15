@@ -468,15 +468,13 @@ static NSColor* commandCol = nil;
 	// Update the skein item
 	NSTextStorage* storage = [fieldEditor textStorage];
 	
-	NSLog(@"Editing: %@", [storage string]);
-	
 	if (skeinItem) {
 		if (storage == transcript) {
-			BOOL changed = [skeinItem changed];
+			BOOL wasChanged = [skeinItem changed];
 			
 			[skeinItem setResult: [transcript string]];
 
-			[skeinItem setChanged: changed];
+			[skeinItem setChanged: wasChanged];
 		} else if (storage == expected) {
 			[skeinItem setCommentary: [expected string]];
 		}
