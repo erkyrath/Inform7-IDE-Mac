@@ -11,9 +11,6 @@
 
 @implementation IFTranscriptItem
 
-static NSTextContainer* formattingContainer = nil;
-static NSLayoutManager* formattingManager = nil;
-
 // = Initialisation =
 
 static NSDictionary* defaultAttributes = nil;
@@ -42,6 +39,9 @@ static NSDictionary* defaultAttributes = nil;
 	
 	[attributes release]; attributes = nil;
 	
+	[transcriptContainer release]; transcriptContainer = nil;
+	[expectedContainer release]; expectedContainer = nil;
+	
 	[super dealloc];
 }
 
@@ -54,14 +54,26 @@ static NSDictionary* defaultAttributes = nil;
 }
 
 - (void) setTranscript: (NSString*) newTranscript {
-	[transcript release]; transcript = [newTranscript copy];
+	[transcript release]; transcript = nil;
+	[transcriptContainer release]; transcriptContainer = nil;
+	
+	if (newTranscript == nil) return;
+	
+	transcript = [[NSTextStorage alloc] initWithString: newTranscript
+											attributes: attributes];
 	
 	calculated = NO;
 }
 
 - (void) setExpected: (NSString*) newExpected {
-	[expected release]; expected = [newExpected copy];
-		
+	[expected release]; expected = nil;
+	[expectedContainer release]; expectedContainer = nil;
+	
+	if (newExpected == nil) return;
+	
+	expected = [[NSTextStorage alloc] initWithString: newExpected
+										  attributes: attributes];
+	
 	calculated = NO;
 }
 
@@ -101,46 +113,6 @@ static NSDictionary* defaultAttributes = nil;
 
 // = Calculating the height of this item =
 
-- (float) heightForString: (NSString*) string 
-				withWidth: (float) stringWidth {
-	// (Using the standard attributes)
-	if (!string) return 0.0;
-	if (stringWidth <= 8) return 0.0;
-	
-	if (!formattingContainer) {
-		// Allocate an NSTextContainer to do the formatting in (we preserve this for all of our formatting)
-		formattingContainer = [[NSTextContainer alloc] init];
-		formattingManager = [[NSLayoutManager alloc] init];
-		
-		[formattingContainer setWidthTracksTextView: NO];
-		[formattingContainer setHeightTracksTextView: NO];
-		
-		[formattingManager addTextContainer: formattingContainer];
-		[formattingManager setBackgroundLayoutEnabled: NO];
-	}
-	
-	// Set the text container up for formatting (er, hope this works without a pesky heavyweight NSTextView to go
-	// along with it)
-	NSTextStorage* storage = [[NSTextStorage alloc] initWithString: string
-														attributes: attributes];
-		
-		
-	[formattingContainer setContainerSize: NSMakeSize(stringWidth, 10e6)];
-	[storage addLayoutManager: formattingManager];
-	
-	// Text will now be formatted: get the bounds
-	NSRange glyphs = [formattingManager glyphRangeForCharacterRange: NSMakeRange(0, [string length])
-											   actualCharacterRange: nil];
-	
-	NSRect bounds = [formattingManager boundingRectForGlyphRange: glyphs
-												 inTextContainer: formattingContainer];
-	
-	// Shut down
-	[storage removeLayoutManager: formattingManager];
-	
-	return floorf(NSMaxY(bounds));
-}
-
 - (NSString*) stripWhitespace: (NSString*) otherString {
 	NSMutableString* res = [[otherString mutableCopy] autorelease];
 	
@@ -159,8 +131,61 @@ static NSDictionary* defaultAttributes = nil;
 	return res;
 }
 
+- (NSTextContainer*) containerForString: (NSTextStorage*) string
+							  withWidth: (float) stringWidth {
+	// Return nothing if it's not sensible to lay out this string
+	if (!string) return nil;
+	if (stringWidth <= 48) return nil;
+	
+	// Create the NSTextContainer and the layout manager
+	NSTextContainer* container = [[NSTextContainer alloc] initWithContainerSize: NSMakeSize(stringWidth, 10e6)];
+	NSLayoutManager* layout = [[NSLayoutManager alloc] init];
+
+	[container setWidthTracksTextView: NO];
+	[container setHeightTracksTextView: NO];
+	
+	[layout setBackgroundLayoutEnabled: NO];
+	
+	[layout addTextContainer: container];
+	
+	// Add the storage to the layout manager
+	[string addLayoutManager: layout];
+	
+	// Return the results
+	[layout autorelease];
+	return [container autorelease];
+}
+
+- (float) heightForContainer: (NSTextContainer*) container {
+	NSLayoutManager* layout = [container layoutManager];
+
+	NSRange glyphs = [layout glyphRangeForCharacterRange: NSMakeRange(0, [[layout textStorage] length])
+									actualCharacterRange: nil];
+	NSRect bounds = [layout boundingRectForGlyphRange: glyphs
+									  inTextContainer: container];
+	
+	return NSMaxY(bounds);
+}
+
 - (void) calculateItem {
 	if (calculated) return;
+	
+	// Make/resize the text containers
+	float stringWidth = floorf(width/2.0 - 44.0);
+	
+	if (!transcriptContainer) {
+		transcriptContainer = [[self containerForString: transcript
+											  withWidth: stringWidth] retain];
+	} else {
+		[transcriptContainer setContainerSize: NSMakeSize(stringWidth, 10e6)];
+	}
+	
+	if (!expectedContainer) {
+		expectedContainer = [[self containerForString: expected
+											withWidth: stringWidth] retain];
+	} else {
+		[expectedContainer setContainerSize: NSMakeSize(stringWidth, 10e6)];
+	}
 	
 	// Height is:
 	//   a = Maximum(height of transcript, height of extra)
@@ -171,22 +196,21 @@ static NSDictionary* defaultAttributes = nil;
 	NSFont* font = [attributes objectForKey: NSFontAttributeName];
 	
 	float fontHeight = [font defaultLineHeightForFont];
-	float transcriptHeight = [self heightForString: transcript
-										 withWidth: floorf(width/2.0 - 44.0)];
-	float expectedHeight = [self heightForString: expected
-									   withWidth: floorf(width/2.0 - 44.0)];
+	float transcriptHeight = [self heightForContainer: transcriptContainer];
+	float expectedHeight = [self heightForContainer: expectedContainer];
 	
 	textHeight = floorf(transcriptHeight>expectedHeight ? transcriptHeight : expectedHeight);
+	if (textHeight < 48.0) textHeight = 48.0;
 	
 	height = floorf(textHeight + 2*fontHeight);
 	
 	// Compare the 'expected' text and the 'actual' text
 	textEquality = 0;
-	if (expected == nil || [expected isEqualToString: @""]) {
+	if (expected == nil || [[expected string] isEqualToString: @""]) {
 		textEquality = -1;				// No text
-	} else if ([expected isEqualToString: transcript]) {
+	} else if ([[expected string] isEqualToString: [transcript string]]) {
 		textEquality = 2;				// Exact match
-	} else if ([[self stripWhitespace: expected] caseInsensitiveCompare: [self stripWhitespace: transcript]] == 0) {
+	} else if ([[self stripWhitespace: [expected string]] caseInsensitiveCompare: [self stripWhitespace: [transcript string]]] == 0) {
 		textEquality = 1;				// Near match
 	}
 
@@ -287,8 +311,10 @@ static NSDictionary* defaultAttributes = nil;
 	
 	NSRectFill(NSMakeRect(point.x, floorf(point.y + fontHeight*1.5), floorf(width/2.0), floorf(textHeight + fontHeight*0.5)));
 	
-	[transcript drawInRect: textRect
-			withAttributes: attributes];
+	NSLayoutManager* layout = [transcriptContainer layoutManager];
+	NSRange glyphRange = [layout glyphRangeForTextContainer: transcriptContainer];
+	[layout drawGlyphsForGlyphRange: glyphRange
+							atPoint: textRect.origin];
 	
 	// Draw the expected text
 	textRect.origin = NSMakePoint(floorf(point.x + width/2.0 + 36.0), textRect.origin.y);
@@ -302,8 +328,10 @@ static NSDictionary* defaultAttributes = nil;
 
 	NSRectFill(NSMakeRect(point.x + floorf(width/2.0), floorf(point.y + fontHeight*1.5), floorf(width/2.0), floorf(textHeight + fontHeight*0.5)));
 
-	[expected drawInRect: textRect
-		  withAttributes: attributes];
+	layout = [expectedContainer layoutManager];
+	glyphRange = [layout glyphRangeForTextContainer: expectedContainer];
+	[layout drawGlyphsForGlyphRange: glyphRange
+							atPoint: textRect.origin];
 	
 	// Draw the seperator lines
 	[[NSColor controlShadowColor] set];

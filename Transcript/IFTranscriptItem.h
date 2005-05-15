@@ -23,8 +23,8 @@
 @interface IFTranscriptItem : NSObject {
 	// Item data
 	NSString* command;						// Command that precedes this item (may be nil)
-	NSString* transcript;					// The actual transcript from the game (not editable)
-	NSString* expected;						// 'Expected' or 'comment' text (editable)
+	NSTextStorage* transcript;				// The actual transcript from the game (not editable)
+	NSTextStorage* expected;				// 'Expected' or 'comment' text (editable)
 	
 	NSDictionary* attributes;				// Font, etc that this item will use
 	
@@ -39,8 +39,11 @@
 	int textEquality;						// -1 if empty, 0 if not equal, 1 if equal except for whitespace, 2 if exactly equal
 	
 	BOOL calculated;						// YES if the various calculations are up to date
-	float textHeight;
+	float textHeight;						// Height of the text this item contains
 	float height;							// Height of this item
+	
+	NSTextContainer* transcriptContainer;	// Container for the transcript
+	NSTextContainer* expectedContainer;		// Container for the 'expected' text
 }
 
 // Setting the item data
