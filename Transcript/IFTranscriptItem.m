@@ -472,7 +472,11 @@ static NSColor* commandCol = nil;
 	
 	if (skeinItem) {
 		if (storage == transcript) {
+			BOOL changed = [skeinItem changed];
+			
 			[skeinItem setResult: [transcript string]];
+
+			[skeinItem setChanged: changed];
 		} else if (storage == expected) {
 			[skeinItem setCommentary: [expected string]];
 		}
@@ -483,9 +487,9 @@ static NSColor* commandCol = nil;
 	[expected setDelegate: nil];
 	
 	// Shut down the field editor
-	[fieldEditor removeFromSuperview];
-	[fieldEditor setDelegate: nil];
 	[[fieldEditor textStorage] removeLayoutManager: [fieldEditor layoutManager]];
+	[fieldEditor setDelegate: nil];
+	[fieldEditor removeFromSuperview];
 	
 	[fieldEditor release]; fieldEditor = nil;
 	
