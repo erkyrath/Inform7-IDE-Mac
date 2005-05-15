@@ -23,8 +23,12 @@
 }
 
 - (void) dealloc {
+	[transcriptItems makeObjectsPerformSelector: @selector(setDelegate:)
+									 withObject: nil];
+
 	[skein release];
 	[targetItem release];
+	[transcriptItems release];
 	
 	[super dealloc];
 }
@@ -37,6 +41,8 @@
 	
 	[skein release]; skein = nil;
 	[targetItem release]; targetItem = nil;
+	[transcriptItems makeObjectsPerformSelector: @selector(setDelegate:)
+									 withObject: nil];
 	[transcriptItems release]; transcriptItems = nil;
 	layoutPosition = 0;
 	
@@ -53,6 +59,8 @@
 	[self cancelLayout];
 
 	[targetItem release]; targetItem = nil;
+	[transcriptItems makeObjectsPerformSelector: @selector(setDelegate:)
+									 withObject: nil];
 	[transcriptItems release]; transcriptItems = nil;
 	layoutPosition = 0;
 	height = 0;
@@ -75,6 +83,9 @@
 		
 		[transItem setPlayed: [item played]];
 		[transItem setChanged: [item changed]];
+
+		[transItem setSkeinItem: item];
+		[transItem setDelegate: self];
 		
 		// Add to the set of items
 		[transcriptItems insertObject: transItem
@@ -100,6 +111,9 @@
 		
 		[transItem setPlayed: [item played]];
 		[transItem setChanged: [item changed]];
+		
+		[transItem setSkeinItem: item];
+		[transItem setDelegate: self];
 		
 		// Add to the set of items
 		[transcriptItems addObject: transItem];
@@ -145,6 +159,39 @@
 	if (delegate && [delegate respondsToSelector: @selector(transcriptHasUpdatedItems:)]) {
 		[delegate transcriptHasUpdatedItems: itemRange];
 	}
+}
+
+// = Item delegate functions =
+
+- (void) transcriptItemHasChanged: (IFTranscriptItem*) item {
+	// Find which item has changed
+	int itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
+	
+	if (itemIndex == NSNotFound) return;
+	
+	// Update the offsets if necessary
+	int updateItem;
+	NSRange updateRange = NSMakeRange(itemIndex, 1);
+	
+	IFTranscriptItem* lastItem = item;
+	for (updateItem = itemIndex+1; updateItem < [transcriptItems count]; updateItem++) {
+		IFTranscriptItem* thisItem = [transcriptItems objectAtIndex: updateItem];
+		
+		float newOffset = [lastItem offset] + [lastItem height];
+		
+		// Stop here if this item's offset is same as before
+		if (newOffset == [thisItem offset]) break;
+		
+		// Update the offset
+		[thisItem setOffset: newOffset];
+		updateRange.length++;
+		
+		// Next item
+		lastItem = thisItem;
+	}
+	
+	// Notify our delegate
+	[self transcriptHasUpdatedItems: updateRange];
 }
 
 // = Performing the layout =

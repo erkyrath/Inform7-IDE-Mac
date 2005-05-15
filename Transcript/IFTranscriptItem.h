@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import <ZoomView/ZoomSkeinItem.h>
 
 //
 // Corresponds to an individual transcript item.
@@ -22,6 +23,8 @@
 //
 @interface IFTranscriptItem : NSObject {
 	// Item data
+	ZoomSkeinItem* skeinItem;				// The skein item associated with this item
+	
 	NSString* command;						// Command that precedes this item (may be nil)
 	NSTextStorage* transcript;				// The actual transcript from the game (not editable)
 	NSTextStorage* expected;				// 'Expected' or 'comment' text (editable)
@@ -44,9 +47,17 @@
 	
 	NSTextContainer* transcriptContainer;	// Container for the transcript
 	NSTextContainer* expectedContainer;		// Container for the 'expected' text
+	
+	// Field editing
+	NSTextView* fieldEditor;				// The field editor for this item
+	
+	// Delegate
+	id delegate;							// Delegate for this item (not retained)
 }
 
 // Setting the item data
+- (void) setSkeinItem: (ZoomSkeinItem*) item;					// Sets the skein item associated with this node
+
 - (void) setCommand: (NSString*) command;						// Command that precedes this item (may be nil)
 - (void) setTranscript: (NSString*) transcript;					// The actual transcript from the game (not editable)
 - (void) setExpected: (NSString*) expected;						// 'Expected' or 'comment' text (editable)
@@ -56,7 +67,8 @@
 
 - (void) setAttributes: (NSDictionary*) attributes;				// Set the attributes used for display
 
-- (NSDictionary*) attributes;									// Retrieve the attributes used for display
+- (ZoomSkeinItem*) skeinItem;									// Retrieves the skein item associated with this node
+- (NSDictionary*) attributes;									// Retrieves the attributes used for display
 
 // Setting the data from the view
 - (void) setWidth: (float) newWidth;							// Total width of the view
@@ -68,8 +80,24 @@
 - (void) calculateItem;											// Calculates the data associated with this transcript item
 - (BOOL) calculated;											// YES if the calculations for this item are up to date
 - (float) height;												// The height of this item
+- (float) textHeight;											// The height of the text for this item
+
+// (UI stuff below)
 
 // Drawing
 - (void) drawAtPoint: (NSPoint) point;							// Draws this transcript item at the given location
+
+// Field editing
+- (void) setupFieldEditor: (NSTextView*) fieldEditor			// Sets up a field editor for changing the left or right-hand side of the transcript
+			  forExpected: (BOOL) editExpected
+				  atPoint: (NSPoint) itemOrigin;
+
+- (void) setDelegate: (id) delegate;							// Sets the delegate for this item (delegate is NOT retained)
+
+@end
+
+@interface NSObject(IFTranscriptItemDelegate)
+
+- (void) transcriptItemHasChanged: (IFTranscriptItem*) sender;	// Called when an item changes for some reason (eg, due to the field editor)
 
 @end

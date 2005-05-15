@@ -116,4 +116,57 @@
 	[self setNeedsDisplay: YES];	
 }
 
+// = Mousing around =
+
+- (void) mouseDown: (NSEvent*) evt {
+	NSRect bounds = [self bounds];
+	NSPoint viewPos = [self convertPoint: [evt locationInWindow]
+								fromView: nil];
+	
+	// Work out which item was clicked (if any)
+	NSArray* clickItems = [layout itemsInRect: NSMakeRect(viewPos.x - NSMinX(bounds), viewPos.y - NSMinY(bounds), 1, 1)];
+	
+	IFTranscriptItem* item = nil;
+	if ([clickItems count] > 0) item = [clickItems objectAtIndex: 0];
+	
+	// Get some item metrics
+	//float itemHeight = [item height];
+	//float itemTextHeight = [item textHeight];
+	float fontHeight = [[[item attributes] objectForKey: NSFontAttributeName] defaultLineHeightForFont];
+	
+	float itemOffset = [item offset];
+	NSPoint itemPos = NSMakePoint(viewPos.x - NSMinX(bounds), viewPos.y - NSMinY(bounds) - itemOffset);
+	
+	// Clicking a button activates that button (this is the obvious bit)
+	
+	if (item != nil && itemPos.y > fontHeight * 1.5) {
+		[[self window] makeFirstResponder: self];
+		
+		NSTextView* fieldEditor = [[self window] fieldEditor: YES
+												   forObject: item];
+		
+		if (itemPos.x < bounds.size.width/2.0) {
+			// Clicking in the left-hand field gives us a field editor for that field
+			[item setupFieldEditor: fieldEditor
+					   forExpected: NO
+						   atPoint: NSMakePoint(NSMinX(bounds), NSMinY(bounds) + itemOffset)];
+			
+			[fieldEditor setEditable: NO];
+		} else {
+			// Clicking in the right-hand field gives us a field editor for that field
+			[item setupFieldEditor: fieldEditor
+					   forExpected: YES
+						   atPoint: NSMakePoint(NSMinX(bounds), NSMinY(bounds) + itemOffset)];
+			
+			[fieldEditor setEditable: YES];
+		}
+		
+		// Finish setting up the field editor (the item itself handles everything else)
+		[self addSubview: fieldEditor];
+		[[self window] makeFirstResponder: fieldEditor];
+		
+		[fieldEditor mouseDown: evt];
+	}
+}
+
 @end
