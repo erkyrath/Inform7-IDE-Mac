@@ -452,6 +452,7 @@ static NSColor* commandCol = nil;
 	[fieldEditor setRichText: NO];
 	[fieldEditor setAllowsDocumentBackgroundColorChange: NO];
 	[fieldEditor setBackgroundColor: background];
+	[fieldEditor setFieldEditor: NO];							// (Sigh - hack, doesn't appear to be a better way to get newlines inserted properly. A field editor that is not a field editor: very zen)
 	
 	[[fieldEditor textContainer] setContainerSize: NSMakeSize(editorFrame.size.width, 10e6)];
 	[[fieldEditor textContainer] setWidthTracksTextView:NO];
@@ -487,6 +488,7 @@ static NSColor* commandCol = nil;
 	// Shut down the field editor
 	[[fieldEditor textStorage] removeLayoutManager: [fieldEditor layoutManager]];
 	[fieldEditor setDelegate: nil];
+	[fieldEditor setFieldEditor: YES];
 	[fieldEditor removeFromSuperview];
 	
 	[fieldEditor release]; fieldEditor = nil;
