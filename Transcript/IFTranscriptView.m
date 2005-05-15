@@ -100,7 +100,7 @@
 					  operation: NSCompositeSourceOver
 					   fraction: 1.0];
 		
-		[bless drawAtPoint: NSMakePoint(floorf(NSMinX(bounds)+((bounds.size.width-imgSize.width)/2.0)), floorf(ypos + (textHeight-imgSize.height)/2.0 + fontHeight*1.5))
+		[bless drawAtPoint: NSMakePoint(floorf(NSMinX(bounds)+((bounds.size.width-imgSize.width)/2.0)), floorf(ypos + (textHeight-imgSize.height)/2.0 + fontHeight*1.75))
 				  fromRect: imgRect
 				 operation: NSCompositeSourceOver
 				  fraction: 1.0];
