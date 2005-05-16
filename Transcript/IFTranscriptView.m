@@ -182,4 +182,21 @@
 	}
 }
 
+
+// = Displaying specific items =
+
+- (void) scrollToItem: (ZoomSkeinItem*) item {
+	NSRect bounds = [self bounds];
+	float offset = [layout offsetOfItem: item];
+	
+	if (offset >= 0) {
+		NSRect itemRect;
+		
+		itemRect.origin = NSMakePoint(NSMinX(bounds), NSMinY(bounds) + offset);
+		itemRect.size = NSMakeSize(bounds.size.width, [layout heightOfItem: item]);
+		
+		[self scrollRectToVisible: itemRect];
+	}
+}
+
 @end

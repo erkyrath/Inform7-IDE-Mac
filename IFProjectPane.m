@@ -790,7 +790,10 @@ NSDictionary* IFSyntaxAttributes[256];
 	
 	setBreakpoint = NO;
 	
+	// Run to the appropriate point in the skein
 	if (pointToRunTo) {
+		[parent transcriptToPoint: pointToRunTo];
+		
 		id inputSource = [ZoomSkein inputSourceFromSkeinItem: [[[parent document] skein] rootItem]
 													  toItem: pointToRunTo];
 		
@@ -798,6 +801,8 @@ NSDictionary* IFSyntaxAttributes[256];
 		
 		[pointToRunTo release];
 		pointToRunTo = nil;
+	} else {
+		[parent transcriptToPoint: [[[parent document] skein] rootItem]];
 	}
 	
     [tabView selectTabViewItem: gameTabView];
@@ -1031,6 +1036,10 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (IFTranscriptLayout*) transcriptLayout {
 	return [transcriptView layout];
+}
+
+- (IFTranscriptView*) transcriptView {
+	return transcriptView;
 }
 
 // = Breakpoints =

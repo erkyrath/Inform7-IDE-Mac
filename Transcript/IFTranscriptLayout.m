@@ -424,4 +424,70 @@
 	return res;
 }
 
+- (IFTranscriptItem*) itemForItem: (ZoomSkeinItem*) skeinItem {
+	int index;
+	int firstCalculated = NSNotFound;
+	
+	for (index=0; index<[transcriptItems count]; index++) {
+		IFTranscriptItem* item = [transcriptItems objectAtIndex: index];
+		
+		// Calculate the item if necessary
+		if (![item calculated]) {
+			firstCalculated = index;
+			
+			[item calculateItem];
+			
+			if (index == 0) {
+				[item setOffset: 0];
+			} else {
+				IFTranscriptItem* lastItem = [transcriptItems objectAtIndex: index-1];
+				
+				float newOffset = [lastItem offset] + [lastItem height];
+				[item setOffset: newOffset];
+				
+				if (newOffset > height) height = newOffset;
+			}
+			
+/*
+			if (index < [transcriptItems count]-1) {
+				[[transcriptItems objectAtIndex: index+1] setOffset: [item offset] + [item height]];
+			}
+ */
+		}
+		
+		if ([item skeinItem] == skeinItem) {
+			// Found the item
+			if (firstCalculated != NSNotFound) {
+				[self transcriptHasUpdatedItems: NSMakeRange(firstCalculated, index-firstCalculated+1)];
+			}
+			
+			return item;
+		}
+	}
+	
+	if (firstCalculated != NSNotFound) {
+		[self transcriptHasUpdatedItems: NSMakeRange(firstCalculated, index-firstCalculated)];
+	}
+	
+	return nil;
+}
+
+- (float) offsetOfItem: (ZoomSkeinItem*) skeinItem {
+	IFTranscriptItem* item = [self itemForItem: skeinItem];
+	
+	if (item)
+		return [item offset];
+	else
+		return -1;
+}
+
+- (float) heightOfItem: (ZoomSkeinItem*) skeinItem {
+	IFTranscriptItem* item = [self itemForItem: skeinItem];
+	
+	if (item) 
+		return [item height];
+	else
+		return -1;
+}
+
 @end

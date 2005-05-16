@@ -363,6 +363,11 @@ static NSDictionary*  itemDictionary = nil;
                                                  name: IFCompilerFinishedNotification
                                                object: [[self document] compiler]];
 
+	// Monitor for skein changed notifications
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(skeinChanged:)
+												 name: ZoomSkeinChangedNotification
+											   object: [[self document] skein]];
 	
     // Create the view switch toolbar
 	if ([[[self document] settings] usingNaturalInform]) {
@@ -381,6 +386,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 // == Project pane layout ==
+
 - (void) layoutPanes {
     if ([projectPanes count] == 0) {
         return;
@@ -1317,12 +1323,33 @@ static NSDictionary*  itemDictionary = nil;
 	}
 }
 
-- (void) transcriptToPoint: (ZoomSkeinItem*) point {
-	IFProjectPane* transcriptPane = [self transcriptPane];
+- (void) moveTranscriptToPoint: (ZoomSkeinItem*) point {
+	// Set all the transcript views to the right item
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
 	
+	while (pane = [paneEnum nextObject]) {
+		[[pane transcriptLayout] transcriptToPoint: point];
+		[[pane transcriptView] scrollToItem: point];
+	}
+}
+
+- (void) transcriptToPoint: (ZoomSkeinItem*) point {
+	// Select the transcript in the appropriate pane
+	IFProjectPane* transcriptPane = [self transcriptPane];
 	[transcriptPane selectView: IFTranscriptPane];
-	[[transcriptPane transcriptLayout] transcriptToPoint: point];
-	// [[transcriptPane transcriptController] scrollToItem: point]; // -- FIXME
+	
+	[self moveTranscriptToPoint: point];
+}
+
+- (void) skeinChanged: (NSNotification*) not {
+	ZoomSkein* skein = [[self document] skein];
+	
+	if ([skein activeItem] != lastActiveItem) {
+		[self moveTranscriptToPoint: [skein activeItem]];
+		
+		lastActiveItem = [skein activeItem];
+	}
 }
 
 // = Policy delegates =

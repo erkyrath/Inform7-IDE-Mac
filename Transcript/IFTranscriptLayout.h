@@ -54,6 +54,8 @@
 
 // Getting items to draw
 - (NSArray*) itemsInRect: (NSRect) rect;				// Retrieves the items that would be in the given rectangle (goes by y-offset only)
+- (float) offsetOfItem: (ZoomSkeinItem*) item;			// Retrieves the offset for a specific item, calculating to that point if necessary
+- (float) heightOfItem: (ZoomSkeinItem*) item;			// Retrieves the height of a specific item, calculating to that point if necessary
 
 // The delegate
 - (void) setDelegate: (id) delegate;					// Delegate is not retained

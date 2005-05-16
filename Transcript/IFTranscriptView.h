@@ -21,4 +21,7 @@
 // Retrieving the layout
 - (IFTranscriptLayout*) layout;
 
+// Displaying specific items
+- (void) scrollToItem: (ZoomSkeinItem*) item;
+
 @end

@@ -8,6 +8,7 @@
 
 #import <AppKit/AppKit.h>
 #import <ZoomView/ZoomView.h>
+#import <ZoomView/ZoomSkeinItem.h>
 
 #import "IFProjectPolicy.h"
 #import "IFProgress.h"
@@ -60,6 +61,9 @@ enum lineStyle {
 	
 	// Debugging
 	BOOL waitingAtBreakpoint;
+	
+	// The last 'active' skein item
+	ZoomSkeinItem* lastActiveItem;							// NOT RETAINED
 	
 	// Policy delegates
 	IFProjectPolicy* generalPolicy;

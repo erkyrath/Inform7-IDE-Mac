@@ -164,6 +164,7 @@ enum IFProjectPaneType {
 - (void) skeinDidChange: (NSNotification*) not;					// Called by Zoom to notify that the skein has changed
 
 // The transcript view
+- (IFTranscriptView*) transcriptView;							// Returns the transcript view object associated with this pane
 - (IFTranscriptLayout*) transcriptLayout;						// Returns the transcript layout object associated with this pane
 
 // Breakpoints
