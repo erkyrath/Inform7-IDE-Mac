@@ -17,18 +17,38 @@
 	self = [super init];
 	
 	if (self) {
+		// Look out for SkeinItem notifications
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(skeinItemChanged:)
+													 name: ZoomSkeinItemHasChanged
+												   object: nil];
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(skeinItemHasNewChild:)
+													 name: ZoomSkeinItemHasNewChild
+												   object: nil];
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(skeinItemBeingReplaced:)
+													 name: ZoomSkeinItemIsBeingReplaced
+												   object: nil];
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(skeinItemHasBeenRemoved:)
+													 name: ZoomSkeinItemHasBeenRemovedFromTree
+												   object: nil];
 	}
 	
 	return self;
 }
 
 - (void) dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	
 	[transcriptItems makeObjectsPerformSelector: @selector(setDelegate:)
 									 withObject: nil];
 
 	[skein release];
 	[targetItem release];
 	[transcriptItems release];
+	[itemMap release];
 	
 	[super dealloc];
 }
@@ -44,6 +64,7 @@
 	[transcriptItems makeObjectsPerformSelector: @selector(setDelegate:)
 									 withObject: nil];
 	[transcriptItems release]; transcriptItems = nil;
+	[itemMap release]; itemMap = nil;
 	layoutPosition = 0;
 	
 	// Bring in the new
@@ -54,7 +75,43 @@
 	return skein;
 }
 
+- (void) addSkeinItem: (ZoomSkeinItem*) item
+				atEnd: (BOOL) atEnd {
+	// Create the transcript item
+	IFTranscriptItem* transItem = [[IFTranscriptItem alloc] init];
+	
+	[transItem setWidth: width];
+	[transItem setCommand: [item command]];
+	[transItem setTranscript: [item result]];
+	[transItem setExpected: [item commentary]];
+	
+	[transItem setPlayed: [item played]];
+	[transItem setChanged: [item changed]];
+	
+	[transItem setSkeinItem: item];
+	[transItem setDelegate: self];
+	
+	// Add to the set of items	
+	if (!atEnd) {
+		[transcriptItems insertObject: transItem
+							  atIndex: 0];
+	} else {
+		[transcriptItems addObject: transItem];
+	}
+	
+	// Add an itemMap object
+	[itemMap setObject: transItem
+				forKey: [NSValue valueWithPointer: item]];
+
+	[transItem release];
+}
+
 - (void) transcriptToPoint: (ZoomSkeinItem*) point {
+	if ([itemMap objectForKey: [NSValue valueWithPointer: point]] != nil) {
+		// Transcript already contains this item: do nothing
+		return;
+	}
+	
 	// Delete the old transcript items
 	[self cancelLayout];
 
@@ -62,35 +119,21 @@
 	[transcriptItems makeObjectsPerformSelector: @selector(setDelegate:)
 									 withObject: nil];
 	[transcriptItems release]; transcriptItems = nil;
+	[itemMap release]; itemMap = nil;
 	layoutPosition = 0;
 	height = 0;
 	
 	// Create new transcript items
 	transcriptItems = [[NSMutableArray alloc] init];
+	itemMap = [[NSMutableDictionary alloc] init];
 	targetItem = [point retain];
 	
 	// Move up the tree until we get to the root	
 	ZoomSkeinItem* item = point;
 	
 	while (item != nil) {
-		// Create the transcript item
-		IFTranscriptItem* transItem = [[IFTranscriptItem alloc] init];
-		
-		[transItem setWidth: width];
-		[transItem setCommand: [item command]];
-		[transItem setTranscript: [item result]];
-		[transItem setExpected: [item commentary]];
-		
-		[transItem setPlayed: [item played]];
-		[transItem setChanged: [item changed]];
-
-		[transItem setSkeinItem: item];
-		[transItem setDelegate: self];
-		
-		// Add to the set of items
-		[transcriptItems insertObject: transItem
-							  atIndex: 0];
-		[transItem release];
+		[self addSkeinItem: item
+					 atEnd: NO];
 		
 		item = [item parent];
 	}
@@ -102,26 +145,15 @@
 		item = [[[item children] allObjects] objectAtIndex: 0];
 
 		// Create the transcript item
-		IFTranscriptItem* transItem = [[IFTranscriptItem alloc] init];
-				
-		[transItem setWidth: width];
-		[transItem setCommand: [item command]];
-		[transItem setTranscript: [item result]];
-		[transItem setExpected: [item commentary]];
-		
-		[transItem setPlayed: [item played]];
-		[transItem setChanged: [item changed]];
-		
-		[transItem setSkeinItem: item];
-		[transItem setDelegate: self];
-		
-		// Add to the set of items
-		[transcriptItems addObject: transItem];
-		[transItem release];
+		[self addSkeinItem: item
+					 atEnd: YES];
 	}
 	
 	// Start laying out the new items
 	needsLayout = YES;
+	
+	// Notify the delegate
+	[self transcriptHasUpdatedItems: NSMakeRange(0, [transcriptItems count])];
 }
 
 - (void) setWidth: (float) newWidth {
@@ -186,12 +218,102 @@
 		[thisItem setOffset: newOffset];
 		updateRange.length++;
 		
+		// Update the height if required
+		if (newOffset + [thisItem height] > height) height = newOffset + [thisItem height];
+		
 		// Next item
 		lastItem = thisItem;
 	}
 	
 	// Notify our delegate
 	[self transcriptHasUpdatedItems: updateRange];
+}
+
+// = Skein item notifications =
+
+- (void) skeinItemChanged: (NSNotification*) not {
+	// Get the item, if it's in the transcript
+	IFTranscriptItem* item = [itemMap objectForKey: [NSValue valueWithPointer: [not object]]];
+	if (item == nil || [item updating]) return;
+		
+	// Update the item
+	ZoomSkeinItem* skeinItem = [not object];
+	int index = [transcriptItems indexOfObjectIdenticalTo: item];
+	
+	if (index == NSNotFound) {
+		NSLog(@"BUG: found an item that's being changed in the map, but not in the list of transcript items");
+		return;
+	}
+	
+	[item setCommand: [skeinItem command]];
+	[item setTranscript: [skeinItem result]];
+	[item setExpected: [skeinItem commentary]];
+	
+	[item setPlayed: [skeinItem played]];
+	[item setChanged: [skeinItem changed]];
+	
+	// Update ourselves
+	[item calculateItem];
+	[self transcriptItemHasChanged: item];
+}
+
+- (void) skeinItemHasNewChild: (NSNotification*) not {
+	// Get the item, if it's in the transcript
+	IFTranscriptItem* item = [itemMap objectForKey: [NSValue valueWithPointer: [not object]]];
+	if (item == nil) return;
+	
+	// If the item is the last item in the transcript, then add this item to the transcript
+	if (item == [transcriptItems lastObject]) {	
+		ZoomSkeinItem* child = [[not userInfo] objectForKey: ZoomSIChild];
+		
+		if (child) {
+			[self addSkeinItem: child
+						 atEnd: YES];
+			[[transcriptItems lastObject] calculateItem];
+			
+			// Will update the height etc as a side-effect (as the offset is set incorrectly in the new item)
+			[self transcriptItemHasChanged: item];
+		}
+	}
+}
+
+- (void) skeinItemBeingReplaced: (NSNotification*) not {
+	// Get the item, if it's in the transcript
+	IFTranscriptItem* item = [itemMap objectForKey: [NSValue valueWithPointer: [not object]]];
+	if (item == nil) return;
+	
+	// I don't think this ever actually happens for items that have made it as far as the transcript.
+	NSLog(@"BUG: transcript is a bit wibbly");
+}
+
+- (void) skeinItemHasBeenRemoved: (NSNotification*) not {
+	// Get the item, if it's in the transcript
+	IFTranscriptItem* item = [itemMap objectForKey: [NSValue valueWithPointer: [not object]]];
+	if (item == nil) return;
+	
+	// Remove the item (and the following items)
+	int index = [transcriptItems indexOfObjectIdenticalTo: item];
+	
+	if (index == NSNotFound) {
+		NSLog(@"BUG: found an item that's being removed in the map, but not in the list of transcript items");
+		return;
+	}
+	
+	if (index == 0) {
+		NSLog(@"BUG: root item being removed (?!)");
+		return;
+	}
+	
+	while ([transcriptItems count] > index) {
+		IFTranscriptItem* dyingItem = [transcriptItems objectAtIndex: index];
+		
+		[itemMap removeObjectForKey: [NSValue valueWithPointer: dyingItem]];
+		[transcriptItems removeObjectAtIndex: index];
+	}
+	
+	[self transcriptItemHasChanged: [transcriptItems lastObject]];
+	
+	NSLog(@"Item removed");
 }
 
 // = Performing the layout =

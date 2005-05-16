@@ -454,6 +454,8 @@ static NSColor* commandCol = nil;
 	[fieldEditor setBackgroundColor: background];
 	[fieldEditor setFieldEditor: NO];							// (Sigh - hack, doesn't appear to be a better way to get newlines inserted properly. A field editor that is not a field editor: very zen)
 	
+	[fieldEditor setAlignment: NSNaturalTextAlignment];
+	
 	[[fieldEditor textContainer] setContainerSize: NSMakeSize(editorFrame.size.width, 10e6)];
 	[[fieldEditor textContainer] setWidthTracksTextView:NO];
 	[[fieldEditor textContainer] setHeightTracksTextView:NO];
@@ -463,6 +465,8 @@ static NSColor* commandCol = nil;
 }
 
 - (void) finishEditing: (id) sender {	
+	updating = YES;
+	
 	// Inform the delegate of what's happened
 	[self transcriptItemHasChanged: self];
 
@@ -496,6 +500,12 @@ static NSColor* commandCol = nil;
 	// Recalculate this item
 	calculated = NO;
 	[self calculateItem];
+	
+	updating = NO;
+}
+
+- (BOOL) updating {
+	return updating;
 }
 
 - (void) textDidEndEditing: (NSNotification*) aNotificationn {

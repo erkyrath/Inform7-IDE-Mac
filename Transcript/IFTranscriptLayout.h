@@ -26,6 +26,8 @@
 	float width;										// Width that has been set
 	float height;										// Height that has been calculated
 	
+	NSMutableDictionary* itemMap;						// Maps NSValue(ZoomSkeinItem)s to IFTranscriptItems - used to quickly handle the skein item notifications
+	
 	// Running the layout
 	BOOL needsLayout;									// YES if we need to be laid out again
 	int layoutPosition;									// Position in the transcriptItems array that the layout has reached

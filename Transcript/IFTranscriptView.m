@@ -68,7 +68,13 @@
 	imgRect.size = imgSize;
 	
 	// Begin the layout if we need to
-	if ([layout needsLayout]) [layout startLayout];
+	if ([layout needsLayout]) {
+		[[NSRunLoop currentRunLoop] performSelector: @selector(startLayout)
+											 target: layout
+										   argument: nil
+											  order: 128
+											  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+	}
 	
 	// Get the items we need to draw
 	NSArray* items = [layout itemsInRect: rect];
@@ -109,10 +115,17 @@
 
 - (void) transcriptHasUpdatedItems: (NSRange) itemRange {
 	// FIXME: only draw items as needed, resize the view to fit the items
+	
+	// Start the layout if necessary (avoids flicker sometimes)
+	if ([layout needsLayout]) [layout startLayout];
+
+	// Set our frame appropriately if we need to
 	NSRect ourBounds = [self frame];
 	ourBounds.size.height = [layout height];
+	if (ourBounds.size.height <= 12) ourBounds.size.height = 12;
 	[self setFrame: ourBounds];
 
+	// Redraw the items
 	[self setNeedsDisplay: YES];	
 }
 
