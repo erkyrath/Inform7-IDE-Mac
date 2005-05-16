@@ -312,8 +312,6 @@
 	}
 	
 	[self transcriptItemHasChanged: [transcriptItems lastObject]];
-	
-	NSLog(@"Item removed");
 }
 
 // = Performing the layout =
