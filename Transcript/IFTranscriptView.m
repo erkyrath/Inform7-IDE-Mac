@@ -183,7 +183,6 @@
 	}
 }
 
-
 // = Displaying specific items =
 
 - (void) scrollToItem: (ZoomSkeinItem*) item {

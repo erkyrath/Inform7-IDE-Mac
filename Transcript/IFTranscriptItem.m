@@ -551,10 +551,17 @@ static NSColor* activeCol = nil;
 	[expected setDelegate: nil];
 	
 	// Shut down the field editor
+	[fieldEditor setFieldEditor: YES];
 	[[fieldEditor textStorage] removeLayoutManager: [fieldEditor layoutManager]];
 	[fieldEditor setDelegate: nil];
-	[fieldEditor setFieldEditor: YES];
 	[fieldEditor removeFromSuperview];
+	
+	if ([fieldEditor textStorage] == nil) {
+		// Fix up the field editor with a new text storage if we destroyed the old one
+		NSTextStorage* replacementStorage = [[NSTextStorage alloc] init];
+		[replacementStorage addLayoutManager: [fieldEditor layoutManager]];
+		[replacementStorage release];
+	}
 	
 	[fieldEditor release]; fieldEditor = nil;
 	

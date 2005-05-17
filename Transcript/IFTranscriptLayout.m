@@ -205,24 +205,36 @@
 	int updateItem;
 	NSRange updateRange = NSMakeRange(itemIndex, 1);
 	
-	IFTranscriptItem* lastItem = item;
-	for (updateItem = itemIndex+1; updateItem < [transcriptItems count]; updateItem++) {
-		IFTranscriptItem* thisItem = [transcriptItems objectAtIndex: updateItem];
+	if ([item calculated]) {
+		if ([item offset] + [item height] > height) height = [item offset] + [item height];
+			
+		IFTranscriptItem* lastItem = item;
+		for (updateItem = itemIndex+1; updateItem < [transcriptItems count]; updateItem++) {
+			IFTranscriptItem* thisItem = [transcriptItems objectAtIndex: updateItem];
+			
+			float newOffset = [lastItem offset] + [lastItem height];
+			
+			// Stop here if this item's offset is same as before
+			if (newOffset == [thisItem offset]) break;
+			
+			// Update the offset
+			[thisItem setOffset: newOffset];
+			updateRange.length++;
+			
+			// Update the height if required
+			if (newOffset + [thisItem height] > height) height = newOffset + [thisItem height];
+			
+			// Next item
+			lastItem = thisItem;
+		}
+	}
+	
+	// Reduce the height (if required)
+	IFTranscriptItem* lastItem = [transcriptItems lastObject];
+	if ([lastItem calculated]) {
+		float newHeight = floorf([lastItem offset] + [lastItem height]);
 		
-		float newOffset = [lastItem offset] + [lastItem height];
-		
-		// Stop here if this item's offset is same as before
-		if (newOffset == [thisItem offset]) break;
-		
-		// Update the offset
-		[thisItem setOffset: newOffset];
-		updateRange.length++;
-		
-		// Update the height if required
-		if (newOffset + [thisItem height] > height) height = newOffset + [thisItem height];
-		
-		// Next item
-		lastItem = thisItem;
+		if (newHeight != height) height = newHeight;
 	}
 	
 	// Notify our delegate
