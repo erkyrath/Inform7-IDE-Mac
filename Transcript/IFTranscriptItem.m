@@ -27,6 +27,9 @@ static NSColor* exactMatchCol = nil;
 
 static NSColor* commandCol = nil;
 
+static NSColor* highlightCol = nil;
+static NSColor* activeCol = nil;
+
 + (void) initialize {
 	if (!unplayedCol) {
 		unplayedCol = [[NSColor colorWithDeviceRed: 0.8
@@ -63,6 +66,15 @@ static NSColor* commandCol = nil;
 											green: 0.8
 											 blue: 1.0
 											alpha: 1.0] retain];
+		
+		highlightCol = [[NSColor colorWithDeviceRed: 0.4
+											  green: 0.4
+											   blue: 1.0
+											  alpha: 1.0] retain];
+		activeCol = [[NSColor colorWithDeviceRed: 1.0
+										   green: 1.0
+											blue: 0.7
+										   alpha: 1.0] retain];
 	}
 }
 
@@ -311,7 +323,32 @@ static NSColor* commandCol = nil;
 
 // = Drawing =
 
-- (void) drawAtPoint: (NSPoint) point {
+- (void) drawBorder: (NSRect) border
+			  width: (float) borderWidth {
+	NSRect r;
+	
+	// Top
+	r = border;
+	r.size = NSMakeSize(border.size.width, borderWidth);
+	NSRectFill(r);
+	
+	// Left
+	r = border;
+	r.size = NSMakeSize(borderWidth, border.size.height);
+	NSRectFill(r);
+	
+	// Bottom
+	r = NSMakeRect(border.origin.x, NSMaxY(border) - borderWidth, border.size.width, borderWidth);
+	NSRectFill(r);
+	
+	// Right
+	r = NSMakeRect(NSMaxX(border) - borderWidth, border.origin.y, borderWidth, border.size.height);
+	NSRectFill(r);
+}
+
+- (void) drawAtPoint: (NSPoint) point
+		 highlighted: (BOOL) highlighted
+			  active: (BOOL) active {
 	// Draw nothing if we don't know our size yet
 	if (!calculated) return;
 
@@ -327,7 +364,7 @@ static NSColor* commandCol = nil;
 	[command drawAtPoint: NSMakePoint(floorf(point.x + 12.0), floorf(point.y + fontHeight*.25))
 		  withAttributes: attributes];
 	
-	// Draw the transcript text
+	// Draw the transcript background
 	NSRect textRect;
 	
 	textRect.origin = NSMakePoint(floorf(point.x + 8.0), floorf(point.y + fontHeight * 1.75));
@@ -343,12 +380,9 @@ static NSColor* commandCol = nil;
 	
 	NSRectFill(NSMakeRect(point.x, floorf(point.y + fontHeight*1.5), floorf(width/2.0), floorf(textHeight + fontHeight*0.5)));
 	
-	NSLayoutManager* layout = [transcriptContainer layoutManager];
-	NSRange glyphRange = [layout glyphRangeForTextContainer: transcriptContainer];
-	[layout drawGlyphsForGlyphRange: glyphRange
-							atPoint: textRect.origin];
+	NSPoint transcriptPoint = textRect.origin;
 	
-	// Draw the expected text
+	// Draw the expected background
 	textRect.origin = NSMakePoint(floorf(point.x + width/2.0 + 36.0), textRect.origin.y);
 	
 	switch (textEquality) {
@@ -357,19 +391,46 @@ static NSColor* commandCol = nil;
 		case 2:  [exactMatchCol set]; break;
 		default: [noMatchCol set]; break;
 	}
-
-	NSRectFill(NSMakeRect(point.x + floorf(width/2.0), floorf(point.y + fontHeight*1.5), floorf(width/2.0), floorf(textHeight + fontHeight*0.5)));
-
-	layout = [expectedContainer layoutManager];
-	glyphRange = [layout glyphRangeForTextContainer: expectedContainer];
-	[layout drawGlyphsForGlyphRange: glyphRange
-							atPoint: textRect.origin];
 	
-	// Draw the seperator lines
+	NSRectFill(NSMakeRect(point.x + floorf(width/2.0), floorf(point.y + fontHeight*1.5), floorf(width/2.0), floorf(textHeight + fontHeight*0.5)));
+	
+	NSPoint expectedPoint = textRect.origin;
+
+	// Draw the separator lines
 	[[NSColor controlShadowColor] set];
 	NSRectFill(NSMakeRect(point.x+floorf(width/2.0), floorf(point.y + fontHeight*1.5), 1, floorf(textHeight + fontHeight*0.5)));	// Between the 'transcript' and the 'expected' text
 	NSRectFill(NSMakeRect(point.x, floorf(point.y + fontHeight*1.5), width, 1));													// Between the command and the transcript
 	NSRectFill(NSMakeRect(point.x, floorf(point.y + fontHeight*2.0 + textHeight)-1, width, 1));										// Along the bottom
+	
+	// Draw any borders we might want
+	if (highlighted || active) {
+		textRect.origin = NSMakePoint(point.x, point.y);
+		textRect.size = NSMakeSize(width, height);
+		
+		if (active) {
+			[activeCol set];
+			[self drawBorder: textRect
+					   width: 4.0];
+		}
+		
+		if (highlighted) {
+			[highlightCol set];
+			[self drawBorder: textRect
+					   width: 2.0];
+		}
+	}
+		
+	// Draw the transcript text
+	NSLayoutManager* layout = [transcriptContainer layoutManager];
+	NSRange glyphRange = [layout glyphRangeForTextContainer: transcriptContainer];
+	[layout drawGlyphsForGlyphRange: glyphRange
+							atPoint: transcriptPoint];
+	
+	// Draw the expected text
+	layout = [expectedContainer layoutManager];
+	glyphRange = [layout glyphRangeForTextContainer: expectedContainer];
+	[layout drawGlyphsForGlyphRange: glyphRange
+							atPoint: expectedPoint];	
 }
 
 // = Delegate =

@@ -86,7 +86,9 @@
 // (UI stuff below)
 
 // Drawing
-- (void) drawAtPoint: (NSPoint) point;							// Draws this transcript item at the given location
+- (void) drawAtPoint: (NSPoint) point							// Draws this transcript item at the given location
+		 highlighted: (BOOL) highlighted
+			  active: (BOOL) active;
 
 // Field editing
 - (void) setupFieldEditor: (NSTextView*) fieldEditor			// Sets up a field editor for changing the left or right-hand side of the transcript

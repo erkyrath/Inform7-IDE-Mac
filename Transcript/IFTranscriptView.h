@@ -15,13 +15,18 @@
 //
 @interface IFTranscriptView : NSView {
 	// Laying out the view
-	IFTranscriptLayout* layout;
+	IFTranscriptLayout* layout;					// The layout manager that we're using
+	
+	IFTranscriptItem* activeItem;				// The item that's drawn with the 'active' (yellow) border
+	IFTranscriptItem* highlightedItem;			// The item that's drawn with the 'highlighted' (blue) border
 }
 
 // Retrieving the layout
 - (IFTranscriptLayout*) layout;
 
 // Displaying specific items
-- (void) scrollToItem: (ZoomSkeinItem*) item;
+- (void) scrollToItem: (ZoomSkeinItem*) item;				// Scrolls a specific item to be visible
+- (void) setHighlightedItem: (ZoomSkeinItem*) item;			// Sets a specific item to be the 'highlighted' item
+- (void) setActiveItem: (ZoomSkeinItem*) item;				// Sets a specific item to be the 'active' item
 
 @end

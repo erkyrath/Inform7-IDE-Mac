@@ -38,28 +38,30 @@
 }
 
 // Setting the skein and the item we're transcripting to
-- (void)       setSkein: (ZoomSkein*) skein;			// Set the skein that we're getting items from
-- (ZoomSkein*) skein;									// Retrieve the skein that we're getting items from
+- (void)       setSkein: (ZoomSkein*) skein;					// Set the skein that we're getting items from
+- (ZoomSkein*) skein;											// Retrieve the skein that we're getting items from
 
-- (void) transcriptToPoint: (ZoomSkeinItem*) point;		// Develop the transcript to the given point
+- (void) transcriptToPoint: (ZoomSkeinItem*) point;				// Develop the transcript to the given point
 
 // Performing the layout
-- (BOOL) needsLayout;									// YES if this object needs layout and the layout has not begun
-- (void) startLayout;									// Begins laying out the transcript
-- (void) cancelLayout;									// Cancels any layout that's currently being performed
+- (BOOL) needsLayout;											// YES if this object needs layout and the layout has not begun
+- (void) startLayout;											// Begins laying out the transcript
+- (void) cancelLayout;											// Cancels any layout that's currently being performed
 
-- (void) setWidth: (float) width;						// Sets the width of this layout
+- (void) setWidth: (float) width;								// Sets the width of this layout
 
-- (float) height;										// Retrieves the height of this layout
+- (float) height;												// Retrieves the height of this layout
 
 // Getting items to draw
-- (NSArray*) itemsInRect: (NSRect) rect;				// Retrieves the items that would be in the given rectangle (goes by y-offset only)
-- (float) offsetOfItem: (ZoomSkeinItem*) item;			// Retrieves the offset for a specific item, calculating to that point if necessary
-- (float) heightOfItem: (ZoomSkeinItem*) item;			// Retrieves the height of a specific item, calculating to that point if necessary
+- (NSArray*) itemsInRect: (NSRect) rect;						// Retrieves the items that would be in the given rectangle (goes by y-offset only)
+
+- (IFTranscriptItem*) itemForItem: (ZoomSkeinItem*) skeinItem;	// Retrieves the IFTranscriptItem being used for a ZoomSkeinItem (calculating if necessary)
+- (float) offsetOfItem: (ZoomSkeinItem*) item;					// Retrieves the offset for a specific item, calculating to that point if necessary
+- (float) heightOfItem: (ZoomSkeinItem*) item;					// Retrieves the height of a specific item, calculating to that point if necessary
 
 // The delegate
-- (void) setDelegate: (id) delegate;					// Delegate is not retained
-- (id) delegate;										// Retrievest the delegate
+- (void) setDelegate: (id) delegate;							// Delegate is not retained
+- (id) delegate;												// Retrievest the delegate
 
 @end
 

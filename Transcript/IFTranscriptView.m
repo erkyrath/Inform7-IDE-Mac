@@ -8,7 +8,6 @@
 
 #import "IFTranscriptView.h"
 
-
 @implementation IFTranscriptView
 
 // = Initialisation =
@@ -87,7 +86,9 @@
 		// Draw the item
 		float ypos = NSMinY(bounds) + [item offset];
 		
-		[item drawAtPoint: NSMakePoint(NSMinX(bounds), ypos)];
+		[item drawAtPoint: NSMakePoint(NSMinX(bounds), ypos)
+			  highlighted: item==highlightedItem
+				   active: item==activeItem];
 		
 		// Draw the buttons for the item
 		NSFont* font = [[item attributes] objectForKey: NSFontAttributeName];
@@ -196,6 +197,32 @@
 		itemRect.size = NSMakeSize(bounds.size.width, [layout heightOfItem: item]);
 		
 		[self scrollRectToVisible: itemRect];
+	}
+}
+
+- (void) setHighlightedItem: (ZoomSkeinItem*) item {
+	IFTranscriptItem* transItem = nil;
+	
+	if (item) transItem = [layout itemForItem: item];
+	
+	if (transItem != highlightedItem) {
+		highlightedItem = transItem;
+		
+		// FIXME: only draw the items as required
+		[self setNeedsDisplay: YES];
+	}
+}
+
+- (void) setActiveItem: (ZoomSkeinItem*) item {
+	IFTranscriptItem* transItem = nil;
+	
+	if (item) transItem = [layout itemForItem: item];
+	
+	if (transItem != activeItem) {
+		activeItem = transItem;
+		
+		// FIXME: only draw the items as required
+		[self setNeedsDisplay: YES];
 	}
 }
 

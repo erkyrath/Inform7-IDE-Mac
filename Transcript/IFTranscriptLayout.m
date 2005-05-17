@@ -447,12 +447,6 @@
 				
 				if (newOffset > height) height = newOffset;
 			}
-			
-/*
-			if (index < [transcriptItems count]-1) {
-				[[transcriptItems objectAtIndex: index+1] setOffset: [item offset] + [item height]];
-			}
- */
 		}
 		
 		if ([item skeinItem] == skeinItem) {

@@ -1340,6 +1340,14 @@ static NSDictionary*  itemDictionary = nil;
 	[transcriptPane selectView: IFTranscriptPane];
 	
 	[self moveTranscriptToPoint: point];
+
+	// Highlight the item in the transcript view
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
+	
+	while (pane = [paneEnum nextObject]) {
+		[[pane transcriptView] setHighlightedItem: point];
+	}
 }
 
 - (void) skeinChanged: (NSNotification*) not {
@@ -1349,6 +1357,15 @@ static NSDictionary*  itemDictionary = nil;
 		[self moveTranscriptToPoint: [skein activeItem]];
 		
 		lastActiveItem = [skein activeItem];
+		
+		// Highlight the item in the transcript view
+		NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+		IFProjectPane* pane;
+		
+		while (pane = [paneEnum nextObject]) {
+			[[pane transcriptView] setHighlightedItem: nil];
+			[[pane transcriptView] setActiveItem: lastActiveItem];
+		}
 	}
 }
 
