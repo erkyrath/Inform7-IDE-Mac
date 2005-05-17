@@ -504,6 +504,10 @@ static NSColor* activeCol = nil;
 	}
 	
 	// Prepare the field editor
+	while ([fieldEditor textStorage] != nil) {
+		[[fieldEditor textStorage] removeLayoutManager: [fieldEditor layoutManager]];
+	}
+	
 	[storage setDelegate: self];
 	[storage addLayoutManager: [fieldEditor layoutManager]];
 	
@@ -555,13 +559,6 @@ static NSColor* activeCol = nil;
 	[[fieldEditor textStorage] removeLayoutManager: [fieldEditor layoutManager]];
 	[fieldEditor setDelegate: nil];
 	[fieldEditor removeFromSuperview];
-	
-	if ([fieldEditor textStorage] == nil) {
-		// Fix up the field editor with a new text storage if we destroyed the old one
-		NSTextStorage* replacementStorage = [[NSTextStorage alloc] init];
-		[replacementStorage addLayoutManager: [fieldEditor layoutManager]];
-		[replacementStorage release];
-	}
 	
 	[fieldEditor release]; fieldEditor = nil;
 	
