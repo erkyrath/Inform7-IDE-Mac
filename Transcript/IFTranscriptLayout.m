@@ -112,6 +112,49 @@
 		return;
 	}
 	
+	// Save ourselves some effort if point's parent already exists in the transcript (quite a common case)
+	if ([point parent] != nil && [itemMap objectForKey: [NSValue valueWithPointer: [point parent]]] != nil) {
+		IFTranscriptItem* finalItem = [itemMap objectForKey: [NSValue valueWithPointer: [point parent]]];
+		
+		if (finalItem == nil) NSLog(@"BUG: gweeble fweeble feep?");					// Should never happen
+		
+		int finalItemIndex = [transcriptItems indexOfObjectIdenticalTo: finalItem];
+		
+		if (finalItemIndex == NSNotFound) {
+			// Might happen if something breaks
+			NSLog(@"BUG: found an item in the item map but not in the list of transcript items");
+			return;
+		}
+		
+		// Remove all items after the final item
+		while ([transcriptItems count] > finalItemIndex + 1) {
+			IFTranscriptItem* dyingItem = [transcriptItems lastObject];
+			
+			[itemMap removeObjectForKey: [NSValue valueWithPointer: [dyingItem skeinItem]]];
+			[transcriptItems removeLastObject];
+		}
+		
+		// Add point and any likely-looking child items
+		ZoomSkeinItem* newItem = point;
+		do {
+			[self addSkeinItem: newItem
+						 atEnd: YES];
+			
+			NSSet* childItems = [newItem children];
+			if ([childItems count] == 1) {
+				newItem = [[childItems allObjects] objectAtIndex: 0];
+			} else {
+				newItem = nil;
+			}
+		} while (newItem != nil);
+		
+		// Notify the delegate
+		needsLayout = YES;
+		[self transcriptHasUpdatedItems: NSMakeRange(finalItemIndex, [transcriptItems count] - finalItemIndex)];
+		
+		return;
+	}
+	
 	// Delete the old transcript items
 	[self cancelLayout];
 
