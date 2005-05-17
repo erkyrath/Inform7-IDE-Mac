@@ -500,7 +500,7 @@
 				float newOffset = [lastItem offset] + [lastItem height];
 				[item setOffset: newOffset];
 				
-				if (newOffset > height) height = newOffset;
+				if (newOffset + [item height] > height) height = newOffset + [item height];
 			}
 		}
 		
