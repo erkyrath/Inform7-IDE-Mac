@@ -297,6 +297,26 @@
 		[[self window] makeFirstResponder: fieldEditor];
 		[fieldEditor mouseDown: evt];
 	}
+	
+	// Clicking on the command also activates the field editor
+	if (item != nil && itemPos.y > fontHeight * 0.25 && itemPos.y < fontHeight*1.25) {
+		[[self window] makeFirstResponder: self];
+		
+		NSTextView* fieldEditor = [[self window] fieldEditor: YES
+												   forObject: item];
+		
+		[item setupFieldEditorForCommand: fieldEditor
+								  margin: [(NSImage*)[NSImage imageNamed: @"Bless"] size].width*2.0
+								 atPoint: NSMakePoint(NSMinX(bounds), NSMinY(bounds) + itemOffset)];
+		
+		[fieldEditor setEditable: [[item skeinItem] parent] != nil];
+
+		// Finish setting up the field editor (the item itself handles everything else)
+		[self addSubview: fieldEditor];
+		[fieldEditor setSelectedRange: NSMakeRange(0,0)];
+		[[self window] makeFirstResponder: fieldEditor];
+		[fieldEditor mouseDown: evt];
+	}
 }
 
 - (void)addCursorRect: (NSRect) aRect 

@@ -99,6 +99,7 @@ static NSColor* activeCol = nil;
 }
 
 - (void) dealloc {
+	[skein release]; skein = nil;
 	[skeinItem release]; skeinItem = nil;
 	
 	[command release]; command = nil;
@@ -121,6 +122,11 @@ static NSColor* activeCol = nil;
 - (void) setSkeinItem: (ZoomSkeinItem*) item {
 	[skeinItem release];
 	skeinItem = [item retain];
+}
+
+- (void) setSkein: (ZoomSkein*) newSkein {
+	[skein release];
+	skein = [newSkein retain];
 }
 
 - (ZoomSkeinItem*) skeinItem {
@@ -515,8 +521,6 @@ static NSColor* activeCol = nil;
 	}
 	
 	// Prepare the field editor
-	//[storage setDelegate: self];
-	//[storage addLayoutManager: [fieldEditor layoutManager]];
 	[[fieldEditor textStorage] setAttributedString: storage];
 	[[fieldEditor textStorage] setDelegate: self];
 	editing = storage;
@@ -531,15 +535,61 @@ static NSColor* activeCol = nil;
 	
 	[fieldEditor setAlignment: NSNaturalTextAlignment];
 	
+	[fieldEditor setHorizontallyResizable:NO];
+	[fieldEditor setVerticallyResizable:YES];
 	[[fieldEditor textContainer] setContainerSize: NSMakeSize(editorFrame.size.width, 10e6)];
 	[[fieldEditor textContainer] setWidthTracksTextView:NO];
 	[[fieldEditor textContainer] setHeightTracksTextView:NO];
-	[fieldEditor setHorizontallyResizable:NO];
-	[fieldEditor setVerticallyResizable:YES];
+	[[fieldEditor textContainer] setLineFragmentPadding: [transcriptContainer lineFragmentPadding]];
 	[fieldEditor setDrawsBackground: YES];
 }
 
+- (void) setupFieldEditorForCommand: (NSTextView*) newFieldEditor
+							 margin: (float) margin
+							atPoint: (NSPoint) itemOrigin {
+	float stringWidth = floorf(width - 12.0 - margin);
+	float fontHeight = [[attributes objectForKey: NSFontAttributeName] defaultLineHeightForFont];
+
+	// Finish up the old editor, if there was one
+	if (fieldEditor) {
+		[fieldEditor setDelegate: nil];
+		[fieldEditor release]; fieldEditor = nil;
+	}
+	
+	fieldEditor = [newFieldEditor retain];
+	
+	// Work out the frame for this field editor
+	NSRect commandFrame = NSMakeRect(itemOrigin.x + 12.0, floorf(itemOrigin.y + fontHeight*0.25), stringWidth, fontHeight);
+	
+	editing = nil;
+	editingCommand = YES;
+	
+	// Prepare the field editor
+	[[fieldEditor textStorage] setAttributedString: [[[NSAttributedString alloc] initWithString: command
+																					 attributes: attributes] autorelease]];
+	[[fieldEditor textStorage] setDelegate: self];
+	
+	[fieldEditor setDelegate: self];
+	[fieldEditor setFrame: commandFrame];
+	
+	[fieldEditor setRichText: NO];
+	[fieldEditor setAllowsDocumentBackgroundColorChange: NO];
+	[fieldEditor setBackgroundColor: commandCol];
+	[fieldEditor setFieldEditor: YES];
+	
+	[fieldEditor setAlignment: NSNaturalTextAlignment];
+	
+	[fieldEditor setHorizontallyResizable: NO];
+	[fieldEditor setVerticallyResizable:NO];
+	[[fieldEditor textContainer] setContainerSize: NSMakeSize(stringWidth, fontHeight)];
+	[[fieldEditor textContainer] setWidthTracksTextView:NO];
+	[[fieldEditor textContainer] setHeightTracksTextView:NO];
+	[[fieldEditor textContainer] setLineFragmentPadding: 0];
+	[fieldEditor setDrawsBackground: YES];	
+}
+
 - (void) finishEditing: (id) sender {	
+	[[self retain] autorelease];						// Mild chance that the skein item will get destroyed, destroying us along with it. This preserves us for a while.
 	updating = YES;
 	
 	// Inform the delegate of what's happened
@@ -558,6 +608,25 @@ static NSColor* activeCol = nil;
 			[skeinItem setChanged: wasChanged];
 		} else if (editing == expected) {
 			[skeinItem setCommentary: [storage string]];
+		} else if (editing == nil && editingCommand) {
+			NSString* newCommand = [[fieldEditor textStorage] string];
+			
+			if (newCommand && ![newCommand isEqualToString: [skeinItem command]]) {
+				ZoomSkeinItem* otherItem = [[skeinItem parent] childWithCommand: newCommand];
+
+				if (otherItem) {
+					// Have to remove and re-add
+					ZoomSkeinItem* parent = [skeinItem parent];
+					[skeinItem removeFromParent];
+					[skeinItem setCommand: newCommand];
+					[parent addChild: skeinItem];
+				} else {
+					// Safe to just rename
+					[skeinItem setCommand: newCommand];					
+				}
+				
+				[skein zoomSkeinChanged];
+			}
 		}
 	}
 	
@@ -567,7 +636,6 @@ static NSColor* activeCol = nil;
 	
 	// Shut down the field editor
 	[fieldEditor setFieldEditor: YES];
-	// [[fieldEditor textStorage] removeLayoutManager: [fieldEditor layoutManager]];
 	[[fieldEditor textStorage] setDelegate: nil];
 	[fieldEditor setDelegate: nil];
 	[fieldEditor removeFromSuperview];

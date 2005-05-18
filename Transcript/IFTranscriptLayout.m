@@ -88,6 +88,7 @@
 	[transItem setPlayed: [item played]];
 	[transItem setChanged: [item changed]];
 	
+	[transItem setSkein: skein];
 	[transItem setSkeinItem: item];
 	[transItem setDelegate: self];
 	
@@ -362,7 +363,7 @@
 	while ([transcriptItems count] > index) {
 		IFTranscriptItem* dyingItem = [transcriptItems objectAtIndex: index];
 		
-		[itemMap removeObjectForKey: [NSValue valueWithPointer: dyingItem]];
+		[itemMap removeObjectForKey: [NSValue valueWithPointer: [dyingItem skeinItem]]];
 		[transcriptItems removeObjectAtIndex: index];
 	}
 	
