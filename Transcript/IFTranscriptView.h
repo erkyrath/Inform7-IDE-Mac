@@ -10,6 +10,14 @@
 
 #import "IFTranscriptLayout.h"
 
+// The various buttons within an item
+enum IFTranscriptButton {
+	IFTranscriptNoButton,
+	IFTranscriptButtonPlayToHere,
+	IFTranscriptButtonShowKnot,
+	IFTranscriptButtonBless
+};
+
 //
 // The transcript view
 //
@@ -19,6 +27,10 @@
 	
 	IFTranscriptItem* activeItem;				// The item that's drawn with the 'active' (yellow) border
 	IFTranscriptItem* highlightedItem;			// The item that's drawn with the 'highlighted' (blue) border
+	
+	// Clicking buttons
+	IFTranscriptItem* clickedItem;				// The item where a button is in the process of being clicked (not retained)
+	enum IFTranscriptButton clickedButton;		// The button within the item that's being clicked
 }
 
 // Retrieving the layout

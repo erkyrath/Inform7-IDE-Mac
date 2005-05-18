@@ -55,10 +55,17 @@
 	NSImage* bless = [NSImage imageNamed: @"Bless"];
 	NSImage* playToHere = [NSImage imageNamed: @"PlayToHere"];
 	NSImage* showSkein = [NSImage imageNamed: @"ShowSkein"];
+
+	NSImage* blessD = [NSImage imageNamed: @"BlessD"];
+	NSImage* playToHereD = [NSImage imageNamed: @"PlayToHereD"];
+	NSImage* showSkeinD = [NSImage imageNamed: @"ShowSkeinD"];
 	
 	[bless setFlipped: YES];
 	[playToHere setFlipped: YES];
 	[showSkein setFlipped: YES];
+	[blessD setFlipped: YES];
+	[playToHereD setFlipped: YES];
+	[showSkeinD setFlipped: YES];
 	
 	NSSize imgSize = [bless size];							// We assume all these images are the same size
 	NSRect imgRect;
@@ -98,19 +105,41 @@
 
 		float commandButtonY = floorf(ypos + fontHeight*0.75 - imgSize.height/2.0);
 		
-		[showSkein drawAtPoint: NSMakePoint(floorf(NSMaxX(bounds) - imgSize.width), commandButtonY)
-					  fromRect: imgRect
-					 operation: NSCompositeSourceOver
-					  fraction: 1.0];
-		[playToHere drawAtPoint: NSMakePoint(floorf(NSMaxX(bounds) - imgSize.width*2.0), commandButtonY)
+		if (item == clickedItem && clickedButton == IFTranscriptButtonShowKnot) {
+			[showSkeinD drawAtPoint: NSMakePoint(floorf(NSMaxX(bounds) - imgSize.width), commandButtonY)
+						  fromRect: imgRect
+						 operation: NSCompositeSourceOver
+						  fraction: 1.0];
+		} else {
+			[showSkein drawAtPoint: NSMakePoint(floorf(NSMaxX(bounds) - imgSize.width), commandButtonY)
+						  fromRect: imgRect
+						 operation: NSCompositeSourceOver
+						  fraction: 1.0];
+		}
+		
+		if (item == clickedItem && clickedButton == IFTranscriptButtonPlayToHere) {
+			[playToHereD drawAtPoint: NSMakePoint(floorf(NSMaxX(bounds) - imgSize.width*2.0), commandButtonY)
+							fromRect: imgRect
+						   operation: NSCompositeSourceOver
+							fraction: 1.0];
+		} else {
+			[playToHere drawAtPoint: NSMakePoint(floorf(NSMaxX(bounds) - imgSize.width*2.0), commandButtonY)
+						   fromRect: imgRect
+						  operation: NSCompositeSourceOver
+						   fraction: 1.0];
+		}
+		
+		if (item == clickedItem && clickedButton == IFTranscriptButtonBless) {
+			[blessD drawAtPoint: NSMakePoint(floorf(NSMinX(bounds)+((bounds.size.width-imgSize.width)/2.0)), floorf(ypos + (textHeight-imgSize.height)/2.0 + fontHeight*1.75))
 					   fromRect: imgRect
 					  operation: NSCompositeSourceOver
 					   fraction: 1.0];
-		
-		[bless drawAtPoint: NSMakePoint(floorf(NSMinX(bounds)+((bounds.size.width-imgSize.width)/2.0)), floorf(ypos + (textHeight-imgSize.height)/2.0 + fontHeight*1.75))
-				  fromRect: imgRect
-				 operation: NSCompositeSourceOver
-				  fraction: 1.0];
+		} else {
+			[bless drawAtPoint: NSMakePoint(floorf(NSMinX(bounds)+((bounds.size.width-imgSize.width)/2.0)), floorf(ypos + (textHeight-imgSize.height)/2.0 + fontHeight*1.75))
+					  fromRect: imgRect
+					 operation: NSCompositeSourceOver
+					  fraction: 1.0];
+		}
 	}
 }
 
@@ -147,15 +176,80 @@
 	if ([clickItems count] > 0) item = [clickItems objectAtIndex: 0];
 	
 	// Get some item metrics
-	//float itemHeight = [item height];
-	//float itemTextHeight = [item textHeight];
+	float itemTextHeight = [item textHeight];
 	float fontHeight = [[[item attributes] objectForKey: NSFontAttributeName] defaultLineHeightForFont];
 	
 	float itemOffset = [item offset];
 	NSPoint itemPos = NSMakePoint(viewPos.x - NSMinX(bounds), viewPos.y - NSMinY(bounds) - itemOffset);
 	
-	// Clicking a button activates that button (this is the obvious bit)
+	// Clicking a button activates that button
+	NSSize buttonSize = [(NSImage*)[NSImage imageNamed: @"Bless"] size];
+	NSRect blessButton, playButton, knotButton;
 	
+	float ypos = NSMinY(bounds) + itemOffset;
+	float commandButtonY = floorf(ypos + fontHeight*0.75 - buttonSize.height/2.0);
+	
+	// Positions of the buttons
+	blessButton.origin = NSMakePoint(floorf(NSMinX(bounds)+((bounds.size.width-buttonSize.width)/2.0)), floorf(ypos + (itemTextHeight-buttonSize.height)/2.0 + fontHeight*1.75));
+	playButton.origin = NSMakePoint(floorf(NSMaxX(bounds) - buttonSize.width*2.0), commandButtonY);
+	knotButton.origin = NSMakePoint(floorf(NSMaxX(bounds) - buttonSize.width), commandButtonY);
+	
+	blessButton.size = playButton.size = knotButton.size = buttonSize;
+	
+	// See if we've clicked a button
+	NSRect buttonRect;
+	
+	clickedItem = item;
+	clickedButton = IFTranscriptNoButton;
+	
+	if (NSPointInRect(viewPos, blessButton)) {
+		clickedButton = IFTranscriptButtonBless;
+		buttonRect = blessButton;
+	} else if (NSPointInRect(viewPos, playButton)) {
+		clickedButton = IFTranscriptButtonPlayToHere;
+		buttonRect = playButton;
+	} else if (NSPointInRect(viewPos, knotButton)) {
+		clickedButton = IFTranscriptButtonShowKnot;
+		buttonRect = knotButton;
+	}
+	
+	if (clickedButton != IFTranscriptNoButton) {
+		// A button has been clicked: wait for the user to let go or move the mouse out of the buttons rectangle
+		enum IFTranscriptButton trackedButton = clickedButton;
+		
+		[self setNeedsDisplayInRect: buttonRect];
+		
+		// While the mouse is held down, track the button
+		while (1) {
+			NSEvent* theEvent;
+			theEvent = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+			
+			NSPoint point = [self convertPoint: [theEvent locationInWindow]
+									  fromView: nil];
+			if (clickedButton != trackedButton && NSPointInRect(point, buttonRect)) {
+				// User has moved the mouse into the button area
+				clickedButton = trackedButton;
+				[self setNeedsDisplayInRect: buttonRect];
+			} else if (clickedButton == trackedButton && !NSPointInRect(point, buttonRect)) {
+				// User has moved the mouse outside the button area
+				clickedButton = IFTranscriptNoButton;
+				[self setNeedsDisplayInRect: buttonRect];
+			}
+			
+			if ([theEvent type] == NSLeftMouseUp) {
+				// User has finished holding down the mouse button
+				break;
+			}
+		}
+		
+		// Remove the button highlight
+		clickedButton = IFTranscriptNoButton;
+		[self setNeedsDisplayInRect: buttonRect];
+		
+		return;
+	}
+	
+	// Clicking on the left or right-hand side activates the field editor
 	if (item != nil && itemPos.y > fontHeight * 1.5) {
 		[[self window] makeFirstResponder: self];
 		
