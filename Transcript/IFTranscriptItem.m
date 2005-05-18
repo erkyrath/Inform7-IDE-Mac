@@ -250,13 +250,17 @@ static NSColor* activeCol = nil;
 }
 
 - (void) calculateEquality {
+	NSAttributedString* expectedToCompare = expected;
+	
+	if (fieldEditor && editing == expected) expectedToCompare = [fieldEditor textStorage];
+	
 	// Compare the 'expected' text and the 'actual' text
 	textEquality = 0;
-	if (expected == nil || [[expected string] isEqualToString: @""]) {
+	if (expected == nil || [[expectedToCompare string] isEqualToString: @""]) {
 		textEquality = -1;				// No text
-	} else if ([[expected string] isEqualToString: [transcript string]]) {
+	} else if ([[expectedToCompare string] isEqualToString: [transcript string]]) {
 		textEquality = 2;				// Exact match
-	} else if ([[self stripWhitespace: [expected string]] caseInsensitiveCompare: [self stripWhitespace: [transcript string]]] == 0) {
+	} else if ([[self stripWhitespace: [expectedToCompare string]] caseInsensitiveCompare: [self stripWhitespace: [transcript string]]] == 0) {
 		textEquality = 1;				// Near match
 	}
 }
@@ -295,6 +299,13 @@ static NSColor* activeCol = nil;
 	
 	textHeight = floorf(transcriptHeight>expectedHeight ? transcriptHeight : expectedHeight);
 	if (textHeight < 48.0) textHeight = 48.0;
+	
+	if (fieldEditor) {
+		// If we're editing, the field editor height factors into this
+		float fieldHeight = [self heightForContainer: [fieldEditor textContainer]];
+		
+		if (fieldHeight > textHeight) textHeight = fieldHeight;
+	}
 	
 	height = floorf(textHeight + 2*fontHeight);
 	
@@ -504,12 +515,10 @@ static NSColor* activeCol = nil;
 	}
 	
 	// Prepare the field editor
-	while ([fieldEditor textStorage] != nil) {
-		[[fieldEditor textStorage] removeLayoutManager: [fieldEditor layoutManager]];
-	}
-	
-	[storage setDelegate: self];
-	[storage addLayoutManager: [fieldEditor layoutManager]];
+	//[storage setDelegate: self];
+	//[storage addLayoutManager: [fieldEditor layoutManager]];
+	[[fieldEditor textStorage] setAttributedString: storage];
+	editing = storage;
 	
 	[fieldEditor setDelegate: self];
 	[fieldEditor setFrame: editorFrame];
@@ -537,16 +546,17 @@ static NSColor* activeCol = nil;
 
 	// Update the skein item
 	NSTextStorage* storage = [fieldEditor textStorage];
+	[editing setAttributedString: storage];
 	
 	if (skeinItem) {
-		if (storage == transcript) {
+		if (editing == transcript) {
 			BOOL wasChanged = [skeinItem changed];
 			
-			[skeinItem setResult: [transcript string]];
+			[skeinItem setResult: [storage string]];
 
 			[skeinItem setChanged: wasChanged];
-		} else if (storage == expected) {
-			[skeinItem setCommentary: [expected string]];
+		} else if (editing == expected) {
+			[skeinItem setCommentary: [storage string]];
 		}
 	}
 	
@@ -556,7 +566,7 @@ static NSColor* activeCol = nil;
 	
 	// Shut down the field editor
 	[fieldEditor setFieldEditor: YES];
-	[[fieldEditor textStorage] removeLayoutManager: [fieldEditor layoutManager]];
+	// [[fieldEditor textStorage] removeLayoutManager: [fieldEditor layoutManager]];
 	[fieldEditor setDelegate: nil];
 	[fieldEditor removeFromSuperview];
 	
@@ -593,7 +603,7 @@ static NSColor* activeCol = nil;
 										  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
 }
 
-- (void) finishProcessingEditing: (NSTextStorage*) storage {	
+- (void) finishProcessingEditing: (NSTextStorage*) storage {
 	// Recalculate appropriately
 	float fontHeight = [[attributes objectForKey: NSFontAttributeName] defaultLineHeightForFont];
 	float transcriptHeight = [self heightForContainer: transcriptContainer];
@@ -601,6 +611,9 @@ static NSColor* activeCol = nil;
 	
 	float newTextHeight = floorf(transcriptHeight>expectedHeight ? transcriptHeight : expectedHeight);
 	if (newTextHeight < 48.0) newTextHeight = 48.0;
+	
+	float fieldHeight = [self heightForContainer: [fieldEditor textContainer]];
+	if (fieldHeight > newTextHeight) newTextHeight = floorf(fieldHeight);
 	
 	if (newTextHeight != textHeight) {
 		textHeight = newTextHeight;
@@ -610,7 +623,7 @@ static NSColor* activeCol = nil;
 	}
 	
 	// If we're editing the expected text, set the background colour appropriatly
-	if (storage == expected) {
+	if (editing == expected) {
 		int oldEquality = textEquality;
 		[self calculateEquality];
 		
