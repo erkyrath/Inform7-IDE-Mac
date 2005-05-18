@@ -518,6 +518,7 @@ static NSColor* activeCol = nil;
 	//[storage setDelegate: self];
 	//[storage addLayoutManager: [fieldEditor layoutManager]];
 	[[fieldEditor textStorage] setAttributedString: storage];
+	[[fieldEditor textStorage] setDelegate: self];
 	editing = storage;
 	
 	[fieldEditor setDelegate: self];
@@ -567,6 +568,7 @@ static NSColor* activeCol = nil;
 	// Shut down the field editor
 	[fieldEditor setFieldEditor: YES];
 	// [[fieldEditor textStorage] removeLayoutManager: [fieldEditor layoutManager]];
+	[[fieldEditor textStorage] setDelegate: nil];
 	[fieldEditor setDelegate: nil];
 	[fieldEditor removeFromSuperview];
 	
