@@ -127,7 +127,10 @@
 	[self setFrame: ourBounds];
 
 	// Redraw the items
-	[self setNeedsDisplay: YES];	
+	[self setNeedsDisplay: YES];
+	
+	// Cursor rects have probably changed
+	[[self window] invalidateCursorRectsForView: self];
 }
 
 // = Mousing around =
@@ -177,9 +180,72 @@
 		
 		// Finish setting up the field editor (the item itself handles everything else)
 		[self addSubview: fieldEditor];
+		[fieldEditor setSelectedRange: NSMakeRange(0,0)];
 		[[self window] makeFirstResponder: fieldEditor];
-		
 		[fieldEditor mouseDown: evt];
+	}
+}
+
+- (void)addCursorRect: (NSRect) aRect 
+			   cursor: (NSCursor*) aCursor
+			   inRect: (NSRect) maxRect {
+	// Why this was too hard for Apple to do themselves eludes me
+	if (!NSIntersectsRect(aRect, maxRect)) return;
+	
+	NSRect realRect = NSIntersectionRect(aRect, maxRect);
+	
+	[self addCursorRect: realRect
+				 cursor: aCursor];
+}
+
+- (void) resetCursorRects {
+	// Get the visible items
+	NSRect bounds = [self bounds];
+	NSRect visibleArea = [self visibleRect];
+	NSArray* cursorItems = [layout itemsInRect: visibleArea];
+	
+	float width = bounds.size.width;
+	float fontHeight = -1;
+	float buttonWidth = [(NSImage*)[NSImage imageNamed: @"Bless"] size].width;
+	
+	NSCursor* iBeam = [NSCursor IBeamCursor];
+	
+	// I-Beam cursor for the command, and the left and right halfs of the items
+	NSEnumerator* itemEnum = [cursorItems objectEnumerator];
+	IFTranscriptItem* item;
+	while (item = [itemEnum nextObject]) {
+		if (![item calculated]) continue;
+		
+		// (Lazy: only calculate fontHeight once)
+		if (fontHeight < 0) {
+			fontHeight = [[[item attributes] objectForKey: NSFontAttributeName] defaultLineHeightForFont];
+		}
+		
+		float offset = [item offset];
+		NSRect cursorRect;
+		
+		// Command I-Beam
+		cursorRect.origin = NSMakePoint(NSMinX(bounds), NSMinY(bounds) + offset);
+		cursorRect.size   = NSMakeSize(width - buttonWidth*2.0, fontHeight*1.5);
+		
+		[self addCursorRect: cursorRect
+					 cursor: iBeam
+					 inRect: visibleArea];
+		
+		// Left text view
+		cursorRect.origin = NSMakePoint(NSMinX(bounds) + 8.0, NSMinY(bounds) + offset + fontHeight*1.75);
+		cursorRect.size   = NSMakeSize(floorf(width/2.0 - 44.0), [item textHeight]);
+		
+		[self addCursorRect: cursorRect
+					 cursor: iBeam
+					 inRect: visibleArea];
+		
+		// Right text view
+		cursorRect.origin = NSMakePoint(floorf(NSMinX(bounds) + width/2.0 + 36.0), cursorRect.origin.y);
+		
+		[self addCursorRect: cursorRect
+					 cursor: iBeam
+					 inRect: visibleArea];
 	}
 }
 
