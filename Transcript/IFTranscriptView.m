@@ -242,6 +242,25 @@
 			}
 		}
 		
+		// Notify the delegate
+		switch (clickedButton) {
+			case IFTranscriptButtonBless:
+				[self transcriptBless: item];
+				break;
+				
+			case IFTranscriptButtonPlayToHere:
+				[self transcriptPlayToItem: [item skeinItem]];
+				break;
+				
+			case IFTranscriptButtonShowKnot:
+				[self transcriptShowKnot: [item skeinItem]];
+				break;
+				
+			default:
+				// Do nothing
+				;
+		}
+		
 		// Remove the button highlight
 		clickedButton = IFTranscriptNoButton;
 		[self setNeedsDisplayInRect: buttonRect];
@@ -382,6 +401,34 @@
 		
 		// FIXME: only draw the items as required
 		[self setNeedsDisplay: YES];
+	}
+}
+
+// = The delegate =
+
+- (void) setDelegate: (id) newDelegate {
+	delegate = newDelegate;
+}
+
+- (void) transcriptPlayToItem: (ZoomSkeinItem*) knot {
+	if (delegate && [delegate respondsToSelector: @selector(transcriptPlayToItem:)]) {
+		[delegate transcriptPlayToItem: knot];
+	}
+}
+
+- (void) transcriptShowKnot: (ZoomSkeinItem*) knot {
+	if (delegate && [delegate respondsToSelector: @selector(transcriptShowKnot:)]) {
+		[delegate transcriptShowKnot: knot];
+	}
+}
+
+- (void) transcriptBless: (IFTranscriptItem*) itemToBless {
+	if (delegate && [delegate respondsToSelector: @selector(transcriptBless:)]) {
+		[delegate transcriptBless: itemToBless];
+	} else {
+		ZoomSkeinItem* skeinItem = [itemToBless skeinItem];
+	
+		[skeinItem setCommentary: [skeinItem result]];
 	}
 }
 

@@ -172,10 +172,12 @@ NSDictionary* IFSyntaxAttributes[256];
     //    -- Caused by a bug in NSTextView it appears (just creating
     //       anything with an NSTextView causes the same leak).
     //       Doesn't always happen. Not very much memory. Still annoying.
-    // (Better in Panther? Looks like it)
+    // (Better in Panther? Looks like it. Definitely fixed in Tiger.)
     [paneView       release];
     [compController release];
     [sourceFiles    release];
+	
+	[transcriptView setDelegate: nil];
     
 	if (textStorage) {
 		// Hrm? Cocoa seems to like deallocating NSTextStorage despite it's retain count.
@@ -296,6 +298,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	
 	// The transcript
 	[[transcriptView layout] setSkein: [doc skein]];
+	[transcriptView setDelegate: self];
 	
 	// Misc stuff
 	[self updateHighlightedLines];
@@ -367,6 +370,10 @@ NSDictionary* IFSyntaxAttributes[256];
 			toSelect = indexTabView;
 			break;
 			
+		case IFSkeinPane:
+			toSelect = skeinTabView;
+			break;
+			
 		case IFTranscriptPane:
 			toSelect = transcriptTabView;
 			break;
@@ -396,10 +403,11 @@ NSDictionary* IFSyntaxAttributes[256];
         return IFDocumentationPane;
 	} else if (selectedView == indexTabView) {
 		return IFIndexPane;
+	} else if (selectedView == skeinTabView) {
+		return IFSkeinPane;
 	} else if (selectedView == transcriptTabView) {
 		return IFTranscriptPane;
     } else {
-        NSLog(@"BUG: unknown tab pane selected (assuming is a source pane)");
         return IFSourcePane;
     }
 }
@@ -1040,6 +1048,40 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (IFTranscriptView*) transcriptView {
 	return transcriptView;
+}
+
+- (void) transcriptPlayToItem: (ZoomSkeinItem*) itemToPlayTo {
+	ZoomSkein* skein = [[parent document] skein];
+	ZoomSkeinItem* activeItem = [skein activeItem];
+	
+	ZoomSkeinItem* firstPoint = nil;
+	
+	// See if the active item is a parent of the point we're playing to (in which case, continue playing)
+	if (itemToPlayTo == activeItem) return;
+	
+	ZoomSkeinItem* parentItem = [itemToPlayTo parent];
+	while (parentItem) {
+		if (parentItem == activeItem) {
+			firstPoint = activeItem;
+			break;
+		}
+		
+		parentItem = [parentItem parent];
+	}
+	
+	// Play to this point
+	[parent playToPoint: itemToPlayTo
+			  fromPoint: firstPoint];
+}
+
+- (void) transcriptShowKnot: (ZoomSkeinItem*) knot {
+	// Switch to the skein view
+	IFProjectPane* skeinPane = [parent skeinPane];
+	
+	[skeinPane selectView: IFSkeinPane];
+	
+	// Scroll to the knot
+	[skeinPane->skeinView scrollToItem: knot];
 }
 
 // = Breakpoints =

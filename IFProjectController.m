@@ -986,13 +986,30 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IFProjectPane*) transcriptPane {
-	// Returns the current pane containing the source code (or an appropriate pane that source code can be displayed in)
+	// Returns the current pane containing the transcript
     int x;
 	
     for (x=0; x<[projectPanes count]; x++) {
         IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
 		
         if ([thisPane currentView] == IFTranscriptPane) {
+			// This is the transcript pane
+			return thisPane;
+        }
+    }
+	
+	// No transcript pane showing: use the auxilary pane
+	return [self auxPane];
+}
+
+- (IFProjectPane*) skeinPane {
+	// Returns the current pane containing the skein
+    int x;
+	
+    for (x=0; x<[projectPanes count]; x++) {
+        IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
+		
+        if ([thisPane currentView] == IFSkeinPane) {
 			// This is the transcript pane
 			return thisPane;
         }

@@ -28,6 +28,7 @@ enum IFProjectPaneType {
     IFGamePane = 3,
     IFDocumentationPane = 4,
 	IFIndexPane = 5,
+	IFSkeinPane = 6,
 	IFTranscriptPane = 8,
 	
 	IFUnknownPane = 256
@@ -47,6 +48,7 @@ enum IFProjectPaneType {
     IBOutlet NSTabViewItem* gameTabView;				// Game pane
     IBOutlet NSTabViewItem* docTabView;					// Documentation pane
 	IBOutlet NSTabViewItem* indexTabView;				// Index pane
+	IBOutlet NSTabViewItem* skeinTabView;				// Skein pane
 	IBOutlet NSTabViewItem* transcriptTabView;			// Transcript pane
 
     // Source
