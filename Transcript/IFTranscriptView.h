@@ -47,6 +47,9 @@ enum IFTranscriptButton {
 // The delegate
 - (void) setDelegate: (id) delegate;						// Sets the delegate (the delegate is not retained)
 
+// Some actions we can perform
+- (void) blessAll;											// Tells the layout to bless all of its items
+
 @end
 
 // The transcript view delegate

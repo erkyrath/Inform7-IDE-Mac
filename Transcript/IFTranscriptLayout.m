@@ -221,6 +221,15 @@
 	return height;
 }
 
+- (void) blessAll {
+	NSEnumerator* itemEnum = [transcriptItems objectEnumerator];
+	IFTranscriptItem* item;
+	
+	while (item = [itemEnum nextObject]) {
+		[[item skeinItem] setCommentary: [[item skeinItem] result]];
+	}
+}
+
 // = The delegate =
 
 - (void) setDelegate: (id) newDelegate {

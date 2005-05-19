@@ -43,6 +43,8 @@
 
 - (void) transcriptToPoint: (ZoomSkeinItem*) point;				// Develop the transcript to the given point
 
+- (void) blessAll;												// 'Blesses' all the items in this transcript
+
 // Performing the layout
 - (BOOL) needsLayout;											// YES if this object needs layout and the layout has not begun
 - (void) startLayout;											// Begins laying out the transcript

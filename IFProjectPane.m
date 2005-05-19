@@ -1059,7 +1059,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	// See if the active item is a parent of the point we're playing to (in which case, continue playing)
 	if (itemToPlayTo == activeItem) return;
 	
-	ZoomSkeinItem* parentItem = [itemToPlayTo parent];
+	ZoomSkeinItem* parentItem = [[itemToPlayTo parent] parent];
 	while (parentItem) {
 		if (parentItem == activeItem) {
 			firstPoint = activeItem;
@@ -1067,6 +1067,11 @@ NSDictionary* IFSyntaxAttributes[256];
 		}
 		
 		parentItem = [parentItem parent];
+	}
+	
+	if (firstPoint == nil) {
+		[parent restartGame];
+		firstPoint = [skein rootItem];
 	}
 	
 	// Play to this point
@@ -1082,6 +1087,33 @@ NSDictionary* IFSyntaxAttributes[256];
 	
 	// Scroll to the knot
 	[skeinPane->skeinView scrollToItem: knot];
+}
+
+- (IBAction) transcriptBlessAll: (id) sender {
+	// Display a confirmation dialog (as this can't be undone. Well, not easily)
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Are you sure you want to bless all these items?"
+															 value: @"Are you sure you want to bless all these items?"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															 value: @"Cancel"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Bless All"
+															 value: @"Bless All"
+															 table: nil],
+					  nil, [transcriptView window], self, 
+					  @selector(transcriptBlessAllDidEnd:returnCode:contextInfo:), nil,
+					  nil, [[NSBundle mainBundle] localizedStringForKey: @"Bless all explanation"
+																  value: @"Bless all explanation"
+																  table: nil]);
+}
+
+- (void) transcriptBlessAllDidEnd: (NSWindow*) sheet
+					   returnCode: (int) returnCode
+					  contextInfo: (void*) contextInfo {
+	if (returnCode == NSAlertAlternateReturn) {
+		[transcriptView blessAll];
+	} else {
+	}
 }
 
 // = Breakpoints =

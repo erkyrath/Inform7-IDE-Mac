@@ -169,6 +169,8 @@ enum IFProjectPaneType {
 - (IFTranscriptView*) transcriptView;							// Returns the transcript view object associated with this pane
 - (IFTranscriptLayout*) transcriptLayout;						// Returns the transcript layout object associated with this pane
 
+- (IBAction) transcriptBlessAll: (id) sender;					// Causes, after a confirmation, all the items in the transcript to be blessed
+
 // Breakpoints
 - (IBAction) setBreakpoint: (id) sender;						// Sets a breakpoint at the current line in response to a menu selection
 - (IBAction) deleteBreakpoint: (id) sender;						// Clears the breakpoint at the current line in response to a menu selection

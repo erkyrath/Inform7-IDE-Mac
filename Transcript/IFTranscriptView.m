@@ -452,4 +452,10 @@
 	}
 }
 
+// = Some actions we can perform =
+
+- (void) blessAll {
+	[layout blessAll];
+}
+
 @end
