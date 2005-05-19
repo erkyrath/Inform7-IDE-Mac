@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFDiffStep.h"
 
 //
 // Class to produce the shortest edit script between two arrays
@@ -24,5 +25,8 @@
 // Initialisation
 - (id) initWithSourceArray: (NSArray*) sourceArray
 		  destinationArray: (NSArray*) destArray;
+
+// Performing the comparison (returns an array of IFDiffSteps)
+- (NSArray*) compareArrays;
 
 @end
