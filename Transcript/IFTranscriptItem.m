@@ -439,6 +439,9 @@ static NSColor* activeCol = nil;
 	float transcriptHeight = [self heightForContainer: transcriptContainer];
 	float expectedHeight = [self heightForContainer: expectedContainer];
 	
+	if (fieldEditor && editing == transcript) transcriptHeight = 0;
+	if (fieldEditor && editing == expected) expectedHeight = 0;
+	
 	textHeight = floorf(transcriptHeight>expectedHeight ? transcriptHeight : expectedHeight);
 	if (textHeight < 48.0) textHeight = 48.0;
 	
@@ -576,16 +579,20 @@ static NSColor* activeCol = nil;
 	}
 		
 	// Draw the transcript text
-	NSLayoutManager* layout = [transcriptContainer layoutManager];
-	NSRange glyphRange = [layout glyphRangeForTextContainer: transcriptContainer];
-	[layout drawGlyphsForGlyphRange: glyphRange
-							atPoint: transcriptPoint];
+	if (!fieldEditor || editing != transcript) {
+		NSLayoutManager* layout = [transcriptContainer layoutManager];
+		NSRange glyphRange = [layout glyphRangeForTextContainer: transcriptContainer];
+		[layout drawGlyphsForGlyphRange: glyphRange
+								atPoint: transcriptPoint];
+	}
 	
 	// Draw the expected text
-	layout = [expectedContainer layoutManager];
-	glyphRange = [layout glyphRangeForTextContainer: expectedContainer];
-	[layout drawGlyphsForGlyphRange: glyphRange
-							atPoint: expectedPoint];	
+	if (!fieldEditor || editing != expected) {
+		NSLayoutManager* layout = [expectedContainer layoutManager];
+		NSRange glyphRange = [layout glyphRangeForTextContainer: expectedContainer];
+		[layout drawGlyphsForGlyphRange: glyphRange
+								atPoint: expectedPoint];	
+	}
 }
 
 // = Delegate =

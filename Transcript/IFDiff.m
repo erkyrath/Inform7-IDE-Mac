@@ -41,7 +41,7 @@
 
 struct diff_hash {
 	int serial;
-	int hash;
+	unsigned hash;
 };
 
 struct diff_equivalence {
@@ -59,12 +59,32 @@ static int hashCompare(const void* a, const void* b) {
 	const struct diff_hash* aHash = a;
 	const struct diff_hash* bHash = b;
 	
-	if (aHash->hash > bHash->hash)
+	if (aHash->hash > bHash->hash) {
 		return 1;
-	else if (aHash->hash < bHash->hash)
+	} else if (aHash->hash < bHash->hash) {
 		return -1;
-	else
+	} else {
+		if (aHash->serial > bHash->serial) {
+			return 1;
+		} else if (aHash->serial < bHash->serial) {
+			return -1;
+		} else {
+			return 0;
+		}
+	}
+}
+
+static int hashCompare2(const void* a, const void* b) {
+	const struct diff_hash* aHash = a;
+	const struct diff_hash* bHash = b;
+	
+	if (aHash->hash > bHash->hash) {
+		return 1;
+	} else if (aHash->hash < bHash->hash) {
+		return -1;
+	} else {
 		return 0;
+	}
 }
 
 - (NSArray*) compareArrays {
@@ -81,7 +101,7 @@ static int hashCompare(const void* a, const void* b) {
 	
 	// Sort the array
 	qsort(hashArray+1, [destArray count], sizeof(struct diff_hash), hashCompare);
-	
+
 	// Array 'E' described in the diff algorithm
 	struct diff_equivalence equiv[[destArray count]+1];
 	
@@ -107,8 +127,8 @@ static int hashCompare(const void* a, const void* b) {
 		searchHash.hash = [[sourceArray objectAtIndex: i-1] hash];
 		
 		// Search for an item with the same hash
-		struct diff_hash* diffItem = bsearch(&searchHash, hashArray+1, [destArray count], sizeof(struct diff_hash), hashCompare);
-				
+		struct diff_hash* diffItem = bsearch(&searchHash, hashArray+1, [destArray count], sizeof(struct diff_hash), hashCompare2);
+		
 		if (diffItem == NULL) {
 			srcEquiv[i] = 0;
 		} else {
