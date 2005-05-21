@@ -834,6 +834,9 @@ static NSColor* activeCol = nil;
 	float fontHeight = [[attributes objectForKey: NSFontAttributeName] defaultLineHeightForFont];
 	float transcriptHeight = [self heightForContainer: transcriptContainer];
 	float expectedHeight = [self heightForContainer: expectedContainer];
+	
+	if (editing == transcript) transcriptHeight = 0;
+	if (editing == expected) expectedHeight = 0;
 		
 	float newTextHeight = floorf(transcriptHeight>expectedHeight ? transcriptHeight : expectedHeight);
 	if (newTextHeight < 48.0) newTextHeight = 48.0;
