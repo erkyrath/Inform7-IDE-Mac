@@ -8,13 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "IFDiffStep.h"
-
 //
 // Class to produce the shortest edit script between two arrays
 //
-// Based around the algorithm described in the paper 
-// 'An O(ND) Difference Algorithm and it's Variations' (Eugene W. Myers)
+// Algorithm based on the original diff algorithm
 //
 @interface IFDiff : NSObject {
 	// The arrays we are comparing

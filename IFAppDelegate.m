@@ -38,6 +38,8 @@
 #import "IFInform6Extensions.h"
 #import "IFNaturalExtensions.h"
 
+#import "IFDiff.h"
+
 #import <ZoomView/ZoomSkein.h>
 #import <ZoomView/ZoomSkeinView.h>
 
@@ -116,6 +118,25 @@ static NSRunLoop* mainRunLoop = nil;
 	[self updateExtensions];
 
 	[NSURLProtocol registerClass: [IFInformProtocol class]];
+	
+	// == TEST ==
+	// Test the diff algorithm
+	IFDiff* diff = [[[IFDiff alloc] initWithSourceArray: [NSArray arrayWithObjects: @"This", @"is", @"a", @"short", @"test", nil]
+									   destinationArray: [NSArray arrayWithObjects: @"This", @"is", @"a", @"short", @"test", nil]]
+		autorelease];
+	NSLog(@"Diff 1 - %@", [diff compareArrays]);
+	diff = [[[IFDiff alloc] initWithSourceArray: [NSArray arrayWithObjects: @"This", @"is", @"a", @"short", @"test", nil]
+									   destinationArray: [NSArray arrayWithObjects: @"This", @"is", @"a", @"turnip", @"short", @"test", nil]]
+		autorelease];
+	NSLog(@"Diff 2 - %@", [diff compareArrays]);
+	diff = [[[IFDiff alloc] initWithSourceArray: [NSArray arrayWithObjects: @"This", @"is", @"a", @"turnip", @"short", @"test", nil]
+									   destinationArray: [NSArray arrayWithObjects: @"This", @"is", @"a", @"short", @"test", nil]]
+		autorelease];
+	NSLog(@"Diff 3 - %@", [diff compareArrays]);
+	diff = [[[IFDiff alloc] initWithSourceArray: [NSArray arrayWithObjects: @"Totally", @"different", @"array", @"of", @"items", nil]
+							   destinationArray: [NSArray arrayWithObjects: @"This", @"is", @"a", @"short", @"test", nil]]
+		autorelease];
+	NSLog(@"Diff 4 - %@", [diff compareArrays]);
 }
 
 - (BOOL) applicationShouldOpenUntitledFile: (NSApplication*) sender {
