@@ -856,26 +856,43 @@ static NSColor* activeCol = nil;
 		int oldEquality = textEquality;
 		[self calculateEquality];
 		
-		if (oldEquality == textEquality) return;
-
-		NSColor* background;
-		switch (textEquality) {
-			case -1: background = noExpectedCol; break;
-			case 1:  background = nearMatchCol; break;
-			case 2:  background = exactMatchCol; break;
-			default: background = noMatchCol; break;
-		}
-		
-		if (background != [fieldEditor backgroundColor] &&
-			![background isEqualTo: [fieldEditor backgroundColor]]) {
-			[fieldEditor setBackgroundColor: background];
-			[self transcriptItemHasChanged: self];
+		if (oldEquality != textEquality) {
+			NSColor* background;
+			switch (textEquality) {
+				case -1: background = noExpectedCol; break;
+				case 1:  background = nearMatchCol; break;
+				case 2:  background = exactMatchCol; break;
+				default: background = noMatchCol; break;
+			}
+			
+			if (background != [fieldEditor backgroundColor] &&
+				![background isEqualTo: [fieldEditor backgroundColor]]) {
+				[fieldEditor setBackgroundColor: background];
+				[self transcriptItemHasChanged: self];
+			}
 		}
 	}
 
 	// Spot the differences
+	if (!willRecalculateDiff) {
+		[self performSelector: @selector(performDiff:)
+				   withObject: nil
+				   afterDelay: 0.5];
+		
+		willRecalculateDiff = YES;
+	}
+}
+
+- (void) performDiff: (id) arg {
+	willRecalculateDiff = NO;
+	
+	// Perform the diff
 	diffed = NO;
 	[self diffItem];
+	
+	// Notify of the change
+	[fieldEditor setNeedsDisplay: YES];
+	[self transcriptItemHasChanged: self];
 }
 
 @end
