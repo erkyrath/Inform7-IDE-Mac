@@ -217,6 +217,11 @@ static NSColor* activeCol = nil;
 		}
 	}
 	
+	// Remove a trailing '>'
+	if ([res length] > 0 && [res characterAtIndex: [res length]-1] == '>') {
+		[res deleteCharactersInRange: NSMakeRange([res length]-1, 1)];
+	}
+	
 	return res;
 }
 
