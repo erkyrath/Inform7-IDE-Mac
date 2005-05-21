@@ -44,6 +44,7 @@
 	int textEquality;						// -1 if empty, 0 if not equal, 1 if equal except for whitespace, 2 if exactly equal
 	
 	BOOL calculated;						// YES if the various calculations are up to date
+	BOOL diffed;							// YES if we've performed a diff to apply temporary attributes
 	float textHeight;						// Height of the text this item contains
 	float height;							// Height of this item
 	

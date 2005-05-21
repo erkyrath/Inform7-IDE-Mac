@@ -8,6 +8,7 @@
 
 #import "IFTranscriptItem.h"
 
+#import "IFDiff.h"
 
 @implementation IFTranscriptItem
 
@@ -271,8 +272,143 @@ static NSColor* activeCol = nil;
 	}
 }
 
+- (NSArray*) wordsForString: (NSString*) string {
+	// Seperates 'string' into individual words
+	NSMutableArray* res = [NSMutableArray array];
+	
+	int x;
+	int len = [string length];
+	int lastWord = 0;
+	
+	for (x=0; x<len; x++) {	
+		unichar chr;
+		
+		chr = [string characterAtIndex: x];
+		if (chr == ' ' || chr == '\n' || chr == '\r' || chr == '\t' || x == len-1) {
+			// Word seperator
+			[res addObject: [string substringWithRange: NSMakeRange(lastWord, (x+1)-lastWord)]];
+			lastWord = x+1;
+		}
+	}
+	
+	return res;
+}
+
+- (void) underlineRegion: (NSRange) range
+				  layout: (NSLayoutManager*) layout {
+	static NSColor* underlineColour = nil;
+	static NSNumber* underlineStyle = nil;
+	static NSDictionary* underlineAttributes = nil;
+	
+	if (!underlineColour) {
+		underlineColour = [[NSColor colorWithDeviceRed: 0
+												 green: 0
+												  blue: 0
+												 alpha: 1.0] retain];
+		underlineStyle = [[NSNumber numberWithInt: NSUnderlineStyleDouble] retain];
+		
+		underlineAttributes = [[NSDictionary dictionaryWithObjectsAndKeys:
+			underlineStyle, NSUnderlineStyleAttributeName,
+			underlineColour, NSUnderlineColorAttributeName,
+			nil] retain];
+	}
+	
+	[layout addTemporaryAttributes: underlineAttributes
+				 forCharacterRange: range];
+}
+
+- (void) diffItem {
+	// Compares this item's result to its 'expected' result
+	if (diffed) return;
+	// if (fieldEditor) return;
+	
+	NSTextStorage* exptStorage = expected;
+	NSLayoutManager* exptLayout = [expectedContainer layoutManager];
+	
+	if (fieldEditor && editing == expected) {
+		exptStorage = [fieldEditor textStorage];
+		exptLayout = [fieldEditor layoutManager];
+	}
+	
+	NSTextStorage* transStorage = transcript;
+	NSLayoutManager* transLayout = [transcriptContainer layoutManager];
+	
+	if (fieldEditor && editing == transcript) {
+		transStorage = [fieldEditor textStorage];
+		transLayout = [fieldEditor layoutManager];
+	}
+	
+	// Clear out any old temporary attributes we might have had
+	[transLayout removeTemporaryAttribute: NSUnderlineStyleAttributeName
+						forCharacterRange: NSMakeRange(0, [transStorage length])];
+	[exptLayout removeTemporaryAttribute: NSUnderlineStyleAttributeName
+					   forCharacterRange: NSMakeRange(0, [exptStorage length])];
+	
+	// Don't go any further if the expected storage is empty
+	if ([exptStorage length] <= 0) {
+		diffed = YES;
+		return;
+	}
+	
+	// Split the transcript and the expected items into arrays of words
+	NSArray* transcriptWords = [self wordsForString: [transStorage string]];
+	NSArray* expectedWords = [self wordsForString: [exptStorage string]];
+	
+	// Work out the difference
+	IFDiff* difference = [[[IFDiff alloc] initWithSourceArray: transcriptWords
+											 destinationArray: expectedWords] autorelease];
+	
+	NSArray* transcriptMap = [difference compareArrays];
+	
+	// Underline the words in the source array that have changed (words with value -1 in the map)
+	int expectedMap[[expectedWords count]];
+	
+	int pos = 0;
+	int x;
+	int len = [expectedWords count];
+	
+	for (x=0; x<len; x++) expectedMap[x] = -1;
+	
+	len = [transcriptWords count];
+
+	for (x=0; x<len; x++) {
+		int wordLen = [[transcriptWords objectAtIndex: x] length];
+		int map = [[transcriptMap objectAtIndex: x] intValue];
+		
+		if (map < 0) {
+			[self underlineRegion: NSMakeRange(pos, wordLen)
+						   layout: transLayout];
+		} else {
+			expectedMap[map] = x;
+		}
+		
+		pos += wordLen;
+	}
+	
+	len = [expectedWords count];
+	pos = 0;
+	
+	for (x=0; x<len; x++) {
+		int wordLen = [[expectedWords objectAtIndex: x] length];
+		int map = expectedMap[x];
+		
+		if (map < 0) {
+			[self underlineRegion: NSMakeRange(pos, wordLen)
+						   layout: exptLayout];
+		}
+		
+		pos += wordLen;
+	}	
+	
+	// Mark this as done
+	diffed = YES;
+}
+
 - (void) calculateItem {
 	if (calculated) return;
+	
+	// Mark ourselves as un-diffed
+	diffed = NO;
 	
 	// Make/resize the text containers
 	float stringWidth = floorf(width/2.0 - 44.0);
@@ -368,6 +504,8 @@ static NSColor* activeCol = nil;
 			  active: (BOOL) active {
 	// Draw nothing if we don't know our size yet
 	if (!calculated) return;
+	
+	if (!diffed) [self diffItem];
 
 	// Work out some metrics
 	NSFont* font = [attributes objectForKey: NSFontAttributeName];
@@ -586,11 +724,16 @@ static NSColor* activeCol = nil;
 	[[fieldEditor textContainer] setHeightTracksTextView:NO];
 	[[fieldEditor textContainer] setLineFragmentPadding: 0];
 	[fieldEditor setDrawsBackground: YES];	
+
+	// Update the field editor with the difference information
+	diffed = NO;
+	[self diffItem];
 }
 
 - (void) finishEditing: (id) sender {	
 	[[self retain] autorelease];						// Mild chance that the skein item will get destroyed, destroying us along with it. This preserves us for a while.
 	updating = YES;
+	diffed = NO;
 	
 	// Inform the delegate of what's happened
 	[self transcriptItemHasChanged: self];
@@ -644,6 +787,7 @@ static NSColor* activeCol = nil;
 	
 	// Recalculate this item
 	calculated = NO;
+	diffed = NO;
 	[self calculateItem];
 	
 	updating = NO;
@@ -678,7 +822,7 @@ static NSColor* activeCol = nil;
 	float fontHeight = [[attributes objectForKey: NSFontAttributeName] defaultLineHeightForFont];
 	float transcriptHeight = [self heightForContainer: transcriptContainer];
 	float expectedHeight = [self heightForContainer: expectedContainer];
-	
+		
 	float newTextHeight = floorf(transcriptHeight>expectedHeight ? transcriptHeight : expectedHeight);
 	if (newTextHeight < 48.0) newTextHeight = 48.0;
 	
@@ -692,7 +836,7 @@ static NSColor* activeCol = nil;
 		[self transcriptItemHasChanged: self];
 	}
 	
-	// If we're editing the expected text, set the background colour appropriatly
+	// If we're editing the expected text, set the background colour appropriately
 	if (editing == expected) {
 		int oldEquality = textEquality;
 		[self calculateEquality];
@@ -713,6 +857,10 @@ static NSColor* activeCol = nil;
 			[self transcriptItemHasChanged: self];
 		}
 	}
+
+	// Spot the differences
+	diffed = NO;
+	[self diffItem];
 }
 
 @end
