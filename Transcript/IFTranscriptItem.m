@@ -884,6 +884,7 @@ static NSColor* activeCol = nil;
 }
 
 - (void) performDiff: (id) arg {
+	// Callback that periodically performs a diff operation
 	willRecalculateDiff = NO;
 	
 	// Perform the diff
