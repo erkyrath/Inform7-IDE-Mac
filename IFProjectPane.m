@@ -1056,10 +1056,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	
 	ZoomSkeinItem* firstPoint = nil;
 	
-	// See if the active item is a parent of the point we're playing to (in which case, continue playing)
-	if (itemToPlayTo == activeItem) return;
-	
-	ZoomSkeinItem* parentItem = [[itemToPlayTo parent] parent];
+	// See if the active item is a parent of the point we're playing to (in which case, continue playing. Otherwise, restart and play to that point)
+	ZoomSkeinItem* parentItem = [itemToPlayTo parent];
 	while (parentItem) {
 		if (parentItem == activeItem) {
 			firstPoint = activeItem;

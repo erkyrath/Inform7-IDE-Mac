@@ -386,6 +386,7 @@
 
 - (void) scrollToItem: (ZoomSkeinItem*) item {
 	NSRect bounds = [self bounds];
+	NSRect visible = [self visibleRect];
 	float offset = [layout offsetOfItem: item];
 	
 	if (offset >= 0) {
@@ -393,6 +394,13 @@
 		
 		itemRect.origin = NSMakePoint(NSMinX(bounds), NSMinY(bounds) + offset);
 		itemRect.size = NSMakeSize(bounds.size.width, [layout heightOfItem: item]);
+		
+		// Center the item in the display?
+		float expandBy = floorf((visible.size.height - itemRect.size.height)/2.0);
+		if (expandBy > 0) {
+			itemRect.origin.y -= expandBy;
+			itemRect.size.height += expandBy*2.0;
+		}
 		
 		[self scrollRectToVisible: itemRect];
 	}
