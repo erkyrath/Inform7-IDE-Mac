@@ -103,7 +103,7 @@ NSString* quoteInformString(NSString* stringIn) {
         quoteInformString([theView teaser])];
     
     [file addSourceFile: @"main.inf"
-           withContents: [sourceFile dataUsingEncoding: NSISOLatin1StringEncoding]];
+           withContents: [sourceFile dataUsingEncoding: NSUTF8StringEncoding]];
 }
 
 @end

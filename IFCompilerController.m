@@ -750,7 +750,7 @@ static IFCompilerController* activeController = nil;
 				// Load the data for the file
 				NSString* textData = [[NSString alloc] initWithData:
 					[[[files fileWrappers] objectForKey: key] regularFileContents]
-														   encoding: NSISOLatin1StringEncoding];
+														   encoding: NSUTF8StringEncoding];
 				
 				// Set up the view
 				[pretendView setEventualString: textData];

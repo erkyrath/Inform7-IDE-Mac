@@ -100,7 +100,7 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 									 forFilename: filename];
 	} else {
 		return [self storageWithString: [[[NSString alloc] initWithData: fileContents
-															   encoding: NSISOLatin1StringEncoding] autorelease]
+															   encoding: NSUTF8StringEncoding] autorelease]
 						   forFilename: filename];
 	}
 }
@@ -541,7 +541,7 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
             
             data = [str RTFFromRange: NSMakeRange(0, [str length]) documentAttributes: nil];
         } else {
-            data = [[[sourceFiles objectForKey: key] string] dataUsingEncoding: NSISOLatin1StringEncoding];
+            data = [[[sourceFiles objectForKey: key] string] dataUsingEncoding: NSUTF8StringEncoding];
         }
         file = [[NSFileWrapper alloc] initRegularFileWithContents: data];
 
@@ -683,7 +683,7 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 		
 		// Temporary text storage
 		NSString* textData = [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: sourceFile]
-												   encoding: NSISOLatin1StringEncoding];
+												   encoding: NSUTF8StringEncoding];
 		storage = [self storageWithString: textData
 							  forFilename: sourceFile];
 		
