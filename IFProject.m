@@ -99,8 +99,22 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 																		documentAttributes: nil] autorelease]
 									 forFilename: filename];
 	} else {
-		return [self storageWithString: [[[NSString alloc] initWithData: fileContents
-															   encoding: NSUTF8StringEncoding] autorelease]
+		// First, try loading as a UTF-8 string (this is the default behaviour)
+		NSString* fileString = [[NSString alloc] initWithData: fileContents
+													 encoding: NSUTF8StringEncoding];
+		
+		if (fileString == nil) {
+			// This can happen if fileString isn't in UTF-8 format for some reason (perhaps due to external editing)
+			// Retry with Latin-1 and log a warning
+			NSLog(@"Warning: file '%@' cannot be interpreted as UTF-8: trying Latin-1", filename);
+			fileString = [[NSString alloc] initWithData: fileContents
+											   encoding: NSISOLatin1StringEncoding];
+		}
+		if (fileString == nil) {
+			// We can't interpret this file in any way - report the failure. An exception will be thrown later
+			NSLog(@"Warning: no text available for file '%@'", filename);
+		}
+		return [self storageWithString: [fileString autorelease]
 						   forFilename: filename];
 	}
 }
@@ -684,6 +698,13 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 		// Temporary text storage
 		NSString* textData = [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: sourceFile]
 												   encoding: NSUTF8StringEncoding];
+		
+		if (textData == nil) {
+			// Sometimes a file cannot be interpreted using UTF-8: present something in this case
+			textData = [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: sourceFile]
+											 encoding: NSISOLatin1StringEncoding];
+		}
+		
 		storage = [self storageWithString: textData
 							  forFilename: sourceFile];
 		

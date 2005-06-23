@@ -424,6 +424,11 @@ static IFCompilerController* activeController = nil;
 											   length: strlen(IFLexLastProgressString)-2
 											 encoding: NSUTF8StringEncoding];
 				
+				// (Second attempt if UTF-8 makes no sense)
+				if (msg == nil) msg = [[NSString alloc] initWithBytes: IFLexLastProgressString
+															   length: strlen(IFLexLastProgressString)-2
+															 encoding: NSISOLatin1StringEncoding];
+				
 				[[compiler progress] setMessage: [msg autorelease]];
 			}
 	
