@@ -9,8 +9,12 @@
 #import <Cocoa/Cocoa.h>
 
 
+//
+// WindowController for a single-file document.
+//
 @interface IFSingleController : NSWindowController {
-
+	// The textview used to display the document itself
+	IBOutlet NSTextView* fileView;						
 }
 
 @end

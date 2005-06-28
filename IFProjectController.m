@@ -333,6 +333,8 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) awakeFromNib {
+	[self setWindowFrameAutosaveName: @"ProjectWindow"];
+
 	// Register for settings updates
     [[NSNotificationCenter defaultCenter] addObserver: self
 											 selector: @selector(updateSettings)

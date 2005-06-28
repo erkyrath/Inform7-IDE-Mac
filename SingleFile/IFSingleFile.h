@@ -17,7 +17,11 @@
 // for files that can't sensibly be compiled.
 //
 @interface IFSingleFile : NSDocument {
-	IFSyntaxStorage* fileStorage;
+	IFSyntaxStorage* fileStorage;						// The contents of the file
+	NSStringEncoding fileEncoding;						// The encoding used for the file
 }
+
+// Retrieving document data
+- (IFSyntaxStorage*) storage;							// The contents of the file
 
 @end

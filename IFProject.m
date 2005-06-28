@@ -164,7 +164,7 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 // == Loading/saving ==
 - (BOOL) readFromFile: (NSString*) fileName
 			   ofType: (NSString*) fileType {
-    if ([fileType isEqualTo: @"Inform project file"]) {
+    if ([fileType isEqualTo: @"Inform project file"] || [fileType isEqualTo: @"Inform project"]) {
         if (projectFile) [projectFile release];
         if (sourceFiles) [sourceFiles release];
         if (mainSource)  [mainSource  release];
@@ -421,7 +421,7 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 }
 
 - (BOOL) writeToFile: (NSString*) fileName ofType: (NSString*) fileType {
-    if ([fileType isEqualTo: @"Inform project file"]) {
+    if ([fileType isEqualTo: @"Inform project file"] || [fileType isEqualTo: @"Inform project"]) {
         [self prepareForSaving];
         
         return [projectFile writeToFile: fileName
