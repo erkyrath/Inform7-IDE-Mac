@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFSyntaxStorage.h"
+
 //
 // Extensions and other lone files are stored by this document class.
 //
@@ -15,7 +17,7 @@
 // for files that can't sensibly be compiled.
 //
 @interface IFSingleFile : NSDocument {
-
+	IFSyntaxStorage* fileStorage;
 }
 
 @end
