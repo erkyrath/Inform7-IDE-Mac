@@ -35,7 +35,6 @@
 }
 
 - (void)windowDidLoad {
-	NSLog(@"windowDidLoad called");
 	[self awakeFromNib];
 }
 
