@@ -59,7 +59,7 @@
 	} else if ([type isEqualToString: @"inform 6 source file"]) {
 		fileEncoding = NSISOLatin1StringEncoding;
 		fileHighlighter = [[IFInform6Highlighter alloc] init];
-	} else if ([type isEqualToString: @"natural inform source file"] || [type isEqualToString: @"Inform 7 extension"]) {
+	} else if ([type isEqualToString: @"natural inform source file"] || [type isEqualToString: @"inform 7 extension"]) {
 		fileHighlighter = [[IFNaturalHighlighter alloc] init];
 	}
 	

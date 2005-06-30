@@ -38,6 +38,8 @@
 #import "IFInform6Extensions.h"
 #import "IFNaturalExtensions.h"
 
+#import "IFSingleFile.h"
+
 #import <ZoomView/ZoomSkein.h>
 #import <ZoomView/ZoomSkeinView.h>
 
@@ -114,6 +116,11 @@ static NSRunLoop* mainRunLoop = nil;
 	
 	// Finish setting up
 	[self updateExtensions];
+	
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(updateExtensions)
+												 name: IFExtensionsUpdatedNotification
+											   object: nil];
 
 	[NSURLProtocol registerClass: [IFInformProtocol class]];
 }
@@ -240,6 +247,85 @@ static int stringCompare(id a, id b, void* context) {
 }
 
 - (void) updateExtensions {
+	// Clear out the menu
+	NSEnumerator* itemEnumerator = [[[[[extensionsMenu submenu] itemArray] copy] autorelease] objectEnumerator];
+	NSMenuItem* item;
+	
+	while (item = [itemEnumerator nextObject]) {
+		if ([item tag] != 0)
+			[[extensionsMenu submenu] removeItem: item];
+	}
+	
+	// Clear out the list of extension tags
+	[extensionSources release];
+	extensionSources = [[NSMutableArray alloc] init];
+
+	// Generate the extensions menu
+	// Previous versions listed i6 extensions as well, but we're not doing that any more
+	IFExtensionsManager* mgr = [IFExtensionsManager sharedNaturalInformExtensionsManager];
+	
+	NSArray* extns = [mgr availableExtensions];
+	NSEnumerator* extnEnum = [extns objectEnumerator];
+	NSString* extn;
+	
+	int extnPos = 0;
+	
+	while (extn = [extnEnum nextObject]) {
+		// Create a menu for the source files in the extension directory
+		NSMenu* extnMenu = [[NSMenu alloc] init];
+		
+		// Add each source file to the submenu
+		NSArray* extnContents = [mgr sourceFilesInExtensionWithName: extn];
+		NSEnumerator* contentEnum = [extnContents objectEnumerator];
+		NSString* sourceFile;
+		
+		int itemPos = 0;
+		while (sourceFile = [contentEnum nextObject]) {
+			// Add a menu entry for this source file
+			NSMenuItem* newItem = [[NSMenuItem alloc] init];
+			
+			[newItem setTitle: [sourceFile lastPathComponent]];
+			[newItem setTarget: self];
+			[newItem setTag: [extensionSources count]];
+			[newItem setAction: @selector(openExtension:)];
+			
+			[extnMenu insertItem: [newItem autorelease]
+						 atIndex: itemPos++];
+			
+			// Add an entry in the extensionSources array so we know which file this refers to
+			[extensionSources addObject: [[sourceFile copy] autorelease]];
+		}
+		
+		// Add a submenu for this extension
+		NSMenuItem* extnItem = [[NSMenuItem alloc] init];
+		
+		[extnItem setTitle: extn];
+		[extnItem setSubmenu: [extnMenu autorelease]];
+		
+		[[extensionsMenu submenu] insertItem: [extnItem autorelease]
+									 atIndex: extnPos++];
+	}
+}
+
+- (void) openExtension: (id) sender {
+	// Get the tag, and from that, get the source file we want to open
+	int tag = [sender tag];
+	NSString* sourceFilename = [extensionSources objectAtIndex: tag];
+	
+	// Open the file
+	NSDocument* newDoc = [[IFSingleFile alloc] initWithContentsOfFile: sourceFilename
+															   ofType: @"Inform 7 extension"];
+	
+	[[NSDocumentController sharedDocumentController] addDocument: [newDoc autorelease]];
+	[newDoc makeWindowControllers];
+	[newDoc showWindows];	
+}
+
+#if 0
+
+// OLD AND BUSTED
+
+- (void) updateExtensions {
 	NSMutableArray* inform6Extensions = [NSMutableArray array];
 	NSMutableArray* naturalExtensions = [NSMutableArray array];
 	
@@ -325,6 +411,8 @@ static int stringCompare(id a, id b, void* context) {
 	[newDoc makeWindowControllers];
 	[newDoc showWindows];
 }
+
+#endif
 
 // = Some misc actions =
 
