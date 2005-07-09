@@ -27,6 +27,17 @@
     [strictMode setState: [self strict]?NSOnState:NSOffState];
     [infixMode setState: [self infix]?NSOnState:NSOffState];
     [debugMode setState: [self debug]?NSOnState:NSOffState];
+	
+	if ([[self compilerSettings] usingNaturalInform])
+	{
+		[infixMode setEnabled: NO];
+		[infixMode setState: NSOffState];
+		[self setInfix: NO];
+	}
+	else
+	{
+		[infixMode setEnabled: YES];
+	}
 }
 
 - (void) setSettings {
