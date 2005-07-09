@@ -29,27 +29,27 @@ NSString* IFSplitViewSizes = @"IFSplitViewSizes";
 
 // == Toolbar items ==
 
-static NSToolbarItem* compileItem       = nil;
-static NSToolbarItem* compileAndRunItem = nil;
-static NSToolbarItem* replayItem		= nil;
-static NSToolbarItem* compileAndDebugItem = nil;
-static NSToolbarItem* releaseItem       = nil;
+static NSToolbarItem* compileItem			= nil;
+static NSToolbarItem* compileAndRunItem		= nil;
+static NSToolbarItem* replayItem			= nil;
+static NSToolbarItem* compileAndDebugItem	= nil;
+static NSToolbarItem* releaseItem			= nil;
 
-static NSToolbarItem* stopItem          = nil;
-static NSToolbarItem* pauseItem		    = nil;
+static NSToolbarItem* stopItem				= nil;
+static NSToolbarItem* pauseItem				= nil;
 
-static NSToolbarItem* continueItem		= nil;
-static NSToolbarItem* stepItem			= nil;
-static NSToolbarItem* stepOverItem		= nil;
-static NSToolbarItem* stepOutItem		= nil;
+static NSToolbarItem* continueItem			= nil;
+static NSToolbarItem* stepItem				= nil;
+static NSToolbarItem* stepOverItem			= nil;
+static NSToolbarItem* stepOutItem			= nil;
 
-static NSToolbarItem* indexItem		    = nil;
+static NSToolbarItem* indexItem				= nil;
 
-static NSToolbarItem* watchItem			= nil;
-static NSToolbarItem* breakpointItem	= nil;
+static NSToolbarItem* watchItem				= nil;
+static NSToolbarItem* breakpointItem		= nil;
 
-static NSToolbarItem* searchDocsItem	= nil;
-static NSToolbarItem* searchProjectItem	= nil;
+static NSToolbarItem* searchDocsItem		= nil;
+static NSToolbarItem* searchProjectItem		= nil;
 
 static NSDictionary*  itemDictionary = nil;
 
@@ -1350,6 +1350,7 @@ static NSDictionary*  itemDictionary = nil;
 	while (pane = [paneEnum nextObject]) {
 		[[pane transcriptLayout] transcriptToPoint: point];
 		[[pane transcriptView] scrollToItem: point];
+		[[pane skeinView] highlightSkeinLine: point];
 	}
 }
 
@@ -1359,8 +1360,8 @@ static NSDictionary*  itemDictionary = nil;
 	[transcriptPane selectView: IFTranscriptPane];
 	
 	[self moveTranscriptToPoint: point];
-
-	// Highlight the item in the transcript view
+	
+	// Highlight the item in the transcript view and skein view
 	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
 	IFProjectPane* pane;
 	

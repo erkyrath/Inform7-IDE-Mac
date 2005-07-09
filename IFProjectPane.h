@@ -162,6 +162,7 @@ enum IFProjectPaneType {
 - (void) openURL: (NSURL*) url;									// Tells the documentation view to open a specific URL
 
 // The skein view
+- (ZoomSkeinView*) skeinView;									// The skein view
 - (IBAction) skeinLabelSelected: (id) sender;					// The user has selected a skein item from the drop-down list (so we should scroll there)
 - (void) skeinDidChange: (NSNotification*) not;					// Called by Zoom to notify that the skein has changed
 

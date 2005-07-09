@@ -1010,6 +1010,10 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = The skein view =
 
+- (ZoomSkeinView*) skeinView {
+	return skeinView;
+}
+
 - (void) skeinDidChange: (NSNotification*) not {
 	[[[parent document] skein] populatePopupButton: skeinLabelButton];
 	[skeinLabelButton selectItem: nil];
