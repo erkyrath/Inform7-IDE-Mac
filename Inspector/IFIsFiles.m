@@ -108,7 +108,14 @@ static int stringComparer(id a, id b, void * context) {
 }
 
 - (BOOL) available {
-	return activeProject==nil?NO:YES;
+	// Not available if there's no project selected
+	if (activeProject == nil) return NO;
+	
+	// Not available for Natural Inform projects with only one files
+	if ([[activeProject settings] usingNaturalInform] &&
+		[[activeProject sourceFiles] count] == 1) return NO;
+	
+	return YES;
 }
 
 - (NSString*) key {

@@ -68,7 +68,13 @@ NSString* IFIsWatchInspector = @"IFIsWatchInspector";
 }
 
 - (BOOL) available {
-	return activeProject==nil?NO:YES;
+	// Can't be available if there's no project
+	if (activeProject == nil) return NO;
+	
+	// Breakpoints and watchpoints are not implemented for Natural Inform projects
+	if ([[activeProject settings] usingNaturalInform]) return NO;
+	
+	return YES;
 }
 
 // = Evaluating things =
