@@ -61,6 +61,12 @@
 - (float) offsetOfItem: (ZoomSkeinItem*) item;					// Retrieves the offset for a specific item, calculating to that point if necessary
 - (float) heightOfItem: (ZoomSkeinItem*) item;					// Retrieves the height of a specific item, calculating to that point if necessary
 
+// Items relative to other items
+- (IFTranscriptItem*) lastChanged: (IFTranscriptItem*) item;	// Retrieves the item that occurs before item and has the 'changed' flag set
+- (IFTranscriptItem*) nextChanged: (IFTranscriptItem*) item;	// Retrieves the item that occurs after item and has the 'changed' flag set
+- (IFTranscriptItem*) lastDiff: (IFTranscriptItem*) item;		// Retrieves the item that occurs after item and has a difference
+- (IFTranscriptItem*) nextDiff: (IFTranscriptItem*) item;		// Retrieves the item that occurs after item and has a difference
+
 // The delegate
 - (void) setDelegate: (id) delegate;							// Delegate is not retained
 - (id) delegate;												// Retrievest the delegate

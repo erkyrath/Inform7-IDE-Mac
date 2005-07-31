@@ -699,6 +699,11 @@ static NSDictionary*  itemDictionary = nil;
 		if ([storage highlighting]) return NO;
 		if ([storage intelligenceData] == nil) return NO;
 	}
+	
+	if (itemSelector == @selector(lastCommand:) ||
+		itemSelector == @selector(lastCommandInSkein:)) {
+		return [[[[self skeinPane] skeinView] skein] activeItem] != nil;
+	}
 
 	return YES;
 }
@@ -1835,6 +1840,184 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Start the search
 	[ctrl startSearch];
+}
+
+// == The transcript menu ==
+
+- (IBAction) lastCommand: (id) sender {
+	// Display the transcript
+	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+
+	if ([[[transcriptView layout] skein] activeItem] == nil) {
+		// No active item to show
+		NSBeep();
+		return;
+	}
+		
+	// Scroll to the 'active' item in the transcript
+	[transcriptPane selectView: IFTranscriptPane];
+	[[transcriptView layout] transcriptToPoint: [[[transcriptView layout] skein] activeItem]];
+	[transcriptView scrollToItem: [[[transcriptView layout] skein] activeItem]];
+}
+
+- (IBAction) lastCommandInSkein: (id) sender {
+	// Display the skein
+	IFProjectPane* skeinPane = [self skeinPane];
+	ZoomSkeinView* skeinView = [skeinPane skeinView];
+
+	if ([[skeinView skein] activeItem] == nil) {
+		// No active item to show
+		NSBeep();
+		return;
+	}
+		
+	// Scroll to the 'active' item in the skein
+	[skeinPane selectView: IFSkeinPane];
+	[skeinView scrollToItem: [[skeinView skein] activeItem]];
+}
+
+- (ZoomSkeinItem*) currentTranscriptCommand: (BOOL) preferBottom {
+	// Get the 'current' command: the command presently at the top/bottom of the window (or the selected command if it's visible)
+	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	
+	// Get the items that are currently showing in the transcript view
+	ZoomSkeinItem* highlighted = [transcriptView highlightedItem];
+	NSRect visibleRect = [transcriptView visibleRect];
+	NSArray* visibleItems = [[transcriptView layout] itemsInRect: visibleRect];
+	
+	// Some trivial cases
+	if ([visibleItems count] <= 0) return nil;
+	if ([visibleItems count] == 1) return [[visibleItems objectAtIndex: 0] skeinItem];
+	if ([visibleItems count] == 2) return [[visibleItems objectAtIndex: preferBottom?1:0] skeinItem];
+	
+	// If the highlighted item is showing, then return that as the current item
+	NSEnumerator* itemEnum = [visibleItems objectEnumerator];
+	IFTranscriptItem* item;
+	
+	while (item = [itemEnum nextObject]) {
+		if ([item skeinItem] == highlighted) return highlighted;
+	}
+	
+	// Return the upper/lower item depending on the value of preferBottom
+	if (preferBottom) {
+		return [[visibleItems objectAtIndex: [visibleItems count]-2] skeinItem];
+	} else {
+		return [[visibleItems objectAtIndex: 1] skeinItem];
+	}
+}
+
+- (IBAction) lastChangedCommand: (id) sender {
+	// Display the transcript
+	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	
+	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
+
+	if (!currentItem) {
+		// Can do nothing if there's no current items
+		NSBeep();
+		return;
+	}
+	
+	// Find the last item
+	IFTranscriptItem* lastItem = [[transcriptView layout] lastChanged: 
+		[[transcriptView layout] itemForItem: currentItem]];
+	
+	if (!lastItem) {
+		// No previous item
+		NSBeep();
+		return;
+	}
+	
+	// Move to the last item
+	[transcriptView scrollToItem: [lastItem skeinItem]];
+	[transcriptView setHighlightedItem: [lastItem skeinItem]];
+}
+
+- (IBAction) nextChangedCommand: (id) sender {
+	// Display the transcript
+	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	
+	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
+	
+	if (!currentItem) {
+		// Can do nothing if there's no current items
+		NSBeep();
+		return;
+	}
+	
+	// Find the next item
+	IFTranscriptItem* nextItem = [[transcriptView layout] nextChanged: 
+		[[transcriptView layout] itemForItem: currentItem]];
+	
+	if (!nextItem) {
+		// No previous item
+		NSBeep();
+		return;
+	}
+	
+	// Move to the next item
+	[transcriptView scrollToItem: [nextItem skeinItem]];
+	[transcriptView setHighlightedItem: [nextItem skeinItem]];
+}
+
+- (IBAction) lastDifference: (id) sender {
+	// Display the transcript
+	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	
+	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
+	
+	if (!currentItem) {
+		// Can do nothing if there's no current items
+		NSBeep();
+		return;
+	}
+	
+	// Find the last item
+	IFTranscriptItem* lastItem = [[transcriptView layout] lastDiff: 
+		[[transcriptView layout] itemForItem: currentItem]];
+	
+	if (!lastItem) {
+		// No previous item
+		NSBeep();
+		return;
+	}
+	
+	// Move to the last item
+	[transcriptView scrollToItem: [lastItem skeinItem]];
+	[transcriptView setHighlightedItem: [lastItem skeinItem]];
+}
+
+- (IBAction) nextDifference: (id) sender {
+	// Display the transcript
+	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	
+	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
+	
+	if (!currentItem) {
+		// Can do nothing if there's no current items
+		NSBeep();
+		return;
+	}
+	
+	// Find the next item
+	IFTranscriptItem* nextItem = [[transcriptView layout] nextDiff: 
+		[[transcriptView layout] itemForItem: currentItem]];
+	
+	if (!nextItem) {
+		// No previous item
+		NSBeep();
+		return;
+	}
+	
+	// Move to the next item
+	[transcriptView scrollToItem: [nextItem skeinItem]];
+	[transcriptView setHighlightedItem: [nextItem skeinItem]];
 }
 
 @end

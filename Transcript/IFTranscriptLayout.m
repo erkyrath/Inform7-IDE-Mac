@@ -549,4 +549,74 @@
 		return -1;
 }
 
+// = Items relative to other items =
+
+- (IFTranscriptItem*) lastChanged: (IFTranscriptItem*) item {
+	// Find the item
+	int itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
+	if (itemIndex == NSNotFound || itemIndex < 0) return nil;
+	
+	itemIndex--;
+	
+	// Find the last changed item
+	for (;itemIndex>=0; itemIndex--) {
+		if ([[[transcriptItems objectAtIndex: itemIndex] skeinItem] changed]) 
+			return [transcriptItems objectAtIndex: itemIndex];
+	}
+	
+	// Nothing found
+	return nil;
+}
+
+- (IFTranscriptItem*) nextChanged: (IFTranscriptItem*) item {
+	// Find the item
+	int itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
+	if (itemIndex == NSNotFound || itemIndex < 0) return nil;
+	
+	itemIndex++;
+	
+	// Find the next changed item
+	for (;itemIndex<[transcriptItems count]; itemIndex++) {
+		if ([[[transcriptItems objectAtIndex: itemIndex] skeinItem] changed]) 
+			return [transcriptItems objectAtIndex: itemIndex];
+	}
+	
+	// Nothing found
+	return nil;
+}
+
+- (IFTranscriptItem*) lastDiff: (IFTranscriptItem*) item {
+	// Find the item
+	int itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
+	if (itemIndex == NSNotFound || itemIndex < 0) return nil;
+	
+	itemIndex--;
+	
+	// Find the last different item
+	for (;itemIndex>=0; itemIndex--) {
+		if ([[transcriptItems objectAtIndex: itemIndex] isDifferent]) 
+			return [transcriptItems objectAtIndex: itemIndex];
+	}
+	
+	// Nothing found
+	return nil;
+}
+
+- (IFTranscriptItem*) nextDiff: (IFTranscriptItem*) item {
+	// Find the item
+	int itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
+	if (itemIndex == NSNotFound || itemIndex < 0) return nil;
+	
+	itemIndex++;
+	
+	// Find the next different item
+	for (;itemIndex<[transcriptItems count]; itemIndex++) {
+		if ([[transcriptItems objectAtIndex: itemIndex] isDifferent]) 
+			return [transcriptItems objectAtIndex: itemIndex];
+	}
+	
+	// Nothing found
+	return nil;
+}
+
 @end

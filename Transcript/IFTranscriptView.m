@@ -419,6 +419,11 @@
 	}
 }
 
+- (ZoomSkeinItem*) highlightedItem {
+	// Retrieves the currently highlighted item
+	return [highlightedItem skeinItem];
+}
+
 - (void) setActiveItem: (ZoomSkeinItem*) item {
 	IFTranscriptItem* transItem = nil;
 	

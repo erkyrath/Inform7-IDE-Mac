@@ -44,6 +44,8 @@ enum IFTranscriptButton {
 - (void) setHighlightedItem: (ZoomSkeinItem*) item;			// Sets a specific item to be the 'highlighted' item
 - (void) setActiveItem: (ZoomSkeinItem*) item;				// Sets a specific item to be the 'active' item
 
+- (ZoomSkeinItem*) highlightedItem;							// Retrieves the currently highlighted item
+
 // The delegate
 - (void) setDelegate: (id) delegate;						// Sets the delegate (the delegate is not retained)
 

@@ -123,6 +123,13 @@ enum lineStyle {
 - (IBAction) shiftRight: (id) sender;
 - (IBAction) renumberSections: (id) sender;
 
+- (IBAction) lastCommand: (id) sender;
+- (IBAction) lastCommandInSkein: (id) sender;
+- (IBAction) lastChangedCommand: (id) sender;
+- (IBAction) nextChangedCommand: (id) sender;
+- (IBAction) lastDifference: (id) sender;
+- (IBAction) nextDifference: (id) sender;
+
 // Undoing
 - (NSRange) shiftRangeLeft: (NSRange) range
 				 inStorage: (NSTextStorage*) textStorage;

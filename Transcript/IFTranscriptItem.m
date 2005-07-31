@@ -184,6 +184,10 @@ static NSColor* activeCol = nil;
 	return attributes;
 }
 
+- (BOOL) isDifferent {
+	return textEquality == 0;
+}
+
 // = Setting the data from the view =
 
 - (void) setWidth: (float) newWidth {

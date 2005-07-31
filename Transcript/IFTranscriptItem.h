@@ -79,6 +79,8 @@
 - (ZoomSkeinItem*) skeinItem;									// Retrieves the skein item associated with this node
 - (NSDictionary*) attributes;									// Retrieves the attributes used for display
 
+- (BOOL) isDifferent;											// Returns true if this item is 'different', ie, textEquality == 0
+
 // Setting the data from the view
 - (void) setWidth: (float) newWidth;							// Total width of the view
 - (void) setOffset: (float) offset;								// Offset from the top
