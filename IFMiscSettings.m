@@ -31,7 +31,8 @@
 	if ([[self compilerSettings] usingNaturalInform]) {
 		[infixMode setEnabled: NO];
 		[infixMode setState: NSOffState];
-		[self setInfix: NO];
+		[[self dictionary] setObject: [NSNumber numberWithBool: NO]
+							  forKey: IFSettingInfix];
 	} else {
 		[infixMode setEnabled: YES];
 	}
