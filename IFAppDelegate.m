@@ -260,6 +260,16 @@ static int stringCompare(id a, id b, void* context) {
 	[extensionSources release];
 	extensionSources = [[NSMutableArray alloc] init];
 
+	// Work out a list of directories we're allowed to take extensions from
+	NSMutableArray* validExtensionDirectories = [NSMutableArray array];
+	NSArray* libraries = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
+	
+	NSEnumerator* libEnum = [libraries objectEnumerator];
+	NSString* libDirectory;
+	while (libDirectory = [libEnum nextObject]) {
+		[validExtensionDirectories addObject: [[[libDirectory stringByAppendingPathComponent: @"Inform"] stringByAppendingPathComponent: @"Extensions"] stringByStandardizingPath]];
+	}
+
 	// Generate the extensions menu
 	// Previous versions listed i6 extensions as well, but we're not doing that any more
 	IFExtensionsManager* mgr = [IFExtensionsManager sharedNaturalInformExtensionsManager];
@@ -269,6 +279,8 @@ static int stringCompare(id a, id b, void* context) {
 	NSString* extn;
 	
 	int extnPos = 0;
+	
+	NSFileManager* fileMgr = [NSFileManager defaultManager];
 	
 	while (extn = [extnEnum nextObject]) {
 		// Create a menu for the source files in the extension directory
@@ -281,6 +293,25 @@ static int stringCompare(id a, id b, void* context) {
 		
 		int itemPos = 0;
 		while (sourceFile = [contentEnum nextObject]) {
+			sourceFile = [sourceFile stringByStandardizingPath];
+			
+			// Don't add files we can't write to
+			if (![fileMgr isWritableFileAtPath: sourceFile]) continue;
+			
+			// Don't add files that aren't in a directory in the list of valid extension directories
+			NSEnumerator* dirEnum = [validExtensionDirectories objectEnumerator];
+			NSString* validDir;
+			BOOL isInValidDir = NO;
+			while (validDir = [dirEnum nextObject]) {
+				if (![sourceFile length] < [validDir length] &&
+					[[sourceFile substringToIndex: [validDir length]] caseInsensitiveCompare: validDir] == 0) {
+					isInValidDir = YES;
+					break;
+				}
+			}
+			
+			if (!isInValidDir) continue;
+			
 			// Add a menu entry for this source file
 			NSMenuItem* newItem = [[NSMenuItem alloc] init];
 			
@@ -296,14 +327,16 @@ static int stringCompare(id a, id b, void* context) {
 			[extensionSources addObject: [[sourceFile copy] autorelease]];
 		}
 		
-		// Add a submenu for this extension
-		NSMenuItem* extnItem = [[NSMenuItem alloc] init];
-		
-		[extnItem setTitle: extn];
-		[extnItem setSubmenu: [extnMenu autorelease]];
-		
-		[[extensionsMenu submenu] insertItem: [extnItem autorelease]
-									 atIndex: extnPos++];
+		if (itemPos > 0) {
+			// Add a submenu for this extension
+			NSMenuItem* extnItem = [[NSMenuItem alloc] init];
+			
+			[extnItem setTitle: extn];
+			[extnItem setSubmenu: [extnMenu autorelease]];
+			
+			[[extensionsMenu submenu] insertItem: [extnItem autorelease]
+										 atIndex: extnPos++];
+		}
 	}
 }
 
@@ -320,99 +353,6 @@ static int stringCompare(id a, id b, void* context) {
 	[newDoc makeWindowControllers];
 	[newDoc showWindows];	
 }
-
-#if 0
-
-// OLD AND BUSTED
-
-- (void) updateExtensions {
-	NSMutableArray* inform6Extensions = [NSMutableArray array];
-	NSMutableArray* naturalExtensions = [NSMutableArray array];
-	
-	// Only the extensions that we can actually edit are in this menu
-	naturalExtensions = [self extensionsInDirectory: [[self directoriesToSearch: @"Extensions"] objectAtIndex: 0]];
-	inform6Extensions = [self extensionsInDirectory: [[self directoriesToSearch: @"Inform 6 Extensions"] objectAtIndex: 0]];
-	
-	// Clear out the menu
-	NSEnumerator* itemEnumerator = [[[[[extensionsMenu submenu] itemArray] copy] autorelease] objectEnumerator];
-	NSMenuItem* item;
-	
-	while (item = [itemEnumerator nextObject]) {
-		if ([item tag] != 0)
-			[[extensionsMenu submenu] removeItem: item];
-	}
-
-	int itemPos = 0;
-	
-	// Natural Inform extensions go first
-	NSEnumerator* extnEnum;
-	NSString* extension;
-	
-	extnEnum = [naturalExtensions objectEnumerator];
-	while (extension = [extnEnum nextObject]) {
-		NSMenuItem* newItem = [[NSMenuItem alloc] init];
-		
-		[newItem setTag: 1];
-		[newItem setTitle: extension];
-		[newItem setTarget: self];
-		[newItem setAction: @selector(openExtension:)];
-		
-		[[extensionsMenu submenu] insertItem: [newItem autorelease]
-						   atIndex: itemPos++];
-	}
-	
-	if ([naturalExtensions count] > 0) {
-		[[extensionsMenu submenu] insertItem: [NSMenuItem separatorItem]
-						   atIndex: itemPos++];		
-	}
-	
-	// ... then Inform 6 extensions
-	extnEnum = [inform6Extensions objectEnumerator];
-	while (extension = [extnEnum nextObject]) {
-		NSMenuItem* newItem = [[NSMenuItem alloc] init];
-		
-		[newItem setTag: 2];
-		[newItem setTitle: extension];
-		[newItem setTarget: self];
-		[newItem setAction: @selector(openExtension:)];
-		
-		[[extensionsMenu submenu] insertItem: [newItem autorelease]
-									 atIndex: itemPos++];
-	}
-	
-	if ([inform6Extensions count] > 0) {
-		[[extensionsMenu submenu] insertItem: [NSMenuItem separatorItem]
-									 atIndex: itemPos++];		
-	}
-}
-
-- (void) openExtension: (id) sender {
-	// Work out the directory to use
-	NSString* extnDir = nil;
-	
-	switch ([sender tag]) {
-		case 1:
-			extnDir = [[self directoriesToSearch: @"Extensions"] objectAtIndex: 0];
-			break;
-			
-		case 2:
-			extnDir = [[self directoriesToSearch: @"Inform 6 Extensions"] objectAtIndex: 0];
-			break;
-	}
-	
-	if (!extnDir) return;
-	
-	// Open this extension
-	NSDocument* newDoc = [[IFProject alloc] initWithContentsOfFile: [extnDir stringByAppendingPathComponent: [sender title]]
-															ofType: @"Inform Extension Directory"];
-	[[(IFProject*)newDoc settings] setUsingNaturalInform: [sender tag]==1];
-	
-	[[NSDocumentController sharedDocumentController] addDocument: [newDoc autorelease]];
-	[newDoc makeWindowControllers];
-	[newDoc showWindows];
-}
-
-#endif
 
 // = Some misc actions =
 
