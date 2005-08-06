@@ -1,25 +1,33 @@
-<html><head><title>8.8. The time of day</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc118.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc120.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.8. The time of day</b></td></tr></table><p>
+<html><head><title>8.5. When play ends</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc118.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc120.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.5. When play ends</b></td></tr></table><p>
 <p>
-<p>Inform keeps track of the time of day automatically: play ordinarily begins at 9 AM and each turn takes one minute. In some works of interactive fiction, time of day is crucial: in others, it is irrelevant or even, by a sort of tacit convention, non-existent. So Inform does nothing to act upon the time, or to reveal it to the player, without instruction. Nevertheless it is there.
+<p>Short of something like a power cut, the game can only end when one of the two participants chooses to end it: either the player, by deciding that enough is enough, or us.
 <p>
-<p>A sentence like the following allows the initial time to be set up as something other than 9 AM:
+<p>If we decide that a conclusion of some kind, happy or not, has been reached, we can herald that moment with phrases like so:
 <p>
-<blockquote><font color="#000080">The time of day is 3:13 PM.
+<blockquote><font color="#000080">end the game in death
+<br>end the game in victory
+<br>end the game saying &quot;You have come to a full stop&quot;
 </font></blockquote><p>
 <p>
-<p>Here, &quot;3:13 PM&quot; is a constant value of a kind not seen before: it's a kind of value called &quot;time&quot;, and the value &quot;time of day&quot; is a time that varies. After one turn it will be 3:14 PM, then 3:15 PM and so on.
+<p>The phrase &quot;end the game in death&quot; is equivalent to ending it saying &quot;You have died&quot;, and similarly victory simply means announcing &quot;You have won&quot;. The more general phrase allows any text (short, please) to be used:
 <p>
-<p>Note that the sentence above is an assertion (a statement about the initial state of affairs), not an instruction which can be part of a rule. It would be equivalent to write:
-<p>
-<blockquote><font color="#000080">When play begins, change the time of day to 3:13 PM.
+<blockquote><font color="#000080">Instead of eating the fish, end the game saying &quot;You have been poisoned&quot;.
 </font></blockquote><p>
 <p>
-<p>We more often use &quot;change the time of day to ...&quot; to take care of drastic events:
+<p>The rulebook &quot;when play ends&quot; is the matching bookend to &quot;when play begins&quot;. It is followed when the game decides to end (not when the player simply gives up and quits), and before any epitaph like
 <p>
-<blockquote><font color="#000080">When the player loses consciousness:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to 10:12 AM;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A mist comes over your vision, and when you come to, it is morning and you are in bed.&quot;
+<blockquote><font color="#000080">*** You have been poisoned ***
+</font></blockquote><p>
+<p>
+<p>appears. For example:
+<p>
+<blockquote><font color="#000080">When play ends, say &quot;Oh dear.&quot;
+</font></blockquote><p>
+<p>
+<p>In such a rule, the phrase &quot;resume the game&quot; will cause play to continue exactly as if no ending had been reached at all:
+<p>
+<blockquote><font color="#000080">When play ends: say &quot;Oh dear. Still, here's another chance.&quot;; resume the game.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc118.html>Previous</a> / <a href=doc120.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

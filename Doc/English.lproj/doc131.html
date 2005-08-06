@@ -1,10 +1,30 @@
-<html><head><title>9.3. Using the Scene index</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc130.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc132.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.3. Using the Scene index</b></td></tr></table><p>
+<html><head><title>8.17. How many turns?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc130.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc132.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.17. How many turns?</b></td></tr></table><p>
 <p>
-<p>But when we test the previous section's example, we find that after a brief wait, the train pulls up: but it never goes away again. We have given instructions on how the scene ends, but not when it ends, and as a result the scene goes on forever once started.
+<p>So much for &quot;times&quot; - spells in which a condition is true. We can also test the length of time, in turns of play, that something has been true. Thus:
 <p>
-<p>Even with simple story-lines, and this one could hardly be simpler, it is surprisingly easy to overlook something so that the whole story-line is derailed.
+<blockquote><font color="#000080">if <condition> for three turns;
+</font></blockquote><p>
 <p>
-<p>The Scene index is intended to help with this. At the top is a chart showing all the scenes and how they are to begin, along with a key to the symbols used on it. If we look at the Scene index for the previous example, we find that our Train Stop scene is marked with the red warning symbol for &quot;never ends&quot;.
+<p>means that the condition holds now, and held at the start of this turn, at the start of last turn, and at the start of the turn before that. In particular:
+<p>
+<blockquote><font color="#000080">if the floppy hat has been worn for three turns ...
+</font></blockquote><p>
+<p>
+<p>will be false if the hat is not currently worn (even if it has been often in the past) and, on the other hand, will be true if the hat has been worn for twenty turns. Here again we can be more specific. These are synonymous:
+<p>
+<blockquote><font color="#000080">if the floppy hat is worn for the third turn ...
+<br>if the floppy hat has been worn for only 3 turns ...
+<br>if the floppy hat has been worn for exactly three turns ...
+</font></blockquote><p>
+<p>
+<p>all requiring that the hat wasn't worn four turns ago. As before, &quot;more than&quot;, &quot;less than&quot;, &quot;at least&quot; and &quot;at most&quot; so forth can also be used - say, &quot;for at least 21 turns&quot;.
+<p>
+<p>A warning: we must be careful when writing something like
+<p>
+<blockquote><font color="#000080">if the noun has been open ...
+</font></blockquote><p>
+<p>
+<p>since this tests whether it has ever been true that the noun of the then action was open: not whether the current noun-object has ever been open.
 <p>
 <p><hr><p><a href=doc130.html>Previous</a> / <a href=doc132.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

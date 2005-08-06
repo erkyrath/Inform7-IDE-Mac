@@ -1,25 +1,35 @@
-<html><head><title>5.1. What are descriptions?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 5: Descriptions</h2><p><table><tr><td><a href=doc57.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc59.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.1. What are descriptions?</b></td></tr></table><p>
+<html><head><title>4.17. Values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc57.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc59.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.17. Values that vary</b></td></tr></table><p>
 <p>
-<p>It is in describing circumstances that Inform really capitalises on the concise, expressive power of natural language, and this chapter brings together the facts about &quot;descriptions&quot;: phrases which refer to things.
+<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
 <p>
-<p>The simplest descriptions consist of a noun alone. Some refer to single things (&quot;lantern&quot;, or &quot;wine cask&quot;), others to kinds of thing (&quot;dead end&quot; or &quot;container&quot;). But we have also seen adjectives alone:
-<p>
-<blockquote><font color="#000080">The oaken desk is fixed in place.
+<blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.
 </font></blockquote><p>
 <p>
-<p>Here, &quot;fixed in place&quot; is a description which, to Inform's simple-minded grammar, is a single adjective. And of course adjectives and nouns can be combined:
+<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
 <p>
-<blockquote><font color="#000080">The cargo trunk is an openable container.
+<blockquote><font color="#000080">The target is a number variable. The target is 23.
 </font></blockquote><p>
 <p>
-<p>The description &quot;openable container&quot; consists of the noun &quot;container&quot;, meaning a kind of thing, and the adjective &quot;openable&quot;, which means one of the two possible states of an either/or property held by that thing.
+<p>In fact, we have seen a value that varies already: &quot;location&quot;, which holds the room in which the game is presently taking place.
 <p>
-<p>As the next chapter will show, rules also make great use of descriptions:
+<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
 <p>
-<blockquote><font color="#000080">Instead of throwing something at a closed openable door, say &quot;Or you could just use the handle like anyone else, of course.&quot;
+<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
+<p>
+<blockquote><font color="#000080">The receptacle is a container that varies.
 </font></blockquote><p>
 <p>
-<p>Here &quot;something&quot; and &quot;a closed openable door&quot; are both descriptions. Similarly, we find from elsewhere in this documentation that we can count up the things satisfying a given description (&quot;the number of openable doors&quot;) or choose a random one (&quot;a random person in the Drawing Room&quot;), and so on. It is because descriptions are so widely useful that they deserve a chapter of their own, and this is it.
+<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
+<p>
+<blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.
+</font></blockquote><p>
+<p>
+<p>without ever having defined any colours. Something else we are not permitted is:
+<p>
+<blockquote><font color="#000080">The receptacle is an open container that varies.
+</font></blockquote><p>
+<p>
+<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
 <p>
 <p><hr><p><a href=doc57.html>Previous</a> / <a href=doc59.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

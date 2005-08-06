@@ -1,28 +1,28 @@
-<html><head><title>15.12. Changing reachability</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc217.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc219.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.12. Changing reachability</b></td></tr></table><p>
+<html><head><title>15.8. Success and failure</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc217.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc219.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.8. Success and failure</b></td></tr></table><p>
 <p>
-<p>The business of what the player can, and cannot, reach is of considerable importance in interactive fiction. It contains some of the subtlest rules in the model world, though these rules often go unnoticed. For instance, if a key is on a shelf which is part of a closed box, can we reach for the key? This comes down to whether the shelf, described only as &quot;part of&quot; the box, is on the inside or the outside: and in fact, because it cannot know which is the case, Inform allows either. So in general it is best to regard &quot;parts&quot; as being exterior parts, but to avoid having parts on containers that might in the course of play be closed up with the player inside.
+<p>Though we have blurred over this point so far, every rule has one of three outcomes: success, failure and neither. The default outcome is neither, and for many rules (the every turn rules, for instance) success or failure would be ignored anyway, which is how we managed not to mention all this before. Indeed, the instruction
 <p>
-<p>In many games the designer never feels any need to alter the rules on what can be touched from where, but it is important to have the ability all the same: when it is needed, there is often no other way to achieve the same effect.
-<p>
-<p>Returning to the conical flask:
-<p>
-<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
+<blockquote><font color="#000080">follow the appraisal rules
 </font></blockquote><p>
 <p>
-<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) Rules for this rulebook need not have any restriction on the object applied to:
+<p>throws away the result, whatever it may be, which is why results have not come up in the discussion so far. All the same, results can make a difference even in examples like this one. When a rulebook is working through a list of rules, any rule which stops causes the rulebook to stop at once, so that no subsequent rules in the book will be invoked.
 <p>
-<blockquote><font color="#000080">A reaching inside rule: if Barabbas's Nefarious Amulet is worn then ignore the can't take people's possessions rule.
+<p>In the event of either success or failure, we say that it &quot;stops&quot;, and a value can optionally also result.
+<p>
+<p>Generally speaking, stops are needed for different reasons in different rulebooks, so there are specialised syntaxes for bringing them about (as we shall see). However, the following phrases always work in any rule:
+<p>
+<blockquote><font color="#000080">rule succeeds
+<br>rule fails
+<br>rule succeeds with result (...)
+<br>rule fails with result (...)
 </font></blockquote><p>
 <p>
-<p>More generally, we could give the usual flexible description of what the rule applies to:
+<p>The result can be a room, a thing or a text. It can be referred to as
 <p>
-<blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large.&quot;; deny access.
+<blockquote><font color="#000080">the result of the rule
 </font></blockquote><p>
 <p>
-<p>There is also a reaching outside rulebook, used if the player is inside something and wants to reach an object in the wider room. (It's the difference between a bed and a cage.) This ordinarily contains just one rule:
-<p>
-<blockquote><font color="#000080">the can't reach outside closed containers rule
-</font></blockquote><p>
+<p>which is nothing if the rule ended without success or failure.
 <p>
 <p><hr><p><a href=doc217.html>Previous</a> / <a href=doc219.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

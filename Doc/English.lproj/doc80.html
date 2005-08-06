@@ -1,27 +1,21 @@
-<html><head><title>6.13. The noun and the second noun</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc79.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc81.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.13. The noun and the second noun</b></td></tr></table><p>
+<html><head><title>6.10. The other four senses</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc79.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc81.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.10. The other four senses</b></td></tr></table><p>
 <p>
-<p>Once we begin applying rules to actions which are not entirely known in advance, we have a problem: there's no way to find out what specifically is happening. Consider the following:
+<p>The five senses are all simulated with actions. Sight is so informative that it is handled by a whole range of actions: &quot;looking&quot;, which describes the general scene; &quot;examining something&quot;, which takes a closer look at a specific thing; &quot;looking under something&quot;, and so on.
 <p>
-<blockquote><font color="#000080">Instead of examining something, say &quot;It is none of your concern!&quot;
+<p>The other senses have one action each: &quot;listening to something&quot;, &quot;touching something&quot;, &quot;tasting something&quot; and &quot;smelling something&quot;. It makes no sense to touch or taste the general scene, but listening and smelling are a different matter: we often just listen, without listening to anything specific. If the player types the command &quot;listen&quot;, Inform understands that as listening to the current location: similarly for the bare command &quot;smell&quot;. Thus:
+<p>
+<blockquote><font color="#000080">Instead of listening to the Seashore, say &quot;The song of gulls.&quot;
 </font></blockquote><p>
 <p>
-<p>This is fine as far as it goes, but clumsy. What if the player had examined a human being? Then &quot;it&quot; would be inappropriate. A better approach would be this:
-<p>
-<blockquote><font color="#000080">Instead of examining something, say &quot;[The noun] is none of your concern!&quot;
+<blockquote><font color="#000080">Instead of smelling the Cave, say &quot;Salt and old seaweed.&quot;
 </font></blockquote><p>
 <p>
-<p>The &quot;noun&quot; and, when necessary, the &quot;second noun&quot; are values which can be used in any rule about actions, and it follows that they can also be substituted into text, as this example demonstrates. Results might include:
+<p>(Note the difference between this and saying:
 <p>
-<blockquote><font color="#000080">Lady Bracknell is none of your concern!
+<blockquote><font color="#000080">Instead of listening <b>in</b> the Seashore, say &quot;The song of gulls.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The silver cigarette case is none of your concern!
-</font></blockquote><p>
-<p>
-<p>This seems a good moment to mention that if you use &quot;The&quot; in a substitution, then a capitalised &quot;The&quot; will be used so long as this is grammatically correct (Lady Bracknell, as a proper noun, takes no article); &quot;the&quot; becomes a lower-case &quot;the&quot; along the same lines; and &quot;a&quot; a lower-case indefinite article.
-<p>
-<blockquote><font color="#000080">Instead of examining something in the Drawing Room, say &quot;Under Lady Bracknell's eye, you feel constrained. Besides, it is only [a noun].&quot;
-</font></blockquote><p>
+<p>With this rule, even typing &quot;listen to shell&quot; when at the Seashore would result in the song of gulls: fine if the gulls drown all else out, but otherwise incongruous.)
 <p>
 <p><hr><p><a href=doc79.html>Previous</a> / <a href=doc81.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

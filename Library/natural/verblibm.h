@@ -20,6 +20,9 @@ System_file;
 
 [ Banner i;
 #ifdef NI_BUILD_COUNT;
+   BeginActivity(BANNER_ACT);
+   if (ForActivity(BANNER_ACT) == false) {
+
    style bold; print (string) Story, "^";
    style roman; print (string) Headline;
    #ifdef Story_Author;
@@ -56,7 +59,12 @@ System_file;
    print "D";
 #endif;
 #endif;
+
    new_line;
+#ifdef NI_BUILD_COUNT;
+   }
+   EndActivity(BANNER_ACT);
+#endif;
 ];
 
 [ VersionSub;

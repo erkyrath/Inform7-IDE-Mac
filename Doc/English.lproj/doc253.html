@@ -1,24 +1,18 @@
-<html><head><title>17.18. Defining loops</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc252.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc254.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.18. Defining loops</b></td></tr></table><p>
+<html><head><title>17.13. Implications</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc252.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc254.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.13. Implications</b></td></tr></table><p>
 <p>
-<p>The two I7 versions of &quot;while&quot; are defined in the Standard Rules as follows:
+<p>Extensions often need to define kinds, which we want to make as helpful as possible for the user. In particular, we want to make new instances of those kinds easy to create. An interesting example of this came up in Chapter 2, when clothing was introduced. For something to be a fully practical garment, worn by the player when play begins, it needs to be &quot;worn&quot;, &quot;wearable&quot; and &quot;initially carried&quot;: if the source forgets to specify the latter two properties, the results are mysterious and unfortunate.
 <p>
-<blockquote><font color="#000080">To while (c - condition) repeatedly (ph - phrase): (- while {c} {ph} -).
+<p>The Standard Rules solve this problem by including the following line:
+<p>
+<blockquote><font color="#000080">Something worn is usually wearable and initially carried.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To while (c - condition) begin *: (- while {c}  -).
+<p>Such a sentence is called an &quot;implication&quot;, as it is in the form &quot;Condition A implies Condition B&quot;. Inform never overrides certainties with mere implications, and is cautious about allowing them to build overly long chains of argument. This is to prevent the following kind of difficulty:
+<p>
+<blockquote><font color="#000080">An open door is usually closed. A closed door is usually open.
 </font></blockquote><p>
 <p>
-<p>The second case is the one which involves a block of code, to be ended later with an &quot;end while&quot;. The asterisk signals to I7 that such a block is expected. The I6 code should be such that an I6 code block, starting and ending with a brace, can legally follow it.
-<p>
-<p>Variables can be created as part of a loop which exist only within it. All that needs to be done is to supply their type and declare them to be &quot;variable&quot;:
-<p>
-<blockquote><font color="#000080">To repeat with (loopvar - number variable) running from (v - number) to (w - number) begin *: (- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">To repeat with (loopvar - object variable) running through contents of (v - object) begin *: (- objectloop ({loopvar} in {v})  -).
-</font></blockquote><p>
-<p>
-<p>I7 will compile this using a local variable for &quot;loopvar&quot;: it may well re-use this variable later for other loops, so its value cannot be relied upon outside of the code block following the loop.
+<p>Implications have not been mentioned up to now since they are only really needed by extensions, but also because they can be tricky, with unforeseen consequences. Handle with care.
 <p>
 <p><hr><p><a href=doc252.html>Previous</a> / <a href=doc254.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

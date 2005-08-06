@@ -1,33 +1,27 @@
-<html><head><title>16.10. Deciding the scope of something</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc229.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc231.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.10. Deciding the scope of something</b></td></tr></table><p>
+<html><head><title>16.6. Listing contents of something</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc229.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc231.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.6. Listing contents of something</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> &quot;Scope&quot; is a term of art in interactive fiction programming: it means the collection of things which can be interacted with at any given moment, which depends on who you are and where you are. Commands typed by the player will only be allowed to go forward into actions if the things they refer to are &quot;in scope&quot;. Inform also needs to determine scope at other times, too: for instance, when deciding whether a rule conditional on being &quot;in the presence of&quot; something is valid. It is a bad idea to say anything during this activity.
+<p><b>1. When it happens.</b> When taking inventory, the list is produced by the activity &quot;listing contents of yourself&quot;; when looking, a list of items which do not deserve their own paragraphs is produced by &quot;listing contents of&quot; the location; when a say &quot;[contents of ...]&quot; is performed. In short, whenever a list is needed.
 <p>
-<p><b>2. The default behaviour.</b> Is complicated: see the Inform Designer's Manual, 4th edition, page 227. Briefly, the scope for someone consists of everything in the same place as them, unless it is dark.
+<p><b>2. The default behaviour.</b> The list is printed out.
 <p>
-<p><b>3. Examples.</b> (a) We very rarely want to forbid the player to refer to things close at hand, but often want to allow references to distant ones. For instance, a mirage of something which is not present at all:
+<p><b>3. Examples.</b> (a) We have already seen that it can be elegant to elaborate on a description in the context of a list. Here we add &quot;discarded&quot; to a sweet wrapper which is found on the ground.
 <p>
-<blockquote><font color="#000080">After deciding the scope of the player while in the Shrine: place the holy grail in scope.
+<blockquote><font color="#000080">Rule for printing the name of the wrapper while listing contents of a room: say &quot;discarded sweet wrapper&quot;.
 </font></blockquote><p>
 <p>
-<p>The special phrase &quot;place ... in scope&quot; does what it suggests. Ordinarily if something is placed in scope, then so are its parts and (in the case of a room, a supporter or a transparent or open container) its contents; but we can also &quot;place the box in scope, but not its contents&quot; if we really need to place just the box itself in scope.
+<p>(b) Lists can be considerably shortened and tidied up if similar items are grouped together. We do this by specifying what should be grouped together before listing contents, using the special phrase &quot;group ... together&quot;:
 <p>
-<p>(b) Another useful device is to be able to see, but not touch, another room:
-<p>
-<blockquote><font color="#000080">The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;
+<blockquote><font color="#000080">Utensil is a kind of thing. The knife, the fork and the spoon are utensils. Before listing contents: group utensils together as &quot;utensils&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After deciding the scope of the player while in the Cloakroom: place the Beyond in scope.
+<p>The result will be, say, &quot;two utensils (knife and spoon)&quot;, if both are found in the same place.
+<p>
+<p>(c) We can less obtrusively group items together like so:
+<p>
+<blockquote><font color="#000080">Before listing contents while taking inventory: group utensils together.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Beyond is a room. Johnny Depp is a man in the Beyond.
-</font></blockquote><p>
-<p>
-<p>(This must, however, also be a mirage, as at time of writing Mr Depp is alive, well and playing Willy Wonka in the forthcoming movie of &quot;Charlie and the Chocolate Factory&quot;.)
-<p>
-<p>(c) In darkness, the scope of someone is ordinarily restricted to his or her possessions (and body), but we can override that:
-<p>
-<blockquote><font color="#000080">After deciding the scope of the player while in darkness: place the location in scope.
-</font></blockquote><p>
+<p>Now they will be rolled into a single inventory line: say, &quot;fork and spoon&quot; rather than &quot;two utensils (fork and spoon)&quot;.
 <p>
 <p><hr><p><a href=doc229.html>Previous</a> / <a href=doc231.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,30 +1,25 @@
-<html><head><title>10.9. Repeat running through</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc145.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc147.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.9. Repeat running through</b></td></tr></table><p>
+<html><head><title>10.6. Begin and end</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc145.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc147.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.6. Begin and end</b></td></tr></table><p>
 <p>
-<p>Inform is not used very much for numerical work, so the kind of repeat loop described in the previous section is not much used. Inform's natural domain is really the world of things and rooms, so the following kind of repeat is much more useful.
+<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
 <p>
-<blockquote><font color="#000080">repeat with item running through open containers begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;... phrases ...
-<br>end repeat;
+<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
+<p>
+<blockquote><font color="#000080">To comment upon (whatever - a thing):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>Once again we create a new value, &quot;item&quot;, of only temporary validity. This time the phrases are repeated once for each open container presently found in the world. (If there are no containers, or they are all closed, the phrases will not be followed at all.)
+<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
 <p>
-<p>As with counting the &quot;number of ...&quot; objects satisfying some property, we can run through a wide variety of possibilities. For example:
+<p>Similarly for while:
 <p>
-<blockquote><font color="#000080">repeat with dinner guest running through the people in the Dining Room begin; ...
+<blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">repeat with possession running through things carried begin; ...
-</font></blockquote><p>
-<p>
-<p>The following lists the whereabouts of all men in lighted rooms:
-<p>
-<blockquote><font color="#000080">repeat with suspect running through the men who are in a lighted room (called the scene) begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The suspect] is in [the scene].&quot;;
-<br>end repeat.
-</font></blockquote><p>
-<p>
-<p>Note the way we are allowed to give a name to the vaguely described place &quot;lighted room&quot;, so that we can refer to it inside the loop. This wasn't really necessary (&quot;holder of the suspect&quot; would have had the same effect) but improved the clarity of the source.
+<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
 <p>
 <p><hr><p><a href=doc145.html>Previous</a> / <a href=doc147.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,16 +1,29 @@
-<html><head><title>7.3. Changing the status line</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc93.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc95.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.3. Changing the status line</b></td></tr></table><p>
+<html><head><title>6.24. Recap of the action sequence</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc93.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc95.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.24. Recap of the action sequence</b></td></tr></table><p>
 <p>
-<p>The status line is the black bar along the top of a game being played, which ordinarily displays the current position, score and number of moves taken. Like the command prompt, it is not fixed but results from values which can be changed: the &quot;left hand status line&quot; and &quot;right hand status line&quot;.
+<p>To recap, actions are normally generated when the player types a command, but they can also be started by the &quot;try&quot; phrase. What then happens is as follows:
 <p>
-<p>The default values are &quot;[the player's surroundings]&quot; for the left hand status line and &quot;[score]/[turn count]&quot; for the right hand status line. Score and turn count are numbers which vary in play (there will be much more about scoring later); &quot;[the player's surroundings]&quot; expands to a succinct description of where the player is, be this in darkness, in a lighted room or inside an opaque container such as a large packing case. These make useful elements to juggle in redesigning the status line, as in the following example:
-<p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the left hand status line to
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;[the player's surroundings] / [turn count] / [score]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the right hand status line to &quot;Time: [time of day]&quot;.
+<blockquote><font color="#000080">1. If any before rule applies then it is obeyed.
 </font></blockquote><p>
 <p>
-<p>The text in the right hand status line should be kept no more than 14 letters long, including any spaces. The left hand status line has more leeway, but should still be kept brief.
+<blockquote><font color="#000080">2. If the action needs light to see by, that is checked; if it needs physical access to its objects, that too is checked.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">3. If any instead rule applies then it is obeyed and the action is automatically stopped.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">4. The &quot;check&quot; rules for the given action are obeyed, to see if it is possible. For example, the &quot;check taking&quot; rules will prevent the player from taking something which is fixed in place.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">5. The &quot;carry out&quot; rules for the given action are obeyed. For example, the &quot;carry out taking&quot; rules actually move the given object into the player's possession. The action is now declared a success.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">6. If any after rule applies then it is obeyed and the action is automatically stopped.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">7. The &quot;report&quot; rules for the given action are obeyed. For example, the &quot;report taking&quot; rules always just say &quot;Taken.&quot;
+</font></blockquote><p>
+<p>
+<p>In practice we can forget about the check, carry out and report rules unless we are creating new actions or meddling with the definition of existing ones: almost everything we need to do can be done with before, instead and after rules.
 <p>
 <p><hr><p><a href=doc93.html>Previous</a> / <a href=doc95.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

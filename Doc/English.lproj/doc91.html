@@ -1,29 +1,30 @@
-<html><head><title>6.24. Recap of the action sequence</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc90.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc92.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.24. Recap of the action sequence</b></td></tr></table><p>
+<html><head><title>6.21. New actions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc90.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc92.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.21. New actions</b></td></tr></table><p>
 <p>
-<p>To recap, actions are normally generated when the player types a command, but they can also be started by the &quot;try&quot; phrase. What then happens is as follows:
+<p>It is not often that we need to create new actions, but a large work of interactive fiction with no novelty actions is a flavourless dish. Here we shall create an action for photographing things.
 <p>
-<blockquote><font color="#000080">1. If any before rule applies then it is obeyed.
+<blockquote><font color="#000080">The Ruins is a room. &quot;You find this clearing in the rainforest oddly familiar.&quot; The camera is in the Ruins. &quot;Your elephantine camera hangs from a convenient branch.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">2. If the action needs light to see by, that is checked; if it needs physical access to its objects, that too is checked.
+<blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">3. If any instead rule applies then it is obeyed and the action is automatically stopped.
+<p>In theory that text is already sufficient in to make the new action, but what we have so far is rudimentary to say the least. The two qualifications give Inform the useful information that we cannot photograph in the dark, and that we need to be photographing something - not, as in the case of waiting or taking inventory, acting without reference to any particular thing external to ourselves.
+<p>
+<p>The word &quot;visible&quot; here tells Inform that we do not need to be able to touch the thing in question: a line of sight is good enough. These two stipulations were necessary because the default arrangement is that any object must be in touching range, and that most actions can be performed in darkness. (Also, note that if you invent an action which needs to apply to directions like &quot;north&quot; or &quot;south&quot;, you need to make this apply to visible things, because the object used inside Inform to represent the idea of &quot;north&quot; can be seen but not touched.)
+<p>
+<p>As further examples, here we create &quot;blinking&quot; and &quot;scraping X with Y&quot;. Note the use of &quot;it&quot; to indicate that the name of an object should go here.
+<p>
+<blockquote><font color="#000080">Blinking is an action applying to nothing. Scraping it with is an action applying to two things.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">4. The &quot;check&quot; rules for the given action are obeyed, to see if it is possible. For example, the &quot;check taking&quot; rules will prevent the player from taking something which is fixed in place.
+<p>The photographing action now exists, but with two provisos: (a) it never happens, because Inform does not know what instructions by the player should cause it, and (b) even if it were to happen, nothing would follow, because Inform does not know how to carry it out.
+<p>
+<p>The first problem is easily overcome:
+<p>
+<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">5. The &quot;carry out&quot; rules for the given action are obeyed. For example, the &quot;carry out taking&quot; rules actually move the given object into the player's possession. The action is now declared a success.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">6. If any after rule applies then it is obeyed and the action is automatically stopped.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">7. The &quot;report&quot; rules for the given action are obeyed. For example, the &quot;report taking&quot; rules always just say &quot;Taken.&quot;
-</font></blockquote><p>
-<p>
-<p>In practice we can forget about the check, carry out and report rules unless we are creating new actions or meddling with the definition of existing ones: almost everything we need to do can be done with before, instead and after rules.
+<p>We will return to the whole subject of parsing, as this process of understanding the player's commands is called, later. But this gives the gist of it.
 <p>
 <p><hr><p><a href=doc90.html>Previous</a> / <a href=doc92.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

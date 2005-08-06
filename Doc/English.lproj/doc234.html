@@ -1,18 +1,33 @@
-<html><head><title>16.14. Printing the player's obituary</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc233.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc235.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.14. Printing the player's obituary</b></td></tr></table><p>
+<html><head><title>16.10. Deciding the scope of something</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc233.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc235.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.10. Deciding the scope of something</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> The obituary is the text &quot;*** You have died ***&quot; or similar, usually followed by the final score.
+<p><b>1. When it happens.</b> &quot;Scope&quot; is a term of art in interactive fiction programming: it means the collection of things which can be interacted with at any given moment, which depends on who you are and where you are. Commands typed by the player will only be allowed to go forward into actions if the things they refer to are &quot;in scope&quot;. Inform also needs to determine scope at other times, too: for instance, when deciding whether a rule conditional on being &quot;in the presence of&quot; something is valid. It is a bad idea to say anything during this activity.
 <p>
-<p><b>2. The default behaviour.</b> Printing the aforementioned text, then the final score, and reducing the status line to a largely blank state.
+<p><b>2. The default behaviour.</b> Is complicated: see the Inform Designer's Manual, 4th edition, page 227. Briefly, the scope for someone consists of everything in the same place as them, unless it is dark.
 <p>
-<p><b>3. Examples.</b> (a) For a work with no meaningful score, it would be odd to wind up with a final reckoning of 0, so:
+<p><b>3. Examples.</b> (a) We very rarely want to forbid the player to refer to things close at hand, but often want to allow references to distant ones. For instance, a mirage of something which is not present at all:
 <p>
-<blockquote><font color="#000080">Procedural rule: ignore the print final score rule.
+<blockquote><font color="#000080">After deciding the scope of the player while in the Shrine: place the holy grail in scope.
 </font></blockquote><p>
 <p>
-<p>(b) Or we could add to the verdict:
+<p>The special phrase &quot;place ... in scope&quot; does what it suggests. Ordinarily if something is placed in scope, then so are its parts and (in the case of a room, a supporter or a transparent or open container) its contents; but we can also &quot;place the box in scope, but not its contents&quot; if we really need to place just the box itself in scope.
 <p>
-<blockquote><font color="#000080">After printing the player's obituary: say &quot;And you visited [number of visited rooms] place[s].&quot;
+<p>(b) Another useful device is to be able to see, but not touch, another room:
+<p>
+<blockquote><font color="#000080">The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After deciding the scope of the player while in the Cloakroom: place the Beyond in scope.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Beyond is a room. Johnny Depp is a man in the Beyond.
+</font></blockquote><p>
+<p>
+<p>(This must, however, also be a mirage, as at time of writing Mr Depp is alive, well and playing Willy Wonka in the forthcoming movie of &quot;Charlie and the Chocolate Factory&quot;.)
+<p>
+<p>(c) In darkness, the scope of someone is ordinarily restricted to his or her possessions (and body), but we can override that:
+<p>
+<blockquote><font color="#000080">After deciding the scope of the player while in darkness: place the location in scope.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc233.html>Previous</a> / <a href=doc235.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

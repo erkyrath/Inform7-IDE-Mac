@@ -1,35 +1,26 @@
-<html><head><title>4.3. Plural assertions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc41.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc43.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.3. Plural assertions</b></td></tr></table><p>
+<html><head><title>4.1. New kinds</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 4: Kinds</h2><p><table><tr><td><a href=doc41.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc43.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.1. New kinds</b></td></tr></table><p>
 <p>
-<p>As the following examples show, sentences can make several assertions at once by using the plural. Suppose we have defined a kind called &quot;high-up fixture&quot;, for instance like so:
+<p>Everything has one and only one kind: but kinds can have more specific kinds. Inform makes the world out of three fundamental kinds of object, &quot;room&quot;, &quot;thing&quot; and &quot;direction&quot;: browsing the Kinds index will give an idea of how the others fit together. A container, for instance, is a kind of thing.
 <p>
-<blockquote><font color="#000080">A high-up fixture is a kind of thing. A high-up fixture is usually fixed in place.
+<p>Any new kind must be created as a special case of an existing one. Here we sub-categorise rooms:
+<p>
+<blockquote><font color="#000080">A dead end is a kind of room.
 </font></blockquote><p>
 <p>
-<p>Then the following sentence creates two such objects and puts them in their place:
+<p>Any dead end that we make is also a room, but can also have other properties in addition, if we so decide. For the purposes of this example, it's useful to mention a property not seen so far: rooms can be &quot;dark&quot; or &quot;lighted&quot;, all the examples so far having been lighted. Similarly, a thing with the property of being &quot;lit&quot; will enable the player to see inside dark rooms, and to carry out other activities requiring light, such as examining items.
 <p>
-<blockquote><font color="#000080">The high shelf and the skylight window are high-up fixtures in the Lumber Room.
+<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came.&quot; A dead end is usually dark.
 </font></blockquote><p>
 <p>
-<p>since it is equivalent to saying:
-<p>
-<blockquote><font color="#000080">The high shelf is a high-up fixture. The skylight window is a high-up fixture. The high shelf is in the Lumber Room. The skylight window is in the Lumber Room.
+<blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove.
 </font></blockquote><p>
 <p>
-<p>Such plurals are allowed in almost any context, and we could even define two kinds at once:
-<p>
-<blockquote><font color="#000080">Bucket and basket are kinds of container.
+<blockquote><font color="#000080">In the Undertomb is the candle lantern. It is lit.
 </font></blockquote><p>
 <p>
-<p>Inform constructs plurals by a fairly primitive rule, and English is so irregular a language that a more complicated rule would probably not be very much better. We sometimes need to intervene:
+<p>Three different rooms adjoin the Undertomb as a result. Notice how much more concise this is thanks to having the &quot;dead end&quot; kind to hand.
 <p>
-<blockquote><font color="#000080">The plural of ox is oxen. An ox is a kind of animal.
-</font></blockquote><p>
-<p>
-<p>Note that we specify the plural <i>before</i> creating the kind called &quot;ox&quot;: otherwise it will have plural &quot;oxes&quot;, that being the best that Inform knew at the time.
-<p>
-<p>A particular case worth mentioning: as far as Inform is concerned, the plural of &quot;person&quot; is &quot;people&quot;, not &quot;persons&quot;.
-<p>
-<p><hr><img border=0 src=beta.png>For the time being, please avoid syllepsis such as &quot;Darcy is wearing a hat and carrying a fishing rod.&quot;, where the &quot;and&quot; couples together prepositions (or verbs) rather than nouns.
+<p>What is a kind, really? In the end it is a name for a bundle of properties, and the key differences between a kind (such as &quot;container&quot;) and a property (such as &quot;fixed in place&quot;) are that, firstly, something only has one kind (except in the sense that a container is also a thing, and so on), and secondly, it has that kind forever, whereas properties may change.
 <p>
 <p><hr><p><a href=doc41.html>Previous</a> / <a href=doc43.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

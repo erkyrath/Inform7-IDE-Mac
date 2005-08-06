@@ -1,31 +1,16 @@
-<html><head><title>18.1. The sentence grammar S</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 18: Appendix: The Sentence Grammar</h2><p><table><tr><td><a href=doc258.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc260.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.1. The sentence grammar S</b></td></tr></table><p>
+<html><head><title>17.19. The return context</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc258.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc260.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.19. The return context</b></td></tr></table><p>
 <p>
-<p>The Inform documentation has tried not to be too formal about grammar, to avoid spelling out in technical language what the reader already knows perfectly well about everyday English. All the same, some readers will want to know exactly what is Inform's idea of a sentence, or indeed a noun, and the following short account gives a (very nearly) exact description. It is intended only to explain why some things are accepted and others not. No new features of the language are described, and this is very much an appendix, not part of the manual proper.
+<p>I7 has a number of conceptually different ways to define code - as phrases which are not compiled inline, as phrases to decide conditions, as rules and so on. All these are compiled to I6 routines, and return values have different meanings in the different cases. For type-checking reasons, I7 needs to detect when a return might occur in order to make sure that a condition does not end with the wrong kind of result, and so on.
 <p>
-<p>Let us start with two major grammatical structures. One is the Description Phrase, or DP for short, examples of which include &quot;the red basket&quot;, &quot;somewhere lighted&quot; and &quot;an empty open container&quot;. This we will take as read, since the account given at the start of Chapter 5 is quite explicit. The other is the Sentence, which we will write S, an example of which is:
+<p>Inline phrases which cause a return should declare what happens like so:
 <p>
-<blockquote><font color="#000080">The horseman wears a riding helmet.
+<blockquote><font color="#000080">To stop the action: (- rtrue; -) - outcome.
 </font></blockquote><p>
 <p>
-<p>We have been much vaguer about the definition of &quot;sentence&quot;. Clearly sentences include DPs, but they also include other ingredients. How does this work?
+<p>&quot;Outcome&quot;, used for rules, is one of four possibilities. The others are &quot;void&quot; (a return with no value), &quot;value&quot; (with a value) or &quot;condition&quot; (used to signal a result of a phrase to decide whether something is true). Thus the phrases &quot;yes&quot; and &quot;stop the action&quot; have the same definition, but a different context:
 <p>
-<p>The general pattern used in Inform is very simple:
-<p>
-<blockquote><font color="#000080">1. S = DP + VP
-<br>2. VP = Verb + DP
-</font></blockquote><p>
-<p>
-<p>where VP is a &quot;Verb Phrase&quot;. Using these two rules, we can break down the above example sentence like so:
-<p>
-<blockquote><font color="#000080">S (The horseman wears a riding helmet)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;= DP (The horseman) + VP (wears a riding helmet)
-</font></blockquote><p>
-<p>
-<p>and then:
-<p>
-<blockquote><font color="#000080">VP (wears a riding helmet)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;= Verb (wears) + DP (a riding helmet)
+<blockquote><font color="#000080">To yes: (- rtrue; -) - condition.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc258.html>Previous</a> / <a href=doc260.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,31 +1,33 @@
-<html><head><title>13.5. Choosing rows</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc185.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc187.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.5. Choosing rows</b></td></tr></table><p>
+<html><head><title>13.2. Looking up entries</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc185.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc187.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.2. Looking up entries</b></td></tr></table><p>
 <p>
-<p>The following would be one way to print out a list of recent Kings and Queens:
+<p>The simplest way to access the information inside tables is to ask explicitly for it, specifying the row number, the column name and what table is to be consulted. So, given our example table
 <p>
-<blockquote><font color="#000080">To list the succession:
-<br>say &quot;The Succession List runs as follows...&quot;;
-<br>repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;
-<br>say &quot;[accession in row N of the Table of Recent Monarchs]: [name in row N of the Table of Recent Monarchs] ([family in row N of the Table of Recent Monarchs]).&quot;;
+<p><center><img src=table2.tiff></center>
+<p>
+<p>we can write the following description:
+<p>
+<blockquote><font color="#000080">symbol in row 3 of the Table of Selected Elements
+</font></blockquote><p>
+<p>
+<p>to produce the value &quot;Zn&quot;. Or the following will run off some chemical data:
+<p>
+<blockquote><font color="#000080">repeat with N running from 1 to the number of rows in the Table of Selected Elements begin;
+<br>say &quot;The atomic weight of [element in row N of the Table of Selected Elements] is [atomic weight in row N of the Table of Selected Elements].&quot;;
 <br>end repeat.
 </font></blockquote><p>
 <p>
-<p>This works, but is repetitive. We often want to work on a single row for a while, either to change things or think about the contents, and it is tiresome to keep specifying the row over and over again. The following shorthand provides some relief:
+<p>The result of which will be:
 <p>
-<blockquote><font color="#000080">choose row N of the Table of Recent Monarchs;
-<br>say &quot;[accession entry]: [name entry] ([family entry]).&quot;;
+<blockquote><font color="#000080">The atomic weight of Hydrogen is 1.
+<br>The atomic weight of Iron is 56.
+<br>The atomic weight of Zinc is 65.
+<br>The atomic weight of Uranium is 238.
 </font></blockquote><p>
 <p>
-<p>That is, if &quot;accession&quot; is a column name then &quot;accession entry&quot; will mean the entry in that column of the currently chosen row. This notation can only be used if a &quot;choose&quot; has certainly already happened, and it is a good idea to make that choice somewhere close by in the source code (and certainly in the same rule or phrase definition) for the sake of avoiding errors. We can also choose rows by specifying something about them, like so:
+<p>Note that the first row in a table is row number 1, and that the last can be found with the special value:
 <p>
-<blockquote><font color="#000080">choose row with a name of &quot;Victoria&quot; in the Table of Recent Monarchs;
-<br>change name entry to &quot;Clytemnestra Honeytongue III&quot;;
-</font></blockquote><p>
-<p>
-<p>This will choose the first row with the given entry: an error will result if there are no rows which qualify. We can also choose a row quite at random:
-<p>
-<blockquote><font color="#000080">choose a random row in the Table of Recent Monarchs;
-<br>say &quot;Your eye falls upon the reign of [name entry].&quot;
+<blockquote><font color="#000080">the number of rows in the (name of table here)
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc185.html>Previous</a> / <a href=doc187.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

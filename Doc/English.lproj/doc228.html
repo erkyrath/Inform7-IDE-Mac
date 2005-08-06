@@ -1,18 +1,24 @@
-<html><head><title>16.8. Constructing the status line</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc227.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc229.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.8. Constructing the status line</b></td></tr></table><p>
+<html><head><title>16.4. While clauses</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc227.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc229.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.4. While clauses</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> Just before input is accepted from the keyboard, Inform constructs a &quot;status line&quot; at the top of the window which is normally displayed in reverse colours (white on black instead of black on white, say).
+<p>Rules applied to actions can become baroque (&quot;after going through a door in the presence of an animal when&quot; and so on and so forth), but activities are again simpler: they only have one possible clause attached, which is called &quot;while&quot;. For instance, the following would provide a fairly sledgehammer hint that the sack should not lightly be thrown away:
 <p>
-<p><b>2. The default behaviour.</b> See Chapter 5. The status line is already very customisable without using rules applied to this activity.
-<p>
-<p><b>3. Examples.</b> (a) The most useful thing about this activity is that it allows us to vary descriptions in the status line. This is especially helpful to abbreviate unduly long room names, which might not otherwise fit:
-<p>
-<blockquote><font color="#000080">The Temple Of A Thousand Mightily Peeved Deities is a room. Rule for printing the name of the Temple while constructing the status line: say &quot;Temple&quot;.
+<blockquote><font color="#000080">The sack is a player's holdall. The sack is initially carried. Rule for printing the name of the sack while the sack is not carried: say &quot;your discarded sack&quot;.
 </font></blockquote><p>
 <p>
-<p>(b) Again, it's usually not necessary to apply activity rules to this, but occasionally amusing effects are possible if we do:
+<p>Any condition can be given after the &quot;while&quot;.
 <p>
-<blockquote><font color="#000080">The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.
+<p>In fact, though, there is another possibility: we can also specify that another activity has to be going on. Thus:
+<p>
+<blockquote><font color="#000080">Rule for printing the name of the lemon sherbet while listing contents: say &quot;curious sort of lemon sherbet sweet&quot;.
+</font></blockquote><p>
+<p>
+<p>This nicely distinguishes between contexts where it's appropriate for the game to be more verbose, and where it isn't. Thus:
+<p>
+<blockquote><font color="#000080">You can see a teaspoon and a curious sort of lemon sherbet sweet here.
+<br>> TAKE ALL
+<br>teaspoon: Taken.
+<br>lemon sherbet: Taken.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc227.html>Previous</a> / <a href=doc229.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -78,6 +78,7 @@ Constant COMMAND_ACT 8;
 Constant ALL_ACT 9;
 Constant OBITUARY_ACT 10;
 Constant AMUSING_ACT 11;
+Constant BANNER_ACT 12;
 ENDIF;
 ! ------------------------------------------------------------------------------
 !   Z-Machine and interpreter issues

@@ -1,23 +1,23 @@
-<html><head><title>3.12. Doors</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc30.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc32.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.12. Doors</b></td></tr></table><p>
+<html><head><title>3.11. Three descriptions of things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc30.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc32.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.11. Three descriptions of things</b></td></tr></table><p>
 <p>
-<p>The map of an interactive fiction is the layout of rooms and the entrances and exits which connect them. So far, these map connections have always run from one room to another, like so:
+<p>The player's first sight of something is the text used as its &quot;initial appearance&quot;:
 <p>
-<blockquote><font color="#000080">The Painted Room is north of the Undertomb.
+<blockquote><font color="#000080">The plain ring is here. &quot;Cast aside, as if worthless, is a plain brass ring.&quot;
 </font></blockquote><p>
 <p>
-<p>However, we can also interpose doors between rooms, like so:
+<p>This text appears as a separate paragraph in the text describing the Painted Room. It will continue to be used until the first time player picks the ring up (if this ever happens), so it normally describes things in their original, undisturbed context.
 <p>
-<blockquote><font color="#000080">The red rock stair is east of the Orchard and above the Undertomb. The stair is an open door.
+<p>Thus when a piece of text stands alone as a sentence in its own right, then this is either the &quot;description&quot; of the most recently discussed room, or the &quot;initial appearance&quot; of the most recently discussed thing. Either way, it is used verbatim as a paragraph in the text shown to the player visiting the room in question.
+<p>
+<p>But a thing also has an ordinary &quot;description&quot;, which is used to give a close-up look at it. This text is ordinarily only revealed to the player when a command like &quot;examine ring&quot; is keyed in:
+<p>
+<blockquote><font color="#000080">The description of the plain ring is &quot;No better than the loops of metal the old women use for fastening curtains.&quot;
 </font></blockquote><p>
 <p>
-<p>The second sentence is needed since otherwise Inform will take &quot;red rock stair&quot; to be the name of a third room, whereas what we want is for the stair to be something physically present in both the Orchard and in the Undertomb, and acting as a conduit between them. To this end it needs to be a &quot;door&quot;, a kind we have not so far seen. In the absence of any other instruction, a newly created door will be fixed in place, closed and openable. Fixed in place is certainly right here, but not closed, which is why we specified that it should be &quot;open&quot;.
+<p>Lastly, a thing has an &quot;inventory listing&quot;, used in inventories. This is ordinarily much the same as its &quot;printed name&quot;, but can also be set to something else:
 <p>
-<p>In real life, most doors are two-sided, and can be used from either of the rooms which they join, but this is not always convenient for interactive fiction. Here is a one-sided door:
-<p>
-<blockquote><font color="#000080">The blue door is a door. It is south of Notting Hill. Through it is the Flat Landing.
+<blockquote><font color="#000080">The inventory listing of the plain ring is &quot;that worthless old ring&quot;.
 </font></blockquote><p>
-<p>
-<p>(Note the use of &quot;it&quot; here as an optional abbreviation.) This will make a door visible only on the Notting Hill side; no map connection will be made in the reverse direction, unless we ask for one.
 <p>
 <p><hr><p><a href=doc30.html>Previous</a> / <a href=doc32.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

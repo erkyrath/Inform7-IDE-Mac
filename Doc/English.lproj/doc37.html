@@ -1,26 +1,27 @@
-<html><head><title>3.18. Possessions and clothing</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc36.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc38.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.18. Possessions and clothing</b></td></tr></table><p>
+<html><head><title>3.17. Articles and proper names</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc36.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc38.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.17. Articles and proper names</b></td></tr></table><p>
 <p>
-<p>We have seen how to place objects in rooms, and in containers or on supporters. But what about people? Perhaps it could be said that they &quot;contain&quot; the fillings in their teeth, or &quot;support&quot; a top hat, but this is not very natural. Inform therefore never speaks of things being &quot;in&quot; or &quot;on&quot; people. Instead, they have two sorts of possessions: the things they carry, and the things they wear. (Body parts, such as arms and legs, are different again: see &quot;parts&quot; below for a clue to how to do these.) Thus:
+<p>Suppose we have said that:
 <p>
-<blockquote><font color="#000080">Mr Darcy wears a top hat. Mr Darcy carries a silver sword.
+<blockquote><font color="#000080">In the Ballroom is a man called Mr Darcy.
 </font></blockquote><p>
 <p>
-<p>In fact, Inform deduces from this not only who owns the hat and the sword, but also that Darcy has the kind &quot;person&quot;, because only people can wear or carry.
+<p>When the Ballroom is visited, the man is listed in the description of the room as &quot;Mr Darcy&quot;, not as &quot;a Mr Darcy&quot;. This happened not because Inform recognised that Darcy is a proper name, or even because men tend to have proper names, but because Inform noticed that we did not use &quot;a&quot;, &quot;an&quot;, &quot;the&quot; or &quot;some&quot; in the sentence which created him. The following little example game shows most of the options:
 <p>
-<p>As all the assertion verbs do, &quot;to wear&quot; and &quot;to carry&quot; have participles which Inform knows about. So we could equally well write:
-<p>
-<blockquote><font color="#000080">The scarlet coat is worn by Mr Wickham. The duelling pistol is carried by Mr Wickham.
+<blockquote><font color="#000080">&quot;Belfry&quot;
 </font></blockquote><p>
 <p>
-<p>If we do not specify who does the wearing, or carrying, then this is assumed to be the player. Thus:
-<p>
-<blockquote><font color="#000080">A brass lantern and a rusty iron key are carried. The mosquito-repellent hat is worn.
+<blockquote><font color="#000080">The Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton's wife is in the Belfry. A man called a bellringer is in the Belfry.
 </font></blockquote><p>
 <p>
-<p>It would make no sense to &quot;wear&quot; the key, for instance, so Inform needs to distinguish between what is clothing and what is not. It does this with an either/or property called &quot;wearable&quot;: if something has this property then the player will be allowed to wear it, provided it can first be picked up. Anything which is worn by somebody at the start of play is assumed to be wearable (unless we say otherwise). But if nobody is initially wearing the item in question, then we have to be explicit:
-<p>
-<blockquote><font color="#000080">The player carries a scarlet gown. The gown is wearable.
+<blockquote><font color="#000080">In the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.
 </font></blockquote><p>
+<p>
+<p>In the resulting game, we read:
+<p>
+<blockquote><font color="#000080">You can see a bat, a bell, some woodworm, William Snelson, the sexton's wife, a bellringer and your local vicar here.
+</font></blockquote><p>
+<p>
+<p>The subtlest rule here is in the handling of &quot;the&quot;. We wrote &quot;The bell is in the Belfry&quot;, but this did not result in the bell always being called &quot;the&quot; bell: in fact, writing &quot;A bell is in the Belfry&quot; would have had the same effect. On the other hand, &quot;A woman called the sexton's wife is in the Belfry.&quot; led to the wife always being known as &quot;the&quot; sexton's wife, not &quot;a&quot; sexton's wife, because Inform thinks the choice of article after &quot;called&quot; shows more of our intention than it would elsewhere. These rules will never be perfect in all situations, so we are also allowed to specify indefinite articles by hand, as the vicar's case shows.
 <p>
 <p><hr><p><a href=doc36.html>Previous</a> / <a href=doc38.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

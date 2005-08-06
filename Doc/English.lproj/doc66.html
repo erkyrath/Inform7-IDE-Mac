@@ -1,26 +1,40 @@
-<html><head><title>5.9. Counting while comparing</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc65.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc67.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.9. Counting while comparing</b></td></tr></table><p>
+<html><head><title>5.6. To be able to see and touch</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc65.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc67.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.6. To be able to see and touch</b></td></tr></table><p>
 <p>
-<p>Lastly we can also ask for a more specific number of possibilities, like so:
+<p>Two of the adjectives built into Inform are:
 <p>
-<blockquote><font color="#000080">if two women are carrying animals
-<br>if at most three doors are open
-<br>if fewer than 10 portable containers are closed
-<br>if all but two of the devices are switched on
+<blockquote><font color="#000080">&quot;visible&quot; - the player can see this
+<br>&quot;touchable&quot; - the player can touch this
 </font></blockquote><p>
 <p>
-<p>Likewise for &quot;less than&quot;, &quot;more than&quot;, &quot;at least&quot;, &quot;all except&quot;. Something to watch out for is that
+<p>So we can write descriptions such as &quot;someone visible&quot; or &quot;a touchable container&quot;. We also have adjectives &quot;invisible&quot; and &quot;untouchable&quot;, as might be expected. The visibility adjectives are particularly useful because the following is likely to go wrong:
 <p>
-<blockquote><font color="#000080">if two doors are open
+<blockquote><font color="#000080">if Helen is in a dark room, ...
 </font></blockquote><p>
 <p>
-<p>will be found true if there are (say) three open doors: after all, if three doors are open, then certainly two doors are. So this is not quite counting. We can be more precise by writing
+<p>This tests whether the room is dark, of itself; Helen may in fact be able to see by means of a torch, but the room is still &quot;dark&quot;.
 <p>
-<blockquote><font color="#000080">if exactly two doors are open
+<p>We can also talk about what other people can see and touch:
+<p>
+<blockquote><font color="#000080">something able to be seen by Helen
+<br>something which can be seen by Helen
 </font></blockquote><p>
 <p>
-<p>The &quot;all but&quot; counts - say, &quot;if all but two doors are open&quot; - are exact: if, in fact, all of the doors are open then this will be found false.
+<p>are synonymous. Similarly for touch; and we can write such conditions as
 <p>
-<p>Lastly, note that the &quot;the&quot; in text like &quot;two of the doors&quot; matters: without it, the phrase will not be recognised as a requirement on the number. (This is to make sure that names of things like &quot;two of hearts&quot; are not misinterpreted.)
+<blockquote><font color="#000080">if Helen is unable to see Agamemnon, ...
+<br>if Cressida can see Troilus, ...
+</font></blockquote><p>
+<p>
+<p>Note that it is essential to establish who does the seeing and touching: so &quot;something which can be seen&quot; will not be allowed, whereas &quot;something which can be seen by Helen&quot; will.
+<p>
+<p>In fact, inside Inform the adjective &quot;invisible&quot; (for instance) has the following straightforward definition:
+<p>
+<blockquote><font color="#000080">Definition: Something is invisible if the player cannot see it.
+</font></blockquote><p>
+<p>
+<p>The exact definitions of visibility and touchability are complicated, because there are so many ways in which vision and touch can be obstructed, but the gist is that they behave as one would expect. Note that in darkness, nothing is visible, and that nobody can see from one room to another. In general anything invisible is also untouchable, but there are a few exceptions to do with being in the dark. Lastly, the player's own body (the player-character object, which is called &quot;yourself&quot; during play) is both visible (in light) and touchable.
+<p>
+<p><hr><img border=0 src=beta.png>One day &quot;something which Helen can see&quot; will be allowed, I hope, but for the moment &quot;who&quot; and &quot;which&quot; must be directly followed by the verb.
 <p>
 <p><hr><p><a href=doc65.html>Previous</a> / <a href=doc67.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

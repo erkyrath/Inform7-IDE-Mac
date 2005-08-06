@@ -1,34 +1,16 @@
-<html><head><title>18.3. Relative phrases RP</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc260.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc262.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.3. Relative phrases RP</b></td></tr></table><p>
+<html><head><title>17.21. Inform 6 objects and classes</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc260.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc262.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.21. Inform 6 objects and classes</b></td></tr></table><p>
 <p>
-<p>&quot;Which&quot; and &quot;who&quot; can be concisely defined by the following extensions to our sentence grammar:
+<p>We are free to mix in I6 object and class definitions, and the I6 and I7 objects should coexist peaceably, with object-oriented code for the I6 items still functioning (&quot;before&quot;, &quot;react_before&quot;, &quot;each_turn&quot; and so forth) alongside I7 rules.
 <p>
-<blockquote><font color="#000080">3a. DP = DP which VP
-<br>3b. DP = DP who VP
+<p>As might be expected, I7 compiles an I6 class for each kind, and an I6 object for each of its own world objects. We can meddle with its compilation process here using a further refinement of Include. For instance, the Standard Rules say this about vehicles:
+<p>
+<blockquote><font color="#000080">Include (- with before [; Go: return 1; ], -) when defining a vehicle.
 </font></blockquote><p>
 <p>
-<p>Thus &quot;an open container which is in the Ballroom&quot; can be broken down as:
+<p>This glues in a new property to the class compiled to represent the I7 kind &quot;vehicle&quot;. (See the DM4 for why.) And similarly:
 <p>
-<blockquote><font color="#000080">DP (an open container) which VP (is in the Ballroom)
-</font></blockquote><p>
-<p>
-<p>To understand compounds like &quot;something in a container&quot;, we have to invent a new grammatical structure: let's call this a Relative Phrase, or RP.
-<p>
-<blockquote><font color="#000080">4. DP = DP + RP
-</font></blockquote><p>
-<p>
-<p>Thus &quot;an open container in the Ballroom&quot; is DP (an open container) + RP (in the Ballroom).
-<p>
-<p>Relative Phrases have two different forms:
-<p>
-<blockquote><font color="#000080">5a. RP = preposition + DP
-<br>5b. RP = participle + DP
-</font></blockquote><p>
-<p>
-<p>Examples of these would be:
-<p>
-<blockquote><font color="#000080">RP (on the table) = Preposition (on) + DP (the table)
-<br>RP (worn by Mr Darcy) = Participle (worn by) + DP (Mr Darcy)
+<blockquote><font color="#000080">Include (- has my_funny_attribute, -) when defining the hot air balloon.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc260.html>Previous</a> / <a href=doc262.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

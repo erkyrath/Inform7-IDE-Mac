@@ -1,26 +1,30 @@
-<html><head><title>11.6. The built-in verbs and their meanings</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc161.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc163.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.6. The built-in verbs and their meanings</b></td></tr></table><p>
+<html><head><title>11.3. What are relations?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc161.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc163.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.3. What are relations?</b></td></tr></table><p>
 <p>
-<p>It is all very well to define new relations, but this does nothing if there is no way to assert that they are true, or to ask whether they are true or false. That requires a verb: in fact, a relation is nothing more than what Inform uses as the &quot;meaning&quot; of a verb. The assertion verbs built in to Inform have the following built-in relations as their meanings:
+<p>Relations are what sentences express. They are yes/no questions about pairs of things: for example, to say that the coin is in the purse is to say that a particular relation (&quot;being in&quot;) is true about a specific pair of things (the coin, the purse). It is neither a fact about the coin nor about the purse, but about the two together.
 <p>
-<blockquote><font color="#000080"><b>Verb - Relation</b>
-<br>to be - (none as such)
-<br>to have - possession relation
-<br>to contain - containment relation
-<br>to support - support relation
-<br>to carry - carrying relation
-<br>to wear - wearing relation
+<p>Inform comes with a number of relations built in, almost all of which have been used in previous chapters already. The following table names some of the more useful ones, giving examples of sentences to bring them about:
+<p>
+<blockquote><font color="#000080">containment relation - The coin is in the purse.
+<br>support relation - The coin is on the table.
+<br>incorporation relation - The coin is part of the sculpture.
+<br>carrying relation - The coin is carried by Peter.
+<br>wearing relation - The jacket is worn by Peter.
+<br>possession relation - Mr Darcy has a rapier.
+<br>adjacency relation - The Study is east of the Hallway.
+<br>visibility relation - Darcy can see Peter.
+<br>touchability relation - Darcy can touch Peter.
 </font></blockquote><p>
 <p>
-<p>Two of Inform's built-in relations are expressed using prepositions instead:
+<p>These relation names do not trip off the tongue but do not need to, since relations are referred to only when creating new verbs (as we shall see).
 <p>
-<blockquote><font color="#000080"><B>Preposition - Relation</b>
-<br>to be part of - incorporation relation
-<br>to be adjacent to - adjacency relation
+<p>The same meaning can often be expressed by using several different verbs, or using the same verb in several different ways, as in the following examples:
+<p>
+<blockquote><font color="#000080">The coin is in the purse.
+<br>The purse contains the coin.
+<br>The coin is contained by the purse.
 </font></blockquote><p>
 <p>
-<p>It would be easy to make verbs for these if we wanted (&quot;to incorporate&quot;, say, or &quot;to adjoin&quot;) using the techniques of the next section.
-<p>
-<p>The verb <i>to be</i> is grammatically different from any other, and its meaning is too complicated to be expressed by a relation. A great deal of the Inform program is given over to its &quot;meaning&quot;, which we are not allowed to change or imitate. But the other verbs are quite simple.
+<p>all of which boil down to saying that the coin and purse satisfy the containment relation. Because of that, <i>relations are not the same as verbs</i>. To create a new idea, we will need first to create a new relation, and only then can we set up a verb which allows us to talk about that relation.
 <p>
 <p><hr><p><a href=doc161.html>Previous</a> / <a href=doc163.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

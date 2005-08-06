@@ -1,21 +1,26 @@
-<html><head><title>8.9. Telling the time</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc119.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc121.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.9. Telling the time</b></td></tr></table><p>
+<html><head><title>8.6. Every turn</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc119.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc121.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.6. Every turn</b></td></tr></table><p>
 <p>
-<p>Now that we have the time of day, we can of course use this value in room descriptions and the like:
+<p>The passage of time in interactive fiction is broken up into a succession of turns, in each of which the player types a request and is given a response. Usually each such request triggers one action, but sometimes a whole sequence are fired off, as when the player types &quot;get all&quot; in a cluttered room.
 <p>
-<blockquote><font color="#000080">The Clock Chamber is a room. &quot;The dark chamber behind the clock face, a mill-room of gears which grind down the seconds. Through the glass you can see the reversed hands reading [the time of day].&quot;
+<p>One of the last things to happen in each turn is that Inform will apply any rules which have been set to occur &quot;every turn&quot;, like so:
+<p>
+<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<p>It seems odd, though, to read a precise numerical description of the time here: after all, it isn't a digital clock. A friendlier version would be:
+<p>This is equivalent to writing:
 <p>
-<blockquote><font color="#000080">The Clock Chamber is a room. &quot;The dark chamber behind the clock face, a mill-room of gears which grind down the seconds. Through the glass you can see the reversed hands reading [the time of day in words].&quot;
+<blockquote><font color="#000080">An every turn rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<p>And this would produce more natural text such as &quot;... reading twenty to nine&quot; rather than &quot;... reading 8:40 pm&quot;.
+<p>Note that the text about blossom, which will quickly become tiresome, is said at the end of every turn, not at the beginning, and in particular not before the player's first opportunity to type a command.
 <p>
-<p>To reiterate an example which came up earlier, we could even work the time of day into the command prompt, which would lend the proper sense of urgency to a game played out against the clock:
+<p>As usual when defining rules, we can add stipulations: any condition can be attached using &quot;when&quot;.
 <p>
-<blockquote><font color="#000080">When play begins: change the command prompt to &quot;[time of day] >&quot;.
+<blockquote><font color="#000080">Every turn when in the Orchard, say &quot;The summer breeze shakes the apple-blossom.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when the player can see the rotting fish, say &quot;Your nose twitches involuntarily.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc119.html>Previous</a> / <a href=doc121.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

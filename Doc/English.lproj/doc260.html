@@ -1,40 +1,28 @@
-<html><head><title>18.2. The verb grammar VP</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc259.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc261.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.2. The verb grammar VP</b></td></tr></table><p>
+<html><head><title>17.20. Longer extracts of Inform 6 code</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc259.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc261.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.20. Longer extracts of Inform 6 code</b></td></tr></table><p>
 <p>
-<p>In the example &quot;The horseman wears a riding helmet&quot; the Verb part was indeed a single verb: the word &quot;wears&quot;. More generally, Inform allows a Verb to include adverbs and prepositions, to be negated, and to come in any of four tenses, so the following are all valid as Verb in our grammar:
+<p>Whole routines, object and class definitions (or any other directives) can be pasted in wholesale using sentences like so:
 <p>
-<blockquote><font color="#000080">wore
-<br>carries
-<br>is carried by
-<br>had not been inside
+<blockquote><font color="#000080">Include (-
+<br>[ MyInform6Routine a b; return a*b; ];
+<br>-).
 </font></blockquote><p>
 <p>
-<p>That does not mean every Verb makes sense in an assertion. For instance, Inform will reject this:
+<p>Such inclusions should not be too long (Inform has a maximum length of literal verbatim text of about 2K), but of course any number of inclusions like this can be made. They are pasted into the final compiled code at the end of the file, after the I6 grammar has been declared.
 <p>
-<blockquote><font color="#000080">The silver plate is not on the table.
+<p>In such extracts, we sometimes need to refer to objects, variables or values which can't be described using I6: or rather, which can be described, but we don't know how. To this end, any text in an inclusion written in &quot;(+&quot; and &quot;+)&quot; parentheses is treated as an I7 value, and compiled accordingly, with all type-checking waived for the occasion. For instance:
+<p>
+<blockquote><font color="#000080">Include (-
+<br>Global my_global = (+ the tartan rucksack +);
+<br>-).
 </font></blockquote><p>
 <p>
-<p>Inform needs to be told where it is, not where it isn't. Similarly, we are not allowed to say that:
+<p>Here &quot;the tartan rucksack&quot; is translated into &quot;O18_tartan_rucksack&quot;, or something similar: the I6 object created to represent the rucksack. Thus the aactual line of code produced is
 <p>
-<blockquote><font color="#000080">The silver plate has been on the table.
+<blockquote><font color="#000080">Global my_global = O18_tartan_rucksack;
 </font></blockquote><p>
 <p>
-<p>because assertions are supposed to talk about the world <i>now</i>, at the start of play, and to use the present tense.
+<p>(Note that the brace notation seen before for Inform 6-defined inline phrases is not allowed here. But this is better anyway.)
 <p>
-<p>So why have negatives and past tenses? Inform uses the same basic grammar for conditions - questions about the world as it evolves during play - as it does for assertions - factual statements about the initial state. For instance, because
-<p>
-<blockquote><font color="#000080">The silver plate is on the table.
-</font></blockquote><p>
-<p>
-<p>is a valid sentence S, we can also write
-<p>
-<blockquote><font color="#000080">if the silver plate is on the table then ...
-</font></blockquote><p>
-<p>
-<p>when we come to setting up rules of play (in the next chapter). And once play has begun, it makes perfect sense to ask questions in the negative, or to talk about the past:
-<p>
-<blockquote><font color="#000080">if the silver plate is not on the table then ...
-<br>if the silver plate has been on the table then ...
-</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc259.html>Previous</a> / <a href=doc261.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

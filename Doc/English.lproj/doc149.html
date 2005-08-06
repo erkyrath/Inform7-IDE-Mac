@@ -1,61 +1,30 @@
-<html><head><title>10.12. An example: tinted wallpaper</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc148.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc150.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.12. An example: tinted wallpaper</b></td></tr></table><p>
+<html><head><title>10.9. Repeat running through</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc148.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc150.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.9. Repeat running through</b></td></tr></table><p>
 <p>
-<p>Kinds of value come into their own inside phrases, as the following worked example may suggest. Suppose we have declared that:
+<p>Inform is not used very much for numerical work, so the kind of repeat loop described in the previous section is not much used. Inform's natural domain is really the world of things and rooms, so the following kind of repeat is much more useful.
 <p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are green, aquamarine and darkish purple.
+<blockquote><font color="#000080">repeat with item running through open containers begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;... phrases ...
+<br>end repeat;
 </font></blockquote><p>
 <p>
-<p>The effect is that &quot;colour&quot; is now a kind of value on a par with, for instance, &quot;number&quot;. We are allowed, for instance, in a phrase to write
+<p>Once again we create a new value, &quot;item&quot;, of only temporary validity. This time the phrases are repeated once for each open container presently found in the world. (If there are no containers, or they are all closed, the phrases will not be followed at all.)
 <p>
-<blockquote><font color="#000080">let the tint be aquamarine;
+<p>As with counting the &quot;number of ...&quot; objects satisfying some property, we can run through a wide variety of possibilities. For example:
+<p>
+<blockquote><font color="#000080">repeat with dinner guest running through the people in the Dining Room begin; ...
 </font></blockquote><p>
 <p>
-<p>to create a temporary quantity called &quot;tint&quot;, which always holds a colour, initially aquamarine. (If, later in the same phrase, we were to try &quot;let the tint be 15&quot;, we would be rebuffed because a colour can't be a number or vice versa. The tint may change colour, but must always be a colour.) We can also
-<p>
-<blockquote><font color="#000080">say &quot;The wallpaper has a distinctly [tint] wash.&quot;;
+<blockquote><font color="#000080">repeat with possession running through things carried begin; ...
 </font></blockquote><p>
 <p>
-<p>which results in
+<p>The following lists the whereabouts of all men in lighted rooms:
 <p>
-<blockquote><font color="#000080">The wallpaper has a distinctly green wash.
-<br>The wallpaper has a distinctly aquamarine wash.
-<br>The wallpaper has a distinctly darkish purple wash.
+<blockquote><font color="#000080">repeat with suspect running through the men who are in a lighted room (called the scene) begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The suspect] is in [the scene].&quot;;
+<br>end repeat.
 </font></blockquote><p>
 <p>
-<p>as may be. As might be expected, we can also test conditions:
-<p>
-<blockquote><font color="#000080">if the tint is darkish purple then ...
-</font></blockquote><p>
-<p>
-<p>When a property is created that has the same name as a kind of value, like so:
-<p>
-<blockquote><font color="#000080">A door is allowed to have a colour.
-</font></blockquote><p>
-<p>
-<p>it becomes a property whose value is required at all times to fit that quality. Thus
-<p>
-<blockquote><font color="#000080">The colour of a door is usually green.
-<br>The colour of the lounge door is aquamarine.
-<br>...
-<br>say &quot;The lounge door is [colour of lounge door].&quot;;
-<br>if the colour of the lounge door is green then ...
-</font></blockquote><p>
-<p>
-<p>However, this is obviously rather cumbersome in English, so we can also more naturally write any of these:
-<p>
-<blockquote><font color="#000080">A door is usually green.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The lounge door is aquamarine.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">if the lounge door is green then ...
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before putting something into an aquamarine container: ...
-</font></blockquote><p>
-<p>
-<p>which are unambiguous since &quot;green&quot; is a colour and in the context of an object must imply the colour of that object.
+<p>Note the way we are allowed to give a name to the vaguely described place &quot;lighted room&quot;, so that we can refer to it inside the loop. This wasn't really necessary (&quot;holder of the suspect&quot; would have had the same effect) but improved the clarity of the source.
 <p>
 <p><hr><p><a href=doc148.html>Previous</a> / <a href=doc150.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

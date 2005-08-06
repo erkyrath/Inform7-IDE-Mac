@@ -1,28 +1,26 @@
-<html><head><title>4.9. Text with numbers</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc47.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc49.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.9. Text with numbers</b></td></tr></table><p>
+<html><head><title>4.7. New value properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc47.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc49.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.7. New value properties</b></td></tr></table><p>
 <p>
-<p>When a numerical value is given in a square-bracketed substitution, it is ordinarily printed out in digits. Thus:
+<p>Moving on to properties which contain values, such as the &quot;matching key&quot; property of a door or a container, we need to use a different formulation.
 <p>
-<blockquote><font color="#000080">&quot;You've been wandering around for [turn count] turns now.&quot;
+<blockquote><font color="#000080">A dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.
 </font></blockquote><p>
 <p>
-<p>might print as &quot;You've been wandering around for 213 turns now.&quot;, if the game has been played out for exactly that many commands. Alternatively, we can add &quot;...in words&quot;, thus:
+<p>The property &quot;river sound&quot; is now applicable only to dead ends, and we would not be allowed to talk about it in any other context. As can be seen, it holds a piece of text. If we tried the following:
 <p>
-<blockquote><font color="#000080">&quot;You've been wandering around for [turn count in words] turns now.&quot;
+<blockquote><font color="#000080">The river sound of the Tortuous Alcove is 7.
 </font></blockquote><p>
 <p>
-<p>to get the more conversational &quot;You've been wandering around for two hundred and thirteen turns now.&quot;
+<p>...then Inform would object, because the number 7 is the wrong kind of value to go into the &quot;river sound&quot; property. If we need a numerical property, we can try this instead:
 <p>
-<p>Either way, though, there is some risk of the following:
-<p>
-<blockquote><font color="#000080">You've been wandering around for one turns now.
+<blockquote><font color="#000080">A dead end has a number called the difficulty rating. The Tortuous Alcove has difficulty rating 7.
 </font></blockquote><p>
 <p>
-<p>We can avoid this using the special substitution &quot;[s]&quot;, which prints a letter &quot;s&quot; unless the last number printed was 1. So:
+<p>(When we say &quot;has a property called...&quot; we implicitly allow it to hold either text or the name of a room or object, since it is often convenient to be able to store both interchangeably in the same property.)
 <p>
-<blockquote><font color="#000080">&quot;You've been wandering around for [turn count in words] turn[s] now.&quot;
+<p>If we ever need to check whether or not a given object has a property, we can test something like this:
+<p>
+<blockquote><font color="#000080">If the location has a river sound, ...
 </font></blockquote><p>
-<p>
-<p>will produce &quot;... for one turn now.&quot; or &quot;... for two turns now.&quot; as appropriate. This only solves one case (what about all the other plural endings, from &quot;women&quot; to &quot;cherubim&quot;?), and as we shall see we can get the same effect and very much more using the methods in the next section, so &quot;[s]&quot; is something of an anomaly. But it's memorable, and even if it only solves one small need, this is a need which turns up often.
 <p>
 <p><hr><p><a href=doc47.html>Previous</a> / <a href=doc49.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

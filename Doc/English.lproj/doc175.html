@@ -1,17 +1,35 @@
-<html><head><title>12.9. Limits on the size of numbers</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc174.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc176.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.9. Limits on the size of numbers</b></td></tr></table><p>
+<html><head><title>12.6. Units</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc174.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc176.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.6. Units</b></td></tr></table><p>
 <p>
-<p>There are still some serious restrictions. Inform has only whole numbers, not floating-point (though we could in principle simulate at least fixed-point numbers by writing something like &quot;10.99kg specifies a weight&quot;). And it only allows numbers from -32768 to 32767. Since a London bus only weighs 7000kg, 32000kg is plenty: on the other hand, if we wanted to measure weight in grammes instead, the limit would be just 32kg, an amount which a human can just about lift.
+<p>Some of the examples in the last few sections were slightly strained because they used numbers where an English speaker not quite do so. We tend not to say &quot;Isabella has height 68&quot;: we would more normally say &quot;Isabella is 5 foot 8.&quot; Perhaps the computer will need to store that measurement as the number 68 in some register or other, but we really don't want to know that.
 <p>
-<p>The limit also begins to bite when using multiple-number specifications. Internally, Inform stores the above &quot;running time&quot; as a number of seconds, so that 3'59 is actually stored as 239. Calculating the maximum legal running time is a nuisance, so we can instead check the &quot;Kinds&quot; page of the index, where we read that:
+<p>Inform allows us to create new, basically numerical kinds of value, like so:
 <p>
-<blockquote><font color="#000080"><b>running time</b> (<i>plural</i> running times)
-<br><i>Written in the following form:</i> 3'59
-<br><i>Maximum value allowed:</i> 546'07
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight.
 </font></blockquote><p>
 <p>
-<p>The maximum legal running time is therefore a little over 9 hours, so the new Tori Amos album will not be a problem, but some of the more punishing German operas might break the bank.
+<p>By contrast, the kinds of value seen so far have been set up thus:
 <p>
-<p>These restrictions are a nuisance, but can normally be managed, and we gain the ability to run the resulting work of IF on a very wide variety of computers indeed, some extremely small.
+<blockquote><font color="#000080">A colour is a kind of value. The colours are red, green and blue.
+</font></blockquote><p>
+<p>
+<p>We can choose to make a new kind of value of either variety, but we can't mix the two in the same kind: it will either be numerical at heart (&quot;10kg&quot;) or verbal at heart (&quot;blue&quot;).
+<p>
+<p>The effect of &quot;10kg specifies a weight&quot; is to tell Inform that text matching this form is a constant value of kind &quot;weight&quot;. So, for instance,
+<p>
+<blockquote><font color="#000080">The maximum load is a weight that varies. The maximum load is 8000kg.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">if the maximum load <= 8000kg, ...
+</font></blockquote><p>
+<p>
+<p>Weights behave just like numbers in the ways we can compare them: but Inform respects the fact that a weight is not just any number, so it would not allow us to compare (say) &quot;8000kg&quot; and &quot;5 foot 8&quot;. Weights can meaningfully be compared only with other weights.
+<p>
+<p>We can also say weights:
+<p>
+<blockquote><font color="#000080">The Weightbridge is a room. &quot;A sign declares that the maximum load is [maximum load].&quot;
+</font></blockquote><p>
+<p>
+<p>...which will produce the text &quot;A sign declares that the maximum load is 8000kg.&quot;
 <p>
 <p><hr><p><a href=doc174.html>Previous</a> / <a href=doc176.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

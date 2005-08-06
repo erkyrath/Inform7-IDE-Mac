@@ -1,37 +1,31 @@
-<html><head><title>10.10. Phrase options</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc146.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc148.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.10. Phrase options</b></td></tr></table><p>
+<html><head><title>10.7. Otherwise</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc146.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc148.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.7. Otherwise</b></td></tr></table><p>
 <p>
-<p>There are often several slightly different ways to perform a given task but which have substantially the same definition. In the following example:
+<p>We often need code which does one thing in one circumstance, and another the rest of the time. We could do this like so:
 <p>
-<blockquote><font color="#000080">To go hiking, into the woods or up the mountain:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if into the woods then say &quot;Watch out for badgers.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if up the mountain then say &quot;Better take your compass.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You go hiking.&quot;.
+<blockquote><font color="#000080">if N is 2 begin; ...; end if;
+<br>if N is not 2 begin; ...; end if;
 </font></blockquote><p>
 <p>
-<p>...a phrase has been set up which can be used in three ways:
+<p>but this is not very elegant, and besides, what if the action we take when N is 2 changes N so that it becomes something else?
 <p>
-<blockquote><font color="#000080">go hiking;
-<br>go hiking, into the woods;
-<br>go hiking, up the mountain;
+<p>Instead we use &quot;otherwise&quot;:
+<p>
+<blockquote><font color="#000080">if N is 2 begin;
+<br>...;
+<br>otherwise;
+<br>...;
+<br>end if;
 </font></blockquote><p>
 <p>
-<p>Note that commas must be used to divide these &quot;phrase options&quot; from the rest of the text of the phrase. Within the definition of the phrase, the option's name is a valid condition, and
+<p>Note that there is only one &quot;end if&quot;: the &quot;otherwise&quot; phrase occurs inside the &quot;if ... end if&quot; block of phrases.
 <p>
-<blockquote><font color="#000080">if up the mountain then ...
+<p>When there is only a single phrase we can use the shortened form:
+<p>
+<blockquote><font color="#000080">if N is 2 then say &quot;Hooray, N is 2!&quot;;
+<br>otherwise say &quot;Boo, N is not 2...&quot;
 </font></blockquote><p>
 <p>
-<p>is true if the phrase was called with &quot;up the mountain&quot; specified and false otherwise, in the obvious way. A more substantial example from the standard rules is given by the Inform list-writer, which produces lists of things to specifications we choose. For instance:
-<p>
-<blockquote><font color="#000080">list the contents of Marley Wood, as a sentence, with newlines
-<br>and including all contents;
-</font></blockquote><p>
-<p>
-<p>Note that this phrase is allowed to have multiple options specified, whereas &quot;go hiking&quot; above was not: this is because it was defined thus:
-<p>
-<blockquote><font color="#000080">To list the contents of (something - an object), with newlines, indented, as a sentence, including contents, including all contents, giving inventory information, giving brief inventory information, using the definite article, listing marked items only, prefacing with is/are and/or not listing concealed items: ...
-</font></blockquote><p>
-<p>
-<p>The significant difference is the word &quot;and/or&quot; instead of &quot;or&quot;, which signals that more than one option can apply at a time.
+<p>(In almost every computer programming language ever devised, including previous versions of Inform, the word &quot;else&quot; is used rather than &quot;otherwise&quot;: for the sake of familiarity, &quot;else&quot; can also be used here. All the same, &quot;otherwise&quot; seems closer to natural English.)
 <p>
 <p><hr><p><a href=doc146.html>Previous</a> / <a href=doc148.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

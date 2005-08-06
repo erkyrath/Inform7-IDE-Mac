@@ -1,27 +1,28 @@
-<html><head><title>3.20. Parts of things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc38.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc40.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.20. Parts of things</b></td></tr></table><p>
+<html><head><title>3.19. Possessions and clothing</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc38.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc40.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.19. Possessions and clothing</b></td></tr></table><p>
 <p>
-<p>Everything has one and only one kind. This is both good and bad: good for clarity, bad if something needs to behave in two different ways at once. How might we simulate a car with an ignition key, given that no single thing can be both a &quot;vehicle&quot; and a &quot;device&quot; at the same time?
+<p>We have seen how to place objects in rooms, and in containers or on supporters. But what about people? Perhaps it could be said that they &quot;contain&quot; the fillings in their teeth, or &quot;support&quot; a top hat, but this is not very natural. Inform therefore never speaks of things being &quot;in&quot; or &quot;on&quot; people. Instead, they have two sorts of possessions: the things they carry, and the things they wear. (Body parts, such as arms and legs, are different again: see &quot;parts&quot; below for a clue to how to do these.) Thus:
 <p>
-<p>The Inform world model takes the view that such a car is too complicated to be simulated with a single thing. Instead it should be simulated as a vehicle (the car) which has a device (the ignition) attached. This is done using a third kind of containment to those seen so far (&quot;in...&quot; and &quot;on...&quot;): &quot;part of&quot;.
-<p>
-<blockquote><font color="#000080">&quot;Buttons&quot;
+<blockquote><font color="#000080">Mr Darcy wears a top hat. Mr Darcy carries a silver sword.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Confectionary Workshop is a room. The Chocolate Machine is here. &quot;The Chocolate Machine has pride of place. A lever and two buttons, one white, the other brown, seem to be the only controls. On top is a hopper.&quot;
+<p>In fact, Inform deduces from this not only who owns the hat and the sword, but also that Darcy has the kind &quot;person&quot;, because only people can wear or carry.
+<p>
+<p>As all the assertion verbs do, &quot;to wear&quot; and &quot;to carry&quot; have participles which Inform knows about. So we could equally well write:
+<p>
+<blockquote><font color="#000080">The scarlet coat is worn by Mr Wickham. The duelling pistol is carried by Mr Wickham.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A container called the hopper is part of the Chocolate Machine. The lever, the white button and the brown button are parts of the Chocolate Machine.
+<p>If we do not specify who does the wearing, or carrying, then this is assumed to be the player. Thus:
+<p>
+<blockquote><font color="#000080">A brass lantern and a rusty iron key are carried. The mosquito-repellent hat is worn.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Chocolatier's desk is here. &quot;The Chocolatier evidently works at the imposing green-leather topped desk facing the Machine. It has three drawers with brass handles.&quot;
+<p>It would make no sense to &quot;wear&quot; the key, for instance, so Inform needs to distinguish between what is clothing and what is not. It does this with an either/or property called &quot;wearable&quot;: if something has this property then the player will be allowed to wear it, provided it can first be picked up. Anything which is worn by somebody at the start of play is assumed to be wearable (unless we say otherwise). But if nobody is initially wearing the item in question, then we have to be explicit:
+<p>
+<blockquote><font color="#000080">The player carries a scarlet gown. The gown is wearable.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The upper drawer, the middle drawer and the lower drawer are parts of the desk. The upper drawer, the middle drawer and the lower drawer are openable closed containers. In the middle drawer is a sugared almond. In the lower drawer is a Battenburg cake. On the desk is a liquorice twist.
-</font></blockquote><p>
-<p>
-<p>The machine and the desk each have several &quot;parts&quot; representing subsidiary pieces of themselves. The desk is a &quot;supporter&quot; (it needs to be, for the liquorice twist to be on top) but also has three &quot;containers&quot; attached, each of which can be opened or closed independently.
-<p>
-<p>In the interests of realism, the standard rules of play protect these composite things. Thus if the desk were to be moved elsewhere (rolling on sugar casters perhaps) then its parts would move with it, and the player is not allowed to detach parts of things: the drawers can be opened or closed, but not pulled out altogether.
+<p>(When we come to asking questions about the current situation, we will need to remember that &quot;to carry&quot; and &quot;to wear&quot; are different. Thus &quot;if Lancelot carries the plate armour&quot; will not be true if he is wearing it rather than carrying it under his arm. As we will later see, we can instead vaguely say &quot;if Lancelot has the plate armour&quot; to mean either carrying or wearing.)
 <p>
 <p><hr><p><a href=doc38.html>Previous</a> / <a href=doc40.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

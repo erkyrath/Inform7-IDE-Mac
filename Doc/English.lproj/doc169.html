@@ -1,39 +1,49 @@
-<html><head><title>12.3. Whereabouts on a scale?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc168.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc170.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.3. Whereabouts on a scale?</b></td></tr></table><p>
+<html><head><title>11.10. Murder!</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc168.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc170.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.10. Murder!</b></td></tr></table><p>
 <p>
-<p>Adjectives are often used in English to give a sense of where something is on a sliding scale. We talk about &quot;a tall man&quot; and &quot;a short man&quot;, but without meaning that all men are either tall or short. If pushed, we might say that tall means about 6 feet and up, short means about 5 feet 6 and down, but we more often compare one person's height against another's.
+<p>The following example creates two new relations, and two new verbs, in order to set up a tangled web of intrigue. A number of sleuths (the player among them) find themselves aboard the Orient Express, where a murder has taken place, and one of them is apparently the culprit. Naturally they do not agree on whom, but there is physical evidence which may change their minds:
 <p>
-<p>Inform allows us to use adjectives in the same way. For example, every container has a number called its &quot;carrying capacity&quot;. We can define:
-<p>
-<blockquote><font color="#000080">Definition: A container is huge if its carrying capacity is 20 or more.
-<br>Definition: A container is large if its carrying capacity is 10 or more.
-<br>Definition: A container is standard if its carrying capacity is 7.
-<br>Definition: A container is small if its carrying capacity is 5 or less.
+<blockquote><font color="#000080">The Dining Car is a room. Lord Peter is a man in the Dining Car. Sherlock Holmes is a man in the Dining Car. Miss Marple is a woman in the Dining Car. Adam Dalgliesh is a man in the Dining Car.
 </font></blockquote><p>
 <p>
-<p>These definitions are similar to those in the previous section, but have a very specific (and strictly enforced) shape to them. The adjective must be a single word. We have to say &quot;its&quot; (i.e., of it), not the ungrammatical &quot;it's&quot;; we have to specify a property, and a literal value of it, and we must either give an exact value or else conclude with &quot;or more&quot; or &quot;or less&quot;. If we create something with one of these properties:
-<p>
-<blockquote><font color="#000080">The basket is a large container in the Shop. The thimble is a small container in the Shop. The matchbox is a standard container in the Shop.
+<blockquote><font color="#000080">Suspecting relates various people to one person.
 </font></blockquote><p>
 <p>
-<p>then they will have the most moderate values they can have, that is, the basket will have carrying capacity 10 and the thimble 5 (and of course the matchbox 7). The following tests will then, not surprisingly, fail:
-<p>
-<blockquote><font color="#000080">if the basket is huge ...
-<br>if the basket is a small container ...
+<blockquote><font color="#000080">The verb to suspect (he suspects, they suspect, he suspected, it is suspected) implies the suspecting relation.
 </font></blockquote><p>
 <p>
-<p>because the basket is neither huge nor small, but somewhere in between.
-<p>
-<p>Sometimes the meaning of adjectives must depend on their context, as we see from the following example, where we assess heights in inches:
-<p>
-<blockquote><font color="#000080">A person has a number called height. Definition: A man is tall if his height is 72 or more. Definition: A woman is tall if her height is 68 or more.
+<blockquote><font color="#000080">Dalgliesh suspects Holmes. Holmes suspects Lord Peter. Lord Peter suspects Holmes. Miss Marple suspects the player.
 </font></blockquote><p>
 <p>
-<p>Inform then judges whether someone is or is not &quot;tall&quot; using different standards for men and for women, and
-<p>
-<blockquote><font color="#000080">In the Shop are a tall man and a tall woman.
+<blockquote><font color="#000080">Exculpating relates one thing to various people.
 </font></blockquote><p>
 <p>
-<p>creates a man 72 inches tall and a woman 68 inches tall.
+<blockquote><font color="#000080">The verb to exculpate (it exculpates, they exculpate, it exculpated, he is exculpated) implies the exculpating relation.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The pipe ash exculpates Holmes. The poison pen letter exculpates Lord Peter. The poison pen letter exculpates Miss Marple. [Poor Dalgliesh. I guess he did it.]
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The pipe ash, the letter and the silver bullet are carried.
+</font></blockquote><p>
+<p>
+<p>Given this, we can then set up elaborate rules:
+<p>
+<blockquote><font color="#000080">Instead of showing something to a person who suspects the player:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'You would say that,' remarks [the second noun] darkly.&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of showing something which exculpates the player to someone:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'How striking!' says [the second noun]. 'Almost I begin to distrust myself.'&quot;.
+</font></blockquote><p>
+<p>
+<p>And so on: &quot;if Dalgliesh suspects someone who is exculpated by something carried by the player...&quot;, for instance, makes a fitting final example for this chapter. The description
+<p>
+<blockquote><font color="#000080">someone who is exculpated by something carried by the player
+</font></blockquote><p>
+<p>
+<p>expresses a complicated idea in very few words, and in such a way that a passer-by looking at the source text would immediately see what was meant.
+<p>
+<p>The moral is that relations allow sophisticated patterns of behaviour to be created in a way that reads back naturally as English.
 <p>
 <p><hr><p><a href=doc168.html>Previous</a> / <a href=doc170.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

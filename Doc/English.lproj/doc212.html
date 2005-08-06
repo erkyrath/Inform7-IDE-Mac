@@ -1,22 +1,23 @@
-<html><head><title>15.6. Example: the Pointy Hat</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc211.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc213.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.6. Example: the Pointy Hat</b></td></tr></table><p>
+<html><head><title>15.2. Named rules and rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc211.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc213.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.2. Named rules and rulebooks</b></td></tr></table><p>
 <p>
-<p>Or we might want to suspend other laws of nature, as in the following example, which is due to Emily Short:
+<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns (usually visible on the &quot;status line&quot; displayed above the window of a game in progress) and advances the clock (usually not visible, but ticking away behind the scenes) by a given number of minutes.
 <p>
-<blockquote><font color="#000080">&quot;Access All Areas&quot;
+<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
+<p>
+<blockquote><font color="#000080">advance time = the advance time rule
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The extremely difficult door is north of the Standing Room and south of the Room of Walking Upside Down.  It is a locked door.
+<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The player is carrying the Pointy Hat of Liminal Transgression. The hat is wearable.
+<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p>
+<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We will only seldom need to refer to them directly, in phrases like this one (of which more later):
+<p>
+<blockquote><font color="#000080">ignore the can't go through closed doors rule;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A procedural rule: if the Hat is worn, ignore the can't go through closed doors rule.
-</font></blockquote><p>
-<p>
-<p>(The Pointy Hat may be useful in debugging a game, even if it never makes it into the final published work.)
-<p>
-<p>The &quot;can't go through closed doors rule&quot; is one of those belonging to the &quot;check going&quot; rulebook. These names are fairly explanatory when written out, but hard to remember: fortunately we don't need to remember them, as the Index panel contains a full inventory of the check, carry out and report rules for every action, showing all of their names and the order in which they are checked.
+<p>...which are verbose, but this is a situation where clarity is very much better than brevity.
 <p>
 <p><hr><p><a href=doc211.html>Previous</a> / <a href=doc213.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,31 +1,34 @@
-<html><head><title>6.11. Rules applying to more than one action</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc77.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc79.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.11. Rules applying to more than one action</b></td></tr></table><p>
+<html><head><title>6.8. Giving instructions to other people</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc77.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc79.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.8. Giving instructions to other people</b></td></tr></table><p>
 <p>
-<p>A description can include more than one choice of action. For instance:
+<p>In interactive fiction, it is conventional to ask other characters to do something like so:
 <p>
-<blockquote><font color="#000080">examining or searching the desk
+<blockquote><font color="#000080">> marcel, put the biscuit in the tea
+<br>> will, go west
 </font></blockquote><p>
 <p>
-<p>matches either of &quot;examining the desk&quot; or &quot;searching the desk&quot;. We can have more than two actions, of course:
+<p>and so on. Clearly &quot;will, go west&quot; should not produce the same action as &quot;go west&quot;, because a different person will be trying it: this person is called the &quot;actor&quot;, and while the actor is ordinarily the player, here it is the character of Will. The actions produced are:
 <p>
-<blockquote><font color="#000080">examining, looking under or searching the desk
+<blockquote><font color="#000080">> go west -> going west
+<br>> will, go west -> asking will to try going west
 </font></blockquote><p>
 <p>
-<p>The actions combined like this need to be compatible with each other, at least a little. For instance, this will generate a problem message:
+<p>We can thus write rules like so:
 <p>
-<blockquote><font color="#000080">waiting or searching the desk
+<blockquote><font color="#000080">Instead of asking will to try going west, say &quot;Will scratches his head, baffled.&quot;
 </font></blockquote><p>
 <p>
-<p>because it makes no sense to &quot;wait the desk&quot;. On the other hand, this is fine:
+<p>which apply only to the command &quot;will, go west&quot; and do not affect the command &quot;go west&quot;. Actions carried out by other people get as far as completing the &quot;instead&quot; rules but then, if no rule has intervened by then, fail like so:
 <p>
-<blockquote><font color="#000080">waiting or searching
+<blockquote><font color="#000080">> will, go west
+<br>Will has better things to do.
 </font></blockquote><p>
 <p>
-<p>The general rule is that if we specify one or more objects (&quot;the desk&quot; in the above example), then each of the actions we quote must take at least that many objects.
+<p>Similarly, we can also have phrases like so:
 <p>
-<p>For example, the following saves us writing the same basic rule three times over:
-<p>
-<blockquote><font color="#000080">Instead of examining, looking under or searching the desk: say &quot;There's no use poking around in that old desk.&quot;
+<blockquote><font color="#000080">try asking the Sybil to try waiting
 </font></blockquote><p>
+<p>
+<p>which simulate the player having typed &quot;sybil, wait&quot;.
 <p>
 <p><hr><p><a href=doc77.html>Previous</a> / <a href=doc79.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

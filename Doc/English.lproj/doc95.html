@@ -1,18 +1,34 @@
-<html><head><title>7.4. Change of either/or properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc94.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc96.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.4. Change of either/or properties</b></td></tr></table><p>
+<html><head><title>7.1. Change of values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 7: Change</h2><p><table><tr><td><a href=doc94.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc96.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.1. Change of values that vary</b></td></tr></table><p>
 <p>
-<p>When we have an either/or property, we can set it like so:
+<p>So far, what we have done in response to the player's commands amounts to little more than a few ripostes. The simulated world does change during play, as the player moves from room to room or picks up things, but all of this is happening automatically, not at our direct instruction. How then can we make the world change?
 <p>
-<blockquote><font color="#000080">Instead of waiting when the oaken door is closed: say &quot;There is a slow, creaky click! sort of noise as the door swings open, apparently all by itself.&quot;; change the oaken door to open.
+<p>Recall that the world consists of rooms, in which are things, and that all of these have properties appropriate to their kinds. Some properties are either/or (&quot;open&quot; or &quot;closed&quot; but not both and not neither), while others have values (the &quot;matching key&quot; of a lockable door, for instance). Finally, we may also have created some free-standing values or &quot;variables&quot;.
+<p>
+<p>We take the last example first, as it is the simplest. Suppose we have:
+<p>
+<blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is northwest.
 </font></blockquote><p>
 <p>
-<p>If it is open already, nothing changes: in any case nothing is said to the player unless we give explicit instructions to that effect, as we've done here.
-<p>
-<p>Inform protects its model world from accidental damage in several ways, one of which is to ensure that things are not given properties which they are not allowed to have. So this, for instance, will not be accepted:
-<p>
-<blockquote><font color="#000080">change the oaken door to unvisited
+<blockquote><font color="#000080">The Blasted Heath is a room. &quot;Merely an arena for the play of witches and kings, my dear, where the [prevailing wind] wind blows.&quot;
 </font></blockquote><p>
 <p>
-<p>More subtle problems arise if it is not possible to tell, when the game is being constructed, what the object in question will be: for instance, if we try to change a randomly chosen object to be &quot;unvisited&quot;. Inform therefore makes additional checks during play, printing up a suitable message only if the rules are violated. The net effect is that it is impossible for the oaken door ever to have the &quot;unvisited&quot; property.
+<blockquote><font color="#000080">Instead of waiting when the prevailing wind is northwest: say &quot;A fresh gust of wind bowls you over.&quot;; change the prevailing wind to the east.
+</font></blockquote><p>
+<p>
+<p>The new phrase here is &quot;change&quot;. This automatically checks that the new value is one which makes sense in the given context, so for instance it would not allow either of these:
+<p>
+<blockquote><font color="#000080">change the prevailing wind to 25; change the prevailing wind to the Heath;
+</font></blockquote><p>
+<p>
+<p>the former being a number, and the latter a room, so that neither is a direction. Similarly, &quot;change&quot; will not allow values to be changed, only values which vary. So
+<p>
+<blockquote><font color="#000080">Colour is a kind of value. The colours are blue, red and mauve. Instead of pulling the psychedelic lever, change blue to mauve.
+</font></blockquote><p>
+<p>
+<p>...will result in a complaint like so:
+<p>
+<blockquote><font color="#000080"><b>Problem.</b> You wrote 'change blue to mauve' <img src=../Reveal.tif>, but 'blue' is not something which can ever change.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc94.html>Previous</a> / <a href=doc96.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

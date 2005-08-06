@@ -1,24 +1,21 @@
-<html><head><title>16.4. While clauses</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc223.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc225.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.4. While clauses</b></td></tr></table><p>
+<html><head><title>15.14. First and last rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc223.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc225.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.14. First and last rules</b></td></tr></table><p>
 <p>
-<p>Rules applied to actions can become baroque (&quot;after going through a door in the presence of an animal when&quot; and so on and so forth), but activities are again simpler: they only have one possible clause attached, which is called &quot;while&quot;. For instance, the following would provide a fairly sledgehammer hint that the sack should not lightly be thrown away:
+<p>This is the final technicality on rulebooks. Rulebooks are, as we have seen, automatically sorted in order of how specific the conditions for invoking the relevant rules are, so that for instance
 <p>
-<blockquote><font color="#000080">The sack is a player's holdall. The sack is initially carried. Rule for printing the name of the sack while the sack is not carried: say &quot;your discarded sack&quot;.
+<blockquote><font color="#000080">Instead of taking a container, ...
 </font></blockquote><p>
 <p>
-<p>Any condition can be given after the &quot;while&quot;.
+<p>will always come before
 <p>
-<p>In fact, though, there is another possibility: we can also specify that another activity has to be going on. Thus:
-<p>
-<blockquote><font color="#000080">Rule for printing the name of the lemon sherbet while listing contents: say &quot;curious sort of lemon sherbet sweet&quot;.
+<blockquote><font color="#000080">Instead of taking something, ...
 </font></blockquote><p>
 <p>
-<p>This nicely distinguishes between contexts where it's appropriate for the game to be more verbose, and where it isn't. Thus:
+<p>Sometimes, though, and especially with rulebooks where there is no particular ordering because conditions are usually not attached anyway (for instance, with &quot;every turn&quot; rules), it is useful to be certain that a particular rule comes first or last: especially if there is some housekeeping to do. For instance, the &quot;turn sequence&quot; rulebook, which is used behind the scenes to organise what happens at the end of each turn, has a crucial piece of housekeeping to do in order to maintain the consistency of the world model: it has to find out if the player's location has been plunged into darkness or, conversely, has been lit up since the last turn. It is essential that this happens last of all so that the situation cannot change again before the next time the player types at the keyboard.
 <p>
-<blockquote><font color="#000080">You can see a teaspoon and a curious sort of lemon sherbet sweet here.
-<br>> TAKE ALL
-<br>teaspoon: Taken.
-<br>lemon sherbet: Taken.
+<p>Each rulebook, then, can have two special rules, the designated &quot;first&quot; rule and the designated &quot;last&quot; rule. These, if defined, have no individual names, so that nobody can displace them from their positions or meddle with them: they belong to whoever created the rulebook.
+<p>
+<blockquote><font color="#000080">The last appraisal rule: say &quot;The Speak-Your-Progress machine sputters to a halt. You decide not to take this as a comment on your recent performance.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc223.html>Previous</a> / <a href=doc225.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

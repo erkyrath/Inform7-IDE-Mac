@@ -1,90 +1,91 @@
 Version 1/040731 of the Standard Rules by Graham Nelson begins here.
 
-Document ACTIONS at doc70.
-Document ACTIVITIES at doc221.
-Document ARSUMMARY at doc91.
-Document EXTACTIVITIES at doc246.
-Document HEADINGS at doc14.
-Document KINDS at doc24.
-Document KINDSVALUE at doc52.
-Document NEWRULEBOOKS at doc210.
-Document PHRASES at doc138.
-Document ROOMPLAYBEGINS at doc112.
-Document SCENESINTRO at doc129.
-Document act_all at doc233.
-Document act_amuse at doc235.
-Document act_csl at doc228.
-Document act_ds at doc230.
-Document act_gt at doc227.
-Document act_lc at doc226.
-Document act_lni at doc229.
-Document act_obit at doc234.
-Document act_pn at doc225.
-Document act_reading at doc232.
-Document act_smn at doc231.
-Document kind_backdrop at doc28.
-Document kind_device at doc33.
-Document kind_door at doc31.
-Document kind_person at doc35.
-Document kind_player's at doc38.
-Document kind_time at doc119.
-Document kind_vehicle at doc34.
-Document ph_allow at doc217.
-Document ph_blankout at doc191.
-Document ph_boxed at doc115.
-Document ph_carryout at doc246.
-Document ph_change at doc92.
-Document ph_changep at doc95.
-Document ph_changev at doc96.
-Document ph_chooserow at doc186.
-Document ph_consider at doc215.
-Document ph_daemons at doc118.
-Document ph_end at doc116.
-Document ph_follow at doc210.
-Document ph_future at doc124.
-Document ph_group at doc226.
-Document ph_happening at doc133.
-Document ph_holder at doc106.
-Document ph_if at doc141.
-Document ph_ignore at doc213.
-Document ph_list at doc147.
-Document ph_minspart at doc123.
-Document ph_move at doc98.
-Document ph_nearest at doc121.
-Document ph_numblank at doc191.
-Document ph_numrows at doc183.
-Document ph_omit at doc225.
-Document ph_otherwise at doc144.
-Document ph_plus at doc168.
-Document ph_random at doc107.
-Document ph_remove at doc100.
-Document ph_repeat at doc145.
-Document ph_result at doc151.
-Document ph_runthrough at doc146.
-Document ph_say at doc69.
-Document ph_sayif at doc50.
-Document ph_scope at doc230.
-Document ph_sort at doc192.
-Document ph_start at doc68.
-Document ph_stop at doc72.
-Document ph_succeeds at doc214.
-Document ph_surrounds at doc94.
-Document ph_tabrepeat at doc187.
-Document ph_thereis at doc188.
-Document ph_timeshift at doc122.
-Document ph_try at doc73.
-Document ph_tsince at doc132.
-Document ph_types at doc51.
-Document ph_while at doc142.
-Document ph_yes at doc151.
-Document rules_after at doc74.
-Document rules_before at doc72.
-Document rules_d at doc118.
-Document rules_et at doc117.
-Document rules_instead at doc71.
-Document rules_ri at doc217.
-Document rules_wpb at doc112.
-Document rules_wpe at doc116.
+Document ACTIONS at doc73.
+Document ACTIVITIES at doc225.
+Document ARSUMMARY at doc94.
+Document EXTACTIVITIES at doc251.
+Document HEADINGS at doc15.
+Document KINDS at doc25.
+Document KINDSVALUE at doc55.
+Document NEWRULEBOOKS at doc214.
+Document PHRASES at doc141.
+Document ROOMPLAYBEGINS at doc115.
+Document SCENESINTRO at doc132.
+Document act_all at doc237.
+Document act_amuse at doc240.
+Document act_banner at doc238.
+Document act_csl at doc232.
+Document act_ds at doc234.
+Document act_gt at doc231.
+Document act_lc at doc230.
+Document act_lni at doc233.
+Document act_obit at doc239.
+Document act_pn at doc229.
+Document act_reading at doc236.
+Document act_smn at doc235.
+Document kind_backdrop at doc29.
+Document kind_device at doc34.
+Document kind_door at doc32.
+Document kind_person at doc36.
+Document kind_player's at doc40.
+Document kind_time at doc122.
+Document kind_vehicle at doc35.
+Document ph_allow at doc221.
+Document ph_blankout at doc194.
+Document ph_boxed at doc118.
+Document ph_carryout at doc251.
+Document ph_change at doc95.
+Document ph_changep at doc98.
+Document ph_changev at doc99.
+Document ph_chooserow at doc189.
+Document ph_consider at doc219.
+Document ph_daemons at doc121.
+Document ph_end at doc119.
+Document ph_follow at doc214.
+Document ph_future at doc127.
+Document ph_group at doc230.
+Document ph_happening at doc136.
+Document ph_holder at doc109.
+Document ph_if at doc144.
+Document ph_ignore at doc217.
+Document ph_list at doc150.
+Document ph_minspart at doc126.
+Document ph_move at doc101.
+Document ph_nearest at doc124.
+Document ph_numblank at doc194.
+Document ph_numrows at doc186.
+Document ph_omit at doc229.
+Document ph_otherwise at doc147.
+Document ph_plus at doc171.
+Document ph_random at doc110.
+Document ph_remove at doc103.
+Document ph_repeat at doc148.
+Document ph_result at doc154.
+Document ph_runthrough at doc149.
+Document ph_say at doc72.
+Document ph_sayif at doc52.
+Document ph_scope at doc234.
+Document ph_sort at doc195.
+Document ph_start at doc71.
+Document ph_stop at doc75.
+Document ph_succeeds at doc218.
+Document ph_surrounds at doc97.
+Document ph_tabrepeat at doc190.
+Document ph_thereis at doc191.
+Document ph_timeshift at doc125.
+Document ph_try at doc76.
+Document ph_tsince at doc135.
+Document ph_types at doc54.
+Document ph_while at doc145.
+Document ph_yes at doc154.
+Document rules_after at doc77.
+Document rules_before at doc75.
+Document rules_d at doc121.
+Document rules_et at doc120.
+Document rules_instead at doc74.
+Document rules_ri at doc221.
+Document rules_wpb at doc115.
+Document rules_wpe at doc119.
 
 Use MAX_ARRAYS of 500.
 Use MAX_LABELS of 10000.
@@ -98,7 +99,7 @@ Part SR1 - Kinds
 Section SR1/1 - Primitive Kinds
 
 [The kind "kind" is not created here but by NI itself. The first through
-to ninth kinds created now follow: they must not be reordered or moved.]
+to tenth kinds created now follow: they must not be reordered or moved.]
 
 A room is a kind.
 A thing is a kind.
@@ -325,6 +326,10 @@ A woman is a kind of person. A woman is always female.
 The specification of woman is "Represents a woman, girl or sometimes
 an animal which can be referred to as 'her'."
 
+A person can be neuter. A person is usually not neuter. A woman is
+never neuter. A man is never neuter. Neuter translates into Inform as
+"neuter".
+
 A player-character is a kind of person.
 
 The specification of player-character is "Represents a body through
@@ -418,6 +423,7 @@ Map region translates into Inform as "I7_Map_Region".
 
 The noun is an object that varies.
 The second noun is an object that varies.
+The person asked is an object that varies.
 The object in question is an object that varies.
 [The item in question is an object that varies.]
 The this object is an object that varies.
@@ -437,6 +443,7 @@ The say-parameter is an object that varies.
 The player's command is a snippet that varies.
 The matched text is a snippet that varies.
 
+The maximum score is a number that varies.
 
 Part SR2 - Rules
 
@@ -593,6 +600,7 @@ Reading a command documented act_reading is an activity.
 Deciding whether all includes something documented act_all is an activity.
 Printing the player's obituary documented act_obit is an activity.
 Amusing a victorious player documented act_amuse is an activity.
+Printing the banner text documented act_banner is an activity.
 
 
 The last for printing the name rule:
@@ -614,6 +622,8 @@ Section SR2/6 - Use options
 
 Use American dialect translates as (- Constant DIALECT_US; -).
 Use the serial comma translates as (- Constant I7_SERIAL_COMMA; -).
+Use full-length room descriptions translates as (- Constant I7_LOOKMODE = 2; -).
+Use abbreviated room descriptions translates as (- Constant I7_LOOKMODE = 3; -).
 Use memory economy translates as (- Constant I7_ECONOMY; -).
 
 
@@ -1515,7 +1525,7 @@ Understand "look" as looking.
 Understand "look at [something]" as examining.
 Understand "look inside/in/into/through [something]" as searching.
 Understand "look under [something]" as looking under.
-Understand "look up [text] in [something]" as consulting it about reversed.
+Understand "look up [text] in [something]" as consulting it about (with nouns reversed).
 Understand the verb "l" as "look".
 
 Understand "consult [something] on/about [text]" as consulting it about.
@@ -1542,8 +1552,8 @@ Understand "examine [something]" as examining.
 Understand the verbs "x", "watch", "describe" and "check" as "examine".
 
 Understand "read [something]" as examining.
-Understand "read about [text] in [something]" as consulting it about reversed.
-Understand "read [text] in [something]" as consulting it about reversed.
+Understand "read about [text] in [something]" as consulting it about (with nouns reversed).
+Understand "read [text] in [something]" as consulting it about (with nouns reversed).
 
 Understand "yes" as saying yes.
 Understand the verb "y" as "yes".
@@ -1594,7 +1604,7 @@ Understand the verbs "break", "smash", "hit", "fight", "torture", "wreck",
 Understand "wait" as waiting.
 Understand the verb "z" as "wait".
 
-Understand "answer [text] to [someone]" as answering it that reversed.
+Understand "answer [text] to [someone]" as answering it that (with nouns reversed).
 Understand the verbs "say", "shout" and "speak" as "answer".
 
 Understand "tell [someone] about [text]" as telling it about.
@@ -1717,6 +1727,8 @@ To say the player's surroundings documented ph_surrounds:
 	(- SL_Location(); -).
 To say list of extension credits:
 	(- I7ExtensionVersions(); -).
+To say banner text:
+	(- Banner(); -).
 To say if (c - condition) documented ph_sayif:
 	(- {/} 
 .{L#}; if ({c}) say__c=true; else jump {L##}; -).
@@ -1730,6 +1742,10 @@ To say line break:
 	(- if (say__p) new_line; say__p = 0; -).
 To say paragraph break:
 	(- if (say__p) new_line; new_line; say__p = 0; -).
+To say bracket:
+	(- print "["; -).
+To say close bracket:
+	(- print "]"; -).
 
 Section SR4/1 - The score and the outcome
 

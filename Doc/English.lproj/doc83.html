@@ -1,31 +1,34 @@
-<html><head><title>6.16. Going from, going to</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc82.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc84.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.16. Going from, going to</b></td></tr></table><p>
+<html><head><title>6.13. The noun, the second noun, the person asked</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc82.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc84.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.13. The noun, the second noun, the person asked</b></td></tr></table><p>
 <p>
-<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
+<p>Once we begin applying rules to actions which are not entirely known in advance, we have a problem: there's no way to find out what specifically is happening. Consider the following:
 <p>
-<blockquote><font color="#000080">&quot;Going Going&quot;
+<blockquote><font color="#000080">Instead of examining something, say &quot;It is none of your concern!&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
+<p>This is fine as far as it goes, but clumsy. What if the player had examined a human being? Then &quot;it&quot; would be inappropriate. A better approach would be this:
+<p>
+<blockquote><font color="#000080">Instead of examining something, say &quot;[The noun] is none of your concern!&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
+<p>The &quot;noun&quot; and, when necessary, the &quot;second noun&quot; are values which can be used in any rule about actions, and it follows that they can also be substituted into text, as this example demonstrates. Results might include:
+<p>
+<blockquote><font color="#000080">Lady Bracknell is none of your concern!
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
+<blockquote><font color="#000080">The silver cigarette case is none of your concern!
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
+<p>This seems a good moment to mention that if you use &quot;The&quot; in a substitution, then a capitalised &quot;The&quot; will be used so long as this is grammatically correct (Lady Bracknell, as a proper noun, takes no article); &quot;the&quot; becomes a lower-case &quot;the&quot; along the same lines; and &quot;a&quot; a lower-case indefinite article.
+<p>
+<blockquote><font color="#000080">Instead of examining something in the Drawing Room, say &quot;Under Lady Bracknell's eye, you feel constrained. Besides, it is only [a noun].&quot;
 </font></blockquote><p>
 <p>
-<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
+<p>Lastly, for actions addressed to other people, we may need to write rules which depend on who is supposed to do the deed. The value &quot;person asked&quot; is what we need. For instance:
 <p>
-<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
-<p>
-<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
-<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
+<blockquote><font color="#000080">Instead of asking somebody to take something, say &quot;I don't think we ought to tempt [the person asked] into theft, surely?&quot;
 </font></blockquote><p>
 <p>
-<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
+<p>So if the player types &quot;Algy, take sandwich&quot;, the &quot;person asked&quot; would be Algy; the &quot;noun&quot; would be the sandwich; and there would be no &quot;second noun&quot;.
 <p>
 <p><hr><p><a href=doc82.html>Previous</a> / <a href=doc84.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

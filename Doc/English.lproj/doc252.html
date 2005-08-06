@@ -1,30 +1,26 @@
-<html><head><title>17.17. Handling phrase options</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc251.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc253.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.17. Handling phrase options</b></td></tr></table><p>
+<html><head><title>17.12. Beginning and ending activities manually</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc251.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc253.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.12. Beginning and ending activities manually</b></td></tr></table><p>
 <p>
-<p>The Standard Rules use the Inform list-writer with the following definitions, which show how a much more complicated I6 routine can be given a natural-language expression.
+<p>There are times when it is not convenient to write a suitable &quot;for ...&quot; rule, or when we cannot be bothered. For such times we are allowed to write:
 <p>
-<blockquote><font color="#000080">To list the contents of (O - an object),
-<br>&nbsp;&nbsp;&nbsp;&nbsp;with newlines,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;indented,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;giving inventory information,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;as a sentence,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;including contents,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;including all contents,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;tersely,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;giving brief inventory information,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;using the definite article,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;listing marked items only,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;prefacing with is/are
-<br>&nbsp;&nbsp;&nbsp;&nbsp;and/or not listing concealed items:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;(- WriteListFrom(child({O}), {phrase options}); -).
+<blockquote><font color="#000080">begin the analysing activity with the dustbin;
+<br>...
+<br>end the analysing activity with the dustbin;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say contents of (O - an object): list the contents of O, as a sentence.
+<p>but we need to be careful to follow the golden rules: all activities must end, they must never last longer than a turn, and if activity B starts during activity A then it must also finish during activity A. We must also be careful to make sure that if an activity applies to something, then it begins and ends with the same something (the dustbin, in the above example).
+<p>
+<p>The before rules are considered at the time of the &quot;begin ...&quot; phrase; the after rules at the &quot;end ...&quot;. What, then, of the &quot;for&quot; rules? In the above setup, they would simply be ignored. We can make them effectual like so:
+<p>
+<blockquote><font color="#000080">begin the analysing activity with the dustbin;
+<br>...
+<br>if handling the analysing activity with the dustbin begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;...
+<br>end if;
+<br>...
+<br>end the analysing activity with the dustbin;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.
-</font></blockquote><p>
-<p>
-<p>&quot;{phrase options}&quot; is a special substitution: it is a bitmap which assigns the given options one bit each, starting with the least significant bit for the first-mentioned option (&quot;with newlines&quot; above) and going up to the most significant bit for the last (&quot;not listing concealed items&quot;).
+<p>The &quot;for&quot; rules are invoked when the test about requirement is carried out: the condition is true only if no rule has intervened. Thus the &quot;...&quot; inside the &quot;if&quot; is the place to put the default behaviour of the activity.
 <p>
 <p><hr><p><a href=doc251.html>Previous</a> / <a href=doc253.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

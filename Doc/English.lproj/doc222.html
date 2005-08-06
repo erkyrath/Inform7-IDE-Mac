@@ -1,31 +1,28 @@
-<html><head><title>16.2. How activities work</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc221.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc223.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.2. How activities work</b></td></tr></table><p>
+<html><head><title>15.12. Changing reachability</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc221.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc223.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.12. Changing reachability</b></td></tr></table><p>
 <p>
-<p>All activities start, continue for a while and then finish: however, no activity ever runs on for more than a single turn. Several activities can be going on at the same time. For instance, suppose the following is printed as part of the description of a grocery:
+<p>The business of what the player can, and cannot, reach is of considerable importance in interactive fiction. It contains some of the subtlest rules in the model world, though these rules often go unnoticed. For instance, if a key is on a shelf which is part of a closed box, can we reach for the key? This comes down to whether the shelf, described only as &quot;part of&quot; the box, is on the inside or the outside: and in fact, because it cannot know which is the case, Inform allows either. So in general it is best to regard &quot;parts&quot; as being exterior parts, but to avoid having parts on containers that might in the course of play be closed up with the player inside.
 <p>
-<blockquote><font color="#000080">You can see a banana, an apple and a star-fruit here.
+<p>In many games the designer never feels any need to alter the rules on what can be touched from where, but it is important to have the ability all the same: when it is needed, there is often no other way to achieve the same effect.
+<p>
+<p>Returning to the conical flask:
+<p>
+<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
 </font></blockquote><p>
 <p>
-<p>At the moment when Inform prints &quot;apple&quot;, two activities are under way: &quot;listing contents of the Grocery&quot;, and &quot;printing the name of the apple&quot;. The sequence of events was in fact:
+<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) Rules for this rulebook need not have any restriction on the object applied to:
 <p>
-<blockquote><font color="#000080">say &quot;You can see &quot;
-<br>start listing contents of the Grocery
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;a &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;start printing the name of the banana
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;banana&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;finish printing the name of the banana
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;, an &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;start printing the name of the apple
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;apple&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;finish printing the name of the apple
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; and a &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;start printing the name of the star-fruit
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;star-fruit&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;finish printing the name of the star-fruit
-<br>finish listing contents of the Grocery
-<br>say &quot; here.&quot;
+<blockquote><font color="#000080">A reaching inside rule: if Barabbas's Nefarious Amulet is worn then ignore the can't take people's possessions rule.
 </font></blockquote><p>
 <p>
-<p>The golden rule is: if activity B starts during activity A, it must also finish during activity A.
+<p>More generally, we could give the usual flexible description of what the rule applies to:
+<p>
+<blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large.&quot;; deny access.
+</font></blockquote><p>
+<p>
+<p>There is also a reaching outside rulebook, used if the player is inside something and wants to reach an object in the wider room. (It's the difference between a bed and a cage.) This ordinarily contains just one rule:
+<p>
+<blockquote><font color="#000080">the can't reach outside closed containers rule
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc221.html>Previous</a> / <a href=doc223.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

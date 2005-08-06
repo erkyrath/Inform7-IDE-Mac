@@ -1,25 +1,31 @@
-<html><head><title>6.14. In rooms and regions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc80.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc82.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.14. In rooms and regions</b></td></tr></table><p>
+<html><head><title>6.11. Rules applying to more than one action</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc80.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc82.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.11. Rules applying to more than one action</b></td></tr></table><p>
 <p>
-<p>Three elaborations of action descriptions increase the range of possibilities further.
+<p>A description can include more than one choice of action. For instance:
 <p>
-<blockquote><font color="#000080">Instead of taking something in the Supernatural Void, say &quot;In this peculiar mist you feel unable to grasp anything.&quot;
+<blockquote><font color="#000080">examining or searching the desk
 </font></blockquote><p>
 <p>
-<p>Like the objects to which the action applies, this location - the &quot;in&quot; clause - can take any description, not just an explicit place like &quot;Supernatural Void&quot;:
+<p>matches either of &quot;examining the desk&quot; or &quot;searching the desk&quot;. We can have more than two actions, of course:
 <p>
-<blockquote><font color="#000080">Instead of listening in a dead end, say &quot;You strain to hear further clues as to the course of the underground river, but to no avail.&quot;
+<blockquote><font color="#000080">examining, looking under or searching the desk
 </font></blockquote><p>
 <p>
-<p>But we often want a rule to apply in any of a set of rooms: and where, unlike the &quot;dead end&quot; example above, the rooms have nothing much in common except where they happen to lie on a map. For instance, we might want a rule to apply only inside a given building, or a garden consisting of five miscellaneous rooms. If so, we can create a &quot;region&quot; as a convenient way to refer to that group of rooms:
+<p>The actions combined like this need to be compatible with each other, at least a little. For instance, this will generate a problem message:
 <p>
-<blockquote><font color="#000080">The Arboretum is east of the Botanical Gardens. Northwest of the Gardens is the Tropical Greenhouse.
+<blockquote><font color="#000080">waiting or searching the desk
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Public Area is a region. The Arboretum and Gardens are in the Public Area.
+<p>because it makes no sense to &quot;wait the desk&quot;. On the other hand, this is fine:
+<p>
+<blockquote><font color="#000080">waiting or searching
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of eating in the Public Area, say &quot;The curators of the Gardens are ever among you, eagle-eyed and generally cussed.&quot;
+<p>The general rule is that if we specify one or more objects (&quot;the desk&quot; in the above example), then each of the actions we quote must take at least that many objects.
+<p>
+<p>For example, the following saves us writing the same basic rule three times over:
+<p>
+<blockquote><font color="#000080">Instead of examining, looking under or searching the desk: say &quot;There's no use poking around in that old desk.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc80.html>Previous</a> / <a href=doc82.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,26 +1,18 @@
-<html><head><title>7.5. Change of properties with values</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc95.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc97.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.5. Change of properties with values</b></td></tr></table><p>
+<html><head><title>7.2. Changing the command prompt</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc95.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc97.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.2. Changing the command prompt</b></td></tr></table><p>
 <p>
-<p>Changing properties with values is very similar:
+<p>The command prompt is the text printed by Inform to ask the player for another command. Ordinarily this is simply a greater-than-sign, &quot;>&quot;, so we tend not to notice it as text at all. Internally, though, it is a variable value called &quot;command prompt&quot;, which means we can change it.
 <p>
-<blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;
+<p>For example, this will be a more conversational sort of prompt:
+<p>
+<blockquote><font color="#000080">When play begins: change the command prompt to &quot;What now? &quot;.
 </font></blockquote><p>
 <p>
-<p>Inform checks three different things to ensure that this change is safe to perform. Firstly, the value must be the right kind for the property in question, so this for instance would be rejected:
+<p>Whereas this will be more up-to-the-minute and demanding:
 <p>
-<blockquote><font color="#000080">change the printed name of the Closet to 7
+<blockquote><font color="#000080">When play begins: change the command prompt to &quot;[time of day] >&quot;.
 </font></blockquote><p>
 <p>
-<p>Secondly, the object in question has to be allowed to have the given property. This, for instance, would be disallowed:
-<p>
-<blockquote><font color="#000080">change the initial appearance of the Closet to &quot;Dusty&quot;
-</font></blockquote><p>
-<p>
-<p>(since &quot;initial appearance&quot; is a property which only things can have, not rooms). Finally, the object has to actually have the property, not just have the right to have that property. Thus:
-<p>
-<blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;
-</font></blockquote><p>
-<p>
-<p>...is only permitted if the Closet is designed with a &quot;printed name&quot;. In fact this is certain to be true: all rooms and things automatically have a printed name, which is the short boldface description in the case of rooms, and the usual text briefly describing something in the case of things.
+<p>(&quot;Time of day&quot; is another variable value, which is fairly self-explanatory, but will be covered in detail later on.) The prompt can be changed at any point, so can be used to indicate the current situation, or even as a sly way to introduce a sort of conversation between computer and player.
 <p>
 <p><hr><p><a href=doc95.html>Previous</a> / <a href=doc97.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

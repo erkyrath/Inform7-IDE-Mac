@@ -1,13 +1,19 @@
-<html><head><title>10.2. The phrasebook</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc138.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc140.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.2. The phrasebook</b></td></tr></table><p>
+<html><head><title>9.8. Multiple beginnings and repeats</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc138.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc140.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.8. Multiple beginnings and repeats</b></td></tr></table><p>
 <p>
-<p>Inform begins knowing a set of standard phrases, and allows us to define new ones: the current stock is called the &quot;phrasebook&quot;, and can be browsed at the Index panel. Here is a simple definition of a new phrase:
+<p>It is quite allowed for a scene to be linked to several other scenes, and this is useful if several alternate strands of plot are being brought together in a common resolution scene:
 <p>
-<blockquote><font color="#000080">To spring the trap: say &quot;'Sproing!' go the hinges and, with a flash of silver, the enormous blades whisk together!&quot;; end the game in death.
+<blockquote><font color="#000080">Bittersweet Ending begins when Stranger's Rejection ends.
+<br>Bittersweet Ending begins when Stranger's Acceptance ends.
 </font></blockquote><p>
 <p>
-<p>Now the phrase &quot;spring the trap&quot; is given meaning. Of course it will only happen if our design ever actually calls upon the computer to &quot;spring the trap&quot;, which at present it does not.
+<p>and we can also have the same scene beginning when a condition holds. In general, it will begin the first time it gets any chance to do so. More surprisingly, it will begin again as soon after it ends as it can. All scenes repeat themselves, if given the chance.
 <p>
-<p>This chapter is about how to define more complicated phrases, and about the special phrases which exist to repeat the same activity over and over, to test conditions and so on.
+<p>This is intentional, and can be useful. Suppose the train calls not once only, but every twenty minutes. We could set this up with two scenes linked back to back like so:
+<p>
+<blockquote><font color="#000080">Train Wait begins when play begins.
+<br>Train Stop begins when Train Wait ends.
+<br>Train Wait begins when Train Stop ends.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc138.html>Previous</a> / <a href=doc140.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

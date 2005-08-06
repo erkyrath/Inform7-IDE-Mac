@@ -1,20 +1,44 @@
-<html><head><title>4.12. Text with type styles</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc50.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc52.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.12. Text with type styles</b></td></tr></table><p>
+<html><head><title>4.10. Text with lists</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc50.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc52.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.10. Text with lists</b></td></tr></table><p>
 <p>
-<p>One last clutch of substitutions before we return to the subject of kinds, which this chapter was supposed to be about.
+<p>The useful substitution &quot;[list of <i>description</i>]&quot; prints out as an English sentence list of all the objects which match the given description. For instance,
 <p>
-<p>Inform does not go in for the use of fonts: a work of IF will be rendered with different fonts on different machines anyway, from tiny personal organisers up to huge LCD panelled workstations. However, it does allow for a modest amount of styling. The substitution &quot;[bold type]&quot; switches to bold face; &quot;[italic type]&quot; to italic; and &quot;[roman type]&quot; back to plain roman. Thus
-<p>
-<blockquote><font color="#000080">&quot;This is [italic type]very suspicious[roman type], said Peter.&quot;
+<blockquote><font color="#000080">&quot;The places you can go are [list of rooms].&quot;
 </font></blockquote><p>
 <p>
-<p>will (on most computers) be rendered as
+<p>Any description can be given and, as we shall see, descriptions can be very flexible indeed:
 <p>
-<blockquote><font color="#000080">This is <i>very suspicious</i>, said Peter.
+<blockquote><font color="#000080">&quot;Mr Darcy glares proudly at you. He is wearing [list of things worn by Darcy] and carrying [list of things carried by Darcy].&quot;
 </font></blockquote><p>
 <p>
-<p>Less is more with such devices, but there is one other effect we can employ: we can go into &quot;[fixed letter spacing]&quot; for a while, then return to &quot;[variable letter spacing]&quot;, which is the normal condition. In variable letter spacing, a lower case &quot;m&quot; is much wider than an &quot;l&quot;, which is natural to the eye since it has been printing practice since the Renaissance. Fixed letter spacing is more like typewriting, and it is best used to reproduce typewritten text or printed notices; it can also be convenient for making simple diagrams.
+<p>And, if this were from a dramatisation of the novel by Miss Fielding rather than Miss Austen, we might find:
 <p>
-<p>We should be careful to ensure that we return to the status quo ante (roman type and variable letter spacing) after any specially-treated text has been printed.
+<blockquote><font color="#000080">Mr Darcy glares proudly at you. He is wearing a pair of Newcastle United boxer shorts and carrying a self-help book.
+</font></blockquote><p>
+<p>
+<p>If the description matches nothing - for instance, if Darcy has empty hands - then &quot;nothing&quot; is printed. A more insidious problem is that the list may end up either singular or plural. We might be expecting that the example above will produce something like:
+<p>
+<blockquote><font color="#000080">The places you can go are Old Bailey, Bridget's Flat and TV Centre.
+</font></blockquote><p>
+<p>
+<p>But if there is only one room, then the result would be:
+<p>
+<blockquote><font color="#000080">The places you can go are Bridget's Flat.
+</font></blockquote><p>
+<p>
+<p>which is wrong. We can get around this with the substitution:
+<p>
+<blockquote><font color="#000080">&quot;The places you can go [is/are list of rooms].&quot;
+</font></blockquote><p>
+<p>
+<p>which uses &quot;is&quot; or &quot;are&quot; as appropriate. Lastly, we can also make the items listed take the definite article by writing:
+<p>
+<blockquote><font color="#000080">&quot;Mr Darcy impatiently bundles [the list of things carried by Darcy] into your hands and stomps out of the room.&quot;
+</font></blockquote><p>
+<p>
+<p>which might result in
+<p>
+<blockquote><font color="#000080">Mr Darcy impatiently bundles the self-help book and the Christmas card into your hands and stomps out of the room.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc50.html>Previous</a> / <a href=doc52.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

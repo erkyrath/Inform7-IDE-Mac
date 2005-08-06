@@ -1,17 +1,20 @@
-<html><head><title>8.1. When play begins</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 8: Time</h2><p><table><tr><td><a href=doc111.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc113.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.1. When play begins</b></td></tr></table><p>
+<html><head><title>7.18. Testing</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc111.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc113.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.18. Testing</b></td></tr></table><p>
 <p>
-<p>With the material from previous chapters, we are now able to set up a simulated world, to respond to the player's actions within it, and to make it change in perhaps unexpected ways.
+<p>Inform provides a convenient shorthand for testing. Most works of interactive fiction contain numerous vignettes, either in terms of short scenes of narrative, or in the behaviour of particular things or rooms. This means we often need to test little pieces of the whole; on the other hand, we also want a way to test the entire thing right through. And it is all too easy to lose track of the solution while working out the design.
 <p>
-<p>The resulting experience can be as lively as we want to make it, but so far we have no very good ways to give it any structure: a beginning and an end, for instance, or a sense of plot. This next chapter is all about the passage of time, and it begins at the beginning.
+<p>Solutions or sequences for testing (&quot;scripts&quot;) can be defined with sentences like so:
 <p>
-<p>We have already seen an example of how to write a rule which applies just once, at the start of the game:
-<p>
-<blockquote><font color="#000080">When play begins: start the player at the Library; say &quot;Welcome to Old Marston Grange, a country house cut off by fog.&quot;
+<blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot;.
 </font></blockquote><p>
 <p>
-<p>The &quot;when play begins&quot; rules are checked only at the start of a game, not when a saved session is restored from disc. What happens is that these rules are followed, then the game's banner is printed, then the initial room description is printed up, and then the player is asked for a first command.
+<p>This has no effect on the design itself, but ensures that when the game is played, typing &quot;test balloon&quot; will run through the given three commands in sequence, as if we had typed &quot;get balloon&quot; and then &quot;blow balloon&quot; and then &quot;drop balloon&quot;.
 <p>
-<p>The phrase &quot;start the player at...&quot; can only be used in &quot;when play begins&quot; rules. Without such a phrase, play would begin in the earliest room described in the source text.
+<p>The name for the test (balloon in this example) has to be a single word. Typing just &quot;test&quot; at the game prompt gives a list of all the test scripts known to the game. Test scripts can make use of each other, for instance:
+<p>
+<blockquote><font color="#000080">Test all with &quot;test balloon / test door&quot;.
+</font></blockquote><p>
+<p>
+<p>One convenient way to keep track of the solution for a work being written is to include a test script at the end of each section, and to place a master test script (like &quot;test all&quot;) at the top of the source. But different designers will prefer different approaches, and this testing system is no more than an optional convenience.
 <p>
 <p><hr><p><a href=doc111.html>Previous</a> / <a href=doc113.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

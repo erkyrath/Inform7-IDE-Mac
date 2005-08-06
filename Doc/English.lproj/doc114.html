@@ -1,12 +1,28 @@
-<html><head><title>8.3. Introducing tables: rankings</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc113.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc115.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.3. Introducing tables: rankings</b></td></tr></table><p>
+<html><head><title>7.20. Material not for release</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc113.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc115.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.20. Material not for release</b></td></tr></table><p>
 <p>
-<p>Another tradition of interactive fiction is that there is a maximum score, and that the player has a current 'rank' according to how far his or her score has got. We can (but need not) choose to provide such rankings, and should do so by specifying a table like this:
+<p>Special testing verbs, like &quot;test&quot; and &quot;rules&quot;, are automatically excluded from the game if it is compiled as a Release version. We sometimes want to write our own for-testing-purposes-only code, though, and for this purpose we are allowed to designate whole headings as being &quot;not for release&quot;:
 <p>
-<p><center><img src=table.tiff></center>
+<blockquote><font color="#000080">Section 10 - Open sesame - Not for release
+</font></blockquote><p>
 <p>
-<p>Typographically, tables in Inform look as much as possible like those found in non-fiction books: they can have many columns, so this is only a simple example (drawn from the actual rankings used by Infocom's <i>Zork I</i>, 1979). Each line in the source represents one row in the table, and the entries on a line must be separated by at least one tab character. (An entry might of course have several words with spaces in between, so a space is not enough to separate entries: this is the only context when Inform distinguishes between spaces and tabs.) The table must occupy a single whole paragraph, with no skipped lines or missing entries. We are free to use extra tabs to indent it if we like.
+<blockquote><font color="#000080">Universal opening is an action applying to nothing.
+<br>Understand &quot;open sesame&quot; as universal opening.
+</font></blockquote><p>
 <p>
-<p>Ordinarily we must explicitly ask to use the information presented in a table, but the table of rankings is a special case: Inform uses it automatically, if it is provided at all. To be recognised it must have the name &quot;Rankings&quot; and must have two columns named and arranged as shown. The scores should be given in ascending order, and the score in the final row should be the maximum possible achieved in the game - so that only a player with maximum possible score can be awarded the final ranking.
+<blockquote><font color="#000080">Carry out universal opening:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through doors begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change item to open;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report universal opening: say &quot;Open Sesame!&quot;
+</font></blockquote><p>
+<p>
+<p>Clearly we do not wish the final reader to be able to type &quot;open sesame&quot;, so this whole heading will be disregarded in the Release version, as will any heading whose name includes &quot;not for release&quot;.
+<p>
+<p>Note that if a chapter, say, is marked as &quot;not for release&quot;, then its subheadings (mere sections) will also not be for release. If in doubt, check the &quot;Contents&quot; index: if any section is &quot;not for release&quot; then so are all of its subheadings.
+<p>
+<p><i>[At present the Release button does not run the NI compiler with the &quot;-release&quot; switch set, so the exclusion won't actually happen yet, but it's all working at the NI end. The next version of the Inform.app OS X application will fix this.]</i>
 <p>
 <p><hr><p><a href=doc113.html>Previous</a> / <a href=doc115.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,37 +1,21 @@
-<html><head><title>18.5. The meaning of "is"</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc262.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><img border=0 src=../ForwardDisabled.tif></td><td><b>18.5. The meaning of "is"</b></td></tr></table><p>
+<html><head><title>17.23. Inform 6 properties and attributes</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc262.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc264.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.23. Inform 6 properties and attributes</b></td></tr></table><p>
 <p>
-<p>Another small discrepancy between assertions and conditions turns up if we ask a surprisingly difficult question: what does &quot;is&quot; mean? There was much amusement when this became an issue in the absurd Senate trial of President Clinton, but the definition of &quot;to be&quot; spans a heroic twelve columns in the <i>Oxford English Dictionary</i>. Among the many meanings offered are:
+<p>I7's properties are compiled sometimes as I6 properties, sometimes as I6 attributes, depending on whether they need to hold values or not (and in future it will probably automatically store excess attributes in a property bitmap, to avoid running out of attributes). However, we can override I7 by telling it that one of its property names is equivalent to an already-existing I6 property or attribute: if so then I7 will use that name and will not compile any directive to create it. For example:
 <p>
-<blockquote><font color="#000080">OED 5a. to have or occupy a place somewhere
-<br>OED 9b. to have a place among the things distinguished by a specified quality
-<br>OED 10. to exist as the thing known by a certain name; to be identical with
+<blockquote><font color="#000080">Switched on translates into Inform as &quot;on&quot;.
 </font></blockquote><p>
 <p>
-<p>All three of these are used by Inform:
-<p>
-<blockquote><font color="#000080">OED 5a. The cargo trunk is in the attic.
-<br>OED 9b. The cargo trunk is an openable container.
-<br>OED 10. if the noun is the cargo trunk ...
+<blockquote><font color="#000080">Initial appearance translates into Inform as &quot;initial&quot;.
 </font></blockquote><p>
 <p>
-<p>OED meanings 5a and 9b are not really very different as far as Inform is concerned: they both say that something belongs to some larger class of things. &quot;The cargo trunk is in the attic&quot; means that the trunk is one among the things in the attic; &quot;the cargo trunk is an openable container&quot; means that it is among the openable containers. (In computer programming terms this is a sort of matching operator, like &quot;=~&quot; in the Perl scripting language.) On the other hand, OED meaning 10 is very different. If somebody reads out a line of code from the C programming language,
+<p>We do not need to translate &quot;switched off&quot;, the opposite to &quot;switched on&quot;: I7 will now compile this to &quot;~on&quot;.
 <p>
-<blockquote><font color="#000080">if (x == 7) ...
+<p>I7 is a single-inheritance system which aims to use unchanging kinds to describe function, whereas I6... isn't. For example, both have the concept of &quot;container&quot;, but in I7 this is a kind, whereas in I6 it is a mere ephemeral attribute. The Standard Rules get around this mismatch with the following trick:
+<p>
+<blockquote><font color="#000080">A thing can be an Inform library container. [...] A container is always an Inform library container. [...] Inform library container translates into Inform as &quot;container&quot;.
 </font></blockquote><p>
 <p>
-<p>they will probably say the words &quot;If x is 7&quot;: here, the &quot;is&quot; means &quot;equals&quot;.
+<p>Thus any object of kind &quot;container&quot; automatically gets the I6 attribute &quot;container&quot;, without the I7 designer noticing that any property has been assigned.
 <p>
-<p>So &quot;X is Y&quot; has two essentially different meanings to Inform: &quot;X matches Y&quot; and &quot;X equals Y&quot;. Both can be used in conditions, but only the first can be used in assertions. That is why Inform will reject the assertion
-<p>
-<blockquote><font color="#000080">The cargo trunk is the oak tree.
-</font></blockquote><p>
-<p>
-<p>(which must be a lie) even though it will allow exactly the same sentence structure in a condition:
-<p>
-<blockquote><font color="#000080">if the noun is the oak tree...
-</font></blockquote><p>
-<p>
-<p>This all sounds like a pedantic digression, and perhaps it is. (An OED 9b &quot;is&quot;, by the way.) But it has a moral: that &quot;is&quot; can do far more than the simple value comparisons offered by most computer programming languages.
-<p>
-<p><hr><p><a href=doc262.html>Previous</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc262.html>Previous</a> / <a href=doc264.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

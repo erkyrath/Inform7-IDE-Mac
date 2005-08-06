@@ -1,40 +1,28 @@
-<html><head><title>10.3. Pattern matching</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc139.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc141.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.3. Pattern matching</b></td></tr></table><p>
+<html><head><title>9.9. Multiple endings</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc139.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc141.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.9. Multiple endings</b></td></tr></table><p>
 <p>
-<p>The following are all valid phrases:
+<p>Interactive fictions vary considerably in the extent to which the player is allowed to influence the story-line. Sometimes the appearance of making choices is wholly bogus, as only one possible line is given more than lip service. But in other works, the player can radically change the outcome, and whole rafts of plot differ between one person's experience and another's. Inform allows multiple endings to its scenes to make this kind of branching story-line easy to achieve.
 <p>
-<blockquote><font color="#000080">award 2 points
-<br>award 8 points
-<br>award 30 points
+<p>Any scene can have up to 8 alternate endings, differentiated by name. These are created as and when conditions are set for them:
+<p>
+<blockquote><font color="#000080">Brief Encounter ends happily when ...
+<br>Brief Encounter ends wisely but sadly when ...
 </font></blockquote><p>
 <p>
-<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
+<p>&quot;Ends happily&quot; and &quot;ends wisely but sadly&quot; behave just like &quot;ends&quot;. We can have rules &quot;When Brief Encounter ends happily, ...&quot; and so forth, in addition to rules &quot;When Brief Encounter ends, ...&quot; - if a rule doesn't specify any particular ending, it applies to all of them.
 <p>
-<blockquote><font color="#000080">To award (some - a number) points: ...
+<p>We can also link rules together from these branches, so
+<p>
+<blockquote><font color="#000080">Stranger's Acceptance begins when Brief Encounter ends happily.
+<br>Stranger's Rejection begins when Brief Encounter ends wisely but sadly.
 </font></blockquote><p>
 <p>
-<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
+<p>With this set-up and that of the previous section, there are now two possible paths through the story:
 <p>
-<blockquote><font color="#000080">award &quot;blue cheese&quot; points;
+<blockquote><font color="#000080">(i) Train Stop - Brief Encounter - Stranger's Acceptance - Bittersweet Ending
+<br>(ii) Train Stop - Brief Encounter - Stranger's Rejection - Bittersweet Ending
 </font></blockquote><p>
 <p>
-<p>which results in the following error:
-<p>
-<blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.
-</font></blockquote><p>
-<p>
-<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
-<p>
-<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
-<p>
-<blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.
-</font></blockquote><p>
-<p>
-<p>Which would not match, for instance, this:
-<p>
-<blockquote><font color="#000080">slam shut the black door;
-</font></blockquote><p>
-<p>
-<p>because the black door is not an open container.
+<p>This chapter began by observing that, in the part it plays in stories, time is like space. The endings of a scene (along with its beginning) are like the map connections leading out of a room. The Scenes index keeps track of the &quot;map of time&quot; through which these possible story-lines traverse. Some works of IF will have immensely complicated story-lines in only a few rooms, some will have no scenes at all despite a sprawling geography. The Scenes and World index tabs, side by side, show both kinds of map.
 <p>
 <p><hr><p><a href=doc139.html>Previous</a> / <a href=doc141.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

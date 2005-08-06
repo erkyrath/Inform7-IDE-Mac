@@ -1,21 +1,19 @@
-<html><head><title>12.10. Arithmetic with units</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc175.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc177.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.10. Arithmetic with units</b></td></tr></table><p>
+<html><head><title>12.7. More on specifications</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc175.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc177.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.7. More on specifications</b></td></tr></table><p>
 <p>
-<p>Inform allows us to perform arithmetic on units only where that would make sense, and it keeps track of the results. For instance,
+<p>The essential requirement is that the specification must be one that clearly specifies no other kind. So &quot;10 specifies a weight&quot; will not be allowed, because 10 specifies a number already: but &quot;10kg specifies a weight&quot; is allowed because the &quot;kg&quot; suffix safely distinguishes it.
 <p>
-<blockquote><font color="#000080">The Weightbridge is a room. &quot;A sign declares that the maximum load is [100kg multiplied by 3].&quot;
+<p>The specification can run for more than one word: we could instead have had written either of these -
+<p>
+<blockquote><font color="#000080">10kg net specifies a weight.
+<br>10 kg specifies a weight.
 </font></blockquote><p>
 <p>
-<p>...will produce the text &quot;A sign declares that the maximum load is 300kg.&quot; Here Inform knows that it makes sense to multiply a weight by 3, and that the result will be a weight. Similarly, Inform allows us to add and subtract weights, and several different forms of division are allowed:
+<p>In fact, we are allowed to say all three:
 <p>
-<blockquote><font color="#000080">The blackboard is in the Weightbridge. &quot;A blackboard propped against one wall reads: '122 / 10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; but 122kg / 10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; and 122kg / 10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot;
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. 10kg net specifies a weight. 10 kg specifies a weight.
 </font></blockquote><p>
 <p>
-<p>When we visit the Weightbridge, we find:
-<p>
-<blockquote><font color="#000080">A blackboard propped against one wall reads: &quot;122 / 10 is 12 remainder 2; but 122kg / 10kg is 12 remainder 2kg; and 122kg / 10 is 12kg remainder 2kg.&quot;
-</font></blockquote><p>
-<p>
-<p>Whereas we are not allowed to divide 122 by 10kg: that would make no sense, since 122 is a number and not made up of kilograms. Inform will produce a problem message if we try.
+<p>They will then all be allowed as alternatives. The first one given will be the one Inform considers the &quot;normal&quot; notation, so that will be the one used when weights are printed back in text.
 <p>
 <p><hr><p><a href=doc175.html>Previous</a> / <a href=doc177.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

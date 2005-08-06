@@ -1,21 +1,30 @@
-<html><head><title>9.5. During scenes</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc132.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc134.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.5. During scenes</b></td></tr></table><p>
+<html><head><title>9.2. Creating a scene</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc132.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc134.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.2. Creating a scene</b></td></tr></table><p>
 <p>
-<p>Scenes are not only useful for changing the setting, by moving items or people around and providing a little narration. We can also make the rules different in one scene from another. For instance, at a sleepy country halt there is no reason why one should not walk across the tracks: but if there is a train in the way, that would be impossible.
+<p>As usual, we only need to say that something is a scene to make it so:
 <p>
-<blockquote><font color="#000080">Before going north during the Train Stop, say &quot;The train blocks your way.&quot; instead.
+<blockquote><font color="#000080">Train Stop is a scene.
 </font></blockquote><p>
 <p>
-<p>Any rule can have the clause &quot;during ...&quot; attached, provided that clause goes at the end and explicitly names a scene. This is especially useful with &quot;every turn&quot;:
+<p>We conventionally write scene names with capital letters, as this demonstrates.
 <p>
-<blockquote><font color="#000080">Every turn during the Train Stop, say &quot;Water is sluiced out of the tank and into the engine.&quot;
+<p>This works, and shows up in the &quot;Scenes&quot; index, but does nothing. We have given no instructions on when it begins - no cue, in stage-play terms - so it never will begin, and even if it did, nobody would notice since it does nothing. First, to give it a beginning:
+<p>
+<blockquote><font color="#000080">Train Stop begins when the player is in the Station for the third turn.
 </font></blockquote><p>
 <p>
-<p>We can test whether a scene is happening with the condition:
+<p>Every scene has two rulebooks attached, one at each end, so to speak. These are look very like &quot;when play begins&quot; and &quot;when play ends&quot;, and work in the same way. Thus:
 <p>
-<blockquote><font color="#000080">Train Stop is happening ...
+<blockquote><font color="#000080">When Train Stop begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the Flying Scotsman to the Station;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman pulls up at the platform, to a billow of steam and hammering.&quot;
 </font></blockquote><p>
 <p>
-<p>and there are similar conditions &quot;Train Stop has happened&quot; and &quot;Train Stop has ended&quot;. We need to be a bit careful about which we mean: it's possible to set things up so that the Train Stop scene will play out more than once, so &quot;Train Stop is happening&quot; and &quot;Train Stop has happened&quot; might both be true at once.
+<blockquote><font color="#000080">When Train Stop ends:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the Flying Scotsman from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is in the Station, say &quot;The Flying Scotsman inches away, with a squeal of released brakes, gathering speed invincibly until it disappears around the hill. All is abruptly still once more.&quot;
+</font></blockquote><p>
+<p>
+<p>Thus when the scene begins, our imaginary stage-hands wheel in a steam train; when it ends, they get rid of it again. Note that we know where the player will be at the start of the scene, but by the end he may have wandered off across the fields, so we must be careful not to report something he might not be in a position to see.
 <p>
 <p><hr><p><a href=doc132.html>Previous</a> / <a href=doc134.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

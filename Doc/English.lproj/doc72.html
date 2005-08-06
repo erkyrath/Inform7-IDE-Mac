@@ -1,46 +1,46 @@
-<html><head><title>6.5. Before rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc71.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc73.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.5. Before rules</b></td></tr></table><p>
+<html><head><title>6.2. Say</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc71.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc73.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.2. Say</b></td></tr></table><p>
 <p>
-<p>Despite what was said in the previous section, instead rules do not quite bypass all of the usual rules. Inform knows that certain actions require light: for instance,
+<p>The phrase &quot;say&quot; is a way to print up something on screen. We can use it to print one thing alone:
 <p>
-<blockquote><font color="#000080">examining the napkin; looking; looking under the dining table
+<blockquote><font color="#000080">say &quot;Hello!&quot;;
 </font></blockquote><p>
 <p>
-<p>and if it is dark then none of these actions will be allowed, and any instead rules about them will not even be reached. Similarly, Inform knows that most actions require physical access to their objects: so &quot;taking the napkin&quot; would be blocked if the napkin were, say, inside a closed glass bottle, whereas &quot;examining the napkin&quot; would not. So an instead rule can only take effect if the action has already passed these basic reasonability tests.
+<p>In practice it is much more convenient to use substitutions once again:
 <p>
-<p>&quot;Before&quot; rules genuinely precede checking of any kind. They also differ from instead rules in that they do not automatically stop the action in its tracks. Rather, they are provided as an opportunity to ensure that something else is done first. For example:
-<p>
-<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
+<blockquote><font color="#000080">say &quot;Please proceed to [the destination] where [prize total] points are available to the diligent player.&quot;;
 </font></blockquote><p>
 <p>
-<p>whence
+<p>This is equivalent to:
 <p>
-<blockquote><font color="#000080">&gt;GET NAPKIN
-<br>(first unfolding its delicate origami swan)
-<br>Taken.
+<blockquote><font color="#000080">say &quot;Please proceed to &quot;, the destination, &quot; where &quot;, prize total, &quot; points are available to the diligent player.&quot;;
 </font></blockquote><p>
 <p>
-<p>We have seen that instead rules automatically stop actions, whereas before rules automatically allow them to continue. We sometimes want to change this. The magic word &quot;instead&quot; can therefore be tacked on to any instruction in a before rule, and will have the effect of immediately stopping the action at that instruction. Thus the following two rules are (almost) equivalent:
+<p>(which would also work). So we would end up reading something like
 <p>
-<blockquote><font color="#000080">Before removing the key, instead say &quot;It seems to be soldered to the keyhole.&quot;
+<blockquote><font color="#000080">Please proceed to Marley Wood where 12 points are available to the diligent player.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of removing the key, say &quot;It seems to be soldered to the keyhole.&quot;
+<p>Other sorts of things you can say are demonstrated by:
+<p>
+<blockquote><font color="#000080">say &quot;Your score is now [total score in words] thanks to having acquired [the treasure item] from [a donor]. [The treasure item] is well worth having.&quot;;
 </font></blockquote><p>
 <p>
-<p>Two special phrases can also be used: &quot;stop the action&quot; and &quot;continue the action&quot;. Yet a third way to achieve the same effect, then, would be:
+<p>which might, assuming the above values all make sense, produce something like:
 <p>
-<blockquote><font color="#000080">Before removing the key: say &quot;It seems to be soldered to the keyhole.&quot;; stop the action.
+<blockquote><font color="#000080">Your score is now thirty-two thanks to having acquired the plover's egg from a giant. The plover's egg is well worth having.
 </font></blockquote><p>
 <p>
-<p>And to round off the discussion, these are also (almost) equivalent:
+<p>Line breaks are automatically printed accordingly to the following simple rule: if a quoted piece of text ends with a full stop, a question mark or an exclamation mark, then a new-line is added; and otherwise not. Thus the sentence just quoted is printed with a new-line, but this would not be:
 <p>
-<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
+<blockquote><font color="#000080">say &quot;reddish jar&quot;;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of taking the napkin: say &quot;(first unfolding its delicate origami swan)&quot;; continue the action.
+<p>If you have a further sentence to print without breaking the paragraph, this works nicely:
+<p>
+<blockquote><font color="#000080">say &quot;The lawn spreads wide and green. &quot;;
 </font></blockquote><p>
 <p>
-<p>As a general principle, it is good style to use instead rules whenever blocking actions, and before rules only when it is genuinely necessary to do something first but then to continue: in fact, it is good style to use &quot;stop the action&quot; or &quot;continue the action&quot; as little as possible.
+<p>because the full stop is the penultimate character, not the last.
 <p>
 <p><hr><p><a href=doc71.html>Previous</a> / <a href=doc73.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

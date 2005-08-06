@@ -1,16 +1,23 @@
-<html><head><title>10.1. Fitting values into phrases</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 10: Phrases</h2><p><table><tr><td><a href=doc137.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc139.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.1. Fitting values into phrases</b></td></tr></table><p>
+<html><head><title>9.7. More general linkages</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc137.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc139.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.7. More general linkages</b></td></tr></table><p>
 <p>
-<p>We are now able to set up the model world, to respond to certain actions of the player within it, and to make changes over time, giving the game a start and an end. But although we have defined many rules, none of them have done more than to use a few basic phrases: saying something to the player, changing some property or moving things around.
+<p>We are allowed to link the beginning or end of any scene to the beginning or end of any other scene. So, for instance:
 <p>
-<p>A phrase is a pattern of words which instructs the computer to do something immediately. For instance:
-<p>
-<blockquote><font color="#000080">say &quot;Look out!&quot;
-<br>award 20 points
+<blockquote><font color="#000080">Luggage Trouble is a scene. Luggage Trouble begins when Brief Encounter begins.
 </font></blockquote><p>
 <p>
-<p>are instructions using two phrases, &quot;say ...&quot; and &quot;award ... points&quot;. Phrases are not the same things as rules: rules lay out what should happen under what circumstances, but it is phrases that actually do what needs to be done.
+<p>Thus the two scenes run concurrently, at least for a while. We can also add that:
 <p>
-<p>Where the &quot;20&quot; appears in &quot;award 20 points&quot;, any number would have done. This does not need to be a literal number expressed in digits: it can be any value known to Inform which works out as a number. For instance, &quot;the score&quot; is always acceptable as a number, since it is the name of a number variable: its value at any point in play is the current score.
+<blockquote><font color="#000080">Luggage Trouble ends when Brief Encounter ends.
+</font></blockquote><p>
+<p>
+<p>This can be useful when a large, complicated scene really contains several smaller sub-scenes.
+<p>
+<p>A special exceptional case is that we can have any scene or scenes starting right at the outset:
+<p>
+<blockquote><font color="#000080">Railway Meeting is a scene. Railway Meeting begins when play begins.
+</font></blockquote><p>
+<p>
+<p>When play ends, of course, all scenes end, so there is no need to say that.
 <p>
 <p><hr><p><a href=doc137.html>Previous</a> / <a href=doc139.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

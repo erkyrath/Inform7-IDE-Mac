@@ -1,33 +1,12 @@
-<html><head><title>9.4. Age of Steam example</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc131.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc133.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.4. Age of Steam example</b></td></tr></table><p>
+<html><head><title>9.1. Introduction to scenes</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 9: Scenes</h2><p><table><tr><td><a href=doc131.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc133.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.1. Introduction to scenes</b></td></tr></table><p>
 <p>
-<p>We can now gather the material so far into a working drama:
+<p>As we have seen, Inform divides up space into individual places called &quot;rooms&quot;, and allows us to group rooms together into &quot;regions&quot; if we find that convenient. And Inform also divides time up, into individual turns. These too we can group together: the equivalent of a region is a &quot;scene&quot;.
 <p>
-<blockquote><font color="#000080">&quot;Age of Steam&quot;
-</font></blockquote><p>
+<p>To put this another way, if we think of the interactive fiction as a stage play, then up to now it has simply contained endless dialogue and stage directions - there has been no convenient way to divide up its running time into dramatic episodes, in the same way that a playwright might make Act I and Act II take place in the same drawing-room with the same characters, but (let us say) six months later, after many things have changed. The script contains cues for one scene to end and another to begin: when those cues are reached, the stage hands rearrange props, actors reposition themselves and so on.
 <p>
-<blockquote><font color="#000080">The Station is a room. &quot;Eynforme Halt is a raised platform fringed with cowslip: a whistle-stop with no more than a signal and a water-tank.&quot;
-</font></blockquote><p>
+<p>Inform also allows us to create scenes, with cues for them to start and end, and some stage machinery (so to speak) making it easy to move the action on. But interactive fiction is <i>interactive</i>, so the metaphor of the theatre only goes so far. We can have several different scenes going on at once - perhaps with the relevant events taking place in different rooms, which the player is free to walk between. And the player may make a choice which changes the story-line, causing scenes to happen which otherwise would not have happened, and so on. Scenes can even repeat themselves.
 <p>
-<blockquote><font color="#000080">The Flying Scotsman is fixed in place. &quot;The Flying Scotsman, fastest train in the world, is now at a dead standstill.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Train Stop is a scene. Train Stop begins when the player is in the Station for the third turn. Train Stop ends when the time since Train Stop began is 3 minutes.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Train Stop begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the Flying Scotsman to the Station;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman pulls up at the platform, to a billow of steam and hammering.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Train Stop ends:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the Flying Scotsman from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman inches away, with a squeal of released brakes, gathering speed invincibly until it disappears around the hill. All is abruptly still once more.&quot;
-</font></blockquote><p>
-<p>
-<p>Note the useful value &quot;time since Train Stop began&quot;. (This only makes sense if the scene has begun, of course.) The actual time, in case it is needed, can also be obtained:
-<p>
-<blockquote><font color="#000080">Instead of entering the Flying Scotsman, say &quot;Alas, the [time when Train Stop began] arrival is only to take on water, not to set down or pick up.&quot;
-</font></blockquote><p>
+<p>So organising the story-line into scenes is not simply a matter of making a list (Scene 1, then Scene 2, then Scene 3, <i>finis</i>). It is more like a chart in which one scene can lead in several possible ways to others - a sort of map of time, which as we shall see Inform displays in its &quot;Scenes&quot; index.
 <p>
 <p><hr><p><a href=doc131.html>Previous</a> / <a href=doc133.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

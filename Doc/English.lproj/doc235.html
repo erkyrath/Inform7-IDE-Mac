@@ -1,13 +1,28 @@
-<html><head><title>16.15. Amusing a victorious player</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc234.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc236.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.15. Amusing a victorious player</b></td></tr></table><p>
+<html><head><title>16.11. Supplying a missing noun/second noun</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc234.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc236.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.11. Supplying a missing noun/second noun</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> When the player chooses &quot;AMUSING&quot; from the short menu of choices after a game has been won. Traditionally, this is where the author gets to point out quirky by-ways of the game, or make some final acknowledgements, or simply salute the player's perseverance. Note that the AMUSING option is only offered when a game has ended in victory, and that it is only offered if there is at least one rule present in the &quot;for amusing a victorious player&quot; rulebook.
+<p><b>1. When it happens.</b> (Two different activities here, but identical except for applying to different nouns.) Suppose that, because of an instruction to Understand something even though it would be lacking a noun - say, 'Understand &quot;take&quot; as taking.' - an incomplete action is generated, one which is required to have a noun, but doesn't. &quot;Supplying a missing noun&quot; takes place to remedy the problem. It can either:
 <p>
-<p><b>2. The default behaviour.</b> None. The &quot;for amusing a victorious player&quot; rulebook is empty by default, and no amusement is available.
+<p>(i) Set a noun, printing text like &quot;(presumably the black bag)&quot; if it wants, in which case the action goes forward, though it is still subject to the full rules on accessibility exactly as any other action would be; or
 <p>
-<p><b>3. Examples.</b> The format would be like so:
+<p>(ii) Make no choice, in which case no action takes place and the player's command is rejected. If the activity printed nothing, Inform will produce a generic reply to the player that &quot;You must supply a noun.&quot;.
 <p>
-<blockquote><font color="#000080">Rule for amusing a victorious player: say &quot;Hmm. You're easily amused.&quot;
+<p><b>2. The default behaviour.</b> In the default grammar for Inform, only three such half-finished actions are ever Understood. One is &quot;going&quot; with no direction, for which this activity simply prints a refusal. The other two are the two undirected senses, &quot;smelling&quot; and &quot;listening&quot;. In each case, the &quot;supplying a missing noun&quot; activity sets the noun to the current location: so, for instance, typing the bare command &quot;listen&quot; might generate the action &quot;listening to the Shoreline&quot;.
+<p>
+<p><b>3. Examples.</b> (a) This is the definition Inform uses to make &quot;listen&quot; work as outlined above:
+<p>
+<blockquote><font color="#000080">Rule for supplying a missing noun while listening (this is the ambient sound rule): change the noun to the location.
 </font></blockquote><p>
+<p>
+<p>(b) It can be elegant to allow second nouns to be dropped with habitual actions, or where the choice is obvious:
+<p>
+<blockquote><font color="#000080">Understand &quot;unlock [something]&quot; as unlocking it with.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Rule for supplying a missing second noun while unlocking:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the skeleton key is carried, change the second noun to the skeleton key;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;
+</font></blockquote><p>
+<p>
 <p>
 <p><hr><p><a href=doc234.html>Previous</a> / <a href=doc236.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

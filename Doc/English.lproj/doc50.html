@@ -1,28 +1,28 @@
-<html><head><title>4.11. Text with variations</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc49.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc51.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.11. Text with variations</b></td></tr></table><p>
+<html><head><title>4.9. Text with numbers</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc49.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc51.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.9. Text with numbers</b></td></tr></table><p>
 <p>
-<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
+<p>When a numerical value is given in a square-bracketed substitution, it is ordinarily printed out in digits. Thus:
 <p>
-<blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.
+<blockquote><font color="#000080">&quot;You've been wandering around for [turn count] turns now.&quot;
 </font></blockquote><p>
 <p>
-<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
+<p>might print as &quot;You've been wandering around for 213 turns now.&quot;, if the game has been played out for exactly that many commands. Alternatively, we can add &quot;...in words&quot;, thus:
 <p>
-<blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;
+<blockquote><font color="#000080">&quot;You've been wandering around for [turn count in words] turns now.&quot;
 </font></blockquote><p>
 <p>
-<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
+<p>to get the more conversational &quot;You've been wandering around for two hundred and thirteen turns now.&quot;
 <p>
-<p>We sometimes need to be careful about the printing of line breaks:
+<p>Either way, though, there is some risk of the following:
 <p>
-<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell. [otherwise]the usual cell.&quot;
+<blockquote><font color="#000080">You've been wandering around for one turns now.
 </font></blockquote><p>
 <p>
-<p>This room description has two possible forms: &quot;Ah, the unknown cell. &quot;, at first sight, and then &quot;Ah, the usual cell.&quot; subsequently. But the second form is rounded off with a line break because the last thing printed is a &quot;.&quot;, whereas the first form isn't, because it ended with a space. The right thing would have been:
+<p>We can avoid this using the special substitution &quot;[s]&quot;, which prints a letter &quot;s&quot; unless the last number printed was 1. So:
 <p>
-<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell.[otherwise]the usual cell.&quot;
+<blockquote><font color="#000080">&quot;You've been wandering around for [turn count in words] turn[s] now.&quot;
 </font></blockquote><p>
 <p>
-<p>allowing no space after &quot;unknown cell.&quot;
+<p>will produce &quot;... for one turn now.&quot; or &quot;... for two turns now.&quot; as appropriate. This only solves one case (what about all the other plural endings, from &quot;women&quot; to &quot;cherubim&quot;?), and as we shall see we can get the same effect and very much more using the methods in the next section, so &quot;[s]&quot; is something of an anomaly. But it's memorable, and even if it only solves one small need, this is a need which turns up often.
 <p>
 <p><hr><p><a href=doc49.html>Previous</a> / <a href=doc51.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

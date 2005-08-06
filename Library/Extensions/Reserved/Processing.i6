@@ -901,8 +901,10 @@ Global inhibit_dr = 0;
 [ I7_In rm region o;
   if ((rm == nothing) || (region == nothing)) rfalse;
   o = rm.I7_Map_Region;
-  if (o == region) rtrue;
-  if (o) return I7_In(o, region);
+  while (o) {
+	  if (o == region) rtrue;
+	  o = parent(o);
+  }
   rfalse;
 ];
 [ I7SwapWF obj lst;
@@ -964,4 +966,58 @@ Global inhibit_dr = 0;
   if (TestScope(B,A) == false) rfalse;
   if (ObjectIsUntouchable(B, 0, 0, A)) rfalse;
   rtrue;
+];
+[ I7_Now1to1 obj1 rel obj2 ol;
+  objectloop (ol provides rel)
+      if (ol.rel == obj2) ol.rel = nothing;
+  obj1.rel = obj2;
+];
+[ I7_NowVtoV obj1 bp_id obj2 pr pr2 i1 i2;
+!  I7_ShowVtoV(bp_id);
+  pr = bp_id-->0;
+  pr2 = bp_id-->1;
+  if ((obj1 ofclass Object) && pr && (obj1 provides pr)) i1 = obj1.pr;
+  else "*** Attempt to set relation for impossible object ***";
+  if ((obj2 ofclass Object) && pr2 && (obj2 provides pr2)) i2 = obj2.pr2;
+  else "*** Attempt to set relation for impossible object ***";
+!  print "Setting relation", "(", i1, ",", i2, ")^";
+  pr = i1*(bp_id-->3) + i2; i1 = 1; i2 = pr%16; while (i2) { i2--; i1=i1*2; }
+  pr = pr/16 + 4;
+  bp_id-->pr = (bp_id-->pr) | i1;
+];
+[ I7_NowNVtoV obj1 bp_id obj2 pr pr2 i1 i2;
+!  I7_ShowVtoV(bp_id);
+  pr = bp_id-->0;
+  pr2 = bp_id-->1;
+  if ((obj1 ofclass Object) && pr && (obj1 provides pr)) i1 = obj1.pr;
+  else "*** Attempt to set relation for impossible object ***";
+  if ((obj2 ofclass Object) && pr2 && (obj2 provides pr2)) i2 = obj2.pr2;
+  else "*** Attempt to set relation for impossible object ***";
+!  print "Clearing relation", "(", i1, ",", i2, ")^";
+  pr = i1*(bp_id-->3) + i2; i1 = 1; i2 = pr%16; while (i2) { i2--; i1=i1*2; }
+  pr = pr/16 + 4;
+  if ((bp_id-->pr) & i1) bp_id-->pr = bp_id-->pr - i1;
+];
+[ I7_TestVtoV obj1 bp_id obj2 pr pr2 i1 i2;
+  pr = bp_id-->0;
+  pr2 = bp_id-->1;
+  if ((obj1 ofclass Object) && pr && (obj1 provides pr)) i1 = obj1.pr;
+  else "*** Attempt to test relation for impossible object ***";
+  if ((obj2 ofclass Object) && pr2 && (obj2 provides pr2)) i2 = obj2.pr2;
+  else "*** Attempt to test relation for impossible object ***";
+  pr = i1*(bp_id-->3) + i2; i1 = 1; i2 = pr%16; while (i2) { i2--; i1=i1*2; }
+  pr = pr/16 + 4;
+  if ((bp_id-->pr) & i1) rtrue; rfalse;
+];
+[ I7_ShowVtoV bp_id obj1 obj2 pr pr2;
+  pr = bp_id-->0;
+  pr2 = bp_id-->1;
+  objectloop (obj1 provides pr) {
+      ! print (The) obj1, "=", obj1.pr, ":^";
+      objectloop (obj2 provides pr2) {
+	      ! print "Vs ", (The) obj2, "=", obj2.pr2, ":^";
+          if (I7_TestVtoV(obj1, bp_id, obj2))
+              print "  ", (The) obj1, " >> ", (the) obj2, "^";
+      }
+  }
 ];

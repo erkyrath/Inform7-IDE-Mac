@@ -1,26 +1,37 @@
-<html><head><title>3.1. Descriptions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 3: Things</h2><p><table><tr><td><a href=doc19.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc21.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.1. Descriptions</b></td></tr></table><p>
+<html><head><title>2.10. Does Inform really understand English?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc19.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc21.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>2.10. Does Inform really understand English?</b></td></tr></table><p>
 <p>
-<p>At its simplest, the interactive fiction will be simulating a physical world to explore. The forerunner of today's IF is generally agreed to be a computer simulation by Will Crowther of the exploration of a cave system in the Mammoth and Flint Ridge chain of caves in Kentucky, a part of which might be described in Inform thus:
+<p>No. No computer does, and Inform does not even try to read the whole wide range of text: it is a practical tool for a particular purpose, and it deals only with certain forms of sentence useful to that purpose. Inform source text may look like &quot;natural language&quot;, the language we find natural among ourselves, but in the end it is a computer programming language. Many things which seem reasonable to the human reader are not understood by Inform. For instance, Inform understands
 <p>
-<blockquote><font color="#000080">&quot;Cave Entrance&quot;
+<blockquote><font color="#000080">something which is carried by the player
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Cobble Crawl is a room. &quot;You are crawling over cobbles in a low passage. There is a dim light at the east end of the passage.&quot;
+<p>but not (at present, anyway)
+<p>
+<blockquote><font color="#000080">something which the player carries
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A wicker cage is here. &quot;There is a small wicker cage discarded nearby.&quot;
+<p>even though both are perfectly good English. So it is not always safe to assume that Inform will understand any reasonable instruction it is given: when in doubt, we must go back to the manual.
+<p>
+<p>More philosophically, to &quot;understand&quot; involves contextual knowledge. Just because Inform recognises and acts on a sentence, does it really understand what we meant? It will turn out that Inform is both good and bad at this. For instance, from
+<p>
+<blockquote><font color="#000080">Mr Darcy wears a top hat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Debris Room is west of the Crawl. &quot;You are in a debris room filled with stuff washed in from the surface. A low wide passage with cobbles becomes plugged with mud and debris here, but an awkward canyon leads upward and west. A note on the wall says, Magic word XYZZY.&quot;
+<p>Inform will correctly deduce that Darcy is a person, because inanimate objects do not ordinarily wear clothes, and that the top hat is clothing. But it will not automatically know that Darcy is a man rather than a woman because it does not know the social convention implied by &quot;Mr&quot;. Moreover, if instead we had written
+<p>
+<blockquote><font color="#000080">Mr Darcy carries a top hat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The black rod is here. &quot;A three foot black rod with a rusty star on one end lies nearby.&quot;
+<p>then Inform would not guess that the top hat is clothing. This is because it does not have the vast vocabulary and experience of a human reader: it is probably discovering the word &quot;hat&quot; for the first time.
+<p>
+<p>Finally, it is best to avoid ambiguities rather than rely on Inform to know which meaning is patently absurd. For instance, in
+<p>
+<blockquote><font color="#000080">Heatwave bone breaks clog hospital.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Above the Debris Room is the Sloping E/W Canyon. West of the Canyon is the Orange River Chamber.
-</font></blockquote><p>
+<p>(a headline once printed by the <i>Oxford Mail</i> newspaper) a human reader quickly realises that there is no clog hospital being broken. But if Inform had been taught the verbs <i>to break</i> and <i>to clog</i> then that is exactly the conclusion it would have drawn.
 <p>
-<p>Here we sketch in four of Crowther's locations, and two objects: just enough to be able to walk around the caves and pick up the rod and the cage. The text in quotation marks will appear verbatim as paragraphs shown to the player as the caves are explored. The first paragraph, as we have seen, is the title of the work. The other quotations describe the places and objects introduced.
+<p>That disclaimer completes the groundwork, and we are ready to begin on simulating a world to explore.
 <p>
 <p><hr><p><a href=doc19.html>Previous</a> / <a href=doc21.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

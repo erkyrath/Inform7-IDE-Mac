@@ -1,33 +1,36 @@
-<html><head><title>13.2. Looking up entries</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc182.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc184.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.2. Looking up entries</b></td></tr></table><p>
+<html><head><title>12.14. The Weighbridge</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc182.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc184.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.14. The Weighbridge</b></td></tr></table><p>
 <p>
-<p>The simplest way to access the information inside tables is to ask explicitly for it, specifying the row number, the column name and what table is to be consulted. So, given our example table
+<p>The following example draws together the previous snippets into a working implementation of the weighbridge. It is not a very sophisticated approach, because it does not allow for weight to accumulate: if we put a gold ingot into a paper bag, then put the bag on the balance platform, only the bag's weight will register. But it will do for a first try.
 <p>
-<p><center><img src=table2.tiff></center>
-<p>
-<p>we can write the following description:
-<p>
-<blockquote><font color="#000080">symbol in row 3 of the Table of Selected Elements
+<blockquote><font color="#000080">&quot;Dimensions&quot;
 </font></blockquote><p>
 <p>
-<p>to produce the value &quot;Zn&quot;. Or the following will run off some chemical data:
-<p>
-<blockquote><font color="#000080">repeat with N running from 1 to the number of rows in the Table of Selected Elements begin;
-<br>say &quot;The atomic weight of [element in row N of the Table of Selected Elements] is [atomic weight in row N of the Table of Selected Elements].&quot;;
-<br>end repeat.
+<blockquote><font color="#000080">A length is a kind of value. 10m specifies a length. An area is a kind of value. 10 sq m specifies an area. A length times a length specifies an area.
 </font></blockquote><p>
 <p>
-<p>The result of which will be:
-<p>
-<blockquote><font color="#000080">The atomic weight of Hydrogen is 1.
-<br>The atomic weight of Iron is 56.
-<br>The atomic weight of Zinc is 65.
-<br>The atomic weight of Uranium is 238.
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight.
 </font></blockquote><p>
 <p>
-<p>Note that the first row in a table is row number 1, and that the last can be found with the special value:
+<blockquote><font color="#000080">The verb to weigh (it weighs, they weigh, it is weighing) implies the weight property. A thing usually weighs 1kg.
+</font></blockquote><p>
 <p>
-<blockquote><font color="#000080">the number of rows in the (name of table here)
+<blockquote><font color="#000080">Definition: A thing is light if its weight is 3kg or less.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: A thing is heavy if its weight is 10kg or more.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Weighbridge is a room.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: '122/10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; 122kg/10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; 122kg/10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot; The blackboard weighs 10kg.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A feather and a lead pig are in the Weighbridge. The lead pig weighs 45kg.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The balance platform is a supporter in the Weighbridge. &quot;The balance platform is 10m by 8m, giving it an area of [10m multiplied by 8m], currently weighing [the list of things on the platform]. The scale alongside reads: [total weight of things on the platform]. [if two things are on the platform]Average weight is: [the total weight of things on the platform divided by the number of things on the platform]. Heaviest item is [the heaviest thing on the platform], at [weight of the heaviest thing on the platform]. Lightest item is [the lightest thing on the platform], at [weight of the lightest thing on the platform].[otherwise]It seems to be able to weigh several things at once.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc182.html>Previous</a> / <a href=doc184.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

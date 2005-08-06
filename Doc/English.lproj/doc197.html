@@ -1,27 +1,20 @@
-<html><head><title>14.2. New commands for old grammar</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc196.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc198.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.2. New commands for old grammar</b></td></tr></table><p>
+<html><head><title>13.13. Topic columns</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc196.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc198.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.13. Topic columns</b></td></tr></table><p>
 <p>
-<p>In the photography example, we are providing entirely new grammar for an action  not ordinarily built in to Inform. But we often want simply to provide alternative grammar for existing actions, or even to put new interpretations on commands that Inform already recognises. For instance:
+<p>When double-quoted matter appears in a column of a table, Inform will normally treat that as text for printing out. The exception is when the column is called &quot;topic&quot;, where it is treated as text for comparing against what the player has typed. There is really only one operation allowed with topic columns, the &quot;...listed in...&quot; construction, but fortunately it is the one most often needed.
 <p>
-<blockquote><font color="#000080">Understand &quot;deposit [something] in [an open container]&quot; as inserting it into.
+<p>Let us suppose that the Sybil has a penchant for telling passers-by which is the Greek muse for what. We might write:
+<p>
+<blockquote><font color="#000080">After asking the Sybil about a topic listed in the Table of Sybil's Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;
 </font></blockquote><p>
 <p>
-<p>The inserting action is built in to Inform, but the command &quot;deposit&quot; is not, so this is created as new.
+<p>We can then provide a simple table giving her responses:
 <p>
-<p>The following example:
+<p><center><img src=table12.tiff></center>
 <p>
-<blockquote><font color="#000080">Understand &quot;access [something]&quot; as opening.
-</font></blockquote><p>
+<p>Topics can use the full range of abilities of the &quot;understanding&quot; system which Inform uses to parse text, and which will be the subject of a later chapter. For now, note that the Sybil's topics might equally include &quot;flora/eve&quot; (matching the single word &quot;flora&quot; or the single word &quot;eve&quot;), or something more elaborate such as:
 <p>
-<p>might look as if it makes &quot;access&quot; behave just like &quot;open&quot; when the player types it, but that's not so: &quot;open&quot; can also be used in constructions like &quot;open the door with the brass key&quot;, in which case it is understood as the unlocking action. We could add another line to make &quot;access&quot; behave this way too, but if what we really want is to make &quot;access&quot; behave just like &quot;open&quot;, it's easier simply to say so:
-<p>
-<blockquote><font color="#000080">Understand the verb &quot;access&quot; as &quot;open&quot;.
-</font></blockquote><p>
-<p>
-<p>This is very useful when adding a new command which needs synonyms:
-<p>
-<blockquote><font color="#000080">Understand the verb &quot;snap&quot; as &quot;photograph&quot;.
-<br>Understand the verb &quot;picture&quot; as &quot;photograph&quot;.
+<blockquote><font color="#000080">&quot;Bridget&quot; or &quot;Bridge&quot; or &quot;Bridget Jones&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc196.html>Previous</a> / <a href=doc198.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,33 +1,28 @@
-<html><head><title>15.13. In what order?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc218.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc220.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.13. In what order?</b></td></tr></table><p>
+<html><head><title>15.9. Consider and abide</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc218.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc220.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.9. Consider and abide</b></td></tr></table><p>
 <p>
-<p>Large works created by Inform are heaped high with rules, most of them instead rules, but with a leavening of befores and afters as well. What will happen if these conflict with each other? For instance:
+<p>It often happens that one rule needs to invoke another one. (Indeed, this happens whenever a rulebook is followed: it invokes all its rules one by one until one of them stops.) The best way to do this is with the phrase:
 <p>
-<blockquote><font color="#000080">Instead of opening a container, say &quot;Your mother-in-law looks on with such evident disappointment that you withdraw your hand again.&quot;
+<blockquote><font color="#000080">consider ...name of the rule or rulebook...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of opening an open container, say &quot;Your daughter tuts in theatrical exasperation at your, like, lameness.&quot;
+<p>This throws away the result: indeed, it makes no difference whether the rule succeeds, fails or has no outcome. More often, though, we want not only to invoke another rule, but also to be guided by its advice. For this, we use the otherwise identical phrase
+<p>
+<blockquote><font color="#000080">abide by ...name of the rule or rulebook...
 </font></blockquote><p>
 <p>
-<p>If the player tries to open something which is closed, there is no conflict and it is clearly the mother-in-law who gets in the way. But what if the player tries to open a container which is already open? In this case both rules are applicable, but they cannot both take effect: they are instead rules and whichever happens first will stop the action.
+<p>Here, if the rule being abided by comes to a stop (i.e., succeeds or fails) then the original rule also stops, at once and without going on to any further instructions. For example, the following duplicates the effect of a rulebook of four rules: it tries each in turn, and stops as soon as any of them stop.
 <p>
-<p>The answer is that Inform does not allow rules simply to heap up chaotically, nor simply list them in the order they are described, but sorts them according to what it believes to be a logical sequence. Given any two rules A and B, it tries to see which rule is more specific - narrower in application, that is - and applies that one first. In this case Inform finds that any open container is also a container, but not vice versa. That means that the daughter rule is more specific than the mother-in-law rule, so it is given priority. But the following rule would trump either of them:
-<p>
-<blockquote><font color="#000080">Instead of opening the jewelled box, say &quot;Such exquisite boxes are notorious for traps such as poisoned needles concealed around the lid.&quot;
+<blockquote><font color="#000080">The omnibus rule: abide by the first rule; abide by the second rule; abide by the third rule; abide by the fourth rule.
 </font></blockquote><p>
 <p>
-<p>Note that a rule applying only in certain rooms always beats a rule which is applicable everywhere. Here is a larger example:
+<p>Abide might be used in examples like this one:
 <p>
-<blockquote><font color="#000080">(R1) Before taking something in the Swamp: ...
-<br>(R2) Before taking the bucket: ...
-<br>(R3) Before taking the frog: ...
-<br>(R4) Before taking an open container: ...
-<br>(R5) Before taking a container: ...
-<br>(R6) Before taking something: ...
+<blockquote><font color="#000080">A thing can be fragile or robust.
+<br>This is the can't handle fragile things roughly rule: if the noun is fragile, say &quot;[The noun] is too fragile for such rough handling.&quot; instead.
+<br>A check dropping rule: abide by the can't handle fragile things roughly rule. A check throwing it at rule: abide by the can't handle fragile things roughly rule.
 </font></blockquote><p>
 <p>
-<p>Rule (R1) wins because it specifies a room, whereas (R2) and (R3) do not. (R2) and (R3) then trump the others because they name specific objects, not general classes of objects. We then have (R4), (R5) and (R6) in that order since every open container is also a container, and every container is a thing.
-<p>
-<p>The full method used by Inform to sort rules is complicated, and will not always be quite right - though, as we shall later see, there are ways to intervene if this becomes a problem. But in practice, when we need rule A to come before rule B, it will usually be a clear-cut case which comes out right. In trickier cases to judge, it mostly doesn't matter anyway.
+<p>Had we used &quot;consider&quot; instead of &quot;abide by&quot;, then in the event of the player typing &quot;drop angel&quot; the text &quot;The glass angel is too fragile for such rough handling&quot; would be printed, which is correct - but then the action would continue as though no difficulty had occurred, which is definitely not correct.
 <p>
 <p><hr><p><a href=doc218.html>Previous</a> / <a href=doc220.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

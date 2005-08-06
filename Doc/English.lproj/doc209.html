@@ -1,33 +1,16 @@
-<html><head><title>15.3. New rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc208.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc210.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.3. New rules</b></td></tr></table><p>
+<html><head><title>14.11. Tokens can produce values</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc208.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc210.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.11. Tokens can produce values</b></td></tr></table><p>
 <p>
-<p>Returning to the apple blossom, and stretching a point seasonally,
+<p>The examples just seen were tokens which simply matched specific words typed by the player, but newly created tokens can also produce values:
 <p>
-<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080">Colour is a kind of value. The colours are red, green and blue. Understand &quot;colour [a colour]&quot; or &quot;[a colour] shade&quot; as &quot;[tint]&quot;.
 </font></blockquote><p>
 <p>
-<p>This rule is nameless. It needs no name because it will never need to be referred to: by identifying it as an every turn rule we have already said enough to lodge it in the &quot;every turn rules&quot; rulebook. In fact, though, it is easy to create a named rule:
+<p>Here the &quot;[tint]&quot; token matches, for instance, &quot;colour red&quot; and &quot;blue shade&quot;, which would result in the values red and blue, respectively.
 <p>
-<blockquote><font color="#000080">This is the blossom rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
-</font></blockquote><p>
+<p>Tokens are not allowed to produce more than one value, and if several patterns are given to define them then those patterns have to be compatible. That means the following is disallowed, since it might work out to a colour, or to an object, leaving Inform unable to judge whether an action can safely be applied to the result.
 <p>
-<p>The name of a rule must always end with the word &quot;rule&quot;, for clarity's sake. (The phrasing &quot;This is the ... rule&quot; is used because &quot;The ... rule&quot; would be open to misinterpretation.)
-<p>
-<p>The rule now exists, but belongs to no rulebook, and will never be applied unless explicitly invoked, or unless explicitly placed into a rulebook after all:
-<p>
-<blockquote><font color="#000080">The blossom rule is listed in the every turn rules.
-</font></blockquote><p>
-<p>
-<p>A single rule like this can be listed in any number of rulebooks, including none.
-<p>
-<p>Alternatively, it is possible to both name and list a rule in a single sentence:
-<p>
-<blockquote><font color="#000080">Every turn (this is the blossom rule): say &quot;The summer breeze shakes the apple-blossom.&quot;
-</font></blockquote><p>
-<p>
-<p>Where rules have been named, we are able (as promised) to have a say in what order they come in:
-<p>
-<blockquote><font color="#000080">The blossom rule is listed before the moving doorways rule in the every turn rules.
+<blockquote><font color="#000080">Understand &quot;colour [a colour]&quot; or &quot;[something]&quot; as &quot;[tint]&quot;.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc208.html>Previous</a> / <a href=doc210.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

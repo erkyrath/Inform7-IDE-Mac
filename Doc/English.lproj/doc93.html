@@ -1,18 +1,37 @@
-<html><head><title>7.2. Changing the command prompt</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc92.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc94.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.2. Changing the command prompt</b></td></tr></table><p>
+<html><head><title>6.23. Check, carry out, report</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc92.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc94.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.23. Check, carry out, report</b></td></tr></table><p>
 <p>
-<p>The command prompt is the text printed by Inform to ask the player for another command. Ordinarily this is simply a greater-than-sign, &quot;>&quot;, so we tend not to notice it as text at all. Internally, though, it is a variable value called &quot;command prompt&quot;, which means we can change it.
+<p>We recall that, apart from the whole paraphernalia about before, instead and after rules, about checking for light and that the player can touch whatever needs to be in range, an action comes down to three stages:
 <p>
-<p>For example, this will be a more conversational sort of prompt:
-<p>
-<blockquote><font color="#000080">When play begins: change the command prompt to &quot;What now? &quot;.
+<blockquote><font color="#000080">(i) Check. In the case of photographing, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.
 </font></blockquote><p>
 <p>
-<p>Whereas this will be more up-to-the-minute and demanding:
-<p>
-<blockquote><font color="#000080">When play begins: change the command prompt to &quot;[time of day] >&quot;.
+<blockquote><font color="#000080">(ii) Carry out. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.
 </font></blockquote><p>
 <p>
-<p>(&quot;Time of day&quot; is another variable value, which is fairly self-explanatory, but will be covered in detail later on.) The prompt can be changed at any point, so can be used to indicate the current situation, or even as a sly way to introduce a sort of conversation between computer and player.
+<blockquote><font color="#000080">(iii) Report. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.
+</font></blockquote><p>
+<p>
+<p>When any action, such as &quot;photographing&quot;, is created, three new rulebooks are created with it: &quot;check photographing&quot;, &quot;carry out photographing&quot; and &quot;report photographing&quot;. So far we have not really gone into the business of what rulebooks are, and we don't do so here either. Suffice to say that we can now create whatever rules we need.
+<p>
+<blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
+</font></blockquote><p>
+<p>
+<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
+<p>
+<blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
+</font></blockquote><p>
+<p>
+<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
+<p>
+<p>We can continue to add rules at any point, and a classic thing that happens when play-testing a new work is that the designer realises there is a case which has not been thought of:
+<p>
+<blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.
+</font></blockquote><p>
+<p>
+<p>We can equally add such rules to the existing, in-built actions if we like: and on that equable note, we have said all there is to be said about actions.
 <p>
 <p><hr><p><a href=doc92.html>Previous</a> / <a href=doc94.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

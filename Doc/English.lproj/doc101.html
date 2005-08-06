@@ -1,39 +1,15 @@
-<html><head><title>7.10. Now...</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc100.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc102.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.10. Now...</b></td></tr></table><p>
+<html><head><title>7.7. Moving things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc100.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc102.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.7. Moving things</b></td></tr></table><p>
 <p>
-<p>As Chapter 5 has already discussed, Inform looks at a whole range of &quot;relations&quot; between objects, many of which we can change. The general rule is as follows. Suppose S is a sentence about a relationship between things. Then there are three things we can do with S:
+<p>We have now seen how to change the properties of rooms and things, and also any freestanding values which may have a bearing on the model world. We are not allowed to change the kind of anything during play. Our remaining freedom is to move things around. It would make no sense to move rooms around, because rooms are the fixed reference points in our geography, but anything else is mobile. This even includes things which are supposedly &quot;fixed in place&quot;, for unlike the player, we have god-like powers.
 <p>
-<blockquote><font color="#000080">S. - The relation holds at the start of play.
+<p>Here is how to move something:
+<p>
+<blockquote><font color="#000080">move the genie's lamp to Aladdin's Cave
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">if S, ...; - Does the relation hold right now?
-<br>now S; - Make the relation hold from now on.
-</font></blockquote><p>
+<p>The first object named has to be a thing; the destination can be a room, as here, or another object - this will usually need to be a container, a supporter or a person, since Inform understands what it would mean for these to have contents, but there is no absolute restriction. If the item is moved to a person, then it will be carried rather than worn.
 <p>
-<p>For instance,
-<p>
-<blockquote><font color="#000080">The apple is in the basket.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">if the apple is in the basket, ...;
-<br>now the apple is in the basket;
-</font></blockquote><p>
-<p>
-<p>The effect of &quot;now the apple is in the basket&quot; is identical to &quot;move the apple to the basket&quot;, so this appears to offer nothing new; and &quot;now&quot; duplicates other things already available, too, because &quot;now the oaken door is open&quot; does the same thing as &quot;change the oaken door to open&quot;. But &quot;now&quot; is more general and more flexible. For instance,
-<p>
-<blockquote><font color="#000080">now the top hat is worn by Mr Darcy;
-</font></blockquote><p>
-<p>
-<p>will make the hat worn, rather than simply carried, by Darcy: this is something which could not be done with the &quot;move&quot; phrase. We can also apply &quot;now&quot; to many things at once:
-<p>
-<blockquote><font color="#000080">now all the doors are open;
-<br>now all of the things in the sack are in the box;
-</font></blockquote><p>
-<p>
-<p>The second of these moves the entire contents of the sack to the box. And if, as in the examples at the end of Chapter 5, we have defined new assertion verbs like <i>to love</i> and <i>to suspect</i>, then we can use &quot;now&quot; to change the relations they deal with:
-<p>
-<blockquote><font color="#000080">now Elizabeth loves Darcy;
-<br>now Dalgliesh is suspected by Miss Marple;
-</font></blockquote><p>
+<p>When something is moved, all its contents (and all their contents, and so on) move with it.
 <p>
 <p><hr><p><a href=doc100.html>Previous</a> / <a href=doc102.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

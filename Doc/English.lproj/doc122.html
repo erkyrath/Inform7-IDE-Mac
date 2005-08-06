@@ -1,21 +1,25 @@
-<html><head><title>8.11. Comparing and shifting times</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc121.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc123.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.11. Comparing and shifting times</b></td></tr></table><p>
+<html><head><title>8.8. The time of day</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc121.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc123.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.8. The time of day</b></td></tr></table><p>
 <p>
-<p>Carrying out easy calculations with times is straightforward:
+<p>Inform keeps track of the time of day automatically: play ordinarily begins at 9 AM and each turn takes one minute. In some works of interactive fiction, time of day is crucial: in others, it is irrelevant or even, by a sort of tacit convention, non-existent. So Inform does nothing to act upon the time, or to reveal it to the player, without instruction. Nevertheless it is there.
 <p>
-<blockquote><font color="#000080">The chronometer is in the Clock Chamber. &quot;On one wall is a terribly self-important chronometer showing the time in major world cities. London: [time of day]. Paris: [one hour after the time of day]. Tokyo: [9 hours after the time of day]. Cupertino, California: [7 hours before the time of day].&quot;
+<p>A sentence like the following allows the initial time to be set up as something other than 9 AM:
+<p>
+<blockquote><font color="#000080">The time of day is 3:13 PM.
 </font></blockquote><p>
 <p>
-<p>The phrase &quot;9 hours after the time of day&quot; takes the time of day and adds 9 hours, but this is not the same as ordinary addition of numbers: 9 hours after 11 AM is 8 PM. (This is why we don't use the symbols &quot;+&quot; and &quot;-&quot; when adding times: it would be confusing to the reader.) Similarly, we have conditions
+<p>Here, &quot;3:13 PM&quot; is a constant value of a kind not seen before: it's a kind of value called &quot;time&quot;, and the value &quot;time of day&quot; is a time that varies. After one turn it will be 3:14 PM, then 3:15 PM and so on.
 <p>
-<blockquote><font color="#000080">if the time of day is before 10:45 AM then ...
-<br>Instead of waiting when the time of day is after 4:00 PM: ...
+<p>Note that the sentence above is an assertion (a statement about the initial state of affairs), not an instruction which can be part of a rule. It would be equivalent to write:
+<p>
+<blockquote><font color="#000080">When play begins, change the time of day to 3:13 PM.
 </font></blockquote><p>
 <p>
-<p>for putting times in order. In recognition of the fact that very few games begin before 4 AM, whereas many run on past midnight, the start of the day is taken to be 4 AM: thus 3:59 AM is after 11:10 PM, but 4:04 AM is before it. Almost all comparisons of time involve the time of day, so we allow the following abbreviations:
+<p>We more often use &quot;change the time of day to ...&quot; to take care of drastic events:
 <p>
-<blockquote><font color="#000080">if it is before 10:45 AM then ...
-<br>Instead of waiting when it is after 4:00 PM: ...
+<blockquote><font color="#000080">When the player loses consciousness:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to 10:12 AM;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A mist comes over your vision, and when you come to, it is morning and you are in bed.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc121.html>Previous</a> / <a href=doc123.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
