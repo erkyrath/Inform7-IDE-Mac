@@ -118,6 +118,33 @@ static NSMutableDictionary* projectDictionary = nil;
 // = Interface =
 
 - (void) manuallyCreateProject {
+	if ([projectType respondsToSelector: @selector(createAndOpenDocument:)]) {
+		if ([projectType createAndOpenDocument: [projectType saveFilename]]) {
+			// Success
+			[self autorelease];
+			return;
+		} else {
+			[projectPaneView addSubview: currentView];
+			NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Unable to create project"
+																	 value: @"Unable to create project"
+																	 table: nil],
+							  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+																	 value: @"Cancel"
+																	 table: nil],
+							  nil, nil,
+							  [self window],
+							  nil,
+							  nil,
+							  nil,
+							  nil,
+							  [[NSBundle mainBundle] localizedStringForKey: @"Inform was unable to save the project file"
+																	 value: @"Inform was unable to save the project file"
+																	 table: nil]);
+		}
+		
+		return;
+	}
+	
 	// Use information from the project type to create the project
 	IFProjectFile* theFile = [[IFProjectFile alloc] initDirectoryWithFileWrappers: [NSDictionary dictionary]];
 	BOOL success;
@@ -170,6 +197,13 @@ static NSMutableDictionary* projectDictionary = nil;
 						  [[NSBundle mainBundle] localizedStringForKey: @"Inform was unable to save the project file"
 																 value: @"Inform was unable to save the project file"
 																 table: nil]);
+	}
+}
+
+- (void) confirmDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+	if (returnCode == NSAlertAlternateReturn) {
+		// Only happens when we're manually creating the project
+		[self manuallyCreateProject];
 	}
 }
 
@@ -258,8 +292,8 @@ static NSMutableDictionary* projectDictionary = nil;
 																	 table: nil],
 							  nil,
                               [self window],
-                              nil,
-                              nil,
+                              self,
+							  @selector(confirmDidEnd:returnCode:contextInfo:),
                               nil,
                               nil,
                               confirm);			

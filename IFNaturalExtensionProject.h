@@ -25,9 +25,11 @@
 	IBOutlet NSView* view;
 	
     IBOutlet NSTextField* name;
+	IBOutlet NSTextField* extensionName;
 }
 
 - (void) setupControls;
 - (NSString*) authorName;
+- (NSString*) extensionName;
 
 @end

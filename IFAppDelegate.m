@@ -248,12 +248,8 @@ static int stringCompare(id a, id b, void* context) {
 
 - (void) updateExtensions {
 	// Clear out the menu
-	NSEnumerator* itemEnumerator = [[[[[extensionsMenu submenu] itemArray] copy] autorelease] objectEnumerator];
-	NSMenuItem* item;
-	
-	while (item = [itemEnumerator nextObject]) {
-		if ([item tag] != 0)
-			[[extensionsMenu submenu] removeItem: item];
+	while ([[extensionsMenu submenu] numberOfItems] > 0) {
+		[[extensionsMenu submenu] removeItemAtIndex: 0];
 	}
 	
 	// Clear out the list of extension tags

@@ -7,6 +7,8 @@
 //
 
 #import "IFNaturalExtensionProject.h"
+#import "IFSingleFile.h"
+#import "IFExtensionsManager.h"
 
 #import "IFAppDelegate.h"
 
@@ -69,7 +71,7 @@
 
 - (NSString*) confirmationMessage {
 	if ([[NSFileManager defaultManager] fileExistsAtPath: [self saveFilename]]) {
-		return [[NSBundle mainBundle] localizedStringForKey: @"ExtensionAlreadyExists"
+		return [[NSBundle mainBundle] localizedStringForKey: @"Extension already exists"
 													  value: @"Extension already exists" 
 													  table: nil];
 	}
@@ -80,11 +82,41 @@
 - (NSString*) saveFilename {
 	NSString* extnDir = [[[NSApp delegate] directoriesToSearch: @"Extensions"] objectAtIndex: 0];
 	
-	return [extnDir stringByAppendingPathComponent: [vw authorName]];
+	return [[extnDir stringByAppendingPathComponent: [vw authorName]] stringByAppendingPathComponent: [vw extensionName]];
 }
 
 - (NSString*) openAsType {
 	return @"Inform Extension Directory";
+}
+
+- (BOOL) createAndOpenDocument: (NSString*) filename {
+	NSString* contents = [NSString stringWithFormat: @"%@ by %@ begins here.\n\n%@ ends here.", [vw extensionName], [vw authorName], [vw extensionName]];
+	NSDictionary* fileAttr = [NSDictionary dictionaryWithObjectsAndKeys: 
+		[NSNumber numberWithUnsignedLong: 'INfm'], NSFileHFSCreatorCode,
+		[NSNumber numberWithUnsignedLong: 'INex'], NSFileHFSTypeCode,
+		nil];
+	
+	NSData* contentData = [contents dataUsingEncoding: NSUTF8StringEncoding];
+	
+	if (![[NSFileManager defaultManager] createFileAtPath: filename
+												 contents: contentData
+											   attributes: fileAttr]) {
+		return NO;
+	}
+	
+	// Open the file
+	NSDocument* newDoc = [[IFSingleFile alloc] initWithContentsOfFile: filename
+															   ofType: @"Inform 7 extension"];
+	
+	[[NSDocumentController sharedDocumentController] addDocument: [newDoc autorelease]];
+	[newDoc makeWindowControllers];
+	[newDoc showWindows];	
+	
+	// Get the delegate to update the list of extensions
+	[[IFExtensionsManager sharedNaturalInformExtensionsManager] updateTableData];
+	[[NSApp delegate] updateExtensions];
+	
+	return YES;
 }
 
 @end
@@ -102,10 +134,17 @@
 	if ([longuserName length] == 0 || longuserName == nil) longuserName = @"Unknown Author";
 
 	[name setStringValue: longuserName];
+	[extensionName setStringValue: [[NSBundle mainBundle] localizedStringForKey: @"New extension"
+																		  value: @"New extension"
+																		  table: nil]];
 }
 
 - (NSString*) authorName {
 	return [name stringValue];
+}
+
+- (NSString*) extensionName {
+	return [extensionName stringValue];
 }
 
 @end

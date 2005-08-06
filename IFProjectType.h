@@ -40,10 +40,11 @@
 //
 @interface NSObject(IFProjectTypeOptionalMethods)
 
-- (BOOL) showFinalPage;				// Defaults to YES. If NO, the 'save project' page is not shown
-- (NSString*) confirmationMessage;	// Return a string to display an 'are you sure' type message
-- (NSString*) errorMessage;			// Return a string to indicate an error with the way things are set up
-- (NSString*) saveFilename;			// If showFinalPage is NO, this is the filename to create
-- (NSString*) openAsType;			// If present, the file type to open this project as
+- (BOOL) showFinalPage;									// Defaults to YES. If NO, the 'save project' page is not shown
+- (NSString*) confirmationMessage;						// Return a string to display an 'are you sure' type message
+- (NSString*) errorMessage;								// Return a string to indicate an error with the way things are set up
+- (NSString*) saveFilename;								// If showFinalPage is NO, this is the filename to create
+- (NSString*) openAsType;								// If present, the file type to open this project as
+- (BOOL) createAndOpenDocument: (NSString*) filename;	// If present, creates and opens the document associated with this view
 
 @end
