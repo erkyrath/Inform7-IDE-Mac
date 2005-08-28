@@ -62,7 +62,9 @@ NSString* IFIsNotesInspector = @"IFIsNotesInspector";
 		[[activeProject notes] addLayoutManager: [text layoutManager]];
 		[text setEditable: YES];
 	} else {
-		NSTextStorage* noNotes = [[[NSTextStorage alloc] initWithString: @"No notes available"] autorelease];
+		static NSTextStorage* noNotes = nil;
+		
+		if (!noNotes) noNotes = [[NSTextStorage alloc] initWithString: @"No notes available"];
 		
 		[[text textStorage] removeLayoutManager: [text layoutManager]];
 		[noNotes addLayoutManager: [text layoutManager]];
