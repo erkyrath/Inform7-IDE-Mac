@@ -611,6 +611,9 @@ static int resultComparator(id a, id b, void* context) {
 		if (needAnotherFlush) {
 			SKIndexFlush(searchIndex);
 		}
+		
+		SKSearchCancel(search);
+		CFRelease(search);
 	} else {
 		// Use 10.3 synchronous search
 		
