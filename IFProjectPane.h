@@ -131,6 +131,7 @@ enum IFProjectPaneType {
 		  character: (int) chr;
 - (void) moveToLine: (int) line;								// Scrolls the source view so that the given line to be visible
 - (void) moveToLocation: (int) location;						// Scrolls the source view so that the given character index is visible
+- (void) selectRange: (NSRange) range;							// Selects a range of characters in the source view
 
 - (void) showSourceFile: (NSString*) file;						// Shows the source file with the given filename in the view
 - (NSString*) currentFile;										// Returns the currently displayed filename

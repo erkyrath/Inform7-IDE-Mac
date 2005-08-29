@@ -100,6 +100,7 @@ enum IFSearchType {
 
 // Selected a file in the search window
 - (void) searchSelectedItemAtLocation: (int) location		// Called when the user selects an item in the list of results
+							   phrase: (NSString*) phrase
 							   inFile: (NSString*) filename
 								 type: (NSString*) type;
 

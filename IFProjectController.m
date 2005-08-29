@@ -1083,6 +1083,14 @@ static NSDictionary*  itemDictionary = nil;
     [[self window] makeFirstResponder: [thePane activeView]];
 }
 
+- (void) selectSourceFileRange: (NSRange) range {
+	IFProjectPane* thePane = [self sourcePane];
+	
+    [thePane selectView: IFSourcePane];
+    [thePane selectRange: range];
+    [[self window] makeFirstResponder: [thePane activeView]];
+}
+
 - (void) removeHighlightsInFile: (NSString*) file
 						ofStyle: (enum lineStyle) style {
 	file = [[self document] pathForFile: file];
@@ -1536,6 +1544,7 @@ static NSDictionary*  itemDictionary = nil;
 // = Dealing with search panels =
 
 - (void) searchSelectedItemAtLocation: (int) location
+							   phrase: (NSString*) phrase
 							   inFile: (NSString*) filename
 								 type: (NSString*) type {
 	// If the match is a document, order the documentation pane to display it
@@ -1548,7 +1557,8 @@ static NSDictionary*  itemDictionary = nil;
 	} else {
 		// Show the appropriate source file
 		[self selectSourceFile: filename];
-		[self moveToSourceFilePosition: location];
+		[self selectSourceFileRange: NSMakeRange(location, [phrase length])];
+		//[self moveToSourceFilePosition: location];
 	}
 }
 

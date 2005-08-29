@@ -323,10 +323,11 @@ static NSMutableSet* indexedFiles = nil;						// Set of filenames that we've alr
 	
 	int selectedRow = [tableView selectedRow];
 	
-	if (delegate && [delegate respondsToSelector: @selector(searchSelectedItemAtLocation:inFile:type:)]) {
+	if (delegate && [delegate respondsToSelector: @selector(searchSelectedItemAtLocation:phrase:inFile:type:)]) {
 		NSDictionary* row = [searchResults objectAtIndex: selectedRow];
 		
 		[delegate searchSelectedItemAtLocation: [[row objectForKey: @"location"] intValue] 
+										phrase: searchPhrase
 										inFile: [row objectForKey: @"filename"]
 										  type: [row objectForKey: @"type"]];
 	}

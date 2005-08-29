@@ -533,6 +533,11 @@ NSDictionary* IFSyntaxAttributes[256];
 	[sourceText setSelectedRange: NSMakeRange(location, 0)];
 }
 
+- (void) selectRange: (NSRange) range {
+	[sourceText scrollRangeToVisible: range];
+	[sourceText setSelectedRange: range];
+}
+
 - (void) showSourceFile: (NSString*) file {
 	if ([[[parent document] pathForFile: file] isEqualToString: [[parent document] pathForFile: openSourceFile]]) {
 		// Nothing to do
