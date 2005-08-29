@@ -105,6 +105,8 @@ static NSMutableSet* indexedFiles = nil;						// Set of filenames that we've alr
 	if (searchLabelText) [searchLabelText release];
 	if (searchPhrase) [searchPhrase release];
 	if (searchItems) [searchItems release];
+	
+	if (searchTypes) [searchTypes release];
 
 	if (mainThread) [mainThread release];
 	if (subThread)  [subThread release];
@@ -205,6 +207,9 @@ static NSMutableSet* indexedFiles = nil;						// Set of filenames that we've alr
 		nil];
 	
 	[searchItems addObject: entry];
+	
+	if (searchTypes == nil) searchTypes = [[NSMutableSet alloc] init];
+	[searchTypes addObject: type];
 }
 
 - (void) addSearchFile: (NSString*) filename
@@ -221,12 +226,28 @@ static NSMutableSet* indexedFiles = nil;						// Set of filenames that we've alr
 		nil];
 	
 	[searchItems addObject: entry];
+	
+	if (searchTypes == nil) searchTypes = [[NSMutableSet alloc] init];
+	[searchTypes addObject: type];
 }
 
 // = Controlling the search itself =
 
 - (void) startSearch {
 	if (searching) return;		// Nothing to do
+	
+	// Remove columns from the table as required
+	if ([searchItems count] < 2) {
+		// If there's only one place to look, then we don't need to show the file names
+		[tableView removeTableColumn: [tableView tableColumnWithIdentifier: @"file"]];
+	}
+	
+	if ([[searchTypes allObjects] count] < 2) {
+		// If we're only searching across one type of document, then we don't need to show the document types
+		[tableView removeTableColumn: [tableView tableColumnWithIdentifier: @"type"]];
+	}
+	
+	[tableView sizeLastColumnToFit];
 	
 	// Create the communication channels
 	port1 = [[NSPort port] retain];

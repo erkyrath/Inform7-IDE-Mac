@@ -44,6 +44,8 @@ enum IFSearchType {
 	BOOL caseSensitive;								// YES if we should compare in a case-sensitive manner
 	NSMutableArray* searchItems;					// (Array of dictionaries) The files or NSTextStorages left to search
 	
+	NSMutableSet* searchTypes;						// A set of all the search types: used to determine if the 'Type' column should appear
+	
 	// Search results
 	BOOL waitingForReload;							// YES if a table reload is pending
 	NSMutableArray* searchResults;					// (Array of dictionaries) The matches for the search phrase
