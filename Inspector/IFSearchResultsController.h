@@ -64,7 +64,8 @@ enum IFSearchType {
 			 withFileName: (NSString*) filename
 					 type: (NSString*) type;
 - (void) addSearchFile: (NSString*) filename				// Adds a file to the collection of things to search (file will be loaded before searching)
-				  type: (NSString*) type;
+				  type: (NSString*) type
+		  useSearchKit: (BOOL) useSearchKit;
 
 - (void) addDocumentation;									// Adds all of the documentation files to the collection of things to search
 - (void) addExtensions;										// Adds all of the extension files to the list of things to search

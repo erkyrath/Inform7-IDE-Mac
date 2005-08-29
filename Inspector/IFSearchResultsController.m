@@ -12,6 +12,7 @@
 
 #define contextLength 12
 
+// Objects used for display
 static NSFont* normalFont;
 static NSFont* boldFont;
 
@@ -19,6 +20,11 @@ static NSMutableParagraphStyle* centered;
 
 static NSDictionary* normalAttributes;
 static NSDictionary* boldAttributes;
+
+// SearchKit
+static SKIndexRef searchIndex = nil;							// The global search index for things that request to use SearchKit
+static NSDate* indexDate = nil;									// The date on the search index
+static NSString* indexName = @"IFSearchResultsControllerIndex";	// The index name
 
 @implementation IFSearchResultsController
 
@@ -41,6 +47,48 @@ static NSDictionary* boldAttributes;
 	boldAttributes = [[NSDictionary dictionaryWithObjectsAndKeys:
 		boldFont, NSFontAttributeName,
 		nil] retain];
+	
+	// Create the global search index
+	SKLoadDefaultExtractorPlugIns();
+	NSString* indexFile = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES) objectAtIndex: 0];
+	
+	// (Yes, Application Support is localized. It's a huge pain to take account of this, though, so I don't at the moment)
+	indexFile = [indexFile stringByAppendingPathComponent: @"Application Support"];
+	if (![[NSFileManager defaultManager] fileExistsAtPath: indexFile]) {
+		[[NSFileManager defaultManager] createDirectoryAtPath: indexFile
+												   attributes: nil];
+	}
+	indexFile = [indexFile stringByAppendingPathComponent: @"Inform"];
+	if (![[NSFileManager defaultManager] fileExistsAtPath: indexFile]) {
+		[[NSFileManager defaultManager] createDirectoryAtPath: indexFile
+												   attributes: nil];
+	}
+	
+	indexFile = [indexFile stringByAppendingPathComponent: @"SearchIndex.SKindex"];
+	
+	if (![[NSFileManager defaultManager] fileExistsAtPath: indexFile]) {
+		// Create the index file
+		searchIndex = SKIndexCreateWithURL((CFURLRef)[NSURL fileURLWithPath: indexFile],
+										   (CFStringRef)indexName,
+										   kSKIndexInvertedVector,
+										   NULL);
+
+		// Get the index date
+		indexDate = [[[NSFileManager defaultManager] fileAttributesAtPath: indexFile
+															 traverseLink: YES] objectForKey: NSFileModificationDate];
+	} else {
+		// Get the index date
+		indexDate = [[[NSFileManager defaultManager] fileAttributesAtPath: indexFile
+															 traverseLink: YES] objectForKey: NSFileModificationDate];
+
+		// Open the index file
+		searchIndex = SKIndexOpenWithURL((CFURLRef)[NSURL fileURLWithPath: indexFile],
+										 (CFStringRef)indexName,
+										 YES);
+		CFRetain(searchIndex);
+	}
+	
+	[indexDate retain];
 }
 
 - (id) init {
@@ -150,13 +198,15 @@ static NSDictionary* boldAttributes;
 		[[storage copy] autorelease], @"storage",
 		filename, @"filename",
 		type, @"type",
+		[NSNumber numberWithBool: NO], @"searchkit",
 		nil];
 	
 	[searchItems addObject: entry];
 }
 
 - (void) addSearchFile: (NSString*) filename
-				  type: (NSString*) type {
+				  type: (NSString*) type
+		  useSearchKit: (BOOL) useSearchKit {
 	[self cantChangeSearchAfterStarting];
 	
 	if (searchItems == nil) searchItems = [[NSMutableArray alloc] init];
@@ -164,6 +214,7 @@ static NSDictionary* boldAttributes;
 	NSDictionary* entry = [NSDictionary dictionaryWithObjectsAndKeys: 
 		filename, @"filename",
 		type, @"type",
+		[NSNumber numberWithBool: useSearchKit], @"searchkit",
 		nil];
 	
 	[searchItems addObject: entry];
@@ -377,6 +428,10 @@ static int resultComparator(id a, id b, void* context) {
 			  displayName: (NSString*) displayname
 					 type: (NSString*) type
 				  context: (NSAttributedString*) context {
+	if (filename == nil) filename = @"NO FILE!";
+	if (displayname == nil) displayname = @"NO DISPLAY!";
+	if (type == nil) type = @"BUG";
+	
 	// Make the context centered (need to do this to work around a bug in NSMutableParagraphStyle)
 	NSMutableAttributedString* centeredContext = [[NSMutableAttributedString alloc] initWithAttributedString: context];
 	[centeredContext addAttribute: NSParagraphStyleAttributeName
@@ -442,6 +497,89 @@ static int resultComparator(id a, id b, void* context) {
 
 // = The search thread itself =
 
+- (void) searchInIndices: (NSArray*) indices
+		  withController: (IFSearchResultsController*) resultsDest {
+	// Search a SearchKit index for results
+	if (0) {
+		// Use 10.4 async search (but in a synchronous way, given our already asynchronous nature)
+	} else {
+		// Use 10.3 synchronous search
+		
+		// Create the search group
+		SKSearchGroupRef group = SKSearchGroupCreate((CFArrayRef)indices);
+		
+		// Get the results
+		SKSearchResultsRef results = SKSearchResultsCreateWithQuery(group, 
+																	(CFStringRef)searchPhrase, 
+																	searchType==IFSearchWholeWord?kSKSearchRanked:kSKSearchPrefixRanked,
+																	128,
+																	NULL,
+																	NULL);
+		
+		// Pass the results to the main thread
+		CFIndex resultsCount = SKSearchResultsGetCount(results);
+		CFIndex resultNum;
+		const int processCount = 5;
+		
+		// Process results 5 at a time
+		for (resultNum=0; resultNum<resultsCount; resultNum += processCount) {
+			CFIndex x;
+
+			SKDocumentRef resultDoc[processCount];
+			SKDocumentID resultDocID[processCount];
+			SKIndexRef resultIndex[processCount];
+			NSString* resultName[processCount];
+			float resultScore[processCount];
+			
+			CFRange range;
+			
+			range.location = resultNum;
+			range.length = processCount;
+			if (resultNum+processCount >= resultsCount) range.length = resultsCount-resultNum;
+			
+			// Extract the results
+			CFIndex resultCount = SKSearchResultsGetInfoInRange(results,
+																range,
+																resultDoc,
+																resultIndex,
+																resultScore);
+			
+			// Get the document IDs
+			for (x=0; x<resultCount; x++) {
+				resultDocID[x] = SKIndexGetDocumentID(searchIndex,resultDoc[x]);
+			}
+			
+			// Get the document names
+			SKIndexCopyInfoForDocumentIDs(searchIndex,
+										  resultCount,
+										  resultDocID,
+										  (CFStringRef*)resultName,
+										  NULL);
+			
+			// Send to the main thread
+			for (x=0; x<resultCount; x++) {
+				NSDictionary* docProps = (NSDictionary*)SKIndexCopyDocumentProperties(resultIndex[x],
+																					  resultDoc[x]);
+				NSURL* docURL = (NSURL*)SKDocumentCopyURL(resultDoc[x]);
+				
+				if ([docURL isFileURL]) {
+					[resultsDest foundMatchInFile: [docURL path]
+										 location: 0
+									  displayName: resultName[x]
+											 type: [docProps objectForKey: @"type"]
+										  context: [[[NSAttributedString alloc] initWithString: @""] autorelease]];
+				}
+				
+				[docProps release];
+				[docURL release];
+			}
+		}
+		
+		CFRelease(results);
+		CFRelease(group);
+	}
+}
+
 - (NSString*) stripNewlines: (NSString*) stringToStrip {
 	// Replace newlines with spaces in stringToStrip
 	NSMutableString* res = [[stringToStrip mutableCopy] autorelease];
@@ -457,6 +595,8 @@ static int resultComparator(id a, id b, void* context) {
 - (void) IFsearchThread {
 	// START
 	NSAutoreleasePool* primaryPool = [[NSAutoreleasePool alloc] init];
+	
+	BOOL willUseSearchKit = NO;
 	
 	// Searching is low priority
 	[NSThread setThreadPriority: 0.1];
@@ -488,6 +628,7 @@ static int resultComparator(id a, id b, void* context) {
 		NSString* storage = [searchItem objectForKey: @"storage"];
 		NSString* filename = [searchItem objectForKey: @"filename"];
 		NSString* type = [searchItem objectForKey: @"type"];
+		NSNumber* useSearchKit = [searchItem objectForKey: @"searchkit"];
 			
 		NSString* displayName = [filename lastPathComponent];
 				
@@ -496,11 +637,64 @@ static int resultComparator(id a, id b, void* context) {
 			NSAttributedString* res = nil;
 			NSString* extn = [[filename pathExtension] lowercaseString];
 			
+			// Files marked for SearchKit are added to the global index
+			// Storage marked for SearchKit isn't dealt with yet
 			// .inf, .h, .ni, .txt and those with no extension are treated as text files
 			// .rtf or .rtfd are opened as RTF files
 			// .html or .htm are opened as HTML files
 			// all other file types are not searched
-			if (extn == nil ||
+			if (filename != nil && [useSearchKit boolValue]) {
+				// We can replace the document in the index if fileDate is greater than the index date
+				// (Not ideal: searching extensions might cause a missed documentation update this way)
+				willUseSearchKit = YES;
+				
+				NSDate* fileDate = [[[NSFileManager defaultManager] fileAttributesAtPath: filename
+																			traverseLink: YES] objectForKey: NSFileModificationDate];
+				
+				// Work out a likely mime type based on the extension
+				NSString* mimeType = @"text/plain";
+
+				if ([extn isEqualToString: @"htm"] ||
+					[extn isEqualToString: @"html"]) {
+					mimeType = @"text/html";
+				} else if ([extn isEqualToString: @"pdf"]) {
+					mimeType = @"text/pdf";
+				} else if ([extn isEqualToString: @"rtf"]) {
+					mimeType = @"text/rtf";
+				}
+				
+				// Create a document reference
+				SKDocumentRef docRef = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath: filename]);
+				
+				// Get the old properties, if they exist
+				NSDate* lastDate = nil;
+				NSDictionary* oldAttr = (NSDictionary*)SKIndexCopyDocumentProperties(searchIndex,
+																					 docRef);
+				
+				if (oldAttr) {
+					lastDate = [oldAttr objectForKey: @"fileDate"];
+					[oldAttr release];
+				}
+				
+				// Only add if the dates are different
+				if (lastDate == nil || [lastDate compare: fileDate] < 0) {
+					// Add the document to searchkit, and mark ourselves as wanting to continue searching with SearchKit
+					SKIndexAddDocument(searchIndex, docRef, (CFStringRef)mimeType, YES);
+
+					// Add attributes to the document
+					NSDictionary* docAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+						fileDate, @"fileDate",
+						filename, @"filename",
+						type, @"type",
+						nil];
+					SKIndexSetDocumentProperties(searchIndex,
+												 docRef,
+												 (CFDictionaryRef)docAttributes);
+				}
+				
+				// Clear the docRef
+				CFRelease(docRef); docRef = nil;
+			} else if (extn == nil ||
 				[extn isEqualToString: @""] ||
 				[extn isEqualToString: @"h"] ||
 				[extn isEqualToString: @"ni"] ||
@@ -523,11 +717,12 @@ static int resultComparator(id a, id b, void* context) {
 					// document title. We'll take some care and assume this will always be true provided that
 					//		- the Title attribute exists
 					//		- it's a string
-					NSString* title = [attr objectForKey: @"Title"];
+					NSString* title = [attr objectForKey: @"Title"];									// Undocumented under 10.3
+					if (title == nil) title = [attr objectForKey: @"NSTitleDocumentAttribute"];			// Under 10.4 (but can't weak-link to constants)
 					
 					if (title && [title isKindOfClass: [NSString class]]) {
 						displayName = [[title copy] autorelease];
-					}
+					} 
 				}
 			}
 			
@@ -649,6 +844,21 @@ static int resultComparator(id a, id b, void* context) {
 		[pool release];
 	}
 	
+	if (willUseSearchKit) {
+		// Search a SearchKit index
+		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+		
+		// Flush the index
+		SKIndexCompact(searchIndex);
+		
+		// Search it
+		[self searchInIndices: [NSArray arrayWithObject: (NSObject*)searchIndex]
+			   withController: (IFSearchResultsController*)[mainThread rootProxy]];
+		
+		// Clear the pool
+		[pool release];
+	}
+	
 	// Tell the main thread we've finished
 	[(IFSearchResultsController*)[mainThread rootProxy] threadHasFinishedSearching];
 
@@ -689,7 +899,8 @@ static int resultComparator(id a, id b, void* context) {
 			if ([extension isEqualToString: @"html"] ||
 				[extension isEqualToString: @"htm"]) {
 				[self addSearchFile: [resourcePath stringByAppendingPathComponent: path]
-							   type: @"Documentation"];
+							   type: @"Documentation"
+					   useSearchKit: YES];
 			}
 		}
 	}
@@ -716,7 +927,8 @@ static int resultComparator(id a, id b, void* context) {
 													 isDirectory: &isDir]) {
 				if (!isDir) {
 					[self addSearchFile: extnPath
-								   type: @"Extension File"];
+								   type: @"Extension File"
+						   useSearchKit: NO];
 				}
 			}
 		}
