@@ -25,6 +25,7 @@ static NSDictionary* boldAttributes;
 static SKIndexRef searchIndex = nil;							// The global search index for things that request to use SearchKit
 static NSDate* indexDate = nil;									// The date on the search index
 static NSString* indexName = @"IFSearchResultsControllerIndex";	// The index name
+static NSMutableSet* indexedFiles = nil;						// Set of filenames that we've already added the SK index
 
 @implementation IFSearchResultsController
 
@@ -38,7 +39,7 @@ static NSString* indexName = @"IFSearchResultsControllerIndex";	// The index nam
 	// NSMutableParagraphStyle is not well-behaved at all. We can't pass it from one thread to another:
 	// it fails to encode or copy correctly. We can only set it in the main thread
 	centered = [[NSMutableParagraphStyle alloc] init];
-	[centered setAlignment: NSCenterTextAlignment];
+	[centered setAlignment: NSJustifiedTextAlignment];
 	
 	// Create the attribute dictionaries
 	normalAttributes = [[NSDictionary dictionaryWithObjectsAndKeys:
@@ -87,6 +88,8 @@ static NSString* indexName = @"IFSearchResultsControllerIndex";	// The index nam
 										 YES);
 		CFRetain(searchIndex);
 	}
+	
+	indexedFiles = [[NSMutableSet alloc] init];
 	
 	[indexDate retain];
 }
@@ -308,7 +311,6 @@ static NSString* indexName = @"IFSearchResultsControllerIndex";	// The index nam
 	}
 }
 
-
 // = Functions that the search thread uses to communicate with the main thread =
 
 static NSString* startingNumber(NSString* string) {
@@ -497,16 +499,101 @@ static int resultComparator(id a, id b, void* context) {
 
 // = The search thread itself =
 
-- (void) searchInIndices: (NSArray*) indices
-		  withController: (IFSearchResultsController*) resultsDest {
+- (void) searchInIndex: (SKIndexRef) index
+		withController: (IFSearchResultsController*) resultsDest {
 	// Search a SearchKit index for results
-	if (0) {
-		// Use 10.4 async search (but in a synchronous way, given our already asynchronous nature)
+	if (NSAppKitVersionNumber >= 824.0) {
+		// Use 10.4 async search and summarisation tools
+		SKSearchRef search = SKSearchCreate(index,
+											(CFStringRef)searchPhrase,
+											searchType==IFSearchWholeWord?0:kSKSearchOptionFindSimilar);
+		
+		// Search for matches
+		const int maxMatches = 5;
+		
+		SKDocumentID resultDocID[maxMatches];
+		float resultScore[maxMatches];
+		CFIndex numFound;
+		BOOL needAnotherFlush = NO;
+		
+		while (SKSearchFindMatches(search, maxMatches, resultDocID, resultScore, 0.1, &numFound)) {
+			// Process the matches
+			int match;
+			
+			for (match=0; match < numFound; match++) {
+				// Get the indexed document
+				SKDocumentRef docRef = SKIndexCopyDocumentForDocumentID(searchIndex,
+																		resultDocID[match]);
+				
+				// Get the attributes for this document
+				NSDictionary* docProps = (NSDictionary*)SKIndexCopyDocumentProperties(searchIndex,
+																					  docRef);
+				NSURL* docURL = (NSURL*)SKDocumentCopyURL(docRef);
+				
+				// Summarize the document
+				NSString* summary = [docProps objectForKey: @"summary"];
+				
+				if (summary == nil) {
+					// Create the summary
+					NSDictionary* attr = nil;
+					NSString* docString = [resultsDest loadHTMLFile: [docURL path]
+														 attributes: &attr];
+					
+					SKSummaryRef docSummary = nil;
+					if (docString) docSummary = SKSummaryCreateWithString((CFStringRef)docString);
+					
+					// Store the summary in the properties for this document					
+					if (docSummary) {
+						// Summarise the document as a single paragraph
+						summary = (NSString*)SKSummaryCopySentenceSummaryString(docSummary, 2);
+						
+						[summary autorelease];
+						CFRelease(docSummary);
+						
+						// Store the summary in the index
+						NSMutableDictionary* newDocProps = nil;
+						
+						if (docProps != nil) newDocProps = [[NSMutableDictionary alloc] initWithDictionary: docProps];
+						if (newDocProps == nil) newDocProps = [[NSMutableDictionary alloc] init];
+						
+						[newDocProps setObject: summary
+										forKey: @"summary"];
+						
+						SKIndexSetDocumentProperties(searchIndex,
+													 docRef,
+													 (CFDictionaryRef)[NSDictionary dictionaryWithDictionary: newDocProps]);
+						
+						needAnotherFlush = YES;
+						[newDocProps release];
+					}
+				}
+				
+				if (summary == nil) summary = @"";
+				
+				// Send to the main thread
+				if ([docURL isFileURL]) {
+					[resultsDest foundMatchInFile: [docURL path]
+										 location: 0
+									  displayName: [docProps objectForKey: @"title"]
+											 type: [docProps objectForKey: @"type"]
+										  context: [[[NSAttributedString alloc] initWithString: summary] autorelease]];
+				}
+								
+				// Clean up
+				[docProps release];
+				[docURL release];				
+				CFRelease(docRef);
+			}
+		}
+		
+		if (needAnotherFlush) {
+			SKIndexFlush(searchIndex);
+		}
 	} else {
 		// Use 10.3 synchronous search
 		
 		// Create the search group
-		SKSearchGroupRef group = SKSearchGroupCreate((CFArrayRef)indices);
+		SKSearchGroupRef group = SKSearchGroupCreate((CFArrayRef)[NSArray arrayWithObject: (NSObject*)index]);
 		
 		// Get the results
 		SKSearchResultsRef results = SKSearchResultsCreateWithQuery(group, 
@@ -565,7 +652,7 @@ static int resultComparator(id a, id b, void* context) {
 				if ([docURL isFileURL]) {
 					[resultsDest foundMatchInFile: [docURL path]
 										 location: 0
-									  displayName: resultName[x]
+									  displayName: [docProps objectForKey: @"title"]
 											 type: [docProps objectForKey: @"type"]
 										  context: [[[NSAttributedString alloc] initWithString: @""] autorelease]];
 				}
@@ -620,240 +707,276 @@ static int resultComparator(id a, id b, void* context) {
 		[currentLoop acceptInputForMode: NSDefaultRunLoopMode
 							 beforeDate: [[NSDate date] addTimeInterval: 0.01]];
 		
-		// Get the next search item
-		NSDictionary* searchItem = [[[searchItems lastObject] retain] autorelease];
-		[searchItems removeLastObject];
-		
-		// Retrieve an NSString object for it (if we can)
-		NSString* storage = [searchItem objectForKey: @"storage"];
-		NSString* filename = [searchItem objectForKey: @"filename"];
-		NSString* type = [searchItem objectForKey: @"type"];
-		NSNumber* useSearchKit = [searchItem objectForKey: @"searchkit"];
-			
-		NSString* displayName = [filename lastPathComponent];
-				
-		if (storage == nil && filename != nil) {
-			// What we do depends on file type
-			NSAttributedString* res = nil;
-			NSString* extn = [[filename pathExtension] lowercaseString];
-			
-			// Files marked for SearchKit are added to the global index
-			// Storage marked for SearchKit isn't dealt with yet
-			// .inf, .h, .ni, .txt and those with no extension are treated as text files
-			// .rtf or .rtfd are opened as RTF files
-			// .html or .htm are opened as HTML files
-			// all other file types are not searched
-			if (filename != nil && [useSearchKit boolValue]) {
-				// We can replace the document in the index if fileDate is greater than the index date
-				// (Not ideal: searching extensions might cause a missed documentation update this way)
-				willUseSearchKit = YES;
-				
-				NSDate* fileDate = [[[NSFileManager defaultManager] fileAttributesAtPath: filename
-																			traverseLink: YES] objectForKey: NSFileModificationDate];
-				
-				// Work out a likely mime type based on the extension
-				NSString* mimeType = @"text/plain";
+		NSDate* lastSearchInterval = [[NSDate date] addTimeInterval: 0.02];
 
-				if ([extn isEqualToString: @"htm"] ||
-					[extn isEqualToString: @"html"]) {
-					mimeType = @"text/html";
-				} else if ([extn isEqualToString: @"pdf"]) {
-					mimeType = @"text/pdf";
-				} else if ([extn isEqualToString: @"rtf"]) {
-					mimeType = @"text/rtf";
-				}
+		while (searching && [(NSDate*)[NSDate date] compare: lastSearchInterval] < 0) {
+			// Get the next search item
+			NSDictionary* searchItem = [[[searchItems lastObject] retain] autorelease];
+			[searchItems removeLastObject];
+			
+			// Retrieve an NSString object for it (if we can)
+			NSString* storage = [searchItem objectForKey: @"storage"];
+			NSString* filename = [searchItem objectForKey: @"filename"];
+			NSString* type = [searchItem objectForKey: @"type"];
+			NSNumber* useSearchKit = [searchItem objectForKey: @"searchkit"];
 				
-				// Create a document reference
-				SKDocumentRef docRef = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath: filename]);
-				
-				// Get the old properties, if they exist
-				NSDate* lastDate = nil;
-				NSDictionary* oldAttr = (NSDictionary*)SKIndexCopyDocumentProperties(searchIndex,
-																					 docRef);
-				
-				if (oldAttr) {
-					lastDate = [oldAttr objectForKey: @"fileDate"];
-					[oldAttr release];
-				}
-				
-				// Only add if the dates are different
-				if (lastDate == nil || [lastDate compare: fileDate] < 0) {
-					// Add the document to searchkit, and mark ourselves as wanting to continue searching with SearchKit
-					SKIndexAddDocument(searchIndex, docRef, (CFStringRef)mimeType, YES);
-
-					// Add attributes to the document
-					NSDictionary* docAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-						fileDate, @"fileDate",
-						filename, @"filename",
-						type, @"type",
-						nil];
-					SKIndexSetDocumentProperties(searchIndex,
-												 docRef,
-												 (CFDictionaryRef)docAttributes);
-				}
-				
-				// Clear the docRef
-				CFRelease(docRef); docRef = nil;
-			} else if (extn == nil ||
-				[extn isEqualToString: @""] ||
-				[extn isEqualToString: @"h"] ||
-				[extn isEqualToString: @"ni"] ||
-				[extn isEqualToString: @"inf"] ||
-				[extn isEqualToString: @"txt"]) {
-				NSString* fileContents = [NSString stringWithContentsOfFile: filename];
-				if (fileContents) res = [[[NSAttributedString alloc] initWithString: fileContents] autorelease];
-			} else if ([extn isEqualToString: @"rtf"] ||
-					   [extn isEqualToString: @"rtfd"]) {
-				res = [[[NSAttributedString alloc] initWithPath: filename 
-											 documentAttributes: nil] autorelease];
-			} else if ([extn isEqualToString: @"html"] ||
-					   [extn isEqualToString: @"htm"]) {
-				NSDictionary* attr = nil;
-				storage = [(IFSearchResultsController*)[mainThread rootProxy] loadHTMLFile: filename
-																				attributes: &attr];
-				
-				if (storage) {
-					// Although it is not documented (for some reason), the @"Title" attribute now contains the
-					// document title. We'll take some care and assume this will always be true provided that
-					//		- the Title attribute exists
-					//		- it's a string
-					NSString* title = [attr objectForKey: @"Title"];									// Undocumented under 10.3
-					if (title == nil) title = [attr objectForKey: @"NSTitleDocumentAttribute"];			// Under 10.4 (but can't weak-link to constants)
+			NSString* displayName = [filename lastPathComponent];
 					
-					if (title && [title isKindOfClass: [NSString class]]) {
-						displayName = [[title copy] autorelease];
-					} 
-				}
-			}
-			
-			if (res) {
-				storage = [res string];
-			}
-		}
-		
-		// storage now contains the string for the file/internal data - search it
-		if (storage) {
-			// Create the scanner to search the string
-			NSScanner* stringScanner = [NSScanner scannerWithString: storage];
-			
-			[stringScanner setCaseSensitive: caseSensitive];
-			
-			// Scan until we get no more matches
-			while (![stringScanner isAtEnd]) {
-				BOOL found = NO;
+			if (storage == nil && filename != nil) {
+				// What we do depends on file type
+				NSAttributedString* res = nil;
+				NSString* extn = [[filename pathExtension] lowercaseString];
 				
-				if (![stringScanner scanUpToString: searchPhrase
-										intoString: nil])
-					break;
-				
-				// We've found the phrase
-				found = YES;
-				int location = [stringScanner scanLocation];
-				
-				if (location >= [storage length])
-					break;		// Oops, actually, we haven't
-				
-				// If we have to match words, or starts of words, then check for this
-				if (searchType == IFSearchStartsWith || searchType == IFSearchWholeWord) {
-					found = NO;
+				// Files marked for SearchKit are added to the global index
+				// Storage marked for SearchKit isn't dealt with yet
+				// .inf, .h, .ni, .txt and those with no extension are treated as text files
+				// .rtf or .rtfd are opened as RTF files
+				// .html or .htm are opened as HTML files
+				// all other file types are not searched
+				if (filename != nil && [useSearchKit boolValue]) {
+					// We can replace the document in the index if fileDate is greater than the index date
+					// (Not ideal: searching extensions might cause a missed documentation update this way)
+					willUseSearchKit = YES;
 					
-					// Must be at the start, or preceded by whitespace
-					if (location != 0) {
-						unichar chr = [storage characterAtIndex: location-1];
+					if (![indexedFiles containsObject: filename]) {
+						[indexedFiles addObject: filename];
+						NSDate* fileDate = [[[NSFileManager defaultManager] fileAttributesAtPath: filename
+																					traverseLink: YES] objectForKey: NSFileModificationDate];
 						
-						if (chr == '\n' || chr == '\t' || chr == ' ' || chr == '\r') {
-							// Is preceded by whitespace, so is a word
-							found = YES;
+						// Work out a likely mime type based on the extension
+						NSString* mimeType = @"text/plain";
+
+						if ([extn isEqualToString: @"htm"] ||
+							[extn isEqualToString: @"html"]) {
+							mimeType = @"text/html";
+						} else if ([extn isEqualToString: @"pdf"]) {
+							mimeType = @"text/pdf";
+						} else if ([extn isEqualToString: @"rtf"]) {
+							mimeType = @"text/rtf";
 						}
-					} else {
-						// At start: is the start of a word
-						found = YES;
+						
+						// Create a document reference
+						SKDocumentRef docRef = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath: filename]);
+						
+						// Get the old properties, if they exist
+						NSDate* lastDate = nil;
+						NSDictionary* oldAttr = (NSDictionary*)SKIndexCopyDocumentProperties(searchIndex,
+																							 docRef);
+						
+						if (oldAttr) {
+							lastDate = [oldAttr objectForKey: @"fileDate"];
+						}
+						
+						[oldAttr release];
+						
+						// Only add if the dates are different
+						if (lastDate == nil || [lastDate compare: fileDate] < 0) {
+							NSString* title = [filename lastPathComponent];
+
+							// Load as HTML if we can. SearchKit can do this for us, but it discards the title, 
+							// which we want to keep. In addition, SearchKit calls the HTML loader, which is not
+							// always thread safe.
+							NSDictionary* attr = nil;
+							NSString* htmlStorage = nil;
+							
+							if ([mimeType isEqualToString: @"text/html"]) {
+								htmlStorage = [(IFSearchResultsController*)[mainThread rootProxy] loadHTMLFile: filename
+																									attributes: &attr];
+							}
+							
+							if (htmlStorage) {
+								// Get the title
+								title = [attr objectForKey: @"NSTitleDocumentAttribute"];
+								if (title == nil) title = [attr objectForKey: @"Title"];
+								if (title == nil) title = [filename lastPathComponent];
+								
+								// Add the document from the file we just loaded
+								SKIndexAddDocumentWithText(searchIndex,
+														   docRef,
+														   (CFStringRef)htmlStorage,
+														   YES);
+							} else {
+								// Add the document to searchkit, and mark ourselves as wanting to continue searching with SearchKit
+								SKIndexAddDocument(searchIndex, docRef, (CFStringRef)mimeType, YES);
+							}
+							
+							// Add attributes to the document
+							NSDictionary* docAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+								fileDate, @"fileDate",
+								filename, @"filename",
+								type, @"type",
+								title, @"title",
+								nil];
+							SKIndexSetDocumentProperties(searchIndex,
+														 docRef,
+														 (CFDictionaryRef)docAttributes);
+						}
+						
+						// Clear the docRef
+						CFRelease(docRef); docRef = nil;
+					}
+				} else if (extn == nil ||
+					[extn isEqualToString: @""] ||
+					[extn isEqualToString: @"h"] ||
+					[extn isEqualToString: @"ni"] ||
+					[extn isEqualToString: @"inf"] ||
+					[extn isEqualToString: @"txt"]) {
+					NSString* fileContents = [NSString stringWithContentsOfFile: filename];
+					if (fileContents) res = [[[NSAttributedString alloc] initWithString: fileContents] autorelease];
+				} else if ([extn isEqualToString: @"rtf"] ||
+						   [extn isEqualToString: @"rtfd"]) {
+					res = [[[NSAttributedString alloc] initWithPath: filename 
+												 documentAttributes: nil] autorelease];
+				} else if ([extn isEqualToString: @"html"] ||
+						   [extn isEqualToString: @"htm"]) {
+					NSDictionary* attr = nil;
+					storage = [(IFSearchResultsController*)[mainThread rootProxy] loadHTMLFile: filename
+																					attributes: &attr];
+					
+					if (storage) {
+						// Although it is not documented (for some reason), the @"Title" attribute now contains the
+						// document title. We'll take some care and assume this will always be true provided that
+						//		- the Title attribute exists
+						//		- it's a string
+						NSString* title = [attr objectForKey: @"NSTitleDocumentAttribute"];		// Under 10.4 (but can't weak-link to constants)
+						if (title == nil) title = [attr objectForKey: @"Title"];				// Undocumented under 10.3
+						
+						if (title && [title isKindOfClass: [NSString class]]) {
+							displayName = [[title copy] autorelease];
+						} 
 					}
 				}
 				
-				if (found && searchType == IFSearchWholeWord) {
-					found = NO;
+				if (res) {
+					storage = [res string];
+				}
+			}
+			
+			// storage now contains the string for the file/internal data - search it
+			if (storage) {
+				// Create the scanner to search the string
+				NSScanner* stringScanner = [NSScanner scannerWithString: storage];
+				
+				[stringScanner setCaseSensitive: caseSensitive];
+				
+				// Scan until we get no more matches
+				while (![stringScanner isAtEnd]) {
+					BOOL found = NO;
 					
-					// Must be followed by whitespace, or at the end of the file
-					int endLoc = location + [searchPhrase length];
+					if (![stringScanner scanUpToString: searchPhrase
+											intoString: nil])
+						break;
 					
-					if (endLoc >= [storage length]) {
-						// At end
-						found = YES;
-					} else {
-						unichar chr = [storage characterAtIndex: endLoc];
+					// We've found the phrase
+					found = YES;
+					int location = [stringScanner scanLocation];
+					
+					if (location >= [storage length])
+						break;		// Oops, actually, we haven't
+					
+					// If we have to match words, or starts of words, then check for this
+					if (searchType == IFSearchStartsWith || searchType == IFSearchWholeWord) {
+						found = NO;
 						
-						if (chr == '\n' || chr == '\t' || chr == ' ' || chr == '\r') {
-							// Is followed by whitespace, so is a word
+						// Must be at the start, or preceded by whitespace
+						if (location != 0) {
+							unichar chr = [storage characterAtIndex: location-1];
+							
+							if (chr == '\n' || chr == '\t' || chr == ' ' || chr == '\r') {
+								// Is preceded by whitespace, so is a word
+								found = YES;
+							}
+						} else {
+							// At start: is the start of a word
 							found = YES;
 						}
 					}
+					
+					if (found && searchType == IFSearchWholeWord) {
+						found = NO;
+						
+						// Must be followed by whitespace, or at the end of the file
+						int endLoc = location + [searchPhrase length];
+						
+						if (endLoc >= [storage length]) {
+							// At end
+							found = YES;
+						} else {
+							unichar chr = [storage characterAtIndex: endLoc];
+							
+							if (chr == '\n' || chr == '\t' || chr == ' ' || chr == '\r') {
+								// Is followed by whitespace, so is a word
+								found = YES;
+							}
+						}
+					}
+					
+					// If we've still got a match then send it to the main thread
+					if (found) {
+						NSString* contextLeft;
+						NSString* contextRight;
+						
+						// Context is contextLength characters either side of the match. Newlines are translated
+						int lowContext  = location - contextLength;
+						int highContext = location + [searchPhrase length] + contextLength;
+						
+						if (lowContext < 0) lowContext = 0;
+						if (highContext > [storage length]) highContext = [storage length];
+						
+						// Work out the left and right-hand sides of the context
+						contextLeft = [storage substringWithRange: NSMakeRange(lowContext, location - lowContext)];
+						contextRight = [storage substringWithRange: NSMakeRange(location, highContext - location)];
+						
+						contextLeft = [self stripNewlines: contextLeft];
+						contextRight = [self stripNewlines: contextRight];
+						
+						// Create the context string itself
+						NSMutableAttributedString* context = [[NSMutableAttributedString alloc] initWithString: contextLeft
+																									attributes: normalAttributes];
+						[context appendAttributedString: [[[NSAttributedString alloc] initWithString: contextRight
+																						  attributes: normalAttributes] autorelease]];
+						
+						// Bolden the context
+						[context addAttributes: boldAttributes
+										 range: NSMakeRange([contextLeft length], [searchPhrase length])];
+						
+						// Store the result
+						[(IFSearchResultsController*)[mainThread rootProxy] foundMatchInFile: filename
+																					location: location
+																				 displayName: displayName
+																						type: type 
+																					 context: context];
+						
+						[context release];
+					}
+					
+					// Advance the scan position
+					int length = found?[searchPhrase length]:1;
+					if (![stringScanner isAtEnd] && location+length < [storage length])
+						[stringScanner setScanLocation: location+length];
 				}
-				
-				// If we've still got a match then send it to the main thread
-				if (found) {
-					NSString* contextLeft;
-					NSString* contextRight;
-					
-					// Context is contextLength characters either side of the match. Newlines are translated
-					int lowContext  = location - contextLength;
-					int highContext = location + [searchPhrase length] + contextLength;
-					
-					if (lowContext < 0) lowContext = 0;
-					if (highContext > [storage length]) highContext = [storage length];
-					
-					// Work out the left and right-hand sides of the context
-					contextLeft = [storage substringWithRange: NSMakeRange(lowContext, location - lowContext)];
-					contextRight = [storage substringWithRange: NSMakeRange(location, highContext - location)];
-					
-					contextLeft = [self stripNewlines: contextLeft];
-					contextRight = [self stripNewlines: contextRight];
-					
-					// Create the context string itself
-					NSMutableAttributedString* context = [[NSMutableAttributedString alloc] initWithString: contextLeft
-																								attributes: normalAttributes];
-					[context appendAttributedString: [[[NSAttributedString alloc] initWithString: contextRight
-																					  attributes: normalAttributes] autorelease]];
-					
-					// Bolden the context
-					[context addAttributes: boldAttributes
-									 range: NSMakeRange([contextLeft length], [searchPhrase length])];
-					
-					// Store the result
-					[(IFSearchResultsController*)[mainThread rootProxy] foundMatchInFile: filename
-																				location: location
-																			 displayName: displayName
-																					type: type 
-																				 context: context];
-					
-					[context release];
-				}
-				
-				// Advance the scan position
-				int length = found?[searchPhrase length]:1;
-				if (![stringScanner isAtEnd] && location+length < [storage length])
-					[stringScanner setScanLocation: location+length];
 			}
+			
+			// Stop searching if we've run out of items
+			if ([searchItems count] <= 0)
+				searching = NO;
 		}
-		
-		// Stop searching if we've run out of items
-		if ([searchItems count] <= 0)
-			searching = NO;
 		
 		// Clean up
 		[pool release];
 	}
-	
+		
 	if (willUseSearchKit) {
 		// Search a SearchKit index
 		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		
 		// Flush the index
+		SKIndexFlush(searchIndex);
 		SKIndexCompact(searchIndex);
 		
 		// Search it
-		[self searchInIndices: [NSArray arrayWithObject: (NSObject*)searchIndex]
-			   withController: (IFSearchResultsController*)[mainThread rootProxy]];
+		[self searchInIndex: searchIndex
+			 withController: (IFSearchResultsController*)[mainThread rootProxy]];
 		
 		// Clear the pool
 		[pool release];
