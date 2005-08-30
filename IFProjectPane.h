@@ -133,6 +133,8 @@ enum IFProjectPaneType {
 - (void) moveToLocation: (int) location;						// Scrolls the source view so that the given character index is visible
 - (void) selectRange: (NSRange) range;							// Selects a range of characters in the source view
 
+- (void) pasteSourceCode: (NSString*) sourceCode;				// Pastes in the given code at the current insertion position (replacing any selected code and updating the undo manager)
+
 - (void) showSourceFile: (NSString*) file;						// Shows the source file with the given filename in the view
 - (NSString*) currentFile;										// Returns the currently displayed filename
 - (int) currentLine;											// Returns the line the cursor is currently on

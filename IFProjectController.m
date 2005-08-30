@@ -1009,6 +1009,18 @@ static NSDictionary*  itemDictionary = nil;
 	return [self auxPane];
 }
 
+- (IFProjectPane*) oppositePane: (IFProjectPane*) pane {
+	// Find this pane
+	int index = [projectPanes indexOfObjectIdenticalTo: pane];
+	if (index == NSNotFound) return nil;
+	
+	// Get it's 'opposite'
+	int opposite = index-1;
+	if (opposite < 0) opposite = [projectPanes count]-1;
+	
+	return [projectPanes objectAtIndex: opposite];
+}
+
 - (IFProjectPane*) skeinPane {
 	// Returns the current pane containing the skein
     int x;
@@ -2028,6 +2040,26 @@ static NSDictionary*  itemDictionary = nil;
 	// Move to the next item
 	[transcriptView scrollToItem: [nextItem skeinItem]];
 	[transcriptView setHighlightedItem: [nextItem skeinItem]];
+}
+
+// = UIDelegate methods =
+
+// We only implement a fairly limited subset of the UI methods, mainly to help show status
+- (void)						webView:(WebView *)sender 
+	 runJavaScriptAlertPanelWithMessage:(NSString *)message {
+	NSRunAlertPanel([[NSBundle mainBundle] localizedStringForKey: @"JavaScript Alert"
+														   value: @"JavaScript Alert"
+														   table: nil],
+					message,
+					[[NSBundle mainBundle] localizedStringForKey: @"Continue"
+														   value: @"Continue"
+														   table: nil],
+					nil, nil);
+}
+
+- (void)	webView:(WebView *)sender 
+	  setStatusText:(NSString *)text {
+	[statusInfo setStringValue: text];
 }
 
 @end

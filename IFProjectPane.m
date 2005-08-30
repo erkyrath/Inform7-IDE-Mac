@@ -17,6 +17,8 @@
 
 #import "IFPreferences.h"
 
+#import "IFJSProject.h"
+
 // Approximate maximum length of file to highlight in one 'iteration'
 #define minHighlightAmount 2048
 #define maxHighlightAmount 2048
@@ -300,6 +302,9 @@ NSDictionary* IFSyntaxAttributes[256];
 	[[transcriptView layout] setSkein: [doc skein]];
 	[transcriptView setDelegate: self];
 	
+	[wView setUIDelegate: parent];
+	[wView setHostWindow: [parent window]];
+	
 	// Misc stuff
 	[self updateHighlightedLines];
 }
@@ -308,9 +313,10 @@ NSDictionary* IFSyntaxAttributes[256];
     awake = YES;
 	    
 	if ((int)[[NSApp delegate] isWebKitAvailable]) {
-		// The documentation tab
+		// Create the view for the documentation tab
 		wView = [[WebView alloc] init];
 		[wView setResourceLoadDelegate: self];
+		[wView setFrameLoadDelegate: self];
 		[docTabView setView: wView];
 		[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: @"inform:/index.html"]] autorelease]];
 	} else {
@@ -536,6 +542,33 @@ NSDictionary* IFSyntaxAttributes[256];
 - (void) selectRange: (NSRange) range {
 	[sourceText scrollRangeToVisible: range];
 	[sourceText setSelectedRange: range];
+	
+	// NOTE: as this is used as part of the undo sequence for pasteSourceCode, this function must not contain an undo action itself
+}
+
+- (void) pasteSourceCode: (NSString*) sourceCode {
+	// Get the code that existed previously
+	NSRange currentRange = [sourceText selectedRange];
+	NSString* oldCode = [[textStorage attributedSubstringFromRange: [sourceText selectedRange]] string];
+	
+	// Undo sequence is to select a suitable range, then replace again
+	NSUndoManager* undo = [sourceText undoManager];
+	
+	[undo setActionName: [[NSBundle mainBundle] localizedStringForKey: @"Paste Source Code"
+																value: @"Paste Source Code"
+																table: nil]];
+	[undo beginUndoGrouping];
+	
+	[[undo prepareWithInvocationTarget: self] selectRange: currentRange];
+	[[undo prepareWithInvocationTarget: self] pasteSourceCode: oldCode];
+	[[undo prepareWithInvocationTarget: self] selectRange: NSMakeRange(currentRange.location, [sourceCode length])];
+	
+	[undo endUndoGrouping];
+	
+	// Perform the action
+	[sourceText replaceCharactersInRange: currentRange
+							  withString: sourceCode];
+	[self selectRange: NSMakeRange(currentRange.location, [sourceCode length])];
 }
 
 - (void) showSourceFile: (NSString*) file {
@@ -1007,11 +1040,26 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = WebResourceLoadDelegate methods =
 
--(void)		webView:(WebView *)sender 
-		   resource:(id)identifier didFailLoadingWithError:(NSError *)error 
-	 fromDataSource:(WebDataSource *)dataSource {
-	NSLog(@"IFprojectPane: failed to load page with error: %@", [error localizedDescription]);
+- (void)			webView:(WebView *)sender 
+				   resource:(id)identifier 
+	didFailLoadingWithError:(NSError *)error 
+			 fromDataSource:(WebDataSource *)dataSource {
+	NSLog(@"IFProjectPane: failed to load page with error: %@", [error localizedDescription]);
 }
+
+// = WebFrameLoadDelegate methods =
+
+- (void)					webView:(WebView *)sender
+		windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
+	// Attach the JavaScript object to the opposing view
+	IFProjectPane* otherPane = [parent oppositePane: self];		
+	IFJSProject* js = [[IFJSProject alloc] initWithPane: otherPane];
+
+	// Attach it to the script object
+	[[sender windowScriptObject] setValue: [js autorelease]
+								   forKey: @"Project"];
+}
+
 
 // = The skein view =
 

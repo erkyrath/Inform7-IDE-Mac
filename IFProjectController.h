@@ -83,6 +83,8 @@ enum lineStyle {
 - (IFProjectPane*) skeinPane;
 - (IFProjectPane*) transcriptPane;
 
+- (IFProjectPane*) oppositePane: (IFProjectPane*) pane;
+
 // Communication from the containing panes (maybe other uses, too - scripting?)
 - (BOOL) selectSourceFile: (NSString*) fileName;
 - (void) moveToSourceFilePosition: (int) location;
