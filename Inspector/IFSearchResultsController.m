@@ -523,8 +523,12 @@ static int resultComparator(id a, id b, void* context) {
 
 - (void) searchInIndex: (SKIndexRef) index
 		withController: (IFSearchResultsController*) resultsDest {
+	NSLog(@"Searching SearchKit index...");
+	
 	// Search a SearchKit index for results
 	if (NSAppKitVersionNumber >= 824.0) {
+		NSLog(@"10.4 async search");
+		
 		// Use 10.4 async search and summarisation tools
 		SKSearchRef search = SKSearchCreate(index,
 											(CFStringRef)searchPhrase,
@@ -616,6 +620,7 @@ static int resultComparator(id a, id b, void* context) {
 		CFRelease(search);
 	} else {
 		// Use 10.3 synchronous search
+		NSLog(@"10.3 synchronous search");
 		
 		// Create the search group
 		SKSearchGroupRef group = SKSearchGroupCreate((CFArrayRef)[NSArray arrayWithObject: (NSObject*)index]);
@@ -725,6 +730,7 @@ static int resultComparator(id a, id b, void* context) {
 	// Run a runloop so we can receive two-way communication
 	NSRunLoop* currentLoop = [NSRunLoop currentRunLoop];
 	
+	NSLog(@"Search started (appkit version is %g)", (double)NSAppKitVersionNumber);
 	while (searching) {
 		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		
@@ -763,6 +769,8 @@ static int resultComparator(id a, id b, void* context) {
 					// (Not ideal: searching extensions might cause a missed documentation update this way)
 					willUseSearchKit = YES;
 					
+					NSLog(@"SearchKitting %@", filename);
+					
 					if (![indexedFiles containsObject: filename]) {
 						[indexedFiles addObject: filename];
 						NSDate* fileDate = [[[NSFileManager defaultManager] fileAttributesAtPath: filename
@@ -780,6 +788,8 @@ static int resultComparator(id a, id b, void* context) {
 							mimeType = @"text/rtf";
 						}
 						
+						NSLog(@"MIME type is %@", mimeType);
+						
 						// Create a document reference
 						SKDocumentRef docRef = SKDocumentCreateWithURL((CFURLRef)[NSURL fileURLWithPath: filename]);
 						
@@ -796,6 +806,8 @@ static int resultComparator(id a, id b, void* context) {
 						
 						// Only add if the dates are different
 						if (lastDate == nil || [lastDate compare: fileDate] < 0) {
+							NSLog(@"Adding %@ to the index (Last indexed on %@, but file is %@)", filename, lastDate, fileDate);
+							
 							NSString* title = [filename lastPathComponent];
 
 							// Load as HTML if we can. SearchKit can do this for us, but it discards the title, 
@@ -805,6 +817,7 @@ static int resultComparator(id a, id b, void* context) {
 							NSString* htmlStorage = nil;
 							
 							if ([mimeType isEqualToString: @"text/html"]) {
+								NSLog(@"Loading HTML using main thread");
 								htmlStorage = [(IFSearchResultsController*)[mainThread rootProxy] loadHTMLFile: filename
 																									attributes: &attr];
 							}
@@ -815,6 +828,8 @@ static int resultComparator(id a, id b, void* context) {
 								if (title == nil) title = [attr objectForKey: @"Title"];
 								if (title == nil) title = [filename lastPathComponent];
 								
+								NSLog(@"Adding HTML document, title %@", title);
+								
 								// Add the document from the file we just loaded
 								SKIndexAddDocumentWithText(searchIndex,
 														   docRef,
@@ -822,9 +837,11 @@ static int resultComparator(id a, id b, void* context) {
 														   YES);
 							} else {
 								// Add the document to searchkit, and mark ourselves as wanting to continue searching with SearchKit
+								NSLog(@"Adding document");
 								SKIndexAddDocument(searchIndex, docRef, (CFStringRef)mimeType, YES);
 							}
 							
+							NSLog(@"Setting properties");
 							// Add attributes to the document
 							NSDictionary* docAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
 								fileDate, @"fileDate",
@@ -838,6 +855,7 @@ static int resultComparator(id a, id b, void* context) {
 						}
 						
 						// Clear the docRef
+						NSLog(@"Clearing up after document '%@'", filename);
 						CFRelease(docRef); docRef = nil;
 					}
 				} else if (extn == nil ||
