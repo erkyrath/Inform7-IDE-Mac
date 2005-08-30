@@ -18,8 +18,6 @@
 	
 	if (self) {
 		pane = newPane;
-		
-		NSLog(@"IFJSProject created - %p", newPane);
 	}
 	
 	return self;
@@ -28,16 +26,12 @@
 - (void) dealloc {
 	pane = nil;
 	
-	NSLog(@"IFJSProject deallocated");
-	
 	[super dealloc];
 }
 
 // = JavaScript names for our selectors =
 
 + (NSString *) webScriptNameForSelector: (SEL)sel {
-	NSLog(@"webScriptNameForSelector");
-	
 	if (sel == @selector(selectView:)) {
 		return @"selectView";
 	} else if (sel == @selector(pasteCode:)) {
@@ -68,8 +62,6 @@
 - (void) selectView: (NSString*) view {
 	view = [view lowercaseString];
 	
-	NSLog(@"JavaScript: setting view to %@", view);
-	
 	if ([view isEqualToString: @"source"]) {
 		[pane selectView: IFSourcePane];
 	} else if ([view isEqualToString: @"error"]) {
@@ -88,8 +80,6 @@
 }
 
 - (void) pasteCode: (NSString*) code {
-	NSLog(@"JavaScript: pasting %@", code);
-
 	[pane pasteSourceCode: code];
 }
 
@@ -106,8 +96,6 @@
 }
 
 - (void)finalizeForWebScript {
-	NSLog(@"finalizeForWebScript");
-	
 	pane = nil;
 }
 
