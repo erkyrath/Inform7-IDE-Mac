@@ -1,30 +1,12 @@
-<html><head><title>8.17. How many turns?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc130.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc132.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.17. How many turns?</b></td></tr></table><p>
+<html><head><title>9.1. Introduction to scenes</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 9: Scenes</h2><p><table><tr><td><a href=doc130.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc132.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.1. Introduction to scenes</b></td></tr></table><p>
 <p>
-<p>So much for &quot;times&quot; - spells in which a condition is true. We can also test the length of time, in turns of play, that something has been true. Thus:
+<p>As we have seen, Inform divides up space into individual places called &quot;rooms&quot;, and allows us to group rooms together into &quot;regions&quot; if we find that convenient. And Inform also divides time up, into individual turns. These too we can group together: the equivalent of a region is a &quot;scene&quot;.
 <p>
-<blockquote><font color="#000080">if <condition> for three turns;
-</font></blockquote><p>
+<p>To put this another way, if we think of the interactive fiction as a stage play, then up to now it has simply contained endless dialogue and stage directions - there has been no convenient way to divide up its running time into dramatic episodes, in the same way that a playwright might make Act I and Act II take place in the same drawing-room with the same characters, but (let us say) six months later, after many things have changed. The script contains cues for one scene to end and another to begin: when those cues are reached, the stage hands rearrange props, actors reposition themselves and so on.
 <p>
-<p>means that the condition holds now, and held at the start of this turn, at the start of last turn, and at the start of the turn before that. In particular:
+<p>Inform also allows us to create scenes, with cues for them to start and end, and some stage machinery (so to speak) making it easy to move the action on. But interactive fiction is <i>interactive</i>, so the metaphor of the theatre only goes so far. We can have several different scenes going on at once - perhaps with the relevant events taking place in different rooms, which the player is free to walk between. And the player may make a choice which changes the story-line, causing scenes to happen which otherwise would not have happened, and so on. Scenes can even repeat themselves.
 <p>
-<blockquote><font color="#000080">if the floppy hat has been worn for three turns ...
-</font></blockquote><p>
-<p>
-<p>will be false if the hat is not currently worn (even if it has been often in the past) and, on the other hand, will be true if the hat has been worn for twenty turns. Here again we can be more specific. These are synonymous:
-<p>
-<blockquote><font color="#000080">if the floppy hat is worn for the third turn ...
-<br>if the floppy hat has been worn for only 3 turns ...
-<br>if the floppy hat has been worn for exactly three turns ...
-</font></blockquote><p>
-<p>
-<p>all requiring that the hat wasn't worn four turns ago. As before, &quot;more than&quot;, &quot;less than&quot;, &quot;at least&quot; and &quot;at most&quot; so forth can also be used - say, &quot;for at least 21 turns&quot;.
-<p>
-<p>A warning: we must be careful when writing something like
-<p>
-<blockquote><font color="#000080">if the noun has been open ...
-</font></blockquote><p>
-<p>
-<p>since this tests whether it has ever been true that the noun of the then action was open: not whether the current noun-object has ever been open.
+<p>So organising the story-line into scenes is not simply a matter of making a list (Scene 1, then Scene 2, then Scene 3, <i>finis</i>). It is more like a chart in which one scene can lead in several possible ways to others - a sort of map of time, which as we shall see Inform displays in its &quot;Scenes&quot; index.
 <p>
 <p><hr><p><a href=doc130.html>Previous</a> / <a href=doc132.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

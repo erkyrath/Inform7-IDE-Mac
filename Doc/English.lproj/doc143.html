@@ -1,40 +1,38 @@
-<html><head><title>10.3. Pattern matching</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc142.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc144.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.3. Pattern matching</b></td></tr></table><p>
+<html><head><title>10.4. If</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc142.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc144.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.4. If</b></td></tr></table><p>
 <p>
-<p>The following are all valid phrases:
+<p>We now run through a few special phrases which control other phrases: causing them to repeat, perhaps, or to be skipped. These phrases are equivalent to the &quot;control structures&quot; of other computer programming languages: no system for interactive fiction can possibly be adequate unless it allows us to carry out arbitrary computations, so the pretence that Inform is not really a programming language must dropped sooner or later. That time is now.
 <p>
-<blockquote><font color="#000080">award 2 points
-<br>award 8 points
-<br>award 30 points
+<p>The phrase:
+<p>
+<blockquote><font color="#000080">if (... condition ...) then (... another whole phrase ...)
 </font></blockquote><p>
 <p>
-<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
+<p>causes the phrase after &quot;then&quot; to be followed only if the condition holds. Some people prefer to use a comma, which is treated just the same:
 <p>
-<blockquote><font color="#000080">To award (some - a number) points: ...
+<blockquote><font color="#000080">if (... condition ...), (... another whole phrase ...)
 </font></blockquote><p>
 <p>
-<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
+<p>There are many different forms of condition in Inform (and, as we shall see, we can easily add more), but the simplest is:
 <p>
-<blockquote><font color="#000080">award &quot;blue cheese&quot; points;
+<blockquote><font color="#000080">(first value) is (second value)
 </font></blockquote><p>
 <p>
-<p>which results in the following error:
+<p>As always, Inform checks that these two values are of kinds which can be compared. The following will produce an objection, for instance:
 <p>
-<blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.
+<blockquote><font color="#000080">if 10 is a door then say &quot;Huzzah!&quot;
 </font></blockquote><p>
 <p>
-<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
+<p>since it makes no sense to ask the question, and the only result will be the baffled reply:
 <p>
-<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
-<p>
-<blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.
+<blockquote><font color="#000080"><b>Problem.</b> In the line 'if 10 is a door then say &quot;Huzzah!&quot;' <img src=../Reveal.tif>, I can't determine whether or not '10 is a door', because it seems to ask if a number is some sort of door.
 </font></blockquote><p>
 <p>
-<p>Which would not match, for instance, this:
+<p>This, however, would be fine:
 <p>
-<blockquote><font color="#000080">slam shut the black door;
+<blockquote><font color="#000080">To comment upon (whatever - a thing): if whatever is transparent then say &quot;I see right through this!&quot;; if whatever is an open door then say &quot;Oh look, an open door!&quot;.
 </font></blockquote><p>
 <p>
-<p>because the black door is not an open container.
+<p>since &quot;whatever&quot; is known to be a thing, and Inform knows that things are indeed sometimes transparent and sometimes open doors.
 <p>
 <p><hr><p><a href=doc142.html>Previous</a> / <a href=doc144.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

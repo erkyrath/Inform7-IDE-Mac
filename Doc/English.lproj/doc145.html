@@ -1,23 +1,25 @@
-<html><head><title>10.5. While</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc144.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc146.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.5. While</b></td></tr></table><p>
+<html><head><title>10.6. Begin and end</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc144.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc146.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.6. Begin and end</b></td></tr></table><p>
 <p>
-<p>The other main control phrase is &quot;while&quot;, which has the form:
+<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
 <p>
-<blockquote><font color="#000080">while (... condition ...) repeatedly (... another whole phrase ...)
+<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
+<p>
+<blockquote><font color="#000080">To comment upon (whatever - a thing):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>which keeps on applying the same phrase as long as the condition holds. If it never holds, even at the start, then the phrase is never applied at all and nothing happens. Just as the word &quot;then&quot; in an &quot;if&quot; can be abbreviated with a comma, so can the word &quot;repeatedly&quot; here.
+<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
 <p>
-<p>We must be careful not to commit mistakes like the following:
+<p>Similarly for while:
 <p>
-<blockquote><font color="#000080">while eggs is eggs repeatedly say &quot;again and &quot;
+<blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while
 </font></blockquote><p>
 <p>
-<p>which, as sure as eggs is eggs (which is very sure indeed), writes out
-<p>
-<blockquote><font color="#000080">again and again and again and again and again and ...
-</font></blockquote><p>
-<p>
-<p>forever. (Inform won't prevent this: we will find out the hard way when the game is played.) While we would probably never write anything so blatant as that, the mistake is all too easy to commit in disguised form. We should never design a loop, as repetitions like this are called, without worrying about if and when it will finish.
+<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
 <p>
 <p><hr><p><a href=doc144.html>Previous</a> / <a href=doc146.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,30 +1,24 @@
-<html><head><title>17.17. Handling phrase options</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.17. Handling phrase options</b></td></tr></table><p>
+<html><head><title>17.18. Defining loops</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.18. Defining loops</b></td></tr></table><p>
 <p>
-<p>The Standard Rules use the Inform list-writer with the following definitions, which show how a much more complicated I6 routine can be given a natural-language expression.
+<p>The two I7 versions of &quot;while&quot; are defined in the Standard Rules as follows:
 <p>
-<blockquote><font color="#000080">To list the contents of (O - an object),
-<br>&nbsp;&nbsp;&nbsp;&nbsp;with newlines,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;indented,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;giving inventory information,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;as a sentence,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;including contents,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;including all contents,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;tersely,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;giving brief inventory information,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;using the definite article,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;listing marked items only,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;prefacing with is/are
-<br>&nbsp;&nbsp;&nbsp;&nbsp;and/or not listing concealed items:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;(- WriteListFrom(child({O}), {phrase options}); -).
+<blockquote><font color="#000080">To while (c - condition) repeatedly (ph - phrase): (- while {c} {ph} -).
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say contents of (O - an object): list the contents of O, as a sentence.
+<blockquote><font color="#000080">To while (c - condition) begin *: (- while {c}  -).
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.
+<p>The second case is the one which involves a block of code, to be ended later with an &quot;end while&quot;. The asterisk signals to I7 that such a block is expected. The I6 code should be such that an I6 code block, starting and ending with a brace, can legally follow it.
+<p>
+<p>Variables can be created as part of a loop which exist only within it. All that needs to be done is to supply their type and declare them to be &quot;variable&quot;:
+<p>
+<blockquote><font color="#000080">To repeat with (loopvar - number variable) running from (v - number) to (w - number) begin *: (- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).
 </font></blockquote><p>
 <p>
-<p>&quot;{phrase options}&quot; is a special substitution: it is a bitmap which assigns the given options one bit each, starting with the least significant bit for the first-mentioned option (&quot;with newlines&quot; above) and going up to the most significant bit for the last (&quot;not listing concealed items&quot;).
+<blockquote><font color="#000080">To repeat with (loopvar - object variable) running through contents of (v - object) begin *: (- objectloop ({loopvar} in {v})  -).
+</font></blockquote><p>
+<p>
+<p>I7 will compile this using a local variable for &quot;loopvar&quot;: it may well re-use this variable later for other loops, so its value cannot be relied upon outside of the code block following the loop.
 <p>
 <p><hr><p><a href=doc256.html>Previous</a> / <a href=doc258.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

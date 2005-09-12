@@ -1,13 +1,40 @@
-<html><head><title>10.2. The phrasebook</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc141.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc143.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.2. The phrasebook</b></td></tr></table><p>
+<html><head><title>10.3. Pattern matching</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc141.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc143.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.3. Pattern matching</b></td></tr></table><p>
 <p>
-<p>Inform begins knowing a set of standard phrases, and allows us to define new ones: the current stock is called the &quot;phrasebook&quot;, and can be browsed at the Index panel. Here is a simple definition of a new phrase:
+<p>The following are all valid phrases:
 <p>
-<blockquote><font color="#000080">To spring the trap: say &quot;'Sproing!' go the hinges and, with a flash of silver, the enormous blades whisk together!&quot;; end the game in death.
+<blockquote><font color="#000080">award 2 points
+<br>award 8 points
+<br>award 30 points
 </font></blockquote><p>
 <p>
-<p>Now the phrase &quot;spring the trap&quot; is given meaning. Of course it will only happen if our design ever actually calls upon the computer to &quot;spring the trap&quot;, which at present it does not.
+<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
 <p>
-<p>This chapter is about how to define more complicated phrases, and about the special phrases which exist to repeat the same activity over and over, to test conditions and so on.
+<blockquote><font color="#000080">To award (some - a number) points: ...
+</font></blockquote><p>
+<p>
+<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
+<p>
+<blockquote><font color="#000080">award &quot;blue cheese&quot; points;
+</font></blockquote><p>
+<p>
+<p>which results in the following error:
+<p>
+<blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.
+</font></blockquote><p>
+<p>
+<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
+<p>
+<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
+<p>
+<blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.
+</font></blockquote><p>
+<p>
+<p>Which would not match, for instance, this:
+<p>
+<blockquote><font color="#000080">slam shut the black door;
+</font></blockquote><p>
+<p>
+<p>because the black door is not an open container.
 <p>
 <p><hr><p><a href=doc141.html>Previous</a> / <a href=doc143.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

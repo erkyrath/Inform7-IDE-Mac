@@ -1,33 +1,33 @@
-<html><head><title>15.3. New rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc212.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc214.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.3. New rules</b></td></tr></table><p>
+<html><head><title>15.4. New rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc212.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc214.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.4. New rulebooks</b></td></tr></table><p>
 <p>
-<p>Returning to the apple blossom, and stretching a point seasonally,
+<p>Creating a new rulebook is also straightforward, as we see in the following modest example game:
 <p>
-<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080">&quot;Appraisal&quot;
 </font></blockquote><p>
 <p>
-<p>This rule is nameless. It needs no name because it will never need to be referred to: by identifying it as an every turn rule we have already said enough to lodge it in the &quot;every turn rules&quot; rulebook. In fact, though, it is easy to create a named rule:
-<p>
-<blockquote><font color="#000080">This is the blossom rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080">The Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.
 </font></blockquote><p>
 <p>
-<p>The name of a rule must always end with the word &quot;rule&quot;, for clarity's sake. (The phrasing &quot;This is the ... rule&quot; is used because &quot;The ... rule&quot; would be open to misinterpretation.)
-<p>
-<p>The rule now exists, but belongs to no rulebook, and will never be applied unless explicitly invoked, or unless explicitly placed into a rulebook after all:
-<p>
-<blockquote><font color="#000080">The blossom rule is listed in the every turn rules.
+<blockquote><font color="#000080">Appraisal rules is a rulebook.
 </font></blockquote><p>
 <p>
-<p>A single rule like this can be listed in any number of rulebooks, including none.
-<p>
-<p>Alternatively, it is possible to both name and list a rule in a single sentence:
-<p>
-<blockquote><font color="#000080">Every turn (this is the blossom rule): say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080">An appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;
 </font></blockquote><p>
 <p>
-<p>Where rules have been named, we are able (as promised) to have a say in what order they come in:
-<p>
-<blockquote><font color="#000080">The blossom rule is listed before the moving doorways rule in the every turn rules.
+<blockquote><font color="#000080">An appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;
 </font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.
+</font></blockquote><p>
+<p>
+<p>The creation of the rulebook is all very well, but without the final sentence it would never be used. The crucial new phrase here is &quot;follow ...&quot;, which is the first of several phrases allowing us to use rules whenever we want to (rather than simply at predetermined times such as when a particular action is being tried, or at the end of every turn, and such).
+<p>
+<p>Like &quot;number&quot; or &quot;text&quot;, &quot;rule&quot; and &quot;rulebook&quot; are kinds of value built into Inform: &quot;the blossom rule&quot; is a value whose kind is &quot;rule&quot;, whereas &quot;the every turn rules&quot; is a value whose kind is &quot;rulebook&quot;. In fact, Inform considers a rulebook to be a special case of a rule, so that whenever a rule is required it is legal to name a rulebook instead, but not vice versa. The &quot;follow&quot; phrase here...
+<p>
+<blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.
+</font></blockquote><p>
+<p>
+<p>...expects to be applied to a value of kind &quot;rule&quot;; &quot;the appraisal rules&quot; is in fact a rulebook, but since that counts as a rule and the phrase makes sense to Inform. To follow a rulebook means to run through all its rules in turn; to follow a single rule means just that one, of course.
 <p>
 <p><hr><p><a href=doc212.html>Previous</a> / <a href=doc214.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

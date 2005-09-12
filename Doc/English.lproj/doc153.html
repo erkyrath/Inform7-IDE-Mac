@@ -1,35 +1,34 @@
-<html><head><title>10.13. Another example: a pushable box</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc152.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc154.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.13. Another example: a pushable box</b></td></tr></table><p>
+<html><head><title>10.14. New conditions, new adjectives</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc152.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc154.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.14. New conditions, new adjectives</b></td></tr></table><p>
 <p>
-<p>More on using kinds of value inside phrases, this time to simulate something new: a box which, although it cannot be picked up, can be pushed around between three different places on the floor. A much fuller version of this example can be found in the example game &quot;Lumbersome&quot;.
+<p>We can create new conditions by defining a phrase with &quot;to decide whether&quot; (or equivalently &quot;to decide if&quot;):
 <p>
-<blockquote><font color="#000080">Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase.
+<blockquote><font color="#000080">To decide whether danger lurks:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if in darkness then yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the Control Room has been visited then no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise yes.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To shove the box to (destination - a box position):
-<br>say &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;; let the current box position be the destination.
+<p>As can be seen, such a phrase must always resolve itself with &quot;yes&quot; or &quot;no&quot;: the first to be reached will be the answer. We can now write, for instance,
+<p>
+<blockquote><font color="#000080">if danger lurks then ...
 </font></blockquote><p>
 <p>
-<p>So, for instance:
+<p>In fact, &quot;danger lurks&quot; is now a condition as good as any other, and can be used wherever a condition would be given. Rules can apply only &quot;when danger lurks&quot;, for instance.
 <p>
-<blockquote><font color="#000080">shove the box to over by the window;
+<p>We can also supply definitions of adjectives like this. So far, new adjectives have been defined like so:
+<p>
+<blockquote><font color="#000080">Definition: a supporter is occupied if it is described and something is on it.
 </font></blockquote><p>
 <p>
-<p>might result in the following on screen:
+<p>If we want to give a definition which involves more complex logic, we can use a special form allowing us to make arbitrary decisions. In this longer format, the same definition would look like so:
 <p>
-<blockquote><font color="#000080">With some effort, you shove the old box from under the shelf to over by the window.
+<blockquote><font color="#000080">Definition: a supporter is occupied:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if it is undescribed then no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something is on it then yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise no.
 </font></blockquote><p>
 <p>
-<p>And we can write conditions like so:
-<p>
-<blockquote><font color="#000080">if the current box position is over by the window then...
-</font></blockquote><p>
-<p>
-<p>Using a new kind of value is a good way to set up simulations like this one because Inform will ensure that the &quot;current box position&quot; always, no matter what we do, holds one of the three legal box positions. Similarly, a line like
-<p>
-<blockquote><font color="#000080">if the current box position is green then ...
-</font></blockquote><p>
-<p>
-<p>will be disallowed because box positions and colours are incomparable.
+<p>Here &quot;it&quot; refers to the supporter in question. Note that there are now two colons in this sentence, one after &quot;Definition&quot;, the other after the clause being defined. But that apart, it's a phrase like any other: it must end in &quot;yes&quot; or &quot;no&quot; just as the &quot;danger lurks&quot; example must.
 <p>
 <p><hr><p><a href=doc152.html>Previous</a> / <a href=doc154.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,28 +1,33 @@
-<html><head><title>15.12. Changing reachability</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc221.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc223.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.12. Changing reachability</b></td></tr></table><p>
+<html><head><title>15.13. In what order?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc221.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc223.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.13. In what order?</b></td></tr></table><p>
 <p>
-<p>The business of what the player can, and cannot, reach is of considerable importance in interactive fiction. It contains some of the subtlest rules in the model world, though these rules often go unnoticed. For instance, if a key is on a shelf which is part of a closed box, can we reach for the key? This comes down to whether the shelf, described only as &quot;part of&quot; the box, is on the inside or the outside: and in fact, because it cannot know which is the case, Inform allows either. So in general it is best to regard &quot;parts&quot; as being exterior parts, but to avoid having parts on containers that might in the course of play be closed up with the player inside.
+<p>Large works created by Inform are heaped high with rules, most of them instead rules, but with a leavening of befores and afters as well. What will happen if these conflict with each other? For instance:
 <p>
-<p>In many games the designer never feels any need to alter the rules on what can be touched from where, but it is important to have the ability all the same: when it is needed, there is often no other way to achieve the same effect.
-<p>
-<p>Returning to the conical flask:
-<p>
-<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
+<blockquote><font color="#000080">Instead of opening a container, say &quot;Your mother-in-law looks on with such evident disappointment that you withdraw your hand again.&quot;
 </font></blockquote><p>
 <p>
-<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) Rules for this rulebook need not have any restriction on the object applied to:
-<p>
-<blockquote><font color="#000080">A reaching inside rule: if Barabbas's Nefarious Amulet is worn then ignore the can't take people's possessions rule.
+<blockquote><font color="#000080">Instead of opening an open container, say &quot;Your daughter tuts in theatrical exasperation at your, like, lameness.&quot;
 </font></blockquote><p>
 <p>
-<p>More generally, we could give the usual flexible description of what the rule applies to:
+<p>If the player tries to open something which is closed, there is no conflict and it is clearly the mother-in-law who gets in the way. But what if the player tries to open a container which is already open? In this case both rules are applicable, but they cannot both take effect: they are instead rules and whichever happens first will stop the action.
 <p>
-<blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large.&quot;; deny access.
+<p>The answer is that Inform does not allow rules simply to heap up chaotically, nor simply list them in the order they are described, but sorts them according to what it believes to be a logical sequence. Given any two rules A and B, it tries to see which rule is more specific - narrower in application, that is - and applies that one first. In this case Inform finds that any open container is also a container, but not vice versa. That means that the daughter rule is more specific than the mother-in-law rule, so it is given priority. But the following rule would trump either of them:
+<p>
+<blockquote><font color="#000080">Instead of opening the jewelled box, say &quot;Such exquisite boxes are notorious for traps such as poisoned needles concealed around the lid.&quot;
 </font></blockquote><p>
 <p>
-<p>There is also a reaching outside rulebook, used if the player is inside something and wants to reach an object in the wider room. (It's the difference between a bed and a cage.) This ordinarily contains just one rule:
+<p>Note that a rule applying only in certain rooms always beats a rule which is applicable everywhere. Here is a larger example:
 <p>
-<blockquote><font color="#000080">the can't reach outside closed containers rule
+<blockquote><font color="#000080">(R1) Before taking something in the Swamp: ...
+<br>(R2) Before taking the bucket: ...
+<br>(R3) Before taking the frog: ...
+<br>(R4) Before taking an open container: ...
+<br>(R5) Before taking a container: ...
+<br>(R6) Before taking something: ...
 </font></blockquote><p>
+<p>
+<p>Rule (R1) wins because it specifies a room, whereas (R2) and (R3) do not. (R2) and (R3) then trump the others because they name specific objects, not general classes of objects. We then have (R4), (R5) and (R6) in that order since every open container is also a container, and every container is a thing.
+<p>
+<p>The full method used by Inform to sort rules is complicated, and will not always be quite right - though, as we shall later see, there are ways to intervene if this becomes a problem. But in practice, when we need rule A to come before rule B, it will usually be a clear-cut case which comes out right. In trickier cases to judge, it mostly doesn't matter anyway.
 <p>
 <p><hr><p><a href=doc221.html>Previous</a> / <a href=doc223.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

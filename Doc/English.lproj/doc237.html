@@ -1,27 +1,41 @@
-<html><head><title>16.13. Deciding whether all includes</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc236.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc238.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.13. Deciding whether all includes</b></td></tr></table><p>
+<html><head><title>16.14. Printing the banner text</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc236.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc238.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.14. Printing the banner text</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> When parsing a command such as &quot;take all&quot;, where the player uses &quot;all&quot; to signify everything within reach.
+<p><b>1. When it happens.</b> The banner is the bibliographic masthead text, which typically looks something like this:
 <p>
-<p><b>2. The default behaviour.</b> The actual method used is complicated, as &quot;all&quot; is not as simple as it seems - &quot;take all&quot; would not include the player's own body, for instance, or the crescent moon. The point of this action is to allow the normal method to be changed for given objects, or given kinds of object.
-<p>
-<p><b>3. Examples.</b> (a) Removing scenery from &quot;all&quot;:
-<p>
-<blockquote><font color="#000080">Rule for deciding whether all includes scenery: it does not.
+<blockquote><font color="#000080">Relations
+<br>An Interactive Fiction by Emily Short
+<br>Release 1 / Serial number 050630 / Inform 7 build 2U98 (I6/v6.30 lib 6/10N) SD
 </font></blockquote><p>
 <p>
-<p>The phrases &quot;it does&quot; and &quot;it does not&quot; make a decision.
+<p>The banner is printed at the start of play, and when the player types &quot;version&quot; at the command line, and when say &quot;[banner text]&quot; occurs.
 <p>
-<p>(b) Ensuring that a given thing, which might otherwise be excluded, is included:
+<p><b>2. The default behaviour.</b> Prints the text above, giving the title, the genre, the author, the release number, the date of compilation (that's the serial number: YYMMDD), and version numbers of the Inform components used to put the game together.
 <p>
-<blockquote><font color="#000080">Rule for deciding whether all includes the oval roof: it does.
+<p><b>3. Examples.</b> (a) Adding a line to the banner:
+<p>
+<blockquote><font color="#000080">After printing the banner text, say &quot;DRM authentication code: 13S-451-2034u75y65u%%a1248.&quot;
 </font></blockquote><p>
 <p>
-<p>(c) However, be wary of rules like this one:
+<p>(b) Simplifying the banner:
 <p>
-<blockquote><font color="#000080">Rule for deciding whether all includes the oak tree while taking: it does not.
+<blockquote><font color="#000080">Rule for printing the banner text: say &quot;Welcome.&quot; instead.
 </font></blockquote><p>
 <p>
-<p>This will not work even when the player types &quot;take all&quot; because we are not &quot;taking&quot; until the text is fully understood, when the action begins: and working out what &quot;all&quot; means is part of that process of understanding.
+<p>(c) Delaying the banner for later:
+<p>
+<blockquote><font color="#000080">&quot;Bikini Atoll&quot; by Edward Teller
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Hut and the Tropical Beach are rooms.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The conch shell is in the Hut. After taking the shell for the first time: say &quot;As you gather the oddly-warm conch shell into your arms, you experience a sudden flash of deja-vu...[line break][banner text]&quot;; move the player to the Tropical Beach.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Rule for printing the banner text: if the player is not carrying the shell, do nothing instead.
+</font></blockquote><p>
+<p>
+<p>(By tradition, and as a courtesy to all the people who have worked on Inform, authors ensure that the banner is printed some time near the beginning of each game played. So please only defer it, rather than suppress it altogether.)
 <p>
 <p><hr><p><a href=doc236.html>Previous</a> / <a href=doc238.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

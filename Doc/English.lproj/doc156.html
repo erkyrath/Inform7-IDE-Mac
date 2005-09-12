@@ -1,29 +1,39 @@
-<html><head><title>10.16. Arithmetic on new kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc155.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc157.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.16. Arithmetic on new kinds of value</b></td></tr></table><p>
+<html><head><title>10.17. In what order?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc155.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc157.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.17. In what order?</b></td></tr></table><p>
 <p>
-<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
+<p>Recall the definition:
 <p>
-<blockquote><font color="#000080">change the score to the score + 4
+<blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.
 </font></blockquote><p>
 <p>
-<p>In Inform, &quot;+&quot; is a phrase like any other. Its definition behind the scenes begins:
+<p>Suppose we then try to &quot;slam shut the wall safe&quot; at a time during play when the wall safe is already closed. An error message will then be printed during play, since there must be a mistake in the design. The combination of checking both at construction time and continuously during play guarantees that, in all cases, a varying item such as &quot;box&quot; in the definition of &quot;To slam shut (box - open container)&quot; always satisfies the condition laid down.
 <p>
-<blockquote><font color="#000080">To decide which number is (X - number) + (Y - number): ...
+<p>Instead suppose we also have the following definition:
+<p>
+<blockquote><font color="#000080">To slam shut (box - a container): say &quot;You are unable to slam shut [the box], which is already closed.&quot;.
 </font></blockquote><p>
 <p>
-<p>Thus Inform will only recognise &quot;+&quot; as valid if it applies to two numbers, which is as it should be. We cannot normally apply &quot;+&quot; to values like these:
+<p>We now have two definitions of &quot;slam shut&quot;. Sometimes the box it's applied to will be closed, in which case only the second definition fits, and will be the one used. But if the box is open, both definitions fit. Which will happen? The rule is:
 <p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.
+<blockquote><font color="#000080">1. A narrower condition takes precedence over a broader one;
 </font></blockquote><p>
 <p>
-<p>However, we do automatically have two ways to make new colours from old:
-<p>
-<blockquote><font color="#000080">the colour after C
-<br>the colour before C
+<blockquote><font color="#000080">2. If neither condition is narrower than the other, then whichever phrase was defined later in the source code is the one taking precedence;
 </font></blockquote><p>
 <p>
-<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
+<blockquote><font color="#000080">3. Except that if the phrase is being used in the definition of phrase P, then P is always last in precedence order, so that recursion is always the very last possibility considered. This allows more specific or later definitions to make use of less specific or earlier ones in a natural way.
+</font></blockquote><p>
 <p>
-<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not.
+<p>Rule 1 ensures that a definition involving &quot;open container&quot; takes priority over one which merely involves &quot;container&quot;, for instance.
+<p>
+<p>And therefore when the box is open, it's the more specific phrase to do with open containers which is invoked: so, with great panache, the box is slammed shut.
+<p>
+<p>On the other hand, neither of these patterns is narrower than the other:
+<p>
+<blockquote><font color="#000080">To describe (something - transparent): ...
+<br>To describe (something - container): ...
+</font></blockquote><p>
+<p>
+<p>Some containers are transparent, some not; some transparent things are containers, some not. Rule 1 therefore does not apply, so it is the most recently defined of the two phrases which takes effect.
 <p>
 <p><hr><p><a href=doc155.html>Previous</a> / <a href=doc157.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

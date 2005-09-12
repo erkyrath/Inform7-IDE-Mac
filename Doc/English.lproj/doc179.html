@@ -1,21 +1,43 @@
-<html><head><title>12.10. Arithmetic with units</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc178.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc180.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.10. Arithmetic with units</b></td></tr></table><p>
+<html><head><title>12.12. Totals</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc178.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc180.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.12. Totals</b></td></tr></table><p>
 <p>
-<p>Inform allows us to perform arithmetic on units only where that would make sense, and it keeps track of the results. For instance,
+<p>It often happens that we want to look at the measurements of a whole collection of things. Suppose we invent the idea of weight, and give everything a weight of its own. Most items will have a nominal weight of just 1 kilogram, but people will be heavier. Going on actuarial tables, we might say:
 <p>
-<blockquote><font color="#000080">The Weightbridge is a room. &quot;A sign declares that the maximum load is [100kg multiplied by 3].&quot;
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg. A man is usually 80kg. A woman is usually 67kg.
 </font></blockquote><p>
 <p>
-<p>...will produce the text &quot;A sign declares that the maximum load is 300kg.&quot; Here Inform knows that it makes sense to multiply a weight by 3, and that the result will be a weight. Similarly, Inform allows us to add and subtract weights, and several different forms of division are allowed:
-<p>
-<blockquote><font color="#000080">The blackboard is in the Weightbridge. &quot;A blackboard propped against one wall reads: '122 / 10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; but 122kg / 10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; and 122kg / 10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot;
+<blockquote><font color="#000080">Definition: A thing is light if its weight is 3kg or less.
+<br>Definition: A thing is heavy if its weight is 10kg or more.
 </font></blockquote><p>
 <p>
-<p>When we visit the Weightbridge, we find:
+<p>and this provides us with &quot;lighter&quot;, &quot;lightest&quot;, &quot;heavier&quot; and &quot;heaviest&quot; as before. Now we could say &quot;if Peter is heavier than Paul&quot;, or even &quot;if Peter is heavier than 75kg&quot;, and so forth.
 <p>
-<blockquote><font color="#000080">A blackboard propped against one wall reads: &quot;122 / 10 is 12 remainder 2; but 122kg / 10kg is 12 remainder 2kg; and 122kg / 10 is 12kg remainder 2kg.&quot;
+<p>The value &quot;total ... of ...&quot; is a convenient way to total up a given property of everything described. The following now makes the balance platform actually work:
+<p>
+<blockquote><font color="#000080">The balance platform is a supporter in the Weighbridge. &quot;The balance platform is currently weighing [contents of platform]. The scale alongside reads: [total weight of things on the platform].&quot;
 </font></blockquote><p>
 <p>
-<p>Whereas we are not allowed to divide 122 by 10kg: that would make no sense, since 122 is a number and not made up of kilograms. Inform will produce a problem message if we try.
+<p>Note that this only works because we said that &quot;everything has a weight&quot;: otherwise it would make no sense to add up the weights of things.
+<p>
+<p>This enables us to get the average weight of a group of things, too:
+<p>
+<blockquote><font color="#000080">the total weight of things on the platform divided by the number of things on the platform
+</font></blockquote><p>
+<p>
+<p>But we should be careful that this does not accidentally divide by zero, which it will if the platform has nothing on it! As well as the average, we could find the maximum and minimum weights:
+<p>
+<blockquote><font color="#000080">the weight of the heaviest thing on the platform
+<br>the weight of the lightest thing on the platform
+</font></blockquote><p>
+<p>
+<p>We should remember that &quot;the heaviest thing on the platform&quot; may be ambiguous, because there may be several equally heavy things there. That means
+<p>
+<blockquote><font color="#000080">if the lead pig is the heaviest thing on the platform
+</font></blockquote><p>
+<p>
+<p>will only reliably work if there is no possibility of a tie. A safer bet is:
+<p>
+<blockquote><font color="#000080">if the lead pig is the weight of the heaviest thing on the platform
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc178.html>Previous</a> / <a href=doc180.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,43 +1,36 @@
-<html><head><title>12.12. Totals</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc180.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc182.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.12. Totals</b></td></tr></table><p>
+<html><head><title>12.14. The Weighbridge</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc180.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc182.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.14. The Weighbridge</b></td></tr></table><p>
 <p>
-<p>It often happens that we want to look at the measurements of a whole collection of things. Suppose we invent the idea of weight, and give everything a weight of its own. Most items will have a nominal weight of just 1 kilogram, but people will be heavier. Going on actuarial tables, we might say:
+<p>The following example draws together the previous snippets into a working implementation of the weighbridge. It is not a very sophisticated approach, because it does not allow for weight to accumulate: if we put a gold ingot into a paper bag, then put the bag on the balance platform, only the bag's weight will register. But it will do for a first try.
 <p>
-<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg. A man is usually 80kg. A woman is usually 67kg.
+<blockquote><font color="#000080">&quot;Dimensions&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A length is a kind of value. 10m specifies a length. An area is a kind of value. 10 sq m specifies an area. A length times a length specifies an area.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The verb to weigh (it weighs, they weigh, it is weighing) implies the weight property. A thing usually weighs 1kg.
 </font></blockquote><p>
 <p>
 <blockquote><font color="#000080">Definition: A thing is light if its weight is 3kg or less.
-<br>Definition: A thing is heavy if its weight is 10kg or more.
 </font></blockquote><p>
 <p>
-<p>and this provides us with &quot;lighter&quot;, &quot;lightest&quot;, &quot;heavier&quot; and &quot;heaviest&quot; as before. Now we could say &quot;if Peter is heavier than Paul&quot;, or even &quot;if Peter is heavier than 75kg&quot;, and so forth.
-<p>
-<p>The value &quot;total ... of ...&quot; is a convenient way to total up a given property of everything described. The following now makes the balance platform actually work:
-<p>
-<blockquote><font color="#000080">The balance platform is a supporter in the Weighbridge. &quot;The balance platform is currently weighing [contents of platform]. The scale alongside reads: [total weight of things on the platform].&quot;
+<blockquote><font color="#000080">Definition: A thing is heavy if its weight is 10kg or more.
 </font></blockquote><p>
 <p>
-<p>Note that this only works because we said that &quot;everything has a weight&quot;: otherwise it would make no sense to add up the weights of things.
-<p>
-<p>This enables us to get the average weight of a group of things, too:
-<p>
-<blockquote><font color="#000080">the total weight of things on the platform divided by the number of things on the platform
+<blockquote><font color="#000080">The Weighbridge is a room.
 </font></blockquote><p>
 <p>
-<p>But we should be careful that this does not accidentally divide by zero, which it will if the platform has nothing on it! As well as the average, we could find the maximum and minimum weights:
-<p>
-<blockquote><font color="#000080">the weight of the heaviest thing on the platform
-<br>the weight of the lightest thing on the platform
+<blockquote><font color="#000080">A blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: '122/10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; 122kg/10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; 122kg/10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot; The blackboard weighs 10kg.
 </font></blockquote><p>
 <p>
-<p>We should remember that &quot;the heaviest thing on the platform&quot; may be ambiguous, because there may be several equally heavy things there. That means
-<p>
-<blockquote><font color="#000080">if the lead pig is the heaviest thing on the platform
+<blockquote><font color="#000080">A feather and a lead pig are in the Weighbridge. The lead pig weighs 45kg.
 </font></blockquote><p>
 <p>
-<p>will only reliably work if there is no possibility of a tie. A safer bet is:
-<p>
-<blockquote><font color="#000080">if the lead pig is the weight of the heaviest thing on the platform
+<blockquote><font color="#000080">The balance platform is a supporter in the Weighbridge. &quot;The balance platform is 10m by 8m, giving it an area of [10m multiplied by 8m], currently weighing [the list of things on the platform]. The scale alongside reads: [total weight of things on the platform]. [if two things are on the platform]Average weight is: [the total weight of things on the platform divided by the number of things on the platform]. Heaviest item is [the heaviest thing on the platform], at [weight of the heaviest thing on the platform]. Lightest item is [the lightest thing on the platform], at [weight of the lightest thing on the platform].[otherwise]It seems to be able to weigh several things at once.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc180.html>Previous</a> / <a href=doc182.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

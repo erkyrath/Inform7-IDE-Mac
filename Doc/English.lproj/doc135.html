@@ -1,33 +1,21 @@
-<html><head><title>9.4. Age of Steam example</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc134.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc136.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.4. Age of Steam example</b></td></tr></table><p>
+<html><head><title>9.5. During scenes</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc134.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc136.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.5. During scenes</b></td></tr></table><p>
 <p>
-<p>We can now gather the material so far into a working drama:
+<p>Scenes are not only useful for changing the setting, by moving items or people around and providing a little narration. We can also make the rules different in one scene from another. For instance, at a sleepy country halt there is no reason why one should not walk across the tracks: but if there is a train in the way, that would be impossible.
 <p>
-<blockquote><font color="#000080">&quot;Age of Steam&quot;
+<blockquote><font color="#000080">Before going north during the Train Stop, say &quot;The train blocks your way.&quot; instead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Station is a room. &quot;Eynforme Halt is a raised platform fringed with cowslip: a whistle-stop with no more than a signal and a water-tank.&quot;
+<p>Any rule can have the clause &quot;during ...&quot; attached, provided that clause goes at the end and explicitly names a scene. This is especially useful with &quot;every turn&quot;:
+<p>
+<blockquote><font color="#000080">Every turn during the Train Stop, say &quot;Water is sluiced out of the tank and into the engine.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Flying Scotsman is fixed in place. &quot;The Flying Scotsman, fastest train in the world, is now at a dead standstill.&quot;
+<p>We can test whether a scene is happening with the condition:
+<p>
+<blockquote><font color="#000080">Train Stop is happening ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Train Stop is a scene. Train Stop begins when the player is in the Station for the third turn. Train Stop ends when the time since Train Stop began is 3 minutes.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Train Stop begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the Flying Scotsman to the Station;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman pulls up at the platform, to a billow of steam and hammering.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Train Stop ends:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the Flying Scotsman from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman inches away, with a squeal of released brakes, gathering speed invincibly until it disappears around the hill. All is abruptly still once more.&quot;
-</font></blockquote><p>
-<p>
-<p>Note the useful value &quot;time since Train Stop began&quot;. (This only makes sense if the scene has begun, of course.) The actual time, in case it is needed, can also be obtained:
-<p>
-<blockquote><font color="#000080">Instead of entering the Flying Scotsman, say &quot;Alas, the [time when Train Stop began] arrival is only to take on water, not to set down or pick up.&quot;
-</font></blockquote><p>
+<p>and there are similar conditions &quot;Train Stop has happened&quot; and &quot;Train Stop has ended&quot;. We need to be a bit careful about which we mean: it's possible to set things up so that the Train Stop scene will play out more than once, so &quot;Train Stop is happening&quot; and &quot;Train Stop has happened&quot; might both be true at once.
 <p>
 <p><hr><p><a href=doc134.html>Previous</a> / <a href=doc136.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

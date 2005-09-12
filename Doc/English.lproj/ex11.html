@@ -1,0 +1,64 @@
+<html><head><title>14.3. Standard tokens of grammar</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc199.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc201.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.3. Standard tokens of grammar</b></td></tr></table><p>
+<p>
+<p>We have already seen &quot;[something]&quot; and &quot;[someone]&quot;, which are standard examples of &quot;tokens of grammar&quot; - patterns matched by suitable named things. There are several other standard tokens, provided not so much from necessity but to allow the game parser to be more graceful and responsive. &quot;[someone]&quot; matches the same possibilities as &quot;[a person]&quot; would, but the parser handles it a little better in cases of failure. These special tokens are best explained by looking at some of the examples in the standard grammar, which can be browsed in the Index of any game.
+<p>
+<blockquote><font color="#000080">Understand &quot;wear [something held]&quot; as wearing.
+</font></blockquote><p>
+<p>
+<p>The named item must be held by the player, but the game will automatically pick it up if necessary, minimising nuisance.
+<p>
+<blockquote><font color="#000080">Understand &quot;take [things]&quot; as taking.
+<br>Understand &quot;drop [things held]&quot; as dropping.
+</font></blockquote><p>
+<p>
+<p>&quot;[things]&quot; is like &quot;[something]&quot; but allows a list of items, or a vague plural like &quot;all&quot;, to be typed. The result will be a sequence of actions, one for each item thus described. &quot;[things held]&quot; is the analogous token for &quot;[something held]&quot;.
+<p>
+<blockquote><font color="#000080">Understand &quot;take [things inside] from [something]&quot; as removing.
+</font></blockquote><p>
+<p>
+<p>&quot;[things inside]&quot; matches only what is inside the second-named thing, and ensures that (for instance) the command &quot;take all from box&quot; does not also try to take the box.
+<p>
+<blockquote><font color="#000080">Understand &quot;put [other things] in/inside/into [something]&quot; as inserting it into.
+</font></blockquote><p>
+<p>
+<p>Similarly, &quot;[other things]&quot; will allow anything except the second-named thing.
+<p>(Like &quot;[things inside]&quot; it is really only needed for handling containers.)
+<p>
+<a name="e11"><a href=doc200.html#e11><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A REMEMBER verb which accepts any text and looks up a response in a table of recollections.</i><p>
+<p>
+<blockquote><font color="#000080">&quot;Merlin&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;remember [text]&quot; as remembering.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Remembering is an action applying to one topic.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out remembering:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing comes to mind.&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of remembering a topic listed in the Table of Recollections:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[response entry][paragraph break]&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Recollections
+<br>Topic	Response
+<br>&quot;rain/weather&quot;	&quot;You've seen worse, but not often: it's falling so hard now that the tin rattles and the runoff, on the low side of the roof, would be a tenable source of hydroelectric power.&quot;
+<br>&quot;hydroelectric power&quot; or &quot;power/hydroelectric&quot;	&quot;It's not as though you have any sort of light bulb in here to turn on, even if you could power it.&quot;
+<br>&quot;light bulb&quot; or &quot;light/bulb&quot;	&quot;Light bulbs, like so much else, are a thing of your past. Or is it your future? Tricky, the way the world loops round on itself.&quot;
+<br>&quot;past/time/future&quot;	&quot;Living backwards has its drawbacks. A tendency to confuse and annoy your friends, being one; the total inability to maintain a stable relationship; and a deep dissatisfaction with most of the bodily processes people enjoy, since they ultimately make you hungrier, colder, or-- no point dwelling on it, really.&quot;
+<br>&quot;backwards&quot;	&quot;It's not even exactly *backwards*, now is it? It's more like a series of forwardses stuck back to back. As though someone had taken each track of a CD and put them in the exactly wrong order.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">You miss that. The music on demand.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Inadequate Shelter is a room. &quot;A piece of corrugated tin, leaned on two sticks, and pathetically augmented with a tire (on one side) and a cardboard box (on the side towards the wind). And that's what you've got between you and the driving rain.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At the moment rain is all you can remember, in fact.&quot;
+</font></blockquote><p>
+<p><hr><p><a href=doc199.html>Previous</a> / <a href=doc201.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

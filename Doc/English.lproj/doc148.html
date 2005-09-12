@@ -1,43 +1,30 @@
-<html><head><title>10.8. Repeat</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc147.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc149.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.8. Repeat</b></td></tr></table><p>
+<html><head><title>10.9. Repeat running through</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc147.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc149.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.9. Repeat running through</b></td></tr></table><p>
 <p>
-<p>The following kind of loop could if necessary be achieved just as well with a suitable &quot;while&quot;, but occurs so often that it is convenient to have a standard form. Repeat loops also have the great advantage of being certain to finish.
+<p>Inform is not used very much for numerical work, so the kind of repeat loop described in the previous section is not much used. Inform's natural domain is really the world of things and rooms, so the following kind of repeat is much more useful.
 <p>
-<blockquote><font color="#000080">repeat with my counter running from 1 to 10 begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;(phrases)
+<blockquote><font color="#000080">repeat with item running through open containers begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;... phrases ...
 <br>end repeat;
 </font></blockquote><p>
 <p>
-<p>This is similar to the old FOR/NEXT loop from BASIC, for those with long memories, and runs through the given phrases ten times. Within those phrases, a special value called &quot;my counter&quot; has the value 1 the first time through, then the value 2, then 3 and so on up to 10. This value exists only within the loop, so it makes no sense to talk about &quot;my counter&quot; elsewhere. (It can of course be called whatever we like: this is only an example.)
+<p>Once again we create a new value, &quot;item&quot;, of only temporary validity. This time the phrases are repeated once for each open container presently found in the world. (If there are no containers, or they are all closed, the phrases will not be followed at all.)
 <p>
-<p>The &quot;begin&quot; and &quot;end repeat&quot; are compulsory for repeat loops, in the interests of clarity.
+<p>As with counting the &quot;number of ...&quot; objects satisfying some property, we can run through a wide variety of possibilities. For example:
 <p>
-<p>We are allowed to &quot;nest&quot; loops, that is, to put one inside another.
-<p>
-<blockquote><font color="#000080">To plot a grid with size (S - a number):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with x running from 1 to S begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Row [x]:&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeat with y running from 1 to S begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; [y]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<blockquote><font color="#000080">repeat with dinner guest running through the people in the Dining Room begin; ...
 </font></blockquote><p>
 <p>
-<p>If we then write
-<p>
-<blockquote><font color="#000080">plot a grid with size 5
+<blockquote><font color="#000080">repeat with possession running through things carried begin; ...
 </font></blockquote><p>
 <p>
-<p>then the result is
+<p>The following lists the whereabouts of all men in lighted rooms:
 <p>
-<blockquote><font color="#000080">Row 1: 1 2 3 4 5.
-<br>Row 2: 1 2 3 4 5.
-<br>Row 3: 1 2 3 4 5.
-<br>Row 4: 1 2 3 4 5.
-<br>Row 5: 1 2 3 4 5.
+<blockquote><font color="#000080">repeat with suspect running through the men who are in a lighted room (called the scene) begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The suspect] is in [the scene].&quot;;
+<br>end repeat.
 </font></blockquote><p>
 <p>
-<p>Thus the innermost phrase, the say which mentions &quot;y&quot;, happens 25 times.
+<p>Note the way we are allowed to give a name to the vaguely described place &quot;lighted room&quot;, so that we can refer to it inside the loop. This wasn't really necessary (&quot;holder of the suspect&quot; would have had the same effect) but improved the clarity of the source.
 <p>
 <p><hr><p><a href=doc147.html>Previous</a> / <a href=doc149.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

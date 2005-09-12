@@ -1,29 +1,33 @@
-<html><head><title>11.5. Making new relations</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc163.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc165.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.5. Making new relations</b></td></tr></table><p>
+<html><head><title>11.7. Defining new assertion verbs</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc163.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc165.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.7. Defining new assertion verbs</b></td></tr></table><p>
 <p>
-<p>We can create new relations like so:
+<p>Here is an example definition of a new verb:
 <p>
-<blockquote><font color="#000080">Loving relates various people to one person.
+<blockquote><font color="#000080">The verb to sport (he sports, they sport, he sported, it is sported, he is sporting) implies the wearing relation.
 </font></blockquote><p>
 <p>
-<p>Each of the relations has a name of the form &quot;something relation&quot;, where the &quot;something&quot; is a single word, and in this case the name is &quot;loving relation&quot;. In such a definition, we have to say what kind of thing appears on the left and right of any relation, and also whether &quot;one&quot; or &quot;various&quot; possibilities can exist. In the example
+<p>Once this is done, we can write the assertion
 <p>
-<blockquote><font color="#000080">Loving relates various people to one person.
+<blockquote><font color="#000080">Mr Wickham sports a Tory rosette.
 </font></blockquote><p>
 <p>
-<p>what we are saying is that only people love; that they only love people; and that each person loves only one other person (at any given moment).
+<p>which will do the the same thing as
 <p>
-<p>The &quot;various&quot; part comes in because, for instance, we might have:
-<p>
-<blockquote><font color="#000080">Verenka <i>loving relation</i> Stankevich
-<br>Liubov <i>loving relation</i> Stankevich
+<blockquote><font color="#000080">Mr Wickham wears a Tory rosette.
 </font></blockquote><p>
 <p>
-<p>so that various people (Verenka and Liubov, to name but two) love one person (Stankevich). But we are forbidding anyone to love two other people at the same time: Stankevich must decide which of them to love, or pick someone else, or no-one at all. Similarly, we would not allow
+<p>because both verbs have the same relation as their meaning.
 <p>
-<blockquote><font color="#000080">Liubov <i>loving relation</i> Belinsky
+<p>Note that we have to spell out many parts of the verb:
+<p>
+<blockquote><font color="#000080">to sport - infinitive
+<br>he sports - present singular
+<br>they sport - present plural
+<br>he sported - past
+<br>it is sported - past participle
+<br>he is sporting - present participle
 </font></blockquote><p>
 <p>
-<p><hr><img border=0 src=beta.png>In this beta release only various-to-one, one-to-various and one-to-one relations are supported, but future builds will allow various-to-various relations as well.
+<p>Although it looks as if NI could easily generate these given the infinitive &quot;to sport&quot; alone, by adding an &quot;-s&quot; here or an &quot;-ed&quot; there, English can be a very irregular language. Since verbs will not be defined more than a few times in any single project it seems best to be explicit.
 <p>
 <p><hr><p><a href=doc163.html>Previous</a> / <a href=doc165.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,17 +1,25 @@
-<html><head><title>8.7. Daemons!</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc120.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc122.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.7. Daemons!</b></td></tr></table><p>
+<html><head><title>8.7. The time of day</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc120.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc122.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.7. The time of day</b></td></tr></table><p>
 <p>
-<p>A daemon is a rule which is applied every turn, but only when it is active: the rest of the time it sleeps. Traditionally, rules like this in interactive fiction have been imagined as being somehow independently acting, hence the term &quot;daemon&quot;. There's not much to say about daemons:
+<p>Inform keeps track of the time of day automatically: play ordinarily begins at 9 AM and each turn takes one minute. In some works of interactive fiction, time of day is crucial: in others, it is irrelevant or even, by a sort of tacit convention, non-existent. So Inform does nothing to act upon the time, or to reveal it to the player, without instruction. Nevertheless it is there.
 <p>
-<blockquote><font color="#000080">The lightning daemon: say &quot;Lightning strikes, suddenly.&quot;
+<p>A sentence like the following allows the initial time to be set up as something other than 9 AM:
+<p>
+<blockquote><font color="#000080">The time of day is 3:13 PM.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">In the Keep is a lever. The lever is fixed in place. Instead of pulling the lever: say &quot;Zzzing...&quot;; start the lightning daemon. Instead of pushing the lever: say &quot;Zzzap...&quot;; stop the lightning daemon.
+<p>Here, &quot;3:13 PM&quot; is a constant value of a kind not seen before: it's a kind of value called &quot;time&quot;, and the value &quot;time of day&quot; is a time that varies. After one turn it will be 3:14 PM, then 3:15 PM and so on.
+<p>
+<p>Note that the sentence above is an assertion (a statement about the initial state of affairs), not an instruction which can be part of a rule. It would be equivalent to write:
+<p>
+<blockquote><font color="#000080">When play begins, change the time of day to 3:13 PM.
 </font></blockquote><p>
 <p>
-<p>The name of a daemon must always have &quot;daemon&quot; as its final word. When play begins, daemons are normally asleep, so if we need one of them to be active right from the start then we must add a further rule:
+<p>We more often use &quot;change the time of day to ...&quot; to take care of drastic events:
 <p>
-<blockquote><font color="#000080">When play begins, start the lightning daemon.
+<blockquote><font color="#000080">When the player loses consciousness:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to 10:12 AM;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A mist comes over your vision, and when you come to, it is morning and you are in bed.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc120.html>Previous</a> / <a href=doc122.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

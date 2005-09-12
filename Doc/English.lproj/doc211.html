@@ -1,10 +1,23 @@
-<html><head><title>15.1. On rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 15: Rules</h2><p><table><tr><td><a href=doc210.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc212.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.1. On rules</b></td></tr></table><p>
+<html><head><title>15.2. Named rules and rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc210.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc212.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.2. Named rules and rulebooks</b></td></tr></table><p>
 <p>
-<p>We have seen that actions, the great sluice of change in the simulated world, work their way through a great mass of rules, each applying in a different circumstance. The chapter on actions vaguely described these rules as belonging to different &quot;rulebooks&quot;: for instance, the &quot;instead rules&quot; or the &quot;carry out dropping rules&quot;.
+<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns (usually visible on the &quot;status line&quot; displayed above the window of a game in progress) and advances the clock (usually not visible, but ticking away behind the scenes) by a given number of minutes.
 <p>
-<p>Inform is largely a rule-based system, and this extends beyond actions to other considerations, too. The &quot;every turn&quot; rules, for instance, form another rulebook but which has nothing to do with actions as such.
+<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
 <p>
-<p>This chapter goes into how rules and rulebooks work in much more detail, and we shall also see how to create not just new rules but new rulebooks.
+<blockquote><font color="#000080">advance time = the advance time rule
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
+</font></blockquote><p>
+<p>
+<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p>
+<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We will only seldom need to refer to them directly, in phrases like this one (of which more later):
+<p>
+<blockquote><font color="#000080">ignore the can't go through closed doors rule;
+</font></blockquote><p>
+<p>
+<p>...which are verbose, but this is a situation where clarity is very much better than brevity.
 <p>
 <p><hr><p><a href=doc210.html>Previous</a> / <a href=doc212.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

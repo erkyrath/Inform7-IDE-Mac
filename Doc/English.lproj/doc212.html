@@ -1,23 +1,33 @@
-<html><head><title>15.2. Named rules and rulebooks</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc211.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc213.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.2. Named rules and rulebooks</b></td></tr></table><p>
+<html><head><title>15.3. New rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc211.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc213.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.3. New rules</b></td></tr></table><p>
 <p>
-<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns (usually visible on the &quot;status line&quot; displayed above the window of a game in progress) and advances the clock (usually not visible, but ticking away behind the scenes) by a given number of minutes.
+<p>Returning to the apple blossom, and stretching a point seasonally,
 <p>
-<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
-<p>
-<blockquote><font color="#000080">advance time = the advance time rule
+<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
+<p>This rule is nameless. It needs no name because it will never need to be referred to: by identifying it as an every turn rule we have already said enough to lodge it in the &quot;every turn rules&quot; rulebook. In fact, though, it is easy to create a named rule:
+<p>
+<blockquote><font color="#000080">This is the blossom rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p>The name of a rule must always end with the word &quot;rule&quot;, for clarity's sake. (The phrasing &quot;This is the ... rule&quot; is used because &quot;The ... rule&quot; would be open to misinterpretation.)
 <p>
-<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We will only seldom need to refer to them directly, in phrases like this one (of which more later):
+<p>The rule now exists, but belongs to no rulebook, and will never be applied unless explicitly invoked, or unless explicitly placed into a rulebook after all:
 <p>
-<blockquote><font color="#000080">ignore the can't go through closed doors rule;
+<blockquote><font color="#000080">The blossom rule is listed in the every turn rules.
 </font></blockquote><p>
 <p>
-<p>...which are verbose, but this is a situation where clarity is very much better than brevity.
+<p>A single rule like this can be listed in any number of rulebooks, including none.
+<p>
+<p>Alternatively, it is possible to both name and list a rule in a single sentence:
+<p>
+<blockquote><font color="#000080">Every turn (this is the blossom rule): say &quot;The summer breeze shakes the apple-blossom.&quot;
+</font></blockquote><p>
+<p>
+<p>Where rules have been named, we are able (as promised) to have a say in what order they come in:
+<p>
+<blockquote><font color="#000080">The blossom rule is listed before the moving doorways rule in the every turn rules.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc211.html>Previous</a> / <a href=doc213.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

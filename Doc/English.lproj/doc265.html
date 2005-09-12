@@ -1,40 +1,34 @@
-<html><head><title>18.2. The verb grammar VP</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc264.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc266.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.2. The verb grammar VP</b></td></tr></table><p>
+<html><head><title>18.3. Relative phrases RP</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc264.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc266.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.3. Relative phrases RP</b></td></tr></table><p>
 <p>
-<p>In the example &quot;The horseman wears a riding helmet&quot; the Verb part was indeed a single verb: the word &quot;wears&quot;. More generally, Inform allows a Verb to include adverbs and prepositions, to be negated, and to come in any of four tenses, so the following are all valid as Verb in our grammar:
+<p>&quot;Which&quot; and &quot;who&quot; can be concisely defined by the following extensions to our sentence grammar:
 <p>
-<blockquote><font color="#000080">wore
-<br>carries
-<br>is carried by
-<br>had not been inside
+<blockquote><font color="#000080">3a. DP = DP which VP
+<br>3b. DP = DP who VP
 </font></blockquote><p>
 <p>
-<p>That does not mean every Verb makes sense in an assertion. For instance, Inform will reject this:
+<p>Thus &quot;an open container which is in the Ballroom&quot; can be broken down as:
 <p>
-<blockquote><font color="#000080">The silver plate is not on the table.
+<blockquote><font color="#000080">DP (an open container) which VP (is in the Ballroom)
 </font></blockquote><p>
 <p>
-<p>Inform needs to be told where it is, not where it isn't. Similarly, we are not allowed to say that:
+<p>To understand compounds like &quot;something in a container&quot;, we have to invent a new grammatical structure: let's call this a Relative Phrase, or RP.
 <p>
-<blockquote><font color="#000080">The silver plate has been on the table.
+<blockquote><font color="#000080">4. DP = DP + RP
 </font></blockquote><p>
 <p>
-<p>because assertions are supposed to talk about the world <i>now</i>, at the start of play, and to use the present tense.
+<p>Thus &quot;an open container in the Ballroom&quot; is DP (an open container) + RP (in the Ballroom).
 <p>
-<p>So why have negatives and past tenses? Inform uses the same basic grammar for conditions - questions about the world as it evolves during play - as it does for assertions - factual statements about the initial state. For instance, because
+<p>Relative Phrases have two different forms:
 <p>
-<blockquote><font color="#000080">The silver plate is on the table.
+<blockquote><font color="#000080">5a. RP = preposition + DP
+<br>5b. RP = participle + DP
 </font></blockquote><p>
 <p>
-<p>is a valid sentence S, we can also write
+<p>Examples of these would be:
 <p>
-<blockquote><font color="#000080">if the silver plate is on the table then ...
-</font></blockquote><p>
-<p>
-<p>when we come to setting up rules of play (in the next chapter). And once play has begun, it makes perfect sense to ask questions in the negative, or to talk about the past:
-<p>
-<blockquote><font color="#000080">if the silver plate is not on the table then ...
-<br>if the silver plate has been on the table then ...
+<blockquote><font color="#000080">RP (on the table) = Preposition (on) + DP (the table)
+<br>RP (worn by Mr Darcy) = Participle (worn by) + DP (Mr Darcy)
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc264.html>Previous</a> / <a href=doc266.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

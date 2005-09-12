@@ -1,19 +1,28 @@
-<html><head><title>9.8. Multiple beginnings and repeats</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc138.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc140.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.8. Multiple beginnings and repeats</b></td></tr></table><p>
+<html><head><title>9.9. Multiple endings</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc138.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc140.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.9. Multiple endings</b></td></tr></table><p>
 <p>
-<p>It is quite allowed for a scene to be linked to several other scenes, and this is useful if several alternate strands of plot are being brought together in a common resolution scene:
+<p>Interactive fictions vary considerably in the extent to which the player is allowed to influence the story-line. Sometimes the appearance of making choices is wholly bogus, as only one possible line is given more than lip service. But in other works, the player can radically change the outcome, and whole rafts of plot differ between one person's experience and another's. Inform allows multiple endings to its scenes to make this kind of branching story-line easy to achieve.
 <p>
-<blockquote><font color="#000080">Bittersweet Ending begins when Stranger's Rejection ends.
-<br>Bittersweet Ending begins when Stranger's Acceptance ends.
+<p>Any scene can have up to 8 alternate endings, differentiated by name. These are created as and when conditions are set for them:
+<p>
+<blockquote><font color="#000080">Brief Encounter ends happily when ...
+<br>Brief Encounter ends wisely but sadly when ...
 </font></blockquote><p>
 <p>
-<p>and we can also have the same scene beginning when a condition holds. In general, it will begin the first time it gets any chance to do so. More surprisingly, it will begin again as soon after it ends as it can. All scenes repeat themselves, if given the chance.
+<p>&quot;Ends happily&quot; and &quot;ends wisely but sadly&quot; behave just like &quot;ends&quot;. We can have rules &quot;When Brief Encounter ends happily, ...&quot; and so forth, in addition to rules &quot;When Brief Encounter ends, ...&quot; - if a rule doesn't specify any particular ending, it applies to all of them.
 <p>
-<p>This is intentional, and can be useful. Suppose the train calls not once only, but every twenty minutes. We could set this up with two scenes linked back to back like so:
+<p>We can also link rules together from these branches, so
 <p>
-<blockquote><font color="#000080">Train Wait begins when play begins.
-<br>Train Stop begins when Train Wait ends.
-<br>Train Wait begins when Train Stop ends.
+<blockquote><font color="#000080">Stranger's Acceptance begins when Brief Encounter ends happily.
+<br>Stranger's Rejection begins when Brief Encounter ends wisely but sadly.
 </font></blockquote><p>
+<p>
+<p>With this set-up and that of the previous section, there are now two possible paths through the story:
+<p>
+<blockquote><font color="#000080">(i) Train Stop - Brief Encounter - Stranger's Acceptance - Bittersweet Ending
+<br>(ii) Train Stop - Brief Encounter - Stranger's Rejection - Bittersweet Ending
+</font></blockquote><p>
+<p>
+<p>This chapter began by observing that, in the part it plays in stories, time is like space. The endings of a scene (along with its beginning) are like the map connections leading out of a room. The Scenes index keeps track of the &quot;map of time&quot; through which these possible story-lines traverse. Some works of IF will have immensely complicated story-lines in only a few rooms, some will have no scenes at all despite a sprawling geography. The Scenes and World index tabs, side by side, show both kinds of map.
 <p>
 <p><hr><p><a href=doc138.html>Previous</a> / <a href=doc140.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

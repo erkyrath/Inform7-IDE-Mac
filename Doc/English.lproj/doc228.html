@@ -1,24 +1,38 @@
-<html><head><title>16.4. While clauses</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc227.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc229.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.4. While clauses</b></td></tr></table><p>
+<html><head><title>16.5. Printing the name of something</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc227.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc229.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.5. Printing the name of something</b></td></tr></table><p>
 <p>
-<p>Rules applied to actions can become baroque (&quot;after going through a door in the presence of an animal when&quot; and so on and so forth), but activities are again simpler: they only have one possible clause attached, which is called &quot;while&quot;. For instance, the following would provide a fairly sledgehammer hint that the sack should not lightly be thrown away:
+<p>There is nothing more to be said about the general working of activities, so the remaining sections of this chapter cover one activity each, giving examples of rules affecting them.
 <p>
-<blockquote><font color="#000080">The sack is a player's holdall. The sack is initially carried. Rule for printing the name of the sack while the sack is not carried: say &quot;your discarded sack&quot;.
+<p><b>1. When it happens.</b> Whenever the name of a thing or room is printed.
+<p>
+<p><b>2. The default behaviour.</b> Its &quot;printed name&quot; property is printed out.
+<p>
+<p><b>3. Examples.</b> (a) A pen which is described differently in inventories:
+<p>
+<blockquote><font color="#000080">Rule for printing the name of the pen while taking inventory: say &quot;useful pen&quot;.
 </font></blockquote><p>
 <p>
-<p>Any condition can be given after the &quot;while&quot;.
+<p>&quot;Taking inventory&quot; is a condition which is true if that's the current action and not otherwise, so the effect is that the pen is called &quot;a useful pen&quot; only in inventory listings. &quot;While looking&quot; is a similarly useful one.
 <p>
-<p>In fact, though, there is another possibility: we can also specify that another activity has to be going on. Thus:
+<p>(b) Italicising the names of novels:
 <p>
-<blockquote><font color="#000080">Rule for printing the name of the lemon sherbet while listing contents: say &quot;curious sort of lemon sherbet sweet&quot;.
+<blockquote><font color="#000080">A novel is a kind of thing. Dr Zhivago and Persuasion are novels. Before printing the name of a novel, say &quot;[italic type]&quot;. After printing the name of a novel, say &quot;[roman type]&quot;.
 </font></blockquote><p>
 <p>
-<p>This nicely distinguishes between contexts where it's appropriate for the game to be more verbose, and where it isn't. Thus:
+<p>(c) Telling the time:
 <p>
-<blockquote><font color="#000080">You can see a teaspoon and a curious sort of lemon sherbet sweet here.
-<br>> TAKE ALL
-<br>teaspoon: Taken.
-<br>lemon sherbet: Taken.
+<blockquote><font color="#000080">After printing the name of the wrist watch while taking inventory: say &quot; (time: [the time of day])&quot;.
 </font></blockquote><p>
 <p>
+<p>(d) Merging containers with their contents:
+<p>
+<blockquote><font color="#000080">Rule for printing the name of the bottle while not inserting or removing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the bottle contains sand, say &quot;bottle of sand&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;empty bottle&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;omit contents in listing.
+</font></blockquote><p>
+<p>
+<p>The special phrase &quot;omit contents in listing&quot; means that any inventory list, room description, etc., will simply list &quot;a bottle of sand&quot; or &quot;an empty bottle&quot;, rather than &quot;a bottle (in which is sand)&quot; or &quot;a bottle (which is empty)&quot;. The clause about not inserting or removing is to prevent messages like &quot;You put the sand in the bottle of sand.&quot;, where it's confusing to refer to the bottle as anything other than &quot;the bottle&quot;.
+<p>
+<a name="e13"><a href=ex13.html#e13><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A box of baking soda whose name changes to "completely ineffective baking soda" when it is in a container with something that smells funny.</i><p>
 <p><hr><p><a href=doc227.html>Previous</a> / <a href=doc229.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

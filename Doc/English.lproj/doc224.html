@@ -1,21 +1,19 @@
-<html><head><title>15.14. First and last rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc223.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc225.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.14. First and last rules</b></td></tr></table><p>
+<html><head><title>16.1. What are activities?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 16: Activities</h2><p><table><tr><td><a href=doc223.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc225.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.1. What are activities?</b></td></tr></table><p>
 <p>
-<p>This is the final technicality on rulebooks. Rulebooks are, as we have seen, automatically sorted in order of how specific the conditions for invoking the relevant rules are, so that for instance
+<p>It is poor form to define with negatives, but the first thing to say about activities is that they are <i>not</i> actions. This needs saying because Inform often seems to treat them as if they are, by allowing us to write rules like so:
 <p>
-<blockquote><font color="#000080">Instead of taking a container, ...
+<blockquote><font color="#000080">Before printing the name of a woman, say &quot;Ms &quot;.
 </font></blockquote><p>
 <p>
-<p>will always come before
+<p>With this rule in place, someone called &quot;Daphne&quot; will always be described as &quot;Ms Daphne&quot;, and so on. The language looks as if we were imposing a rule on an action called &quot;printing the name of&quot;, but there is no such action: instead, it is an &quot;activity&quot;. To spell out the difference:
 <p>
-<blockquote><font color="#000080">Instead of taking something, ...
+<blockquote><font color="#000080">An action is a simulated task for the fictional protagonist.
 </font></blockquote><p>
 <p>
-<p>Sometimes, though, and especially with rulebooks where there is no particular ordering because conditions are usually not attached anyway (for instance, with &quot;every turn&quot; rules), it is useful to be certain that a particular rule comes first or last: especially if there is some housekeeping to do. For instance, the &quot;turn sequence&quot; rulebook, which is used behind the scenes to organise what happens at the end of each turn, has a crucial piece of housekeeping to do in order to maintain the consistency of the world model: it has to find out if the player's location has been plunged into darkness or, conversely, has been lit up since the last turn. It is essential that this happens last of all so that the situation cannot change again before the next time the player types at the keyboard.
-<p>
-<p>Each rulebook, then, can have two special rules, the designated &quot;first&quot; rule and the designated &quot;last&quot; rule. These, if defined, have no individual names, so that nobody can displace them from their positions or meddle with them: they belong to whoever created the rulebook.
-<p>
-<blockquote><font color="#000080">The last appraisal rule: say &quot;The Speak-Your-Progress machine sputters to a halt. You decide not to take this as a comment on your recent performance.&quot;
+<blockquote><font color="#000080">An activity is a real task for the computer program doing the simulation.
 </font></blockquote><p>
+<p>
+<p>Activities allow us to influence or change some of the standard habits of Inform, using rules as flexible and powerful as those applicable to actions.
 <p>
 <p><hr><p><a href=doc223.html>Previous</a> / <a href=doc225.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,18 +1,28 @@
-<html><head><title>13.8. Blank columns</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc191.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc193.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.8. Blank columns</b></td></tr></table><p>
+<html><head><title>13.10. Adding and removing rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc191.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc193.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.10. Adding and removing rows</b></td></tr></table><p>
 <p>
-<p>An entire column of blank entries &quot;--&quot; is problematic:
+<p>Writing in new rows is simple:
 <p>
-<p><center><img src=table4.tiff></center>
+<blockquote><font color="#000080">choose a blank row in Table 3;
+<br>change element entry to &quot;Fluorine&quot;;
+<br>change symbol to &quot;F&quot;;
+<br>change atomic number to 9;
+<br>change atomic weight to 19;
+</font></blockquote><p>
 <p>
-<p>Inform is unable to work out what kind of value should go into the &quot;atomic weight&quot; column here, since it has no examples to guess from. We can get around this by writing in the name of a kind of value:
+<p>This will produce an error if there are no blank rows left in Table 3, so it can be important to worry about free space. To that end we can not only find the number of rows (as we have already seen) but also the number currently blank and not blank. Thus these:
 <p>
-<p><center><img src=table5.tiff></center>
+<blockquote><font color="#000080">the number of blank rows in Table 3
+<br>the number of filled rows in Table 3
+</font></blockquote><p>
 <p>
-<p>That top entry in the &quot;atomic weight&quot; column is also blank, but now Inform knows that anything put into the column in future will be a number.
+<p>always add up to &quot;the number of rows in Table 3&quot;.
 <p>
-<p>If there are many rows, and perhaps several blank columns, it would become very tedious to have to keep typing out &quot;--&quot;. So this is optional <i>at the end of a row</i>: it remains compulsory for a blank value appearing in between two values which aren't blank. This is the general idea:
+<p>To delete a row, we first choose it and then &quot;blank out the whole row&quot;. Thus, for abdication purposes:
 <p>
-<p><center><img src=table8.tiff></center>
+<blockquote><font color="#000080">choose row with name of &quot;Edward VIII&quot; in the Table of Recent Monarchs;
+<br>blank out the whole row;
+</font></blockquote><p>
 <p>
+<a name="e16"><a href=ex16.html#e16><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A person who follows a path predetermined and stored in a table, and who can be delayed if the player tries to interact with her.</i><p>
 <p><hr><p><a href=doc191.html>Previous</a> / <a href=doc193.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

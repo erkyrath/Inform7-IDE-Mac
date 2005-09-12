@@ -1,0 +1,87 @@
+<html><head><title>13.10. Adding and removing rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc191.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc193.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.10. Adding and removing rows</b></td></tr></table><p>
+<p>
+<p>Writing in new rows is simple:
+<p>
+<blockquote><font color="#000080">choose a blank row in Table 3;
+<br>change element entry to &quot;Fluorine&quot;;
+<br>change symbol to &quot;F&quot;;
+<br>change atomic number to 9;
+<br>change atomic weight to 19;
+</font></blockquote><p>
+<p>
+<p>This will produce an error if there are no blank rows left in Table 3, so it can be important to worry about free space. To that end we can not only find the number of rows (as we have already seen) but also the number currently blank and not blank. Thus these:
+<p>
+<blockquote><font color="#000080">the number of blank rows in Table 3
+<br>the number of filled rows in Table 3
+</font></blockquote><p>
+<p>
+<p>always add up to &quot;the number of rows in Table 3&quot;.
+<p>
+<p>To delete a row, we first choose it and then &quot;blank out the whole row&quot;. Thus, for abdication purposes:
+<p>
+<blockquote><font color="#000080">choose row with name of &quot;Edward VIII&quot; in the Table of Recent Monarchs;
+<br>blank out the whole row;
+</font></blockquote><p>
+<p>
+<a name="e16"><a href=doc192.html#e16><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A person who follows a path predetermined and stored in a table, and who can be delayed if the player tries to interact with her.</i><p>
+<p>
+<blockquote><font color="#000080">&quot;Odyssey&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Peloponnese is south of Corinth. Attica is north of Corinth. Boeotia is north of Attica.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Athena is a woman in Attica.
+</font></blockquote><p>
+<p>
+<p>Now we have the most trivial possible sort of table to account for where Athena will go, and call on it each turn. This does not attempt any clever path-finding, really, so in a case where there might be closed doors between locations it would not be suitable. But it will do for simple purposes.
+<p>
+<blockquote><font color="#000080">Table of Athena's Movement
+<br>destination
+<br>Boeotia
+<br>Attica
+<br>Corinth
+<br>Peloponnese
+<br>Corinth
+<br>Peloponnese
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when Athena is active:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Athena's Movement
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let last location be a random room which contains Athena;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Athena can be seen by the player, say &quot;Athena heads to [the destination entry].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move Athena to destination entry;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Athena can be seen by the player, say &quot;Athena arrives from [the last location].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+<p>
+<p>By blanking out the table line by line, we make sure that we never lose our place in the path.
+<p>
+<p>Since we want the player to be able to talk to Athena, we need a way to stall her in her path, as well.
+<p>
+<blockquote><font color="#000080">Athena can be active or passive. Athena is active.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before doing something to Athena:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change Athena to passive;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Athena waits around patiently, though you can tell she would like to leave...&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of telling Athena about something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;She watches you patiently as though to say that she already knows.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of asking Athena about something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Her response is inscrutably ancient and Greek. Afterwards you remember only the flash of bright eyes.&quot;
+</font></blockquote><p>
+<p>
+<p>Finally, we do need to wake Athena up again if she has become passive. The following rule will occur after the movement rule just because of code ordering, though we could make matters more explicit if we needed to:
+<p>
+<blockquote><font color="#000080">Every turn when Athena is passive:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change Athena to active.
+</font></blockquote><p>
+<p><hr><p><a href=doc191.html>Previous</a> / <a href=doc193.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

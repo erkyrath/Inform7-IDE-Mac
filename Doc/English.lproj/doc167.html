@@ -1,30 +1,49 @@
-<html><head><title>11.8. The invention of love</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc166.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc168.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.8. The invention of love</b></td></tr></table><p>
+<html><head><title>11.10. Murder!</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc166.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc168.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.10. Murder!</b></td></tr></table><p>
 <p>
-<p>We have already used the example:
+<p>The following example creates two new relations, and two new verbs, in order to set up a tangled web of intrigue. A number of sleuths (the player among them) find themselves aboard the Orient Express, where a murder has taken place, and one of them is apparently the culprit. Naturally they do not agree on whom, but there is physical evidence which may change their minds:
 <p>
-<blockquote><font color="#000080">Loving relates various people to one person.
+<blockquote><font color="#000080">The Dining Car is a room. Lord Peter is a man in the Dining Car. Sherlock Holmes is a man in the Dining Car. Miss Marple is a woman in the Dining Car. Adam Dalgliesh is a man in the Dining Car.
 </font></blockquote><p>
 <p>
-<p>Let us create a verb which expresses this:
-<p>
-<blockquote><font color="#000080">The verb to love (he loves, they love, he loved, he is loved) implies the loving relation.
+<blockquote><font color="#000080">Suspecting relates various people to one person.
 </font></blockquote><p>
 <p>
-<p>Note that we have omitted one of the parts of the verb. Actually we can legally miss out any of them, but the result is that the usages missed out will not be understood by Inform. In this case, Inform will understand
-<p>
-<blockquote><font color="#000080">Elizabeth loves Darcy.
-<br>if anybody has been loved by Darcy, ...
-<br>someone who is loved by Elizabeth
-<br>the number of women who love Darcy
+<blockquote><font color="#000080">The verb to suspect (he suspects, they suspect, he suspected, it is suspected) implies the suspecting relation.
 </font></blockquote><p>
 <p>
-<p>but it will not understand
-<p>
-<blockquote><font color="#000080">Elizabeth is loving Darcy.
-<br>if Darcy is loving anybody, ...
+<blockquote><font color="#000080">Dalgliesh suspects Holmes. Holmes suspects Lord Peter. Lord Peter suspects Holmes. Miss Marple suspects the player.
 </font></blockquote><p>
 <p>
-<p>because we did not supply the present participle &quot;he is loving&quot; as part of the definition of the verb. (That was deliberate, because the verb &quot;to love&quot; isn't used that way.)
+<blockquote><font color="#000080">Exculpating relates one thing to various people.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The verb to exculpate (it exculpates, they exculpate, it exculpated, he is exculpated) implies the exculpating relation.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The pipe ash exculpates Holmes. The poison pen letter exculpates Lord Peter. The poison pen letter exculpates Miss Marple. [Poor Dalgliesh. I guess he did it.]
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The pipe ash, the letter and the silver bullet are carried.
+</font></blockquote><p>
+<p>
+<p>Given this, we can then set up elaborate rules:
+<p>
+<blockquote><font color="#000080">Instead of showing something to a person who suspects the player:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'You would say that,' remarks [the second noun] darkly.&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of showing something which exculpates the player to someone:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'How striking!' says [the second noun]. 'Almost I begin to distrust myself.'&quot;.
+</font></blockquote><p>
+<p>
+<p>And so on: &quot;if Dalgliesh suspects someone who is exculpated by something carried by the player...&quot;, for instance, makes a fitting final example for this chapter. The description
+<p>
+<blockquote><font color="#000080">someone who is exculpated by something carried by the player
+</font></blockquote><p>
+<p>
+<p>expresses a complicated idea in very few words, and in such a way that a passer-by looking at the source text would immediately see what was meant.
+<p>
+<p>The moral is that relations allow sophisticated patterns of behaviour to be created in a way that reads back naturally as English.
 <p>
 <p><hr><p><a href=doc166.html>Previous</a> / <a href=doc168.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

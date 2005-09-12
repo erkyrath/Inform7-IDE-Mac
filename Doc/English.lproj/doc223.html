@@ -1,33 +1,21 @@
-<html><head><title>15.13. In what order?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc222.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc224.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.13. In what order?</b></td></tr></table><p>
+<html><head><title>15.14. First and last rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc222.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc224.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.14. First and last rules</b></td></tr></table><p>
 <p>
-<p>Large works created by Inform are heaped high with rules, most of them instead rules, but with a leavening of befores and afters as well. What will happen if these conflict with each other? For instance:
+<p>This is the final technicality on rulebooks. Rulebooks are, as we have seen, automatically sorted in order of how specific the conditions for invoking the relevant rules are, so that for instance
 <p>
-<blockquote><font color="#000080">Instead of opening a container, say &quot;Your mother-in-law looks on with such evident disappointment that you withdraw your hand again.&quot;
+<blockquote><font color="#000080">Instead of taking a container, ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of opening an open container, say &quot;Your daughter tuts in theatrical exasperation at your, like, lameness.&quot;
+<p>will always come before
+<p>
+<blockquote><font color="#000080">Instead of taking something, ...
 </font></blockquote><p>
 <p>
-<p>If the player tries to open something which is closed, there is no conflict and it is clearly the mother-in-law who gets in the way. But what if the player tries to open a container which is already open? In this case both rules are applicable, but they cannot both take effect: they are instead rules and whichever happens first will stop the action.
+<p>Sometimes, though, and especially with rulebooks where there is no particular ordering because conditions are usually not attached anyway (for instance, with &quot;every turn&quot; rules), it is useful to be certain that a particular rule comes first or last: especially if there is some housekeeping to do. For instance, the &quot;turn sequence&quot; rulebook, which is used behind the scenes to organise what happens at the end of each turn, has a crucial piece of housekeeping to do in order to maintain the consistency of the world model: it has to find out if the player's location has been plunged into darkness or, conversely, has been lit up since the last turn. It is essential that this happens last of all so that the situation cannot change again before the next time the player types at the keyboard.
 <p>
-<p>The answer is that Inform does not allow rules simply to heap up chaotically, nor simply list them in the order they are described, but sorts them according to what it believes to be a logical sequence. Given any two rules A and B, it tries to see which rule is more specific - narrower in application, that is - and applies that one first. In this case Inform finds that any open container is also a container, but not vice versa. That means that the daughter rule is more specific than the mother-in-law rule, so it is given priority. But the following rule would trump either of them:
+<p>Each rulebook, then, can have two special rules, the designated &quot;first&quot; rule and the designated &quot;last&quot; rule. These, if defined, have no individual names, so that nobody can displace them from their positions or meddle with them: they belong to whoever created the rulebook.
 <p>
-<blockquote><font color="#000080">Instead of opening the jewelled box, say &quot;Such exquisite boxes are notorious for traps such as poisoned needles concealed around the lid.&quot;
+<blockquote><font color="#000080">The last appraisal rule: say &quot;The Speak-Your-Progress machine sputters to a halt. You decide not to take this as a comment on your recent performance.&quot;
 </font></blockquote><p>
-<p>
-<p>Note that a rule applying only in certain rooms always beats a rule which is applicable everywhere. Here is a larger example:
-<p>
-<blockquote><font color="#000080">(R1) Before taking something in the Swamp: ...
-<br>(R2) Before taking the bucket: ...
-<br>(R3) Before taking the frog: ...
-<br>(R4) Before taking an open container: ...
-<br>(R5) Before taking a container: ...
-<br>(R6) Before taking something: ...
-</font></blockquote><p>
-<p>
-<p>Rule (R1) wins because it specifies a room, whereas (R2) and (R3) do not. (R2) and (R3) then trump the others because they name specific objects, not general classes of objects. We then have (R4), (R5) and (R6) in that order since every open container is also a container, and every container is a thing.
-<p>
-<p>The full method used by Inform to sort rules is complicated, and will not always be quite right - though, as we shall later see, there are ways to intervene if this becomes a problem. But in practice, when we need rule A to come before rule B, it will usually be a clear-cut case which comes out right. In trickier cases to judge, it mostly doesn't matter anyway.
 <p>
 <p><hr><p><a href=doc222.html>Previous</a> / <a href=doc224.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

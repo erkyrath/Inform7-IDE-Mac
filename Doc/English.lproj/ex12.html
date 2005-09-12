@@ -1,0 +1,61 @@
+<html><head><title>4.5. Assemblies and body parts</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc45.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc47.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.5. Assemblies and body parts</b></td></tr></table><p>
+<p>
+<p>In the previous chapter, we saw that it was possible to make sub-parts of things. For instance,
+<p>
+<blockquote><font color="#000080">The white door is in the Drawing Room. The handle is part of the white door.
+</font></blockquote><p>
+<p>
+<p>creates a door with an attached handle. But what if we want to say that not just this door, but every door, should have a handle? To do this we first need to create a kind called &quot;handle&quot;, since there will clearly need to be many handles. The solution is:
+<p>
+<blockquote><font color="#000080">A handle is a kind of thing. A handle is part of every door.
+</font></blockquote><p>
+<p>
+<p>&quot;Every&quot; is a loaded word and best used sparingly. A sentence like &quot;A handle is part of every handle&quot; would, if taken literally, mean that a handle takes forever to make and is never finished. Inform will reject this, but the moral is clear: we should think about what we are doing with &quot;every&quot;. Another restriction is it is not safe to meddle with the three fundamental kinds &quot;room&quot;, &quot;container&quot; or &quot;supporter&quot;, but in fact this one can be got around quite easily, like so -
+<p>
+<blockquote><font color="#000080">A silver coin is a kind of thing. A banking room is a kind of room. Five silver coins are in every banking room.
+</font></blockquote><p>
+<p>
+<p>The effect of sentences like these is to make what we might call &quot;assemblies&quot; instead of single things. When a banking room is created, so are five more silver coins; when a door is created, so is another handle. Such sentences act not only on items created later on in the source text, but also on all those created so far.
+<p>
+<p>This is especially useful for body parts. If we would like to explore Voltaire's suggestion that history would have been very different if only Cleopatra's nose had been shorter, we will need noses:
+<p>
+<blockquote><font color="#000080">A nose is a kind of thing. A nose is part of every person.
+</font></blockquote><p>
+<p>
+<p>Something to bear in mind, though, is that in play the following may well happen:
+<p>
+<blockquote><font color="#000080">>examine nose
+<br>Which do you mean, your nose, Antony's nose or Cleopatra's nose?
+</font></blockquote><p>
+<p>
+<p>...because the player, being also a &quot;person&quot;, is as susceptible to the invention of noses as anyone else.
+<p>
+<p>Note that Inform names the otherwise nameless noses after their owners. It will always do this unless there are multiple indistinguishable things being created, as in the &quot;five silver coins are in every banking room&quot; example: those will all just be called &quot;silver coin&quot;.
+<p>
+<a name="e12"><a href=doc46.html#e12><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Objects which automatically include a description of their component parts whenever they are examined.</i><p>
+<p>
+<p>It is trivial to make a rule that anything with parts must mention all those parts during an EXAMINE command:
+<p>
+<blockquote><font color="#000080">&quot;Control Center&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After examining a thing when something is part of the noun:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] includes [list of things which are part of the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Control Center is a room. &quot;Here you are at the Control Center of the universe.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Universe Management Computer is a fixed in place thing in the Control Center. &quot;The Universe Management Computer sits directly before you, unguarded.&quot; The description of the Universe Management Computer is &quot;The computer is so large that you would be unable to operate it all from one position. Alas, it does not come with a manual.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A chartreuse indicator light, an ennui meter, a golden knob settable to 15,000 positions, a toothpick dispensor, and a button labeled RESTART are part of the Universe Management Computer.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The command chair is an enterable supporter in the Control Center. It is pushable between rooms. &quot;Because the computer is too large for you to reach all of the front panel from a standing position, there is a command chair on casters which allows you to push back and forth.&quot; The description of the command chair is &quot;Quite ordinary, really, but for the heady rush of power that comes of sitting in it.&quot;. Some casters are part of the command chair.
+</font></blockquote><p>
+<p>
+<a name="e5"><a href=ex5.html#e5><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>An "on/off button" which controls whatever device it is part of.</i><p>
+<a name="e4"><a href=ex4.html#e4><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A "chest" kind which consists of a container which has a lid as a supporter.</i><p>
+<p><hr><p><a href=doc45.html>Previous</a> / <a href=doc47.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

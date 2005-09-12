@@ -1,20 +1,41 @@
-<html><head><title>13.13. Topic columns</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc196.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc198.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.13. Topic columns</b></td></tr></table><p>
+<html><head><title>13.15. Varying which table to look at</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc196.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc198.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.15. Varying which table to look at</b></td></tr></table><p>
 <p>
-<p>When double-quoted matter appears in a column of a table, Inform will normally treat that as text for printing out. The exception is when the column is called &quot;topic&quot;, where it is treated as text for comparing against what the player has typed. There is really only one operation allowed with topic columns, the &quot;...listed in...&quot; construction, but fortunately it is the one most often needed.
+<p>So far, we have always used fixed table names when referring to tables: for instance in source like &quot;sort the Table of Recent Monarchs in accession order&quot;, we refer to the &quot;Table of Recent Monarchs&quot;, a definite and explicitly named table.
 <p>
-<p>Let us suppose that the Sybil has a penchant for telling passers-by which is the Greek muse for what. We might write:
+<p>With a little care, however, we are allowed to have variables which themselves hold the names of tables. This opens up the possibility of more elaborate ways of storing and interconnecting information in table form, but is probably best avoided until it becomes necessary.
 <p>
-<blockquote><font color="#000080">After asking the Sybil about a topic listed in the Table of Sybil's Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;
+<p>For example, suppose we have two different tables with the same basic structure:
+<p>
+<blockquote><font color="#000080">Table 1 - Nifty Opening Plays in US Scrabble
+<br>word	score
+<br>&quot;muzjiks&quot;	128
 </font></blockquote><p>
 <p>
-<p>We can then provide a simple table giving her responses:
+<blockquote><font color="#000080">Table 2 - Nifty Opening Plays in UK Scrabble
+<br>word	score
+<br>&quot;quartzy&quot;	126
+<br>&quot;squeezy&quot;	126
+</font></blockquote><p>
 <p>
-<p><center><img src=table12.tiff></center>
+<p>We could then record which one of these tables to use in a variable:
 <p>
-<p>Topics can use the full range of abilities of the &quot;understanding&quot; system which Inform uses to parse text, and which will be the subject of a later chapter. For now, note that the Sybil's topics might equally include &quot;flora/eve&quot; (matching the single word &quot;flora&quot; or the single word &quot;eve&quot;), or something more elaborate such as:
+<blockquote><font color="#000080">The lexicon is a table-name that varies. The lexicon is Table 1.
+</font></blockquote><p>
 <p>
-<blockquote><font color="#000080">&quot;Bridget&quot; or &quot;Bridge&quot; or &quot;Bridget Jones&quot;
+<p>Note that for this purpose, the kind of value is a special kind called &quot;table-name&quot;, not &quot;table&quot;. (The word &quot;table&quot; already has too many meanings and we must be careful to avoid ambiguities here.) We could make use of this as follows, for instance:
+<p>
+<blockquote><font color="#000080">To flip tables:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You exchange dictionaries, lexically crossing the Atlantic. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the lexicon is Table 1, change the lexicon to Table 2;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise change the lexicon to Table 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the lexicon;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Did you know that according to [the lexicon], [word entry] scores [score entry]?&quot;
+</font></blockquote><p>
+<p>
+<p>which produces text such as
+<p>
+<blockquote><font color="#000080">You exchange dictionaries, lexically crossing the Atlantic. Did you know that according to Table 1 - Nifty Opening Plays in US Scrabble, muzjiks scores 128?
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc196.html>Previous</a> / <a href=doc198.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

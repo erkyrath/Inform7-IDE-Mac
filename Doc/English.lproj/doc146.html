@@ -1,25 +1,31 @@
-<html><head><title>10.6. Begin and end</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc145.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc147.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.6. Begin and end</b></td></tr></table><p>
+<html><head><title>10.7. Otherwise</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc145.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc147.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.7. Otherwise</b></td></tr></table><p>
 <p>
-<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
+<p>We often need code which does one thing in one circumstance, and another the rest of the time. We could do this like so:
 <p>
-<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
-<p>
-<blockquote><font color="#000080">To comment upon (whatever - a thing):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">if N is 2 begin; ...; end if;
+<br>if N is not 2 begin; ...; end if;
 </font></blockquote><p>
 <p>
-<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
+<p>but this is not very elegant, and besides, what if the action we take when N is 2 changes N so that it becomes something else?
 <p>
-<p>Similarly for while:
+<p>Instead we use &quot;otherwise&quot;:
 <p>
-<blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while
+<blockquote><font color="#000080">if N is 2 begin;
+<br>...;
+<br>otherwise;
+<br>...;
+<br>end if;
 </font></blockquote><p>
 <p>
-<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
+<p>Note that there is only one &quot;end if&quot;: the &quot;otherwise&quot; phrase occurs inside the &quot;if ... end if&quot; block of phrases.
+<p>
+<p>When there is only a single phrase we can use the shortened form:
+<p>
+<blockquote><font color="#000080">if N is 2 then say &quot;Hooray, N is 2!&quot;;
+<br>otherwise say &quot;Boo, N is not 2...&quot;
+</font></blockquote><p>
+<p>
+<p>(In almost every computer programming language ever devised, including previous versions of Inform, the word &quot;else&quot; is used rather than &quot;otherwise&quot;: for the sake of familiarity, &quot;else&quot; can also be used here. All the same, &quot;otherwise&quot; seems closer to natural English.)
 <p>
 <p><hr><p><a href=doc145.html>Previous</a> / <a href=doc147.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

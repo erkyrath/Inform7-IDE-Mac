@@ -1,61 +1,36 @@
-<html><head><title>10.12. An example: tinted wallpaper</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc151.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc153.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.12. An example: tinted wallpaper</b></td></tr></table><p>
+<html><head><title>10.13. Another example: a pushable box</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc151.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc153.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.13. Another example: a pushable box</b></td></tr></table><p>
 <p>
-<p>Kinds of value come into their own inside phrases, as the following worked example may suggest. Suppose we have declared that:
+<p>More on using kinds of value inside phrases, this time to simulate something new: a box which, although it cannot be picked up, can be pushed around between three different places on the floor.
 <p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are green, aquamarine and darkish purple.
+<blockquote><font color="#000080">Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase. The current box position is a box position that varies.
 </font></blockquote><p>
 <p>
-<p>The effect is that &quot;colour&quot; is now a kind of value on a par with, for instance, &quot;number&quot;. We are allowed, for instance, in a phrase to write
-<p>
-<blockquote><font color="#000080">let the tint be aquamarine;
+<blockquote><font color="#000080">To shove the box to (destination - a box position):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current box position to the destination.
 </font></blockquote><p>
 <p>
-<p>to create a temporary quantity called &quot;tint&quot;, which always holds a colour, initially aquamarine. (If, later in the same phrase, we were to try &quot;let the tint be 15&quot;, we would be rebuffed because a colour can't be a number or vice versa. The tint may change colour, but must always be a colour.) We can also
+<p>So, for instance:
 <p>
-<blockquote><font color="#000080">say &quot;The wallpaper has a distinctly [tint] wash.&quot;;
+<blockquote><font color="#000080">shove the box to over by the window;
 </font></blockquote><p>
 <p>
-<p>which results in
+<p>might result in the following on screen:
 <p>
-<blockquote><font color="#000080">The wallpaper has a distinctly green wash.
-<br>The wallpaper has a distinctly aquamarine wash.
-<br>The wallpaper has a distinctly darkish purple wash.
+<blockquote><font color="#000080">With some effort, you shove the old box from under the shelf to over by the window.
 </font></blockquote><p>
 <p>
-<p>as may be. As might be expected, we can also test conditions:
+<p>And we can write conditions like so:
 <p>
-<blockquote><font color="#000080">if the tint is darkish purple then ...
+<blockquote><font color="#000080">if the current box position is over by the window then...
 </font></blockquote><p>
 <p>
-<p>When a property is created that has the same name as a kind of value, like so:
+<p>Using a new kind of value is a good way to set up simulations like this one because Inform will ensure that the &quot;current box position&quot; always, no matter what we do, holds one of the three legal box positions. Similarly, a line like
 <p>
-<blockquote><font color="#000080">A door is allowed to have a colour.
+<blockquote><font color="#000080">if the current box position is green then ...
 </font></blockquote><p>
 <p>
-<p>it becomes a property whose value is required at all times to fit that quality. Thus
-<p>
-<blockquote><font color="#000080">The colour of a door is usually green.
-<br>The colour of the lounge door is aquamarine.
-<br>...
-<br>say &quot;The lounge door is [colour of lounge door].&quot;;
-<br>if the colour of the lounge door is green then ...
-</font></blockquote><p>
-<p>
-<p>However, this is obviously rather cumbersome in English, so we can also more naturally write any of these:
-<p>
-<blockquote><font color="#000080">A door is usually green.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The lounge door is aquamarine.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">if the lounge door is green then ...
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before putting something into an aquamarine container: ...
-</font></blockquote><p>
-<p>
-<p>which are unambiguous since &quot;green&quot; is a colour and in the context of an object must imply the colour of that object.
+<p>will be disallowed because box positions and colours are incomparable.
 <p>
 <p><hr><p><a href=doc151.html>Previous</a> / <a href=doc153.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

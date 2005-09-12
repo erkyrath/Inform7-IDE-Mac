@@ -1,25 +1,21 @@
-<html><head><title>8.8. The time of day</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc121.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc123.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.8. The time of day</b></td></tr></table><p>
+<html><head><title>8.8. Telling the time</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc121.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc123.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.8. Telling the time</b></td></tr></table><p>
 <p>
-<p>Inform keeps track of the time of day automatically: play ordinarily begins at 9 AM and each turn takes one minute. In some works of interactive fiction, time of day is crucial: in others, it is irrelevant or even, by a sort of tacit convention, non-existent. So Inform does nothing to act upon the time, or to reveal it to the player, without instruction. Nevertheless it is there.
+<p>Now that we have the time of day, we can of course use this value in room descriptions and the like:
 <p>
-<p>A sentence like the following allows the initial time to be set up as something other than 9 AM:
-<p>
-<blockquote><font color="#000080">The time of day is 3:13 PM.
+<blockquote><font color="#000080">The Clock Chamber is a room. &quot;The dark chamber behind the clock face, a mill-room of gears which grind down the seconds. Through the glass you can see the reversed hands reading [the time of day].&quot;
 </font></blockquote><p>
 <p>
-<p>Here, &quot;3:13 PM&quot; is a constant value of a kind not seen before: it's a kind of value called &quot;time&quot;, and the value &quot;time of day&quot; is a time that varies. After one turn it will be 3:14 PM, then 3:15 PM and so on.
+<p>It seems odd, though, to read a precise numerical description of the time here: after all, it isn't a digital clock. A friendlier version would be:
 <p>
-<p>Note that the sentence above is an assertion (a statement about the initial state of affairs), not an instruction which can be part of a rule. It would be equivalent to write:
-<p>
-<blockquote><font color="#000080">When play begins, change the time of day to 3:13 PM.
+<blockquote><font color="#000080">The Clock Chamber is a room. &quot;The dark chamber behind the clock face, a mill-room of gears which grind down the seconds. Through the glass you can see the reversed hands reading [the time of day in words].&quot;
 </font></blockquote><p>
 <p>
-<p>We more often use &quot;change the time of day to ...&quot; to take care of drastic events:
+<p>And this would produce more natural text such as &quot;... reading twenty to nine&quot; rather than &quot;... reading 8:40 pm&quot;.
 <p>
-<blockquote><font color="#000080">When the player loses consciousness:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to 10:12 AM;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A mist comes over your vision, and when you come to, it is morning and you are in bed.&quot;
+<p>To reiterate an example which came up earlier, we could even work the time of day into the command prompt, which would lend the proper sense of urgency to a game played out against the clock:
+<p>
+<blockquote><font color="#000080">When play begins: change the command prompt to &quot;[time of day] >&quot;.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc121.html>Previous</a> / <a href=doc123.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

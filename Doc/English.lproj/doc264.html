@@ -1,31 +1,40 @@
-<html><head><title>18.1. The sentence grammar S</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 18: Appendix: The Sentence Grammar</h2><p><table><tr><td><a href=doc263.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc265.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.1. The sentence grammar S</b></td></tr></table><p>
+<html><head><title>18.2. The verb grammar VP</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc263.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc265.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.2. The verb grammar VP</b></td></tr></table><p>
 <p>
-<p>The Inform documentation has tried not to be too formal about grammar, to avoid spelling out in technical language what the reader already knows perfectly well about everyday English. All the same, some readers will want to know exactly what is Inform's idea of a sentence, or indeed a noun, and the following short account gives a (very nearly) exact description. It is intended only to explain why some things are accepted and others not. No new features of the language are described, and this is very much an appendix, not part of the manual proper.
+<p>In the example &quot;The horseman wears a riding helmet&quot; the Verb part was indeed a single verb: the word &quot;wears&quot;. More generally, Inform allows a Verb to include adverbs and prepositions, to be negated, and to come in any of four tenses, so the following are all valid as Verb in our grammar:
 <p>
-<p>Let us start with two major grammatical structures. One is the Description Phrase, or DP for short, examples of which include &quot;the red basket&quot;, &quot;somewhere lighted&quot; and &quot;an empty open container&quot;. This we will take as read, since the account given at the start of Chapter 5 is quite explicit. The other is the Sentence, which we will write S, an example of which is:
-<p>
-<blockquote><font color="#000080">The horseman wears a riding helmet.
+<blockquote><font color="#000080">wore
+<br>carries
+<br>is carried by
+<br>had not been inside
 </font></blockquote><p>
 <p>
-<p>We have been much vaguer about the definition of &quot;sentence&quot;. Clearly sentences include DPs, but they also include other ingredients. How does this work?
+<p>That does not mean every Verb makes sense in an assertion. For instance, Inform will reject this:
 <p>
-<p>The general pattern used in Inform is very simple:
-<p>
-<blockquote><font color="#000080">1. S = DP + VP
-<br>2. VP = Verb + DP
+<blockquote><font color="#000080">The silver plate is not on the table.
 </font></blockquote><p>
 <p>
-<p>where VP is a &quot;Verb Phrase&quot;. Using these two rules, we can break down the above example sentence like so:
+<p>Inform needs to be told where it is, not where it isn't. Similarly, we are not allowed to say that:
 <p>
-<blockquote><font color="#000080">S (The horseman wears a riding helmet)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;= DP (The horseman) + VP (wears a riding helmet)
+<blockquote><font color="#000080">The silver plate has been on the table.
 </font></blockquote><p>
 <p>
-<p>and then:
+<p>because assertions are supposed to talk about the world <i>now</i>, at the start of play, and to use the present tense.
 <p>
-<blockquote><font color="#000080">VP (wears a riding helmet)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;= Verb (wears) + DP (a riding helmet)
+<p>So why have negatives and past tenses? Inform uses the same basic grammar for conditions - questions about the world as it evolves during play - as it does for assertions - factual statements about the initial state. For instance, because
+<p>
+<blockquote><font color="#000080">The silver plate is on the table.
+</font></blockquote><p>
+<p>
+<p>is a valid sentence S, we can also write
+<p>
+<blockquote><font color="#000080">if the silver plate is on the table then ...
+</font></blockquote><p>
+<p>
+<p>when we come to setting up rules of play (in the next chapter). And once play has begun, it makes perfect sense to ask questions in the negative, or to talk about the past:
+<p>
+<blockquote><font color="#000080">if the silver plate is not on the table then ...
+<br>if the silver plate has been on the table then ...
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc263.html>Previous</a> / <a href=doc265.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

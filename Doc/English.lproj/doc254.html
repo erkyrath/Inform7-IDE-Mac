@@ -1,42 +1,10 @@
-<html><head><title>17.14. Making new assertion sentences</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc253.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc255.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.14. Making new assertion sentences</b></td></tr></table><p>
+<html><head><title>17.15. Using Inform 6 within Inform 7</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc253.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc255.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.15. Using Inform 6 within Inform 7</b></td></tr></table><p>
 <p>
-<p>The following feature is best used sparingly if at all: in fact, it is a feature introduced in the very early days of Inform 7 and which may be removed altogether now that there is a more sophisticated way to handle new verbs.
+<p>The final sections of this chapter bring in how Inform 7, the current version, and Inform 6 can be made to work together, and will make little or no sense to those who do not already use I6 (as we will henceforth write).
 <p>
-<p>We have already seen that the following sentences are equivalent:
+<p>As will become clear, it would be easy to write highly hybridised code, constantly mixing I6 and I7. The methods for incorporating I6 code into I7 have been designed to encourage people to use I6 in as self-contained a way as possible: that is, to isolate the relatively few functions which need to be written in I6, and to give them natural language expression. Ideally, all I6 content would be confined to self-contained extensions, so that the source for actual works of interactive fiction can be purely natural.
 <p>
-<blockquote><font color="#000080">The matching key of the blue door is the brass key.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The brass key unlocks the blue door.
-</font></blockquote><p>
-<p>
-<p>This comes about because the Standard Rules include the following line:
-<p>
-<blockquote><font color="#000080">X unlocks Y means that the matching key of Y is X.
-</font></blockquote><p>
-<p>
-<p>We can make definitions like this at any point, but had better do so with some care and forethought. They make it possible to talk very elegantly about things belonging to new kinds, but the potential for havoc is considerable if they take effect in an unintended context. Up to four different variables are allowed, but must be called W, X, Y or Z for clarity: and note that they can be matched by empty text. Similarly, Inform also defines
-<p>
-<blockquote><font color="#000080">Above means up from. Below means down from.
-</font></blockquote><p>
-<p>
-<p>This tells Inform to transform &quot;above&quot; into &quot;up from&quot; whenever it occurs in an assertion, and similarly for &quot;below&quot;. Thus
-<p>
-<blockquote><font color="#000080">The Skylight is above the Conservatory.
-</font></blockquote><p>
-<p>
-<p>is transformed to
-<p>
-<blockquote><font color="#000080">The Skylight is up from the Conservatory.
-</font></blockquote><p>
-<p>
-<p>Notice that &quot;means that&quot; applies a change only to an entire sentence, whereas &quot;means&quot; applies to smaller pieces of text. Because of this, &quot;means&quot; has to be used with even more care. Moreover, &quot;means&quot; can't be used to change the words in phrases, so for instance the following fails:
-<p>
-<blockquote><font color="#000080">Determine means decide.
-<br>To determine whether song moves us:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying the blue note, yes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;no.
-</font></blockquote><p>
+<p>So why provide I6 features at all, even for extensions? It's true that extensions do not actually <i>need</i> them either, but it's anticipated that (especially in these early days) many people will want a simple way to adapt existing I6 extensions to work in I7 as well. Besides that, for complex computational tasks better suited to a C-like computer programming language it may be entirely appropriate to drop down into I6. Lastly, the features of I7 used to mesh with I6 are essential to the workings of the Standard Rules, so it would be sensible to document those features somewhere.
 <p>
 <p><hr><p><a href=doc253.html>Previous</a> / <a href=doc255.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
