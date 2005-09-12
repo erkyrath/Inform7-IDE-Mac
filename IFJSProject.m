@@ -79,8 +79,73 @@
 	}
 }
 
+- (NSString*) unescapeString: (NSString*) string {
+	// Change '\n', '\t', etc marks in a string to newlines, tabs, etc
+	int length = [string length];
+	if (length == 0) return @"";
+
+	int outLength = -1;
+	int totalLength = 256;
+	unichar* newString = malloc(sizeof(unichar)*totalLength);
+
+	int chNum;
+	for (chNum = 0; chNum < length; chNum++) {
+		// Get the next character
+		unichar chr = [string characterAtIndex: chNum];
+		unichar outChar = '?';
+		
+		// If it's an escape character, parse as appropriate
+		if (chr == '\\' && chNum+1<length) {
+			// The result depends on the next character
+			chNum++;
+			unichar nextChar = [string characterAtIndex: chNum];
+			
+			switch (nextChar) {
+				case 'n':
+					// Newline
+					outChar = 10;
+					break; 
+					
+				case 'r':
+					// Return
+					outChar = 13;
+					break;
+						
+				case 't':
+					// Tab
+					outChar = 9;
+					break;
+					
+				default:
+					// Default behaviour is just to strip the '\'
+					outChar = nextChar;
+			}
+		} else {
+			// Otherwise, just pass it through
+			outChar = chr;
+		}
+		
+		// Add to the output string
+		outLength++;
+		if (outLength >= totalLength) {
+			totalLength += 256;
+			newString = realloc(newString, sizeof(unichar)*totalLength);
+		}
+		
+		newString[outLength] = outChar;
+	}
+	
+	// Turn newString into an NSString
+	outLength++;
+	NSString* result = [NSString stringWithCharacters: newString
+											   length: outLength];
+	free(newString);
+	
+	return result;
+}
+
 - (void) pasteCode: (NSString*) code {
-	[pane pasteSourceCode: code];
+	[pane pasteSourceCode: [self unescapeString: code]];
 }
 
 - (void) runStory: (NSString*) game {
