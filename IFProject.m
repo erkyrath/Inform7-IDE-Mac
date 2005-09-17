@@ -69,8 +69,59 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 
 - (IFSyntaxStorage*) storageWithString: (NSString*) string
 						   forFilename: (NSString*) filename {
+	// Fix any newlines in string
+	int initialLength = [string length];
+	int len = 0;
+	
+	// Note that the string can only get shorter
+	unichar* fixedString = malloc(sizeof(unichar)*[string length]);
+	
+	int x;
+	BOOL useFixedVersion = NO;
+	for (x=0; x<initialLength; x++) {
+		// Fetch the next character
+		unichar ch = [string characterAtIndex: x];
+		
+		// See if we've got a newline
+		if (ch == 10) {
+			// Ignore the next character if it's a carriage return
+			if (x+1<initialLength && [string characterAtIndex: x+1] == 13) {
+				x++;
+				useFixedVersion = YES;
+			}
+			
+			// Store a newline
+			fixedString[len++] = 10;
+		} else if (ch == 13) {
+			// Length doesn't always change, but we've got a CR line ending where a NL one should exist
+			useFixedVersion = YES;
+			
+			// Ignore the next character if it's a newline
+			if (x+1<initialLength && [string characterAtIndex: x+1] == 10) {				
+				x++;
+			}
+			
+			// Store a newline
+			fixedString[len++] = 10;
+		} else {
+			// Copy this character through
+			fixedString[len++] = ch;
+		}
+	}
+	
+	// Use the fixed string if it's different from the original
+	if (useFixedVersion) {
+		NSLog(@"Warning: reformated newlines in file '%@'", filename);
+		string = [NSString stringWithCharacters: fixedString
+										 length: len];
+	}
+	
+	free(fixedString);
+	
+	// Create the syntax-highlighting text storage object
 	IFSyntaxStorage* res = [[IFSyntaxStorage alloc] initWithString: string];
 	
+	// Set the 'intelligence' and highlighting style appropriately
 	[res setIntelligence: [self intelligenceForFilename: filename]];
 	[res setHighlighter: [self highlighterForFilename: filename]];
 	[res setDelegate: self];
@@ -246,6 +297,7 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 		if ([[projectFile fileWrappers] objectForKey: @"uuid.txt"] == nil) {
 			// Generate a UUID string
 			uuid_t newUID;
+			uuid_clear(newUID);
 			uuid_generate(newUID);
 			
 			char uid[40];
