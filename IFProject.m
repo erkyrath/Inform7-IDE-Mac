@@ -17,6 +17,8 @@
 
 #import "IFNaturalIntel.h"
 
+#include <uuid/uuid.h>
+
 NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotification";
 NSString* IFProjectWatchExpressionsChangedNotification = @"IFProjectWatchExpressionsChangedNotification";
 NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChangedNotification";
@@ -162,6 +164,7 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 }
 
 // == Loading/saving ==
+
 - (BOOL) readFromFile: (NSString*) fileName
 			   ofType: (NSString*) fileType {
     if ([fileType isEqualTo: @"Inform project file"] || [fileType isEqualTo: @"Inform project"]) {
@@ -238,6 +241,20 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 		}
 
         singleFile = NO;
+		
+		// Create a uuid.txt file, if it doesn't already exit
+		if ([[projectFile fileWrappers] objectForKey: @"uuid.txt"] == nil) {
+			// Generate a UUID string
+			uuid_t newUID;
+			uuid_generate(newUID);
+			
+			char uid[40];
+			uuid_unparse(newUID, uid);
+			
+			NSString* uidString = [NSString stringWithCString: uid];
+			[projectFile addRegularFileWithContents: [uidString dataUsingEncoding: NSUTF8StringEncoding]
+								  preferredFilename: @"uuid.txt"];
+		}
 		
 		// Load the notes (if present)
 		NSFileWrapper* noteWrapper = [[projectFile fileWrappers] objectForKey: @"notes.rtf"];
