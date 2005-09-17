@@ -1395,6 +1395,32 @@ static NSDictionary*  itemDictionary = nil;
 	}
 }
 
+- (void) cantDeleteActiveBranch {
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Can't delete active branch"
+															 value: @"Can't delete active branch"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															 value: @"Cancel"
+															 table: nil],
+					  nil, nil, [self window], nil, nil, nil, nil,
+					  [[NSBundle mainBundle] localizedStringForKey: @"Can't delete active branch explanation"
+															 value: @"Can't delete active branch explanation"
+															 table: nil]);
+}
+
+- (void) cantEditRootItem {
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Can't edit root item"
+															 value: @"Can't edit root item"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															 value: @"Cancel"
+															 table: nil],
+					  nil, nil, [self window], nil, nil, nil, nil,
+					  [[NSBundle mainBundle] localizedStringForKey: @"Can't edit root item explanation"
+															 value: @"Can't edit root item explanation"
+															 table: nil]);
+}
+
 - (void) skeinChanged: (NSNotification*) not {
 	ZoomSkein* skein = [[self document] skein];
 	
