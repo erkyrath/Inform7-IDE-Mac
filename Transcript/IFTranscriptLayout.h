@@ -69,7 +69,7 @@
 
 // The delegate
 - (void) setDelegate: (id) delegate;							// Delegate is not retained
-- (id) delegate;												// Retrievest the delegate
+- (id) delegate;												// Retrieves the delegate
 
 @end
 
