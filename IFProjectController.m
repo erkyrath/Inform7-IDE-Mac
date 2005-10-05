@@ -355,7 +355,7 @@ static NSDictionary*  itemDictionary = nil;
     [projectPanes addObject: [IFProjectPane standardPane]];
 	
     [[projectPanes objectAtIndex: 0] selectView: IFSourcePane];
-    [[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
+    [[projectPanes objectAtIndex: 1] selectView: IFDocumentationPane];
 
     [self layoutPanes];
 

@@ -41,7 +41,7 @@ static NSString* IFInspectorShown = @"IFInspectorShown";
 	[[NSUserDefaults standardUserDefaults] registerDefaults: 
 		[NSDictionary dictionaryWithObjectsAndKeys: 
 			[NSDictionary dictionary], IFInspectorDefaults, 
-			[NSNumber numberWithBool: YES], IFInspectorShown, 
+			[NSNumber numberWithBool: NO], IFInspectorShown, 
 			nil]];
 }
 
