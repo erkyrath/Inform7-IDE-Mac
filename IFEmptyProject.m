@@ -12,7 +12,7 @@
 @implementation IFEmptyProject
 
 - (NSString*) projectName {
-    return [[NSBundle mainBundle] localizedStringForKey: @"Empty project"
+    return [[NSBundle mainBundle] localizedStringForKey: @"Empty v6 project"
 												  value: @"Empty project"
 												  table: nil];
 }

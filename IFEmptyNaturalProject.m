@@ -25,7 +25,9 @@
 
 - (NSAttributedString*) projectDescription {
     return [[[NSAttributedString alloc] initWithString:
-        @"Creates an empty Natural Inform project"] autorelease];
+        [[NSBundle mainBundle] localizedStringForKey: @"Creates an empty Natural Inform project"
+											   value: @"Creates an empty Natural Inform project"
+											   table: nil]] autorelease];
 }
 
 - (NSObject<IFProjectSetupView>*) configView {
