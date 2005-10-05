@@ -28,6 +28,7 @@
 - (IBAction) newInformFile: (id) sender;			// Creates a new .inf file (in a new window)
 - (IBAction) findInProject: (id) sender;			// (UNUSED) opens the find inspector. Unused because I can't make the field key (as the inspectors are becomeKeyIfNeeded)
 - (IBAction) showPreferences: (id) sender;			// Shows the preferences window
+- (IBAction) docIndex: (id) sender;					// Displays an error about not being able to show help yet
 
 - (void) updateExtensions;							// Updates extensions menu
 - (NSMutableArray*) extensionsInDirectory: (NSString*) directory;		// (DEPRECATED) gets the list of extensions in a particular directory. Use the extension manager instead.

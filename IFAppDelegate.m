@@ -369,4 +369,21 @@ static int stringCompare(id a, id b, void* context) {
 	[[IFIsSearch sharedIFIsSearch] makeSearchKey: self];
 }
 
+// = The help menu =
+
+- (IBAction) docIndex: (id) sender {
+	// This is called if there is no project currently open: in this case, the help isn't really available as
+	// it's dependent on the project window.
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Help not yet available"
+															 value: @"Help not yet available"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															 value: @"Cancel"
+															 table: nil],
+					  nil, nil, nil, nil, nil, nil, nil,
+					  [[NSBundle mainBundle] localizedStringForKey: @"Help not available description"
+															 value: @"Help not available description"
+															 table: nil]);
+}
+
 @end

@@ -552,7 +552,7 @@ static int resultComparator(id a, id b, void* context) {
 				// Get the indexed document
 				SKDocumentRef docRef = SKIndexCopyDocumentForDocumentID(searchIndex,
 																		resultDocID[match]);
-				
+								
 				// Get the attributes for this document
 				NSDictionary* docProps = (NSDictionary*)SKIndexCopyDocumentProperties(searchIndex,
 																					  docRef);

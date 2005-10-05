@@ -73,6 +73,8 @@
 	} else if ([view isEqualToString: @"index"]) {
 		[pane selectView: IFIndexPane];
 	} else if ([view isEqualToString: @"skein"]) {
+		[pane selectView: IFSkeinPane];
+	} else if ([view isEqualToString: @"transcript"]) {
 		[pane selectView: IFTranscriptPane];
 	} else {
 		// Other view types are not supported at present
