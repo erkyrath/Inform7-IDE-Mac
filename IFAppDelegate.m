@@ -11,6 +11,7 @@
 #import "IFNewProject.h"
 #import "IFInspectorWindow.h"
 #import "IFExtensionsManager.h"
+#import "IFWelcomeWindow.h"
 
 #import "IFIsNotes.h"
 #import "IFIsIndex.h"
@@ -126,6 +127,9 @@ static NSRunLoop* mainRunLoop = nil;
 }
 
 - (BOOL) applicationShouldOpenUntitledFile: (NSApplication*) sender {
+	[[IFWelcomeWindow sharedWelcomeWindow] showWindow: self];
+	[[[IFWelcomeWindow sharedWelcomeWindow] window] orderFront: self];
+
     return NO;
 }
 

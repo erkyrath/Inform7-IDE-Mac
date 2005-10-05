@@ -152,6 +152,10 @@
 		4B6B188605DE789600BB2601 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B6B188405DE789600BB2601 /* pause.png */; };
 		4B6B188E05DE83A200BB2601 /* watch.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B6B188C05DE83A200BB2601 /* watch.png */; };
 		4B6B188F05DE83A200BB2601 /* breakpoint.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B6B188D05DE83A200BB2601 /* breakpoint.png */; };
+		4B70F6C308F4678600F25E34 /* Welcome.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4B70F6C108F4678600F25E34 /* Welcome.nib */; };
+		4B70F6C508F46A6D00F25E34 /* Welcome Background.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B70F6C408F46A6D00F25E34 /* Welcome Background.png */; };
+		4B70F6C808F46AEA00F25E34 /* IFWelcomeWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B70F6C608F46AEA00F25E34 /* IFWelcomeWindow.h */; };
+		4B70F6C908F46AEA00F25E34 /* IFWelcomeWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B70F6C708F46AEA00F25E34 /* IFWelcomeWindow.m */; };
 		4B73C24D067269C20032E676 /* IFInformProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B73C24B067269C20032E676 /* IFInformProtocol.h */; };
 		4B73C24E067269C20032E676 /* IFInformProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B73C24C067269C20032E676 /* IFInformProtocol.m */; };
 		4B741D980646BC5B0078C9B6 /* IFInspectorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B741D960646BC5B0078C9B6 /* IFInspectorView.h */; };
@@ -1237,6 +1241,10 @@
 		4B6B188405DE789600BB2601 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pause.png; path = Images/pause.png; sourceTree = "<group>"; };
 		4B6B188C05DE83A200BB2601 /* watch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = watch.png; path = Images/watch.png; sourceTree = "<group>"; };
 		4B6B188D05DE83A200BB2601 /* breakpoint.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = breakpoint.png; path = Images/breakpoint.png; sourceTree = "<group>"; };
+		4B70F6C208F4678600F25E34 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Welcome.nib; sourceTree = "<group>"; };
+		4B70F6C408F46A6D00F25E34 /* Welcome Background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Welcome Background.png"; path = "Images/Welcome Background.png"; sourceTree = "<group>"; };
+		4B70F6C608F46AEA00F25E34 /* IFWelcomeWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFWelcomeWindow.h; sourceTree = "<group>"; };
+		4B70F6C708F46AEA00F25E34 /* IFWelcomeWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFWelcomeWindow.m; sourceTree = "<group>"; };
 		4B73C24B067269C20032E676 /* IFInformProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFInformProtocol.h; sourceTree = "<group>"; };
 		4B73C24C067269C20032E676 /* IFInformProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFInformProtocol.m; sourceTree = "<group>"; };
 		4B741D960646BC5B0078C9B6 /* IFInspectorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFInspectorView.h; sourceTree = "<group>"; };
@@ -1879,6 +1887,8 @@
 			children = (
 				4B96DF4F04F11BF500A8E303 /* IFAppDelegate.h */,
 				4B96DF5004F11BF500A8E303 /* IFAppDelegate.m */,
+				4B70F6C608F46AEA00F25E34 /* IFWelcomeWindow.h */,
+				4B70F6C708F46AEA00F25E34 /* IFWelcomeWindow.m */,
 				4BC623F308295992007827B5 /* AppleScript */,
 				4BB2B49907DB786700FD7E0E /* Information */,
 				4BCF78A50641A4A400516872 /* Inspector */,
@@ -1960,6 +1970,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4B70F6C408F46A6D00F25E34 /* Welcome Background.png */,
 				4BE6AB3B04FD0EF300A8E303 /* Credits.rtf */,
 				4B896FE60668AA0400F666D7 /* Docs */,
 				4BAB711906EA315C005C7856 /* map_icons */,
@@ -1986,6 +1997,7 @@
 				4B7534C506286ADC00824F26 /* CompilerOutput.strings */,
 				4B7535220628709300824F26 /* Localizable.strings */,
 				4BF8572F0871FB1D004683BD /* SingleFile.nib */,
+				4B70F6C108F4678600F25E34 /* Welcome.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3147,6 +3159,7 @@
 				4B6A85F3086DA82100BFAE69 /* IFSingleFile.h in Headers */,
 				4B6A860C086DA90200BFAE69 /* IFSingleController.h in Headers */,
 				4B62F52108C3B34C00CDCDE0 /* IFJSProject.h in Headers */,
+				4B70F6C808F46AEA00F25E34 /* IFWelcomeWindow.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3766,6 +3779,8 @@
 				4B22FF5208D60F2E00AF2705 /* ex15.html in Resources */,
 				4B22FF5308D60F2E00AF2705 /* ex16.html in Resources */,
 				4B22FF5408D60F2E00AF2705 /* examples.html in Resources */,
+				4B70F6C308F4678600F25E34 /* Welcome.nib in Resources */,
+				4B70F6C508F46A6D00F25E34 /* Welcome Background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4007,6 +4022,7 @@
 				4B6A85F4086DA82100BFAE69 /* IFSingleFile.m in Sources */,
 				4B6A860D086DA90200BFAE69 /* IFSingleController.m in Sources */,
 				4B62F52208C3B34C00CDCDE0 /* IFJSProject.m in Sources */,
+				4B70F6C908F46AEA00F25E34 /* IFWelcomeWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4434,6 +4450,14 @@
 			);
 			name = StylePreferences.nib;
 			sourceTree = SOURCE_ROOT;
+		};
+		4B70F6C108F4678600F25E34 /* Welcome.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4B70F6C208F4678600F25E34 /* English */,
+			);
+			name = Welcome.nib;
+			sourceTree = "<group>";
 		};
 		4B7534C506286ADC00824F26 /* CompilerOutput.strings */ = {
 			isa = PBXVariantGroup;

@@ -8,7 +8,7 @@
 
 #import "IFSingleFile.h"
 #import "IFSingleController.h"
-
+#import "IFWelcomeWindow.h"
 
 @implementation IFSingleController
 
@@ -35,6 +35,7 @@
 }
 
 - (void)windowDidLoad {
+	[IFWelcomeWindow hideWelcomeWindow];
 	[self awakeFromNib];
 }
 

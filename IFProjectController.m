@@ -12,6 +12,7 @@
 #import "IFInspectorWindow.h"
 #import "IFNewProjectFile.h"
 #import "IFIsIndex.h"
+#import "IFWelcomeWindow.h"
 
 #import "IFPreferences.h"
 
@@ -326,6 +327,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) windowDidLoad {
 	[self setWindowFrameAutosaveName: @"ProjectWindow"];
+	[IFWelcomeWindow hideWelcomeWindow];
 }
 
 - (void) windowWillClose: (NSNotification*) not {
