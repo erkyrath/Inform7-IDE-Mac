@@ -79,6 +79,8 @@ Constant ALL_ACT 9;
 Constant OBITUARY_ACT 10;
 Constant AMUSING_ACT 11;
 Constant BANNER_ACT 12;
+Constant PLURALNAME_ACT 13;
+Constant CONCEALMENT_ACT 14;
 ENDIF;
 ! ------------------------------------------------------------------------------
 !   Z-Machine and interpreter issues
@@ -110,7 +112,11 @@ Global active_timers;                ! Number of timers/daemons actives
 
 Global score;                        ! The current score
 Global last_score;                   ! Score last turn (for testing for changes)
+#ifdef I7_NOSCORE;
+Global notify_mode = false;          ! Score notification
+#ifnot;
 Global notify_mode = true;           ! Score notification
+#endif;
 Global places_score;                 ! Contribution to score made by visiting
 Global things_score;                 ! Contribution made by acquisition
 ! ------------------------------------------------------------------------------
@@ -624,8 +630,11 @@ Object InformParser "(Inform Parser)"
 !  Return the number of words typed
 ! ----------------------------------------------------------------------------
 
-[ KeyboardPrimitive  a_buffer a_table;
+[ KeyboardPrimitive  a_buffer a_table i;
   read a_buffer a_table;
+  #ifdef I7_ECHOCOM;
+  print "** "; for (i=2: i<=(a_buffer->1)+1: i++) print (char) a_buffer->i; print "^";
+  #endif;
 ];
 [ Keyboard  a_buffer a_table  nw i w w2 x1 x2;
 
@@ -965,7 +974,7 @@ Object InformParser "(Inform Parser)"
 !  If it is a direction, send back the results:
 !  action=GoSub, no of arguments=1, argument 1=the direction.
 
-        if (l~=0)
+        if ((l~=0) && (l in compass))
         {   results-->0 = ##Go;
             results-->1 = 1;
             results-->2 = l;
@@ -2906,8 +2915,8 @@ Constant UNLIT_BIT  =  32;
     {   pronoun__word=pronoun_word; pronoun__obj=pronoun_obj;
         e=ITGONE_PE;
     }
-    i=actor; while (parent(i) ~= 0) i = parent(i);
-    if (i has visited && Refers(i,wn-1)==1) e=SCENERY_PE;
+!    i=actor; while (parent(i) ~= 0) i = parent(i);
+!    if (i has visited && Refers(i,wn-1)==1) e=SCENERY_PE;
     if (etype>e) return etype;
     return e;
 ];
@@ -3005,7 +3014,7 @@ Constant UNLIT_BIT  =  32;
 #ifdef DEBUG;
   if (scope_reason==PARSING_REASON
       && verb_word == 'purloin' or 'tree' or 'abstract'
-                       or 'gonear' or 'scope' or 'showobj')
+                       or 'gonear' or 'scope' or 'showobj' or 'showme')
   {   for (i=selfobj:i<=top_object:i++)
           if (i ofclass Object && (parent(i)==0 || parent(i) ofclass Object))
               PlaceInScope(i);
@@ -3152,7 +3161,8 @@ Constant UNLIT_BIT  =  32;
    x = child(domain);
    while (x ~= 0)
    {   y = sibling(x);
-       ScopeWithin_O(x, nosearch, context);
+       if ((I7_Conceals(domain, x) == false) || (domain == actor))
+           ScopeWithin_O(x, nosearch, context);
        x = y;
    }
 ];
@@ -3216,7 +3226,8 @@ Constant UNLIT_BIT  =  32;
 !  Notice that the parser can see "into" anything flagged as
 !  transparent - such as a dwarf whose sword you can get at.
 
-      if (child(domain)~=0 && domain ~= nosearch && IsSeeThrough(domain)==1)
+      if (child(domain)~=0 && domain ~= nosearch &&
+      	  ((domain ofclass K8_person) || (IsSeeThrough(domain)==1)))
           ScopeWithin(domain,nosearch,context);
 
 !  Drag any extras into context
@@ -3708,7 +3719,7 @@ Object InformLibrary "(Inform Library)"
        parse2->0 = 64;
        
        real_location = thedark;
-       player = selfobj; actor = player;
+       player = selfobj; actor = player; act_requester = nothing;
     
        top_object = #largest_object-255;
 #ifndef NI_BUILD_COUNT;
@@ -3764,6 +3775,7 @@ Object InformLibrary "(Inform Library)"
            InformParser.parse_input(inputobjs);
     
            action=inputobjs-->0;
+           if (action==##MistakeAction) meta=true;
 
            !  --------------------------------------------------------------
 
@@ -3814,7 +3826,10 @@ Object InformLibrary "(Inform Library)"
 
            !  --------------------------------------------------------------
     
-           if (actor~=player)
+#ifdef NI_BUILD_COUNT;
+			act_requester = nothing;
+#endif;
+          if (actor~=player)
            {   
            !  The player's "orders" property can refuse to allow conversation
            !  here, by returning true.  If not, the order is sent to the
@@ -3826,6 +3841,7 @@ Object InformLibrary "(Inform Library)"
            !  property, the old-fashioned way of dealing with conversation.
 
 #ifdef NI_BUILD_COUNT;
+				act_requester = player;
 				if (action==##NotUnderstood)
                 {   inputobjs-->1=2;
                 	inputobjs-->2=actor;
@@ -3923,7 +3939,7 @@ Object InformLibrary "(Inform Library)"
        ],
 
        begin_action
-       [ a n s source   sa sn ss sself;
+       [ a n s source   sa sn ss sself rv;
            sa = action; sn = noun; ss = second; sself = self;
            action = a; noun = n; second = s; self = n;
            #IFDEF DEBUG;
@@ -3935,12 +3951,13 @@ Object InformLibrary "(Inform Library)"
            #ENDIF;
            #IFTRUE Grammar__Version == 1;
            if ((meta || BeforeRoutines()==false) && action<256)
-               ActionPrimitive();
+               rv=ActionPrimitive();
            #IFNOT;
            if ((meta || BeforeRoutines()==false) && action<4096)
-               ActionPrimitive();
+               rv=ActionPrimitive();
            #ENDIF;
            action = sa; noun = sn; second = ss; self = sself;
+           return rv;
        ],
   has  proper;
 
@@ -3958,7 +3975,7 @@ Object InformLibrary "(Inform Library)"
   print "^^^";
   rfalse;
 ];
-[ OBIT_FINAL; ScoreSub(); rfalse; ];
+[ OBIT_FINAL; #ifndef I7_NOSCORE; ScoreSub_O1(); #endif; rfalse; ];
 [ OBIT_DISP; DisplayStatus(); rfalse; ];
 
 [ AdvanceWorldClock;
@@ -4253,10 +4270,10 @@ Object InformLibrary "(Inform Library)"
    if (i has light) rtrue;
    objectloop (j in i)
        if (HasLightSource(j)==1) rtrue;
-   if ((i provides component_part_of) && (i.component_part_of)) {
+   if ((i provides component_parent) && (i.component_parent)) {
        if ((i has container) && (i hasnt open) && (i hasnt transparent))
            rfalse;
-       return OffersLight(OIU_parent(i.component_part_of));
+       return OffersLight(OIU_parent(i.component_parent));
    }
    if (i has container)
    {   if (i has open || i has transparent)

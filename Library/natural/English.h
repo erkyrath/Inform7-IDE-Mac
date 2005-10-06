@@ -439,22 +439,22 @@ Constant WHICH__TX    = "which ";
   ListMiscellany:
            switch(n)
            {   1: print " (providing light)";
-               2: print " (which ", (isorare) x1, " closed)";
+               2: print " (closed)";
                3: print " (closed and providing light)";
-               4: print " (which ", (isorare) x1, " empty)";
+               4: print " (empty)";
                5: print " (empty and providing light)";
-               6: print " (which ", (isorare) x1, " closed and empty)";
+               6: print " (closed and empty)";
                7: print " (closed, empty and providing light)";
                8: print " (providing light and being worn";
                9: print " (providing light";
               10: print " (being worn";
-              11: print " (which ", (isorare) x1, " ";
+              11: print " (";
               12: print "open";
               13: print "open but empty";
               14: print "closed";
               15: print "closed and locked";
               16: print " and empty";
-              17: print " (which ", (isorare) x1, " empty)";
+              17: print " (empty)";
               18: print " containing ";
               19: print " (on ";
               20: print ", on top of ";

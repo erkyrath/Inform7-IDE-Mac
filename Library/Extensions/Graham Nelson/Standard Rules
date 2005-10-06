@@ -1,91 +1,93 @@
 Version 1/040731 of the Standard Rules by Graham Nelson begins here.
 
-Document ACTIONS at doc73.
-Document ACTIVITIES at doc225.
-Document ARSUMMARY at doc94.
-Document EXTACTIVITIES at doc251.
+Document ACTIONS at doc76.
+Document ACTIVITIES at doc230.
+Document ARSUMMARY at doc155.
+Document EXTACTIVITIES at doc234.
 Document HEADINGS at doc15.
-Document KINDS at doc25.
-Document KINDSVALUE at doc55.
-Document NEWRULEBOOKS at doc214.
-Document PHRASES at doc141.
-Document ROOMPLAYBEGINS at doc115.
-Document SCENESINTRO at doc132.
-Document act_all at doc237.
-Document act_amuse at doc240.
-Document act_banner at doc238.
-Document act_csl at doc232.
-Document act_ds at doc234.
-Document act_gt at doc231.
-Document act_lc at doc230.
-Document act_lni at doc233.
-Document act_obit at doc239.
-Document act_pn at doc229.
-Document act_reading at doc236.
-Document act_smn at doc235.
-Document kind_backdrop at doc29.
-Document kind_device at doc34.
-Document kind_door at doc32.
-Document kind_person at doc36.
-Document kind_player's at doc40.
-Document kind_time at doc122.
-Document kind_vehicle at doc35.
-Document ph_allow at doc221.
-Document ph_blankout at doc194.
-Document ph_boxed at doc118.
-Document ph_carryout at doc251.
-Document ph_change at doc95.
-Document ph_changep at doc98.
-Document ph_changev at doc99.
-Document ph_chooserow at doc189.
-Document ph_consider at doc219.
-Document ph_daemons at doc121.
-Document ph_end at doc119.
-Document ph_follow at doc214.
-Document ph_future at doc127.
-Document ph_group at doc230.
-Document ph_happening at doc136.
-Document ph_holder at doc109.
-Document ph_if at doc144.
-Document ph_ignore at doc217.
-Document ph_list at doc150.
-Document ph_minspart at doc126.
-Document ph_move at doc101.
-Document ph_nearest at doc124.
-Document ph_numblank at doc194.
-Document ph_numrows at doc186.
-Document ph_omit at doc229.
-Document ph_otherwise at doc147.
-Document ph_plus at doc171.
-Document ph_random at doc110.
-Document ph_remove at doc103.
-Document ph_repeat at doc148.
-Document ph_result at doc154.
-Document ph_runthrough at doc149.
-Document ph_say at doc72.
-Document ph_sayif at doc52.
-Document ph_scope at doc234.
-Document ph_sort at doc195.
-Document ph_start at doc71.
-Document ph_stop at doc75.
-Document ph_succeeds at doc218.
-Document ph_surrounds at doc97.
-Document ph_tabrepeat at doc190.
-Document ph_thereis at doc191.
-Document ph_timeshift at doc125.
-Document ph_try at doc76.
-Document ph_tsince at doc135.
-Document ph_types at doc54.
-Document ph_while at doc145.
-Document ph_yes at doc154.
-Document rules_after at doc77.
-Document rules_before at doc75.
-Document rules_d at doc121.
-Document rules_et at doc120.
-Document rules_instead at doc74.
-Document rules_ri at doc221.
-Document rules_wpb at doc115.
-Document rules_wpe at doc119.
+Document KINDS at doc26.
+Document KINDSVALUE at doc57.
+Document LCARDS at doc62.
+Document NEWRULEBOOKS at doc255.
+Document PHRASES at doc138.
+Document ROOMPLAYBEGINS at doc114.
+Document SCENESINTRO at doc130.
+Document act_all at doc248.
+Document act_amuse at doc251.
+Document act_banner at doc249.
+Document act_con at doc237.
+Document act_csl at doc242.
+Document act_ds at doc245.
+Document act_gt at doc241.
+Document act_lc at doc240.
+Document act_lni at doc244.
+Document act_obit at doc250.
+Document act_pn at doc238.
+Document act_ppn at doc239.
+Document act_reading at doc247.
+Document act_smn at doc246.
+Document act_wpa at doc243.
+Document kind_backdrop at doc30.
+Document kind_device at doc35.
+Document kind_door at doc33.
+Document kind_person at doc37.
+Document kind_player's at doc41.
+Document kind_time at doc120.
+Document kind_vehicle at doc36.
+Document ph_allow at doc167.
+Document ph_blankout at doc207.
+Document ph_boxed at doc117.
+Document ph_carryout at doc234.
+Document ph_change at doc94.
+Document ph_changep at doc97.
+Document ph_changev at doc98.
+Document ph_chooserow at doc202.
+Document ph_consider at doc259.
+Document ph_end at doc118.
+Document ph_follow at doc255.
+Document ph_future at doc125.
+Document ph_group at doc240.
+Document ph_happening at doc133.
+Document ph_holder at doc108.
+Document ph_if at doc141.
+Document ph_ignore at doc257.
+Document ph_list at doc147.
+Document ph_minspart at doc124.
+Document ph_move at doc100.
+Document ph_nearest at doc122.
+Document ph_numblank at doc207.
+Document ph_numrows at doc199.
+Document ph_omit at doc238.
+Document ph_otherwise at doc144.
+Document ph_plus at doc186.
+Document ph_random at doc109.
+Document ph_remove at doc102.
+Document ph_repeat at doc145.
+Document ph_result at doc149.
+Document ph_runthrough at doc146.
+Document ph_say at doc75.
+Document ph_sayif at doc54.
+Document ph_scope at doc245.
+Document ph_sort at doc208.
+Document ph_start at doc74.
+Document ph_stop at doc78.
+Document ph_succeeds at doc258.
+Document ph_surrounds at doc96.
+Document ph_tabrepeat at doc203.
+Document ph_thereis at doc204.
+Document ph_timeshift at doc123.
+Document ph_try at doc79.
+Document ph_tsince at doc132.
+Document ph_types at doc56.
+Document ph_while at doc142.
+Document ph_yes at doc149.
+Document rules_after at doc80.
+Document rules_before at doc78.
+Document rules_et at doc119.
+Document rules_instead at doc77.
+Document rules_ri at doc167.
+Document rules_wpb at doc114.
+Document rules_wpe at doc118.
 
 Use MAX_ARRAYS of 500.
 Use MAX_LABELS of 10000.
@@ -134,7 +136,7 @@ mislaid umbrellas might all be examples, and so might more surprising things
 like the sound of birdsong or a shaft of sunlight."
 
 A thing is allowed to have a description, an initial appearance, a printed
-name, an inventory listing and an indefinite article.
+name, a printed plural name, an inventory listing and an indefinite article.
 
 A thing can be enterable.
 
@@ -159,6 +161,8 @@ Include (-
   with before [;
       PushDir: AllowPushDir(); rtrue;
   ],
+  with add_to_scope I7_ScopeParts,
+  with component_parent nothing, component_sibling nothing, component_child nothing,
 -) when defining a thing.
 
 A thing can be an Inform library door. A thing can be an Inform library
@@ -168,9 +172,14 @@ A thing can be an Inform library male.
 
 A thing can be marked for listing. A thing is usually not marked for listing.
 
+A thing can be mentioned or unmentioned.
+
 The verb to be able to see (he is seen) implies the visibility relation.
 
 The verb to be able to touch (he is touched) implies the touchability relation.
+
+The verb to conceal (he conceals, they conceal, he concealed, it is concealed,
+he is concealing) implies the concealment relation.
 
 Definition: Something is visible if the player can see it.
 
@@ -179,6 +188,10 @@ Definition: Something is touchable if the player can touch it.
 Definition: Something is invisible if the player cannot see it.
 
 Definition: Something is untouchable if the player cannot touch it.
+
+Definition: Something is concealed if the holder of it conceals it.
+
+Definition: Something is unconcealed if the holder of it does not conceal it.
 
 Section SR1/4 - Doors
 
@@ -199,8 +212,6 @@ A door is allowed to have a matching key.
 A door is usually fixed in place.
 A door is never pushable between rooms.
 A door is allowed to have an other side.
-A door is allowed to have a description when open.
-A door is allowed to have a description when closed.
 Through X is Y means that the other side of X is Y.
 X is through Y means that the other side of X is Y.
 
@@ -218,8 +229,6 @@ A container can be openable or unopenable. A container is usually unopenable.
 A container can be lockable. A container is usually not lockable.
 A container can be locked or unlocked. A container is usually
 unlocked. A container is allowed to have a matching key. 
-A container is allowed to have a description when open.
-A container is allowed to have a description when closed.
 A container is allowed to have a number called carrying capacity.
 
 X unlocks Y means that the matching key of Y is X.
@@ -251,8 +260,6 @@ Section SR1/6 - Devices
 
 A device is a kind of thing. A device is always Inform library switchable.
 A device can be switched on or switched off. A device is usually switched off.
-A device is allowed to have a description when on.
-A device is allowed to have a description when off.
 
 The specification of device is "Represents a machine or contrivance of some
 kind which can be switched on or off."
@@ -288,8 +295,8 @@ Include (- with name 'se' 'southeast' 'wall', door_dir se_to, -) when defining t
 Include (- with name 'sw' 'southwest' 'wall', door_dir sw_to, -) when defining the southwest.
 Include (- with name 'e//' 'east' 'wall', door_dir e_to, -) when defining the east.
 Include (- with name 'w//' 'west' 'wall', door_dir w_to, -) when defining the west.
-Include (- with name 'u//' 'up' 'ceiling', door_dir u_to, -) when defining up.
-Include (- with name 'd//' 'down' 'floor', door_dir d_to, -) when defining down.
+Include (- with name 'u//' 'up', door_dir u_to, -) when defining up.
+Include (- with name 'd//' 'down', door_dir d_to, -) when defining down.
 Include (- with name 'in//' 'inside', door_dir in_to, -) when defining inside.
 Include (- with name 'out//' 'outside', door_dir out_to, -) when defining outside.
 
@@ -303,6 +310,11 @@ Section SR1/8 - People, men and women
 
 A person is always an Inform library animate object.
 A person can be female or male. A person is usually male.
+Include (-
+  with carrying capacity 100,
+-) when defining a person.
+A person is allowed to have a number called carrying capacity.
+The carrying capacity of a person is usually 100.
 
 The specification of person is "Despite the name, not necessarily
 a human being, but anything animate enough to envisage having a
@@ -336,14 +348,12 @@ The specification of player-character is "Represents a body through
 which the game can be played. In most games there is only one of these,
 normally called 'yourself'."
 
-A player-character is allowed to have a number called carrying capacity.
-The carrying capacity of a player-character is usually 100.
 Include (-
   with description
        [;  return L__M(##Miscellany, 19);
        ],
        before NULL, after NULL, life NULL, each_turn NULL,
-       time_out NULL, describe NULL,
+       time_out NULL,
        parse_name 0,
        orders 0, number 0,
   has  proper transparent,
@@ -379,12 +389,9 @@ A backdrop is always fixed in place.
 Section SR1/11 - Inform 6 equivalents
 
 The description translates into Inform as "description".
-Description when open translates into Inform as "when_open".
-Description when closed translates into Inform as "when_closed".
-Description when on translates into Inform as "when_on".
-Description when off translates into Inform as "when_off".
 Initial appearance translates into Inform as "initial".
 The printed name translates into Inform as "short_name".
+The printed plural name translates into Inform as "plural".
 Lit translates into Inform as "light".
 Lighted translates into Inform as "light".
 Switched on translates into Inform as "on".
@@ -420,11 +427,14 @@ Initially carried translates into Inform as "initially_carried".
 Handled translates into Inform as "moved".
 Marked for listing translates into Inform as "workflag".
 Map region translates into Inform as "I7_Map_Region".
+Mentioned translates into Inform as "I7_mentioned".
 
 The noun is an object that varies.
 The second noun is an object that varies.
 The person asked is an object that varies.
+The person reaching is an object that varies.
 The object in question is an object that varies.
+The container in question is an object that varies.
 [The item in question is an object that varies.]
 The this object is an object that varies.
 
@@ -441,9 +451,16 @@ The time of day is a time that varies.
 The say-parameter is an object that varies.
 
 The player's command is a snippet that varies.
+The topic understood is a snippet that varies.
 The matched text is a snippet that varies.
 
+The number understood is a number that varies.
+The time understood is a time that varies.
+
 The maximum score is a number that varies.
+
+The reason the action failed is a rule that varies.
+The particular possession is a thing that varies.
 
 Part SR2 - Rules
 
@@ -451,31 +468,35 @@ Section SR2/1 - Standard Rulebooks
 
 [Do not alter the following list unless matching changes have been
 made within the NI compiler.]
-Action-processing rules is a rulebook.
-Before rules is a rulebook.
-Instead rules is a rulebook.
-After rules is a rulebook.
-Procedural rules is a rulebook.
-Accessibility rules is a rulebook.
-Action-specific rules is a rulebook.
-Carry out rules is a rulebook.
-General report rules is a rulebook.
-Turn sequence rules is a rulebook.
-Reaching inside rules is a parametrised-rulebook.
-Reaching outside rules is a parametrised-rulebook.
-General before rules is a rulebook.
-Actor-specific before rules is a rulebook.
-Location-specific before rules is a rulebook.
-Reaction before rules is a rulebook.
-Object-specific before rules is a rulebook.
-General after rules is a rulebook.
-Actor-specific after rules is a rulebook.
-Location-specific after rules is a rulebook.
-Reaction after rules is a rulebook.
-Object-specific after rules is a rulebook.
-When play begins is a rulebook.
-When play ends is a rulebook.
-Daemons register is a rulebook.
+Action-processing rules is a rulebook. [0]
+Before rules is a rulebook. [1]
+Instead rules is a rulebook. [2]
+After rules is a rulebook. [3]
+Procedural rules is a rulebook. [4]
+Accessibility rules is a rulebook. [5]
+Action-specific rules is a rulebook. [6]
+Carry out rules is a rulebook. [7]
+General report rules is a rulebook. [8]
+Turn sequence rules is a rulebook. [9]
+Reaching inside rules is a parametrised-rulebook. [10]
+Reaching outside rules is a parametrised-rulebook. [11]
+General before rules is a rulebook. [12]
+Actor-specific before rules is a rulebook. [13]
+Location-specific before rules is a rulebook. [14]
+Reaction before rules is a rulebook. [15]
+Object-specific before rules is a rulebook. [16]
+General after rules is a rulebook. [17]
+Actor-specific after rules is a rulebook. [18]
+Location-specific after rules is a rulebook. [19]
+Reaction after rules is a rulebook. [20]
+Object-specific after rules is a rulebook. [21]
+When play begins is a rulebook. [22]
+When play ends is a rulebook. [23]
+Daemons register is a rulebook. [24]
+Check rules is a rulebook. [25]
+Report rules is a rulebook. [26]
+Persuasion rules is a rulebook. [27]
+Unsuccessful attempt by is a rulebook. [28]
 [From here on they can be meddled with.]
 
 Every turn rules is a rulebook.
@@ -523,7 +544,7 @@ The can't reach inside closed containers rule corresponds to routine OIUB_CCI.
 The can't reach outside closed containers rule corresponds to routine OIUB_CCO.
 The can't reach inside rooms rule corresponds to routine OIUB_RI.
 
-The primitive accessibility rule corresponds to routine PA_R.
+basic accessibility rule corresponds to routine PA_R.
 
 The first accessibility rule:
 	abide by the access to scoped objects rule.
@@ -557,11 +578,10 @@ The first action-processing rule:
 	abide by the before rules.
 
 The last action-processing rule:
-	abide by the primitive accessibility rule;
+	abide by the basic accessibility rule;
 	abide by the instead rules;
 	abide by the non-player character action rule;
 	abide by the action-specific rules;
-	abide by the carry out rules;
 	rule succeeds.
 
 The last before rule:
@@ -571,7 +591,7 @@ The last before rule:
 	abide by the reaction before rules;
 	abide by the object-specific before rules.
 
-The last carry out rule:
+The last action-specific rule:
 	cause the action to take place.
 
 The first after rule:
@@ -601,7 +621,8 @@ Deciding whether all includes something documented act_all is an activity.
 Printing the player's obituary documented act_obit is an activity.
 Amusing a victorious player documented act_amuse is an activity.
 Printing the banner text documented act_banner is an activity.
-
+Printing the plural name of something documented act_ppn is an activity.
+Deciding the concealed possessions of something documented act_con is an activity.
 
 The last for printing the name rule:
 	cause the description to take place.
@@ -617,6 +638,14 @@ The last for printing the player's obituary rule:
 	abide by the print final score rule;
 	abide by the display final status line rule.
 
+Before printing the name of a thing (called XXXX): now XXXX is mentioned.
+
+Writing a paragraph about something documented act_wpa is an activity.
+Include (- with describe [ o; if (self has (+ mentioned +) ) rtrue; say__p = 0;  
+CarryOutActivity( (+ writing a paragraph about +) , self); if  
+(say__p) { objectloop (o ofclass Object && o has (+ mentioned +) )  
+{ give o ~workflag; } rtrue; } ], -) when defining a thing.
+
 
 Section SR2/6 - Use options
 
@@ -625,6 +654,8 @@ Use the serial comma translates as (- Constant I7_SERIAL_COMMA; -).
 Use full-length room descriptions translates as (- Constant I7_LOOKMODE = 2; -).
 Use abbreviated room descriptions translates as (- Constant I7_LOOKMODE = 3; -).
 Use memory economy translates as (- Constant I7_ECONOMY; -).
+Use no scoring translates as (- Constant I7_NOSCORE; -).
+Use command line echoing translates as (- Constant I7_ECHOCOM; -).
 
 
 Part SR3 - Actions
@@ -641,6 +672,7 @@ Doing anything with corresponds to action "_Pattern_".]
 Section SR3/2 - Actions which move things
 
 Taking inventory is an action corresponding to Inv
+	anybody
 	past participle taken,
 	applying to nothing
 	- check -
@@ -651,9 +683,10 @@ Taking inventory is an action corresponding to Inv
 	print standard inventory rule = InvSub_O3
 	use inventory to set pronouns rule = InvSub_O4
 	- report -
-	none.
+	report other people taking inventory rule = InvSub_R1.
 
 Taking is an action corresponding to Take
+	anybody
 	past participle taken
 	applying to one thing
 	- check -
@@ -679,6 +712,7 @@ Taking is an action corresponding to Take
 	standard report taking rule = TakeSub_R2.
 
 Removing it from is an action corresponding to Remove
+	anybody
 	applying to two things
 	- check -
 	can't remove from closed containers rule = RemoveSub_C1
@@ -704,18 +738,21 @@ Removing it from is an action corresponding to Remove
 	standard report removing rule = RemoveSub_R1.
 
 Dropping is an action corresponding to Drop
+	anybody
 	applying to one thing
 	- check -
 	can't drop yourself rule = DropSub_C1
 	can't drop what's already dropped rule = DropSub_C2
 	can't drop what's not held rule = DropSub_C3
 	can't drop clothes being worn rule = DropSub_C4
+	can't drop if this exceeds carrying capacity rule = DropSub_C5
 	- carry-out -
 	standard dropping rule = DropSub_O1
 	- report -
 	standard report dropping rule = DropSub_R1;
 
 Putting it on is an action corresponding to PutOn
+	anybody
 	past participle put
 	applying to two things
 	- check -
@@ -734,6 +771,7 @@ Putting it on is an action corresponding to PutOn
 	standard report putting rule = PutOnSub_R1;
 
 Inserting it into is an action corresponding to Insert
+	anybody
 	applying to two things
 	- check -
 	convert insert to drop where possible rule = InsertSub_C1
@@ -755,6 +793,7 @@ Inserting it into is an action corresponding to Insert
 Section SR3/3 - Actions which move the player
 
 Waiting is an action corresponding to Wait
+	anybody
 	applying to nothing
 	- check -
 	none
@@ -764,6 +803,7 @@ Waiting is an action corresponding to Wait
 	standard report waiting rule = WaitSub_R1.
 
 Going is an action corresponding to Go
+	anybody
 	past participle gone
 	applying to one visible thing
 	- check -
@@ -786,6 +826,7 @@ Going is an action corresponding to Go
 	describe room gone into rule = GoSub_R1;
 
 Entering is an action corresponding to Enter
+	anybody
 	applying to one thing
 	- check -
 	convert enter door into go rule = EnterSub_C1
@@ -803,6 +844,7 @@ Entering is an action corresponding to Enter
 	describe contents entered into rule = EnterSub_R2;
 
 Exiting is an action corresponding to Exit
+	anybody
 	applying to nothing
 	- check -
 	convert exit into go out rule = ExitSub_C1
@@ -815,6 +857,7 @@ Exiting is an action corresponding to Exit
 	describe room emerged into rule = ExitSub_R2;
 
 Getting off is an action corresponding to GetOff
+	anybody
 	past participle got
 	applying to one thing
     - check -
@@ -829,6 +872,7 @@ Getting off is an action corresponding to GetOff
 Section SR3/4 - Actions involving sight
 
 Looking is an action corresponding to Look
+	anybody
 	applying to nothing
 	[requiring light]
 	- check -
@@ -841,9 +885,10 @@ Looking is an action corresponding to Look
 	consult LookRoutine entry point rule = LookSub_O5
 	check new arrival rule = LookSub_O6
 	- report -
-	none.
+	report other people looking rule = LookSub_R1.
 
 Examining is an action corresponding to Examine
+	anybody
 	applying to one visible thing
 	requiring light
 	- check -
@@ -855,19 +900,21 @@ Examining is an action corresponding to Examine
 	standard examining rule = ExamineSub_O4
 	examine described devices rule = ExamineSub_O5
 	- report -
-	none.
+	report other people examining rule = ExamineSub_R1.
 
 Looking under is an action corresponding to LookUnder
+	anybody
 	applying to one visible thing
 	requiring light
 	- check -
 	none
 	- carry-out -
-	standard looking under rule = LookUnder_O1
+	standard looking under rule = LookUnderSub_O1
 	- report -
-	none.
+	report other people looking under rule = LookUnderSub_R1.
 
 Searching is an action corresponding to Search
+	anybody
 	applying to one thing
 	requiring light
 	- check -
@@ -877,9 +924,11 @@ Searching is an action corresponding to Search
 	standard searching rule = SearchSub_O1
 	- report -
 	standard search containers rule = SearchSub_R1
-	standard search supporters rule = SearchSub_R2.
+	standard search supporters rule = SearchSub_R2
+	report other people searching rule = SearchSub_R3.
 
 Consulting it about is an action corresponding to Consult
+	anybody
 	applying to one thing and one topic
 	- check -
 	none
@@ -892,6 +941,7 @@ Consulting it about is an action corresponding to Consult
 Section SR3/5 - Actions which change the state of things
 
 Locking it with is an action corresponding to Lock
+	anybody
 	applying to two things
 	- check -
 	can't lock without a lock rule = LockSub_C1
@@ -904,6 +954,7 @@ Locking it with is an action corresponding to Lock
 	standard report locking rule = LockSub_R1.
 
 Unlocking it with is an action corresponding to Unlock
+	anybody
 	applying to two things
 	- check -
 	can't unlock without a lock rule = UnlockSub_C1
@@ -915,6 +966,7 @@ Unlocking it with is an action corresponding to Unlock
 	standard report unlocking rule = UnlockSub_R1.
 
 Switching on is an action corresponding to SwitchOn
+	anybody
 	applying to one thing
 	- check -
 	can't switch on unless switchable rule = SwitchOnSub_C1
@@ -925,6 +977,7 @@ Switching on is an action corresponding to SwitchOn
 	standard report switching on rule = SwitchOnSub_R1.
 
 Switching off is an action corresponding to SwitchOff
+	anybody
 	applying to one thing
 	- check -
 	can't switch off unless switchable rule = SwitchOffSub_C1
@@ -935,6 +988,7 @@ Switching off is an action corresponding to SwitchOff
 	standard report switching off rule = SwitchOffSub_R1.
 
 Opening is an action corresponding to Open
+	anybody
 	applying to one thing
 	- check -
 	can't open unless openable rule = OpenSub_C1
@@ -947,6 +1001,7 @@ Opening is an action corresponding to Open
 	standard report opening rule = OpenSub_R2.
 
 Closing is an action corresponding to Close
+	anybody
 	applying to one thing
 	- check -
 	can't close unless openable rule = CloseSub_C1
@@ -957,6 +1012,7 @@ Closing is an action corresponding to Close
 	standard report closing rule = CloseSub_R1.
 
 Wearing is an action corresponding to Wear
+	anybody
 	past participle worn
 	applying to one thing
 	- check -
@@ -969,6 +1025,7 @@ Wearing is an action corresponding to Wear
 	standard report wearing rule = WearSub_R1.
 
 Taking off is an action corresponding to Disrobe
+	anybody
 	past participle taken
 	applying to one thing
 	- check -
@@ -979,6 +1036,7 @@ Taking off is an action corresponding to Disrobe
 	standard report taking off rule = DisrobeSub_R1.
 
 Eating is an action corresponding to Eat
+	anybody
 	past participle eaten
 	applying to one thing
 	- check -
@@ -1461,6 +1519,170 @@ Sleeping is an action corresponding to Sleep
 	- report -
 	none.
 
+
+Section SR3/9 - Actions which happen out of world
+
+Requesting the score is an action corresponding to Score
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	announce the score rule = ScoreSub_O1
+	- report -
+	none.
+
+Requesting the full score is an action corresponding to FullScore
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	announce the full score rule = FullScoreSub_O1
+	- report -
+	none.
+
+Quitting the game is an action corresponding to Quit
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	quit the game rule = QuitSub_O1
+	- report -
+	none.
+
+Saving the game is an action corresponding to Save
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	save the game rule = SaveSub_O1
+	- report -
+	none.
+
+Restoring the game is an action corresponding to Restore
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	restore the game rule = RestoreSub_O1
+	- report -
+	none.
+
+Restarting the game is an action corresponding to Restart
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	restart the game rule = RestartSub_O1
+	- report -
+	none.
+
+Verifying the story file is an action corresponding to Verify
+	out of world
+	past participle verified
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	verify the story file rule = VerifySub_O1
+	- report -
+	none.
+
+Requesting the story file version is an action corresponding to Version
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	announce the story file version rule = VersionSub_O1
+	- report -
+	none.
+
+Switching the story transcript on is an action corresponding to ScriptOn
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	switch the story transcript on rule = ScriptOnSub_O1
+	- report -
+	none.
+
+Switching the story transcript off is an action corresponding to ScriptOff
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	switch the story transcript off rule = ScriptOffSub_O1
+	- report -
+	none.
+
+Preferring abbreviated room descriptions is an action corresponding to LMode3
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	prefer abbreviated room descriptions rule = LMode3Sub_O1
+	- report -
+	none.
+
+Preferring unabbreviated room descriptions is an action corresponding to LMode2
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	prefer unabbreviated room descriptions rule = LMode2Sub_O1
+	- report -
+	none.
+
+Preferring sometimes abbreviated room descriptions is an action corresponding to LMode1
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	prefer sometimes abbreviated room descriptions rule = LMode1Sub_O1
+	- report -
+	none.
+
+Requesting the pronoun meanings is an action corresponding to Pronouns
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	announce the pronoun meanings rule = PronounsSub_O1
+	- report -
+	none.
+
+Switching score notification on is an action corresponding to NotifyOn
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	switch score notification on rule = NotifyOnSub_O1
+	- report -
+	none.
+
+Switching score notification off is an action corresponding to NotifyOff
+	out of world
+	applying to nothing
+	- check -
+	none
+	- carry-out -
+	switch score notification off rule = NotifyOffSub_O1
+	- report -
+	none.
+
 Section SR3/9 - Grammar
 
 Understand "take [things]" as taking.
@@ -1468,7 +1690,7 @@ Understand "take off [something]" as taking off.
 Understand "take [things inside] from [something]" as removing it from.
 Understand "take [things inside] off [something]" as removing it from.
 Understand "take inventory" as taking inventory.
-Understand the verbs "carry" and "hold" as "take".
+Understand the commands "carry" and "hold" as "take".
 
 Understand "get out/off/up" as exiting.
 Understand "get [things]" as taking.
@@ -1486,10 +1708,10 @@ Understand "remove [things]" as taking.
 Understand "remove [things inside] from [something]" as removing it from.
 
 Understand "shed [something held]" as taking off.
-Understand the verbs "doff" and "disrobe" as "shed".
+Understand the commands "doff" and "disrobe" as "shed".
 
 Understand "wear [something held]" as wearing.
-Understand the verb "don" as "wear".
+Understand the command "don" as "wear".
 
 Understand "put [other things] in/inside/into [something]" as inserting it into.
 Understand "put [other things] on/onto [something]" as putting it on.
@@ -1502,71 +1724,71 @@ Understand "drop [things held]" as dropping.
 Understand "drop [other things] in/into/down [something]" as inserting it into.
 Understand "drop [other things] on/onto [something]" as putting it on.
 Understand "drop [something held] at/against/on/onto [something]" as throwing it at.
-Understand the verbs "throw" and "discard" as "drop".
+Understand the commands "throw" and "discard" as "drop".
 
-Understand "give [something held] to [someone]" or "give [someone]
-[something held]" as giving it to.
-Understand the verbs "pay" and "offer" and "feed" as "give".
+Understand "give [something held] to [someone]" as giving it to.
+Understand "give [someone] [something held]" as giving it to (with nouns reversed).
+Understand the commands "pay" and "offer" and "feed" as "give".
 
-Understand "show [someone] [something held]" or "show [something held] to
-[someone]" as showing it to.
-Understand the verbs "present" and "display" as "show".
+Understand "show [someone] [something held]" as showing it to (with nouns reversed).
+Understand "show [something held] to [someone]" as showing it to.
+Understand the commands "present" and "display" as "show".
 
 Understand "go" as going.
 Understand "go [direction]" as going.
 Understand "go [something]" as entering.
 Understand "go into/in/inside/through [something]" as entering.
-Understand the verbs "walk", "leave" and "run" as "go".
+Understand the commands "walk", "leave" and "run" as "go".
 
 Understand "inventory" as taking inventory.
-Understand the verbs "i" and "inv" as "inventory".
+Understand the commands "i" and "inv" as "inventory".
 
 Understand "look" as looking.
 Understand "look at [something]" as examining.
 Understand "look inside/in/into/through [something]" as searching.
 Understand "look under [something]" as looking under.
 Understand "look up [text] in [something]" as consulting it about (with nouns reversed).
-Understand the verb "l" as "look".
+Understand the command "l" as "look".
 
 Understand "consult [something] on/about [text]" as consulting it about.
 
 Understand "open [something]" as opening.
 Understand "open [something] with [something held]" as unlocking it with.
-Understand the verbs "unwrap", "uncover" as "open".
+Understand the commands "unwrap", "uncover" as "open".
 
 Understand "close [something]" as closing.
 Understand "close up [something]" as closing.
 Understand "close off [something]" as switching off.
-Understand the verbs "shut" and "cover" as "close".
+Understand the commands "shut" and "cover" as "close".
 
 Understand "enter [something]" as entering.
-Understand the verb "cross" as "enter".
+Understand the command "cross" as "enter".
 
 Understand "sit on top of [something]" as entering.
 Understand "sit on/in/inside [something]" as entering.
 
 Understand "exit" as exiting.
-Understand the verb "out" as "exit".
+Understand the command "out" as "exit".
 
 Understand "examine [something]" as examining.
-Understand the verbs "x", "watch", "describe" and "check" as "examine".
+Understand the commands "x", "watch", "describe" and "check" as "examine".
 
 Understand "read [something]" as examining.
 Understand "read about [text] in [something]" as consulting it about (with nouns reversed).
 Understand "read [text] in [something]" as consulting it about (with nouns reversed).
 
 Understand "yes" as saying yes.
-Understand the verb "y" as "yes".
+Understand the command "y" as "yes".
 
 Understand "no" as saying no.
 
 Understand "sorry" as saying sorry.
 
 Understand "shit" as swearing obscenely.
-Understand the verbs "fuck" and "damn" as "shit".
+Understand the commands "fuck" and "damn" as "shit".
 
 Understand "bother" as swearing mildly.
-Understand the verbs "curses", "drat" and "darn" as "bother".
+Understand the commands "curses", "drat" and "darn" as "bother".
 
 Understand "search [something]" as searching.
 
@@ -1575,20 +1797,20 @@ Understand "wave" as waving hands.
 Understand "wave [something]" as waving.
 
 Understand "set [something] to [text]" as setting it to.
-Understand the verb "adjust" as "set".
+Understand the command "adjust" as "set".
 
 Understand "pull [something]" as pulling.
-Understand the verb "drag" as "pull".
+Understand the command "drag" as "pull".
 
 Understand "push [something]" as pushing.
 Understand "push [something] [direction]" or "push [something]
 to [direction]" as pushing it to.
-Understand the verbs "move", "shift", "clear" and "press" as "push".
+Understand the commands "move", "shift", "clear" and "press" as "push".
 
 Understand "turn [something]" as turning.
 Understand "turn [something] on" or "turn on [something]" as switching on.
 Understand "turn [something] off" or "turn off [something]" as switching off.
-Understand the verbs "rotate", "twist", "unscrew" and "screw" as "turn".
+Understand the commands "rotate", "twist", "unscrew" and "screw" as "turn".
 
 Understand "switch [something]" or "switch [something] on" as switching on.
 Understand "switch [something] off" or "switch off [something]" as switching off.
@@ -1598,14 +1820,14 @@ Understand "lock [something] with [something held]" as locking it with.
 Understand "unlock [something] with [something held]" as unlocking it with.
 
 Understand "attack [something]" as attacking.
-Understand the verbs "break", "smash", "hit", "fight", "torture", "wreck",
+Understand the commands "break", "smash", "hit", "fight", "torture", "wreck",
 "crack", "destroy", "murder", "kill", "punch" and "thump" as "attack".
 
 Understand "wait" as waiting.
-Understand the verb "z" as "wait".
+Understand the command "z" as "wait".
 
 Understand "answer [text] to [someone]" as answering it that (with nouns reversed).
-Understand the verbs "say", "shout" and "speak" as "answer".
+Understand the commands "say", "shout" and "speak" as "answer".
 
 Understand "tell [someone] about [text]" as telling it about.
 
@@ -1615,21 +1837,21 @@ Understand "ask [someone] for [something]" as asking it for.
 Understand "eat [something held]" as eating.
 
 Understand "sleep" as sleeping.
-Understand the verb "nap" as "sleep".
+Understand the command "nap" as "sleep".
 
 Understand "sing" as singing.
 
 Understand "climb [something]" or "climb up/over [something]" as climbing.
-Understand the verb "scale" as "climb".
+Understand the command "scale" as "climb".
 
 Understand "buy [something]" as buying.
-Understand the verb "purchase" as "buy".
+Understand the command "purchase" as "buy".
 
 Understand "squeeze [something]" as squeezing.
-Understand the verb "squash" as "squeeze".
+Understand the command "squash" as "squeeze".
 
 Understand "swim" as swimming.
-Understand the verb "dive" as "swim".
+Understand the command "dive" as "swim".
 
 Understand "swing [something]" or "swing on [something]" as swinging.
 
@@ -1640,16 +1862,16 @@ Understand "pray" as praying.
 Understand "wake" or "wake up" as waking up.
 Understand "wake [someone]" or "wake [someone] up" or "wake up [someone]"
 as waking.
-Understand the verbs "awake" and "awaken" as "wake".
+Understand the commands "awake" and "awaken" as "wake".
 
 Understand "kiss [someone]" as kissing.
-Understand the verbs "embrace" and "hug" as "kiss".
+Understand the commands "embrace" and "hug" as "kiss".
 
 Understand "think" as thinking.
 
 Understand "smell" as smelling.
 Understand "smell [something]" as smelling.
-Understand the verb "sniff" as "smell".
+Understand the command "sniff" as "smell".
 
 Understand "listen" as listening.
 Understand "hear [something]" as listening.
@@ -1665,32 +1887,49 @@ which compass direction to go in."
 Understand "taste [something]" as tasting.
 
 Understand "touch [something]" as touching.
-Understand the verb "feel" as "touch".
+Understand the command "feel" as "touch".
 
 Understand "rub [something]" as rubbing.
-Understand the verbs "shine", "polish", "sweep", "clean", "dust", "wipe"
+Understand the commands "shine", "polish", "sweep", "clean", "dust", "wipe"
 and "scrub" as "rub".
 
 Understand "tie [something] to [something]" as tieing it to.
-Understand the verbs "attach", "fix" and "fasten" as "tie".
+Understand the commands "attach", "fix" and "fasten" as "tie".
 
 Understand "burn [something]" as burning.
-Understand the verb "light" as "burn".
+Understand the command "light" as "burn".
 
 Understand "drink [something]" as drinking.
-Understand the verbs "swallow" and "sip" as "drink".
+Understand the commands "swallow" and "sip" as "drink".
 
 Understand "fill [something]" as filling.
 
 Understand "cut [something]" as cutting.
-Understand the verbs "slice", "prune" and "chop" as "cut".
+Understand the commands "slice", "prune" and "chop" as "cut".
 
 Understand "jump" as jumping.
 Understand "jump over [something]" as jumping over.
-Understand the verbs "skip" and "hop" as "jump".
+Understand the commands "skip" and "hop" as "jump".
 
 Understand "dig [something]" as digging.
 
+Understand "score" as requesting the score.
+Understand "full score" or "fullscore" as requesting the full score.
+Understand "quit" or "q" as quitting the game.
+Understand "save" as saving the game.
+Understand "restart" as restarting the game.
+Understand "restore" as restoring the game.
+Understand "verify" as verifying the story file.
+Understand "version" as requesting the story file version.
+Understand "script" or "script on" or "transcript" or "transcript on"
+	as switching the story transcript on.
+Understand "script off" or "transcript off" as switching the story transcript off.
+Understand "superbrief" or "short" as preferring abbreviated room descriptions.
+Understand "verbose" or "long" as preferring unabbreviated room descriptions.
+Understand "brief" or "normal" as preferring sometimes abbreviated room descriptions.
+Understand "nouns" or "pronouns" as requesting the pronoun meanings.
+Understand "notify" or "notify on" as switching score notification on.
+Understand "notify off" as switching score notification off.
 
 Part SR4 - Phrasebook
 
@@ -1723,6 +1962,8 @@ To say the (something - object):
 	(- print (the) {something}; -).
 To say The (something - object):
 	(- print (The) {something}; -).
+To say (something - table-name):
+	(- print (PrintTableName) {something}; -).
 To say the player's surroundings documented ph_surrounds:
 	(- SL_Location(); -).
 To say list of extension credits:
@@ -1771,11 +2012,11 @@ To resume the game:
 Section SR4/2 - Causing and responding to actions
 
 To try (doing something - action) documented ph_try:
-	(- @push actor; actor=player; {doing something}; @pull actor; -).
+	(- {doing something}; -).
 To silently try (doing something - action):
-	(- @push actor; actor=player; keep_silent=1;{doing something};keep_silent=0; @pull actor; -).
+	(- @push keep_silent; keep_silent=1; {doing something}; @pull keep_silent; -).
 To try silently (doing something - action):
-	(- @push actor; actor=player; keep_silent=1;{doing something};keep_silent=0; @pull actor; -).
+	(- @push keep_silent; keep_silent=1; {doing something}; @pull keep_silent; -).
 
 To stop the action documented ph_stop:
 	(- rtrue; -) - outcome.
@@ -1811,14 +2052,14 @@ To it does not:
 Section SR4/3 - Moving and removing things
 
 To remove (something - a thing) from play documented ph_remove:
-	(- remove {something}; -).
+	(- I7_Remove({something}); -).
 To move (something - object) to (something else - object),
 	without printing a room description
 	or printing an abbreviated room description documented ph_move:
-	(- I7_Move({something}, {something else}, {phrase options}); -).
+	(- I7_Move({something}, {something else}, {phrase options}, {phrase line}); -).
 
 To decide which object is holder of (something - object) documented ph_holder:
-	(- (parent({something})) -).
+	(- (I7_Holder({something})) -).
 To decide which object is next thing held after (something - object):
 	(- (sibling({something})) -).
 To decide which object is first thing held by (something - object):
@@ -1830,6 +2071,21 @@ To decide whether in (somewhere - a region):
 	(- (I7_In(real_location,{somewhere})) -).
 To decide whether in darkness:
 	(- (location==thedark) -).
+
+To decide which room is best route from (R1 - room) to (R2 - room),
+	using doors or using even locked doors:
+	(- I7_RouteTo({R1},{R2},{phrase options}); -).
+To decide which number is number of moves from (R1 - room) to (R2 - room),
+	using doors or using even locked doors:
+	(- I7_CountRouteTo({R1},{R2},{phrase options}); -).
+To decide which room is room (D - direction) from (R1 - room):
+	(- I7_RoomFrom({R1},{D},2); -).
+To decide which object is next step via (R - abstract-relation)
+	from (O1 - object) to (O2 - object):
+	(- I7_RelRouteTo({R},{O1},{O2}); -).
+To decide which number is number of steps via (R - abstract-relation)
+	from (O1 - object) to (O2 - object):
+	(- I7_CountRelRouteTo({R},{O1},{O2}); -).
 
 
 Section SR4/4 - Arithmetic
@@ -1979,12 +2235,16 @@ To let (r - object variable) be (s - object):
 	(- {r} = {s}; -). 
 To let (k - classified variable) be (l - classified):
 	(- {k} = {l}; -). 
+To let (k - table-name variable) be (l - table-name):
+	(- {k} = {l}; -). 
 To let (t - existing variable) be (u - value):
 	(- {t} = {u}; -).
 To change (p - property) to (w - value) documented ph_changev:
 	(- Write{p}{-},{w}); -).
 To change (gv - global variable) to (w - value) documented ph_change:
 	(- {gv} = {w}; -).
+To change (lv - existing variable) to (w - value):
+	(- {lv} = {w}; -).
 To change (o - object) to (p - property) documented ph_changep:
 	(- if (PermitAttribute(true, {o}, {p})) give {o} {p}; -).
 To change (o - object) to (w - value):
@@ -2045,6 +2305,10 @@ To say contents of (O - an object):
 	list the contents of O, as a sentence.
 To say the contents of (O - an object):
 	list the contents of O, as a sentence, using the definite article.
+To say a list of (OS - object-specification):
+	(- objectloop (say__c ofclass Object) if ({OS}) 
+		give say__c i7listflag; else give say__c ~i7listflag;
+		I7List(0); -).
 To say list of (OS - object-specification):
 	(- objectloop (say__c ofclass Object) if ({OS}) 
 		give say__c i7listflag; else give say__c ~i7listflag;
@@ -2129,7 +2393,7 @@ To result (something - returned) documented ph_result:
 	(- return {something}; -) - value.
 
 
-Section SR4/11 - Accessibility
+Section SR4/11 - Accessibility and persuasion
 
 To decide whether (o - object) is inaccessible, saying if not:
 	(- (ObjectIsUntouchable({o}, ~~({saying if not}))) -).
@@ -2137,14 +2401,18 @@ To allow access documented ph_allow:
 	(- RulebookSucceeds(); rtrue; -).
 To deny access:
 	(- RulebookFails(); rtrue; -).
+To persuasion succeeds:
+	(- RulebookSucceeds(); rtrue; -).
+To persuasion fails:
+	(- RulebookFails(); rtrue; -).
 
 
 Section SR4/12 - Daemons
 
-To start (RL - a rule) documented ph_daemons:
+[To start (RL - a rule):
 	(- SetDaemonRule({RL},1); -).
 To stop (RL - a rule):
-	(- SetDaemonRule({RL},0); -).
+	(- SetDaemonRule({RL},0); -).]
 
 
 Section SR4/13 - Fonts and visual effects
@@ -2261,7 +2529,8 @@ To cause the listing to take place:
 
 Part SR5 - Bibliographic data
 
-The story title, the story author and the story genre are text variables.
+The story title, the story author, the story headline and the story genre
+are text variables.
 The release number is a number variable.
 
 

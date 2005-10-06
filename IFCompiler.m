@@ -8,6 +8,9 @@
 
 #import "IFCompiler.h"
 
+#import "IFNaturalProblem.h"
+#import "IFInform6Problem.h"
+
 static int mod = 0;
 
 NSString* IFCompilerStartingNotification = @"IFCompilerStartingNotification";
@@ -268,6 +271,8 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     if (stdErr) [stdErr release];
 
     //if (delegate) [delegate release];
+	
+	if (problemsURL) [problemsURL release];
 
     [runQueue release];
 	[progress release];
@@ -322,6 +327,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 - (void) addCustomBuildStage: (NSString*) command
                withArguments: (NSArray*) arguments
               nextStageInput: (NSString*) file
+				errorHandler: (NSObject<IFCompilerProblemHandler>*) handler
 					   named: (NSString*) stageName {
     if (theTask) {
         // This starts a new build process, so we kill the old task if it's still
@@ -338,6 +344,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
         [NSArray arrayWithArray: arguments],
         [NSString stringWithString: file],
 		[[stageName copy] autorelease],
+		handler,
 		nil]];
 }
 
@@ -355,6 +362,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     [self addCustomBuildStage: [settings naturalInformCompilerToUse]
                 withArguments: args
                nextStageInput: [NSString stringWithFormat: @"%@/Build/auto.inf", [self currentStageInput]]
+				 errorHandler: [[[IFNaturalProblem alloc] init] autorelease]
 						named: [[NSBundle mainBundle] localizedStringForKey: @"Compiling Natural Inform source" 
 																	  value: @"Compiling Natural Inform source"
 																	  table: nil]];
@@ -374,6 +382,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     [self addCustomBuildStage: [settings compilerToUse]
                 withArguments: args
                nextStageInput: outputFile
+				 errorHandler: [[[IFInform6Problem alloc] init] autorelease]
 						named: [[NSBundle mainBundle] localizedStringForKey: @"Compiling Inform 6 source" 
 																	  value: @"Compiling Inform 6 source"
 																	  table: nil]];
@@ -397,8 +406,11 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
             [theTask terminate];
         }
         [theTask release];
-        theTask = nil;
+        theTask = nil;		
     }
+
+	// There are no problems
+	[problemsURL release]; problemsURL = nil;
 
     if (deleteOutputFile) [self deleteOutput];
 
@@ -410,6 +422,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
             [self addCustomBuildStage: buildsh
                         withArguments: [NSArray array]
                        nextStageInput: [self currentStageInput]
+						 errorHandler: nil
 								named: @"Debug build stage"];
         }
         
@@ -530,6 +543,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     [[NSNotificationCenter defaultCenter] postNotificationName: IFCompilerStartingNotification
                                                         object: self];
     [theTask launch];
+}
+
+- (NSURL*)    problemsURL {
+	return problemsURL;
 }
 
 - (NSString*) outputFile {

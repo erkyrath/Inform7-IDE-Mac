@@ -11,21 +11,24 @@
 
 System_file;
 
+#ifndef NI_BUILD_COUNT;
 Verb meta 'score'
                 *                                -> Score;
 Verb meta 'fullscore' 'full'
                 *                                -> FullScore
                 * 'score'                        -> FullScore;
-Verb meta 'q//' 'quit' 'die'
+Verb meta 'q//' 'quit'
                 *                                -> Quit;
 Verb meta 'restore'
                 *                                -> Restore;
 Verb meta 'restart'
                 *                                -> Restart;
-Verb meta 'verify'
-                *                                -> Verify;
 Verb meta 'save'
                 *                                -> Save;
+Verb meta 'verify'
+                *                                -> Verify;
+Verb meta 'version'
+                *                                -> Version;
 Verb meta 'script' 'transcript'
                 *                                -> ScriptOn
                 * 'off'                          -> ScriptOff
@@ -43,8 +46,7 @@ Verb meta 'pronouns' 'nouns'
 Verb meta 'notify'
                 * 'on'                           -> NotifyOn
                 * 'off'                          -> NotifyOff;
-Verb meta 'version'
-                *                                -> Version;
+#endif;
 #IFNDEF NO_PLACES;
 Verb meta 'places'
                 *                                -> Places;
@@ -57,15 +59,15 @@ Verb meta 'objects'
 ! ----------------------------------------------------------------------------
 
 #ifdef DEBUG;
+Verb meta 'actions'
+                *                                -> ActionsOn
+                * 'on'                           -> ActionsOn
+                * 'off'                          -> ActionsOff;
 Verb meta 'trace'
                 *                                -> TraceOn
                 * number                         -> TraceLevel
                 * 'on'                           -> TraceOn
                 * 'off'                          -> TraceOff;
-Verb meta 'actions'
-                *                                -> ActionsOn
-                * 'on'                           -> ActionsOn
-                * 'off'                          -> ActionsOff;
 Verb meta 'routines' 'messages'
                 *                                -> RoutinesOn
                 * 'on'                           -> RoutinesOn

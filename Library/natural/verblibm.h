@@ -67,8 +67,13 @@ System_file;
 #endif;
 ];
 
-[ VersionSub;
+[ VersionSub i;
   Banner();
+#ifdef NI_BUILD_COUNT;
+	print "Identification number: ";
+	for (i=6: i<=UUID_ARRAY->0: i++) print (char) UUID_ARRAY->i;
+	print "^";
+#endif;
   if (standard_interpreter > 0)
       print "Standard interpreter ",
           standard_interpreter/256, ".", standard_interpreter%256,
@@ -402,7 +407,9 @@ Global I7_wlf_sp;
       {   if (c_style & DEFART_BIT ~= 0)
               PrefaceByArticle(j, 1, sizes_p->i);
           print (number) sizes_p->i, " ";
-          PrintOrRun(j,plural,1);
+          BeginActivity(PLURALNAME_ACT,j);
+          if (ForActivity(PLURALNAME_ACT,j) == false) PrintOrRun(j,plural,1);
+          EndActivity(PLURALNAME_ACT,j);
       }
       WriteAfterEntry(j,depth,stack_pointer);
 
@@ -1548,7 +1555,7 @@ Global I7_wlf_sp;
 ];
 
 [ Locale descin text1 text2 o k p j f2 flag;
-
+  I7_Locale(descin, text1, text2);
   objectloop (o ofclass Object) give o ~workflag;
 
   k=0;
@@ -1581,13 +1588,15 @@ Global I7_wlf_sp;
                      give o ~workflag; k--;
                  }    
                  else
-                 {   j=o.p;
+                 {   if (o hasnt moved || f2==1) {
+                     j=o.p;
                      if (j~=0)
                      {   new_line;
                          PrintOrRun(o,p);
                          flag=1;
                          give o ~workflag; k--;
                          if (o has supporter && child(o)~=0) SayWhatsOn(o);
+                     }
                      }
                  }
              }
@@ -1658,8 +1667,8 @@ Global I7_wlf_sp;
 
 [ Vis_parent_dash o;
   if (o == 0) rfalse;
-  if ((o provides component_part_of) &&
-      (o.component_part_of)) return Vis_parent_dash(o.component_part_of);
+  if ((o provides component_parent) &&
+      (o.component_parent)) return Vis_parent_dash(o.component_parent);
   return parent(o);
 ];
 
@@ -1667,8 +1676,8 @@ Global I7_wlf_sp;
   if (o == 0) rfalse;
 !  print "VP on ", (the) o, "^";
   if ((o has container) && (o hasnt open) && (o hasnt transparent)) rfalse;
-  if ((o provides component_part_of) &&
-      (o.component_part_of)) return Vis_parent_dash(o.component_part_of);
+  if ((o provides component_parent) &&
+      (o.component_parent)) return Vis_parent_dash(o.component_parent);
   return parent(o);
 ];
 
@@ -2067,9 +2076,9 @@ ENDIF;
 [ XTestMove obj dest;
   if ((obj<=InformLibrary) || (obj == LibraryMessages) || (obj in 1))
      "[Can't move ", (name) obj, ": it's a system object.]";
-  if (obj.component_part_of)
+  if (obj.component_parent)
      "[Can't move ", (name) obj, ": it's part of ",
-     (the) obj.component_part_of, ".]";
+     (the) obj.component_parent, ".]";
   while (dest ~= 0)
   {   if (dest == obj)
           "[Can't move ", (name) obj, ": it would contain itself.]";

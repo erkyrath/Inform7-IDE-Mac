@@ -17,6 +17,15 @@ extern NSString* IFCompilerStderrNotification;
 extern NSString* IFCompilerFinishedNotification;
 
 //
+// Protocol implemented by classes that can find alternative 'problems' files
+//
+@protocol IFCompilerProblemHandler
+
+- (NSURL*) urlForProblemWithErrorCode: (int) errorCode;		// Returns the problem URL to use when the compiler finishes with a specific error code
+
+@end
+
+//
 // Class that handles actually running a compiler (more like a 'make' class these days)
 //
 @interface IFCompiler : NSObject {
@@ -30,6 +39,8 @@ extern NSString* IFCompilerFinishedNotification;
     NSString* outputFile;					// The output filename for this compiler
     NSString* workingDirectory;				// The working directory for this stage
     BOOL deleteOutputFile;					// YES if the output file should be deleted when the compiler is dealloced
+	
+	NSURL* problemsURL;						// The URL of the problems page we should show
 
     // Queue of processes to run
     NSMutableArray* runQueue;				// Queue of tasks to run to produce the end result
@@ -77,6 +88,7 @@ extern NSString* IFCompilerFinishedNotification;
 - (void) addCustomBuildStage: (NSString*) command									// Adds a new build stage to the compiler
                withArguments: (NSArray*) arguments
               nextStageInput: (NSString*) file
+				errorHandler: (NSObject<IFCompilerProblemHandler>*) handler
 					   named: (NSString*) stageName;
 - (void) addNaturalInformStage;														// Adds a new Natural Inform build stage to the compiler
 - (void) addStandardInformStage;													// Adds a new Inform 6 build stage to the compiler
@@ -84,6 +96,7 @@ extern NSString* IFCompilerFinishedNotification;
 
 - (void)      deleteOutput;															// Deletes the output from the compiler
 - (NSString*) outputFile;															// Path of the compiler output file
+- (NSURL*)    problemsURL;															// URL of the file that should be shown in the 'Problems' tab; nil if we should use the standard problems.html file
 - (void)      setOutputFile: (NSString*) file;										// Sets the file that the compiler should target
 - (void)      setDeletesOutput: (BOOL) deletes;										// If YES, the output is deleted when the compiler is deallocated
 
@@ -98,7 +111,9 @@ extern NSString* IFCompilerFinishedNotification;
 
 @end
 
+//
 // Delegate method prototypes
+//
 @interface NSObject(IFCompilerDelegate)
 
 - (void) taskFinished:       (int) exitCode;										// Called when every stage has completed, or when a stage fails (ie, when compiling has finished for whatever reason)
