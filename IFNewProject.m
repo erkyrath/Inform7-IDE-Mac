@@ -121,7 +121,7 @@ static NSMutableDictionary* projectDictionary = nil;
 	if ([projectType respondsToSelector: @selector(createAndOpenDocument:)]) {
 		if ([projectType createAndOpenDocument: [projectType saveFilename]]) {
 			// Success
-			[self autorelease];
+			[self close];
 			return;
 		} else {
 			[projectPaneView addSubview: currentView];
@@ -158,7 +158,7 @@ static NSMutableDictionary* projectDictionary = nil;
 				   updateFilenames: YES];
 	
 	if (success) {
-		[self autorelease];
+		[self close];
 		
 		// Owing to a bug in NSFileWrapper (I think), we can't set the
 		// 'hidden extension' attribute there, so we use NSFileManager
@@ -315,7 +315,7 @@ static NSMutableDictionary* projectDictionary = nil;
                        updateFilenames: YES];
 
         if (success) {
-            [self autorelease];
+            [self close];
 
             // Owing to a bug in NSFileWrapper (I think), we can't set the
             // 'hidden extension' attribute there, so we use NSFileManager
@@ -400,7 +400,7 @@ static NSMutableDictionary* projectDictionary = nil;
 }
 
 - (IBAction) cancel: (id) sender {
-    [self autorelease];
+    [self close];
 }
 
 - (IBAction) chooseLocation: (id) sender {
@@ -426,7 +426,12 @@ static NSMutableDictionary* projectDictionary = nil;
 }
 
 - (void) close {
-    [self autorelease];
+	[[self window] orderOut: self];
+	
+	// (Allowing a delay ensures that there is no crash after the window closes: the file selector can be a bit tetchy)
+	[self performSelector: @selector(autorelease)
+			   withObject: nil
+			   afterDelay: 30.0];
 }
 
 - (void)savePanelDidEnd:(NSSavePanel *) sheet
