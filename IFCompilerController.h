@@ -58,6 +58,7 @@ extern NSString* IFStyleStatistics;
     
     // The subtask
     IFCompiler* compiler;							// This is the actual compiler
+	NSURL* lastProblemURL;							// The last problem URL returned by the compiler
 
     // Styles
     NSMutableDictionary* styles;					// The attributes used to render various strings recognised by the parser

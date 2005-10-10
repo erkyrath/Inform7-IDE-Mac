@@ -41,6 +41,7 @@ extern NSString* IFCompilerFinishedNotification;
     BOOL deleteOutputFile;					// YES if the output file should be deleted when the compiler is dealloced
 	
 	NSURL* problemsURL;						// The URL of the problems page we should show
+	NSObject<IFCompilerProblemHandler>* problemHandler;	// The current problem handler
 
     // Queue of processes to run
     NSMutableArray* runQueue;				// Queue of tasks to run to produce the end result
@@ -91,7 +92,7 @@ extern NSString* IFCompilerFinishedNotification;
 				errorHandler: (NSObject<IFCompilerProblemHandler>*) handler
 					   named: (NSString*) stageName;
 - (void) addNaturalInformStage;														// Adds a new Natural Inform build stage to the compiler
-- (void) addStandardInformStage;													// Adds a new Inform 6 build stage to the compiler
+- (void) addStandardInformStage: (BOOL) usingNaturalInform;							// Adds a new Inform 6 build stage to the compiler
 - (NSString*) currentStageInput;													// Pathname of the input file for the current build stage
 
 - (void)      deleteOutput;															// Deletes the output from the compiler

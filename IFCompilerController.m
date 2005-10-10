@@ -174,6 +174,8 @@ static IFCompilerController* activeController = nil;
     if (window)        [window release];
     //if (delegate)      [delegate release];
     if (fileTabView)   [fileTabView release];
+	
+	if (lastProblemURL) [lastProblemURL release];
     
     [super dealloc];
 }
@@ -305,6 +307,9 @@ static IFCompilerController* activeController = nil;
 
 - (void) finished: (NSNotification*) not {
     int exitCode = [[[not userInfo] objectForKey: @"exitCode"] intValue];
+	
+	[lastProblemURL release];
+	lastProblemURL = [[compiler problemsURL] retain];
 
     [[[compilerResults textStorage] mutableString] appendString: @"\n"];
 	[[[compilerResults textStorage] mutableString] appendString: 
@@ -682,11 +687,88 @@ static IFCompilerController* activeController = nil;
     NSEnumerator* keyEnum = [[files fileWrappers] keyEnumerator];
     NSString* key;
 	NSTabViewItem* preferredTabView = nil;
+	
+	// If there is a compiler-supplied problems file, add this to the tab view
+	if (lastProblemURL != nil) {
+		if (fileTabView == nil) {
+			// Put the split view inside a tabview
+			NSView* inView = [splitView superview];
+			
+			[splitView retain];
+			[splitView removeFromSuperview];
+			
+			fileTabView = [[NSTabView alloc] init];
+			
+			[fileTabView setControlSize: NSSmallControlSize];
+			[fileTabView setFont: [NSFont systemFontOfSize: 10]];
+			[fileTabView setAllowsTruncatedLabels: YES];
+			[fileTabView setAutoresizingMask: [splitView autoresizingMask]];
+			
+			NSTabViewItem* splitViewItem;
+			
+			splitViewItem = [[NSTabViewItem alloc] init];
+			[splitViewItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Compiler" 
+																			value: @"Compiler"
+																			table: @"CompilerOutput"]];
+			[splitViewItem setView: splitView];
+			
+			[fileTabView addTabViewItem: splitViewItem];
+			
+			[fileTabView setFrame: [inView bounds]];
+			[inView addSubview: fileTabView];
+			
+			[splitView release];
+			[splitViewItem release];
+		}
 
+		// Create a web view for the new problems view
+		NSView* newView;
+		if ([[NSApp delegate] isWebKitAvailable]) {
+			// Create a parent view
+			NSView* aView = [[NSView alloc] initWithFrame: [fileTabView contentRect]];
+			[aView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+			newView = aView;
+			
+			// Create a 'fake' web view which will get replaced when the view is actually displayed on screen
+			IFPretendWebView* pretendView = [[IFPretendWebView alloc] initWithFrame: [aView bounds]];
+			
+			[pretendView setHostWindow: [[splitView superview] window]];
+			[pretendView setRequest: [[[NSURLRequest alloc] initWithURL: lastProblemURL] autorelease]];
+			[pretendView setPolicyDelegate: self];
+			
+			[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+			
+			// Add it to aView
+			[aView addSubview: [pretendView autorelease]];
+		}
+
+		NSTabViewItem* fileItem;
+		fileItem = [[NSTabViewItem alloc] init];
+		
+		// 'Problems.html' is the preferred view. May also be called 'log of problems?'
+		// A file called 'Problems' is preferred to a file called 'log of problems'
+		preferredTabView = fileItem;
+		
+		[fileItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Problems.html" 
+																   value: @"Problems"
+																   table: @"CompilerOutput"]];
+		[newView setFrame: [fileTabView contentRect]];
+		[fileItem setView: newView];
+		
+		[fileTabView addTabViewItem: fileItem];
+		
+		[fileItem   release];
+		[newView    release];
+	}
+
+	// Enumerate across the list of files in the filewrapper
     while (key = [keyEnum nextObject]) {
         NSString* type = [[key pathExtension] lowercaseString];
 
+		// HTML, text and inf files go in a tab view showing various different status messages
+		// With NI, the problems file is most important: we substitute this if the compiler wants
         if ((![[[key substringToIndex: 4] lowercaseString] isEqualToString: @"temp"]) &&
+			(lastProblemURL == nil || ![[[key stringByDeletingPathExtension] lowercaseString] isEqualToString: @"problems"]) &&
             ([type isEqualTo: @"inf"] ||
              [type isEqualTo: @"txt"] ||
 			 [type isEqualTo: @"html"] ||

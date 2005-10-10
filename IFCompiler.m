@@ -273,6 +273,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     //if (delegate) [delegate release];
 	
 	if (problemsURL) [problemsURL release];
+	if (problemHandler) [problemHandler release];
 
     [runQueue release];
 	[progress release];
@@ -368,7 +369,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 																	  table: nil]];
 }
 
-- (void) addStandardInformStage {
+- (void) addStandardInformStage: (BOOL) usingNaturalInform {
     if (!outputFile) [self outputFile];
     
     // Prepare the arguments
@@ -382,7 +383,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     [self addCustomBuildStage: [settings compilerToUse]
                 withArguments: args
                nextStageInput: outputFile
-				 errorHandler: [[[IFInform6Problem alloc] init] autorelease]
+				 errorHandler: usingNaturalInform?[[[IFInform6Problem alloc] init] autorelease]:nil
 						named: [[NSBundle mainBundle] localizedStringForKey: @"Compiling Inform 6 source" 
 																	  value: @"Compiling Inform 6 source"
 																	  table: nil]];
@@ -431,7 +432,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
         }
 
         if (![settings usingNaturalInform] || [settings compileNaturalInformOutput]) {
-            [self addStandardInformStage];
+            [self addStandardInformStage: [settings usingNaturalInform]];
         }
     }
 
@@ -450,6 +451,12 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 	
     NSArray* args     = [[runQueue objectAtIndex: 0] objectAtIndex: 1];
     NSString* command = [[runQueue objectAtIndex: 0] objectAtIndex: 0];
+	
+	[problemHandler release]; problemHandler = nil;
+	if ([[runQueue objectAtIndex: 0] count] > 4) {
+		problemHandler = [[[runQueue objectAtIndex: 0] objectAtIndex: 4] retain];
+	}
+	
     [[args retain] autorelease];
     [[command retain] autorelease];
     [runQueue removeObjectAtIndex: 0];
@@ -589,29 +596,40 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 }
 
 - (void) taskHasReallyFinished {
-    BOOL failed = [theTask terminationStatus] != 0;
+	int exitCode = [theTask terminationStatus];
+    BOOL failed = exitCode != 0;
 
     if (failed) {
-        [runQueue removeAllObjects];
+        // [runQueue removeAllObjects];
     }
 
     if ([runQueue count] <= 0) {
+        if (exitCode != 0 && problemHandler) {
+			[problemsURL release]; problemsURL = nil;
+			
+			problemsURL = [[problemHandler urlForProblemWithErrorCode: exitCode] copy];
+		}
+			
         if (delegate &&
             [delegate respondsToSelector: @selector(taskFinished:)]) {
-            [delegate taskFinished: [theTask terminationStatus]];
+            [delegate taskFinished: exitCode];
         }
 
         NSDictionary* uiDict = [NSDictionary dictionaryWithObjectsAndKeys:
-            [NSNumber numberWithInt: [theTask terminationStatus]],
+            [NSNumber numberWithInt: exitCode],
             @"exitCode",
             nil];
         [[NSNotificationCenter defaultCenter] postNotificationName: IFCompilerFinishedNotification
                                                             object: self
                                                           userInfo: uiDict];
     } else {
-        int exitCode = [theTask terminationStatus];
-        
         if (exitCode != 0) {
+			if (problemHandler) {
+				[problemsURL release]; problemsURL = nil;
+				
+				problemsURL = [[problemHandler urlForProblemWithErrorCode: exitCode] copy];
+			}
+			
             // The task failed
             if (delegate &&
                 [delegate respondsToSelector: @selector(taskFinished:)]) {
@@ -650,7 +668,13 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 		
         NSArray* args     = [[runQueue objectAtIndex: 0] objectAtIndex: 1];
         NSString* command = [[runQueue objectAtIndex: 0] objectAtIndex: 0];
-        [[args retain] autorelease];
+
+		[problemHandler release]; problemHandler = nil;
+		if ([[runQueue objectAtIndex: 0] count] > 4) {
+			problemHandler = [[[runQueue objectAtIndex: 0] objectAtIndex: 4] retain];
+		}
+
+		[[args retain] autorelease];
         [[command retain] autorelease];
         [runQueue removeObjectAtIndex: 0];
 

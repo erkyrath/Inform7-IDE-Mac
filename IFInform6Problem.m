@@ -12,7 +12,7 @@
 @implementation IFInform6Problem
 
 - (NSURL*) urlForProblemWithErrorCode: (int) errorCode {
-	return @"inform:ErrorI6.html";
+	return [NSURL URLWithString: @"inform:/ErrorI6.html"];
 }
 
 @end

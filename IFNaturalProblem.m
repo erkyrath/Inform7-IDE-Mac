@@ -17,7 +17,7 @@
 	if (errorCode < 0) return nil;						// We ignore negative return codes should they occur
 	
 	// Default error page is Error0
-	NSString* fileURL = @"inform:Error0.html";
+	NSString* fileURL = @"inform:/Error0.html";
 	
 	// See if we've got a file for this specific error code
 	NSString* specificFile = [NSString stringWithFormat: @"Error%i", errorCode];
@@ -25,7 +25,7 @@
 															 ofType: @"html"];
 	
 	if (resourcePath != nil && [[NSFileManager defaultManager] fileExistsAtPath: resourcePath]) {
-		fileURL = [NSString stringWithFormat: @"inform:%@.html", specificFile];
+		fileURL = [NSString stringWithFormat: @"inform:/%@.html", specificFile];
 	}
 	
 	// Return the result
