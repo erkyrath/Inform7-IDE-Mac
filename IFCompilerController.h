@@ -55,6 +55,7 @@ extern NSString* IFStyleStatistics;
     // File tabView
     NSTabView*     fileTabView;						// NI can produce HTML results: this tab view (created if required) separates them
     NSTabViewItem* splitTab;						// This is the 'special' tab that contains the normal compiler view
+	NSTabViewItem* runtimeTab;						// This is the 'special' tab that contains information about run-time errors that may have occured
     
     // The subtask
     IFCompiler* compiler;							// This is the actual compiler
@@ -88,6 +89,7 @@ extern NSString* IFStyleStatistics;
 - (void) setDelegate: (NSObject*) delegate;				// Sets the delegate object
 - (NSObject*) delegate;									// Retrieves the delegate object
 
+- (void) showRuntimeError: (NSURL*) errorURL;			// Creates a tab for the 'runtime error' file given by errorURL (displayed by webkit)
 - (void) showContentsOfFilesIn: (NSFileWrapper*) files	// Creates tabs for the files contained in the given filewrapper (which came from the given path)
 					  fromPath: (NSString*) path;
 - (void) clearTabViews;									// Gets rid of the file tabs created by thep previous function

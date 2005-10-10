@@ -2090,4 +2090,33 @@ static NSDictionary*  itemDictionary = nil;
 	[statusInfo setStringValue: text];
 }
 
+// = IFRuntimeErrorParser delegate methods =
+
+- (void) runtimeError: (NSString*) error {
+	// The file that might contain the error
+	NSString* errorFile = [NSString stringWithFormat: @"RTP_%@", error];
+	
+	// See if the file exists
+	if ([[NSBundle mainBundle] pathForResource: errorFile
+										ofType: @"html"] == nil) {
+		// The error file cannot be found: use a default
+		NSLog(@"Warning: run-time error file '%@.html' not found, using RTP_Unknown.html instead", errorFile);
+		errorFile = @"RTP_Unknown";
+	}
+	
+	// This URL is where the error file will reside
+	NSURL* errorURL = [NSURL URLWithString: [NSString stringWithFormat: @"inform:/%@.html", errorFile]];
+
+	// For each pane, add the runtime error message
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
+	
+	while (pane = [paneEnum nextObject]) {
+		[[pane compilerController] showRuntimeError: errorURL];
+	}
+	
+	// Change the source view to the errors view (so we can see the text leading to the error as well as the error itself)
+	[[self sourcePane] selectView: IFErrorPane];
+}
+
 @end

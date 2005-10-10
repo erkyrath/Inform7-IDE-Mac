@@ -173,6 +173,7 @@ static IFCompilerController* activeController = nil;
     if (errorMessages) [errorMessages release];
     if (window)        [window release];
     //if (delegate)      [delegate release];
+	if (runtimeTab)	   [runtimeTab release];
     if (fileTabView)   [fileTabView release];
 	
 	if (lastProblemURL) [lastProblemURL release];
@@ -678,6 +679,131 @@ static IFCompilerController* activeController = nil;
 }
 
 // Other information
+
+- (NSTabViewItem*) makeTabViewItemNamed: (NSString*) tabName
+							   withView: (NSView*) newView {
+	// Adds an error tab view containing the given view
+	if (fileTabView == nil) {
+		// Put the split view inside a tabview
+		NSView* inView = [splitView superview];
+		
+		[splitView retain];
+		[splitView removeFromSuperview];
+		
+		fileTabView = [[NSTabView alloc] init];
+		
+		[fileTabView setControlSize: NSSmallControlSize];
+		[fileTabView setFont: [NSFont systemFontOfSize: 10]];
+		[fileTabView setAllowsTruncatedLabels: YES];
+		[fileTabView setAutoresizingMask: [splitView autoresizingMask]];
+		
+		NSTabViewItem* splitViewItem;
+		
+		splitViewItem = [[NSTabViewItem alloc] init];
+		[splitViewItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Compiler" 
+																		value: @"Compiler"
+																		table: @"CompilerOutput"]];
+		[splitViewItem setView: splitView];
+		
+		[fileTabView addTabViewItem: splitViewItem];
+		
+		[fileTabView setFrame: [inView bounds]];
+		[inView addSubview: fileTabView];
+		
+		[splitView release];
+		[splitViewItem release];
+	}
+	
+	NSTabViewItem* fileItem;
+	fileItem = [[NSTabViewItem alloc] init];
+	
+	[fileItem setLabel: tabName];
+	[newView setFrame: [fileTabView contentRect]];
+	[fileItem setView: newView];
+	
+	[fileTabView addTabViewItem: fileItem];
+	
+	return [fileItem autorelease];
+}
+
+- (NSTabViewItem*) makeTabForURL: (NSURL*) url
+						   named: (NSString*) tabName {
+	// Create a parent view
+	NSView* aView = [[NSView alloc] initWithFrame: [fileTabView contentRect]];
+	[aView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+	
+	// Create a 'fake' web view which will get replaced when the view is actually displayed on screen
+	IFPretendWebView* pretendView = [[IFPretendWebView alloc] initWithFrame: [aView bounds]];
+	
+	[pretendView setHostWindow: [[splitView superview] window]];
+	[pretendView setRequest: [[[NSURLRequest alloc] initWithURL: url] autorelease]];
+	[pretendView setPolicyDelegate: self];
+	
+	[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+	
+	// Add it to aView
+	[aView addSubview: [pretendView autorelease]];
+	
+	// Add it to the list of tabs
+	return [self makeTabViewItemNamed: tabName
+							 withView: [aView autorelease]];
+}
+
+- (NSTabViewItem*) makeTabForFile: (NSString*) file {
+	NSString* type = [[file pathExtension] lowercaseString];
+
+	if ([[NSApp delegate] isWebKitAvailable] && ([type isEqualTo: @"html"] ||
+												 [type isEqualTo: @"htm"])) {
+		// Treat as a webkit URL
+		return [self makeTabForURL: [IFProjectPolicy fileURLWithPath: file]
+							 named: [[NSBundle mainBundle] localizedStringForKey: [file lastPathComponent] 
+																		   value: [[file lastPathComponent] stringByDeletingPathExtension] 
+																		   table: @"CompilerOutput"]];
+	} else {
+		// Create the 'parent' view
+		NSView* aView = [[NSView alloc] initWithFrame: [fileTabView contentRect]];
+		
+		// Create the 'pretend' text view
+		IFPretendTextView* pretendView = [[IFPretendTextView alloc] initWithFrame: [aView bounds]];
+		
+		[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+		
+		// Load the data for the file
+		NSString* textData = [[NSString alloc] initWithData: [NSData dataWithContentsOfFile: file]
+												   encoding: NSUTF8StringEncoding];
+		
+		// Set up the view
+		[pretendView setEventualString: [textData autorelease]];
+		
+		// This is our new view
+		[aView addSubview: [pretendView autorelease]];
+		
+		// Add the tab
+		return [self makeTabViewItemNamed: [[NSBundle mainBundle] localizedStringForKey: [file lastPathComponent] 
+																				  value: [[file lastPathComponent] stringByDeletingPathExtension] 
+																				  table: @"CompilerOutput"]
+								 withView: [aView autorelease]];
+	}
+}
+
+- (void) showRuntimeError: (NSURL*) errorURL {
+	// Remove any previous runtime error tab
+	if (runtimeTab != nil) {
+		[fileTabView removeTabViewItem: runtimeTab];
+		[runtimeTab release];
+		runtimeTab = nil;
+	}
+	
+	// Add a new tab with the given URL
+	runtimeTab = [[self makeTabForURL: errorURL
+								named: [[NSBundle mainBundle] localizedStringForKey: @"Runtime errors"
+																			  value: @"Runtime errors"
+																			  table: nil]] retain];
+	
+	// Select this time
+	[fileTabView selectTabViewItem: runtimeTab];
+}
+
 - (void) showContentsOfFilesIn: (NSFileWrapper*) files
 					  fromPath: (NSString*) path {
     if (![files isDirectory]) {
@@ -690,75 +816,11 @@ static IFCompilerController* activeController = nil;
 	
 	// If there is a compiler-supplied problems file, add this to the tab view
 	if (lastProblemURL != nil) {
-		if (fileTabView == nil) {
-			// Put the split view inside a tabview
-			NSView* inView = [splitView superview];
-			
-			[splitView retain];
-			[splitView removeFromSuperview];
-			
-			fileTabView = [[NSTabView alloc] init];
-			
-			[fileTabView setControlSize: NSSmallControlSize];
-			[fileTabView setFont: [NSFont systemFontOfSize: 10]];
-			[fileTabView setAllowsTruncatedLabels: YES];
-			[fileTabView setAutoresizingMask: [splitView autoresizingMask]];
-			
-			NSTabViewItem* splitViewItem;
-			
-			splitViewItem = [[NSTabViewItem alloc] init];
-			[splitViewItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Compiler" 
-																			value: @"Compiler"
-																			table: @"CompilerOutput"]];
-			[splitViewItem setView: splitView];
-			
-			[fileTabView addTabViewItem: splitViewItem];
-			
-			[fileTabView setFrame: [inView bounds]];
-			[inView addSubview: fileTabView];
-			
-			[splitView release];
-			[splitViewItem release];
-		}
-
 		// Create a web view for the new problems view
-		NSView* newView;
-		if ([[NSApp delegate] isWebKitAvailable]) {
-			// Create a parent view
-			NSView* aView = [[NSView alloc] initWithFrame: [fileTabView contentRect]];
-			[aView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-			newView = aView;
-			
-			// Create a 'fake' web view which will get replaced when the view is actually displayed on screen
-			IFPretendWebView* pretendView = [[IFPretendWebView alloc] initWithFrame: [aView bounds]];
-			
-			[pretendView setHostWindow: [[splitView superview] window]];
-			[pretendView setRequest: [[[NSURLRequest alloc] initWithURL: lastProblemURL] autorelease]];
-			[pretendView setPolicyDelegate: self];
-			
-			[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-			
-			// Add it to aView
-			[aView addSubview: [pretendView autorelease]];
-		}
-
-		NSTabViewItem* fileItem;
-		fileItem = [[NSTabViewItem alloc] init];
-		
-		// 'Problems.html' is the preferred view. May also be called 'log of problems?'
-		// A file called 'Problems' is preferred to a file called 'log of problems'
-		preferredTabView = fileItem;
-		
-		[fileItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Problems.html" 
-																   value: @"Problems"
-																   table: @"CompilerOutput"]];
-		[newView setFrame: [fileTabView contentRect]];
-		[fileItem setView: newView];
-		
-		[fileTabView addTabViewItem: fileItem];
-		
-		[fileItem   release];
-		[newView    release];
+		preferredTabView = [self makeTabForURL: lastProblemURL
+										 named: [[NSBundle mainBundle] localizedStringForKey: @"Problems.html" 
+																					   value: @"Problems"
+																					   table: @"CompilerOutput"]];
 	}
 
 	// Enumerate across the list of files in the filewrapper
@@ -773,85 +835,9 @@ static IFCompilerController* activeController = nil;
              [type isEqualTo: @"txt"] ||
 			 [type isEqualTo: @"html"] ||
 			 [type isEqualTo: @"htm"])) {
-            if (fileTabView == nil) {
-                // Put the split view inside a tabview
-                NSView* inView = [splitView superview];
+			NSTabViewItem* fileItem;
 
-                [splitView retain];
-                [splitView removeFromSuperview];
-
-                fileTabView = [[NSTabView alloc] init];
-
-                [fileTabView setControlSize: NSSmallControlSize];
-                [fileTabView setFont: [NSFont systemFontOfSize: 10]];
-                [fileTabView setAllowsTruncatedLabels: YES];
-                [fileTabView setAutoresizingMask: [splitView autoresizingMask]];
-
-                NSTabViewItem* splitViewItem;
-
-                splitViewItem = [[NSTabViewItem alloc] init];
-                [splitViewItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Compiler" 
-																				value: @"Compiler"
-																				table: @"CompilerOutput"]];
-                [splitViewItem setView: splitView];
-
-                [fileTabView addTabViewItem: splitViewItem];
-
-                [fileTabView setFrame: [inView bounds]];
-                [inView addSubview: fileTabView];
-
-                [splitView release];
-                [splitViewItem release];
-            }
-            
-			NSView* newView;
-			
-			if ([[NSApp delegate] isWebKitAvailable] && ([type isEqualTo: @"html"] ||
-														 [type isEqualTo: @"htm"])) {
-				// Create a parent view
-				NSView* aView = [[NSView alloc] initWithFrame: [fileTabView contentRect]];
-				[aView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-				newView = aView;
-				
-				// Create a 'fake' web view which will get replaced when the view is actually displayed on screen
-				IFPretendWebView* pretendView = [[IFPretendWebView alloc] initWithFrame: [aView bounds]];
-				
-				NSString* file = [path stringByAppendingPathComponent: key];
-				[pretendView setHostWindow: [[splitView superview] window]];
-				[pretendView setRequest: [[[NSURLRequest alloc] initWithURL: [IFProjectPolicy fileURLWithPath: file]] autorelease]];
-				[pretendView setPolicyDelegate: self];
-				
-				[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-				
-				// Add it to aView
-				[aView addSubview: [pretendView autorelease]];
-			} else {
-				// Create the 'parent' view
-				NSView* aView = [[NSView alloc] initWithFrame: [fileTabView contentRect]];
-
-				// Create the 'pretend' text view
-				IFPretendTextView* pretendView = [[IFPretendTextView alloc] initWithFrame: [aView bounds]];
-
-				[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-
-				// Load the data for the file
-				NSString* textData = [[NSString alloc] initWithData:
-					[[[files fileWrappers] objectForKey: key] regularFileContents]
-														   encoding: NSUTF8StringEncoding];
-				
-				// Set up the view
-				[pretendView setEventualString: textData];
-				
-				// This is our new view
-				[aView addSubview: [pretendView autorelease]];
-
-				newView = aView;
-				
-				[textData release];
-			}
-
-            NSTabViewItem* fileItem;
-            fileItem = [[NSTabViewItem alloc] init];
+			fileItem = [self makeTabForFile: [path stringByAppendingPathComponent: key]];
 			
 			// 'Problems.html' is the preferred view. May also be called 'log of problems?'
 			// A file called 'Problems' is preferred to a file called 'log of problems'
@@ -863,17 +849,6 @@ static IFCompilerController* activeController = nil;
 				[[[key stringByDeletingPathExtension] lowercaseString] isEqualToString: @"log of problems"]) {
 				preferredTabView = fileItem;
 			}
-				
-            [fileItem setLabel: [[NSBundle mainBundle] localizedStringForKey: key 
-																	   value: [key stringByDeletingPathExtension] 
-																	   table: @"CompilerOutput"]];
-			[newView setFrame: [fileTabView contentRect]];
-            [fileItem setView: newView];
-
-            [fileTabView addTabViewItem: fileItem];
-            
-            [fileItem   release];
-            [newView    release];
         }
     }
 	
@@ -888,6 +863,9 @@ static IFCompilerController* activeController = nil;
         
         [splitView retain];
         [splitView removeFromSuperview];
+		
+		[runtimeTab release];
+		runtimeTab = nil;
 
         [fileTabView removeFromSuperview];
         [fileTabView release];
