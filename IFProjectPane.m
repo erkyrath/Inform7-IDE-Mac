@@ -18,6 +18,7 @@
 #import "IFPreferences.h"
 
 #import "IFJSProject.h"
+#import "IFRuntimeErrorParser.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
 #define minHighlightAmount 2048
@@ -730,10 +731,15 @@ NSDictionary* IFSyntaxAttributes[256];
 						 withArguments: nil];
 	} else {
 		// Start running as a Zoom task
+		IFRuntimeErrorParser* runtimeErrors = [[IFRuntimeErrorParser alloc] init];
+		
+		[runtimeErrors setDelegate: parent];
+		
 		zView = [[ZoomView allocWithZone: [self zone]] init];
 		[zView setDelegate: self];
 		[[[parent document] skein] zoomInterpreterRestart];
 		[zView addOutputReceiver: [[parent document] skein]];
+		[zView addOutputReceiver: runtimeErrors];
 		[zView runNewServer: nil];
 		
 		[zView setColours: [NSArray arrayWithObjects:
