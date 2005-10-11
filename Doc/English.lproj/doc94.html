@@ -1,29 +1,45 @@
-<html><head><title>6.24. Recap of the action sequence</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc93.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc95.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.24. Recap of the action sequence</b></td></tr></table><p>
+<html><head><title>7.1. Change of values that vary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<h2>Chapter 7: Change</h2><p><table><tr><td><a href=doc93.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc95.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.1. Change of values that vary</b></td></tr></table><p>
 <p>
-<p>To recap, actions are normally generated when the player types a command, but they can also be started by the &quot;try&quot; phrase. What then happens is as follows:
+<p>So far, what we have done in response to the player's commands amounts to little more than a few ripostes. The simulated world does change during play, as the player moves from room to room or picks up things, but all of this is happening automatically, not at our direct instruction. How then can we make the world change?
 <p>
-<blockquote><font color="#000080">1. If any before rule applies then it is obeyed.
+<p>Recall that the world consists of rooms, in which are things, and that all of these have properties appropriate to their kinds. Some properties are either/or (&quot;open&quot; or &quot;closed&quot; but not both and not neither), while others have values (the &quot;matching key&quot; of a lockable door, for instance). Finally, we may also have created some free-standing values or &quot;variables&quot;.
+<p>
+<p>We take the last example first, as it is the simplest. Suppose we have:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Winds of Change&quot;\n\nThe prevailing wind is a direction that varies. The prevailing wind is northwest.\n\nThe Blasted Heath is a room. &quot;Merely an arena for the play of witches and kings, my dear, where the [prevailing wind] wind blows.&quot;\n\nInstead of waiting when the prevailing wind is northwest: say &quot;A fresh gust of wind bowls you over.&quot;; change the prevailing wind to the east.\n\n\n')"><img border=0 src=paste.png></a> &quot;Winds of Change&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">2. If the action needs light to see by, that is checked; if it needs physical access to its objects, that too is checked.
+<blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is northwest.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">3. If any instead rule applies then it is obeyed and the action is automatically stopped.
+<blockquote><font color="#000080">The Blasted Heath is a room. &quot;Merely an arena for the play of witches and kings, my dear, where the [prevailing wind] wind blows.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">4. The &quot;check&quot; rules for the given action are obeyed, to see if it is possible. For example, the &quot;check taking&quot; rules will prevent the player from taking something which is fixed in place.
+<blockquote><font color="#000080">Instead of waiting when the prevailing wind is northwest: say &quot;A fresh gust of wind bowls you over.&quot;; change the prevailing wind to the east.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">5. The &quot;carry out&quot; rules for the given action are obeyed. For example, the &quot;carry out taking&quot; rules actually move the given object into the player's possession. The action is now declared a success.
+<p>The new phrase here is &quot;change&quot;. This automatically checks that the new value is one which makes sense in the given context, so for instance it would not allow either of these:
+<p>
+<blockquote><font color="#000080">change the prevailing wind to 25; change the prevailing wind to the Heath;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">6. If any after rule applies then it is obeyed and the action is automatically stopped.
+<p>the former being a number, and the latter a room, so that neither is a direction. Similarly, &quot;change&quot; will not allow values to be changed, only values which vary. So
+<p>
+<blockquote><font color="#000080">Colour is a kind of value. The colours are blue, red and mauve. Instead of pulling the psychedelic lever, change blue to mauve.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">7. The &quot;report&quot; rules for the given action are obeyed. For example, the &quot;report taking&quot; rules always just say &quot;Taken.&quot;
-</font></blockquote><p>
+<p>...will result in a complaint like so:
 <p>
-<p>In practice we can forget about the check, carry out and report rules unless we are creating new actions or meddling with the definition of existing ones: almost everything we need to do can be done with before, instead and after rules.
+<blockquote><font color="#000080"><b>Problem.</b> You wrote 'change blue to mauve' <img src=../Reveal.tif>, but 'blue' is not something which can ever change.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc93.html>Previous</a> / <a href=doc95.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

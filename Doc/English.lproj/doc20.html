@@ -1,37 +1,49 @@
-<html><head><title>2.10. Does Inform really understand English?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc19.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc21.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>2.10. Does Inform really understand English?</b></td></tr></table><p>
+<html><head><title>2.10. Use options</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc19.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc21.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>2.10. Use options</b></td></tr></table><p>
 <p>
-<p>No. No computer does, and Inform does not even try to read the whole wide range of text: it is a practical tool for a particular purpose, and it deals only with certain forms of sentence useful to that purpose. Inform source text may look like &quot;natural language&quot;, the language we find natural among ourselves, but in the end it is a computer programming language. Many things which seem reasonable to the human reader are not understood by Inform. For instance, Inform understands
+<p>One more preliminary. Inform has a small number of optional settings which affect the result of translating the source. The sentence:
 <p>
-<blockquote><font color="#000080">something which is carried by the player
+<blockquote><font color="#000080">Use American dialect.
 </font></blockquote><p>
 <p>
-<p>but not (at present, anyway)
+<p>makes the resulting work of IF use American spellings (except where the designer spells otherwise) and the American convention for spelling out numbers (thus, &quot;one hundred seventeen&quot; not &quot;one hundred and seventeen&quot;). Similarly:
 <p>
-<blockquote><font color="#000080">something which the player carries
+<blockquote><font color="#000080">Use the serial comma.
 </font></blockquote><p>
 <p>
-<p>even though both are perfectly good English. So it is not always safe to assume that Inform will understand any reasonable instruction it is given: when in doubt, we must go back to the manual.
+<p>uses a comma when printing lists: thus &quot;Julian, Dick, George, and Anne&quot; rather than &quot;Julian, Dick, George and Anne&quot;. A more profound change is made by
 <p>
-<p>More philosophically, to &quot;understand&quot; involves contextual knowledge. Just because Inform recognises and acts on a sentence, does it really understand what we meant? It will turn out that Inform is both good and bad at this. For instance, from
-<p>
-<blockquote><font color="#000080">Mr Darcy wears a top hat.
+<blockquote><font color="#000080">Use no scoring.
 </font></blockquote><p>
 <p>
-<p>Inform will correctly deduce that Darcy is a person, because inanimate objects do not ordinarily wear clothes, and that the top hat is clothing. But it will not automatically know that Darcy is a man rather than a woman because it does not know the social convention implied by &quot;Mr&quot;. Moreover, if instead we had written
+<p>which abolishes the concept of a numerical score - something which modern authors of interactive fiction often feel is inappropriate, but which Inform does provide by default. Two alternative options:
 <p>
-<blockquote><font color="#000080">Mr Darcy carries a top hat.
+<blockquote><font color="#000080">Use full-length room descriptions.
+<br>Use abbreviated room descriptions.
 </font></blockquote><p>
 <p>
-<p>then Inform would not guess that the top hat is clothing. This is because it does not have the vast vocabulary and experience of a human reader: it is probably discovering the word &quot;hat&quot; for the first time.
+<p>change the normal way room descriptions are shown: normally they are given in full when the room is first entered, but are subsequently shortened unless the player actually asks to &quot;look&quot;. In full-length mode, they are always given in full; in abbreviated mode, never. (The latter is a bad idea in any publically released game, but is provided for completeness and in case it may help testing.)
 <p>
-<p>Finally, it is best to avoid ambiguities rather than rely on Inform to know which meaning is patently absurd. For instance, in
+<p>Lastly, for the benefit of Inform 6 users or for projects which overflow Inform 6's normal limits, we can specify settings like:
 <p>
-<blockquote><font color="#000080">Heatwave bone breaks clog hospital.
+<blockquote><font color="#000080">Use MAX_ZCODE_SIZE of 60000.
 </font></blockquote><p>
 <p>
-<p>(a headline once printed by the <i>Oxford Mail</i> newspaper) a human reader quickly realises that there is no clog hospital being broken. But if Inform had been taught the verbs <i>to break</i> and <i>to clog</i> then that is exactly the conclusion it would have drawn.
+<p>(or any of I6's other memory settings): the effect is to raise the setting if need be, but never to lower it.
 <p>
-<p>That disclaimer completes the groundwork, and we are ready to begin on simulating a world to explore.
+<p>We can combine any number of options in a single &quot;Use&quot; sentence, so for example:
+<p>
+<blockquote><font color="#000080">Use American dialect and the serial comma.
+</font></blockquote><p>
+<p>
+<p>brings about both of these changes.
 <p>
 <p><hr><p><a href=doc19.html>Previous</a> / <a href=doc21.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

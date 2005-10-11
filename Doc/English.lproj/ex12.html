@@ -1,61 +1,279 @@
-<html><head><title>4.5. Assemblies and body parts</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc45.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc47.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.5. Assemblies and body parts</b></td></tr></table><p>
+<html><head><title>17.4. New rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc254.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc256.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.4. New rulebooks</b></td></tr></table><p>
 <p>
-<p>In the previous chapter, we saw that it was possible to make sub-parts of things. For instance,
+<p>Creating a new rulebook is also straightforward, as we see in the following modest example game:
 <p>
-<blockquote><font color="#000080">The white door is in the Drawing Room. The handle is part of the white door.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Appraisal&quot;\n\nThe Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.\n\nAppraisal rules is a rulebook.\n\nAn appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;\n\nAn appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;\n\nInstead of switching on the machine, follow the appraisal rules.\n\n\n')"><img border=0 src=paste.png></a> &quot;Appraisal&quot;
 </font></blockquote><p>
 <p>
-<p>creates a door with an attached handle. But what if we want to say that not just this door, but every door, should have a handle? To do this we first need to create a kind called &quot;handle&quot;, since there will clearly need to be many handles. The solution is:
-<p>
-<blockquote><font color="#000080">A handle is a kind of thing. A handle is part of every door.
+<blockquote><font color="#000080">The Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.
 </font></blockquote><p>
 <p>
-<p>&quot;Every&quot; is a loaded word and best used sparingly. A sentence like &quot;A handle is part of every handle&quot; would, if taken literally, mean that a handle takes forever to make and is never finished. Inform will reject this, but the moral is clear: we should think about what we are doing with &quot;every&quot;. Another restriction is it is not safe to meddle with the three fundamental kinds &quot;room&quot;, &quot;container&quot; or &quot;supporter&quot;, but in fact this one can be got around quite easily, like so -
-<p>
-<blockquote><font color="#000080">A silver coin is a kind of thing. A banking room is a kind of room. Five silver coins are in every banking room.
+<blockquote><font color="#000080">Appraisal rules is a rulebook.
 </font></blockquote><p>
 <p>
-<p>The effect of sentences like these is to make what we might call &quot;assemblies&quot; instead of single things. When a banking room is created, so are five more silver coins; when a door is created, so is another handle. Such sentences act not only on items created later on in the source text, but also on all those created so far.
-<p>
-<p>This is especially useful for body parts. If we would like to explore Voltaire's suggestion that history would have been very different if only Cleopatra's nose had been shorter, we will need noses:
-<p>
-<blockquote><font color="#000080">A nose is a kind of thing. A nose is part of every person.
+<blockquote><font color="#000080">An appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;
 </font></blockquote><p>
 <p>
-<p>Something to bear in mind, though, is that in play the following may well happen:
-<p>
-<blockquote><font color="#000080">>examine nose
-<br>Which do you mean, your nose, Antony's nose or Cleopatra's nose?
+<blockquote><font color="#000080">An appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;
 </font></blockquote><p>
 <p>
-<p>...because the player, being also a &quot;person&quot;, is as susceptible to the invention of noses as anyone else.
-<p>
-<p>Note that Inform names the otherwise nameless noses after their owners. It will always do this unless there are multiple indistinguishable things being created, as in the &quot;five silver coins are in every banking room&quot; example: those will all just be called &quot;silver coin&quot;.
-<p>
-<a name="e12"><a href=doc46.html#e12><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Objects which automatically include a description of their component parts whenever they are examined.</i><p>
-<p>
-<p>It is trivial to make a rule that anything with parts must mention all those parts during an EXAMINE command:
-<p>
-<blockquote><font color="#000080">&quot;Control Center&quot;
+<blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After examining a thing when something is part of the noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] includes [list of things which are part of the noun].&quot;
+<p>The creation of the rulebook is all very well, but without the final sentence it would never be used. The crucial new phrase here is &quot;follow ...&quot;, which is the first of several phrases allowing us to use rules whenever we want to (rather than simply at predetermined times such as when a particular action is being tried, or at the end of every turn, and such).
+<p>
+<p>Like &quot;number&quot; or &quot;text&quot;, &quot;rule&quot; and &quot;rulebook&quot; are kinds of value built into Inform: &quot;the blossom rule&quot; is a value whose kind is &quot;rule&quot;, whereas &quot;the every turn rules&quot; is a value whose kind is &quot;rulebook&quot;. In fact, Inform considers a rulebook to be a special case of a rule, so that whenever a rule is required it is legal to name a rulebook instead, but not vice versa. The &quot;follow&quot; phrase here...
+<p>
+<blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Control Center is a room. &quot;Here you are at the Control Center of the universe.&quot;
+<p>...expects to be applied to a value of kind &quot;rule&quot;; &quot;the appraisal rules&quot; is in fact a rulebook, but since that counts as a rule the phrase makes sense to Inform. To follow a rulebook means to run through all its rules in turn; to follow a single rule means just that one, of course.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e12"><a href=doc255.html#e12><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A BURN command; flammable objects which light other items in their vicinity and can burn for different periods of time; the possibility of having parts or contents of a flaming item which survive being burnt.</i><p>
+<p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;In Fire or in Flood&quot;\n\nHeat is a kind of value. The heats are whole, damp, or flaming. A thing has a heat. A thing is usually whole.\n\nA thing has a number called endurance. The endurance of a thing is usually 5. A thing has a number called turns of burning. A thing can be flammable or flame-retardant.\n\nBefore printing the name of something flaming:\n\tsay &quot;flaming &quot;;\n\nBefore burning something when the player is not carrying something flaming:\n\tif a flaming portable thing (called the lighter) is touchable\n\tbegin;\n\t\tsay &quot;(with [the lighter], which you first take)[paragraph break]&quot;;\n\t\ttry taking the lighter;\n\tend if.\n\nInstead of burning something when the player is not carrying something flaming:\n\tsay &quot;You would first need a fire source.&quot;\n\nInstead of burning something flame-retardant:\n\tsay &quot;[The noun] is not the sort of thing that catches fire.&quot;\n\nInstead of burning something flammable when the player is carrying something flaming (called the flame source):\n\tsay &quot;You light [the noun] with [the flame source].&quot;;\n\tchange the heat of the noun to flaming.\n\nInstead of burning something when the player is in the noun:\n\tsay &quot;That seems dangerous given that you yourself are in [the noun].&quot;\n\nInstead of burning something when the player is on the noun:\n\tsay &quot;That seems dangerous given that you yourself are on [the noun].&quot;\n\nInstead of examining something:\n\tsay &quot;Hm, the [printed name] appears to be [heat].&quot;;\n\nBefore taking a flaming thing:\n\tlet turns remaining be the endurance of the noun minus the turns of burning of the noun;\n\tif turns remaining is less than two, say &quot;There\'s no portion of [the noun] sufficiently cool for you to pick up.&quot; instead.\n\n\n[But that\'s only a small part of the battle. The thing about fire is that it keeps on doing fiery things even when the player is otherwise occupied: destroying items that are on fire, and spreading to other things nearby. So we need a set of rules for the fire\'s behavior.]\n\nEvery turn when something is flaming:\n\tfollow the fire rules.\n\nThe fire rules is a rulebook.\n\nA fire rule (this is the can\'t hold flaming objects rule):\n\trepeat with item running through flaming things\n\tbegin;\n\t\tif the item is held by the player\n\t\tbegin;\n\t\t\tlet turns remaining be the endurance of the item minus the turns of burning of the item;\n\t\t\tif turns remaining is less than two\n\t\t\tbegin;\n\t\t\t\tsay &quot;[The item] becomes too hot to hold! &quot;;\n\t\t\t\ttry dropping the item;\n\t\t\t\tif the item is held by the player, say &quot;This is certainly painful.&quot;;\n\t\t\tend if;\n\t\tend if;\n\tend repeat.\n\nA fire rule (this is the flames spread rule):\n\trepeat with item running through flaming things\n\tbegin;\n\t\tif the turns of burning of the item is one\n\t\tbegin;\n\t\t\tspread the flames from the item;\n\t\tend if;\n\tend repeat.\n\nA fire rule (this is the fire destroys things rule):\n\tchange started printing to 0;\n\trepeat with item running through flaming things\n\tbegin;\n\t\tchange the turns of burning of the item to the turns of burning of the item + 1;\n\t\tif the turns of burning of the item is greater than the endurance of the item, destroy the item;\n\tend repeat;\n\tif started printing is 1, say &quot;[paragraph break]&quot;;\n\tchange started printing to 0.\n\n[Because we\'ve labelled all the fire rules, we could swap their order, or turn some of them off, while allowing the others run as usual. For instance, if there were a pair of fireproof gloves in the game, we might want to turn off the &quot;can\'t hold flaming objects rule&quot; whenever the player is wearing them.]\n\n[This sort of flexibility is especially useful in the context of extensions. Someone writing an extension about burning would have no way of anticipating the need for a Fireproof Gauntlet of Thog, but the author would nonetheless be able to implement one easily.]\n\nDefinition: a thing is vulnerable if it is flammable and it is whole.\n\n[The contact between things is a critical factor when it comes to fire, so we might add a couple of conditional relations do determine what is touching what.]\n\nReliance relates a thing (called X) to a thing (called Y) when X is part of Y or X is in Y or X is on Y. The verb to be relying on implies the reliance relation.\n\nContact relates a thing (called X) to a thing (called Y) when X is relying on Y or Y is relying on X. The verb to be joined to implies the contact relation.\n\n[Having these at our disposal makes it much tidier to write what happens next:]\n\nTo spread the flames from (item - a thing):\n\tchange started printing to 0;\n\tif the item is joined to a flammable whole thing (called the sacrifice)\n\tbegin;\n\t\tif the sacrifice is visible\n\t\tbegin;\n\t\t\tchange started printing to 1;\n\t\t\tsay &quot;Flames engulf [the list of flammable whole things which are joined to the item].&quot;;\n\t\tend if;\n\t\tnow all the flammable whole things joined to the item are flaming;\n\tend if.\n\nStarted printing is a number that varies. Started printing is 0.\n\nTo destroy (item - a thing):\n\tlet home be the holder of the item;\n\tif the item is part of something (called the superstructure), let home be the holder of the superstructure;\n\tif the item is visible\n\tbegin;\n\t\tchange started printing to 1;\n\t\tsay &quot;[The item] burns away[if something is relying on the item], leaving [list of things which are relying on the item] behind[end if]. &quot;;\n\tend if;\n\tif something is relying on the item,\n\t\tnow all the things which are relying on the item are in the home;\n\tremove the item from play;\n\tnow the item is damp;\n\tnow every flaming thing which is part of the item is damp.\n\nTo destroy (item - a door):\n\tlet home be the holder of the item;\n\tif item is visible\n\tbegin;\n\t\tchange started printing to 1;\n\t\tsay &quot;[The item] burns away[if something flame-retardant is part of the item], leaving [list of flame-retardant parts of the item] behind[end if]. &quot;;\n\tend if;\n\tif home is a room, now all of the flame-retardant parts of the item are in the home;\n\tnow the item is damp;\n\tchange the item to open;\n\tchange the item to unopenable.\n\nBefore printing the name of a damp door:\n\tsay &quot;burnt-out frame of &quot;.\n\nInstead of opening or closing a damp door:\n\tsay &quot;[The noun] can no longer be opened or closed in any meaningful sense.&quot;\n\nInstead of doing something other than examining or dropping to a flaming thing when the turns of burning of the noun is greater than 1:\n\tsay &quot;Fire has too thoroughly engulfed [the noun] for that to be a good idea.&quot;\n\nInstead of taking something when the noun is in a flaming thing (called the receptacle):\n\tsay &quot;You don\'t quite dare reach into [the receptacle].&quot;\n\nInstead of touching something which is within a flaming thing (called the receptacle):\n\tsay &quot;It seems a little risky since [the receptacle] is on fire.&quot;\n\nInstead of turning something when the noun is contained in a flaming thing (called the receptacle):\n\tsay &quot;It seems a little risky since [the receptacle] is on fire.&quot;\n\nInstead of pushing or pulling something when the noun is inside a flaming thing (called the receptacle):\n\tsay &quot;[The receptacle] deters you.&quot;\n\nBefore burning something which is in a container when the holder of the noun contains the player:\nsay &quot;This could make things toasty for you...&quot;\n\nThe Library of the Dead is a room. &quot;This room -- little, dank, stone -- is filling with some miasma you do not quite dare breathe. It is imperative that you get out.&quot;\n\nThe desk is a flammable supporter in the Library. A drawer is part of the desk. The drawer is a flammable closed container. It is openable, lockable, and locked. The desk is scenery.\n\nA box is in the Library. A metal hinge is part of the box. The hinge is flame-retardant. The box is open, flammable, and openable. The shroud of Laertes is a flammable thing in the box.\n\nInstead of examining something when something is part of the noun:\n\tsay &quot;You note [the list of things which are part of the noun].&quot;\n\nThe world\'s last manuscript of the Psychagogoi by Aeschylus is on the desk. The manuscript is flammable. The manuscript has endurance 1.\n\nThe torch is a flammable flaming thing carried by the player. It has endurance 60. The asbestos sack is a flame-retardant player\'s holdall in the drawer.\n\nThe trapdoor is up of the Library and east of the Plaza. The trapdoor is a door. It is flammable, closed, lockable, and locked. &quot;A trapdoor in the ceiling is your only hope of escape[if flaming]. Fortunately, it is rapidly burning through[end if].&quot; The trapdoor has endurance 15.\n\nInstead of going through the closed trapdoor, say &quot;[The trapdoor] is closed.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;In Fire or in Flood&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Universe Management Computer is a fixed in place thing in the Control Center. &quot;The Universe Management Computer sits directly before you, unguarded.&quot; The description of the Universe Management Computer is &quot;The computer is so large that you would be unable to operate it all from one position. Alas, it does not come with a manual.&quot;
+<blockquote><font color="#000080">Heat is a kind of value. The heats are whole, damp, or flaming. A thing has a heat. A thing is usually whole.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A chartreuse indicator light, an ennui meter, a golden knob settable to 15,000 positions, a toothpick dispensor, and a button labeled RESTART are part of the Universe Management Computer.
+<blockquote><font color="#000080">A thing has a number called endurance. The endurance of a thing is usually 5. A thing has a number called turns of burning. A thing can be flammable or flame-retardant.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The command chair is an enterable supporter in the Control Center. It is pushable between rooms. &quot;Because the computer is too large for you to reach all of the front panel from a standing position, there is a command chair on casters which allows you to push back and forth.&quot; The description of the command chair is &quot;Quite ordinary, really, but for the heady rush of power that comes of sitting in it.&quot;. Some casters are part of the command chair.
+<blockquote><font color="#000080">Before printing the name of something flaming:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;flaming &quot;;
 </font></blockquote><p>
 <p>
-<a name="e5"><a href=ex5.html#e5><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>An "on/off button" which controls whatever device it is part of.</i><p>
-<a name="e4"><a href=ex4.html#e4><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A "chest" kind which consists of a container which has a lid as a supporter.</i><p>
-<p><hr><p><a href=doc45.html>Previous</a> / <a href=doc47.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Before burning something when the player is not carrying something flaming:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a flaming portable thing (called the lighter) is touchable
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(with [the lighter], which you first take)[paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try taking the lighter;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of burning something when the player is not carrying something flaming:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You would first need a fire source.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of burning something flame-retardant:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] is not the sort of thing that catches fire.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of burning something flammable when the player is carrying something flaming (called the flame source):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You light [the noun] with [the flame source].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the heat of the noun to flaming.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of burning something when the player is in the noun:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;That seems dangerous given that you yourself are in [the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of burning something when the player is on the noun:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;That seems dangerous given that you yourself are on [the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of examining something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Hm, the [printed name] appears to be [heat].&quot;;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before taking a flaming thing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let turns remaining be the endurance of the noun minus the turns of burning of the noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if turns remaining is less than two, say &quot;There's no portion of [the noun] sufficiently cool for you to pick up.&quot; instead.
+</font></blockquote><p>
+<p>
+<p>
+<p>But that's only a small part of the battle. The thing about fire is that it keeps on doing fiery things even when the player is otherwise occupied: destroying items that are on fire, and spreading to other things nearby. So we need a set of rules for the fire's behavior.
+<p>
+<blockquote><font color="#000080">Every turn when something is flaming:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;follow the fire rules.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The fire rules is a rulebook.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A fire rule (this is the can't hold flaming objects rule):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through flaming things
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the item is held by the player
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let turns remaining be the endurance of the item minus the turns of burning of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if turns remaining is less than two
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The item] becomes too hot to hold! &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try dropping the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the item is held by the player, say &quot;This is certainly painful.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A fire rule (this is the flames spread rule):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through flaming things
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the turns of burning of the item is one
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spread the flames from the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A fire rule (this is the fire destroys things rule):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 0;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through flaming things
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the turns of burning of the item to the turns of burning of the item + 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the turns of burning of the item is greater than the endurance of the item, destroy the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if started printing is 1, say &quot;[paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 0.
+</font></blockquote><p>
+<p>
+<p>Because we've labelled all the fire rules, we could swap their order, or turn some of them off, while allowing the others run as usual. For instance, if there were a pair of fireproof gloves in the game, we might want to turn off the &quot;can't hold flaming objects rule&quot; whenever the player is wearing them.
+<p>
+<p>This sort of flexibility is especially useful in the context of extensions. Someone writing an extension about burning would have no way of anticipating the need for a Fireproof Gauntlet of Thog, but the author would nonetheless be able to implement one easily.
+<p>
+<blockquote><font color="#000080">Definition: a thing is vulnerable if it is flammable and it is whole.
+</font></blockquote><p>
+<p>
+<p>The contact between things is a critical factor when it comes to fire, so we might add a couple of conditional relations do determine what is touching what.
+<p>
+<blockquote><font color="#000080">Reliance relates a thing (called X) to a thing (called Y) when X is part of Y or X is in Y or X is on Y. The verb to be relying on implies the reliance relation.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Contact relates a thing (called X) to a thing (called Y) when X is relying on Y or Y is relying on X. The verb to be joined to implies the contact relation.
+</font></blockquote><p>
+<p>
+<p>Having these at our disposal makes it much tidier to write what happens next:
+<p>
+<blockquote><font color="#000080">To spread the flames from (item - a thing):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 0;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the item is joined to a flammable whole thing (called the sacrifice)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the sacrifice is visible
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Flames engulf [the list of flammable whole things which are joined to the item].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now all the flammable whole things joined to the item are flaming;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Started printing is a number that varies. Started printing is 0.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To destroy (item - a thing):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let home be the holder of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the item is part of something (called the superstructure), let home be the holder of the superstructure;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the item is visible
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The item] burns away[if something is relying on the item], leaving [list of things which are relying on the item] behind[end if]. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something is relying on the item,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now all the things which are relying on the item are in the home;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the item from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the item is damp;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now every flaming thing which is part of the item is damp.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To destroy (item - a door):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let home be the holder of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if item is visible
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The item] burns away[if something flame-retardant is part of the item], leaving [list of flame-retardant parts of the item] behind[end if]. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if home is a room, now all of the flame-retardant parts of the item are in the home;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the item is damp;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the item to open;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the item to unopenable.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before printing the name of a damp door:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;burnt-out frame of &quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of opening or closing a damp door:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] can no longer be opened or closed in any meaningful sense.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of doing something other than examining or dropping to a flaming thing when the turns of burning of the noun is greater than 1:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Fire has too thoroughly engulfed [the noun] for that to be a good idea.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of taking something when the noun is in a flaming thing (called the receptacle):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You don't quite dare reach into [the receptacle].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of touching something which is within a flaming thing (called the receptacle):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It seems a little risky since [the receptacle] is on fire.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of turning something when the noun is contained in a flaming thing (called the receptacle):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It seems a little risky since [the receptacle] is on fire.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of pushing or pulling something when the noun is inside a flaming thing (called the receptacle):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The receptacle] deters you.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before burning something which is in a container when the holder of the noun contains the player:
+<br>say &quot;This could make things toasty for you...&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Library of the Dead is a room. &quot;This room -- little, dank, stone -- is filling with some miasma you do not quite dare breathe. It is imperative that you get out.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The desk is a flammable supporter in the Library. A drawer is part of the desk. The drawer is a flammable closed container. It is openable, lockable, and locked. The desk is scenery.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A box is in the Library. A metal hinge is part of the box. The hinge is flame-retardant. The box is open, flammable, and openable. The shroud of Laertes is a flammable thing in the box.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of examining something when something is part of the noun:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You note [the list of things which are part of the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The world's last manuscript of the Psychagogoi by Aeschylus is on the desk. The manuscript is flammable. The manuscript has endurance 1.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The torch is a flammable flaming thing carried by the player. It has endurance 60. The asbestos sack is a flame-retardant player's holdall in the drawer.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The trapdoor is up of the Library and east of the Plaza. The trapdoor is a door. It is flammable, closed, lockable, and locked. &quot;A trapdoor in the ceiling is your only hope of escape[if flaming]. Fortunately, it is rapidly burning through[end if].&quot; The trapdoor has endurance 15.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going through the closed trapdoor, say &quot;[The trapdoor] is closed.&quot;
+</font></blockquote><p>
+<p>
+<p>We can then add a special fire rule to handle the trapdoor, which will be called as part of the same sequence. Again, this would be most important if the fire rules were part of a standard extension, and the trapdoor fire rule the author's own addition.
+<p>
+<blockquote><font color="#000080">A fire rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the trapdoor is flaming and a random chance of 1 in 3 succeeds
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the caught thing be a random flammable whole thing which can be touched by the trapdoor;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the caught thing is a thing
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A spark from [the trapdoor] catches [the caught thing]!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now the caught thing is flaming;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going to the Plaza:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Out at last!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in victory.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc254.html>Previous</a> / <a href=doc256.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

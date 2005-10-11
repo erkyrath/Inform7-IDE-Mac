@@ -1,26 +1,41 @@
-<html><head><title>4.6. New either/or properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc46.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc48.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.6. New either/or properties</b></td></tr></table><p>
+<html><head><title>4.4. Duplicates</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc46.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc48.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.4. Duplicates</b></td></tr></table><p>
 <p>
-<p>Properties can only be given to something if its kind will permit that: we cannot make a chair &quot;dark&quot; or a room &quot;portable&quot;, for instance. When creating kinds, then, we need a way to specify the properties which that kind of thing will allow, and this will need to include new properties of our own devising.
+<p>Although it is only useful to a limited extent, we can make any number of copies of something:
 <p>
-<blockquote><font color="#000080">A dead end is either secret or ordinary.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Polygons&quot;\n\nA shape is a kind of thing. A square is a kind of shape. A triangle is a kind of shape.\n\nThe Geometry Lab is a room. In the Geometry Lab are three triangles and two squares.\n\n\n')"><img border=0 src=paste.png></a> &quot;Polygons&quot;
 </font></blockquote><p>
 <p>
-<p>This creates just one new property, not two, as the names are taken as the two states of a single either/or property: secret means not ordinary, ordinary means not secret. Alternatively, we could just say:
-<p>
-<blockquote><font color="#000080">A dead end can be secret.
+<blockquote><font color="#000080">A shape is a kind of thing. A square is a kind of shape. A triangle is a kind of shape.
 </font></blockquote><p>
 <p>
-<p>in which case the opposite of &quot;secret&quot; would be &quot;not secret&quot;.
-<p>
-<p>Note that we are free to add to the definitions of kinds which already exist, not just those we have created ourselves: for instance,
-<p>
-<blockquote><font color="#000080">A room is either indoors or outdoors.
+<blockquote><font color="#000080">The Geometry Lab is a room. In the Geometry Lab are three triangles and two squares.
 </font></blockquote><p>
 <p>
-<p>creates a new property which all rooms either possess or don't. And so on. If we make the above definitions then by default, any dead ends created will be &quot;ordinary&quot; and any rooms created will be &quot;outdoors&quot;: that is, in the absence of other information it is assumed that a new either/or property will not be held. We could reverse this behaviour by adding:
+<p>The description &quot;three triangles&quot; makes three identical things, each of the kind &quot;triangle&quot;, and similarly for the squares. When the above is compiled, the player can type &quot;take two triangles&quot; or &quot;take all the triangles&quot; and so forth.
 <p>
-<blockquote><font color="#000080">A dead end is usually secret. A room is usually indoors.
+<p>Two caveats. Firstly, a counted-out description like &quot;two squares&quot; is only allowed if it combines a number with the name of a kind which is already known (perhaps modified with adjectives, so &quot;two open doors&quot; is fine). If we say:
+<p>
+<blockquote><font color="#000080">Two circles are in the Lab.
 </font></blockquote><p>
 <p>
+<p>without having defined &quot;circle&quot; as a kind in advance, then only a single object will be created - whose name is &quot;two circles&quot;. (This is because many natural names start with numbers: &quot;six of clubs&quot;, for instance, referring to a single playing card, or &quot;12 Hollywood Close&quot; meaning a single house. We wouldn't want such names to be misinterpreted.)
+<p>
+<p>The second caveat is that excessive duplication is expensive in memory and running time. It is perfectly legal to say
+<p>
+<blockquote><font color="#000080">In the Lab are 75 triangles.
+</font></blockquote><p>
+<p>
+<p>but the resulting game may be a little sluggish: and Inform draws the line at 100, refusing to create more duplicates than that in any single place. If we really need more than about fifty duplicated objects - say, a tombola containing raffle tickets numbered 1 to 1000 - it is usually better to find some less literal way to simulate this: for instance, only having a single raffle ticket, but with a randomly chosen number on it.
+<p>
+<p><hr><p>
+<a name="e10"><a href=ex10.html#e10><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A child's set of building blocks, which come in three different colours - red, green and blue - but which can be repainted during play.</i><p>
 <p><hr><p><a href=doc46.html>Previous</a> / <a href=doc48.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

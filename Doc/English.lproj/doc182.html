@@ -1,24 +1,41 @@
-<html><head><title>12.15. The lead pig and the paper bag</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc181.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc183.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.15. The lead pig and the paper bag</b></td></tr></table><p>
+<html><head><title>12.13. Relations which express conditions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc181.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc183.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.13. Relations which express conditions</b></td></tr></table><p>
 <p>
-<p>The final example uses a few features which will not be explained until later chapters, but it shows the kind of &quot;realism&quot; rules which could be introduced using weights. Not entirely realistic: we do not bother to rupture containers out of the player's sight.
+<p>One last way to create a new relation and, in many ways, the easiest of all. If we write:
 <p>
-<blockquote><font color="#000080">&quot;Lead Cuts Paper&quot;
+<blockquote><font color="#000080">Contact relates a thing (called X) to a thing (called Y) when X is part of Y or Y is part of X. The verb to be joined to implies the contact relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg.
+<p>then we would be able to talk about a handle being joined to a door, and a door being joined to a handle, and so on. We are not allowed to declare:
+<p>
+<blockquote><font color="#000080">The hook is joined to the line.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A container has a weight called breaking strain. The breaking strain of a container is usually 50kg. Definition: A container is bursting if the total weight of things in it is greater than its breaking strain.
+<p>because the question of whether they are joined is not for us to decide: that will be for the condition to determine, whenever we test it. Similarly, we cannot meaningfully write
+<p>
+<blockquote><font color="#000080">now the hook is joined to the line;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A lead pig, a feather, a silver coin and a paper bag are in a room called the Metallurgy Workshop. The paper bag is a container with breaking strain 2kg.
+<p>(and Inform will not let us) because this relation is not something we can force either way: we can make it come true by other means, maybe, but we cannot simply make it true by saying so.
+<p>
+<p>So this way to define relations is, on the face of it, just a sort of verbal trick to write conditions in a more attractive way. The more flexible, changeable relations in previous sections have much greater expressive power. All the same, it is nice to be able to write -
+<p>
+<blockquote><font color="#000080">Nearness relates a room (called A) to a room (called B) when the number of moves from B to A is less than 3. The verb to be near implies the nearness relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn when a container (called the sack) held by someone visible (called the chump) is bursting:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The sack] splits and breaks under the weight! [if the player is the chump]You discard[otherwise][The chump] discards[end if] its ruined remains, looking miserably down at [the list of things in the sack] on the floor.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now all of the things in the sack are in the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the sack from play.
+<p>and then to be able to write rules like:
+<p>
+<blockquote><font color="#000080">Instead of listening when the location is near the Sundial: say &quot;You hear a splashing of water.&quot;
 </font></blockquote><p>
 <p>
+<p><hr><p>
+<a name="e9"><a href=ex9.html#e9><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Relations track the relationships between one character and another. Whenever the player meets a relative of someone he already knows, he receives a brief introduction.</i><p>
 <p><hr><p><a href=doc181.html>Previous</a> / <a href=doc183.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

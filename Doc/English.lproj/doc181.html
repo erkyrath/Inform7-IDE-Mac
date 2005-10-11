@@ -1,36 +1,41 @@
-<html><head><title>12.14. The Weighbridge</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc180.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc182.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.14. The Weighbridge</b></td></tr></table><p>
+<html><head><title>12.12. Indirect relations</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc180.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc182.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.12. Indirect relations</b></td></tr></table><p>
 <p>
-<p>The following example draws together the previous snippets into a working implementation of the weighbridge. It is not a very sophisticated approach, because it does not allow for weight to accumulate: if we put a gold ingot into a paper bag, then put the bag on the balance platform, only the bag's weight will register. But it will do for a first try.
+<p>We have already seen, in the chapter on Descriptions which is a forerunner of this one, that Inform provides not only &quot;adjacent&quot; as a way of seeing if one room is directly connected to another, but also &quot;the best route from A to B&quot;, which allows us to see if any sequence of moves connects them.
 <p>
-<blockquote><font color="#000080">&quot;Dimensions&quot;
+<p>Something similar - in fact, simpler - is allowed for any relation. Suppose we would like to go sledging: we can go downhill, but not up. Some quite distant places may be reachable, while others close by may not be, even if lower than us, because they would involve climbing again at some point. The following would implement this:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Overlooking relates various rooms to various rooms.\n\nThe verb to overlook (it overlooks, they overlook, it overlooked, it is overlooked, it is overlooking) implies the overlooking relation.\n\nThe Garden overlooks the Shrubbery. The Folly overlooks the Garden. The Shrubbery overlooks the Sundial Plot. The Old Ice House overlooks the Garden.\n\nAfter looking:\n\tsay &quot;This wintry vantage point overlooks [the list of rooms overlooked by the location].&quot;;\n\tlet the way be the next step via the overlooking relation from the location to the Sundial Plot;\n\tif the way is a room, say &quot;To sledge downhill to the Sundial, aim for [the way].&quot;;\n\totherwise say &quot;It is not possible to sledge downhill to the Sundial.&quot;\n\n\n')"><img border=0 src=paste.png></a> Overlooking relates various rooms to various rooms.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A length is a kind of value. 10m specifies a length. An area is a kind of value. 10 sq m specifies an area. A length times a length specifies an area.
+<blockquote><font color="#000080">The verb to overlook (it overlooks, they overlook, it overlooked, it is overlooked, it is overlooking) implies the overlooking relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight.
+<blockquote><font color="#000080">The Garden overlooks the Shrubbery. The Folly overlooks the Garden. The Shrubbery overlooks the Sundial Plot. The Old Ice House overlooks the Garden.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The verb to weigh (it weighs, they weigh, it is weighing) implies the weight property. A thing usually weighs 1kg.
+<blockquote><font color="#000080">After looking:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;This wintry vantage point overlooks [the list of rooms overlooked by the location].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the way be the next step via the overlooking relation from the location to the Sundial Plot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the way is a room, say &quot;To sledge downhill to the Sundial, aim for [the way].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;It is not possible to sledge downhill to the Sundial.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Definition: A thing is light if its weight is 3kg or less.
+<p>Another example would be the &quot;six degrees of separation&quot; game, where it is claimed that any two people on Earth are connected by a sequence of up to six acquaintances. In an Inform implementation, we might talk about &quot;the next step via the friendship relation from George Bush to Saddam Hussein&quot;, for instance, a phrase likely to evaluate to Donald Rumsfeld, and then
+<p>
+<blockquote><font color="#000080">the number of steps via the friendship relation from George Bush to Saddam Hussein
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Definition: A thing is heavy if its weight is 10kg or more.
-</font></blockquote><p>
+<p>would be... but that would be telling. We can calculate the number of steps like this for any relation: it works exactly analogously to &quot;the number of moves from A to B&quot;, which reads the map. The same conventions apply: the result is 0 if the two things are the same, and -1 if there is no way to get from one to the other.
 <p>
-<blockquote><font color="#000080">The Weighbridge is a room.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: '122/10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; 122kg/10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; 122kg/10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot; The blackboard weighs 10kg.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A feather and a lead pig are in the Weighbridge. The lead pig weighs 45kg.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The balance platform is a supporter in the Weighbridge. &quot;The balance platform is 10m by 8m, giving it an area of [10m multiplied by 8m], currently weighing [the list of things on the platform]. The scale alongside reads: [total weight of things on the platform]. [if two things are on the platform]Average weight is: [the total weight of things on the platform divided by the number of things on the platform]. Heaviest item is [the heaviest thing on the platform], at [weight of the heaviest thing on the platform]. Lightest item is [the lightest thing on the platform], at [weight of the lightest thing on the platform].[otherwise]It seems to be able to weigh several things at once.&quot;
-</font></blockquote><p>
-<p>
+<p><hr><p>
+<a name="e11"><a href=ex11.html#e11><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A conversation in which the main character tries to build logical connections between what the player is saying now and what went immediately before.</i><p>
 <p><hr><p><a href=doc180.html>Previous</a> / <a href=doc182.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

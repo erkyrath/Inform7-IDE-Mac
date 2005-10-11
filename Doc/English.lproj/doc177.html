@@ -1,21 +1,34 @@
-<html><head><title>12.10. Arithmetic with units</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc176.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc178.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.10. Arithmetic with units</b></td></tr></table><p>
+<html><head><title>12.8. The built-in verbs and their meanings</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc176.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc178.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.8. The built-in verbs and their meanings</b></td></tr></table><p>
 <p>
-<p>Inform allows us to perform arithmetic on units only where that would make sense, and it keeps track of the results. For instance,
+<p>It is all very well to define new relations, but this does nothing if there is no way to assert that they are true, or to ask whether they are true or false. That requires a verb: in fact, a relation is nothing more than what Inform uses as the &quot;meaning&quot; of a verb. The assertion verbs built in to Inform have the following built-in relations as their meanings:
 <p>
-<blockquote><font color="#000080">The Weightbridge is a room. &quot;A sign declares that the maximum load is [100kg multiplied by 3].&quot;
+<blockquote><font color="#000080"><b>Verb - Relation</b>
+<br>to be - (none as such)
+<br>to have - possession relation
+<br>to contain - containment relation
+<br>to support - support relation
+<br>to carry - carrying relation
+<br>to wear - wearing relation
 </font></blockquote><p>
 <p>
-<p>...will produce the text &quot;A sign declares that the maximum load is 300kg.&quot; Here Inform knows that it makes sense to multiply a weight by 3, and that the result will be a weight. Similarly, Inform allows us to add and subtract weights, and several different forms of division are allowed:
+<p>Two of Inform's built-in relations are expressed using prepositions instead:
 <p>
-<blockquote><font color="#000080">The blackboard is in the Weightbridge. &quot;A blackboard propped against one wall reads: '122 / 10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; but 122kg / 10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; and 122kg / 10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot;
+<blockquote><font color="#000080"><B>Preposition - Relation</b>
+<br>to be part of - incorporation relation
+<br>to be adjacent to - adjacency relation
 </font></blockquote><p>
 <p>
-<p>When we visit the Weightbridge, we find:
+<p>It would be easy to make verbs for these if we wanted (&quot;to incorporate&quot;, say, or &quot;to adjoin&quot;) using the techniques of the next section.
 <p>
-<blockquote><font color="#000080">A blackboard propped against one wall reads: &quot;122 / 10 is 12 remainder 2; but 122kg / 10kg is 12 remainder 2kg; and 122kg / 10 is 12kg remainder 2kg.&quot;
-</font></blockquote><p>
-<p>
-<p>Whereas we are not allowed to divide 122 by 10kg: that would make no sense, since 122 is a number and not made up of kilograms. Inform will produce a problem message if we try.
+<p>The verb <i>to be</i> is grammatically different from any other, and its meaning is too complicated to be expressed by a relation. A great deal of the Inform program is given over to its &quot;meaning&quot;, which we are not allowed to change or imitate. But the other verbs are quite simple.
 <p>
 <p><hr><p><a href=doc176.html>Previous</a> / <a href=doc178.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

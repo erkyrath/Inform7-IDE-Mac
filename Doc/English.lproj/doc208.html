@@ -1,16 +1,27 @@
-<html><head><title>14.11. Tokens can produce values</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc207.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc209.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.11. Tokens can produce values</b></td></tr></table><p>
+<html><head><title>14.11. Sorting</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc207.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc209.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.11. Sorting</b></td></tr></table><p>
 <p>
-<p>The examples just seen were tokens which simply matched specific words typed by the player, but newly created tokens can also produce values:
+<p>We are allowed to sort a table in two ways: first, at random.
 <p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are red, green and blue. Understand &quot;colour [a colour]&quot; or &quot;[a colour] shade&quot; as &quot;[tint]&quot;.
+<blockquote><font color="#000080">sort the Table of Recent Monarchs in random order;
 </font></blockquote><p>
 <p>
-<p>Here the &quot;[tint]&quot; token matches, for instance, &quot;colour red&quot; and &quot;blue shade&quot;, which would result in the values red and blue, respectively.
+<p>Secondly, in order of the values in any column, either forwards or backwards. Blank values will be placed last, and entirely blank rows last of all. The method of sorting is &quot;stable&quot;, that is, if two rows have the same value then they will stay the same way round in the sorted table, rather than being swapped over.
 <p>
-<p>Tokens are not allowed to produce more than one value, and if several patterns are given to define them then those patterns have to be compatible. That means the following is disallowed, since it might work out to a colour, or to an object, leaving Inform unable to judge whether an action can safely be applied to the result.
-<p>
-<blockquote><font color="#000080">Understand &quot;colour [a colour]&quot; or &quot;[something]&quot; as &quot;[tint]&quot;.
+<blockquote><font color="#000080">sort the Table of Recent Monarchs in accession order;
 </font></blockquote><p>
 <p>
+<blockquote><font color="#000080">sort the Table of Recent Monarchs in reverse name order;
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<a name="e65"><a href=ex65.html#e65><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A deck of cards which can be shuffled and dealt from.</i><p>
 <p><hr><p><a href=doc207.html>Previous</a> / <a href=doc209.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

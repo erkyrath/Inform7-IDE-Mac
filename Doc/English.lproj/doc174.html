@@ -1,19 +1,47 @@
-<html><head><title>12.7. More on specifications</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc173.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc175.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.7. More on specifications</b></td></tr></table><p>
+<html><head><title>12.5. Making new relations</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc173.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc175.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.5. Making new relations</b></td></tr></table><p>
 <p>
-<p>The essential requirement is that the specification must be one that clearly specifies no other kind. So &quot;10 specifies a weight&quot; will not be allowed, because 10 specifies a number already: but &quot;10kg specifies a weight&quot; is allowed because the &quot;kg&quot; suffix safely distinguishes it.
+<p>We can create new relations like so:
 <p>
-<p>The specification can run for more than one word: we could instead have had written either of these -
-<p>
-<blockquote><font color="#000080">10kg net specifies a weight.
-<br>10 kg specifies a weight.
+<blockquote><font color="#000080">Loving relates various people to one person.
 </font></blockquote><p>
 <p>
-<p>In fact, we are allowed to say all three:
+<p>Each of the relations has a name of the form &quot;something relation&quot;, where the &quot;something&quot; is a single word, and in this case the name is &quot;loving relation&quot;. In such a definition, we have to say what kind of thing appears on the left and right of any relation, and also whether &quot;one&quot; or &quot;various&quot; possibilities can exist. In the example
 <p>
-<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. 10kg net specifies a weight. 10 kg specifies a weight.
+<blockquote><font color="#000080">Loving relates various people to one person.
 </font></blockquote><p>
 <p>
-<p>They will then all be allowed as alternatives. The first one given will be the one Inform considers the &quot;normal&quot; notation, so that will be the one used when weights are printed back in text.
+<p>what we are saying is that only people love; that they only love people; and that each person loves only one other person (at any given moment).
+<p>
+<p>The &quot;various&quot; part comes in because, for instance, we might have:
+<p>
+<blockquote><font color="#000080">Verenka <i>loving relation</i> Stankevich
+<br>Liubov <i>loving relation</i> Stankevich
+</font></blockquote><p>
+<p>
+<p>so that various people (Verenka and Liubov, to name but two) love one person (Stankevich). But we are forbidding anyone to love two other people at the same time: Stankevich must decide which of them to love, or pick someone else, or no-one at all. Similarly, we would not allow
+<p>
+<blockquote><font color="#000080">Liubov <i>loving relation</i> Belinsky
+</font></blockquote><p>
+<p>
+<p>It is sometimes convenient to give a name to the other side of a relationship, so to speak. We might imagine:
+<p>
+<blockquote><font color="#000080">Pet-ownership relates various animals to one person (called the owner).
+</font></blockquote><p>
+<p>
+<p>It would then make sense to talk about &quot;the owner of Loulou&quot;, and we could have phrases like &quot;now Flaubert is the owner of Loulou&quot; or &quot;if the owner of Loulou is a woman...&quot; and so forth. This, however, would not be allowed:
+<p>
+<blockquote><font color="#000080">Pet-ownership relates various animals (called the pet) to one person.
+</font></blockquote><p>
+<p>
+<p>because &quot;the pet of Flaubert&quot; would be ambiguous: he might have owned dozens.
 <p>
 <p><hr><p><a href=doc173.html>Previous</a> / <a href=doc175.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

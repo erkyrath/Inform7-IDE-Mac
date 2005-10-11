@@ -1,18 +1,26 @@
-<html><head><title>7.2. Changing the command prompt</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc95.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc97.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.2. Changing the command prompt</b></td></tr></table><p>
+<html><head><title>7.3. Changing the status line</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc95.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc97.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.3. Changing the status line</b></td></tr></table><p>
 <p>
-<p>The command prompt is the text printed by Inform to ask the player for another command. Ordinarily this is simply a greater-than-sign, &quot;>&quot;, so we tend not to notice it as text at all. Internally, though, it is a variable value called &quot;command prompt&quot;, which means we can change it.
+<p>The status line is the black bar along the top of a game being played, which ordinarily displays the current position, score and number of moves taken. Like the command prompt, it is not fixed but results from values which can be changed: the &quot;left hand status line&quot; and &quot;right hand status line&quot;.
 <p>
-<p>For example, this will be a more conversational sort of prompt:
+<p>The default values are &quot;[the player's surroundings]&quot; for the left hand status line and &quot;[score]/[turn count]&quot; for the right hand status line. Score and turn count are numbers which vary in play (there will be much more about scoring later); &quot;[the player's surroundings]&quot; expands to a succinct description of where the player is, be this in darkness, in a lighted room or inside an opaque container such as a large packing case. These make useful elements to juggle in redesigning the status line, as in the following example:
 <p>
-<blockquote><font color="#000080">When play begins: change the command prompt to &quot;What now? &quot;.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tchange the left hand status line to\n\t\t&quot;[the player\'s surroundings] / [turn count] / [score]&quot;;\n\tchange the right hand status line to &quot;Time: [time of day]&quot;.\n\n\n')"><img border=0 src=paste.png></a> When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the left hand status line to
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;[the player's surroundings] / [turn count] / [score]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the right hand status line to &quot;Time: [time of day]&quot;.
 </font></blockquote><p>
 <p>
-<p>Whereas this will be more up-to-the-minute and demanding:
+<p>The text in the right hand status line should be kept no more than 14 letters long, including any spaces. The left hand status line has more leeway, but should still be kept brief.
 <p>
-<blockquote><font color="#000080">When play begins: change the command prompt to &quot;[time of day] >&quot;.
-</font></blockquote><p>
-<p>
-<p>(&quot;Time of day&quot; is another variable value, which is fairly self-explanatory, but will be covered in detail later on.) The prompt can be changed at any point, so can be used to indicate the current situation, or even as a sly way to introduce a sort of conversation between computer and player.
-<p>
+<p><hr><p>
+<a name="e102"><a href=ex102.html#e102><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Have the status line indicate the current region of the map.</i><p>
 <p><hr><p><a href=doc95.html>Previous</a> / <a href=doc97.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,0 +1,53 @@
+<html><head><title>17.2. Named rules and rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc252.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc254.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.2. Named rules and rulebooks</b></td></tr></table><p>
+<p>
+<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns - usually visible on the &quot;status line&quot; displayed above the window of a game in progress - and advances the clock, which is usually not visible, but ticking away behind the scenes.
+<p>
+<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
+<p>
+<blockquote><font color="#000080">advance time = the advance time rule
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
+</font></blockquote><p>
+<p>
+<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p>
+<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We have already seen some of these names used in the Advanced Actions chapter, and will later use them like so:
+<p>
+<blockquote><font color="#000080">ignore the can't go through closed doors rule;
+</font></blockquote><p>
+<p>
+<p>Names for rules tend to be verbose, but this is a situation where clarity is very much better than brevity.
+<p>
+<p><hr><p>
+<a name="e119"><a href=ex119.html#e119><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A WAIT [number] MINUTES command which advances through an arbitrary number of turns.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e120"><a href=doc253.html#e120><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A WAIT UNTIL [time] command which advances until the game clock reaches the correct hour.</i><p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Hanging around until is an action applying to one time.\n\nCheck hanging around until:\n\tif the time of day is the time understood, say &quot;It is [time understood] now!&quot; instead;\n\tif the time of day is after the time understood, say &quot;It is too late for that now.&quot; instead.\n\nCarry out hanging around until:\n\twhile the time of day is before time understood repeatedly follow the turn sequence rules.\n\nReport hanging around until:\n\tsay &quot;You yawn until [time understood].&quot;\n\nUnderstand &quot;wait until [time]&quot; as hanging around until.\n\n')"><img border=0 src=paste.png></a> Hanging around until is an action applying to one time.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check hanging around until:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is the time understood, say &quot;It is [time understood] now!&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is after the time understood, say &quot;It is too late for that now.&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out hanging around until:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;while the time of day is before time understood repeatedly follow the turn sequence rules.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report hanging around until:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You yawn until [time understood].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;wait until [time]&quot; as hanging around until.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc252.html>Previous</a> / <a href=doc254.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

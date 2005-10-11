@@ -1,0 +1,85 @@
+<html><head><title>21.6. Emily Short <emshort@mindspring.com> -  Locking reported as unlocking</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc305.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc307.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>21.6. Emily Short <emshort@mindspring.com> -  Locking reported as unlocking</b></td></tr></table><p>
+<p>
+<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 30 September 2005
+<p>
+<p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
+<p>
+<p><i>Build:</i> 2Z20
+<p>
+<p><i>Platform:</i> Mac OS X
+<p>
+<p>
+<p>
+<p><i>Code example:</i>
+<p>
+<p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The Sound Stage is a room. Clark Gable is a transparent man in the Sound Stage. &quot;Clark is here, carrying [the list of things carried by Clark][if Clark wears anything] and wearing [the list of things worn by Clark][end if].&quot; Clark carries a swagger stick. Clark carries a player\'s holdall called a briefcase. The briefcase contains a signed contract. [The carrying capacity of Clark is 2.] Clark wears a fedora and a pair of pants. Clark carries a portable supporter called a tray.\n\nThe stage door is west of the Sound Stage and east of the Lot. It is a door. The automobile is a vehicle in the Stage. The cage is an openable open enterable transparent container in the Stage. It is pushable between rooms.\n\nA persuasion rule for asking Clark to try doing something: persuasion succeeds.\n\n\nThe player carries a small key, a tent, and Variety Magazine. The stage door is lockable and locked. The small key unlocks the stage door.\n\n\n\n\n\n')"><img border=0 src=paste.png></a> The Sound Stage is a room. Clark Gable is a transparent man in the Sound Stage. &quot;Clark is here, carrying [the list of things carried by Clark][if Clark wears anything] and wearing [the list of things worn by Clark][end if].&quot; Clark carries a swagger stick. Clark carries a player's holdall called a briefcase. The briefcase contains a signed contract. [The carrying capacity of Clark is 2.] Clark wears a fedora and a pair of pants. Clark carries a portable supporter called a tray.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The stage door is west of the Sound Stage and east of the Lot. It is a door. The automobile is a vehicle in the Stage. The cage is an openable open enterable transparent container in the Stage. It is pushable between rooms.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A persuasion rule for asking Clark to try doing something: persuasion succeeds.
+</font></blockquote><p>
+<p>
+<p>
+<blockquote><font color="#000080">The player carries a small key, a tent, and Variety Magazine. The stage door is lockable and locked. The small key unlocks the stage door.
+</font></blockquote><p>
+<p>
+<p>
+<p>
+<p>
+<p><i>What goes wrong:</i>
+<p>
+<p>
+<p>>look
+<p>[looking]
+<p>
+<p>Sound Stage
+<p>
+<p>Clark is here, carrying the small key, the swagger stick, the briefcase and the tray and wearing the fedora and the pair of pants.
+<p>
+<p>You can also see a stage door, an automobile (empty) and a cage (empty) here.
+<p>
+<p>[looking - succeeded]
+<p>>clark, unlock door
+<p>What do you want Clark Gable to unlock the stage door with?
+<p>
+<p>>key
+<p>[asking Clark Gable to try unlocking stage door with small key]
+<p>[(1) Clark Gable trying unlocking stage door with small key]
+<p>Clark Gable unlocks the stage door.
+<p>
+<p>[(1) Clark Gable trying unlocking stage door with small key - succeeded]
+<p>[asking Clark Gable to try unlocking stage door with small key - succeeded]
+<p>>clark, lock door with key
+<p>[asking Clark Gable to try locking stage door with small key]
+<p>[(1) Clark Gable trying locking stage door with small key]
+<p>Clark Gable unlocks the stage door.   <------ **** NOT THIS TIME ****
+<p>
+<p>[(1) Clark Gable trying locking stage door with small key - succeeded]
+<p>[asking Clark Gable to try locking stage door with small key - succeeded]
+<p>>open door
+<p>[opening stage door]
+<p>It seems to be locked.
+<p>[opening stage door - failed the can't open what's locked rule]
+<p>
+<p>
+<p>
+<p><i>Comments:</i>
+<p>
+<p>
+<p>
+<p>
+<p>
+<p><hr><p><a href=doc305.html>Previous</a> / <a href=doc307.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

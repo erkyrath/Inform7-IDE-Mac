@@ -1,30 +1,47 @@
-<html><head><title>5.10. The lexicon</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc69.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc71.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.10. The lexicon</b></td></tr></table><p>
+<html><head><title>5.7. Adjacent rooms and routes through the map</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc69.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc71.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.7. Adjacent rooms and routes through the map</b></td></tr></table><p>
 <p>
-<p>Inform's lexicon is not just a figure of speech: Inform actually does maintain an alphabetical list of nouns and adjectives which can be used in descriptions, and that lexicon can be browsed in a project's Index.
+<p>Another useful adjective built into Inform is &quot;adjacent&quot;. Two rooms are said to be adjacent if there is a map connection between them which does not pass through some barrier such as a door. This is easily tested:
 <p>
-<p>To summarise. Nouns are straightforward: they refer to specific things (&quot;wine cask&quot;) or specific kinds (even &quot;something&quot;, which refers to &quot;thing&quot;). Adjectives, however, come from three possible sources:
-<p>
-<p>(a) From either/or properties. For instance, &quot;open&quot; and &quot;closed&quot;, which are antonyms: what is not open is closed, and vice versa.
-<p>
-<p>(b) When we create a new kind of value, and allow it to be a property of a given kind, we also create new adjectives:
-<p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour.
+<blockquote><font color="#000080">if the Hallway is adjacent to the Study ...
 </font></blockquote><p>
 <p>
-<p>We can now use the adjective &quot;green&quot; (for instance) in descriptions:
+<p>We usually want to know about the places adjacent to the current scene of the action, so that is what the adjective &quot;adjacent&quot; means when applied to rooms. For instance:
 <p>
-<blockquote><font color="#000080">Instead of taking a green building block, say &quot;For some reason you have an aversion to the colour green.&quot;
+<blockquote><font color="#000080">if somebody is in an adjacent room, ...
 </font></blockquote><p>
 <p>
-<p>And similarly when we use the more convenient form for single things, such as the cask in this example:
+<p>As with the case of &quot;visible&quot;, the adjective is a cut-down version of the more general relationship. This often happens: &quot;worn&quot; and &quot;carried&quot;, for instance, imply &quot;by the player&quot; unless something else is specified.
 <p>
-<blockquote><font color="#000080">The cask is either customs sealed, liable to tax or stolen goods.
+<p>While on the subject of navigating the map, the phrase &quot;the best route from A to B&quot; gives the direction to take in order to get from A to B by the shortest number of movements between rooms - if there is any way through at all. For example, here is a lure:
+<p>
+<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room].&quot;
 </font></blockquote><p>
 <p>
-<p>(c) From direct definitions, such as the adjective &quot;occupied&quot; created by:
+<p>Best routes are ordinarily forbidden to go through doors, but if the suffix &quot;using doors&quot; is added as an option then any open or openable and unlocked door may be used on the way; and if &quot;using even locked doors&quot; is given, then any door at all will do. Since magnetism is no respecter of property, that seems right here:
 <p>
-<blockquote><font color="#000080">Definition: a supporter is occupied if something is on it.
+<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room, using even locked doors].&quot;
 </font></blockquote><p>
 <p>
+<p>The phrase &quot;the best route from A to B&quot; gives the direction to take next, if we are at A and want to end up at B. Suppose this is east. We can find out where we go next by looking up &quot;the room east from A&quot;: similarly for any other direction, of course. (This can see through any doors, locked or not.)
+<p>
+<p>We can also find out how long the journey would be:
+<p>
+<blockquote><font color="#000080">The description of the proximity gadget is &quot;You are now [number of moves from the location to the Sundial] moves from the Sundial.&quot;;
+</font></blockquote><p>
+<p>
+<p>This number is, of course, 0 if the location is already the Sundial. If there is no way at all to get to the Sundial, the number is -1.
+<p>
+<p><hr><p>
+<a name="e2"><a href=ex2.html#e2><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A person who moves randomly between rooms of the map.</i><p>
+<a name="e97"><a href=ex97.html#e97><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Signposts such as those provided on hiking paths in the Swiss Alps, which show the correct direction and hiking time to all other locations.</i><p>
+<a name="e3"><a href=ex3.html#e3><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A LOOK [direction] command which allows the player to see descriptions of the nearby landscape.</i><p>
 <p><hr><p><a href=doc69.html>Previous</a> / <a href=doc71.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

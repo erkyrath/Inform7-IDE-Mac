@@ -1,24 +1,41 @@
-<html><head><title>8.4. Displaying quotations</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc117.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc119.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.4. Displaying quotations</b></td></tr></table><p>
+<html><head><title>8.5. When play ends</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc117.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc119.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.5. When play ends</b></td></tr></table><p>
 <p>
-<p>Awarding points is only one of the traditional ways which interactive fictions use to signal that progress is being made. Another is to display quotations, as if they were epigraphs, floating over the main text of the game.
+<p>Short of something like a power cut, the game can only end when one of the two participants chooses to end it: either the player, by deciding that enough is enough, or us.
 <p>
-<p>The original example came in <i>Trinity</i>, by Brian Moriarty, in which the player exploring Kensington Gardens comes upon a location enigmatically called The Wabe. By way of explanation, a quotation pops up. The effect can be duplicated in Inform like so:
+<p>If we decide that a conclusion of some kind, happy or not, has been reached, we can herald that moment with phrases like so:
 <p>
-<blockquote><font color="#000080">After looking in the Wabe, display the boxed quotation
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&quot;And 'the wabe' is the grass-plot round
-<br>&nbsp;&nbsp;&nbsp;&nbsp;a sun-dial, I suppose? said Alice,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;surprised at her own ingenuity.
+<blockquote><font color="#000080">end the game in death
+<br>end the game in victory
+<br>end the game saying &quot;You have come to a full stop&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">&nbsp;&nbsp;&nbsp;&nbsp;Of course it is. It's called 'wabe,'
-<br>&nbsp;&nbsp;&nbsp;&nbsp;you know, because it goes a long way
-<br>&nbsp;&nbsp;&nbsp;&nbsp;before it, and a long way behind it --
+<p>The phrase &quot;end the game in death&quot; is equivalent to ending it saying &quot;You have died&quot;, and similarly victory simply means announcing &quot;You have won&quot;. The more general phrase allows any text (short, please) to be used:
+<p>
+<blockquote><font color="#000080">Instead of eating the fish, end the game saying &quot;You have been poisoned&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">&nbsp;&nbsp;&nbsp;&nbsp;-- Lewis Carroll&quot;.
+<p>The rulebook &quot;when play ends&quot; is the matching bookend to &quot;when play begins&quot;. It is followed when the game decides to end (not when the player simply gives up and quits), and before any epitaph like
+<p>
+<blockquote><font color="#000080">*** You have been poisoned ***
 </font></blockquote><p>
 <p>
-<p>The quotation will only ever appear once, regardless of the number of times the &quot;display the boxed quotation ...&quot; phrase is reached. This is an effect best not overused: <i>Trinity</i> contains only 13 quotations, despite its size and complexity.
+<p>appears. For example:
+<p>
+<blockquote><font color="#000080">When play ends, say &quot;Oh dear.&quot;
+</font></blockquote><p>
+<p>
+<p>In such a rule, the phrase &quot;resume the game&quot; will cause play to continue exactly as if no ending had been reached at all:
+<p>
+<blockquote><font color="#000080">When play ends: say &quot;Oh dear. Still, here's another chance.&quot;; resume the game.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc117.html>Previous</a> / <a href=doc119.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

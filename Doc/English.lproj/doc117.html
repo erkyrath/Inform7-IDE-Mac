@@ -1,12 +1,32 @@
-<html><head><title>8.3. Introducing tables: rankings</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc116.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc118.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.3. Introducing tables: rankings</b></td></tr></table><p>
+<html><head><title>8.4. Displaying quotations</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc116.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc118.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.4. Displaying quotations</b></td></tr></table><p>
 <p>
-<p>Another tradition of interactive fiction is that the player has a current 'rank' according to how far his or her score has got. We can (but need not) choose to provide such rankings, and should do so by specifying a table like this:
+<p>Awarding points is only one of the traditional ways which interactive fictions use to signal that progress is being made. Another is to display quotations, as if they were epigraphs, floating over the main text of the game.
 <p>
-<p><center><img src=table.tiff></center>
+<p>The original example came in <i>Trinity</i>, by Brian Moriarty, in which the player exploring Kensington Gardens comes upon a location enigmatically called The Wabe. By way of explanation, a quotation pops up. The effect can be duplicated in Inform like so:
 <p>
-<p>Typographically, tables in Inform look as much as possible like those found in non-fiction books: they can have many columns, so this is only a simple example (drawn from the actual rankings used by Infocom's <i>Zork I</i>, 1979). Each line in the source represents one row in the table, and the entries on a line must be separated by at least one tab character. (An entry might of course have several words with spaces in between, so a space is not enough to separate entries: this is the only context when Inform distinguishes between spaces and tabs.) The table must occupy a single whole paragraph, with no skipped lines or missing entries. We are free to use extra tabs to indent it if we like.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After looking in the Wabe, display the boxed quotation\n\t&quot;And \'the wabe\' is the grass-plot round\n\ta sun-dial, I suppose? said Alice,\n\tsurprised at her own ingenuity.\n\n\tOf course it is. It\'s called \'wabe,\'\n\tyou know, because it goes a long way\n\tbefore it, and a long way behind it --\n\n\t-- Lewis Carroll&quot;.\n\n\n')"><img border=0 src=paste.png></a> After looking in the Wabe, display the boxed quotation
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&quot;And 'the wabe' is the grass-plot round
+<br>&nbsp;&nbsp;&nbsp;&nbsp;a sun-dial, I suppose? said Alice,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;surprised at her own ingenuity.
+</font></blockquote><p>
 <p>
-<p>Ordinarily we must explicitly ask to use the information presented in a table, but the table of rankings is a special case: Inform uses it automatically, if it is provided at all. To be recognised it must have the name &quot;Rankings&quot; and must have two columns named and arranged as shown. The scores should be given in ascending order. Customarily, the score in the final row should be the maximum possible achieved in the game - so that only a player with maximum possible score can be awarded the final ranking - and the value of &quot;maximum score&quot; is automatically set to this bottom-row value if it has not been explicitly set anywhere else in the source text.
+<blockquote><font color="#000080">&nbsp;&nbsp;&nbsp;&nbsp;Of course it is. It's called 'wabe,'
+<br>&nbsp;&nbsp;&nbsp;&nbsp;you know, because it goes a long way
+<br>&nbsp;&nbsp;&nbsp;&nbsp;before it, and a long way behind it --
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">&nbsp;&nbsp;&nbsp;&nbsp;-- Lewis Carroll&quot;.
+</font></blockquote><p>
+<p>
+<p>The quotation will only ever appear once, regardless of the number of times the &quot;display the boxed quotation ...&quot; phrase is reached. This is an effect best not overused: <i>Trinity</i> contains only 13 quotations, despite its size and complexity.
 <p>
 <p><hr><p><a href=doc116.html>Previous</a> / <a href=doc118.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

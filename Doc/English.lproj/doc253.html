@@ -1,42 +1,34 @@
-<html><head><title>17.14. Making new assertion sentences</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc252.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc254.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.14. Making new assertion sentences</b></td></tr></table><p>
+<html><head><title>17.2. Named rules and rulebooks</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc252.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc254.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.2. Named rules and rulebooks</b></td></tr></table><p>
 <p>
-<p>The following feature is best used sparingly if at all: in fact, it is a feature introduced in the very early days of Inform 7 and which may be removed altogether now that there is a more sophisticated way to handle new verbs.
+<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns - usually visible on the &quot;status line&quot; displayed above the window of a game in progress - and advances the clock, which is usually not visible, but ticking away behind the scenes.
 <p>
-<p>We have already seen that the following sentences are equivalent:
+<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
 <p>
-<blockquote><font color="#000080">The matching key of the blue door is the brass key.
+<blockquote><font color="#000080">advance time = the advance time rule
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The brass key unlocks the blue door.
+<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
 </font></blockquote><p>
 <p>
-<p>This comes about because the Standard Rules include the following line:
+<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
 <p>
-<blockquote><font color="#000080">X unlocks Y means that the matching key of Y is X.
+<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We have already seen some of these names used in the Advanced Actions chapter, and will later use them like so:
+<p>
+<blockquote><font color="#000080">ignore the can't go through closed doors rule;
 </font></blockquote><p>
 <p>
-<p>We can make definitions like this at any point, but had better do so with some care and forethought. They make it possible to talk very elegantly about things belonging to new kinds, but the potential for havoc is considerable if they take effect in an unintended context. Up to four different variables are allowed, but must be called W, X, Y or Z for clarity: and note that they can be matched by empty text. Similarly, Inform also defines
+<p>Names for rules tend to be verbose, but this is a situation where clarity is very much better than brevity.
 <p>
-<blockquote><font color="#000080">Above means up from. Below means down from.
-</font></blockquote><p>
-<p>
-<p>This tells Inform to transform &quot;above&quot; into &quot;up from&quot; whenever it occurs in an assertion, and similarly for &quot;below&quot;. Thus
-<p>
-<blockquote><font color="#000080">The Skylight is above the Conservatory.
-</font></blockquote><p>
-<p>
-<p>is transformed to
-<p>
-<blockquote><font color="#000080">The Skylight is up from the Conservatory.
-</font></blockquote><p>
-<p>
-<p>Notice that &quot;means that&quot; applies a change only to an entire sentence, whereas &quot;means&quot; applies to smaller pieces of text. Because of this, &quot;means&quot; has to be used with even more care. Moreover, &quot;means&quot; can't be used to change the words in phrases, so for instance the following fails:
-<p>
-<blockquote><font color="#000080">Determine means decide.
-<br>To determine whether song moves us:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying the blue note, yes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;no.
-</font></blockquote><p>
-<p>
+<p><hr><p>
+<a name="e119"><a href=ex119.html#e119><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A WAIT [number] MINUTES command which advances through an arbitrary number of turns.</i><p>
+<a name="e120"><a href=ex120.html#e120><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A WAIT UNTIL [time] command which advances until the game clock reaches the correct hour.</i><p>
 <p><hr><p><a href=doc252.html>Previous</a> / <a href=doc254.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

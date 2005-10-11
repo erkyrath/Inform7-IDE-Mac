@@ -1,27 +1,41 @@
-<html><head><title>14.12. In what order?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc208.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc210.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.12. In what order?</b></td></tr></table><p>
+<html><head><title>14.12. Listed in...</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc208.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc210.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.12. Listed in...</b></td></tr></table><p>
 <p>
-<p>When several different lines of grammar are supplied to meet the same circumstances, it makes a big difference what order they are tried in. For instance, suppose we have:
+<p>Tables are especially useful for combining a run of basically similar rules in a simple and concise way. The &quot;listed in&quot; condition, as in
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [a door]&quot; as photographing.
+<blockquote><font color="#000080">if the newfound object is an item listed in the table of treasures...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.
+<p>looks through a given table (here &quot;table of treasures&quot;), in a given column (&quot;item&quot;), to see if a given value is present (&quot;the newfound object&quot;). If this is successful, the row where it was found is automatically chosen.
+<p>
+<p>We can similarly use &quot;... listed in ...&quot; in a description used when specifying an action. Thus:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After taking an item listed in the table of treasures:\n\tif there is no time entry begin;\n\t\tchange the time entry to the time of day;\n\t\taward (value entry) points;\n\tend if;\n\tsay &quot;Taken!&quot;\n\n\n')"><img border=0 src=paste.png></a> After taking an item listed in the table of treasures:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if there is no time entry begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the time entry to the time of day;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;award (value entry) points;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Taken!&quot;
 </font></blockquote><p>
 <p>
-<p>The second line is more specific than the first, so Inform takes these grammar lines the other way around: it checks for &quot;open door&quot; before it checks for &quot;door&quot;. That didn't matter here, since both lines came out with the same result (the action of photographing), but it matters very much in the next example:
+<p>This assumes a table in the following shape:
 <p>
-<blockquote><font color="#000080">Understand &quot;employ [a door]&quot; as opening.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Table of treasures\nItem\tValue\tTime\nbrooch\t5\ta time\ntiara\t8\t--\ncoronet\t10\t--\n\n\n')"><img border=0 src=paste.png></a> Table of treasures
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Item</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Value</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Time</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">brooch</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a time</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">tiara</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">coronet</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;employ [an open door]&quot; as entering.
-</font></blockquote><p>
-<p>
-<p>More subtle is a line already seen:
-<p>
-<blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.
-</font></blockquote><p>
-<p>
-<p>Here Inform puts &quot;on top of&quot; before &quot;on/in/inside&quot;, since otherwise only the &quot;on&quot; of &quot;on top of&quot; will be recognised.
+<p>In effect the table has allowed us to combine three very similar rules into one. The time column records the first time at which the item has been picked up, which starts out blank since at the start of play it has never been picked up. This enables us to award the appropriate number of points on the first occasion only.
 <p>
 <p><hr><p><a href=doc208.html>Previous</a> / <a href=doc210.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

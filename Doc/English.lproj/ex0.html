@@ -1,67 +1,69 @@
-<html><head><title>4.9. Text with numbers</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc49.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc51.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.9. Text with numbers</b></td></tr></table><p>
+<html><head><title>12.10. The invention of love</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc178.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc180.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.10. The invention of love</b></td></tr></table><p>
 <p>
-<p>When a numerical value is given in a square-bracketed substitution, it is ordinarily printed out in digits. Thus:
+<p>We have already used the example:
 <p>
-<blockquote><font color="#000080">&quot;You've been wandering around for [turn count] turns now.&quot;
+<blockquote><font color="#000080">Loving relates various people to one person.
 </font></blockquote><p>
 <p>
-<p>might print as &quot;You've been wandering around for 213 turns now.&quot;, if the game has been played out for exactly that many commands. Alternatively, we can add &quot;...in words&quot;, thus:
+<p>Let us create a verb which expresses this:
 <p>
-<blockquote><font color="#000080">&quot;You've been wandering around for [turn count in words] turns now.&quot;
+<blockquote><font color="#000080">The verb to love (he loves, they love, he loved, he is loved) implies the loving relation.
 </font></blockquote><p>
 <p>
-<p>to get the more conversational &quot;You've been wandering around for two hundred and thirteen turns now.&quot;
+<p>Note that we have omitted one of the parts of the verb. Actually we can legally miss out any of them, but the result is that the usages missed out will not be understood by Inform. In this case, Inform will understand
 <p>
-<p>Either way, though, there is some risk of the following:
-<p>
-<blockquote><font color="#000080">You've been wandering around for one turns now.
+<blockquote><font color="#000080">Elizabeth loves Darcy.
+<br>if anybody has been loved by Darcy, ...
+<br>someone who is loved by Elizabeth
+<br>the number of women who love Darcy
 </font></blockquote><p>
 <p>
-<p>We can avoid this using the special substitution &quot;[s]&quot;, which prints a letter &quot;s&quot; unless the last number printed was 1. So:
+<p>but it will not understand
 <p>
-<blockquote><font color="#000080">&quot;You've been wandering around for [turn count in words] turn[s] now.&quot;
+<blockquote><font color="#000080">Elizabeth is loving Darcy.
+<br>if Darcy is loving anybody, ...
 </font></blockquote><p>
 <p>
-<p>will produce &quot;... for one turn now.&quot; or &quot;... for two turns now.&quot; as appropriate. This only solves one case (what about all the other plural endings, from &quot;women&quot; to &quot;cherubim&quot;?), and as we shall see we can get the same effect and very much more using the methods in the next section, so &quot;[s]&quot; is something of an anomaly. But it's memorable, and even if it only solves one small need, this is a need which turns up often.
+<p>because we did not supply the present participle &quot;he is loving&quot; as part of the definition of the verb. (That was deliberate, because the verb &quot;to love&quot; isn't used that way.)
 <p>
-<a name="e0"><a href=doc50.html#e0><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A new "to say" definition which allows the author to say "[a number approximately]" and get verbal descriptions like "a couple of" or "a few" as a result.</i><p>
+<p>Similarly, using our reciprocated relation for mere acquaintanceship,
 <p>
-<p>Sometimes it is more sensible to describe numbers roughly than in exact terms. For instance, we might want to have our player perceive &quot;many people&quot; rather than &quot;forty-two people&quot; on entering a room. To achieve this, we might write our own &quot;to say&quot; phrase.
-<p>
-<blockquote><font color="#000080">&quot;Ballpark&quot;
+<blockquote><font color="#000080">Meeting relates people to each other. The verb to know (he knows, they know, he knew, he is known) implies the meeting relation. Elizabeth knows Mr Wickham. Mr Wickham knows Mr Darcy.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say (count - a number) approximately:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Numerical Approximation
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if count is less than maximum entry
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[approximation entry]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e0"><a href=doc179.html#e0><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>People are to be grouped into alliances. To kiss someone is to join his or her faction, which may make a grand alliance; to strike them is to give notice of quitting, and to become a lone wolf.</i><p>
+<p>
+<p>The following is best tested by experimentally kissing and/or attacking, and typing RELATIONS after every change to see the effect.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Unthinkable Alliances&quot;\n\nUnthinkable Solutions is a room. Sophie, Daisy, Ryan and Owen are in Unthinkable Solutions.\n\nAlliance relates people to each other in groups. The verb to help (he helps, they help, he helped, he is helped) implies the alliance relation.\n\nSophie helps Ryan. Daisy helps Ryan.\n\nInstead of kissing someone (called the blessed one):\n\tsay &quot;Smack!&quot;;\n\tnow the player helps the blessed one.\n\nInstead of attacking someone (called the vilified one):\n\tsay &quot;Smack!&quot;;\n\tnow the player does not help the vilified one.\n\n')"><img border=0 src=paste.png></a> &quot;Unthinkable Alliances&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Numerical Approximation
-<br>maximum	approximation
-<br>1	&quot;no&quot;
-<br>2	&quot;one&quot;
-<br>3	&quot;a couple of&quot;
-<br>6	&quot;a few&quot;
-<br>11	&quot;some&quot;
-<br>21	&quot;many&quot;
-<br>1000	&quot;lots and lots of&quot;
+<blockquote><font color="#000080">Unthinkable Solutions is a room. Sophie, Daisy, Ryan and Owen are in Unthinkable Solutions.
 </font></blockquote><p>
 <p>
-<p>Once we've defined this, we can then call on it from bracketed tokens just as we might any other similar thing.
-<p>
-<blockquote><font color="#000080">A room has a number called the population. The population of a room is usually 0. The description of a room is usually &quot;You observe [population of the location approximately] [if population of the location is 1]person [otherwise]people [end if]here.&quot;.
+<blockquote><font color="#000080">Alliance relates people to each other in groups. The verb to help (he helps, they help, he helped, he is helped) implies the alliance relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Stadium is a room. The Hot Dog Stand is west of the Stadium. The Women's Restroom is south of the Stadium.
+<blockquote><font color="#000080">Sophie helps Ryan. Daisy helps Ryan.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The population of the Stadium is 500. The population of the Hot Dog Stand is 3. The population of the Restroom is 750.
+<blockquote><font color="#000080">Instead of kissing someone (called the blessed one):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Smack!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the player helps the blessed one.
 </font></blockquote><p>
-<p><hr><p><a href=doc49.html>Previous</a> / <a href=doc51.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Instead of attacking someone (called the vilified one):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Smack!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the player does not help the vilified one.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc178.html>Previous</a> / <a href=doc180.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

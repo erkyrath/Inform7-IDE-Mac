@@ -1,27 +1,31 @@
-<html><head><title>13.12. Listed in...</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc193.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc195.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.12. Listed in...</b></td></tr></table><p>
+<html><head><title>13.10. Arithmetic with units</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc193.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc195.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.10. Arithmetic with units</b></td></tr></table><p>
 <p>
-<p>Tables are especially useful for combining a run of basically similar rules in a simple and concise way. The &quot;listed in&quot; condition, as in
+<p>Inform allows us to perform arithmetic on units only where that would make sense, and it keeps track of the results. For instance,
 <p>
-<blockquote><font color="#000080">if the newfound object is an item listed in the table of treasures...
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The Weighbridge is a room. &quot;A sign declares that the maximum load is [100kg multiplied by 3].&quot;\n\n\n')"><img border=0 src=paste.png></a> The Weighbridge is a room. &quot;A sign declares that the maximum load is [100kg multiplied by 3].&quot;
 </font></blockquote><p>
 <p>
-<p>looks through a given table (here &quot;table of treasures&quot;), in a given column (&quot;item&quot;), to see if a given value is present (&quot;the newfound object&quot;). If this is successful, the row where it was found is automatically chosen.
+<p>...will produce the text &quot;A sign declares that the maximum load is 300kg.&quot; Here Inform knows that it makes sense to multiply a weight by 3, and that the result will be a weight. Similarly, Inform allows us to add and subtract weights, and several different forms of division are allowed:
 <p>
-<p>We can similarly use &quot;... listed in ...&quot; in a description used when specifying an action. Thus:
-<p>
-<blockquote><font color="#000080">After taking an item listed in the table of treasures:
-<br>if there is no time entry begin;
-<br>change the time entry to the time of day;
-<br>award (value entry) points;
-<br>end if;
-<br>say &quot;Taken!&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: \'122 / 10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; but 122kg / 10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; and 122kg / 10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].\'&quot;\n\n\n')"><img border=0 src=paste.png></a> The blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: '122 / 10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; but 122kg / 10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; and 122kg / 10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot;
 </font></blockquote><p>
 <p>
-<p>This assumes a table in the following shape:
+<p>When we visit the Weighbridge, we find:
 <p>
-<p><center><img src=table11.tiff></center>
+<blockquote><font color="#000080">A blackboard propped against one wall reads: &quot;122 / 10 is 12 remainder 2; but 122kg / 10kg is 12 remainder 2kg; and 122kg / 10 is 12kg remainder 2kg.&quot;
+</font></blockquote><p>
 <p>
-<p>In effect the table has allowed us to combine three very similar rules into one. The time column records the first time at which the item has been picked up, which starts out blank since at the start of play it has never been picked up. This enables us to award the appropriate number of points on the first occasion only.
+<p>Whereas we are not allowed to divide 122 by 10kg: that would make no sense, since 122 is a number and not made up of kilograms. Inform will produce a problem message if we try.
 <p>
+<p><hr><p>
+<a name="e27"><a href=ex27.html#e27><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A treatment of money which keeps track of how much the player has on him, and a BUY command which lets him go shopping.</i><p>
 <p><hr><p><a href=doc193.html>Previous</a> / <a href=doc195.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

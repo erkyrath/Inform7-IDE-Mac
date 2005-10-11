@@ -1,16 +1,45 @@
-<html><head><title>17.19. The return context</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc257.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc259.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.19. The return context</b></td></tr></table><p>
+<html><head><title>17.7. Success and failure</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc257.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc259.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.7. Success and failure</b></td></tr></table><p>
 <p>
-<p>I7 has a number of conceptually different ways to define code - as phrases which are not compiled inline, as phrases to decide conditions, as rules and so on. All these are compiled to I6 routines, and return values have different meanings in the different cases. For type-checking reasons, I7 needs to detect when a return might occur in order to make sure that a condition does not end with the wrong kind of result, and so on.
+<p>Though we have blurred over this point so far, every rule has one of three outcomes: success, failure and neither. The default outcome is neither, and for many rules (the every turn rules, for instance) success or failure would be ignored anyway, which is how we managed not to mention all this before. Indeed, the instruction
 <p>
-<p>Inline phrases which cause a return should declare what happens like so:
-<p>
-<blockquote><font color="#000080">To stop the action: (- rtrue; -) - outcome.
+<blockquote><font color="#000080">follow the appraisal rules
 </font></blockquote><p>
 <p>
-<p>&quot;Outcome&quot;, used for rules, is one of four possibilities. The others are &quot;void&quot; (a return with no value), &quot;value&quot; (with a value) or &quot;condition&quot; (used to signal a result of a phrase to decide whether something is true). Thus the phrases &quot;yes&quot; and &quot;stop the action&quot; have the same definition, but a different context:
+<p>throws away the result, whatever it may be, which is why results have not come up in the discussion so far. All the same, results can make a difference even in examples like this one. When a rulebook is working through a list of rules, any rule which succeeds or fails (we say that it &quot;stops&quot;) causes the rulebook to stop at once, so that no subsequent rules in the book will be invoked. For instance, if any &quot;check taking&quot; rule fails, the whole &quot;check taking&quot; rulebook immediately fails, and that is the end of the action.
 <p>
-<blockquote><font color="#000080">To yes: (- rtrue; -) - condition.
+<p>When a rule or rulebook &quot;stops&quot;, a value can optionally also result: this means that rulebooks can be used to calculate quantities, as well as taking yes/no decisions, or simply carrying out activities.
+<p>
+<p>Generally speaking, stops are needed for different reasons in different rulebooks, so there are specialised syntaxes for bringing them about. We saw an example of this with the &quot;reaching inside&quot; rulebook:
+<p>
+<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
 </font></blockquote><p>
 <p>
+<p>&quot;Allow access&quot; does nothing more than cause the rule, and therefore the rulebook, to stop and succeed: &quot;deny access&quot; causes it to fail.
+<p>
+<p>The following phrases work in any rulebook:
+<p>
+<blockquote><font color="#000080">rule succeeds
+<br>rule fails
+<br>rule succeeds with result (...)
+<br>rule fails with result (...)
+</font></blockquote><p>
+<p>
+<p>The result can be a room, a thing or a text. It can be referred to as
+<p>
+<blockquote><font color="#000080">the result of the rule
+</font></blockquote><p>
+<p>
+<p>which is nothing if the rule ended without success or failure.
+<p>
+<p><hr><p>
+<a name="e109"><a href=ex109.html#e109><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Expanding the effects of the THROW something AT something command so that objects do make contact with one another.</i><p>
 <p><hr><p><a href=doc257.html>Previous</a> / <a href=doc259.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,27 +1,16 @@
-<html><head><title>16.13. Deciding whether all includes</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc235.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc237.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.13. Deciding whether all includes</b></td></tr></table><p>
+<html><head><title>16.7. Introduction to the list of built-in activities</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc235.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc237.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.7. Introduction to the list of built-in activities</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> When parsing a command such as &quot;take all&quot;, where the player uses &quot;all&quot; to signify everything within reach.
+<p>Activities tend to be about process, rather than outcome. Many of the things Inform does - printing up lists of items, reading commands from the keyboard, and so on - are done as activities, because that way the process can be nudged a little. Too many works of interactive fiction betray their mechanical nature by making it visible that the general machinery being used does not quite seem natural for this or that situation. Activities enable us to add the many graceful touches which avoid that: which contribute nothing to a work, and also everything.
 <p>
-<p><b>2. The default behaviour.</b> The actual method used is complicated, as &quot;all&quot; is not as simple as it seems - &quot;take all&quot; would not include the player's own body, for instance, or the crescent moon. The point of this action is to allow the normal method to be changed for given objects, or given kinds of object.
-<p>
-<p><b>3. Examples.</b> (a) Removing scenery from &quot;all&quot;:
-<p>
-<blockquote><font color="#000080">Rule for deciding whether all includes scenery: it does not.
-</font></blockquote><p>
-<p>
-<p>The phrases &quot;it does&quot; and &quot;it does not&quot; make a decision.
-<p>
-<p>(b) Ensuring that a given thing, which might otherwise be excluded, is included:
-<p>
-<blockquote><font color="#000080">Rule for deciding whether all includes the oval roof: it does.
-</font></blockquote><p>
-<p>
-<p>(c) However, be wary of rules like this one:
-<p>
-<blockquote><font color="#000080">Rule for deciding whether all includes the oak tree while taking: it does not.
-</font></blockquote><p>
-<p>
-<p>This will not work even when the player types &quot;take all&quot; because we are not &quot;taking&quot; until the text is fully understood, when the action begins: and working out what &quot;all&quot; means is part of that process of understanding.
+<p>The rest of this chapter covers every activity in the standard rules, with one section for each. Reading once through will give a sense of the possibilities, but it is intended primarily for reference, because nobody would remember the names and circumstances for all of these things without looking them up.
 <p>
 <p><hr><p><a href=doc235.html>Previous</a> / <a href=doc237.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

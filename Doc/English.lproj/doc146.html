@@ -1,31 +1,38 @@
-<html><head><title>10.7. Otherwise</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc145.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc147.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.7. Otherwise</b></td></tr></table><p>
+<html><head><title>10.9. Repeat running through</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc145.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc147.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.9. Repeat running through</b></td></tr></table><p>
 <p>
-<p>We often need code which does one thing in one circumstance, and another the rest of the time. We could do this like so:
+<p>Inform is not used very much for numerical work, so the kind of repeat loop described in the previous section is not much used. Inform's natural domain is really the world of things and rooms, so the following kind of repeat is much more useful.
 <p>
-<blockquote><font color="#000080">if N is 2 begin; ...; end if;
-<br>if N is not 2 begin; ...; end if;
+<blockquote><font color="#000080">repeat with item running through open containers begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;... phrases ...
+<br>end repeat;
 </font></blockquote><p>
 <p>
-<p>but this is not very elegant, and besides, what if the action we take when N is 2 changes N so that it becomes something else?
+<p>Once again we create a new value, &quot;item&quot;, of only temporary validity. This time the phrases are repeated once for each open container presently found in the world. (If there are no containers, or they are all closed, the phrases will not be followed at all.)
 <p>
-<p>Instead we use &quot;otherwise&quot;:
+<p>As with counting the &quot;number of ...&quot; objects satisfying some property, we can run through a wide variety of possibilities. For example:
 <p>
-<blockquote><font color="#000080">if N is 2 begin;
-<br>...;
-<br>otherwise;
-<br>...;
-<br>end if;
+<blockquote><font color="#000080">repeat with dinner guest running through the people in the Dining Room begin; ...
 </font></blockquote><p>
 <p>
-<p>Note that there is only one &quot;end if&quot;: the &quot;otherwise&quot; phrase occurs inside the &quot;if ... end if&quot; block of phrases.
-<p>
-<p>When there is only a single phrase we can use the shortened form:
-<p>
-<blockquote><font color="#000080">if N is 2 then say &quot;Hooray, N is 2!&quot;;
-<br>otherwise say &quot;Boo, N is not 2...&quot;
+<blockquote><font color="#000080">repeat with possession running through things carried begin; ...
 </font></blockquote><p>
 <p>
-<p>(In almost every computer programming language ever devised, including previous versions of Inform, the word &quot;else&quot; is used rather than &quot;otherwise&quot;: for the sake of familiarity, &quot;else&quot; can also be used here. All the same, &quot;otherwise&quot; seems closer to natural English.)
+<p>The following lists the whereabouts of all men in lighted rooms:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('repeat with suspect running through the men who are in a lighted room (called the scene) begin;\n\tsay &quot;[The suspect] is in [the scene].&quot;;\nend repeat.\n\n\n')"><img border=0 src=paste.png></a> repeat with suspect running through the men who are in a lighted room (called the scene) begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The suspect] is in [the scene].&quot;;
+<br>end repeat.
+</font></blockquote><p>
+<p>
+<p>Note the way we are allowed to give a name to the vaguely described place &quot;lighted room&quot;, so that we can refer to it inside the loop. This wasn't really necessary (&quot;holder of the suspect&quot; would have had the same effect) but improved the clarity of the source.
 <p>
 <p><hr><p><a href=doc145.html>Previous</a> / <a href=doc147.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

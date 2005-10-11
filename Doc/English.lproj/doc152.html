@@ -1,36 +1,47 @@
-<html><head><title>10.13. Another example: a pushable box</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc151.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc153.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.13. Another example: a pushable box</b></td></tr></table><p>
+<html><head><title>10.15. In what order?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc151.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc153.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.15. In what order?</b></td></tr></table><p>
 <p>
-<p>More on using kinds of value inside phrases, this time to simulate something new: a box which, although it cannot be picked up, can be pushed around between three different places on the floor.
+<p>Recall the definition:
 <p>
-<blockquote><font color="#000080">Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase. The current box position is a box position that varies.
+<blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To shove the box to (destination - a box position):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current box position to the destination.
+<p>Suppose we then try to &quot;slam shut the wall safe&quot; at a time during play when the wall safe is already closed. An error message will then be printed during play, since there must be a mistake in the design. The combination of checking both at construction time and continuously during play guarantees that, in all cases, a varying item such as &quot;box&quot; in the definition of &quot;To slam shut (box - open container)&quot; always satisfies the condition laid down.
+<p>
+<p>Instead suppose we also have the following definition:
+<p>
+<blockquote><font color="#000080">To slam shut (box - a container): say &quot;You are unable to slam shut [the box], which is already closed.&quot;.
 </font></blockquote><p>
 <p>
-<p>So, for instance:
+<p>We now have two definitions of &quot;slam shut&quot;. Sometimes the box it's applied to will be closed, in which case only the second definition fits, and will be the one used. But if the box is open, both definitions fit. Which will happen? The rule is:
 <p>
-<blockquote><font color="#000080">shove the box to over by the window;
+<blockquote><font color="#000080">1. A narrower condition takes precedence over a broader one;
 </font></blockquote><p>
 <p>
-<p>might result in the following on screen:
-<p>
-<blockquote><font color="#000080">With some effort, you shove the old box from under the shelf to over by the window.
+<blockquote><font color="#000080">2. If neither condition is narrower than the other, then whichever phrase was defined later in the source code is the one taking precedence;
 </font></blockquote><p>
 <p>
-<p>And we can write conditions like so:
-<p>
-<blockquote><font color="#000080">if the current box position is over by the window then...
+<blockquote><font color="#000080">3. Except that if the phrase is being used in the definition of phrase P, then P is always last in precedence order, so that recursion is always the very last possibility considered. This allows more specific or later definitions to make use of less specific or earlier ones in a natural way.
 </font></blockquote><p>
 <p>
-<p>Using a new kind of value is a good way to set up simulations like this one because Inform will ensure that the &quot;current box position&quot; always, no matter what we do, holds one of the three legal box positions. Similarly, a line like
+<p>Rule 1 ensures that a definition involving &quot;open container&quot; takes priority over one which merely involves &quot;container&quot;, for instance.
 <p>
-<blockquote><font color="#000080">if the current box position is green then ...
+<p>And therefore when the box is open, it's the more specific phrase to do with open containers which is invoked: so, with great panache, the box is slammed shut.
+<p>
+<p>On the other hand, neither of these patterns is narrower than the other:
+<p>
+<blockquote><font color="#000080">To describe (something - transparent): ...
+<br>To describe (something - container): ...
 </font></blockquote><p>
 <p>
-<p>will be disallowed because box positions and colours are incomparable.
+<p>Some containers are transparent, some not; some transparent things are containers, some not. Rule 1 therefore does not apply, so it is the most recently defined of the two phrases which takes effect.
 <p>
 <p><hr><p><a href=doc151.html>Previous</a> / <a href=doc153.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

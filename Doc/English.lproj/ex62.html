@@ -1,0 +1,56 @@
+<html><head><title>6.17. Kinds of action</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc89.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc91.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.17. Kinds of action</b></td></tr></table><p>
+<p>
+<p>Especially when people need to react to events going on around them, it is helpful to be able to categorise actions into whole areas of behaviour. The following example, indebted to the late Georgette Heyer, is suggestive:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Dearth and the Maiden&quot;\n\nThe Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;\n\nAn oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;\n\nA man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;\n\nKissing Mr Carr is unmaidenly behaviour. Doing something with the painting is unmaidenly behaviour.\n\nInstead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Dearth and the Maiden&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">An oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Kissing Mr Carr is unmaidenly behaviour. Doing something with the painting is unmaidenly behaviour.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;
+</font></blockquote><p>
+<p>
+<p>Here a new kind of action called &quot;unmaidenly behaviour&quot; has been created and then used in the description of an instead rule. The convenience of this approach is that when further actions suddenly occur to us as also being unmaidenly - say, attacking Mr Carr - we only need to add a single line:
+<p>
+<blockquote><font color="#000080">Attacking Mr Carr is unmaidenly behaviour.
+</font></blockquote><p>
+<p>
+<p>And this will automatically be reflected in any rules which concern the consequences of failing to be ladylike.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e62"><a href=doc90.html#e62><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>People who must be greeted before conversation can begin.</i><p>
+<p>
+<p>Suppose we want to add a sense of some conversational flow, so that the player is forced to acknowledge the presence of people before beginning detailed conversations with them. We collect all speech actions into a single category:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Asking someone about something is speech. Telling someone about something is speech. Answering someone that something is speech. Asking someone for something is speech. Asking somebody to try doing something is speech.\n\n[And then write a general rule.]\n\nBefore speech in the presence of an ungreeted person:\n\tsay &quot;You nod hello to [the list of ungreeted people who can be seen by the player].&quot;;\n\tnow every ungreeted person who can be seen by the player is greeted.\n\nA person can be greeted or ungreeted. A person is usually ungreeted. The player is greeted.\n\n')"><img border=0 src=paste.png></a> Asking someone about something is speech. Telling someone about something is speech. Answering someone that something is speech. Asking someone for something is speech. Asking somebody to try doing something is speech.
+</font></blockquote><p>
+<p>
+<p>And then write a general rule.
+<p>
+<blockquote><font color="#000080">Before speech in the presence of an ungreeted person:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You nod hello to [the list of ungreeted people who can be seen by the player].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now every ungreeted person who can be seen by the player is greeted.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A person can be greeted or ungreeted. A person is usually ungreeted. The player is greeted.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc89.html>Previous</a> / <a href=doc91.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

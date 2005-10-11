@@ -1,40 +1,28 @@
-<html><head><title>18.2. The verb grammar VP</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc263.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc265.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.2. The verb grammar VP</b></td></tr></table><p>
+<html><head><title>18.2. The Standard Rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc263.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc265.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.2. The Standard Rules</b></td></tr></table><p>
 <p>
-<p>In the example &quot;The horseman wears a riding helmet&quot; the Verb part was indeed a single verb: the word &quot;wears&quot;. More generally, Inform allows a Verb to include adverbs and prepositions, to be negated, and to come in any of four tenses, so the following are all valid as Verb in our grammar:
+<p>When any source text is run through Inform, a secret first line is inserted, which reads:
 <p>
-<blockquote><font color="#000080">wore
-<br>carries
-<br>is carried by
-<br>had not been inside
+<blockquote><font color="#000080">Include the Standard Rules by Graham Nelson.
 </font></blockquote><p>
 <p>
-<p>That does not mean every Verb makes sense in an assertion. For instance, Inform will reject this:
+<p>The &quot;Standard Rules&quot; file contains the definitions of the basic kinds, phrases, actions and grammar described in this documentation: for instance, it includes lines like
 <p>
-<blockquote><font color="#000080">The silver plate is not on the table.
+<blockquote><font color="#000080">A container is a kind of thing.
 </font></blockquote><p>
 <p>
-<p>Inform needs to be told where it is, not where it isn't. Similarly, we are not allowed to say that:
+<p>...without which Inform would be lost. Although including the Standard Rules is compulsory, it is treated internally as if it were any other &quot;extension&quot;.
 <p>
-<blockquote><font color="#000080">The silver plate has been on the table.
-</font></blockquote><p>
+<p>What happens when an &quot;Include&quot; sentence is reached is that the sentence is replaced with the whole text of the file in question (often many paragraphs long).
 <p>
-<p>because assertions are supposed to talk about the world <i>now</i>, at the start of play, and to use the present tense.
-<p>
-<p>So why have negatives and past tenses? Inform uses the same basic grammar for conditions - questions about the world as it evolves during play - as it does for assertions - factual statements about the initial state. For instance, because
-<p>
-<blockquote><font color="#000080">The silver plate is on the table.
-</font></blockquote><p>
-<p>
-<p>is a valid sentence S, we can also write
-<p>
-<blockquote><font color="#000080">if the silver plate is on the table then ...
-</font></blockquote><p>
-<p>
-<p>when we come to setting up rules of play (in the next chapter). And once play has begun, it makes perfect sense to ask questions in the negative, or to talk about the past:
-<p>
-<blockquote><font color="#000080">if the silver plate is not on the table then ...
-<br>if the silver plate has been on the table then ...
-</font></blockquote><p>
+<p>If the file has already been included, then the sentence is simply ignored. This is so that we can have two extensions, each of which needs the other: if A says to include B, and B says to include A, the result is that including one automatically includes the other, so we always get both which ever we ask for - not that there is a hideous infinite regress.
 <p>
 <p><hr><p><a href=doc263.html>Previous</a> / <a href=doc265.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

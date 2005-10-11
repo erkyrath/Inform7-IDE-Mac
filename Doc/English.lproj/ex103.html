@@ -1,0 +1,67 @@
+<html><head><title>9.3. Using the Scene index</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc131.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc133.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.3. Using the Scene index</b></td></tr></table><p>
+<p>
+<p>But when we test the previous section's example, we find that after a brief wait, the train pulls up: but it never goes away again. We have given instructions on how the scene ends, but not when it ends, and as a result the scene goes on forever once started.
+<p>
+<p>Even with simple story-lines, and this one could hardly be simpler, it is surprisingly easy to overlook something so that the whole story-line is derailed.
+<p>
+<p>The Scene index is intended to help with this. At the top is a chart showing all the scenes and how they are to begin, along with a key to the symbols used on it. If we look at the Scene index for the previous example, we find that our Train Stop scene is marked with the red warning symbol for &quot;never ends&quot;. Let us fix this:
+<p>
+<blockquote><font color="#000080">Train Stop ends when the time since Train Stop began is 3 minutes.
+</font></blockquote><p>
+<p>
+<p>Note the useful value &quot;time since Train Stop began&quot;. (This only makes sense if the scene has begun, of course.) The actual time, in case it is needed, can be obtained with &quot;time when Train Stop began&quot;.
+<p>
+<p><hr><img border=0 src=debug.png>The testing command SCENES causes Inform to monitor the beginning and ending of scenes, and report on them. For instance:
+<p>
+<blockquote><font color="#000080">>ask monk about lodging
+<br>&quot;Welcome a poor traveler for the night?&quot; you ask, rubbing your fingers together to restore a little feeling.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The monk looks you up and down for a moment and you sense his reaction hanging in the balance; then he slaps you on the back, hard enough to drive the air from your lungs. &quot;In.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">[Scene 'Greeting' ends]
+<br>The monk takes your elbow and pushes you imperiously toward dinner.
+<br>[Scene 'Banquet' begins]
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e103"><a href=doc132.html#e103><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>The railway-station examples so far put together into a short game called "Age of Steam".</i><p>
+<p>
+<p>The following source is very short and simple, yet it already feels surprisingly interesting in play, because something is going on which the player does not control but must observe. The single scene both starts and finishes.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Age of Steam&quot;\n\nThe Station is a room. &quot;Eynforme Halt is a raised platform fringed with cowslip: a whistle-stop with no more than a signal and a water-tank.&quot;\n\nThe Flying Scotsman is fixed in place. &quot;The Flying Scotsman, fastest train in the world, is now at a dead standstill.&quot;\n\nTrain Stop is a scene. Train Stop begins when the player is in the Station for the third turn. Train Stop ends when the time since Train Stop began is 3 minutes.\n\nWhen Train Stop begins:\n\tmove the Flying Scotsman to the Station;\n\tsay &quot;The Flying Scotsman pulls up at the platform, to a billow of steam and hammering.&quot;\n\nWhen Train Stop ends:\n\tremove the Flying Scotsman from play;\n\tsay &quot;The Flying Scotsman inches away, with a squeal of released brakes, gathering speed invincibly until it disappears around the hill. All is abruptly still once more.&quot;\n\nInstead of entering the Flying Scotsman, say &quot;Alas, the [time when Train Stop began] arrival is only to take on water, not to set down or pick up.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Age of Steam&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Station is a room. &quot;Eynforme Halt is a raised platform fringed with cowslip: a whistle-stop with no more than a signal and a water-tank.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Flying Scotsman is fixed in place. &quot;The Flying Scotsman, fastest train in the world, is now at a dead standstill.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Train Stop is a scene. Train Stop begins when the player is in the Station for the third turn. Train Stop ends when the time since Train Stop began is 3 minutes.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">When Train Stop begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the Flying Scotsman to the Station;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman pulls up at the platform, to a billow of steam and hammering.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">When Train Stop ends:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the Flying Scotsman from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman inches away, with a squeal of released brakes, gathering speed invincibly until it disappears around the hill. All is abruptly still once more.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of entering the Flying Scotsman, say &quot;Alas, the [time when Train Stop began] arrival is only to take on water, not to set down or pick up.&quot;
+</font></blockquote><p>
+<p>
+</td></tr></table><p><p><hr><p><a href=doc131.html>Previous</a> / <a href=doc133.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

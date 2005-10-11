@@ -1,77 +1,57 @@
-<html><head><title>16.5. Printing the name of something</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc227.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc229.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.5. Printing the name of something</b></td></tr></table><p>
+<html><head><title>3.7. Properties depend on kind</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc27.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc29.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.7. Properties depend on kind</b></td></tr></table><p>
 <p>
-<p>There is nothing more to be said about the general working of activities, so the remaining sections of this chapter cover one activity each, giving examples of rules affecting them.
+<p>Properties depend very much on kind. It makes no sense to ask whether a room is transparent or opaque, for instance, so Inform will not allow this either to be specified or queried.
 <p>
-<p><b>1. When it happens.</b> Whenever the name of a thing or room is printed.
+<p>Another way that kind influences properties can be seen from an earlier example:
 <p>
-<p><b>2. The default behaviour.</b> Its &quot;printed name&quot; property is printed out.
-<p>
-<p><b>3. Examples.</b> (a) A pen which is described differently in inventories:
-<p>
-<blockquote><font color="#000080">Rule for printing the name of the pen while taking inventory: say &quot;useful pen&quot;.
+<blockquote><font color="#000080">The Gazebo is a room. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup.
 </font></blockquote><p>
 <p>
-<p>&quot;Taking inventory&quot; is a condition which is true if that's the current action and not otherwise, so the effect is that the pen is called &quot;a useful pen&quot; only in inventory listings. &quot;While looking&quot; is a similarly useful one.
+<p>The cup, the pistol and the table are all allowed to have the &quot;fixed in place&quot; property, but in fact only the table actually has it: the cup and the pistol are created as &quot;portable&quot; instead. This is because Inform knows that most things are portable, but that supporters - such as the table - are usually fixed in place. If this assumption is wrong, we need only add the line:
 <p>
-<p>(b) Italicising the names of novels:
-<p>
-<blockquote><font color="#000080">A novel is a kind of thing. Dr Zhivago and Persuasion are novels. Before printing the name of a novel, say &quot;[italic type]&quot;. After printing the name of a novel, say &quot;[roman type]&quot;.
+<blockquote><font color="#000080">The table is portable.
 </font></blockquote><p>
 <p>
-<p>(c) Telling the time:
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e13"><a href=doc28.html#e13><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A boat with a glass case of fishing rods in it.</i><p>
 <p>
-<blockquote><font color="#000080">After printing the name of the wrist watch while taking inventory: say &quot; (time: [the time of day])&quot;.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Disappointment Bay&quot;\n\n[Suppose we begin with a room description like this:]\n\nThe Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.\n\nScratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;\n\n[We might want to start with the glass case.]\n\nThe Cabin contains a glass case. In the glass case is a collection of fishing rods.\n\n[Now Inform will have guessed that the case is a container, but its default idea of a container is something like a bucket: permanently open and not able to be opened and shut. We can change that:]\n\nThe case is closed, transparent, and openable.\n\n[We get a similar set of guesses if we write]\n\nThe bench is in the cabin. On the bench are some blue vinyl cushions.\n\n[Using &quot;some&quot; rather than &quot;a&quot; or &quot;the&quot; tells Inform that the cushions are to be referred to as a plural object in the future. And because of the &quot;on the bench...&quot; phrase, Inform will guess that the bench is a supporter and that it is fixed in place and cannot be moved from room to room. We do have to tell it that the bench can be sat on, though:]\n\nThe bench is enterable.\n\n')"><img border=0 src=paste.png></a> &quot;Disappointment Bay&quot;
 </font></blockquote><p>
 <p>
-<p>(d) Merging containers with their contents:
+<p>Suppose we begin with a room description like this:
 <p>
-<blockquote><font color="#000080">Rule for printing the name of the bottle while not inserting or removing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the bottle contains sand, say &quot;bottle of sand&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;empty bottle&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;omit contents in listing.
+<blockquote><font color="#000080">The Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.
 </font></blockquote><p>
 <p>
-<p>The special phrase &quot;omit contents in listing&quot; means that any inventory list, room description, etc., will simply list &quot;a bottle of sand&quot; or &quot;an empty bottle&quot;, rather than &quot;a bottle (in which is sand)&quot; or &quot;a bottle (which is empty)&quot;. The clause about not inserting or removing is to prevent messages like &quot;You put the sand in the bottle of sand.&quot;, where it's confusing to refer to the bottle as anything other than &quot;the bottle&quot;.
-<p>
-<a name="e13"><a href=doc228.html#e13><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A box of baking soda whose name changes to "completely ineffective baking soda" when it is in a container with something that smells funny.</i><p>
-<p>
-<p>First to lay some groundwork:
-<p>
-<blockquote><font color="#000080">&quot;Shipping Trunk&quot;
+<blockquote><font color="#000080">Scratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A chest is a kind of container. A chest is always openable. A lid is a kind of supporter. A lid is part of every chest.
+<p>We might want to start with the glass case.
+<p>
+<blockquote><font color="#000080">The Cabin contains a glass case. In the glass case is a collection of fishing rods.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before opening a chest when something (called the obstruction)  is on the lid which is part of the noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Better remove [the obstruction].&quot; instead.
+<p>Now Inform will have guessed that the case is a container, but its default idea of a container is something like a bucket: permanently open and not able to be opened and shut. We can change that:
+<p>
+<blockquote><font color="#000080">The case is closed, transparent, and openable.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A thing can be innocent or smelly.
+<p>We get a similar set of guesses if we write
+<p>
+<blockquote><font color="#000080">The bench is in the cabin. On the bench are some blue vinyl cushions.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Storage Unit is a room. The shipping trunk is a closed chest in the Storage Unit. The trunk contains some garlic, a loaf of moldy sourdough, a mildewy bathtowel, a pair of unwashed socks, two dead trout, and a box of baking powder. The garlic, trout, sourdough, bathtowel, and socks are smelly. The baking powder is innocent.
-</font></blockquote><p>
+<p>Using &quot;some&quot; rather than &quot;a&quot; or &quot;the&quot; tells Inform that the cushions are to be referred to as a plural object in the future. And because of the &quot;on the bench...&quot; phrase, Inform will guess that the bench is a supporter and that it is fixed in place and cannot be moved from room to room. We do have to tell it that the bench can be sat on, though:
 <p>
-<blockquote><font color="#000080">The shipping trunk's lid supports a small card. The description of the small card is &quot;'Please, please do not open this trunk.'&quot;
+<blockquote><font color="#000080">The bench is enterable.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">After opening the trunk:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the trunk had been open
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You steel yourself...&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue the action;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;There roils up from inside an indescribable funk, which, when you can see straight, you have no trouble attributing to the presence of [list of smelly things in the trunk].
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;You also note [list of innocent things in the trunk] in the corner.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<p>And now, with that preparation:
-<p>
-<blockquote><font color="#000080">Before printing the name of the baking powder when the powder is in a container which contains a smelly thing: say &quot;completely ineffective &quot;.
-</font></blockquote><p>
-<p><hr><p><a href=doc227.html>Previous</a> / <a href=doc229.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc27.html>Previous</a> / <a href=doc29.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

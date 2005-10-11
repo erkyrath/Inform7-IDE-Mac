@@ -1,0 +1,46 @@
+<html><head><title>10.6. Begin and end</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc142.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc144.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.6. Begin and end</b></td></tr></table><p>
+<p>
+<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
+<p>
+<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
+<p>
+<blockquote><font color="#000080">To comment upon (whatever - a thing):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
+<p>
+<p>Similarly for while:
+<p>
+<blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while
+</font></blockquote><p>
+<p>
+<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e80"><a href=doc143.html#e80><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Every time the player gets onto, say, a stack of mattresses, the thing on the bottom of the pile makes a groaning noise.</i><p>
+<p>
+<p>The main point here is that we need to figure out where the stack meets the floor:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After entering something:\n\tlet the item be the noun;\n\twhile the holder of the item is not a room\n\tbegin;\n\t\tlet the item be the holder of the item;\n\tend while;\n\tsay &quot;[The item] groans ominously.&quot;\n\n')"><img border=0 src=paste.png></a> After entering something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the item be the noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;while the holder of the item is not a room
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the item be the holder of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end while;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The item] groans ominously.&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc142.html>Previous</a> / <a href=doc144.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

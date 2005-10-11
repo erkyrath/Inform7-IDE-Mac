@@ -1,0 +1,47 @@
+<html><head><title>7.17. Random choices of things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc109.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc111.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.17. Random choices of things</b></td></tr></table><p>
+<p>
+<p>As well as choosing random values, we often want to make a random choice of things or rooms. Perhaps a character is to wander about at random; perhaps a falling block of masonry will crush some random item. The value
+<p>
+<blockquote><font color="#000080">random D
+<br>a random D
+</font></blockquote><p>
+<p>
+<p>(the article &quot;a&quot; is optional) produces a random choice of the things in the world which fit the description D. For instance,
+<p>
+<blockquote><font color="#000080">say &quot;You can see [number of adjacent rooms] way[s] from here; how about [random adjacent room]?&quot;
+</font></blockquote><p>
+<p>
+<p>Unexpected results may follow if there is nothing in the game which fits the description, as then the random choice will be nothing. For instance, the above would then say:
+<p>
+<blockquote><font color="#000080">You can see 0 ways from here; how about nothing?
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e26"><a href=doc110.html#e26><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A "Carousel Room", as in Zork II, where moving in any direction from the room leads (at random) to one of the eight rooms nearby.</i><p>
+<p>
+<p>All we need to do is select the player's destination for him at random:
+<p>
+<blockquote><font color="#000080">Instead of going from the Carousel Room:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the player to a random adjacent room.
+</font></blockquote><p>
+<p>
+<p>Or if we want to add the refinement that the Carousel Room can be switched off:
+<p>
+<blockquote><font color="#000080">The spinning machine is a switched on device in the Carousel Room.
+</font></blockquote><p>
+<p>
+<p>And then
+<p>
+<blockquote><font color="#000080">Instead of going from the Carousel Room when the spinning machine is switched on:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the player to a random adjacent room.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc109.html>Previous</a> / <a href=doc111.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,37 +1,29 @@
-<html><head><title>18.5. The meaning of "is"</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc266.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><img border=0 src=../ForwardDisabled.tif></td><td><b>18.5. The meaning of "is"</b></td></tr></table><p>
+<html><head><title>18.5. A simple example extension</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc266.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc268.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.5. A simple example extension</b></td></tr></table><p>
 <p>
-<p>Another small discrepancy between assertions and conditions turns up if we ask a surprisingly difficult question: what does &quot;is&quot; mean? There was much amusement when this became an issue in the absurd Senate trial of President Clinton, but the definition of &quot;to be&quot; spans a heroic twelve columns in the <i>Oxford English Dictionary</i>. Among the many meanings offered are:
+<p>Extensions look very much like passages of Inform source, because except for a special introductory and concluding sentence, that is all they are:
 <p>
-<blockquote><font color="#000080">OED 5a. to have or occupy a place somewhere
-<br>OED 9b. to have a place among the things distinguished by a specified quality
-<br>OED 10. to exist as the thing known by a certain name; to be identical with
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The Ducking Action by Graham Nelson begins here.\n\nDucking is an action applying to nothing. Report ducking: say &quot;You duck!&quot; Understand &quot;duck&quot; as ducking.\n\nThe Ducking Action ends here.\n\n\n')"><img border=0 src=paste.png></a> The Ducking Action by Graham Nelson begins here.
 </font></blockquote><p>
 <p>
-<p>All three of these are used by Inform:
-<p>
-<blockquote><font color="#000080">OED 5a. The cargo trunk is in the attic.
-<br>OED 9b. The cargo trunk is an openable container.
-<br>OED 10. if the noun is the cargo trunk ...
+<blockquote><font color="#000080">Ducking is an action applying to nothing. Report ducking: say &quot;You duck!&quot; Understand &quot;duck&quot; as ducking.
 </font></blockquote><p>
 <p>
-<p>OED meanings 5a and 9b are not really very different as far as Inform is concerned: they both say that something belongs to some larger class of things. &quot;The cargo trunk is in the attic&quot; means that the trunk is one among the things in the attic; &quot;the cargo trunk is an openable container&quot; means that it is among the openable containers. (In computer programming terms this is a sort of matching operator, like &quot;=~&quot; in the Perl scripting language.) On the other hand, OED meaning 10 is very different. If somebody reads out a line of code from the C programming language,
-<p>
-<blockquote><font color="#000080">if (x == 7) ...
+<blockquote><font color="#000080">The Ducking Action ends here.
 </font></blockquote><p>
 <p>
-<p>they will probably say the words &quot;If x is 7&quot;: here, the &quot;is&quot; means &quot;equals&quot;.
+<p>Not a useful or interesting extension, but those few words add a whole new action and everything needed to make it work. It is the ability in Inform 7 to mix up rooms, things, kinds, grammar, phrases and rules, in more or less any order, which makes it possible for extensions to work. If all the kinds (say) had to be defined in a single run of paragraphs, it would be impossible for different extensions each to contribute kinds of its own.
 <p>
-<p>So &quot;X is Y&quot; has two essentially different meanings to Inform: &quot;X matches Y&quot; and &quot;X equals Y&quot;. Both can be used in conditions, but only the first can be used in assertions. That is why Inform will reject the assertion
+<p>The introductory sentence should be placed as the only content of line 1 of the file. Inform does not care, but this would help any other tools which might be developed later for archiving or cataloguing extensions.
 <p>
-<blockquote><font color="#000080">The cargo trunk is the oak tree.
-</font></blockquote><p>
+<p>(In case the name is a plural, we are allowed to write &quot;begin&quot; and &quot;end&quot; instead of &quot;begins&quot; and &quot;ends&quot;. For instance, the last line of the standard rules is &quot;The Standard Rules end here.&quot;)
 <p>
-<p>(which must be a lie) even though it will allow exactly the same sentence structure in a condition:
-<p>
-<blockquote><font color="#000080">if the noun is the oak tree...
-</font></blockquote><p>
-<p>
-<p>This all sounds like a pedantic digression, and perhaps it is. (An OED 9b &quot;is&quot;, by the way.) But it has a moral: that &quot;is&quot; can do far more than the simple value comparisons offered by most computer programming languages.
-<p>
-<p><hr><p><a href=doc266.html>Previous</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc266.html>Previous</a> / <a href=doc268.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

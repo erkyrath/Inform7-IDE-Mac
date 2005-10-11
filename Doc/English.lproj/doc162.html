@@ -1,29 +1,47 @@
-<html><head><title>11.5. Making new relations</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc161.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc163.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.5. Making new relations</b></td></tr></table><p>
+<html><head><title>11.9. Check, carry out, report</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc161.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc163.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.9. Check, carry out, report</b></td></tr></table><p>
 <p>
-<p>We can create new relations like so:
+<p>The normal behaviour of an action is specified by its three associated rulebooks - check, carry out and report. In the case of our &quot;photographing&quot; example, these rulebooks will be:
 <p>
-<blockquote><font color="#000080">Loving relates various people to one person.
+<blockquote><font color="#000080"><b>Check photographing</b>. Here, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.
 </font></blockquote><p>
 <p>
-<p>Each of the relations has a name of the form &quot;something relation&quot;, where the &quot;something&quot; is a single word, and in this case the name is &quot;loving relation&quot;. In such a definition, we have to say what kind of thing appears on the left and right of any relation, and also whether &quot;one&quot; or &quot;various&quot; possibilities can exist. In the example
-<p>
-<blockquote><font color="#000080">Loving relates various people to one person.
+<blockquote><font color="#000080"><b>Carry out photographing</b>. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.
 </font></blockquote><p>
 <p>
-<p>what we are saying is that only people love; that they only love people; and that each person loves only one other person (at any given moment).
-<p>
-<p>The &quot;various&quot; part comes in because, for instance, we might have:
-<p>
-<blockquote><font color="#000080">Verenka <i>loving relation</i> Stankevich
-<br>Liubov <i>loving relation</i> Stankevich
+<blockquote><font color="#000080"><b>Report photographing</b>. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.
 </font></blockquote><p>
 <p>
-<p>so that various people (Verenka and Liubov, to name but two) love one person (Stankevich). But we are forbidding anyone to love two other people at the same time: Stankevich must decide which of them to love, or pick someone else, or no-one at all. Similarly, we would not allow
+<p>So far we have not really gone into the business of what rulebooks are, and we don't do so here either - suffice to say that we can now create whatever rules we need:
 <p>
-<blockquote><font color="#000080">Liubov <i>loving relation</i> Belinsky
+<blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
 </font></blockquote><p>
 <p>
-<p><hr><img border=0 src=beta.png>In this beta release only various-to-one, one-to-various and one-to-one relations are supported, but future builds will allow various-to-various relations as well.
+<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
 <p>
+<blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
+</font></blockquote><p>
+<p>
+<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
+<p>
+<p>We can continue to add rules at any point, and a classic thing that happens when testing a new work is that the designer realises there is a case which has not been thought of:
+<p>
+<blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<a name="e32"><a href=ex32.html#e32><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Containers and supporters that report their contents when you EXAMINE them.</i><p>
+<a name="e44"><a href=ex44.html#e44><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>An electric light kind of device which becomes lit when switched on and dark when switched off.</i><p>
+<a name="e35"><a href=ex35.html#e35><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A CUT [something] WITH [something] command which acts differently on different types of objects.</i><p>
 <p><hr><p><a href=doc161.html>Previous</a> / <a href=doc163.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

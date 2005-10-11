@@ -1,10 +1,44 @@
-<html><head><title>12.1. The measure of all things</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 12: Units</h2><p><table><tr><td><a href=doc167.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc169.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.1. The measure of all things</b></td></tr></table><p>
+<html><head><title>11.15. Changing reachability</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc167.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc169.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.15. Changing reachability</b></td></tr></table><p>
 <p>
-<p>Is life quantitative, in the end? Perhaps so: but not everything is readily measurable. How tall we are is described pretty well as a numerical measurement, but not what the sky looks like (cadmium, mackerel, overcast, cornflower, ...). Some writers of interactive fiction like to make great use of physical realism - for instance, forbidding a bulky object being taken through a narrow doorway - while others prefer a more qualitative game, which avoids unnecessary detail and is arguably all the more realistic for doing so. If we walk into a familiar office which has been disturbed, we might well say &quot;Look! The filing cabinet is in the middle of the floor&quot;: we are not likely to exclaim &quot;Look! The filing cabinet is 1.2m from the east wall and 2.1m from the north wall&quot;.
+<p>The question of what the player can, and cannot, reach is important in interactive fiction. It contains some of the subtlest ideas in the model world, though they often go unnoticed. For instance, if a key is on a shelf which is part of a closed box, can we reach for the key? This comes down to whether the shelf, described only as &quot;part of&quot; the box, is on the inside or the outside: and in fact, because it cannot know which is the case, Inform allows either. So in general it is best to regard &quot;parts&quot; as being exterior parts, but to avoid having parts on containers that might in the course of play be closed up with the player inside.
 <p>
-<p>This chapter is intended to help with those situations where quantitative simulations make better sense than qualitative ones. We have already seen that new kinds of value can neatly be used when there is a limited range of possible circumstances: for instance a colour which can be red, green or blue. But that is little use for quantitative problems. We would hardly want to have to create every number in the world by hand.
+<p>We can, if we wish, change the principles of what can be touched by writing new reaching inside or reaching outside rules. Returning to the example of the conical flask:
 <p>
-<p>As we shall see, we can create as many different numerical kinds of value as we like, but we will first look at the built-in kind of value: &quot;number&quot;.
+<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
+</font></blockquote><p>
 <p>
+<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) More generally, we could give the usual flexible description of what the rule applies to:
+<p>
+<blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large for [the container in question].&quot;; deny access.
+</font></blockquote><p>
+<p>
+<p>The &quot;container in question&quot; is the one to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
+<p>
+<p>If it seems possible that these rules will be employed by people other than the player, then we need to write them a little more carefully, and in particular we need to ensure that they print nothing for other people. In the first case below, anybody can reach through the glass; in the second case, only the player cannot reach into open containers.
+<p>
+<blockquote><font color="#000080">A rule for reaching inside the flask:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player, say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;allow access.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A rule for reaching inside open containers:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your hands seem enigmatically too large for [the container in question].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deny access.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>The &quot;person reaching&quot; is, as its name suggests, the person trying to reach through the barrier in question.
+<p>
+<p><hr><p>
+<a name="e126"><a href=ex126.html#e126><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A window between two locations. When the window is open, the player can reach through into the other location; when it isn't, access is barred.</i><p>
 <p><hr><p><a href=doc167.html>Previous</a> / <a href=doc169.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

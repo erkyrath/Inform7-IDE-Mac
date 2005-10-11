@@ -1,15 +1,49 @@
-<html><head><title>17.10. Headings and subheadings</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc248.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc250.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.10. Headings and subheadings</b></td></tr></table><p>
+<html><head><title>16.20. Printing the banner text</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc248.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc250.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.20. Printing the banner text</b></td></tr></table><p>
 <p>
-<p>Every extension, including the Standard Rules, has the right to its own set of headings and subheadings, independently of those used by the main source for the work or by any other extension which may be included. So if the extension is divided into four sections and finishes on Section D, say, that doesn't mean that Section D will continue outside the extension as the main source of the game runs on.
+<p><b>1. When it happens.</b> The banner is the bibliographic masthead text, which typically looks something like this:
 <p>
-<p>Extensions should, of course, never produce errors, so at first sight it appears that these headings will never be outwardly visible. In fact, though, they are used when indexing phrases (and also actions) to group similar phrases together. For instance, the Standard Rules contain the heading:
-<p>
-<blockquote><font color="#000080">Section SR4/7 - Searching and sorting tables
+<blockquote><font color="#000080">Relations
+<br>An Interactive Fiction by Emily Short
+<br>Release 1 / Serial number 050630 / Inform 7 build 2U98 (I6/v6.30 lib 6/10N) SD
 </font></blockquote><p>
 <p>
-<p>The half-dozen phrases defined in this section of the Standard Rules are then indexed under the subheading &quot;Searching and sorting tables&quot;: Inform looks for a hyphen in the heading and then uses any text which follows the hyphen. (If there is no hyphen, the entire heading text is used.)
+<p>The banner is printed at the start of play, and when the player types &quot;version&quot; at the command line, and when say &quot;[banner text]&quot; occurs.
 <p>
-<p>If an extension contains no headings, its phrases (or actions) are indexed simply as &quot;Miscellaneous&quot;.
+<p><b>2. The default behaviour.</b> Prints the text above, giving the title, the genre, the author, the release number, the date of compilation (that's the serial number: YYMMDD), and version numbers of the Inform components used to put the game together.
+<p>
+<p><b>3. Examples.</b> (a) Adding a line to the banner:
+<p>
+<blockquote><font color="#000080">After printing the banner text, say &quot;DRM authentication code: 13S-451-2034u75y65u%%a1248.&quot;
+</font></blockquote><p>
+<p>
+<p>(b) Simplifying the banner:
+<p>
+<blockquote><font color="#000080">Rule for printing the banner text: say &quot;Welcome.&quot; instead.
+</font></blockquote><p>
+<p>
+<p>(c) Delaying the banner for later:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Bikini Atoll&quot; by Edward Teller\n\nThe Hut and the Tropical Beach are rooms.\n\nThe conch shell is in the Hut. After taking the shell for the first time: say &quot;As you gather the oddly-warm conch shell into your arms, you experience a sudden flash of deja-vu...[line break][banner text]&quot;; move the player to the Tropical Beach.\n\nRule for printing the banner text: if the player is not carrying the shell, do nothing instead.\n\n\n')"><img border=0 src=paste.png></a> &quot;Bikini Atoll&quot; by Edward Teller
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Hut and the Tropical Beach are rooms.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The conch shell is in the Hut. After taking the shell for the first time: say &quot;As you gather the oddly-warm conch shell into your arms, you experience a sudden flash of deja-vu...[line break][banner text]&quot;; move the player to the Tropical Beach.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Rule for printing the banner text: if the player is not carrying the shell, do nothing instead.
+</font></blockquote><p>
+<p>
+<p>(By tradition, and as a courtesy to all the people who have worked on Inform, authors ensure that the banner is printed some time near the beginning of each game played. So please only defer it, rather than suppress it altogether.)
 <p>
 <p><hr><p><a href=doc248.html>Previous</a> / <a href=doc250.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,30 +1,36 @@
-<html><head><title>11.8. The invention of love</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc164.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc166.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.8. The invention of love</b></td></tr></table><p>
+<html><head><title>11.12. Report rules for actions by other people</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc164.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc166.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.12. Report rules for actions by other people</b></td></tr></table><p>
 <p>
-<p>We have already used the example:
+<p>Report rules for the player's actions are easy to write, and for many actions, they are not much harder for other people either:
 <p>
-<blockquote><font color="#000080">Loving relates various people to one person.
+<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
+<br>Report someone trying photographing: say &quot;Click! [The person asked] takes a snapshot of [the noun].&quot;
 </font></blockquote><p>
 <p>
-<p>Let us create a verb which expresses this:
+<p>But once other people are involved, we have to go to some trouble to get all of the possibilities right. Here is a case which did not immediately occur to the author of the &quot;going&quot; action, for instance:
 <p>
-<blockquote><font color="#000080">The verb to love (he loves, they love, he loved, he is loved) implies the loving relation.
+<blockquote><font color="#000080">>get in cage
+<br>You get into the cage.
+<br>>clark, get in automobile
+<br>Clark Gable gets into the automobile.
+<br>>clark, push cage west
+<br>Clark Gable goes west in the automobile, pushing the cage in front, and you along too.
 </font></blockquote><p>
 <p>
-<p>Note that we have omitted one of the parts of the verb. Actually we can legally miss out any of them, but the result is that the usages missed out will not be understood by Inform. In this case, Inform will understand
-<p>
-<blockquote><font color="#000080">Elizabeth loves Darcy.
-<br>if anybody has been loved by Darcy, ...
-<br>someone who is loved by Elizabeth
-<br>the number of women who love Darcy
+<blockquote><font color="#000080"><b>The Lot</b> (in the cage)
+<br>In the Lot you can see an automobile (in which is Clark Gable).
 </font></blockquote><p>
 <p>
-<p>but it will not understand
+<p>We said before that report rules are skipped if the action is running &quot;silently&quot;, or if the action is one that the player does not witness. But that is also a tricky concept. Inform's doctrine is that you witness an action if you can see any of the actor, the noun or the second noun at either the beginning or the end of the action; except that being able to see a backdrop does not count. Thus if Clark Gable, in Beverly Hills, photographs the Hollywood sign then we do not witness this from Sunset Boulevard merely because we, too, can see the Hollywood sign.
 <p>
-<blockquote><font color="#000080">Elizabeth is loving Darcy.
-<br>if Darcy is loving anybody, ...
-</font></blockquote><p>
-<p>
-<p>because we did not supply the present participle &quot;he is loving&quot; as part of the definition of the verb. (That was deliberate, because the verb &quot;to love&quot; isn't used that way.)
+<p>While the report rules for actions by the player must actually report something, report rules for other people's actions are under no such obligation. For instance, if Clark unlocks a door from the other side to the player, then this counts as an action that the player witnesses - and after all, it could be argued that the player should hear the key turning in the lock - but in fact the standard rules for reporting locking choose to say nothing.
 <p>
 <p><hr><p><a href=doc164.html>Previous</a> / <a href=doc166.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

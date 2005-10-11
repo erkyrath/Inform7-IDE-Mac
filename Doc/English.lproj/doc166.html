@@ -1,34 +1,32 @@
-<html><head><title>11.9. Defining new prepositions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc165.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc167.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.9. Defining new prepositions</b></td></tr></table><p>
+<html><head><title>11.13. Out of world actions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc165.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc167.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.13. Out of world actions</b></td></tr></table><p>
 <p>
-<p>The term preposition is used here, a little loosely, to mean anything which we add to the verb <i>to be</i> in order to talk about some relation or other. We have seen many examples already, such as:
+<p>The actions seen so far are all impulses causing the protagonist inside the fictional world to do something, or at least try to. But when the player types &quot;quit&quot; or &quot;save&quot;, that is not a request for anything to happen in the fictional world: it is an instruction to the program simulating that world. In fact, just the same, such requests are treated as actions, but of a special category called &quot;out of world&quot; actions. They do not cause time to pass by, so the turn counter does not advance, nor does this command cycle count as a turn at all; and they are altogether exempt from &quot;Before&quot;, &quot;Instead&quot; and &quot;After&quot; rules. Only the player is allowed to try them.
 <p>
-<blockquote><font color="#000080">To be in - The ball is in the box.
-<br>To be part of - The lever is part of the slot machine.
+<p>We can also create new out-of-world actions. Suppose we want a dialogue like so:
+<p>
+<blockquote><font color="#000080">>ROOMS
+<br>You have been to 1 out of 8 rooms.
 </font></blockquote><p>
 <p>
-<p>These are easier to create than verbs, because Inform already knows the wayward grammar of <i>to be</i>, so we need not give any of the principal parts. Otherwise, the method is exactly the same. Compare the definitions in the following:
+<p>Here is a complete implementation:
 <p>
-<blockquote><font color="#000080">Suspecting relates various people to one person.
+<blockquote><font color="#000080">Requesting the room tally is an action out of world.
+<br>Report requesting the room tally: say &quot;You have been to [number of visited rooms] out of [number of rooms] room[s].&quot;
+<br>Understand &quot;rooms&quot; as requesting the room tally.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The verb to suspect (he suspects, they suspect, he suspected, it is suspected, he is suspecting) implies the suspecting relation.
-</font></blockquote><p>
+<p>It is important not to use &quot;out of world&quot; actions for anything affecting what goes on in the fictional world, or realism will collapse, and action-processing may also fail to work in the usual way. &quot;Out of world&quot; actions should be reserved for providing commands like ROOMS, which monitor events rather than participate in them.
 <p>
-<blockquote><font color="#000080">The verb to be suspicious of implies the suspecting relation.
-</font></blockquote><p>
-<p>
-<p>The result of this is that
-<p>
-<blockquote><font color="#000080">Hercule Poirot suspects Colonel Hotchkiss.
-<br>Hercule Poirot is suspicious of Colonel Hotchkiss.
-</font></blockquote><p>
-<p>
-<p>are exactly equivalent, and so are these two descriptions:
-<p>
-<blockquote><font color="#000080">somebody who suspects Colonel Hotchkiss
-<br>somebody suspicious of Colonel Hotchkiss
-</font></blockquote><p>
-<p>
-<a name="e14"><a href=ex14.html#e14><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>An "underlying" relation which adds to the world model the idea of objects hidden under other objects.</i><p>
+<p><hr><p>
+<a name="e116"><a href=ex116.html#e116><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>P. David Lebling's classic "Spellbreaker" (1986) includes a room where the game cannot be saved: here is an Inform implementation.</i><p>
+<a name="e67"><a href=ex67.html#e67><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>In some of the late 1970s "cave crawl" adventure games, an elaborate scoring system might still leave the player perplexed as to why an apparently perfect play-through resulted in a score which was still one point short of the supposed maximum. Why only 349 out of 350? The answer varied, but sometimes the last point was earned by never saving the game - in other words by playing it right through with nothing to guard against mistakes (except perhaps UNDO for the last command), and in one long session.</i><p>
 <p><hr><p><a href=doc165.html>Previous</a> / <a href=doc167.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

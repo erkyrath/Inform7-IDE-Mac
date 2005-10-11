@@ -1,25 +1,34 @@
-<html><head><title>18.4. Inverted assertions</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc265.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc267.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.4. Inverted assertions</b></td></tr></table><p>
+<html><head><title>18.4. Where extensions are kept</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc265.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc267.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.4. Where extensions are kept</b></td></tr></table><p>
 <p>
-<p>Because of a curious irregularity in English, it is not quite true that every assertion could also be used as a condition.
+<p>This depends on the operating system we use. On Mac OS X, extensions live in
 <p>
-<p>The irregularity is that we sometimes reverse a sentence so that what Inform would call the Verb is split up. For instance,
-<p>
-<blockquote><font color="#000080">In the Garden is a sunflower.
+<blockquote><font color="#000080">~/Library/Inform/Extensions/
 </font></blockquote><p>
 <p>
-<p>This does not follow the pattern S = DP + VP, because &quot;in the garden&quot; is not a DP: indeed, it is not a noun at all. To make sense of this sentence, Inform reverses it so that it does fit the pattern:
+<p>where &quot;~&quot; signifies the user's home folder. The extension &quot;Following People by Mary Brown&quot; would live in
 <p>
-<blockquote><font color="#000080">A sunflower is in the Garden.
+<blockquote><font color="#000080">~/Library/Inform/Extensions/Mary Brown/Following People
 </font></blockquote><p>
 <p>
-<p>This allows a whole load of new sentences which our grammar does not at present fit, and we can widen our grammar by adding the following rule:
+<p>(no filename extension is used). A similar arrangement is used under Windows: extensions live in
 <p>
-<blockquote><font color="#000080">6. S = RP is/are DP
+<blockquote><font color="#000080">My Documents\Inform\Extensions
 </font></blockquote><p>
 <p>
-<p>But we need to remember that only assertions can do this, so &quot;if in the garden is a sunflower...&quot; is not allowed as a condition.
+<p>and our example extension would be stored as:
 <p>
-<p>(This quirk of English is called subject-verb inversion: see the <i>Oxford English Grammar</i> at 3.22F.)
+<blockquote><font color="#000080">My Documents\Inform\Extensions\Mary Brown\Following People
+</font></blockquote><p>
+<p>
+<p>Again, no filename extension is used.
 <p>
 <p><hr><p><a href=doc265.html>Previous</a> / <a href=doc267.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

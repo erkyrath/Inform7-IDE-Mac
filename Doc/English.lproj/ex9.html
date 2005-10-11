@@ -1,75 +1,99 @@
-<html><head><title>3.2. Rooms and the map</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc21.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc23.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.2. Rooms and the map</b></td></tr></table><p>
+<html><head><title>12.13. Relations which express conditions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc181.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc183.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.13. Relations which express conditions</b></td></tr></table><p>
 <p>
-<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
+<p>One last way to create a new relation and, in many ways, the easiest of all. If we write:
 <p>
-<p>Two more directions are provided by Inform: &quot;inside&quot; and &quot;outside&quot;. These are best used when one location is, say, a meadow and the other is a woodcutter's hut in the middle of it; we might then say
-<p>
-<blockquote><font color="#000080">Inside from the Meadow is the woodcutter's hut.
+<blockquote><font color="#000080">Contact relates a thing (called X) to a thing (called Y) when X is part of Y or Y is part of X. The verb to be joined to implies the contact relation.
 </font></blockquote><p>
 <p>
-<p>The &quot;from&quot; is important, as it clarifies that we intend to link two different locations, not to create an item - the hut - in a single location - the meadow.
+<p>then we would be able to talk about a handle being joined to a door, and a door being joined to a handle, and so on. We are not allowed to declare:
 <p>
-<p>A problem which sometimes arises when laying out maps is that Inform allows short forms of room names to be used as abbreviations. This is usually a good idea, but has unfortunate results if we write:
-<p>
-<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. The Airport is west of the Airport Road.
+<blockquote><font color="#000080">The hook is joined to the line.
 </font></blockquote><p>
 <p>
-<p>...because &quot;Airport&quot; is taken as a reference to &quot;Airport Road&quot;, so Inform makes only two locations, one of which supernaturally leads to itself. We can avoid this by writing:
+<p>because the question of whether they are joined is not for us to decide: that will be for the condition to determine, whenever we test it. Similarly, we cannot meaningfully write
 <p>
-<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. A room called the Airport is west of the Airport Road.
+<blockquote><font color="#000080">now the hook is joined to the line;
 </font></blockquote><p>
 <p>
-<p>Using &quot;called&quot; is often a good way to specify something whose name might give rise to confusion otherwise. It always makes something new, and it is also neatly concise, because we can establish something's kind and name in the same sentence. As another example, suppose we want to create a room called &quot;South of the Hut&quot;, to south of the Hut. We can't do so like this:
+<p>(and Inform will not let us) because this relation is not something we can force either way: we can make it come true by other means, maybe, but we cannot simply make it true by saying so.
 <p>
-<blockquote><font color="#000080">South of the Hut is a room. South of the Hut is south of the Hut.
+<p>So this way to define relations is, on the face of it, just a sort of verbal trick to write conditions in a more attractive way. The more flexible, changeable relations in previous sections have much greater expressive power. All the same, it is nice to be able to write -
+<p>
+<blockquote><font color="#000080">Nearness relates a room (called A) to a room (called B) when the number of moves from B to A is less than 3. The verb to be near implies the nearness relation.
 </font></blockquote><p>
 <p>
-<p>...because Inform will read that first sentence as placing a (nameless) room to the south of a room called &quot;Hut&quot;. Once again &quot;called&quot; can save the day:
+<p>and then to be able to write rules like:
 <p>
-<blockquote><font color="#000080">South of the Hut is a room called South of the Hut.
+<blockquote><font color="#000080">Instead of listening when the location is near the Sundial: say &quot;You hear a splashing of water.&quot;
 </font></blockquote><p>
 <p>
-<p>It is best to use &quot;called&quot; in the simplest way possible, and in particular, best not to use &quot;called&quot; twice in the same sentence. Consider:
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e9"><a href=doc182.html#e9><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Relations track the relationships between one character and another. Whenever the player meets a relative of someone he already knows, he receives a brief introduction.</i><p>
 <p>
-<blockquote><font color="#000080">The kitchen cabinet contains a container called a mixing bowl and a portable supporter called a platter.
+<p>First we define the relationships we choose to acknowledge:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;A Humble Wayside Flower&quot;\n\nMarriage relates one person to another (called the spouse). The verb to be married to implies the marriage relation.\n\nFatherhood relates one person (called father) to various people. The verb to engender (he engenders, they engender) implies the fatherhood relation.\n\n[For brevity, we will ignore the existence of mothers. It is a sad world.]\n\nSiblinghood relates a person (called A) to a person (called B) when a person who engenders A engenders B. The verb to be sibling to implies the siblinghood relation.\n\nFamily relates a person (called A) to a person (called B) when A is married to B or A engenders B or B engenders A or A is sibling to B. The verb to be related to implies the family relation.\n\nA person can be known or unknown. After printing the name of an unknown person (called the alien):\n\tif a known person (called the contact) is related to the alien\n\tbegin;\n\t\tsay &quot; ([relation between alien and contact] of [the contact])&quot;;\n\t\tnow the alien is known;\n\t\trule succeeds;\n\tend if.\n\nTo say relation between (first party - a person) and (second party - a person):\n\tif the first party is married to the second party\n\tbegin;\n\t\tif the first party is female, say &quot;wife&quot;;\n\t\totherwise say &quot;husband&quot;;\n\t\trule succeeds;\n\tend if;\n\tif the first party is sibling to the second party\n\tbegin;\n\t\tif the first party is female, say &quot;sister&quot;;\n\t\totherwise say &quot;brother&quot;;\n\t\trule succeeds;\n\tend if;\n\tif the first party engenders the second party\n\tbegin;\n\t\tsay &quot;father&quot;; rule succeeds;\n\tend if;\n\tif the second party is the father of the first party\n\tbegin;\n\t\tif the first party is female, say &quot;daughter&quot;;\n\t\totherwise say &quot;son&quot;;\n\t\trule succeeds;\n\tend if.\n\nPere Blanchard\'s Hut is a room. Percival Blakeney is a known man in the Hut. Marguerite is a woman in the Hut. Percival is married to Marguerite. Outside from the Hut is the Garden. Louise is a woman in the Garden. The Road to Paris is west of the Garden. Armand St Just is a man in the Road. Louise is married to Armand. Monsieur St Just is a man. He engenders Armand and Marguerite.\n\n\n')"><img border=0 src=paste.png></a> &quot;A Humble Wayside Flower&quot;
 </font></blockquote><p>
 <p>
-<p>It is unlikely that anyone would want to name something &quot;a mixing bowl and a portable supporter called a platter&quot;, but not impossible, and Inform tends not to be a good judge of what is likely.
-<p>
-<a name="e9"><a href=doc22.html#e9><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A "go back" verb that keeps track of the direction from which the player came, and sends him back.</i><p>
-<p>
-<p>The main trick of this is always to record where the player has gone when he has just moved.
-<p>
-<blockquote><font color="#000080">&quot;Polarity&quot;
+<blockquote><font color="#000080">Marriage relates one person to another (called the spouse). The verb to be married to implies the marriage relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The North Pole is a room. The South Pole is south of the North Pole.
+<blockquote><font color="#000080">Fatherhood relates one person (called father) to various people. The verb to engender (he engenders, they engender) implies the fatherhood relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The former direction is a direction that varies.
+<p>For brevity, we will ignore the existence of mothers. It is a sad world.
+<p>
+<blockquote><font color="#000080">Siblinghood relates a person (called A) to a person (called B) when a person who engenders A engenders B. The verb to be sibling to implies the siblinghood relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After going a direction:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the former direction to the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;continue the action.
+<blockquote><font color="#000080">Family relates a person (called A) to a person (called B) when A is married to B or A engenders B or B engenders A or A is sibling to B. The verb to be related to implies the family relation.
 </font></blockquote><p>
 <p>
-<p>Obviously, this will not be adequate in a game which also moves the player arbitrarily on a regular basis; in that case the &quot;former direction&quot; would have to be reset manually by the author. Assuming, however, that the player always moves around the map on his own volition, we can implement this verb safely:
-<p>
-<blockquote><font color="#000080">Understand &quot;go back&quot; as retreating. Understand &quot;back&quot; or &quot;return&quot; or &quot;retreat&quot; as retreating.
+<blockquote><font color="#000080">A person can be known or unknown. After printing the name of an unknown person (called the alien):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a known person (called the contact) is related to the alien
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; ([relation between alien and contact] of [the contact])&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now the alien is known;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Retreating is an action applying to nothing.
+<blockquote><font color="#000080">To say relation between (first party - a person) and (second party - a person):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the first party is married to the second party
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the first party is female, say &quot;wife&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;husband&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the first party is sibling to the second party
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the first party is female, say &quot;sister&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;brother&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the first party engenders the second party
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;father&quot;; rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the second party is the father of the first party
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the first party is female, say &quot;daughter&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;son&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>Now we're helped a bit by the fact that the library directions are all defined with opposites, so that for instance the opposite of &quot;south&quot; is known to be &quot;north&quot;. Thus:
-<p>
-<blockquote><font color="#000080">Carry out retreating:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let new direction be the opposite of the former direction;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [new direction])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try going the new direction.
+<blockquote><font color="#000080">Pere Blanchard's Hut is a room. Percival Blakeney is a known man in the Hut. Marguerite is a woman in the Hut. Percival is married to Marguerite. Outside from the Hut is the Garden. Louise is a woman in the Garden. The Road to Paris is west of the Garden. Armand St Just is a man in the Road. Louise is married to Armand. Monsieur St Just is a man. He engenders Armand and Marguerite.
 </font></blockquote><p>
 <p>
-<p>A refinement on this would be to make sure that the player who types &quot;BACK&quot; before going anywhere will be scolded rather than sent in some direction.
-<p><hr><p><a href=doc21.html>Previous</a> / <a href=doc23.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>Monsieur St Just never appears on the scene in this piece, but if we did put him somewhere the player could find him, he, too, would be properly introduced.
+</td></tr></table><p><p><hr><p><a href=doc181.html>Previous</a> / <a href=doc183.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

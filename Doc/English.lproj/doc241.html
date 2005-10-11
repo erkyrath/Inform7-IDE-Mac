@@ -1,20 +1,35 @@
-<html><head><title>17.2. The Standard Rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc240.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc242.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.2. The Standard Rules</b></td></tr></table><p>
+<html><head><title>16.12. Grouping together something</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc240.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc242.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.12. Grouping together something</b></td></tr></table><p>
 <p>
-<p>When any source text is run through Inform, a secret first line is inserted, which reads:
+<p><b>1. When it happens.</b> Only while listing contents, and only when a collection of items to be grouped together is reached. This in turn happens only if a &quot;before listing contents&quot; rule has chosen it (see previous section). The first item in the group is the one to which the activity formally applies.
 <p>
-<blockquote><font color="#000080">Include the Standard Rules by Graham Nelson.
+<p><b>2. The default behaviour.</b> The items grouped together are printed in an English phrase, such as &quot;egg, chicken and farmer&quot;. In particular, they are not split onto separate lines even if the rest of the list is. (See previous section.)
+<p>
+<p><b>3. Examples.</b> (a) Here are Scrabble pieces which are described as &quot;the tile W from a Scrabble set&quot; or similar outside of lists, but which, when they turn up together in lists, are rolled together into &quot;the tiles A, B and D from a Scrabble set&quot;.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('A Scrabble piece is a kind of thing. The X, the Y and the Z are Scrabble pieces.\n\nBefore listing contents: group Scrabble pieces together.\n\nBefore printing the name of a Scrabble piece while not grouping together, say &quot;tile &quot;. After printing the name of a Scrabble piece while not grouping together, say &quot; from a Scrabble set&quot;.\n\nBefore grouping together Scrabble pieces, say &quot;the tiles &quot;. After grouping together Scrabble pieces, say &quot; from a Scrabble set&quot;.\n\n\n')"><img border=0 src=paste.png></a> A Scrabble piece is a kind of thing. The X, the Y and the Z are Scrabble pieces.
 </font></blockquote><p>
 <p>
-<p>The &quot;Standard Rules&quot; file contains the definitions of the basic kinds, phrases, actions and grammar described in this documentation: for instance, it includes lines like
-<p>
-<blockquote><font color="#000080">A container is a kind of thing.
+<blockquote><font color="#000080">Before listing contents: group Scrabble pieces together.
 </font></blockquote><p>
 <p>
-<p>...without which Inform would be lost. Although including the Standard Rules is compulsory, it is treated internally as if it were any other &quot;extension&quot;.
+<blockquote><font color="#000080">Before printing the name of a Scrabble piece while not grouping together, say &quot;tile &quot;. After printing the name of a Scrabble piece while not grouping together, say &quot; from a Scrabble set&quot;.
+</font></blockquote><p>
 <p>
-<p>What happens when an &quot;Include&quot; sentence is reached is that the sentence is replaced with the whole text of the file in question (often many paragraphs long).
+<blockquote><font color="#000080">Before grouping together Scrabble pieces, say &quot;the tiles &quot;. After grouping together Scrabble pieces, say &quot; from a Scrabble set&quot;.
+</font></blockquote><p>
 <p>
-<p>If the file has already been included, then the sentence is simply ignored. This is so that we can have two extensions, each of which needs the other: if A says to include B, and B says to include A, the result is that including one automatically includes the other, so we always get both which ever we ask for - not that there is a hideous infinite regress.
+<p>(b) We can throw out all pretence at listing and say whatever we like, in fact:
+<p>
+<blockquote><font color="#000080">Before listing contents while taking inventory: group utensils together. Rule for grouping together utensils: say &quot;the usual utensils&quot;.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc240.html>Previous</a> / <a href=doc242.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

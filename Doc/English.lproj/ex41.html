@@ -1,0 +1,55 @@
+<html><head><title>7.13. Calling names</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc105.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc107.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.13. Calling names</b></td></tr></table><p>
+<p>
+<p>Conditions like &quot;if somebody is in an adjacent room&quot; allow complicated tests to be performed with a minimum of fuss, but it's rare that we want to know only whether they are true: more likely we also want to know <i>which</i> person, and <i>which</i> room.
+<p>
+<p>For this purpose, we are allowed to supply a name for any such vaguely-described object which comes up, and then to use that name thereafter.
+<p>
+<blockquote><font color="#000080">if somebody is in an adjacent room (called the Hiding Place), say &quot;You hear distant breathing from [the Hiding Place].&quot;
+</font></blockquote><p>
+<p>
+<p>We can even name more than one of the things discovered:
+<p>
+<blockquote><font color="#000080">Instead of waiting when a woman (called the kidnapper) is holding an animal (called the pet), say &quot;How can you think of rest when, somewhere out there, [pet] has been cruelly kidnapped by [the kidnapper]?&quot;
+</font></blockquote><p>
+<p>
+<p>Note the brackets, which are essential. The rest of typing &quot;wait&quot; is then
+<p>
+<blockquote><font color="#000080">How can you think of rest when, somewhere out there, a lapdog has been cruelly kidnapped by Baroness Orczy?
+</font></blockquote><p>
+<p>
+<p>Of course, that might be just one of many animals held by women in the game. We shall later see ways to go through all of the possibilities found, performing some action with each in turn.
+<p>
+<p>A calling, if we can use that word, should be made immediately after the noun it refers to, and not left to hang back after any relative clauses. For instance,
+<p>
+<blockquote><font color="#000080">if something (called the penitential object) held by the player is hot
+</font></blockquote><p>
+<p>
+<p>is allowed, but not
+<p>
+<blockquote><font color="#000080">if something held by the player (called the penitential object) is hot
+</font></blockquote><p>
+<p>
+<p>because there is too much potential ambiguity - are we trying to call the player something?
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e41"><a href=doc106.html#e41><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>All doors in the game automatically attempt to open if the player approaches them when they are closed.</i><p>
+<p>
+<p>&quot;Called&quot; is quite useful in the context of rules about going, since go rules often refer to things other than the noun the player typed. For instance, suppose we want to have doors which politely open when the player tries to pass through them:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Before going through a closed door (called the blocking door):\n\tsay &quot;(first opening [the blocking door])[line break]&quot;;\n\tsilently try opening the blocking door;\n\tif the blocking door is closed, stop the action.\n\n\n')"><img border=0 src=paste.png></a> Before going through a closed door (called the blocking door):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first opening [the blocking door])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try opening the blocking door;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the blocking door is closed, stop the action.
+</font></blockquote><p>
+<p>
+<p>A fuller set of such rules is included in the Locksmith extension.
+</td></tr></table><p><p><hr><p><a href=doc105.html>Previous</a> / <a href=doc107.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

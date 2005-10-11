@@ -1,30 +1,26 @@
-<html><head><title>17.17. Handling phrase options</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc255.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc257.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.17. Handling phrase options</b></td></tr></table><p>
+<html><head><title>17.5. Procedural rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc255.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc257.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.5. Procedural rules</b></td></tr></table><p>
 <p>
-<p>The Standard Rules use the Inform list-writer with the following definitions, which show how a much more complicated I6 routine can be given a natural-language expression.
+<p>Before any rule or rulebook is followed, a special rulebook is always consulted first. This is called the &quot;procedural rules&quot;, and it starts out empty: so if we write no procedural rules, empty it will remain.
 <p>
-<blockquote><font color="#000080">To list the contents of (O - an object),
-<br>&nbsp;&nbsp;&nbsp;&nbsp;with newlines,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;indented,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;giving inventory information,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;as a sentence,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;including contents,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;including all contents,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;tersely,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;giving brief inventory information,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;using the definite article,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;listing marked items only,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;prefacing with is/are
-<br>&nbsp;&nbsp;&nbsp;&nbsp;and/or not listing concealed items:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;(- WriteListFrom(child({O}), {phrase options}); -).
+<p>Like the points of order which precede a debate, the procedural rules are not intended to contribute to any decision in themselves, but merely to sort out which voices are to be heard when the time for decision comes. Should some rules be waived, or others substituted? Should the rulebook be rearranged, in certain circumstances? And so on. Procedural rules offer enormous flexibility and with them one could deconstruct Inform and put it back together in a very different shape - but in practical situations they will only occasionally be needed.
+<p>
+<p>Procedural rules are not allowed to say anything, or indeed to do anything which might have practical consequences; they are only allowed to think about the current situation (if they need to) and then use special phrases (if they choose to) which affect how other rules are to be followed. For instance:
+<p>
+<blockquote><font color="#000080">A procedural rule: if in the Timeless Void then ignore the advance time rule.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say contents of (O - an object): list the contents of O, as a sentence.
-</font></blockquote><p>
+<p>Since the &quot;advance time rule&quot; is the one which moves on the number of turns and the clock, this means that the Timeless Void lives up to its name.
 <p>
-<blockquote><font color="#000080">To say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.
-</font></blockquote><p>
-<p>
-<p>&quot;{phrase options}&quot; is a special substitution: it is a bitmap which assigns the given options one bit each, starting with the least significant bit for the first-mentioned option (&quot;with newlines&quot; above) and going up to the most significant bit for the last (&quot;not listing concealed items&quot;).
-<p>
+<p><hr><p>
+<a name="e111"><a href=ex111.html#e111><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A set of actions which do not take any game time at all.</i><p>
+<a name="e68"><a href=ex68.html#e68><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>The Pointy Hat of Liminal Transgression allows its wearer to walk clean through closed doors.</i><p>
 <p><hr><p><a href=doc255.html>Previous</a> / <a href=doc257.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,31 +1,31 @@
-<html><head><title>4.4. Duplicates</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc44.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc46.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.4. Duplicates</b></td></tr></table><p>
+<html><head><title>4.2. Degrees of certainty</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc44.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc46.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.2. Degrees of certainty</b></td></tr></table><p>
 <p>
-<p>Although it is only useful to a limited extent, we can make any number of copies of something:
+<p>When we write:
 <p>
-<blockquote><font color="#000080">&quot;Polygons&quot;
+<blockquote><font color="#000080">A dead end is usually dark.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A shape is a kind of thing. A square is a kind of shape. A triangle is a kind of shape.
+<p>we are saying that it will be dark rather than lighted unless we should specify otherwise. So it would be fine to add:
+<p>
+<blockquote><font color="#000080">The Tortuous Alcove is lighted.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Geometry Lab is a room. In the Geometry Lab are three triangles and two squares.
+<p>because although dead ends are usually dark, this one is evidently an exception. On the other hand, if we had originally written
+<p>
+<blockquote><font color="#000080">A dead end is always dark.
 </font></blockquote><p>
 <p>
-<p>The description &quot;three triangles&quot; makes three identical things, each of the kind &quot;triangle&quot;, and similarly for the squares. When the above is compiled, the player can type &quot;take two triangles&quot; or &quot;take all the triangles&quot; and so forth.
+<p>then Inform would not have permitted any exception to be made, and would have reported a problem if we had tried to make the Tortuous Alcove lighted. Besides &quot;usually&quot; and &quot;always&quot;, we can also employ &quot;seldom&quot; and &quot;never&quot;, which are their negatives. Thus, &quot;never lighted&quot; means the same as &quot;always dark&quot;.
 <p>
-<p>Two caveats. Firstly, a counted-out description like &quot;two squares&quot; is only allowed if it combines a number with the name of a kind which is already known (perhaps modified with adjectives, so &quot;two open doors&quot; is fine). If we say:
-<p>
-<blockquote><font color="#000080">Two circles are in the Lab.
-</font></blockquote><p>
-<p>
-<p>without having defined &quot;circle&quot; as a kind in advance, then only a single object will be created - whose name is &quot;two circles&quot;. (This is because many natural names start with numbers: &quot;six of clubs&quot;, for instance, referring to a single playing card, or &quot;12 Hollywood Close&quot; meaning a single house. We wouldn't want such names to be misinterpreted.)
-<p>
-<p>The second caveat is that excessive duplication is expensive in memory and running time. It is perfectly legal to say
-<p>
-<blockquote><font color="#000080">In the Lab are 75 triangles.
-</font></blockquote><p>
-<p>
-<p>but the resulting game may be a little sluggish: and Inform draws the line at 100, refusing to create more duplicates than that in any single place. If we really need more than about fifty duplicated objects - say, a tombola containing raffle tickets numbered 1 to 1000 - it is usually better to find some less literal way to simulate this: for instance, only having a single raffle ticket, but with a randomly chosen number on it.
-<p>
+<p><hr><p>
+<a name="e99"><a href=ex99.html#e99><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A staircase always open and never openable.</i><p>
 <p><hr><p><a href=doc44.html>Previous</a> / <a href=doc46.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

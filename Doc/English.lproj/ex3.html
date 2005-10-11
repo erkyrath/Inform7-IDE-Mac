@@ -1,105 +1,90 @@
-<html><head><title>8.14. The past and perfect tenses</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc127.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc129.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.14. The past and perfect tenses</b></td></tr></table><p>
+<html><head><title>5.7. Adjacent rooms and routes through the map</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc69.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc71.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.7. Adjacent rooms and routes through the map</b></td></tr></table><p>
 <p>
-<p>The remaining sections of this chapter go into more technical ways to think about the progress of the game through time, and can be skipped at a first reading.
+<p>Another useful adjective built into Inform is &quot;adjacent&quot;. Two rooms are said to be adjacent if there is a map connection between them which does not pass through some barrier such as a door. This is easily tested:
 <p>
-<p>Conditions are clauses which require Inform to make a decision: is such-and-such true, or not true? We have already seen conditions attached to rules using &quot;when&quot;:
-<p>
-<blockquote><font color="#000080">Instead of waiting when the Sorting Hat is in the Hall: ...
+<blockquote><font color="#000080">if the Hallway is adjacent to the Study ...
 </font></blockquote><p>
 <p>
-<p>and, as we shall later see, we will often want to write instructions like:
+<p>We usually want to know about the places adjacent to the current scene of the action, so that is what the adjective &quot;adjacent&quot; means when applied to rooms. For instance:
 <p>
-<blockquote><font color="#000080">if the Sorting Hat is in the Hall then say &quot;Hermione blinks apprehensively.&quot;
+<blockquote><font color="#000080">if somebody is in an adjacent room, ...
 </font></blockquote><p>
 <p>
-<p>The condition is &quot;the Sorting Hat is in the Hall&quot;, and during play this will sometimes be true and sometimes false.
+<p>As with the case of &quot;visible&quot;, the adjective is a cut-down version of the more general relationship. This often happens: &quot;worn&quot; and &quot;carried&quot;, for instance, imply &quot;by the player&quot; unless something else is specified.
 <p>
-<p>A condition in the form:
+<p>While on the subject of navigating the map, the phrase &quot;the best route from A to B&quot; gives the direction to take in order to get from A to B by the shortest number of movements between rooms - if there is any way through at all. For example, here is a lure:
 <p>
-<blockquote><font color="#000080">X is Y
+<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room].&quot;
 </font></blockquote><p>
 <p>
-<p>is of course written the present tense, and refers to the current state of affairs. Three other tenses are allowed. First, the present perfect:
+<p>Best routes are ordinarily forbidden to go through doors, but if the suffix &quot;using doors&quot; is added as an option then any open or openable and unlocked door may be used on the way; and if &quot;using even locked doors&quot; is given, then any door at all will do. Since magnetism is no respecter of property, that seems right here:
 <p>
-<blockquote><font color="#000080">if X has been Y ...
+<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room, using even locked doors].&quot;
 </font></blockquote><p>
 <p>
-<p>is true if it has ever been the case that &quot;X is Y&quot; at the start of any turn (or any action). So, for instance,
+<p>The phrase &quot;the best route from A to B&quot; gives the direction to take next, if we are at A and want to end up at B. Suppose this is east. We can find out where we go next by looking up &quot;the room east from A&quot;: similarly for any other direction, of course. (This can see through any doors, locked or not.)
 <p>
-<blockquote><font color="#000080">if the gate has been open ...
+<p>We can also find out how long the journey would be:
+<p>
+<blockquote><font color="#000080">The description of the proximity gadget is &quot;You are now [number of moves from the location to the Sundial] moves from the Sundial.&quot;;
 </font></blockquote><p>
 <p>
-<p>will be valid if and only if the gate has ever been made open by any action (even if it is closed now), or if it started out by being open when play began.
+<p>This number is, of course, 0 if the location is already the Sundial. If there is no way at all to get to the Sundial, the number is -1.
 <p>
-<p>Next is the past tense:
+<p><hr><p>
+<a name="e2"><a href=ex2.html#e2><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A person who moves randomly between rooms of the map.</i><p>
+<a name="e97"><a href=ex97.html#e97><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Signposts such as those provided on hiking paths in the Swiss Alps, which show the correct direction and hiking time to all other locations.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e3"><a href=doc70.html#e3><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A LOOK [direction] command which allows the player to see descriptions of the nearby landscape.</i><p>
 <p>
-<blockquote><font color="#000080">if X was Y ...
+<p>Suppose a game in which the player is wandering an open landscape with long vistas, allowing him to LOOK in some direction, or even look at an adjacent location.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;A View of Green Hills&quot;\n\nCorinth is a room. Athens is east of Corinth. Epidaurus is southeast of Corinth and east of Mycenae. Mycenae is south of Corinth. Olympia is west of Mycenae. Argos is south of Mycenae. Thebes is northwest of Athens. Pylos is south of Olympia. Sparta is east of Pylos and south of Argos. Delphi is northwest of Thebes.\n\nUnderstand &quot;look [direction]&quot; as facing.\n\nFacing is an action applying to one visible thing.\n\nCarry out facing:\n\tlet the viewed item be the room noun from the location;\n\tif the viewed item is not a room, say &quot;You can\'t see anything promising that way.&quot; instead;\n\ttry looking toward the viewed item.\n\n[We can at need override the default behavior, if it is not going to be appropriate for the player to see the next room over. There is only sky above at any time, so...]\n\nInstead of facing up:\n\tsay &quot;Above you is bright sky.&quot;\n\nUnderstand &quot;look toward [any adjacent room]&quot; as looking toward. Understand &quot;examine [any adjacent room]&quot; as looking toward.\n\nLooking toward is an action applying to one visible thing.\n\nCarry out looking toward:\n\tsay &quot;You make out [the noun] that way.&quot;\n\n[This design allows us to create descriptions for rooms (as seen from the outside) which will work regardless of where we\'re looking from. For instance:]\n\nInstead of looking toward Athens:\n\tsay &quot;Even from here you can make out the silhouette of the Acropolis.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;A View of Green Hills&quot;
 </font></blockquote><p>
 <p>
-<p>holds if and only if &quot;X is Y&quot; was true at the start of the most recent action. This is convenient when trying to describe what has changed in the course of the action, but sometimes also when making the action itself happen. For instance:
-<p>
-<blockquote><font color="#000080">if the lantern was switched on then change the lantern to switched off;
-<br>if the lantern was switched off then change the lantern to switched on;
+<blockquote><font color="#000080">Corinth is a room. Athens is east of Corinth. Epidaurus is southeast of Corinth and east of Mycenae. Mycenae is south of Corinth. Olympia is west of Mycenae. Argos is south of Mycenae. Thebes is northwest of Athens. Pylos is south of Olympia. Sparta is east of Pylos and south of Argos. Delphi is northwest of Thebes.
 </font></blockquote><p>
 <p>
-<p>Completing the set is the past perfect:
-<p>
-<blockquote><font color="#000080">if X had been Y ...
+<blockquote><font color="#000080">Understand &quot;look [direction]&quot; as facing.
 </font></blockquote><p>
 <p>
-<p>which records whether &quot;X has been Y&quot; was true at the start of the most recent action. All these verbs can of course be negated (though &quot;wasn't&quot; and &quot;hadn't&quot; are disallowed as poor style: we use &quot;was not&quot; and &quot;had not&quot; instead). So for example,
-<p>
-<blockquote><font color="#000080">if the player had not been in the Ballroom ...
+<blockquote><font color="#000080">Facing is an action applying to one visible thing.
 </font></blockquote><p>
 <p>
-<p>is true if the player hadn't visited the Ballroom at the start of the most recent action.
-<p>
-<a name="e3"><a href=doc128.html#e3><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A candle which reacts to lighting and blowing actions differently depending on whether it has already been lit once.</i><p>
-<p>
-<blockquote><font color="#000080">&quot;Candlelight&quot;
+<blockquote><font color="#000080">Carry out facing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the viewed item be the room noun from the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the viewed item is not a room, say &quot;You can't see anything promising that way.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try looking toward the viewed item.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Sewer Access Tunnel is a room. &quot;A narrow, stone-lined passageway where there are almost certainly rats.&quot;
+<p>We can at need override the default behavior, if it is not going to be appropriate for the player to see the next room over. There is only sky above at any time, so...
+<p>
+<blockquote><font color="#000080">Instead of facing up:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Above you is bright sky.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The candle is carried by the player. The description of the candle is &quot;A candle, [if the candle has been lit]partially burnt[otherwise]still in pristine condition with untouched wick[end if].&quot;
+<blockquote><font color="#000080">Understand &quot;look toward [any adjacent room]&quot; as looking toward. Understand &quot;examine [any adjacent room]&quot; as looking toward.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of examining the lit candle, say &quot;It burns with a pure heart.&quot;
+<blockquote><font color="#000080">Looking toward is an action applying to one visible thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Procedural rule: ignore the block burning rule.
+<blockquote><font color="#000080">Carry out looking toward:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You make out [the noun] that way.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of burning the lit candle:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The candle is already lit.&quot;
+<p>This design allows us to create descriptions for rooms (as seen from the outside) which will work regardless of where we're looking from. For instance:
+<p>
+<blockquote><font color="#000080">Instead of looking toward Athens:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Even from here you can make out the silhouette of the Acropolis.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check burning:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is not the candle, say &quot;[The noun] cannot profitably be set on fire.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out burning the candle:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the candle is lit.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Report burning:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the candle had been lit, say &quot;You relight the candle.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You light the candle for the first time.&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Procedural rule: ignore the block blowing rule.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out blowing the candle:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the candle is unlit.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Report blowing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the candle and the candle was lit, say &quot;You blow out [the noun].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You blow on [the noun], to little effect.&quot;
-</font></blockquote><p>
-<p>
-<p>&quot;if the noun was lit&quot; would throw errors because past-tense rules can only be applied to specific items, not to variables that could be anything.
-<p><hr><p><a href=doc127.html>Previous</a> / <a href=doc129.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc69.html>Previous</a> / <a href=doc71.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

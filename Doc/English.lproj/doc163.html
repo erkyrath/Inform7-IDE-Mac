@@ -1,26 +1,29 @@
-<html><head><title>11.6. The built-in verbs and their meanings</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc162.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc164.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.6. The built-in verbs and their meanings</b></td></tr></table><p>
+<html><head><title>11.10. Making actions work for other people</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc162.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc164.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.10. Making actions work for other people</b></td></tr></table><p>
 <p>
-<p>It is all very well to define new relations, but this does nothing if there is no way to assert that they are true, or to ask whether they are true or false. That requires a verb: in fact, a relation is nothing more than what Inform uses as the &quot;meaning&quot; of a verb. The assertion verbs built in to Inform have the following built-in relations as their meanings:
+<p>The &quot;photographing&quot; action now works very nicely when the player does it. But not when others try. Suppose that neither the player, not Clark Gable, is holding the camera:
 <p>
-<blockquote><font color="#000080"><b>Verb - Relation</b>
-<br>to be - (none as such)
-<br>to have - possession relation
-<br>to contain - containment relation
-<br>to support - support relation
-<br>to carry - carrying relation
-<br>to wear - wearing relation
+<blockquote><font color="#000080">>photograph clark
+<br>You can hardly photograph without a camera, now can you?
 </font></blockquote><p>
 <p>
-<p>Two of Inform's built-in relations are expressed using prepositions instead:
-<p>
-<blockquote><font color="#000080"><B>Preposition - Relation</b>
-<br>to be part of - incorporation relation
-<br>to be adjacent to - adjacency relation
+<blockquote><font color="#000080">>clark, photograph me
+<br>>
 </font></blockquote><p>
 <p>
-<p>It would be easy to make verbs for these if we wanted (&quot;to incorporate&quot;, say, or &quot;to adjoin&quot;) using the techniques of the next section.
+<p>An uncanny silence. What has happened is that the rules written so far are all implicitly restricted to the player only. This is because when we write -
 <p>
-<p>The verb <i>to be</i> is grammatically different from any other, and its meaning is too complicated to be expressed by a relation. A great deal of the Inform program is given over to its &quot;meaning&quot;, which we are not allowed to change or imitate. But the other verbs are quite simple.
+<blockquote><font color="#000080">Check photographing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
+</font></blockquote><p>
+<p>
+<p>the action is &quot;photographing&quot;, not &quot;Clark trying photographing&quot;. In the next few sections we shall see how to make the rules work nicely for everybody. This is a little bit harder, so it should be noted right away that in many projects there is no need. In a game which has no other characters who succumb to persuasion, for instance, only the player will ever try the action.
 <p>
 <p><hr><p><a href=doc162.html>Previous</a> / <a href=doc164.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

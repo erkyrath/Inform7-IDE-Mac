@@ -1,0 +1,73 @@
+<html><head><title>21.1. Emily Short <emshort@mindspring.com> -  Touchability always printing --> pain</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<h2>Chapter 21: Recently Closed Bugs</h2><p><table><tr><td><a href=doc300.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc302.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>21.1. Emily Short <emshort@mindspring.com> -  Touchability always printing --> pain</b></td></tr></table><p>
+<p>
+<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 2 October 2005
+<p>
+<p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
+<p>
+<p><i>Build:</i> 2Z33
+<p>
+<p><i>Platform:</i> Mac OS X
+<p>
+<p>
+<p>
+<p><i>Code example:</i>
+<p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('A rule for reaching inside something:\n\tif the person asked is Kitty, allow access.\n\nThe School for Gifted Youngsters is a room. Kitty Pryde is a woman in the School for Gifted Youngsters. The description is &quot;You see nothing special about Kitty Pryde. But that is only because she has learned to conceal her mutant powers: in fact she has the alternative name Shadowcat, and the ability to phase through solid objects.&quot;\n\nPersuasion rule for asking someone to try doing something: persuasion succeeds.\n\nThe glass box is a container in the School for Gifted Youngsters. It is closed, openable, and transparent. In the box is some poisonous gas. In the box is a message from Magneto.\n\nInstead of examining the message when the player is not carrying the message:\n\tsay &quot;You\'d need to be holding it before you could read it.&quot;\n\nInstead of opening the glass box: say &quot;You\'re deterred by the swirling bottle-green mist within.&quot;\n\nEvery turn:\n\tif the poisonous gas is touchable\n\tbegin;\n\t\tsay &quot;The poisonous gas from [the glass box] cuts off your breathing!&quot;;\n\t\tend the game in death;\n\tend if.\n\n\n\n\n\n')"><img border=0 src=paste.png></a> A rule for reaching inside something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is Kitty, allow access.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The School for Gifted Youngsters is a room. Kitty Pryde is a woman in the School for Gifted Youngsters. The description is &quot;You see nothing special about Kitty Pryde. But that is only because she has learned to conceal her mutant powers: in fact she has the alternative name Shadowcat, and the ability to phase through solid objects.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Persuasion rule for asking someone to try doing something: persuasion succeeds.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The glass box is a container in the School for Gifted Youngsters. It is closed, openable, and transparent. In the box is some poisonous gas. In the box is a message from Magneto.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of examining the message when the player is not carrying the message:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You'd need to be holding it before you could read it.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of opening the glass box: say &quot;You're deterred by the swirling bottle-green mist within.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the poisonous gas is touchable
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The poisonous gas from [the glass box] cuts off your breathing!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end the game in death;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>
+<p>
+<p>
+<p><i>What goes wrong:</i>
+<p>
+<p>
+<p>>z
+<p>Time passes.
+<p>
+<p>The glass box isn't open.
+<p>
+<p>
+<p>
+<p>
+<p><i>Comments:</i>
+<p>
+<p>
+<p>Can we not check this silently?
+<p>
+<p>
+<p><hr><p><a href=doc300.html>Previous</a> / <a href=doc302.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

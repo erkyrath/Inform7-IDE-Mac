@@ -1,38 +1,37 @@
-<html><head><title>14.10. New tokens</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc206.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc208.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.10. New tokens</b></td></tr></table><p>
+<html><head><title>14.10. Adding and removing rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc206.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc208.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.10. Adding and removing rows</b></td></tr></table><p>
 <p>
-<p>In the example game &quot;Lies&quot;, we are going to look for subtleties of wording in order to allow the player to lie down in three different ways. To set the scene, and make new actions to provide for two of these ways:
+<p>Writing in new rows is simple:
 <p>
-<blockquote><font color="#000080">&quot;Lies&quot;
+<blockquote><font color="#000080">choose a blank row in Table 3;
+<br>change element entry to &quot;Fluorine&quot;;
+<br>change symbol to &quot;F&quot;;
+<br>change atomic number to 9;
+<br>change atomic weight to 19;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Laundry is a room. &quot;An old Limehouse haunt, the Chinese laundry used by the down-trodden wives of the Tong of the Black Scorpion.&quot; The vast marble sink is here. &quot;There is nothing obviously oriental about the vast marble sink, which is large enough to lie down inside. A wooden-rack floor, equipped for easy drainage, turns out also to be equipped for snagging the shoes of passers-by.&quot; The sink is an enterable container, fixed in place.
+<p>This will produce an error if there are no blank rows left in Table 3, so it can be important to worry about free space. To that end we can not only find the number of rows (as we have already seen) but also the number currently blank and not blank. Thus these:
+<p>
+<blockquote><font color="#000080">the number of blank rows in Table 3
+<br>the number of filled rows in Table 3
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Lying down is an action applying to nothing. Report lying down: say &quot;You lie down for a while in the middle of the Laundry, wondering about the point of existence, then get up again.&quot;
+<p>always add up to &quot;the number of rows in Table 3&quot;.
+<p>
+<p>To delete a row, we first choose it and then &quot;blank out the whole row&quot;. Thus, for abdication purposes:
+<p>
+<blockquote><font color="#000080">choose row with name of &quot;Edward VIII&quot; in the Table of Recent Monarchs;
+<br>blank out the whole row;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Lying near is an action applying to one thing. Report lying near: say &quot;You lie down next to [the noun] for a while, mumbling to yourself.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of lying near the sink, say &quot;Lying down close to the cool butcher's marble slabs of the sink, your attention is caught by the sight of coolie shoes through a floor-level grille for ventilation. The game is afoot!&quot;
-</font></blockquote><p>
-<p>
-<p>So far, so good. Now for the grammar, where we create two new tokens: one for each of two groups of alternative prepositions.
-<p>
-<blockquote><font color="#000080">Understand &quot;beneath/under/by/near/beside/alongside/against&quot; or &quot;next to&quot; or &quot;in front of&quot; as &quot;[beside]&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;lie down&quot; as lying down.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;lie down [within] [something]&quot; as entering.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;lie [beside] [something]&quot; or &quot;lie down [beside] [something]&quot; as lying near.
-</font></blockquote><p>
-<p>
+<p><hr><p>
+<a name="e122"><a href=ex122.html#e122><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A person who follows a path predetermined and stored in a table, and who can be delayed if the player tries to interact with her.</i><p>
 <p><hr><p><a href=doc206.html>Previous</a> / <a href=doc208.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

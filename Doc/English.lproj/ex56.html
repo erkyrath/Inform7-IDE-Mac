@@ -1,0 +1,75 @@
+<html><head><title>6.15. Going from, going to</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc87.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc89.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.15. Going from, going to</b></td></tr></table><p>
+<p>
+<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Going Going&quot;\n\nThe Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.\n\nInstead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;\n\nInstead of going nowhere, say &quot;You really can\'t wander around at random in the Library.&quot;\n\nBefore going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Going Going&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
+</font></blockquote><p>
+<p>
+<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
+<p>
+<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
+<p>
+<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
+<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
+</font></blockquote><p>
+<p>
+<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e56"><a href=doc88.html#e56><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A "go back" command that keeps track of the direction from which the player came, and sends him back.</i><p>
+<p>
+<p>The main trick of this is always to record where the player has gone when he has just moved.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Polarity&quot;\n\nThe North Pole is a room. The South Pole is south of the North Pole.\n\nThe former direction is a direction that varies.\n\nCarry out going a direction:\n\tchange the former direction to the noun.\n\n[Obviously, this will not be adequate in a game which also moves the player arbitrarily on a regular basis; in that case the &quot;former direction&quot; would have to be reset manually by the author. Assuming, however, that the player always moves around the map on his own volition, we can implement this command safely:]\n\nUnderstand &quot;go back&quot; as retreating. Understand &quot;back&quot; or &quot;return&quot; or &quot;retreat&quot; as retreating.\n\nRetreating is an action applying to nothing.\n\n[Now we\'re helped a bit by the fact that the library directions are all defined with opposites, so that for instance the opposite of &quot;south&quot; is known to be &quot;north&quot;. Thus:]\n\nCarry out retreating:\n\tlet new direction be the opposite of the former direction;\n\tsay &quot;(heading [new direction])[line break]&quot;;\n\ttry going the new direction.\n\n\n')"><img border=0 src=paste.png></a> &quot;Polarity&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The North Pole is a room. The South Pole is south of the North Pole.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The former direction is a direction that varies.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out going a direction:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the former direction to the noun.
+</font></blockquote><p>
+<p>
+<p>Obviously, this will not be adequate in a game which also moves the player arbitrarily on a regular basis; in that case the &quot;former direction&quot; would have to be reset manually by the author. Assuming, however, that the player always moves around the map on his own volition, we can implement this command safely:
+<p>
+<blockquote><font color="#000080">Understand &quot;go back&quot; as retreating. Understand &quot;back&quot; or &quot;return&quot; or &quot;retreat&quot; as retreating.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Retreating is an action applying to nothing.
+</font></blockquote><p>
+<p>
+<p>Now we're helped a bit by the fact that the library directions are all defined with opposites, so that for instance the opposite of &quot;south&quot; is known to be &quot;north&quot;. Thus:
+<p>
+<blockquote><font color="#000080">Carry out retreating:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let new direction be the opposite of the former direction;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [new direction])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try going the new direction.
+</font></blockquote><p>
+<p>
+<p>A refinement on this would be to make sure that the player who types &quot;BACK&quot; before going anywhere will be scolded rather than sent in some direction.
+</td></tr></table><p><a name="e60"><a href=ex60.html#e60><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>If the player tries to go a valid direction while on a supporter, make him stand up first; if he tries to go a nonexistent one, print a special refusal.</i><p>
+<p><hr><p><a href=doc87.html>Previous</a> / <a href=doc89.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,34 +1,30 @@
-<html><head><title>7.16. Randomness</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc109.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc111.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.16. Randomness</b></td></tr></table><p>
+<html><head><title>7.17. Random choices of things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc109.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc111.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.17. Random choices of things</b></td></tr></table><p>
 <p>
-<p>Sometimes we want to introduce random behaviour into play. We usually do this by generating random values, and then acting differently depending on what they are. The following:
+<p>As well as choosing random values, we often want to make a random choice of things or rooms. Perhaps a character is to wander about at random; perhaps a falling block of masonry will crush some random item. The value
 <p>
-<blockquote><font color="#000080">a random number from 2 to 5
+<blockquote><font color="#000080">random D
+<br>a random D
 </font></blockquote><p>
 <p>
-<p>produces, as it suggests, a random number drawn from the choices 2, 3, 4 or 5, each of which is equally likely to come up.
+<p>(the article &quot;a&quot; is optional) produces a random choice of the things in the world which fit the description D. For instance,
 <p>
-<p>We can also use random conditions:
-<p>
-<blockquote><font color="#000080">if a random chance of 2 in 3 succeeds then ...
+<blockquote><font color="#000080">say &quot;You can see [number of adjacent rooms] way[s] from here; how about [random adjacent room]?&quot;
 </font></blockquote><p>
 <p>
-<p>Here is a rule which applies only 15% of the time:
+<p>Unexpected results may follow if there is nothing in the game which fits the description, as then the random choice will be nothing. For instance, the above would then say:
 <p>
-<blockquote><font color="#000080">Instead of waiting when a random chance of 15 in 100 succeeds: ...
+<blockquote><font color="#000080">You can see 0 ways from here; how about nothing?
 </font></blockquote><p>
 <p>
-<p>If we make a new kind of value, we can also take random values from it, as in the following miniature world:
-<p>
-<blockquote><font color="#000080">&quot;Weathering&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A cloud pattern is a kind of value. The cloud patterns are cumulus, altocumulus, cumulonimbus, stratus, cirrus, nimbus, nimbostratus.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Mount Pisgah Station is a room. &quot;The rocky peak of Mt. Pisgah (altitude 872m) is graced only by an automatic weather station. The clouds, close enough almost to touch, are [a random cloud pattern]. Temperature: [a random number from 7 to 17] degrees, barometric pressure: [950 + a random number from 0 to 15] millibars.&quot;
-</font></blockquote><p>
-<p>
-<p>The value &quot;a random cloud pattern&quot; produces a random choice from the seven cloud patterns, each equally likely.
-<p>
+<p><hr><p>
+<a name="e26"><a href=ex26.html#e26><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A "Carousel Room", as in Zork II, where moving in any direction from the room leads (at random) to one of the eight rooms nearby.</i><p>
 <p><hr><p><a href=doc109.html>Previous</a> / <a href=doc111.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

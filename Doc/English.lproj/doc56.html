@@ -1,23 +1,28 @@
-<html><head><title>4.15. Using new kinds of value in properties</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc55.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc57.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.15. Using new kinds of value in properties</b></td></tr></table><p>
+<html><head><title>4.13. Text with type styles</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc55.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc57.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.13. Text with type styles</b></td></tr></table><p>
 <p>
-<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
+<p>One last clutch of substitutions before we return to the subject of kinds, which this chapter was supposed to be about.
 <p>
-<blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.
+<p>Inform does not go in for the use of fonts: a work of IF will be rendered with different fonts on different machines anyway, from tiny personal organisers up to huge LCD panelled workstations. However, it does allow for a modest amount of styling. The substitution &quot;[bold type]&quot; switches to bold face; &quot;[italic type]&quot; to italic; and &quot;[roman type]&quot; back to plain roman. Thus
+<p>
+<blockquote><font color="#000080">&quot;This is [italic type]very suspicious[roman type], said Peter.&quot;
 </font></blockquote><p>
 <p>
-<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
+<p>will (on most computers) be rendered as
 <p>
-<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
-<p>
-<blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.
+<blockquote><font color="#000080">This is <i>very suspicious</i>, said Peter.
 </font></blockquote><p>
 <p>
-<p>New kinds of value are very convenient when substituting variations in text:
+<p>Less is more with such devices, but there is one other effect we can employ: we can go into &quot;[fixed letter spacing]&quot; for a while, then return to &quot;[variable letter spacing]&quot;, which is the normal condition. In variable letter spacing, a lower case &quot;m&quot; is much wider than an &quot;l&quot;, which is natural to the eye since it has been printing practice since the Renaissance. Fixed letter spacing is more like typewriting, and it is best used to reproduce typewritten text or printed notices; it can also be convenient for making simple diagrams.
 <p>
-<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.
-</font></blockquote><p>
-<p>
-<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
+<p>We should be careful to ensure that we return to the status quo ante (roman type and variable letter spacing) after any specially-treated text has been printed.
 <p>
 <p><hr><p><a href=doc55.html>Previous</a> / <a href=doc57.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,35 +1,29 @@
-<html><head><title>8.12. Future events</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc125.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc127.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.12. Future events</b></td></tr></table><p>
+<html><head><title>8.13. Actions as conditions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc125.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc127.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.13. Actions as conditions</b></td></tr></table><p>
 <p>
-<p>We often want to arrange for something to happen at some point in the future. Here is yet another timepiece:
+<p>There are two ways that descriptions of actions can be used as conditions. First, we can simply describe an action, and then the condition will be true if that is what the player is trying to do, and not otherwise:
 <p>
-<blockquote><font color="#000080">An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.
+<blockquote><font color="#000080">... if taking a container then ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;
+<p>This is actually an abbreviation for the longer, some would say preferable form:
+<p>
+<blockquote><font color="#000080">... if we are taking a container then ...
 </font></blockquote><p>
 <p>
-<p>The event here is called &quot;the egg-timer clucks&quot;. It only happens if we instruct so, which we do by writing
+<p>Secondly, we can talk about the past as well as the present, which is very useful since interactive fiction often contains situations which are changed by earlier events.
 <p>
-<blockquote><font color="#000080">the egg-timer clucks in four turns from now
+<blockquote><font color="#000080">Instead of waiting when we have taken the lantern, say &quot;No, your acquisitive nature is roused now, and simply waiting will no longer do.&quot;
 </font></blockquote><p>
 <p>
-<p>meaning four turns after the turn in which the egg-timer is pushed. We could alternatively describe this future moment as something like &quot;in 18 minutes from now&quot;, or &quot;at 4:15 PM&quot;.
-<p>
-<p>If we know in advance what time we want something to happen, we can more simply write:
-<p>
-<blockquote><font color="#000080">At 4 PM: say &quot;The great bells of the clock tower chime four.&quot;
-</font></blockquote><p>
-<p>
-<p>The following more complicated example creates a new phrase which schedules a sequence of events:
-<p>
-<blockquote><font color="#000080">When the penumbra appears: say &quot;The sunlight dies away to an eerie, brownish penumbra.&quot; When the eclipse begins: say &quot;The moon passes across the disc of the sun, plunging the world into darkness.&quot;; change the Chamber to dark. When the eclipse ends: say &quot;The moon passes away from the sun, and a gloomy penumbral light returns.&quot;; change the Chamber to lighted.  When normal sunlight returns: say &quot;The sun shines once more bright in the sky, not to be eclipsed again on this spot for another thirty-seven years.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">To schedule an eclipse for (totality - a time): the penumbra appears at two minutes before totality; the eclipse begins at totality; the eclipse ends at three minutes after totality; normal sunlight returns at five minutes after totality. When play begins, schedule an eclipse for 3:27 PM.
-</font></blockquote><p>
-<p>
-<p>We shall see much more about creating phrases later.
-<p>
+<p>More on the past tense later, too: note that &quot;we are taking&quot; has become &quot;we have taken&quot;. For the rule to apply, it is not enough that the action &quot;taking the lantern&quot; has been tried: it must have succeeded.
 <p>
 <p><hr><p><a href=doc125.html>Previous</a> / <a href=doc127.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

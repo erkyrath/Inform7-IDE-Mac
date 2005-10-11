@@ -1,27 +1,47 @@
-<html><head><title>16.6. Listing contents of something</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc228.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc230.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.6. Listing contents of something</b></td></tr></table><p>
+<html><head><title>15.17. In what order?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc228.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc230.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.17. In what order?</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> When taking inventory, the list is produced by the activity &quot;listing contents of yourself&quot;; when looking, a list of items which do not deserve their own paragraphs is produced by &quot;listing contents of&quot; the location; when a say &quot;[contents of ...]&quot; is performed. In short, whenever a list is needed.
+<p>When several different lines of grammar are supplied to meet the same circumstances, it makes a big difference what order they are tried in. For instance, suppose we have:
 <p>
-<p><b>2. The default behaviour.</b> The list is printed out.
-<p>
-<p><b>3. Examples.</b> (a) We have already seen that it can be elegant to elaborate on a description in the context of a list. Here we add &quot;discarded&quot; to a sweet wrapper which is found on the ground.
-<p>
-<blockquote><font color="#000080">Rule for printing the name of the wrapper while listing contents of a room: say &quot;discarded sweet wrapper&quot;.
+<blockquote><font color="#000080">Understand &quot;photograph [a door]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>(b) Lists can be considerably shortened and tidied up if similar items are grouped together. We do this by specifying what should be grouped together before listing contents, using the special phrase &quot;group ... together&quot;:
-<p>
-<blockquote><font color="#000080">Utensil is a kind of thing. The knife, the fork and the spoon are utensils. Before listing contents: group utensils together as &quot;utensils&quot;.
+<blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>The result will be, say, &quot;two utensils (knife and spoon)&quot;, if both are found in the same place.
+<p>The second line is more specific than the first, so Inform takes these grammar lines the other way around: it checks for &quot;open door&quot; before it checks for &quot;door&quot;. That didn't matter here, since both lines came out with the same result (the action of photographing), but it matters very much in the next example:
 <p>
-<p>(c) We can less obtrusively group items together like so:
-<p>
-<blockquote><font color="#000080">Before listing contents while taking inventory: group utensils together.
+<blockquote><font color="#000080">Understand &quot;employ [a door]&quot; as opening.
 </font></blockquote><p>
 <p>
-<p>Now they will be rolled into a single inventory line: say, &quot;fork and spoon&quot; rather than &quot;two utensils (fork and spoon)&quot;.
+<blockquote><font color="#000080">Understand &quot;employ [an open door]&quot; as entering.
+</font></blockquote><p>
+<p>
+<p>More subtle is a line already seen:
+<p>
+<blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.
+</font></blockquote><p>
+<p>
+<p>Here Inform puts &quot;on top of&quot; before &quot;on/in/inside&quot;, since otherwise only the &quot;on&quot; of &quot;on top of&quot; will be recognised.
+<p>
+<p>Mistakes always take precedence over non-mistakes: this is intended to make sure that
+<p>
+<blockquote><font color="#000080">Understand &quot;take umbrage&quot; as a mistake (&quot;Nobody takes umbrage in this game, mister.&quot;).
+</font></blockquote><p>
+<p>
+<p>will take precedence over
+<p>
+<blockquote><font color="#000080">Understand &quot;take [something]&quot; as taking.
+</font></blockquote><p>
+<p>
+<p>even if there is, in fact, a character called Mr Nimbus Umbrage so that the command could conceivably make sense.
 <p>
 <p><hr><p><a href=doc228.html>Previous</a> / <a href=doc230.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

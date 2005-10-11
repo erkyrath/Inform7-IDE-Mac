@@ -1,0 +1,40 @@
+<html><head><title>3.13. Locks and keys</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc33.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc35.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.13. Locks and keys</b></td></tr></table><p>
+<p>
+<p>It seems unwise for a door in Notting Hill to be unlocked, so:
+<p>
+<blockquote><font color="#000080">The blue door is lockable and locked. The matching key of the blue door is the brass Yale key.
+</font></blockquote><p>
+<p>
+<p>Since the second sentence here is a little clumsy, we can equivalently say
+<p>
+<blockquote><font color="#000080">The brass Yale key unlocks the blue door.
+</font></blockquote><p>
+<p>
+<p>Yet a third way to say this is:
+<p>
+<blockquote><font color="#000080">The blue door has matching key the brass Yale key.
+</font></blockquote><p>
+<p>
+<p>This introduces three new properties: a door can be locked or unlocked; lockable or not lockable; and it can have a matching key, which must be another thing. The same thing can be the matching key of many different locks: and note that a door can be locked and even lockable without having a matching key at all, in which case the player trying to open it will be permanently out of luck. Doors are ordinarily unlocked, not lockable, and without a matching key.
+<p>
+<p>Containers can also have locks, in exactly the same way, and are allowed to have the same properties. On the other hand supporters never have locks: it makes no sense to be able to lock a tabletop, for instance, and Inform will not allow any discussion of the matching key of a supporter, or of a supporter being locked or unlocked.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e20"><a href=doc34.html#e20><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Making the glass case lockable.</i><p>
+<p>
+<p>It stands to reason that the captain wouldn't let just anyone meddle with his fishing equipment; maybe he keeps that case locked. We could replace the case description with this one, instead:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The Cabin contains a glass case. In the glass case is a collection of fishing rods. The case is closed, transparent, openable, lockable, and locked. The case is scenery. The small silver key unlocks the case.\n\n\n')"><img border=0 src=paste.png></a> The Cabin contains a glass case. In the glass case is a collection of fishing rods. The case is closed, transparent, openable, lockable, and locked. The case is scenery. The small silver key unlocks the case.
+</font></blockquote><p>
+<p>
+<p>Now there's a silver key that will unlock it -- though since we haven't said where the key is, the player will never be able to find it in the game.
+</td></tr></table><p><p><hr><p><a href=doc33.html>Previous</a> / <a href=doc35.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

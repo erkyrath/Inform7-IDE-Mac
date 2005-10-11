@@ -1,30 +1,35 @@
-<html><head><title>4.18. Bibliographic data</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc58.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc60.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.18. Bibliographic data</b></td></tr></table><p>
+<html><head><title>4.16. Conditions of things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc58.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc60.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.16. Conditions of things</b></td></tr></table><p>
 <p>
-<p>Inform has four special named values to hold the bibliographic data about the work being created - who wrote it, what it is called, what genre it has and what its release number is.
+<p>We have already seen that the names for either/or properties can be used as adjectives, so that we can talk about &quot;a dark room&quot; (meaning: a room which has the dark property rather than the lighted property). The same goes for the named possibilities for a newly created kind of value:
 <p>
-<p>These can be set as follows:
-<p>
-<blockquote><font color="#000080">The story title is &quot;Mansfield Perk&quot;. The story author is &quot;Janet Austen&quot;. The story genre is &quot;An Interactive Romance&quot;. The release number is 7.
+<blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour.
 </font></blockquote><p>
 <p>
-<p>A convenient abbreviation provides that if the first sentence of the source text consists solely of text in quotation marks, then that is considered the title. Thus if the source begins:
-<p>
-<blockquote><font color="#000080">&quot;Mansfield Perk&quot;
+<blockquote><font color="#000080">In the playroom are a red building block and a green building block.
 </font></blockquote><p>
 <p>
-<p>then that will be the story title. Further, we can write
+<p>Potentially, at least, &quot;colour&quot; is a widely applicable kind of value, and we already have two different things which have colour. But it often happens that we need adjectives to apply just to a single thing, and if so then a shorthand form is allowed:
 <p>
-<blockquote><font color="#000080">&quot;Mansfield Perk&quot; by Janet Austen
+<blockquote><font color="#000080">The cask is either customs sealed, liable to tax or stolen goods.
 </font></blockquote><p>
 <p>
-<p>with the obvious effect: quotation marks around the author's name are optional here, for convenience, but note that we'd better have them in cases like:
+<p>Inform deals with this by creating a new kind of value, whose possibilities are the named options supplied, and then giving the named object a property whose value has to be one of the possibilities. Initially the cask will be &quot;customs sealed&quot;, as that was the first value in the list. We could now write, for instance,
 <p>
-<blockquote><font color="#000080">&quot;Three Men in a Boat&quot; by &quot;Jerome K. Jerome&quot;
+<blockquote><font color="#000080">The description of the cask is &quot;A well-caulked Spanish wine cask. [if liable to tax]It really is a shame to have to pay duty on it!&quot;
 </font></blockquote><p>
 <p>
-<p>as otherwise the full stop after the K will end the sentence prematurely.
+<p>We will often not need to know this, but the kind of value and the property are both automatically given the name of the object with the word &quot;condition&quot; tacked on: so in this case &quot;cask condition&quot;. For instance, we could write:
 <p>
-<p>If unspecified, the story genre is &quot;An Interactive Fiction&quot;, in accordance with tradition, and the release number is 1.
+<blockquote><font color="#000080">The printed name of the cask is &quot;wine cask ([cask condition])&quot;.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc58.html>Previous</a> / <a href=doc60.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,30 +1,40 @@
-<html><head><title>11.3. What are relations?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc159.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc161.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.3. What are relations?</b></td></tr></table><p>
+<html><head><title>11.7. New actions</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc159.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc161.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.7. New actions</b></td></tr></table><p>
 <p>
-<p>Relations are what sentences express. They are yes/no questions about pairs of things: for example, to say that the coin is in the purse is to say that a particular relation (&quot;being in&quot;) is true about a specific pair of things (the coin, the purse). It is neither a fact about the coin nor about the purse, but about the two together.
+<p>It is not often that we need to create new actions, but a large work of interactive fiction with no novelty actions is a flavourless dish. Here we shall create an action for photographing things.
 <p>
-<p>Inform comes with a number of relations built in, almost all of which have been used in previous chapters already. The following table names some of the more useful ones, giving examples of sentences to bring them about:
-<p>
-<blockquote><font color="#000080">containment relation - The coin is in the purse.
-<br>support relation - The coin is on the table.
-<br>incorporation relation - The coin is part of the sculpture.
-<br>carrying relation - The coin is carried by Peter.
-<br>wearing relation - The jacket is worn by Peter.
-<br>possession relation - Mr Darcy has a rapier.
-<br>adjacency relation - The Study is east of the Hallway.
-<br>visibility relation - Darcy can see Peter.
-<br>touchability relation - Darcy can touch Peter.
+<blockquote><font color="#000080">The Ruins is a room. &quot;You find this clearing in the rainforest oddly familiar.&quot; The camera is in the Ruins. &quot;Your elephantine camera hangs from a convenient branch.&quot;
 </font></blockquote><p>
 <p>
-<p>These relation names do not trip off the tongue but do not need to, since relations are referred to only when creating new verbs (as we shall see).
-<p>
-<p>The same meaning can often be expressed by using several different verbs, or using the same verb in several different ways, as in the following examples:
-<p>
-<blockquote><font color="#000080">The coin is in the purse.
-<br>The purse contains the coin.
-<br>The coin is contained by the purse.
+<blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.
 </font></blockquote><p>
 <p>
-<p>all of which boil down to saying that the coin and purse satisfy the containment relation. Because of that, <i>relations are not the same as verbs</i>. To create a new idea, we will need first to create a new relation, and only then can we set up a verb which allows us to talk about that relation.
+<p>In theory that text is already sufficient in to make the new action, but what we have so far is rudimentary to say the least. The two qualifications give Inform the useful information that we cannot photograph in the dark, and that we need to be photographing something - not, as in the case of waiting or taking inventory, acting without reference to any particular thing external to ourselves.
 <p>
+<p>The word &quot;visible&quot; here tells Inform that we do not need to be able to touch the thing in question: a line of sight is good enough. These two stipulations were necessary because the default arrangement is that any object must be in touching range, and that most actions can be performed in darkness. (Also, note that if you invent an action which needs to apply to directions like &quot;north&quot; or &quot;south&quot;, you need to make this apply to visible things, because the object used inside Inform to represent the idea of &quot;north&quot; can be seen but not touched.)
+<p>
+<p>As further examples, here we create &quot;blinking&quot; and &quot;scraping X with Y&quot;. Note the use of &quot;it&quot; to indicate that the name of an object should go here.
+<p>
+<blockquote><font color="#000080">Blinking is an action applying to nothing. Scraping it with is an action applying to two things.
+</font></blockquote><p>
+<p>
+<p>The photographing action now exists, but with two provisos: (a) it never happens, because Inform does not know what commands by the player should cause it, and (b) even if it were to happen, nothing would follow, because Inform does not know what to do. (There are no check, carry out or report rules yet.)
+<p>
+<p>The first problem is easily overcome:
+<p>
+<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
+</font></blockquote><p>
+<p>
+<p>We will return to the whole subject of parsing, as this process of understanding the player's commands is called, later. But this gives the gist of it.
+<p>
+<p><hr><p>
+<a name="e37"><a href=ex37.html#e37><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A DIAGNOSE command which allows the player to check on the health of someone.</i><p>
 <p><hr><p><a href=doc159.html>Previous</a> / <a href=doc161.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

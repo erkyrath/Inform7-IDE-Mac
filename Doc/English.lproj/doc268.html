@@ -1,37 +1,41 @@
-<html><head><title>18.5. The meaning of "is"</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc267.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><img border=0 src=../ForwardDisabled.tif></td><td><b>18.5. The meaning of "is"</b></td></tr></table><p>
+<html><head><title>18.6. Version numbering</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc267.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc269.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.6. Version numbering</b></td></tr></table><p>
 <p>
-<p>Another small discrepancy between assertions and conditions turns up if we ask a surprisingly difficult question: what does &quot;is&quot; mean? There was much amusement when this became an issue in the absurd Senate trial of President Clinton, but the definition of &quot;to be&quot; spans a heroic twelve columns in the <i>Oxford English Dictionary</i>. Among the many meanings offered are:
+<p>As we have seen, extensions are referred to by name and author, but they can also (optionally) be referred to by version. For instance:
 <p>
-<blockquote><font color="#000080">OED 5a. to have or occupy a place somewhere
-<br>OED 9b. to have a place among the things distinguished by a specified quality
-<br>OED 10. to exist as the thing known by a certain name; to be identical with
+<blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.
 </font></blockquote><p>
 <p>
-<p>All three of these are used by Inform:
-<p>
-<blockquote><font color="#000080">OED 5a. The cargo trunk is in the attic.
-<br>OED 9b. The cargo trunk is an openable container.
-<br>OED 10. if the noun is the cargo trunk ...
+<blockquote><font color="#000080">Version 1/040426 of the Ducking Action by Graham Nelson begins here.
 </font></blockquote><p>
 <p>
-<p>OED meanings 5a and 9b are not really very different as far as Inform is concerned: they both say that something belongs to some larger class of things. &quot;The cargo trunk is in the attic&quot; means that the trunk is one among the things in the attic; &quot;the cargo trunk is an openable container&quot; means that it is among the openable containers. (In computer programming terms this is a sort of matching operator, like &quot;=~&quot; in the Perl scripting language.) On the other hand, OED meaning 10 is very different. If somebody reads out a line of code from the C programming language,
+<p>A version number must be a whole number 1, 2, ... (version 0 is not allowed, and nor are decimal points), optionally followed by a slash '/' and then a six-figure date, in the form YYMMDD: so 040426 means 26 April 2004.
 <p>
-<blockquote><font color="#000080">if (x == 7) ...
+<p>A request to include version 2 of something implicitly means &quot;version 2 or later&quot;, and similarly &quot;version 2/040426&quot; means version 2 with a date of 26 April 2004 or later, or else any version higher than 2. If Inform loads the extension but finds that its version is not good enough, an error is issued.
+<p>
+<p>Where no version number is quoted, the rule is that an unspecified version predates any numbered version. This means that the line
+<p>
+<blockquote><font color="#000080">Include the Ducking Action by Graham Nelson.
 </font></blockquote><p>
 <p>
-<p>they will probably say the words &quot;If x is 7&quot;: here, the &quot;is&quot; means &quot;equals&quot;.
+<p>will be happy with any version of the extension at all, whether numbered or not; but
 <p>
-<p>So &quot;X is Y&quot; has two essentially different meanings to Inform: &quot;X matches Y&quot; and &quot;X equals Y&quot;. Both can be used in conditions, but only the first can be used in assertions. That is why Inform will reject the assertion
-<p>
-<blockquote><font color="#000080">The cargo trunk is the oak tree.
+<blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.
 </font></blockquote><p>
 <p>
-<p>(which must be a lie) even though it will allow exactly the same sentence structure in a condition:
+<p>will only accept the extension if it has a version number attached (and with that number being 2 or higher).
 <p>
-<blockquote><font color="#000080">if the noun is the oak tree...
+<p>During play of any game compiled by Inform 7, typing &quot;version&quot; lists various serial numbers of the pieces of software used to make it. The list concludes with names, authors and version numbers of any extensions used. So every author whose work contributes to a game automatically gets a modest credit within it. The same list can be printed, at the discretion of the designer, using the textual substitution:
+<p>
+<blockquote><font color="#000080">say &quot;[list of extension credits]&quot;
 </font></blockquote><p>
 <p>
-<p>This all sounds like a pedantic digression, and perhaps it is. (An OED 9b &quot;is&quot;, by the way.) But it has a moral: that &quot;is&quot; can do far more than the simple value comparisons offered by most computer programming languages.
-<p>
-<p><hr><p><a href=doc267.html>Previous</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><p><a href=doc267.html>Previous</a> / <a href=doc269.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

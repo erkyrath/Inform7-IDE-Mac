@@ -1,19 +1,27 @@
-<html><head><title>13.9. Blank rows</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc190.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc192.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.9. Blank rows</b></td></tr></table><p>
+<html><head><title>13.7. More on specifications</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc190.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc192.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.7. More on specifications</b></td></tr></table><p>
 <p>
-<p>There is no difficulty about entirely blank rows: or rather, the only difficulty is once again that they are boring to type out. We can avoid the necessity by appending &quot;with ... blank rows&quot; at the foot of the table:
+<p>The essential requirement is that the specification must be one that clearly specifies no other kind. So &quot;10 specifies a weight&quot; will not be allowed, because 10 specifies a number already: but &quot;10kg specifies a weight&quot; is allowed because the &quot;kg&quot; suffix safely distinguishes it.
 <p>
-<p><center><img src=table6.tiff></center>
+<p>The specification can run for more than one word: we could instead have had written either of these -
 <p>
-<p>(These words cannot be placed in between rows, but only at the bottom.) And indeed the table can start out completely empty:
-<p>
-<p><center><img src=table7.tiff></center>
-<p>
-<p>Blank rows are useful because they enable us to add new data to a table. In effect, they are invisible when not used. A repeat loop like
-<p>
-<blockquote><font color="#000080">repeat through Table 3 begin; ...; end repeat
+<blockquote><font color="#000080">10kg net specifies a weight.
+<br>10 kg specifies a weight.
 </font></blockquote><p>
 <p>
-<p>automatically skips blank rows, so it would initially do nothing at all. Similarly, choosing a &quot;random&quot; row will never choose a blank one.
+<p>In fact, we are allowed to say all three:
+<p>
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. 10kg net specifies a weight. 10 kg specifies a weight.
+</font></blockquote><p>
+<p>
+<p>They will then all be allowed as alternatives. The first one given will be the one Inform considers the &quot;normal&quot; notation, so that will be the one used when weights are printed back in text.
 <p>
 <p><hr><p><a href=doc190.html>Previous</a> / <a href=doc192.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

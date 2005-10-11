@@ -1,0 +1,98 @@
+<html><head><title>11.8. Irregular English verbs</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc160.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc162.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.8. Irregular English verbs</b></td></tr></table><p>
+<p>
+<p>Our three example actions can be recognised in play using the following:
+<p>
+<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;blink&quot; as blinking.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;scrape [something] with [something]&quot; as scraping.
+</font></blockquote><p>
+<p>
+<p>The last of these examples shows why Inform does not risk generating this automatically: English is so full of irregular verbs. Inform could have guessed &quot;blink&quot; and &quot;photograph&quot;, but might then have opted for &quot;scrap&quot; instead of &quot;scrape&quot;.
+<p>
+<p>Inform does risk automatically generating the past participle of an action (many past participles are never needed, so the stakes are lower if Inform gets this wrong). What almost always happens is that the &quot;-ing&quot; is replaced with &quot;-ed&quot;, which happens to be correct in these three cases: photographed, blinked, scraped. It would be disastrously wrong for something like taking, though: we need taken, not taked. We can get around this like so:
+<p>
+<blockquote><font color="#000080">Weaving is an action with past participle woven, applying to one thing.
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e123"><a href=doc161.html#e123><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A shake command which agitates soda and makes items thump around in boxes.</i><p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;3 AM&quot;\n\nUnderstand &quot;shake [something held]&quot; as shaking.\n\nShaking is an action with past participle shaken, applying to one thing.\n\nCarry out shaking:\n\tsay &quot;Nothing results of your shaking [the noun].&quot;\n\nInstead of shaking a closed container when something is in the noun:\n\tsay &quot;Something rattles inside [the noun].&quot;\n\nInstead of shaking a closed transparent container when something is in the noun:\n\tsay &quot;Inside [the noun] there are banging noises produced by [the list of things contained by the noun].&quot;\n\nInstead of shaking an open container which contains something:\n\tsay &quot;[The list of things contained by the noun] might fly out.&quot;\n\nThe Wawa is a room. &quot;A convenience store, if you like to call it that, vending the usual assortment of chips, donuts, soda, and beer. There is something of a line at the sandwich counter.&quot;\n\nThe box of enrobed cakes is in the Wawa. &quot;A box of Tastykake Enrobed Cakes has fallen off its shelf.&quot; The description is &quot;\'Enrobed Cakes\' is a fancy term for \'strange sponge-like baked good, covered in a thin shell of waxy chocolate\'. They are addictive, but not in a way that lets you respect yourself in the morning.&quot; The box is a closed openable container. In the box is a cake.\n\nInstead of opening the box, say &quot;The Wawa clerks frown on the consumption of unpurchased foodstuffs.&quot;\n\nThe can of root beer is a closed openable container carried by the player. The can of root beer is either agitated or calm.\n\n[Because the can of root beer should have some reactions to having been shaken later in the game, we need to borrow a few ideas from the later chapters on time:]\n\nInstead of shaking the can of root beer:\n\tthe can calms down in five turns from now;\n\tsay &quot;You give the can a good hard shake.&quot;;\n\tchange the can to agitated.\n\nInstead of listening to the can: say &quot;It sounds [if agitated]fizzy[otherwise]calm[end if]!&quot;\n\nWhen the can calms down:\n\tchange the can to calm.\n\nThe sticky mess is fixed in place. &quot;There is a sticky mess on the ground.&quot;\n\nInstead of opening the agitated can of root beer:\n\tremove the can of root beer from play;\n\tnow the sticky mess is in the location;\n\tsay &quot;You open the can and fizzing sweet soda goes absolutely everywhere.&quot;\n\nInstead of opening the calm can of root beer when the can has been agitated:\n\tremove the can of root beer from play;\n\tsay &quot;The root beer is disappointingly flat. That\'s what you get for shaking it up!&quot;\n\n')"><img border=0 src=paste.png></a> &quot;3 AM&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;shake [something held]&quot; as shaking.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Shaking is an action with past participle shaken, applying to one thing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out shaking:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing results of your shaking [the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of shaking a closed container when something is in the noun:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Something rattles inside [the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of shaking a closed transparent container when something is in the noun:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Inside [the noun] there are banging noises produced by [the list of things contained by the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of shaking an open container which contains something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The list of things contained by the noun] might fly out.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Wawa is a room. &quot;A convenience store, if you like to call it that, vending the usual assortment of chips, donuts, soda, and beer. There is something of a line at the sandwich counter.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The box of enrobed cakes is in the Wawa. &quot;A box of Tastykake Enrobed Cakes has fallen off its shelf.&quot; The description is &quot;'Enrobed Cakes' is a fancy term for 'strange sponge-like baked good, covered in a thin shell of waxy chocolate'. They are addictive, but not in a way that lets you respect yourself in the morning.&quot; The box is a closed openable container. In the box is a cake.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of opening the box, say &quot;The Wawa clerks frown on the consumption of unpurchased foodstuffs.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The can of root beer is a closed openable container carried by the player. The can of root beer is either agitated or calm.
+</font></blockquote><p>
+<p>
+<p>Because the can of root beer should have some reactions to having been shaken later in the game, we need to borrow a few ideas from the later chapters on time:
+<p>
+<blockquote><font color="#000080">Instead of shaking the can of root beer:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;the can calms down in five turns from now;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You give the can a good hard shake.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the can to agitated.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of listening to the can: say &quot;It sounds [if agitated]fizzy[otherwise]calm[end if]!&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">When the can calms down:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the can to calm.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The sticky mess is fixed in place. &quot;There is a sticky mess on the ground.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of opening the agitated can of root beer:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the can of root beer from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the sticky mess is in the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You open the can and fizzing sweet soda goes absolutely everywhere.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of opening the calm can of root beer when the can has been agitated:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the can of root beer from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The root beer is disappointingly flat. That's what you get for shaking it up!&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc160.html>Previous</a> / <a href=doc162.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

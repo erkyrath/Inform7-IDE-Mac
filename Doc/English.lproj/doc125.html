@@ -1,19 +1,35 @@
-<html><head><title>8.11. Calculating times</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc124.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc126.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.11. Calculating times</b></td></tr></table><p>
+<html><head><title>8.12. Future events</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc124.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc126.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.12. Future events</b></td></tr></table><p>
 <p>
-<p>We will occasionally need to perform more complex calculations with time, and in order to do that, we have a way to convert the time of day to numbers. Thus the phrase &quot;the minutes part of ...&quot; takes a time and produces a number from 0 to 59; similarly &quot;the hours part of ...&quot; extracts a number from 0 to 23, using the twenty-four hour clock.
+<p>We often want to arrange for something to happen at some point in the future. Here is yet another timepiece:
 <p>
-<p>To go the other way, we can convert any number to a duration by writing &quot;minutes&quot; or &quot;hours&quot; after it. For instance:
-<p>
-<blockquote><font color="#000080">The clock error is a number that varies. To thump the mechanism: change the clock error to a random number from -10 to 10.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.\n\nWhen the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;\n\n\n')"><img border=0 src=paste.png></a> An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The broken grandfather clock is in the Chamber. &quot;An erratic grandfather clock seems to say it is [clock error minutes after the time of day].&quot;
+<blockquote><font color="#000080">When the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When play begins, thump the mechanism. Instead of attacking the broken clock: thump the mechanism; say &quot;You thump the clock, which now reads [clock error minutes after the time of day].&quot;.
+<p>The event here is called &quot;the egg-timer clucks&quot;. It only happens if we instruct so, which we do by writing
+<p>
+<blockquote><font color="#000080">the egg-timer clucks in four turns from now
 </font></blockquote><p>
 <p>
-<p>Note that &quot;clock error&quot; is a number, but &quot;clock error minutes&quot; is a time.
+<p>meaning four turns after the turn in which the egg-timer is pushed. We could alternatively describe this future moment as something like &quot;in 18 minutes from now&quot;, or &quot;at 4:15 PM&quot;.
 <p>
+<p>If we know in advance what time we want something to happen, we can more simply write:
+<p>
+<blockquote><font color="#000080">At 4 PM: say &quot;The great bells of the clock tower chime four.&quot;
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<a name="e113"><a href=ex113.html#e113><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A train which follows a schedule, stopping at a number of different locations.</i><p>
+<a name="e43"><a href=ex43.html#e43><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>To schedule an eclipse of the sun, which involves a number of related events.</i><p>
 <p><hr><p><a href=doc124.html>Previous</a> / <a href=doc126.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

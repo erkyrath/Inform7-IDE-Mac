@@ -1,33 +1,24 @@
-<html><head><title>9.4. Age of Steam example</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc133.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc135.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.4. Age of Steam example</b></td></tr></table><p>
+<html><head><title>9.5. Linking scenes together</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc133.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc135.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.5. Linking scenes together</b></td></tr></table><p>
 <p>
-<p>We can now gather the material so far into a working drama:
+<p>Let us suppose that somebody gets off the train, after all, so that a second scene follows on.
 <p>
-<blockquote><font color="#000080">&quot;Age of Steam&quot;
+<blockquote><font color="#000080">Brief Encounter is a scene. Brief Encounter begins when Train Stop ends.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Station is a room. &quot;Eynforme Halt is a raised platform fringed with cowslip: a whistle-stop with no more than a signal and a water-tank.&quot;
+<p>The effect of this is that they occur in sequence. If we add a third to the chain of scenes:
+<p>
+<blockquote><font color="#000080">Village Exploration is a scene. Village Exploration begins when Brief Encounter ends.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Flying Scotsman is fixed in place. &quot;The Flying Scotsman, fastest train in the world, is now at a dead standstill.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Train Stop is a scene. Train Stop begins when the player is in the Station for the third turn. Train Stop ends when the time since Train Stop began is 3 minutes.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Train Stop begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the Flying Scotsman to the Station;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman pulls up at the platform, to a billow of steam and hammering.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Train Stop ends:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the Flying Scotsman from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman inches away, with a squeal of released brakes, gathering speed invincibly until it disappears around the hill. All is abruptly still once more.&quot;
-</font></blockquote><p>
-<p>
-<p>Note the useful value &quot;time since Train Stop began&quot;. (This only makes sense if the scene has begun, of course.) The actual time, in case it is needed, can also be obtained:
-<p>
-<blockquote><font color="#000080">Instead of entering the Flying Scotsman, say &quot;Alas, the [time when Train Stop began] arrival is only to take on water, not to set down or pick up.&quot;
-</font></blockquote><p>
+<p>...we find another chance to fool ourselves: if we check the Scenes index again, we can see the linkages between these scenes, but we also see that Brief Encounter never ends (despite its name). All we have said is that another scene begins where Brief Encounter leaves off, but it never does, so this is moot.
 <p>
 <p><hr><p><a href=doc133.html>Previous</a> / <a href=doc135.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

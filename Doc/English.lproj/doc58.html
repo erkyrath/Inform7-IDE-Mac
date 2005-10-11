@@ -1,35 +1,33 @@
-<html><head><title>4.17. Values that vary</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc57.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc59.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.17. Values that vary</b></td></tr></table><p>
+<html><head><title>4.15. Using new kinds of value in properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc57.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc59.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.15. Using new kinds of value in properties</b></td></tr></table><p>
 <p>
-<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
+<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
 <p>
-<blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.
+<blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.
 </font></blockquote><p>
 <p>
-<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
+<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
 <p>
-<blockquote><font color="#000080">The target is a number variable. The target is 23.
+<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
+<p>
+<blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.
 </font></blockquote><p>
 <p>
-<p>In fact, we have seen a value that varies already: &quot;location&quot;, which holds the room in which the game is presently taking place.
+<p>New kinds of value are very convenient when substituting variations in text:
 <p>
-<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
-<p>
-<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
-<p>
-<blockquote><font color="#000080">The receptacle is a container that varies.
+<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.
 </font></blockquote><p>
 <p>
-<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
+<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
 <p>
-<blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.
-</font></blockquote><p>
-<p>
-<p>without ever having defined any colours. Something else we are not permitted is:
-<p>
-<blockquote><font color="#000080">The receptacle is an open container that varies.
-</font></blockquote><p>
-<p>
-<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
-<p>
+<p><hr><p>
+<a name="e125"><a href=ex125.html#e125><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Signpost that points to various destinations, depending on how the player has turned it.</i><p>
 <p><hr><p><a href=doc57.html>Previous</a> / <a href=doc59.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

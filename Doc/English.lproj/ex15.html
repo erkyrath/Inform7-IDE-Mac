@@ -1,47 +1,53 @@
-<html><head><title>16.11. Supplying a missing noun/second noun</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc233.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc235.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.11. Supplying a missing noun/second noun</b></td></tr></table><p>
+<html><head><title>3.20. The player's holdall</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc40.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc42.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.20. The player's holdall</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> (Two different activities here, but identical except for applying to different nouns.) Suppose that, because of an instruction to Understand something even though it would be lacking a noun - say, 'Understand &quot;take&quot; as taking.' - an incomplete action is generated, one which is required to have a noun, but doesn't. &quot;Supplying a missing noun&quot; takes place to remedy the problem. It can either:
+<p>When the player has only limited carrying capacity, game play is likely to be tiresome, but we can make life easier by providing a way for the player to carry endless items without dozens of free hands to hold them all:
 <p>
-<p>(i) Set a noun, printing text like &quot;(presumably the black bag)&quot; if it wants, in which case the action goes forward, though it is still subject to the full rules on accessibility exactly as any other action would be; or
-<p>
-<p>(ii) Make no choice, in which case no action takes place and the player's command is rejected. If the activity printed nothing, Inform will produce a generic reply to the player that &quot;You must supply a noun.&quot;.
-<p>
-<p><b>2. The default behaviour.</b> In the default grammar for Inform, only three such half-finished actions are ever Understood. One is &quot;going&quot; with no direction, for which this activity simply prints a refusal. The other two are the two undirected senses, &quot;smelling&quot; and &quot;listening&quot;. In each case, the &quot;supplying a missing noun&quot; activity sets the noun to the current location: so, for instance, typing the bare command &quot;listen&quot; might generate the action &quot;listening to the Shoreline&quot;.
-<p>
-<p><b>3. Examples.</b> (a) This is the definition Inform uses to make &quot;listen&quot; work as outlined above:
-<p>
-<blockquote><font color="#000080">Rule for supplying a missing noun while listening (this is the ambient sound rule): change the noun to the location.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Sackcloth&quot;\n\nThe Attic is a room. The old blue rucksack is a player\'s holdall. The player is wearing the rucksack.\n\nThe carrying capacity of the player is 3.\n\nIn the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt\'s remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.\n\n\n')"><img border=0 src=paste.png></a> &quot;Sackcloth&quot;
 </font></blockquote><p>
 <p>
-<p>(b) It can be elegant to allow second nouns to be dropped with habitual actions, or where the choice is obvious:
-<p>
-<blockquote><font color="#000080">Understand &quot;unlock [something]&quot; as unlocking it with.
+<blockquote><font color="#000080">The Attic is a room. The old blue rucksack is a player's holdall. The player is wearing the rucksack.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Rule for supplying a missing second noun while unlocking:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the skeleton key is carried, change the second noun to the skeleton key;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;
+<blockquote><font color="#000080">The carrying capacity of the player is 3.
 </font></blockquote><p>
 <p>
-<p>
-<a name="e15"><a href=doc234.html#e15><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Supplying a default direction for "go", so that "leave", "go", etc., are always interpreted as "out".</i><p>
-<p>
-<p>Sometimes it would be nice to respond a little more sensitively to a vague command such as &quot;leave&quot; -- converting it, perhaps, to a &quot;go out&quot; command.
-<p>
-<blockquote><font color="#000080">&quot;Minimal Movement&quot;
+<blockquote><font color="#000080">In the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt's remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Doll-like House is a room. The Postage-Stamp-Sized Garden is outside from the House.
+<p>This example game introduces a new kind of container, the &quot;player's holdall&quot;. This is a kind of which most games will contain at most one example, but in principle there can be any number. A player's holdall is a capacious bag into which the player automatically places surplus items whenever his or her hands are full: trying the above example game and getting the items one by one will give the general idea.
+<p>
+<p>Of course, if the carrying capacity of the player is never reached then there will never be any surplus items and a player's holdall will behave just like any other (portable, usually openable) container.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e15"><a href=doc41.html#e15><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Making a holdall of the backpack.</i><p>
+<p>
+<p>If we wanted, we could make the player's backpack infinitely capacious, so:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The backpack is a player\'s holdall.\n\n\n')"><img border=0 src=paste.png></a> The backpack is a player's holdall.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Rule for supplying a missing noun while going:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change noun to outside.
+<p>...And now whenever the player character is unable to hold everything, he will automatically stow some of his possessions therein.
+<p>
+<p>This is only useful if the player doesn't have infinite carrying capacity himself, so perhaps we also need
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The carrying capacity of the player is 3.\n\n\n')"><img border=0 src=paste.png></a> The carrying capacity of the player is 3.
 </font></blockquote><p>
 <p>
-<p>This particular situation is very slightly complicated by the existing rules about vague movement, but fortunately we can easily turn those off.
+<p>Perhaps mercifully, items which are worn are not counted against the player's carrying capacity. We might want to let him take advantage of that, too:
 <p>
-<blockquote><font color="#000080">Procedural rule: ignore the block vaguely going rule.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The backpack is wearable.\n\n\n')"><img border=0 src=paste.png></a> The backpack is wearable.
 </font></blockquote><p>
-<a name="e6"><a href=ex6.html#e6><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>DIG implementation which digs a hole in the location (without requiring the player to type DIG GROUND or something similar).</i><p>
-<p><hr><p><a href=doc233.html>Previous</a> / <a href=doc235.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>This capacity system makes a compromise between the realistic and the absurd: on the one hand, it acknowledges that people can't carry an infinite number of items in their hands, while at the same time providing a sack that can.
+<p>
+<p>Many games will have no use for object-juggling of this kind at all; others will want to be much more rigorous about questions of capacity and volume. Fortunately, it is easy to leave the whole business out by assigning no carrying capacity to anything. The tools to implement a more sophisticated capacity system are provided in Chapter 12, on Units.
+</td></tr></table><p><p><hr><p><a href=doc40.html>Previous</a> / <a href=doc42.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

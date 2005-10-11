@@ -1,0 +1,85 @@
+<html><head><title>20.2. Sam Ashwell <magadog@gmail.com> - [i7] upper limit on unnamed values</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc290.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc292.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>20.2. Sam Ashwell <magadog@gmail.com> - [i7] upper limit on unnamed values</b></td></tr></table><p>
+<p>
+<p><i>Reported by:</i> Sam Ashwell <magadog@gmail.com> / <i>Date:</i> 11 August 2005
+<p>
+<p><i>Nature:</i> The source looks legal, and generates no Problem messages, but 	  then generates errors when fed into I6
+<p>
+<p><i>Build:</i> 2V60
+<p>
+<p><i>Platform:</i> Mac OS X
+<p>
+<p>
+<p>
+<p><i>Code example:</i>
+<p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;test&quot; by Sam Kabo Ashwell\n\nFirst Room is a room.\n\nA thing is either outsider or clan member.\nA thing is either male or female.\nA thing is either married or single.\nA thing can be enfranchised or disenfranchised.\nA thing can be riparian or arid.\nA thing can be irrigated or dry.\nthings can be poisonous or poisonless.\nthings can be aquatic or terrestial.\nthings can be scavenging or aloof.\nthings can be predatory or snuggly.\nthings can be malign or innocent.\nthings can be dangerous or safe.\nthings can be large or tiny.\nthings can be wild or domestic.\nThings can be edible or inedible.\nA thing is either thirsty or thirstless.\nA thing is either local or exotic.\n\n\n\n\n')"><img border=0 src=paste.png></a> &quot;test&quot; by Sam Kabo Ashwell
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">First Room is a room.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A thing is either outsider or clan member.
+<br>A thing is either male or female.
+<br>A thing is either married or single.
+<br>A thing can be enfranchised or disenfranchised.
+<br>A thing can be riparian or arid.
+<br>A thing can be irrigated or dry.
+<br>things can be poisonous or poisonless.
+<br>things can be aquatic or terrestial.
+<br>things can be scavenging or aloof.
+<br>things can be predatory or snuggly.
+<br>things can be malign or innocent.
+<br>things can be dangerous or safe.
+<br>things can be large or tiny.
+<br>things can be wild or domestic.
+<br>Things can be edible or inedible.
+<br>A thing is either thirsty or thirstless.
+<br>A thing is either local or exotic.
+</font></blockquote><p>
+<p>
+<p>
+<p>
+<p><i>What goes wrong:</i>
+<p>
+<p>
+<p>I seem to have hit a limit.
+<p>
+<p>If I use over 16 unnamed values (as in the code above) the game
+<p>compiles, but crashes the interpreter on loading; if I use 16 or less,
+<p>the game will load happily. This behaviour doesn't vary between z5 and
+<p>z8 files. Similarly, the behaviour doesn't change if the unnamed
+<p>values are assigned between different kinds, or to different
+<p>individual objects.
+<p>
+<p>
+<p>
+<p><i>Comments:</i>
+<p>
+<p>
+<p>Clearly this is Bad Coding and I should be creating new named values;
+<p>it's not a big problem to work around.
+<p>
+<p>It'd be nice, therefore, to prevent a game with 18 unnamed values from
+<p>compiling, with an error message to the tune of
+<p>
+<p>'I'm afraid you've reached the limit for unnamed values. Inform only
+<p>allows 16 conditions of the form 'A fellow (can be / is either)
+<p>delightful or ennervating'. To work around the problem I suggest
+<p>naming your values, thus: 'Waggery is a kind of value. A fellow has
+<p>waggery. The waggeries are delightful and ennervating.'
+<p>
+<p>There is no limit (probably) on this sort of value, and using them is
+<p>better practise.'
+<p>
+<p>
+<p><hr><p><a href=doc290.html>Previous</a> / <a href=doc292.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

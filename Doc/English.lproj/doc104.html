@@ -1,39 +1,43 @@
-<html><head><title>7.10. Now...</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc103.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc105.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.10. Now...</b></td></tr></table><p>
+<html><head><title>7.11. Checking on whereabouts</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc103.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc105.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.11. Checking on whereabouts</b></td></tr></table><p>
 <p>
-<p>As Chapter 5 has already discussed, Inform looks at a whole range of &quot;relations&quot; between objects, many of which we can change. The general rule is as follows. Suppose S is a sentence about a relationship between things. Then there are three things we can do with S:
+<p>We have seen that while rooms are fixed, their contents move around, so we will need ways to examine the current whereabouts of things. The following examples show the kind of conditions allowed:
 <p>
-<blockquote><font color="#000080">S. - The relation holds at the start of play.
+<blockquote><font color="#000080">if the genie's lamp <b>is in</b> Aladdin's Cave ...
+<br>if Aladdin <b>is not in</b> Aladdin's Cave ...
+<br>if Aladdin's Cave <b>contains</b> the genie's lamp ...
+<br>if the genie's lamp <b>is carried by</b> Aladdin ...
+<br>if Aladdin <b>is carrying</b> the genie's lamp ...
+<br>if the genie's lamp <b>is carried by</b> Aladdin ...
+<br>if Aladdin <b>does not have</b> the genie's lamp ...
+<br>if the table <b>supports</b> the genie's lamp ...
+<br>if the table <b>is supporting</b> the genie's lamp ...
+<br>if the genie's lamp <b>is supported by</b> the table ...
+<br>if the genie's lamp <b>is on</b> the table ...
+<br>if the genie's lamp <b>is on top of</b> the table ...
+<br>if the genie's lamp <b>is in</b> the cupboard ...
+<br>if the genie's lamp <b>is contained in</b> the cupboard ...
+<br>if the genie's lamp <b>is inside</b> the cupboard ...
+<br>if the genie's lamp <b>is within</b> the cupboard ...
+<br>if the wick <b>is part of</b> the genie's lamp ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">if S, ...; - Does the relation hold right now?
-<br>now S; - Make the relation hold from now on.
+<p>As then previous section mentioned, these are exactly like the assertions which we use to set up the world, except that we make them questions by placing &quot;if&quot; in front. But we shall later see that we can also use three other tenses, not to mention plural forms, so that new verbal forms like &quot;had not been inside&quot; and &quot;were not supported by&quot; are legal here (which they would not be in assertions). What we are not allowed is to contract these verbs with apostrophes: &quot;isn't&quot;, &quot;hasn't&quot; and &quot;hadn't&quot; are forbidden.
+<p>
+<p>Overwhelmingly the condition we check most is whether the player is carrying something. The following are therefore equivalent:
+<p>
+<blockquote><font color="#000080">if the genie's lamp is carried by the player ...
+<br>if the genie's lamp is carried ...
 </font></blockquote><p>
 <p>
-<p>For instance,
-<p>
-<blockquote><font color="#000080">The apple is in the basket.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">if the apple is in the basket, ...;
-<br>now the apple is in the basket;
-</font></blockquote><p>
-<p>
-<p>The effect of &quot;now the apple is in the basket&quot; is identical to &quot;move the apple to the basket&quot;, so this appears to offer nothing new; and &quot;now&quot; duplicates other things already available, too, because &quot;now the oaken door is open&quot; does the same thing as &quot;change the oaken door to open&quot;. But &quot;now&quot; is more general and more flexible. For instance,
-<p>
-<blockquote><font color="#000080">now the top hat is worn by Mr Darcy;
-</font></blockquote><p>
-<p>
-<p>will make the hat worn, rather than simply carried, by Darcy: this is something which could not be done with the &quot;move&quot; phrase. We can also apply &quot;now&quot; to many things at once:
-<p>
-<blockquote><font color="#000080">now all the doors are open;
-<br>now all of the things in the sack are in the box;
-</font></blockquote><p>
-<p>
-<p>The second of these moves the entire contents of the sack to the box. And if, as in the examples at the end of Chapter 5, we have defined new assertion verbs like <i>to love</i> and <i>to suspect</i>, then we can use &quot;now&quot; to change the relations they deal with:
-<p>
-<blockquote><font color="#000080">now Elizabeth loves Darcy;
-<br>now Dalgliesh is suspected by Miss Marple;
-</font></blockquote><p>
+<p>And similarly for &quot;not carried&quot;, &quot;worn&quot; and &quot;not worn&quot;. To be precise, if a form of <i>to be carried</i> or <i>to be worn</i> is not followed by any other description, then &quot;the player&quot; is assumed to be doing the carrying or wearing.
 <p>
 <p><hr><p><a href=doc103.html>Previous</a> / <a href=doc105.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

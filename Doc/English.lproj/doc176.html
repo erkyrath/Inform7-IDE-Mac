@@ -1,17 +1,35 @@
-<html><head><title>12.9. Limits on the size of numbers</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc175.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc177.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.9. Limits on the size of numbers</b></td></tr></table><p>
+<html><head><title>12.7. Relations in groups</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc175.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc177.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.7. Relations in groups</b></td></tr></table><p>
 <p>
-<p>There are still some serious restrictions. Inform has only whole numbers, not floating-point (though we could in principle simulate at least fixed-point numbers by writing something like &quot;10.99kg specifies a weight&quot;). And it only allows numbers from -32768 to 32767. Since a London bus only weighs 7000kg, 32000kg is plenty: on the other hand, if we wanted to measure weight in grammes instead, the limit would be just 32kg, an amount which a human can just about lift.
+<p>Finally, there is a kind of relation which binds even more strongly.
 <p>
-<p>The limit also begins to bite when using multiple-number specifications. Internally, Inform stores the above &quot;running time&quot; as a number of seconds, so that 3'59 is actually stored as 239. Calculating the maximum legal running time is a nuisance, so we can instead check the &quot;Kinds&quot; page of the index, where we read that:
-<p>
-<blockquote><font color="#000080"><b>running time</b> (<i>plural</i> running times)
-<br><i>Written in the following form:</i> 3'59
-<br><i>Maximum value allowed:</i> 546'07
+<blockquote><font color="#000080">Nationality relates people to each other in groups.
 </font></blockquote><p>
 <p>
-<p>The maximum legal running time is therefore a little over 9 hours, so the new Tori Amos album will not be a problem, but some of the more punishing German operas might break the bank.
+<p>This is a kind of relation which divides people up: we might wish to have all the Icelandic people related to each other, all the Peruvians to each other, and so on. If there were a Pacific island called Informia with one inhabitant, then that person would be related only to himself. As time goes by, we could imagine people emigrating, and so on, so that these groupings would switch: perhaps everyone would leave Belgium and, for a while, there would be no Belgian nationals at all.
 <p>
-<p>These restrictions are a nuisance, but can normally be managed, and we gain the ability to run the resulting work of IF on a very wide variety of computers indeed, some extremely small.
+<p><hr><img border=0 src=debug.png>The testing command RELATIONS prints out the current state of all the relations created in the source code. For instance:
 <p>
+<blockquote><font color="#000080">>relations
+<br>Overlooking relates various rooms to various rooms:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;The Pub  >=>  the Garden
+<br>&nbsp;&nbsp;&nbsp;&nbsp;The Garden  >=>  the Shrubbery
+<br>&nbsp;&nbsp;&nbsp;&nbsp;The Shrubbery  >=>  the Sundial Plot
+<br>Friendship relates people to each other:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;Mr Wickham  <=>  Sophie
+<br>&nbsp;&nbsp;&nbsp;&nbsp;Charlotte  <=>  Sophie
+<br>Marriage relates one person to another:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;Mr Wickham  ==  Sophie
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<a name="e91"><a href=ex91.html#e91><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A kind of rope which can be tied to objects and used to anchor the player or drag items from room to room.</i><p>
 <p><hr><p><a href=doc175.html>Previous</a> / <a href=doc177.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

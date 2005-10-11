@@ -1,25 +1,51 @@
-<html><head><title>10.6. Begin and end</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc144.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc146.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.6. Begin and end</b></td></tr></table><p>
+<html><head><title>10.8. Repeat</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc144.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc146.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.8. Repeat</b></td></tr></table><p>
 <p>
-<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
+<p>The following kind of loop could if necessary be achieved just as well with a suitable &quot;while&quot;, but occurs so often that it is convenient to have a standard form. Repeat loops also have the great advantage of being certain to finish.
 <p>
-<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
-<p>
-<blockquote><font color="#000080">To comment upon (whatever - a thing):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">repeat with my counter running from 1 to 10 begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(phrases)
+<br>end repeat;
 </font></blockquote><p>
 <p>
-<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
+<p>This is similar to the old FOR/NEXT loop from BASIC, for those with long memories, and runs through the given phrases ten times. Within those phrases, a special value called &quot;my counter&quot; has the value 1 the first time through, then the value 2, then 3 and so on up to 10. This value exists only within the loop, so it makes no sense to talk about &quot;my counter&quot; elsewhere. (It can of course be called whatever we like: this is only an example.)
 <p>
-<p>Similarly for while:
+<p>The &quot;begin&quot; and &quot;end repeat&quot; are compulsory for repeat loops, in the interests of clarity.
 <p>
-<blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while
+<p>We are allowed to &quot;nest&quot; loops, that is, to put one inside another.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('To plot a grid with size (S - a number):\n\trepeat with x running from 1 to S begin;\n\t\tsay &quot;Row [x]:&quot;;\n\t\trepeat with y running from 1 to S begin;\n\t\t\tsay &quot; [y]&quot;;\n\t\tend repeat;\n\t\tsay &quot;.&quot;;\n\tend repeat.\n\n\n')"><img border=0 src=paste.png></a> To plot a grid with size (S - a number):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with x running from 1 to S begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Row [x]:&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeat with y running from 1 to S begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; [y]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
 <p>
-<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
+<p>If we then write
+<p>
+<blockquote><font color="#000080">plot a grid with size 5
+</font></blockquote><p>
+<p>
+<p>then the result is
+<p>
+<blockquote><font color="#000080">Row 1: 1 2 3 4 5.
+<br>Row 2: 1 2 3 4 5.
+<br>Row 3: 1 2 3 4 5.
+<br>Row 4: 1 2 3 4 5.
+<br>Row 5: 1 2 3 4 5.
+</font></blockquote><p>
+<p>
+<p>Thus the innermost phrase, the say which mentions &quot;y&quot;, happens 25 times.
 <p>
 <p><hr><p><a href=doc144.html>Previous</a> / <a href=doc146.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

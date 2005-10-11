@@ -1,34 +1,30 @@
-<html><head><title>16.10. Deciding the scope of something</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc232.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc234.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.10. Deciding the scope of something</b></td></tr></table><p>
+<html><head><title>16.4. While clauses</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc232.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc234.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.4. While clauses</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> &quot;Scope&quot; is a term of art in interactive fiction programming: it means the collection of things which can be interacted with at any given moment, which depends on who you are and where you are. Commands typed by the player will only be allowed to go forward into actions if the things they refer to are &quot;in scope&quot;. Inform also needs to determine scope at other times, too: for instance, when deciding whether a rule conditional on being &quot;in the presence of&quot; something is valid. It is a bad idea to say anything during this activity.
+<p>Rules applied to actions can become baroque (&quot;after going through a door in the presence of an animal when -&quot; and so on and so forth), but activities are again simpler: they only have one possible clause attached, which is called &quot;while&quot;. For instance, the following would provide a fairly sledgehammer hint that the sack should not lightly be thrown away:
 <p>
-<p><b>2. The default behaviour.</b> Is complicated: see the Inform Designer's Manual, 4th edition, page 227. Briefly, the scope for someone consists of everything in the same place as them, unless it is dark.
-<p>
-<p><b>3. Examples.</b> (a) We very rarely want to forbid the player to refer to things close at hand, but often want to allow references to distant ones. For instance, a mirage of something which is not present at all:
-<p>
-<blockquote><font color="#000080">After deciding the scope of the player while in the Shrine: place the holy grail in scope.
+<blockquote><font color="#000080">The sack is a player's holdall. The sack is initially carried. Rule for printing the name of the sack while the sack is not carried: say &quot;your abandoned sack&quot;.
 </font></blockquote><p>
 <p>
-<p>The special phrase &quot;place ... in scope&quot; does what it suggests. Ordinarily if something is placed in scope, then so are its parts and (in the case of a room, a supporter or a transparent or open container) its contents; but we can also &quot;place the box in scope, but not its contents&quot; if we really need to place just the box itself in scope.
+<p>Any condition can be given after the &quot;while&quot;, and we can also specify that another activity has to be going on. Thus:
 <p>
-<p>(b) Another useful device is to be able to see, but not touch, another room:
-<p>
-<blockquote><font color="#000080">The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;
+<blockquote><font color="#000080">Rule for printing the name of the lemon sherbet while listing contents: say &quot;curious sort of lemon sherbet sweet&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After deciding the scope of the player while in the Cloakroom: place the Beyond in scope.
+<p>This nicely distinguishes between contexts where it's appropriate to be more verbose, and where it isn't. Thus:
+<p>
+<blockquote><font color="#000080">You can see a teaspoon and a curious sort of lemon sherbet sweet here.
+<br>> TAKE ALL
+<br>teaspoon: Taken.
+<br>lemon sherbet: Taken.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Beyond is a room. Johnny Depp is a man in the Beyond.
-</font></blockquote><p>
-<p>
-<p>(This must, however, also be a mirage, as at time of writing Mr Depp is alive, well and playing Willy Wonka in the forthcoming movie of &quot;Charlie and the Chocolate Factory&quot;.)
-<p>
-<p>(c) In darkness, the scope of someone is ordinarily restricted to his or her possessions (and body), but we can override that:
-<p>
-<blockquote><font color="#000080">After deciding the scope of the player while in darkness: place the location in scope.
-</font></blockquote><p>
-<p>
-<a name="e2"><a href=ex2.html#e2><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A portable magic telescope which allows the player to view items in another room of his choice.</i><p>
 <p><hr><p><a href=doc232.html>Previous</a> / <a href=doc234.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

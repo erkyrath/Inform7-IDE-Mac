@@ -1,41 +1,48 @@
-<html><head><title>11.1. Sentence verbs</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 11: Verbs</h2><p><table><tr><td><a href=doc157.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc159.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.1. Sentence verbs</b></td></tr></table><p>
+<html><head><title>11.5. Unsuccessful attempts</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc157.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc159.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.5. Unsuccessful attempts</b></td></tr></table><p>
 <p>
-<p>Descriptions of things - &quot;open door&quot;, &quot;people in the Drawing Room&quot; - had a whole chapter (Chapter 5) to themselves. But descriptions are only half of the story of Inform's highly flexible language for talking about places, things and circumstances: this chapter is the other half, and is about the &quot;sentence&quot;. Of course all text is made up of sentences, but Inform has a more specific meaning than that. Consider the following pieces of source text:
+<p>Suppose, finally, that Will not only consents to try the action, but it also survives its passage through Before and Instead rules. What happens then? In principle, what happens to Will is exactly what would have happened to the player in his place. For instance:
 <p>
-<blockquote><font color="#000080">The mouse is in the teapot.
+<blockquote><font color="#000080">> will, go east
+<br>Will leaves to the east.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn when the mouse is in the teapot, say &quot;A tail hangs out of the spout.&quot;
+<p>If on the other hand Will's attempt is frustrated because one of the checking rules stops him, then Will's action fails. For instance, if Will tries going northeast but there is no room to northeast, one of the rules checking the &quot;going&quot; action will stop him. We will then see this:
+<p>
+<blockquote><font color="#000080">> will, go northeast
+<br>Will is unable to do that.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of taking the mouse:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The mouse slips from your hand and disappears into the teapot!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the mouse is in the teapot.
+<p>This is rather a generic message, and we may want something more interesting. We can provide that using yet another special kind of rule:
+<p>
+<blockquote><font color="#000080">Unsuccessful attempt by Will trying going: say &quot;Will blunders around going nowhere, as usual.&quot;
 </font></blockquote><p>
 <p>
-<p>What these three extracts have in common is the sentence &quot;the mouse is in the teapot&quot;. Such a sentence can be used in three different ways: to declare the original state of the world, to ask during play if the world currently has that state, or to change things during play so that it does.
+<p>Even that is still a little generic, though, because it treats all of the various ways that &quot;going&quot; can fail as the same. If we have ACTIONS switched on, we can see what goes on behind the scenes when we ask Will to walk into a door:
 <p>
-<p>Actually, though, only definite sentences about the present can be used in all three ways. A vague instruction like
-<p>
-<blockquote><font color="#000080">now Mr Darcy can see the mouse;
+<blockquote><font color="#000080">>will, go west
+<br>[asking Will to try going west]
+<br>[(1) Will trying going west]
+<br>[(1) Will trying going west - failed the can't go through closed doors rule]
+<br>Will blunders around going nowhere, as usual.
+<br>[asking Will to try going west - succeeded]
 </font></blockquote><p>
 <p>
-<p>will fail, because there are so many ways in which Darcy might be able to see the mouse that Inform has no way to know how to arrange matters. And this by contrast is not merely difficult but impossible:
+<p>(The &quot;(1)&quot; lets us know that a new action is starting during the old one, and before the old one finishes: sometimes we go up to three or four deep, though seldom more in practical cases.) We can now rewrite the &quot;unsuccessful attempt&quot; rule like so:
 <p>
-<blockquote><font color="#000080">now Mr Darcy has never seen the mouse;
+<blockquote><font color="#000080">Unsuccessful attempt by Will trying going:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is the can't go through closed doors rule, say &quot;Will looks doubtful and mumbles about doors.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Will blunders around going nowhere, as usual.&quot;
 </font></blockquote><p>
 <p>
-<p>Which cannot be arranged because the past cannot be changed.
-<p>
-<p>Verbs also turn up inside the more complicated descriptions. For instance,
-<p>
-<blockquote><font color="#000080">things which are in the teapot
-<br>people who can see the mouse
-</font></blockquote><p>
-<p>
-<p>are both descriptions, not sentences, but they contain &quot;to be&quot; and &quot;to be able to see&quot; respectively.
-<p>
-<p>This chapter is about the verbs which can be used in sentences and descriptions. Inform involves many other features which use verbs - the action &quot;taking the mouse&quot; and the phrase &quot;award two points&quot; both use forms of verbs (to take and to award) - but this chapter has nothing to do with them: so for the sake of clarity, we will call verbs that occur in sentences &quot;sentence verbs&quot;.
+<p>The value &quot;reason the action failed&quot; is set to whichever checking rule threw out the action which Will tried. The names of these rules try to be self-explanatory - at any rate, those with gnomic names are not useful for this sort of thing, and can be ignored - and can be found out either using ACTIONS or by consulting the Actions index.
 <p>
 <p><hr><p><a href=doc157.html>Previous</a> / <a href=doc159.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

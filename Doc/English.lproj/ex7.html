@@ -1,51 +1,82 @@
-<html><head><title>5.4. Defining new adjectives</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc63.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc65.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.4. Defining new adjectives</b></td></tr></table><p>
+<html><head><title>6.5. Before rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc77.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc79.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.5. Before rules</b></td></tr></table><p>
 <p>
-<p>Suppose we want to coin a word for supporters currently supporting something. We can do so with the following sentence:
+<p>Despite what was said in the previous section, instead rules do not quite bypass all of the usual rules. Inform knows that certain actions require light: for instance,
 <p>
-<blockquote><font color="#000080">Definition: A supporter is occupied if something is on it.
+<blockquote><font color="#000080">examining the napkin; looking; looking under the dining table
 </font></blockquote><p>
 <p>
-<p>Note the colon, which is essential, and the usage of &quot;it&quot; in the definition part to refer to the object in question. (For this purpose we would write &quot;it&quot; even if we were defining a term about, say, a woman instead of a supporter, so that &quot;she&quot; or &quot;her&quot; might seem more appropriate.)
+<p>and if it is dark then none of these actions will be allowed, and any instead rules about them will not even be reached. Similarly, Inform knows that most actions require physical access to their objects: so &quot;taking the napkin&quot; would be blocked if the napkin were, say, inside a closed glass bottle, whereas &quot;examining the napkin&quot; would not. So an instead rule can only take effect if the action has already passed these basic reasonability tests.
 <p>
-<p>This creates the adjective &quot;occupied&quot;, and gives it a definition valid for supporters. That restriction on validity means that non-supporters would always fail the description &quot;something occupied&quot;; which might be unfortunate if we wanted to walk about rooms being occupied. We could give a second definition thus:
+<p>&quot;Before&quot; rules genuinely precede checking of any kind. They also differ from instead rules in that they do not automatically stop the action in its tracks. Rather, they are provided as an opportunity to ensure that something else is done first. For example:
 <p>
-<blockquote><font color="#000080">Definition: A room is occupied if a person is in it.
+<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
 </font></blockquote><p>
 <p>
-<p>These are entirely different senses of the word &quot;occupied&quot; - a mantelpiece is occupied if an invitation is on it, but for a drawing room to be occupied there must be human presence - and Inform applies whichever sense is relevant when deciding whether or not a given object is &quot;occupied&quot;.
+<p>whence
 <p>
-<p>Newly defined adjectives cannot be used when creating things, because they are not explicit enough. Inform could not satisfy:
-<p>
-<blockquote><font color="#000080">The Ballroom is occupied. The bucket is a large container.
+<blockquote><font color="#000080">&gt;GET NAPKIN
+<br>(first unfolding its delicate origami swan)
+<br>Taken.
 </font></blockquote><p>
 <p>
-<p>because there is not enough information: by whom is the Ballroom occupied? How large, exactly? On the other hand, newly defined adjectives are very helpful in conditions and for rules, as we shall see later on.
+<p>We have seen that instead rules automatically stop actions, whereas before rules automatically allow them to continue. We sometimes want to change this. The magic word &quot;instead&quot; can therefore be tacked on to any instruction in a before rule, and will have the effect of immediately stopping the action at that instruction. Thus the following two rules are (almost) equivalent:
 <p>
-<a name="e7"><a href=doc64.html#e7><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>An "other" adjective for rules such as "in the presence of an other person".</i><p>
-<p>
-<p>It is often useful to write action rules which apply only when the player is observed by a third party. &quot;In the presence of a person&quot;, however, will react even if only the player is in the room, because the player is, of course, a person as well.
-<p>
-<p>A convenient way around this problem is to define an &quot;other&quot; adjective:
-<p>
-<blockquote><font color="#000080">&quot;Finishing School&quot;
+<blockquote><font color="#000080">Before removing the key, instead say &quot;It seems to be soldered to the keyhole.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The apple is an edible thing carried by the player.
+<blockquote><font color="#000080">Instead of removing the key, say &quot;It seems to be soldered to the keyhole.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Hall is a room. Miss Wicket is a woman in the Hall.
+<p>Two special phrases can also be used: &quot;stop the action&quot; and &quot;continue the action&quot;. Yet a third way to achieve the same effect, then, would be:
+<p>
+<blockquote><font color="#000080">Before removing the key: say &quot;It seems to be soldered to the keyhole.&quot;; stop the action.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Dormitory is south of the Hall.
+<p>And to round off the discussion, these are also (almost) equivalent:
+<p>
+<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Definition: a person is other if it is not the player.
+<blockquote><font color="#000080">Instead of taking the napkin: say &quot;(first unfolding its delicate origami swan)&quot;; continue the action.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of eating something in the presence of an other person (called the schoolmarm):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The schoolmarm] stares at you coldly because you have no fork or knife.&quot;
+<p>As a general principle, it is good style to use instead rules whenever blocking actions, and before rules only when it is genuinely necessary to do something first but then to continue: in fact, it is good style to use &quot;stop the action&quot; or &quot;continue the action&quot; as little as possible.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e7"><a href=doc78.html#e7><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Redirect the command PUT ALL ON FLOOR to DROP ALL.</i><p>
+<p>
+<p>Suppose we wanted to re-route the command >PUT ALL ON THE FLOOR to >DROP ALL. &quot;Floor&quot; is a synonym, in Inform, for the direction &quot;down&quot;. In general, the player is not allowed to interact with compass directions as though they were objects, and this phase is checked before the Instead rules apply. Therefore if we wrote
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Instead of putting something on down:\n\ttry dropping the noun instead.\n\n\n')"><img border=0 src=paste.png></a> Instead of putting something on down:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try dropping the noun instead.
 </font></blockquote><p>
 <p>
-<p>If we did not have &quot;other&quot; here, I7 would interpret even the player as a possible schoolmarm, leading to such lines as &quot;yourself stares at you coldly...&quot;. Clearly not quite the thing.
-<p><hr><p><a href=doc63.html>Previous</a> / <a href=doc65.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>we would get
+<p>
+<blockquote><font color="#000080">>put all on the floor
+<br>skellytum cutting: You must name something more substantial.
+</font></blockquote><p>
+<p>
+<p>Our Instead rule never comes into play at all. We could get around this with the following rule:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Before putting something on down:\n\ttry dropping the noun instead.\n\n\n')"><img border=0 src=paste.png></a> Before putting something on down:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try dropping the noun instead.
+</font></blockquote><p>
+<p>
+<p>Which would produce the result
+<p>
+<blockquote><font color="#000080">>put all on the floor
+<br>skellytum cutting: Dropped.
+</font></blockquote><p>
+<p>
+</td></tr></table><p><a name="e86"><a href=ex86.html#e86><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Make PUT and INSERT commands automatically take objects if the player is not holding them.</i><p>
+<p><hr><p><a href=doc77.html>Previous</a> / <a href=doc79.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

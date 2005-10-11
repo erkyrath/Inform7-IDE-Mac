@@ -1,26 +1,39 @@
-<html><head><title>14.5. Actions applying to kinds of value</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc201.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc203.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.5. Actions applying to kinds of value</b></td></tr></table><p>
+<html><head><title>14.5. Choosing rows</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc201.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc203.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.5. Choosing rows</b></td></tr></table><p>
 <p>
-<p>Almost all actions apply to things: the player picks them up, pushes them, looks at them and so on. Only occasionally do we need to recognise other kinds of value: but when we do, we can, as in the example called &quot;Safety&quot;:
+<p>The following would be one way to print out a list of recent Kings and Queens:
 <p>
-<blockquote><font color="#000080">&quot;Safety&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('To list the succession:\nsay &quot;The Succession List runs as follows...&quot;;\nrepeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;\n\tsay &quot;[accession in row N of the Table of Recent Monarchs]: [name in row N of the Table of Recent Monarchs] ([family in row N of the Table of Recent Monarchs]).&quot;;\nend repeat.\n\n\n')"><img border=0 src=paste.png></a> To list the succession:
+<br>say &quot;The Succession List runs as follows...&quot;;
+<br>repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[accession in row N of the Table of Recent Monarchs]: [name in row N of the Table of Recent Monarchs] ([family in row N of the Table of Recent Monarchs]).&quot;;
+<br>end repeat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don't get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.
+<p>This works, but is repetitive. We often want to work on a single row for a while, either to change things or think about the contents, and it is tiresome to keep specifying the row over and over again. The following shorthand provides some relief:
+<p>
+<blockquote><font color="#000080">choose row N of the Table of Recent Monarchs;
+<br>say &quot;[accession entry]: [name entry] ([family entry]).&quot;;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Spinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;
+<p>That is, if &quot;accession&quot; is a column name then &quot;accession entry&quot; will mean the entry in that column of the currently chosen row. This notation can only be used if a &quot;choose&quot; has certainly already happened, and it is a good idea to make that choice somewhere close by in the source code (and certainly in the same rule or phrase definition) for the sake of avoiding errors. We can also choose rows by specifying something about them, like so:
+<p>
+<blockquote><font color="#000080">choose row with a name of &quot;Victoria&quot; in the Table of Recent Monarchs;
+<br>change name entry to &quot;Clytemnestra Honeytongue III&quot;;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;spin [something] to [a number]&quot; as spinning it to.
-</font></blockquote><p>
+<p>This will choose the first row with the given entry: an error will result if there are no rows which qualify. We can also choose a row quite at random:
 <p>
-<blockquote><font color="#000080">After spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [list of things in the Safe].&quot;
-</font></blockquote><p>
-<p>
-<p>The substitution &quot;[a number]&quot; matches any number (actually any whole number that is not too large) typed by the player. Inform checks the various kinds being used to make sure that everything matches, so, for instance, this would be disallowed:
-<p>
-<blockquote><font color="#000080">Understand &quot;spin [something] to [something]&quot; as spinning it to.
+<blockquote><font color="#000080">choose a random row in the Table of Recent Monarchs;
+<br>say &quot;Your eye falls upon the reign of [name entry].&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc201.html>Previous</a> / <a href=doc203.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

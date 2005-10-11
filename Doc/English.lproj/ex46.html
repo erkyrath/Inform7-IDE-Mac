@@ -1,0 +1,81 @@
+<html><head><title>10.14. The value after and the value before</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc150.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc152.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.14. The value after and the value before</b></td></tr></table><p>
+<p>
+<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
+<p>
+<blockquote><font color="#000080">change the score to the score + 4
+</font></blockquote><p>
+<p>
+<p>Inform generally expects to apply the &quot;+&quot; sign only to two numbers, so we cannot normally apply &quot;+&quot; to values like these:
+<p>
+<blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.
+</font></blockquote><p>
+<p>
+<p>There will be more about arithmetic on new kinds of value in the chapter on Units, but it may be useful to note that although we cannot (ordinarily) add up colours, we do automatically have two ways to make new colours from old:
+<p>
+<blockquote><font color="#000080">the colour after C
+<br>the colour before C
+</font></blockquote><p>
+<p>
+<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
+<p>
+<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not. Again, more on comparisons in the chapter on units.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e46"><a href=doc151.html#e46><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>All objects in the game have a heat, but if not kept insulated they will tend toward room temperature (and at a somewhat exaggerated rate).</i><p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Entropy&quot;\n\nHeat is a kind of value. The heats are frosty, cold, cool, room temperature, warm, hot, and scalding. Everything has a heat. The heat of a thing is usually room temperature.\n\nEvery turn:\n\trepeat with item running through things which are not in an insulated container\n\tbegin;\n\t\tif the heat of the item is greater than room temperature, change the heat of the item to the heat before the heat of the item;\n\t\tif the heat of the item is less than room temperature, change the heat of the item to the heat after the heat of the item;\n\tend repeat.\n\nDefinition: a container is insulated if it is closed and it is opaque.\n\nThe vacuum thermos is an opaque closed openable container carried by the player. In the vacuum thermos is a frosty thing called an ice cube.\n\nEvery turn:\n\tif the heat of the ice cube is greater than cold\n\tbegin;\n\t\tif the ice cube is visible, say &quot;The ice cube melts! \'HA ha,\' says Maxwell, in a very unsporting way.&quot;;\n\t\tremove the ice cube from play;\n\tend if.\n\nBefore printing the name of something: say &quot;[heat] &quot;.\n\nEquilibrium is a room. &quot;A perfectly smooth chamber sealed from the outside world. You can\'t at this moment work out where the exit is, though possibly that is just because the lighting is so very very even and diffuse. And doesn\'t come from anywhere that you can see, either.&quot;\n\nMaxwell is a man in Equilibrium.  &quot;Maxwell sits on a stool across from you[if Maxwell has something], holding [list of things carried by Maxwell][end if].&quot; He is carrying a box of Chinese food. The Chinese food is scalding. &quot;A discarded [object in question] lies on the floor.&quot; The description of Maxwell is &quot;He has the faintly peevish look of one who has not been properly fed.&quot;\n\nEvery turn when Maxwell has the food:\n\tif the heat of the Chinese food is greater than warm, say &quot;Maxwell takes a bite, and swears.&quot;;\n\tif the heat of the Chinese food is warm, say &quot;Maxwell eats as fast as he can, enjoying the food while it\'s at just the right temperature.&quot;;\n\tif the heat of the Chinese food is less than warm\n\tbegin;\n\t\tsay &quot;Maxwell sadly stabs at his leftovers with a chopstick, but does not try to eat any more.&quot;;\n\t\tmove the food to the location;\n\tend if.\n\n')"><img border=0 src=paste.png></a> &quot;Entropy&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Heat is a kind of value. The heats are frosty, cold, cool, room temperature, warm, hot, and scalding. Everything has a heat. The heat of a thing is usually room temperature.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through things which are not in an insulated container
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the item is greater than room temperature, change the heat of the item to the heat before the heat of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the item is less than room temperature, change the heat of the item to the heat after the heat of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: a container is insulated if it is closed and it is opaque.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The vacuum thermos is an opaque closed openable container carried by the player. In the vacuum thermos is a frosty thing called an ice cube.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the ice cube is greater than cold
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the ice cube is visible, say &quot;The ice cube melts! 'HA ha,' says Maxwell, in a very unsporting way.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove the ice cube from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before printing the name of something: say &quot;[heat] &quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Equilibrium is a room. &quot;A perfectly smooth chamber sealed from the outside world. You can't at this moment work out where the exit is, though possibly that is just because the lighting is so very very even and diffuse. And doesn't come from anywhere that you can see, either.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Maxwell is a man in Equilibrium.  &quot;Maxwell sits on a stool across from you[if Maxwell has something], holding [list of things carried by Maxwell][end if].&quot; He is carrying a box of Chinese food. The Chinese food is scalding. &quot;A discarded [object in question] lies on the floor.&quot; The description of Maxwell is &quot;He has the faintly peevish look of one who has not been properly fed.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when Maxwell has the food:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is greater than warm, say &quot;Maxwell takes a bite, and swears.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is warm, say &quot;Maxwell eats as fast as he can, enjoying the food while it's at just the right temperature.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is less than warm
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Maxwell sadly stabs at his leftovers with a chopstick, but does not try to eat any more.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the food to the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc150.html>Previous</a> / <a href=doc152.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

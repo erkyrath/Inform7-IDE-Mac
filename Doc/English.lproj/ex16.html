@@ -1,87 +1,61 @@
-<html><head><title>13.10. Adding and removing rows</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc191.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc193.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.10. Adding and removing rows</b></td></tr></table><p>
+<html><head><title>3.8. Scenery</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc28.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc30.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.8. Scenery</b></td></tr></table><p>
 <p>
-<p>Writing in new rows is simple:
+<p>As we have just seen, making something &quot;fixed in place&quot; will prevent it from being picked up or moved. But it remains substantial enough to be described in its own paragraph of text when the player visits its location. This can be unfortunate if it has also been described already in the body of the main description for that location. For instance, if we wrote:
 <p>
-<blockquote><font color="#000080">choose a blank row in Table 3;
-<br>change element entry to &quot;Fluorine&quot;;
-<br>change symbol to &quot;F&quot;;
-<br>change atomic number to 9;
-<br>change atomic weight to 19;
+<blockquote><font color="#000080">The Orchard is a room. &quot;Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.&quot; The gnarled old oak tree is fixed in place in the Orchard.
 </font></blockquote><p>
 <p>
-<p>This will produce an error if there are no blank rows left in Table 3, so it can be important to worry about free space. To that end we can not only find the number of rows (as we have already seen) but also the number currently blank and not blank. Thus these:
+<p>This would end up describing the oak twice, once in the paragraph about the Orchard, then again in a list of things within it:
 <p>
-<blockquote><font color="#000080">the number of blank rows in Table 3
-<br>the number of filled rows in Table 3
+<blockquote><font color="#000080"><b>Orchard</b>
+<br>Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.
 </font></blockquote><p>
 <p>
-<p>always add up to &quot;the number of rows in Table 3&quot;.
-<p>
-<p>To delete a row, we first choose it and then &quot;blank out the whole row&quot;. Thus, for abdication purposes:
-<p>
-<blockquote><font color="#000080">choose row with name of &quot;Edward VIII&quot; in the Table of Recent Monarchs;
-<br>blank out the whole row;
+<blockquote><font color="#000080">You can see a gnarled old oak tree here.
 </font></blockquote><p>
 <p>
-<a name="e16"><a href=doc192.html#e16><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A person who follows a path predetermined and stored in a table, and who can be delayed if the player tries to interact with her.</i><p>
+<p>We avoid this by making it &quot;scenery&quot; instead of &quot;fixed in place&quot;:
 <p>
-<blockquote><font color="#000080">&quot;Odyssey&quot;
+<blockquote><font color="#000080">The gnarled old oak tree is scenery in the Orchard.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Peloponnese is south of Corinth. Attica is north of Corinth. Boeotia is north of Attica.
+<p>Any thing can be scenery, and this does not bar it from playing a part in the game: it simply means that it will be immobile and that it will not be described independently of its room.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e16"><a href=doc29.html#e16><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A boat with a glass case of fishing rods in it.</i><p>
+<p>
+<p>If we compile our last version of the cabin, we get a room where the glass case and the bench are listed separately from the room description, even though they have already been mentioned once. We can prevent this by making the already-mentioned things scenery:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Disappointment Bay&quot;\n\nThe Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.\n\nScratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;\n\nThe Cabin contains a glass case. In the glass case is a collection of fishing rods. The case is closed, transparent, and openable. The case is scenery.\n\nThe bench is in the cabin. On the bench are some blue vinyl cushions. The bench is enterable and scenery. The cushions are scenery.\n\n[Generally speaking, it is a good idea to recognize the player\'s attempts to interact with any objects mentioned in the room description, so we should also provide]\n\nSome navigational instruments, some scratched windows, a sign, a radar display, and some radios are scenery in the cabin.\n\n\n')"><img border=0 src=paste.png></a> &quot;Disappointment Bay&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Athena is a woman in Attica.
+<blockquote><font color="#000080">The Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.
 </font></blockquote><p>
 <p>
-<p>Now we have the most trivial possible sort of table to account for where Athena will go, and call on it each turn. This does not attempt any clever path-finding, really, so in a case where there might be closed doors between locations it would not be suitable. But it will do for simple purposes.
-<p>
-<blockquote><font color="#000080">Table of Athena's Movement
-<br>destination
-<br>Boeotia
-<br>Attica
-<br>Corinth
-<br>Peloponnese
-<br>Corinth
-<br>Peloponnese
+<blockquote><font color="#000080">Scratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn when Athena is active:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Athena's Movement
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let last location be a random room which contains Athena;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Athena can be seen by the player, say &quot;Athena heads to [the destination entry].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move Athena to destination entry;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Athena can be seen by the player, say &quot;Athena arrives from [the last location].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<blockquote><font color="#000080">The Cabin contains a glass case. In the glass case is a collection of fishing rods. The case is closed, transparent, and openable. The case is scenery.
 </font></blockquote><p>
 <p>
-<p>By blanking out the table line by line, we make sure that we never lose our place in the path.
-<p>
-<p>Since we want the player to be able to talk to Athena, we need a way to stall her in her path, as well.
-<p>
-<blockquote><font color="#000080">Athena can be active or passive. Athena is active.
+<blockquote><font color="#000080">The bench is in the cabin. On the bench are some blue vinyl cushions. The bench is enterable and scenery. The cushions are scenery.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before doing something to Athena:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change Athena to passive;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Athena waits around patiently, though you can tell she would like to leave...&quot;
+<p>Generally speaking, it is a good idea to recognize the player's attempts to interact with any objects mentioned in the room description, so we should also provide
+<p>
+<blockquote><font color="#000080">Some navigational instruments, some scratched windows, a sign, a radar display, and some radios are scenery in the cabin.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of telling Athena about something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;She watches you patiently as though to say that she already knows.&quot;
-</font></blockquote><p>
+<p>The door and the view will need to be done as well, but they are special cases which we will get to shortly.
 <p>
-<blockquote><font color="#000080">Instead of asking Athena about something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Her response is inscrutably ancient and Greek. Afterwards you remember only the flash of bright eyes.&quot;
-</font></blockquote><p>
-<p>
-<p>Finally, we do need to wake Athena up again if she has become passive. The following rule will occur after the movement rule just because of code ordering, though we could make matters more explicit if we needed to:
-<p>
-<blockquote><font color="#000080">Every turn when Athena is passive:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change Athena to active.
-</font></blockquote><p>
-<p><hr><p><a href=doc191.html>Previous</a> / <a href=doc193.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>As noted, making something scenery also means that the player will be prevented from picking it up and carrying it away. This is sensible, though: if an object can be removed from the room where it first appears, we should be careful about mentioning it in the main room description; otherwise, it will continue to be described as present even when someone has carried it off.
+</td></tr></table><p><p><hr><p><a href=doc28.html>Previous</a> / <a href=doc30.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

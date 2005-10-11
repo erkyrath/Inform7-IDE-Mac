@@ -1,0 +1,56 @@
+<html><head><title>15.1. Understand</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<h2>Chapter 15: Understanding</h2><p><table><tr><td><a href=doc212.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc214.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.1. Understand</b></td></tr></table><p>
+<p>
+<p>During play, the computer and the player alternate in writing messages to each other: in the player's case, these are short instructions, usually saying what to do next. A wide range of such &quot;commands&quot; are automatically understood, but these only apply to the standard built-in actions. (This wide range is conveniently tabulated at the foot of the Actions index.) If we want the player to be able to command new actions, then we need to specify what is to be understood as what. For this, we supply special sentences starting with the word &quot;Understand&quot;.
+<p>
+<p>Suppose we return to the earlier example of a newly created action:
+<p>
+<blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.
+</font></blockquote><p>
+<p>
+<p>We then supply lines of grammar (as they are called) for Inform to recognise, like so:
+<p>
+<blockquote><font color="#000080">Understand &quot;photograph [someone]&quot; as photographing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.
+</font></blockquote><p>
+<p>
+<p>As usual, the square brackets indicate something which stands for text, rather than text to be taken verbatim. &quot;[someone]&quot; needs to be the name of anything of the kind &quot;person&quot;, for instance (though as usual that person will need to be in sight of the player for the name to be accepted). The first word - in these examples &quot;photograph&quot; - must be something definite, not a substitution like this.
+<p>
+<p>For obvious reasons, this pattern of words needs to match the expectations of the action. Photographing applies to &quot;one visible thing&quot; - the &quot;visible&quot; just means it does not need to be touched, only seen - so neither of these would be allowable:
+<p>
+<blockquote><font color="#000080">Understand &quot;photograph&quot; as photographing.
+<br>Understand &quot;photograph [someone] standing next to [something]&quot; as photographing.
+</font></blockquote><p>
+<p>
+<p>The first is bad because it supplies no things at all, the second because it supplies two: what we want, of course, is just the one.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e30"><a href=doc213.html#e30><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Renaming the directions of the compass so that "white" corresponds to north, "red" to east, "yellow" to south, and "black" to west. (An adaptation of Exercise 9 of the Inform Designer's Manual, Fourth Edition.)</i><p>
+<p>
+<p>The Inform Designer's Manual has the exercise of adding colors as names for the primary directions. This is easily done here as well:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;white&quot; and &quot;sac&quot; as north. Understand &quot;red&quot; and &quot;chac&quot; as east. Understand &quot;yellow&quot; and &quot;kan&quot; as south. Understand &quot;black&quot; and &quot;chikin&quot; as west.\n\n[...And since the original exercise does so:]\n\nUnderstand &quot;turquoise&quot; and &quot;yax&quot; as looking.\n\n\n')"><img border=0 src=paste.png></a> Understand &quot;white&quot; and &quot;sac&quot; as north. Understand &quot;red&quot; and &quot;chac&quot; as east. Understand &quot;yellow&quot; and &quot;kan&quot; as south. Understand &quot;black&quot; and &quot;chikin&quot; as west.
+</font></blockquote><p>
+<p>
+<p>...And since the original exercise does so:
+<p>
+<blockquote><font color="#000080">Understand &quot;turquoise&quot; and &quot;yax&quot; as looking.
+</font></blockquote><p>
+<p>
+<p>Or (in a variation of the same) we could imagine
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;fore&quot; or &quot;f&quot; as north. Understand &quot;aft&quot; or &quot;a&quot; as south. Understand &quot;port&quot; or &quot;p&quot; as west. Understand &quot;starboard&quot; or &quot;sb&quot; as east.\n\n\n')"><img border=0 src=paste.png></a> Understand &quot;fore&quot; or &quot;f&quot; as north. Understand &quot;aft&quot; or &quot;a&quot; as south. Understand &quot;port&quot; or &quot;p&quot; as west. Understand &quot;starboard&quot; or &quot;sb&quot; as east.
+</font></blockquote><p>
+<p>
+<p>for a game set on a ship. This would not prevent the player from using north, south, east, and west as well, of course.
+</td></tr></table><p><p><hr><p><a href=doc212.html>Previous</a> / <a href=doc214.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

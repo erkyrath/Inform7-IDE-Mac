@@ -1,24 +1,30 @@
-<html><head><title>16.4. While clauses</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc226.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc228.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.4. While clauses</b></td></tr></table><p>
+<html><head><title>15.15. Context: understanding when</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc226.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc228.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.15. Context: understanding when</b></td></tr></table><p>
 <p>
-<p>Rules applied to actions can become baroque (&quot;after going through a door in the presence of an animal when&quot; and so on and so forth), but activities are again simpler: they only have one possible clause attached, which is called &quot;while&quot;. For instance, the following would provide a fairly sledgehammer hint that the sack should not lightly be thrown away:
+<p>We have now seen several different forms of &quot;Understand&quot; sentence: for instance,
 <p>
-<blockquote><font color="#000080">The sack is a player's holdall. The sack is initially carried. Rule for printing the name of the sack while the sack is not carried: say &quot;your discarded sack&quot;.
+<blockquote><font color="#000080">Understand the colour property as describing a building block.
+<br>Understand &quot;mix [colour] paint&quot; as mixing paint.
+<br>Understand &quot;rouge&quot; as red.
+<br>Understand &quot;curious girl&quot; as Alice.
 </font></blockquote><p>
 <p>
-<p>Any condition can be given after the &quot;while&quot;.
+<p>Any of these may optionally have a condition tacked on: for instance,
 <p>
-<p>In fact, though, there is another possibility: we can also specify that another activity has to be going on. Thus:
-<p>
-<blockquote><font color="#000080">Rule for printing the name of the lemon sherbet while listing contents: say &quot;curious sort of lemon sherbet sweet&quot;.
+<blockquote><font color="#000080">Understand &quot;mix [colour] paint&quot; as mixing paint when the location is the Workshop.
+<br>Understand &quot;rouge&quot; as red when the make-up set is visible.
 </font></blockquote><p>
 <p>
-<p>This nicely distinguishes between contexts where it's appropriate for the game to be more verbose, and where it isn't. Thus:
+<p>In principle, &quot;when ...&quot; can take in any condition at all. In practice a little care should be exercised not to do anything too slow, or which might have side-effects. (For instance, referring the decision to a phrase which then printed text up would be a bad idea.) Moreover, we must remember that the &quot;noun&quot; and &quot;second noun&quot; are not known yet, nor do we know what the action will be. So we cannot safely say &quot;when the noun is the fir cone&quot;, for instance. If we want more sophisticated handling of such cases, we need to write checking rules and so on in the usual way.
 <p>
-<blockquote><font color="#000080">You can see a teaspoon and a curious sort of lemon sherbet sweet here.
-<br>> TAKE ALL
-<br>teaspoon: Taken.
-<br>lemon sherbet: Taken.
-</font></blockquote><p>
-<p>
+<p><hr><p>
+<a name="e8"><a href=ex8.html#e8><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A bookshelf with a number of books, where the player's command to examine something will be interpreted as an attempt to look up titles if the bookshelf is present, but otherwise given the usual response.</i><p>
 <p><hr><p><a href=doc226.html>Previous</a> / <a href=doc228.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

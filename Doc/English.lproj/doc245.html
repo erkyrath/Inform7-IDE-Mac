@@ -1,33 +1,44 @@
-<html><head><title>17.6. Version numbering</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc244.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc246.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.6. Version numbering</b></td></tr></table><p>
+<html><head><title>16.16. Deciding the scope of something</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc244.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc246.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.16. Deciding the scope of something</b></td></tr></table><p>
 <p>
-<p>As we have seen, extensions are referred to by name and author, but they can also (optionally) be referred to by version. For instance:
+<p><b>1. When it happens.</b> &quot;Scope&quot; is a term of art in interactive fiction programming: it means the collection of things which can be interacted with at any given moment, which depends on who you are and where you are. Commands typed by the player will only be allowed to go forward into actions if the things they refer to are &quot;in scope&quot;. Inform also needs to determine scope at other times, too: for instance, when deciding whether a rule conditional on being &quot;in the presence of&quot; something is valid. It is a bad idea to say anything during this activity.
 <p>
-<blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.
+<p><b>2. The default behaviour.</b> Is complicated: see the Inform Designer's Manual, 4th edition, page 227. Briefly, the scope for someone consists of everything in the same place as them, unless it is dark.
+<p>
+<p><b>3. Examples.</b> (a) We very rarely want to forbid the player to refer to things close at hand, but often want to allow references to distant ones. For instance, a mirage of something which is not present at all:
+<p>
+<blockquote><font color="#000080">After deciding the scope of the player while in the Shrine: place the holy grail in scope.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Version 1/040426 of the Ducking Action by Graham Nelson begins here.
+<p>The special phrase &quot;place ... in scope&quot; does what it suggests. Ordinarily if something is placed in scope, then so are its parts and (in the case of a room, a supporter or a transparent or open container) its contents; but we can also &quot;place the box in scope, but not its contents&quot; if we really need to place just the box itself in scope.
+<p>
+<p>(b) Another useful device is to be able to see, but not touch, another room:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;\n\nAfter deciding the scope of the player while in the Cloakroom: place the Beyond in scope.\n\nThe Beyond is a room. Johnny Depp is a man in the Beyond.\n\n\n')"><img border=0 src=paste.png></a> The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;
 </font></blockquote><p>
 <p>
-<p>A version number must be a whole number 1, 2, ... (version 0 is not allowed, and nor are decimal points), optionally followed by a slash '/' and then a six-figure date, in the form YYMMDD: so 040426 means 26 April 2004.
-<p>
-<p>A request to include version 2 of something implicitly means &quot;version 2 or later&quot;, and similarly &quot;version 2/040426&quot; means version 2 with a date of 26 April 2004 or later, or else any version higher than 2. If Inform loads the extension but finds that its version is not good enough, an error is issued.
-<p>
-<p>Where no version number is quoted, the rule is that an unspecified version predates any numbered version. This means that the line
-<p>
-<blockquote><font color="#000080">Include the Ducking Action by Graham Nelson.
+<blockquote><font color="#000080">After deciding the scope of the player while in the Cloakroom: place the Beyond in scope.
 </font></blockquote><p>
 <p>
-<p>will be happy with any version of the extension at all, whether numbered or not; but
-<p>
-<blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.
+<blockquote><font color="#000080">The Beyond is a room. Johnny Depp is a man in the Beyond.
 </font></blockquote><p>
 <p>
-<p>will only accept the extension if it has a version number attached (and with that number being 2 or higher).
+<p>(This must, however, also be a mirage, as at time of writing Mr Depp is alive, well and playing Willy Wonka in the forthcoming movie of &quot;Charlie and the Chocolate Factory&quot;.)
 <p>
-<p>During play of any game compiled by Inform 7, typing &quot;version&quot; lists various serial numbers of the pieces of software used to make it. The list concludes with names, authors and version numbers of any extensions used. So every author whose work contributes to a game automatically gets a modest credit within it. The same list can be printed, at the discretion of the designer, using the textual substitution:
+<p>(c) In darkness, the scope of someone is ordinarily restricted to his or her possessions (and body), but we can override that:
 <p>
-<blockquote><font color="#000080">say &quot;[list of extension credits]&quot;
+<blockquote><font color="#000080">After deciding the scope of the player while in darkness: place the location in scope.
 </font></blockquote><p>
 <p>
+<p><hr><p>
+<a name="e6"><a href=ex6.html#e6><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A portable magic telescope which allows the player to view items in another room of his choice.</i><p>
+<a name="e101"><a href=ex101.html#e101><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>An open landscape where the player can see landmarks in nearby areas, and automatically moves to interact with them.</i><p>
 <p><hr><p><a href=doc244.html>Previous</a> / <a href=doc246.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

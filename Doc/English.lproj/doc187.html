@@ -1,31 +1,47 @@
-<html><head><title>13.5. Choosing rows</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc186.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc188.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.5. Choosing rows</b></td></tr></table><p>
+<html><head><title>13.3. Whereabouts on a scale?</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc186.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc188.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.3. Whereabouts on a scale?</b></td></tr></table><p>
 <p>
-<p>The following would be one way to print out a list of recent Kings and Queens:
+<p>Adjectives are often used in English to give a sense of where something is on a sliding scale. We talk about &quot;a tall man&quot; and &quot;a short man&quot;, but without meaning that all men are either tall or short. If pushed, we might say that tall means about 6 feet and up, short means about 5 feet 6 and down, but we more often compare one person's height against another's.
 <p>
-<blockquote><font color="#000080">To list the succession:
-<br>say &quot;The Succession List runs as follows...&quot;;
-<br>repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;
-<br>say &quot;[accession in row N of the Table of Recent Monarchs]: [name in row N of the Table of Recent Monarchs] ([family in row N of the Table of Recent Monarchs]).&quot;;
-<br>end repeat.
+<p>Inform allows us to use adjectives in the same way. For example, every container has a number called its &quot;carrying capacity&quot;. We can define:
+<p>
+<blockquote><font color="#000080">Definition: A container is huge if its carrying capacity is 20 or more.
+<br>Definition: A container is large if its carrying capacity is 10 or more.
+<br>Definition: A container is standard if its carrying capacity is 7.
+<br>Definition: A container is small if its carrying capacity is 5 or less.
 </font></blockquote><p>
 <p>
-<p>This works, but is repetitive. We often want to work on a single row for a while, either to change things or think about the contents, and it is tiresome to keep specifying the row over and over again. The following shorthand provides some relief:
+<p>These definitions are similar to those in the previous section, but have a very specific (and strictly enforced) shape to them. The adjective must be a single word. We have to say &quot;its&quot; (i.e., of it), not the ungrammatical &quot;it's&quot;; we have to specify a property, and a literal value of it, and we must either give an exact value or else conclude with &quot;or more&quot; or &quot;or less&quot;. If we create something with one of these properties:
 <p>
-<blockquote><font color="#000080">choose row N of the Table of Recent Monarchs;
-<br>say &quot;[accession entry]: [name entry] ([family entry]).&quot;;
+<blockquote><font color="#000080">The basket is a large container in the Shop. The thimble is a small container in the Shop. The matchbox is a standard container in the Shop.
 </font></blockquote><p>
 <p>
-<p>That is, if &quot;accession&quot; is a column name then &quot;accession entry&quot; will mean the entry in that column of the currently chosen row. This notation can only be used if a &quot;choose&quot; has certainly already happened, and it is a good idea to make that choice somewhere close by in the source code (and certainly in the same rule or phrase definition) for the sake of avoiding errors. We can also choose rows by specifying something about them, like so:
+<p>then they will have the most moderate values they can have, that is, the basket will have carrying capacity 10 and the thimble 5 (and of course the matchbox 7). The following tests will then, not surprisingly, fail:
 <p>
-<blockquote><font color="#000080">choose row with a name of &quot;Victoria&quot; in the Table of Recent Monarchs;
-<br>change name entry to &quot;Clytemnestra Honeytongue III&quot;;
+<blockquote><font color="#000080">if the basket is huge ...
+<br>if the basket is a small container ...
 </font></blockquote><p>
 <p>
-<p>This will choose the first row with the given entry: an error will result if there are no rows which qualify. We can also choose a row quite at random:
+<p>because the basket is neither huge nor small, but somewhere in between.
 <p>
-<blockquote><font color="#000080">choose a random row in the Table of Recent Monarchs;
-<br>say &quot;Your eye falls upon the reign of [name entry].&quot;
+<p>Sometimes the meaning of adjectives must depend on their context, as we see from the following example, where we assess heights in inches:
+<p>
+<blockquote><font color="#000080">A person has a number called height. Definition: A man is tall if his height is 72 or more. Definition: A woman is tall if her height is 68 or more.
 </font></blockquote><p>
+<p>
+<p>Inform then judges whether someone is or is not &quot;tall&quot; using different standards for men and for women, and
+<p>
+<blockquote><font color="#000080">In the Shop are a tall man and a tall woman.
+</font></blockquote><p>
+<p>
+<p>creates a man 72 inches tall and a woman 68 inches tall.
 <p>
 <p><hr><p><a href=doc186.html>Previous</a> / <a href=doc188.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,21 +1,32 @@
-<html><head><title>4.2. Degrees of certainty</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc42.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc44.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.2. Degrees of certainty</b></td></tr></table><p>
+<html><head><title>3.22. Concealment</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc42.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc44.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.22. Concealment</b></td></tr></table><p>
 <p>
-<p>When we write:
+<p>Though realism can become tiresome in interactive fiction, there are times when we cannot go along with Inform's normal assumption that all of a person's possessions are visible to everybody else. People are not like containers, which either show all of their holdings or not, according to whether they are open or transparent. If a man is carrying a fishing rod and a wallet, one will be on open show, the other not. Some clothing is outwardly visible, but not all.
 <p>
-<blockquote><font color="#000080">A dead end is usually dark.
+<p>Whether or not something is concealed is not like the either/or properties we have seen so far - such as being &quot;open&quot; or &quot;closed&quot; - because it is not really a property of the thing itself, but depends on the habitual behaviour of its current owner. To talk about behaviour we have to use sentences of a kind not seen so far, and which will not fully be explained for some chapters to come.
+<p>But straightforward cases are easy to write, if only by imitating the following examples.
+<p>
+<p>Here we make the Cloaked Villain invariably conceal anything she is holding or wearing:
+<p>
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: yes.
 </font></blockquote><p>
 <p>
-<p>we are saying that it will be dark rather than lighted unless we should specify otherwise. So it would be fine to add:
+<p>At which point we think about it more carefully, and then rewrite:
 <p>
-<blockquote><font color="#000080">The Tortuous Alcove is lighted.
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: if the particular possession is the sable cloak, no; otherwise yes.
 </font></blockquote><p>
 <p>
-<p>because although dead ends are usually dark, this one is evidently an exception. On the other hand, if we had originally written
+<p>Parts are treated exactly as if clothes or items being held, and the following will make the face and inscription on a coin invisible unless the player is holding it - the idea being that they are too small to be seen from farther away.
 <p>
-<blockquote><font color="#000080">A dead end is always dark.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, yes; otherwise no.\n\n\n')"><img border=0 src=paste.png></a> The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, yes; otherwise no.
 </font></blockquote><p>
-<p>
-<p>then Inform would not have permitted any exception to be made, and would have reported a problem if we had tried to make the Tortuous Alcove lighted. Besides &quot;usually&quot; and &quot;always&quot;, we can also employ &quot;seldom&quot; and &quot;never&quot;, which are their negatives. Thus, &quot;never lighted&quot; means the same as &quot;always dark&quot;.
 <p>
 <p><hr><p><a href=doc42.html>Previous</a> / <a href=doc44.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

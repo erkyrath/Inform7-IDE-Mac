@@ -1,0 +1,62 @@
+<html><head><title>7.7. Moving things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc99.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc101.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.7. Moving things</b></td></tr></table><p>
+<p>
+<p>We have now seen how to change the properties of rooms and things, and also any freestanding values which may have a bearing on the model world. We are not allowed to change the kind of anything during play. Our remaining freedom is to move things around. It would make no sense to move rooms around, because rooms are the fixed reference points in our geography, but anything else is mobile. This even includes things which are supposedly &quot;fixed in place&quot;, for unlike the player, we have god-like powers. (There is one restriction: backdrops, which are present in more than one place at once, can only be moved to regions. And while it is legal to move a door, it is not a good idea.)
+<p>
+<p>Here is how to move something:
+<p>
+<blockquote><font color="#000080">move the genie's lamp to Aladdin's Cave
+</font></blockquote><p>
+<p>
+<p>The first object named has to be a thing; the destination can be a room, as here, or another object - this will usually need to be a container, a supporter or a person, since Inform understands what it would mean for these to have contents, but there is no absolute restriction. If the item is moved to a person, then it will be carried rather than worn.
+<p>
+<p>When something is moved, all its contents (and all their contents, and so on) move with it.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e73"><a href=doc100.html#e73><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A meteor in the night sky which is visible from many rooms, so needs to be a backdrop, but which does not appear until 11:31 PM.</i><p>
+<p>
+<p>The timing of the meteor's arrival uses features of Inform which the next chapter will go into at greater detail: suffice to say that the game below begins at half past eleven, and that one turn later is meteor time.
+<p>
+<blockquote><font color="#000080">The time of day is 11:30 PM.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 11:31 PM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move meteor to the great outdoors;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A meteor streaks across the sky.&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The great outdoors is a region. The Spanish Balcony is east of the Inner Court. The Court and Balcony are in the great outdoors. Inside from the Court is the Swimming Pool.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The meteor is a backdrop. Instead of doing something to the meteor, say &quot;The meteor is no longer visible, now nothing more than a memory.&quot;
+</font></blockquote><p>
+<p>
+<p>Or for something a little slower-moving and with no after-image:
+<p>
+<blockquote><font color="#000080">The time of day is 4:30 PM.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 4:31 PM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move Phobos to the great outdoors;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Phobos rises from the western horizon.&quot;
+<br>At 10:06 PM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove Phobos from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Phobos sets over the eastern horizon.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The great outdoors is a region. The Martian Balcony is east of the Inner Court. The Court and Balcony are in the great outdoors. Inside from the Court is the Heavy Water Swimming Pool.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Phobos is a backdrop. Instead of doing something to Phobos, say &quot;Phobos orbits a mere 6000km above you, which is practically touching range for astronomy. On the other hand, astronomy isn't all that practical.&quot;
+</font></blockquote><p>
+<p>
+<p>Though we should not really use Earthly time-keeping, since the Martian day is about half an hour longer than ours.
+</td></tr></table><p><p><hr><p><a href=doc99.html>Previous</a> / <a href=doc101.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

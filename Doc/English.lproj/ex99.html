@@ -1,0 +1,45 @@
+<html><head><title>4.2. Degrees of certainty</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc44.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc46.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.2. Degrees of certainty</b></td></tr></table><p>
+<p>
+<p>When we write:
+<p>
+<blockquote><font color="#000080">A dead end is usually dark.
+</font></blockquote><p>
+<p>
+<p>we are saying that it will be dark rather than lighted unless we should specify otherwise. So it would be fine to add:
+<p>
+<blockquote><font color="#000080">The Tortuous Alcove is lighted.
+</font></blockquote><p>
+<p>
+<p>because although dead ends are usually dark, this one is evidently an exception. On the other hand, if we had originally written
+<p>
+<blockquote><font color="#000080">A dead end is always dark.
+</font></blockquote><p>
+<p>
+<p>then Inform would not have permitted any exception to be made, and would have reported a problem if we had tried to make the Tortuous Alcove lighted. Besides &quot;usually&quot; and &quot;always&quot;, we can also employ &quot;seldom&quot; and &quot;never&quot;, which are their negatives. Thus, &quot;never lighted&quot; means the same as &quot;always dark&quot;.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e99"><a href=doc45.html#e99><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A staircase always open and never openable.</i><p>
+<p>
+<p>In a game with many staircases, we might want:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('A staircase is a kind of door. A staircase is always open. A staircase is never openable.\n\n\n')"><img border=0 src=paste.png></a> A staircase is a kind of door. A staircase is always open. A staircase is never openable.
+</font></blockquote><p>
+<p>
+<p>Defining the staircase this way means that we will never be able to get away with (for instance) a folding ladder into the attic which is sometimes closed up. So alternatively we might do
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('A staircase is a kind of door. A staircase is usually open. A staircase is seldom openable.\n\n\n')"><img border=0 src=paste.png></a> A staircase is a kind of door. A staircase is usually open. A staircase is seldom openable.
+</font></blockquote><p>
+<p>
+<p>We could then write a rule so that whenever the player types CLIMB [any staircase], the command is diverted to an enter command, while all other doors refuse to respond to such treatment.
+<p>
+<p>But these are refinements for a later chapter.
+</td></tr></table><p><p><hr><p><a href=doc44.html>Previous</a> / <a href=doc46.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

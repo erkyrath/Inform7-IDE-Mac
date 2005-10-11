@@ -1,22 +1,31 @@
-<html><head><title>15.6. Example: the Pointy Hat</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc214.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc216.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.6. Example: the Pointy Hat</b></td></tr></table><p>
+<html><head><title>15.3. Overriding existing commands</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc214.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc216.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.3. Overriding existing commands</b></td></tr></table><p>
 <p>
-<p>Or we might want to suspend other laws of nature, as in the following example, which is due to Emily Short:
+<p>Suppose we are devising specialist commands for a game of whist, and we want &quot;discard&quot; as one of them. Looking at the table of commands in the Action index, we find that, inconveniently enough, &quot;discard&quot; already has a meaning: it is synonymous with &quot;drop&quot;, and while that might be sensible most of the time, it is perfectly wrong now. We need a way to free up &quot;discard&quot; for our own use. We can do that by:
 <p>
-<blockquote><font color="#000080">&quot;Access All Areas&quot;
+<blockquote><font color="#000080">Understand the command &quot;discard&quot; as something new.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The extremely difficult door is north of the Standing Room and south of the Room of Walking Upside Down.  It is a locked door.
+<p>This cuts it loose, so to speak, and ready to be given new meanings. If we check the Actions index again, we find no mention of &quot;discard&quot; - it is now a blank slate - but &quot;drop&quot; is still exactly as it was. We could now say something like:
+<p>
+<blockquote><font color="#000080">Understand the command &quot;discard [something]&quot; as discarding.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The player is carrying the Pointy Hat of Liminal Transgression. The hat is wearable.
+<p>(If we had declared that &quot;drop&quot; was something new, the whole thing would have happened in reverse, with &quot;discard&quot; retaining all of the original grammar. Inform does not distinguish between a command and its synonym.)
+<p>
+<p>The &quot;... as something new&quot; sentence works even for a command which did not exist anyway, for instance with:
+<p>
+<blockquote><font color="#000080">Understand the command &quot;zylqix&quot; as something new.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A procedural rule: if the Hat is worn, ignore the can't go through closed doors rule.
-</font></blockquote><p>
-<p>
-<p>(The Pointy Hat may be useful in debugging a game, even if it never makes it into the final published work.)
-<p>
-<p>The &quot;can't go through closed doors rule&quot; is one of those belonging to the &quot;check going&quot; rulebook. These names are fairly explanatory when written out, but hard to remember: fortunately we don't need to remember them, as the Index panel contains a full inventory of the check, carry out and report rules for every action, showing all of their names and the order in which they are checked.
+<p>Of course this does nothing - but it is intentional that it generates no problem messages: it means that the sentence can be used to force a command to be fresh and untouched by previous definitions, which might be useful when working with extensions by other people.
 <p>
 <p><hr><p><a href=doc214.html>Previous</a> / <a href=doc216.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,33 +1,53 @@
-<html><head><title>15.3. New rules</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc211.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc213.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.3. New rules</b></td></tr></table><p>
+<html><head><title>14.15. Varying which table to look at</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc211.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc213.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.15. Varying which table to look at</b></td></tr></table><p>
 <p>
-<p>Returning to the apple blossom, and stretching a point seasonally,
+<p>So far, we have always used fixed table names when referring to tables: for instance in source like &quot;sort the Table of Recent Monarchs in accession order&quot;, we refer to the &quot;Table of Recent Monarchs&quot;, a definite and explicitly named table.
 <p>
-<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
+<p>With a little care, however, we are allowed to have variables which themselves hold the names of tables. This opens up the possibility of more elaborate ways of storing and interconnecting information in table form, but is probably best avoided until it becomes necessary.
+<p>
+<p>For example, suppose we have two different tables with the same basic structure:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Table 1 - Nifty Opening Plays in US Scrabble\nword\tscore\n&quot;muzjiks&quot;\t128\n\nTable 2 - Nifty Opening Plays in UK Scrabble\nword\tscore\n&quot;quartzy&quot;\t126\n&quot;squeezy&quot;\t126\n\n\n')"><img border=0 src=paste.png></a> Table 1 - Nifty Opening Plays in US Scrabble
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">word</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">score</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;muzjiks&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">128</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>This rule is nameless. It needs no name because it will never need to be referred to: by identifying it as an every turn rule we have already said enough to lodge it in the &quot;every turn rules&quot; rulebook. In fact, though, it is easy to create a named rule:
-<p>
-<blockquote><font color="#000080">This is the blossom rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080">Table 2 - Nifty Opening Plays in UK Scrabble
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">word</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">score</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;quartzy&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">126</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;squeezy&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">126</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>The name of a rule must always end with the word &quot;rule&quot;, for clarity's sake. (The phrasing &quot;This is the ... rule&quot; is used because &quot;The ... rule&quot; would be open to misinterpretation.)
+<p>We could then record which one of these tables to use in a variable:
 <p>
-<p>The rule now exists, but belongs to no rulebook, and will never be applied unless explicitly invoked, or unless explicitly placed into a rulebook after all:
-<p>
-<blockquote><font color="#000080">The blossom rule is listed in the every turn rules.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The lexicon is a table-name that varies. The lexicon is Table 1.\n\n\n')"><img border=0 src=paste.png></a> The lexicon is a table-name that varies. The lexicon is Table 1.
 </font></blockquote><p>
 <p>
-<p>A single rule like this can be listed in any number of rulebooks, including none.
+<p>Note that for this purpose, the kind of value is a special kind called &quot;table-name&quot;, not &quot;table&quot;. (The word &quot;table&quot; already has too many meanings and we must be careful to avoid ambiguities here.) We could make use of this as follows, for instance:
 <p>
-<p>Alternatively, it is possible to both name and list a rule in a single sentence:
-<p>
-<blockquote><font color="#000080">Every turn (this is the blossom rule): say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('To flip tables:\n\tsay &quot;You exchange dictionaries, lexically crossing the Atlantic. &quot;;\n\tif the lexicon is Table 1, change the lexicon to Table 2;\n\totherwise change the lexicon to Table 1;\n\tchoose a random row in the lexicon;\n\tsay &quot;Did you know that according to [the lexicon], [word entry] scores [score entry]?&quot;\n\n\n')"><img border=0 src=paste.png></a> To flip tables:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You exchange dictionaries, lexically crossing the Atlantic. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the lexicon is Table 1, change the lexicon to Table 2;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise change the lexicon to Table 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the lexicon;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Did you know that according to [the lexicon], [word entry] scores [score entry]?&quot;
 </font></blockquote><p>
 <p>
-<p>Where rules have been named, we are able (as promised) to have a say in what order they come in:
+<p>which produces text such as
 <p>
-<blockquote><font color="#000080">The blossom rule is listed before the moving doorways rule in the every turn rules.
+<blockquote><font color="#000080">You exchange dictionaries, lexically crossing the Atlantic. Did you know that according to Table 1 - Nifty Opening Plays in US Scrabble, muzjiks scores 128?
 </font></blockquote><p>
 <p>
+<p><hr><p>
+<a name="e34"><a href=ex34.html#e34><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>People who respond to conversational gambits, summarize what they said before if asked again, and provide recap of conversation that is past.</i><p>
 <p><hr><p><a href=doc211.html>Previous</a> / <a href=doc213.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

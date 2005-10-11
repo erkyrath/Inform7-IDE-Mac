@@ -1,26 +1,26 @@
-<html><head><title>17.4. Where extensions are kept</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc242.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc244.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.4. Where extensions are kept</b></td></tr></table><p>
+<html><head><title>16.14. Writing a paragraph about</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc242.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc244.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.14. Writing a paragraph about</b></td></tr></table><p>
 <p>
-<p>This depends on the operating system we use. On Mac OS X, extensions live in
+<p><b>1. When it happens.</b> Just <i>before</i> writing a paragraph about some item in a room description.
 <p>
-<blockquote><font color="#000080">~/Library/Inform/Extensions/
+<p><b>2. The default behaviour.</b> Is to do nothing. However, if a rule is supplied which prints something up, then this replaces the paragraph which would otherwise have been printed. Moreover, any items whose names are said in the course of this rule - for instance, by being listed - are then excluded from the remainder of the room description, because they are considered as having been described sufficiently already.
+<p>
+<p><b>3. Examples.</b> (a) This is a neat way to wrap several things together into the same paragraph:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for writing a paragraph about Mr Wickham:\n\tsay &quot;Mr Wickham looks speculatively at [list of women in the location].&quot;\n\n\n')"><img border=0 src=paste.png></a> Rule for writing a paragraph about Mr Wickham:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Mr Wickham looks speculatively at [list of women in the location].&quot;
 </font></blockquote><p>
 <p>
-<p>where &quot;~&quot; signifies the user's home folder. The extension &quot;Following People by Mary Brown&quot; would live in
+<p>because now &quot;Mr Wickham looks speculatively at Velma and Daphne&quot; will now prevent the appearance of the subsequent text &quot;You can also see Velma and Daphne.&quot;
 <p>
-<blockquote><font color="#000080">~/Library/Inform/Extensions/Mary Brown/Following People
-</font></blockquote><p>
-<p>
-<p>(no filename extension is used). A similar arrangement is used under Windows: extensions live in
-<p>
-<blockquote><font color="#000080">My Documents\Inform\Extensions
-</font></blockquote><p>
-<p>
-<p>and our example extension would be stored as:
-<p>
-<blockquote><font color="#000080">My Documents\Inform\Extensions\Mary Brown\Following People
-</font></blockquote><p>
-<p>
-<p>Again, no filename extension is used.
-<p>
+<p><hr><p>
+<a name="e114"><a href=ex114.html#e114><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>Uses "writing a paragraph about" to make person and object descriptions that vary considerably depending on what else is going on in the room, including some randomized NPC interactions with objects or with each other.</i><p>
 <p><hr><p><a href=doc242.html>Previous</a> / <a href=doc244.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,43 +1,45 @@
-<html><head><title>12.12. Totals</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc178.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc180.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.12. Totals</b></td></tr></table><p>
+<html><head><title>12.10. The invention of love</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc178.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc180.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.10. The invention of love</b></td></tr></table><p>
 <p>
-<p>It often happens that we want to look at the measurements of a whole collection of things. Suppose we invent the idea of weight, and give everything a weight of its own. Most items will have a nominal weight of just 1 kilogram, but people will be heavier. Going on actuarial tables, we might say:
+<p>We have already used the example:
 <p>
-<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg. A man is usually 80kg. A woman is usually 67kg.
+<blockquote><font color="#000080">Loving relates various people to one person.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Definition: A thing is light if its weight is 3kg or less.
-<br>Definition: A thing is heavy if its weight is 10kg or more.
+<p>Let us create a verb which expresses this:
+<p>
+<blockquote><font color="#000080">The verb to love (he loves, they love, he loved, he is loved) implies the loving relation.
 </font></blockquote><p>
 <p>
-<p>and this provides us with &quot;lighter&quot;, &quot;lightest&quot;, &quot;heavier&quot; and &quot;heaviest&quot; as before. Now we could say &quot;if Peter is heavier than Paul&quot;, or even &quot;if Peter is heavier than 75kg&quot;, and so forth.
+<p>Note that we have omitted one of the parts of the verb. Actually we can legally miss out any of them, but the result is that the usages missed out will not be understood by Inform. In this case, Inform will understand
 <p>
-<p>The value &quot;total ... of ...&quot; is a convenient way to total up a given property of everything described. The following now makes the balance platform actually work:
-<p>
-<blockquote><font color="#000080">The balance platform is a supporter in the Weighbridge. &quot;The balance platform is currently weighing [contents of platform]. The scale alongside reads: [total weight of things on the platform].&quot;
+<blockquote><font color="#000080">Elizabeth loves Darcy.
+<br>if anybody has been loved by Darcy, ...
+<br>someone who is loved by Elizabeth
+<br>the number of women who love Darcy
 </font></blockquote><p>
 <p>
-<p>Note that this only works because we said that &quot;everything has a weight&quot;: otherwise it would make no sense to add up the weights of things.
+<p>but it will not understand
 <p>
-<p>This enables us to get the average weight of a group of things, too:
-<p>
-<blockquote><font color="#000080">the total weight of things on the platform divided by the number of things on the platform
+<blockquote><font color="#000080">Elizabeth is loving Darcy.
+<br>if Darcy is loving anybody, ...
 </font></blockquote><p>
 <p>
-<p>But we should be careful that this does not accidentally divide by zero, which it will if the platform has nothing on it! As well as the average, we could find the maximum and minimum weights:
+<p>because we did not supply the present participle &quot;he is loving&quot; as part of the definition of the verb. (That was deliberate, because the verb &quot;to love&quot; isn't used that way.)
 <p>
-<blockquote><font color="#000080">the weight of the heaviest thing on the platform
-<br>the weight of the lightest thing on the platform
+<p>Similarly, using our reciprocated relation for mere acquaintanceship,
+<p>
+<blockquote><font color="#000080">Meeting relates people to each other. The verb to know (he knows, they know, he knew, he is known) implies the meeting relation. Elizabeth knows Mr Wickham. Mr Wickham knows Mr Darcy.
 </font></blockquote><p>
 <p>
-<p>We should remember that &quot;the heaviest thing on the platform&quot; may be ambiguous, because there may be several equally heavy things there. That means
-<p>
-<blockquote><font color="#000080">if the lead pig is the heaviest thing on the platform
-</font></blockquote><p>
-<p>
-<p>will only reliably work if there is no possibility of a tie. A safer bet is:
-<p>
-<blockquote><font color="#000080">if the lead pig is the weight of the heaviest thing on the platform
-</font></blockquote><p>
-<p>
+<p><hr><p>
+<a name="e0"><a href=ex0.html#e0><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>People are to be grouped into alliances. To kiss someone is to join his or her faction, which may make a grand alliance; to strike them is to give notice of quitting, and to become a lone wolf.</i><p>
 <p><hr><p><a href=doc178.html>Previous</a> / <a href=doc180.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

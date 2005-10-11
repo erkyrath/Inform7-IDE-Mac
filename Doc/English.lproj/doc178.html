@@ -1,24 +1,41 @@
-<html><head><title>12.11. Multiplication of units</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc177.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc179.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.11. Multiplication of units</b></td></tr></table><p>
+<html><head><title>12.9. Defining new assertion verbs</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc177.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc179.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.9. Defining new assertion verbs</b></td></tr></table><p>
 <p>
-<p>Similarly, it is forbidden to multiply 122kg and 10kg, not because it could never make sense (a physicist will occasionally multiply two weights) but because the result is - what? Not a number, and not a weight any more. But we are allowed to tell Inform what the result ought to be, and once we have done so, the multiplication will be allowed:
+<p>Here is an example definition of a new verb:
 <p>
-<blockquote><font color="#000080">A length is a kind of value. 10m specifies a length. An area is a kind of value. 10 sq m specifies an area.
+<blockquote><font color="#000080">The verb to sport (he sports, they sport, he sported, it is sported, he is sporting) implies the wearing relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A length times a length specifies an area.
+<p>Once this is done, we can write the assertion
+<p>
+<blockquote><font color="#000080">Mr Wickham sports a Tory rosette.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The balance platform is in the Weighbridge. &quot;The balance platform is 10m by 8m, giving it an area of [10m multiplied by 8m].&quot;
+<p>which will do the the same thing as
+<p>
+<blockquote><font color="#000080">Mr Wickham wears a Tory rosette.
 </font></blockquote><p>
 <p>
-<p>which will turn up as:
+<p>because both verbs have the same relation as their meaning.
 <p>
-<blockquote><font color="#000080">The balance platform is 10m by 8m, giving it an area of 80 sq m.
+<p>Note that we have to spell out many parts of the verb:
+<p>
+<blockquote><font color="#000080">to sport - infinitive
+<br>he sports - present singular
+<br>they sport - present plural
+<br>he sported - past
+<br>it is sported - past participle
+<br>he is sporting - present participle
 </font></blockquote><p>
 <p>
-<p>And having told Inform that lengths multiply to area, we could also divide an area by a length to get a length: no further instructions would be needed.
-<p>
-<p>Note that we are only allowed to make such a rule about multiplication, and only between units, and the result has to be a unit. So this system cannot be used to make Inform multiply, say, a time by a piece of text, nor to contradict any of the standard &quot;dimensional rules&quot; outlined above.
+<p>Although it looks as if NI could easily generate these given the infinitive &quot;to sport&quot; alone, by adding an &quot;-s&quot; here or an &quot;-ed&quot; there, English can be a very irregular language. Since verbs will not be defined more than a few times in any single project it seems best to be explicit.
 <p>
 <p><hr><p><a href=doc177.html>Previous</a> / <a href=doc179.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

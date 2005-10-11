@@ -1,20 +1,26 @@
-<html><head><title>17.11. New activities</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc249.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc251.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.11. New activities</b></td></tr></table><p>
+<html><head><title>16.21. Printing the player's obituary</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc249.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc251.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.21. Printing the player's obituary</b></td></tr></table><p>
 <p>
-<p>The original Inform 6 library allowed itself to be customised by providing &quot;entry point routines&quot;; in Inform 7, this method was replaced by activities. If an extension contains any elaborate mechanisms then it, too, should consider setting them up as activities. This is easily done. For instance:
+<p><b>1. When it happens.</b> The obituary is the text &quot;*** You have died ***&quot; or similar, usually followed by the final score.
 <p>
-<blockquote><font color="#000080">Assaying is an activity. The last for assaying rule: ...
+<p><b>2. The default behaviour.</b> Printing the aforementioned text, then the final score, and reducing the status line to a largely blank state.
+<p>
+<p><b>3. Examples.</b> (a) For a work with no meaningful score, it would be odd to wind up with a final reckoning of 0, so:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Procedural rule: ignore the print final score rule.\n\n\n')"><img border=0 src=paste.png></a> Procedural rule: ignore the print final score rule.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Analysing something is an activity. The last for analysing rule: ...
+<p>(b) Or we could add to the verdict:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After printing the player\'s obituary: say &quot;And you visited [number of visited rooms] place[s].&quot;\n\n\n')"><img border=0 src=paste.png></a> After printing the player's obituary: say &quot;And you visited [number of visited rooms] place[s].&quot;
 </font></blockquote><p>
-<p>
-<p>The former activity does not apply to any particular object, while the latter does: the difference is in the word &quot;something&quot;. (Equivalently, it could end &quot;of something&quot;, as the standard rules' activity &quot;listing contents of something&quot; does.) We can then carry out the activities with phrases like so:
-<p>
-<blockquote><font color="#000080">carry out the assaying activity;
-<br>carry out the analysing activity with the dustbin;
-</font></blockquote><p>
-<p>
-<p>It may be worth noting that an activity can still be worth creating even when it is hard to imagine useful rules attached to it, because the activity also gives us a new context for other rules. The designer might well be grateful for the chance to define a &quot;rule for printing the name of a container while assaying&quot;, for instance.
 <p>
 <p><hr><p><a href=doc249.html>Previous</a> / <a href=doc251.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

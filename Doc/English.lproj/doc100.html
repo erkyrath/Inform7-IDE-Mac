@@ -1,21 +1,25 @@
-<html><head><title>7.6. Whose property?</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc99.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc101.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.6. Whose property?</b></td></tr></table><p>
+<html><head><title>7.7. Moving things</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc99.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc101.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.7. Moving things</b></td></tr></table><p>
 <p>
-<p>This seems a useful point to clarify something already seen. We normally call a property with a value something like:
+<p>We have now seen how to change the properties of rooms and things, and also any freestanding values which may have a bearing on the model world. We are not allowed to change the kind of anything during play. Our remaining freedom is to move things around. It would make no sense to move rooms around, because rooms are the fixed reference points in our geography, but anything else is mobile. This even includes things which are supposedly &quot;fixed in place&quot;, for unlike the player, we have god-like powers. (There is one restriction: backdrops, which are present in more than one place at once, can only be moved to regions. And while it is legal to move a door, it is not a good idea.)
 <p>
-<blockquote><font color="#000080">the printed name of the West Ballroom
+<p>Here is how to move something:
+<p>
+<blockquote><font color="#000080">move the genie's lamp to Aladdin's Cave
 </font></blockquote><p>
 <p>
-<p>We are sometimes allowed to omit the &quot;of the ...&quot; part, and simply call it &quot;the printed name&quot;, for the sake of brevity. For instance, the following room description:
+<p>The first object named has to be a thing; the destination can be a room, as here, or another object - this will usually need to be a container, a supporter or a person, since Inform understands what it would mean for these to have contents, but there is no absolute restriction. If the item is moved to a person, then it will be carried rather than worn.
 <p>
-<blockquote><font color="#000080">The West Ballroom is a room. &quot;A handsome sweep of chequered floor beckons the eye into the [printed name].&quot;
-</font></blockquote><p>
+<p>When something is moved, all its contents (and all their contents, and so on) move with it.
 <p>
-<p>will result in &quot;West Ballroom&quot; being substituted for &quot;[printed name]&quot;. Since the text belongs to the West Ballroom, that is assumed to be the owner of any properties named in its description. Similarly:
-<p>
-<blockquote><font color="#000080">Instead of examining something, say &quot;Hmm, let me see: [printed name]...&quot;
-</font></blockquote><p>
-<p>
-<p>Here the owner of the &quot;printed name&quot; is assumed to be the noun referred to in the action - in other words, the &quot;something&quot; alluded to in the rule.
-<p>
+<p><hr><p>
+<a name="e73"><a href=ex73.html#e73><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A meteor in the night sky which is visible from many rooms, so needs to be a backdrop, but which does not appear until 11:31 PM.</i><p>
 <p><hr><p><a href=doc99.html>Previous</a> / <a href=doc101.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

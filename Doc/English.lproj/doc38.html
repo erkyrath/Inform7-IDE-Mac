@@ -1,19 +1,35 @@
-<html><head><title>3.18. Carrying capacity</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc37.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc39.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.18. Carrying capacity</b></td></tr></table><p>
+<html><head><title>3.17. Articles and proper names</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc37.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc39.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.17. Articles and proper names</b></td></tr></table><p>
 <p>
-<p>The containers and supporters created so far have been boundlessly capacious: or rather, though we seldom notice the difference, have had a maximum carrying capacity of 100 items. This is clearly unrealistic for a small purse or a modest mantelpiece. We can impose upper limits with sentences like so:
+<p>Suppose we have said that:
 <p>
-<blockquote><font color="#000080">The carrying capacity of the jewelled purse is 2.
+<blockquote><font color="#000080">In the Ballroom is a man called Mr Darcy.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The bijou mantelpiece has carrying capacity 3.
+<p>When the Ballroom is visited, the man is listed in the description of the room as &quot;Mr Darcy&quot;, not as &quot;a Mr Darcy&quot;. This happened not because Inform recognised that Darcy is a proper name, or even because men tend to have proper names, but because Inform noticed that we did not use &quot;a&quot;, &quot;an&quot;, &quot;the&quot; or &quot;some&quot; in the sentence which created him. The following little example game shows most of the options:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Belfry&quot;\n\nThe Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton\'s wife is in the Belfry. A man called a bellringer is in the Belfry.\n\nIn the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.\n\n\n')"><img border=0 src=paste.png></a> &quot;Belfry&quot;
 </font></blockquote><p>
 <p>
-<p>Attempts by the player to overfill, or overload, will now be rebuffed with a message such as &quot;There is no room on the mantelpiece&quot;.
-<p>
-<p>The player is not a container or a supporter, but nevertheless does have a carrying capacity: this is interpreted to mean the maximum number of items which can be carried at once.
-<p>
-<blockquote><font color="#000080">The carrying capacity of the player is 4.
+<blockquote><font color="#000080">The Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton's wife is in the Belfry. A man called a bellringer is in the Belfry.
 </font></blockquote><p>
+<p>
+<blockquote><font color="#000080">In the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.
+</font></blockquote><p>
+<p>
+<p>In the resulting game, we read:
+<p>
+<blockquote><font color="#000080">You can see a bat, a bell, some woodworm, William Snelson, the sexton's wife, a bellringer and your local vicar here.
+</font></blockquote><p>
+<p>
+<p>The subtlest rule here is in the handling of &quot;the&quot;. We wrote &quot;The bell is in the Belfry&quot;, but this did not result in the bell always being called &quot;the&quot; bell: in fact, writing &quot;A bell is in the Belfry&quot; would have had the same effect. On the other hand, &quot;A woman called the sexton's wife is in the Belfry.&quot; led to the wife always being known as &quot;the&quot; sexton's wife, not &quot;a&quot; sexton's wife, because Inform thinks the choice of article after &quot;called&quot; shows more of our intention than it would elsewhere. These rules will never be perfect in all situations, so we are also allowed to specify indefinite articles by hand, as the vicar's case shows.
 <p>
 <p><hr><p><a href=doc37.html>Previous</a> / <a href=doc39.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

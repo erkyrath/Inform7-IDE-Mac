@@ -1,38 +1,35 @@
-<html><head><title>10.4. If</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc142.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc144.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.4. If</b></td></tr></table><p>
+<html><head><title>10.6. Begin and end</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc142.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc144.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.6. Begin and end</b></td></tr></table><p>
 <p>
-<p>We now run through a few special phrases which control other phrases: causing them to repeat, perhaps, or to be skipped. These phrases are equivalent to the &quot;control structures&quot; of other computer programming languages: no system for interactive fiction can possibly be adequate unless it allows us to carry out arbitrary computations, so the pretence that Inform is not really a programming language must dropped sooner or later. That time is now.
+<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
 <p>
-<p>The phrase:
+<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
 <p>
-<blockquote><font color="#000080">if (... condition ...) then (... another whole phrase ...)
+<blockquote><font color="#000080">To comment upon (whatever - a thing):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>causes the phrase after &quot;then&quot; to be followed only if the condition holds. Some people prefer to use a comma, which is treated just the same:
+<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
 <p>
-<blockquote><font color="#000080">if (... condition ...), (... another whole phrase ...)
+<p>Similarly for while:
+<p>
+<blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while
 </font></blockquote><p>
 <p>
-<p>There are many different forms of condition in Inform (and, as we shall see, we can easily add more), but the simplest is:
+<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
 <p>
-<blockquote><font color="#000080">(first value) is (second value)
-</font></blockquote><p>
-<p>
-<p>As always, Inform checks that these two values are of kinds which can be compared. The following will produce an objection, for instance:
-<p>
-<blockquote><font color="#000080">if 10 is a door then say &quot;Huzzah!&quot;
-</font></blockquote><p>
-<p>
-<p>since it makes no sense to ask the question, and the only result will be the baffled reply:
-<p>
-<blockquote><font color="#000080"><b>Problem.</b> In the line 'if 10 is a door then say &quot;Huzzah!&quot;' <img src=../Reveal.tif>, I can't determine whether or not '10 is a door', because it seems to ask if a number is some sort of door.
-</font></blockquote><p>
-<p>
-<p>This, however, would be fine:
-<p>
-<blockquote><font color="#000080">To comment upon (whatever - a thing): if whatever is transparent then say &quot;I see right through this!&quot;; if whatever is an open door then say &quot;Oh look, an open door!&quot;.
-</font></blockquote><p>
-<p>
-<p>since &quot;whatever&quot; is known to be a thing, and Inform knows that things are indeed sometimes transparent and sometimes open doors.
-<p>
+<p><hr><p>
+<a name="e80"><a href=ex80.html#e80><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Every time the player gets onto, say, a stack of mattresses, the thing on the bottom of the pile makes a groaning noise.</i><p>
 <p><hr><p><a href=doc142.html>Previous</a> / <a href=doc144.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

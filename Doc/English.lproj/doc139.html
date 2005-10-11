@@ -1,28 +1,28 @@
-<html><head><title>9.9. Multiple endings</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc138.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc140.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.9. Multiple endings</b></td></tr></table><p>
+<html><head><title>10.2. The phrasebook</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc138.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc140.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.2. The phrasebook</b></td></tr></table><p>
 <p>
-<p>Interactive fictions vary considerably in the extent to which the player is allowed to influence the story-line. Sometimes the appearance of making choices is wholly bogus, as only one possible line is given more than lip service. But in other works, the player can radically change the outcome, and whole rafts of plot differ between one person's experience and another's. Inform allows multiple endings to its scenes to make this kind of branching story-line easy to achieve.
+<p>Inform begins knowing a set of standard phrases, and allows us to define new ones: the current stock is called the &quot;phrasebook&quot;, and can be browsed at the Index panel. Here is a simple definition of a new phrase:
 <p>
-<p>Any scene can have up to 8 alternate endings, differentiated by name. These are created as and when conditions are set for them:
-<p>
-<blockquote><font color="#000080">Brief Encounter ends happily when ...
-<br>Brief Encounter ends wisely but sadly when ...
+<blockquote><font color="#000080">To spring the trap: say &quot;'Sproing!' go the hinges and, with a flash of silver, the enormous blades whisk together!&quot;; end the game in death.
 </font></blockquote><p>
 <p>
-<p>&quot;Ends happily&quot; and &quot;ends wisely but sadly&quot; behave just like &quot;ends&quot;. We can have rules &quot;When Brief Encounter ends happily, ...&quot; and so forth, in addition to rules &quot;When Brief Encounter ends, ...&quot; - if a rule doesn't specify any particular ending, it applies to all of them.
+<p>Now the phrase &quot;spring the trap&quot; is given meaning. Of course it will only happen if our design ever actually calls upon the computer to &quot;spring the trap&quot;, which at present it does not. This is a short and simple definition, but for longer ones it is usual to lay out the instructions in a list rather than stringing them together in running text, as we did above: like so -
 <p>
-<p>We can also link rules together from these branches, so
-<p>
-<blockquote><font color="#000080">Stranger's Acceptance begins when Brief Encounter ends happily.
-<br>Stranger's Rejection begins when Brief Encounter ends wisely but sadly.
+<blockquote><font color="#000080">To spring the trap:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Sproing!' go the hinges and, with a flash of silver, the enormous blades whisk together!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in death.
 </font></blockquote><p>
 <p>
-<p>With this set-up and that of the previous section, there are now two possible paths through the story:
+<p>Inform allows us to use whatever conventions of layout we prefer.
 <p>
-<blockquote><font color="#000080">(i) Train Stop - Brief Encounter - Stranger's Acceptance - Bittersweet Ending
-<br>(ii) Train Stop - Brief Encounter - Stranger's Rejection - Bittersweet Ending
-</font></blockquote><p>
-<p>
-<p>This chapter began by observing that, in the part it plays in stories, time is like space. The endings of a scene (along with its beginning) are like the map connections leading out of a room. The Scenes index keeps track of the &quot;map of time&quot; through which these possible story-lines traverse. Some works of IF will have immensely complicated story-lines in only a few rooms, some will have no scenes at all despite a sprawling geography. The Scenes and World index tabs, side by side, show both kinds of map.
+<p>This chapter is about how to define more complicated phrases, and about the special phrases which exist to repeat the same activity over and over, to test conditions and so on.
 <p>
 <p><hr><p><a href=doc138.html>Previous</a> / <a href=doc140.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

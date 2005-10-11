@@ -1,41 +1,27 @@
-<html><head><title>13.15. Varying which table to look at</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc196.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc198.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.15. Varying which table to look at</b></td></tr></table><p>
+<html><head><title>13.13. Making the verb "to weigh"</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc196.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc198.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.13. Making the verb "to weigh"</b></td></tr></table><p>
 <p>
-<p>So far, we have always used fixed table names when referring to tables: for instance in source like &quot;sort the Table of Recent Monarchs in accession order&quot;, we refer to the &quot;Table of Recent Monarchs&quot;, a definite and explicitly named table.
+<p>We have already created new verbs: for instance, in the previous chapter we set up a verb &quot;to love&quot;, which was such that we could say &quot;A loves B&quot; for people A and B. Suppose we want a verb &quot;to weigh&quot;, in the sense of &quot;the lead pig weighs 45kg&quot;. This is not like &quot;to love&quot;, because it relates something tangible (the lead pig) to something intangible (45kg). So its creation looks a little different:
 <p>
-<p>With a little care, however, we are allowed to have variables which themselves hold the names of tables. This opens up the possibility of more elaborate ways of storing and interconnecting information in table form, but is probably best avoided until it becomes necessary.
-<p>
-<p>For example, suppose we have two different tables with the same basic structure:
-<p>
-<blockquote><font color="#000080">Table 1 - Nifty Opening Plays in US Scrabble
-<br>word	score
-<br>&quot;muzjiks&quot;	128
+<blockquote><font color="#000080">The verb to weigh (it weighs, they weigh, it is weighing) implies the weight property.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table 2 - Nifty Opening Plays in UK Scrabble
-<br>word	score
-<br>&quot;quartzy&quot;	126
-<br>&quot;squeezy&quot;	126
+<p>Our previous verb definitions ended &quot;implies the ... relation&quot;, rather than &quot;implies the ... property&quot;, but otherwise the idea is the same. The effect is that we can say things like:
+<p>
+<blockquote><font color="#000080">A thing usually weighs 1kg. The lead pig weighs 45kg.
+<br>something weighing 20kg
+<br>if three things weigh 5kg, ...
 </font></blockquote><p>
 <p>
-<p>We could then record which one of these tables to use in a variable:
-<p>
-<blockquote><font color="#000080">The lexicon is a table-name that varies. The lexicon is Table 1.
-</font></blockquote><p>
-<p>
-<p>Note that for this purpose, the kind of value is a special kind called &quot;table-name&quot;, not &quot;table&quot;. (The word &quot;table&quot; already has too many meanings and we must be careful to avoid ambiguities here.) We could make use of this as follows, for instance:
-<p>
-<blockquote><font color="#000080">To flip tables:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You exchange dictionaries, lexically crossing the Atlantic. &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the lexicon is Table 1, change the lexicon to Table 2;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise change the lexicon to Table 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the lexicon;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Did you know that according to [the lexicon], [word entry] scores [score entry]?&quot;
-</font></blockquote><p>
-<p>
-<p>which produces text such as
-<p>
-<blockquote><font color="#000080">You exchange dictionaries, lexically crossing the Atlantic. Did you know that according to Table 1 - Nifty Opening Plays in US Scrabble, muzjiks scores 128?
-</font></blockquote><p>
-<p>
+<p><hr><p>
+<a name="e124"><a href=ex124.html#e124><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>This example draws together the previous snippets into a working implementation of the weighbridge.</i><p>
+<a name="e104"><a href=ex104.html#e104><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>To give every container a breaking strain, that is, a maximum weight of contents which it can bear - so that to put the lead pig into a paper bag invites disaster.</i><p>
 <p><hr><p><a href=doc196.html>Previous</a> / <a href=doc198.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,0 +1,50 @@
+<html><head><title>18.12. Making new assertion sentences</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc273.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc275.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.12. Making new assertion sentences</b></td></tr></table><p>
+<p>
+<p>The following feature is best used sparingly if at all: in fact, it is a feature introduced in the very early days of Inform 7 and which may be removed altogether now that there is a more sophisticated way to handle new verbs.
+<p>
+<p>We have already seen that the following sentences are equivalent:
+<p>
+<blockquote><font color="#000080">The matching key of the blue door is the brass key.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The brass key unlocks the blue door.
+</font></blockquote><p>
+<p>
+<p>This comes about because the Standard Rules include the following line:
+<p>
+<blockquote><font color="#000080">X unlocks Y means that the matching key of Y is X.
+</font></blockquote><p>
+<p>
+<p>We can make definitions like this at any point, but had better do so with some care and forethought. They make it possible to talk very elegantly about things belonging to new kinds, but the potential for havoc is considerable if they take effect in an unintended context. Up to four different variables are allowed, but must be called W, X, Y or Z for clarity: and note that they can be matched by empty text. Similarly, Inform also defines
+<p>
+<blockquote><font color="#000080">Above means up from. Below means down from.
+</font></blockquote><p>
+<p>
+<p>This tells Inform to transform &quot;above&quot; into &quot;up from&quot; whenever it occurs in an assertion, and similarly for &quot;below&quot;. Thus
+<p>
+<blockquote><font color="#000080">The Skylight is above the Conservatory.
+</font></blockquote><p>
+<p>
+<p>is transformed to
+<p>
+<blockquote><font color="#000080">The Skylight is up from the Conservatory.
+</font></blockquote><p>
+<p>
+<p>Notice that &quot;means that&quot; applies a change only to an entire sentence, whereas &quot;means&quot; applies to smaller pieces of text. Because of this, &quot;means&quot; has to be used with even more care. Moreover, &quot;means&quot; can't be used to change the words in phrases, so for instance the following fails:
+<p>
+<blockquote><font color="#000080">Determine means decide.
+<br>To determine whether song moves us:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying the blue note, yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;no.
+</font></blockquote><p>
+<p>
+<p><hr><p><a href=doc273.html>Previous</a> / <a href=doc275.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

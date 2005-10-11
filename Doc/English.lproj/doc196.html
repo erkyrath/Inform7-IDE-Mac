@@ -1,28 +1,51 @@
-<html><head><title>13.14. Another scoring example</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc195.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc197.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.14. Another scoring example</b></td></tr></table><p>
+<html><head><title>13.12. Totals</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc195.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc197.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.12. Totals</b></td></tr></table><p>
 <p>
-<blockquote><font color="#000080">To record (T - text) as achieved:
-<br>choose row with a citation of T in the Table of Tasks Achieved;
-<br>if there is no time entry begin;
-<br>change time entry to the time of day;
-<br>award (points entry) points;
-<br>end if.
+<p>It often happens that we want to look at the measurements of a whole collection of things. Suppose we invent the idea of weight, and give everything a weight of its own. Most items will have a nominal weight of just 1 kilogram, but people will be heavier. Going on actuarial tables, we might say:
+<p>
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg. A man is usually 80kg. A woman is usually 67kg.
 </font></blockquote><p>
 <p>
-<p>The phrase above expects to see a table like this one:
-<p>
-<p><center><img src=table10.tiff></center>
-<p>
-<p>The middle column records the tasks to be achieved, the first column records the points on offer for each: the final column, initially blank, will store the times at which the tasks are first achieved.
-<p>
-<blockquote><font color="#000080">Before eating, record &quot;gluttony&quot; as achieved.
+<blockquote><font color="#000080">Definition: A thing is light if its weight is 3kg or less.
+<br>Definition: A thing is heavy if its weight is 10kg or more.
 </font></blockquote><p>
 <p>
-<p>The first time we record &quot;gluttony&quot; as achieved, 2 points will be awarded and the time will be logged in the Table, but on all subsequent occasions nothing will happen. So the combination of the phrase and the Table will look after a scoring system based on achieving specific goals (probably not the seven deadly sins, of course). We can, if we choose, use the same system to display a log of recent accomplishments:
+<p>and this provides us with &quot;lighter&quot;, &quot;lightest&quot;, &quot;heavier&quot; and &quot;heaviest&quot; as before. Now we could say &quot;if Peter is heavier than Paul&quot;, or even &quot;if Peter is heavier than 75kg&quot;, and so forth.
 <p>
-<blockquote><font color="#000080">repeat through the Table of Tasks Achieved in reverse time order begin;
-<br>say &quot;[time entry]: [citation entry] ([points entry]).&quot;;
-<br>end repeat.
+<p>The value &quot;total ... of ...&quot; is a convenient way to total up a given property of everything described. The following now makes the balance platform actually work:
+<p>
+<blockquote><font color="#000080">The balance platform is a supporter in the Weighbridge. &quot;The balance platform is currently weighing [contents of platform]. The scale alongside reads: [total weight of things on the platform].&quot;
+</font></blockquote><p>
+<p>
+<p>Note that this only works because we said that &quot;everything has a weight&quot;: otherwise it would make no sense to add up the weights of things.
+<p>
+<p>This enables us to get the average weight of a group of things, too:
+<p>
+<blockquote><font color="#000080">the total weight of things on the platform divided by the number of things on the platform
+</font></blockquote><p>
+<p>
+<p>But we should be careful that this does not accidentally divide by zero, which it will if the platform has nothing on it! As well as the average, we could find the maximum and minimum weights:
+<p>
+<blockquote><font color="#000080">the weight of the heaviest thing on the platform
+<br>the weight of the lightest thing on the platform
+</font></blockquote><p>
+<p>
+<p>We should remember that &quot;the heaviest thing on the platform&quot; may be ambiguous, because there may be several equally heavy things there. That means
+<p>
+<blockquote><font color="#000080">if the lead pig is the heaviest thing on the platform
+</font></blockquote><p>
+<p>
+<p>will only reliably work if there is no possibility of a tie. A safer bet is:
+<p>
+<blockquote><font color="#000080">if the lead pig is the weight of the heaviest thing on the platform
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc195.html>Previous</a> / <a href=doc197.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

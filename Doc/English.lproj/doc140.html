@@ -1,16 +1,48 @@
-<html><head><title>10.1. Fitting values into phrases</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><h2>Chapter 10: Phrases</h2><p><table><tr><td><a href=doc139.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc141.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.1. Fitting values into phrases</b></td></tr></table><p>
+<html><head><title>10.3. Pattern matching</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc139.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc141.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.3. Pattern matching</b></td></tr></table><p>
 <p>
-<p>We are now able to set up the model world, to respond to certain actions of the player within it, and to make changes over time, giving the game a start and an end. But although we have defined many rules, none of them have done more than to use a few basic phrases: saying something to the player, changing some property or moving things around.
+<p>The following are all valid phrases:
 <p>
-<p>A phrase is a pattern of words which instructs the computer to do something immediately. For instance:
-<p>
-<blockquote><font color="#000080">say &quot;Look out!&quot;
-<br>award 20 points
+<blockquote><font color="#000080">award 2 points
+<br>award 8 points
+<br>award 30 points
 </font></blockquote><p>
 <p>
-<p>are instructions using two phrases, &quot;say ...&quot; and &quot;award ... points&quot;. Phrases are not the same things as rules: rules lay out what should happen under what circumstances, but it is phrases that actually do what needs to be done.
+<p>but they do not of course have different definitions. Instead, a single definition (internal to Inform, since &quot;award ... points&quot; comes built in) covers these and all similar cases, like so:
 <p>
-<p>Where the &quot;20&quot; appears in &quot;award 20 points&quot;, any number would have done. This does not need to be a literal number expressed in digits: it can be any value known to Inform which works out as a number. For instance, &quot;the score&quot; is always acceptable as a number, since it is the name of a number variable: its value at any point in play is the current score.
+<blockquote><font color="#000080">To award (some - a number) points: ...
+</font></blockquote><p>
+<p>
+<p>This is a &quot;pattern&quot;: it matches the text &quot;award 4 points&quot;, and indeed &quot;award four points&quot;, but not
+<p>
+<blockquote><font color="#000080">award &quot;blue cheese&quot; points;
+</font></blockquote><p>
+<p>
+<p>which results in the following error:
+<p>
+<blockquote><font color="#000080"><b>Problem.</b> You wrote 'award &quot;blue cheese&quot; points' <img src=../Reveal.tif>, but '&quot;blue cheese&quot;' seems to be some text, whereas I was expecting to find a number there.
+</font></blockquote><p>
+<p>
+<p>The number does not need to be a literal constant such as 52, but can be anything which works out to be a number: the name of a number variable, for instance.
+<p>
+<p>The term &quot;(some - a number)&quot; tells Inform that a value is expected here, and also tells it the kind of that value (&quot;number&quot;) and what to call this value (&quot;some&quot;). That name is then used in the rest of the definition, whenever the actual number of points is needed. A second example:
+<p>
+<blockquote><font color="#000080">To slam shut (box - an open container): say &quot;With great panache, you slam shut [the box].&quot;.
+</font></blockquote><p>
+<p>
+<p>Which would not match, for instance, this:
+<p>
+<blockquote><font color="#000080">slam shut the black door;
+</font></blockquote><p>
+<p>
+<p>because the black door is not an open container.
 <p>
 <p><hr><p><a href=doc139.html>Previous</a> / <a href=doc141.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

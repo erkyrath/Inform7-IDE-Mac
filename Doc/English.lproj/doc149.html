@@ -1,39 +1,44 @@
-<html><head><title>10.10. Phrase options</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc148.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc150.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.10. Phrase options</b></td></tr></table><p>
+<html><head><title>10.12. New conditions, new adjectives</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc148.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc150.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.12. New conditions, new adjectives</b></td></tr></table><p>
 <p>
-<p>There are often several slightly different ways to perform a given task but which have substantially the same definition. In the following example:
+<p>We can create new conditions by defining a phrase with &quot;to decide whether&quot; (or equivalently &quot;to decide if&quot;):
 <p>
-<blockquote><font color="#000080">To go hiking, into the woods or up the mountain:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if into the woods then say &quot;Watch out for badgers.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if up the mountain then say &quot;Better take your compass.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You go hiking.&quot;.
+<blockquote><font color="#000080">To decide whether danger lurks:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if in darkness then yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the Control Room has been visited then no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise yes.
 </font></blockquote><p>
 <p>
-<p>...a phrase has been set up which can be used in three ways:
+<p>As can be seen, such a phrase must always resolve itself with &quot;yes&quot; or &quot;no&quot;: the first to be reached will be the answer. We can now write, for instance,
 <p>
-<blockquote><font color="#000080">go hiking;
-<br>go hiking, into the woods;
-<br>go hiking, up the mountain;
+<blockquote><font color="#000080">if danger lurks then ...
 </font></blockquote><p>
 <p>
-<p>Note that commas must be used to divide these &quot;phrase options&quot; from the rest of the text of the phrase. Within the definition of the phrase, the option's name is a valid condition, and
+<p>In fact, &quot;danger lurks&quot; is now a condition as good as any other, and can be used wherever a condition would be given. Rules can apply only &quot;when danger lurks&quot;, for instance.
 <p>
-<blockquote><font color="#000080">if up the mountain then ...
+<p>We can also supply definitions of adjectives like this. So far, new adjectives have been defined like so:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Definition: a supporter is occupied if it is described and something is on it.\n\n\n')"><img border=0 src=paste.png></a> Definition: a supporter is occupied if it is described and something is on it.
 </font></blockquote><p>
 <p>
-<p>is true if the phrase was called with &quot;up the mountain&quot; specified and false otherwise, in the obvious way. A more substantial example from the standard rules is given by the Inform list-writer, which produces lists of things to specifications we choose. For instance:
+<p>If we want to give a definition which involves more complex logic, we can use a special form allowing us to make arbitrary decisions. In this longer format, the same definition would look like so:
 <p>
-<blockquote><font color="#000080">list the contents of Marley Wood, as a sentence, with newlines
-<br>and including all contents;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Definition: a supporter is occupied:\n\tif it is undescribed then no;\n\tif something is on it then yes;\n\totherwise no.\n\n\n')"><img border=0 src=paste.png></a> Definition: a supporter is occupied:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if it is undescribed then no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something is on it then yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise no.
 </font></blockquote><p>
 <p>
-<p>Note that this phrase is allowed to have multiple options specified, whereas &quot;go hiking&quot; above was not: this is because it was defined thus:
+<p>Here &quot;it&quot; refers to the supporter in question. Note that there are now two colons in this sentence, one after &quot;Definition&quot;, the other after the clause being defined. But that apart, it's a phrase like any other: it must end in &quot;yes&quot; or &quot;no&quot; just as the &quot;danger lurks&quot; example must.
 <p>
-<blockquote><font color="#000080">To list the contents of (something - an object), with newlines, indented, as a sentence, including contents, including all contents, giving inventory information, giving brief inventory information, using the definite article, listing marked items only, prefacing with is/are and/or not listing concealed items: ...
-</font></blockquote><p>
-<p>
-<p>The significant difference is the word &quot;and/or&quot; instead of &quot;or&quot;, which signals that more than one option can apply at a time.
-<p>
-<p>(As it happens, not all of the above options are equally useful: &quot;not listing concealed items&quot;, for instance, is probably helpful only to people creating projects which mingle Inform 6 and Inform 7 material. &quot;Concealed&quot; is a concept no longer in use.)
-<p>
+<p><hr><p>
+<a name="e78"><a href=ex78.html#e78><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>OUT always means "move to an outdoors room, or else to a room with more exits than this one has"; IN always means the opposite.</i><p>
 <p><hr><p><a href=doc148.html>Previous</a> / <a href=doc150.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

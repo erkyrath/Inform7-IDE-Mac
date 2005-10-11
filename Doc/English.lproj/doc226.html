@@ -1,19 +1,76 @@
-<html><head><title>16.3. Rules applied to activities</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc225.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc227.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.3. Rules applied to activities</b></td></tr></table><p>
+<html><head><title>15.14. Understanding things by their properties</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc225.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc227.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.14. Understanding things by their properties</b></td></tr></table><p>
 <p>
-<p>The activity &quot;printing the name of something&quot; is the process of printing up the name of something on screen: ordinarily, this means saying the text in its &quot;printed name&quot; property.
+<p>Items are ordinarily understood only by their original given names. For instance, if we have:
 <p>
-<p>As with actions, rules can be attached to activities which change or augment what would normally happen. In fact the situation is simpler, because (unlike an action) an activity always finishes, so there is no question of not reaching its &quot;after&quot; stage. There are also only three rulebooks attached to an activity, as compared with the six affecting an action.
-<p>
-<p>The three rulebooks for printing the name are called &quot;before printing the name&quot;, &quot;for printing the name&quot; and &quot;after printing the name&quot;, and this is the general pattern. What happens is:
-<p>
-<blockquote><font color="#000080">(i) all &quot;before printing the name of&quot; rules are considered;
-<br>(ii) the most specific, applicable &quot;rule for printing the name of&quot; is considered;
-<br>(iii) all &quot;after printing the name of&quot; rules are considered.
+<blockquote><font color="#000080">In the Herb Garden is a china pot.
 </font></blockquote><p>
 <p>
-<p>The actual activity, then, is carried out by one single rule in the &quot;for...&quot; rulebook: it is the rule for printing the name of whatever is concerned, hence the name.
+<p>then the player could refer to this as &quot;pot&quot;, &quot;china pot&quot; or &quot;china&quot;. We can embellish this by adding extra forms:
 <p>
-<p>The &quot;before printing the name&quot; and &quot;after printing the name&quot; rulebooks start out empty, while the &quot;for printing the name&quot; rulebook has just one rule in it (set to be &quot;last&quot; in the sense of the previous chapter): the rule which actually looks up the &quot;printed name&quot; property and prints it out. The same setup is used for all other activities built into Inform: nothing in &quot;before&quot; or &quot;after&quot;, and the default behaviour all built into a single rule in the &quot;for&quot; rulebook, rigged so that any rule of the designer's will have precedence over it.
+<blockquote><font color="#000080">Understand &quot;chinese pot&quot; or &quot;chinese vase&quot; as the china pot.
+</font></blockquote><p>
 <p>
+<p>But suppose the pot changes its nature in the course of play? If we have:
+<p>
+<blockquote><font color="#000080">The china pot can be unbroken or broken. The china pot is unbroken. After dropping the china pot: say &quot;Crack!&quot;; now the china pot is broken; change the printed name of the pot to &quot;broken pot&quot;.
+</font></blockquote><p>
+<p>
+<p>So now the player would reasonably expect to call it &quot;broken pot&quot;, a wording which would have been rejected before. We can achieve this by writing:
+<p>
+<blockquote><font color="#000080">Understand the unbroken property as describing the pot.
+</font></blockquote><p>
+<p>
+<p>which allows &quot;unbroken&quot; or &quot;broken&quot; to describe the pot, depending on its state. This is something of a toy example, but the feature looks rather more useful when there are more pots than just one:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Terracotta&quot;\n\nA flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.\n\nAfter dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.\n\nThe Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.\n\n\n')"><img border=0 src=paste.png></a> &quot;Terracotta&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.
+</font></blockquote><p>
+<p>
+<p>We then have the dialogue:
+<p>
+<blockquote><font color="#000080">Herb Garden
+<br>You can see ten flowerpots here.
+<br>>get two flowerpots
+<br>flowerpot: Taken.
+<br>flowerpot: Taken.
+<br>>drop all
+<br>flowerpot: Crack!
+<br>flowerpot: Crack!
+<br>>look
+<br>Herb Garden
+<br>You can see two broken flowerpots and eight flowerpots here.
+<br>>get an unbroken flowerpot
+<br>Taken.
+</font></blockquote><p>
+<p>
+<p>and so on and so forth.
+<p>
+<p>There are in fact two slightly different forms of this kind of sentence:
+<p>
+<blockquote><font color="#000080">Understand the broken property as describing a flowerpot.
+<br>Understand the broken property as referring to a flowerpot.
+</font></blockquote><p>
+<p>
+<p>The only difference is that in the &quot;describing&quot; case, the property's name alone can mean the thing in question - so &quot;take unbroken&quot; will work; whereas, in the &quot;referring to&quot;, the property's name can only be used as an adjective preceding the name of thing itself - so &quot;take unbroken flowerpot&quot; will work but &quot;take unbroken&quot; will not.
+<p>
+<p><hr><p>
+<a name="e52"><a href=ex52.html#e52><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>The flowerpots once again, but this time arranged so that after the first breakage all undamaged pots are said to be "unbroken", to distinguish them from the others.</i><p>
+<a name="e81"><a href=ex81.html#e81><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>The peers of the English realm come in six flavours - Baron, Viscount, Earl, Marquess, Duke and Prince - and must always be addressed properly. While a peerage is for life, it may at the royal pleasure be promoted.</i><p>
 <p><hr><p><a href=doc225.html>Previous</a> / <a href=doc227.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

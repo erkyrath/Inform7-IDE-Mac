@@ -1,34 +1,39 @@
-<html><head><title>6.13. The noun, the second noun, the person asked</title></head>
-<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><table><tr><td><a href=doc82.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc84.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.13. The noun, the second noun, the person asked</b></td></tr></table><p>
+<html><head><title>6.10. Rules applying to more than one action</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr><td><a href=doc82.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc84.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.10. Rules applying to more than one action</b></td></tr></table><p>
 <p>
-<p>Once we begin applying rules to actions which are not entirely known in advance, we have a problem: there's no way to find out what specifically is happening. Consider the following:
+<p>A description can include more than one choice of action. For instance:
 <p>
-<blockquote><font color="#000080">Instead of examining something, say &quot;It is none of your concern!&quot;
+<blockquote><font color="#000080">examining or searching the desk
 </font></blockquote><p>
 <p>
-<p>This is fine as far as it goes, but clumsy. What if the player had examined a human being? Then &quot;it&quot; would be inappropriate. A better approach would be this:
+<p>matches either of &quot;examining the desk&quot; or &quot;searching the desk&quot;. We can have more than two actions, of course:
 <p>
-<blockquote><font color="#000080">Instead of examining something, say &quot;[The noun] is none of your concern!&quot;
+<blockquote><font color="#000080">examining, looking under or searching the desk
 </font></blockquote><p>
 <p>
-<p>The &quot;noun&quot; and, when necessary, the &quot;second noun&quot; are values which can be used in any rule about actions, and it follows that they can also be substituted into text, as this example demonstrates. Results might include:
+<p>The actions combined like this need to be compatible with each other, at least a little. For instance, this will generate a problem message:
 <p>
-<blockquote><font color="#000080">Lady Bracknell is none of your concern!
+<blockquote><font color="#000080">waiting or searching the desk
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The silver cigarette case is none of your concern!
+<p>because it makes no sense to &quot;wait the desk&quot;. On the other hand, this is fine:
+<p>
+<blockquote><font color="#000080">waiting or searching
 </font></blockquote><p>
 <p>
-<p>This seems a good moment to mention that if you use &quot;The&quot; in a substitution, then a capitalised &quot;The&quot; will be used so long as this is grammatically correct (Lady Bracknell, as a proper noun, takes no article); &quot;the&quot; becomes a lower-case &quot;the&quot; along the same lines; and &quot;a&quot; a lower-case indefinite article.
+<p>The general rule is that if we specify one or more objects (&quot;the desk&quot; in the above example), then each of the actions we quote must take at least that many objects.
 <p>
-<blockquote><font color="#000080">Instead of examining something in the Drawing Room, say &quot;Under Lady Bracknell's eye, you feel constrained. Besides, it is only [a noun].&quot;
+<p>For example, the following saves us writing the same basic rule three times over:
+<p>
+<blockquote><font color="#000080">Instead of examining, looking under or searching the desk: say &quot;There's no use poking around in that old desk.&quot;
 </font></blockquote><p>
-<p>
-<p>Lastly, for actions addressed to other people, we may need to write rules which depend on who is supposed to do the deed. The value &quot;person asked&quot; is what we need. For instance:
-<p>
-<blockquote><font color="#000080">Instead of asking somebody to take something, say &quot;I don't think we ought to tempt [the person asked] into theft, surely?&quot;
-</font></blockquote><p>
-<p>
-<p>So if the player types &quot;Algy, take sandwich&quot;, the &quot;person asked&quot; would be Algy; the &quot;noun&quot; would be the sandwich; and there would be no &quot;second noun&quot;.
 <p>
 <p><hr><p><a href=doc82.html>Previous</a> / <a href=doc84.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
