@@ -681,4 +681,38 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 	[self preferencesHaveChanged];
 }
 
+// = Advanced preferences =
+
+- (BOOL) runBuildSh {
+	NSNumber* value = [preferences objectForKey: @"runBuildSh"];
+	
+	if (value)
+		return [value boolValue];
+	else
+		return NO;
+}
+
+- (BOOL) showDebuggingLogs {
+	NSNumber* value = [preferences objectForKey: @"showDebuggingLogs"];
+	
+	if (value)
+		return [value boolValue];
+	else
+		return NO;
+}
+
+- (void) setRunBuildSh: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"runBuildSh"];
+	
+	[self preferencesHaveChanged];
+}
+
+- (void) setShowDebuggingLogs: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"showDebuggingLogs"];
+	
+	[self preferencesHaveChanged];
+}
+
 @end

@@ -109,4 +109,11 @@ enum IFPreferencesColourSet {
 - (void) setIndentAfterNewline: (BOOL) value;
 - (void) setAutoNumberSections: (BOOL) value;
 
+// Advanced preferences
+- (BOOL) runBuildSh;														// YES if we should run the build.sh shell script to rebuild Inform 7
+- (BOOL) showDebuggingLogs;													// YES if we should show the Inform 7 debugging logs + generated Inform 6 source code
+
+- (void) setRunBuildSh: (BOOL) value;
+- (void) setShowDebuggingLogs: (BOOL) value;
+
 @end
