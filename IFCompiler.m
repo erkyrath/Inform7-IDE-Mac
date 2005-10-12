@@ -357,6 +357,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 
     [args addObject: @"-package"];
     [args addObject: [NSString stringWithString: [self currentStageInput]]];
+	[args addObject: [NSString stringWithFormat: @"-extension=%@", [settings fileExtension]]];
 	
 	if (release) {
 		[args addObject: @"-release"];
@@ -365,7 +366,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 	if ([[IFPreferences sharedPreferences] showDebuggingLogs]) {
 		[args addObject: @"-log"];
 	}
-
+	
     [self addCustomBuildStage: [settings naturalInformCompilerToUse]
                 withArguments: args
                nextStageInput: [NSString stringWithFormat: @"%@/Build/auto.inf", [self currentStageInput]]
@@ -406,7 +407,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 	return theTask!=nil?[theTask isRunning]:NO;
 }
 
-- (void) prepareForLaunch {
+- (void) prepareForLaunchWithBlorbStage: (BOOL) makeBlorb {
     // Kill off any old tasks...
     if (theTask) {
         if ([theTask isRunning]) {
@@ -440,6 +441,36 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
         if (![settings usingNaturalInform] || [settings compileNaturalInformOutput]) {
             [self addStandardInformStage: [settings usingNaturalInform]];
         }
+		
+		if (makeBlorb && [settings usingNaturalInform]) {
+			// Blorb files kind of create an exception: we change our output file, for instance, and the input file is determined by the blurb file output by NI
+			
+			// Work out the new output file
+			NSString* oldOutput = [self outputFile];
+			NSString* newOutput = [NSString stringWithFormat: @"%@.zlb", [oldOutput stringByDeletingPathExtension]];
+			
+			// Work out where the blorb is coming from
+			NSString* firstInput = [self inputFile];
+			NSString* blorbFile = [NSString stringWithFormat: @"%@/Release.blurb",
+				[[firstInput stringByDeletingLastPathComponent] stringByDeletingLastPathComponent]];
+			
+			// Add a cBlorb stage
+			NSString* cBlorbLocation = [[NSBundle mainBundle] pathForResource: @"cBlorb"
+																	   ofType: @""
+																  inDirectory: @"Compilers"];
+			
+			[self addCustomBuildStage: cBlorbLocation
+						withArguments: [NSArray arrayWithObjects:
+							blorbFile, 
+							newOutput, 
+							nil]
+					   nextStageInput: newOutput
+						 errorHandler: nil
+								named: @"cBlorb build stage"];
+			
+			// Change the output file
+			[self setOutputFile: newOutput];
+		}
     }
 
     /*

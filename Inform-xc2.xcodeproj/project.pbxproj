@@ -941,6 +941,8 @@
 		4BF88F9708FD53ED00F5DFDE /* AdvancedPreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4BF88F9508FD53ED00F5DFDE /* AdvancedPreferences.nib */; };
 		4BF88F9D08FD544E00F5DFDE /* IFAdvancedPreferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BF88F9B08FD544E00F5DFDE /* IFAdvancedPreferences.h */; };
 		4BF88F9E08FD544E00F5DFDE /* IFAdvancedPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BF88F9C08FD544E00F5DFDE /* IFAdvancedPreferences.m */; };
+		4BF890C608FD6BE900F5DFDE /* cBlorb.c in Sources */ = {isa = PBXBuildFile; fileRef = 4BF890C408FD6BDF00F5DFDE /* cBlorb.c */; };
+		4BF890C908FD6C3C00F5DFDE /* cBlorb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4BF890BB08FD6BBA00F5DFDE /* cBlorb */; };
 		4BFA76A30830EAC5007C7076 /* IFAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B96DF5004F11BF500A8E303 /* IFAppDelegate.m */; };
 /* End PBXBuildFile section */
 
@@ -1093,6 +1095,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4BD2747808701E6700C1AE15;
 			remoteInfo = ZoomView;
+		};
+		4BF890C708FD6C2A00F5DFDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4BF890BA08FD6BBA00F5DFDE /* cBlorb */;
+			remoteInfo = cBlorb;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -1248,6 +1257,7 @@
 				4B2CE4010668AFCD006DCED3 /* ni in CopyFiles */,
 				4B6A2DAA05890C7C00CFA634 /* inform-6.21-zcode in CopyFiles */,
 				4B133E4A05878A1600742783 /* inform-6.3-biplatform in CopyFiles */,
+				4BF890C908FD6C3C00F5DFDE /* cBlorb in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2214,6 +2224,8 @@
 		4BF88F9608FD53ED00F5DFDE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/AdvancedPreferences.nib; sourceTree = "<group>"; };
 		4BF88F9B08FD544E00F5DFDE /* IFAdvancedPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFAdvancedPreferences.h; sourceTree = "<group>"; };
 		4BF88F9C08FD544E00F5DFDE /* IFAdvancedPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFAdvancedPreferences.m; sourceTree = "<group>"; };
+		4BF890BB08FD6BBA00F5DFDE /* cBlorb */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cBlorb; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BF890C408FD6BDF00F5DFDE /* cBlorb.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; path = cBlorb.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2240,6 +2252,13 @@
 				4BC3269E0614C70200B2533B /* WebKit.framework in Frameworks */,
 				4BD2757708703F8400C1AE15 /* ZoomView.framework in Frameworks */,
 				4BD275CF0871A80F00C1AE15 /* ZoomView.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BF890B908FD6BBA00F5DFDE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2297,6 +2316,7 @@
 				4B81D33F08112F6C00CF609F /* glulxe */,
 				4BD275CC0871A80F00C1AE15 /* ZoomView.framework */,
 				4B81D36A08112F7600CF609F /* CocoaGlk */,
+				4BF890BB08FD6BBA00F5DFDE /* cBlorb */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2325,6 +2345,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				4BF890BD08FD6BC300F5DFDE /* cblorb */,
 				32CA4F630368D1EE00C91783 /* Inform_Prefix.h */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
 			);
@@ -3593,6 +3614,14 @@
 			name = Inspectors;
 			sourceTree = "<group>";
 		};
+		4BF890BD08FD6BC300F5DFDE /* cblorb */ = {
+			isa = PBXGroup;
+			children = (
+				4BF890C408FD6BDF00F5DFDE /* cBlorb.c */,
+			);
+			path = cblorb;
+			sourceTree = "<group>";
+		};
 		4BFE96B3057A222B00E9C60A /* Syntax */ = {
 			isa = PBXGroup;
 			children = (
@@ -3803,12 +3832,46 @@
 				4B6A87F2086E0EA200BFAE69 /* PBXTargetDependency */,
 				4B6A87F4086E0EA600BFAE69 /* PBXTargetDependency */,
 				4B6A87F6086E0EAB00BFAE69 /* PBXTargetDependency */,
+				4BF890C808FD6C2A00F5DFDE /* PBXTargetDependency */,
 			);
 			name = Inform;
 			productInstallPath = "$(HOME)/Applications";
 			productName = Inform;
 			productReference = 4BD95A34055EE949008DEFF4 /* Inform.app */;
 			productType = "com.apple.product-type.application";
+		};
+		4BF890BA08FD6BBA00F5DFDE /* cBlorb */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BF890BE08FD6BC300F5DFDE /* Build configuration list for PBXNativeTarget "cBlorb" */;
+			buildPhases = (
+				4BF890B808FD6BBA00F5DFDE /* Sources */,
+				4BF890B908FD6BBA00F5DFDE /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = cBlorb;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			dependencies = (
+			);
+			name = cBlorb;
+			productName = cBlorb;
+			productReference = 4BF890BB08FD6BBA00F5DFDE /* cBlorb */;
+			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
 
@@ -3840,6 +3903,7 @@
 				4B0BADB704ED109F00A8E303 /* Compiler-glulx */,
 				4B96DF9904F12C7B00A8E303 /* Compiler-ZCode */,
 				4B133E0B0587896000742783 /* Compiler-6.3 */,
+				4BF890BA08FD6BBA00F5DFDE /* cBlorb */,
 			);
 		};
 /* End PBXProject section */
@@ -4762,6 +4826,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4BF890B808FD6BBA00F5DFDE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BF890C608FD6BE900F5DFDE /* cBlorb.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -4794,6 +4866,11 @@
 			isa = PBXTargetDependency;
 			name = ZoomView;
 			targetProxy = 4BD2757008703F1100C1AE15 /* PBXContainerItemProxy */;
+		};
+		4BF890C808FD6C2A00F5DFDE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4BF890BA08FD6BBA00F5DFDE /* cBlorb */;
+			targetProxy = 4BF890C708FD6C2A00F5DFDE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -9414,6 +9491,71 @@
 			};
 			name = Default;
 		};
+		4BF890BF08FD6BC300F5DFDE /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = cBlorb;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Development;
+		};
+		4BF890C008FD6BC300F5DFDE /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = cBlorb;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Deployment;
+		};
+		4BF890C108FD6BC300F5DFDE /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INSTALL_PATH = "$(HOME)/bin";
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = cBlorb;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -9466,6 +9608,15 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
+		};
+		4BF890BE08FD6BC300F5DFDE /* Build configuration list for PBXNativeTarget "cBlorb" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BF890BF08FD6BC300F5DFDE /* Development */,
+				4BF890C008FD6BC300F5DFDE /* Deployment */,
+				4BF890C108FD6BC300F5DFDE /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

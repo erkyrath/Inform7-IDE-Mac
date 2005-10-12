@@ -83,7 +83,7 @@ extern NSString* IFCompilerFinishedNotification;
 - (IFCompilerSettings*) settings;													// Retrieves the settings
 - (NSString*) directory;															// Retrieves the working directory path
 
-- (void) prepareForLaunch;															// Prepares the first task for launch
+- (void) prepareForLaunchWithBlorbStage: (BOOL) makeBlorb;							// Prepares the first task for launch
 - (BOOL) isRunning;																	// YES if a compiler is running
 
 - (void) addCustomBuildStage: (NSString*) command									// Adds a new build stage to the compiler

@@ -270,7 +270,7 @@ static IFCompilerController* activeController = nil;
     [[[compilerResults textStorage] mutableString] setString: @""];
     highlightPos = 0;
     
-    [compiler prepareForLaunch];
+    [compiler prepareForLaunchWithBlorbStage: NO];
 
 	[compiler launch];
    

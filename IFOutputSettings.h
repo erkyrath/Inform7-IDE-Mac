@@ -15,6 +15,10 @@
 //
 @interface IFOutputSettings : IFSetting {
     IBOutlet NSMatrix* zmachineVersion;
+	IBOutlet NSButton* releaseBlorb;
 }
+
+- (BOOL) createBlorbForRelease;
+- (void) setCreateBlorbForRelease: (BOOL) value;
 
 @end

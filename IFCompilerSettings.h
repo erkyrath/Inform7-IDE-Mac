@@ -36,6 +36,8 @@ extern NSString* IFSettingLoudly;
 extern NSString* IFCompilerInform6;
 extern NSString* IFCompilerNaturalInform;
 
+@class IFSetting;
+
 //
 // Object used to describe the settings for the compilers
 //
@@ -90,6 +92,7 @@ extern NSString* IFCompilerNaturalInform;
 - (NSArray*)  includePathsForCompiler: (NSString*) compiler;		// Gets the list of include paths to use for a specific compiler (IFCompilerInform6 or IFCompilerNaturalInform)
 - (NSArray*)  genericCommandLineForCompiler: (NSString*) compiler;	// Gets the list of 'generic' compiler options for a specific compiler (IFCompilerInform6 or IFCompilerNaturalInform)
 - (NSMutableDictionary*) dictionaryForClass: (Class) cls;			// Gets the dictionary for a given IFSetting class
+- (IFSetting*) settingForClass: (Class) cls;						// Gets the implementation of a given IFSetting class within this object
 
 // Getting command line arguments, etc
 - (NSArray*) commandLineArguments;									// Retrieves the command line arguments to pass to the Inform 6 compiler

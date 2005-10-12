@@ -573,6 +573,8 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 
 - (NSString*) fileExtension {
     int version = [self zcodeVersion];
+	
+	if (version == 256) return @"ulx";
     return [NSString stringWithFormat: @"z%i", version];
 }
 
@@ -661,6 +663,19 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 	}
 	
 	return dict;
+}
+
+- (IFSetting*) settingForClass: (Class) cls {
+	NSEnumerator* settingEnum = [genericSettings objectEnumerator];
+	IFSetting* setting;
+	
+	while (setting = [settingEnum nextObject]) {
+		if ([[[setting class] description] isEqualToString: [cls description]]) {
+			return setting;
+		}
+	}
+	
+	return nil;
 }
 
 // = NSCoding =

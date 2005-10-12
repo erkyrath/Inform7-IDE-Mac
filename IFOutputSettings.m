@@ -8,6 +8,7 @@
 
 #import "IFOutputSettings.h"
 
+NSString* IFSettingCreateBlorb = @"IFSettingCreateBlorb";
 
 @implementation IFOutputSettings
 
@@ -22,6 +23,24 @@
 }
 
 // = Setting up =
+
+- (BOOL) createBlorbForRelease {
+    IFCompilerSettings* settings = [self compilerSettings];
+	NSNumber* value = [[settings dictionaryForClass: [self class]] objectForKey: IFSettingCreateBlorb];
+	
+	if (value)
+		return [value boolValue];
+	else
+		return YES;
+}
+
+- (void) setCreateBlorbForRelease: (BOOL) setting {
+    IFCompilerSettings* settings = [self compilerSettings];
+	
+	[[settings dictionaryForClass: [self class]] setObject: [NSNumber numberWithBool: setting]
+													forKey: IFSettingCreateBlorb];
+	[settings settingsHaveChanged];
+}
 
 - (void) updateFromCompilerSettings {
     IFCompilerSettings* settings = [self compilerSettings];
@@ -50,12 +69,17 @@
     } else {
         [zmachineVersion deselectAllCells];
     }
+	
+	// Whether or not we should generate a blorb file on release
+	[releaseBlorb setState: [self createBlorbForRelease]?NSOnState:NSOffState];
 }
 
 - (void) setSettings {
+	BOOL willCreateBlorb = [releaseBlorb state]==NSOnState;
     IFCompilerSettings* settings = [self compilerSettings];
 
 	[settings setZCodeVersion: [[zmachineVersion selectedCell] tag]];
+	[self setCreateBlorbForRelease: willCreateBlorb];
 }
 
 @end

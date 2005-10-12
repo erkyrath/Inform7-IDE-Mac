@@ -22,6 +22,8 @@
 
 #import "IFSearchResultsController.h"
 
+#import "IFOutputSettings.h"
+
 // = Preferences =
 
 NSString* IFSplitViewSizes = @"IFSplitViewSizes";
@@ -714,6 +716,8 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) performCompileWithRelease: (BOOL) release {
     IFProject* doc = [self document];
+	IFOutputSettings* outputSettings = (IFOutputSettings*)[[doc settings] settingForClass: [IFOutputSettings class]];
+	BOOL buildBlorb = [outputSettings createBlorbForRelease] && release;
 	
 	[self removeHighlightsOfStyle: IFLineStyleError];
 	[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];
@@ -731,7 +735,7 @@ static NSDictionary*  itemDictionary = nil;
     if (![doc singleFile]) {
         [theCompiler setOutputFile: [NSString stringWithFormat: @"%@/Build/output.%@",
             [doc fileName],
-			[[doc settings] zcodeVersion]==256?@"ulx":@"z5"]];
+			[[doc settings] zcodeVersion]==256?@"ulx":[NSString stringWithFormat: @"z%i", [[doc settings] zcodeVersion]]]];
 		
         if ([[doc settings] usingNaturalInform]) {
             [theCompiler setInputFile: [NSString stringWithFormat: @"%@",
@@ -747,11 +751,12 @@ static NSDictionary*  itemDictionary = nil;
             [doc fileName]]];
         
         [theCompiler setDirectory: [NSString stringWithFormat: @"%@", [[doc fileName] stringByDeletingLastPathComponent]]];
+		buildBlorb = NO;
     }
 	
     // Time to go!
 	[self addProgressIndicator: [theCompiler progress]];
-    [theCompiler prepareForLaunch];
+    [theCompiler prepareForLaunchWithBlorbStage: buildBlorb];
     [theCompiler launch];
 	
     // [[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
@@ -799,10 +804,11 @@ static NSDictionary*  itemDictionary = nil;
 - (void) saveCompilerOutput {
     // Setup a save panel
     NSSavePanel* panel = [NSSavePanel savePanel];
-    IFCompilerSettings* settings = [[self document] settings];
+    //IFCompilerSettings* settings = [[self document] settings];
 
     [panel setAccessoryView: nil];
-    [panel setRequiredFileType: [settings fileExtension]];
+    //[panel setRequiredFileType: [settings fileExtension]];
+	[panel setRequiredFileType: [[[[self document] compiler] outputFile] pathExtension]];
     [panel setCanSelectHiddenExtension: YES];
     [panel setDelegate: self];
     [panel setPrompt: @"Save"];
