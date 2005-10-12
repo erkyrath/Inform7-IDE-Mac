@@ -91,9 +91,7 @@ static NSRunLoop* mainRunLoop = nil;
 	[IFSettingsController addStandardSettingsClass: [IFCompilerOptions class]];
 	[IFSettingsController addStandardSettingsClass: [IFLibrarySettings class]];
 	[IFSettingsController addStandardSettingsClass: [IFMiscSettings class]];
-	[IFSettingsController addStandardSettingsClass: [IFNaturalExtensions class]];
 	[IFSettingsController addStandardSettingsClass: [IFInform6Extensions class]];
-	[IFSettingsController addStandardSettingsClass: [IFDebugSettings class]];
 	
 	// Glk hub
 	[[GlkHub sharedGlkHub] setRandomHubCookie];

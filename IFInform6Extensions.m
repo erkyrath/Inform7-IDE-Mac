@@ -413,4 +413,12 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 	[extensionTable reloadData];
 }
 
+- (BOOL) enableForCompiler: (NSString*) compiler {
+	// These settings are unsafe to change while using Natural Inform
+	if ([compiler isEqualToString: IFCompilerNaturalInform])
+		return NO;
+	else
+		return YES;
+}
+
 @end

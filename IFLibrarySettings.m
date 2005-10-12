@@ -50,4 +50,12 @@
 	[settings setLibraryToUse: [libraryVersion itemTitleAtIndex: [libraryVersion indexOfSelectedItem]]];
 }
 
+- (BOOL) enableForCompiler: (NSString*) compiler {
+	// These settings are unsafe to change while using Natural Inform
+	if ([compiler isEqualToString: IFCompilerNaturalInform])
+		return NO;
+	else
+		return YES;
+}
+
 @end

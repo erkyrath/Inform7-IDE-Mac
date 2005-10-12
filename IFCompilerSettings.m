@@ -245,6 +245,16 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     [super dealloc];
 }
 
+// = Getting information on what is going on =
+
+- (NSString*) primaryCompilerType {
+	if ([self usingNaturalInform]) {
+		return IFCompilerNaturalInform;
+	} else {
+		return IFCompilerInform6;
+	}
+}
+
 // == The command line ==
 - (NSArray*) commandLineArguments {
 	return [self commandLineArgumentsForRelease: NO];

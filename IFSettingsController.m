@@ -81,6 +81,7 @@ static NSMutableArray* standardSettingsClasses = nil;
 	// Re-add all the settings views
 	IFSetting* setting;
 	NSEnumerator* settingEnumerator = [settings objectEnumerator];
+	NSString* compilerType = [compilerSettings primaryCompilerType];
 		
 	[settingsView startRearranging];
 	[settingsView removeAllSubviews];
@@ -88,6 +89,9 @@ static NSMutableArray* standardSettingsClasses = nil;
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 
 	while (setting = [settingEnumerator nextObject]) {
+		// Skip this view if it's not enabled for this compiler type
+		if (![setting enableForCompiler: compilerType]) continue;
+		
 		[settingsView addSubview: [setting settingView]
 					   withTitle: [setting title]];
 		
@@ -181,6 +185,7 @@ static NSMutableArray* standardSettingsClasses = nil;
 	[settings makeObjectsPerformSelector: @selector(setCompilerSettings:)
 							  withObject: compilerSettings];
 	[compilerSettings reloadAllSettings];
+	[self repopulateSettings];
 
 	// Update ourselves when the compiler settings change
 	[[NSNotificationCenter defaultCenter] addObserver: self

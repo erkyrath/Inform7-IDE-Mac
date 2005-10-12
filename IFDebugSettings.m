@@ -42,4 +42,9 @@
 	[settings setDebugMemory: [debugMemory state]==NSOnState];
 }
 
+- (BOOL) enableForCompiler: (NSString*) compiler {
+	// These settings are presently permanently disabled
+	return NO;
+}
+
 @end

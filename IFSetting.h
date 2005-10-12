@@ -44,7 +44,7 @@ extern NSString* IFSettingHasChangedNotification;
 
 // Communicating with the IFCompilerSettings object
 - (void) setSettings;													// (OVERRIDE) Sets values in the compiler settings (or the dictionary) from the current UI choices
-- (BOOL) enableForCompiler: (NSString*) compiler;						// (UNUSED) YES if this set of settings applies to the given compiler type (IFCompilerInform6 or IFCompilerNaturalInform)
+- (BOOL) enableForCompiler: (NSString*) compiler;						// YES if this set of settings applies to the given compiler type (IFCompilerInform6 or IFCompilerNaturalInform)
 - (NSArray*) commandLineOptionsForCompiler: (NSString*) compiler;		// Retrieves the command line options that should be applied for this setting for the given compiler type
 - (NSArray*) includePathForCompiler: (NSString*) compiler;				// Retrieves the include directories to use for this setting for the given compiler type
 - (void) updateFromCompilerSettings;									// (OVERRIDE) Sets values in the UI from the values set in the compiler settings (or the dictionary)

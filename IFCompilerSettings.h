@@ -51,6 +51,9 @@ extern NSString* IFCompilerNaturalInform;
 + (NSString*) pathForInform7Library: (NSString*) library;	// Path to an Inform 7 library with a specific name
 + (NSArray*) availableLibraries;							// Set of available Inform 6 library
 
+// Getting information on what is going on
+- (NSString*) primaryCompilerType;							// The primary compiler type represented by these settings
+
 // Setting up the settings (deprecated: use an IFSetting object if at all possible)
 - (void) setUsingNaturalInform: (BOOL) setting;
 - (void) setStrict: (BOOL) setting;
