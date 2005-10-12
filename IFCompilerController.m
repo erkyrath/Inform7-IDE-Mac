@@ -17,6 +17,8 @@
 #import "IFPretendWebView.h"
 #import "IFPretendTextView.h"
 
+#import "Preferences/IFPreferences.h"
+
 // Possible styles (stored in the styles dictionary)
 NSString* IFStyleBase               = @"IFStyleBase";
 
@@ -809,6 +811,14 @@ static IFCompilerController* activeController = nil;
     if (![files isDirectory]) {
         return; // Nothing to do
     }
+	
+	// The set of files we should avoid showing
+	NSMutableSet* excludedFiles = [NSMutableSet set];
+	
+	if (![[IFPreferences sharedPreferences] showDebuggingLogs]) {
+		[excludedFiles addObject: @"debug log.txt"];
+		[excludedFiles addObject: @"auto.inf"];
+	}
 
     NSEnumerator* keyEnum = [[files fileWrappers] keyEnumerator];
     NSString* key;
@@ -826,6 +836,9 @@ static IFCompilerController* activeController = nil;
 	// Enumerate across the list of files in the filewrapper
     while (key = [keyEnum nextObject]) {
         NSString* type = [[key pathExtension] lowercaseString];
+		
+		// Skip this file if it's in the excluded list
+		if ([excludedFiles containsObject: [key lowercaseString]]) continue;
 
 		// HTML, text and inf files go in a tab view showing various different status messages
 		// With NI, the problems file is most important: we substitute this if the compiler wants

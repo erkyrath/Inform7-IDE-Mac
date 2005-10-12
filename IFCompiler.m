@@ -8,6 +8,8 @@
 
 #import "IFCompiler.h"
 
+#import "Preferences/IFPreferences.h"
+
 #import "IFNaturalProblem.h"
 #import "IFInform6Problem.h"
 
@@ -359,6 +361,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 	if (release) {
 		[args addObject: @"-release"];
 	}
+	
+	if ([[IFPreferences sharedPreferences] showDebuggingLogs]) {
+		[args addObject: @"-log"];
+	}
 
     [self addCustomBuildStage: [settings naturalInformCompilerToUse]
                 withArguments: args
@@ -417,7 +423,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 
     // Prepare the arguments
     if ([runQueue count] <= 0) {
-        if ([settings runBuildScript]) {
+        if ([[IFPreferences sharedPreferences] runBuildSh]) {
             NSString* buildsh = [@"~/build.sh" stringByExpandingTildeInPath];
             
             [self addCustomBuildStage: buildsh
