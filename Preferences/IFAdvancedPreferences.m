@@ -34,6 +34,10 @@
 	return @"Advanced";
 }
 
+- (NSImage*) toolbarImage {
+	return [NSImage imageNamed: @"Advanced"];
+}
+
 // = Actions =
 
 - (IBAction) setPreference: (id) sender {
