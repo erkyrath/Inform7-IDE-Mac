@@ -101,6 +101,7 @@ enum IFPreferencesColourSet {
 - (BOOL) intelligenceIndexInspector;										// ... which is placed in the index
 - (BOOL) indentAfterNewline;												// ... which is used to generate indentation
 - (BOOL) autoNumberSections;												// ... which is used to auto-type section numbers
+- (NSString*) newGameAuthorName;											// The default author to use for new Inform 7 games
 
 - (void) setEnableSyntaxHighlighting: (BOOL) value;
 - (void) setIndentWrappedLines: (BOOL) value;
@@ -108,6 +109,7 @@ enum IFPreferencesColourSet {
 - (void) setIntelligenceIndexInspector: (BOOL) value;
 - (void) setIndentAfterNewline: (BOOL) value;
 - (void) setAutoNumberSections: (BOOL) value;
+- (void) setNewGameAuthorName: (NSString*) value;
 
 // Advanced preferences
 - (BOOL) runBuildSh;														// YES if we should run the build.sh shell script to rebuild Inform 7

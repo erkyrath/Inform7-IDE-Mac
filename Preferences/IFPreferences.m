@@ -639,6 +639,29 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 		return NO;
 }
 
+- (NSString*) longUserName {
+	NSString* longuserName = NSFullUserName();
+	if ([longuserName length] == 0 || longuserName == nil) longuserName = NSUserName();
+	if ([longuserName length] == 0 || longuserName == nil) longuserName = @"Unknown Author";
+	
+	return longuserName;
+}
+
+- (NSString*) newGameAuthorName {
+	NSString* value = [preferences objectForKey: @"newGameAuthorName"];
+	
+	value = [value stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+	
+	if (value == nil || [value isEqualToString: @""]) {
+		// Use the current OS X user name
+		return [self longUserName];
+	} else {
+		// Use the specified value
+		return [[value copy] autorelease];
+	}
+}
+
+
 - (void) setEnableSyntaxHighlighting: (BOOL) value {
 	[preferences setObject: [NSNumber numberWithBool: value]
 					forKey: @"enableSyntaxHighlighting"];
@@ -677,6 +700,18 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 - (void) setAutoNumberSections: (BOOL) value {
 	[preferences setObject: [NSNumber numberWithBool: value]
 					forKey: @"autoNumberSections"];
+	
+	[self preferencesHaveChanged];
+}
+
+- (void) setNewGameAuthorName: (NSString*) value {
+	if ([[value lowercaseString] isEqualToString: [[self longUserName] lowercaseString]]) {
+		// Special case: if the user enters their own username, we go back to tracking that
+		value = @"";
+	}
+	
+	[preferences setObject: [[value copy] autorelease]
+					forKey: @"newGameAuthorName"];
 	
 	[self preferencesHaveChanged];
 }

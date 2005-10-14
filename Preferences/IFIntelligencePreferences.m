@@ -57,6 +57,8 @@
 		[indentAfterNewline setEnabled: YES];
 		[autoNumberSections setEnabled: YES];
 	}
+	
+	[newGameName setStringValue: [prefs newGameAuthorName]];
 }
 
 - (IBAction) setPreference: (id) sender {
@@ -69,6 +71,8 @@
 	if (sender == intelligenceIndexInspector) [prefs setIntelligenceIndexInspector: [intelligenceIndexInspector state]==NSOnState];
 	if (sender == indentAfterNewline) [prefs setIndentAfterNewline: [indentAfterNewline state]==NSOnState];
 	if (sender == autoNumberSections) [prefs setAutoNumberSections: [autoNumberSections state]==NSOnState];
+	
+	if (sender == newGameName) [prefs setNewGameAuthorName: [newGameName stringValue]];
 }
 
 // = PreferencePane overrides =

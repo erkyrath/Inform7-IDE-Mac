@@ -7,6 +7,7 @@
 //
 
 #import "IFEmptyNaturalProject.h"
+#import "IFPreferences.h"
 
 
 @implementation IFEmptyNaturalProject
@@ -46,10 +47,18 @@
 	NSString* name = [[[file filename] lastPathComponent] stringByDeletingPathExtension];
 	if ([name length] == 0 || name == nil) name = @"Untitled";
 	
-	NSString* longuserName = NSFullUserName();
-	if ([longuserName length] == 0 || longuserName == nil) longuserName = NSUserName();
-	if ([longuserName length] == 0 || longuserName == nil) longuserName = @"Unknown Author";
+	NSString* longuserName = [[IFPreferences sharedPreferences] newGameAuthorName];
 	
+	// If longusername contains a '.', then we have to enclose it in quotes
+	BOOL needQuotes = NO;
+	int x;
+	for (x=0; x<[longuserName length]; x++) {
+		if ([longuserName characterAtIndex: x] == '.') needQuotes = YES;
+	}
+	
+	if (needQuotes) longuserName = [NSString stringWithFormat: @"\"%@\"", longuserName];
+		
+	// The contents of the file
 	NSString* defaultContents = [NSString stringWithFormat: @"\"%@\" by %@\n\n", name, longuserName];
 
 	// Create the default file

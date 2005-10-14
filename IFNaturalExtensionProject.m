@@ -9,6 +9,7 @@
 #import "IFNaturalExtensionProject.h"
 #import "IFSingleFile.h"
 #import "IFExtensionsManager.h"
+#import "IFPreferences.h"
 
 #import "IFAppDelegate.h"
 
@@ -151,10 +152,17 @@
 }
 
 - (void) setupControls {
-	NSString* longuserName = NSFullUserName();
-	if ([longuserName length] == 0 || longuserName == nil) longuserName = NSUserName();
-	if ([longuserName length] == 0 || longuserName == nil) longuserName = @"Unknown Author";
+	NSString* longuserName = [[IFPreferences sharedPreferences] newGameAuthorName];
 
+	// If longuserName contains a '.', then we have to enclose it in quotes
+	BOOL needQuotes = NO;
+	int x;
+	for (x=0; x<[longuserName length]; x++) {
+		if ([longuserName characterAtIndex: x] == '.') needQuotes = YES;
+	}
+	
+	if (needQuotes) longuserName = [NSString stringWithFormat: @"\"%@\"", longuserName];
+	
 	[name setStringValue: longuserName];
 	[extensionName setStringValue: [[NSBundle mainBundle] localizedStringForKey: @"New extension"
 																		  value: @"New extension"
