@@ -11,6 +11,7 @@
 
 @interface IFWelcomeWindow : NSWindowController {
 	IBOutlet NSTextField* introText;					// The text field that should contain the introductory text
+	IBOutlet NSButton* openLastProject;					// Button used to reopen the last project that was open in Inform
 }
 
 // Creating the window
@@ -19,6 +20,7 @@
 
 // Dealing with window actions
 - (IBAction) openExistingProject: (id) sender;			// Opens an existing project
-- (IBAction) createNewProject: (id) section;			// Creates a new projects
+- (IBAction) createNewProject: (id) sender;			// Creates a new projects
+- (IBAction) openLastProject: (id) sender;				// Opens the most recent project
 
 @end

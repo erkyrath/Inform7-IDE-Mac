@@ -388,6 +388,7 @@
 		4BC84BC307AC1C3C0076B993 /* IFSearchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC84BC107AC1C3C0076B993 /* IFSearchResultsController.m */; };
 		4BC8E3370795C66300D73BC7 /* IFPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8E3350795C66300D73BC7 /* IFPreferenceController.m */; };
 		4BC8E3490795CD7B00D73BC7 /* Styles.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BC8E3480795CD7B00D73BC7 /* Styles.png */; };
+		4BCDA9EA0903BED9002921FC /* MetadataImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCDA9E90903BED9002921FC /* MetadataImporter.m */; };
 		4BCF041606A6E35900F6DF20 /* replay.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BCF041506A6E35900F6DF20 /* replay.png */; };
 		4BCF783506418E8100516872 /* IFInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BCF783306418E8100516872 /* IFInspector.h */; };
 		4BCF78750641A48100516872 /* Arrow-Closed.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BCF78720641A48100516872 /* Arrow-Closed.png */; };
@@ -1697,6 +1698,10 @@
 		4BC8E3350795C66300D73BC7 /* IFPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFPreferenceController.m; sourceTree = "<group>"; };
 		4BC8E3480795CD7B00D73BC7 /* Styles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Styles.png; path = Images/Styles.png; sourceTree = SOURCE_ROOT; };
 		4BC977C4057B3E8B00447AAA /* TechMan.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = TechMan.txt; sourceTree = SOURCE_ROOT; };
+		4BCDA9DA0903BE64002921FC /* IFimporter.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IFimporter.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BCDA9DB0903BE64002921FC /* IFimporter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "IFimporter-Info.plist"; sourceTree = "<group>"; };
+		4BCDA9E80903BED9002921FC /* MetadataImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataImporter.h; sourceTree = "<group>"; };
+		4BCDA9E90903BED9002921FC /* MetadataImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataImporter.m; sourceTree = "<group>"; };
 		4BCF041506A6E35900F6DF20 /* replay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = replay.png; path = Images/replay.png; sourceTree = "<group>"; };
 		4BCF783306418E8100516872 /* IFInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFInspector.h; sourceTree = "<group>"; };
 		4BCF783406418E8100516872 /* IFInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFInspector.m; sourceTree = "<group>"; };
@@ -2245,6 +2250,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4BCDA9D80903BE64002921FC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4BD95A1E055EE949008DEFF4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -2283,6 +2295,7 @@
 				4B96DF5C04F126F200A8E303 /* Compiler */,
 				4BE6AB2C04FD09D900A8E303 /* Project */,
 				4B6A85EE086DA7FA00BFAE69 /* SingleFile */,
+				4BCDA9BF0903BE12002921FC /* Spotlight */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2319,6 +2332,7 @@
 				4BD275CC0871A80F00C1AE15 /* ZoomView.framework */,
 				4B81D36A08112F7600CF609F /* CocoaGlk */,
 				4BF890BB08FD6BBA00F5DFDE /* cBlorb */,
+				4BCDA9DA0903BE64002921FC /* IFimporter.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2340,6 +2354,7 @@
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				4BD95A33055EE949008DEFF4 /* Info-Inform__Upgraded_.plist */,
+				4BCDA9DB0903BE64002921FC /* IFimporter-Info.plist */,
 			);
 			name = Inform;
 			sourceTree = "<group>";
@@ -3507,6 +3522,15 @@
 			path = Preferences;
 			sourceTree = "<group>";
 		};
+		4BCDA9BF0903BE12002921FC /* Spotlight */ = {
+			isa = PBXGroup;
+			children = (
+				4BCDA9E80903BED9002921FC /* MetadataImporter.h */,
+				4BCDA9E90903BED9002921FC /* MetadataImporter.m */,
+			);
+			path = Spotlight;
+			sourceTree = "<group>";
+		};
 		4BCF78A50641A4A400516872 /* Inspector */ = {
 			isa = PBXGroup;
 			children = (
@@ -3785,6 +3809,70 @@
 			productReference = 4B133E0C0587896000742783 /* inform-6.3-biplatform */;
 			productType = "com.apple.product-type.tool";
 		};
+		4BCDA9D90903BE64002921FC /* IFimporter */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BCDA9DD0903BE66002921FC /* Build configuration list for PBXNativeTarget "IFimporter" */;
+			buildPhases = (
+				4BCDA9D60903BE64002921FC /* Resources */,
+				4BCDA9D70903BE64002921FC /* Sources */,
+				4BCDA9D80903BE64002921FC /* Frameworks */,
+			);
+			buildRules = (
+			);
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "IFimporter-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = IFimporter;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			dependencies = (
+			);
+			name = IFimporter;
+			productName = IFimporter;
+			productReference = 4BCDA9DA0903BE64002921FC /* IFimporter.bundle */;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>IFimporter</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.yourcompany.IFimporter</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+</dict>
+</plist>
+";
+			productType = "com.apple.product-type.bundle";
+		};
 		4BD959F3055EE949008DEFF4 /* Inform */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BE5F503085882AC00C7EF5E /* Build configuration list for PBXNativeTarget "Inform" */;
@@ -3907,6 +3995,7 @@
 				4B96DF9904F12C7B00A8E303 /* Compiler-ZCode */,
 				4B133E0B0587896000742783 /* Compiler-6.3 */,
 				4BF890BA08FD6BBA00F5DFDE /* cBlorb */,
+				4BCDA9D90903BE64002921FC /* IFimporter */,
 			);
 		};
 /* End PBXProject section */
@@ -3992,6 +4081,13 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4BCDA9D60903BE64002921FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4BD95A05055EE949008DEFF4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4741,6 +4837,14 @@
 				4B96E02004F1345B00A8E303 /* expressp.c in Sources */,
 				4B96E02104F1345B00A8E303 /* lexer.c in Sources */,
 				4B96E04E04F1357700A8E303 /* errors.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BCDA9D70903BE64002921FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BCDA9EA0903BED9002921FC /* MetadataImporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -9176,6 +9280,98 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4BCDA9DE0903BE66002921FC /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "IFimporter-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = IFimporter;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Development;
+		};
+		4BCDA9DF0903BE66002921FC /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "IFimporter-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = IFimporter;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Deployment;
+		};
+		4BCDA9E00903BE66002921FC /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "IFimporter-Info.plist";
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Bundles";
+				LIBRARY_STYLE = BUNDLE;
+				OPTIMIZATION_CFLAGS = "-O0";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				OTHER_REZFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = IFimporter;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+			};
+			name = Default;
+		};
 		4BE5F4FC085882AC00C7EF5E /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -9563,6 +9759,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4BCDA9DD0903BE66002921FC /* Build configuration list for PBXNativeTarget "IFimporter" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BCDA9DE0903BE66002921FC /* Development */,
+				4BCDA9DF0903BE66002921FC /* Deployment */,
+				4BCDA9E00903BE66002921FC /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		4BE5F4FB085882AC00C7EF5E /* Build configuration list for PBXNativeTarget "Compiler-6.3" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

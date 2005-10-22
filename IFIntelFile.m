@@ -226,6 +226,9 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 	int nSymbols = [symbols count];
 	int symbol = [self indexOfStartOfLine: line];
 	
+	// Special case: for the very first symbol in the file, there is no 'preceding symbol', so we would otherwise abort here
+	if (nSymbols > 0 && symbol == -1 && symbolLines[0] == line) return [symbols objectAtIndex: 0];
+	
 	if (symbol < 0) return nil;
 	if (symbol >= nSymbols) return nil;
 	if (symbol+1 == nSymbols) return [symbols objectAtIndex: symbol];

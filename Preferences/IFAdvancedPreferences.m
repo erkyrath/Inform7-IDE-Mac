@@ -44,16 +44,30 @@
 	// Read the current state of the buttons
 	BOOL willBuildSh = [runBuildSh state]==NSOnState;
 	BOOL willDebug = [showDebugLogs state]==NSOnState;
+	BOOL willCleanBuild = [cleanBuildFiles state]==NSOnState;
+	BOOL willAlsoCleanIndex = [alsoCleanIndexFiles state]==NSOnState;
 	
 	// Set the shared preferences to suitable values
 	[[IFPreferences sharedPreferences] setRunBuildSh: willBuildSh];
 	[[IFPreferences sharedPreferences] setShowDebuggingLogs: willDebug];
+	[[IFPreferences sharedPreferences] setCleanProjectOnClose: willCleanBuild];
+	[[IFPreferences sharedPreferences] setAlsoCleanIndexFiles: willAlsoCleanIndex];
 }
 
 - (void) reflectCurrentPreferences {
 	// Set the buttons according to the current state of the preferences
 	[runBuildSh setState: [[IFPreferences sharedPreferences] runBuildSh]?NSOnState:NSOffState];
 	[showDebugLogs setState: [[IFPreferences sharedPreferences] showDebuggingLogs]?NSOnState:NSOffState];
+	
+	[cleanBuildFiles setState: [[IFPreferences sharedPreferences] cleanProjectOnClose]?NSOnState:NSOffState];
+	
+	if ([[IFPreferences sharedPreferences] cleanProjectOnClose]) {
+		[alsoCleanIndexFiles setState: [[IFPreferences sharedPreferences] alsoCleanIndexFiles]?NSOnState:NSOffState];
+		[alsoCleanIndexFiles setEnabled: YES];
+	} else {
+		[alsoCleanIndexFiles setState: NSOffState];
+		[alsoCleanIndexFiles setEnabled: NO];
+	}
 }
 
 @end

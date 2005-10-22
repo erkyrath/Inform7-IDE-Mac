@@ -76,6 +76,8 @@ extern NSString* IFProjectSourceFileDeletedNotification;
 
 - (ZoomSkein*) skein;
 
+- (void) cleanOutUnnecessaryFiles: (BOOL) alsoCleanIndex;				// Removes compiler-generated files that are less useful to keep around
+
 // Watchpoints
 
 - (void) addWatchExpression: (NSString*) expression;

@@ -736,6 +736,38 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 		return NO;
 }
 
+- (BOOL) cleanProjectOnClose {
+	NSNumber* value = [preferences objectForKey: @"cleanProjectOnClose"];
+	
+	if (value)
+		return [value boolValue];
+	else
+		return YES;
+}
+
+- (BOOL) alsoCleanIndexFiles {
+	NSNumber* value = [preferences objectForKey: @"alsoCleanIndexFiles"];
+	
+	if (value)
+		return [value boolValue];
+	else
+		return NO;
+}
+
+- (void) setCleanProjectOnClose: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"cleanProjectOnClose"];
+	
+	[self preferencesHaveChanged];
+}
+
+- (void) setAlsoCleanIndexFiles: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"alsoCleanIndexFiles"];
+	
+	[self preferencesHaveChanged];
+}
+
 - (void) setRunBuildSh: (BOOL) value {
 	[preferences setObject: [NSNumber numberWithBool: value]
 					forKey: @"runBuildSh"];

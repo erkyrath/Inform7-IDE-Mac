@@ -114,8 +114,12 @@ enum IFPreferencesColourSet {
 // Advanced preferences
 - (BOOL) runBuildSh;														// YES if we should run the build.sh shell script to rebuild Inform 7
 - (BOOL) showDebuggingLogs;													// YES if we should show the Inform 7 debugging logs + generated Inform 6 source code
+- (BOOL) cleanProjectOnClose;												// YES if we should clean the project when we close it (or when saving)
+- (BOOL) alsoCleanIndexFiles;												// YES if we should additionally clean out the index files
 
 - (void) setRunBuildSh: (BOOL) value;
 - (void) setShowDebuggingLogs: (BOOL) value;
+- (void) setCleanProjectOnClose: (BOOL) value;
+- (void) setAlsoCleanIndexFiles: (BOOL) value;
 
 @end

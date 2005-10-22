@@ -332,12 +332,28 @@ static NSDictionary*  itemDictionary = nil;
 	[IFWelcomeWindow hideWelcomeWindow];
 }
 
+- (BOOL)windowShouldClose:(id)sender {
+	// Clean the project if the settings have asked for it, and if it's unmodified
+	if (![[self document] isDocumentEdited] && [[IFPreferences sharedPreferences] cleanProjectOnClose]) {
+		[[self document] cleanOutUnnecessaryFiles: [[IFPreferences sharedPreferences] alsoCleanIndexFiles]];
+		
+		// Note: this may fail if the document has not got anywhere to be saved to
+		[[self document] saveDocument: self];
+	}	
+	
+	return YES;
+}
+
 - (void) windowWillClose: (NSNotification*) not {
+	// Perform shutdown
 	[[self gamePane] stopRunningGame];
+	
+	[projectPanes release]; projectPanes = nil;
+	[splitViews release]; splitViews = nil;
 }
 
 - (void) awakeFromNib {
-	[self setWindowFrameAutosaveName: @"ProjectWindow"];
+	//[self setWindowFrameAutosaveName: @"ProjectWindow"];
 
 	// Register for settings updates
     [[NSNotificationCenter defaultCenter] addObserver: self
@@ -1795,9 +1811,28 @@ static NSDictionary*  itemDictionary = nil;
 	
 	[undo beginUndoGrouping];
 	[storage beginEditing];
-		
+	
+	// Collect the lines that need to be renumbered
+	NSMutableArray* linesToRenumber = [[NSMutableArray alloc] init];
+	
 	while (section != nil) {
 		int lineNumber = [intel lineForSymbol: section];
+		
+		IFIntelSymbol* lastSection = [section previousSibling];
+		int lastLineNumber = [intel lineForSymbol: lastSection];
+
+		[linesToRenumber addObject: [NSArray arrayWithObjects: [NSNumber numberWithInt: lineNumber], [NSNumber numberWithInt: lastLineNumber], nil]];
+		
+		section = [section nextSymbol];
+	}
+	
+	// Renumber these lines
+	// Note that if these operations were concatenated, we'd have a bug as the intelligence would sometimes delete symbols
+	NSEnumerator* lineEnum = [linesToRenumber objectEnumerator];
+	NSArray* lineInfo;
+	
+	while (lineInfo = [lineEnum nextObject]) {
+		int lineNumber = [[lineInfo objectAtIndex: 0] intValue];
 		NSString* sectionLine = [storage textForLine: lineNumber];
 		NSArray*  words = [sectionLine componentsSeparatedByString: @" "];
 		
@@ -1805,8 +1840,7 @@ static NSDictionary*  itemDictionary = nil;
 		
 		if (sectionNumber > 0) {
 			// This looks like something we can renumber... Get the preceding number
-			IFIntelSymbol* lastSection = [section previousSibling];
-			int lastLineNumber = [intel lineForSymbol: lastSection];
+			int lastLineNumber = [[lineInfo objectAtIndex: 1] intValue];
 			NSArray* lastWords = [[storage textForLine: lastLineNumber] componentsSeparatedByString: @" "];
 			
 			int lastSectionNumber = [lastWords count]>1?[[lastWords objectAtIndex: 1] intValue]:0;
@@ -1833,11 +1867,10 @@ static NSDictionary*  itemDictionary = nil;
 				[newWords release];
 			}
 		}
-		
-		// Onwards!
-		section = [section nextSymbol];
 	}
-		
+	
+	[linesToRenumber release];
+	
 	[storage endEditing];
 	[undo endUndoGrouping];
 }

@@ -597,6 +597,11 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 - (void) prepareForSaving {
     // Update the project file wrapper from whatever is on the disk
     // (Implement me)
+	
+	// Clean out any files that we aren't using any more, if set in the preferences
+	if ([[IFPreferences sharedPreferences] cleanProjectOnClose]) {
+		[self cleanOutUnnecessaryFiles: NO];
+	}
     
     // Output all the source files to the project file wrapper
     NSEnumerator* keyEnum = [sourceFiles keyEnumerator];
@@ -993,6 +998,34 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 															   withString: originalString];
 	
 	[undo endUndoGrouping];
+}
+
+// = Cleaning =
+
+- (void) cleanOutUnnecessaryFiles: (BOOL) alsoCleanIndex {
+	// Clean out the build folder from the project
+	NSFileWrapper* build = [[projectFile fileWrappers] objectForKey: @"Build"];
+	if (build) [projectFile removeFileWrapper: build];
+	
+	// Replace it with an empty directory
+	build = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers: [NSDictionary dictionary]] autorelease];
+	[build setPreferredFilename: @"Build"];
+	[projectFile addFileWrapper: build];
+	
+	// There may also be a 'Temp' directory: remove that too (no need to recreate this)
+	NSFileWrapper* temp = [[projectFile fileWrappers] objectForKey: @"Temp"];
+	if (temp) [projectFile removeFileWrapper: temp];
+	
+	// Clean out the index folder from the project
+	if (alsoCleanIndex) {
+		NSFileWrapper* index = [[projectFile fileWrappers] objectForKey: @"Index"];
+		if (index) [projectFile removeFileWrapper: index];
+		
+		// Replace it with an empty directory
+		index = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers: [NSDictionary dictionary]] autorelease];
+		[index setPreferredFilename: @"Index"];
+		[projectFile addFileWrapper: index];
+	}
 }
 
 @end

@@ -17,6 +17,9 @@
 @interface IFAdvancedPreferences : IFPreferencePane {
 	IBOutlet NSButton* showDebugLogs;					// If checked, show the Inform 6 source and Inform 7 debugging logs
 	IBOutlet NSButton* runBuildSh;						// Causes the Inform 7 build process to be run
+	
+	IBOutlet NSButton* cleanBuildFiles;					// If checked, build files are cleaned out
+	IBOutlet NSButton* alsoCleanIndexFiles;				// If checked, index files are cleaned out in addition to build files
 }
 
 // Actions

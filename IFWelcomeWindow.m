@@ -70,10 +70,54 @@
 				 from: self];
 }
 
-- (IBAction) createNewProject: (id) section {
+- (IBAction) createNewProject: (id) sender {
 	[NSApp sendAction: @selector(newProject:)
 				   to: nil 
 				 from: self];
+}
+
+- (NSURL*) lastProject {
+	// Retrieves the last .inform project opened (am assuming the most recent project is top of the list)
+	NSArray* projectList = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+	
+	NSEnumerator* projEnum = [projectList objectEnumerator];
+	NSURL* result = nil;
+	NSURL* projectURL;
+	
+	while (projectURL = [projEnum nextObject]) {
+		// To simplify things, we only deal with file URLs
+		if (![projectURL isFileURL]) continue;
+		
+		NSString* projectPath = [projectURL path];
+		if (!projectPath) continue;
+		
+		// Must be a .inform project
+		if ([[[projectPath pathExtension] lowercaseString] isEqualToString: @"inform"]) {
+			result = projectURL;
+			break;
+		}
+	}
+	
+	return result;
+}
+
+- (void)windowDidBecomeKey:(NSNotification *)aNotification {
+	if ([self lastProject] == nil) {
+		[openLastProject setEnabled: NO];
+	} else {
+		[openLastProject setEnabled: YES];
+	}
+}
+
+- (IBAction) openLastProject: (id) sender {
+	// Slightly more involved: find the last .inform project that was opened, and open it again
+	NSURL* lastProject = [self lastProject];
+	if (lastProject == nil) return;
+	
+	NSDocumentController* docControl = [NSDocumentController sharedDocumentController];
+	
+	[docControl openDocumentWithContentsOfURL: lastProject
+									  display: YES];
 }
 
 @end
