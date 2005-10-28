@@ -29,7 +29,7 @@ static NSString* IFInspectorShown = @"IFInspectorShown";
 		if ([shown isKindOfClass: [NSNumber class]] && [shown boolValue] == YES) {
 			[sharedWindow showWindow: nil];
 		} else {
-			[sharedWindow close];
+			[[sharedWindow window] orderOut: nil];
 		}
 	}
 	
@@ -77,6 +77,8 @@ static NSString* IFInspectorShown = @"IFInspectorShown";
 		inspectors = [[NSMutableArray alloc] init];
 		inspectorViews = [[NSMutableArray alloc] init];
 		updating = NO;
+		
+		hidden = ![[[NSUserDefaults standardUserDefaults] objectForKey: IFInspectorShown] boolValue];
 		
 		[window setDelegate: self];
 		
