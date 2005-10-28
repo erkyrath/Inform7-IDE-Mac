@@ -127,6 +127,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 	IFProjectController* proj = [activeWindow windowController];
 
 	if (![proj isKindOfClass: [IFProjectController class]]) return;
+	if ([[proj currentIntelligence] firstSymbol] == nil) return;
 	
 	[self cacheSiblingsOf: [[proj currentIntelligence] firstSymbol]
 				  inCache: itemCache];
