@@ -40,7 +40,7 @@
 				for (;pos<len; pos++) {
 					chr = [outputText characterAtIndex: pos];
 					
-					if (chr == ' ' || chr == '\t' || chr == '\n' || chr == '\r') {
+					if (chr == ' ' || chr == '\t' || chr == '\n' || chr == '\r' || chr == ':') {
 						// We've found the end of the ID
 						break;
 					}
