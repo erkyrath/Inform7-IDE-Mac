@@ -1056,7 +1056,7 @@ static int resultComparator(id a, id b, void* context) {
 				[extension isEqualToString: @"htm"]) {
 				[self addSearchFile: [resourcePath stringByAppendingPathComponent: path]
 							   type: @"Documentation"
-					   useSearchKit: YES];
+					   useSearchKit: NO];
 			}
 		}
 	}
