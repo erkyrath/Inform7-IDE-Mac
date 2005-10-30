@@ -49,6 +49,12 @@
 	return [NSImage imageNamed: @"Styles"];
 }
 
+- (NSString*) tooltip {
+	return [[NSBundle mainBundle] localizedStringForKey: @"Style preferences tooltip"
+												  value: @"Style preferences tooltip"
+												  table: nil];
+}
+
 // = Receiving data from/updating the interface =
 
 - (IBAction) styleSetHasChanged: (id) sender {

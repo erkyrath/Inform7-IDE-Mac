@@ -38,6 +38,12 @@
 	return [NSImage imageNamed: @"Advanced"];
 }
 
+- (NSString*) tooltip {
+	return [[NSBundle mainBundle] localizedStringForKey: @"Advanced preferences tooltip"
+												  value: @"Advanced preferences tooltip"
+												  table: nil];
+}
+
 // = Actions =
 
 - (IBAction) setPreference: (id) sender {

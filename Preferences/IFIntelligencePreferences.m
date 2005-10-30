@@ -85,4 +85,10 @@
 	return [NSImage imageNamed: @"Intelligence"];
 }
 
+- (NSString*) tooltip {
+	return [[NSBundle mainBundle] localizedStringForKey: @"Intelligence preferences tooltip"
+												  value: @"Intelligence preferences tooltip"
+												  table: nil];
+}
+
 @end

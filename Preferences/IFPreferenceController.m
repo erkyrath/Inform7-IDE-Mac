@@ -90,6 +90,7 @@
 	[newItem setTarget: self];
 	[newItem setImage: [newPane toolbarImage]];
 	[newItem setLabel: [newPane preferenceName]];
+	[newItem setToolTip: [newPane tooltip]];
 	
 	[toolbarItems setObject: newItem
 					 forKey: [newPane identifier]];

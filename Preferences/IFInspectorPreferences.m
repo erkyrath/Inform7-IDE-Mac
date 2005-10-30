@@ -59,6 +59,12 @@
 	return [NSImage imageNamed: @"Inspectors"];
 }
 
+- (NSString*) tooltip {
+	return [[NSBundle mainBundle] localizedStringForKey: @"Inspector preferences tooltip"
+												  value: @"Inspector preferences tooltip"
+												  table: nil];
+}
+
 // = Reflecting the current preference values =
 
 - (void) reflectCurrentPreferences {

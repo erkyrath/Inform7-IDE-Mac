@@ -48,4 +48,8 @@
 	return preferenceView;
 }
 
+- (NSString*) tooltip {
+	return nil;
+}
+
 @end

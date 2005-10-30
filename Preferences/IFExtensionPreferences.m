@@ -61,6 +61,12 @@
 	return [NSImage imageNamed: @"Extensions"];
 }
 
+- (NSString*) tooltip {
+	return [[NSBundle mainBundle] localizedStringForKey: @"Extensions preferences tooltip"
+												  value: @"Extensions preferences tooltip"
+												  table: nil];
+}
+
 // = Actions =
 
 - (IBAction) addNaturalExtension: (id) sender {
