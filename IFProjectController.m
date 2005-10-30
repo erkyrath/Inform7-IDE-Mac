@@ -2154,8 +2154,8 @@ static NSDictionary*  itemDictionary = nil;
 		[[pane compilerController] showRuntimeError: errorURL];
 	}
 	
-	// Change the source view to the errors view (so we can see the text leading to the error as well as the error itself)
-	[[self sourcePane] selectView: IFErrorPane];
+	// Change the source view to the errors view (so we can see the text leading to the error as well as the error itself
+	[[projectPanes objectAtIndex: 0] selectView: IFErrorPane];
 }
 
 @end
