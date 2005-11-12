@@ -913,10 +913,34 @@ static NSDictionary*  itemDictionary = nil;
                       returnCode:(int)returnCode
                      contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertDefaultReturn) {
-        [self saveCompilerOutput]; // Try agin
+        [[NSRunLoop currentRunLoop] performSelector: @selector(saveCompilerOutput)
+											 target: self
+										   argument: nil
+											  order: 128
+											  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]]; // Try agin
     } else {
         // Do nothing
     }
+}
+
+- (void) failedToSave: (NSString*)whereToSave {
+	// Report that a file failed to save
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Unable to save file"
+															 value: @"Unable to save file"
+															 table: nil], 
+					  [[NSBundle mainBundle] localizedStringForKey: @"Retry"
+															 value: @"Retry"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															 value: @"Cancel"
+															 table: nil], nil,
+					  [self window], self,
+					  @selector(compilerFaultAlertDidEnd:returnCode:contextInfo:),
+					  nil, nil,
+					  [[NSBundle mainBundle] localizedStringForKey: @"An error was encountered while trying to save the file '%@'"
+															 value: @"An error was encountered while trying to save the file '%@'"
+															 table: nil],
+					  [whereToSave lastPathComponent]);
 }
 
 - (void)compilerSavePanelDidEnd:(NSSavePanel *) sheet
@@ -924,21 +948,30 @@ static NSDictionary*  itemDictionary = nil;
                     contextInfo:(void *)        contextInfo {
     if (returnCode == NSOKButton) {
         NSString* whereToSave = [sheet filename];
+		
+		// If the file already exists, then delete it
+		if ([[NSFileManager defaultManager] fileExistsAtPath: whereToSave]) {
+			if (![[NSFileManager defaultManager] removeFileAtPath: whereToSave
+														  handler: nil]) {
+				// File failed to delete
+				[[NSRunLoop currentRunLoop] performSelector: @selector(failedToSave:)
+													 target: self
+												   argument: whereToSave
+													  order: 128
+													  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+			}
+		}
 
+		// Copy the file
         if (![[NSFileManager defaultManager] copyPath: [[[self document] compiler] outputFile]
                                               toPath: whereToSave
                                              handler: nil]) {
             // File failed to save
-            
-            // FIXME: internationalisation
-            /* FIXME: doesn't work (save panel sheet is still displayed, doh!)
-            NSBeginAlertSheet(@"Unable to save file", @"Retry", @"Cancel", nil,
-                              [self window], self,
-                              @selector(compilerFaultAlertDidEnd:returnCode:contextInfo:),
-                              nil, nil,
-                              @"An error was encountered while trying to save the file '%@'",
-                              [whereToSave lastPathComponent]);
-             */
+			[[NSRunLoop currentRunLoop] performSelector: @selector(failedToSave:)
+												 target: self
+											   argument: whereToSave
+												  order: 128
+												  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
         }
     } else {
         // Change nothing
