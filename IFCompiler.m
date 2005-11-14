@@ -425,13 +425,21 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     // Prepare the arguments
     if ([runQueue count] <= 0) {
         if ([[IFPreferences sharedPreferences] runBuildSh]) {
-            NSString* buildsh = [@"~/build.sh" stringByExpandingTildeInPath];
+            NSString* buildsh = [[NSBundle mainBundle] pathForResource: @"build"
+																ofType: @"sh"
+														   inDirectory: @"Compilers"];
+			
+			if (buildsh == nil || ![[NSFileManager defaultManager] fileExistsAtPath: buildsh]) {
+				buildsh = [@"~/build.sh" stringByExpandingTildeInPath];
+			}
             
-            [self addCustomBuildStage: buildsh
-                        withArguments: [NSArray array]
-                       nextStageInput: [self currentStageInput]
-						 errorHandler: nil
-								named: @"Debug build stage"];
+			if ([[NSFileManager defaultManager] fileExistsAtPath: buildsh]) {
+				[self addCustomBuildStage: buildsh
+							withArguments: [NSArray array]
+						   nextStageInput: [self currentStageInput]
+							 errorHandler: nil
+									named: @"Debug build stage"];
+			}
         }
         
         if ([settings usingNaturalInform]) {
@@ -449,10 +457,9 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 			NSString* oldOutput = [self outputFile];
 			NSString* newOutput = [NSString stringWithFormat: @"%@.zlb", [oldOutput stringByDeletingPathExtension]];
 			
-			// Work out where the blorb is coming from
-			NSString* firstInput = [self inputFile];
+			// Work out where the blorb is coming from (this will only work for project directories, which luckily is all the current version of Inform will compile)
 			NSString* blorbFile = [NSString stringWithFormat: @"%@/Release.blurb",
-				[[firstInput stringByDeletingLastPathComponent] stringByDeletingLastPathComponent]];
+				[[[self currentStageInput] stringByDeletingLastPathComponent] stringByDeletingLastPathComponent]];
 			
 			// Add a cBlorb stage
 			NSString* cBlorbLocation = [[NSBundle mainBundle] pathForResource: @"cBlorb"
