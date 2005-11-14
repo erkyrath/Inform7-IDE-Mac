@@ -433,13 +433,11 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 				buildsh = [@"~/build.sh" stringByExpandingTildeInPath];
 			}
             
-			if ([[NSFileManager defaultManager] fileExistsAtPath: buildsh]) {
-				[self addCustomBuildStage: buildsh
-							withArguments: [NSArray array]
-						   nextStageInput: [self currentStageInput]
-							 errorHandler: nil
-									named: @"Debug build stage"];
-			}
+			[self addCustomBuildStage: buildsh
+						withArguments: [NSArray array]
+					   nextStageInput: [self currentStageInput]
+						 errorHandler: nil
+								named: @"Debug build stage"];
         }
         
         if ([settings usingNaturalInform]) {
