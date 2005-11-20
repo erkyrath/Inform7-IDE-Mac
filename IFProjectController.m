@@ -329,6 +329,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) windowDidLoad {
 	[self setWindowFrameAutosaveName: @"ProjectWindow"];
+	[[self window] setFrameAutosaveName: @"ProjectWindow"];
 	[IFWelcomeWindow hideWelcomeWindow];
 }
 
@@ -350,6 +351,8 @@ static NSDictionary*  itemDictionary = nil;
 	
 	[projectPanes release]; projectPanes = nil;
 	[splitViews release]; splitViews = nil;
+	
+	[panesView removeFromSuperview]; panesView = nil;
 }
 
 - (void) awakeFromNib {
