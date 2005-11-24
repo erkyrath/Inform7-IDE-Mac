@@ -1050,8 +1050,15 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 4B28B8A70812A32600D39021 /* ZoomCocoa.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4B1888D00935F863003AF62A /* libExpat.a */;
+			remoteGlobalIDString = 4B1888D00935F863003AF62A;
 			remoteInfo = Expat;
+		};
+		4B7CB08509362A3B00F3B8F6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4B28B8A70812A32600D39021 /* ZoomCocoa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4B7CB08109362A3B00F3B8F6;
+			remoteInfo = ZoomPlugIns;
 		};
 		4BB8BF6308BB3CC400D7D334 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -3559,6 +3566,7 @@
 				4BD2746B086F1AD700C1AE15 /* ZoomView.framework */,
 				4B70F65F08F009F500F25E34 /* ZoomMetadataImporter.mdimporter */,
 				4B7CABBC093607A700F3B8F6 /* libExpat.a */,
+				4B7CB08609362A3B00F3B8F6 /* ZoomPlugIns.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4044,6 +4052,13 @@
 			fileType = archive.ar;
 			path = libExpat.a;
 			remoteRef = 4B7CABBB093607A700F3B8F6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		4B7CB08609362A3B00F3B8F6 /* ZoomPlugIns.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = ZoomPlugIns.framework;
+			remoteRef = 4B7CB08509362A3B00F3B8F6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		4BB8BF6408BB3CC400D7D334 /* imagetest */ = {
@@ -9511,8 +9526,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
-					/Users/ahunter/prog/zoom/build,
-					/Users/ahunter/prog/CocoaGlk/build,
+					../../../zoom/build,
+					../../../CocoaGlk/build,
 				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -9543,8 +9558,8 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				FRAMEWORK_SEARCH_PATHS = (
-					/Users/ahunter/prog/zoom/build,
-					/Users/ahunter/prog/CocoaGlk/build,
+					../../../zoom/build,
+					../../../CocoaGlk/build,
 				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_OPTIMIZATION_LEVEL = 3;
@@ -9572,8 +9587,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				FRAMEWORK_SEARCH_PATHS = (
-					/Users/ahunter/prog/zoom/build,
-					/Users/ahunter/prog/CocoaGlk/build,
+					../../../zoom/build,
+					../../../CocoaGlk/build,
 				);
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
