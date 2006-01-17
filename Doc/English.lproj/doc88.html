@@ -1,4 +1,4 @@
-<html><head><title>6.15. Going from, going to</title></head>
+<html><head><title>6.16. Going by, going through, going with</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,36 +7,35 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc87.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc89.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.15. Going from, going to</b></td></tr></table><p>
+<table><tr><td><a href=doc87.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc89.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.16. Going by, going through, going with</b></td></tr></table><p>
 <p>
-<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
+<p>Adding to the previous example game, we apply rules which depend on travelling by a particular vehicle:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Going Going&quot;\n\nThe Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.\n\nInstead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;\n\nInstead of going nowhere, say &quot;You really can\'t wander around at random in the Library.&quot;\n\nBefore going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Going Going&quot;
+<blockquote><font color="#000080">The book trolley is in the Musicology Section. &quot;The book trolley, a sort of motorised tractor for trundling around through the stacks, is parked here.&quot; The trolley is a vehicle. Instead of going nowhere by the trolley, say &quot;Don't go crashing the trolley into walls.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
+<blockquote><font color="#000080">Instead of going to the Front Stacks by the trolley, say &quot;The Front Stacks are far too confined for the trolley to manoeuvre into them.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
+<p>And, lastly, rules which apply to movements through particular doors:
+<p>
+<blockquote><font color="#000080">The green baize door is east of the Catalogue Room and west of the Clerk's Office. The green baize door is an open door.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
+<blockquote><font color="#000080">Before going through the green baize door, say &quot;Through you go...&quot; After going through the green baize door: try looking; say &quot;...and here you are.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
+<p>(Note that these apply whether the action is &quot;going east&quot; or &quot;entering the green baize door&quot;, each having the same effect.) The last rule is worth a second look: the normal way that a &quot;going&quot; action is reported is to produce the room description of the new location. So if an &quot;after&quot; rule stops the action before we get to reporting, we have to produce any room description by hand (hence the &quot;try looking&quot; to cause the looking action). Alternatively, we could simply say something and let the normal course of events take place:
+<p>
+<blockquote><font color="#000080">After going through the green baize door: say &quot;...and here you are:&quot;; continue the action.
 </font></blockquote><p>
 <p>
-<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
+<p>Finally, going is an action which can also happen while the player is pushing something from one room to another, and we can describe this like so:
 <p>
-<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
-<p>
-<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
-<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
+<blockquote><font color="#000080">Instead of going from the Office with the trolley, say &quot;But it looks perfectly placed here. Why push any further?&quot;
 </font></blockquote><p>
-<p>
-<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
 <p>
 <p><hr><p>
-<a name="e56"><a href=ex56.html#e56><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A "go back" command that keeps track of the direction from which the player came, and sends him back.</i><p>
-<a name="e60"><a href=ex60.html#e60><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>If the player tries to go a valid direction while on a supporter, make him stand up first; if he tries to go a nonexistent one, print a special refusal.</i><p>
+<a name="e26"><a href=ex26.html#e26><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A car which must be turned on before it can be driven, and can only go to roads.</i><p>
+<a name="e88"><a href=ex88.html#e88><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A plank bridge which breaks if the player is carrying something when he goes across it. Pushing anything over the bridge is forbidden outright.</i><p>
 <p><hr><p><a href=doc87.html>Previous</a> / <a href=doc89.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

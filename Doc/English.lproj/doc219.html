@@ -1,4 +1,4 @@
-<html><head><title>15.7. Understanding any, understanding rooms</title></head>
+<html><head><title>15.3. Overriding existing commands</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,36 +7,25 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc218.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc220.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.7. Understanding any, understanding rooms</b></td></tr></table><p>
+<table><tr><td><a href=doc218.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc220.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.3. Overriding existing commands</b></td></tr></table><p>
 <p>
-<p>Ordinarily, if we write
+<p>Suppose we are devising specialist commands for a game of whist, and we want &quot;discard&quot; as one of them. Looking at the table of commands in the Action index, we find that, inconveniently enough, &quot;discard&quot; already has a meaning: it is synonymous with &quot;drop&quot;, and while that might be sensible most of the time, it is perfectly wrong now. We need a way to free up &quot;discard&quot; for our own use. We can do that by:
 <p>
-<blockquote><font color="#000080">Understand &quot;manipulate [something]&quot;.
+<blockquote><font color="#000080">Understand the command &quot;discard&quot; as something new.
 </font></blockquote><p>
 <p>
-<p>then the &quot;[something]&quot; will only match what is within reach or sight: this is the concept of &quot;scope&quot;, which is what prevents a player from spookily acting on objects from a distance. The parser itself prevents the manipulation rules from ever being invoked on such distant items, which is as it should be.
+<p>This cuts it loose, so to speak, and ready to be given new meanings. If we check the Actions index again, we find no mention of &quot;discard&quot; - it is now a blank slate - but &quot;drop&quot; is still exactly as it was. We could now say something like:
 <p>
-<p>Sometimes, though, we positively want to allow this possibility. If we use the special word &quot;any&quot;, as in
-<p>
-<blockquote><font color="#000080">Understand &quot;manipulate [any door]&quot;.
+<blockquote><font color="#000080">Understand the command &quot;discard [something]&quot; as discarding.
 </font></blockquote><p>
 <p>
-<p>then any door, anywhere in the model world, can be allowed in the player's command. (Of course, the manipulation rules may not do what the player hopes: all that has happened is that the command is now possible to type.) The &quot;any&quot; can be followed by any description of items or rooms, and the latter opens up new possibilities, since rooms are ordinarily never allowed to be named in the player's commands.
+<p>(If we had declared that &quot;drop&quot; was something new, the whole thing would have happened in reverse, with &quot;discard&quot; retaining all of the original grammar. Inform does not distinguish between a command and its synonym.)
 <p>
-<p>For example, the following gives the player the ability to walk between rooms without giving explicit directions of movement.
+<p>The &quot;... as something new&quot; sentence works even for a command which did not exist anyway, for instance with:
 <p>
-<blockquote><font color="#000080">Going by name is an action applying to one thing.
+<blockquote><font color="#000080">Understand the command &quot;zylqix&quot; as something new.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out going by name: say &quot;You walk to [the noun].&quot;; move the player to the noun.
-</font></blockquote><p>
+<p>Of course this does nothing - but it is intentional that it generates no problem messages: it means that the sentence can be used to force a command to be fresh and untouched by previous definitions, which might be useful when working with extensions by other people.
 <p>
-<blockquote><font color="#000080">Understand &quot;go to [any adjacent visited room]&quot; as going by name.
-</font></blockquote><p>
-<p>
-<p>(This is really only a sketch: in a finished work, &quot;go to&quot; would produce helpful errors if non-adjacent but visited rooms were named, and we might also worry about rules applying to movement, because the method above will circumvent them.)
-<p>
-<p><hr><p>
-<a name="e74"><a href=ex74.html#e74><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A FIND command that allows the player to find a lost object anywhere</i><p>
-<a name="e53"><a href=ex53.html#e53><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A FOLLOW command allowing the player to pursue a person who has just left the room.</i><p>
 <p><hr><p><a href=doc218.html>Previous</a> / <a href=doc220.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

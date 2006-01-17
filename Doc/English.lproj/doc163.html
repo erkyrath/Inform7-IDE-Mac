@@ -1,4 +1,4 @@
-<html><head><title>11.10. Making actions work for other people</title></head>
+<html><head><title>11.11. Check rules for actions by other people</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,23 +7,41 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc162.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc164.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.10. Making actions work for other people</b></td></tr></table><p>
+<table><tr><td><a href=doc162.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc164.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.11. Check rules for actions by other people</b></td></tr></table><p>
 <p>
-<p>The &quot;photographing&quot; action now works very nicely when the player does it. But not when others try. Suppose that neither the player, not Clark Gable, is holding the camera:
+<p>If we want to impose the restriction about carrying the camera on everyone, we need a rule like the following:
 <p>
-<blockquote><font color="#000080">>photograph clark
-<br>You can hardly photograph without a camera, now can you?
+<blockquote><font color="#000080">Check someone trying photographing: if the person asked does not carry the camera, stop the action.
 </font></blockquote><p>
+<p>
+<p>Implicitly, that &quot;someone&quot; excludes the player. Note that we say nothing in this rule, stopping the action without a word: after all, Clark might well be out of sight when trying this. If he is within sight, then we read:
 <p>
 <blockquote><font color="#000080">>clark, photograph me
-<br>>
+<br>Clark Gable is unable to do that.
 </font></blockquote><p>
 <p>
-<p>An uncanny silence. What has happened is that the rules written so far are all implicitly restricted to the player only. This is because when we write -
+<p>We saw before that Inform's built-in rules all have handy names (the &quot;can't drop what's already dropped rule&quot;, and such), and that these are useful when writing better &quot;unable to...&quot; messages. So for a deluxe version, we end up with:
 <p>
-<blockquote><font color="#000080">Check photographing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
+<blockquote><font color="#000080">Check someone trying photographing (this is the other people can't photograph without the camera rule): if the person asked does not carry the camera, stop the action.
 </font></blockquote><p>
 <p>
-<p>the action is &quot;photographing&quot;, not &quot;Clark trying photographing&quot;. In the next few sections we shall see how to make the rules work nicely for everybody. This is a little bit harder, so it should be noted right away that in many projects there is no need. In a game which has no other characters who succumb to persuasion, for instance, only the player will ever try the action.
+<p>And now, with ACTIONS on, we find that:
 <p>
+<blockquote><font color="#000080">>clark, photograph me
+<br>[asking Clark Gable to try photographing yourself]
+<br>[(1) Clark Gable trying photographing yourself]
+<br>[(1) Clark Gable trying photographing yourself - failed the other people can't photograph without the camera rule]
+<br>Clark Gable is unable to do that.
+<br>[asking Clark Gable to try photographing yourself - succeeded]
+</font></blockquote><p>
+<p>
+<p>which means that we could have, say,
+<p>
+<blockquote><font color="#000080">Unsuccessful attempt by Clark trying photographing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is the other people can't photograph without the camera rule, say &quot;Clark is too suave to be embarrassed. 'Frankly, my dear, I don't have a camera.'&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Clark tries, and fails, to take a photograph.&quot;
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<a name="e113"><a href=ex113.html#e113><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Changing the check rules to try automatically leaving a container before attempting to take it. (And arranging things so that other people will do likewise.)</i><p>
 <p><hr><p><a href=doc162.html>Previous</a> / <a href=doc164.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

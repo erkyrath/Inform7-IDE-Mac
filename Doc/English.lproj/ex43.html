@@ -1,4 +1,4 @@
-<html><head><title>8.12. Future events</title></head>
+<html><head><title>4.11. Text with variations</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,48 +7,72 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc124.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc126.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.12. Future events</b></td></tr></table><p>
+<table><tr><td><a href=doc54.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc56.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.11. Text with variations</b></td></tr></table><p>
 <p>
-<p>We often want to arrange for something to happen at some point in the future. Here is yet another timepiece:
+<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.\n\nWhen the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;\n\n\n')"><img border=0 src=paste.png></a> An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.
+<blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;
+<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
+<p>
+<blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;
 </font></blockquote><p>
 <p>
-<p>The event here is called &quot;the egg-timer clucks&quot;. It only happens if we instruct so, which we do by writing
+<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
 <p>
-<blockquote><font color="#000080">the egg-timer clucks in four turns from now
+<p>We sometimes need to be careful about the printing of line breaks:
+<p>
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell. [otherwise]the usual cell.&quot;
 </font></blockquote><p>
 <p>
-<p>meaning four turns after the turn in which the egg-timer is pushed. We could alternatively describe this future moment as something like &quot;in 18 minutes from now&quot;, or &quot;at 4:15 PM&quot;.
+<p>This room description has two possible forms: &quot;Ah, the unknown cell. &quot;, at first sight, and then &quot;Ah, the usual cell.&quot; subsequently. But the second form is rounded off with a line break because the last thing printed is a &quot;.&quot;, whereas the first form isn't, because it ended with a space. The right thing would have been:
 <p>
-<p>If we know in advance what time we want something to happen, we can more simply write:
-<p>
-<blockquote><font color="#000080">At 4 PM: say &quot;The great bells of the clock tower chime four.&quot;
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell.[otherwise]the usual cell.&quot;
 </font></blockquote><p>
+<p>
+<p>allowing no space after &quot;unknown cell.&quot;
 <p>
 <p><hr><p>
-<a name="e113"><a href=ex113.html#e113><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A train which follows a schedule, stopping at a number of different locations.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e43"><a href=doc125.html#e43><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>To schedule an eclipse of the sun, which involves a number of related events.</i><p>
+<a name="e41"><a href=ex41.html#e41><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A door which says "...leads east" in one place and "...leads west" in the other.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e43"><a href=doc55.html#e43><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Separate the player's inventory listing into two parts, so that it says "you are carrying..." and then (if the player is wearing anything) "You are also wearing...".</i><p>
 <p>
-<p>First we define the events, and then we create a phrase to schedule them:
+<p>If we wanted, we might replace the rule for taking inventory as follows:
 <p>
-<blockquote><font color="#000080">When the penumbra appears: say &quot;The sunlight dies away to an eerie, brownish penumbra.&quot; When the eclipse begins: say &quot;The moon passes across the disc of the sun, plunging the world into darkness.&quot;; change the Chamber to dark. When the eclipse ends: say &quot;The moon passes away from the sun, and a gloomy penumbral light returns.&quot;; change the Chamber to lighted. When normal sunlight returns: say &quot;The sun shines once more bright in the sky, not to be eclipsed again on this spot for another thirty-seven years.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Instead of taking inventory:\n\tsay &quot;You\'re carrying [list of things carried by the player][if the player wears something]. You are also wearing [list of things worn by the player][end if].&quot;\n\n\n')"><img border=0 src=paste.png></a> Instead of taking inventory:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're carrying [list of things carried by the player][if the player wears something]. You are also wearing [list of things worn by the player][end if].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To schedule an eclipse for (totality - a time):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;the penumbra appears at two minutes before totality;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;the eclipse begins at totality;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;the eclipse ends at three minutes after totality;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;normal sunlight returns at five minutes after totality.
+<p>This might give us an inventory listing like so:
+<p>
+<blockquote><font color="#000080">>i
+<br>You're carrying a sword, a strawberry stem and 20 credits worth of platinum. You are also wearing a sash indicating lordhood.
 </font></blockquote><p>
 <p>
-<p>Now we make use of the new phrase:
+<p>Because of the if statement, we can get rid of the sash and that part of the inventory sentence will disappear:
 <p>
-<blockquote><font color="#000080">When play begins, schedule an eclipse for 3:27 PM.
+<blockquote><font color="#000080">>take off sash
+<br>You take off the sash indicating lordhood.
 </font></blockquote><p>
 <p>
-<p>We shall see much more about creating phrases later. Their advantage is that they enable a complicated sequence of operations to be given a meaningful name, and that they can be re-used many times as needed.
-</td></tr></table><p><p><hr><p><a href=doc124.html>Previous</a> / <a href=doc126.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">>drop it
+<br>Dropped.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">>i
+<br>You're carrying a sword, a strawberry stem and 20 credits worth of platinum.
+</font></blockquote><p>
+<p>
+<p>And if the player is not carrying any items at all, the list of things carried by the player will read as &quot;nothing&quot;:
+<p>
+<blockquote><font color="#000080">>drop all
+<br>sword: Dropped.
+<br>strawberry stem: Dropped.
+<br>20 credits worth of platinum: Dropped.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">>i
+<br>You're carrying nothing.
+</font></blockquote><p>
+</td></tr></table><p><a name="e5"><a href=ex5.html#e5><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A kind of door that always automatically describes the direction it opens and what lies on the far side (if that other room has been visited).</i><p>
+<p><hr><p><a href=doc54.html>Previous</a> / <a href=doc56.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -7,7 +7,7 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc241.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc243.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.13. Constructing the status line</b></td></tr></table><p>
+<table><tr><td><a href=doc245.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc247.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.13. Constructing the status line</b></td></tr></table><p>
 <p>
 <p><b>1. When it happens.</b> Just before input is accepted from the keyboard, Inform constructs a &quot;status line&quot; at the top of the window which is normally displayed in reverse colours (white on black instead of black on white, say).
 <p>
@@ -24,29 +24,34 @@ function pasteCode(code) {
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e50"><a href=doc242.html#e50><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A status line that lists the available exits from the current location.</i><p>
+<a name="e51"><a href=ex51.html#e51><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A status line that lists the available exits from the current location.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e50"><a href=doc246.html#e50><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A status line that lists the available exits from the current location, changing the names of these exits depending on whether the room has been visited or not.</i><p>
 <p>
-<p>A not-uncommon device in games with large maps is a list of available exits printed in the status bar. We might do this so:
+<p>It may sometimes be helpful to prompt the player with a list of exits printed up in the status line. For instance, here is a status line that will print the names of nearby rooms, as well as all the doors the player can see:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tchange left hand status line to &quot;Exits: [exit list]&quot;;\n\tchange right hand status line to &quot;[location]&quot;.\n\nTo say exit list:\n\tlet place be location;\n\trepeat with way running through directions\n\tbegin;\n\t\tlet place be the room way from the location;\n\t\tif place is a room, say &quot; [way]&quot;;\n\tend repeat.\n\n\n[We may find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn\'t hard to provide a set of abbreviations to use in this context:]\n\nRule for printing the name of a direction (called the way) while constructing the status line:\n\tchoose row with a heading of the way in the Table of Abbreviation;\n\tsay &quot;[shortcut entry]&quot;.\n\nTable of Abbreviation\nheading\tshortcut\nnorth\t&quot;N&quot;\nnortheast\t&quot;NE&quot;\neast\t&quot;E&quot;\nsoutheast\t&quot;SE&quot;\nsouth\t&quot;S&quot;\nsouthwest\t&quot;SW&quot;\nwest\t&quot;W&quot;\nup\t&quot;U&quot;\ndown\t&quot;D&quot;\ninside\t&quot;IN&quot;\noutside\t&quot;OUT&quot;\n\n\n')"><img border=0 src=paste.png></a> When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change left hand status line to &quot;Exits: [exit list]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change right hand status line to &quot;[location]&quot;.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tchange left hand status line to &quot;Nearby: [if a room is adjacent][the list of adjacent rooms][end if][if a room is adjacent and a door is visible] and [end if][if a door is visible][the list of visible doors][end if]&quot;;\n\tchange right hand status line to &quot; &quot;.\n\n[Of course, we may not want to tell the player what glories are to be found in locations he hasn\'t yet explored.]\n\nRule for printing the name of an unvisited room (called the target) while constructing the status line:\n\tlet aim be the best route from the location to the target;\n\tsay &quot;something [aim]&quot;.\n\n[Even when we have seen a room, we might still want a reminder about how to get there:]\n\nAfter printing the name of a visited room (called the target) while constructing the status line:\n\tlet aim be the best route from the location to the target;\n\tsay &quot; ([aim])&quot;.\n\n[We may also find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn\'t hard to provide a set of abbreviations to use in this context:]\n\nRule for printing the name of a direction (called the aim) while constructing the status line:\n\tchoose row with a heading of the aim in the Table of Abbreviation;\n\tsay &quot;[shortcut entry]&quot;.\n\nTable of Abbreviation\nheading\tshortcut\nnorth\t&quot;N&quot;\nnortheast\t&quot;NE&quot;\neast\t&quot;E&quot;\nsoutheast\t&quot;SE&quot;\nsouth\t&quot;S&quot;\nsouthwest\t&quot;SW&quot;\nwest\t&quot;W&quot;\nup\t&quot;U&quot;\ndown\t&quot;D&quot;\ninside\t&quot;in&quot;\noutside\t&quot;out&quot;\n\n\n')"><img border=0 src=paste.png></a> When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change left hand status line to &quot;Nearby: [if a room is adjacent][the list of adjacent rooms][end if][if a room is adjacent and a door is visible] and [end if][if a door is visible][the list of visible doors][end if]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change right hand status line to &quot; &quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say exit list:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let place be location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with way running through directions
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let place be the room way from the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if place is a room, say &quot; [way]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<p>Of course, we may not want to tell the player what glories are to be found in locations he hasn't yet explored.
+<p>
+<blockquote><font color="#000080">Rule for printing the name of an unvisited room (called the target) while constructing the status line:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let aim be the best route from the location to the target;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;something [aim]&quot;.
 </font></blockquote><p>
 <p>
+<p>Even when we have seen a room, we might still want a reminder about how to get there:
 <p>
-<p>We may find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn't hard to provide a set of abbreviations to use in this context:
+<blockquote><font color="#000080">After printing the name of a visited room (called the target) while constructing the status line:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let aim be the best route from the location to the target;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; ([aim])&quot;.
+</font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Rule for printing the name of a direction (called the way) while constructing the status line:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with a heading of the way in the Table of Abbreviation;
+<p>We may also find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn't hard to provide a set of abbreviations to use in this context:
+<p>
+<blockquote><font color="#000080">Rule for printing the name of a direction (called the aim) while constructing the status line:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with a heading of the aim in the Table of Abbreviation;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[shortcut entry]&quot;.
 </font></blockquote><p>
 <p>
@@ -61,11 +66,10 @@ function pasteCode(code) {
 </tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">west</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;W&quot;</font>&nbsp;&nbsp;&nbsp;</td>
 </tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">up</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;U&quot;</font>&nbsp;&nbsp;&nbsp;</td>
 </tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">down</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;D&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">inside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;IN&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">outside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;OUT&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">inside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;in&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">outside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;out&quot;</font>&nbsp;&nbsp;&nbsp;</td>
 </tr></table>
 </font></blockquote><p>
 <p>
 <p>Everywhere else, the names of directions will still be printed out in full in the usual way.
-</td></tr></table><p><a name="e49"><a href=ex49.html#e49><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A status line that lists the available exits from the current location, changing the names of these exits depending on whether the room has been visited or not.</i><p>
-<p><hr><p><a href=doc241.html>Previous</a> / <a href=doc243.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc245.html>Previous</a> / <a href=doc247.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

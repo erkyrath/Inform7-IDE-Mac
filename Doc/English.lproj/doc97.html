@@ -1,4 +1,4 @@
-<html><head><title>7.4. Change of either/or properties</title></head>
+<html><head><title>7.5. Change of properties with values</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,20 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc96.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc98.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.4. Change of either/or properties</b></td></tr></table><p>
+<table><tr><td><a href=doc96.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc98.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.5. Change of properties with values</b></td></tr></table><p>
 <p>
-<p>When we have an either/or property, we can set it like so:
+<p>Changing properties with values is very similar:
 <p>
-<blockquote><font color="#000080">Instead of waiting when the oaken door is closed: say &quot;There is a slow, creaky click! sort of noise as the door swings open, apparently all by itself.&quot;; change the oaken door to open.
+<blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;
 </font></blockquote><p>
 <p>
-<p>If it is open already, nothing changes: in any case nothing is said to the player unless we give explicit instructions to that effect, as we've done here.
+<p>Inform checks three different things to ensure that this change is safe to perform. Firstly, the value must be the right kind for the property in question, so this for instance would be rejected:
 <p>
-<p>Inform protects its model world from accidental damage in several ways, one of which is to ensure that things are not given properties which they are not allowed to have. So this, for instance, will not be accepted:
-<p>
-<blockquote><font color="#000080">change the oaken door to unvisited
+<blockquote><font color="#000080">change the printed name of the Closet to 7
 </font></blockquote><p>
 <p>
-<p>More subtle problems arise if it is not possible to tell, when the game is being constructed, what the object in question will be: for instance, if we try to change a randomly chosen object to be &quot;unvisited&quot;. Inform therefore makes additional checks during play, printing up a suitable message only if the rules are violated. The net effect is that it is impossible for the oaken door ever to have the &quot;unvisited&quot; property.
+<p>Secondly, the object in question has to be allowed to have the given property. This, for instance, would be disallowed:
+<p>
+<blockquote><font color="#000080">change the initial appearance of the Closet to &quot;Dusty&quot;
+</font></blockquote><p>
+<p>
+<p>(since &quot;initial appearance&quot; is a property which only things can have, not rooms). Finally, the object has to actually have the property, not just have the right to have that property. Thus:
+<p>
+<blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;
+</font></blockquote><p>
+<p>
+<p>...is only permitted if the Closet is designed with a &quot;printed name&quot;. In fact this is certain to be true: all rooms and things automatically have a printed name, which is the short boldface description in the case of rooms, and the usual text briefly describing something in the case of things.
 <p>
 <p><hr><p><a href=doc96.html>Previous</a> / <a href=doc98.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

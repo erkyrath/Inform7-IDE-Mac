@@ -1,4 +1,4 @@
-<html><head><title>16.8. Deciding the concealed possessions of something</title></head>
+<html><head><title>16.4. While clauses</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,34 +7,24 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc236.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc238.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.8. Deciding the concealed possessions of something</b></td></tr></table><p>
+<table><tr><td><a href=doc236.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc238.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.4. While clauses</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> Frequently - whenever Inform needs to check whether something is visible or not. Nothing should be printed, and the activity needs to run quickly, so it should not (for instance) calculate best routes through complicated maps before getting an answer.
+<p>Rules applied to actions can become baroque (&quot;after going through a door in the presence of an animal when -&quot; and so on and so forth), but activities are again simpler: they only have one possible clause attached, which is called &quot;while&quot;. For instance, the following would provide a fairly sledgehammer hint that the sack should not lightly be thrown away:
 <p>
-<p><b>2. The default behaviour.</b> There is no concealment. The ordinary rules still apply, though: the contents of a closed opaque container are invisible because there is a barrier in the way which cannot be seen through, even though nobody is &quot;concealing&quot; anything.
-<p>
-<p><b>3. Examples.</b> (a) To repeat a number of brief examples given at the end of Chapter 3, where this activity made an early appearance:
-<p>
-<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: if the particular possession is the sable cloak, no; otherwise yes.
+<blockquote><font color="#000080">The sack is a player's holdall. The sack is initially carried. Rule for printing the name of the sack while the sack is not carried: say &quot;your abandoned sack&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, yes; otherwise no.
+<p>Any condition can be given after the &quot;while&quot;, and we can also specify that another activity has to be going on. Thus:
+<p>
+<blockquote><font color="#000080">Rule for printing the name of the lemon sherbet while listing contents: say &quot;curious sort of lemon sherbet sweet&quot;.
 </font></blockquote><p>
 <p>
-<p>The value &quot;particular possession&quot; is the one whose concealment is in question, of course. We can ignore this if someone is invariably secretive:
+<p>This nicely distinguishes between contexts where it's appropriate to be more verbose, and where it isn't. Thus:
 <p>
-<blockquote><font color="#000080">Rule for deciding the concealed possessions of the furtive ghost: yes.
-</font></blockquote><p>
-<p>
-<p>(b) The following burlesque was considered too much for the tender readers of Chapter 3, since it involved explicit use of listing and persuasion:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Hayes Code&quot;\n\nThe Movie Set is a room. Clark Gable is a man in the Movie Set. &quot;Clark leans on a polystyrene pillar, wearing [list of unconcealed things worn by Clark] with his usual aplomb.&quot; Persuasion rule for asking Clark to try doing something: persuasion succeeds.\n\nClark is wearing a pin-striped suit and a pink thong. Rule for deciding the concealed possessions of Clark: if the particular possession is the thong and Clark is wearing the suit, yes; otherwise no.\n\n\n')"><img border=0 src=paste.png></a> &quot;Hayes Code&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Movie Set is a room. Clark Gable is a man in the Movie Set. &quot;Clark leans on a polystyrene pillar, wearing [list of unconcealed things worn by Clark] with his usual aplomb.&quot; Persuasion rule for asking Clark to try doing something: persuasion succeeds.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Clark is wearing a pin-striped suit and a pink thong. Rule for deciding the concealed possessions of Clark: if the particular possession is the thong and Clark is wearing the suit, yes; otherwise no.
+<blockquote><font color="#000080">You can see a teaspoon and a curious sort of lemon sherbet sweet here.
+<br>> TAKE ALL
+<br>teaspoon: Taken.
+<br>lemon sherbet: Taken.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc236.html>Previous</a> / <a href=doc238.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

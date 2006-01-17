@@ -677,6 +677,10 @@ Object InformParser "(Inform Parser)"
     {   if (turns==1)
         {   L__M(##Miscellany,11); jump FreshInput;
         }
+#ifdef PREVENT_UNDO;
+		print "The use of UNDO is forbidden in this game.^";
+		jump FreshInput;
+#endif;
         if (undo_flag==0)
         {   L__M(##Miscellany,6); jump FreshInput;
         }
@@ -694,6 +698,11 @@ Object InformParser "(Inform Parser)"
     @save_undo i;
     just_undone=0;
     undo_flag=2;
+
+#ifdef PREVENT_UNDO;
+	undo_flag = 0;
+#endif;
+
     if (i==-1) undo_flag=0;
     if (i==0) undo_flag=1;
     if (i==2)
@@ -3729,6 +3738,12 @@ Object InformLibrary "(Inform Library)"
        LanguageInitialise();
        #endif;
        new_line;
+#ifdef FIX_RNG;
+	   @random 10000 -> i;
+	   i = -i-2000;
+	   print "[Random number generator seed is ", i, "]^";
+       @random i -> i;
+#endif;
        j=Initialise();
        last_score = score;
        move player to location;
@@ -4066,7 +4081,12 @@ Object InformLibrary "(Inform Library)"
 #endif;
    #IFV5;
    if (i==UNDO1__WD or UNDO2__WD or UNDO3__WD)
-   {   if (undo_flag==0)
+   {   
+#ifdef PREVENT_UNDO;
+		print "The use of UNDO is forbidden in this game.^";
+		jump RRQPL;
+#endif;
+  		if (undo_flag==0)
        {   L__M(##Miscellany,6);
            jump RRQPL;
        }

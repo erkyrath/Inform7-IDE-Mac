@@ -1,4 +1,4 @@
-<html><head><title>10.14. The value after and the value before</title></head>
+<html><head><title>16.5. New activities</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,75 +7,118 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc150.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc152.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.14. The value after and the value before</b></td></tr></table><p>
+<table><tr><td><a href=doc237.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc239.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.5. New activities</b></td></tr></table><p>
 <p>
-<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
+<p>Activities are all about influencing the standard mechanisms which Inform uses, so it might at first seem that there is no need to create new activities: but on further reflection, quite a lot of the writing of interactive fiction involves creating new and systematic ways to do things, and as soon as we have a general rule, we will want to have exceptions. Inform therefore allows us to create our own activities, giving us ways to influence the operation of our own mechanisms.
 <p>
-<blockquote><font color="#000080">change the score to the score + 4
+<p>There are two kinds of activity: those which relate to a specific thing or room, and those which do not. The following creates one of each kind:
+<p>
+<blockquote><font color="#000080">Analysing something is an activity.
+<br>Assaying is an activity.
 </font></blockquote><p>
 <p>
-<p>Inform generally expects to apply the &quot;+&quot; sign only to two numbers, so we cannot normally apply &quot;+&quot; to values like these:
+<p>Here &quot;analysing something&quot; relates to a specific item: Inform knows this because it looks for the clue &quot;something&quot; (or &quot;of something&quot;) after the activity's name, which in the first case above is simply &quot;analysing&quot;.
 <p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.
+<p>Creating an activity is like creating an action: it automatically makes new rulebooks - &quot;before analysing&quot;, &quot;for analysing&quot; and &quot;after analysing&quot; - but they start out empty, so the activity does nothing yet. Moreover, it never happens. We can make an activity happen at any time by writing phrases like so:
+<p>
+<blockquote><font color="#000080">carry out the analysing activity with the pitchblende;
+<br>carry out the assaying activity;
 </font></blockquote><p>
 <p>
-<p>There will be more about arithmetic on new kinds of value in the chapter on Units, but it may be useful to note that although we cannot (ordinarily) add up colours, we do automatically have two ways to make new colours from old:
+<p>To make the activity do something useful, we need to put a rule into its &quot;for&quot; rulebook:
 <p>
-<blockquote><font color="#000080">the colour after C
-<br>the colour before C
+<blockquote><font color="#000080">The last for assaying rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Professionally, you cast an eye around mineral deposits nearby, noticing [list of rocks in the location].&quot;
 </font></blockquote><p>
 <p>
-<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
+<p>&quot;The last&quot; is a technicality about rulebooks (see the next chapter) which, put briefly, guarantees that this rule comes last among all possible &quot;for assaying&quot; rules. This is good form because the whole point of an activity is to make it easy for further rules to interfere - so we deliberately hang back to last place, giving precedence to anybody else who wants it.
 <p>
-<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not. Again, more on comparisons in the chapter on units.
+<p>It may look rather pretentious to dress up the footling little &quot;assaying&quot; example as an activity, but it gains us more than might first appear. Every new activity created provides a context which other activities can observe. We could, for instance, define
+<p>
+<blockquote><font color="#000080">Rule for printing the name of a rock while assaying: ...
+</font></blockquote><p>
+<p>
+<p>so that during assays more technical names are used.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e46"><a href=doc151.html#e46><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>All objects in the game have a heat, but if not kept insulated they will tend toward room temperature (and at a somewhat exaggerated rate).</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e46"><a href=doc238.html#e46><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>An Encyclopedia set which treats volumes in the same place as a single object, but can also be split up.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Entropy&quot;\n\nHeat is a kind of value. The heats are frosty, cold, cool, room temperature, warm, hot, and scalding. Everything has a heat. The heat of a thing is usually room temperature.\n\nEvery turn:\n\trepeat with item running through things which are not in an insulated container\n\tbegin;\n\t\tif the heat of the item is greater than room temperature, change the heat of the item to the heat before the heat of the item;\n\t\tif the heat of the item is less than room temperature, change the heat of the item to the heat after the heat of the item;\n\tend repeat.\n\nDefinition: a container is insulated if it is closed and it is opaque.\n\nThe vacuum thermos is an opaque closed openable container carried by the player. In the vacuum thermos is a frosty thing called an ice cube.\n\nEvery turn:\n\tif the heat of the ice cube is greater than cold\n\tbegin;\n\t\tif the ice cube is visible, say &quot;The ice cube melts! \'HA ha,\' says Maxwell, in a very unsporting way.&quot;;\n\t\tremove the ice cube from play;\n\tend if.\n\nBefore printing the name of something: say &quot;[heat] &quot;.\n\nEquilibrium is a room. &quot;A perfectly smooth chamber sealed from the outside world. You can\'t at this moment work out where the exit is, though possibly that is just because the lighting is so very very even and diffuse. And doesn\'t come from anywhere that you can see, either.&quot;\n\nMaxwell is a man in Equilibrium.  &quot;Maxwell sits on a stool across from you[if Maxwell has something], holding [list of things carried by Maxwell][end if].&quot; He is carrying a box of Chinese food. The Chinese food is scalding. &quot;A discarded [object in question] lies on the floor.&quot; The description of Maxwell is &quot;He has the faintly peevish look of one who has not been properly fed.&quot;\n\nEvery turn when Maxwell has the food:\n\tif the heat of the Chinese food is greater than warm, say &quot;Maxwell takes a bite, and swears.&quot;;\n\tif the heat of the Chinese food is warm, say &quot;Maxwell eats as fast as he can, enjoying the food while it\'s at just the right temperature.&quot;;\n\tif the heat of the Chinese food is less than warm\n\tbegin;\n\t\tsay &quot;Maxwell sadly stabs at his leftovers with a chopstick, but does not try to eat any more.&quot;;\n\t\tmove the food to the location;\n\tend if.\n\n')"><img border=0 src=paste.png></a> &quot;Entropy&quot;
+<p>Suppose we have a complete Encyclopedia in our game. The player is allowed to pick up the whole set (there must not be too many volumes), but also to do things with individual volumes, and indeed to scatter these volumes all over the place. Putting a volume back in the same place as the rest of the Encyclopedia should, however, restore it to the collective.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;AARP-Gnosis&quot;\n\nFitting relates various things to one thing (called the home). The verb to fit (it fits, they fit, it is fitted) implies the fitting relation.\n\nA collective is a kind of thing.\n\nBefore doing something to something which is part of a collective:\n\tlet space be the holder of the home of the noun;\n\tmove the noun to the space.\n\nInstead of examining a collective:\n\tsay &quot;[The noun] consists of [the list of things which are part of the noun].&quot;\n\nThe Boise Memorial Library is a room. &quot;A concrete box of a room, roughly eight feet by fourteen, which contains all the fallout shelter has to offer by way of entertainment. Someone with a grim sense of humor has tacked a READ! literacy poster to the door, as though there were anything else to do while you await the calming of the Geiger counters.&quot; The shelf is a supporter in the Library. &quot;A battered utility shelf stands against the south wall.&quot;\n\nThe New Idahoan Encyclopedia Set is a collective. Volume A-Aalto fits the Encyclopedia. It is part of the Set. Volume AAM-Aardvark fits the Encyclopedia. It is part of the Set. Volume Aarhus-Aaron fits the Encyclopedia. It is part of the Set. Volume AARP-Gnosis fits the Encyclopedia. It is part of the Set. Volume Gnu-Zygote fits the Encyclopedia. It is part of the Set. The Set is on the shelf.\n\n[Let\'s have the Encyclopedia describe itself differently depending on whether it\'s all in one place:]\n\nDefinition: a thing is missing if it is not part of the home of it.\n\nAfter printing the name of the Set when something missing fits the Set:\n\tsay &quot; (missing [list of missing things which fit the Set])&quot;\n\nEvery turn:\n\trepeat with item running through collectives\n\tbegin;\n\t\tcarry out the collecting activity with the item;\n\tend repeat.\n\nBefore printing the name of the Set when the number of missing things which fit the set is 0:\n\tsay &quot;complete &quot;;\n\n[Now the real work begins. One reason to make this an activity is that we might easily want to override it for specific objects; for instance, the generic collecting activity here would not deal properly with collectives of clothing where some items might be worn and others not. In that case, we would want to write another, more specific &quot;collecting&quot; activity to handle the complexities of fashion.]\n\nCollecting something is an activity.\n\nBefore collecting a thing (called the item):\n\tlet space be the holder of the item;\n\tif space is not a thing and space is not a room\n\tbegin;\n\t\tif something (called the other space) contains at least two things which fit the item, move item to the other space;\n\t\tif a room (called the other space) contains at least two things which fit the item, move item to the other space;\n\t\tif someone (called the owner) carries at least two things which fit the item, move item to the owner;\n\tend if.\n\nRule for collecting a thing (called the item):\n\tlet space be the holder of the item;\n\tif space is a thing or space is a room\n\tbegin;\n\t\trepeat with component running through things in the space\n\t\tbegin;\n\t\t\tif the component fits the item, now the component is part of the item;\n\t\tend repeat;\n\t\tif the number of things which are part of the item is 0, remove the item from play;\n\t\tif the number of things which are part of the item is 1\n\t\tbegin;\n\t\t\tlet the last thing be a random thing which is part of the item;\n\t\t\tmove the last thing to the space;\n\t\t\tremove the item from play;\n\t\tend if;\n\tend if.\n\n')"><img border=0 src=paste.png></a> &quot;AARP-Gnosis&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Heat is a kind of value. The heats are frosty, cold, cool, room temperature, warm, hot, and scalding. Everything has a heat. The heat of a thing is usually room temperature.
+<blockquote><font color="#000080">Fitting relates various things to one thing (called the home). The verb to fit (it fits, they fit, it is fitted) implies the fitting relation.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A collective is a kind of thing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before doing something to something which is part of a collective:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let space be the holder of the home of the noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the noun to the space.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of examining a collective:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] consists of [the list of things which are part of the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Boise Memorial Library is a room. &quot;A concrete box of a room, roughly eight feet by fourteen, which contains all the fallout shelter has to offer by way of entertainment. Someone with a grim sense of humor has tacked a READ! literacy poster to the door, as though there were anything else to do while you await the calming of the Geiger counters.&quot; The shelf is a supporter in the Library. &quot;A battered utility shelf stands against the south wall.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The New Idahoan Encyclopedia Set is a collective. Volume A-Aalto fits the Encyclopedia. It is part of the Set. Volume AAM-Aardvark fits the Encyclopedia. It is part of the Set. Volume Aarhus-Aaron fits the Encyclopedia. It is part of the Set. Volume AARP-Gnosis fits the Encyclopedia. It is part of the Set. Volume Gnu-Zygote fits the Encyclopedia. It is part of the Set. The Set is on the shelf.
+</font></blockquote><p>
+<p>
+<p>Let's have the Encyclopedia describe itself differently depending on whether it's all in one place:
+<p>
+<blockquote><font color="#000080">Definition: a thing is missing if it is not part of the home of it.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After printing the name of the Set when something missing fits the Set:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; (missing [list of missing things which fit the Set])&quot;
 </font></blockquote><p>
 <p>
 <blockquote><font color="#000080">Every turn:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through things which are not in an insulated container
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through collectives
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the item is greater than room temperature, change the heat of the item to the heat before the heat of the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the item is less than room temperature, change the heat of the item to the heat after the heat of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carry out the collecting activity with the item;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Definition: a container is insulated if it is closed and it is opaque.
+<blockquote><font color="#000080">Before printing the name of the Set when the number of missing things which fit the set is 0:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;complete &quot;;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The vacuum thermos is an opaque closed openable container carried by the player. In the vacuum thermos is a frosty thing called an ice cube.
+<p>Now the real work begins. One reason to make this an activity is that we might easily want to override it for specific objects; for instance, the generic collecting activity here would not deal properly with collectives of clothing where some items might be worn and others not. In that case, we would want to write another, more specific &quot;collecting&quot; activity to handle the complexities of fashion.
+<p>
+<blockquote><font color="#000080">Collecting something is an activity.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the ice cube is greater than cold
+<blockquote><font color="#000080">Before collecting a thing (called the item):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let space be the holder of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if space is not a thing and space is not a room
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the ice cube is visible, say &quot;The ice cube melts! 'HA ha,' says Maxwell, in a very unsporting way.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove the ice cube from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if something (called the other space) contains at least two things which fit the item, move item to the other space;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if a room (called the other space) contains at least two things which fit the item, move item to the other space;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if someone (called the owner) carries at least two things which fit the item, move item to the owner;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before printing the name of something: say &quot;[heat] &quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Equilibrium is a room. &quot;A perfectly smooth chamber sealed from the outside world. You can't at this moment work out where the exit is, though possibly that is just because the lighting is so very very even and diffuse. And doesn't come from anywhere that you can see, either.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Maxwell is a man in Equilibrium.  &quot;Maxwell sits on a stool across from you[if Maxwell has something], holding [list of things carried by Maxwell][end if].&quot; He is carrying a box of Chinese food. The Chinese food is scalding. &quot;A discarded [object in question] lies on the floor.&quot; The description of Maxwell is &quot;He has the faintly peevish look of one who has not been properly fed.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn when Maxwell has the food:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is greater than warm, say &quot;Maxwell takes a bite, and swears.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is warm, say &quot;Maxwell eats as fast as he can, enjoying the food while it's at just the right temperature.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is less than warm
+<blockquote><font color="#000080">Rule for collecting a thing (called the item):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let space be the holder of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if space is a thing or space is a room
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Maxwell sadly stabs at his leftovers with a chopstick, but does not try to eat any more.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the food to the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeat with component running through things in the space
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the component fits the item, now the component is part of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the number of things which are part of the item is 0, remove the item from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the number of things which are part of the item is 1
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the last thing be a random thing which is part of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the last thing to the space;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove the item from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc150.html>Previous</a> / <a href=doc152.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc237.html>Previous</a> / <a href=doc239.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>11.8. Irregular English verbs</title></head>
+<html><head><title>11.9. Check, carry out, report</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,26 +7,41 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc160.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc162.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.8. Irregular English verbs</b></td></tr></table><p>
+<table><tr><td><a href=doc160.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc162.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.9. Check, carry out, report</b></td></tr></table><p>
 <p>
-<p>Our three example actions can be recognised in play using the following:
+<p>The normal behaviour of an action is specified by its three associated rulebooks - check, carry out and report. In the case of our &quot;photographing&quot; example, these rulebooks will be:
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
+<blockquote><font color="#000080"><b>Check photographing</b>. Here, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;blink&quot; as blinking.
+<blockquote><font color="#000080"><b>Carry out photographing</b>. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;scrape [something] with [something]&quot; as scraping.
+<blockquote><font color="#000080"><b>Report photographing</b>. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.
 </font></blockquote><p>
 <p>
-<p>The last of these examples shows why Inform does not risk generating this automatically: English is so full of irregular verbs. Inform could have guessed &quot;blink&quot; and &quot;photograph&quot;, but might then have opted for &quot;scrap&quot; instead of &quot;scrape&quot;.
+<p>So far we have not really gone into the business of what rulebooks are, and we don't do so here either - suffice to say that we can now create whatever rules we need:
 <p>
-<p>Inform does risk automatically generating the past participle of an action (many past participles are never needed, so the stakes are lower if Inform gets this wrong). What almost always happens is that the &quot;-ing&quot; is replaced with &quot;-ed&quot;, which happens to be correct in these three cases: photographed, blinked, scraped. It would be disastrously wrong for something like taking, though: we need taken, not taked. We can get around this like so:
+<blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
+</font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Weaving is an action with past participle woven, applying to one thing.
+<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
+<p>
+<blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
+</font></blockquote><p>
+<p>
+<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
+<p>
+<p>We can continue to add rules at any point, and a classic thing that happens when testing a new work is that the designer realises there is a case which has not been thought of:
+<p>
+<blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e123"><a href=ex123.html#e123><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A shake command which agitates soda and makes items thump around in boxes.</i><p>
+<a name="e33"><a href=ex33.html#e33><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Containers and supporters that report their contents when you EXAMINE them.</i><p>
+<a name="e45"><a href=ex45.html#e45><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>An electric light kind of device which becomes lit when switched on and dark when switched off.</i><p>
+<a name="e36"><a href=ex36.html#e36><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A CUT [something] WITH [something] command which acts differently on different types of objects.</i><p>
 <p><hr><p><a href=doc160.html>Previous</a> / <a href=doc162.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

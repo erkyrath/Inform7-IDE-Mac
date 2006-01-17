@@ -1,4 +1,4 @@
-<html><head><title>10.6. Begin and end</title></head>
+<html><head><title>15.4. Standard tokens of grammar</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,40 +7,58 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc142.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc144.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.6. Begin and end</b></td></tr></table><p>
+<table><tr><td><a href=doc219.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc221.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.4. Standard tokens of grammar</b></td></tr></table><p>
 <p>
-<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
+<p>We have already seen &quot;[something]&quot; and &quot;[someone]&quot;, which are standard examples of &quot;tokens of grammar&quot; - patterns matched by suitable named things. There are several other standard tokens, provided not so much from necessity but to allow the game parser to be more graceful and responsive. &quot;[someone]&quot; matches the same possibilities as &quot;[a person]&quot; would, but the parser handles it a little better in cases of failure. These special tokens are best explained by looking at some of the examples in the standard grammar, which can be browsed in the Index of any game.
 <p>
-<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
-<p>
-<blockquote><font color="#000080">To comment upon (whatever - a thing):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">Understand &quot;wear [something held]&quot; as wearing.
 </font></blockquote><p>
 <p>
-<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
+<p>The named item must be held by the player, but the game will automatically pick it up if necessary, minimising nuisance.
 <p>
-<p>Similarly for while:
-<p>
-<blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while
+<blockquote><font color="#000080">Understand &quot;take [things]&quot; as taking.
+<br>Understand &quot;drop [things held]&quot; as dropping.
 </font></blockquote><p>
 <p>
-<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
+<p>&quot;[things]&quot; is like &quot;[something]&quot; but allows a list of items, or a vague plural like &quot;all&quot;, to be typed. The result will be a sequence of actions, one for each item thus described. &quot;[things held]&quot; is the analogous token for &quot;[something held]&quot;.
+<p>
+<blockquote><font color="#000080">Understand &quot;take [things inside] from [something]&quot; as removing.
+</font></blockquote><p>
+<p>
+<p>&quot;[things inside]&quot; matches only what is inside the second-named thing, and ensures that (for instance) the command &quot;take all from box&quot; does not also try to take the box.
+<p>
+<blockquote><font color="#000080">Understand &quot;put [other things] in/inside/into [something]&quot; as inserting it into.
+</font></blockquote><p>
+<p>
+<p>Similarly, &quot;[other things]&quot; will allow anything except the second-named thing.
+<p>(Like &quot;[things inside]&quot; it is really only needed for handling containers.)
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e80"><a href=doc143.html#e80><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Every time the player gets onto, say, a stack of mattresses, the thing on the bottom of the pile makes a groaning noise.</i><p>
+<a name="e76"><a href=ex76.html#e76><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A (very) simple HELP command, using tokens to accept and interpret the player's  text whatever it might be.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e80"><a href=doc220.html#e80><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Allowing the player to EXAMINE ALL.</i><p>
 <p>
-<p>The main point here is that we need to figure out where the stack meets the floor:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After entering something:\n\tlet the item be the noun;\n\twhile the holder of the item is not a room\n\tbegin;\n\t\tlet the item be the holder of the item;\n\tend while;\n\tsay &quot;[The item] groans ominously.&quot;\n\n')"><img border=0 src=paste.png></a> After entering something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let the item be the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;while the holder of the item is not a room
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the item be the holder of the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end while;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The item] groans ominously.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Shawn\'s Bad Day&quot;\n\nThe Treasury is a room. The vault is a lockable locked closed openable container in the Treasury. It is fixed in place. &quot;A massive vault fills up one wall.&quot; The description is &quot;The vault\'s system includes [list of things which are part of the vault].&quot;\n\nA little green light, a little blue light, a little red light, a thin black pane of glass, a laser beam, a retinal scanner, a thumbprint ID plate, a dial, and a large lever are part of the vault.\n\nThe security guard is a man in the Treasury. The description is &quot;His name is Shawn, and he doesn\'t look happy.&quot;\n\nThe description of the green light is &quot;Off.&quot; The description of the blue light is &quot;Tranquilly on.&quot; The description of the red light is &quot;Angrily flashing.&quot;\n\nUnderstand &quot;examine [things]&quot; as multiply examining.\n\nMultiply examining is an action applying to one thing.\n\nCarry out multiply examining:\n\ttry examining the noun.\n\n')"><img border=0 src=paste.png></a> &quot;Shawn's Bad Day&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc142.html>Previous</a> / <a href=doc144.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">The Treasury is a room. The vault is a lockable locked closed openable container in the Treasury. It is fixed in place. &quot;A massive vault fills up one wall.&quot; The description is &quot;The vault's system includes [list of things which are part of the vault].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A little green light, a little blue light, a little red light, a thin black pane of glass, a laser beam, a retinal scanner, a thumbprint ID plate, a dial, and a large lever are part of the vault.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The security guard is a man in the Treasury. The description is &quot;His name is Shawn, and he doesn't look happy.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The description of the green light is &quot;Off.&quot; The description of the blue light is &quot;Tranquilly on.&quot; The description of the red light is &quot;Angrily flashing.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;examine [things]&quot; as multiply examining.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Multiply examining is an action applying to one thing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out multiply examining:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try examining the noun.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc219.html>Previous</a> / <a href=doc221.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

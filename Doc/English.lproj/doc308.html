@@ -1,4 +1,4 @@
-<html><head><title>22.2. Documentation</title></head>
+<html><head><title>20.2. Woodpulp and Wyverns</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,15 +7,338 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc307.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc309.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>22.2. Documentation</b></td></tr></table><p>
+<table><tr><td><a href=doc307.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc309.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>20.2. Woodpulp and Wyverns</b></td></tr></table><p>
 <p>
-<p>Nope! It's perfect, you hear?
+<p>Some commentators on IF suggest that it arose directly from the invention of role-playing game in the 1970s, when the nineteenth-century tabletop war-game collided with the potent cult of J. R. R. Tolkien in American college campuses. It is certainly true that Will Crowther, co-author of what is generally regarded as the first true work of IF, had been an early player of E. Gary Gygax and Dave Arneson's prototype role-playing game &quot;Dungeons and Dragons: Rules for Fantastic Medieval Wargames Campaigns Playable with Paper and Pencil and Miniature Figures&quot; (1974) - later, more snappily, just D&D. On the other hand, surprisingly few IF authors in the last thirty years have adopted styles of play which resemble RPGs at all closely; and the book-keeping, the randomness, the simulationist nature, the volume of detail and the open-endedness implied by a &quot;campaign&quot; all make the implementation of a RPG in interactive fiction something of a technical challenge. So that is what we are going to do: or at least we will work through enough of a system of RPG-like rules to demonstrate the possibility.
 <p>
-<p>I wonder if there should be other sections on stylistics, like the one at the end of the Actions chapter?
+<p>This example aims to show how more traditional computer-programming techniques might sit in an Inform project, since it involves rather more in the way of algorithms and exotic data structures than a typical literary piece of IF.
 <p>
-<blockquote><font color="#000080">I think this will be more useful for some chapters than for others -- Rules, for instance, can use a lot of explaining about what they're for, and Activities. I try to give some hints about what various things are for in the examples, so some of that material is folded in, but it might not hurt to provide conclusions and guidelines. [ES]
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Woodpulp and Wyverns&quot; by Graham Nelson\n\nPart I - Mechanics of a Simple Role-Playing Game\n\n\n')"><img border=0 src=paste.png></a> &quot;Woodpulp and Wyverns&quot; by Graham Nelson
 </font></blockquote><p>
 <p>
-<p>There should arguably be a long, reasoned example of a substantial work. Or perhaps artistically valid medium-sized pieces every few chapters.
+<blockquote><font color="#000080">Part I - Mechanics of a Simple Role-Playing Game
+</font></blockquote><p>
+<p>
+<p>The name &quot;Woodpulp and Wyverns&quot; is meant to imply that this is a rough imitation of the various late-1970s rulebooks on offer: besides D&D, one might also mention &quot;Tunnels and Trolls&quot; by Ken St Andre (crazy name, crazy guy). We want the W&W rules to be written not for any specific game, but to be available to a potentially unlimited range of scenarios. We also want to show how that might be itself extended, because the typical RPG spawns a huge litter of add-on packs and extra rulebooks. So the top-level headings of the project divide it up into Part I, general rules, Part II, an example set of extension rules, and Part III, a playable scenario: the idea is that when the whole thing works nicely enough, Parts I and II can be extracted into Inform extensions, and then anybody who wants to can use them to devise their own scenarios.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Chapter 1 - Fundamentals\n\nSection 1(a) - Substance\n\nA material is a kind of value. The materials are stone, wood, paper, magic-imbued wood, metal, clay, flesh and air. A thing has a material. Things are usually stone. People are usually flesh. [Air is really used as a dummy value to mean no material at all.]\n\nSubstance relates a thing (called the item) to a material (called the stuff) when the material of the item is the stuff. The verb to be made of implies the substance relation.\n\n\n')"><img border=0 src=paste.png></a> Chapter 1 - Fundamentals
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Section 1(a) - Substance
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A material is a kind of value. The materials are stone, wood, paper, magic-imbued wood, metal, clay, flesh and air. A thing has a material. Things are usually stone. People are usually flesh. [Air is really used as a dummy value to mean no material at all.]
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Substance relates a thing (called the item) to a material (called the stuff) when the material of the item is the stuff. The verb to be made of implies the substance relation.
+</font></blockquote><p>
+<p>
+<p>We will need the concept of material later. The exceptional status of air is recorded in a comment rather than enforced with a sentence like &quot;A thing is never air&quot; because Inform dislikes assertions which are not logically equivalent to positive precise statements (it allows &quot;A thing is never closed&quot;, but only because that amounts to saying &quot;A thing is always open&quot;).
+<p>
+<p>The verb phrase &quot;to be made of&quot; is on the face of it only a shorthand, but our biggest aim in writing the source text is to make it look like normal English prose - we think it will be more understandable, and therefore more likely to work first time, if it reads naturally.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Section 1(b) - Dice\n\nA die roll is a kind of value. 3d20+9 specifies a die roll with parts dice, sides (without leading zeros), adds (without leading zeros, optional, preamble optional).\n\nTo decide which number is roll of (dr - a die roll):\n\tlet the total be the adds part of dr;\n\tsay &quot;[dr]: &quot;;\n\trepeat with counter running from 1 to the dice part of dr\n\tbegin;\n\t\tlet the roll be a random number from 1 to the sides part of dr;\n\t\tif the counter is not 1, say &quot;,&quot;;\n\t\tsay the roll;\n\t\tlet the total be the total plus the roll;\n\tend repeat;\n\tif the adds part of dr is not 0, say &quot;+&quot;, adds part of dr;\n\tsay &quot;=&quot;, total;\n\tresult total.\n\nTest rolling is an action out of world applying to one die roll. Understand &quot;roll [die roll]&quot; as test rolling. Carry out test rolling: say &quot;For your own amusement, you roll &quot;; let the outcome be the roll of the die roll understood; say &quot;, making [outcome in words].&quot;\n\n\n')"><img border=0 src=paste.png></a> Section 1(b) - Dice
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A die roll is a kind of value. 3d20+9 specifies a die roll with parts dice, sides (without leading zeros), adds (without leading zeros, optional, preamble optional).
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To decide which number is roll of (dr - a die roll):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the total be the adds part of dr;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[dr]: &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with counter running from 1 to the dice part of dr
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the roll be a random number from 1 to the sides part of dr;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the counter is not 1, say &quot;,&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say the roll;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the total be the total plus the roll;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the adds part of dr is not 0, say &quot;+&quot;, adds part of dr;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;=&quot;, total;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;result total.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test rolling is an action out of world applying to one die roll. Understand &quot;roll [die roll]&quot; as test rolling. Carry out test rolling: say &quot;For your own amusement, you roll &quot;; let the outcome be the roll of the die roll understood; say &quot;, making [outcome in words].&quot;
+</font></blockquote><p>
+<p>
+<p>RPGs are games of chance as well as skill, and the actual rolling of the dice is as much a part of the experience as the randomised outcome. The polyhedral four-, six-, eight-, ten-, twenty- and even hundred-sided dice ubiquitous to RPGs are pleasingly exotic in the hand, but also make possible a wide range of random distributions. W&W uses the traditional notation for such rolls (which evolved as the D&D rules went through successive printings, but became standard around 1980): &quot;3d6+2&quot; means we should roll three six-sided dice, add up the scores showing, then add 2. We added the pointless verb &quot;roll&quot; as a harmless convenience for testing that die rolls work:
+<p>
+<blockquote><font color="#000080">> ROLL 3D6+2
+<br>For your own amusement, you roll 3d6+2: 2,5,4+2=13, making thirteen.
+</font></blockquote><p>
+<p>
+<p>The optional nature of the adds part of a die roll means that &quot;2d4&quot;, for instance, is also a legal form. Again, this is a convention imitating the tables which appear in printed RPG rulebooks.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Chapter 2 - Magic\n\nSection 2(a) - The phenomenon of magic\n\nA spell character is a kind of value. The spell characters are offensive, defensive, healing and arcana. A valency is a kind of value. The valencies are targeted and untargeted.\n\nA spell is a kind of value. The spells are defined by the Table of Enchantments.\n\nTable of Enchantments\nspell\tnature\tcost\trequirement\temission\ttargeting\tusage count\ndetect trap\tdefensive\t1\tair\t&quot;diffuse blue light&quot;\tuntargeted\t0\nmemorise\tarcana\t3\tair\t&quot;a glowing symbol&quot;\ttargeted\t0\nfashion staff\tarcana\t2\twood\t&quot;woodpulp&quot;\tuntargeted\t0\nmagic missile\toffensive\t6\twood\t&quot;a fiery red bolt&quot;\ttargeted\t0\nsapient guard\tdefensive\t3\tair\t&quot;green smoke&quot;\tuntargeted\t0\nward magic\tdefensive\t3\tmetal\t&quot;orange sparks&quot;\tuntargeted\t0\nsummoning\toffensive\t12\tclay\t&quot;demonic shadows&quot;\ttargeted\t0\n\nUnderstand &quot;memorize&quot; as memorise.\n\n\n')"><img border=0 src=paste.png></a> Chapter 2 - Magic
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Section 2(a) - The phenomenon of magic
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A spell character is a kind of value. The spell characters are offensive, defensive, healing and arcana. A valency is a kind of value. The valencies are targeted and untargeted.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A spell is a kind of value. The spells are defined by the Table of Enchantments.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Enchantments
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spell</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">nature</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">cost</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">requirement</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">emission</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">targeting</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">usage count</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">detect trap</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">defensive</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">air</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;diffuse blue light&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">untargeted</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">memorise</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">arcana</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">air</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;a glowing symbol&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">targeted</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fashion staff</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">arcana</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">wood</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;woodpulp&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">untargeted</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">magic missile</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">offensive</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">wood</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;a fiery red bolt&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">targeted</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">sapient guard</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">defensive</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">air</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;green smoke&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">untargeted</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">ward magic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">defensive</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">metal</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;orange sparks&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">untargeted</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">summoning</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">offensive</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clay</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;demonic shadows&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">targeted</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;memorize&quot; as memorise.
+</font></blockquote><p>
+<p>
+<p>This is the first of several tables which, again, mimic the style of typical RPG manuals. That mimicry makes no difference to the game as it is perceived by the eventual player, but it helps us to write the source text. Spells are going to cost a certain number of strength points to cast, and will come in various categories: some apply to some particular item (the &quot;targeted&quot; ones), others do not. Most need the caster to be holding something of a particular material nature: for instance, &quot;the requirement of magic missile&quot; evaluates to &quot;wood&quot;. This is where our dummy material, &quot;air&quot;, comes in: it effectively specifies that there is no material requirement for the given spell. (Were the above an ordinary table, a blank entry &quot;--&quot; would do for this, but it is not an ordinary table - it is defining properties associated with values, so is not permitted to leave any properties unspecified.) Lastly, the final sentence is provided so that American players can use the -ize spelling and English players -ise: it means that the value &quot;memorise&quot; (in the source it is spelled -ise) can be typed in either form by the player at run-time.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Section 2(b) - The capacity for magic\n\nA person has a number called strength. The strength of a person is usually 14. When play begins, change the right hand status line to &quot;STR: [magical strength of the player] EXP: [score]&quot;.\n\nMemorisation relates various people to various spells. The verb to know (he knows, they know, he knew, it is known) implies the memorisation relation.\n\nAfter taking inventory:\n\tsay &quot;You have the following spells committed to memory:[line break]&quot;;\n\trepeat through the Table of Enchantments in cost column order\n\tbegin;\n\t\tlet this spell be the spell entry;\n\t\tif the player knows this spell\n\t\tbegin;\n\t\t\tsay &quot;  [this spell] ([nature of this spell]): cost [cost of this spell] strength&quot;;\n\t\t\tif the requirement of this spell is not air, say &quot;, requires [requirement of this spell]&quot;;\n\t\t\tsay &quot;[line break]&quot;;\n\t\tend if;\n\tend repeat;\n\tsay &quot;[line break]&quot;.;\n\tcontinue the action.\n\n\n')"><img border=0 src=paste.png></a> Section 2(b) - The capacity for magic
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A person has a number called strength. The strength of a person is usually 14. When play begins, change the right hand status line to &quot;STR: [magical strength of the player] EXP: [score]&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Memorisation relates various people to various spells. The verb to know (he knows, they know, he knew, it is known) implies the memorisation relation.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After taking inventory:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You have the following spells committed to memory:[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Enchantments in cost column order
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let this spell be the spell entry;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player knows this spell
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;  [this spell] ([nature of this spell]): cost [cost of this spell] strength&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the requirement of this spell is not air, say &quot;, requires [requirement of this spell]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[line break]&quot;.;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;continue the action.
+</font></blockquote><p>
+<p>
+<p>In a typical RPG, each participant other than the referee (usually called the &quot;Dungeon Master&quot; or &quot;Game Master&quot;, and here the computer) keeps numerical scores of a number of &quot;attributes&quot;. Here we confine ourselves to only two: strength, &quot;STR&quot;, and experience, &quot;EXP&quot; (which is actually kept in Inform's ordinary score variable). One becomes weaker by performing magic or being wounded, stronger by resting or being healed; one gains experience by living a busy life. These tallies matter a lot, so we make them prominently visible at all times on the status line - the bar at the top of the screen.
+<p>
+<p>Each time the player takes inventory, we are requiring the computer to work out how to look through the table of spells in cost order, which is a little inefficient - but it causes no perceptible delay in play. We don't list the spells in the right order to start with because we can't be bothered, and because it would be problematic when we come to add extension rules later on; and we don't sort the table in cost order at the start of play because we are not allowed to disturb the ordering of a table which defines properties attached to values.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Section 2(c) - Staffs, strength potions and scrolls\n\nAfter examining something made of magic-imbued wood, say &quot;Holding [the noun] reduces the strength cost of any spell by 2.&quot;\n\nAfter printing the name of something made of magic-imbued wood while taking inventory: say &quot; (magic-imbued)&quot;.\n\nTo decide which number is the strength cost of (incantation - a spell) to (wizard - a person):\n\tlet the damage be the cost of the incantation;\n\tlet the damage be the cost entry;\n\tif the wizard is carrying something made of magic-imbued wood, let the damage be the damage minus 2;\n\tif the damage is less than zero, let the damage be zero;\n\tresult the damage.\n\nA strength potion is a kind of thing. A potion has a die roll called additional strength. Instead of examining a potion, say &quot;[The noun] is a [additional strength] strength potion.&quot;\n\nInstead of drinking a strength potion:\n\tremove the noun from play;\n\tsay &quot;You quaff [the noun], gaining &quot;;\n\tlet the extra be the roll of the additional strength of the noun;\n\tchange the strength of the player to the strength of the player plus the extra;\n\tsay &quot; strength points.&quot;\n\nA scroll is a kind of thing. A scroll has a spell called the inscribed spell. A scroll is paper. The description of a scroll is &quot;Careful to take only a glance, you see that [the item described] is inscribed with the runes of the [inscribed spell] spell.&quot; After printing the name of a scroll while taking inventory: say &quot; (bearing the [inscribed spell] spell)&quot;.\n\n\n')"><img border=0 src=paste.png></a> Section 2(c) - Staffs, strength potions and scrolls
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After examining something made of magic-imbued wood, say &quot;Holding [the noun] reduces the strength cost of any spell by 2.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After printing the name of something made of magic-imbued wood while taking inventory: say &quot; (magic-imbued)&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To decide which number is the strength cost of (incantation - a spell) to (wizard - a person):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the damage be the cost of the incantation;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the damage be the cost entry;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the wizard is carrying something made of magic-imbued wood, let the damage be the damage minus 2;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the damage is less than zero, let the damage be zero;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;result the damage.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A strength potion is a kind of thing. A potion has a die roll called additional strength. Instead of examining a potion, say &quot;[The noun] is a [additional strength] strength potion.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of drinking a strength potion:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the noun from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You quaff [the noun], gaining &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the extra be the roll of the additional strength of the noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the strength of the player to the strength of the player plus the extra;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; strength points.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A scroll is a kind of thing. A scroll has a spell called the inscribed spell. A scroll is paper. The description of a scroll is &quot;Careful to take only a glance, you see that [the item described] is inscribed with the runes of the [inscribed spell] spell.&quot; After printing the name of a scroll while taking inventory: say &quot; (bearing the [inscribed spell] spell)&quot;.
+</font></blockquote><p>
+<p>
+<p>This part of the source is intended to be self-explanatory, and the first paragraph is placed first because is the more concise of the two expressions of the same idea. When we tell Inform the rule, in the third paragraph, we are more exact - we make clear that negative costs are not allowed. Note that the third paragraph makes &quot;strength cost of S to Mr X&quot; meaningful for any spell S, but that it is calculated each time, and is not a property like &quot;nature of S&quot;.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Section 2(d) - The casting action\n\nCasting it at is an action applying to one spell and one visible thing. Rule for supplying a missing second noun while casting: change the second noun to the location.\n\nUnderstand &quot;cast [spell]&quot; or &quot;[spell]&quot; as casting it at.\nUnderstand &quot;cast [spell] on/at [something]&quot; or &quot;[spell] [something]&quot; as casting it at.\n\nThe current spell focus is an object which varies. Before casting, change the current spell focus to the location.\n\nThe current spell outcome is a miscellaneous-value which varies. To record outcome (eventual message - miscellaneous-value): change the current spell outcome to eventual message.\n\nCheck casting (this is the can\'t cast what you don\'t know rule):\n\tif the player does not know the spell understood, say &quot;You do not know the mystery of that enchantment.&quot; instead.\n\nCheck casting (this is the can\'t cast on the wrong sort of target rule):\n\tif the targeting of the spell understood is targeted\n\tbegin;\n\t\tif the second noun is a room, say &quot;That enchantment must be cast at something.&quot; instead;\n\totherwise;\n\t\tif the second noun is not a room, say &quot;That enchantment cannot be cast at anything.&quot; instead;\n\tend if.\n\nCheck casting (this is the can\'t cast without strength rule):\n\tif the strength of the player is less than the strength cost of the spell understood to the player, say &quot;You are weak, and have not sufficient strength of mind.&quot; instead.\n\nCheck casting (this is the can\'t cast at yourself rule):\n\tif the player is the second noun, say &quot;It is a cardinal rule of magic that no mage may cast an enchantment upon himself.&quot; instead.\n\nCheck casting (this is the can\'t cast without required materials rule):\n\tlet the stuff be the requirement of the spell understood;\n\tif the stuff is not air\n\tbegin;\n\t\tif the player is carrying something (called the focus) which is made of the stuff, change the current spell focus to the focus;\n\t\totherwise say &quot;To weave that enchantment, you must have something made of [stuff] in your hands.&quot; instead;\n\tend if.\n\nCheck casting (this is the can\'t magically attack a warded person rule):\n\tif the nature of the spell understood is offensive and the second noun is a person\n\tbegin;\n\t\tlet the intended victim be the second noun;\n\t\tif the intended victim knows ward magic, say &quot;With a contemptuous wave of orange sparks, [the intended victim] cancels your [spell understood] incantation.&quot; instead;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> Section 2(d) - The casting action
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Casting it at is an action applying to one spell and one visible thing. Rule for supplying a missing second noun while casting: change the second noun to the location.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;cast [spell]&quot; or &quot;[spell]&quot; as casting it at.
+<br>Understand &quot;cast [spell] on/at [something]&quot; or &quot;[spell] [something]&quot; as casting it at.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The current spell focus is an object which varies. Before casting, change the current spell focus to the location.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The current spell outcome is a miscellaneous-value which varies. To record outcome (eventual message - miscellaneous-value): change the current spell outcome to eventual message.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check casting (this is the can't cast what you don't know rule):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player does not know the spell understood, say &quot;You do not know the mystery of that enchantment.&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check casting (this is the can't cast on the wrong sort of target rule):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the targeting of the spell understood is targeted
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the second noun is a room, say &quot;That enchantment must be cast at something.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the second noun is not a room, say &quot;That enchantment cannot be cast at anything.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check casting (this is the can't cast without strength rule):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the strength of the player is less than the strength cost of the spell understood to the player, say &quot;You are weak, and have not sufficient strength of mind.&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check casting (this is the can't cast at yourself rule):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is the second noun, say &quot;It is a cardinal rule of magic that no mage may cast an enchantment upon himself.&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check casting (this is the can't cast without required materials rule):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the stuff be the requirement of the spell understood;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the stuff is not air
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying something (called the focus) which is made of the stuff, change the current spell focus to the focus;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;To weave that enchantment, you must have something made of [stuff] in your hands.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check casting (this is the can't magically attack a warded person rule):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the nature of the spell understood is offensive and the second noun is a person
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the intended victim be the second noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the intended victim knows ward magic, say &quot;With a contemptuous wave of orange sparks, [the intended victim] cancels your [spell understood] incantation.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>This is the first half of the longest section in the chapter. &quot;Casting it at&quot; is an unusual action because it can take two forms, having a sort of transitive and intransitive version: one casts &quot;detect trap&quot; with no target, but &quot;magic missile&quot; must be aimed at something. Inform permits actions to have syntax which leaves a noun optional, but requires that we supply any missing nouns so that by the time the action is processed nothing is missing. We construe a missing target for a spell as being the current location: thus, &quot;detect trap&quot; is actually a spell cast on the ambient surroundings, which seems reasonable enough.
+<p>
+<p>The variable &quot;current spell focus&quot; typifies something which tends to happen in complex sequences of rules: later rules need to refer to something worked out in the course of an earlier rule. That means the sort of &quot;let ...&quot; variable will not do, because it is too temporary - it expires when the earlier rule finishes, so will be gone when the later rule is reached. Here we put the value into a permanent variable. This might be problematic if one casting action could be interrupted by another one, but here that never happens.
+<p>
+<p>The can't magically attack a warded person rule is a little sloppy: it does not sap the magical strength of the victim to cast the spell, which - if sauce for the goose is sauce for the gander - it perhaps should.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Effect is a rulebook.\n\nThe current spell outcome is a text which varies. To record outcome (eventual message - text): change the current spell outcome to eventual message.\n\nCarry out casting:\n\trecord outcome &quot;but then nothing obvious happens&quot;;\n\tchange the strength of the player to the strength of the player minus the strength cost of the spell understood to the player;\n\tchange the usage count of the spell understood to the usage count of the spell understood plus 1;\n\tif the usage count of the spell understood is less than 3, award cost of the spell understood points;\n\tif the cost of the spell understood is at least 5 and the current spell focus is something, remove the current spell focus from play;\n\tconsider the effect rulebook.\n\nReport casting:\n\tsay &quot;As you intone the words of the [spell understood] spell, &quot;;\n\tif the current spell focus is something\n\tbegin;\n\t\tsay &quot;[the current spell focus] &quot;;\n\t\tif the player is not holding the current spell focus, say &quot;vanishes as it &quot;;\n\t\tsay &quot;releases &quot;;\n\totherwise;\n\t\tsay &quot;your fingers release &quot;;\n\tend if;\n\tsay emission of the spell understood;\n\tif the second noun is not a room, say &quot; at [the second noun]&quot;;\n\tsay &quot;, [current spell outcome].&quot;\n\n\n')"><img border=0 src=paste.png></a> Effect is a rulebook.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The current spell outcome is a text which varies. To record outcome (eventual message - text): change the current spell outcome to eventual message.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out casting:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record outcome &quot;but then nothing obvious happens&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the strength of the player to the strength of the player minus the strength cost of the spell understood to the player;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the usage count of the spell understood to the usage count of the spell understood plus 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the usage count of the spell understood is less than 3, award cost of the spell understood points;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the cost of the spell understood is at least 5 and the current spell focus is something, remove the current spell focus from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;consider the effect rulebook.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report casting:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;As you intone the words of the [spell understood] spell, &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the current spell focus is something
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[the current spell focus] &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player is not holding the current spell focus, say &quot;vanishes as it &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;releases &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;your fingers release &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say emission of the spell understood;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the second noun is not a room, say &quot; at [the second noun]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;, [current spell outcome].&quot;
+</font></blockquote><p>
+<p>
+<p>Surprisingly, these are the complete carry out and report rules for this action, but only because they use a more powerful mechanism to allow for more flexible reporting than would ordinarily be possible: they create a new rulebook, &quot;Effect&quot;, whose task is to carry out the spell and also to set &quot;current spell outcome&quot; to a suitable message about what happens.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Section 2(e) - Effect of standard spells in alphabetical order\n\nEffect of casting fashion staff at:\n\tnow the current spell focus is magic-imbued wood;\n\trecord outcome &quot;growing scorch-hot in your hands as the wood is transformed into a magical hybrid, imbuing it with strength&quot;;\n\trule succeeds.\n\nEffect of casting magic missile at something:\n\trecord outcome &quot;which shakes as it absorbs the blow, but withstands it&quot;;\n\trule succeeds.\nEffect of casting magic missile at a portable thing:\n\tremove the second noun from play;\n\trecord outcome &quot;which vapourises into a whiff of smoke&quot;;\n\trule succeeds.\nEffect of casting magic missile at an animal:\n\tremove the second noun from play;\n\trecord outcome &quot;which screams in rage as it perishes into nothing&quot;;\n\trule succeeds.\n\nEffect of casting memorise at something:\n\trecord outcome &quot;which fades and recovers itself, in a curiously unsatisfying way&quot;;\n\trule succeeds.\nEffect of casting memorise at a scroll:\n\tif the player is not carrying the second noun\n\tbegin;\n\t\trecord outcome &quot;which, not being in your hands, tantalises more than it reveals&quot;;\n\t\trule succeeds;\n\tend if;\n\tremove the second noun from play;\n\tnow the player knows the inscribed spell of the second noun;\n\trecord outcome &quot;which crumbles into dust, filling your mind with thoughts of the [inscribed spell of the second noun] spell&quot;;\n\trule succeeds.\n\n\n')"><img border=0 src=paste.png></a> Section 2(e) - Effect of standard spells in alphabetical order
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Effect of casting fashion staff at:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the current spell focus is magic-imbued wood;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record outcome &quot;growing scorch-hot in your hands as the wood is transformed into a magical hybrid, imbuing it with strength&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Effect of casting magic missile at something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record outcome &quot;which shakes as it absorbs the blow, but withstands it&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds.
+<br>Effect of casting magic missile at a portable thing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the second noun from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record outcome &quot;which vapourises into a whiff of smoke&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds.
+<br>Effect of casting magic missile at an animal:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the second noun from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record outcome &quot;which screams in rage as it perishes into nothing&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Effect of casting memorise at something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record outcome &quot;which fades and recovers itself, in a curiously unsatisfying way&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds.
+<br>Effect of casting memorise at a scroll:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is not carrying the second noun
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;record outcome &quot;which, not being in your hands, tantalises more than it reveals&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the second noun from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the player knows the inscribed spell of the second noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record outcome &quot;which crumbles into dust, filling your mind with thoughts of the [inscribed spell of the second noun] spell&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds.
+</font></blockquote><p>
+<p>
+<p>The &quot;Effect&quot; rulebook is unavoidably complicated, given what it is expected to do, but we mitigate this by having provided as many convenient shorthands (such as &quot;record outcome&quot;) as possible. A few points to note here: we have to write &quot;Effect of casting fashion staff at:&quot;, with the &quot;at&quot; even though this is a spell not aimed at anything, because of our original design decision to have a single casting action &quot;casting it at&quot;. A pity, but it's a small price to pay. The curious line &quot;now the current spell focus is magic-imbued wood&quot; looks so curious because of the somewhat irregular way the word &quot;wood&quot; behaves in English - we say that a key is &quot;metal&quot;, using the same word for the substance (noun) as for the state of being it (adjective), but with &quot;wood&quot; we eccentrically say &quot;wooden&quot;. If we cared enough about this, we could doubtless teach Inform to understand &quot;now the current spell focus is magic-imbued-wooden&quot;, but it turns out we don't care enough about this.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Part II - An Extension Pack for Oriental Adventures\n\nSilk and jade are materials.\n\nTable of Enchantments (continued)\nspell\tnature\tcost\trequirement\temission\ttargeting\nmeditation trance\tarcana\t1\tjade\t&quot;calm yellow light&quot;\tuntargeted\nfold paper\tdefensive\t5\tpaper\t&quot;bluish lines&quot;\ttargeted\n\n\n')"><img border=0 src=paste.png></a> Part II - An Extension Pack for Oriental Adventures
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Silk and jade are materials.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Enchantments (continued)
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spell</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">nature</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">cost</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">requirement</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">emission</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">targeting</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">meditation trance</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">arcana</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">jade</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;calm yellow light&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">untargeted</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fold paper</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">defensive</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">paper</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;bluish lines&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">targeted</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<p>In this add-on pack of further rules, we add a little dubious chinoiserie. The &quot;Dungeons and Dragons&quot; franchise goes in for this sort of thing in a pretty wholehearted way, and they are better at it.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Part III - A Scenario\n\nThe Forest is a room. East of the Forest is the Hollow Tree.\n\nThe player knows detect trap, memorise and fashion staff. The player is carrying a container called the camphor-wood box. In the box is a purple philtre. The player is carrying a scroll called the battered scroll. The inscribed spell of the battered scroll is summoning.\n\nA half-burned stick of driftwood is in the Forest. An animal called the green-scaled wyvern is in the Forest. &quot;A green-scaled wyvern coils its long neck as it gazes unblinkingly at you, barring the eastern exit.&quot; Instead of going east from the Forest in the presence of the wyvern, say &quot;The wyvern rears up menacingly, blocking your way!&quot;\n\nThe silver bar is in the Hollow Tree.\n\nThe silver bar is metal. The driftwood and the box are wood.\n\nThe Sorcerer is in the Hollow Tree.\n\nThe Sorcerer knows magic missile, ward magic and summoning. The Sorcerer has strength 75.\n\nInstead of drinking the philtre:\n\tnow the player knows magic missile;\n\tremove the philtre from play;\n\tsay &quot;As you drain the vile purple philtre, you become aware of new inner possibilities.&quot;\n\nIn the Forest is a strength potion called the green vial. The green vial has additional strength 2d6+2.\n\n\n')"><img border=0 src=paste.png></a> Part III - A Scenario
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Forest is a room. East of the Forest is the Hollow Tree.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player knows detect trap, memorise and fashion staff. The player is carrying a container called the camphor-wood box. In the box is a purple philtre. The player is carrying a scroll called the battered scroll. The inscribed spell of the battered scroll is summoning.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A half-burned stick of driftwood is in the Forest. An animal called the green-scaled wyvern is in the Forest. &quot;A green-scaled wyvern coils its long neck as it gazes unblinkingly at you, barring the eastern exit.&quot; Instead of going east from the Forest in the presence of the wyvern, say &quot;The wyvern rears up menacingly, blocking your way!&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The silver bar is in the Hollow Tree.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The silver bar is metal. The driftwood and the box are wood.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Sorcerer is in the Hollow Tree.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Sorcerer knows magic missile, ward magic and summoning. The Sorcerer has strength 75.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of drinking the philtre:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the player knows magic missile;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the philtre from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;As you drain the vile purple philtre, you become aware of new inner possibilities.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">In the Forest is a strength potion called the green vial. The green vial has additional strength 2d6+2.
+</font></blockquote><p>
+<p>
+<p>This is not a very worked-out example scenario yet, but it shows how one can now freely mix RPG-like strands (the spells, potions, scrolls and so on) with conventional Inform strands (situations involving places and their inhabitants). The philtre demonstrates that a scroll need not be the only way to learn a new spell.
 <p>
 <p><hr><p><a href=doc307.html>Previous</a> / <a href=doc309.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

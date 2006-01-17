@@ -1,4 +1,4 @@
-<html><head><title>21.5. Emily Short <emshort@mindspring.com> -  uh, whoa</title></head>
+<html><head><title>19.20. Inform 6 grammar, actions and rules</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,54 +7,31 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc304.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc306.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>21.5. Emily Short <emshort@mindspring.com> -  uh, whoa</b></td></tr></table><p>
+<table><tr><td><a href=doc304.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc306.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.20. Inform 6 grammar, actions and rules</b></td></tr></table><p>
 <p>
-<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 30 September 2005
+<p>Inform 6 grammar (&quot;Verb&quot; and &quot;Extend&quot;) should not be used, unless there is no alternative: instead I7 equivalents should be given. But I6 actions can certainly be used, and indeed the Standard Rules use almost the whole gamut of I6 actions. They define actions using a convenient shorthand:
 <p>
-<p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
-<p>
-<p><i>Build:</i> 2Z30
-<p>
-<p><i>Platform:</i> Mac OS X
-<p>
-<p>
-<p>
-<p><i>Code example:</i>
-<p>
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The Sound Stage is a room. The Lot is west of the Sound Stage.\n\n\n\n\n')"><img border=0 src=paste.png></a> The Sound Stage is a room. The Lot is west of the Sound Stage.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Wearing is an action corresponding to Wear\npast participle worn\napplying to one thing\n- check -\ncan\'t wear what\'s not clothing rule = WearSub_C1\ncan\'t wear what\'s not held rule = WearSub_C2\ncan\'t wear what\'s already worn rule = WearSub_C3\n- carry-out -\nstandard wearing rule = WearSub_O1\n- report -\nstandard report wearing rule = WearSub_R1.\n\n\n')"><img border=0 src=paste.png></a> Wearing is an action corresponding to Wear
+<br>past participle worn
+<br>applying to one thing
+<br>- check -
+<br>can't wear what's not clothing rule = WearSub_C1
+<br>can't wear what's not held rule = WearSub_C2
+<br>can't wear what's already worn rule = WearSub_C3
+<br>- carry-out -
+<br>standard wearing rule = WearSub_O1
+<br>- report -
+<br>standard report wearing rule = WearSub_R1.
 </font></blockquote><p>
 <p>
+<p>The clause &quot;corresponding to Wear&quot; tells I7 to call the action &quot;Wear&quot;, thus making it match the I6 action of the same name. The remainder constructs the three rulebooks for the action, supplying names for suitable rules and moreover giving the names of I6-defined routines which will carry them out. The five I6 routines named are the fragments of the old I6 library's &quot;WearSub&quot;: for instance,
 <p>
+<blockquote><font color="#000080">[ WearSub_C3; if (noun has worn) { L__M(##Wear,3,noun); rtrue; } rfalse; ];
+</font></blockquote><p>
 <p>
-<p><i>What goes wrong:</i>
+<p>We can also create named rules corresponding to I6 routines like so:
 <p>
-<p>
-<p>Sound Stage
-<p>
-<p>>go west
-<p>You must name something more substantial.
-<p>
-<p>>go w
-<p>You must name something more substantial.
-<p>
-<p>>w
-<p>
-<p>Lot
-<p>
-<p>
-<p>
-<p>
-<p><i>Comments:</i>
-<p>
-<p>
-<p>This bothers me for two reasons.
-<p>
-<p>1) Yikes!
-<p>
-<p>2) The test suite never, never uses GO [direction]?
-<p>
-<p>Well, it does now.
-<p>
+<blockquote><font color="#000080">The time passes rule corresponds to routine TS4_R.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc304.html>Previous</a> / <a href=doc306.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

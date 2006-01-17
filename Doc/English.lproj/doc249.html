@@ -1,4 +1,4 @@
-<html><head><title>16.20. Printing the banner text</title></head>
+<html><head><title>16.16. Deciding the scope of something</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,43 +7,38 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc248.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc250.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.20. Printing the banner text</b></td></tr></table><p>
+<table><tr><td><a href=doc248.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc250.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.16. Deciding the scope of something</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> The banner is the bibliographic masthead text, which typically looks something like this:
+<p><b>1. When it happens.</b> &quot;Scope&quot; is a term of art in interactive fiction programming: it means the collection of things which can be interacted with at any given moment, which depends on who you are and where you are. Commands typed by the player will only be allowed to go forward into actions if the things they refer to are &quot;in scope&quot;. Inform also needs to determine scope at other times, too: for instance, when deciding whether a rule conditional on being &quot;in the presence of&quot; something is valid. It is a bad idea to say anything during this activity.
 <p>
-<blockquote><font color="#000080">Relations
-<br>An Interactive Fiction by Emily Short
-<br>Release 1 / Serial number 050630 / Inform 7 build 2U98 (I6/v6.30 lib 6/10N) SD
+<p><b>2. The default behaviour.</b> Is complicated: see the Inform Designer's Manual, 4th edition, page 227. Briefly, the scope for someone consists of everything in the same place as them, unless it is dark.
+<p>
+<p><b>3. Examples.</b> (a) We very rarely want to forbid the player to refer to things close at hand, but often want to allow references to distant ones. For instance, a mirage of something which is not present at all:
+<p>
+<blockquote><font color="#000080">After deciding the scope of the player while in the Shrine: place the holy grail in scope.
 </font></blockquote><p>
 <p>
-<p>The banner is printed at the start of play, and when the player types &quot;version&quot; at the command line, and when say &quot;[banner text]&quot; occurs.
+<p>The special phrase &quot;place ... in scope&quot; does what it suggests. Ordinarily if something is placed in scope, then so are its parts and (in the case of a room, a supporter or a transparent or open container) its contents; but we can also &quot;place the box in scope, but not its contents&quot; if we really need to place just the box itself in scope.
 <p>
-<p><b>2. The default behaviour.</b> Prints the text above, giving the title, the genre, the author, the release number, the date of compilation (that's the serial number: YYMMDD), and version numbers of the Inform components used to put the game together.
+<p>(b) Another useful device is to be able to see, but not touch, another room:
 <p>
-<p><b>3. Examples.</b> (a) Adding a line to the banner:
-<p>
-<blockquote><font color="#000080">After printing the banner text, say &quot;DRM authentication code: 13S-451-2034u75y65u%%a1248.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;\n\nAfter deciding the scope of the player while in the Cloakroom: place the Beyond in scope.\n\nThe Beyond is a room. Johnny Depp is a man in the Beyond.\n\n\n')"><img border=0 src=paste.png></a> The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;
 </font></blockquote><p>
 <p>
-<p>(b) Simplifying the banner:
-<p>
-<blockquote><font color="#000080">Rule for printing the banner text: say &quot;Welcome.&quot; instead.
+<blockquote><font color="#000080">After deciding the scope of the player while in the Cloakroom: place the Beyond in scope.
 </font></blockquote><p>
 <p>
-<p>(c) Delaying the banner for later:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Bikini Atoll&quot; by Edward Teller\n\nThe Hut and the Tropical Beach are rooms.\n\nThe conch shell is in the Hut. After taking the shell for the first time: say &quot;As you gather the oddly-warm conch shell into your arms, you experience a sudden flash of deja-vu...[line break][banner text]&quot;; move the player to the Tropical Beach.\n\nRule for printing the banner text: if the player is not carrying the shell, do nothing instead.\n\n\n')"><img border=0 src=paste.png></a> &quot;Bikini Atoll&quot; by Edward Teller
+<blockquote><font color="#000080">The Beyond is a room. Johnny Depp is a man in the Beyond.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Hut and the Tropical Beach are rooms.
+<p>(This must, however, also be a mirage, as at time of writing Mr Depp is alive, well and playing Willy Wonka in the forthcoming movie of &quot;Charlie and the Chocolate Factory&quot;.)
+<p>
+<p>(c) In darkness, the scope of someone is ordinarily restricted to his or her possessions (and body), but we can override that:
+<p>
+<blockquote><font color="#000080">After deciding the scope of the player while in darkness: place the location in scope.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The conch shell is in the Hut. After taking the shell for the first time: say &quot;As you gather the oddly-warm conch shell into your arms, you experience a sudden flash of deja-vu...[line break][banner text]&quot;; move the player to the Tropical Beach.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Rule for printing the banner text: if the player is not carrying the shell, do nothing instead.
-</font></blockquote><p>
-<p>
-<p>(By tradition, and as a courtesy to all the people who have worked on Inform, authors ensure that the banner is printed some time near the beginning of each game played. So please only defer it, rather than suppress it altogether.)
-<p>
+<p><hr><p>
+<a name="e7"><a href=ex7.html#e7><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A portable magic telescope which allows the player to view items in another room of his choice.</i><p>
+<a name="e108"><a href=ex108.html#e108><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>An open landscape where the player can see landmarks in nearby areas, and automatically moves to interact with them.</i><p>
 <p><hr><p><a href=doc248.html>Previous</a> / <a href=doc250.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>10.12. New conditions, new adjectives</title></head>
+<html><head><title>10.13. Phrases to decide other things</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,38 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc148.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc150.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.12. New conditions, new adjectives</b></td></tr></table><p>
+<table><tr><td><a href=doc148.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc150.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.13. Phrases to decide other things</b></td></tr></table><p>
 <p>
-<p>We can create new conditions by defining a phrase with &quot;to decide whether&quot; (or equivalently &quot;to decide if&quot;):
+<p>A condition is a yes/no decision, but we can also take decisions where the result is a value. Suppose we want to create a concept of the &quot;grand prize&quot;, which will have different values at different times in play. Each time the &quot;grand prize&quot; is referred to, Inform will have to decide what its value is, and the following tells Inform how to make that decision:
 <p>
-<blockquote><font color="#000080">To decide whether danger lurks:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if in darkness then yes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the Control Room has been visited then no;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise yes.
+<blockquote><font color="#000080">To decide which treasure is the grand prize:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the Dark Room has been visited then decide on the silver bars;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;decide on the plover's egg.
 </font></blockquote><p>
 <p>
-<p>As can be seen, such a phrase must always resolve itself with &quot;yes&quot; or &quot;no&quot;: the first to be reached will be the answer. We can now write, for instance,
+<p>Note that we have to say what kind the answer will be: here it's a kind of thing called &quot;treasure&quot; (which we're supposing has already been created), and as it turns out only two treasures are ever eligible anyway (we're also supposing that the plover's egg and the silver bars are treasures already created, of course). And note also that the phrase must in all case end with a &quot;decide on ...&quot; to say what the answer is.
 <p>
-<blockquote><font color="#000080">if danger lurks then ...
+<p>Now that we have &quot;grand prize&quot; created, we can use it just as we would use any other value, so for instance:
+<p>
+<blockquote><font color="#000080">if taking the grand prize then ...
 </font></blockquote><p>
 <p>
-<p>In fact, &quot;danger lurks&quot; is now a condition as good as any other, and can be used wherever a condition would be given. Rules can apply only &quot;when danger lurks&quot;, for instance.
+<p>As this is something of a dialect difference between English speakers, &quot;what&quot; and &quot;which&quot; are synonymous here, i.e., we could equally well write something like:
 <p>
-<p>We can also supply definitions of adjectives like this. So far, new adjectives have been defined like so:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Definition: a supporter is occupied if it is described and something is on it.\n\n\n')"><img border=0 src=paste.png></a> Definition: a supporter is occupied if it is described and something is on it.
+<blockquote><font color="#000080">To decide what number is the target score: ...
 </font></blockquote><p>
-<p>
-<p>If we want to give a definition which involves more complex logic, we can use a special form allowing us to make arbitrary decisions. In this longer format, the same definition would look like so:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Definition: a supporter is occupied:\n\tif it is undescribed then no;\n\tif something is on it then yes;\n\totherwise no.\n\n\n')"><img border=0 src=paste.png></a> Definition: a supporter is occupied:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if it is undescribed then no;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if something is on it then yes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise no.
-</font></blockquote><p>
-<p>
-<p>Here &quot;it&quot; refers to the supporter in question. Note that there are now two colons in this sentence, one after &quot;Definition&quot;, the other after the clause being defined. But that apart, it's a phrase like any other: it must end in &quot;yes&quot; or &quot;no&quot; just as the &quot;danger lurks&quot; example must.
 <p>
 <p><hr><p>
-<a name="e78"><a href=ex78.html#e78><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>OUT always means "move to an outdoors room, or else to a room with more exits than this one has"; IN always means the opposite.</i><p>
+<a name="e135"><a href=ex135.html#e135><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A piece of ghost-hunting equipment that responds depending on whether or not the meter is on and a ghost is visible or touchable from the current location.</i><p>
+<a name="e120"><a href=ex120.html#e120><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Windows overlooking lower spaces which will prevent the player from climbing through if the lower space is too far below.</i><p>
 <p><hr><p><a href=doc148.html>Previous</a> / <a href=doc150.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

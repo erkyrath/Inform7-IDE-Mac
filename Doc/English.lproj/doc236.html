@@ -1,4 +1,4 @@
-<html><head><title>16.7. Introduction to the list of built-in activities</title></head>
+<html><head><title>16.3. Rules applied to activities</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,10 +7,19 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc235.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc237.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.7. Introduction to the list of built-in activities</b></td></tr></table><p>
+<table><tr><td><a href=doc235.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc237.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.3. Rules applied to activities</b></td></tr></table><p>
 <p>
-<p>Activities tend to be about process, rather than outcome. Many of the things Inform does - printing up lists of items, reading commands from the keyboard, and so on - are done as activities, because that way the process can be nudged a little. Too many works of interactive fiction betray their mechanical nature by making it visible that the general machinery being used does not quite seem natural for this or that situation. Activities enable us to add the many graceful touches which avoid that: which contribute nothing to a work, and also everything.
+<p>The activity &quot;printing the name of something&quot; is the process of printing up the name of something on screen: ordinarily, this means saying the text in its &quot;printed name&quot; property.
 <p>
-<p>The rest of this chapter covers every activity in the standard rules, with one section for each. Reading once through will give a sense of the possibilities, but it is intended primarily for reference, because nobody would remember the names and circumstances for all of these things without looking them up.
+<p>As with actions, rules can be attached to activities which change or augment what would normally happen. In fact the situation is simpler, because (unlike an action) an activity always finishes, so there is no question of not reaching its &quot;after&quot; stage. There are also only three rulebooks attached to an activity, as compared with the six affecting an action.
+<p>
+<p>The three rulebooks for printing the name are called &quot;before printing the name&quot;, &quot;for printing the name&quot; and &quot;after printing the name&quot;, and this is the general pattern. What happens is:
+<p>
+<blockquote><font color="#000080">1. All &quot;before printing the name of&quot; rules are considered;
+<br>2. The most specific, applicable &quot;rule for printing the name of&quot; is considered;
+<br>3. All &quot;after printing the name of&quot; rules are considered.
+</font></blockquote><p>
+<p>
+<p>The actual task is carried out by one single rule tucked into the back of the &quot;for...&quot; rulebook: it is the rule for printing the name of whatever is concerned, hence the name. Inform's standard activities are all of this pattern: they start out with no &quot;before&quot; or &quot;after&quot; rules, and just one &quot;for&quot; rule.
 <p>
 <p><hr><p><a href=doc235.html>Previous</a> / <a href=doc237.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

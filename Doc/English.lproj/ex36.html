@@ -1,4 +1,4 @@
-<html><head><title>18.11. Implications</title></head>
+<html><head><title>11.9. Check, carry out, report</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,56 +7,123 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc272.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc274.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.11. Implications</b></td></tr></table><p>
+<table><tr><td><a href=doc160.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc162.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.9. Check, carry out, report</b></td></tr></table><p>
 <p>
-<p>Extensions often need to define kinds, which we want to make as helpful as possible for the user. In particular, we want to make new instances of those kinds easy to create. An interesting example of this came up in Chapter 2, when clothing was introduced. For something to be a fully practical garment, worn by the player when play begins, it needs to be &quot;worn&quot;, &quot;wearable&quot; and &quot;initially carried&quot;: if the source forgets to specify the latter two properties, the results are mysterious and unfortunate.
+<p>The normal behaviour of an action is specified by its three associated rulebooks - check, carry out and report. In the case of our &quot;photographing&quot; example, these rulebooks will be:
 <p>
-<p>The Standard Rules solve this problem by including the following line:
-<p>
-<blockquote><font color="#000080">Something worn is usually wearable and initially carried.
+<blockquote><font color="#000080"><b>Check photographing</b>. Here, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.
 </font></blockquote><p>
 <p>
-<p>Such a sentence is called an &quot;implication&quot;, as it is in the form &quot;Condition A implies Condition B&quot;. Inform never overrides certainties with mere implications, and is cautious about allowing them to build overly long chains of argument. This is to prevent the following kind of difficulty:
-<p>
-<blockquote><font color="#000080">An open door is usually closed. A closed door is usually open.
+<blockquote><font color="#000080"><b>Carry out photographing</b>. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.
 </font></blockquote><p>
 <p>
-<p>Implications have not been mentioned up to now since they are only really needed by extensions, but also because they can be tricky, with unforeseen consequences. Handle with care.
+<blockquote><font color="#000080"><b>Report photographing</b>. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.
+</font></blockquote><p>
+<p>
+<p>So far we have not really gone into the business of what rulebooks are, and we don't do so here either - suffice to say that we can now create whatever rules we need:
+<p>
+<blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
+</font></blockquote><p>
+<p>
+<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
+<p>
+<blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
+</font></blockquote><p>
+<p>
+<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
+<p>
+<p>We can continue to add rules at any point, and a classic thing that happens when testing a new work is that the designer realises there is a case which has not been thought of:
+<p>
+<blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e36"><a href=doc273.html#e36><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Rooms designated "outdoors" print a random atmospheric message every turn.</i><p>
+<a name="e33"><a href=ex33.html#e33><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Containers and supporters that report their contents when you EXAMINE them.</i><p>
+<a name="e45"><a href=ex45.html#e45><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>An electric light kind of device which becomes lit when switched on and dark when switched off.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e36"><a href=doc161.html#e36><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A CUT [something] WITH [something] command which acts differently on different types of objects.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Shadeless&quot;\n\nA room can be indoors or outdoors. A room is usually indoors.\n\nEvery turn when the location is outdoors:\n\tchoose a random row in the Table of Environmental Events;\n\tsay &quot;[event entry][paragraph break]&quot;.\n\nTable of Environmental Events\nevent\n&quot;The sun is really hot out here.&quot;\n&quot;My, the sun sure is warm.&quot;\n&quot;The heat is starting to get to you.&quot;\n&quot;A bird chirps.&quot;\n\n[No implications so far. But suppose we want to make a whole region outdoors without specifically saying so for every location in turn:]\n\nThe Farewell Bend Cafe is a room. The Parking Lot is outside from the Farewell Bend Cafe. The Parking Lot is outdoors.\n\nThe Open Desert is a region. The Flat Place, the Hilly Place, and the Ridge are in the Open Desert. The Flat Place is west of the Parking Lot. The Hilly Place is west of the Flat Place. The Ridge is west of the Hilly Place. A room in the Open Desert is always outdoors.\n\n[Now the whole Desert will be baking hot.]\n\n[Note that that &quot;always outdoors&quot; only means that all the rooms will be designated &quot;outdoors&quot; at the beginning of play. It doesn\'t prevent us changing that later, and indeed, out of pity for the player, we might want to provide a tent:]\n\nThe tent is an enterable container carried by the player. Carry out entering the tent: now the location is indoors. Carry out exiting when the player is in the tent: now the location is outdoors.\n\n')"><img border=0 src=paste.png></a> &quot;Shadeless&quot;
+<p>Suppose we intend a game in which the player needs to cut things open on a regular basis. We'll want to check whether he has the proper tools handy, and deal graciously with commands such as CUT [something] when no tool is specified. So:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Paddington&quot;\n\nA blade is a kind of thing.\n\nUnderstand &quot;cut [something] with [something]&quot; as cutting it with.\n\nInstead of cutting something:\n\tif a blade (called the edge) is held by the player,\n\t\ttry cutting the noun with the edge;\n\totherwise say &quot;Your fingernails are not sharp enough.&quot;\n\nCutting it with is an action applying to two things.\n\nCheck cutting it with:\n\tif the noun is a person, say &quot;That would hurt.&quot; instead;\n\tif the second noun is not a blade, say &quot;[The second noun] has not got enough of a blade.&quot; instead.\n\nCarry out cutting it with:\n\tchange the count of rips of the noun to the count of rips of the noun + 1.\n\nReport cutting it with:\n\tsay &quot;You slash [the noun] with [the second noun].&quot;\n\n[We\'ll need a way to account for all these cuts and rips.]\n\nDefinition: a thing is ripped if the count of rips of it > 0.  A thing has a number called the count of rips. After examining something ripped, say &quot;You see [the count of rips of the noun in words] rip[s] in [the noun].&quot;\n\n[So far, so good. But suppose that we\'d like cutting also to make containers be permanently open and impossible to close again. We could write an &quot;instead&quot; rule, but that would mean that only our instead instructions would take effect, overriding the normal cutting it with rules entirely. Better would be to add a second carry out rule:]\n\nCarry out cutting a container with something:\n\tnow the noun is open;\n\tnow the noun is unopenable.\n\n[Now our rule will occur whenever a container is cut, but play will still go on to the reporting stage. And indeed we can add more of these, of varying degrees of specificity:]\n\nCarry out cutting something which is part of something with something:\n\tmove the noun to the player.\n\nCarry out cutting the quilt with something:\n\tchange the description of the quilt to &quot;Horribly tattered.&quot;\n\n[For that matter, we might want to add a report rule as well, to occur after the &quot;You slash...&quot; rule, so that every time the player cuts something open which has contents, the contents will be listed.]\n\nReport cutting it with:\n\tif the noun is open and the noun contains something,\n\t\tsay &quot;Visible within [is/are list of things in the noun].&quot;\n\n[This time we do not add the condition to the rule (ie, Report cutting an open noun...) If we did, this report rule would be more specific than the general report rule, and would occur first.]\n\nThe Safehouse is a room.\n\nThe teddy bear is a closed thing in the Safehouse. The description is &quot;Fluffy[if the head is part of the bear], with an outsized head[otherwise], but headless[end if].&quot; The head is a closed part of the teddy bear. In the bear is a large wad of stuffing. In the head are a small wad of stuffing and a packet of smuggled diamonds.\n\nThe quilt is a thing in the Safehouse. The description is &quot;An old but comforting quilt.&quot;\n\nThe player carries a blade called a switchblade.\n\n[If we may be permitted to borrow one line from chapter 16, here is a final nicety to get rid of the &quot;which is closed&quot; statement on our closed unopenable teddy bear:]\n\nAfter printing the name of a closed unopenable container:\n\tomit contents in listing.\n\n')"><img border=0 src=paste.png></a> &quot;Paddington&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A room can be indoors or outdoors. A room is usually indoors.
+<blockquote><font color="#000080">A blade is a kind of thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn when the location is outdoors:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the Table of Environmental Events;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[event entry][paragraph break]&quot;.
+<blockquote><font color="#000080">Understand &quot;cut [something] with [something]&quot; as cutting it with.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Environmental Events
-<br>event
-<br>&quot;The sun is really hot out here.&quot;
-<br>&quot;My, the sun sure is warm.&quot;
-<br>&quot;The heat is starting to get to you.&quot;
-<br>&quot;A bird chirps.&quot;
+<blockquote><font color="#000080">Instead of cutting something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a blade (called the edge) is held by the player,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try cutting the noun with the edge;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Your fingernails are not sharp enough.&quot;
 </font></blockquote><p>
 <p>
-<p>No implications so far. But suppose we want to make a whole region outdoors without specifically saying so for every location in turn:
-<p>
-<blockquote><font color="#000080">The Farewell Bend Cafe is a room. The Parking Lot is outside from the Farewell Bend Cafe. The Parking Lot is outdoors.
+<blockquote><font color="#000080">Cutting it with is an action applying to two things.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Open Desert is a region. The Flat Place, the Hilly Place, and the Ridge are in the Open Desert. The Flat Place is west of the Parking Lot. The Hilly Place is west of the Flat Place. The Ridge is west of the Hilly Place. A room in the Open Desert is always outdoors.
+<blockquote><font color="#000080">Check cutting it with:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is a person, say &quot;That would hurt.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the second noun is not a blade, say &quot;[The second noun] has not got enough of a blade.&quot; instead.
 </font></blockquote><p>
 <p>
-<p>Now the whole Desert will be baking hot.
-<p>
-<p>Note that that &quot;always outdoors&quot; only means that all the rooms will be designated &quot;outdoors&quot; at the beginning of play. It doesn't prevent us changing that later, and indeed, out of pity for the player, we might want to provide a tent:
-<p>
-<blockquote><font color="#000080">The tent is an enterable container carried by the player. Carry out entering the tent: now the location is indoors. Carry out exiting when the player is in the tent: now the location is outdoors.
+<blockquote><font color="#000080">Carry out cutting it with:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the count of rips of the noun to the count of rips of the noun + 1.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc272.html>Previous</a> / <a href=doc274.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Report cutting it with:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You slash [the noun] with [the second noun].&quot;
+</font></blockquote><p>
+<p>
+<p>We'll need a way to account for all these cuts and rips.
+<p>
+<blockquote><font color="#000080">Definition: a thing is ripped if the count of rips of it > 0.  A thing has a number called the count of rips. After examining something ripped, say &quot;You see [the count of rips of the noun in words] rip[s] in [the noun].&quot;
+</font></blockquote><p>
+<p>
+<p>So far, so good. But suppose that we'd like cutting also to make containers be permanently open and impossible to close again. We could write an &quot;instead&quot; rule, but that would mean that only our instead instructions would take effect, overriding the normal cutting it with rules entirely. Better would be to add a second carry out rule:
+<p>
+<blockquote><font color="#000080">Carry out cutting a container with something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is open;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is unopenable.
+</font></blockquote><p>
+<p>
+<p>Now our rule will occur whenever a container is cut, but play will still go on to the reporting stage. And indeed we can add more of these, of varying degrees of specificity:
+<p>
+<blockquote><font color="#000080">Carry out cutting something which is part of something with something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the noun to the player.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out cutting the quilt with something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the description of the quilt to &quot;Horribly tattered.&quot;
+</font></blockquote><p>
+<p>
+<p>For that matter, we might want to add a report rule as well, to occur after the &quot;You slash...&quot; rule, so that every time the player cuts something open which has contents, the contents will be listed.
+<p>
+<blockquote><font color="#000080">Report cutting it with:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is open and the noun contains something,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Visible within [is/are list of things in the noun].&quot;
+</font></blockquote><p>
+<p>
+<p>This time we do not add the condition to the rule (ie, Report cutting an open noun...) If we did, this report rule would be more specific than the general report rule, and would occur first.
+<p>
+<blockquote><font color="#000080">The Safehouse is a room.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The teddy bear is a closed thing in the Safehouse. The description is &quot;Fluffy[if the head is part of the bear], with an outsized head[otherwise], but headless[end if].&quot; The head is a closed part of the teddy bear. In the bear is a large wad of stuffing. In the head are a small wad of stuffing and a packet of smuggled diamonds.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The quilt is a thing in the Safehouse. The description is &quot;An old but comforting quilt.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player carries a blade called a switchblade.
+</font></blockquote><p>
+<p>
+<p>If we may be permitted to borrow one line from chapter 16, here is a final nicety to get rid of the &quot;which is closed&quot; statement on our closed unopenable teddy bear:
+<p>
+<blockquote><font color="#000080">After printing the name of a closed unopenable container:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;omit contents in listing.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc160.html>Previous</a> / <a href=doc162.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

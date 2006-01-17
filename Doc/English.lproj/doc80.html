@@ -1,4 +1,4 @@
-<html><head><title>6.7. After rules</title></head>
+<html><head><title>6.8. Reading and talking</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,20 +7,37 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc79.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc81.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.7. After rules</b></td></tr></table><p>
+<table><tr><td><a href=doc79.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc81.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.8. Reading and talking</b></td></tr></table><p>
 <p>
-<p>There is pleasantly little to be said about &quot;after&quot; rules. If an action has survived all the rules in its way, and has actually succeeded, then we need to give the player a response which acknowledges this. Inform's normal rules will be sufficient to say something undramatic: for instance, if &quot;taking the napkin&quot; has succeeded then it will reply &quot;Taken.&quot; to the player.
+<p>A few actions apply not to items alone, but also involve what might be called conversation. The first is the one used for looking things up in books (which is conversation of a kind, even if the author is not present): &quot;consulting ... about ...&quot;. For example,
 <p>
-<p>An after rule is an opportunity to say something more interesting:
-<p>
-<blockquote><font color="#000080">After taking the diamonds, say &quot;Taken!&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('In the Grove is a book of sybilline verses.\n\nAfter consulting the book about &quot;grove&quot;, say &quot;The Grove is a sacred yadda, yadda. There\'s a tree, that sort of thing. Wisdom.&quot;\n\nAfter consulting the book about &quot;future events&quot;, say &quot;It\'s a bit, what\'s the word? Delphic.&quot;\n\n\n')"><img border=0 src=paste.png></a> In the Grove is a book of sybilline verses.
 </font></blockquote><p>
 <p>
-<p>(Well, slightly more interesting.) After rules automatically end the action (as a success), which is what we would want in the above case. Allowing it to continue would simply result in &quot;Taken.&quot; being printed as well. However, should we really need to do something and then carry on:
-<p>
-<blockquote><font color="#000080">After taking the diamonds: say &quot;(Mr Beebe looks up sharply.) &quot;; continue the action.
+<blockquote><font color="#000080">After consulting the book about &quot;grove&quot;, say &quot;The Grove is a sacred yadda, yadda. There's a tree, that sort of thing. Wisdom.&quot;
 </font></blockquote><p>
 <p>
-<p><hr><p>
-<a name="e47"><a href=ex47.html#e47><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>When the player picks something up which he hasn't already examined, the object is described.</i><p>
+<blockquote><font color="#000080">After consulting the book about &quot;future events&quot;, say &quot;It's a bit, what's the word? Delphic.&quot;
+</font></blockquote><p>
+<p>
+<p>Note that what follows &quot;about&quot; here is a piece of text in double-quotes, and not the name of something. It can be almost any text at all, and in fact we shall later see (in the chapter on &quot;Understanding&quot;) that we can match complicated patterns of words, too.
+<p>
+<p>Similar actions are used for conversing with people:
+<p>
+<blockquote><font color="#000080">After asking the Sybil about &quot;verses&quot;, say &quot;She blushes.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After telling the Sybil about &quot;persians&quot;, say &quot;She nods gravely.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After answering the Sybil that &quot;I am mad&quot;, say &quot;She sighs.&quot;
+</font></blockquote><p>
+<p>
+<p>These would be produced by commands like &quot;ask sybil about verses&quot;, &quot;tell sybil about persians&quot; and &quot;answer i am mad&quot;. Answering is very seldom used and can be forgotten about, but the distinction between asking and telling is often worth preserving, which is why there are two different actions for these. If you would prefer to make &quot;tell sybil about X&quot; do the same as &quot;ask sybil about X&quot;, the following rule would serve:
+<p>
+<blockquote><font color="#000080">Instead of telling the Sybil about something, try asking the Sybil about it.
+</font></blockquote><p>
+<p>
+<p>Games with a lot of conversation often involve great heaps of rules like the ones above, which can be repetitious to type out. We shall also later see (in the chapter on &quot;Tables&quot;) that we can tabulate questions and answers in a much more concise way, if we prefer.
+<p>
 <p><hr><p><a href=doc79.html>Previous</a> / <a href=doc81.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

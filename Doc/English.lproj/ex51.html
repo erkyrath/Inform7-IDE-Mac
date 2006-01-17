@@ -1,4 +1,4 @@
-<html><head><title>5.4. Defining new adjectives</title></head>
+<html><head><title>16.13. Constructing the status line</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,54 +7,65 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc66.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc68.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.4. Defining new adjectives</b></td></tr></table><p>
+<table><tr><td><a href=doc245.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc247.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.13. Constructing the status line</b></td></tr></table><p>
 <p>
-<p>Suppose we want to coin a word for supporters currently supporting something. We can do so with the following sentence:
+<p><b>1. When it happens.</b> Just before input is accepted from the keyboard, Inform constructs a &quot;status line&quot; at the top of the window which is normally displayed in reverse colours (white on black instead of black on white, say).
 <p>
-<blockquote><font color="#000080">Definition: A supporter is occupied if something is on it.
+<p><b>2. The default behaviour.</b> Makes the status line up out of two pieces, the &quot;left hand status line&quot; and the &quot;right hand status line&quot;. Since these can freely be changed, note that the status line is already very customisable without using rules applied to this activity.
+<p>
+<p><b>3. Examples.</b> (a) The most useful thing about this activity is that it allows us to vary descriptions in the status line. This is especially helpful to abbreviate unduly long room names, which might not otherwise fit:
+<p>
+<blockquote><font color="#000080">The Temple Of A Thousand Mightily Peeved Deities is a room. Rule for printing the name of the Temple while constructing the status line: say &quot;Temple&quot;.
 </font></blockquote><p>
 <p>
-<p>Note the colon, which is essential, and the usage of &quot;it&quot; in the definition part to refer to the object in question. (For this purpose we would write &quot;it&quot; even if we were defining a term about, say, a woman instead of a supporter, so that &quot;she&quot; or &quot;her&quot; might seem more appropriate.)
+<p>(b) Again, it's usually not necessary to apply activity rules to this, but occasionally amusing effects are possible if we do:
 <p>
-<p>This creates the adjective &quot;occupied&quot;, and gives it a definition valid for supporters. That restriction on validity means that non-supporters would always fail the description &quot;something occupied&quot;; which might be unfortunate if we wanted to walk about rooms being occupied. We could give a second definition thus:
-<p>
-<blockquote><font color="#000080">Definition: A room is occupied if a person is in it.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.\n\n\n')"><img border=0 src=paste.png></a> The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.
 </font></blockquote><p>
-<p>
-<p>These are entirely different senses of the word &quot;occupied&quot; - a mantelpiece is occupied if an invitation is on it, but for a drawing room to be occupied there must be human presence - and Inform applies whichever sense is relevant when deciding whether or not a given object is &quot;occupied&quot;.
-<p>
-<p>Newly defined adjectives cannot be used when creating things, because they are not explicit enough. Inform could not satisfy:
-<p>
-<blockquote><font color="#000080">The Ballroom is occupied. The bucket is a large container.
-</font></blockquote><p>
-<p>
-<p>because there is not enough information: by whom is the Ballroom occupied? How large, exactly? On the other hand, newly defined adjectives are very helpful in conditions and for rules, as we shall see later on.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e51"><a href=doc67.html#e51><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>The "another" adjective for rules such as "in the presence of another person".</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e51"><a href=doc246.html#e51><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A status line that lists the available exits from the current location.</i><p>
 <p>
-<p>It is often useful to write action rules which apply only when the player is observed by a third party. &quot;In the presence of a person&quot;, however, will react even if only the player is in the room, because the player is, of course, a person as well.
+<p>A not-uncommon device in games with large maps is a list of available exits printed in the status bar. We might do this so:
 <p>
-<p>A convenient way around this problem is to define an &quot;other&quot; adjective:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Finishing School&quot;\n\nThe apple is an edible thing carried by the player.\n\nThe Hall is a room. Miss Wicket is a woman in the Hall.\n\nThe Dormitory is south of the Hall.\n\nDefinition: a person is another if it is not the player.\n\nInstead of eating something in the presence of another person (called the schoolmarm):\n\tsay &quot;[The schoolmarm] stares at you coldly because you have no fork or knife.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Finishing School&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tchange left hand status line to &quot;Exits: [exit list]&quot;;\n\tchange right hand status line to &quot;[location]&quot;.\n\nTo say exit list:\n\tlet place be location;\n\trepeat with way running through directions\n\tbegin;\n\t\tlet place be the room way from the location;\n\t\tif place is a room, say &quot; [way]&quot;;\n\tend repeat.\n\n\n[We may find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn\'t hard to provide a set of abbreviations to use in this context:]\n\nRule for printing the name of a direction (called the way) while constructing the status line:\n\tchoose row with a heading of the way in the Table of Abbreviation;\n\tsay &quot;[shortcut entry]&quot;.\n\nTable of Abbreviation\nheading\tshortcut\nnorth\t&quot;N&quot;\nnortheast\t&quot;NE&quot;\neast\t&quot;E&quot;\nsoutheast\t&quot;SE&quot;\nsouth\t&quot;S&quot;\nsouthwest\t&quot;SW&quot;\nwest\t&quot;W&quot;\nup\t&quot;U&quot;\ndown\t&quot;D&quot;\ninside\t&quot;IN&quot;\noutside\t&quot;OUT&quot;\n\n\n')"><img border=0 src=paste.png></a> When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change left hand status line to &quot;Exits: [exit list]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change right hand status line to &quot;[location]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The apple is an edible thing carried by the player.
+<blockquote><font color="#000080">To say exit list:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let place be location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with way running through directions
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let place be the room way from the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if place is a room, say &quot; [way]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Hall is a room. Miss Wicket is a woman in the Hall.
+<p>
+<p>We may find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn't hard to provide a set of abbreviations to use in this context:
+<p>
+<blockquote><font color="#000080">Rule for printing the name of a direction (called the way) while constructing the status line:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with a heading of the way in the Table of Abbreviation;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[shortcut entry]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Dormitory is south of the Hall.
+<blockquote><font color="#000080">Table of Abbreviation
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">heading</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">shortcut</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">north</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;N&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">northeast</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;NE&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">east</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;E&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">southeast</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;SE&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">south</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;S&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">southwest</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;SW&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">west</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;W&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">up</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;U&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">down</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;D&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">inside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;IN&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">outside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;OUT&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Definition: a person is another if it is not the player.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of eating something in the presence of another person (called the schoolmarm):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The schoolmarm] stares at you coldly because you have no fork or knife.&quot;
-</font></blockquote><p>
-<p>
-<p>If we did not have &quot;another&quot; here, Inform would interpret even the player as a possible schoolmarm, leading to such lines as &quot;yourself stares at you coldly...&quot;. Clearly not quite the thing.
-</td></tr></table><p><p><hr><p><a href=doc66.html>Previous</a> / <a href=doc68.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>Everywhere else, the names of directions will still be printed out in full in the usual way.
+</td></tr></table><p><a name="e50"><a href=ex50.html#e50><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A status line that lists the available exits from the current location, changing the names of these exits depending on whether the room has been visited or not.</i><p>
+<p><hr><p><a href=doc245.html>Previous</a> / <a href=doc247.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>5.9. Counting while comparing</title></head>
+<html><head><title>5.10. The lexicon</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,30 +7,32 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc71.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc73.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.9. Counting while comparing</b></td></tr></table><p>
+<table><tr><td><a href=doc71.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc73.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.10. The lexicon</b></td></tr></table><p>
 <p>
-<p>Lastly we can also ask for a more specific number of possibilities, like so:
+<p>Inform's lexicon is not just a figure of speech: Inform actually does maintain an alphabetical list of nouns and adjectives which can be used in descriptions, and that lexicon can be browsed in a project's Index.
 <p>
-<blockquote><font color="#000080">if two women are carrying animals
-<br>if at most three doors are open
-<br>if fewer than 10 portable containers are closed
-<br>if all but two of the devices are switched on
+<p>To summarise. Nouns are straightforward: they refer to specific things (&quot;wine cask&quot;) or specific kinds (even &quot;something&quot;, which refers to &quot;thing&quot;). Adjectives, however, come from three possible sources:
+<p>
+<p>(a) From either/or properties. For instance, &quot;open&quot; and &quot;closed&quot;, which are antonyms: what is not open is closed, and vice versa.
+<p>
+<p>(b) When we create a new kind of value, and allow it to be a property of a given kind, we also create new adjectives:
+<p>
+<blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour.
 </font></blockquote><p>
 <p>
-<p>Likewise for &quot;less than&quot;, &quot;more than&quot;, &quot;at least&quot;, &quot;all except&quot;. Something to watch out for is that
+<p>We can now use the adjective &quot;green&quot; (for instance) in descriptions:
 <p>
-<blockquote><font color="#000080">if two doors are open
+<blockquote><font color="#000080">Instead of taking a green building block, say &quot;For some reason you have an aversion to the colour green.&quot;
 </font></blockquote><p>
 <p>
-<p>will be found true if there are (say) three open doors: after all, if three doors are open, then certainly two doors are. So this is not quite counting. We can be more precise by writing
+<p>And similarly when we use the more convenient form for single things, such as the cask in this example:
 <p>
-<blockquote><font color="#000080">if exactly two doors are open
+<blockquote><font color="#000080">The cask is either customs sealed, liable to tax or stolen goods.
 </font></blockquote><p>
 <p>
-<p>The &quot;all but&quot; counts - say, &quot;if all but two doors are open&quot; - are exact: if, in fact, all of the doors are open then this will be found false.
+<p>(c) From direct definitions, such as the adjective &quot;occupied&quot; created by:
 <p>
-<p>Lastly, note that the &quot;the&quot; in text like &quot;two of the doors&quot; matters: without it, the phrase will not be recognised as a requirement on the number. (This is to make sure that names of things like &quot;two of hearts&quot; are not misinterpreted.)
+<blockquote><font color="#000080">Definition: a supporter is occupied if something is on it.
+</font></blockquote><p>
 <p>
-<p><hr><p>
-<a name="e87"><a href=ex87.html#e87><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Set of drawers where the item the player seeks is always in the last drawer he opens, regardless of the order of opening.</i><p>
 <p><hr><p><a href=doc71.html>Previous</a> / <a href=doc73.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

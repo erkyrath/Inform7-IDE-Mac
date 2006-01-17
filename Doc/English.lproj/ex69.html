@@ -1,4 +1,4 @@
-<html><head><title>17.6. Phrases concerning rules</title></head>
+<html><head><title>11.13. Out of world actions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,47 +7,42 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.6. Phrases concerning rules</b></td></tr></table><p>
+<table><tr><td><a href=doc164.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc166.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.13. Out of world actions</b></td></tr></table><p>
 <p>
-<p>The &quot;ignore&quot; phrase is only one of a suite. The full list is:
+<p>The actions seen so far are all impulses causing the protagonist inside the fictional world to do something, or at least try to. But when the player types &quot;quit&quot; or &quot;save&quot;, that is not a request for anything to happen in the fictional world: it is an instruction to the program simulating that world. In fact, just the same, such requests are treated as actions, but of a special category called &quot;out of world&quot; actions. They do not cause time to pass by, so the turn counter does not advance, nor does this command cycle count as a turn at all; and they are altogether exempt from &quot;Before&quot;, &quot;Instead&quot; and &quot;After&quot; rules. Only the player is allowed to try them.
 <p>
-<blockquote><font color="#000080">ignore ...rule...
-<br>reinstate ...rule...
+<p>We can also create new out-of-world actions. Suppose we want a dialogue like so:
+<p>
+<blockquote><font color="#000080">>ROOMS
+<br>You have been to 1 out of 8 rooms.
 </font></blockquote><p>
 <p>
-<p>The &quot;reinstate&quot; phrase simply reverses any previous &quot;ignore&quot; of the same rule, and is otherwise not useful.
+<p>Here is a complete implementation:
 <p>
-<blockquote><font color="#000080">reject the result of ...rule...
-<br>accept the result of ...rule...
+<blockquote><font color="#000080">Requesting the room tally is an action out of world.
+<br>Report requesting the room tally: say &quot;You have been to [number of visited rooms] out of [number of rooms] room[s].&quot;
+<br>Understand &quot;rooms&quot; as requesting the room tally.
 </font></blockquote><p>
 <p>
-<p>Some rules produce results (see below), but they can be set so that whatever result they produce will be ignored. Again, &quot;accept ...&quot; simply undoes a previous &quot;reject ...&quot; and otherwise has no effect.
-<p>
-<blockquote><font color="#000080">substitute ...first rule... for ...second rule...
-<br>restore the original ...second rule...
-</font></blockquote><p>
-<p>
-<p>Whenever the second rule is to be invoked - from any rulebook, or as a result of any &quot;follow&quot; instruction - invoke the first one instead. Again, &quot;restore ...&quot; simply undoes the effect of an earlier &quot;substitute&quot;.
-<p>
-<blockquote><font color="#000080">move ...first rule... to before/after ...second rule...
-</font></blockquote><p>
-<p>
-<p>This causes the first rule to be ignored whenever it turns up in the ordinary way, but to be invoked either immediately before or immediately after the second rule whenever that second rule is invoked. In effect, it cuts out the first rule from wherever it was, and glues it onto the second. Note that there is no obligation for the first rule to begin in the same rulebook(s) as the second, so this can be used to slot in a wholly new rule, perhaps only if certain circumstances hold.
-<p>
-<p>These rule-changing instructions allow apparently casual sentences to wreak havoc with the model world. This, for instance, is quite the recipe for mayhem and perplexity:
-<p>
-<blockquote><font color="#000080">A procedural rule: reject the result of the before rules; ignore the after rules; move the after rules to before the before rules.
-</font></blockquote><p>
+<p>It is important not to use &quot;out of world&quot; actions for anything affecting what goes on in the fictional world, or realism will collapse, and action-processing may also fail to work in the usual way. &quot;Out of world&quot; actions should be reserved for providing commands like ROOMS, which monitor events rather than participate in them.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e69"><a href=doc257.html#e69><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Adjust time advancement so the game clock moves fifteen minutes each turn.</i><p>
+<a name="e124"><a href=ex124.html#e124><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>P. David Lebling's classic "Spellbreaker" (1986) includes a room where the game cannot be saved: here is an Inform implementation.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e69"><a href=doc165.html#e69><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>In some of the late 1970s "cave crawl" adventure games, an elaborate scoring system might still leave the player perplexed as to why an apparently perfect play-through resulted in a score which was still one point short of the supposed maximum. Why only 349 out of 350? The answer varied, but sometimes the last point was earned by never saving the game - in other words by playing it right through with nothing to guard against mistakes (except perhaps UNDO for the last command), and in one long session.</i><p>
 <p>
-<p>Suppose a game in which all actions move extraordinarily slowly:
+<p>Here is one way to score this point with Inform:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Procedural rule: substitute the fast time rule for the advance time rule.\n\nThis is the fast time rule:\n\tchange the time of day to the time of day + 15 minutes.\n\n')"><img border=0 src=paste.png></a> Procedural rule: substitute the fast time rule for the advance time rule.
+<blockquote><font color="#000080">Check saving the game for the first time: award -1 point.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">This is the fast time rule:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to the time of day + 15 minutes.
+<p>That has the right effect, but it just isn't sneaky enough. Instead let us quietly keep track of how many times the player saves:
+<p>
+<blockquote><font color="#000080">Check saving the game: change the number of saves to the number of saves plus 1.
+<br>When play ends: if the number of saves is 0, award 1 point.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc256.html>Previous</a> / <a href=doc258.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>Sneakier, certainly, but now we could get the bonus even if the game ends earlier on, so finally:
+<p>
+<blockquote><font color="#000080">When play ends: if the number of saves is 0 and the score is 349, award 1 point.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc164.html>Previous</a> / <a href=doc166.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

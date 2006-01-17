@@ -1,4 +1,4 @@
-<html><head><title>21.2. Emily Short <emshort@mindspring.com> -  Reaching inside by an NPC</title></head>
+<html><head><title>19.17. The return context</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,73 +7,18 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc301.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc303.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>21.2. Emily Short <emshort@mindspring.com> -  Reaching inside by an NPC</b></td></tr></table><p>
+<table><tr><td><a href=doc301.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc303.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.17. The return context</b></td></tr></table><p>
 <p>
-<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 2 October 2005
+<p>I7 has a number of conceptually different ways to define code - as phrases which are not compiled inline, as phrases to decide conditions, as rules and so on. All these are compiled to I6 routines, and return values have different meanings in the different cases. For type-checking reasons, I7 needs to detect when a return might occur in order to make sure that a condition does not end with the wrong kind of result, and so on.
 <p>
-<p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
+<p>Inline phrases which cause a return should declare what happens like so:
 <p>
-<p><i>Build:</i> 2Z33
-<p>
-<p><i>Platform:</i> Mac OS X
-<p>
-<p>
-<p>
-<p><i>Code example:</i>
-<p>
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('A rule for reaching inside something:\n\tsay &quot;[The person asked]&quot;;\n\tif the person asked is Kitty, allow access.\n\nThe School for Gifted Youngsters is a room. Kitty Pryde is a woman in the School for Gifted Youngsters. The description is &quot;You see nothing special about Kitty Pryde. But that is only because she has learned to conceal her mutant powers: in fact she has the alternative name Shadowcat, and the ability to phase through solid objects.&quot;\n\nPersuasion rule for asking someone to try doing something: persuasion succeeds.\n\nThe glass box is a container in the School for Gifted Youngsters. It is closed, openable, and transparent. In the box is some poisonous gas. In the box is a message from Magneto.\n\nInstead of examining the message when the player is not carrying the message:\n\tsay &quot;You\'d need to be holding it before you could read it.&quot;\n\nInstead of opening the glass box: say &quot;You\'re deterred by the swirling bottle-green mist within.&quot;\n\n\n\n\n\n\n')"><img border=0 src=paste.png></a> A rule for reaching inside something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The person asked]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is Kitty, allow access.
+<blockquote><font color="#000080">To stop the action: (- rtrue; -) - outcome.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The School for Gifted Youngsters is a room. Kitty Pryde is a woman in the School for Gifted Youngsters. The description is &quot;You see nothing special about Kitty Pryde. But that is only because she has learned to conceal her mutant powers: in fact she has the alternative name Shadowcat, and the ability to phase through solid objects.&quot;
+<p>&quot;Outcome&quot;, used for rules, is one of four possibilities. The others are &quot;void&quot; (a return with no value), &quot;value&quot; (with a value) or &quot;condition&quot; (used to signal a result of a phrase to decide whether something is true). Thus the phrases &quot;yes&quot; and &quot;stop the action&quot; have the same definition, but a different context:
+<p>
+<blockquote><font color="#000080">To yes: (- rtrue; -) - condition.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Persuasion rule for asking someone to try doing something: persuasion succeeds.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The glass box is a container in the School for Gifted Youngsters. It is closed, openable, and transparent. In the box is some poisonous gas. In the box is a message from Magneto.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of examining the message when the player is not carrying the message:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You'd need to be holding it before you could read it.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of opening the glass box: say &quot;You're deterred by the swirling bottle-green mist within.&quot;
-</font></blockquote><p>
-<p>
-<p>
-<p>
-<p>
-<p>
-<p><i>What goes wrong:</i>
-<p>
-<p>
-<p>>actions
-<p>Actions listing on.
-<p>
-<p>>get message
-<p>[taking a message from Magneto]
-<p>yourself
-<p>The glass box isn't open.
-<p>[taking a message from Magneto - failed]
-<p>
-<p>>kitty, get message
-<p>[asking Kitty Pryde to try taking a message from Magneto]
-<p>[(1) Kitty Pryde trying taking a message from Magneto]
-<p>[(1) Kitty Pryde trying taking a message from Magneto - failed]
-<p>Kitty Pryde is unable to do that.
-<p>
-<p>[asking Kitty Pryde to try taking a message from Magneto - succeeded]
-<p>>
-<p>
-<p>
-<p>
-<p><i>Comments:</i>
-<p>
-<p>
-<p>So evidently this access rule is never even being called for Kitty. Hm.
-<p>
 <p>
 <p><hr><p><a href=doc301.html>Previous</a> / <a href=doc303.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

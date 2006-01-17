@@ -1,4 +1,4 @@
-<html><head><title>10.9. Repeat running through</title></head>
+<html><head><title>10.10. Phrase options</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,32 +7,41 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc145.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc147.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.9. Repeat running through</b></td></tr></table><p>
+<table><tr><td><a href=doc145.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc147.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.10. Phrase options</b></td></tr></table><p>
 <p>
-<p>Inform is not used very much for numerical work, so the kind of repeat loop described in the previous section is not much used. Inform's natural domain is really the world of things and rooms, so the following kind of repeat is much more useful.
+<p>There are often several slightly different ways to perform a given task but which have substantially the same definition. In the following example:
 <p>
-<blockquote><font color="#000080">repeat with item running through open containers begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;... phrases ...
-<br>end repeat;
+<blockquote><font color="#000080">To go hiking, into the woods or up the mountain:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if into the woods then say &quot;Watch out for badgers.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if up the mountain then say &quot;Better take your compass.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You go hiking.&quot;.
 </font></blockquote><p>
 <p>
-<p>Once again we create a new value, &quot;item&quot;, of only temporary validity. This time the phrases are repeated once for each open container presently found in the world. (If there are no containers, or they are all closed, the phrases will not be followed at all.)
+<p>...a phrase has been set up which can be used in three ways:
 <p>
-<p>As with counting the &quot;number of ...&quot; objects satisfying some property, we can run through a wide variety of possibilities. For example:
-<p>
-<blockquote><font color="#000080">repeat with dinner guest running through the people in the Dining Room begin; ...
+<blockquote><font color="#000080">go hiking;
+<br>go hiking, into the woods;
+<br>go hiking, up the mountain;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">repeat with possession running through things carried begin; ...
+<p>Note that commas must be used to divide these &quot;phrase options&quot; from the rest of the text of the phrase. Within the definition of the phrase, the option's name is a valid condition, and
+<p>
+<blockquote><font color="#000080">if up the mountain then ...
 </font></blockquote><p>
 <p>
-<p>The following lists the whereabouts of all men in lighted rooms:
+<p>is true if the phrase was called with &quot;up the mountain&quot; specified and false otherwise, in the obvious way. A more substantial example from the standard rules is given by the Inform list-writer, which produces lists of things to specifications we choose. For instance:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('repeat with suspect running through the men who are in a lighted room (called the scene) begin;\n\tsay &quot;[The suspect] is in [the scene].&quot;;\nend repeat.\n\n\n')"><img border=0 src=paste.png></a> repeat with suspect running through the men who are in a lighted room (called the scene) begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The suspect] is in [the scene].&quot;;
-<br>end repeat.
+<blockquote><font color="#000080">list the contents of Marley Wood, as a sentence, with newlines
+<br>and including all contents;
 </font></blockquote><p>
 <p>
-<p>Note the way we are allowed to give a name to the vaguely described place &quot;lighted room&quot;, so that we can refer to it inside the loop. This wasn't really necessary (&quot;holder of the suspect&quot; would have had the same effect) but improved the clarity of the source.
+<p>Note that this phrase is allowed to have multiple options specified, whereas &quot;go hiking&quot; above was not: this is because it was defined thus:
+<p>
+<blockquote><font color="#000080">To list the contents of (something - an object), with newlines, indented, as a sentence, including contents, including all contents, giving inventory information, giving brief inventory information, using the definite article, listing marked items only, prefacing with is/are and/or not listing concealed items: ...
+</font></blockquote><p>
+<p>
+<p>The significant difference is the word &quot;and/or&quot; instead of &quot;or&quot;, which signals that more than one option can apply at a time.
+<p>
+<p>(As it happens, not all of the above options are equally useful: &quot;not listing concealed items&quot;, for instance, is probably helpful only to people creating projects which mingle Inform 6 and Inform 7 material. &quot;Concealed&quot; is a concept no longer in use.)
 <p>
 <p><hr><p><a href=doc145.html>Previous</a> / <a href=doc147.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

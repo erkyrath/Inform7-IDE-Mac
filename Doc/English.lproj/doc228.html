@@ -1,4 +1,4 @@
-<html><head><title>15.16. Understanding mistakes</title></head>
+<html><head><title>15.12. New tokens</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,42 +7,40 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc227.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc229.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.16. Understanding mistakes</b></td></tr></table><p>
+<table><tr><td><a href=doc227.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc229.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.12. New tokens</b></td></tr></table><p>
 <p>
-<p>When inspiration strikes the player, he can usually be relied upon to make a good-faith effort to communicate the new idea: he will guess the right command. If he guesses wrongly, the mistake is probably the author's, because a good author will try to anticipate all possible wordings and make all of them work.
+<p>In the example game &quot;Lies&quot;, we are going to look for subtleties of wording in order to allow the player to lie down in three different ways. To set the scene, and make new actions to provide for two of these ways:
 <p>
-<p>Nevertheless it is sometimes good practice to nudge the player towards the right wording - particularly if the player has the right idea but is not explicit enough: for instance, typing TALK TO JUDGE when we really want to know what is to be said (JUDGE, GUILTY); or if the player tries something like PLAY CHESS rather than MOVE PAWN TO KING 4. Similarly, if we make a casual reference such as &quot;In your childhood days, you loved sliding in stocking feet across this hallway&quot;, a player might type SLIDE IN STOCKING FEET: a nice idea, and which deserves a nice response, even though it asks to do something beyond the scope of the game.
-<p>
-<p>Inform provides a simple mechanism for recognising a command but at the same time recognising that <i>it does not properly specify an action</i>. Such commands are called &quot;mistakes&quot;, for the sake of a memorable term, but the player has not really behaved badly, and should be helped rather than reproved. For instance:
-<p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Lies&quot;\n\nThe Laundry is a room. &quot;An old Limehouse haunt, the Chinese laundry used by the down-trodden wives of the Tong of the Black Scorpion.&quot; The vast marble sink is here. &quot;There is nothing obviously oriental about the vast marble sink, which is large enough to lie down inside. A wooden-rack floor, equipped for easy drainage, turns out also to be equipped for snagging the shoes of passers-by.&quot; The sink is an enterable container, fixed in place.\n\nLying down is an action applying to nothing. Report lying down: say &quot;You lie down for a while in the middle of the Laundry, wondering about the point of existence, then get up again.&quot;\n\nLying near is an action applying to one thing. Report lying near: say &quot;You lie down next to [the noun] for a while, mumbling to yourself.&quot;\n\nInstead of lying near the sink, say &quot;Lying down close to the cool butcher\'s marble slabs of the sink, your attention is caught by the sight of coolie shoes through a floor-level grille for ventilation. The game is afoot!&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Lies&quot;
 </font></blockquote><p>
 <p>
-<p>While that works - the command to &quot;act&quot; is indeed rejected - it is not very good, because no very helpful message is brought up. The following is much better:
-<p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;).
+<blockquote><font color="#000080">The Laundry is a room. &quot;An old Limehouse haunt, the Chinese laundry used by the down-trodden wives of the Tong of the Black Scorpion.&quot; The vast marble sink is here. &quot;There is nothing obviously oriental about the vast marble sink, which is large enough to lie down inside. A wooden-rack floor, equipped for easy drainage, turns out also to be equipped for snagging the shoes of passers-by.&quot; The sink is an enterable container, fixed in place.
 </font></blockquote><p>
 <p>
-<p>Or we could once again insist on a given context:
-<p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
+<blockquote><font color="#000080">Lying down is an action applying to nothing. Report lying down: say &quot;You lie down for a while in the middle of the Laundry, wondering about the point of existence, then get up again.&quot;
 </font></blockquote><p>
 <p>
-<p>That still has the drawback that the command &quot;act hamlet&quot; will not be recognised: so the final version we want is probably
-<p>
-<blockquote><font color="#000080">Understand &quot;act [text]&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
+<blockquote><font color="#000080">Lying near is an action applying to one thing. Report lying near: say &quot;You lie down next to [the noun] for a while, mumbling to yourself.&quot;
 </font></blockquote><p>
 <p>
-<p>since the &quot;[text]&quot; part will soak up any words the player types (or none), meaning that any command at all whose first word is &quot;act&quot; will be matched.
-<p>
-<p>If we are careful, we can make the reply depend on what was typed in the mistaken command:
-<p>
-<blockquote><font color="#000080">Understand &quot;steal [something]&quot; as a mistake (&quot;Just TAKE [the noun] and leave without paying: that's stealing in my book.&quot;).
+<blockquote><font color="#000080">Instead of lying near the sink, say &quot;Lying down close to the cool butcher's marble slabs of the sink, your attention is caught by the sight of coolie shoes through a floor-level grille for ventilation. The game is afoot!&quot;
 </font></blockquote><p>
 <p>
-<p>The care comes in because Inform applies much less checking to mistakes than to other actions, and odd errors will result if we try to refer to (say) &quot;the second noun&quot; in a command which did not have a second noun.
+<p>So far, so good. Now for the grammar, where we create two new tokens: one for each of two groups of alternative prepositions.
 <p>
-<p><hr><p>
-<a name="e106"><a href=ex106.html#e106><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>If the player tries to TALK TO a character, suggest alternative modes of conversation.</i><p>
-<a name="e39"><a href=ex39.html#e39><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Responding to references to a property that the player isn't yet allowed to mention (or when not to use "understand as a mistake").</i><p>
+<blockquote><font color="#000080">Understand &quot;beneath/under/by/near/beside/alongside/against&quot; or &quot;next to&quot; or &quot;in front of&quot; as &quot;[beside]&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;lie down&quot; as lying down.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;lie down [within] [something]&quot; as entering.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;lie [beside] [something]&quot; or &quot;lie down [beside] [something]&quot; as lying near.
+</font></blockquote><p>
+<p>
 <p><hr><p><a href=doc227.html>Previous</a> / <a href=doc229.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

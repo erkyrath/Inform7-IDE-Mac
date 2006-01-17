@@ -1,4 +1,4 @@
-<html><head><title>17.6. Phrases concerning rules</title></head>
+<html><head><title>17.2. Named rules and rulebooks</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,38 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.6. Phrases concerning rules</b></td></tr></table><p>
+<table><tr><td><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.2. Named rules and rulebooks</b></td></tr></table><p>
 <p>
-<p>The &quot;ignore&quot; phrase is only one of a suite. The full list is:
+<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns - usually visible on the &quot;status line&quot; displayed above the window of a game in progress - and advances the clock, which is usually not visible, but ticking away behind the scenes.
 <p>
-<blockquote><font color="#000080">ignore ...rule...
-<br>reinstate ...rule...
+<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
+<p>
+<blockquote><font color="#000080">advance time = the advance time rule
 </font></blockquote><p>
 <p>
-<p>The &quot;reinstate&quot; phrase simply reverses any previous &quot;ignore&quot; of the same rule, and is otherwise not useful.
-<p>
-<blockquote><font color="#000080">reject the result of ...rule...
-<br>accept the result of ...rule...
+<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
 </font></blockquote><p>
 <p>
-<p>Some rules produce results (see below), but they can be set so that whatever result they produce will be ignored. Again, &quot;accept ...&quot; simply undoes a previous &quot;reject ...&quot; and otherwise has no effect.
+<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
 <p>
-<blockquote><font color="#000080">substitute ...first rule... for ...second rule...
-<br>restore the original ...second rule...
+<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We have already seen some of these names used in the Advanced Actions chapter, and will later use them like so:
+<p>
+<blockquote><font color="#000080">ignore the can't go through closed doors rule;
 </font></blockquote><p>
 <p>
-<p>Whenever the second rule is to be invoked - from any rulebook, or as a result of any &quot;follow&quot; instruction - invoke the first one instead. Again, &quot;restore ...&quot; simply undoes the effect of an earlier &quot;substitute&quot;.
-<p>
-<blockquote><font color="#000080">move ...first rule... to before/after ...second rule...
-</font></blockquote><p>
-<p>
-<p>This causes the first rule to be ignored whenever it turns up in the ordinary way, but to be invoked either immediately before or immediately after the second rule whenever that second rule is invoked. In effect, it cuts out the first rule from wherever it was, and glues it onto the second. Note that there is no obligation for the first rule to begin in the same rulebook(s) as the second, so this can be used to slot in a wholly new rule, perhaps only if certain circumstances hold.
-<p>
-<p>These rule-changing instructions allow apparently casual sentences to wreak havoc with the model world. This, for instance, is quite the recipe for mayhem and perplexity:
-<p>
-<blockquote><font color="#000080">A procedural rule: reject the result of the before rules; ignore the after rules; move the after rules to before the before rules.
-</font></blockquote><p>
+<p>Names for rules tend to be verbose, but this is a situation where clarity is very much better than brevity.
 <p>
 <p><hr><p>
-<a name="e69"><a href=ex69.html#e69><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Adjust time advancement so the game clock moves fifteen minutes each turn.</i><p>
+<a name="e127"><a href=ex127.html#e127><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A WAIT [number] MINUTES command which advances through an arbitrary number of turns.</i><p>
+<a name="e128"><a href=ex128.html#e128><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A WAIT UNTIL [time] command which advances until the game clock reaches the correct hour.</i><p>
 <p><hr><p><a href=doc256.html>Previous</a> / <a href=doc258.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

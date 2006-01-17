@@ -1,4 +1,4 @@
-<html><head><title>16.2. How activities work</title></head>
+<html><head><title>15.15. Context: understanding when</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,33 +7,24 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc230.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc232.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.2. How activities work</b></td></tr></table><p>
+<table><tr><td><a href=doc230.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc232.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.15. Context: understanding when</b></td></tr></table><p>
 <p>
-<p>All activities start, continue for a while and then finish: however, no activity ever runs on for more than a single turn. Several activities can be going on at the same time. For instance, suppose the following is printed as part of the description of a grocery:
+<p>We have now seen several different forms of &quot;Understand&quot; sentence: for instance,
 <p>
-<blockquote><font color="#000080">You can see a banana, an apple and a star-fruit here.
+<blockquote><font color="#000080">Understand the colour property as describing a building block.
+<br>Understand &quot;mix [colour] paint&quot; as mixing paint.
+<br>Understand &quot;rouge&quot; as red.
+<br>Understand &quot;curious girl&quot; as Alice.
 </font></blockquote><p>
 <p>
-<p>At the moment when Inform prints &quot;apple&quot;, two activities are under way: &quot;listing contents of the Grocery&quot;, and &quot;printing the name of the apple&quot;. The sequence of events was in fact:
+<p>Any of these may optionally have a condition tacked on: for instance,
 <p>
-<blockquote><font color="#000080">say &quot;You can see &quot;
-<br><i>start listing contents of the Grocery</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;a &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>start printing the name of the banana</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;banana&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>finish printing the name of the banana</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;, an &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>start printing the name of the apple</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;apple&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>finish printing the name of the apple</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; and a &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>start printing the name of the star-fruit</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;star-fruit&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>finish printing the name of the star-fruit</i>
-<br><i>finish listing contents of the Grocery</i>
-<br>say &quot; here.&quot;
+<blockquote><font color="#000080">Understand &quot;mix [colour] paint&quot; as mixing paint when the location is the Workshop.
+<br>Understand &quot;rouge&quot; as red when the make-up set is visible.
 </font></blockquote><p>
 <p>
-<p>The golden rule is: if activity B starts during activity A, it must also finish during activity A.
+<p>In principle, &quot;when ...&quot; can take in any condition at all. In practice a little care should be exercised not to do anything too slow, or which might have side-effects. (For instance, referring the decision to a phrase which then printed text up would be a bad idea.) Moreover, we must remember that the &quot;noun&quot; and &quot;second noun&quot; are not known yet, nor do we know what the action will be. So we cannot safely say &quot;when the noun is the fir cone&quot;, for instance. If we want more sophisticated handling of such cases, we need to write checking rules and so on in the usual way.
 <p>
+<p><hr><p>
+<a name="e9"><a href=ex9.html#e9><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A bookshelf with a number of books, where the player's command to examine something will be interpreted as an attempt to look up titles if the bookshelf is present, but otherwise given the usual response.</i><p>
 <p><hr><p><a href=doc230.html>Previous</a> / <a href=doc232.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

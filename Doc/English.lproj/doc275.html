@@ -1,4 +1,4 @@
-<html><head><title>18.13. Using Inform 6 within Inform 7</title></head>
+<html><head><title>18.9. Cover art</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,12 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc274.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc276.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.13. Using Inform 6 within Inform 7</b></td></tr></table><p>
+<table><tr><td><a href=doc274.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc276.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.9. Cover art</b></td></tr></table><p>
 <p>
-<p>The final sections of this chapter bring in how Inform 7, the current version, and Inform 6 can be made to work together, and will make little or no sense to those who do not already use I6 (as we will henceforth write).
+<p>Accompanying files are not the only things which can be included in a &quot;release along with&quot; sentence:
 <p>
-<p>As will become clear, it would be easy to write highly hybridised code, constantly mixing I6 and I7. The methods for incorporating I6 code into I7 have been designed to encourage people to use I6 in as self-contained a way as possible: that is, to isolate the relatively few functions which need to be written in I6, and to give them natural language expression. Ideally, all I6 content would be confined to self-contained extensions, so that the source for actual works of interactive fiction can be purely natural.
+<blockquote><font color="#000080">Release along with cover art, a file of &quot;Collegio magazine&quot; called &quot;Collegio.pdf&quot; and a file of &quot;The mating call of the green wyvern&quot; called &quot;Mating Wyverns.mp3&quot;.
+</font></blockquote><p>
 <p>
-<p>So why provide I6 features at all, even for extensions? It's true that extensions do not actually <i>need</i> them either, but it's anticipated that (especially in these early days) many people will want a simple way to adapt existing I6 extensions to work in I7 as well. Besides that, for complex computational tasks better suited to a C-like computer programming language it may be entirely appropriate to drop down into I6. Lastly, the features of I7 used to mesh with I6 are essential to the workings of the Standard Rules, so it would be sensible to document those features somewhere.
+<p>Cover art for a work should be prepared in either JPEG (&quot;.jpg&quot;) or PNG (&quot;.png&quot;) format, and we recommend that it should be square, like a music album cover. Programs which notice the cover art for a work of IF are likely to scale this up or down as convenient for their own display purposes, but it would be helpful to provide the original art at 960 by 960 resolution. (Remember, it is intended for use on screen, so providing art at magazine full-page print quality will add nothing and will only make the resulting release an annoyingly large download: even as it is, 960x960 will print out as a pretty respectable CD insert sleeve.)
+<p>
+<p>If we are providing cover art, or asking Inform to construct a website, then we need to collate the materials in a suitable folder. Suppose that our project is called &quot;Magician.inform&quot;, a project file which happens to be placed in the folder &quot;Works in Progress&quot;. Then we should set up the following arrangement:
+<p>
+<blockquote><font color="#000080">Works in Progress
+<br>&nbsp;&nbsp;&nbsp;&nbsp;Magician Materials
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collegio.pdf
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cover.jpg
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mating Wyverns.mp3
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Small Cover.jpg
+<br>&nbsp;&nbsp;&nbsp;&nbsp;Magician.inform
+</font></blockquote><p>
+<p>
+<p>(supposing that, as in the previous examples, &quot;Collegio.pdf&quot; and &quot;Mating Wyverns.mp3&quot; are the filenames of two feelies that accompany the release). &quot;Small Cover.jpg&quot; should be a reduction of the main cover art image &quot;Cover.jpg&quot; to exactly 120 by 120 pixels.
+<p>
+<p><hr><img border=0 src=beta.png>At present there's no support for PNG format covers, but that will be added.
 <p>
 <p><hr><p><a href=doc274.html>Previous</a> / <a href=doc276.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

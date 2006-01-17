@@ -1,4 +1,4 @@
-<html><head><title>3.8. Scenery</title></head>
+<html><head><title>3.20. The player's holdall</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,55 +7,47 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc28.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc30.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.8. Scenery</b></td></tr></table><p>
+<table><tr><td><a href=doc41.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc43.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.20. The player's holdall</b></td></tr></table><p>
 <p>
-<p>As we have just seen, making something &quot;fixed in place&quot; will prevent it from being picked up or moved. But it remains substantial enough to be described in its own paragraph of text when the player visits its location. This can be unfortunate if it has also been described already in the body of the main description for that location. For instance, if we wrote:
+<p>When the player has only limited carrying capacity, game play is likely to be tiresome, but we can make life easier by providing a way for the player to carry endless items without dozens of free hands to hold them all:
 <p>
-<blockquote><font color="#000080">The Orchard is a room. &quot;Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.&quot; The gnarled old oak tree is fixed in place in the Orchard.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Sackcloth&quot;\n\nThe Attic is a room. The old blue rucksack is a player\'s holdall. The player is wearing the rucksack.\n\nThe carrying capacity of the player is 3.\n\nIn the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt\'s remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.\n\n\n')"><img border=0 src=paste.png></a> &quot;Sackcloth&quot;
 </font></blockquote><p>
 <p>
-<p>This would end up describing the oak twice, once in the paragraph about the Orchard, then again in a list of things within it:
-<p>
-<blockquote><font color="#000080"><b>Orchard</b>
-<br>Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.
+<blockquote><font color="#000080">The Attic is a room. The old blue rucksack is a player's holdall. The player is wearing the rucksack.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">You can see a gnarled old oak tree here.
+<blockquote><font color="#000080">The carrying capacity of the player is 3.
 </font></blockquote><p>
 <p>
-<p>We avoid this by making it &quot;scenery&quot; instead of &quot;fixed in place&quot;:
-<p>
-<blockquote><font color="#000080">The gnarled old oak tree is scenery in the Orchard.
+<blockquote><font color="#000080">In the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt's remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.
 </font></blockquote><p>
 <p>
-<p>Any thing can be scenery, and this does not bar it from playing a part in the game: it simply means that it will be immobile and that it will not be described independently of its room.
+<p>This example game introduces a new kind of container, the &quot;player's holdall&quot;. This is a kind of which most games will contain at most one example, but in principle there can be any number. A player's holdall is a capacious bag into which the player automatically places surplus items whenever his or her hands are full: trying the above example game and getting the items one by one will give the general idea.
+<p>
+<p>Of course, if the carrying capacity of the player is never reached then there will never be any surplus items and a player's holdall will behave just like any other (portable, usually openable) container.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e16"><a href=doc29.html#e16><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A boat with a glass case of fishing rods in it.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e16"><a href=doc42.html#e16><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Making a holdall of the backpack.</i><p>
 <p>
-<p>If we compile our last version of the cabin, we get a room where the glass case and the bench are listed separately from the room description, even though they have already been mentioned once. We can prevent this by making the already-mentioned things scenery:
+<p>If we wanted, we could make the player's backpack infinitely capacious, so:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Disappointment Bay&quot;\n\nThe Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.\n\nScratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;\n\nThe Cabin contains a glass case. In the glass case is a collection of fishing rods. The case is closed, transparent, and openable. The case is scenery.\n\nThe bench is in the cabin. On the bench are some blue vinyl cushions. The bench is enterable and scenery. The cushions are scenery.\n\n[Generally speaking, it is a good idea to recognize the player\'s attempts to interact with any objects mentioned in the room description, so we should also provide]\n\nSome navigational instruments, some scratched windows, a sign, a radar display, and some radios are scenery in the cabin.\n\n\n')"><img border=0 src=paste.png></a> &quot;Disappointment Bay&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The backpack is a player\'s holdall.\n\n\n')"><img border=0 src=paste.png></a> The backpack is a player's holdall.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.
+<p>...And now whenever the player character is unable to hold everything, he will automatically stow some of his possessions therein.
+<p>
+<p>This is only useful if the player doesn't have infinite carrying capacity himself, so perhaps we also need
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The carrying capacity of the player is 3.\n\n\n')"><img border=0 src=paste.png></a> The carrying capacity of the player is 3.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Scratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;
+<p>Perhaps mercifully, items which are worn are not counted against the player's carrying capacity. We might want to let him take advantage of that, too:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The backpack is wearable.\n\n\n')"><img border=0 src=paste.png></a> The backpack is wearable.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Cabin contains a glass case. In the glass case is a collection of fishing rods. The case is closed, transparent, and openable. The case is scenery.
-</font></blockquote><p>
+<p>This capacity system makes a compromise between the realistic and the absurd: on the one hand, it acknowledges that people can't carry an infinite number of items in their hands, while at the same time providing a sack that can.
 <p>
-<blockquote><font color="#000080">The bench is in the cabin. On the bench are some blue vinyl cushions. The bench is enterable and scenery. The cushions are scenery.
-</font></blockquote><p>
-<p>
-<p>Generally speaking, it is a good idea to recognize the player's attempts to interact with any objects mentioned in the room description, so we should also provide
-<p>
-<blockquote><font color="#000080">Some navigational instruments, some scratched windows, a sign, a radar display, and some radios are scenery in the cabin.
-</font></blockquote><p>
-<p>
-<p>The door and the view will need to be done as well, but they are special cases which we will get to shortly.
-<p>
-<p>As noted, making something scenery also means that the player will be prevented from picking it up and carrying it away. This is sensible, though: if an object can be removed from the room where it first appears, we should be careful about mentioning it in the main room description; otherwise, it will continue to be described as present even when someone has carried it off.
-</td></tr></table><p><p><hr><p><a href=doc28.html>Previous</a> / <a href=doc30.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>Many games will have no use for object-juggling of this kind at all; others will want to be much more rigorous about questions of capacity and volume. Fortunately, it is easy to leave the whole business out by assigning no carrying capacity to anything. The tools to implement a more sophisticated capacity system are provided in Chapter 12, on Units.
+</td></tr></table><p><p><hr><p><a href=doc41.html>Previous</a> / <a href=doc43.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

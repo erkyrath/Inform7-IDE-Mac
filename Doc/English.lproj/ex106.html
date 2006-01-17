@@ -1,4 +1,4 @@
-<html><head><title>15.16. Understanding mistakes</title></head>
+<html><head><title>4.2. Degrees of certainty</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,45 +7,39 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc227.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc229.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.16. Understanding mistakes</b></td></tr></table><p>
+<table><tr><td><a href=doc45.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc47.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.2. Degrees of certainty</b></td></tr></table><p>
 <p>
-<p>When inspiration strikes the player, he can usually be relied upon to make a good-faith effort to communicate the new idea: he will guess the right command. If he guesses wrongly, the mistake is probably the author's, because a good author will try to anticipate all possible wordings and make all of them work.
+<p>When we write:
 <p>
-<p>Nevertheless it is sometimes good practice to nudge the player towards the right wording - particularly if the player has the right idea but is not explicit enough: for instance, typing TALK TO JUDGE when we really want to know what is to be said (JUDGE, GUILTY); or if the player tries something like PLAY CHESS rather than MOVE PAWN TO KING 4. Similarly, if we make a casual reference such as &quot;In your childhood days, you loved sliding in stocking feet across this hallway&quot;, a player might type SLIDE IN STOCKING FEET: a nice idea, and which deserves a nice response, even though it asks to do something beyond the scope of the game.
-<p>
-<p>Inform provides a simple mechanism for recognising a command but at the same time recognising that <i>it does not properly specify an action</i>. Such commands are called &quot;mistakes&quot;, for the sake of a memorable term, but the player has not really behaved badly, and should be helped rather than reproved. For instance:
-<p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake.
+<blockquote><font color="#000080">A dead end is usually dark.
 </font></blockquote><p>
 <p>
-<p>While that works - the command to &quot;act&quot; is indeed rejected - it is not very good, because no very helpful message is brought up. The following is much better:
+<p>we are saying that it will be dark rather than lighted unless we should specify otherwise. So it would be fine to add:
 <p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;).
+<blockquote><font color="#000080">The Tortuous Alcove is lighted.
 </font></blockquote><p>
 <p>
-<p>Or we could once again insist on a given context:
+<p>because although dead ends are usually dark, this one is evidently an exception. On the other hand, if we had originally written
 <p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
+<blockquote><font color="#000080">A dead end is always dark.
 </font></blockquote><p>
 <p>
-<p>That still has the drawback that the command &quot;act hamlet&quot; will not be recognised: so the final version we want is probably
-<p>
-<blockquote><font color="#000080">Understand &quot;act [text]&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
-</font></blockquote><p>
-<p>
-<p>since the &quot;[text]&quot; part will soak up any words the player types (or none), meaning that any command at all whose first word is &quot;act&quot; will be matched.
-<p>
-<p>If we are careful, we can make the reply depend on what was typed in the mistaken command:
-<p>
-<blockquote><font color="#000080">Understand &quot;steal [something]&quot; as a mistake (&quot;Just TAKE [the noun] and leave without paying: that's stealing in my book.&quot;).
-</font></blockquote><p>
-<p>
-<p>The care comes in because Inform applies much less checking to mistakes than to other actions, and odd errors will result if we try to refer to (say) &quot;the second noun&quot; in a command which did not have a second noun.
+<p>then Inform would not have permitted any exception to be made, and would have reported a problem if we had tried to make the Tortuous Alcove lighted. Besides &quot;usually&quot; and &quot;always&quot;, we can also employ &quot;seldom&quot; and &quot;never&quot;, which are their negatives. Thus, &quot;never lighted&quot; means the same as &quot;always dark&quot;.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e106"><a href=doc228.html#e106><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>If the player tries to TALK TO a character, suggest alternative modes of conversation.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e106"><a href=doc46.html#e106><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A staircase always open and never openable.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;talk to [someone]&quot; as a mistake (&quot;To start a conversation, try to ASK [the noun] ABOUT something or TELL [the noun] ABOUT something.&quot;).\n\n')"><img border=0 src=paste.png></a> Understand &quot;talk to [someone]&quot; as a mistake (&quot;To start a conversation, try to ASK [the noun] ABOUT something or TELL [the noun] ABOUT something.&quot;).
+<p>In a game with many staircases, we might want:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('A staircase is a kind of door. A staircase is always open. A staircase is never openable.\n\n\n')"><img border=0 src=paste.png></a> A staircase is a kind of door. A staircase is always open. A staircase is never openable.
 </font></blockquote><p>
-</td></tr></table><p><a name="e39"><a href=ex39.html#e39><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Responding to references to a property that the player isn't yet allowed to mention (or when not to use "understand as a mistake").</i><p>
-<p><hr><p><a href=doc227.html>Previous</a> / <a href=doc229.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>Defining the staircase this way means that we will never be able to get away with (for instance) a folding ladder into the attic which is sometimes closed up. So alternatively we might do
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('A staircase is a kind of door. A staircase is usually open. A staircase is seldom openable.\n\n\n')"><img border=0 src=paste.png></a> A staircase is a kind of door. A staircase is usually open. A staircase is seldom openable.
+</font></blockquote><p>
+<p>
+<p>We could then write a rule so that whenever the player types CLIMB [any staircase], the command is diverted to an enter command, while all other doors refuse to respond to such treatment.
+<p>
+<p>But these are refinements for a later chapter.
+</td></tr></table><p><p><hr><p><a href=doc45.html>Previous</a> / <a href=doc47.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

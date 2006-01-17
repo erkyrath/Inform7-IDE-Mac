@@ -1,4 +1,4 @@
-<html><head><title>6.11. All actions and exceptional actions</title></head>
+<html><head><title>15.6. Actions applying to kinds of value</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,41 +7,64 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc83.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc85.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.11. All actions and exceptional actions</b></td></tr></table><p>
+<table><tr><td><a href=doc221.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc223.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.6. Actions applying to kinds of value</b></td></tr></table><p>
 <p>
-<p>The special description &quot;doing something&quot; (or &quot;doing anything&quot;) matches any action, and &quot;doing something to ...&quot; or &quot;doing something with ...&quot; also allow an object to be specified.
+<p>Almost all actions apply to things: the player picks them up, pushes them, looks at them and so on. Only occasionally do we need to recognise other kinds of value: but when we do, we can, as in the example called &quot;Safety&quot;:
 <p>
-<p>For instance, the following puts its object entirely out of bounds:
-<p>
-<blockquote><font color="#000080">Instead of doing something to the cucumber sandwich, say &quot;Lady Bracknell stares disapprovingly down her pince-nez at you, in a way which no amount of hunger or curiosity could overcome.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Safety&quot;\n\nThe Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don\'t get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.\n\nSpinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;\n\nUnderstand &quot;spin [something] to [a number]&quot; as spinning it to.\n\nAfter spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [list of things in the Safe].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Safety&quot;
 </font></blockquote><p>
 <p>
-<p>We sometimes need to be a little careful here: &quot;waiting&quot; qualifies as &quot;doing something&quot;, but not as &quot;doing something to something&quot;, because there is no object.
-<p>
-<p>More often, we would like to restrict the range of allowable actions to a select few. For instance:
-<p>
-<blockquote><font color="#000080">Instead of doing something other than looking, examining or waiting: say &quot;You must learn patience.&quot;
+<blockquote><font color="#000080">The Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don't get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.
 </font></blockquote><p>
 <p>
-<p>(Or we can write &quot;except&quot; instead of &quot;other than&quot;.) Or we might have an object, too:
-<p>
-<blockquote><font color="#000080">Instead of doing something other than examining, taking or dropping with the dagger: say &quot;Don't fool around with that dagger. It's exceedingly sharp.&quot;
+<blockquote><font color="#000080">Spinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;
 </font></blockquote><p>
 <p>
-<p>Note the &quot;with&quot;, which was optional, but makes it clearer that the rule applies only to actions on the dagger.
+<blockquote><font color="#000080">Understand &quot;spin [something] to [a number]&quot; as spinning it to.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [list of things in the Safe].&quot;
+</font></blockquote><p>
+<p>
+<p>The substitution &quot;[a number]&quot; matches any number (actually any whole number that is not too large) typed by the player. Inform checks the various kinds being used to make sure that everything matches, so, for instance, this would be disallowed:
+<p>
+<blockquote><font color="#000080">Understand &quot;spin [something] to [something]&quot; as spinning it to.
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e118"><a href=doc84.html#e118><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A backdrop which the player can examine, but cannot interact with in any other way.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e118"><a href=doc222.html#e118><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A clock kind that can be set to any time using "the time understood"; may be turned on and off; and will advance itself only when running. Time on the face is also reported differently depending on whether the clock is analog or digital.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Waterworld&quot;\n\nA view is a kind of backdrop. Instead of doing something other than examining to a view, say &quot;You are too far from [the noun] to do anything but look.&quot;\n\nThe sun is a view. It is everywhere. The description is &quot;A blazing sun makes you wish you had never been born.&quot;\n\nThe Sahara is a room. North of the Sahara is More Sahara. North of More Sahara is Yet Further Sahara.\n\n')"><img border=0 src=paste.png></a> &quot;Waterworld&quot;
+<p>Time can also be understood as a token, and the time parsed will be recorded as &quot;the time understood&quot;. So therefore, if we wish for clocks which may be set:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Tom\'s Midnight Garden&quot;\n\nA clock is a kind of device. A clock has a time called the current time. A clock can be analog or digital. The current time of a clock is usually 9:01 AM. The description of a clock is &quot;It shows the time to be [if analog]about [the current time to the nearest five minutes in words][otherwise][the current time][end if].&quot;\n\nUnderstand &quot;set [clock] to [time]&quot; as setting it by time. Setting it by time is an action applying to one thing and one time.\n\nInstead of setting a clock to something:\n\tsay &quot;[The noun] can be set only to a time of day, such as 8:00 AM, or midnight.&quot;\n\nCarry out setting a clock by time:\n\tchange the current time of the noun to the time understood.\n\nReport setting a clock by time:\n\tsay &quot;You set [the noun] to [time understood].&quot;\n\nEvery turn:\n\trepeat with item running through switched on clocks\n\tbegin;\n\t\tchange the current time of the item to one minute after the current time of the item;\n\tend repeat.\n\nThe Hall is a room. The grandfather clock is a fixed in place analog clock in the Hall. The travel clock is a switched on digital clock in the Hall.  When play begins: change the right hand status line to &quot;[time of day]&quot;.\n\n')"><img border=0 src=paste.png></a> &quot;Tom's Midnight Garden&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A view is a kind of backdrop. Instead of doing something other than examining to a view, say &quot;You are too far from [the noun] to do anything but look.&quot;
+<blockquote><font color="#000080">A clock is a kind of device. A clock has a time called the current time. A clock can be analog or digital. The current time of a clock is usually 9:01 AM. The description of a clock is &quot;It shows the time to be [if analog]about [the current time to the nearest five minutes in words][otherwise][the current time][end if].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The sun is a view. It is everywhere. The description is &quot;A blazing sun makes you wish you had never been born.&quot;
+<blockquote><font color="#000080">Understand &quot;set [clock] to [time]&quot; as setting it by time. Setting it by time is an action applying to one thing and one time.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Sahara is a room. North of the Sahara is More Sahara. North of More Sahara is Yet Further Sahara.
+<blockquote><font color="#000080">Instead of setting a clock to something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] can be set only to a time of day, such as 8:00 AM, or midnight.&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc83.html>Previous</a> / <a href=doc85.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Carry out setting a clock by time:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current time of the noun to the time understood.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report setting a clock by time:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You set [the noun] to [time understood].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through switched on clocks
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the current time of the item to one minute after the current time of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Hall is a room. The grandfather clock is a fixed in place analog clock in the Hall. The travel clock is a switched on digital clock in the Hall.  When play begins: change the right hand status line to &quot;[time of day]&quot;.
+</font></blockquote><p>
+</td></tr></table><p><a name="e56"><a href=ex56.html#e56><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A system which allows the author to assign footnotes to descriptions, and permits the player to retrieve them again by number, using "the number understood". Footnotes will automatically number themselves, according to the order in which the player discovers them.</i><p>
+<p><hr><p><a href=doc221.html>Previous</a> / <a href=doc223.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>18.16. Defining loops</title></head>
+<html><head><title>18.12. Walkthrough solutions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,26 +7,41 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc277.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc279.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.16. Defining loops</b></td></tr></table><p>
+<table><tr><td><a href=doc277.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc279.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.12. Walkthrough solutions</b></td></tr></table><p>
 <p>
-<p>The two I7 versions of &quot;while&quot; are defined in the Standard Rules as follows:
+<p>Since the earliest days of IF, players have distributed solutions to well-known games, to help out other players at their wits' ends. The commonest format for these is a list of commands to type, sometimes with notes in the margin, and such a solution is called a &quot;walkthrough&quot;, since it walks a player through the game.
 <p>
-<blockquote><font color="#000080">To while (c - condition) repeatedly (ph - phrase): (- while {c} {ph} -).
+<p>Few authors publish solutions of their own works, but many supply their testers with solutions, especially towards the end of testing, or submit a solution as part of a competition entry. To help with this, Inform can generate such a walkthrough solution automatically:
+<p>
+<blockquote><font color="#000080">Release along with a solution.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To while (c - condition) begin *: (- while {c}  -).
+<p>Once again, Inform requires us to create a Materials folder if we are going to do this. For instance, if we have a game called &quot;Memoirs of India&quot;, then we must have created a folder called &quot;Memoirs of India Materials&quot; alongside it. Inform will then place a file called &quot;solution.txt&quot; inside this folder. The solution might look like so (although probably much longer):
+<p>
+<blockquote><font color="#000080">Solution to &quot;Memoirs of India&quot; by Graham Nelson
 </font></blockquote><p>
 <p>
-<p>The second case is the one which involves a block of code, to be ended later with an &quot;end while&quot;. The asterisk signals to I7 that such a block is expected. The I6 code should be such that an I6 code block, starting and ending with a brace, can legally follow it.
-<p>
-<p>Variables can be created as part of a loop which exist only within it. All that needs to be done is to supply their type and declare them to be &quot;variable&quot;:
-<p>
-<blockquote><font color="#000080">To repeat with (loopvar - number variable) running from (v - number) to (w - number) begin *: (- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).
+<blockquote><font color="#000080">Choice:
+<br>  INVENTORY -> go to branch (1)
+<br>  EAST -> go to branch (2)
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To repeat with (loopvar - object variable) running through contents of (v - object) begin *: (- objectloop ({loopvar} in {v})  -).
+<blockquote><font color="#000080">Branch (1)
+<br>DROP MANUSCRIPT
+<br>SOUTH
 </font></blockquote><p>
 <p>
-<p>I7 will compile this using a local variable for &quot;loopvar&quot;: it may well re-use this variable later for other loops, so its value cannot be relied upon outside of the code block following the loop.
+<blockquote><font color="#000080">Branch (2)
+<br>INVENTORY  ... Always a good idea
+<br>GIVE MANUSCRIPT TO THOMAS
+</font></blockquote><p>
+<p>
+<p>Inform does not, of course, know how to solve IF all by itself, but derives the solution from the project's Skein. Since the Skein will have been used in testing the game, it will very likely contain a perfect solution - or several different ones, taking the game to a variety of possible endings. In the example above, there are two possible winning lines, which diverge right from the first move. (There can be further divergences: for instance, if branch (2) splits, it will split into branches called (2.1), (2.2), (2.3) and so on.)
+<p>
+<p>But the Skein will also contain plenty of unwanted diversions, so Inform does not rewrite the entire Skein as a solution. Instead, it looks for knots in the Skein which have been annotated. Any knot with the annotation &quot;***&quot; (three asterisks) is considered to be a final, winning move. (It is probably a good idea to lock such a knot once it has been annotated thus, too.) We can mark any number of knots &quot;***&quot; since, after all, we can declare any number of lines of play as possible solutions. Inform then constructs the solution out of all lines of play in the Skein which lead to &quot;***&quot; endings, and ignores other threads.
+<p><p>
+<p><img border=0 src=annots.png>
+<p><p>
+<p>Other annotations in the Skein are turned automatically into comments in the solution text. For instance, the knot for the INVENTORY command in the second branch above was annotated &quot;Always a good idea&quot;, and this was transcribed into the solution.
 <p>
 <p><hr><p><a href=doc277.html>Previous</a> / <a href=doc279.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

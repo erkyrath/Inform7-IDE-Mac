@@ -1,4 +1,4 @@
-<html><head><title>20.5. Emily Short <emshort@mindspring.com> -  Trouble with people in one/various relations</title></head>
+<html><head><title>19.9. Fuller documentation in the Contents index</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,98 +7,47 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc293.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc295.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>20.5. Emily Short <emshort@mindspring.com> -  Trouble with people in one/various relations</b></td></tr></table><p>
+<table><tr><td><a href=doc293.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc295.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.9. Fuller documentation in the Contents index</b></td></tr></table><p>
 <p>
-<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 23 September 2005
+<p>The Contents index contains a brief list of all extensions used, their authors and version numbers. For instance:
 <p>
-<p><i>Nature:</i> The source looks legal, but generates Problem messages
-<p>
-<p><i>Build:</i> 2Y52
-<p>
-<p><i>Platform:</i> Mac OS X
-<p>
-<p>
-<p>
-<p><i>Code example:</i>
-<p>
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins: change the right hand status line to &quot;[time of day]&quot;\n\nA shop is a kind of room. A shop has a time called the opening hour. The opening hour of the shop is usually 8 AM. A shop has a time called the closing hour. A shop usually has closing hour 6 PM.\n\nCheck going to a shop (called the target):\n\tif the time of day is before the opening hour of the target,\n\t\tsay &quot;[The target] is locked up until [the opening hour of the target].&quot; instead.\n\nCheck going to a shop (called the target):\n\tif the time of day is after the closing hour of the target,\n\t\tsay &quot;[The target] has been closed since [the closing hour of the target].&quot;\n\n\nA street is a kind of room.\n\nAfter looking in a street:\n\tif a currently open shop is adjacent to the location, say &quot;From here you can go into [list of currently open shops adjacent to the location]. &quot;;\n\tif a currently closed shop is adjacent to the location, say &quot;There [is/are list of currently closed shops adjacent to the location] nearby, but you can\'t go in at this hour. &quot;;\n\tsay paragraph break.\n\nMain Street is a street. The Quilt Shop is a shop. It is east of Main Street. The opening hour of the Quilt Shop is 9:15 AM. The closing hour of the Quilt Shop is 9:20 AM.\n\nDefinition: a shop is currently open:\n\tif the time of day is after the closing hour of it, no;\n\tif the time of day is before the opening hour of it, no;\n\tyes.\n\nDefinition: a shop is currently closed if it is not currently open.\n\nEvery turn when the location is a shop:\n\tlet deadline be the closing hour of the location;\n\tif the deadline is before the time of day\n\tbegin;\n\t\tlet target be a random adjacent room which is not a shop;\n\t\t[let the clerk be a random visible person who is employed by the location;]\n\t\tlet the clerk be a random visible person who staffs the location;\n\t\tsay &quot;[if the clerk is a person][The clerk] ushers you to the door[otherwise]You are gently but firmly ushered out[end if], since [the location] is closing.&quot;;\n\t\tmove the player to the target;\n\tend if.\n\n[Employment relates one shop to various people. The verb to employ (it employs, they employ, it is employing, it is employed) implies the employment relation.\n\nMrs Russell is a woman in Main Street. Mrs Petronov is a woman in the Quilt Shop. The Quilt Shop employs Mrs Petronov.]\n\nStaffing relates various people to one shop. The verb to staff (it staffs, they staff, it is staffed) implies the staffing relation.\n\nMrs Russell is a woman in Main Street. Mrs Petronov is a woman in the Quilt Shop. Mrs Petronov staffs the Quilt Shop.\n\n\n\n\n\n')"><img border=0 src=paste.png></a> When play begins: change the right hand status line to &quot;[time of day]&quot;
+<blockquote><font color="#000080">Standard Rules version 1/040731
+<br>Locksmith by Emily Short
+<br>Tupperware by Emily Short
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A shop is a kind of room. A shop has a time called the opening hour. The opening hour of the shop is usually 8 AM. A shop has a time called the closing hour. A shop usually has closing hour 6 PM.
+<p>However, fuller documentation is also given if the extensions in question provide it. This text should be written as briefly as possible, while giving examples wherever appropriate. Stylistically, it should ideally follow the model of the main Inform documentation: just as an extension expands the standard rules, so its documentation expands this manual. &quot;We need...&quot; is preferred to &quot;You need...&quot;, and so on: we're all in this together.
+<p>
+<p>The text should appear at the foot of the extension file, <i>after</i> the compulsory end sentence. The first paragraph should consist of the single word &quot;&lt;Documentation&gt;&quot;. For instance, the &quot;Ducking Action&quot; example might end:
+<p>
+<blockquote><font color="#000080">The Ducking Action ends here.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check going to a shop (called the target):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is before the opening hour of the target,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The target] is locked up until [the opening hour of the target].&quot; instead.
+<blockquote><font color="#000080">&lt;Documentation&gt;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check going to a shop (called the target):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is after the closing hour of the target,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The target] has been closed since [the closing hour of the target].&quot;
+<blockquote><font color="#000080">This is a modest extension, with much to be modest about. It allows us to use a new action for ducking, as in ducking the player's head (not as in ducking a witch). Ducking will do nothing unless rules are added:
 </font></blockquote><p>
 <p>
-<p>
-<blockquote><font color="#000080">A street is a kind of room.
+<blockquote><font color="#000080">+&nbsp;&nbsp;&nbsp;Instead of ducking in the Shooting Gallery, say &quot;Too late!&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After looking in a street:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if a currently open shop is adjacent to the location, say &quot;From here you can go into [list of currently open shops adjacent to the location]. &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if a currently closed shop is adjacent to the location, say &quot;There [is/are list of currently closed shops adjacent to the location] nearby, but you can't go in at this hour. &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say paragraph break.
+<p>We obtain indented code examples (in blue) by beginning a line with a plus sign followed by a tab (not by spaces). A double indentation can be got with plus, tab, plus, tab, and so forth.
+<p>
+<blockquote><font color="#000080">+&nbsp;&nbsp;&nbsp;Before opening or pushing the chest when something is on the lid:
+<br>+&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;say &quot;(first taking [the list of things on the lid])[line break]&quot;;
+<br>+&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;repeat with item running through things on the lid begin;
+<br>+&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;try taking the item;
+<br>+&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Main Street is a street. The Quilt Shop is a shop. It is east of Main Street. The opening hour of the Quilt Shop is 9:15 AM. The closing hour of the Quilt Shop is 9:20 AM.
+<p>will be rendered thus:
+<p>
+<blockquote><font color="#000080">Before opening or pushing the chest when something is on the lid:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first taking [the list of things on the lid])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through things on the lid begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try taking the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Definition: a shop is currently open:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is after the closing hour of it, no;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is before the opening hour of it, no;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;yes.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Definition: a shop is currently closed if it is not currently open.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn when the location is a shop:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let deadline be the closing hour of the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the deadline is before the time of day
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let target be a random adjacent room which is not a shop;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[let the clerk be a random visible person who is employed by the location;]
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the clerk be a random visible person who staffs the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[if the clerk is a person][The clerk] ushers you to the door[otherwise]You are gently but firmly ushered out[end if], since [the location] is closing.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the player to the target;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">[Employment relates one shop to various people. The verb to employ (it employs, they employ, it is employing, it is employed) implies the employment relation.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Mrs Russell is a woman in Main Street. Mrs Petronov is a woman in the Quilt Shop. The Quilt Shop employs Mrs Petronov.]
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Staffing relates various people to one shop. The verb to staff (it staffs, they staff, it is staffed) implies the staffing relation.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Mrs Russell is a woman in Main Street. Mrs Petronov is a woman in the Quilt Shop. Mrs Petronov staffs the Quilt Shop.
-</font></blockquote><p>
-<p>
-<p>
-<p>
-<p>
-<p><i>What goes wrong:</i>
-<p>
-<p>
-<p>You wrote 'Mrs Petronov staffs the Quilt Shop'  : but the property Staffing relates for the Mrs Petronov is not allowed to exist, because you haven't said it is. What properties something can have depends on what kind of thing it is: see the Index for details.
-<p>
-<p>
-<p>
-<p>
-<p><i>Comments:</i>
-<p>
-<p>
-<p>Am I missing something obvious about the syntax? The bracketed-out version doesn't work either.
-<p>
 <p>
 <p><hr><p><a href=doc293.html>Previous</a> / <a href=doc295.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

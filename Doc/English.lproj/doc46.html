@@ -1,4 +1,4 @@
-<html><head><title>4.3. Plural assertions</title></head>
+<html><head><title>4.2. Degrees of certainty</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,37 +7,25 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc45.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc47.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.3. Plural assertions</b></td></tr></table><p>
+<table><tr><td><a href=doc45.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc47.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.2. Degrees of certainty</b></td></tr></table><p>
 <p>
-<p>As the following examples show, sentences can make several assertions at once by using the plural. Suppose we have defined a kind called &quot;high-up fixture&quot;, for instance like so:
+<p>When we write:
 <p>
-<blockquote><font color="#000080">A high-up fixture is a kind of thing. A high-up fixture is usually fixed in place.
+<blockquote><font color="#000080">A dead end is usually dark.
 </font></blockquote><p>
 <p>
-<p>Then the following sentence creates two such objects and puts them in their place:
+<p>we are saying that it will be dark rather than lighted unless we should specify otherwise. So it would be fine to add:
 <p>
-<blockquote><font color="#000080">The high shelf and the skylight window are high-up fixtures in the Lumber Room.
+<blockquote><font color="#000080">The Tortuous Alcove is lighted.
 </font></blockquote><p>
 <p>
-<p>since it is equivalent to saying:
+<p>because although dead ends are usually dark, this one is evidently an exception. On the other hand, if we had originally written
 <p>
-<blockquote><font color="#000080">The high shelf is a high-up fixture. The skylight window is a high-up fixture. The high shelf is in the Lumber Room. The skylight window is in the Lumber Room.
+<blockquote><font color="#000080">A dead end is always dark.
 </font></blockquote><p>
 <p>
-<p>Such plurals are allowed in almost any context, and we could even define two kinds at once:
+<p>then Inform would not have permitted any exception to be made, and would have reported a problem if we had tried to make the Tortuous Alcove lighted. Besides &quot;usually&quot; and &quot;always&quot;, we can also employ &quot;seldom&quot; and &quot;never&quot;, which are their negatives. Thus, &quot;never lighted&quot; means the same as &quot;always dark&quot;.
 <p>
-<blockquote><font color="#000080">Bucket and basket are kinds of container.
-</font></blockquote><p>
-<p>
-<p>Inform constructs plurals by a fairly primitive rule, and English is so irregular a language that a more complicated rule would probably not be very much better. We sometimes need to intervene:
-<p>
-<blockquote><font color="#000080">The plural of ox is oxen. An ox is a kind of animal.
-</font></blockquote><p>
-<p>
-<p>Note that we specify the plural <i>before</i> creating the kind called &quot;ox&quot;: otherwise it will have plural &quot;oxes&quot;, that being the best that Inform knew at the time.
-<p>
-<p>A particular case worth mentioning: as far as Inform is concerned, the plural of &quot;person&quot; is &quot;people&quot;, not &quot;persons&quot;.
-<p>
-<p><hr><img border=0 src=beta.png>For the time being, please avoid syllepsis such as &quot;Darcy is wearing a hat and carrying a fishing rod.&quot;, where the &quot;and&quot; couples together prepositions (or verbs) rather than nouns.
-<p>
+<p><hr><p>
+<a name="e106"><a href=ex106.html#e106><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A staircase always open and never openable.</i><p>
 <p><hr><p><a href=doc45.html>Previous</a> / <a href=doc47.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

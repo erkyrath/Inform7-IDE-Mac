@@ -1,4 +1,4 @@
-<html><head><title>15.16. Understanding mistakes</title></head>
+<html><head><title>16.17. Supplying a missing noun/second noun</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,102 +7,78 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc227.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc229.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.16. Understanding mistakes</b></td></tr></table><p>
+<table><tr><td><a href=doc249.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc251.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.17. Supplying a missing noun/second noun</b></td></tr></table><p>
 <p>
-<p>When inspiration strikes the player, he can usually be relied upon to make a good-faith effort to communicate the new idea: he will guess the right command. If he guesses wrongly, the mistake is probably the author's, because a good author will try to anticipate all possible wordings and make all of them work.
+<p><b>1. When it happens.</b> (Two different activities here, but identical except for applying to different nouns.) Suppose that, because of an instruction to Understand something even though it would be lacking a noun - say, 'Understand &quot;take&quot; as taking.' - an incomplete action is generated, one which is required to have a noun, but doesn't. &quot;Supplying a missing noun&quot; takes place to remedy the problem. It can either:
 <p>
-<p>Nevertheless it is sometimes good practice to nudge the player towards the right wording - particularly if the player has the right idea but is not explicit enough: for instance, typing TALK TO JUDGE when we really want to know what is to be said (JUDGE, GUILTY); or if the player tries something like PLAY CHESS rather than MOVE PAWN TO KING 4. Similarly, if we make a casual reference such as &quot;In your childhood days, you loved sliding in stocking feet across this hallway&quot;, a player might type SLIDE IN STOCKING FEET: a nice idea, and which deserves a nice response, even though it asks to do something beyond the scope of the game.
+<p>(i) Set a noun, printing text like &quot;(presumably the black bag)&quot; if it wants, in which case the action goes forward, though it is still subject to the full rules on accessibility exactly as any other action would be; or
 <p>
-<p>Inform provides a simple mechanism for recognising a command but at the same time recognising that <i>it does not properly specify an action</i>. Such commands are called &quot;mistakes&quot;, for the sake of a memorable term, but the player has not really behaved badly, and should be helped rather than reproved. For instance:
+<p>(ii) Make no choice, in which case no action takes place and the player's command is rejected. If the activity printed nothing, Inform will produce a generic reply to the player that &quot;You must supply a noun.&quot;.
 <p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake.
+<p><b>2. The default behaviour.</b> In the default grammar for Inform, only three such half-finished actions are ever Understood. One is &quot;going&quot; with no direction, for which this activity simply prints a refusal. The other two are the two undirected senses, &quot;smelling&quot; and &quot;listening&quot;. In each case, the &quot;supplying a missing noun&quot; activity sets the noun to the current location: so, for instance, typing the bare command &quot;listen&quot; might generate the action &quot;listening to the Shoreline&quot;.
+<p>
+<p><b>3. Examples.</b> (a) This is the definition Inform uses to make &quot;listen&quot; work as outlined above:
+<p>
+<blockquote><font color="#000080">Rule for supplying a missing noun while listening (this is the ambient sound rule): change the noun to the location.
 </font></blockquote><p>
 <p>
-<p>While that works - the command to &quot;act&quot; is indeed rejected - it is not very good, because no very helpful message is brought up. The following is much better:
+<p>(b) It can be elegant to allow second nouns to be dropped with habitual actions, or where the choice is obvious:
 <p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;).
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;unlock [something]&quot; as unlocking it with.\n\nRule for supplying a missing second noun while unlocking:\n\tif the skeleton key is carried, change the second noun to the skeleton key;\n\totherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;\n\n\n\n')"><img border=0 src=paste.png></a> Understand &quot;unlock [something]&quot; as unlocking it with.
 </font></blockquote><p>
 <p>
-<p>Or we could once again insist on a given context:
-<p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
+<blockquote><font color="#000080">Rule for supplying a missing second noun while unlocking:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the skeleton key is carried, change the second noun to the skeleton key;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;
 </font></blockquote><p>
 <p>
-<p>That still has the drawback that the command &quot;act hamlet&quot; will not be recognised: so the final version we want is probably
-<p>
-<blockquote><font color="#000080">Understand &quot;act [text]&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
-</font></blockquote><p>
-<p>
-<p>since the &quot;[text]&quot; part will soak up any words the player types (or none), meaning that any command at all whose first word is &quot;act&quot; will be matched.
-<p>
-<p>If we are careful, we can make the reply depend on what was typed in the mistaken command:
-<p>
-<blockquote><font color="#000080">Understand &quot;steal [something]&quot; as a mistake (&quot;Just TAKE [the noun] and leave without paying: that's stealing in my book.&quot;).
-</font></blockquote><p>
-<p>
-<p>The care comes in because Inform applies much less checking to mistakes than to other actions, and odd errors will result if we try to refer to (say) &quot;the second noun&quot; in a command which did not have a second noun.
 <p>
 <p><hr><p>
-<a name="e106"><a href=ex106.html#e106><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>If the player tries to TALK TO a character, suggest alternative modes of conversation.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e39"><a href=doc228.html#e39><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Responding to references to a property that the player isn't yet allowed to mention (or when not to use "understand as a mistake").</i><p>
+<a name="e125"><a href=ex125.html#e125><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Supplying a default direction for "go", so that "leave", "go", etc., are always interpreted as "out".</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e39"><a href=doc250.html#e39><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>DIG implementation which digs a hole in the location (without requiring the player to type DIG GROUND or something similar).</i><p>
 <p>
-<p>Suppose we have a situation where the player is allowed to talk about the heat of an object only if he's properly equipped to detect it.
+<p>Suppose that we want to have the player dig a number of holes in various places around the game map...
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Hot Glass Looks Like Cold Glass&quot;\n\nHeat is a kind of value. The heats are hot, warm, room temperature, or cold. A thing has a heat.\n\nUnderstand the heat property as referring to a thing when the player wears the infrared goggles.\n\nThe Test Kitchen is a room. &quot;Your own personal preserve, ready for the scrupulously scientific experiment into recipes. You hope. The previous three runs of this did not go well.&quot; The pair of infrared goggles is carried by the player. The description is &quot;A pair of head-mounted IR goggles which look very foolish when worn.&quot; The goggles are wearable.\n\nA glass dish is a kind of container. A glass dish is transparent. Three room temperature glass dishes are on the counter. Two hot glass dishes are on the counter. Two cold glass dishes are on the counter. The counter is scenery in the Test Kitchen.\n\nInstead of doing something other than examining to a hot dish:\n\tsay &quot;Ow! Crikey! You swear, and Claudia makes a sympathetic hiss. \'You\'re going to have a mark from that for sure,\' she comments.&quot;;\n\taward -2 points.\n\nInstead of doing something when a hot dish is the second noun:\n\tsay &quot;You brush [the second noun], and wince, but manage to conceal that from Claudia.&quot;;\n\taward -1 points.\n\nBefore printing the name of a dish when the player wears the goggles: say &quot;[heat] &quot;\n\nBefore printing the plural name of a dish when the player wears the goggles: say &quot;[heat] &quot;\n\n[So far, so good. Now, what if the player tries to GET HOT DISH when the goggles are off? &quot;You can\'t see any such thing.&quot; doesn\'t seem like quite the right response: he can see such a thing. He just doesn\'t know which it is.]\n\n[We could go on to write a mistake rule that would scold the player for trying &quot;get [heat] [text]&quot; when not wearing the goggles. The problem is that this would not cover any other phrasing of the command, nor would it account for all the many other things the player might try to do with an object specified by heat.]\n\n[What we really want is to catch all instances of the player using the property name when not allowed to do so; and for this purpose we can borrow a trick from the chapter on Activities:]\n\nAfter reading a command:\n\tif the player wears the goggles, make no decision;\n\tif the player\'s command includes &quot;[heat]&quot;\n\tbegin;\n\t\tsay &quot;Without the IR goggles on, you cannot tell hot things from cold at sight.&quot;;\n\t\trule succeeds;\n\tend if.\n\nClaudia is a woman in the Test Kitchen. &quot;Your assistant Claudia stands by with [list of things carried by Claudia].&quot; The description of Claudia is &quot;Infinitely patient and a very good stenographer. She is studiously avoiding giving you any sort of look that might be construed as mocking.&quot; Claudia carries a notepad, a brined chicken breast, a blowtorch, and a cup of heavy cream. She is transparent.\n\nInstead of asking Claudia for something which is carried by Claudia:\n\tmove the second noun to the player;\n\tsay &quot;\'Check, [second noun],\' repeats Claudia, in the tone of one who has seen too many medical dramas. She does hand it over, though.&quot;\n\nInstead of asking Claudia for something:\n\tsay &quot;She clears her throat faintly and glances at [the second noun], as though to say that it\'s not hers to give.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Hot Glass Looks Like Cold Glass&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;For Joe&quot;\n\nA room has a number called the grave count. The grave count of a room is usually 0. The description of a room is usually &quot;You observe [grave count of the location in words] open grave[s] here.&quot;.\n\nThe Well-kept Lawn is a room. The Overgrown Patch is east of the Well-kept Lawn. The shovel is in the Overgrown Patch. &quot;A shovel lies among weeds.&quot;\n\nNorth of the Lawn is the Bare Dirt. South of the Lawn is Mossy Turf.\n\nProcedural rule: ignore block digging rule.\n\nUnderstand &quot;dig&quot; as digging.\n\nRule for supplying a missing noun while digging: change the noun to the location.\n\nCheck digging:\n\tif the player is not carrying the shovel, say &quot;Not with your bare hands, you don\'t.&quot; instead;\n\tif the noun is not the location, say &quot;That\'s a pretty odd idea.&quot; instead.\n\nCarry out digging:\n\tchange the grave count of the location to grave count of the location plus 1;\n\nReport digging:\n\tsay &quot;You can now observe [grave count of the location in words] open grave[s] in here!&quot;\n\nThe graves are a backdrop. The graves are everywhere. Understand &quot;grave&quot; as the graves. The description of the graves is &quot;You make out [grave count of the location in words] open grave[s].&quot;\n\nInstead of examining the graves when the grave count of the location is 0:\n\tsay &quot;There are no open graves.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;For Joe&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Heat is a kind of value. The heats are hot, warm, room temperature, or cold. A thing has a heat.
+<blockquote><font color="#000080">A room has a number called the grave count. The grave count of a room is usually 0. The description of a room is usually &quot;You observe [grave count of the location in words] open grave[s] here.&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand the heat property as referring to a thing when the player wears the infrared goggles.
+<blockquote><font color="#000080">The Well-kept Lawn is a room. The Overgrown Patch is east of the Well-kept Lawn. The shovel is in the Overgrown Patch. &quot;A shovel lies among weeds.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Test Kitchen is a room. &quot;Your own personal preserve, ready for the scrupulously scientific experiment into recipes. You hope. The previous three runs of this did not go well.&quot; The pair of infrared goggles is carried by the player. The description is &quot;A pair of head-mounted IR goggles which look very foolish when worn.&quot; The goggles are wearable.
+<blockquote><font color="#000080">North of the Lawn is the Bare Dirt. South of the Lawn is Mossy Turf.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A glass dish is a kind of container. A glass dish is transparent. Three room temperature glass dishes are on the counter. Two hot glass dishes are on the counter. Two cold glass dishes are on the counter. The counter is scenery in the Test Kitchen.
+<blockquote><font color="#000080">Procedural rule: ignore block digging rule.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of doing something other than examining to a hot dish:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ow! Crikey! You swear, and Claudia makes a sympathetic hiss. 'You're going to have a mark from that for sure,' she comments.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;award -2 points.
+<blockquote><font color="#000080">Understand &quot;dig&quot; as digging.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of doing something when a hot dish is the second noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You brush [the second noun], and wince, but manage to conceal that from Claudia.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;award -1 points.
+<blockquote><font color="#000080">Rule for supplying a missing noun while digging: change the noun to the location.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before printing the name of a dish when the player wears the goggles: say &quot;[heat] &quot;
+<blockquote><font color="#000080">Check digging:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is not carrying the shovel, say &quot;Not with your bare hands, you don't.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is not the location, say &quot;That's a pretty odd idea.&quot; instead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before printing the plural name of a dish when the player wears the goggles: say &quot;[heat] &quot;
+<blockquote><font color="#000080">Carry out digging:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the grave count of the location to grave count of the location plus 1;
 </font></blockquote><p>
 <p>
-<p>So far, so good. Now, what if the player tries to GET HOT DISH when the goggles are off? &quot;You can't see any such thing.&quot; doesn't seem like quite the right response: he can see such a thing. He just doesn't know which it is.
-<p>
-<p>We could go on to write a mistake rule that would scold the player for trying &quot;get [heat] [text]&quot; when not wearing the goggles. The problem is that this would not cover any other phrasing of the command, nor would it account for all the many other things the player might try to do with an object specified by heat.
-<p>
-<p>What we really want is to catch all instances of the player using the property name when not allowed to do so; and for this purpose we can borrow a trick from the chapter on Activities:
-<p>
-<blockquote><font color="#000080">After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player wears the goggles, make no decision;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;[heat]&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Without the IR goggles on, you cannot tell hot things from cold at sight.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">Report digging:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You can now observe [grave count of the location in words] open grave[s] in here!&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Claudia is a woman in the Test Kitchen. &quot;Your assistant Claudia stands by with [list of things carried by Claudia].&quot; The description of Claudia is &quot;Infinitely patient and a very good stenographer. She is studiously avoiding giving you any sort of look that might be construed as mocking.&quot; Claudia carries a notepad, a brined chicken breast, a blowtorch, and a cup of heavy cream. She is transparent.
+<blockquote><font color="#000080">The graves are a backdrop. The graves are everywhere. Understand &quot;grave&quot; as the graves. The description of the graves is &quot;You make out [grave count of the location in words] open grave[s].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of asking Claudia for something which is carried by Claudia:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the second noun to the player;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Check, [second noun],' repeats Claudia, in the tone of one who has seen too many medical dramas. She does hand it over, though.&quot;
+<blockquote><font color="#000080">Instead of examining the graves when the grave count of the location is 0:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;There are no open graves.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of asking Claudia for something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;She clears her throat faintly and glances at [the second noun], as though to say that it's not hers to give.&quot;
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc227.html>Previous</a> / <a href=doc229.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>...And there we are.
+</td></tr></table><p><p><hr><p><a href=doc249.html>Previous</a> / <a href=doc251.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

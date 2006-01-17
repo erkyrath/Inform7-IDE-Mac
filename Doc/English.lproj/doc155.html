@@ -1,4 +1,4 @@
-<html><head><title>11.2. How actions are processed</title></head>
+<html><head><title>11.3. Giving instructions to other people</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,16 +7,33 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc154.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc156.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.2. How actions are processed</b></td></tr></table><p>
+<table><tr><td><a href=doc154.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc156.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.3. Giving instructions to other people</b></td></tr></table><p>
 <p>
-<p>The following flow chart shows the natural course of events when Inform deals with a new action - a &quot;taking&quot; action in the case drawn. For quite a long time, the action may still fail, and it may be that nothing actually happens: but eventually a deciding line is crossed, and once that happens the action will certainly succeed.
-<p><p><img src=achart.png><p>
-<p>The coloured boxes on this chart represent &quot;rulebooks&quot;, that is, collections of rules with a common purpose. The orange boxes for Before, Instead and After were covered in the Basic Actions chapter, but the blue boxes are new. The orange boxes are where we put rules to handle unusual situations, or unexpected events: special rules to cover the opening of a container which happens to be booby-trapped, or walking through a doorway into a room where a surprise party is about to be sprung.
+<p>So far, all actions have been carried out by the player: which is fine for exploring the passive world of an empty warehouse, but less good for a drama in which other characters have to be contended with. In fact, an action can be carried out by anybody - by any instance of the &quot;person&quot; kind, that is, which includes all the men, women and animals in the game, and not only the player.
 <p>
-<p>Blue boxes hold the mundane, everyday rules - the generic ways that particular actions behave. Every action provides these: &quot;Check&quot; rules, to see if it makes sense - for instance, to see that the player is not trying to take his or her own body, or a whole room, or something he or she already has; then &quot;Carry out&quot; rules, to actually do what the action is supposed to do - in the case of taking, to move an object into the player's possession; and finally &quot;Report&quot; rules, which tell the player what has happened - perhaps printing up &quot;Taken.&quot;
+<p>In interactive fiction, players conventionally ask other characters to do something with commands like so:
 <p>
-<p>When we create a new action, we add a new column to the blue rows in this diagram. As we shall see, we can also put new rules into the existing blue boxes: for instance, if we wanted to increase physical realism by forbidding the player to carry more than a certain weight, we would want to add a new &quot;check taking&quot; rule, and this is entirely legal.
+<blockquote><font color="#000080">> will, go west
+</font></blockquote><p>
 <p>
-<p>In subsequent chapters, we will see ways to intervene at almost every point in the above diagram - from how &quot;Can we see or touch things?&quot; is reckoned, to each and every individual rule in all of these books. Action-processing may be the single most important thing Inform does, so the system is designed to be immensely flexible. On the other hand, that does make it a lot to take in at one look. Newcomers should probably concentrate on &quot;Instead&quot; and &quot;After&quot; as the basic tools for designing the situations turning up routinely in interactive fiction. There are guidelines at the end of this chapter offering advice on which tricks to use when it comes to more complicated needs.
+<p>Clearly &quot;will, go west&quot; should not produce the same action as &quot;go west&quot;, because a different person will be trying it: this person is called the &quot;actor&quot;, and while the actor is ordinarily the player, here it is the character called Will. Inform distinguishes these two actions like so:
 <p>
+<blockquote><font color="#000080">going west
+<br>asking Will to try going west
+</font></blockquote><p>
+<p>
+<p>As a result, we can write rules like so:
+<p>
+<blockquote><font color="#000080">Instead of asking Will to try going west, say &quot;Will scratches his head, baffled by this talk of westward. Is not the ocean without bound?&quot;
+</font></blockquote><p>
+<p>
+<p>To write rules like this, we sometimes want to generalise about who is supposed to do the deed. To do this we can refer to &quot;person asked&quot;, just as the &quot;noun&quot; stands for whatever noun was typed:
+<p>
+<blockquote><font color="#000080">Instead of asking somebody to take something, say &quot;I don't think we ought to tempt [the person asked] into theft, surely?&quot;
+</font></blockquote><p>
+<p>
+<p>So if the player types &quot;Algy, take sandwich&quot;, the &quot;person asked&quot; would be Algy; the &quot;noun&quot; would be the sandwich; and there would be no &quot;second noun&quot;.
+<p>
+<p><hr><p>
+<a name="e64"><a href=ex64.html#e64><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A person who can accept instructions to go to new destinations and move towards them according to the most reasonable path.</i><p>
 <p><hr><p><a href=doc154.html>Previous</a> / <a href=doc156.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

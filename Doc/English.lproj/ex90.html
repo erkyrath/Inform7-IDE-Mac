@@ -1,4 +1,4 @@
-<html><head><title>14.13. Topic columns</title></head>
+<html><head><title>9.6. More general linkages</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,72 +7,74 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc209.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc211.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.13. Topic columns</b></td></tr></table><p>
+<table><tr><td><a href=doc133.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc135.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.6. More general linkages</b></td></tr></table><p>
 <p>
-<p>When double-quoted matter appears in a column of a table, Inform will normally treat that as text for printing out. The exception is when the column is called &quot;topic&quot;, where it is treated as text for comparing against what the player has typed. There is really only one operation allowed with topic columns, the &quot;...listed in...&quot; construction, but fortunately it is the one most often needed.
+<p>We are allowed to link the beginning or end of any scene to the beginning or end of any other scene. So, for instance:
 <p>
-<p>Let us suppose that the Sybil has a penchant for telling passers-by which is the Greek muse for what. We might write:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After asking the Sybil about a topic listed in the Table of Sybil\'s Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;\n\n\n')"><img border=0 src=paste.png></a> After asking the Sybil about a topic listed in the Table of Sybil's Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;
+<blockquote><font color="#000080">Luggage Trouble is a scene. Luggage Trouble begins when Brief Encounter begins.
 </font></blockquote><p>
 <p>
-<p>We can then provide a simple table giving her responses:
+<p>Thus the two scenes run concurrently, at least for a while. We can also add that:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Table of Sybil\'s replies\nTopic\tMuse\n&quot;calliope&quot;\t&quot;epic poetry&quot;\n&quot;clio&quot;\t&quot;history&quot;\n&quot;erato&quot;\t&quot;love poetry&quot;\n&quot;euterpe&quot;\t&quot;music&quot;\n&quot;melpomene&quot;\t&quot;tragedy&quot;\n&quot;polyhymnia&quot;\t&quot;sacred poetry&quot;\n&quot;terpsichore&quot;\t&quot;dancing&quot;\n&quot;thalia&quot;\t&quot;comedy&quot;\n&quot;urania&quot;\t&quot;astronomy&quot;\n&quot;monica&quot;\t&quot;tidiness&quot;\n&quot;phoebe&quot;\t&quot;massage&quot;\n&quot;rachel&quot;\t&quot;oval hair-cuts&quot;\n\n\n')"><img border=0 src=paste.png></a> Table of Sybil's replies
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Muse</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;calliope&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;epic poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;clio&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;history&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;erato&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;love poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;euterpe&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;music&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;melpomene&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;tragedy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;polyhymnia&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;sacred poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;terpsichore&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;dancing&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;thalia&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;comedy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;urania&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;astronomy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;monica&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;tidiness&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;phoebe&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;massage&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;rachel&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;oval hair-cuts&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">Luggage Trouble ends when Brief Encounter ends.
 </font></blockquote><p>
 <p>
-<p>Topics can use the full range of abilities of the &quot;understanding&quot; system which Inform uses to parse text, and which will be the subject of a later chapter. For now, note that the Sybil's topics might equally include &quot;flora/eve&quot; (matching the single word &quot;flora&quot; or the single word &quot;eve&quot;), or something more elaborate such as:
+<p>This can be useful when a large, complicated scene really contains several smaller sub-scenes.
 <p>
-<blockquote><font color="#000080">&quot;Bridget&quot; or &quot;Bridge&quot; or &quot;Bridget Jones&quot;
+<p>A special exceptional case is that we can have any scene or scenes starting right at the outset:
+<p>
+<blockquote><font color="#000080">Railway Meeting is a scene. Railway Meeting begins when play begins.
 </font></blockquote><p>
+<p>
+<p>When play ends, of course, all scenes end, so there is no need to say that.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e90"><a href=doc210.html#e90><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A REMEMBER command which accepts any text and looks up a response in a table of recollections.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e90"><a href=doc134.html#e90><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Scenes used to provide pacing while the player goes through his possessions.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Merlin&quot;\n\nUnderstand &quot;remember [text]&quot; as remembering.\n\nRemembering is an action applying to one topic.\n\nCarry out remembering:\n\tsay &quot;Nothing comes to mind.&quot;.\n\nInstead of remembering a topic listed in the Table of Recollections:\n\tsay &quot;[response entry][paragraph break]&quot;.\n\nTable of Recollections\nTopic\tResponse\n&quot;rain/weather&quot;\t&quot;You\'ve seen worse, but not often: it\'s falling so hard now that the tin rattles and the runoff, on the low side of the roof, would be a tenable source of hydroelectric power.&quot;\n&quot;hydroelectric power&quot; or &quot;power/hydroelectric&quot;\t&quot;It\'s not as though you have any sort of light bulb in here to turn on, even if you could power it.&quot;\n&quot;light bulb&quot; or &quot;light/bulb&quot;\t&quot;Light bulbs, like so much else, are a thing of your past. Or is it your future? Tricky, the way the world loops round on itself.&quot;\n&quot;past/time/future&quot;\t&quot;Living backwards has its drawbacks. A tendency to confuse and annoy your friends, being one; the total inability to maintain a stable relationship; and a deep dissatisfaction with most of the bodily processes people enjoy, since they ultimately make you hungrier, colder, or-- no point dwelling on it, really.&quot;\n&quot;backwards&quot;\t&quot;It\'s not even exactly *backwards*, now is it? It\'s more like a series of forwardses stuck back to back. As though someone had taken each track of a CD and put them in the exactly wrong order. You miss that. The music on demand.&quot;\n\nThe Inadequate Shelter is a room. &quot;A piece of corrugated tin, leaned on two sticks, and pathetically augmented with a tire (on one side) and a cardboard box (on the side towards the wind). And that\'s what you\'ve got between you and the driving rain.\n\nAt the moment rain is all you can remember, in fact.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Merlin&quot;
+<p>Suppose we want to remind the player that he doesn't have all the time in the world, by starting to nag him when he's nearly, but not entirely, done going over his inventory in preparation for a job.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Prague Job&quot;\n\nA thing can be seen or unseen. A thing is usually unseen. Carry out examining: now the noun is seen.\n\nThe player carries a lockpick, a smoke bomb, a grappling hook, and a pair of gloves. The description of the lockpick is &quot;Effective on most kinds of key locks, it is a gift from your mentor in the discipline, old Wheezy.&quot; The description of the smoke bomb is &quot;Your last of these, so you should rely on it only when other modes of escape have vanished. It takes effect when dropped, producing a cloud of purple haze sufficient to fill a medium-sized room.&quot; The description of the grappling hook is &quot;Good for shooting at balconies and other sorts of overhang.&quot;  The gloves are wearable. The description of the gloves is &quot;Black and shiny, with gripping material on the palms. Batman would be jealous.&quot;\n\nThe Toilet is a room. &quot;The walls are painted an unattractive green; the fixtures are a bit old. But it is the only place in the hostel with any privacy.&quot; The Long Hallway is outside from the Toilet.\n\nReviewing Possessions is a scene. Reviewing Possessions begins when play begins.\n\nEscalating Danger is a scene. Reviewing Possessions ends when Escalating Danger begins. Escalating Danger begins when preparations near completion.\n\nTo decide whether preparations near completion:\n\tif Escalating Danger has happened, no;\n\tif at least two of the things which are carried by the player are seen, yes;\n\tno.\n\nWhen Escalating Danger begins: say &quot;Someone pounds on the door of your hideout and yells at you in Czech.&quot;\n\nInstead of going from the Toilet during Reviewing Possessions: say &quot;You need to go over your equipment first, and make sure you\'re ready here.&quot;\n\nInstead of going from the Toilet during Escalating Danger: say &quot;You\'re not done checking over your materials.&quot;\n\nInstead of waiting during Escalating Danger: say &quot;There\'s no time to waste.&quot;\n\nEvery turn during Escalating Danger: if the time since Escalating Danger began is greater than 1, say &quot;Impatient footsteps pass your door again.&quot;\n\nEscalating Danger ends when every thing which is carried by the player is seen. When Escalating Danger ends, say &quot;There -- nothing damaged or torn. You\'re ready to go.&quot;\n\nMission is a scene. Mission begins when the player is in the Long Hallway.\n\n')"><img border=0 src=paste.png></a> &quot;The Prague Job&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;remember [text]&quot; as remembering.
+<blockquote><font color="#000080">A thing can be seen or unseen. A thing is usually unseen. Carry out examining: now the noun is seen.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Remembering is an action applying to one topic.
+<blockquote><font color="#000080">The player carries a lockpick, a smoke bomb, a grappling hook, and a pair of gloves. The description of the lockpick is &quot;Effective on most kinds of key locks, it is a gift from your mentor in the discipline, old Wheezy.&quot; The description of the smoke bomb is &quot;Your last of these, so you should rely on it only when other modes of escape have vanished. It takes effect when dropped, producing a cloud of purple haze sufficient to fill a medium-sized room.&quot; The description of the grappling hook is &quot;Good for shooting at balconies and other sorts of overhang.&quot;  The gloves are wearable. The description of the gloves is &quot;Black and shiny, with gripping material on the palms. Batman would be jealous.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out remembering:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing comes to mind.&quot;.
+<blockquote><font color="#000080">The Toilet is a room. &quot;The walls are painted an unattractive green; the fixtures are a bit old. But it is the only place in the hostel with any privacy.&quot; The Long Hallway is outside from the Toilet.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of remembering a topic listed in the Table of Recollections:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[response entry][paragraph break]&quot;.
+<blockquote><font color="#000080">Reviewing Possessions is a scene. Reviewing Possessions begins when play begins.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Recollections
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Response</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;rain/weather&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;You've seen worse, but not often: it's falling so hard now that the tin rattles and the runoff, on the low side of the roof, would be a tenable source of hydroelectric power.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;hydroelectric power&quot; or &quot;power/hydroelectric&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;It's not as though you have any sort of light bulb in here to turn on, even if you could power it.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;light bulb&quot; or &quot;light/bulb&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Light bulbs, like so much else, are a thing of your past. Or is it your future? Tricky, the way the world loops round on itself.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;past/time/future&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Living backwards has its drawbacks. A tendency to confuse and annoy your friends, being one; the total inability to maintain a stable relationship; and a deep dissatisfaction with most of the bodily processes people enjoy, since they ultimately make you hungrier, colder, or-- no point dwelling on it, really.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;backwards&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;It's not even exactly *backwards*, now is it? It's more like a series of forwardses stuck back to back. As though someone had taken each track of a CD and put them in the exactly wrong order. You miss that. The music on demand.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">Escalating Danger is a scene. Reviewing Possessions ends when Escalating Danger begins. Escalating Danger begins when preparations near completion.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Inadequate Shelter is a room. &quot;A piece of corrugated tin, leaned on two sticks, and pathetically augmented with a tire (on one side) and a cardboard box (on the side towards the wind). And that's what you've got between you and the driving rain.
+<blockquote><font color="#000080">To decide whether preparations near completion:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if Escalating Danger has happened, no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if at least two of the things which are carried by the player are seen, yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;no.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At the moment rain is all you can remember, in fact.&quot;
+<blockquote><font color="#000080">When Escalating Danger begins: say &quot;Someone pounds on the door of your hideout and yells at you in Czech.&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc209.html>Previous</a> / <a href=doc211.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Instead of going from the Toilet during Reviewing Possessions: say &quot;You need to go over your equipment first, and make sure you're ready here.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going from the Toilet during Escalating Danger: say &quot;You're not done checking over your materials.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of waiting during Escalating Danger: say &quot;There's no time to waste.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn during Escalating Danger: if the time since Escalating Danger began is greater than 1, say &quot;Impatient footsteps pass your door again.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Escalating Danger ends when every thing which is carried by the player is seen. When Escalating Danger ends, say &quot;There -- nothing damaged or torn. You're ready to go.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Mission is a scene. Mission begins when the player is in the Long Hallway.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc133.html>Previous</a> / <a href=doc135.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

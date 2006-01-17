@@ -1,4 +1,4 @@
-<html><head><title>9.3. Using the Scene index</title></head>
+<html><head><title>16.18. Reading a command</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,61 +7,86 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc131.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc133.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.3. Using the Scene index</b></td></tr></table><p>
+<table><tr><td><a href=doc250.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc252.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.18. Reading a command</b></td></tr></table><p>
 <p>
-<p>But when we test the previous section's example, we find that after a brief wait, the train pulls up: but it never goes away again. We have given instructions on how the scene ends, but not when it ends, and as a result the scene goes on forever once started.
+<p><b>1. When it happens.</b> When reading a command from the keyboard.
 <p>
-<p>Even with simple story-lines, and this one could hardly be simpler, it is surprisingly easy to overlook something so that the whole story-line is derailed.
+<p><b>2. The default behaviour.</b> Print the prompt text; wait for the player to type something and press return. Reject an entirely blank line, and treat a command beginning &quot;oops&quot; is considered a correction to the previous one. This is a fairly complicated business, so it is probably best not to change the &quot;for&quot; rules for this activity: &quot;before&quot;, and especially &quot;after&quot;, are another matter.
 <p>
-<p>The Scene index is intended to help with this. At the top is a chart showing all the scenes and how they are to begin, along with a key to the symbols used on it. If we look at the Scene index for the previous example, we find that our Train Stop scene is marked with the red warning symbol for &quot;never ends&quot;. Let us fix this:
+<p><b>3. Examples.</b> (a) To lead absolute beginners in gently:
 <p>
-<blockquote><font color="#000080">Train Stop ends when the time since Train Stop began is 3 minutes.
+<blockquote><font color="#000080">Before reading a command while the turn count is 1, say &quot;(This is your chance to say what the protagonist should do next. After the '>', try typing 'take inventory'.)&quot;
 </font></blockquote><p>
 <p>
-<p>Note the useful value &quot;time since Train Stop began&quot;. (This only makes sense if the scene has begun, of course.) The actual time, in case it is needed, can be obtained with &quot;time when Train Stop began&quot;.
+<p>(b) The following responds politely but firmly if the player tries to type &quot;please look&quot;, say, instead of just &quot;look&quot;:
 <p>
-<p><hr><img border=0 src=debug.png>The testing command SCENES causes Inform to monitor the beginning and ending of scenes, and report on them. For instance:
-<p>
-<blockquote><font color="#000080">>ask monk about lodging
-<br>&quot;Welcome a poor traveler for the night?&quot; you ask, rubbing your fingers together to restore a little feeling.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;Please do not say please.&quot;;\n\t\treject the player\'s command;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Please do not say please.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject the player's command;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The monk looks you up and down for a moment and you sense his reaction hanging in the balance; then he slaps you on the back, hard enough to drive the air from your lungs. &quot;In.&quot;
+<p>To explain. Fragments of what the player has typed are called snippets: &quot;the player's command&quot; is the entire thing. (&quot;Snippet&quot; is actually a kind of value, so we could say &quot;Ah, you typed '[the player's command]'!&quot; or some such if we liked.) We can test if a snippet matches a given pattern like so:
+<p>
+<blockquote><font color="#000080">if the player's command matches &quot;room [number]&quot;, ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">[Scene 'Greeting' ends]
-<br>The monk takes your elbow and pushes you imperiously toward dinner.
-<br>[Scene 'Banquet' begins]
+<p>This requires an exact match: the weaker condition &quot;includes&quot; only means that the pattern occurs somewhere in the given snippet, so that
+<p>
+<blockquote><font color="#000080">if the player's command includes &quot;please&quot;, ...
+</font></blockquote><p>
+<p>
+<p>matches &quot;please look&quot; or &quot;look please&quot;, etc. Lastly, the phrase
+<p>
+<blockquote><font color="#000080">reject the player's command
+</font></blockquote><p>
+<p>
+<p>tells Inform not to bother analysing the text further, but to go back to the keyboard. (No time passes; no turn elapses; nothing happens in the simulated world.)
+<p>
+<p>(c) An improved version takes commands like &quot;please drop the coin&quot; and strips &quot;please&quot; from them, but then allows them to proceed normally:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;(Quelle politesse! But no need to say please.)&quot;;\n\t\tcut the matched text;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(Quelle politesse! But no need to say please.)&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut the matched text;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>&quot;Matched text&quot; is a snippet containing the words which matched against the pattern in the most recent &quot;includes&quot; condition, so in this case it contains just the single word &quot;please&quot;. Two phrases allow snippets to be altered:
+<p>
+<blockquote><font color="#000080">replace (... snippet ...) with (... text ...)
+<br>cut (...snippet ...)
+</font></blockquote><p>
+<p>
+<p>(d) To make the word &quot;grab&quot; an abbreviation for &quot;take all&quot;:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command matches &quot;grab&quot;, replace the player\'s command with &quot;take all&quot;.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;grab&quot;, replace the player's command with &quot;take all&quot;.
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e103"><a href=doc132.html#e103><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>The railway-station examples so far put together into a short game called "Age of Steam".</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e103"><a href=doc251.html#e103><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A list of phrases to be automatically converted to longer sequences of separate commands.</i><p>
 <p>
-<p>The following source is very short and simple, yet it already feels surprisingly interesting in play, because something is going on which the player does not control but must observe. The single scene both starts and finishes.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Age of Steam&quot;\n\nThe Station is a room. &quot;Eynforme Halt is a raised platform fringed with cowslip: a whistle-stop with no more than a signal and a water-tank.&quot;\n\nThe Flying Scotsman is fixed in place. &quot;The Flying Scotsman, fastest train in the world, is now at a dead standstill.&quot;\n\nTrain Stop is a scene. Train Stop begins when the player is in the Station for the third turn. Train Stop ends when the time since Train Stop began is 3 minutes.\n\nWhen Train Stop begins:\n\tmove the Flying Scotsman to the Station;\n\tsay &quot;The Flying Scotsman pulls up at the platform, to a billow of steam and hammering.&quot;\n\nWhen Train Stop ends:\n\tremove the Flying Scotsman from play;\n\tsay &quot;The Flying Scotsman inches away, with a squeal of released brakes, gathering speed invincibly until it disappears around the hill. All is abruptly still once more.&quot;\n\nInstead of entering the Flying Scotsman, say &quot;Alas, the [time when Train Stop began] arrival is only to take on water, not to set down or pick up.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Age of Steam&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\trepeat through Table of Compound Commands\n\tbegin;\n\t\tif the player\'s command includes topic entry\n\t\tbegin;\n\t\t\tsay &quot;(that is, [macro entry])[line break]&quot;;\n\t\t\treplace the matched text with macro entry;\n\t\tend if;\n\tend repeat.\n\nTable of Compound Commands\ntopic\tmacro\n&quot;clean up&quot;\t&quot;get all carpet bits. put all carpet bits in trash. vacuum.&quot;\n&quot;quit nicely&quot;\t&quot;save. quit.&quot;\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Compound Commands
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes topic entry
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(that is, [macro entry])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace the matched text with macro entry;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Station is a room. &quot;Eynforme Halt is a raised platform fringed with cowslip: a whistle-stop with no more than a signal and a water-tank.&quot;
+<blockquote><font color="#000080">Table of Compound Commands
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">macro</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;clean up&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;get all carpet bits. put all carpet bits in trash. vacuum.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;quit nicely&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;save. quit.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Flying Scotsman is fixed in place. &quot;The Flying Scotsman, fastest train in the world, is now at a dead standstill.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Train Stop is a scene. Train Stop begins when the player is in the Station for the third turn. Train Stop ends when the time since Train Stop began is 3 minutes.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Train Stop begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the Flying Scotsman to the Station;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman pulls up at the platform, to a billow of steam and hammering.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Train Stop ends:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the Flying Scotsman from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Flying Scotsman inches away, with a squeal of released brakes, gathering speed invincibly until it disappears around the hill. All is abruptly still once more.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of entering the Flying Scotsman, say &quot;Alas, the [time when Train Stop began] arrival is only to take on water, not to set down or pick up.&quot;
-</font></blockquote><p>
-<p>
-</td></tr></table><p><p><hr><p><a href=doc131.html>Previous</a> / <a href=doc133.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>Most of the time it would be vastly more useful to define separate commands for these compound processes, but if for some reason we wanted to do this it would be trivial.
+</td></tr></table><p><a name="e65"><a href=ex65.html#e65><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Responding to the player's input based on keywords only, and overriding the original parser entirely.</i><p>
+<a name="e67"><a href=ex67.html#e67><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A character who responds to keywords in the player's instructions and remarks, even if there are other words included.</i><p>
+<p><hr><p><a href=doc250.html>Previous</a> / <a href=doc252.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

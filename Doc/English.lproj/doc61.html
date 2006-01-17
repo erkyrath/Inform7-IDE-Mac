@@ -1,4 +1,4 @@
-<html><head><title>4.18. Bibliographic data</title></head>
+<html><head><title>4.17. Values that vary</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,30 +7,37 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc60.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc62.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.18. Bibliographic data</b></td></tr></table><p>
+<table><tr><td><a href=doc60.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc62.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.17. Values that vary</b></td></tr></table><p>
 <p>
-<p>Inform has five special named values to hold the bibliographic data about the work being created - who wrote it, what it is called, what headline it has, what genre it has and what its release number is.
+<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
 <p>
-<p>These can be set as follows:
-<p>
-<blockquote><font color="#000080">The story title is &quot;Mansfield Perk&quot;. The story author is &quot;Janet Austen&quot;. The story headline is &quot;An Interactive Romance&quot;. The story genre is &quot;Romance&quot;. The release number is 7.
+<blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.
 </font></blockquote><p>
 <p>
-<p>A convenient abbreviation provides that if the first sentence of the source text consists solely of text in quotation marks, then that is considered the title. Thus if the source begins:
+<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
 <p>
-<blockquote><font color="#000080">&quot;Mansfield Perk&quot;
+<blockquote><font color="#000080">The target is a number variable. The target is 23.
 </font></blockquote><p>
 <p>
-<p>then that will be the story title. Further, we can write
+<p>In fact, we have seen a value that varies already: &quot;location&quot;, which holds the room in which the game is presently taking place.
 <p>
-<blockquote><font color="#000080">&quot;Mansfield Perk&quot; by Janet Austen
+<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
+<p>
+<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
+<p>
+<blockquote><font color="#000080">The receptacle is a container that varies.
 </font></blockquote><p>
 <p>
-<p>with the obvious effect: quotation marks around the author's name are optional here, for convenience, but note that we'd better have them in cases like:
+<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
 <p>
-<blockquote><font color="#000080">&quot;Three Men in a Boat&quot; by &quot;Jerome K. Jerome&quot;
+<blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.
 </font></blockquote><p>
 <p>
-<p>as otherwise the full stop after the K will end the sentence prematurely.
+<p>without ever having defined any colours. Something else we are not permitted is:
+<p>
+<blockquote><font color="#000080">The receptacle is an open container that varies.
+</font></blockquote><p>
+<p>
+<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
 <p>
 <p><hr><p><a href=doc60.html>Previous</a> / <a href=doc62.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

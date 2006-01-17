@@ -1,4 +1,4 @@
-<html><head><title>8.6. Every turn</title></head>
+<html><head><title>8.7. The time of day</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,31 +7,27 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc118.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc120.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.6. Every turn</b></td></tr></table><p>
+<table><tr><td><a href=doc118.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc120.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.7. The time of day</b></td></tr></table><p>
 <p>
-<p>The passage of time in interactive fiction is broken up into a succession of turns, in each of which the player types a request and is given a response. Usually each such request triggers one action, but sometimes a whole sequence are fired off, as when the player types &quot;get all&quot; in a cluttered room.
+<p>Inform keeps track of the time of day automatically: play ordinarily begins at 9 AM and each turn takes one minute. In some works of interactive fiction, time of day is crucial: in others, it is irrelevant or even, by a sort of tacit convention, non-existent. So Inform does nothing to act upon the time, or to reveal it to the player, without instruction. Nevertheless it is there.
 <p>
-<p>One of the last things to happen in each turn is that Inform will apply any rules which have been set to occur &quot;every turn&quot;, like so:
+<p>A sentence like the following allows the initial time to be set up as something other than 9 AM:
 <p>
-<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080">The time of day is 3:13 PM.
 </font></blockquote><p>
 <p>
-<p>This is equivalent to writing:
+<p>Here, &quot;3:13 PM&quot; is a constant value of a kind not seen before: it's a kind of value called &quot;time&quot;, and the value &quot;time of day&quot; is a time that varies. After one turn it will be 3:14 PM, then 3:15 PM and so on.
 <p>
-<blockquote><font color="#000080">An every turn rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
+<p>Note that the sentence above is an assertion (a statement about the initial state of affairs), not an instruction which can be part of a rule. It would be equivalent to write:
+<p>
+<blockquote><font color="#000080">When play begins, change the time of day to 3:13 PM.
 </font></blockquote><p>
 <p>
-<p>Note that the text about blossom, which will quickly become tiresome, is said at the end of every turn, not at the beginning, and in particular not before the player's first opportunity to type a command.
+<p>We more often use &quot;change the time of day to ...&quot; to take care of drastic events:
 <p>
-<p>As usual when defining rules, we can add stipulations: any condition can be attached using &quot;when&quot;.
-<p>
-<blockquote><font color="#000080">Every turn when in the Orchard, say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080">When the player loses consciousness:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to 10:12 AM;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A mist comes over your vision, and when you come to, it is morning and you are in bed.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn when the player can see the rotting fish, say &quot;Your nose twitches involuntarily.&quot;
-</font></blockquote><p>
-<p>
-<p><hr><p>
-<a name="e5"><a href=ex5.html#e5><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A kind of battery which can be put into different devices, and which will lose power after extended use.</i><p>
-<a name="e54"><a href=ex54.html#e54><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>A game of foosball which relies heavily on every-turn rules.</i><p>
 <p><hr><p><a href=doc118.html>Previous</a> / <a href=doc120.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>22.4. Fundamental semantics</title></head>
+<html><head><title>21.2. Emily Short <emshort@mindspring.com> -  Mystery Spacing 3</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,37 +7,181 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc309.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc311.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>22.4. Fundamental semantics</b></td></tr></table><p>
+<table><tr><td><a href=doc309.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc311.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>21.2. Emily Short <emshort@mindspring.com> -  Mystery Spacing 3</b></td></tr></table><p>
 <p>
-<p>Scenes. Greater flexibility: perhaps with scenes implemented as objects, though there are problems with this, and the basic difficulty is that if we have classes of scenes then what we really need is to have classes of rulebooks and ambiguous treatment of said - e.g., &quot;When a surreal scene ends:&quot; looks like an action pattern, but if anything it's a &quot;rule pattern&quot;, a concept which does not exist in Inform right now. Examples of what might be gained, maybe:
+<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 30 September 2005
 <p>
-<blockquote><font color="#000080">A movie is a kind of scene. A movie has a table-name called sequence.
+<p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
+<p>
+<p><i>Build:</i> 2Z30
+<p>
+<p><i>Platform:</i> Mac OS X
+<p>
+<p>
+<p>
+<p><i>Code example:</i>
+<p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The Sound Stage is a room. Clark Gable is a transparent man in the Sound Stage. &quot;Clark is here, carrying [the list of things carried by Clark][if Clark wears anything] and wearing [the list of things worn by Clark][end if].&quot; Clark carries a swagger stick. Clark carries a player\'s holdall called a briefcase. The briefcase contains a signed contract. [The carrying capacity of Clark is 2.] Clark wears a fedora and a pair of pants. Clark carries a portable supporter called a tray.\n\nThe stage door is west of the Sound Stage and east of the Lot. It is a door. The automobile is a vehicle in the Stage.\n\nA persuasion rule for asking Clark to try doing something: persuasion succeeds.\n\n\nThe player carries a small key, a tent, and Variety Magazine. The stage door is lockable and locked. The small key unlocks the stage door.\n\nA fixed in place container called a cage is in the Sound Stage. It is openable, transparent, pushable between rooms, enterable, and closed. In the cage is a lion. The lion is an animal. A bone is in the cage.  A seat is fixed in place in the cage. The seat is an enterable supporter.\n\nInstead of Clark trying taking off the pants: stop the action.\n\nUnsuccessful attempt by Clark trying doing something:\n\trepeat through table of Clark Retorts\n\tbegin;\n\t\tif the reason the action failed is the cause entry\n\t\tbegin;\n\t\t\tsay &quot;[response entry][paragraph break]&quot;;\n\t\t\trule succeeds;\n\t\tend if;\n\tend repeat;\n\tsay &quot;\'I don\'t think that\'s in the script,\' says Clark dubiously.&quot;\n\nTable of Clark Retorts\ncause\tresponse\ncan\'t take yourself rule\t&quot;\'I\'m always self-possessed,\' Clark remarks. You\'ve heard that line before, but it sounds so much more convincing from him.&quot;\ncan\'t take other people rule\t&quot;\'I don\'t think it would be appreciated if I tried to do that to [the noun],\' he rumbles.&quot;\ncan\'t take component parts rule\t&quot;\'I don\'t want to rip [the noun] out,\' Clark remarks.&quot;\ncan\'t take people\'s possessions rule\t&quot;\'I don\'t cotton to acting like a thief,\' Clark replies. \'It ain\'t proper.\'&quot;\ncan\'t take what you\'re inside rule\t&quot;\'Do you see where I am, babe?\' Clark demands.&quot;\ncan\'t take what\'s already taken rule\t&quot;[already done]&quot;\ncan\'t take scenery rule\t&quot;\'I\'m not the stunt man, darling,\' he says with a wry twinkle.&quot;\ncan\'t take what\'s fixed in place rule\t&quot;\'I\'m not the stunt man, darling,\' he says with a wry twinkle.&quot;\ncan\'t exceed carrying capacity rule\t&quot;Clark grins. \'I\'ve only got so many hands, darling,\' he says.&quot;\ncan\'t remove from closed containers rule\t&quot;[physical impossibility]&quot;\ncan\'t insert into closed containers rule\t&quot;[physical impossibility]&quot;\ncan\'t go that way rule\t&quot;[physical impossibility]&quot;\ncan\'t go through closed doors rule\t&quot;[physical impossibility]&quot;\ncan\'t enter closed containers rule\t&quot;[physical impossibility]&quot;\ncan\'t exit closed containers rule\t&quot;[physical impossibility]&quot;\ncan\'t drop yourself rule\t&quot;\'We\'re inseparable, me and me,\' Clark replies, with a smile.&quot;\ncan\'t drop what\'s already dropped rule\t&quot;[already done]&quot;\ncan\'t drop what\'s not held rule\t&quot;\'Not under my control, [the noun],\' replies Clark.&quot;\ncan\'t drop clothes being worn rule\t&quot;[salacious retort]&quot;\ncan\'t put something on itself rule\t&quot;\'I lack the dexterity,\' says Clark. Oh, he\'s so modest.&quot;\ncan\'t put onto something being carried rule\t&quot;\'I lack the dexterity,\' says Clark. Oh, he\'s so modest.&quot;\ncan\'t put onto what\'s not a supporter rule\t&quot;\'[The second noun] won\'t support a thing,\' says Clark reprovingly.&quot;\ncan\'t put clothes being worn rule\t&quot;[salacious retort]&quot;\ncan\'t insert clothes being worn rule\t&quot;[salacious retort]&quot;\ncan\'t wear what\'s not clothing rule\t&quot;\'Costuming just gets stranger every year,\' says Clark. \'In short: no.\'&quot;\ncan\'t wear what\'s already worn rule\t&quot;[already done]&quot;\ncan\'t eat unless edible rule\t&quot;\'What\'re you trying to do, poison me?\'&quot;\ncan\'t eat clothing without removing it first rule\t&quot;[salacious retort]&quot;\ncan\'t take off what\'s not worn rule\t&quot;[already done]&quot;\ncan\'t close what\'s already closed rule\t&quot;[already done]&quot;\ncan\'t open what\'s already open rule\t&quot;[already done]&quot;\ncan\'t switch off what\'s already off rule\t&quot;[already done]&quot;\ncan\'t switch on what\'s already on rule\t&quot;[already done]&quot;\ncan\'t unlock what\'s already unlocked rule\t&quot;[already done]&quot;\ncan\'t lock what\'s already locked rule\t&quot;[already done]&quot;\n\nTo say already done:\n\trepeat through Table of Clark\'s Bored Remarks\n\tbegin;\n\t\tsay &quot;[response entry]&quot;;\n\t\tblank out the whole row;\n\t\trule succeeds;\n\tend repeat;\n\tsay &quot;\'Already done.\' &quot;\n\nTable of Clark\'s Bored Remarks\nresponse\n&quot;\'Check,\' says Clark.&quot;\n&quot;\'Check check,\' says Clark.&quot;\n&quot;\'I have anticipated your every demand.\'&quot;\n&quot;\'We\'ve been through this part of the script already,\' Clark remarks, with just a hint of creeping tedium.&quot;\n&quot;\'Right right, already taken care of...\'&quot;\n&quot;\'I\'m a believer in rehearsal,\' Clark says, sounding more bored than ever, \'but we really have got all this done already.\'&quot;\n\nTo say salacious retort:\n\trepeat through Table of Clark\'s Flirtatious Remarks\n\tbegin;\n\t\tsay &quot;[response entry]&quot;;\n\t\tblank out the whole row;\n\t\trule succeeds;\n\tend repeat;\n\tsay &quot;Clark, driven past the point of endurance, seizes you in his arms and kisses you. &quot;;\n\tend the game in victory.\n\nTable of Clark\'s Flirtatious Remarks\nresponse\n&quot;Clark allows his mustache to quirk at the suggestion.&quot;\n&quot;Clark wiggles his eyebrows at you.&quot;\n&quot;\'That kind of thing isn\'t in my contract, sweetie,\' says Clark. \'If you\'re interested you\'ll have to ask off-camera.\'&quot;\n&quot;\'I\'d feel so... bare,\' Clark says, with a sidelong look at you.&quot;\n&quot;\'You first,\' says Clark.&quot;\n&quot;Clark\'s stare is intense. You may be on the verge of breaking him.&quot;\n\n\nTo say physical impossibility:\n\trepeat through Table of Clark\'s Frustrated Denials\n\tbegin;\n\t\tsay &quot;[response entry]&quot;;\n\t\tblank out the whole row;\n\t\trule succeeds;\n\tend repeat;\n\tsay &quot;Clark makes a helpless gesture about his ability to move himself, or parts of himself, through solid objects. &quot;\n\nTable of Clark\'s Frustrated Denials\nresponse\n&quot;Clark frowns. \'I can\'t reach through things -- unless you were planning a special effect?\'&quot;\n&quot;\'Look,\' says Clark. \'If you want a stage magician, hire one.\'&quot;\n&quot;Clark just groans.&quot;\n&quot;Clark says drily, \'Is this in the script, or are we doing improvisation now?\'&quot;\n\n\n\n\n\n')"><img border=0 src=paste.png></a> The Sound Stage is a room. Clark Gable is a transparent man in the Sound Stage. &quot;Clark is here, carrying [the list of things carried by Clark][if Clark wears anything] and wearing [the list of things worn by Clark][end if].&quot; Clark carries a swagger stick. Clark carries a player's holdall called a briefcase. The briefcase contains a signed contract. [The carrying capacity of Clark is 2.] Clark wears a fedora and a pair of pants. Clark carries a portable supporter called a tray.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn during a movie (called the current movie):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the sequence of the current movie
+<blockquote><font color="#000080">The stage door is west of the Sound Stage and east of the Lot. It is a door. The automobile is a vehicle in the Stage.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A persuasion rule for asking Clark to try doing something: persuasion succeeds.
+</font></blockquote><p>
+<p>
+<p>
+<blockquote><font color="#000080">The player carries a small key, a tent, and Variety Magazine. The stage door is lockable and locked. The small key unlocks the stage door.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A fixed in place container called a cage is in the Sound Stage. It is openable, transparent, pushable between rooms, enterable, and closed. In the cage is a lion. The lion is an animal. A bone is in the cage.  A seat is fixed in place in the cage. The seat is an enterable supporter.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of Clark trying taking off the pants: stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Unsuccessful attempt by Clark trying doing something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through table of Clark Retorts
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[Event entry][paragraph break]&quot;; blank out the whole row; rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is the cause entry
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[response entry][paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'I don't think that's in the script,' says Clark dubiously.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A timer is a kind of scene. A timer has a number called length. A timer (called the current scene) ends when the number of turns since the current scene began is the length of the current scene.
+<blockquote><font color="#000080">Table of Clark Retorts
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">cause</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">response</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take yourself rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I'm always self-possessed,' Clark remarks. You've heard that line before, but it sounds so much more convincing from him.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take other people rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I don't think it would be appreciated if I tried to do that to [the noun],' he rumbles.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take component parts rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I don't want to rip [the noun] out,' Clark remarks.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take people's possessions rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I don't cotton to acting like a thief,' Clark replies. 'It ain't proper.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take what you're inside rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Do you see where I am, babe?' Clark demands.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take what's already taken rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take scenery rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I'm not the stunt man, darling,' he says with a wry twinkle.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take what's fixed in place rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I'm not the stunt man, darling,' he says with a wry twinkle.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't exceed carrying capacity rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Clark grins. 'I've only got so many hands, darling,' he says.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't remove from closed containers rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[physical impossibility]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't insert into closed containers rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[physical impossibility]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't go that way rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[physical impossibility]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't go through closed doors rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[physical impossibility]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't enter closed containers rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[physical impossibility]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't exit closed containers rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[physical impossibility]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't drop yourself rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'We're inseparable, me and me,' Clark replies, with a smile.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't drop what's already dropped rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't drop what's not held rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Not under my control, [the noun],' replies Clark.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't drop clothes being worn rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[salacious retort]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't put something on itself rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I lack the dexterity,' says Clark. Oh, he's so modest.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't put onto something being carried rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I lack the dexterity,' says Clark. Oh, he's so modest.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't put onto what's not a supporter rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'[The second noun] won't support a thing,' says Clark reprovingly.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't put clothes being worn rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[salacious retort]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't insert clothes being worn rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[salacious retort]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't wear what's not clothing rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Costuming just gets stranger every year,' says Clark. 'In short: no.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't wear what's already worn rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't eat unless edible rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'What're you trying to do, poison me?'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't eat clothing without removing it first rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[salacious retort]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take off what's not worn rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't close what's already closed rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't open what's already open rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't switch off what's already off rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't switch on what's already on rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't unlock what's already unlocked rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't lock what's already locked rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>Action patterns. These can at present be vague about objects, but not values, which is why the following is not now allowed:
-<p>
-<blockquote><font color="#000080">Understand &quot;spin [something] to [a number]&quot; as spinning it to.
-<br>After spinning the dial to a number:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;That turns out not to open the dial.&quot;
+<blockquote><font color="#000080">To say already done:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Clark's Bored Remarks
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[response entry]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Already done.' &quot;
 </font></blockquote><p>
 <p>
-<p>Action patterns could also usefully understand choices of objects/values, as in &quot;taking the duck or the drake&quot;, though &quot;or&quot; ambiguities are already a potential killer on run-time for the parser, and sufficiently long chains of &quot;or&quot; clauses can cause the memory manager to explode in boils.
-<p>
-<p>Relations. It should be possible to provide defined relations which act on values as well as objects, for completeness's sake. (Though most of the useful cases - comparing things against measurements - are already provided using the comparatives and superlatives mechanism.)
-<p>
-<blockquote><font color="#000080">Oh, I don't know, this suggests the concept of one-to-various relations for values, which is kind of interesting. Unless I'm misunderstanding what you have in mind. Would this mean being able to do (e.g.) &quot;Lawrence feels happy and hungry&quot; or &quot;The table is made of wood and metal&quot;? I can see more practical applications for the former than the latter, off the top of my head, but you never know.[ES]
+<blockquote><font color="#000080">Table of Clark's Bored Remarks
+<br>response
+<br>&quot;'Check,' says Clark.&quot;
+<br>&quot;'Check check,' says Clark.&quot;
+<br>&quot;'I have anticipated your every demand.'&quot;
+<br>&quot;'We've been through this part of the script already,' Clark remarks, with just a hint of creeping tedium.&quot;
+<br>&quot;'Right right, already taken care of...'&quot;
+<br>&quot;'I'm a believer in rehearsal,' Clark says, sounding more bored than ever, 'but we really have got all this done already.'&quot;
 </font></blockquote><p>
 <p>
-<p>Basic kinds of value. There is (for alas good reasons) not quite a concept of a &quot;set of things&quot; in Inform at present - there is no efficient run-time representation which could reliably work in the Z-machine architecture, which relies on call by value and has no direct access to the stack. But we might be able to do this, if the user could accept that there could be no local variables, and that sets could therefore not be passed by value to routines. The aim would be to implement a set of objects - not values - as a bitmap, so it would very much be &quot;sets&quot;, not &quot;lists&quot;. A set could have a kind attached, forcing it to contain only instances of that kind. Lots of other data types would also be nice - long integers, arbitrary-precision integers, floating-point numbers, etcetera. But they all founder on the Z-machine. Zarf thinks this can't be done.
+<blockquote><font color="#000080">To say salacious retort:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Clark's Flirtatious Remarks
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[response entry]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Clark, driven past the point of endurance, seizes you in his arms and kisses you. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in victory.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Clark's Flirtatious Remarks
+<br>response
+<br>&quot;Clark allows his mustache to quirk at the suggestion.&quot;
+<br>&quot;Clark wiggles his eyebrows at you.&quot;
+<br>&quot;'That kind of thing isn't in my contract, sweetie,' says Clark. 'If you're interested you'll have to ask off-camera.'&quot;
+<br>&quot;'I'd feel so... bare,' Clark says, with a sidelong look at you.&quot;
+<br>&quot;'You first,' says Clark.&quot;
+<br>&quot;Clark's stare is intense. You may be on the verge of breaking him.&quot;
+</font></blockquote><p>
+<p>
+<p>
+<blockquote><font color="#000080">To say physical impossibility:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Clark's Frustrated Denials
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[response entry]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Clark makes a helpless gesture about his ability to move himself, or parts of himself, through solid objects. &quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Clark's Frustrated Denials
+<br>response
+<br>&quot;Clark frowns. 'I can't reach through things -- unless you were planning a special effect?'&quot;
+<br>&quot;'Look,' says Clark. 'If you want a stage magician, hire one.'&quot;
+<br>&quot;Clark just groans.&quot;
+<br>&quot;Clark says drily, 'Is this in the script, or are we doing improvisation now?'&quot;
+</font></blockquote><p>
+<p>
+<p>
+<p>
+<p>
+<p><i>What goes wrong:</i>
+<p>
+<p>
+<p>>clark, take me
+<p>&quot;I don't think it would be appreciated if I tried to do that to yourself,&quot; he rumbles.
+<p>
+<p>
+<p>>clark, take bone
+<p>&quot;I don't think that's in the script,&quot; says Clark dubiously.
+<p>
+<p>>
+<p>
+<p>
+<p>
+<p>
+<p><i>Comments:</i>
+<p>
+<p>
+<p>Note spare space.
+<p>
+<p>This seems to arise when printing stuff from tables that includes a [] thingy.
+<p>
+<p>Disclaimer: I don't see how else I'm supposed to fire this check rule. Stop giving me that look.
+<p>
+<p>
+<p>
+<p>
 <p>
 <p><hr><p><a href=doc309.html>Previous</a> / <a href=doc311.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

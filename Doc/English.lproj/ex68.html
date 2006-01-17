@@ -1,4 +1,4 @@
-<html><head><title>17.5. Procedural rules</title></head>
+<html><head><title>11.15. Changing reachability</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,38 +7,87 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc255.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc257.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.5. Procedural rules</b></td></tr></table><p>
+<table><tr><td><a href=doc166.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc168.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.15. Changing reachability</b></td></tr></table><p>
 <p>
-<p>Before any rule or rulebook is followed, a special rulebook is always consulted first. This is called the &quot;procedural rules&quot;, and it starts out empty: so if we write no procedural rules, empty it will remain.
+<p>The question of what the player can, and cannot, reach is important in interactive fiction. It contains some of the subtlest ideas in the model world, though they often go unnoticed. For instance, if a key is on a shelf which is part of a closed box, can we reach for the key? This comes down to whether the shelf, described only as &quot;part of&quot; the box, is on the inside or the outside: and in fact, because it cannot know which is the case, Inform allows either. So in general it is best to regard &quot;parts&quot; as being exterior parts, but to avoid having parts on containers that might in the course of play be closed up with the player inside.
 <p>
-<p>Like the points of order which precede a debate, the procedural rules are not intended to contribute to any decision in themselves, but merely to sort out which voices are to be heard when the time for decision comes. Should some rules be waived, or others substituted? Should the rulebook be rearranged, in certain circumstances? And so on. Procedural rules offer enormous flexibility and with them one could deconstruct Inform and put it back together in a very different shape - but in practical situations they will only occasionally be needed.
+<p>We can, if we wish, change the principles of what can be touched by writing new reaching inside or reaching outside rules. Returning to the example of the conical flask:
 <p>
-<p>Procedural rules are not allowed to say anything, or indeed to do anything which might have practical consequences; they are only allowed to think about the current situation (if they need to) and then use special phrases (if they choose to) which affect how other rules are to be followed. For instance:
-<p>
-<blockquote><font color="#000080">A procedural rule: if in the Timeless Void then ignore the advance time rule.
+<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
 </font></blockquote><p>
 <p>
-<p>Since the &quot;advance time rule&quot; is the one which moves on the number of turns and the clock, this means that the Timeless Void lives up to its name.
+<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) More generally, we could give the usual flexible description of what the rule applies to:
+<p>
+<blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large for [the container in question].&quot;; deny access.
+</font></blockquote><p>
+<p>
+<p>The &quot;container in question&quot; is the one to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
+<p>
+<p>If it seems possible that these rules will be employed by people other than the player, then we need to write them a little more carefully, and in particular we need to ensure that they print nothing for other people. In the first case below, anybody can reach through the glass; in the second case, only the player cannot reach into open containers.
+<p>
+<blockquote><font color="#000080">A rule for reaching inside the flask:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player, say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;allow access.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A rule for reaching inside open containers:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your hands seem enigmatically too large for [the container in question].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deny access.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>The &quot;person reaching&quot; is, as its name suggests, the person trying to reach through the barrier in question.
 <p>
 <p><hr><p>
-<a name="e111"><a href=ex111.html#e111><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A set of actions which do not take any game time at all.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e68"><a href=doc256.html#e68><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>The Pointy Hat of Liminal Transgression allows its wearer to walk clean through closed doors.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e68"><a href=doc167.html#e68><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Kitty Pryde of the X-Men is able to reach through solid objects, so we might implement her with special powers that the player does not have...</i><p>
 <p>
-<p>This is a typical usage of procedural rules to suspend the laws of nature:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Access All Areas&quot;\n\nThe extremely difficult door is north of the Standing Room and south of the Room of Walking Upside Down.  It is a locked door.\n\nThe player is carrying the Pointy Hat of Liminal Transgression. The hat is wearable.\n\nA procedural rule: if the Hat is worn, ignore the can\'t go through closed doors rule.\n\n\n')"><img border=0 src=paste.png></a> &quot;Access All Areas&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Magneto\'s Revenge&quot;\n\nThe School for Gifted Youngsters is a room. Kitty Pryde is a woman in the School for Gifted Youngsters. &quot;Kitty Pryde waits for you to say why you summoned her out of class.&quot; The description is &quot;You see nothing special about Kitty Pryde. But that is only because she has learned to conceal her mutant powers: in fact she has the alternative name Shadowcat, and the ability to phase through solid objects.&quot;\n\nThe glass box is a container in the School for Gifted Youngsters. It is closed, openable, and transparent. In the box is a quantity of poisonous gas. In the box is a message from Magneto.\n\nInstead of examining the message when the player is not carrying the message:\n\tsay &quot;You\'d need to be holding it before you could read it.&quot;\n\nInstead of opening the glass box: say &quot;You\'re deterred by the swirling bottle-green mist within.&quot;\n\nCheck someone trying taking the gas (this is the gaseous object rule): rule fails.\n\nUnsuccessful attempt by someone trying taking the gas: say &quot;The gas isn\'t something one can pick up in one\'s bare hands.&quot;\n\nEvery turn: if the player can touch the gas\n\tbegin;\n\t\tsay &quot;The gas has reached your lungs!&quot;;\n\t\tend the game in death;\n\tend if.\n\nA rule for reaching inside something:\n\tif the person asked is Kitty, allow access.\n\nPersuasion rule for asking someone to try doing something: persuasion succeeds.\n\n\n')"><img border=0 src=paste.png></a> &quot;Magneto's Revenge&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The extremely difficult door is north of the Standing Room and south of the Room of Walking Upside Down.  It is a locked door.
+<blockquote><font color="#000080">The School for Gifted Youngsters is a room. Kitty Pryde is a woman in the School for Gifted Youngsters. &quot;Kitty Pryde waits for you to say why you summoned her out of class.&quot; The description is &quot;You see nothing special about Kitty Pryde. But that is only because she has learned to conceal her mutant powers: in fact she has the alternative name Shadowcat, and the ability to phase through solid objects.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The player is carrying the Pointy Hat of Liminal Transgression. The hat is wearable.
+<blockquote><font color="#000080">The glass box is a container in the School for Gifted Youngsters. It is closed, openable, and transparent. In the box is a quantity of poisonous gas. In the box is a message from Magneto.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A procedural rule: if the Hat is worn, ignore the can't go through closed doors rule.
+<blockquote><font color="#000080">Instead of examining the message when the player is not carrying the message:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You'd need to be holding it before you could read it.&quot;
 </font></blockquote><p>
 <p>
-<p>(The Pointy Hat may be useful in debugging a game, even if it never makes it into the final published work.)
+<blockquote><font color="#000080">Instead of opening the glass box: say &quot;You're deterred by the swirling bottle-green mist within.&quot;
+</font></blockquote><p>
 <p>
-<p>The &quot;can't go through closed doors rule&quot; is one of those belonging to the &quot;check going&quot; rulebook. These names are fairly explanatory when written out, but hard to remember: fortunately we don't need to remember them, as the Index panel contains a full inventory of the check, carry out and report rules for every action, showing all of their names and the order in which they are checked.
-</td></tr></table><p><p><hr><p><a href=doc255.html>Previous</a> / <a href=doc257.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Check someone trying taking the gas (this is the gaseous object rule): rule fails.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Unsuccessful attempt by someone trying taking the gas: say &quot;The gas isn't something one can pick up in one's bare hands.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn: if the player can touch the gas
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The gas has reached your lungs!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end the game in death;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A rule for reaching inside something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is Kitty, allow access.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Persuasion rule for asking someone to try doing something: persuasion succeeds.
+</font></blockquote><p>
+<p>
+<p>Now the player can get Kitty to take the message without releasing the poisonous gas:
+<p>
+<blockquote><font color="#000080">Kitty Pride waits for you to tell her why you summoned her out of class.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">You can also see a glass box (closed) (in which are some poisonous gas and a message from Magneto) here.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">>kitty, get message
+<br>Kitty Pryde picks up a message from Magneto.
+</font></blockquote><p>
+</td></tr></table><p><a name="e134"><a href=ex134.html#e134><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A window between two locations. When the window is open, the player can reach through into the other location; when it isn't, access is barred.</i><p>
+<p><hr><p><a href=doc166.html>Previous</a> / <a href=doc168.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

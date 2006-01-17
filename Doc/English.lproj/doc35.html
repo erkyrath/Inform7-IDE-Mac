@@ -1,4 +1,4 @@
-<html><head><title>3.14. Devices and descriptions</title></head>
+<html><head><title>3.13. Locks and keys</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,17 +7,27 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc34.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc36.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.14. Devices and descriptions</b></td></tr></table><p>
+<table><tr><td><a href=doc34.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc36.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.13. Locks and keys</b></td></tr></table><p>
 <p>
-<p>A &quot;device&quot; is another of the standard kinds of thing, and should be used for anything which can be switched on or off: a light switch, say, or a slide projector. Devices are generally machines, clockwork or electrical. A device is always either &quot;switched on&quot; or &quot;switched off&quot;, but is switched off unless we specify otherwise.
+<p>It seems unwise for a door in Notting Hill to be unlocked, so:
 <p>
-<p>That makes three kinds of thing which will likely change their appearance according to which of their two possible states they are in: doors and containers, which can be open or closed; and devices, which can be switched on or switched off. We would like to produce text accordingly, and we can do this using Inform's ability to make (almost) any piece of text change with circumstances. For instance:
-<p>
-<blockquote><font color="#000080">The coffin is an openable container in the Undertomb. &quot;[if open]The lid of a plank coffin yawns open.[otherwise]A plank coffin lies upon the dirt floor of the Tomb.&quot;
+<blockquote><font color="#000080">The blue door is lockable and locked. The matching key of the blue door is the brass Yale key.
 </font></blockquote><p>
 <p>
-<p>We could use a similar trick to make the appearance of a device change &quot;if switched on&quot;. There will be much more about text substitutions, as instructions in square brackets like these are called, in the next chapter.
+<p>Since the second sentence here is a little clumsy, we can equivalently say
+<p>
+<blockquote><font color="#000080">The brass Yale key unlocks the blue door.
+</font></blockquote><p>
+<p>
+<p>Yet a third way to say this is:
+<p>
+<blockquote><font color="#000080">The blue door has matching key the brass Yale key.
+</font></blockquote><p>
+<p>
+<p>This introduces three new properties: a door can be locked or unlocked; lockable or not lockable; and it can have a matching key, which must be another thing. The same thing can be the matching key of many different locks: and note that a door can be locked and even lockable without having a matching key at all, in which case the player trying to open it will be permanently out of luck. Doors are ordinarily unlocked, not lockable, and without a matching key.
+<p>
+<p>Containers can also have locks, in exactly the same way, and are allowed to have the same properties. On the other hand supporters never have locks: it makes no sense to be able to lock a tabletop, for instance, and Inform will not allow any discussion of the matching key of a supporter, or of a supporter being locked or unlocked.
 <p>
 <p><hr><p>
-<a name="e21"><a href=ex21.html#e21><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Making the radar and instruments switch on and off.</i><p>
+<a name="e21"><a href=ex21.html#e21><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Making the glass case lockable.</i><p>
 <p><hr><p><a href=doc34.html>Previous</a> / <a href=doc36.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

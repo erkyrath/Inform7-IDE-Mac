@@ -1,4 +1,4 @@
-<html><head><title>17.5. Procedural rules</title></head>
+<html><head><title>13.15. Making the verb "to weigh"</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,32 +7,42 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc255.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc257.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.5. Procedural rules</b></td></tr></table><p>
+<table><tr><td><a href=doc197.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc199.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.15. Making the verb "to weigh"</b></td></tr></table><p>
 <p>
-<p>Before any rule or rulebook is followed, a special rulebook is always consulted first. This is called the &quot;procedural rules&quot;, and it starts out empty: so if we write no procedural rules, empty it will remain.
+<p>We have already created new verbs: for instance, in the previous chapter we set up a verb &quot;to love&quot;, which was such that we could say &quot;A loves B&quot; for people A and B. Suppose we want a verb &quot;to weigh&quot;, in the sense of &quot;the lead pig weighs 45kg&quot;. This is not like &quot;to love&quot;, because it relates something tangible (the lead pig) to something intangible (45kg). So its creation looks a little different:
 <p>
-<p>Like the points of order which precede a debate, the procedural rules are not intended to contribute to any decision in themselves, but merely to sort out which voices are to be heard when the time for decision comes. Should some rules be waived, or others substituted? Should the rulebook be rearranged, in certain circumstances? And so on. Procedural rules offer enormous flexibility and with them one could deconstruct Inform and put it back together in a very different shape - but in practical situations they will only occasionally be needed.
-<p>
-<p>Procedural rules are not allowed to say anything, or indeed to do anything which might have practical consequences; they are only allowed to think about the current situation (if they need to) and then use special phrases (if they choose to) which affect how other rules are to be followed. For instance:
-<p>
-<blockquote><font color="#000080">A procedural rule: if in the Timeless Void then ignore the advance time rule.
+<blockquote><font color="#000080">The verb to weigh (it weighs, they weigh, it is weighing) implies the weight property.
 </font></blockquote><p>
 <p>
-<p>Since the &quot;advance time rule&quot; is the one which moves on the number of turns and the clock, this means that the Timeless Void lives up to its name.
+<p>Our previous verb definitions ended &quot;implies the ... relation&quot;, rather than &quot;implies the ... property&quot;, but otherwise the idea is the same. The effect is that we can say things like:
+<p>
+<blockquote><font color="#000080">A thing usually weighs 1kg. The lead pig weighs 45kg.
+<br>something weighing 20kg
+<br>if three things weigh 5kg, ...
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e111"><a href=doc256.html#e111><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A set of actions which do not take any game time at all.</i><p>
+<a name="e132"><a href=ex132.html#e132><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>This example draws together the previous snippets into a working implementation of the weighbridge.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e111"><a href=doc198.html#e111><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>To give every container a breaking strain, that is, a maximum weight of contents which it can bear - so that to put the lead pig into a paper bag invites disaster.</i><p>
 <p>
-<p>In a game with tight timing, it is sometimes friendliest to the player to let him LOOK and EXAMINE as much as necessary without being penalized.
+<p>The following uses a few features which will not be explained until later chapters, but it shows the kind of &quot;realism&quot; rules which could be introduced using weights. Not entirely realistic: we do not bother to rupture containers out of the player's sight.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Examining something is acting fast. Looking is acting fast.\n\n[Note that we want the whole turn sequence rulebook (including every turn rules and so on), not just the &quot;advance time rule&quot;, which merely moves the clock and turn counter forward:]\n\nProcedural rule when acting fast: ignore the turn sequence rules.\n\n\n')"><img border=0 src=paste.png></a> Examining something is acting fast. Looking is acting fast.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Lead Cuts Paper&quot;\n\nA weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg.\n\nA container has a weight called breaking strain. The breaking strain of a container is usually 50kg. Definition: A container is bursting if the total weight of things in it is greater than its breaking strain.\n\nA lead pig, a feather, a silver coin and a paper bag are in a room called the Metallurgy Workshop. The paper bag is a container with breaking strain 2kg.\n\nEvery turn when a container (called the sack) held by someone visible (called the chump) is bursting:\n\tsay &quot;[The sack] splits and breaks under the weight! [if the player is the chump]You discard[otherwise][The chump] discards[end if] its ruined remains, looking miserably down at [the list of things in the sack] on the floor.&quot;;\n\tnow all of the things in the sack are in the location;\n\tremove the sack from play.\n\n\n')"><img border=0 src=paste.png></a> &quot;Lead Cuts Paper&quot;
 </font></blockquote><p>
 <p>
-<p>Note that we want the whole turn sequence rulebook (including every turn rules and so on), not just the &quot;advance time rule&quot;, which merely moves the clock and turn counter forward:
-<p>
-<blockquote><font color="#000080">Procedural rule when acting fast: ignore the turn sequence rules.
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg.
 </font></blockquote><p>
 <p>
-<p>If we wanted to add, say, taking inventory to the list of instant activities, we would just need to define it as acting fast, too.
-</td></tr></table><p><a name="e68"><a href=ex68.html#e68><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>The Pointy Hat of Liminal Transgression allows its wearer to walk clean through closed doors.</i><p>
-<p><hr><p><a href=doc255.html>Previous</a> / <a href=doc257.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">A container has a weight called breaking strain. The breaking strain of a container is usually 50kg. Definition: A container is bursting if the total weight of things in it is greater than its breaking strain.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A lead pig, a feather, a silver coin and a paper bag are in a room called the Metallurgy Workshop. The paper bag is a container with breaking strain 2kg.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when a container (called the sack) held by someone visible (called the chump) is bursting:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The sack] splits and breaks under the weight! [if the player is the chump]You discard[otherwise][The chump] discards[end if] its ruined remains, looking miserably down at [the list of things in the sack] on the floor.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now all of the things in the sack are in the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the sack from play.
+</font></blockquote><p>
+<p>
+</td></tr></table><p><p><hr><p><a href=doc197.html>Previous</a> / <a href=doc199.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

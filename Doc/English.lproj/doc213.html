@@ -1,4 +1,4 @@
-<html><head><title>15.1. Understand</title></head>
+<html><head><title>14.15. Varying which table to look at</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,33 +7,47 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 15: Understanding</h2><p><table><tr><td><a href=doc212.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc214.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.1. Understand</b></td></tr></table><p>
+<table><tr><td><a href=doc212.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc214.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.15. Varying which table to look at</b></td></tr></table><p>
 <p>
-<p>During play, the computer and the player alternate in writing messages to each other: in the player's case, these are short instructions, usually saying what to do next. A wide range of such &quot;commands&quot; are automatically understood, but these only apply to the standard built-in actions. (This wide range is conveniently tabulated at the foot of the Actions index.) If we want the player to be able to command new actions, then we need to specify what is to be understood as what. For this, we supply special sentences starting with the word &quot;Understand&quot;.
+<p>So far, we have always used fixed table names when referring to tables: for instance in source like &quot;sort the Table of Recent Monarchs in accession order&quot;, we refer to the &quot;Table of Recent Monarchs&quot;, a definite and explicitly named table.
 <p>
-<p>Suppose we return to the earlier example of a newly created action:
+<p>With a little care, however, we are allowed to have variables which themselves hold the names of tables. This opens up the possibility of more elaborate ways of storing and interconnecting information in table form, but is probably best avoided until it becomes necessary.
 <p>
-<blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.
+<p>For example, suppose we have two different tables with the same basic structure:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Table 1 - Nifty Opening Plays in US Scrabble\nword\tscore\n&quot;muzjiks&quot;\t128\n\nTable 2 - Nifty Opening Plays in UK Scrabble\nword\tscore\n&quot;quartzy&quot;\t126\n&quot;squeezy&quot;\t126\n\n\n')"><img border=0 src=paste.png></a> Table 1 - Nifty Opening Plays in US Scrabble
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">word</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">score</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;muzjiks&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">128</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>We then supply lines of grammar (as they are called) for Inform to recognise, like so:
-<p>
-<blockquote><font color="#000080">Understand &quot;photograph [someone]&quot; as photographing.
+<blockquote><font color="#000080">Table 2 - Nifty Opening Plays in UK Scrabble
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">word</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">score</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;quartzy&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">126</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;squeezy&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">126</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.
+<p>We could then record which one of these tables to use in a variable:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The lexicon is a table-name that varies. The lexicon is Table 1.\n\n\n')"><img border=0 src=paste.png></a> The lexicon is a table-name that varies. The lexicon is Table 1.
 </font></blockquote><p>
 <p>
-<p>As usual, the square brackets indicate something which stands for text, rather than text to be taken verbatim. &quot;[someone]&quot; needs to be the name of anything of the kind &quot;person&quot;, for instance (though as usual that person will need to be in sight of the player for the name to be accepted). The first word - in these examples &quot;photograph&quot; - must be something definite, not a substitution like this.
+<p>Note that for this purpose, the kind of value is a special kind called &quot;table-name&quot;, not &quot;table&quot;. (The word &quot;table&quot; already has too many meanings and we must be careful to avoid ambiguities here.) We could make use of this as follows, for instance:
 <p>
-<p>For obvious reasons, this pattern of words needs to match the expectations of the action. Photographing applies to &quot;one visible thing&quot; - the &quot;visible&quot; just means it does not need to be touched, only seen - so neither of these would be allowable:
-<p>
-<blockquote><font color="#000080">Understand &quot;photograph&quot; as photographing.
-<br>Understand &quot;photograph [someone] standing next to [something]&quot; as photographing.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('To flip tables:\n\tsay &quot;You exchange dictionaries, lexically crossing the Atlantic. &quot;;\n\tif the lexicon is Table 1, change the lexicon to Table 2;\n\totherwise change the lexicon to Table 1;\n\tchoose a random row in the lexicon;\n\tsay &quot;Did you know that according to [the lexicon], [word entry] scores [score entry]?&quot;\n\n\n')"><img border=0 src=paste.png></a> To flip tables:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You exchange dictionaries, lexically crossing the Atlantic. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the lexicon is Table 1, change the lexicon to Table 2;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise change the lexicon to Table 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the lexicon;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Did you know that according to [the lexicon], [word entry] scores [score entry]?&quot;
 </font></blockquote><p>
 <p>
-<p>The first is bad because it supplies no things at all, the second because it supplies two: what we want, of course, is just the one.
+<p>which produces text such as
+<p>
+<blockquote><font color="#000080">You exchange dictionaries, lexically crossing the Atlantic. Did you know that according to Table 1 - Nifty Opening Plays in US Scrabble, muzjiks scores 128?
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e30"><a href=ex30.html#e30><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Renaming the directions of the compass so that "white" corresponds to north, "red" to east, "yellow" to south, and "black" to west. (An adaptation of Exercise 9 of the Inform Designer's Manual, Fourth Edition.)</i><p>
+<a name="e35"><a href=ex35.html#e35><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>People who respond to conversational gambits, summarize what they said before if asked again, and provide recap of conversation that is past.</i><p>
 <p><hr><p><a href=doc212.html>Previous</a> / <a href=doc214.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

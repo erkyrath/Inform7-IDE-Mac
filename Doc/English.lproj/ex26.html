@@ -1,4 +1,4 @@
-<html><head><title>7.17. Random choices of things</title></head>
+<html><head><title>6.16. Going by, going through, going with</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,41 +7,58 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc109.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc111.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.17. Random choices of things</b></td></tr></table><p>
+<table><tr><td><a href=doc87.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc89.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.16. Going by, going through, going with</b></td></tr></table><p>
 <p>
-<p>As well as choosing random values, we often want to make a random choice of things or rooms. Perhaps a character is to wander about at random; perhaps a falling block of masonry will crush some random item. The value
+<p>Adding to the previous example game, we apply rules which depend on travelling by a particular vehicle:
 <p>
-<blockquote><font color="#000080">random D
-<br>a random D
+<blockquote><font color="#000080">The book trolley is in the Musicology Section. &quot;The book trolley, a sort of motorised tractor for trundling around through the stacks, is parked here.&quot; The trolley is a vehicle. Instead of going nowhere by the trolley, say &quot;Don't go crashing the trolley into walls.&quot;
 </font></blockquote><p>
 <p>
-<p>(the article &quot;a&quot; is optional) produces a random choice of the things in the world which fit the description D. For instance,
-<p>
-<blockquote><font color="#000080">say &quot;You can see [number of adjacent rooms] way[s] from here; how about [random adjacent room]?&quot;
+<blockquote><font color="#000080">Instead of going to the Front Stacks by the trolley, say &quot;The Front Stacks are far too confined for the trolley to manoeuvre into them.&quot;
 </font></blockquote><p>
 <p>
-<p>Unexpected results may follow if there is nothing in the game which fits the description, as then the random choice will be nothing. For instance, the above would then say:
+<p>And, lastly, rules which apply to movements through particular doors:
 <p>
-<blockquote><font color="#000080">You can see 0 ways from here; how about nothing?
+<blockquote><font color="#000080">The green baize door is east of the Catalogue Room and west of the Clerk's Office. The green baize door is an open door.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before going through the green baize door, say &quot;Through you go...&quot; After going through the green baize door: try looking; say &quot;...and here you are.&quot;
+</font></blockquote><p>
+<p>
+<p>(Note that these apply whether the action is &quot;going east&quot; or &quot;entering the green baize door&quot;, each having the same effect.) The last rule is worth a second look: the normal way that a &quot;going&quot; action is reported is to produce the room description of the new location. So if an &quot;after&quot; rule stops the action before we get to reporting, we have to produce any room description by hand (hence the &quot;try looking&quot; to cause the looking action). Alternatively, we could simply say something and let the normal course of events take place:
+<p>
+<blockquote><font color="#000080">After going through the green baize door: say &quot;...and here you are:&quot;; continue the action.
+</font></blockquote><p>
+<p>
+<p>Finally, going is an action which can also happen while the player is pushing something from one room to another, and we can describe this like so:
+<p>
+<blockquote><font color="#000080">Instead of going from the Office with the trolley, say &quot;But it looks perfectly placed here. Why push any further?&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e26"><a href=doc110.html#e26><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A "Carousel Room", as in Zork II, where moving in any direction from the room leads (at random) to one of the eight rooms nearby.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e26"><a href=doc88.html#e26><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A car which must be turned on before it can be driven, and can only go to roads.</i><p>
 <p>
-<p>All we need to do is select the player's destination for him at random:
+<p>The Inform Designer's Manual, Fourth Edition, offers the example of a car that cannot be driven when turned off, or ridden into rooms which are not designated as roads. We can do the same:
 <p>
-<blockquote><font color="#000080">Instead of going from the Carousel Room:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the player to a random adjacent room.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Exercise 23&quot;\n\nA road is a kind of room. Definition: a room is offroad if it is not a road.\n\nInstead of going by something (called the auto) to somewhere offroad:\n\tsay &quot;You can\'t drive [the auto] off-road.&quot;\n\nTrafalgar Square is a road. &quot;The Square is overlooked by a pillared statue of Admiral Lord Horatio Nelson (no relation), naval hero and convenience to pigeons since 1812.&quot;\n\nThe National Gallery is north of Trafalgar Square. The Strand is east of Trafalgar Square. The Strand is a road.\n\nThe car is a vehicle in Trafalgar Square. The ignition is a device. The ignition is part of the car. Instead of going by the car when the ignition is switched off: say &quot;The ignition is off at the moment.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Exercise 23&quot;
 </font></blockquote><p>
 <p>
-<p>Or if we want to add the refinement that the Carousel Room can be switched off:
-<p>
-<blockquote><font color="#000080">The spinning machine is a switched on device in the Carousel Room.
+<blockquote><font color="#000080">A road is a kind of room. Definition: a room is offroad if it is not a road.
 </font></blockquote><p>
 <p>
-<p>And then
-<p>
-<blockquote><font color="#000080">Instead of going from the Carousel Room when the spinning machine is switched on:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the player to a random adjacent room.
+<blockquote><font color="#000080">Instead of going by something (called the auto) to somewhere offroad:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You can't drive [the auto] off-road.&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc109.html>Previous</a> / <a href=doc111.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Trafalgar Square is a road. &quot;The Square is overlooked by a pillared statue of Admiral Lord Horatio Nelson (no relation), naval hero and convenience to pigeons since 1812.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The National Gallery is north of Trafalgar Square. The Strand is east of Trafalgar Square. The Strand is a road.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The car is a vehicle in Trafalgar Square. The ignition is a device. The ignition is part of the car. Instead of going by the car when the ignition is switched off: say &quot;The ignition is off at the moment.&quot;
+</font></blockquote><p>
+<p>
+<p>Of course, this is all a historical curiosity, given that since the Inform Designer's Manual was written, much of Trafalgar Square has been made pedestrian-only.
+</td></tr></table><p><a name="e88"><a href=ex88.html#e88><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A plank bridge which breaks if the player is carrying something when he goes across it. Pushing anything over the bridge is forbidden outright.</i><p>
+<p><hr><p><a href=doc87.html>Previous</a> / <a href=doc89.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

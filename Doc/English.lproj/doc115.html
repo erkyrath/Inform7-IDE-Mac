@@ -1,4 +1,4 @@
-<html><head><title>8.2. Awarding points</title></head>
+<html><head><title>8.3. Introducing tables: rankings</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,33 +7,25 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc114.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc116.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.2. Awarding points</b></td></tr></table><p>
+<table><tr><td><a href=doc114.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc116.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.3. Introducing tables: rankings</b></td></tr></table><p>
 <p>
-<p>Traditionally-written games award points throughout play, as an indication of progress. If we want to be traditional, we can award points as follows:
+<p>Another tradition of interactive fiction is that the player has a current 'rank' according to how far his or her score has got. We can (but need not) choose to provide such rankings, and should do so by specifying a table like this:
 <p>
-<blockquote><font color="#000080">award 5 points;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Table 1 - Rankings\nScore\tRank\n0\t&quot;Beginner&quot;\n25\t&quot;Amateur Adventurer&quot;\n50\t&quot;Novice Adventurer&quot;\n100\t&quot;Junior Adventurer&quot;\n200\t&quot;Adventurer&quot;\n300\t&quot;Master&quot;\n330\t&quot;Wizard&quot;\n350\t&quot;Master Adventurer&quot;\n\n\n')"><img border=0 src=paste.png></a> Table 1 - Rankings
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Score</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Rank</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Beginner&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">25</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Amateur Adventurer&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">50</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Novice Adventurer&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">100</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Junior Adventurer&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">200</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Adventurer&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">300</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Master&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">330</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Wizard&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">350</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Master Adventurer&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>substituting whatever number we feel is appropriate. We should be careful not to give out the same points over and over, that is, not to reward the same basic achievement many times over if the player simply repeats the same action. This, for instance, is open to abuse:
+<p>Typographically, tables in Inform look as much as possible like those found in non-fiction books: they can have many columns, so this is only a simple example (drawn from the actual rankings used by Infocom's <i>Zork I</i>, 1979). Each line in the source represents one row in the table, and the entries on a line must be separated by at least one tab character. (An entry might of course have several words with spaces in between, so a space is not enough to separate entries: this is the only context when Inform distinguishes between spaces and tabs.) The table must occupy a single whole paragraph, with no skipped lines or missing entries. We are free to use extra tabs to indent it if we like.
 <p>
-<blockquote><font color="#000080">After taking the trophy: award 5 points; say &quot;Well done!&quot;
-</font></blockquote><p>
-<p>
-<p>The player may simply take the trophy, drop it again, take it again, ... and win five points every time around. We can prevent this by phrasing the rule more carefully:
-<p>
-<blockquote><font color="#000080">After taking the trophy for the first time: award 5 points; say &quot;Well done!&quot;
-</font></blockquote><p>
-<p>
-<p>Rather than being an open-ended scoring system, IF normally has a maximum possible score, which can be specified with a sentence like so:
-<p>
-<blockquote><font color="#000080">The maximum score is 10.
-</font></blockquote><p>
-<p>
-<p>Recall that if the source declares:
-<p>
-<blockquote><font color="#000080">Use no scoring.
-</font></blockquote><p>
-<p>
-<p>then the SCORE, FULL SCORE, NOTIFY ON and NOTIFY OFF commands do not work; the final score is not shown at the end of a game; and the status line above the player's text area shows only the turn count, not (as is more usual) both the score and the turn count. The &quot;award ... points&quot; phrase has no visible effect, though it is not actually illegal.
+<p>Ordinarily we must explicitly ask to use the information presented in a table, but the table of rankings is a special case: Inform uses it automatically, if it is provided at all. To be recognised it must have the name &quot;Rankings&quot; and must have two columns named and arranged as shown. The scores should be given in ascending order. Customarily, the score in the final row should be the maximum possible achieved in the game - so that only a player with maximum possible score can be awarded the final ranking - and the value of &quot;maximum score&quot; is automatically set to this bottom-row value if it has not been explicitly set anywhere else in the source text.
 <p>
 <p><hr><p><a href=doc114.html>Previous</a> / <a href=doc116.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

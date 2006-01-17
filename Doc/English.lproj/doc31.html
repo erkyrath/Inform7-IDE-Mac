@@ -1,4 +1,4 @@
-<html><head><title>3.10. Properties holding text</title></head>
+<html><head><title>3.9. Backdrops</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,23 +7,33 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc30.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc32.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.10. Properties holding text</b></td></tr></table><p>
+<table><tr><td><a href=doc30.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc32.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.9. Backdrops</b></td></tr></table><p>
 <p>
-<p>The properties we have seen so far have all been either/or: either open or closed, either transparent or opaque, either fixed in place or portable, either openable or not openable. However, some properties can have a much wider range of possibilities. For instance, the &quot;description&quot; of a room is the text revealed when the player first enters it, or types &quot;look&quot;. This needs to be textual: Inform would complain if, for instance, we tried to set the description of something to the number 42. We have already seen a concise way to set the description of a room:
+<p>It is a cardinal rule that nothing can be in more than one place at the same time, but rules were made to be broken, and an exception is allowed for a special kind of thing called a &quot;backdrop&quot;. For instance:
 <p>
-<blockquote><font color="#000080">The Painted Room is north of the Undertomb. &quot;This is the Painted Room, where strange wall drawings leap out of the dark at the gleam of your candle: men with long wings and great eyes, serene and morose.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Streaming&quot;\n\nThe Upper Cave is above the Rock Pool.\n\nThe stream is a backdrop. It is in the Upper Cave and the Rock Pool.\n\n\n')"><img border=0 src=paste.png></a> &quot;Streaming&quot;
 </font></blockquote><p>
 <p>
-<p>This does the same thing as:
-<p>
-<blockquote><font color="#000080">The Painted Room is north of the Undertomb. The description of the Painted Room is &quot;This is the Painted Room, where strange wall drawings leap out of the dark at the gleam of your candle: men with long wings and great eyes, serene and morose.&quot;
+<blockquote><font color="#000080">The Upper Cave is above the Rock Pool.
 </font></blockquote><p>
 <p>
-<p>Or even:
-<p>
-<blockquote><font color="#000080">The Painted Room is north of the Undertomb. The description is &quot;This is the Painted Room, where strange wall drawings leap out of the dark at the gleam of your candle: men with long wings and great eyes, serene and morose.&quot;
+<blockquote><font color="#000080">The stream is a backdrop. It is in the Upper Cave and the Rock Pool.
 </font></blockquote><p>
+<p>
+<p>Backdrops are ordinarily in the background: if the sky needed to be referred to in the course of play, it might be represented by a backdrop, for instance. Here we have a stream of water running through two rooms, though it might be any number. Backdrops are always fixed in place.
+<p>
+<p>Backdrops can be put in regions as well as rooms, and if so, then they are present at every room in the given region (or regions), as well as any specific rooms they may also be put into. For instance:
+<p>
+<blockquote><font color="#000080">The Outdoors Area is a region. The Moon is a backdrop. The Moon is in the Outdoors Area. The Moon is in the Skylight Room.
+</font></blockquote><p>
+<p>
+<p>Lastly, the special place &quot;everywhere&quot; can be given as the location of a backdrop to make it omnipresent:
+<p>
+<blockquote><font color="#000080">The sky is a backdrop. The sky is everywhere.
+</font></blockquote><p>
+<p>
+<p>Inform assumes that backdrops are also scenery unless told otherwise, so this will not result in messages like &quot;You can also see the sky here.&quot; being included in room descriptions. In the case of the stream above, we could artfully mention it in passing in the room descriptions of the Upper Cave and the Rock Pool.
 <p>
 <p><hr><p>
-<a name="e18"><a href=ex18.html#e18><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Fleshing out the descriptions of things on the boat.</i><p>
+<a name="e18"><a href=ex18.html#e18><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Adding a view of the glacier.</i><p>
 <p><hr><p><a href=doc30.html>Previous</a> / <a href=doc32.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

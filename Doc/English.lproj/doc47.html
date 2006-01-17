@@ -1,4 +1,4 @@
-<html><head><title>4.4. Duplicates</title></head>
+<html><head><title>4.3. Plural assertions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,35 +7,37 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc46.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc48.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.4. Duplicates</b></td></tr></table><p>
+<table><tr><td><a href=doc46.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc48.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.3. Plural assertions</b></td></tr></table><p>
 <p>
-<p>Although it is only useful to a limited extent, we can make any number of copies of something:
+<p>As the following examples show, sentences can make several assertions at once by using the plural. Suppose we have defined a kind called &quot;high-up fixture&quot;, for instance like so:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Polygons&quot;\n\nA shape is a kind of thing. A square is a kind of shape. A triangle is a kind of shape.\n\nThe Geometry Lab is a room. In the Geometry Lab are three triangles and two squares.\n\n\n')"><img border=0 src=paste.png></a> &quot;Polygons&quot;
+<blockquote><font color="#000080">A high-up fixture is a kind of thing. A high-up fixture is usually fixed in place.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A shape is a kind of thing. A square is a kind of shape. A triangle is a kind of shape.
+<p>Then the following sentence creates two such objects and puts them in their place:
+<p>
+<blockquote><font color="#000080">The high shelf and the skylight window are high-up fixtures in the Lumber Room.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Geometry Lab is a room. In the Geometry Lab are three triangles and two squares.
+<p>since it is equivalent to saying:
+<p>
+<blockquote><font color="#000080">The high shelf is a high-up fixture. The skylight window is a high-up fixture. The high shelf is in the Lumber Room. The skylight window is in the Lumber Room.
 </font></blockquote><p>
 <p>
-<p>The description &quot;three triangles&quot; makes three identical things, each of the kind &quot;triangle&quot;, and similarly for the squares. When the above is compiled, the player can type &quot;take two triangles&quot; or &quot;take all the triangles&quot; and so forth.
+<p>Such plurals are allowed in almost any context, and we could even define two kinds at once:
 <p>
-<p>Two caveats. Firstly, a counted-out description like &quot;two squares&quot; is only allowed if it combines a number with the name of a kind which is already known (perhaps modified with adjectives, so &quot;two open doors&quot; is fine). If we say:
-<p>
-<blockquote><font color="#000080">Two circles are in the Lab.
+<blockquote><font color="#000080">Bucket and basket are kinds of container.
 </font></blockquote><p>
 <p>
-<p>without having defined &quot;circle&quot; as a kind in advance, then only a single object will be created - whose name is &quot;two circles&quot;. (This is because many natural names start with numbers: &quot;six of clubs&quot;, for instance, referring to a single playing card, or &quot;12 Hollywood Close&quot; meaning a single house. We wouldn't want such names to be misinterpreted.)
+<p>Inform constructs plurals by a fairly primitive rule, and English is so irregular a language that a more complicated rule would probably not be very much better. We sometimes need to intervene:
 <p>
-<p>The second caveat is that excessive duplication is expensive in memory and running time. It is perfectly legal to say
-<p>
-<blockquote><font color="#000080">In the Lab are 75 triangles.
+<blockquote><font color="#000080">The plural of ox is oxen. An ox is a kind of animal.
 </font></blockquote><p>
 <p>
-<p>but the resulting game may be a little sluggish: and Inform draws the line at 100, refusing to create more duplicates than that in any single place. If we really need more than about fifty duplicated objects - say, a tombola containing raffle tickets numbered 1 to 1000 - it is usually better to find some less literal way to simulate this: for instance, only having a single raffle ticket, but with a randomly chosen number on it.
+<p>Note that we specify the plural <i>before</i> creating the kind called &quot;ox&quot;: otherwise it will have plural &quot;oxes&quot;, that being the best that Inform knew at the time.
 <p>
-<p><hr><p>
-<a name="e10"><a href=ex10.html#e10><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A child's set of building blocks, which come in three different colours - red, green and blue - but which can be repainted during play.</i><p>
+<p>A particular case worth mentioning: as far as Inform is concerned, the plural of &quot;person&quot; is &quot;people&quot;, not &quot;persons&quot;.
+<p>
+<p><hr><img border=0 src=beta.png>For the time being, please avoid syllepsis such as &quot;Darcy is wearing a hat and carrying a fishing rod.&quot;, where the &quot;and&quot; couples together prepositions (or verbs) rather than nouns.
+<p>
 <p><hr><p><a href=doc46.html>Previous</a> / <a href=doc48.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

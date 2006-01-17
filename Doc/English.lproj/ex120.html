@@ -1,4 +1,4 @@
-<html><head><title>17.2. Named rules and rulebooks</title></head>
+<html><head><title>10.13. Phrases to decide other things</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,47 +7,94 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc252.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc254.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.2. Named rules and rulebooks</b></td></tr></table><p>
+<table><tr><td><a href=doc148.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc150.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.13. Phrases to decide other things</b></td></tr></table><p>
 <p>
-<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns - usually visible on the &quot;status line&quot; displayed above the window of a game in progress - and advances the clock, which is usually not visible, but ticking away behind the scenes.
+<p>A condition is a yes/no decision, but we can also take decisions where the result is a value. Suppose we want to create a concept of the &quot;grand prize&quot;, which will have different values at different times in play. Each time the &quot;grand prize&quot; is referred to, Inform will have to decide what its value is, and the following tells Inform how to make that decision:
 <p>
-<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
-<p>
-<blockquote><font color="#000080">advance time = the advance time rule
+<blockquote><font color="#000080">To decide which treasure is the grand prize:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the Dark Room has been visited then decide on the silver bars;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;decide on the plover's egg.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
+<p>Note that we have to say what kind the answer will be: here it's a kind of thing called &quot;treasure&quot; (which we're supposing has already been created), and as it turns out only two treasures are ever eligible anyway (we're also supposing that the plover's egg and the silver bars are treasures already created, of course). And note also that the phrase must in all case end with a &quot;decide on ...&quot; to say what the answer is.
+<p>
+<p>Now that we have &quot;grand prize&quot; created, we can use it just as we would use any other value, so for instance:
+<p>
+<blockquote><font color="#000080">if taking the grand prize then ...
 </font></blockquote><p>
 <p>
-<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p>As this is something of a dialect difference between English speakers, &quot;what&quot; and &quot;which&quot; are synonymous here, i.e., we could equally well write something like:
 <p>
-<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We have already seen some of these names used in the Advanced Actions chapter, and will later use them like so:
-<p>
-<blockquote><font color="#000080">ignore the can't go through closed doors rule;
+<blockquote><font color="#000080">To decide what number is the target score: ...
 </font></blockquote><p>
-<p>
-<p>Names for rules tend to be verbose, but this is a situation where clarity is very much better than brevity.
 <p>
 <p><hr><p>
-<a name="e119"><a href=ex119.html#e119><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A WAIT [number] MINUTES command which advances through an arbitrary number of turns.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e120"><a href=doc253.html#e120><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A WAIT UNTIL [time] command which advances until the game clock reaches the correct hour.</i><p>
+<a name="e135"><a href=ex135.html#e135><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A piece of ghost-hunting equipment that responds depending on whether or not the meter is on and a ghost is visible or touchable from the current location.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e120"><a href=doc149.html#e120><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Windows overlooking lower spaces which will prevent the player from climbing through if the lower space is too far below.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Hanging around until is an action applying to one time.\n\nCheck hanging around until:\n\tif the time of day is the time understood, say &quot;It is [time understood] now!&quot; instead;\n\tif the time of day is after the time understood, say &quot;It is too late for that now.&quot; instead.\n\nCarry out hanging around until:\n\twhile the time of day is before time understood repeatedly follow the turn sequence rules.\n\nReport hanging around until:\n\tsay &quot;You yawn until [time understood].&quot;\n\nUnderstand &quot;wait until [time]&quot; as hanging around until.\n\n')"><img border=0 src=paste.png></a> Hanging around until is an action applying to one time.
+<p>Suppose we have a game in which the player can climb through windows which overlook rooms below. We want him to be allowed to climb out windows to reach a room on the same level or at most one level lower than the one he's on; otherwise, he should get a refusal, saying that he would break his neck.
+<p>
+<p>To figure out the height distance between the start room and the destination room, we might have a repeat loop look at all the directions one has to follow along the &quot;best route&quot; path between the two rooms, and record any ups and downs; then subtract the number of &quot;up&quot; steps from the number of &quot;down&quot; steps, and report what remains.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;A Haughty Spirit&quot;\n\nTo decide what number is the distance (first place - a room) rises above (second place - a room):\n\tlet the total distance be the number of moves from the first place to the second place;\n\tif the total distance is less than 1, result 0;\n\tlet count of down moves be 0;\n\tlet count of up moves be 0;\n\tlet next place be the first place;\n\trepeat with counter running from 1 to the total distance\n\tbegin;\n\t\tlet the way be the best route from the next place to the second place;\n\t\tif the way is down, let count of down moves be the count of down moves plus 1;\n\t\tif the way is up, let the count of up moves be the count of up moves plus 1;\n\t\tlet next place be the room the way from next place;\n\tend repeat;\n\tlet the decision be the count of down moves minus the count of up moves;\n\tresult the decision.\n\n[Now we just have to create windows and some action rules for interacting with them...]\n\nA window is a kind of thing. A window is always fixed in place. A window is usually enterable. A window can be open or closed. A window is usually closed. A window is usually openable.\n\nUnderstand &quot;climb through [something]&quot; as entering. Understand &quot;jump through/out [something]&quot; as entering.\n\nCheck entering a closed window:\n\tsay &quot;[The noun] would have to be opened first.&quot; instead.\n\n\nInstead of entering a window:\n\tif the noun overlooks a room (called the far side)\n\tbegin;\n\t\tlet fall be the distance the location rises above the far side;\n\t\tif fall is greater than 1, say &quot;You\'d break your neck.&quot; instead;\n\t\tsay &quot;You tumble into [the far side].&quot;;\n\t\tmove the player to the far side;\n\totherwise;\n\t\tsay &quot;There\'s nowhere to go.&quot;;\n\tend if.\n\nInstead of examining a window:\n\tsay &quot;[The noun] [if the noun is open]opens over[otherwise]gives a view of[end if] [the list of rooms overlooked by the noun].&quot;\n\n[Here we must anticipate a little from next chapter, and provide ourselves with a way of keeping track of how windows and rooms relate to one another:]\n\nOverlooking relates various windows to various rooms. The verb to overlook (it overlooks, they overlook, it overlooked, it is overlooked, it is overlooking) implies the overlooking relation. The initial appearance of a window is usually &quot;[The object in question] overlooks [the list of rooms overlooked by the object in question].&quot;\n\nThe Square Keep is above the Winding Staircase. The Winding Staircase is above the Motte. A crown and a broken sword are in the Motte. The Bailey is west of the Motte.\n\nThe long window is in the tower. The long window overlooks the Bailey and the Motte. The narrow window is in the Winding Staircase. The narrow window overlooks the Bailey.\n\n\n')"><img border=0 src=paste.png></a> &quot;A Haughty Spirit&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check hanging around until:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is the time understood, say &quot;It is [time understood] now!&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is after the time understood, say &quot;It is too late for that now.&quot; instead.
+<blockquote><font color="#000080">To decide what number is the distance (first place - a room) rises above (second place - a room):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the total distance be the number of moves from the first place to the second place;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the total distance is less than 1, result 0;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let count of down moves be 0;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let count of up moves be 0;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let next place be the first place;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with counter running from 1 to the total distance
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the way be the best route from the next place to the second place;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the way is down, let count of down moves be the count of down moves plus 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the way is up, let the count of up moves be the count of up moves plus 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let next place be the room the way from next place;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the decision be the count of down moves minus the count of up moves;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;result the decision.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out hanging around until:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;while the time of day is before time understood repeatedly follow the turn sequence rules.
+<p>Now we just have to create windows and some action rules for interacting with them...
+<p>
+<blockquote><font color="#000080">A window is a kind of thing. A window is always fixed in place. A window is usually enterable. A window can be open or closed. A window is usually closed. A window is usually openable.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report hanging around until:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You yawn until [time understood].&quot;
+<blockquote><font color="#000080">Understand &quot;climb through [something]&quot; as entering. Understand &quot;jump through/out [something]&quot; as entering.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;wait until [time]&quot; as hanging around until.
+<blockquote><font color="#000080">Check entering a closed window:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] would have to be opened first.&quot; instead.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc252.html>Previous</a> / <a href=doc254.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>
+<blockquote><font color="#000080">Instead of entering a window:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun overlooks a room (called the far side)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let fall be the distance the location rises above the far side;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if fall is greater than 1, say &quot;You'd break your neck.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You tumble into [the far side].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the player to the far side;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;There's nowhere to go.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of examining a window:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] [if the noun is open]opens over[otherwise]gives a view of[end if] [the list of rooms overlooked by the noun].&quot;
+</font></blockquote><p>
+<p>
+<p>Here we must anticipate a little from next chapter, and provide ourselves with a way of keeping track of how windows and rooms relate to one another:
+<p>
+<blockquote><font color="#000080">Overlooking relates various windows to various rooms. The verb to overlook (it overlooks, they overlook, it overlooked, it is overlooked, it is overlooking) implies the overlooking relation. The initial appearance of a window is usually &quot;[The object in question] overlooks [the list of rooms overlooked by the object in question].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Square Keep is above the Winding Staircase. The Winding Staircase is above the Motte. A crown and a broken sword are in the Motte. The Bailey is west of the Motte.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The long window is in the tower. The long window overlooks the Bailey and the Motte. The narrow window is in the Winding Staircase. The narrow window overlooks the Bailey.
+</font></blockquote><p>
+<p>
+<p>We could then add rules to allow the player to look through windows and see things in the rooms below, but that would require more material from later chapters.
+</td></tr></table><p><p><hr><p><a href=doc148.html>Previous</a> / <a href=doc150.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

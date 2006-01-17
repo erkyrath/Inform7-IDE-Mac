@@ -1,4 +1,4 @@
-<html><head><title>11.4. Persuasion</title></head>
+<html><head><title>11.5. Unsuccessful attempts</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,30 +7,42 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc156.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc158.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.4. Persuasion</b></td></tr></table><p>
+<table><tr><td><a href=doc156.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc158.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.5. Unsuccessful attempts</b></td></tr></table><p>
 <p>
-<p>&quot;Asking ... to try ...&quot; actions run through their Before and Instead rules like any other actions, but then (if no rule has intervened) something different happens: Inform has to decide whether the person asked consents to try the action or not. By default, the answer is always no, and text like the following will be printed:
+<p>Suppose, finally, that Will not only consents to try the action, but it also survives its passage through Before and Instead rules. What happens then? In principle, what happens to Will is exactly what would have happened to the player in his place. For instance:
 <p>
-<blockquote><font color="#000080">> will, go west
-<br>Will has better things to do.
+<blockquote><font color="#000080">> will, go east
+<br>Will leaves to the east.
 </font></blockquote><p>
 <p>
-<p>However, we can intervene to make the answer &quot;yes&quot;, using a special kind of rule which produces a yes/no answer. The following examples show how we can give broad or narrow permission, as we choose:
+<p>If on the other hand Will's attempt is frustrated because one of the checking rules stops him, then Will's action fails. For instance, if Will tries going northeast but there is no room to northeast, one of the rules checking the &quot;going&quot; action will stop him. We will then see this:
 <p>
-<blockquote><font color="#000080">Persuasion rule for asking people to try going: persuasion succeeds.
-<br>Persuasion rule for asking Will to try going west: persuasion succeeds.
+<blockquote><font color="#000080">> will, go northeast
+<br>Will is unable to do that.
 </font></blockquote><p>
 <p>
-<p>(Such a rule can either declare that &quot;persuasion succeeds&quot;, or that &quot;persuasion fails&quot;, or make no decision and leave it to another rule to say.) Supposing that Will does decide to cooperate, a new action is generated:
+<p>This is rather a generic message, and we may want something more interesting. We can provide that using yet another special kind of rule:
 <p>
-<blockquote><font color="#000080">Will trying going west
+<blockquote><font color="#000080">Unsuccessful attempt by Will trying going: say &quot;Will blunders around going nowhere, as usual.&quot;
 </font></blockquote><p>
 <p>
-<p>and this is then subject to all of the usual action machinery. For instance, we could write a rule such as:
+<p>Even that is still a little generic, though, because it treats all of the various ways that &quot;going&quot; can fail as the same. If we have ACTIONS switched on, we can see what goes on behind the scenes when we ask Will to walk into a door:
 <p>
-<blockquote><font color="#000080">Instead of Will trying going west, say &quot;He runs out into the waves, but soon returns, rueful.&quot;
+<blockquote><font color="#000080">>will, go west
+<br>[asking Will to try going west]
+<br>[(1) Will trying going west]
+<br>[(1) Will trying going west - failed the can't go through closed doors rule]
+<br>Will blunders around going nowhere, as usual.
+<br>[asking Will to try going west - succeeded]
 </font></blockquote><p>
 <p>
-<p>So in this case the new action (&quot;Will trying going west&quot;) failed: but the original action, &quot;asking Will to try going west&quot;, is still deemed to have succeeded - after all, Will <i>did</i> try. To put it more formally, &quot;asking X to try A&quot; succeeds if the persuasion rules succeed, and otherwise fails.
+<p>(The &quot;(1)&quot; lets us know that a new action is starting during the old one, and before the old one finishes: sometimes we go up to three or four deep, though seldom more in practical cases.) We can now rewrite the &quot;unsuccessful attempt&quot; rule like so:
+<p>
+<blockquote><font color="#000080">Unsuccessful attempt by Will trying going:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is the can't go through closed doors rule, say &quot;Will looks doubtful and mumbles about doors.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Will blunders around going nowhere, as usual.&quot;
+</font></blockquote><p>
+<p>
+<p>The value &quot;reason the action failed&quot; is set to whichever checking rule threw out the action which Will tried. The names of these rules try to be self-explanatory - at any rate, those with gnomic names are not useful for this sort of thing, and can be ignored - and can be found out either using ACTIONS or by consulting the Actions index.
 <p>
 <p><hr><p><a href=doc156.html>Previous</a> / <a href=doc158.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

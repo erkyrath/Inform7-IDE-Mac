@@ -1,4 +1,4 @@
-<html><head><title>16.18. Reading a command</title></head>
+<html><head><title>3.21. Parts of things</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,86 +7,96 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc246.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc248.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.18. Reading a command</b></td></tr></table><p>
+<table><tr><td><a href=doc42.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc44.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.21. Parts of things</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> When reading a command from the keyboard.
+<p>Everything has one and only one kind. This is both good and bad: good for clarity, bad if something needs to behave in two different ways at once. How might we simulate a car with an ignition key, given that no single thing can be both a &quot;vehicle&quot; and a &quot;device&quot; at the same time?
 <p>
-<p><b>2. The default behaviour.</b> Print the prompt text; wait for the player to type something and press return. Reject an entirely blank line, and treat a command beginning &quot;oops&quot; is considered a correction to the previous one. This is a fairly complicated business, so it is probably best not to change the &quot;for&quot; rules for this activity: &quot;before&quot;, and especially &quot;after&quot;, are another matter.
+<p>The Inform world model takes the view that such a car is too complicated to be simulated with a single thing. Instead it should be simulated as a vehicle (the car) which has a device (the ignition) attached. This is done using a third kind of containment to those seen so far (&quot;in...&quot; and &quot;on...&quot;): &quot;part of&quot;.
 <p>
-<p><b>3. Examples.</b> (a) To lead absolute beginners in gently:
-<p>
-<blockquote><font color="#000080">Before reading a command while the turn count is 1, say &quot;(This is your chance to say what the protagonist should do next. After the '>', try typing 'take inventory'.)&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Buttons&quot;\n\nThe Confectionary Workshop is a room. The Chocolate Machine is here. &quot;The Chocolate Machine has pride of place. A lever and two buttons, one white, the other brown, seem to be the only controls. On top is a hopper.&quot;\n\nA container called the hopper is part of the Chocolate Machine. The lever, the white button and the brown button are parts of the Chocolate Machine.\n\nThe Chocolatier\'s desk is here. &quot;The Chocolatier evidently works at the imposing green-leather topped desk facing the Machine. It has three drawers with brass handles.&quot;\n\nThe upper drawer, the middle drawer and the lower drawer are parts of the desk. The upper drawer, the middle drawer and the lower drawer are openable closed containers. In the middle drawer is a sugared almond. In the lower drawer is a Battenburg cake. On the desk is a liquorice twist.\n\n\n')"><img border=0 src=paste.png></a> &quot;Buttons&quot;
 </font></blockquote><p>
 <p>
-<p>(b) The following responds politely but firmly if the player tries to type &quot;please look&quot;, say, instead of just &quot;look&quot;:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;Please do not say please.&quot;;\n\t\treject the player\'s command;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Please do not say please.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject the player's command;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">The Confectionary Workshop is a room. The Chocolate Machine is here. &quot;The Chocolate Machine has pride of place. A lever and two buttons, one white, the other brown, seem to be the only controls. On top is a hopper.&quot;
 </font></blockquote><p>
 <p>
-<p>To explain. Fragments of what the player has typed are called snippets: &quot;the player's command&quot; is the entire thing. (&quot;Snippet&quot; is actually a kind of value, so we could say &quot;Ah, you typed '[the player's command]'!&quot; or some such if we liked.) We can test if a snippet matches a given pattern like so:
-<p>
-<blockquote><font color="#000080">if the player's command matches &quot;room [number]&quot;, ...
+<blockquote><font color="#000080">A container called the hopper is part of the Chocolate Machine. The lever, the white button and the brown button are parts of the Chocolate Machine.
 </font></blockquote><p>
 <p>
-<p>This requires an exact match: the weaker condition &quot;includes&quot; only means that the pattern occurs somewhere in the given snippet, so that
-<p>
-<blockquote><font color="#000080">if the player's command includes &quot;please&quot;, ...
+<blockquote><font color="#000080">The Chocolatier's desk is here. &quot;The Chocolatier evidently works at the imposing green-leather topped desk facing the Machine. It has three drawers with brass handles.&quot;
 </font></blockquote><p>
 <p>
-<p>matches &quot;please look&quot; or &quot;look please&quot;, etc. Lastly, the phrase
-<p>
-<blockquote><font color="#000080">reject the player's command
+<blockquote><font color="#000080">The upper drawer, the middle drawer and the lower drawer are parts of the desk. The upper drawer, the middle drawer and the lower drawer are openable closed containers. In the middle drawer is a sugared almond. In the lower drawer is a Battenburg cake. On the desk is a liquorice twist.
 </font></blockquote><p>
 <p>
-<p>tells Inform not to bother analysing the text further, but to go back to the keyboard. (No time passes; no turn elapses; nothing happens in the simulated world.)
+<p>The machine and the desk each have several &quot;parts&quot; representing subsidiary pieces of themselves. The desk is a &quot;supporter&quot; (it needs to be, for the liquorice twist to be on top) but also has three &quot;containers&quot; attached, each of which can be opened or closed independently.
 <p>
-<p>(c) An improved version takes commands like &quot;please drop the coin&quot; and strips &quot;please&quot; from them, but then allows them to proceed normally:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;(Quelle politesse! But no need to say please.)&quot;;\n\t\tcut the matched text;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(Quelle politesse! But no need to say please.)&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut the matched text;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<p>&quot;Matched text&quot; is a snippet containing the words which matched against the pattern in the most recent &quot;includes&quot; condition, so in this case it contains just the single word &quot;please&quot;. Two phrases allow snippets to be altered:
-<p>
-<blockquote><font color="#000080">replace (... snippet ...) with (... text ...)
-<br>cut (...snippet ...)
-</font></blockquote><p>
-<p>
-<p>(d) To make the word &quot;grab&quot; an abbreviation for &quot;take all&quot;:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command matches &quot;grab&quot;, replace the player\'s command with &quot;take all&quot;.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;grab&quot;, replace the player's command with &quot;take all&quot;.
-</font></blockquote><p>
+<p>In the interests of realism, the standard rules of play protect these composite things. Thus if the desk were to be moved elsewhere (rolling on sugar casters perhaps) then its parts would move with it, and the player is not allowed to detach parts of things: the drawers can be opened or closed, but not pulled out altogether.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e96"><a href=doc247.html#e96><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A list of phrases to be automatically converted to longer sequences of separate commands.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e96"><a href=doc43.html#e96><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A red sticky label which can be attached to anything in the game, or removed again, in loose emulation of Exercise 104 in the Inform Designer's Manual, Fourth Edition.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\trepeat through Table of Compound Commands\n\tbegin;\n\t\tif the player\'s command includes topic entry\n\t\tbegin;\n\t\t\tsay &quot;(that is, [macro entry])[line break]&quot;;\n\t\t\treplace the matched text with macro entry;\n\t\tend if;\n\tend repeat.\n\nTable of Compound Commands\ntopic\tmacro\n&quot;clean up&quot;\t&quot;get all carpet bits. put all carpet bits in trash. vacuum.&quot;\n&quot;quit nicely&quot;\t&quot;save. quit.&quot;\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Compound Commands
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Brown&quot;\n\nThe Shipping Room is a room. The red sticky label is a thing carried by the player. The description of the red sticky label is &quot;It reads: AIRMAIL[if the label is part of something (called the parent)]. It is stuck to [the parent][end if].&quot;\n\nThe black crate is a thing in Shipping. The description is &quot;A boring black crate.&quot;  The brown crate is a thing in Shipping. The description is &quot;An ordinary brown crate.&quot;\n\nAfter examining something when the label is part of the noun:\n\tsay &quot;A bright red sticky label is attached to [the noun]!&quot;\n\n[Here is the essential point: whenever we ATTACH LABEL TO something, it becomes part of that object.]\n\nInstead of tieing the red sticky label to something:\n\tnow the red sticky label is part of the second noun;\n\tsay &quot;You stick [the label] to [the second noun].&quot;\n\n[And of course the label cannot be stuck to itself or to more than one thing at a time.]\n\nBefore tieing the label to something when the label is part of something:\n\tif the label is part of the second noun\n\tbegin;\n\t\tsay &quot;[The label] is already stuck to [the second noun].&quot; instead;\n\totherwise;\n\t\tsay &quot;(first freeing the label)[line break]&quot;;\n\t\tsilently try taking the label;\n\t\tif the label is part of something, stop the action;\n\tend if.\n\nInstead of tieing the red sticky label to the label:\n\tsay &quot;That would ruin the label entirely.&quot;\n\nInstead of taking the label when the label is part of something:\n\tnow the player carries the label;\n\tsay &quot;You peel the label off again.&quot;;\n\n[Much of the rest is just tidying to make sure that the player\'s commands are redirected into the right syntax.]\n\nInstead of tieing something to the label:\n\ttry tieing the label to the noun.\n\nInstead of putting the label on something:\n\ttry tieing the label to the second noun.\n\nInstead of inserting the label into something:\n\ttry tieing the label to the second noun.\n\nUnderstand the commands &quot;stick&quot; or &quot;apply&quot; as &quot;tie&quot;.\n\n[We could have created a new &quot;sticking&quot; action, but to keep the example short we will use the built-in &quot;tieing&quot; action instead, and respond to the command &quot;stick&quot; just as if it were &quot;tie&quot;.]\n\nUnderstand &quot;peel [something]&quot; or &quot;peel off [something]&quot; as taking.\n\n')"><img border=0 src=paste.png></a> &quot;Brown&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Shipping Room is a room. The red sticky label is a thing carried by the player. The description of the red sticky label is &quot;It reads: AIRMAIL[if the label is part of something (called the parent)]. It is stuck to [the parent][end if].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The black crate is a thing in Shipping. The description is &quot;A boring black crate.&quot;  The brown crate is a thing in Shipping. The description is &quot;An ordinary brown crate.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After examining something when the label is part of the noun:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A bright red sticky label is attached to [the noun]!&quot;
+</font></blockquote><p>
+<p>
+<p>Here is the essential point: whenever we ATTACH LABEL TO something, it becomes part of that object.
+<p>
+<blockquote><font color="#000080">Instead of tieing the red sticky label to something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the red sticky label is part of the second noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You stick [the label] to [the second noun].&quot;
+</font></blockquote><p>
+<p>
+<p>And of course the label cannot be stuck to itself or to more than one thing at a time.
+<p>
+<blockquote><font color="#000080">Before tieing the label to something when the label is part of something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the label is part of the second noun
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes topic entry
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(that is, [macro entry])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace the matched text with macro entry;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The label] is already stuck to [the second noun].&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first freeing the label)[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;silently try taking the label;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the label is part of something, stop the action;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Compound Commands
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">macro</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;clean up&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;get all carpet bits. put all carpet bits in trash. vacuum.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;quit nicely&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;save. quit.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">Instead of tieing the red sticky label to the label:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;That would ruin the label entirely.&quot;
 </font></blockquote><p>
 <p>
-<p>Most of the time it would be vastly more useful to define separate commands for these compound processes, but if for some reason we wanted to do this it would be trivial.
-</td></tr></table><p><a name="e64"><a href=ex64.html#e64><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Responding to the player's input based on keywords only, and overriding the original parser entirely.</i><p>
-<a name="e66"><a href=ex66.html#e66><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A character who responds to keywords in the player's instructions and remarks, even if there are other words included.</i><p>
-<p><hr><p><a href=doc246.html>Previous</a> / <a href=doc248.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Instead of taking the label when the label is part of something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the player carries the label;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You peel the label off again.&quot;;
+</font></blockquote><p>
+<p>
+<p>Much of the rest is just tidying to make sure that the player's commands are redirected into the right syntax.
+<p>
+<blockquote><font color="#000080">Instead of tieing something to the label:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try tieing the label to the noun.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of putting the label on something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try tieing the label to the second noun.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of inserting the label into something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try tieing the label to the second noun.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand the commands &quot;stick&quot; or &quot;apply&quot; as &quot;tie&quot;.
+</font></blockquote><p>
+<p>
+<p>We could have created a new &quot;sticking&quot; action, but to keep the example short we will use the built-in &quot;tieing&quot; action instead, and respond to the command &quot;stick&quot; just as if it were &quot;tie&quot;.
+<p>
+<blockquote><font color="#000080">Understand &quot;peel [something]&quot; or &quot;peel off [something]&quot; as taking.
+</font></blockquote><p>
+</td></tr></table><p><a name="e29"><a href=ex29.html#e29><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>The charter boat scenario turned into a somewhat fuller scene, with various features that have not yet been explained.</i><p>
+<p><hr><p><a href=doc42.html>Previous</a> / <a href=doc44.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

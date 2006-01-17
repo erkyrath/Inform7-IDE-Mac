@@ -1,4 +1,4 @@
-<html><head><title>16.6. Beginning and ending activities manually</title></head>
+<html><head><title>16.2. How activities work</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,28 +7,33 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc234.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc236.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.6. Beginning and ending activities manually</b></td></tr></table><p>
+<table><tr><td><a href=doc234.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc236.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.2. How activities work</b></td></tr></table><p>
 <p>
-<p>There are times when it is not convenient to write a suitable &quot;for ...&quot; rule, or when we cannot be bothered. For such times we are allowed to write:
+<p>All activities start, continue for a while and then finish: however, no activity ever runs on for more than a single turn. Several activities can be going on at the same time. For instance, suppose the following is printed as part of the description of a grocery:
 <p>
-<blockquote><font color="#000080">begin the analysing activity with the pitchblende;
-<br>...
-<br>end the analysing activity with the pitchblende;
+<blockquote><font color="#000080">You can see a banana, an apple and a star-fruit here.
 </font></blockquote><p>
 <p>
-<p>but we need to be careful to follow three golden rules: all activities must end, they must never last longer than a turn, and if activity B starts during activity A then it must also finish during activity A. We must also be careful to make sure that if an activity applies to something, then it begins and ends with the same something (the pitchblende, in the above example).
+<p>At the moment when Inform prints &quot;apple&quot;, two activities are under way: &quot;listing contents of the Grocery&quot;, and &quot;printing the name of the apple&quot;. The sequence of events was in fact:
 <p>
-<p>The before rules are considered at the time of the &quot;begin ...&quot; phrase; the after rules at the &quot;end ...&quot;. What, then, of the &quot;for&quot; rules? In the above setup, they would simply be ignored. But we can make them effectual like so:
-<p>
-<blockquote><font color="#000080">begin the analysing activity with the pitchblende;
-<br>...
-<br>if handling the analysing activity with the pitchblende begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;...
-<br>end if;
-<br>...
-<br>end the analysing activity with the pitchblende;
+<blockquote><font color="#000080">say &quot;You can see &quot;
+<br><i>start listing contents of the Grocery</i>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;a &quot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>start printing the name of the banana</i>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;banana&quot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>finish printing the name of the banana</i>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;, an &quot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>start printing the name of the apple</i>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;apple&quot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>finish printing the name of the apple</i>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; and a &quot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>start printing the name of the star-fruit</i>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;star-fruit&quot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>finish printing the name of the star-fruit</i>
+<br><i>finish listing contents of the Grocery</i>
+<br>say &quot; here.&quot;
 </font></blockquote><p>
 <p>
-<p>The &quot;for&quot; rules are invoked when the &quot;handling ...&quot; test is carried out: the condition is true only if no rule has intervened. Thus we should place the activity's normal behaviour inside the &quot;if&quot;.
+<p>The golden rule is: if activity B starts during activity A, it must also finish during activity A.
 <p>
 <p><hr><p><a href=doc234.html>Previous</a> / <a href=doc236.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

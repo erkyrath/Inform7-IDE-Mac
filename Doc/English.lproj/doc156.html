@@ -1,4 +1,4 @@
-<html><head><title>11.3. Giving instructions to other people</title></head>
+<html><head><title>11.4. Persuasion</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,33 +7,35 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc155.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc157.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.3. Giving instructions to other people</b></td></tr></table><p>
+<table><tr><td><a href=doc155.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc157.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.4. Persuasion</b></td></tr></table><p>
 <p>
-<p>So far, all actions have been carried out by the player: which is fine for exploring the passive world of an empty warehouse, but less good for a drama in which other characters have to be contended with. In fact, an action can be carried out by anybody - by any instance of the &quot;person&quot; kind, that is, which includes all the men, women and animals in the game, and not only the player.
-<p>
-<p>In interactive fiction, players conventionally ask other characters to do something with commands like so:
+<p>&quot;Asking ... to try ...&quot; actions run through their Before and Instead rules like any other actions, but then (if no rule has intervened) something different happens: Inform has to decide whether the person asked consents to try the action or not. By default, the answer is always no, and text like the following will be printed:
 <p>
 <blockquote><font color="#000080">> will, go west
+<br>Will has better things to do.
 </font></blockquote><p>
 <p>
-<p>Clearly &quot;will, go west&quot; should not produce the same action as &quot;go west&quot;, because a different person will be trying it: this person is called the &quot;actor&quot;, and while the actor is ordinarily the player, here it is the character called Will. Inform distinguishes these two actions like so:
+<p>However, we can intervene to make the answer &quot;yes&quot;, using a special kind of rule which produces a yes/no answer. The following examples show how we can give broad or narrow permission, as we choose:
 <p>
-<blockquote><font color="#000080">going west
-<br>asking Will to try going west
+<blockquote><font color="#000080">Persuasion rule for asking people to try going: persuasion succeeds.
+<br>Persuasion rule for asking Will to try going west: persuasion succeeds.
 </font></blockquote><p>
 <p>
-<p>As a result, we can write rules like so:
+<p>(Such a rule can either declare that &quot;persuasion succeeds&quot;, or that &quot;persuasion fails&quot;, or make no decision and leave it to another rule to say.) The following rule, which is really only suitable for testing, makes everybody infinitely obliging:
 <p>
-<blockquote><font color="#000080">Instead of asking Will to try going west, say &quot;Will scratches his head, baffled by this talk of westward. Is not the ocean without bound?&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Persuasion rule for asking people to try doing something: persuasion succeeds.\n\n\n')"><img border=0 src=paste.png></a> Persuasion rule for asking people to try doing something: persuasion succeeds.
 </font></blockquote><p>
 <p>
-<p>To write rules like this, we sometimes want to generalise about who is supposed to do the deed. To do this we can refer to &quot;person asked&quot;, just as the &quot;noun&quot; stands for whatever noun was typed:
+<p>Supposing that Will does decide to cooperate, a new action is generated:
 <p>
-<blockquote><font color="#000080">Instead of asking somebody to take something, say &quot;I don't think we ought to tempt [the person asked] into theft, surely?&quot;
+<blockquote><font color="#000080">Will trying going west
 </font></blockquote><p>
 <p>
-<p>So if the player types &quot;Algy, take sandwich&quot;, the &quot;person asked&quot; would be Algy; the &quot;noun&quot; would be the sandwich; and there would be no &quot;second noun&quot;.
+<p>and this is then subject to all of the usual action machinery. For instance, we could write a rule such as:
 <p>
-<p><hr><p>
-<a name="e63"><a href=ex63.html#e63><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A person who can accept instructions to go to new destinations and move towards them according to the most reasonable path.</i><p>
+<blockquote><font color="#000080">Instead of Will trying going west, say &quot;He runs out into the waves, but soon returns, rueful.&quot;
+</font></blockquote><p>
+<p>
+<p>So in this case the new action (&quot;Will trying going west&quot;) failed: but the original action, &quot;asking Will to try going west&quot;, is still deemed to have succeeded - after all, Will <i>did</i> try. To put it more formally, &quot;asking X to try A&quot; succeeds if the persuasion rules succeed, and otherwise fails.
+<p>
 <p><hr><p><a href=doc155.html>Previous</a> / <a href=doc157.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

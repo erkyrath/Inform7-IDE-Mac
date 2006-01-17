@@ -1,4 +1,4 @@
-<html><head><title>20.8. Emily Short <emshort@mindspring.com> -  Niggling spacing issue</title></head>
+<html><head><title>19.12. Making new assertion sentences</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,61 +7,44 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc296.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc298.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>20.8. Emily Short <emshort@mindspring.com> -  Niggling spacing issue</b></td></tr></table><p>
+<table><tr><td><a href=doc296.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc298.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.12. Making new assertion sentences</b></td></tr></table><p>
 <p>
-<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 30 September 2005
+<p>The following feature is best used sparingly if at all: in fact, it is a feature introduced in the very early days of Inform 7 and which may be removed altogether now that there is a more sophisticated way to handle new verbs.
 <p>
-<p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
+<p>We have already seen that the following sentences are equivalent:
 <p>
-<p><i>Build:</i> 2Z20
-<p>
-<p><i>Platform:</i> Mac OS X
-<p>
-<p>
-<p>
-<p><i>Code example:</i>
-<p>
-<p>
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The Sound Stage is a room. Clark Gable is a transparent man in the Sound Stage. &quot;Clark is here, carrying [the list of things carried by Clark][if Clark wears anything] and wearing [the list of things worn by Clark][end if].&quot; Clark carries a swagger stick. Clark carries a player\'s holdall called a briefcase. The briefcase contains a signed contract. [The carrying capacity of Clark is 2.] Clark wears a fedora and a pair of pants. Clark carries a portable supporter called a tray.\n\nThe stage door is west of the Sound Stage and east of the Lot. It is a door. The automobile is a vehicle in the Stage.\n\nA persuasion rule for asking Clark to try doing something: persuasion succeeds.\n\n\nThe player carries a small key, a tent, and Variety Magazine. The stage door is lockable and locked. The small key unlocks the stage door.\n\nA fixed in place container called a cage is in the Sound Stage. It is openable, transparent, pushable between rooms, enterable, and closed. In the cage is a lion. The lion is an animal. A bone is in the cage.  A seat is fixed in place in the cage. The seat is an enterable supporter.\n\n\n\n\n\n')"><img border=0 src=paste.png></a> The Sound Stage is a room. Clark Gable is a transparent man in the Sound Stage. &quot;Clark is here, carrying [the list of things carried by Clark][if Clark wears anything] and wearing [the list of things worn by Clark][end if].&quot; Clark carries a swagger stick. Clark carries a player's holdall called a briefcase. The briefcase contains a signed contract. [The carrying capacity of Clark is 2.] Clark wears a fedora and a pair of pants. Clark carries a portable supporter called a tray.
+<blockquote><font color="#000080">The matching key of the blue door is the brass key.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The stage door is west of the Sound Stage and east of the Lot. It is a door. The automobile is a vehicle in the Stage.
+<blockquote><font color="#000080">The brass key unlocks the blue door.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A persuasion rule for asking Clark to try doing something: persuasion succeeds.
+<p>This comes about because the Standard Rules include the following line:
+<p>
+<blockquote><font color="#000080">X unlocks Y means that the matching key of Y is X.
 </font></blockquote><p>
 <p>
+<p>We can make definitions like this at any point, but had better do so with some care and forethought. They make it possible to talk very elegantly about things belonging to new kinds, but the potential for havoc is considerable if they take effect in an unintended context. Up to four different variables are allowed, but must be called W, X, Y or Z for clarity: and note that they can be matched by empty text. Similarly, Inform also defines
 <p>
-<blockquote><font color="#000080">The player carries a small key, a tent, and Variety Magazine. The stage door is lockable and locked. The small key unlocks the stage door.
+<blockquote><font color="#000080">Above means up from. Below means down from.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A fixed in place container called a cage is in the Sound Stage. It is openable, transparent, pushable between rooms, enterable, and closed. In the cage is a lion. The lion is an animal. A bone is in the cage.  A seat is fixed in place in the cage. The seat is an enterable supporter.
+<p>This tells Inform to transform &quot;above&quot; into &quot;up from&quot; whenever it occurs in an assertion, and similarly for &quot;below&quot;. Thus
+<p>
+<blockquote><font color="#000080">The Skylight is above the Conservatory.
 </font></blockquote><p>
 <p>
+<p>is transformed to
 <p>
+<blockquote><font color="#000080">The Skylight is up from the Conservatory.
+</font></blockquote><p>
 <p>
+<p>Notice that &quot;means that&quot; applies a change only to an entire sentence, whereas &quot;means&quot; applies to smaller pieces of text. Because of this, &quot;means&quot; has to be used with even more care. Moreover, &quot;means&quot; can't be used to change the words in phrases, so for instance the following fails:
 <p>
-<p><i>What goes wrong:</i>
-<p>
-<p>
-<p>>open cage
-<p>You open the cage.
-<p>
-<p>>get in cage
-<p>You get into the cage.
-<p>
-<p>
-<p>In the cage you can see a lion, a bone and a seat.
-<p>
-<p>>
-<p>
-<p>
-<p>
-<p><i>Comments:</i>
-<p>
-<p>
-<p>Note the two lines between &quot;you get into the cage&quot; and &quot;in the cage...&quot;
-<p>
+<blockquote><font color="#000080">Determine means decide.
+<br>To determine whether song moves us:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying the blue note, yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;no.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc296.html>Previous</a> / <a href=doc298.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

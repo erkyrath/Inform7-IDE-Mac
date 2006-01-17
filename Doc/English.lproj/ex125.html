@@ -1,4 +1,4 @@
-<html><head><title>4.15. Using new kinds of value in properties</title></head>
+<html><head><title>16.17. Supplying a missing noun/second noun</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,64 +7,50 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc57.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc59.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.15. Using new kinds of value in properties</b></td></tr></table><p>
+<table><tr><td><a href=doc249.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc251.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.17. Supplying a missing noun/second noun</b></td></tr></table><p>
 <p>
-<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
+<p><b>1. When it happens.</b> (Two different activities here, but identical except for applying to different nouns.) Suppose that, because of an instruction to Understand something even though it would be lacking a noun - say, 'Understand &quot;take&quot; as taking.' - an incomplete action is generated, one which is required to have a noun, but doesn't. &quot;Supplying a missing noun&quot; takes place to remedy the problem. It can either:
 <p>
-<blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.
+<p>(i) Set a noun, printing text like &quot;(presumably the black bag)&quot; if it wants, in which case the action goes forward, though it is still subject to the full rules on accessibility exactly as any other action would be; or
+<p>
+<p>(ii) Make no choice, in which case no action takes place and the player's command is rejected. If the activity printed nothing, Inform will produce a generic reply to the player that &quot;You must supply a noun.&quot;.
+<p>
+<p><b>2. The default behaviour.</b> In the default grammar for Inform, only three such half-finished actions are ever Understood. One is &quot;going&quot; with no direction, for which this activity simply prints a refusal. The other two are the two undirected senses, &quot;smelling&quot; and &quot;listening&quot;. In each case, the &quot;supplying a missing noun&quot; activity sets the noun to the current location: so, for instance, typing the bare command &quot;listen&quot; might generate the action &quot;listening to the Shoreline&quot;.
+<p>
+<p><b>3. Examples.</b> (a) This is the definition Inform uses to make &quot;listen&quot; work as outlined above:
+<p>
+<blockquote><font color="#000080">Rule for supplying a missing noun while listening (this is the ambient sound rule): change the noun to the location.
 </font></blockquote><p>
 <p>
-<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
+<p>(b) It can be elegant to allow second nouns to be dropped with habitual actions, or where the choice is obvious:
 <p>
-<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
-<p>
-<blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;unlock [something]&quot; as unlocking it with.\n\nRule for supplying a missing second noun while unlocking:\n\tif the skeleton key is carried, change the second noun to the skeleton key;\n\totherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;\n\n\n\n')"><img border=0 src=paste.png></a> Understand &quot;unlock [something]&quot; as unlocking it with.
 </font></blockquote><p>
 <p>
-<p>New kinds of value are very convenient when substituting variations in text:
-<p>
-<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.
+<blockquote><font color="#000080">Rule for supplying a missing second noun while unlocking:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the skeleton key is carried, change the second noun to the skeleton key;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;
 </font></blockquote><p>
 <p>
-<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e125"><a href=doc58.html#e125><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Signpost that points to various destinations, depending on how the player has turned it.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e125"><a href=doc250.html#e125><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Supplying a default direction for "go", so that "leave", "go", etc., are always interpreted as "out".</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Signs and Portents&quot;\n\nSeven Dials is a room. The description of Seven Dials is &quot;There is a signpost, on which seven hands swivel and swing, freely as weathercocks. They make your present road now London, now Abingdon; now Weston-super-Mare, or now Hell.&quot;\n\nSeven Dials contains a signpost. The signpost is scenery. Understand &quot;sign&quot; and &quot;post&quot; as the signpost.\n\nDestination is a kind of value. The destinations are London, Abingdon, Luton, Weston-super-Mare, Runnymede, Hell, and Low Noon.\n\nThe signpost has a destination.\n\n[In order to interact with the signpost, we will need to borrow some action rules from chapter 6:]\n\nInstead of examining the signpost:\n\tsay &quot;[The signpost] currently puts you on the road to [italic type][the destination of the signpost][roman type], but it swiftly alters again.&quot;;\n\tchange the destination of the signpost to the destination after the destination of the signpost.\n\nInstead of turning the signpost:\n\tchange the destination of the signpost to the destination after the destination of the signpost;\n\tsay &quot;With a hand\'s touch you turn the signpost to mark your way for [italic type][the destination of the signpost][roman type].&quot;\n\nInstead of going north in Seven Dials when the destination of the signpost is Hell:\n\tsay &quot;It is a path that goes gently ever down and down with no stumbling block or any distraction at either side; there are no bandits and no tolls.&quot;;\n\tend the game in death.\n\nInstead of going north in Seven Dials when the destination of the signpost is Low Noon:\n\tsay &quot;A long road whose scenery does not change, nor anything on the horizon move but the sun. When at last you come to Noon, she hangs above your head like a hat.&quot;;\n\tend the game in victory.\n\n')"><img border=0 src=paste.png></a> &quot;Signs and Portents&quot;
+<p>Sometimes it would be nice to respond a little more sensitively to a vague command such as &quot;leave&quot; -- converting it, perhaps, to a &quot;go out&quot; command.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Minimal Movement&quot;\n\nThe Doll-like House is a room. The Postage-Stamp-Sized Garden is outside from the House.\n\nRule for supplying a missing noun while going:\n\tchange noun to outside.\n\n[This particular situation is very slightly complicated by the existing rules about vague movement, but fortunately we can easily turn those off.]\n\nProcedural rule: ignore the block vaguely going rule.\n\n')"><img border=0 src=paste.png></a> &quot;Minimal Movement&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Seven Dials is a room. The description of Seven Dials is &quot;There is a signpost, on which seven hands swivel and swing, freely as weathercocks. They make your present road now London, now Abingdon; now Weston-super-Mare, or now Hell.&quot;
+<blockquote><font color="#000080">The Doll-like House is a room. The Postage-Stamp-Sized Garden is outside from the House.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Seven Dials contains a signpost. The signpost is scenery. Understand &quot;sign&quot; and &quot;post&quot; as the signpost.
+<blockquote><font color="#000080">Rule for supplying a missing noun while going:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change noun to outside.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Destination is a kind of value. The destinations are London, Abingdon, Luton, Weston-super-Mare, Runnymede, Hell, and Low Noon.
-</font></blockquote><p>
+<p>This particular situation is very slightly complicated by the existing rules about vague movement, but fortunately we can easily turn those off.
 <p>
-<blockquote><font color="#000080">The signpost has a destination.
+<blockquote><font color="#000080">Procedural rule: ignore the block vaguely going rule.
 </font></blockquote><p>
-<p>
-<p>In order to interact with the signpost, we will need to borrow some action rules from chapter 6:
-<p>
-<blockquote><font color="#000080">Instead of examining the signpost:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The signpost] currently puts you on the road to [italic type][the destination of the signpost][roman type], but it swiftly alters again.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the destination of the signpost to the destination after the destination of the signpost.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of turning the signpost:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the destination of the signpost to the destination after the destination of the signpost;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;With a hand's touch you turn the signpost to mark your way for [italic type][the destination of the signpost][roman type].&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of going north in Seven Dials when the destination of the signpost is Hell:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It is a path that goes gently ever down and down with no stumbling block or any distraction at either side; there are no bandits and no tolls.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in death.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of going north in Seven Dials when the destination of the signpost is Low Noon:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A long road whose scenery does not change, nor anything on the horizon move but the sun. When at last you come to Noon, she hangs above your head like a hat.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in victory.
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc57.html>Previous</a> / <a href=doc59.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><a name="e39"><a href=ex39.html#e39><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>DIG implementation which digs a hole in the location (without requiring the player to type DIG GROUND or something similar).</i><p>
+<p><hr><p><a href=doc249.html>Previous</a> / <a href=doc251.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

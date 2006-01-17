@@ -1,4 +1,4 @@
-<html><head><title>10.11. Let and temporary variables</title></head>
+<html><head><title>15.10. Understanding values</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,74 +7,60 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc147.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc149.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.11. Let and temporary variables</b></td></tr></table><p>
+<table><tr><td><a href=doc225.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc227.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.10. Understanding values</b></td></tr></table><p>
 <p>
-<p>A variable, as we have seen, is a name for a value which changes, though always remaining of the same kind. For instance, if &quot;target&quot; is a number variable (or &quot;number that varies&quot;) then it may change value from 2 to 4, but not from 2 to &quot;fishknife&quot;.
+<p>So far every &quot;Understand&quot; sentence has ended with &quot;as&quot; and a description of an action. But we can also use &quot;Understand&quot; to supply new ways to talk about things and even values. For instance, if we create:
 <p>
-<p>To make complicated decisions, phrases often need to remember values on a temporary basis. We have already seen this for the counter in a &quot;repeat&quot; loop, which exists only inside that loop, and then is no longer needed. Now we define named values which exist only inside the current phrase. For instance:
-<p>
-<blockquote><font color="#000080">let outer bull be 25;
-<br>let the current appearance be &quot;reddish brown&quot;;
-<br>let the special room be Marley Wood;
+<blockquote><font color="#000080">A brass lantern is in the Building.
 </font></blockquote><p>
 <p>
-<p>creates temporary variables &quot;outer bull&quot;, &quot;current appearance&quot; and &quot;special room&quot;. The kinds of these are deduced from the values given, so that, for instance,
+<p>then it can be called &quot;brass&quot;, or &quot;lantern&quot;, but not &quot;lamp&quot;: Inform does not really know what these words mean, and has no grasp of synonyms. We can arrange for &quot;lamp&quot; to work as well like so:
 <p>
-<blockquote><font color="#000080">say &quot;The outer bull scores [the outer bull in words] when you practice archery in [special room].&quot;
+<blockquote><font color="#000080">Understand &quot;lamp&quot; as the lantern.
+<br>Understand &quot;old lamp&quot; as the lantern.
 </font></blockquote><p>
 <p>
-<p>produces
+<p>With care, we can do the same trick for entire kinds of thing at once. It is not ordinarily the case that a thing can be called by the name of its kind: if we put a woman called April into a room, then she can usually be called &quot;April&quot;, but not &quot;woman&quot;. (The exception is when we do not specify any name for her - in that case, Inform will give up and call her just &quot;woman&quot;.) So there is not usually any form of words which can refer to anything of a given kind. If we should want this, we have to say so explicitly:
 <p>
-<blockquote><font color="#000080">The outer bull scores twenty-five when you practice archery in Marley Wood.
+<blockquote><font color="#000080">Understand &quot;machine&quot; as a device.
 </font></blockquote><p>
 <p>
-<p>Temporary variables made by &quot;let&quot; are only temporarily in existence while a phrase is being carried out. Their values often change: we could say
+<p>Device is a kind, so now the word &quot;machine&quot; can be used to refer to any device: if there are two in the same place, the result might play out like so:
 <p>
-<blockquote><font color="#000080">let x be 10;
-<br>change x to 11;
+<blockquote><font color="#000080">>switch machine on
+<br>Which do you mean, the bale twiner or the grain thresher?
+<br>>twiner
+<br>You watch absorbed as a perfect cube of hay is trussed up like a parcel.
 </font></blockquote><p>
 <p>
-<p>for instance, or indeed we could &quot;let x be 10&quot; and then &quot;let x be 11&quot;. But although we are allowed to change the value, we are not allowed to change the kind of value. The name &quot;x&quot; must always have the same kind of value throughout the phrase to which it belongs, so the following will not be allowed:
+<p>Similarly, we might conceivably want to allow new ways to recognise values - in this case, a number:
 <p>
-<blockquote><font color="#000080">let x be 45;
-<br>change x to &quot;Norway&quot;;
+<blockquote><font color="#000080">Understand &quot;eleventy-one&quot; as 111.
 </font></blockquote><p>
-<p>
-<p>(The difference between &quot;let&quot; and &quot;change&quot; is that &quot;let&quot; can create a new temporary variable, whereas &quot;change&quot; can only alter one which already exists: on the other hand, &quot;change&quot; can change many other things as well, whereas &quot;let&quot; applies only to temporary variables.)
 <p>
 <p><hr><p>
-<a name="e121"><a href=ex121.html#e121><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A worked example using a new kind of value, "colour", within phrases to talk about tinted wallpaper.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e85"><a href=doc148.html#e85><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>More on using kinds of value inside phrases, this time to simulate something new: a box which, although it cannot be picked up, can be pushed around between three different places on the floor.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e85"><a href=doc226.html#e85><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>An artist's workshop in which the canvas can be painted in any colour, and where painterly names for pigments ("cerulean") are accepted alongside everyday ones ("blue").</i><p>
 <p>
-<p>The strategy is to make the three possible positions of the box into values.
+<p>There are hundreds of traditional pigments, from lampblack to burnt sienna, so we will confine ourselves to just two:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase. The current box position is a box position that varies.\n\nTo shove the box to (destination - a box position):\n\tsay &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;;\n\tchange the current box position to the destination.\n\n\n')"><img border=0 src=paste.png></a> Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase. The current box position is a box position that varies.
+<blockquote><font color="#000080">&quot;Palette&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To shove the box to (destination - a box position):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current box position to the destination.
+<blockquote><font color="#000080">The Atelier is a room. &quot;The floridly untidy loft space used by a moderately unsuccessful artist (you, that is).&quot; The canvas, palette and paint brush are here. Understand &quot;painting&quot; as the canvas.
 </font></blockquote><p>
 <p>
-<p>So, for instance:
-<p>
-<blockquote><font color="#000080">shove the box to over by the window;
+<blockquote><font color="#000080">Colour is a kind of value. The colours are white, red, blue and green.
 </font></blockquote><p>
 <p>
-<p>might result in the following on screen:
-<p>
-<blockquote><font color="#000080">With some effort, you shove the old box from under the shelf to over by the window.
+<blockquote><font color="#000080">The canvas is allowed to have a colour. The canvas is white. The printed name of the canvas is &quot;largely [colour] canvas&quot;.
 </font></blockquote><p>
 <p>
-<p>And we can write conditions like so:
-<p>
-<blockquote><font color="#000080">if the current box position is over by the window then...
+<blockquote><font color="#000080">Painting is an action applying to one thing and one colour. Check painting: if the noun is not the canvas then say &quot;Centuries of tradition suggest that canvas is the natural home of paint.&quot; instead. Carry out painting: change the colour of the canvas to the colour understood. Report painting: say &quot;You splash away at the now [canvas].&quot;
 </font></blockquote><p>
 <p>
-<p>Using a new kind of value is a good way to set up simulations like this one because Inform will ensure that the &quot;current box position&quot; always, no matter what we do, holds one of the three legal box positions. Similarly, a line like
-<p>
-<blockquote><font color="#000080">if the current box position is green then ...
+<blockquote><font color="#000080">Understand &quot;paint [something] [a colour]&quot; as painting.
 </font></blockquote><p>
 <p>
-<p>will be disallowed because box positions and colours are incomparable.
-</td></tr></table><p><p><hr><p><a href=doc147.html>Previous</a> / <a href=doc149.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Understand &quot;calico&quot; as white. Understand &quot;cerulean&quot; or &quot;cerulean blue&quot; as blue.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc225.html>Previous</a> / <a href=doc227.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>5.3. Sources of adjectives</title></head>
+<html><head><title>5.4. Defining new adjectives</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,15 +7,29 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc65.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc67.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.3. Sources of adjectives</b></td></tr></table><p>
+<table><tr><td><a href=doc65.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc67.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.4. Defining new adjectives</b></td></tr></table><p>
 <p>
-<p>We have seen two sorts of adjectives so far: those which refer to either/or properties, like &quot;open&quot; and &quot;closed&quot;, and those which come out of new kinds of value. If we define
+<p>Suppose we want to coin a word for supporters currently supporting something. We can do so with the following sentence:
 <p>
-<blockquote><font color="#000080">Texture is a kind of value. The textures are rough, stubbly and smooth. Everything has a texture.
+<blockquote><font color="#000080">Definition: A supporter is occupied if something is on it.
 </font></blockquote><p>
 <p>
-<p>...then &quot;rough&quot;, &quot;stubbly&quot; and &quot;smooth&quot; all become adjectives. (That last sentence &quot;Everything has a texture&quot; was essential, because without it Inform would not know that these words could meaningfully be applied to things.)
+<p>Note the colon, which is essential, and the usage of &quot;it&quot; in the definition part to refer to the object in question. (For this purpose we would write &quot;it&quot; even if we were defining a term about, say, a woman instead of a supporter, so that &quot;she&quot; or &quot;her&quot; might seem more appropriate.)
 <p>
-<p>In addition to these adjectives, we can create new ones (as we shall see), and a few special adjectives such as &quot;visible&quot;, &quot;touchable&quot; and &quot;adjacent&quot; are already defined for us by Inform.
+<p>This creates the adjective &quot;occupied&quot;, and gives it a definition valid for supporters. That restriction on validity means that non-supporters would always fail the description &quot;something occupied&quot;; which might be unfortunate if we wanted to walk about rooms being occupied. We could give a second definition thus:
 <p>
+<blockquote><font color="#000080">Definition: A room is occupied if a person is in it.
+</font></blockquote><p>
+<p>
+<p>These are entirely different senses of the word &quot;occupied&quot; - a mantelpiece is occupied if an invitation is on it, but for a drawing room to be occupied there must be human presence - and Inform applies whichever sense is relevant when deciding whether or not a given object is &quot;occupied&quot;.
+<p>
+<p>Newly defined adjectives cannot be used when creating things, because they are not explicit enough. Inform could not satisfy:
+<p>
+<blockquote><font color="#000080">The Ballroom is occupied. The bucket is a large container.
+</font></blockquote><p>
+<p>
+<p>because there is not enough information: by whom is the Ballroom occupied? How large, exactly? On the other hand, newly defined adjectives are very helpful in conditions and for rules, as we shall see later on.
+<p>
+<p><hr><p>
+<a name="e52"><a href=ex52.html#e52><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>The "another" adjective for rules such as "in the presence of another person".</i><p>
 <p><hr><p><a href=doc65.html>Previous</a> / <a href=doc67.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

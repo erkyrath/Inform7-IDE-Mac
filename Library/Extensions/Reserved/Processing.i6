@@ -1,6 +1,33 @@
 !! Processing.i6: code for processing rules and rulebooks
 
 Constant RTP_BACKDROP 1;
+Constant RTP_EXITDOOR 2;
+Constant RTP_NOEXIT 3;
+Constant RTP_CANTCHANGE 4;
+Constant RTP_IMPREL 5;
+Constant RTP_RULESTACK 6;
+Constant RTP_TOOMANYRULEBOOKS 7;
+Constant RTP_TOOMANYEVENTS 8;
+Constant RTP_BADPROPERTY 9;
+Constant RTP_UNPROVIDED 10;
+Constant RTP_UNSET 11;
+Constant RTP_TOOMANYACTS 12;
+Constant RTP_CANTABANDON 13;
+Constant RTP_CANTEND 14;
+Constant RTP_CANTMOVENOTHING 15;
+Constant RTP_CANTREMOVENOTHING 16;
+Constant RTP_DIVZERO 17;
+Constant RTP_BADVALUEPROPERTY 18;
+Constant RTP_NOTBACKDROP 19;
+Constant RTP_TABLE_NOCOL 20;
+Constant RTP_TABLE_NOCORR 21;
+Constant RTP_TABLE_NOROW 22;
+Constant RTP_TABLE_NOENTRY 23;
+Constant RTP_TABLE_NOTABLE 24;
+Constant RTP_TABLE_NOMOREBLANKS 25;
+Constant RTP_TABLE_NOROWS 26;
+Constant RTP_TABLE_CANTSORT 27;
+
 
 ! The rule change stack contains 3-word (6 byte) records,
 ! defined thus:
@@ -10,7 +37,7 @@ Constant RTP_BACKDROP 1;
 
 [ PushRuleChange usage rule1 rule2;
   if (rulechange_sp >= RS_CAPACITY) {
-      print "*** Rule change stack exhausted ***^^";
+      return RunTimeProblem(RTP_RULESTACK);
   }
   rulechange_stack-->rulechange_sp++ = usage;
   rulechange_stack-->rulechange_sp++ = rule1;
@@ -51,13 +78,7 @@ Global rule_frames = 0;
   rule_frames++;
 !print "+<", rule_frames, "/", rulechange_sp, ">";
   if (rule_frames == 20) {
-      print ">--> Too many rulebooks are being followed at once. 
-          Rulebooks pile up when the rules governing one
-          action call for another action to take place first,
-          and when the limit (20) is reached, this usually
-          indicates that an action is directly or indirectly
-          duplicating itself: for instance, 'Before going
-          north, try going north.' has this effect.^^";
+      RunTimeProblem(RTP_TOOMANYRULEBOOKS);
       rule_frames = -1;
       return;
   }
@@ -94,6 +115,7 @@ Constant RS_SUBSTITUTE = 7;
 Constant RS_SUCCEEDS   = 8;
 Constant RS_FAILS      = 9;
 
+
 ! A variable logging the depth of recursion of rulebook
 ! processing, which at present is used only to print neatly
 ! formatted debugging:
@@ -113,6 +135,8 @@ Global process_rulebook_count;
 Constant RS_ACTIVE_BIT = 1;
 Constant RS_MOVED_BIT = 2;
 Constant RS_USERESULT_BIT = 4;
+Constant RS_ACTIVITY = 8;
+Constant RS_NOSKIPS = 16;
 
 Constant NO_DEBUGGABLES = 4;
 Array debuggable_rulebooks --> APROC_RB PROC_RB ACCESS_RB TURNEND_RB;
@@ -162,10 +186,9 @@ Global debugging_rules = 0;
   debug_scenes = 0;
   "Scene monitoring is now switched off. Type ~scenes~ to switch it on again.";
 ];
-[ DB_Rule r f l;
-  l = PhraseNames-->r;
+[ DB_Rule l f;
   if (l==0) return;
-  print "@31[Rule ~", (string) RuleTexts-->l, "~ ";
+  print "@31[Rule ~", (I7_PrintRuleName) l, "~ ";
   if (f==0) "applies.]";
   "does not apply.]";
 ];
@@ -181,56 +204,42 @@ Verb meta "scenes"
 	* -> ScenesOn
 	* "off" -> ScenesOff;
 
-[ ProcessRulebook rulebook par activity_flag ignore_movements
-  i rv bits x frame_base substituted_rule usage rule1 rule2 sdbr original_deadflag;
+[ ProcessRulebook rulebook par bits rv
+  x frame_base substituted_rule usage original_deadflag;
+  if (bits) bits = RS_ACTIVITY + RS_NOSKIPS;
   if (rule_frames<0) rfalse;
   original_deadflag = deadflag;
   if (par) parameter_object = par;
   for (x = rulechange_sp-3: x>=0: x = x - 3) {
       usage = rulechange_stack-->x;
-      rule1 = rulechange_stack-->(x+1);
-      rule2 = rulechange_stack-->(x+2);
-      ! print x, ": US ", usage, " r1 ", rule1, " r2 ", rule2, "^";
       if (usage == RS_FRAME) { x=x+3; break; }
-      if ((usage == RS_MOVEBEFORE) && (rule1 == rulebook))
-          bits = bits | (RS_MOVED_BIT);
-      if ((usage == RS_MOVEAFTER) && (rule1 == rulebook))
-          bits = bits | (RS_MOVED_BIT);
+      if (rulechange_stack-->(x+1) == rulebook) {
+	      if (usage == RS_MOVEBEFORE) bits = bits | (RS_MOVED_BIT);
+	      if (usage == RS_MOVEAFTER) bits = bits | (RS_MOVED_BIT);
+	  }
   } if (x<0) x=0; frame_base = x;
-  if ((bits & RS_MOVED_BIT) && (ignore_movements == false)) { rfalse; }
+  if ((bits & RS_MOVED_BIT) && (rv == false)) { rfalse; }
+  ! rv was a call parameter: it's no longer needed and is now reused
   bits = bits | RS_ACTIVE_BIT;
   bits = bits | RS_USERESULT_BIT;
-  substituted_rule = rulebook;
-!if (rulebook == GoSub_C10) { print "Want GSC10^x=", x, "^";
-!for (i=0; i<rulechange_sp: i = i + 3) {
-!      usage = rulechange_stack-->i;
-!      rule1 = rulechange_stack-->(i+1);
-!      rule2 = rulechange_stack-->(i+2);
-!      print "Stack: ", usage, " ", rule1, " ", rule2, "^";
-!}
-!}
+  substituted_rule = rulebook; rv = 0;
   for (: x<rulechange_sp: x = x + 3) {
       usage = rulechange_stack-->x;
-      rule1 = rulechange_stack-->(x+1);
-      rule2 = rulechange_stack-->(x+2);
- !     if (rulebook == GoSub_C10) print "Found ", usage, " ", rule1, " ", rule2, "^";
-      if ((usage == RS_DONOTRUN) && (rule1 == rulebook))
-          bits = bits & (~RS_ACTIVE_BIT);
-      if ((usage == RS_RUN) && (rule1 == rulebook))
-          bits = bits | (RS_ACTIVE_BIT);
-      if ((usage == RS_DONOTUSE) && (rule1 == rulebook))
-          bits = bits & (~RS_USERESULT_BIT);
-      if ((usage == RS_USE) && (rule1 == rulebook))
-          bits = bits | (RS_USERESULT_BIT);
-      if ((usage == RS_SUBSTITUTE) && (rule1 == rulebook))
-          substituted_rule = rule2;
-      if ((usage == RS_MOVEBEFORE) && (rule2 == rulebook)) {
-           rv = ProcessRulebook(rule1, par, activity_flag, true);
-           if (rv) { return rv; }
+      if (rulechange_stack-->(x+1) == rulebook) {
+          if (usage == RS_DONOTRUN) bits = bits & (~RS_ACTIVE_BIT);
+          if (usage == RS_RUN) bits = bits | (RS_ACTIVE_BIT);
+          if (usage == RS_DONOTUSE) bits = bits & (~RS_USERESULT_BIT);
+          if (usage == RS_USE) bits = bits | (RS_USERESULT_BIT);
+          if (usage == RS_SUBSTITUTE) substituted_rule = rulechange_stack-->(x+2);
       }
-  } ! if (rulebook == GoSub_C10) print "Bits: ", bits, "^";
+      if ((usage == RS_MOVEBEFORE) && (rulechange_stack-->(x+2) == rulebook)) {
+          rv = ProcessRulebook(rulechange_stack-->(x+1), par, (bits & RS_ACTIVITY ~= 0), true);
+          if (rv) { return rv; }
+      }
+  }
   if ((bits & RS_ACTIVE_BIT) == 0) { rfalse; }
-  sdbr = debugging_rules;
+  ! We now reuse usage to keep the stack frame slimmer
+  usage = debugging_rules;
   AdjustDbr(substituted_rule);
   #ifndef I7_ECONOMY;
   if (debugging_rules) DebugRulebooks(substituted_rule, par);
@@ -239,21 +248,22 @@ Verb meta "scenes"
   process_rulebook_count = process_rulebook_count + debugging_rules;
   if ((substituted_rule >= 0) && (substituted_rule < HIGHEST_RULEBOOK_NO)) {
       substituted_rule = rulebooks_array-->substituted_rule;
-      for (i=0, rv=0: (substituted_rule-->i~=$ffff) && (original_deadflag == deadflag): i++) {
-          if ((rv = (ProcessRulebook(substituted_rule-->i, par, activity_flag)))
+      for (x=0, rv=0: (substituted_rule-->x~=$ffff) && (original_deadflag == deadflag): x++) {
+          if ((rv = (ProcessRulebook(substituted_rule-->x, par, (bits & RS_ACTIVITY ~= 0))))
               && (bits & RS_USERESULT_BIT)) break;
           rv = 0;
       }
   } else {
-      if ((say__p) && (activity_flag==false)) { new_line; say__p=0; }
+      if ((say__p) && (bits & RS_NOSKIPS == 0)) { new_line; say__p=0; }
       rv = indirect(substituted_rule);
       if (rv) rv = substituted_rule;
-      ! if ((say__p) && (activity_flag==false)) { new_line; say__p=0; }
+      ! if ((say__p) && (bits & RS_NOSKIPS == 0)) { new_line; say__p=0; }
   }
   if (rv && (bits & RS_USERESULT_BIT)) {
       AdjustDbr(substituted_rule);
   	  process_rulebook_count = process_rulebook_count - debugging_rules;
   	  if (process_rulebook_count < 0) process_rulebook_count = 0;
+      #ifndef I7_ECONOMY;
   	  if (debugging_rules) {
 	      spaces(2*process_rulebook_count);
     	  if (rulechange_stack-->rulechange_sp == RS_SUCCEEDS)
@@ -261,24 +271,23 @@ Verb meta "scenes"
     	  if (rulechange_stack-->rulechange_sp == RS_FAILS)
     	      print "[stopped: fail]^";
       }
-      debugging_rules = sdbr;
+      #endif;
+      debugging_rules = usage;
       return rv;
   }
   for (x=rulechange_sp-3: x>=frame_base: x = x-3) {
-      usage = rulechange_stack-->x;
-      rule1 = rulechange_stack-->(x+1);
-      rule2 = rulechange_stack-->(x+2);
-      if ((usage == RS_MOVEAFTER) && (rule2 == rulebook)) {
-          rv = ProcessRulebook(rule1, par, activity_flag, true);
+      if ((rulechange_stack-->x == RS_MOVEAFTER) &&
+          (rulechange_stack-->(x+2) == rulebook)) {
+          rv = ProcessRulebook(rulechange_stack-->(x+1), par, (bits & RS_ACTIVITY ~= 0), true);
           if (rv) { process_rulebook_count--;
-              debugging_rules = sdbr;
+              debugging_rules = usage;
       	      return rv;
       	  }
       }
   }
   process_rulebook_count = process_rulebook_count - debugging_rules;
   rulechange_stack-->rulechange_sp = 0;
-  debugging_rules = sdbr;
+  debugging_rules = usage;
   rfalse;
 ];
 
@@ -613,13 +622,15 @@ Global trace_actions = 0;
       switch (rv) {
           RS_SUCCEEDS: print "succeeded";
           RS_FAILS: print "failed";
+			  #IFNDEF I7_ECONOMY;
               if (I7_action_deciding_rule) {
                   for (p1=0:RuleNames-->p1:p1=p1+3)
 						if (RuleNames-->p1 == I7_action_deciding_rule) {
-							print " the ", (string) (RuleTexts-->(RuleNames-->(p1+2)));
+							print " the ", (I7_PrintRuleName) (RuleNames-->(p1+2));
 							break;
 						}
               }
+              #ENDIF;
           default: print "ended without result";
       }
       print "]^";
@@ -693,7 +704,7 @@ Global GVS_converted = -1;
   rtrue;
 ];
 [ AllowPushDir i oldrm newrm;
-  if ((noun provides i7_kind) && (noun hasnt pushable))
+  if ((noun ofclass K2_thing) && (noun hasnt pushable))
       return L__M(##PushDir,1,noun);
   if (parent(second)~=compass) return L__M(##PushDir,2,noun);
   if (second==u_obj or d_obj)  return L__M(##PushDir,3,noun);
@@ -710,7 +721,7 @@ Global GVS_converted = -1;
       if (R == I7TimerTable-->i) { b=i; jump SlotFound; }
       if ((b==0) && (I7TimerTable-->i == 0)) b=i;
   }
-  if (b==0) ">--> Too many timed events are going on at once.";
+  if (b==0) return RunTimeProblem(RTP_TOOMANYEVENTS);
   .SlotFound;
   I7TimerTable-->b = R;
   if (f == 0) I7TimerTableTimes-->b = -t;
@@ -733,16 +744,6 @@ Global GVS_converted = -1;
       }
   rfalse;
 ];
-[ SetDaemonRule d s i j;
-  j = daemonic_rules-->0;
-  for (i=1: i<=j: i++) {
-      if (daemonic_rules-->i == d) {
-          daemon_activity->(i-1) = s;
-          return;
-      }
-  }
-  ">--> You tried to start or stop a rule which was not a daemon.";
-];
 
 [ DA_Name n; print (name) n; ];
 [ DA_Topic ignore a b c d i;
@@ -757,10 +758,11 @@ Global GVS_converted = -1;
   print "~";
 ];
 [ DA_Number n; print n; ];
-[ FindAction t;
+[ FindAction fa t;
+  if (fa == 0) fa = action;
   t = 1;
   while (t <= ActionData-->0) {
-      if (action == ActionData-->t) return t;
+      if (fa == ActionData-->t) return t;
       t = t+9;
   }
   rfalse;
@@ -792,10 +794,19 @@ Global GVS_converted = -1;
   }
 ];
 [ I7_TryAction req by ac n s;
-  @push actor; @push act_requester;
+  @push actor; @push act_requester; @push inp1; @push inp2;
   actor = by; if (req) act_requester = player; else act_requester = 0;
-  <(ac) n s>;
-  @pull act_requester; @pull actor;
+!  print inp1, inp2, "^";
+  by = FindAction(ac);
+  if (by) {
+      if (ActionData-->(by+2) == 7) inp1 = noun; else inp1 = 1;
+      if (ActionData-->(by+3) == 7) inp2 = second; else inp2 = 1;
+  }
+!  print inp1, inp2, "^";
+  InformLibrary.begin_action(ac, n, s);
+!  <(ac) n s>;
+!  print inp1, inp2, "^";
+  @pull inp2; @pull inp1; @pull act_requester; @pull actor;
 ];
 
 [ RoundOffTime t1 t2; return ((t1+t2/2)/t2)*t2; ];
@@ -828,29 +839,40 @@ Global GVS_converted = -1;
 [ PermitAttribute f obj att off textual i a l; if (att<0) att = ~att;
   if (metaclass(obj) ~= Object) rfalse;
   if (f) off = attribute_offsets-->att; else off = property_offsets-->att;
-  if (off<0) {
-  print ">--> Bad property on ", (the) obj, "^"; rtrue; }
+  if (off<0) return RunTimeProblem(RTP_BADPROPERTY, obj);
   textual = property_metadata-->off; off++;
   if (PermitAttributeR(obj, off)) jump Okay;
   if (obj provides i7_kind) { l = (obj.#i7_kind)/2; a = obj.&i7_kind;
   for (i=0: i<l: i++) if (PermitAttributeR(a-->i, off)) jump Okay; }
-  print ">--> Since ", (the) obj, " is not allowed the property ~",
-      (string) textual, "~, it is against the rules to try to use it.^";
+  RunTimeProblem(RTP_UNPROVIDED, obj, textual);
   rfalse;
   .Okay; if (f) rtrue;
   if (obj provides att) rtrue;
-  print ">--> Although ", (the) obj, " is allowed to have the property ~",
-      (string) textual, "~, no value was ever given, so it can't now be used.^";
+  RunTimeProblem(RTP_UNSET, obj, textual);
   rfalse; ];
 [ AccessProp obj pr;
+  if (Value_Property_Holder provides pr) {
+      if ((obj<=0) || (obj > (Value_Property_Holder.pr)-->0)) {
+          RunTimeProblem(RTP_BADVALUEPROPERTY);
+          rfalse;
+      }
+      return (Value_Property_Holder.pr)-->(obj+1);
+  }
   if ((pr == door_to) && (obj provides pr)) return obj.pr();
   if (PermitAttribute(false, obj, pr)) return obj.pr;
   rfalse; ];
 [ WriteAccessProp obj pr val;
+  if (Value_Property_Holder provides pr) {
+      if ((obj<=0) || (obj > (Value_Property_Holder.pr)-->0))
+          return RunTimeProblem(RTP_BADVALUEPROPERTY);
+      (Value_Property_Holder.pr)-->(obj+1) = val;
+      return;
+  }
   if (PermitAttribute(false, obj, pr)) obj.pr = val; ];
 [ I7_Para x; say__p = 1; ];
 [ I7_LineBreak; if (say__p) { new_line; say__p=0; } ];
 [ I7_ParaBreak; if (say__p) { new_line; new_line; say__p=0; } ];
+Global I7_enable_rte = true;
 [ I7_Prompt i;
   ! print "^";
   style roman;
@@ -869,6 +891,7 @@ Global GVS_converted = -1;
       I7_box();
       I7_box = 0;
   }
+  I7_enable_rte = true;
 ];
 [ SL_Score_Moves;
   #ifdef I7_NOSCORE; print sline2; #ifnot; print sline1, "/", sline2; #endif;
@@ -927,7 +950,7 @@ Global inhibit_dr = 0;
   self = ss; return rv;
 ];
 [ BeginActivity A o;
-  if (activities_sp == 25) ">--> Too many activities going on at once.";
+  if (activities_sp == 25) return RunTimeProblem(RTP_TOOMANYACTS);
   activities_ostack-->activities_sp = o;
   activities_stack-->(activities_sp++) = A;
   FixInhibitFlag();
@@ -941,13 +964,13 @@ Global inhibit_dr = 0;
   if (activities_stack-->(activities_sp-1) == A) {
       rv = FollowRulebookSelfed(Activity_after_rulebooks-->A, o);
       activities_sp--; FixInhibitFlag(); return rv; }
-  .BadEnd; ">--> Tried to abandon activity which wasn't going on.";
+  .BadEnd; return RunTimeProblem(RTP_CANTABANDON);
 ];
 [ AbandonActivity A o;
   if (activities_sp == 0) jump BadEnd;
   if (activities_stack-->(activities_sp-1) == A) {
       activities_sp--; FixInhibitFlag(); return; }
-  .BadEnd; ">--> Tried to end activity which wasn't going on.";
+  .BadEnd; return RunTimeProblem(RTP_CANTEND);
 ];
 [ CarryOutActivity A o rv;
   BeginActivity(A,o); rv = ForActivity(A,o); EndActivity(A,o); return rv; ];
@@ -960,7 +983,7 @@ Global inhibit_dr = 0;
   rfalse;
 ];
 [ I7_Move F T opt ln;
-  if (F == false) ">--> You can't move nothing.";
+  if (F == false) return RunTimeProblem(RTP_CANTMOVENOTHING);
   if (F ofclass K7_backdrop) {
       if (T ofclass K9_region) {
           give F ~absent; F.found_in = T.regional_found_in;
@@ -968,11 +991,14 @@ Global inhibit_dr = 0;
           return; }
       return RunTimeProblem(RTP_BACKDROP, F, T, ln);
   }
+  if (T ofclass K9_region) {
+      return RunTimeProblem(RTP_NOTBACKDROP, F, T, ln);
+  }
   give F ~worn; I7_DetachPart(F, nothing);
   if (F == player) PlayerTo(T, opt); else move F to T;
 ];
 [ I7_Remove F;
-  if (F == false) ">--> You can't remove nothing from play.";
+  if (F == false) return RunTimeProblem(RTP_CANTREMOVENOTHING);
   give F ~worn; I7_DetachPart(F, nothing);
   if (F ofclass K7_backdrop) give F absent;
   remove F;
@@ -1155,13 +1181,17 @@ Global inhibit_dr = 0;
   if (sym && (obj2 > obj1)) { sym = obj1; obj1 = obj2; obj2 = sym; }
   pr = bp_id-->0;
   pr2 = bp_id-->1;
-  if ((obj1 ofclass Object) && pr && (obj1 provides pr)) i1 = obj1.pr;
-  else "*** Attempt to set relation for impossible object ***";
-  if ((obj2 ofclass Object) && pr2 && (obj2 provides pr2)) i2 = obj2.pr2;
-  else "*** Attempt to set relation for impossible object ***";
+  if (pr) {
+	  if ((obj1 ofclass Object) && pr && (obj1 provides pr)) i1 = obj1.pr;
+	  else return RunTimeProblem(RTP_IMPREL, obj1, bp_id, 0);
+  } else i1 = obj1-1;
+  if (pr2) {
+ 	 if ((obj2 ofclass Object) && pr2 && (obj2 provides pr2)) i2 = obj2.pr2;
+  	else return RunTimeProblem(RTP_IMPREL, obj2, bp_id, 0);
+  } else i2 = obj2-1;
 !  print "Setting relation", "(", i1, ",", i2, ")^";
   pr = i1*(bp_id-->3) + i2; i1 = 1; i2 = pr%16; while (i2) { i2--; i1=i1*2; }
-  pr = pr/16 + 4;
+  pr = pr/16 + 6;
   bp_id-->pr = (bp_id-->pr) | i1;
 ];
 [ I7_NowNVtoV obj1 bp_id obj2 sym pr pr2 i1 i2;
@@ -1169,13 +1199,17 @@ Global inhibit_dr = 0;
   if (sym && (obj2 > obj1)) { sym = obj1; obj1 = obj2; obj2 = sym; }
   pr = bp_id-->0;
   pr2 = bp_id-->1;
-  if ((obj1 ofclass Object) && pr && (obj1 provides pr)) i1 = obj1.pr;
-  else "*** Attempt to set relation for impossible object ***";
-  if ((obj2 ofclass Object) && pr2 && (obj2 provides pr2)) i2 = obj2.pr2;
-  else "*** Attempt to set relation for impossible object ***";
+  if (pr) {
+	  if ((obj1 ofclass Object) && pr && (obj1 provides pr)) i1 = obj1.pr;
+	  else return RunTimeProblem(RTP_IMPREL, obj1, bp_id, 0);
+  } else i1 = obj1-1;
+  if (pr2) {
+ 	 if ((obj2 ofclass Object) && pr2 && (obj2 provides pr2)) i2 = obj2.pr2;
+  	else return RunTimeProblem(RTP_IMPREL, obj2, bp_id, 0);
+  } else i2 = obj2-1;
 !  print "Clearing relation", "(", i1, ",", i2, ")^";
   pr = i1*(bp_id-->3) + i2; i1 = 1; i2 = pr%16; while (i2) { i2--; i1=i1*2; }
-  pr = pr/16 + 4;
+  pr = pr/16 + 6;
   if ((bp_id-->pr) & i1) bp_id-->pr = bp_id-->pr - i1;
 ];
 [ I7_NowEquiv obj1 prop obj2 big little;
@@ -1198,29 +1232,70 @@ Global inhibit_dr = 0;
   pr = bp_id-->0;
   pr2 = bp_id-->1;
   if (sym && (obj2 > obj1)) { sym = obj1; obj1 = obj2; obj2 = sym; }
-  if ((obj1 ofclass Object) && pr && (obj1 provides pr)) i1 = obj1.pr;
-  else "*** Attempt to test relation for impossible object ***";
-  if ((obj2 ofclass Object) && pr2 && (obj2 provides pr2)) i2 = obj2.pr2;
-  else "*** Attempt to test relation for impossible object ***";
+  if (pr) {
+	  if ((obj1 ofclass Object) && pr && (obj1 provides pr)) i1 = obj1.pr;
+	  else { RunTimeProblem(RTP_IMPREL, obj1, bp_id, 0); rfalse; }
+  } else i1 = obj1-1;
+  if (pr2) {
+ 	 if ((obj2 ofclass Object) && pr2 && (obj2 provides pr2)) i2 = obj2.pr2;
+  	else { RunTimeProblem(RTP_IMPREL, obj2, bp_id, 0); rfalse; }
+  } else i2 = obj2-1;
   pr = i1*(bp_id-->3) + i2; i1 = 1; i2 = pr%16; while (i2) { i2--; i1=i1*2; }
-  pr = pr/16 + 4;
+  pr = pr/16 + 6;
   if ((bp_id-->pr) & i1) rtrue; rfalse;
 ];
-[ I7_ShowVtoV bp_id sym obj1 obj2 pr pr2;
+[ I7_DefaultPrinter x;
+  print x;
+];
+[ I7_ShowVtoV bp_id sym obj1 obj2 pr pr2 proutine1 proutine2;
   pr = bp_id-->0;
   pr2 = bp_id-->1;
-  objectloop (obj1 provides pr) {
-      ! print (The) obj1, "=", obj1.pr, ":^";
-      objectloop (obj2 provides pr2) {
-          if (sym && obj2 < obj1) continue;
-	      ! print "Vs ", (The) obj2, "=", obj2.pr2, ":^";
-          if (I7_TestVtoV(obj1, bp_id, obj2)) {
-              print "  ", (The) obj1;
-              if (sym) print "  <=>  "; else print "  >=>  ";
-              print (the) obj2, "^";
-          }
-      }
+  proutine1 = bp_id-->4;
+  proutine2 = bp_id-->5;
+ 
+  if (pr && pr2) {
+	  objectloop (obj1 provides pr)
+		  objectloop (obj2 provides pr2) {
+			  if (sym && obj2 < obj1) continue;
+			  if (I7_TestVtoV(obj1, bp_id, obj2)) {
+				  print "  ", (The) obj1;
+				  if (sym) print "  <=>  "; else print "  >=>  ";
+				  print (the) obj2, "^";
+			  }
+		  }
+	  return;
   }
+  if (pr && (pr2==0)) {
+	  objectloop (obj1 provides pr)
+		  for (obj2=0:obj2<bp_id-->3:obj2++) {
+			  if (I7_TestVtoV(obj1, bp_id, obj2)) {
+				  print "  ", (The) obj1, "  >=>  ";
+				  (proutine2).call(obj2);
+				  print "^";
+			  }
+		  }
+	  return;
+  }
+  if ((pr==0) && (pr2)) {
+	  for (obj1=0:obj1<bp_id-->2:obj1++)
+		  objectloop (obj2 provides pr2) {
+			  if (I7_TestVtoV(obj1, bp_id, obj2)) {
+				  print "  ";
+				  (proutine1).call(obj1);
+				  print "  >=>  ", (the) obj2, "^";
+			  }
+		  }
+	  return;
+  }
+  for (obj1=1:obj1<=bp_id-->2:obj1++)
+  	  for (obj2=1:obj2<=bp_id-->3:obj2++)
+          if (I7_TestVtoV(obj1, bp_id, obj2)) {
+		      print "  ";
+		      (proutine1).call(obj1);
+		      print "  >=>  ";
+		      (proutine2).call(obj2);
+		      print "^";
+		  }
 ];
 [ I7_ShowOtoO pr sym obj1 obj2;
 	objectloop (obj1 provides pr) {
@@ -1271,7 +1346,9 @@ Global inhibit_dr = 0;
 	x = rel_num*3;
 	rel_type = RelationList-->(x+1);
 	if (rel_type == Relation_Implicit) return;
-	print (string) RelationList-->(x+2), ":^";
+	print (string) RelationList-->(x+2);
+	if (rel_type == Relation_ByRoutine) ".";
+	print ":^";
 	switch(rel_type) {
 		Relation_OtoO: I7_ShowOtoO(RelationList-->x, false); break;
 		Relation_OtoV: I7_ShowOtoO(RelationList-->x, false); break;
@@ -1301,6 +1378,20 @@ Global inhibit_dr = 0;
 		}	
 	}
 	return nothing;
+];
+[ I7_ChangeExit r1 dir r2 pr;
+  pr = dir.door_dir;
+  if (r1 provides pr) {
+      if ((r1.pr == 0) || (r1.pr ofclass K1_room)) {
+      	  r1.pr = r2;
+      	  return;
+      }
+      if (r1.pr ofclass K4_door) {
+          RunTimeProblem(RTP_EXITDOOR, r1, dir);
+          return;
+	  }
+  }
+  RunTimeProblem(RTP_NOEXIT, r1, dir);
 ];
 [ I7_RouteTo from to use_doors obj dir in_direction progressed sl through_door;
 	if (from == to) return nothing;
@@ -1530,14 +1621,108 @@ Constant I7_TWELVE_HOURS = 720;
 	return GPR_NUMBER;
 ];
 
-[ RunTimeProblem n obj obj2 ln;
+[ I7_ChangePlayer O;
+  if (O ofclass K27_player_character) return ChangePlayer(O);
+  RunTimeProblem(RTP_CANTCHANGE);
+];
+
+[ I7_Divide A B;
+  if (B == 0) { RunTimeProblem(RTP_DIVZERO); rfalse; }
+  return A/B;
+];
+[ I7_Rem A B;
+  if (B == 0) { RunTimeProblem(RTP_DIVZERO); rfalse; }
+  return A%B;
+];
+
+[ RunTimeProblem n obj obj2 ln obj3 i c;
+!	if (I7_enable_rte == false) return;
+	I7_enable_rte = false;
 	print "^*** Run-time problem P", n;
+!	if (ln == 0) ln=1;
 	if (ln) print " (at paragraph ", ln, " in the source text)";
 	print ": ";
 	switch(n) {
 		RTP_BACKDROP:
 			print "Tried to move ", (the) obj, " (a backdrop) to ", (the) obj2,
 				", which is not a region.^";
+		RTP_CANTCHANGE:
+			print "Tried to change player to ", (the) obj,
+				", which is not a player-character.^";
+		RTP_NOEXIT:
+		    print "Tried to change ", (the) obj2, " exit of ", (the) obj,
+		    	", but it didn't seem to have such an exit to change.^";
+		RTP_EXITDOOR:
+		    print "Tried to change ", (the) obj2, " exit of ", (the) obj,
+		    	", but it led to a door, not a room.^";
+		RTP_IMPREL:
+			print "Tried to access an inappropriate relation for ", (the) obj,
+				", violating '";
+			for (i=0: RelationList-->i ~= $ffff: i=i+3) {
+				c = RelationList-->(i+1);
+				if (((c == Relation_VtoV) || (c == Relation_Sym_VtoV))
+					&& (obj2 == RelationList-->i)) {
+					print (string) RelationList-->(i+2), "'.^";
+				}
+			}
+		RTP_RULESTACK:
+			print "Too many procedural rules acting all at once.^";
+		RTP_TOOMANYRULEBOOKS:
+			print "Too many rulebooks in simultaneous use.^";
+		RTP_TOOMANYEVENTS:
+			print "Too many timed events are going on at once.^";
+		RTP_BADPROPERTY:
+			print "Tried to access non-existent property for ", (the) obj, ".^";
+		RTP_UNPROVIDED:
+			print "Since ", (the) obj, " is not allowed the property ~",
+    			(string) obj2, "~, it is against the rules to try to use it.^";
+		RTP_UNSET:
+			print "Although ", (the) obj, " is allowed to have the property ~",
+				(string) obj2, "~, no value was ever given, so it can't now be used.^";
+		RTP_TOOMANYACTS:
+			print "Too many activities are going on at once.^";
+		RTP_CANTABANDON:
+			print "Tried to abandon an activity which wasn't going on.^";
+		RTP_CANTEND:
+			print "Tried to end an activity which wasn't going on.^";
+		RTP_CANTMOVENOTHING:
+			print "You can't move nothing.^";
+		RTP_CANTREMOVENOTHING:
+			print "You can't remove nothing from play.^";
+		RTP_DIVZERO:
+			print "You can't divide by zero.^";
+		RTP_BADVALUEPROPERTY:
+			print "Tried to access property for a value which didn't fit: ",
+				"if this were a number it would be ", obj, ".^";
+		RTP_NOTBACKDROP:
+			print "Tried to move ", (the) obj, " (not a backdrop) to ", (the) obj2,
+				", which is a region.^";
+		RTP_TABLE_NOCOL:
+			print "Attempt to look up a non-existent column in the table '",
+				(PrintTableName) obj, "'.^";
+		RTP_TABLE_NOCORR:
+			print "Attempt to look up a non-existent correspondence in the table '",
+				(PrintTableName) obj, "'.^";
+		RTP_TABLE_NOROW:
+			print "Attempt to look up a non-existent row in the table '",
+				(PrintTableName) obj, "'.^";
+		RTP_TABLE_NOENTRY:
+			print "Attempt to look up a non-existent entry at column ", obj2,
+				", row ", obj3, " of the table '", (PrintTableName) obj, "'.^";
+		RTP_TABLE_NOTABLE:
+			print "Attempt to blank out a row from a non-existent table (value ",
+				obj, ").^";
+		RTP_TABLE_NOMOREBLANKS:
+			print "Attempt to choose a blank row in a table with none left: table '",
+				(PrintTableName) obj, "'.^";
+		RTP_TABLE_NOROWS:
+			print "Attempt to choose a random row in an entirely blank table: table '",
+				(PrintTableName) obj, "'.^";
+		RTP_TABLE_CANTSORT:
+			print "Attempt to sort a table whose ordering must remain fixed: table '",
+				(PrintTableName) obj, "'.^";
 	}
 	print "^";
 ];
+
+[ I7_char_to_digit c n; n = c-'0'; if ((n<0) || (n>9)) return -1; return n; ];

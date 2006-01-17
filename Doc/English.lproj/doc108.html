@@ -1,4 +1,4 @@
-<html><head><title>7.15. Looking at containment by hand</title></head>
+<html><head><title>7.16. Randomness</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,12 +7,36 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc107.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc109.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.15. Looking at containment by hand</b></td></tr></table><p>
+<table><tr><td><a href=doc107.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc109.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.16. Randomness</b></td></tr></table><p>
 <p>
-<p>The descriptions outlined in the last few sections are intended to deal with almost all of the routine questions we might have about what currently resides where. It should be a last resort to use the following more primitive way to inspect the world.
+<p>Sometimes we want to introduce random behaviour into play. We usually do this by generating random values, and then acting differently depending on what they are. The following:
 <p>
-<p>The value &quot;holder of <i>something</i>&quot; always produces the container, supporter, owner or room in which the <i>something</i> resides.
+<blockquote><font color="#000080">a random number from 2 to 5
+</font></blockquote><p>
 <p>
-<p>It's sometimes useful to go the other way. When something has possessions, we can find them out one at a time by running through a list. Thus &quot;first thing held by Baroness Orczy&quot; will be the start of this list: say it's the lapdog. Then &quot;next thing held after the lapdog&quot; will be the second of the Baroness's possessions: a string of pearls, perhaps. And &quot;holder of the string of pearls&quot; will be the Baroness, of course.
+<p>produces, as it suggests, a random number drawn from the choices 2, 3, 4 or 5, each of which is equally likely to come up.
+<p>
+<p>We can also use random conditions:
+<p>
+<blockquote><font color="#000080">if a random chance of 2 in 3 succeeds then ...
+</font></blockquote><p>
+<p>
+<p>Here is a rule which applies only 15% of the time:
+<p>
+<blockquote><font color="#000080">Instead of waiting when a random chance of 15 in 100 succeeds: ...
+</font></blockquote><p>
+<p>
+<p>If we make a new kind of value, we can also take random values from it, as in the following miniature world:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Weathering&quot;\n\nA cloud pattern is a kind of value. The cloud patterns are cumulus, altocumulus, cumulonimbus, stratus, cirrus, nimbus, nimbostratus.\n\nThe Mount Pisgah Station is a room. &quot;The rocky peak of Mt. Pisgah (altitude 872m) is graced only by an automatic weather station. The clouds, close enough almost to touch, are [a random cloud pattern]. Temperature: [a random number from 7 to 17] degrees, barometric pressure: [950 + a random number from 0 to 15] millibars.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Weathering&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A cloud pattern is a kind of value. The cloud patterns are cumulus, altocumulus, cumulonimbus, stratus, cirrus, nimbus, nimbostratus.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Mount Pisgah Station is a room. &quot;The rocky peak of Mt. Pisgah (altitude 872m) is graced only by an automatic weather station. The clouds, close enough almost to touch, are [a random cloud pattern]. Temperature: [a random number from 7 to 17] degrees, barometric pressure: [950 + a random number from 0 to 15] millibars.&quot;
+</font></blockquote><p>
+<p>
+<p>The value &quot;a random cloud pattern&quot; produces a random choice from the seven cloud patterns, each equally likely.
 <p>
 <p><hr><p><a href=doc107.html>Previous</a> / <a href=doc109.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

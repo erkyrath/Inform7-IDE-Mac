@@ -1,4 +1,4 @@
-<html><head><title>4.7. New value properties</title></head>
+<html><head><title>4.6. New either/or properties</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,28 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc49.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc51.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.7. New value properties</b></td></tr></table><p>
+<table><tr><td><a href=doc49.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc51.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.6. New either/or properties</b></td></tr></table><p>
 <p>
-<p>Moving on to properties which contain values, such as the &quot;matching key&quot; property of a door or a container, we need to use a different formulation.
+<p>Properties can only be given to something if its kind will permit that: we cannot make a chair &quot;dark&quot; or a room &quot;portable&quot;, for instance. When creating kinds, then, we need a way to specify the properties which that kind of thing will allow, and this will need to include new properties of our own devising.
 <p>
-<blockquote><font color="#000080">A dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.
+<blockquote><font color="#000080">A dead end is either secret or ordinary.
 </font></blockquote><p>
 <p>
-<p>The property &quot;river sound&quot; is now applicable only to dead ends, and we would not be allowed to talk about it in any other context. As can be seen, it holds a piece of text. If we tried the following:
+<p>This creates just one new property, not two, as the names are taken as the two states of a single either/or property: secret means not ordinary, ordinary means not secret. Alternatively, we could just say:
 <p>
-<blockquote><font color="#000080">The river sound of the Tortuous Alcove is 7.
+<blockquote><font color="#000080">A dead end can be secret.
 </font></blockquote><p>
 <p>
-<p>...then Inform would object, because the number 7 is the wrong kind of value to go into the &quot;river sound&quot; property. If we need a numerical property, we can try this instead:
+<p>in which case the opposite of &quot;secret&quot; would be &quot;not secret&quot;.
 <p>
-<blockquote><font color="#000080">A dead end has a number called the difficulty rating. The Tortuous Alcove has difficulty rating 7.
+<p>Note that we are free to add to the definitions of kinds which already exist, not just those we have created ourselves: for instance,
+<p>
+<blockquote><font color="#000080">A room is either indoors or outdoors.
 </font></blockquote><p>
 <p>
-<p>(When we say &quot;has a property called...&quot; we implicitly allow it to hold either text or the name of a room or object, since it is often convenient to be able to store both interchangeably in the same property.)
+<p>creates a new property which all rooms either possess or don't. And so on. If we make the above definitions then by default, any dead ends created will be &quot;ordinary&quot; and any rooms created will be &quot;outdoors&quot;: that is, in the absence of other information it is assumed that a new either/or property will not be held. We could reverse this behaviour by adding:
 <p>
-<p>If we ever need to check whether or not a given object has a property, we can test something like this:
-<p>
-<blockquote><font color="#000080">If the location has a river sound, ...
+<blockquote><font color="#000080">A dead end is usually secret. A room is usually indoors.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc49.html>Previous</a> / <a href=doc51.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

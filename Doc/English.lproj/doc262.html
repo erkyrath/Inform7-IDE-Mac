@@ -1,4 +1,4 @@
-<html><head><title>17.11. First and last rules</title></head>
+<html><head><title>17.7. Success and failure</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,25 +7,39 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc261.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc263.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.11. First and last rules</b></td></tr></table><p>
+<table><tr><td><a href=doc261.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc263.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.7. Success and failure</b></td></tr></table><p>
 <p>
-<p>This is the final technicality on rulebooks. Rulebooks are, as we have seen, automatically sorted in order of how specific the conditions for invoking the relevant rules are, so that for instance
+<p>Though we have blurred over this point so far, every rule has one of three outcomes: success, failure and neither. The default outcome is neither, and for many rules (the every turn rules, for instance) success or failure would be ignored anyway, which is how we managed not to mention all this before. Indeed, the instruction
 <p>
-<blockquote><font color="#000080">Instead of taking a container, ...
+<blockquote><font color="#000080">follow the appraisal rules
 </font></blockquote><p>
 <p>
-<p>will always come before
+<p>throws away the result, whatever it may be, which is why results have not come up in the discussion so far. All the same, results can make a difference even in examples like this one. When a rulebook is working through a list of rules, any rule which succeeds or fails (we say that it &quot;stops&quot;) causes the rulebook to stop at once, so that no subsequent rules in the book will be invoked. For instance, if any &quot;check taking&quot; rule fails, the whole &quot;check taking&quot; rulebook immediately fails, and that is the end of the action.
 <p>
-<blockquote><font color="#000080">Instead of taking something, ...
+<p>When a rule or rulebook &quot;stops&quot;, a value can optionally also result: this means that rulebooks can be used to calculate quantities, as well as taking yes/no decisions, or simply carrying out activities.
+<p>
+<p>Generally speaking, stops are needed for different reasons in different rulebooks, so there are specialised syntaxes for bringing them about. We saw an example of this with the &quot;reaching inside&quot; rulebook:
+<p>
+<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
 </font></blockquote><p>
 <p>
-<p>Sometimes, though, and especially with rulebooks where there is no particular ordering because conditions are usually not attached anyway (for instance, with &quot;every turn&quot; rules), it is useful to be certain that a particular rule comes first or last: especially if there is some housekeeping to do.
+<p>&quot;Allow access&quot; does nothing more than cause the rule, and therefore the rulebook, to stop and succeed: &quot;deny access&quot; causes it to fail.
 <p>
-<p>For instance, the &quot;turn sequence&quot; rulebook, which is used behind the scenes to organise what happens at the end of each turn, has a crucial piece of housekeeping to do in order to maintain the consistency of the world model: it has to find out if the player's location has been plunged into darkness or, conversely, has been lit up since the last turn. It is essential that this happens last of all so that the situation cannot change again before the next time the player types at the keyboard.
+<p>The following phrases work in any rulebook:
 <p>
-<p>Each rulebook, then, can have two special rules, the designated &quot;first&quot; rule and the designated &quot;last&quot; rule. These, if defined, have no individual names, so that nobody can displace them from their positions or meddle with them: they belong to whoever created the rulebook.
-<p>
-<blockquote><font color="#000080">The last appraisal rule: say &quot;The Speak-Your-Progress machine sputters to a halt. You decide not to take this as a comment on your recent performance.&quot;
+<blockquote><font color="#000080">rule succeeds
+<br>rule fails
+<br>rule succeeds with result (...)
+<br>rule fails with result (...)
 </font></blockquote><p>
 <p>
+<p>The result can be a room, a thing or a text. It can be referred to as
+<p>
+<blockquote><font color="#000080">the result of the rule
+</font></blockquote><p>
+<p>
+<p>which is nothing if the rule ended without success or failure.
+<p>
+<p><hr><p>
+<a name="e117"><a href=ex117.html#e117><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Expanding the effects of the THROW something AT something command so that objects do make contact with one another.</i><p>
 <p><hr><p><a href=doc261.html>Previous</a> / <a href=doc263.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

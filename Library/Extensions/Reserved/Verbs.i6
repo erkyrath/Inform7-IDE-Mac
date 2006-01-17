@@ -7,6 +7,9 @@
   at = FindAction();
   if (at == 0) rfalse;
   mask = ActionData-->(at+1);
+
+! print "inp1 = ", inp1, "; inp2 = ", inp2, "^";
+
 !  print "Mask is ", mask, "^";
   if ((mask & $$00100) && (actor == player) && (location == thedark)) {
       L__M(##Miscellany, 17);
@@ -832,14 +835,24 @@ Global visibility_levels;
 ! Actions which are checked but then do nothing
 
 [ TouchSub_R1;
-  if (noun==actor) return GL__M(##Touch,3,noun); rfalse; ];
+  if (noun==actor) {
+      if (actor ~= player) {
+          print (The) actor, " touches ";
+          if (actor has female) print "herself.^^"; else print "himself.^^";
+      }
+      return GL__M(##Touch,3,noun);
+  } rfalse; ];
 [ TouchSub_R2;
   if (noun has animate) return GL__M(##Touch,1,noun); rfalse; ];
-[ TouchSub_R3; return GL__M(##Touch,2,noun); ];
+[ TouchSub_R3;
+  if (actor ~= player) print (The) actor, " touches ", (the) noun, ".^^";
+  return GL__M(##Touch,2,noun); ];
 
 [ WaveSub_C1;
   if (noun notin actor) return GL__M(##Wave,1,noun); rfalse; ];
-[ WaveSub_R1; return GL__M(##Wave,2,noun); ];
+[ WaveSub_R1;
+  if (actor ~= player) print (The) actor, " waves ", (the) noun, ".^^";
+  return GL__M(##Wave,2,noun); ];
 
 [ PullSub_C1;
   if (noun has static)   return GL__M(##Pull,1,noun); rfalse; ];
@@ -847,7 +860,9 @@ Global visibility_levels;
   if (noun has scenery)  return GL__M(##Pull,2,noun); rfalse; ];
 [ PullSub_C3;
   if (noun has animate)  return GL__M(##Pull,4,noun); rfalse; ];
-[ PullSub_R1; return GL__M(##Pull,3,noun); ];
+[ PullSub_R1;
+  if (actor ~= player) print (The) actor, " pulls ", (the) noun, ".^^";
+  return GL__M(##Pull,3,noun); ];
 
 [ PushSub_C1;
   if (noun has static)   return GL__M(##Push,1,noun); rfalse; ];
@@ -855,7 +870,9 @@ Global visibility_levels;
   if (noun has scenery)  return GL__M(##Push,2,noun); rfalse; ];
 [ PushSub_C3;
   if (noun has animate)  return GL__M(##Pull,4,noun); rfalse; ];
-[ PushSub_R1; return GL__M(##Push,3,noun); ];
+[ PushSub_R1;
+  if (actor ~= player) print (The) actor, " pushes ", (the) noun, ".^^";
+  return GL__M(##Push,3,noun); ];
 
 [ TurnSub_C1;
   if (noun has static)   return GL__M(##Turn,1,noun); rfalse; ];
@@ -863,13 +880,17 @@ Global visibility_levels;
   if (noun has scenery)  return GL__M(##Turn,2,noun); rfalse; ];
 [ TurnSub_C3;
   if (noun has animate)  return GL__M(##Pull,4,noun); rfalse; ];
-[ TurnSub_R1; return GL__M(##Turn,3,noun); ];
+[ TurnSub_R1;
+  if (actor ~= player) print (The) actor, " turns ", (the) noun, ".^^";
+  return GL__M(##Turn,3,noun); ];
 
 [ PushDirSub_C1; return GL__M(##PushDir,1,noun); ];
 
 [ SqueezeSub_C1;
   if (noun has animate) return GL__M(##Squeeze,1,noun); rfalse; ];
-[ SqueezeSub_R1; return GL__M(##Squeeze,2,noun); ];
+[ SqueezeSub_R1;
+  if (actor ~= player) print (The) actor, " squeezes ", (the) noun, ".^^";
+  return GL__M(##Squeeze,2,noun); ];
 
 ! Actions concerning other people
 
@@ -879,7 +900,8 @@ Global visibility_levels;
   if (second==actor)  return GL__M(##Give,2,noun); rfalse; ];
 [ GiveSub_C3;
   if (RunLife(second,##Give)~=0) rtrue; rfalse; ];
-[ GiveSub_C4; return GL__M(##Give,3,second); ];
+[ GiveSub_C4;
+  return GL__M(##Give,3,second); ];
 
 [ ShowSub_C1;
   if (parent(noun)~=actor) return GL__M(##Show,1,noun); rfalse; ];
@@ -1143,20 +1165,16 @@ Global visibility_levels;
 		if (obj has worn) print " (worn)";
 	}
 	if (obj provides i7_kind) {
-!		for (i=0: 2*i<obj.#i7_kind: i++) 
 		k = obj.&i7_kind-->0;
 		if ((k ~= K2_thing) || (depth==0)) {
-			for (i=1: i<=I7_Kind_Names-->0: i=i+2)
-				if (k == I7_Kind_Names-->i) {
-					print " - ";
-					if (k == K4_door or K5_container) {
-						if (obj has transparent) print "transparent ";
-						if (obj has locked) print "locked ";
-						else if (obj has open) print "open ";
-						else print "closed ";
-					}
-					print (string) (I7_Kind_Names-->(i+1));
-				}
+			print " - ";
+			if (k == K4_door or K5_container) {
+				if (obj has transparent) print "transparent ";
+				if (obj has locked) print "locked ";
+				else if (obj has open) print "open ";
+				else print "closed ";
+			}
+			print (I7_Kind_Name) k;
 		}
 	}
 	print "^";

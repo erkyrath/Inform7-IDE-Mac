@@ -1,4 +1,4 @@
-<html><head><title>10.4. If</title></head>
+<html><head><title>10.5. While</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,40 +7,25 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc140.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc142.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.4. If</b></td></tr></table><p>
+<table><tr><td><a href=doc140.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc142.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.5. While</b></td></tr></table><p>
 <p>
-<p>We now run through a few special phrases which control other phrases: causing them to repeat, perhaps, or to be skipped. These phrases are equivalent to the &quot;control structures&quot; of other computer programming languages: no system for interactive fiction can possibly be adequate unless it allows us to carry out arbitrary computations, so the pretence that Inform is not really a programming language must dropped sooner or later. That time is now.
+<p>The other main control phrase is &quot;while&quot;, which has the form:
 <p>
-<p>The phrase:
-<p>
-<blockquote><font color="#000080">if (... condition ...) then (... another whole phrase ...)
+<blockquote><font color="#000080">while (... condition ...) repeatedly (... another whole phrase ...)
 </font></blockquote><p>
 <p>
-<p>causes the phrase after &quot;then&quot; to be followed only if the condition holds. Some people prefer to use a comma, which is treated just the same:
+<p>which keeps on applying the same phrase as long as the condition holds. If it never holds, even at the start, then the phrase is never applied at all and nothing happens. Just as the word &quot;then&quot; in an &quot;if&quot; can be abbreviated with a comma, so can the word &quot;repeatedly&quot; here.
 <p>
-<blockquote><font color="#000080">if (... condition ...), (... another whole phrase ...)
+<p>We must be careful not to commit mistakes like the following:
+<p>
+<blockquote><font color="#000080">while eggs is eggs repeatedly say &quot;again and &quot;
 </font></blockquote><p>
 <p>
-<p>There are many different forms of condition in Inform (and, as we shall see, we can easily add more), but the simplest is:
+<p>which, as sure as eggs is eggs (which is very sure indeed), writes out
 <p>
-<blockquote><font color="#000080">(first value) is (second value)
+<blockquote><font color="#000080">again and again and again and again and again and ...
 </font></blockquote><p>
 <p>
-<p>As always, Inform checks that these two values are of kinds which can be compared. The following will produce an objection, for instance:
-<p>
-<blockquote><font color="#000080">if 10 is a door then say &quot;Huzzah!&quot;
-</font></blockquote><p>
-<p>
-<p>since it makes no sense to ask the question, and the only result will be the baffled reply:
-<p>
-<blockquote><font color="#000080"><b>Problem.</b> In the line 'if 10 is a door then say &quot;Huzzah!&quot;' <img src=../Reveal.tif>, I can't determine whether or not '10 is a door', because it seems to ask if a number is some sort of door.
-</font></blockquote><p>
-<p>
-<p>This, however, would be fine:
-<p>
-<blockquote><font color="#000080">To comment upon (whatever - a thing): if whatever is transparent then say &quot;I see right through this!&quot;; if whatever is an open door then say &quot;Oh look, an open door!&quot;.
-</font></blockquote><p>
-<p>
-<p>since &quot;whatever&quot; is known to be a thing, and Inform knows that things are indeed sometimes transparent and sometimes open doors.
+<p>forever. (Inform won't prevent this: we will find out the hard way when the game is played.) While we would probably never write anything so blatant as that, the mistake is all too easy to commit in disguised form. We should never design a loop, as repetitions like this are called, without worrying about if and when it will finish.
 <p>
 <p><hr><p><a href=doc140.html>Previous</a> / <a href=doc142.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

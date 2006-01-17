@@ -1,4 +1,4 @@
-<html><head><title>16.16. Deciding the scope of something</title></head>
+<html><head><title>8.6. Every turn</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,124 +7,140 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc244.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc246.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.16. Deciding the scope of something</b></td></tr></table><p>
+<table><tr><td><a href=doc117.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc119.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.6. Every turn</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> &quot;Scope&quot; is a term of art in interactive fiction programming: it means the collection of things which can be interacted with at any given moment, which depends on who you are and where you are. Commands typed by the player will only be allowed to go forward into actions if the things they refer to are &quot;in scope&quot;. Inform also needs to determine scope at other times, too: for instance, when deciding whether a rule conditional on being &quot;in the presence of&quot; something is valid. It is a bad idea to say anything during this activity.
+<p>The passage of time in interactive fiction is broken up into a succession of turns, in each of which the player types a request and is given a response. Usually each such request triggers one action, but sometimes a whole sequence are fired off, as when the player types &quot;get all&quot; in a cluttered room.
 <p>
-<p><b>2. The default behaviour.</b> Is complicated: see the Inform Designer's Manual, 4th edition, page 227. Briefly, the scope for someone consists of everything in the same place as them, unless it is dark.
+<p>One of the last things to happen in each turn is that Inform will apply any rules which have been set to occur &quot;every turn&quot;, like so:
 <p>
-<p><b>3. Examples.</b> (a) We very rarely want to forbid the player to refer to things close at hand, but often want to allow references to distant ones. For instance, a mirage of something which is not present at all:
-<p>
-<blockquote><font color="#000080">After deciding the scope of the player while in the Shrine: place the holy grail in scope.
+<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<p>The special phrase &quot;place ... in scope&quot; does what it suggests. Ordinarily if something is placed in scope, then so are its parts and (in the case of a room, a supporter or a transparent or open container) its contents; but we can also &quot;place the box in scope, but not its contents&quot; if we really need to place just the box itself in scope.
+<p>This is equivalent to writing:
 <p>
-<p>(b) Another useful device is to be able to see, but not touch, another room:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;\n\nAfter deciding the scope of the player while in the Cloakroom: place the Beyond in scope.\n\nThe Beyond is a room. Johnny Depp is a man in the Beyond.\n\n\n')"><img border=0 src=paste.png></a> The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;
+<blockquote><font color="#000080">An every turn rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After deciding the scope of the player while in the Cloakroom: place the Beyond in scope.
+<p>Note that the text about blossom, which will quickly become tiresome, is said at the end of every turn, not at the beginning, and in particular not before the player's first opportunity to type a command.
+<p>
+<p>As usual when defining rules, we can add stipulations: any condition can be attached using &quot;when&quot;.
+<p>
+<blockquote><font color="#000080">Every turn when in the Orchard, say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Beyond is a room. Johnny Depp is a man in the Beyond.
-</font></blockquote><p>
-<p>
-<p>(This must, however, also be a mirage, as at time of writing Mr Depp is alive, well and playing Willy Wonka in the forthcoming movie of &quot;Charlie and the Chocolate Factory&quot;.)
-<p>
-<p>(c) In darkness, the scope of someone is ordinarily restricted to his or her possessions (and body), but we can override that:
-<p>
-<blockquote><font color="#000080">After deciding the scope of the player while in darkness: place the location in scope.
+<blockquote><font color="#000080">Every turn when the player can see the rotting fish, say &quot;Your nose twitches involuntarily.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e6"><a href=doc245.html#e6><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A portable magic telescope which allows the player to view items in another room of his choice.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e6"><a href=doc118.html#e6><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A kind of battery which can be put into different devices, and which will lose power after extended use.</i><p>
 <p>
-<p>Suppose we want to have a pair of linked lenses so that the player can look into one of them and see things which occur in room containing the other lens.
+<p>The following example makes fairly ample use of material that we haven't seen yet, but gives some idea of the flexibility of every turn rules. Suppose we want to have a number of electrical devices, all of which may be powered by a set of batteries. The batteries will all need to be discharged as they are used (regardless of what device they happen to be controlling at the moment). So:
 <p>
-<p>We begin simply with a bit of environment for the player to wander around:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Ginger Beer&quot;\n\nThe Ginger Beer Factory is a room.  &quot;In the center of the room is an enormous pot filled with crushed ginger, which seems to be bubbling slightly on its own.  The fumes are overwhelming.&quot;\n\nThe pot is scenery in the Ginger Beer Factory. The description of the pot is &quot;Cast iron.&quot; In the pot is a bubbling brew.\n\nInstead of smelling the Ginger Beer Factory: try smelling the brew.\n\nInstead of smelling the brew, say &quot;You blink back tears.&quot;\n\nThe Storeroom is south of the Ginger Beer Factory.  &quot;The walls here are lined with a prodigious number of small, rounded bottles, each with a screw top and a smiling pirate on the label.&quot;\n\nThe Clippings Room is west of the Ginger Beer Factory. &quot;A clean room lined with steel tables, for preparing ingredients.&quot;\n\nSome steel tables are a supporter in the Clippings Room.  They are scenery.  The description is &quot;They are roughly the size and height of laboratory worksurfaces.&quot;\n\nThe quantity of dandelion is on the steel tables.  The description is &quot;Horrible common weed.&quot;\n\nThe wooden box is on the steel tables.  It is openable and closed.  The description is &quot;A large wooden box with a lid, used for ingredient storage.  There is a label on the lid.&quot;\n\nThe label is part of the box.  The description is &quot;BURDOCK: the root beaten with a little salt and laid on the place suddenly easeth the pain thereof, and helpeth those that are bit by a mad dog:... the seed being drunk in wine 40 days together doth wonderfully help the sciatica: the leaves bruised with the white of an egg and applied to any place burnt with fire, taketh out the fire, gives sudden ease and heals it up afterwards.... The root may be preserved with sugar for consumption, stone and the lax.&quot;\n\nThe quantity of burdock is in the box.  The description is &quot;It looks like a kind of thistle.&quot;\n\nSome bottles are in the Storeroom.  They are scenery.  The description is &quot;They are smaller than the average bottle, because more potent.&quot;  Instead of taking the bottles, say &quot;Take one away and the whole lineup will cascade to the floor.&quot;\n\n[Now for the lenses themselves:]\n\nA lens is a kind of thing.\n\nThe large end of the telescope is a lens in the Ginger Beer Factory.  &quot;There is a large glass lens propped against the wall, in which are reflected all the contents of the room.&quot;  Understand &quot;glass&quot; or &quot;lens&quot; as the large end.\n\nThe small end of the telescope is a lens in the Storeroom.  &quot;There is a small glass lens sitting on the floor.  Due to some curious effect of the optics, it appears to be giving a view of somewhere else entirely.&quot;  Understand &quot;glass&quot; or &quot;lens&quot; as the small end.  The description is &quot;A gleaming lens about the size of a pound coin.&quot;\n\n[Here is the critical bit, which needs to be somewhat flexible, since the large end of the telescope could in theory be left anywhere in the game (and should still work).]\n\nAfter deciding the scope of the player while the small end is carried by the player:\n\tlet there be the holder of the large end;\n\tplace there in scope.\n\nBefore searching the small end when the small end is not carried by the player:\n\tsay &quot;(first picking up [the small end] and holding it to your eye)[line break]&quot;;\n\tsilently try taking the small end.\n\nInstead of searching the small end when the player is not carrying the small end:\n\tsay &quot;It\'s too hard to look through the small end from a distance.&quot;\n\nInstead of searching the large end,\n\tsay &quot;You see only your own reflection.&quot;\n\n[We also want to make sure that the player who looks through the small lens does not see the large lens listed among the contents of the other location:]\n\nDefinition: a thing is recognizable if it is not a lens.\n\nInstead of searching the small end:\n\tlet the far side be the holder of the large end of the telescope;\n\tsay &quot;You peer into the little lens and through it see, in [the far side], [the list of recognizable things in the far side].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Ginger Beer&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Out of Time&quot;\n\nA battery is a kind of thing. A battery has a number called charge. The charge of a battery is usually 15.\n\nEvery turn:\n\trepeat with item running through batteries\nbegin;\n\tif item is in a compartment which is part of a switched on device (called the machine)\n\tbegin;\n\t\tchange the charge of the item to the charge of the item - 1;\n\t\tcarry out the warning about failure activity with the machine;\n\t\tif the item is discharged, carry out the putting out activity with the machine;\n\tend if;\nend repeat.\n\nWarning about failure of something is an activity.\n\nRule for warning about failure of a device (called the machine):\n\tif a random battery compartment which is part of the machine contains a battery (called the power source)\n\tbegin;\n\t\tif the charge of the power source is 2, say &quot;[The machine] is obviously going to go out quite soon.&quot;;\n\tend if.\n\nPutting out something is an activity.\n\nRule for putting out a device (called the machine):\n\t\tsay &quot;[The machine] loses power and switches off![line break]&quot;;\n\t\tsilently try switching off the machine;\n\nA battery compartment is a kind of container. A battery compartment is usually closed and openable. One battery compartment is part of every device. Instead of inserting something which is not a battery into a battery compartment, say &quot;Only batteries should go in a battery compartment.&quot;\n\nInstead of opening a device, try opening a random compartment which is part of the noun. Instead of closing a device, try closing a random compartment which is part of the noun. Instead of inserting a battery into a device, try inserting the noun into a random compartment which is part of the second noun.\n\nInstead of switching on an empty device:\n\tsay &quot;Nothing happens, perhaps because there isn\'t a charged battery in [the noun].&quot;\n\nDefinition: a device is empty:\n\tif a random battery compartment which is part of it contains a battery (called the power source)\n\tbegin;\n\t\tif the power source is discharged, yes;\n\t\tno;\n\tend if;\n\tyes.\n\nDefinition: a battery is discharged if its charge < 1.\n\nA light source is a kind of device. Carry out switching on a light source: now the noun is lit. Carry out switching off a light source: now the noun is unlit.\n\nThe flashlight is a light source. A D battery is a battery carried by the player.\n\nThe cassette recorder is a device. Every turn when the cassette recorder is switched on: say &quot;The cassette recorder hisses faintly.&quot;\n\nRule for warning about failure of the cassette recorder (called the machine):\n\tif a random battery compartment which is part of the machine contains a battery (called the power source)\n\tbegin;\n\t\tif the charge of the power source is 2, say &quot;The hiss from [the machine] begins to warble ominously.&quot;;\n\tend if.\n\nThe player wears a backpack. The backpack is openable. In the backpack is the flashlight and the cassette recorder.\n\nThe description of the cassette recorder is &quot;Useful both for recording your notes and for capturing any odd ghostly sounds you may hear.&quot;\n\nThe description of the backpack is &quot;An old familiar pack, which you know so well that you can find all its pockets and take things in and out of it in pitch darkness. To avoid it showing up oddly in photographs, it is entirely black, with no shiny or metallic attachments.&quot;\n\nThe description of the flashlight is &quot;You bought a new one just for this occasion, because you were worried about bringing something too small or light. This is a heavy-duty flashlight with an adjustable-focus beam. The case is made of metal, rather than plastic, and there is a spare light-bulb inside as well. You\'ve put a band of masking tape around the handle and written in your initials in red marker.\n\nThere is a piece of red cellophane attached to the business end of the flashlight to keep it from being overly bright.&quot;\n\nThe red cellophane is part of the flashlight.\n\nInstead of doing something to the red cellophane: say &quot;You need the cellophane on the flashlight so that using it does not completely destroy your night vision.&quot;\n\nThirtieth Street Station is a room. &quot;A huge, high, rectangular room with coffered ceilings, which looks grand but mostly makes you feel lonely and small. There are long benches in rows down the middle of the room, and an information desk with the train times, and a series of ticket windows, none of which matters very much at the moment.&quot;\n\nThe benches are an enterable supporter. They are scenery in the Station. The information desk is scenery in the Station. Some ticket windows are scenery in the Station. Instead of examining scenery in the Station: say &quot;You\'re fairly sure that whatever is going on here has nothing to do with [the noun].&quot; Understand &quot;window&quot; as ticket windows.\n\nThe mural is fixed in place in Thirtieth Street. &quot;At the north side of the station is a particularly pointless and empty annex to the main room. It is dominated by a huge relief of sorts, and this is what you remember.&quot; Understand &quot;metal&quot; or &quot;relief&quot; or &quot;huge&quot; as the mural. The description of the mural is &quot;It is both stylized and confusing, but you think it might be supposed to represent the various tasks and occupations of Philadelphia\'s population. The portions closer to the ground look as though they have recently been subjected to a light dusting of talcum powder. No unusual prints are evident.&quot;\n\nThe wind chimes are fixed in place in Thirtieth Street. &quot;Carefully attached to the wall with a piece of duct tape and a hook is a light-weight set of wind chimes. Someone else has been here before you, it seems.&quot; The description is &quot;Several of your friends use wind chimes as a sort of ghost alarm, since ghosts sometimes cause very localized movements of air when there is no natural breeze.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Out of Time&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Ginger Beer Factory is a room.  &quot;In the center of the room is an enormous pot filled with crushed ginger, which seems to be bubbling slightly on its own.  The fumes are overwhelming.&quot;
+<blockquote><font color="#000080">A battery is a kind of thing. A battery has a number called charge. The charge of a battery is usually 15.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The pot is scenery in the Ginger Beer Factory. The description of the pot is &quot;Cast iron.&quot; In the pot is a bubbling brew.
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through batteries
+<br>begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if item is in a compartment which is part of a switched on device (called the machine)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the charge of the item to the charge of the item - 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carry out the warning about failure activity with the machine;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the item is discharged, carry out the putting out activity with the machine;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>end repeat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of smelling the Ginger Beer Factory: try smelling the brew.
+<blockquote><font color="#000080">Warning about failure of something is an activity.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of smelling the brew, say &quot;You blink back tears.&quot;
+<blockquote><font color="#000080">Rule for warning about failure of a device (called the machine):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a random battery compartment which is part of the machine contains a battery (called the power source)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the charge of the power source is 2, say &quot;[The machine] is obviously going to go out quite soon.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Storeroom is south of the Ginger Beer Factory.  &quot;The walls here are lined with a prodigious number of small, rounded bottles, each with a screw top and a smiling pirate on the label.&quot;
+<blockquote><font color="#000080">Putting out something is an activity.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Clippings Room is west of the Ginger Beer Factory. &quot;A clean room lined with steel tables, for preparing ingredients.&quot;
+<blockquote><font color="#000080">Rule for putting out a device (called the machine):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The machine] loses power and switches off![line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;silently try switching off the machine;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Some steel tables are a supporter in the Clippings Room.  They are scenery.  The description is &quot;They are roughly the size and height of laboratory worksurfaces.&quot;
+<blockquote><font color="#000080">A battery compartment is a kind of container. A battery compartment is usually closed and openable. One battery compartment is part of every device. Instead of inserting something which is not a battery into a battery compartment, say &quot;Only batteries should go in a battery compartment.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The quantity of dandelion is on the steel tables.  The description is &quot;Horrible common weed.&quot;
+<blockquote><font color="#000080">Instead of opening a device, try opening a random compartment which is part of the noun. Instead of closing a device, try closing a random compartment which is part of the noun. Instead of inserting a battery into a device, try inserting the noun into a random compartment which is part of the second noun.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The wooden box is on the steel tables.  It is openable and closed.  The description is &quot;A large wooden box with a lid, used for ingredient storage.  There is a label on the lid.&quot;
+<blockquote><font color="#000080">Instead of switching on an empty device:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing happens, perhaps because there isn't a charged battery in [the noun].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The label is part of the box.  The description is &quot;BURDOCK: the root beaten with a little salt and laid on the place suddenly easeth the pain thereof, and helpeth those that are bit by a mad dog:... the seed being drunk in wine 40 days together doth wonderfully help the sciatica: the leaves bruised with the white of an egg and applied to any place burnt with fire, taketh out the fire, gives sudden ease and heals it up afterwards.... The root may be preserved with sugar for consumption, stone and the lax.&quot;
+<blockquote><font color="#000080">Definition: a device is empty:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a random battery compartment which is part of it contains a battery (called the power source)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the power source is discharged, yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;yes.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The quantity of burdock is in the box.  The description is &quot;It looks like a kind of thistle.&quot;
+<blockquote><font color="#000080">Definition: a battery is discharged if its charge < 1.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Some bottles are in the Storeroom.  They are scenery.  The description is &quot;They are smaller than the average bottle, because more potent.&quot;  Instead of taking the bottles, say &quot;Take one away and the whole lineup will cascade to the floor.&quot;
+<blockquote><font color="#000080">A light source is a kind of device. Carry out switching on a light source: now the noun is lit. Carry out switching off a light source: now the noun is unlit.
 </font></blockquote><p>
 <p>
-<p>Now for the lenses themselves:
-<p>
-<blockquote><font color="#000080">A lens is a kind of thing.
+<blockquote><font color="#000080">The flashlight is a light source. A D battery is a battery carried by the player.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The large end of the telescope is a lens in the Ginger Beer Factory.  &quot;There is a large glass lens propped against the wall, in which are reflected all the contents of the room.&quot;  Understand &quot;glass&quot; or &quot;lens&quot; as the large end.
+<blockquote><font color="#000080">The cassette recorder is a device. Every turn when the cassette recorder is switched on: say &quot;The cassette recorder hisses faintly.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The small end of the telescope is a lens in the Storeroom.  &quot;There is a small glass lens sitting on the floor.  Due to some curious effect of the optics, it appears to be giving a view of somewhere else entirely.&quot;  Understand &quot;glass&quot; or &quot;lens&quot; as the small end.  The description is &quot;A gleaming lens about the size of a pound coin.&quot;
+<blockquote><font color="#000080">Rule for warning about failure of the cassette recorder (called the machine):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a random battery compartment which is part of the machine contains a battery (called the power source)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the charge of the power source is 2, say &quot;The hiss from [the machine] begins to warble ominously.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>Here is the critical bit, which needs to be somewhat flexible, since the large end of the telescope could in theory be left anywhere in the game (and should still work).
-<p>
-<blockquote><font color="#000080">After deciding the scope of the player while the small end is carried by the player:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let there be the holder of the large end;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;place there in scope.
+<blockquote><font color="#000080">The player wears a backpack. The backpack is openable. In the backpack is the flashlight and the cassette recorder.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before searching the small end when the small end is not carried by the player:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first picking up [the small end] and holding it to your eye)[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try taking the small end.
+<blockquote><font color="#000080">The description of the cassette recorder is &quot;Useful both for recording your notes and for capturing any odd ghostly sounds you may hear.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of searching the small end when the player is not carrying the small end:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It's too hard to look through the small end from a distance.&quot;
+<blockquote><font color="#000080">The description of the backpack is &quot;An old familiar pack, which you know so well that you can find all its pockets and take things in and out of it in pitch darkness. To avoid it showing up oddly in photographs, it is entirely black, with no shiny or metallic attachments.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of searching the large end,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You see only your own reflection.&quot;
+<blockquote><font color="#000080">The description of the flashlight is &quot;You bought a new one just for this occasion, because you were worried about bringing something too small or light. This is a heavy-duty flashlight with an adjustable-focus beam. The case is made of metal, rather than plastic, and there is a spare light-bulb inside as well. You've put a band of masking tape around the handle and written in your initials in red marker.
 </font></blockquote><p>
 <p>
-<p>We also want to make sure that the player who looks through the small lens does not see the large lens listed among the contents of the other location:
-<p>
-<blockquote><font color="#000080">Definition: a thing is recognizable if it is not a lens.
+<blockquote><font color="#000080">There is a piece of red cellophane attached to the business end of the flashlight to keep it from being overly bright.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of searching the small end:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let the far side be the holder of the large end of the telescope;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You peer into the little lens and through it see, in [the far side], [the list of recognizable things in the far side].&quot;
+<blockquote><font color="#000080">The red cellophane is part of the flashlight.
 </font></blockquote><p>
 <p>
-<p>And we're done.
-</td></tr></table><p><a name="e101"><a href=ex101.html#e101><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>An open landscape where the player can see landmarks in nearby areas, and automatically moves to interact with them.</i><p>
-<p><hr><p><a href=doc244.html>Previous</a> / <a href=doc246.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Instead of doing something to the red cellophane: say &quot;You need the cellophane on the flashlight so that using it does not completely destroy your night vision.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Thirtieth Street Station is a room. &quot;A huge, high, rectangular room with coffered ceilings, which looks grand but mostly makes you feel lonely and small. There are long benches in rows down the middle of the room, and an information desk with the train times, and a series of ticket windows, none of which matters very much at the moment.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The benches are an enterable supporter. They are scenery in the Station. The information desk is scenery in the Station. Some ticket windows are scenery in the Station. Instead of examining scenery in the Station: say &quot;You're fairly sure that whatever is going on here has nothing to do with [the noun].&quot; Understand &quot;window&quot; as ticket windows.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The mural is fixed in place in Thirtieth Street. &quot;At the north side of the station is a particularly pointless and empty annex to the main room. It is dominated by a huge relief of sorts, and this is what you remember.&quot; Understand &quot;metal&quot; or &quot;relief&quot; or &quot;huge&quot; as the mural. The description of the mural is &quot;It is both stylized and confusing, but you think it might be supposed to represent the various tasks and occupations of Philadelphia's population. The portions closer to the ground look as though they have recently been subjected to a light dusting of talcum powder. No unusual prints are evident.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The wind chimes are fixed in place in Thirtieth Street. &quot;Carefully attached to the wall with a piece of duct tape and a hook is a light-weight set of wind chimes. Someone else has been here before you, it seems.&quot; The description is &quot;Several of your friends use wind chimes as a sort of ghost alarm, since ghosts sometimes cause very localized movements of air when there is no natural breeze.&quot;
+</font></blockquote><p>
+</td></tr></table><p><a name="e55"><a href=ex55.html#e55><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>A game of foosball which relies heavily on every-turn rules.</i><p>
+<p><hr><p><a href=doc117.html>Previous</a> / <a href=doc119.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

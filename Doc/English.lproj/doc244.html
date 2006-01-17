@@ -1,4 +1,4 @@
-<html><head><title>16.15. Listing nondescript items of something</title></head>
+<html><head><title>16.11. Listing contents of something</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,30 +7,29 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc243.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc245.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.15. Listing nondescript items of something</b></td></tr></table><p>
+<table><tr><td><a href=doc243.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc245.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.11. Listing contents of something</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> This activity prints up the also-ran paragraph at the end of a room description. These are nondescript items because they don't merit paragraphs of their own: if, as sometimes happens, there are none in the room, then no such paragraph is printed and this activity does not happen. (So to add a further paragraph to a room description, a simpler &quot;after looking&quot; rule should be used, not an &quot;after listing nondescript items&quot; rule.)
+<p><b>1. When it happens.</b> When taking inventory, the list is produced by the activity &quot;listing contents of yourself&quot;; when looking, a list of items which do not deserve their own paragraphs is produced by &quot;listing contents of&quot; the location; when a say &quot;[contents of ...]&quot; is performed. In short, whenever a list is needed.
 <p>
-<p><b>2. The default behaviour.</b> The paragraph ordinarily reads as &quot;You can also see a cask and a clock.&quot; or similar. Before the activity begins, those objects which are nondescript - in this case the cask and the clock - are given the property of being &quot;marked for listing&quot;. If it turns out that nothing is marked for listing, because of before rules like the one in the example below, then nothing is printed.
+<p><b>2. The default behaviour.</b> The list is printed out.
 <p>
-<p><b>3. Examples.</b> (a) Promoting something out of the nondescript category, by unmarking it.
+<p><b>3. Examples.</b> (a) We have already seen that it can be elegant to elaborate on a description in the context of a list. Here we add &quot;discarded&quot; to a sweet wrapper which is found on the ground.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Before listing nondescript items:\n\tif the watch is marked for listing begin;\n\t\tsay &quot;The watch catches your eye.&quot;;\n\t\tchange the watch to not marked for listing;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> Before listing nondescript items:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the watch is marked for listing begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The watch catches your eye.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the watch to not marked for listing;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">Rule for printing the name of the wrapper while listing contents of a room: say &quot;discarded sweet wrapper&quot;.
 </font></blockquote><p>
 <p>
-<p>(b) Changing the normal phrasing of the paragraph. Note that we can also change the listing style; the one below is the default.
+<p>(b) Lists can be considerably shortened and tidied up if similar items are grouped together. We do this by specifying what should be grouped together before listing contents, using the special phrase &quot;group ... together&quot;:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for listing nondescript items of the Distressingly Messy Room:\n\tsay &quot;Strewn carelessly on the floor&quot;;\n\tlist the contents of the Distressingly Messy Room, as a sentence,\n\t\ttersely, listing marked items only, prefacing with is/are,\n\t\tincluding contents and giving brief inventory\n\t\tinformation;\n\tsay &quot;.&quot;\n\n\n')"><img border=0 src=paste.png></a> Rule for listing nondescript items of the Distressingly Messy Room:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Strewn carelessly on the floor&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;list the contents of the Distressingly Messy Room, as a sentence,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tersely, listing marked items only, prefacing with is/are,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;including contents and giving brief inventory
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;information;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;
+<blockquote><font color="#000080">Utensil is a kind of thing. The knife, the fork and the spoon are utensils. Before listing contents: group utensils together as &quot;utensils&quot;.
 </font></blockquote><p>
+<p>
+<p>The result will be, say, &quot;two utensils (knife and spoon)&quot;, if both are found in the same place.
+<p>
+<p>(c) We can less obtrusively group items together like so:
+<p>
+<blockquote><font color="#000080">Before listing contents while taking inventory: group utensils together.
+</font></blockquote><p>
+<p>
+<p>Now they will be rolled into a single inventory line: say, &quot;fork and spoon&quot; rather than &quot;two utensils (fork and spoon)&quot;.
 <p>
 <p><hr><p><a href=doc243.html>Previous</a> / <a href=doc245.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

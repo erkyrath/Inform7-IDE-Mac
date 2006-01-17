@@ -1,4 +1,4 @@
-<html><head><title>17.8. Consider and abide</title></head>
+<html><head><title>17.4. New rulebooks</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,30 +7,37 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc258.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc260.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.8. Consider and abide</b></td></tr></table><p>
+<table><tr><td><a href=doc258.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc260.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.4. New rulebooks</b></td></tr></table><p>
 <p>
-<p>It often happens that one rule needs to invoke another one. The best way to do this is with the phrase:
+<p>Creating a new rulebook is also straightforward, as we see in the following modest example game:
 <p>
-<blockquote><font color="#000080">consider ...name of the rule or rulebook...
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Appraisal&quot;\n\nThe Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.\n\nAppraisal rules is a rulebook.\n\nAn appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;\n\nAn appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;\n\nInstead of switching on the machine, follow the appraisal rules.\n\n\n')"><img border=0 src=paste.png></a> &quot;Appraisal&quot;
 </font></blockquote><p>
 <p>
-<p>This throws away the result: indeed, it makes no difference whether the rule succeeds, fails or has no outcome. More often, though, we want not only to invoke another rule, but also to be guided by its advice. For this, we use the otherwise identical phrase
-<p>
-<blockquote><font color="#000080">abide by ...name of the rule or rulebook...
+<blockquote><font color="#000080">The Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.
 </font></blockquote><p>
 <p>
-<p>Here, if the rule being abided by comes to a stop (i.e., succeeds or fails) then the original rule also stops, at once and without going on to any further instructions. For example, the following duplicates the effect of a rulebook of four rules: it tries each in turn, and stops as soon as any of them stop.
-<p>
-<blockquote><font color="#000080">The omnibus rule: abide by the first rule; abide by the second rule; abide by the third rule; abide by the fourth rule.
+<blockquote><font color="#000080">Appraisal rules is a rulebook.
 </font></blockquote><p>
 <p>
-<p>Abide might be used in examples like this one:
-<p>
-<blockquote><font color="#000080">A thing can be fragile or robust.
-<br>This is the can't handle fragile things roughly rule: if the noun is fragile, say &quot;[The noun] is too fragile for such rough handling.&quot; instead.
-<br>A check dropping rule: abide by the can't handle fragile things roughly rule. A check throwing it at rule: abide by the can't handle fragile things roughly rule.
+<blockquote><font color="#000080">An appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;
 </font></blockquote><p>
 <p>
-<p>Had we used &quot;consider&quot; instead of &quot;abide by&quot;, then in the event of the player typing &quot;drop angel&quot; the text &quot;The glass angel is too fragile for such rough handling&quot; would be printed, which is correct - but then the action would continue as though no difficulty had occurred, which is definitely not correct.
+<blockquote><font color="#000080">An appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;
+</font></blockquote><p>
 <p>
+<blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.
+</font></blockquote><p>
+<p>
+<p>The creation of the rulebook is all very well, but without the final sentence it would never be used. The crucial new phrase here is &quot;follow ...&quot;, which is the first of several phrases allowing us to use rules whenever we want to (rather than simply at predetermined times such as when a particular action is being tried, or at the end of every turn, and such).
+<p>
+<p>Like &quot;number&quot; or &quot;text&quot;, &quot;rule&quot; and &quot;rulebook&quot; are kinds of value built into Inform: &quot;the blossom rule&quot; is a value whose kind is &quot;rule&quot;, whereas &quot;the every turn rules&quot; is a value whose kind is &quot;rulebook&quot;. In fact, Inform considers a rulebook to be a special case of a rule, so that whenever a rule is required it is legal to name a rulebook instead, but not vice versa. The &quot;follow&quot; phrase here...
+<p>
+<blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.
+</font></blockquote><p>
+<p>
+<p>...expects to be applied to a value of kind &quot;rule&quot;; &quot;the appraisal rules&quot; is in fact a rulebook, but since that counts as a rule the phrase makes sense to Inform. To follow a rulebook means to run through all its rules in turn; to follow a single rule means just that one, of course.
+<p>
+<p><hr><p>
+<a name="e13"><a href=ex13.html#e13><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A BURN command; flammable objects which light other items in their vicinity and can burn for different periods of time; the possibility of having parts or contents of a flaming item which survive being burnt.</i><p>
 <p><hr><p><a href=doc258.html>Previous</a> / <a href=doc260.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

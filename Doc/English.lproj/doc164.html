@@ -1,4 +1,4 @@
-<html><head><title>11.11. Check rules for actions by other people</title></head>
+<html><head><title>11.12. Report rules for actions by other people</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,39 +7,30 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc163.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc165.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.11. Check rules for actions by other people</b></td></tr></table><p>
+<table><tr><td><a href=doc163.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc165.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.12. Report rules for actions by other people</b></td></tr></table><p>
 <p>
-<p>If we want to impose the restriction about carrying the camera on everyone, we need a rule like the following:
+<p>Report rules for the player's actions are easy to write, and for many actions, they are not much harder for other people either:
 <p>
-<blockquote><font color="#000080">Check someone trying photographing: if the person asked does not carry the camera, stop the action.
+<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
+<br>Report someone trying photographing: say &quot;Click! [The person asked] takes a snapshot of [the noun].&quot;
 </font></blockquote><p>
 <p>
-<p>Implicitly, that &quot;someone&quot; excludes the player. Note that we say nothing in this rule, stopping the action without a word: after all, Clark might well be out of sight when trying this. If he is within sight, then we read:
+<p>But once other people are involved, we have to go to some trouble to get all of the possibilities right. Here is a case which did not immediately occur to the author of the &quot;going&quot; action, for instance:
 <p>
-<blockquote><font color="#000080">>clark, photograph me
-<br>Clark Gable is unable to do that.
+<blockquote><font color="#000080">>get in cage
+<br>You get into the cage.
+<br>>clark, get in automobile
+<br>Clark Gable gets into the automobile.
+<br>>clark, push cage west
+<br>Clark Gable goes west in the automobile, pushing the cage in front, and you along too.
 </font></blockquote><p>
 <p>
-<p>We saw before that Inform's built-in rules all have handy names (the &quot;can't drop what's already dropped rule&quot;, and such), and that these are useful when writing better &quot;unable to...&quot; messages. So for a deluxe version, we end up with:
-<p>
-<blockquote><font color="#000080">Check someone trying photographing (this is the other people can't photograph without the camera rule): if the person asked does not carry the camera, stop the action.
+<blockquote><font color="#000080"><b>The Lot</b> (in the cage)
+<br>In the Lot you can see an automobile (in which is Clark Gable).
 </font></blockquote><p>
 <p>
-<p>And now, with ACTIONS on, we find that:
+<p>We said before that report rules are skipped if the action is running &quot;silently&quot;, or if the action is one that the player does not witness. But that is also a tricky concept. Inform's doctrine is that you witness an action if you can see any of the actor, the noun or the second noun at either the beginning or the end of the action; except that being able to see a backdrop does not count. Thus if Clark Gable, in Beverly Hills, photographs the Hollywood sign then we do not witness this from Sunset Boulevard merely because we, too, can see the Hollywood sign.
 <p>
-<blockquote><font color="#000080">>clark, photograph me
-<br>[asking Clark Gable to try photographing yourself]
-<br>[(1) Clark Gable trying photographing yourself]
-<br>[(1) Clark Gable trying photographing yourself - failed the other people can't photograph without the camera rule]
-<br>Clark Gable is unable to do that.
-<br>[asking Clark Gable to try photographing yourself - succeeded]
-</font></blockquote><p>
-<p>
-<p>which means that we could have, say,
-<p>
-<blockquote><font color="#000080">Unsuccessful attempt by Clark trying photographing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is the other people can't photograph without the camera rule, say &quot;Clark is too suave to be embarrassed. 'Frankly, my dear, I don't have a camera.'&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Clark tries, and fails, to take a photograph.&quot;
-</font></blockquote><p>
+<p>While the report rules for actions by the player must actually report something, report rules for other people's actions are under no such obligation. For instance, if Clark unlocks a door from the other side to the player, then this counts as an action that the player witnesses - and after all, it could be argued that the player should hear the key turning in the lock - but in fact the standard rules for reporting locking choose to say nothing.
 <p>
 <p><hr><p><a href=doc163.html>Previous</a> / <a href=doc165.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

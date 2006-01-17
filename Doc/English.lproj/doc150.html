@@ -1,4 +1,4 @@
-<html><head><title>10.13. Phrases to decide other things</title></head>
+<html><head><title>10.14. The value after and the value before</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,26 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc149.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc151.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.13. Phrases to decide other things</b></td></tr></table><p>
+<table><tr><td><a href=doc149.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc151.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.14. The value after and the value before</b></td></tr></table><p>
 <p>
-<p>A condition is a yes/no decision, but we can also take decisions where the result is a value. Suppose we want to create a concept of the &quot;grand prize&quot;, which will have different values at different times in play. Each time the &quot;grand prize&quot; is referred to, Inform will have to decide what its value is, and the following tells Inform how to make that decision:
+<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
 <p>
-<blockquote><font color="#000080">To decide which treasure is the grand prize:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the Dark Room has been visited then result the silver bars;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;result the plover's egg.
+<blockquote><font color="#000080">change the score to the score + 4
 </font></blockquote><p>
 <p>
-<p>Note that we have to say what kind the answer will be: here it's a kind of thing called &quot;treasure&quot; (which we're supposing has already been created), and as it turns out only two treasures are ever eligible anyway (we're also supposing that the plover's egg and the silver bars are treasures already created, of course.) Now that we have &quot;grand prize&quot; created, we can use it just as we would use any other value, so for instance:
+<p>Inform generally expects to apply the &quot;+&quot; sign only to two numbers, so we cannot normally apply &quot;+&quot; to values like these:
 <p>
-<blockquote><font color="#000080">if taking the grand prize then ...
+<blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.
 </font></blockquote><p>
 <p>
-<p>As this is something of a dialect difference between English speakers, &quot;what&quot; and &quot;which&quot; are synonymous here, i.e., we could equally well write something like:
+<p>There will be more about arithmetic on new kinds of value in the chapter on Units, but it may be useful to note that although we cannot (ordinarily) add up colours, we do automatically have two ways to make new colours from old:
 <p>
-<blockquote><font color="#000080">To decide what number is the target score: ...
+<blockquote><font color="#000080">the colour after C
+<br>the colour before C
 </font></blockquote><p>
+<p>
+<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
+<p>
+<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not. Again, more on comparisons in the chapter on units.
 <p>
 <p><hr><p>
-<a name="e127"><a href=ex127.html#e127><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A piece of ghost-hunting equipment that responds depending on whether or not the meter is on and a ghost is visible or touchable from the current location.</i><p>
-<a name="e112"><a href=ex112.html#e112><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Windows overlooking lower spaces which will prevent the player from climbing through if the lower space is too far below.</i><p>
+<a name="e47"><a href=ex47.html#e47><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>All objects in the game have a heat, but if not kept insulated they will tend toward room temperature (and at a somewhat exaggerated rate).</i><p>
 <p><hr><p><a href=doc149.html>Previous</a> / <a href=doc151.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

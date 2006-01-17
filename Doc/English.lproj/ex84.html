@@ -1,4 +1,4 @@
-<html><head><title>18.14. Defining phrases in Inform 6</title></head>
+<html><head><title>10.1. Fitting values into phrases</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,126 +7,43 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc275.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc277.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.14. Defining phrases in Inform 6</b></td></tr></table><p>
+<h2>Chapter 10: Phrases</h2><p><table><tr><td><a href=doc136.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc138.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.1. Fitting values into phrases</b></td></tr></table><p>
 <p>
-<p>The phrases described in this documentation, such as &quot;say...&quot; or &quot;start the player at...&quot;, are all defined in the Standard Rules, and are for the most part defined not in terms of other I7 phrases but instead reduced to equivalents in I6. For instance:
+<p>We are now able to set up the model world, to respond to certain actions of the player within it, and to make changes over time, giving the game a start and an end. But although we have defined many rules, none of them have done more than to use a few basic phrases: saying something to the player, changing some property or moving things around.
 <p>
-<blockquote><font color="#000080">To end the game in death: (- deadflag=1; -).
+<p>A phrase is a pattern of words which instructs the computer to do something immediately. For instance:
+<p>
+<blockquote><font color="#000080">say &quot;Look out!&quot;
+<br>award 20 points
 </font></blockquote><p>
 <p>
-<p>The notation &quot;(-&quot; and &quot;-)&quot; indicates that what comes in between is I6 code. The minus sign is supposed to be a mnemonic for the decrease from 7 to 6: later we shall use &quot;(+&quot; and &quot;+)&quot; to go back up the other way, from 6 to 7.
+<p>are instructions using two phrases, &quot;say ...&quot; and &quot;award ... points&quot;. Phrases are not the same things as rules: rules lay out what should happen under what circumstances, but it is phrases that actually do what needs to be done.
 <p>
-<p>When a phrase is defined as containing only a single command, and that command is defined using I6 - as here - it is compiled in-line. This means that the phrase &quot;end the game in death&quot; will always be translated as &quot;deadflag=1;&quot;, rather than being translated into a call to a suitable function whose only statement is &quot;deadflag=1;&quot;.
-<p>
-<p>This is an easy case since the wording never varies. A more typical example would be:
-<p>
-<blockquote><font color="#000080">To say the (something - number): (- print {something}; -).
-</font></blockquote><p>
-<p>
-<p>Where the &quot;{something}&quot; appears, the appropriate I7 code is compiled to a suitable I6 expression. So, for instance,
-<p>
-<blockquote><font color="#000080">say the capacity of the table
-</font></blockquote><p>
-<p>
-<p>might become
-<p>
-<blockquote><font color="#000080">print O17_table.capacity;
-</font></blockquote><p>
-<p>
-<p>Braces &quot;{&quot; are of course significant in I6. A real brace can be obtained by making the character following it a space, and then I7 will not attempt to read it as a request for substitution.
+<p>Where the &quot;20&quot; appears in &quot;award 20 points&quot;, any number would have done. This does not need to be a literal number expressed in digits: it can be any value known to Inform which works out as a number. For instance, &quot;the score&quot; is always acceptable as a number, since it is the name of a number variable: its value at any point in play is the current score.
 <p>
 <p><hr><p>
-<a name="e58"><a href=ex58.html#e58><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Asking the player to select a gender to begin play.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e84"><a href=doc276.html#e84><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Asking the player a yes/no question which he must answer, and another which he may answer or not as he chooses.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e84"><a href=doc137.html#e84><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Recording a whole table of scores for specific treasures.</i><p>
 <p>
-<p>Suppose we want to ask the player a question where he might say yes or no in response. There are two possible forms of this: the modal question where the player must pick one to proceed, and the non-modal question where he might also type other verbs.
+<p>Suppose we want to assign scores for a whole range of objects the player might pick up. One systematic way to do this would be with a table of point values for things:
 <p>
-<p>The modal question is provided for with a built-in Inform 6 function called &quot;YesOrNo&quot;, which we can wrap in Inform 7 if we need it.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Proposal&quot;\n\nThe story genre is &quot;A Worked Example about Yes/No Questions&quot;.\n\nSection 1 - Asking a Modal Yes/No Question\n\n')"><img border=0 src=paste.png></a> &quot;Proposal&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;No Place Like Home&quot;\n\nThe Hall of the Gnome King is a room. The cow carved from emerald is a thing in the Hall of the Gnome King. The ivory chessman is a thing in the Hall of the Gnome King. The book of incantations is a thing in the Hall of the Gnome King.\n\nTable of Point Values\nitem\tscore\ncow\t10\nincantations\t4\nchessman\t1\n\nReport taking an item listed in the Table of Point Values:\n\taward score entry points;\n\tblank out the whole row.\n\n\n')"><img border=0 src=paste.png></a> &quot;No Place Like Home&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The story genre is &quot;A Worked Example about Yes/No Questions&quot;.
+<blockquote><font color="#000080">The Hall of the Gnome King is a room. The cow carved from emerald is a thing in the Hall of the Gnome King. The ivory chessman is a thing in the Hall of the Gnome King. The book of incantations is a thing in the Hall of the Gnome King.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Section 1 - Asking a Modal Yes/No Question
-</font></blockquote><p>
-<p>[Forcing the player to say yes or no...]
-<p>
-<blockquote><font color="#000080">To decide whether player consents:
-<br>    (- YesOrNo() -)
-</font></blockquote><p>
-<p>
-<p>The critical thing here is to leave out the ; after the function call, because we are using this function to decide an if statement. It will get wrapped in the I6 incarnation of the code as if (YesOrNo()) ... , so if you put the ; in, you'll wind up with &quot;if (YesOrNo(); )&quot;. At that point, of course, the I6 compilation will not work.
-<p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Do you like Mr Spruce? &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if player consents, now Spruce is handsome;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise now Spruce is ugly;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say paragraph break.
+<blockquote><font color="#000080">Table of Point Values
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">item</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">score</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">cow</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">incantations</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">chessman</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>The non-modal question is possible to achieve entirely with Inform 7, so:
-<p>
-<blockquote><font color="#000080">Section 2 - Mr Spruce's Non-Modal Question
+<blockquote><font color="#000080">Report taking an item listed in the Table of Point Values:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;award score entry points;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Use full-length room descriptions.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Conservatory is a room. &quot;You are in a room full of plants.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Mr Spruce is a man in the Conservatory. Mr Spruce can be apprehensive or calm. Mr Spruce is calm. Mr Spruce can be handsome or ugly.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 9:02 AM: say &quot;Mr Spruce flings himself to his knees and implores you to become his lawfully wedded wife.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is apprehensive;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Mr Spruce gives up in two minutes from now.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Mr Spruce gives up:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Mr Spruce sighs heavily, seeing that you don't intend to reply. 'Never mind, my dear, I'll ask later. Perhaps I should have spoken to your Papa first... yes, a gently-bred female... no wonder...'&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Mr Spruce departs in one minute from now.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Mr Spruce departs:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player can see Mr Spruce, say &quot;Mr Spruce takes his leave of you.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Mr Spruce pokes his head in to say that he is leaving.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;Well, that is over...&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying yes in the presence of an ugly apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Remembering what your mother said to you about the stock exchange and Dear Papa, you close your eyes and accept Mr Spruce.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;Alas for your maiden hopes.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying yes in the presence of a handsome apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You are silent with delight for a moment before you say yes, yes!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;How Genevieve Stubbs will cry!&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying no in the presence of an ugly apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Gently you inform Mr Spruce that it is impossible. He seems less deflated than you had expected.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;Odd, that...&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying no in the presence of a handsome apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You lower your eyes and refuse petulantly, hoping to stir him to a more ardent repetition of these same requests. But then -- alack! -- he says 'I see how it is!' in a strangled voice, and strides from the room!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;A fatal error!&quot;
-</font></blockquote><p>
-<p>
-<p>And since the player might SAY YES TO SPRUCE, we had better reroute the relevant options:
-<p>
-<blockquote><font color="#000080">Instead of answering &quot;no&quot; to Mr Spruce, try saying no.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of answering &quot;yes&quot; to Mr Spruce, try saying yes.
-</font></blockquote><p>
-<p>
-</td></tr></table><p><p><hr><p><a href=doc275.html>Previous</a> / <a href=doc277.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>&quot;Blank out the whole row&quot; removes the line from the table, so that each award will occur only once. The player will not be able to earn more and more points by dropping and taking the same item again.
+</td></tr></table><p><p><hr><p><a href=doc136.html>Previous</a> / <a href=doc138.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

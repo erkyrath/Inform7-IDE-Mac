@@ -1,4 +1,4 @@
-<html><head><title>7.7. Moving things</title></head>
+<html><head><title>15.9. Commands consisting only of nouns</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,56 +7,67 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc99.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc101.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.7. Moving things</b></td></tr></table><p>
+<table><tr><td><a href=doc224.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc226.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.9. Commands consisting only of nouns</b></td></tr></table><p>
 <p>
-<p>We have now seen how to change the properties of rooms and things, and also any freestanding values which may have a bearing on the model world. We are not allowed to change the kind of anything during play. Our remaining freedom is to move things around. It would make no sense to move rooms around, because rooms are the fixed reference points in our geography, but anything else is mobile. This even includes things which are supposedly &quot;fixed in place&quot;, for unlike the player, we have god-like powers. (There is one restriction: backdrops, which are present in more than one place at once, can only be moved to regions. And while it is legal to move a door, it is not a good idea.)
+<p>In every example so far, and in almost all practical cases, the first word in a command which results in an action will be something fixed: a verb, in fact. When we write
 <p>
-<p>Here is how to move something:
-<p>
-<blockquote><font color="#000080">move the genie's lamp to Aladdin's Cave
+<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>The first object named has to be a thing; the destination can be a room, as here, or another object - this will usually need to be a container, a supporter or a person, since Inform understands what it would mean for these to have contents, but there is no absolute restriction. If the item is moved to a person, then it will be carried rather than worn.
+<p>we are saying that the first word of such a command will always be &quot;photograph&quot;. Occasionally, though, we would like to understand a noun as a command, perhaps in a situation where the command is obvious. If we say:
 <p>
-<p>When something is moved, all its contents (and all their contents, and so on) move with it.
+<blockquote><font color="#000080">Understand &quot;[something]&quot; as examining.
+</font></blockquote><p>
+<p>
+<p>then the command &quot;examine&quot; will be implicit when the player types a bare noun:
+<p>
+<blockquote><font color="#000080">A red box and a blue ball are here.
+<br>> ball
+<br>The blue ball is plaited from many small leather patches.
+</font></blockquote><p>
+<p>
+<p>so that the command &quot;ball&quot; has resulted in the action &quot;examining the blue ball&quot;.
+<p>
+<p>This is a feature which should be used sparingly, since it could easily lead to confusion if not carefully explained to the player. By default, it is not used at all.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e73"><a href=doc100.html#e73><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A meteor in the night sky which is visible from many rooms, so needs to be a backdrop, but which does not appear until 11:31 PM.</i><p>
+<a name="e32"><a href=ex32.html#e32><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A going by name command which does respect movement rules, and accepts names of rooms as commands.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e73"><a href=doc225.html#e73><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>The same functionality, but making the player continue to move until he reaches his destination or a barrier, handling all openable doors on the way.</i><p>
 <p>
-<p>The timing of the meteor's arrival uses features of Inform which the next chapter will go into at greater detail: suffice to say that the game below begins at half past eleven, and that one turn later is meteor time.
+<p>The foregoing example moves the player one location towards his destination, and requires that rooms have been visited before. But suppose we wanted to be a bit more lenient about movement, and let the player make as many steps as necessary per turn.
 <p>
-<blockquote><font color="#000080">The time of day is 11:30 PM.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Safari Guide\n\nThe Monkey House is a room. The African Grasslands Exhibit is north of the Monkey House. The bird door is north of the African Grasslands Exhibit and south of the Aviary. The Ostrich Enclosure is west of the Aviary. The bird door is a door. It is closed, lockable, and locked. The silver key is a passkey. It unlocks the bird door. The player carries the silver key.\n\nUnderstand &quot;go to [any room]&quot; as going by name. Understand &quot;[any room]&quot; as going by name. Understand &quot;[door]&quot; as entering.\n\nGoing by name is an action applying to one thing.\n\nCheck going by name:\n\tif the noun is the location, say &quot;You\'re already in [the location].&quot; instead.\n\nCarry out going by name:\n\twhile the player is not in the noun\n\tbegin;\n\t\tlet heading be the best route from the location to the noun, using even locked doors;\n\t\tif heading is not a direction, say &quot;You can\'t think how to get there from here.&quot; instead;\n\t\tlet destination be the room heading from the location;\n\t\tsay &quot;(heading [heading])[line break]&quot;;\n\t\ttry going heading;\n\t\tif the player is not in the destination, rule fails;\n\tend while.\n\n[Notice that we continue the movement until one of two things happens: either the player reaches the room that is his destination, or the going attempt doesn\'t work. In the latter case we stop the action in order to avoid hanging the game up in a loop. This event might occur when the player runs into a locked door, for instance.]\n\n[We might also want him to automatically open and unlock any doors he encounters on the way; to this end we can just include the lock-handling extension. Now every time the code attempts opening a door, unlocking rules will also be invoked.]\n\nInclude Locksmith by Emily Short.\n\n')"><img border=0 src=paste.png></a> Safari Guide
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At 11:31 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move meteor to the great outdoors;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A meteor streaks across the sky.&quot;.
+<blockquote><font color="#000080">The Monkey House is a room. The African Grasslands Exhibit is north of the Monkey House. The bird door is north of the African Grasslands Exhibit and south of the Aviary. The Ostrich Enclosure is west of the Aviary. The bird door is a door. It is closed, lockable, and locked. The silver key is a passkey. It unlocks the bird door. The player carries the silver key.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The great outdoors is a region. The Spanish Balcony is east of the Inner Court. The Court and Balcony are in the great outdoors. Inside from the Court is the Swimming Pool.
+<blockquote><font color="#000080">Understand &quot;go to [any room]&quot; as going by name. Understand &quot;[any room]&quot; as going by name. Understand &quot;[door]&quot; as entering.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The meteor is a backdrop. Instead of doing something to the meteor, say &quot;The meteor is no longer visible, now nothing more than a memory.&quot;
+<blockquote><font color="#000080">Going by name is an action applying to one thing.
 </font></blockquote><p>
 <p>
-<p>Or for something a little slower-moving and with no after-image:
-<p>
-<blockquote><font color="#000080">The time of day is 4:30 PM.
+<blockquote><font color="#000080">Check going by name:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the location, say &quot;You're already in [the location].&quot; instead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At 4:31 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move Phobos to the great outdoors;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Phobos rises from the western horizon.&quot;
-<br>At 10:06 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove Phobos from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Phobos sets over the eastern horizon.&quot;
+<blockquote><font color="#000080">Carry out going by name:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;while the player is not in the noun
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let heading be the best route from the location to the noun, using even locked doors;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if heading is not a direction, say &quot;You can't think how to get there from here.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let destination be the room heading from the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [heading])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try going heading;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player is not in the destination, rule fails;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end while.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The great outdoors is a region. The Martian Balcony is east of the Inner Court. The Court and Balcony are in the great outdoors. Inside from the Court is the Heavy Water Swimming Pool.
-</font></blockquote><p>
+<p>Notice that we continue the movement until one of two things happens: either the player reaches the room that is his destination, or the going attempt doesn't work. In the latter case we stop the action in order to avoid hanging the game up in a loop. This event might occur when the player runs into a locked door, for instance.
 <p>
-<blockquote><font color="#000080">Phobos is a backdrop. Instead of doing something to Phobos, say &quot;Phobos orbits a mere 6000km above you, which is practically touching range for astronomy. On the other hand, astronomy isn't all that practical.&quot;
-</font></blockquote><p>
+<p>We might also want him to automatically open and unlock any doors he encounters on the way; to this end we can just include the lock-handling extension. Now every time the code attempts opening a door, unlocking rules will also be invoked.
 <p>
-<p>Though we should not really use Earthly time-keeping, since the Martian day is about half an hour longer than ours.
-</td></tr></table><p><p><hr><p><a href=doc99.html>Previous</a> / <a href=doc101.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Include Locksmith by Emily Short.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc224.html>Previous</a> / <a href=doc226.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

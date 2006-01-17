@@ -1,4 +1,4 @@
-<html><head><title>7.3. Changing the status line</title></head>
+<html><head><title>7.4. Change of either/or properties</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,20 +7,20 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc95.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc97.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.3. Changing the status line</b></td></tr></table><p>
+<table><tr><td><a href=doc95.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc97.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.4. Change of either/or properties</b></td></tr></table><p>
 <p>
-<p>The status line is the black bar along the top of a game being played, which ordinarily displays the current position, score and number of moves taken. Like the command prompt, it is not fixed but results from values which can be changed: the &quot;left hand status line&quot; and &quot;right hand status line&quot;.
+<p>When we have an either/or property, we can set it like so:
 <p>
-<p>The default values are &quot;[the player's surroundings]&quot; for the left hand status line and &quot;[score]/[turn count]&quot; for the right hand status line. Score and turn count are numbers which vary in play (there will be much more about scoring later); &quot;[the player's surroundings]&quot; expands to a succinct description of where the player is, be this in darkness, in a lighted room or inside an opaque container such as a large packing case. These make useful elements to juggle in redesigning the status line, as in the following example:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tchange the left hand status line to\n\t\t&quot;[the player\'s surroundings] / [turn count] / [score]&quot;;\n\tchange the right hand status line to &quot;Time: [time of day]&quot;.\n\n\n')"><img border=0 src=paste.png></a> When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the left hand status line to
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;[the player's surroundings] / [turn count] / [score]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the right hand status line to &quot;Time: [time of day]&quot;.
+<blockquote><font color="#000080">Instead of waiting when the oaken door is closed: say &quot;There is a slow, creaky click! sort of noise as the door swings open, apparently all by itself.&quot;; change the oaken door to open.
 </font></blockquote><p>
 <p>
-<p>The text in the right hand status line should be kept no more than 14 letters long, including any spaces. The left hand status line has more leeway, but should still be kept brief.
+<p>If it is open already, nothing changes: in any case nothing is said to the player unless we give explicit instructions to that effect, as we've done here.
 <p>
-<p><hr><p>
-<a name="e102"><a href=ex102.html#e102><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Have the status line indicate the current region of the map.</i><p>
+<p>Inform protects its model world from accidental damage in several ways, one of which is to ensure that things are not given properties which they are not allowed to have. So this, for instance, will not be accepted:
+<p>
+<blockquote><font color="#000080">change the oaken door to unvisited
+</font></blockquote><p>
+<p>
+<p>More subtle problems arise if it is not possible to tell, when the game is being constructed, what the object in question will be: for instance, if we try to change a randomly chosen object to be &quot;unvisited&quot;. Inform therefore makes additional checks during play, printing up a suitable message only if the rules are violated. The net effect is that it is impossible for the oaken door ever to have the &quot;unvisited&quot; property.
+<p>
 <p><hr><p><a href=doc95.html>Previous</a> / <a href=doc97.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

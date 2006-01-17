@@ -1,4 +1,4 @@
-<html><head><title>8.12. Future events</title></head>
+<html><head><title>11.11. Check rules for actions by other people</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,124 +7,61 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc124.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc126.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.12. Future events</b></td></tr></table><p>
+<table><tr><td><a href=doc162.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc164.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.11. Check rules for actions by other people</b></td></tr></table><p>
 <p>
-<p>We often want to arrange for something to happen at some point in the future. Here is yet another timepiece:
+<p>If we want to impose the restriction about carrying the camera on everyone, we need a rule like the following:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.\n\nWhen the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;\n\n\n')"><img border=0 src=paste.png></a> An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.
+<blockquote><font color="#000080">Check someone trying photographing: if the person asked does not carry the camera, stop the action.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;
+<p>Implicitly, that &quot;someone&quot; excludes the player. Note that we say nothing in this rule, stopping the action without a word: after all, Clark might well be out of sight when trying this. If he is within sight, then we read:
+<p>
+<blockquote><font color="#000080">>clark, photograph me
+<br>Clark Gable is unable to do that.
 </font></blockquote><p>
 <p>
-<p>The event here is called &quot;the egg-timer clucks&quot;. It only happens if we instruct so, which we do by writing
+<p>We saw before that Inform's built-in rules all have handy names (the &quot;can't drop what's already dropped rule&quot;, and such), and that these are useful when writing better &quot;unable to...&quot; messages. So for a deluxe version, we end up with:
 <p>
-<blockquote><font color="#000080">the egg-timer clucks in four turns from now
+<blockquote><font color="#000080">Check someone trying photographing (this is the other people can't photograph without the camera rule): if the person asked does not carry the camera, stop the action.
 </font></blockquote><p>
 <p>
-<p>meaning four turns after the turn in which the egg-timer is pushed. We could alternatively describe this future moment as something like &quot;in 18 minutes from now&quot;, or &quot;at 4:15 PM&quot;.
+<p>And now, with ACTIONS on, we find that:
 <p>
-<p>If we know in advance what time we want something to happen, we can more simply write:
+<blockquote><font color="#000080">>clark, photograph me
+<br>[asking Clark Gable to try photographing yourself]
+<br>[(1) Clark Gable trying photographing yourself]
+<br>[(1) Clark Gable trying photographing yourself - failed the other people can't photograph without the camera rule]
+<br>Clark Gable is unable to do that.
+<br>[asking Clark Gable to try photographing yourself - succeeded]
+</font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At 4 PM: say &quot;The great bells of the clock tower chime four.&quot;
+<p>which means that we could have, say,
+<p>
+<blockquote><font color="#000080">Unsuccessful attempt by Clark trying photographing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is the other people can't photograph without the camera rule, say &quot;Clark is too suave to be embarrassed. 'Frankly, my dear, I don't have a camera.'&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Clark tries, and fails, to take a photograph.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e113"><a href=doc125.html#e113><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A train which follows a schedule, stopping at a number of different locations.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e113"><a href=doc163.html#e113><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Changing the check rules to try automatically leaving a container before attempting to take it. (And arranging things so that other people will do likewise.)</i><p>
 <p>
-<p>Suppose we want to have a train which, at fixed times, arrives at and leaves stations. It should be possible for the player to get on and off the train when it is stopped, but not while the train is in motion.
+<p>We could now re-write the check rules so that any time someone (the player or someone else) tries to pick up a container which he is in, he will first get out:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Empire&quot;\n\nThe Empire Builder Train is a room. The Train has a property called the station. The station of the Train is Seattle.\n\nThe description of the Empire Builder is &quot;One of the (relatively) plush long-distance Amtrak trains. You\'re in a two-story car with toilets and a cafe at one end, not having sprung for a sleeper.\n\n[if the station of the Train is the train]Outside the window there is rapidly-passing countryside.[otherwise]Through the windows you can see the [station of the Train] train station.[end if]&quot;\n\nInstead of exiting when the player is in the Train:\n\tif the station of the Train is the Train\n\tbegin;\n\t\tsay &quot;The train is not stopped at a station.&quot; instead;\n\totherwise;\n\t\tmove the player to the station of the train instead;\n\tend if.\n\nBefore going outside when the player is in the Train:\n\ttry exiting instead.\n\nBefore going inside when the player is in the station of the Train:\n\tmove the player to the Train instead.\n\nSeattle, Edmonds, Everett, Wenatchee, and Spokane are rooms. The description of a room is usually &quot;The scenic train station of [the location][if the location is the station of the train].\n\nThe pompously-titled Empire Builder train is pulled up here, soon to continue its journey towards Chicago[end if].&quot;\n\n[And now our schedule for the train -- somewhat truncated, admittedly, since the full three-day journey from Seattle to Chicago is a bit long even for an ambitious example.]\n\nAt 4:45 PM:\n\tsay &quot;The train pulls out of [the station of the Train]!&quot;;\n\tchange the station of the Train to the Train.\n\nAt 5:10 PM:\n\tchange the station of the Train to Edmonds;\n\tsay &quot;The train pulls into Edmonds and comes to a stop.&quot;\n\nAt 5:17 PM:\n\tsay &quot;The train pulls out of [the station of the Train], running north along the shore towards Everett.&quot;;\n\tchange the station of the Train to the Train.\n\nAt 5:39 PM:\n\tchange the station of the Train to Everett;\n\tsay &quot;The train arrives in scenic Everett, WA: the last stop before it turns east and heads over the mountains.&quot;\n\nAt 5:44 PM:\n\tsay &quot;The train pulls out of [the station of the Train] and turns east.&quot;;\n\tchange the station of the Train to the Train.\n\nAt 8:39 PM:\n\tsay &quot;In darkness the train rolls into Wenatchee; which is just fine, considering that there is nothing to see here at all.&quot;;\n\tchange the station of the Train to Wenatchee.\n\nAt 8:44 PM:\n\tsay &quot;The train pulls out of [the station of the Train] and continues east through the darkness towards Spokane.&quot;;\n\tchange the station of the Train to the Train.\n\nAt 12:28 AM:\n\tsay &quot;The train comes into Spokane, WA. Next stop, Idaho.&quot;;\n\tchange the station of the Train to Spokane.\n\nAt 12:32 AM:\n\tsay &quot;The train slowly pulls itself back up to speed and continues sleepily eastward.&quot;;\n\tchange the station of the Train to the Train.\n\n[Playing this out would of course require near inhuman patience. Let\'s set things up so that the player at least doesn\'t have to wait too long for his first departure:]\n\nThe time of day is 4:43 PM.\n\n[...and provide fair warning of how slowly time is elapsing.]\n\nWhen play begins:\n\tchange the right hand status line to &quot;[time of day]&quot;.\n\n')"><img border=0 src=paste.png></a> &quot;Empire&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;GET AXE&quot;\n\nThis is the clever can\'t take what you\'re inside rule:\n\tif the person asked is in the noun, try the person asked trying exiting;\n\tif the person asked is in the noun, rule fails.\n\nProcedural rule:\n\tsubstitute the clever can\'t take what you\'re inside rule for the can\'t take what you\'re inside rule.\n\nAttic is a room. The unused coffin is in the Attic. The coffin is enterable and openable and open. Raskolnikov is a man in the coffin.\n\nPersuasion rule for asking Raskolnikov to try doing something: persuasion succeeds.\n\n')"><img border=0 src=paste.png></a> &quot;GET AXE&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Empire Builder Train is a room. The Train has a property called the station. The station of the Train is Seattle.
+<blockquote><font color="#000080">This is the clever can't take what you're inside rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is in the noun, try the person asked trying exiting;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is in the noun, rule fails.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The description of the Empire Builder is &quot;One of the (relatively) plush long-distance Amtrak trains. You're in a two-story car with toilets and a cafe at one end, not having sprung for a sleeper.
+<blockquote><font color="#000080">Procedural rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;substitute the clever can't take what you're inside rule for the can't take what you're inside rule.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">[if the station of the Train is the train]Outside the window there is rapidly-passing countryside.[otherwise]Through the windows you can see the [station of the Train] train station.[end if]&quot;
+<blockquote><font color="#000080">Attic is a room. The unused coffin is in the Attic. The coffin is enterable and openable and open. Raskolnikov is a man in the coffin.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of exiting when the player is in the Train:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the station of the Train is the Train
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train is not stopped at a station.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the player to the station of the train instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">Persuasion rule for asking Raskolnikov to try doing something: persuasion succeeds.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before going outside when the player is in the Train:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try exiting instead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before going inside when the player is in the station of the Train:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the player to the Train instead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Seattle, Edmonds, Everett, Wenatchee, and Spokane are rooms. The description of a room is usually &quot;The scenic train station of [the location][if the location is the station of the train].
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The pompously-titled Empire Builder train is pulled up here, soon to continue its journey towards Chicago[end if].&quot;
-</font></blockquote><p>
-<p>
-<p>And now our schedule for the train -- somewhat truncated, admittedly, since the full three-day journey from Seattle to Chicago is a bit long even for an ambitious example.
-<p>
-<blockquote><font color="#000080">At 4:45 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train pulls out of [the station of the Train]!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to the Train.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 5:10 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to Edmonds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train pulls into Edmonds and comes to a stop.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 5:17 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train pulls out of [the station of the Train], running north along the shore towards Everett.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to the Train.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 5:39 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to Everett;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train arrives in scenic Everett, WA: the last stop before it turns east and heads over the mountains.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 5:44 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train pulls out of [the station of the Train] and turns east.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to the Train.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 8:39 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;In darkness the train rolls into Wenatchee; which is just fine, considering that there is nothing to see here at all.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to Wenatchee.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 8:44 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train pulls out of [the station of the Train] and continues east through the darkness towards Spokane.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to the Train.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 12:28 AM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train comes into Spokane, WA. Next stop, Idaho.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to Spokane.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 12:32 AM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train slowly pulls itself back up to speed and continues sleepily eastward.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to the Train.
-</font></blockquote><p>
-<p>
-<p>Playing this out would of course require near inhuman patience. Let's set things up so that the player at least doesn't have to wait too long for his first departure:
-<p>
-<blockquote><font color="#000080">The time of day is 4:43 PM.
-</font></blockquote><p>
-<p>
-<p>...and provide fair warning of how slowly time is elapsing.
-<p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the right hand status line to &quot;[time of day]&quot;.
-</font></blockquote><p>
-</td></tr></table><p><a name="e43"><a href=ex43.html#e43><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>To schedule an eclipse of the sun, which involves a number of related events.</i><p>
-<p><hr><p><a href=doc124.html>Previous</a> / <a href=doc126.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc162.html>Previous</a> / <a href=doc164.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>17.1. On rules</title></head>
+<html><head><title>16.19. Deciding whether all includes</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,48 +7,29 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 17: Rulebooks</h2><p><table><tr><td><a href=doc251.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc253.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.1. On rules</b></td></tr></table><p>
+<table><tr><td><a href=doc251.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc253.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.19. Deciding whether all includes</b></td></tr></table><p>
 <p>
-<p>When we open the casing and look inside the machinery of Inform, what we see are rules and rulebooks. We seldom need to know how this machinery works, but every once in a while we want to replace components, or even install new mechanisms of our own. This chapter is in some ways the most remote from practical, day-to-day writing, but in the same way that a maintenance manual is remote from everyday driving: worth knowing where to find when the time comes.
+<p><b>1. When it happens.</b> When parsing a command such as &quot;take all&quot;, where the player uses &quot;all&quot; to signify everything within reach.
 <p>
-<p>So far we have seen many rules, and the term &quot;rulebook&quot; has frequently but vaguely been used. Here is a summary of the rulebooks seen so far:
+<p><b>2. The default behaviour.</b> The actual method used is complicated, as &quot;all&quot; is not as simple as it seems - &quot;take all&quot; would not include the player's own body, for instance, or the crescent moon. The point of this action is to allow the normal method to be changed for given objects, or given kinds of object.
 <p>
-<blockquote><font color="#000080">before
-<br>instead
-<br>after
-<br>check taking, carry out taking, report taking
-<br><i>and three similar rulebooks for each of the 90 or so actions</i>
-<br>persuasion
-<br>unsuccessful attempt
-<br>reaching inside
-<br>reaching outside
+<p><b>3. Examples.</b> (a) Removing scenery from &quot;all&quot;:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for deciding whether all includes scenery: it does not.\n\n\n')"><img border=0 src=paste.png></a> Rule for deciding whether all includes scenery: it does not.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">when play begins
-<br>when play ends
-<br>every turn
-<br>when Confrontation Scene begins
-<br>when Confrontation Scene ends
-<br><i>and two similar rulebooks for each scene we create, if any</i>
+<p>The phrases &quot;it does&quot; and &quot;it does not&quot; make a decision.
+<p>
+<p>(b) Ensuring that a given thing, which might otherwise be excluded, is included:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for deciding whether all includes the oval roof: it does.\n\n\n')"><img border=0 src=paste.png></a> Rule for deciding whether all includes the oval roof: it does.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">before printing the name of
-<br>for printing the name of
-<br>after printing the name of
-<br><i>and three similar rulebooks for each of the 20 or so activities</i>
+<p>(c) However, be wary of rules like this one:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for deciding whether all includes the oak tree while taking: it does not.\n\n\n')"><img border=0 src=paste.png></a> Rule for deciding whether all includes the oak tree while taking: it does not.
 </font></blockquote><p>
 <p>
-<p>Which makes around 340 rulebooks before we even start to write - and two more are going to turn up later in this chapter:
-<p>
-<blockquote><font color="#000080">procedural
-<br>turn sequence
-</font></blockquote><p>
-<p>
-<p>All the same, not everything in Inform is a rule - timed events, newly-created phrases, and definitions may look vaguely as if they define rules, but they do not, so the following are not rulebooks:
-<p>
-<blockquote><font color="#000080">At 11:10 PM: ...
-<br>To dislodge the shelf: ...
-<br>Definition: ...
-</font></blockquote><p>
+<p>This will not work even when the player types &quot;take all&quot; because we are not &quot;taking&quot; until the text is fully understood, when the action begins: and working out what &quot;all&quot; means is part of that process of understanding.
 <p>
 <p><hr><p><a href=doc251.html>Previous</a> / <a href=doc253.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

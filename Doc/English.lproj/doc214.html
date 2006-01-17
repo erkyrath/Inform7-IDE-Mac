@@ -1,4 +1,4 @@
-<html><head><title>15.2. New commands for old grammar</title></head>
+<html><head><title>14.16. Defining things with tables</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,36 +7,35 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc213.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc215.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.2. New commands for old grammar</b></td></tr></table><p>
+<table><tr><td><a href=doc213.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc215.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.16. Defining things with tables</b></td></tr></table><p>
 <p>
-<p>In the photography example, we are providing entirely new grammar for an action  not ordinarily built in to Inform. But we often want simply to provide alternative grammar for existing actions, or even to put new interpretations on commands that Inform already recognises. For instance:
+<p>Suppose we need to create a collection of items which differ in their properties, but are basically part of a larger pattern. For instance, here we set up what we need to make a collection of coloured shirts:
 <p>
-<blockquote><font color="#000080">Understand &quot;deposit [something] in [an open container]&quot; as inserting it into.
+<blockquote><font color="#000080">A jersey is a kind of thing. A jersey is wearable. A jersey has a number called year established. A jersey has a text called citation. The description of a jersey is &quot;Since [year established of the item described], the Tour de France has awarded this jersey to the [citation of the item described].&quot;
 </font></blockquote><p>
 <p>
-<p>The inserting action is built in to Inform, but the command &quot;deposit&quot; is not, so this is created as new. It is occasionally useful to put a twist on this:
+<p>Now we have the pattern, but making the actual shirts is tedious and repetitive:
 <p>
-<blockquote><font color="#000080">Understand &quot;fill [an open container] with [something]&quot; as inserting it into (with nouns reversed).
+<blockquote><font color="#000080">The yellow jersey is a jersey. The year established of the yellow jersey is 1919. The citation of the yellow jersey is &quot;race leader&quot;. The polkadot jersey...
 </font></blockquote><p>
 <p>
-<p>The clause &quot;(with nouns reversed)&quot; tells Inform to exchange the two nouns parsed, which is necessary because the inserting action expects the noun to be the item and the second noun to be the container, not vice versa.
+<p>And so on. Instead, we can use a table to abbreviate all of this:
 <p>
-<p>The following example:
-<p>
-<blockquote><font color="#000080">Understand &quot;access [something]&quot; as opening.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Tour des Maillots&quot;\n\nThe Staging Area is a room. A jersey is a kind of thing. A jersey is wearable. Some jerseys in the Staging Area are defined by the Table of Honorary Jerseys. The description of a jersey is &quot;Since [year established of the item described], the Tour de France has awarded this jersey to the [citation of the item described].&quot;\n\nTable of Honorary Jerseys\njersey\tyear established\tcitation\nyellow jersey\t1919\t&quot;race leader&quot;\npolkadot jersey\t1933\t&quot;King of the Mountains&quot;\ngreen jersey\t1953\t&quot;highest point scorer on sprints&quot;\nwhite jersey\t1975\t&quot;best cyclist aged 25 or less&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Tour des Maillots&quot;
 </font></blockquote><p>
 <p>
-<p>might look as if it makes &quot;access&quot; behave just like &quot;open&quot; when the player types it, but that's not so: &quot;open&quot; can also be used in constructions like &quot;open the door with the brass key&quot;, in which case it is understood as the unlocking action. We could add another line to make &quot;access&quot; behave this way too, but if what we really want is to make &quot;access&quot; behave just like &quot;open&quot;, it's easier simply to say so:
-<p>
-<blockquote><font color="#000080">Understand the command &quot;access&quot; as &quot;open&quot;.
+<blockquote><font color="#000080">The Staging Area is a room. A jersey is a kind of thing. A jersey is wearable. Some jerseys in the Staging Area are defined by the Table of Honorary Jerseys. The description of a jersey is &quot;Since [year established of the item described], the Tour de France has awarded this jersey to the [citation of the item described].&quot;
 </font></blockquote><p>
 <p>
-<p>This is very useful when adding a new command which needs synonyms:
-<p>
-<blockquote><font color="#000080">Understand the command &quot;snap&quot; as &quot;photograph&quot;.
-<br>Understand the command &quot;picture&quot; as &quot;photograph&quot;.
+<blockquote><font color="#000080">Table of Honorary Jerseys
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">jersey</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">year established</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">citation</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">yellow jersey</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1919</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;race leader&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">polkadot jersey</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1933</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;King of the Mountains&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">green jersey</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1953</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;highest point scorer on sprints&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">white jersey</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1975</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;best cyclist aged 25 or less&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>We can check the current stock of commands by looking at the table in the Actions index: for instance, before making &quot;snap&quot; synonymous with &quot;photograph&quot;, it might be wise to check that it is not already defined as a command for breaking something.
+<p>The first column provides names for the new things to be created. Subsequent columns provide property values. Note that we did not need to say that jerseys have a number called &quot;year established&quot; because Inform is able to infer this from the column heading and the presence of numbers in the column; similarly for &quot;citation&quot;. Lastly, note that if any entry is blank (written &quot;--&quot;) then that particular property is simply not set for that particular item.
 <p>
 <p><hr><p><a href=doc213.html>Previous</a> / <a href=doc215.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

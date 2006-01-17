@@ -1,4 +1,4 @@
-<html><head><title>7.18. Testing</title></head>
+<html><head><title>7.19. Stipulations on testing</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,22 +7,23 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc110.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc112.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.18. Testing</b></td></tr></table><p>
+<table><tr><td><a href=doc110.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc112.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.19. Stipulations on testing</b></td></tr></table><p>
 <p>
-<p>Inform provides a convenient shorthand for testing. Most works of interactive fiction contain numerous vignettes, either in terms of short scenes of narrative, or in the behaviour of particular things or rooms. This means we often need to test little pieces of the whole; on the other hand, we also want a way to test the entire thing right through. And it is all too easy to lose track of the solution while working out the design.
+<p>Many tests will only be sensible in given places, which may be hard to reach from the initial position; or with the aid of given things, which may be difficult to obtain. We are therefore allowed to add stipulations to test scripts:
 <p>
-<p>Solutions or sequences for testing (&quot;scripts&quot;) can be defined with sentences like so:
-<p>
-<blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot;.
+<blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot; holding the balloon.
 </font></blockquote><p>
 <p>
-<p>This has no effect on the design itself, but ensures that when the game is played, typing &quot;test balloon&quot; will run through the given three commands in sequence, as if we had typed &quot;get balloon&quot; and then &quot;blow balloon&quot; and then &quot;drop balloon&quot;.
+<p>The &quot;... holding the balloon&quot; means that the balloon will be transferred to the player's ownership immediately before the test script is run, unless it is already held. Similarly:
 <p>
-<p>The name for the test (balloon in this example) has to be a single word. Typing just &quot;test&quot; at the game prompt gives a list of all the test scripts known to the game. Test scripts can make use of each other, for instance:
-<p>
-<blockquote><font color="#000080">Test all with &quot;test balloon / test door&quot;.
+<blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen.
 </font></blockquote><p>
 <p>
-<p>One convenient way to keep track of the solution for a work being written is to include a test script at the end of each section, and to place a master test script (like &quot;test all&quot;) at the top of the source. But different designers will prefer different approaches, and this testing system is no more than an optional convenience.
+<p>Or we might want to say both:
 <p>
+<blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen holding the jam.
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<a name="e116"><a href=ex116.html#e116><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Commands to test Day for Fresh Sushi.</i><p>
 <p><hr><p><a href=doc110.html>Previous</a> / <a href=doc112.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

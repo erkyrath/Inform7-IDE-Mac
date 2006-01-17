@@ -20,6 +20,7 @@ System_file;
 
 [ Banner i;
 #ifdef NI_BUILD_COUNT;
+   new_line;
    BeginActivity(BANNER_ACT);
    if (ForActivity(BANNER_ACT) == false) {
 
@@ -787,7 +788,7 @@ Global I7_wlf_sp;
 [ MoveFloatingObjects i k l m address flag;
   objectloop (i)
   {   address=i.&found_in;
-      if (address~=0 && i hasnt absent)
+   	  if (address~=0 && i hasnt absent)
       {   if (ZRegion(address-->0)==2)
           {   if (i.found_in() ~= 0) move i to location; else remove i;
           }
@@ -1622,11 +1623,13 @@ Global I7_wlf_sp;
 #ifdef NI_BUILD_COUNT;
   say__p = 0;
   BeginActivity(NONDESCRIPT_ACT,descin);
+  objectloop (o ofclass Object) if (o has I7_mentioned) give o ~workflag;
   k=0; objectloop (o ofclass Object) if (o has workflag) k++;
   if (k==0) { AbandonActivity(NONDESCRIPT_ACT,descin); return; }
   if (say__p) { new_line; say__p = 0; }
   if (ForActivity(NONDESCRIPT_ACT,descin) == false) {
 #endif;
+  ! objectloop (o ofclass Object) if (o has workflag) print o, " ";
   if (flag==1) L__M(##Look,5,descin); else L__M(##Look,6,descin);
 #ifdef NI_BUILD_COUNT;
   } EndActivity(NONDESCRIPT_ACT,descin);

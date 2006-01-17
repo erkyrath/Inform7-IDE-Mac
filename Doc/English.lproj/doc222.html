@@ -1,4 +1,4 @@
-<html><head><title>15.10. Understanding values</title></head>
+<html><head><title>15.6. Actions applying to kinds of value</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,37 +7,31 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc221.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc223.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.10. Understanding values</b></td></tr></table><p>
+<table><tr><td><a href=doc221.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc223.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.6. Actions applying to kinds of value</b></td></tr></table><p>
 <p>
-<p>So far every &quot;Understand&quot; sentence has ended with &quot;as&quot; and a description of an action. But we can also use &quot;Understand&quot; to supply new ways to talk about things and even values. For instance, if we create:
+<p>Almost all actions apply to things: the player picks them up, pushes them, looks at them and so on. Only occasionally do we need to recognise other kinds of value: but when we do, we can, as in the example called &quot;Safety&quot;:
 <p>
-<blockquote><font color="#000080">A brass lantern is in the Building.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Safety&quot;\n\nThe Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don\'t get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.\n\nSpinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;\n\nUnderstand &quot;spin [something] to [a number]&quot; as spinning it to.\n\nAfter spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [list of things in the Safe].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Safety&quot;
 </font></blockquote><p>
 <p>
-<p>then it can be called &quot;brass&quot;, or &quot;lantern&quot;, but not &quot;lamp&quot;: Inform does not really know what these words mean, and has no grasp of synonyms. We can arrange for &quot;lamp&quot; to work as well like so:
-<p>
-<blockquote><font color="#000080">Understand &quot;lamp&quot; as the lantern.
-<br>Understand &quot;old lamp&quot; as the lantern.
+<blockquote><font color="#000080">The Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don't get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.
 </font></blockquote><p>
 <p>
-<p>With care, we can do the same trick for entire kinds of thing at once. It is not ordinarily the case that a thing can be called by the name of its kind: if we put a woman called April into a room, then she can usually be called &quot;April&quot;, but not &quot;woman&quot;. (The exception is when we do not specify any name for her - in that case, Inform will give up and call her just &quot;woman&quot;.) So there is not usually any form of words which can refer to anything of a given kind. If we should want this, we have to say so explicitly:
-<p>
-<blockquote><font color="#000080">Understand &quot;machine&quot; as a device.
+<blockquote><font color="#000080">Spinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;
 </font></blockquote><p>
 <p>
-<p>Device is a kind, so now the word &quot;machine&quot; can be used to refer to any device: if there are two in the same place, the result might play out like so:
-<p>
-<blockquote><font color="#000080">>switch machine on
-<br>Which do you mean, the bale twiner or the grain thresher?
-<br>>twiner
-<br>You watch absorbed as a perfect cube of hay is trussed up like a parcel.
+<blockquote><font color="#000080">Understand &quot;spin [something] to [a number]&quot; as spinning it to.
 </font></blockquote><p>
 <p>
-<p>Similarly, we might conceivably want to allow new ways to recognise values - in this case, a number:
+<blockquote><font color="#000080">After spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [list of things in the Safe].&quot;
+</font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;eleventy-one&quot; as 111.
+<p>The substitution &quot;[a number]&quot; matches any number (actually any whole number that is not too large) typed by the player. Inform checks the various kinds being used to make sure that everything matches, so, for instance, this would be disallowed:
+<p>
+<blockquote><font color="#000080">Understand &quot;spin [something] to [something]&quot; as spinning it to.
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e79"><a href=ex79.html#e79><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>An artist's workshop in which the canvas can be painted in any colour, and where painterly names for pigments ("cerulean") are accepted alongside everyday ones ("blue").</i><p>
+<a name="e118"><a href=ex118.html#e118><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A clock kind that can be set to any time using "the time understood"; may be turned on and off; and will advance itself only when running. Time on the face is also reported differently depending on whether the clock is analog or digital.</i><p>
+<a name="e56"><a href=ex56.html#e56><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A system which allows the author to assign footnotes to descriptions, and permits the player to retrieve them again by number, using "the number understood". Footnotes will automatically number themselves, according to the order in which the player discovers them.</i><p>
 <p><hr><p><a href=doc221.html>Previous</a> / <a href=doc223.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

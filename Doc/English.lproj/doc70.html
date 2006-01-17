@@ -1,4 +1,4 @@
-<html><head><title>5.7. Adjacent rooms and routes through the map</title></head>
+<html><head><title>5.8. All, each and every</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,41 +7,42 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc69.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc71.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.7. Adjacent rooms and routes through the map</b></td></tr></table><p>
+<table><tr><td><a href=doc69.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc71.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.8. All, each and every</b></td></tr></table><p>
 <p>
-<p>Another useful adjective built into Inform is &quot;adjacent&quot;. Two rooms are said to be adjacent if there is a map connection between them which does not pass through some barrier such as a door. This is easily tested:
+<p>When testing conditions, we normally talk only about specific things, or else ask if a particular circumstance happens:
 <p>
-<blockquote><font color="#000080">if the Hallway is adjacent to the Study ...
+<blockquote><font color="#000080">if the oaken door is open
+<br>if a woman is carrying an animal
 </font></blockquote><p>
 <p>
-<p>We usually want to know about the places adjacent to the current scene of the action, so that is what the adjective &quot;adjacent&quot; means when applied to rooms. For instance:
+<p>But we can also use &quot;all&quot;, &quot;each&quot; or &quot;every&quot; to check the whole range:
 <p>
-<blockquote><font color="#000080">if somebody is in an adjacent room, ...
+<blockquote><font color="#000080">if each door is open
+<br>if anyone is carrying all of the animals
+<br>if everybody is in the Dining Room
 </font></blockquote><p>
 <p>
-<p>As with the case of &quot;visible&quot;, the adjective is a cut-down version of the more general relationship. This often happens: &quot;worn&quot; and &quot;carried&quot;, for instance, imply &quot;by the player&quot; unless something else is specified.
+<p>Inform allows other English &quot;determiners&quot; (as they are sometimes called), as well:
 <p>
-<p>While on the subject of navigating the map, the phrase &quot;the best route from A to B&quot; gives the direction to take in order to get from A to B by the shortest number of movements between rooms - if there is any way through at all. For example, here is a lure:
-<p>
-<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room].&quot;
+<blockquote><font color="#000080">if some of the doors are open
+<br>if most of the doors are open
+<br>if almost all of the doors are open
 </font></blockquote><p>
 <p>
-<p>Best routes are ordinarily forbidden to go through doors, but if the suffix &quot;using doors&quot; is added as an option then any open or openable and unlocked door may be used on the way; and if &quot;using even locked doors&quot; is given, then any door at all will do. Since magnetism is no respecter of property, that seems right here:
+<p>are true if at least one case is true, if a majority (any number greater than one half) or at least 80 per cent of the possible cases are true, respectively.
 <p>
-<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room, using even locked doors].&quot;
+<p>And we can also use &quot;none&quot; and &quot;no&quot;. These three are all ways to say the same thing:
+<p>
+<blockquote><font color="#000080">if no door is open
+<br>if all of the doors are not open
+<br>if none of the doors is open
 </font></blockquote><p>
 <p>
-<p>The phrase &quot;the best route from A to B&quot; gives the direction to take next, if we are at A and want to end up at B. Suppose this is east. We can find out where we go next by looking up &quot;the room east from A&quot;: similarly for any other direction, of course. (This can see through any doors, locked or not.)
+<p>though it may be clearer style to find a positive way of putting things:
 <p>
-<p>We can also find out how long the journey would be:
-<p>
-<blockquote><font color="#000080">The description of the proximity gadget is &quot;You are now [number of moves from the location to the Sundial] moves from the Sundial.&quot;;
+<blockquote><font color="#000080">if all of the doors are closed
 </font></blockquote><p>
-<p>
-<p>This number is, of course, 0 if the location is already the Sundial. If there is no way at all to get to the Sundial, the number is -1.
 <p>
 <p><hr><p>
-<a name="e2"><a href=ex2.html#e2><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A person who moves randomly between rooms of the map.</i><p>
-<a name="e97"><a href=ex97.html#e97><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Signposts such as those provided on hiking paths in the Swiss Alps, which show the correct direction and hiking time to all other locations.</i><p>
-<a name="e3"><a href=ex3.html#e3><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A LOOK [direction] command which allows the player to see descriptions of the nearby landscape.</i><p>
+<a name="e58"><a href=ex58.html#e58><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>A small game about resentful furniture and inconvenient objects.</i><p>
 <p><hr><p><a href=doc69.html>Previous</a> / <a href=doc71.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

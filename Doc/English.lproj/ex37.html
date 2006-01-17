@@ -1,4 +1,4 @@
-<html><head><title>11.7. New actions</title></head>
+<html><head><title>19.11. Implications</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,49 +7,56 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc159.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc161.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.7. New actions</b></td></tr></table><p>
+<table><tr><td><a href=doc295.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc297.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.11. Implications</b></td></tr></table><p>
 <p>
-<p>It is not often that we need to create new actions, but a large work of interactive fiction with no novelty actions is a flavourless dish. Here we shall create an action for photographing things.
+<p>Extensions often need to define kinds, which we want to make as helpful as possible for the user. In particular, we want to make new instances of those kinds easy to create. An interesting example of this came up in Chapter 2, when clothing was introduced. For something to be a fully practical garment, worn by the player when play begins, it needs to be &quot;worn&quot;, &quot;wearable&quot; and &quot;initially carried&quot;: if the source forgets to specify the latter two properties, the results are mysterious and unfortunate.
 <p>
-<blockquote><font color="#000080">The Ruins is a room. &quot;You find this clearing in the rainforest oddly familiar.&quot; The camera is in the Ruins. &quot;Your elephantine camera hangs from a convenient branch.&quot;
+<p>The Standard Rules solve this problem by including the following line:
+<p>
+<blockquote><font color="#000080">Something worn is usually wearable and initially carried.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.
+<p>Such a sentence is called an &quot;implication&quot;, as it is in the form &quot;Condition A implies Condition B&quot;. Inform never overrides certainties with mere implications, and is cautious about allowing them to build overly long chains of argument. This is to prevent the following kind of difficulty:
+<p>
+<blockquote><font color="#000080">An open door is usually closed. A closed door is usually open.
 </font></blockquote><p>
 <p>
-<p>In theory that text is already sufficient in to make the new action, but what we have so far is rudimentary to say the least. The two qualifications give Inform the useful information that we cannot photograph in the dark, and that we need to be photographing something - not, as in the case of waiting or taking inventory, acting without reference to any particular thing external to ourselves.
-<p>
-<p>The word &quot;visible&quot; here tells Inform that we do not need to be able to touch the thing in question: a line of sight is good enough. These two stipulations were necessary because the default arrangement is that any object must be in touching range, and that most actions can be performed in darkness. (Also, note that if you invent an action which needs to apply to directions like &quot;north&quot; or &quot;south&quot;, you need to make this apply to visible things, because the object used inside Inform to represent the idea of &quot;north&quot; can be seen but not touched.)
-<p>
-<p>As further examples, here we create &quot;blinking&quot; and &quot;scraping X with Y&quot;. Note the use of &quot;it&quot; to indicate that the name of an object should go here.
-<p>
-<blockquote><font color="#000080">Blinking is an action applying to nothing. Scraping it with is an action applying to two things.
-</font></blockquote><p>
-<p>
-<p>The photographing action now exists, but with two provisos: (a) it never happens, because Inform does not know what commands by the player should cause it, and (b) even if it were to happen, nothing would follow, because Inform does not know what to do. (There are no check, carry out or report rules yet.)
-<p>
-<p>The first problem is easily overcome:
-<p>
-<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
-</font></blockquote><p>
-<p>
-<p>We will return to the whole subject of parsing, as this process of understanding the player's commands is called, later. But this gives the gist of it.
+<p>Implications have not been mentioned up to now since they are only really needed by extensions, but also because they can be tricky, with unforeseen consequences. Handle with care.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e37"><a href=doc160.html#e37><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A DIAGNOSE command which allows the player to check on the health of someone.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e37"><a href=doc296.html#e37><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Rooms designated "outdoors" print a random atmospheric message every turn.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Diagnosing is an action applying to one visible thing. Understand &quot;diagnose [something]&quot; as diagnosing.\n\nCheck diagnosing:\n\tif the noun is not a person, say &quot;Only people can have diagnoses.&quot; instead.\n\nCarry out diagnosing:\n\tsay &quot;You\'re not a medical expert.&quot;\n\nInstead of diagnosing the player:\n\tsay &quot;You feel fine!&quot;\n\n')"><img border=0 src=paste.png></a> Diagnosing is an action applying to one visible thing. Understand &quot;diagnose [something]&quot; as diagnosing.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Shadeless&quot;\n\nA room can be indoors or outdoors. A room is usually indoors.\n\nEvery turn when the location is outdoors:\n\tchoose a random row in the Table of Environmental Events;\n\tsay &quot;[event entry][paragraph break]&quot;.\n\nTable of Environmental Events\nevent\n&quot;The sun is really hot out here.&quot;\n&quot;My, the sun sure is warm.&quot;\n&quot;The heat is starting to get to you.&quot;\n&quot;A bird chirps.&quot;\n\n[No implications so far. But suppose we want to make a whole region outdoors without specifically saying so for every location in turn:]\n\nThe Farewell Bend Cafe is a room. The Parking Lot is outside from the Farewell Bend Cafe. The Parking Lot is outdoors.\n\nThe Open Desert is a region. The Flat Place, the Hilly Place, and the Ridge are in the Open Desert. The Flat Place is west of the Parking Lot. The Hilly Place is west of the Flat Place. The Ridge is west of the Hilly Place. A room in the Open Desert is always outdoors.\n\n[Now the whole Desert will be baking hot.]\n\n[Note that that &quot;always outdoors&quot; only means that all the rooms will be designated &quot;outdoors&quot; at the beginning of play. It doesn\'t prevent us changing that later, and indeed, out of pity for the player, we might want to provide a tent:]\n\nThe tent is an enterable container carried by the player. Carry out entering the tent: now the location is indoors. Carry out exiting when the player is in the tent: now the location is outdoors.\n\n')"><img border=0 src=paste.png></a> &quot;Shadeless&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check diagnosing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is not a person, say &quot;Only people can have diagnoses.&quot; instead.
+<blockquote><font color="#000080">A room can be indoors or outdoors. A room is usually indoors.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out diagnosing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're not a medical expert.&quot;
+<blockquote><font color="#000080">Every turn when the location is outdoors:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the Table of Environmental Events;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[event entry][paragraph break]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of diagnosing the player:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You feel fine!&quot;
+<blockquote><font color="#000080">Table of Environmental Events
+<br>event
+<br>&quot;The sun is really hot out here.&quot;
+<br>&quot;My, the sun sure is warm.&quot;
+<br>&quot;The heat is starting to get to you.&quot;
+<br>&quot;A bird chirps.&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc159.html>Previous</a> / <a href=doc161.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>No implications so far. But suppose we want to make a whole region outdoors without specifically saying so for every location in turn:
+<p>
+<blockquote><font color="#000080">The Farewell Bend Cafe is a room. The Parking Lot is outside from the Farewell Bend Cafe. The Parking Lot is outdoors.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Open Desert is a region. The Flat Place, the Hilly Place, and the Ridge are in the Open Desert. The Flat Place is west of the Parking Lot. The Hilly Place is west of the Flat Place. The Ridge is west of the Hilly Place. A room in the Open Desert is always outdoors.
+</font></blockquote><p>
+<p>
+<p>Now the whole Desert will be baking hot.
+<p>
+<p>Note that that &quot;always outdoors&quot; only means that all the rooms will be designated &quot;outdoors&quot; at the beginning of play. It doesn't prevent us changing that later, and indeed, out of pity for the player, we might want to provide a tent:
+<p>
+<blockquote><font color="#000080">The tent is an enterable container carried by the player. Carry out entering the tent: now the location is indoors. Carry out exiting when the player is in the tent: now the location is outdoors.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc295.html>Previous</a> / <a href=doc297.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

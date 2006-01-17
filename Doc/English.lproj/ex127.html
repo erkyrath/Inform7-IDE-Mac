@@ -1,4 +1,4 @@
-<html><head><title>10.13. Phrases to decide other things</title></head>
+<html><head><title>17.2. Named rules and rulebooks</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,70 +7,56 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc149.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc151.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.13. Phrases to decide other things</b></td></tr></table><p>
+<table><tr><td><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.2. Named rules and rulebooks</b></td></tr></table><p>
 <p>
-<p>A condition is a yes/no decision, but we can also take decisions where the result is a value. Suppose we want to create a concept of the &quot;grand prize&quot;, which will have different values at different times in play. Each time the &quot;grand prize&quot; is referred to, Inform will have to decide what its value is, and the following tells Inform how to make that decision:
+<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns - usually visible on the &quot;status line&quot; displayed above the window of a game in progress - and advances the clock, which is usually not visible, but ticking away behind the scenes.
 <p>
-<blockquote><font color="#000080">To decide which treasure is the grand prize:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the Dark Room has been visited then result the silver bars;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;result the plover's egg.
+<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
+<p>
+<blockquote><font color="#000080">advance time = the advance time rule
 </font></blockquote><p>
 <p>
-<p>Note that we have to say what kind the answer will be: here it's a kind of thing called &quot;treasure&quot; (which we're supposing has already been created), and as it turns out only two treasures are ever eligible anyway (we're also supposing that the plover's egg and the silver bars are treasures already created, of course.) Now that we have &quot;grand prize&quot; created, we can use it just as we would use any other value, so for instance:
-<p>
-<blockquote><font color="#000080">if taking the grand prize then ...
+<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
 </font></blockquote><p>
 <p>
-<p>As this is something of a dialect difference between English speakers, &quot;what&quot; and &quot;which&quot; are synonymous here, i.e., we could equally well write something like:
+<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
 <p>
-<blockquote><font color="#000080">To decide what number is the target score: ...
+<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We have already seen some of these names used in the Advanced Actions chapter, and will later use them like so:
+<p>
+<blockquote><font color="#000080">ignore the can't go through closed doors rule;
 </font></blockquote><p>
+<p>
+<p>Names for rules tend to be verbose, but this is a situation where clarity is very much better than brevity.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e127"><a href=doc150.html#e127><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A piece of ghost-hunting equipment that responds depending on whether or not the meter is on and a ghost is visible or touchable from the current location.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e127"><a href=doc257.html#e127><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A WAIT [number] MINUTES command which advances through an arbitrary number of turns.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Witnessed&quot;\n\nThe player carries a device called a Trifield Natural EMF Meter. The description of the Meter is &quot;This cost a pretty penny off the internet, but it\'s worth it: according to the website it has been programmed by PhD physicists to ignore manmade sources of fields and to respond only to paranormal EMF changes.\n\nIt also features an optional Tone Alarm, which can be turned on to indicate when readings spike. If the alarm is off, the meter just reads out the magnetic and electric field levels on a scale from 0-100 microteslas, or 0-1000 V/m.\n\nSince both fields are important, you keep the meter set to SUM mode. The meter has its own optional backlighting, so that you can see the reading even if your flashlight is off. Currently it is reading at [meter setting].&quot; A Tone Alarm is part of the Meter. It is a device. The description of the Tone Alarm is &quot;The Tone Alarm will make a noise, if the EMF picks up a spike.&quot;\n\nTo decide what number is meter setting:\n\tif the meter is switched off, result 0;\n\tif a ghost is touchable, result 35;\n\tif a ghost is visible, result 12;\n\tresult 0.\n\nAfter switching on the meter:\n\tsay &quot;You turn on the meter. The needle steadies at [meter setting].&quot;\n\nEvery turn: if the meter setting is greater than 10 and the Tone Alarm is switched on, say &quot;[The Tone Alarm] shrieks.&quot;\n\nThirtieth Street Station is a room. &quot;A huge, high, rectangular room with coffered ceilings, which looks grand but mostly makes you feel lonely and small. There are long benches in rows down the middle of the room, and an information desk with the train times, and a series of ticket windows, none of which matters very much at the moment.&quot;\n\nThe benches are an enterable supporter. They are scenery in the Station. The information desk is scenery in the Station. Some ticket windows are scenery in the Station. Instead of examining scenery in the Station: say &quot;You\'re fairly sure that whatever is going on here has nothing to do with [the noun].&quot; Understand &quot;window&quot; as ticket windows.\n\nThe mural is fixed in place in Thirtieth Street. &quot;At the north side of the station is a particularly pointless and empty annex to the main room. It is dominated by a huge relief of sorts, and this is what you remember.&quot; Understand &quot;metal&quot; or &quot;relief&quot; or &quot;huge&quot; as the mural. The description of the mural is &quot;It is both stylized and confusing, but you think it might be supposed to represent the various tasks and occupations of Philadelphia\'s population. The portions closer to the ground look as though they have recently been subjected to a light dusting of talcum powder. No unusual prints are evident.&quot;\n\nThe wind chimes are fixed in place in Thirtieth Street. &quot;Carefully attached to the wall with a piece of duct tape and a hook is a light-weight set of wind chimes. Someone else has been here before you, it seems.&quot; The description is &quot;Several of your friends use wind chimes as a sort of ghost alarm, since ghosts sometimes cause very localized movements of air when there is no natural breeze.&quot;\n\nA ghost is a kind of person. The pale figure is a ghost.\n\nAt 9:03 AM: move the pale figure to the location; say &quot;You shiver with some sort of presence.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Witnessed&quot;
+<p>If there's some reason the player needs to be at a specific place and time, we might want to allow him to wait a number of minutes at once.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Waiting more is an action applying to one number.\n\nUnderstand &quot;wait [number] minutes/turns&quot; or &quot;wait [number]&quot; as waiting more.\n\nCarry out waiting more:\n\tlet duration be the number understood - 1;\n\trepeat with X running from 1 to duration\n\tbegin;\n\t\tfollow the turn sequence rules;\n\tend repeat.\n\n[The one nuance here is that after our wait command occurs, the turn sequence rules will occur one more time. So we need to subtract one from the parsed number to make it to the right number of minutes.]\n\nReport waiting more:\n\tsay &quot;It is now [time of day + 1 minute].&quot;\n\n[And if we want to ensure that the player doesn\'t (accidentally or intentionally) put the interpreter through a really long loop, we could put an upper limit on his patience:]\n\nCheck waiting more:\n\tif the number understood > 59, say &quot;You really haven\'t got that kind of patience.&quot; instead.\n\n')"><img border=0 src=paste.png></a> Waiting more is an action applying to one number.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The player carries a device called a Trifield Natural EMF Meter. The description of the Meter is &quot;This cost a pretty penny off the internet, but it's worth it: according to the website it has been programmed by PhD physicists to ignore manmade sources of fields and to respond only to paranormal EMF changes.
+<blockquote><font color="#000080">Understand &quot;wait [number] minutes/turns&quot; or &quot;wait [number]&quot; as waiting more.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">It also features an optional Tone Alarm, which can be turned on to indicate when readings spike. If the alarm is off, the meter just reads out the magnetic and electric field levels on a scale from 0-100 microteslas, or 0-1000 V/m.
+<blockquote><font color="#000080">Carry out waiting more:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let duration be the number understood - 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with X running from 1 to duration
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;follow the turn sequence rules;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Since both fields are important, you keep the meter set to SUM mode. The meter has its own optional backlighting, so that you can see the reading even if your flashlight is off. Currently it is reading at [meter setting].&quot; A Tone Alarm is part of the Meter. It is a device. The description of the Tone Alarm is &quot;The Tone Alarm will make a noise, if the EMF picks up a spike.&quot;
+<p>The one nuance here is that after our wait command occurs, the turn sequence rules will occur one more time. So we need to subtract one from the parsed number to make it to the right number of minutes.
+<p>
+<blockquote><font color="#000080">Report waiting more:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It is now [time of day + 1 minute].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To decide what number is meter setting:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the meter is switched off, result 0;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if a ghost is touchable, result 35;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if a ghost is visible, result 12;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;result 0.
-</font></blockquote><p>
+<p>And if we want to ensure that the player doesn't (accidentally or intentionally) put the interpreter through a really long loop, we could put an upper limit on his patience:
 <p>
-<blockquote><font color="#000080">After switching on the meter:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You turn on the meter. The needle steadies at [meter setting].&quot;
+<blockquote><font color="#000080">Check waiting more:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number understood > 59, say &quot;You really haven't got that kind of patience.&quot; instead.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn: if the meter setting is greater than 10 and the Tone Alarm is switched on, say &quot;[The Tone Alarm] shrieks.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Thirtieth Street Station is a room. &quot;A huge, high, rectangular room with coffered ceilings, which looks grand but mostly makes you feel lonely and small. There are long benches in rows down the middle of the room, and an information desk with the train times, and a series of ticket windows, none of which matters very much at the moment.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The benches are an enterable supporter. They are scenery in the Station. The information desk is scenery in the Station. Some ticket windows are scenery in the Station. Instead of examining scenery in the Station: say &quot;You're fairly sure that whatever is going on here has nothing to do with [the noun].&quot; Understand &quot;window&quot; as ticket windows.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The mural is fixed in place in Thirtieth Street. &quot;At the north side of the station is a particularly pointless and empty annex to the main room. It is dominated by a huge relief of sorts, and this is what you remember.&quot; Understand &quot;metal&quot; or &quot;relief&quot; or &quot;huge&quot; as the mural. The description of the mural is &quot;It is both stylized and confusing, but you think it might be supposed to represent the various tasks and occupations of Philadelphia's population. The portions closer to the ground look as though they have recently been subjected to a light dusting of talcum powder. No unusual prints are evident.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The wind chimes are fixed in place in Thirtieth Street. &quot;Carefully attached to the wall with a piece of duct tape and a hook is a light-weight set of wind chimes. Someone else has been here before you, it seems.&quot; The description is &quot;Several of your friends use wind chimes as a sort of ghost alarm, since ghosts sometimes cause very localized movements of air when there is no natural breeze.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A ghost is a kind of person. The pale figure is a ghost.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 9:03 AM: move the pale figure to the location; say &quot;You shiver with some sort of presence.&quot;
-</font></blockquote><p>
-</td></tr></table><p><a name="e112"><a href=ex112.html#e112><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Windows overlooking lower spaces which will prevent the player from climbing through if the lower space is too far below.</i><p>
-<p><hr><p><a href=doc149.html>Previous</a> / <a href=doc151.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><a name="e128"><a href=ex128.html#e128><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A WAIT UNTIL [time] command which advances until the game clock reaches the correct hour.</i><p>
+<p><hr><p><a href=doc256.html>Previous</a> / <a href=doc258.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

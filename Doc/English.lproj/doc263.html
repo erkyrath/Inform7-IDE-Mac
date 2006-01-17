@@ -1,4 +1,4 @@
-<html><head><title>18.1. What are extensions?</title></head>
+<html><head><title>17.8. Consider and abide</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,14 +7,30 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 18: Extensions</h2><p><table><tr><td><a href=doc262.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc264.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.1. What are extensions?</b></td></tr></table><p>
+<table><tr><td><a href=doc262.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc264.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.8. Consider and abide</b></td></tr></table><p>
 <p>
-<p>The range of simulation offered by Inform's model world is intentionally limited to a core of basic essentials. We could argue at the margins, and the choice of what's in and what's out is partly traditional, but most people find the model reasonable as far as it goes.
+<p>It often happens that one rule needs to invoke another one. The best way to do this is with the phrase:
 <p>
-<p>A flourishing part of Inform culture since 1993 has been the development of a huge range of &quot;library extensions&quot;, most of which aimed to fill out the model by simulating other aspects of life, too: money, clothing, pourable liquids and the like. None of these extensions was official and all of them were: it was a free-for-all, and in several cases different authors wrote rival extensions to model the same basic ideas. The development of Inform 7 was strongly influenced by the recognition that the base of rules and grammar inside a typical modern game are never written by a single author: they combine the standard Inform material with extensions by several third parties, together with anything specific to the game in question.
+<blockquote><font color="#000080">consider ...name of the rule or rulebook...
+</font></blockquote><p>
 <p>
-<p>This final chapter discusses how to create extensions.
+<p>This throws away the result: indeed, it makes no difference whether the rule succeeds, fails or has no outcome. More often, though, we want not only to invoke another rule, but also to be guided by its advice. For this, we use the otherwise identical phrase
 <p>
-<p>Some of the instructions here on how to write an extension are not strictly speaking requirements of Inform, but are &quot;only&quot; stylistic points intended to make the range of extensions easier to work with and contribute to. Extension writers are asked to join in the spirit of the rules and help make the whole cooperative enterprise work harmoniously.
+<blockquote><font color="#000080">abide by ...name of the rule or rulebook...
+</font></blockquote><p>
+<p>
+<p>Here, if the rule being abided by comes to a stop (i.e., succeeds or fails) then the original rule also stops, at once and without going on to any further instructions. For example, the following duplicates the effect of a rulebook of four rules: it tries each in turn, and stops as soon as any of them stop.
+<p>
+<blockquote><font color="#000080">The omnibus rule: abide by the first rule; abide by the second rule; abide by the third rule; abide by the fourth rule.
+</font></blockquote><p>
+<p>
+<p>Abide might be used in examples like this one:
+<p>
+<blockquote><font color="#000080">A thing can be fragile or robust.
+<br>This is the can't handle fragile things roughly rule: if the noun is fragile, say &quot;[The noun] is too fragile for such rough handling.&quot; instead.
+<br>A check dropping rule: abide by the can't handle fragile things roughly rule. A check throwing it at rule: abide by the can't handle fragile things roughly rule.
+</font></blockquote><p>
+<p>
+<p>Had we used &quot;consider&quot; instead of &quot;abide by&quot;, then in the event of the player typing &quot;drop angel&quot; the text &quot;The glass angel is too fragile for such rough handling&quot; would be printed, which is correct - but then the action would continue as though no difficulty had occurred, which is definitely not correct.
 <p>
 <p><hr><p><a href=doc262.html>Previous</a> / <a href=doc264.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>6.5. Before rules</title></head>
+<html><head><title>6.6. Try and try silently</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,51 +7,30 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc77.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc79.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.5. Before rules</b></td></tr></table><p>
+<table><tr><td><a href=doc77.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc79.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.6. Try and try silently</b></td></tr></table><p>
 <p>
-<p>Despite what was said in the previous section, instead rules do not quite bypass all of the usual rules. Inform knows that certain actions require light: for instance,
+<p>A useful little phrase allows us to trigger off actions ourselves, rather than waiting for the player to type something which generates them. Thus:
 <p>
-<blockquote><font color="#000080">examining the napkin; looking; looking under the dining table
+<blockquote><font color="#000080">Instead of entering the trapdoor, try going up.
 </font></blockquote><p>
 <p>
-<p>and if it is dark then none of these actions will be allowed, and any instead rules about them will not even be reached. Similarly, Inform knows that most actions require physical access to their objects: so &quot;taking the napkin&quot; would be blocked if the napkin were, say, inside a closed glass bottle, whereas &quot;examining the napkin&quot; would not. So an instead rule can only take effect if the action has already passed these basic reasonability tests.
+<p>The effect of this is that the original action is stopped and converted into a new one. The word &quot;try&quot; is chosen to make clear that there is no guarantee of success. For example:
 <p>
-<p>&quot;Before&quot; rules genuinely precede checking of any kind. They also differ from instead rules in that they do not automatically stop the action in its tracks. Rather, they are provided as an opportunity to ensure that something else is done first. For example:
-<p>
-<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
+<blockquote><font color="#000080">Before locking the front door, try closing the front door.
 </font></blockquote><p>
 <p>
-<p>whence
+<p>&quot;Try&quot; can be modified with the word &quot;silently&quot; thus:
 <p>
-<blockquote><font color="#000080">&gt;GET NAPKIN
-<br>(first unfolding its delicate origami swan)
-<br>Taken.
+<blockquote><font color="#000080">try silently taking the napkin;
 </font></blockquote><p>
 <p>
-<p>We have seen that instead rules automatically stop actions, whereas before rules automatically allow them to continue. We sometimes want to change this. The magic word &quot;instead&quot; can therefore be tacked on to any instruction in a before rule, and will have the effect of immediately stopping the action at that instruction. Thus the following two rules are (almost) equivalent:
+<p>Silence is maintained only if this new action, the taking of the napkin, is successful: otherwise a suitable objection will be voiced. The following:
 <p>
-<blockquote><font color="#000080">Before removing the key, instead say &quot;It seems to be soldered to the keyhole.&quot;
+<blockquote><font color="#000080">Before locking the front door, try silently closing the front door.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of removing the key, say &quot;It seems to be soldered to the keyhole.&quot;
-</font></blockquote><p>
-<p>
-<p>Two special phrases can also be used: &quot;stop the action&quot; and &quot;continue the action&quot;. Yet a third way to achieve the same effect, then, would be:
-<p>
-<blockquote><font color="#000080">Before removing the key: say &quot;It seems to be soldered to the keyhole.&quot;; stop the action.
-</font></blockquote><p>
-<p>
-<p>And to round off the discussion, these are also (almost) equivalent:
-<p>
-<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of taking the napkin: say &quot;(first unfolding its delicate origami swan)&quot;; continue the action.
-</font></blockquote><p>
-<p>
-<p>As a general principle, it is good style to use instead rules whenever blocking actions, and before rules only when it is genuinely necessary to do something first but then to continue: in fact, it is good style to use &quot;stop the action&quot; or &quot;continue the action&quot; as little as possible.
+<p>is better than our previous attempt because the closing action is meant to be something that the player would do quite unconsciously, so that it seems inappropriate to mention it at all.
 <p>
 <p><hr><p>
-<a name="e7"><a href=ex7.html#e7><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Redirect the command PUT ALL ON FLOOR to DROP ALL.</i><p>
-<a name="e86"><a href=ex86.html#e86><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Make PUT and INSERT commands automatically take objects if the player is not holding them.</i><p>
+<a name="e107"><a href=ex107.html#e107><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A refinement of our staircase kind which can be climbed.</i><p>
 <p><hr><p><a href=doc77.html>Previous</a> / <a href=doc79.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

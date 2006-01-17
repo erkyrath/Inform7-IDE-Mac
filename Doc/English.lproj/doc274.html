@@ -1,4 +1,4 @@
-<html><head><title>18.12. Making new assertion sentences</title></head>
+<html><head><title>18.8. Feelies and other accompaniments</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,44 +7,24 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc273.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc275.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.12. Making new assertion sentences</b></td></tr></table><p>
+<table><tr><td><a href=doc273.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc275.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.8. Feelies and other accompaniments</b></td></tr></table><p>
 <p>
-<p>The following feature is best used sparingly if at all: in fact, it is a feature introduced in the very early days of Inform 7 and which may be removed altogether now that there is a more sophisticated way to handle new verbs.
+<p>&quot;Feelie&quot; is a slang word, again going back to the early days of IF, for something tactile included with commercially sold copies of IF games. For instance, Infocom's &quot;Wishbringer&quot; was not just a diskette in a pretty box: the box also contained a map, a letter, an envelope, a magic stone (well, a stone) and a booklet. Most of this was purely for fun, and to flesh out background to the game, but there would usually be clues sneaked into the text or artwork as well.
 <p>
-<p>We have already seen that the following sentences are equivalent:
+<p>Today's IF is usually not supplied in physical packaging, and not accompanied by physical objects. But authors do sometimes want to include extraneous matter, whether it's a simple read-me file of instructions or a multimedia extravaganza. Inform does not provide facilities to make artwork, movies, soundscapes, booklets, etc.: there are plenty of programs out there to do all of that already, but Inform does help with the collation and packaging-together. For instance, by placing the following sentence in the source text:
 <p>
-<blockquote><font color="#000080">The matching key of the blue door is the brass key.
+<blockquote><font color="#000080">Release along with a file of &quot;Collegio magazine&quot; called &quot;Collegio.pdf&quot; and a file of &quot;The mating call of the green wyvern&quot; called &quot;Mating Wyverns.mp3&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The brass key unlocks the blue door.
+<p>...we tell Inform that we will also be providing two additional files. Note that in each case we supply a brief description and a filename. The filename should always have a standard file extension for a well-known and thoroughly standardised file format - &quot;.pdf&quot; and &quot;.mp3&quot; are pretty safe: so for instance are &quot;.txt&quot;, &quot;.png&quot;, &quot;.jpg&quot;, &quot;.html&quot;. The filename should not include punctuation marks other than the full stop dividing name from extension, and should not exceed 30 characters in length.
+<p>
+<p>It is also possible to supply a feelie which is not a single file, but is a mini-website: that is, a collection of interlinked HTML (and perhaps other) files. The convention here would be:
+<p>
+<blockquote><font color="#000080">Release along with a file of &quot;Baltrazar's Guide to Magic&quot; called &quot;Guide&quot;.
 </font></blockquote><p>
 <p>
-<p>This comes about because the Standard Rules include the following line:
+<p>The absence of a file extension on the filename &quot;Guide&quot; tells Inform that the feelie in question is a mini-website: it is expected to sit inside a folder called &quot;Guide&quot;, with its home page being &quot;Guide/index.html&quot;.
 <p>
-<blockquote><font color="#000080">X unlocks Y means that the matching key of Y is X.
-</font></blockquote><p>
-<p>
-<p>We can make definitions like this at any point, but had better do so with some care and forethought. They make it possible to talk very elegantly about things belonging to new kinds, but the potential for havoc is considerable if they take effect in an unintended context. Up to four different variables are allowed, but must be called W, X, Y or Z for clarity: and note that they can be matched by empty text. Similarly, Inform also defines
-<p>
-<blockquote><font color="#000080">Above means up from. Below means down from.
-</font></blockquote><p>
-<p>
-<p>This tells Inform to transform &quot;above&quot; into &quot;up from&quot; whenever it occurs in an assertion, and similarly for &quot;below&quot;. Thus
-<p>
-<blockquote><font color="#000080">The Skylight is above the Conservatory.
-</font></blockquote><p>
-<p>
-<p>is transformed to
-<p>
-<blockquote><font color="#000080">The Skylight is up from the Conservatory.
-</font></blockquote><p>
-<p>
-<p>Notice that &quot;means that&quot; applies a change only to an entire sentence, whereas &quot;means&quot; applies to smaller pieces of text. Because of this, &quot;means&quot; has to be used with even more care. Moreover, &quot;means&quot; can't be used to change the words in phrases, so for instance the following fails:
-<p>
-<blockquote><font color="#000080">Determine means decide.
-<br>To determine whether song moves us:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying the blue note, yes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;no.
-</font></blockquote><p>
+<p>We have seen that Inform takes the story file, which is analogous to the pages of a book, and places it into a Blorb archive, analogous to the binding. These new additional files are not placed in the Blorb, because that would make the Blorb archive rather large (and would hide them from the player, which defeats the purpose). But references to them do appear in the Blorb, so that any interpreter playing the Blorb would be able to tell that there are supposed to be additional files available. Similarly, references are entered onto the library card.
 <p>
 <p><hr><p><a href=doc273.html>Previous</a> / <a href=doc275.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

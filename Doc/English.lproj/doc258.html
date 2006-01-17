@@ -1,4 +1,4 @@
-<html><head><title>17.7. Success and failure</title></head>
+<html><head><title>17.3. New rules</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,39 +7,35 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc257.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc259.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.7. Success and failure</b></td></tr></table><p>
+<table><tr><td><a href=doc257.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc259.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.3. New rules</b></td></tr></table><p>
 <p>
-<p>Though we have blurred over this point so far, every rule has one of three outcomes: success, failure and neither. The default outcome is neither, and for many rules (the every turn rules, for instance) success or failure would be ignored anyway, which is how we managed not to mention all this before. Indeed, the instruction
+<p>Stretching a point seasonally, we might write:
 <p>
-<blockquote><font color="#000080">follow the appraisal rules
+<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<p>throws away the result, whatever it may be, which is why results have not come up in the discussion so far. All the same, results can make a difference even in examples like this one. When a rulebook is working through a list of rules, any rule which succeeds or fails (we say that it &quot;stops&quot;) causes the rulebook to stop at once, so that no subsequent rules in the book will be invoked. For instance, if any &quot;check taking&quot; rule fails, the whole &quot;check taking&quot; rulebook immediately fails, and that is the end of the action.
+<p>This rule is nameless. It needs no name because it will never need to be referred to: by identifying it as an every turn rule we have already said enough to lodge it in the &quot;every turn rules&quot; rulebook. In fact, though, it is easy to create a named rule:
 <p>
-<p>When a rule or rulebook &quot;stops&quot;, a value can optionally also result: this means that rulebooks can be used to calculate quantities, as well as taking yes/no decisions, or simply carrying out activities.
-<p>
-<p>Generally speaking, stops are needed for different reasons in different rulebooks, so there are specialised syntaxes for bringing them about. We saw an example of this with the &quot;reaching inside&quot; rulebook:
-<p>
-<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
+<blockquote><font color="#000080">This is the blossom shaking rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<p>&quot;Allow access&quot; does nothing more than cause the rule, and therefore the rulebook, to stop and succeed: &quot;deny access&quot; causes it to fail.
+<p>The name of a rule must always end with the word &quot;rule&quot;, for clarity's sake. (The phrasing &quot;This is the ... rule&quot; is used because &quot;The ... rule&quot; would be open to misinterpretation.)
 <p>
-<p>The following phrases work in any rulebook:
+<p>Previously we had a rule which had no name, but belonged to a rulebook: now we have the opposite, because although the &quot;blossom shaking rule&quot; has a name, it has not been placed in any rulebook. That means it will probably never be applied. We can remedy this like so:
 <p>
-<blockquote><font color="#000080">rule succeeds
-<br>rule fails
-<br>rule succeeds with result (...)
-<br>rule fails with result (...)
+<blockquote><font color="#000080">The blossom rule is listed in the every turn rules.
 </font></blockquote><p>
 <p>
-<p>The result can be a room, a thing or a text. It can be referred to as
+<p>A single rule like this can be listed in any number of rulebooks, including none.
 <p>
-<blockquote><font color="#000080">the result of the rule
+<p>Alternatively, it is possible to both name and list a rule in a single sentence:
+<p>
+<blockquote><font color="#000080">Every turn (this is the blossom rule): say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<p>which is nothing if the rule ended without success or failure.
+<p>Where rules have been named, we are able to have a say in what order they come in:
 <p>
-<p><hr><p>
-<a name="e109"><a href=ex109.html#e109><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Expanding the effects of the THROW something AT something command so that objects do make contact with one another.</i><p>
+<blockquote><font color="#000080">The blossom rule is listed before the moving doorways rule in the every turn rules.
+</font></blockquote><p>
+<p>
 <p><hr><p><a href=doc257.html>Previous</a> / <a href=doc259.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

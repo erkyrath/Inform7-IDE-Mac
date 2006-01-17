@@ -1,4 +1,4 @@
-<html><head><title>6.15. Going from, going to</title></head>
+<html><head><title>5.6. To be able to see and touch</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,71 +7,81 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc87.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc89.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.15. Going from, going to</b></td></tr></table><p>
+<table><tr><td><a href=doc67.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc69.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.6. To be able to see and touch</b></td></tr></table><p>
 <p>
-<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
+<p>Two of the adjectives built into Inform are:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Going Going&quot;\n\nThe Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.\n\nInstead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;\n\nInstead of going nowhere, say &quot;You really can\'t wander around at random in the Library.&quot;\n\nBefore going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Going Going&quot;
+<blockquote><font color="#000080">&quot;visible&quot; - the player can see this
+<br>&quot;touchable&quot; - the player can touch this
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
+<p>So we can write descriptions such as &quot;someone visible&quot; or &quot;a touchable container&quot;. We also have adjectives &quot;invisible&quot; and &quot;untouchable&quot;, as might be expected. The visibility adjectives are particularly useful because the following is likely to go wrong:
+<p>
+<blockquote><font color="#000080">if Helen is in a dark room, ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
+<p>This tests whether the room is dark, of itself; Helen may in fact be able to see by means of a torch, but the room is still &quot;dark&quot;.
+<p>
+<p>We can also talk about what other people can see and touch:
+<p>
+<blockquote><font color="#000080">something able to be seen by Helen
+<br>something which can be seen by Helen
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
+<p>are synonymous. Similarly for touch; and we can write such conditions as
+<p>
+<blockquote><font color="#000080">if Helen is unable to see Agamemnon, ...
+<br>if Cressida can see Troilus, ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
+<p>Note that it is essential to establish who does the seeing and touching: so &quot;something which can be seen&quot; will not be allowed, whereas &quot;something which can be seen by Helen&quot; will.
+<p>
+<p>In fact, inside Inform the adjective &quot;invisible&quot; (for instance) has the following straightforward definition:
+<p>
+<blockquote><font color="#000080">Definition: Something is invisible if the player cannot see it.
 </font></blockquote><p>
 <p>
-<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
+<p>The exact definitions of visibility and touchability are complicated, because there are so many ways in which vision and touch can be obstructed, but the gist is that they behave as one would expect. Note that in darkness, nothing is visible, and that nobody can see from one room to another. In general anything invisible is also untouchable, but there are a few exceptions to do with being in the dark. Lastly, the player's own body (the player-character object, which is called &quot;yourself&quot; during play) is both visible (in light) and touchable.
 <p>
-<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
-<p>
-<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
-<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
-</font></blockquote><p>
-<p>
-<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
+<p><hr><img border=0 src=beta.png>One day &quot;something which Helen can see&quot; will be allowed, I hope, but for the moment &quot;who&quot; and &quot;which&quot; must be directly followed by the verb.
 <p>
 <p><hr><p>
-<a name="e56"><a href=ex56.html#e56><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A "go back" command that keeps track of the direction from which the player came, and sends him back.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e60"><a href=doc88.html#e60><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>If the player tries to go a valid direction while on a supporter, make him stand up first; if he tries to go a nonexistent one, print a special refusal.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e60"><a href=doc68.html#e60><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A thief who will identify and take any valuable thing lying around that he is able to touch.</i><p>
 <p>
-<p>The default behavior of Inform is that if the player asks to go some direction while he is sitting down, he'll be told to get up first. If we wanted to make life a little easier, we might add a rule to do this automatically for him:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Before going somewhere when the player is on a supporter (called the chaise):\n\tsay &quot;(first getting off [the chaise])[line break]&quot;;\n\ttry exiting.\n\n\n')"><img border=0 src=paste.png></a> Before going somewhere when the player is on a supporter (called the chaise):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first getting off [the chaise])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try exiting.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Lean and Hungry&quot;\n\nSubstance is a kind of value. The substances are silver, gold, and lead. Everything has a substance. A thing is usually lead.\n\nDefinition: a thing is valuable if it is not lead.\n\nThe Limestone Cave is a room. &quot;Not very big, and it doesn\'t go back far, but you\'d hoped to find some shelter here. Outside it is raining exceptionally hard.&quot;\n\nThe sinister gentleman is a man in the Cave. &quot;Leaning against the wall is a sinister gentleman in a threadbare waistcoat.&quot; The description is &quot;He looks as though he might once have been quite well off.&quot;\n\nAfter examining someone:\n\tsay &quot;[The noun] smiles back at you in an unnerving fashion.&quot;\n\n[Now we make the rule that governs the gentleman\'s behavior:]\n\nEvery turn:\n\tif the sinister gentleman can touch something valuable (called the treasure) which is not carried by a person\n\tbegin;\n\t\tmove the treasure to the gentleman;\n\t\tsay &quot;[The gentleman] slyly acquires [the treasure] and tucks it into his pocket.&quot;;\n\tend if.\n\n[That &quot;not carried by a person&quot; prevents the gentleman from stealing from the player (or, less plausibly, from himself). If we did want him to pick pockets, we could just have said &quot;which is not carried by the gentleman&quot;.]\n\nThe player is carrying a coin, a bust of Abraham Lincoln, a bottle of sherry, a small pistol, and a wad of Confederate cash. The coin is gold. The pistol is silver.\n\nA locket is in the Cave. The locket is gold. &quot;A broken gold locket lies on the ground, a token of your late Mama.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Lean and Hungry&quot;
 </font></blockquote><p>
 <p>
-<p>Now the player will always get up before trying to walk out of a room; and the fact that we've said &quot;going somewhere&quot; means that this rule will not occur if the direction typed is not valid.
-<p>
-<p>Speaking of invalid directions, it is a little strange to have the parser tell the player to stand up in order to go some direction that doesn't lead anywhere. This can lead to somewhat annoying exchanges like this:
-<p>
-<blockquote><font color="#000080">>e
-<br>You'll have to get off the boulder first.
+<blockquote><font color="#000080">Substance is a kind of value. The substances are silver, gold, and lead. Everything has a substance. A thing is usually lead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">>out
-<br>You get off the boulder.
+<blockquote><font color="#000080">Definition: a thing is valuable if it is not lead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Hillside
+<blockquote><font color="#000080">The Limestone Cave is a room. &quot;Not very big, and it doesn't go back far, but you'd hoped to find some shelter here. Outside it is raining exceptionally hard.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">You can see a boulder here.
+<blockquote><font color="#000080">The sinister gentleman is a man in the Cave. &quot;Leaning against the wall is a sinister gentleman in a threadbare waistcoat.&quot; The description is &quot;He looks as though he might once have been quite well off.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">>e
-<br>You can't go that way.
+<blockquote><font color="#000080">After examining someone:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] smiles back at you in an unnerving fashion.&quot;
 </font></blockquote><p>
 <p>
-<p>We could override this too, like so:
+<p>Now we make the rule that governs the gentleman's behavior:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Instead of going nowhere when the player is on a supporter (called the divan):\n\tsay &quot;Nothing interesting lies in that direction, even if you weren\'t lazing about on [the divan].&quot;\n\n')"><img border=0 src=paste.png></a> Instead of going nowhere when the player is on a supporter (called the divan):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing interesting lies in that direction, even if you weren't lazing about on [the divan].&quot;
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the sinister gentleman can touch something valuable (called the treasure) which is not carried by a person
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the treasure to the gentleman;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The gentleman] slyly acquires [the treasure] and tucks it into his pocket.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc87.html>Previous</a> / <a href=doc89.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>That &quot;not carried by a person&quot; prevents the gentleman from stealing from the player (or, less plausibly, from himself). If we did want him to pick pockets, we could just have said &quot;which is not carried by the gentleman&quot;.
+<p>
+<blockquote><font color="#000080">The player is carrying a coin, a bust of Abraham Lincoln, a bottle of sherry, a small pistol, and a wad of Confederate cash. The coin is gold. The pistol is silver.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A locket is in the Cave. The locket is gold. &quot;A broken gold locket lies on the ground, a token of your late Mama.&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc67.html>Previous</a> / <a href=doc69.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

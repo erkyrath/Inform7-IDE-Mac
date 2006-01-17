@@ -1,4 +1,4 @@
-<html><head><title>18.17. The return context</title></head>
+<html><head><title>18.13. Improving the index map</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,18 +7,27 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc278.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc280.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.17. The return context</b></td></tr></table><p>
+<table><tr><td><a href=doc278.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc280.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.13. Improving the index map</b></td></tr></table><p>
 <p>
-<p>I7 has a number of conceptually different ways to define code - as phrases which are not compiled inline, as phrases to decide conditions, as rules and so on. All these are compiled to I6 routines, and return values have different meanings in the different cases. For type-checking reasons, I7 needs to detect when a return might occur in order to make sure that a condition does not end with the wrong kind of result, and so on.
+<p>As we have seen, &quot;Release along with...&quot; allows us to package up a work of IF with all manner of extra materials. But what are these to be? One popular option is to produce a map - sometimes partial, sometimes obfuscated - and supply that with the game: besides, there are some IF competitions where the rules require that the referee is supplied with a map even if the players are not, and failing that, it is sometimes nice to be able to print out a map of a work in progress.
 <p>
-<p>Inline phrases which cause a return should declare what happens like so:
+<p>The World map in the Index tab is heavily stylised and cartoonish, intended to be clicked on or moused over, and viewed in a browser: although it is, in fact, possible to print it, the results are not very good. Fortunately, the same underlying map mechanism can be used to output something more useful and very much more customisable, as we shall see.
 <p>
-<blockquote><font color="#000080">To stop the action: (- rtrue; -) - outcome.
+<p>The map-maker is one of the most complex parts of Inform, even though it actually contributes nothing to the final story file: the problem of how to draw up a &quot;correct&quot; map from the source text is by no means easy to solve. Inform tries, but it often gets things wrong. Its general practice is to place rooms on a square grid (actually a cubic lattice, as it works in three dimensions), but not all conceptual maps fit well onto this, and Inform often annoyingly puts a particular room in the &quot;wrong&quot; place. For instance, suppose Inform puts &quot;Didcot&quot; east of &quot;Abingdon&quot; and this makes the geometry look different to what we had in mind. We can correct with:
+<p>
+<blockquote><font color="#000080">Index map with Didcot mapped southeast of Abingdon.
 </font></blockquote><p>
 <p>
-<p>&quot;Outcome&quot;, used for rules, is one of four possibilities. The others are &quot;void&quot; (a return with no value), &quot;value&quot; (with a value) or &quot;condition&quot; (used to signal a result of a phrase to decide whether something is true). Thus the phrases &quot;yes&quot; and &quot;stop the action&quot; have the same definition, but a different context:
+<p>Note that this says nothing about exits from any room to any other room, and changes the final work of IF not at all: it simply helps Inform to draw the map index. (Instructions like this one are treated as being almost certainly true, but Inform does not quite always obey: it will never allow two rooms to be superimposed at the same grid position, no matter what we have asked in &quot;Index map with...&quot; instructions.) The same trick is useful if we have a situation like so:
 <p>
-<blockquote><font color="#000080">To yes: (- rtrue; -) - condition.
+<blockquote><font color="#000080">Inside of Sweeping Sands is Beach Hut Interior.
 </font></blockquote><p>
+<p>
+<p>&quot;Beach Hut Interior&quot; is a single room which does not connect to the rest of the map by any of the ten spatial directions, so Inform does not place it on the main map but instead moves it off out of the way in a map of its own. Given that it's just a single room, however, we might prefer to put into a convenient otherwise empty grid position like so:
+<p>
+<blockquote><font color="#000080">Index map with Beach Hut Interior mapped west of Sweeping Sands.
+</font></blockquote><p>
+<p>
+<p>Finally, note that this trick also ensures that the two locations are mapped on the same level vertically, and can be useful in cases where room A is both north of and above room B: Inform will want A to be higher up than B, but we can insist otherwise.
 <p>
 <p><hr><p><a href=doc278.html>Previous</a> / <a href=doc280.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

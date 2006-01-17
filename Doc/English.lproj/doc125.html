@@ -1,4 +1,4 @@
-<html><head><title>8.12. Future events</title></head>
+<html><head><title>8.13. Actions as conditions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,29 +7,23 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc124.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc126.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.12. Future events</b></td></tr></table><p>
+<table><tr><td><a href=doc124.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc126.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.13. Actions as conditions</b></td></tr></table><p>
 <p>
-<p>We often want to arrange for something to happen at some point in the future. Here is yet another timepiece:
+<p>There are two ways that descriptions of actions can be used as conditions. First, we can simply describe an action, and then the condition will be true if that is what the player is trying to do, and not otherwise:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.\n\nWhen the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;\n\n\n')"><img border=0 src=paste.png></a> An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.
+<blockquote><font color="#000080">... if taking a container then ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;
+<p>This is actually an abbreviation for the longer, some would say preferable form:
+<p>
+<blockquote><font color="#000080">... if we are taking a container then ...
 </font></blockquote><p>
 <p>
-<p>The event here is called &quot;the egg-timer clucks&quot;. It only happens if we instruct so, which we do by writing
+<p>Secondly, we can talk about the past as well as the present, which is very useful since interactive fiction often contains situations which are changed by earlier events.
 <p>
-<blockquote><font color="#000080">the egg-timer clucks in four turns from now
+<blockquote><font color="#000080">Instead of waiting when we have taken the lantern, say &quot;No, your acquisitive nature is roused now, and simply waiting will no longer do.&quot;
 </font></blockquote><p>
 <p>
-<p>meaning four turns after the turn in which the egg-timer is pushed. We could alternatively describe this future moment as something like &quot;in 18 minutes from now&quot;, or &quot;at 4:15 PM&quot;.
+<p>More on the past tense later, too: note that &quot;we are taking&quot; has become &quot;we have taken&quot;. For the rule to apply, it is not enough that the action &quot;taking the lantern&quot; has been tried: it must have succeeded.
 <p>
-<p>If we know in advance what time we want something to happen, we can more simply write:
-<p>
-<blockquote><font color="#000080">At 4 PM: say &quot;The great bells of the clock tower chime four.&quot;
-</font></blockquote><p>
-<p>
-<p><hr><p>
-<a name="e113"><a href=ex113.html#e113><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A train which follows a schedule, stopping at a number of different locations.</i><p>
-<a name="e43"><a href=ex43.html#e43><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>To schedule an eclipse of the sun, which involves a number of related events.</i><p>
 <p><hr><p><a href=doc124.html>Previous</a> / <a href=doc126.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

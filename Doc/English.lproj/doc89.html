@@ -1,4 +1,4 @@
-<html><head><title>6.16. Going by, going through, going with</title></head>
+<html><head><title>6.17. Kinds of action</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,35 +7,35 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc88.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc90.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.16. Going by, going through, going with</b></td></tr></table><p>
+<table><tr><td><a href=doc88.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc90.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.17. Kinds of action</b></td></tr></table><p>
 <p>
-<p>Adding to the previous example game, we apply rules which depend on travelling by a particular vehicle:
+<p>Especially when people need to react to events going on around them, it is helpful to be able to categorise actions into whole areas of behaviour. The following example, indebted to the late Georgette Heyer, is suggestive:
 <p>
-<blockquote><font color="#000080">The book trolley is in the Musicology Section. &quot;The book trolley, a sort of motorised tractor for trundling around through the stacks, is parked here.&quot; The trolley is a vehicle. Instead of going nowhere by the trolley, say &quot;Don't go crashing the trolley into walls.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Dearth and the Maiden&quot;\n\nThe Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;\n\nAn oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;\n\nA man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;\n\nKissing Mr Carr is unmaidenly behaviour. Doing something to the painting is unmaidenly behaviour.\n\nInstead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Dearth and the Maiden&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going to the Front Stacks by the trolley, say &quot;The Front Stacks are far too confined for the trolley to manoeuvre into them.&quot;
+<blockquote><font color="#000080">The Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;
 </font></blockquote><p>
 <p>
-<p>And, lastly, rules which apply to movements through particular doors:
-<p>
-<blockquote><font color="#000080">The green baize door is east of the Catalogue Room and west of the Clerk's Office. The green baize door is an open door.
+<blockquote><font color="#000080">An oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before going through the green baize door, say &quot;Through you go...&quot; After going through the green baize door: try looking; say &quot;...and here you are.&quot;
+<blockquote><font color="#000080">A man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;
 </font></blockquote><p>
 <p>
-<p>(Note that these apply whether the action is &quot;going east&quot; or &quot;entering the green baize door&quot;, each having the same effect.) The last rule is worth a second look: the normal way that a &quot;going&quot; action is reported is to produce the room description of the new location. So if an &quot;after&quot; rule stops the action before we get to reporting, we have to produce any room description by hand (hence the &quot;try looking&quot; to cause the looking action). Alternatively, we could simply say something and let the normal course of events take place:
-<p>
-<blockquote><font color="#000080">After going through the green baize door: say &quot;...and here you are:&quot;; continue the action.
+<blockquote><font color="#000080">Kissing Mr Carr is unmaidenly behaviour. Doing something to the painting is unmaidenly behaviour.
 </font></blockquote><p>
 <p>
-<p>Finally, going is an action which can also happen while the player is pushing something from one room to another, and we can describe this like so:
-<p>
-<blockquote><font color="#000080">Instead of going from the Office with the trolley, say &quot;But it looks perfectly placed here. Why push any further?&quot;
+<blockquote><font color="#000080">Instead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;
 </font></blockquote><p>
+<p>
+<p>Here a new kind of action called &quot;unmaidenly behaviour&quot; has been created and then used in the description of an instead rule. The convenience of this approach is that when further actions suddenly occur to us as also being unmaidenly - say, attacking Mr Carr - we only need to add a single line:
+<p>
+<blockquote><font color="#000080">Attacking Mr Carr is unmaidenly behaviour.
+</font></blockquote><p>
+<p>
+<p>And this will automatically be reflected in any rules which concern the consequences of failing to be ladylike.
 <p>
 <p><hr><p>
-<a name="e25"><a href=ex25.html#e25><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A car which must be turned on before it can be driven, and can only go to roads.</i><p>
-<a name="e82"><a href=ex82.html#e82><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A plank bridge which breaks if the player is carrying something when he goes across it. Pushing anything over the bridge is forbidden outright.</i><p>
+<a name="e63"><a href=ex63.html#e63><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>People who must be greeted before conversation can begin.</i><p>
 <p><hr><p><a href=doc88.html>Previous</a> / <a href=doc90.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

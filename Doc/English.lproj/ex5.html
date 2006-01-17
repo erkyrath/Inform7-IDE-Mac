@@ -1,4 +1,4 @@
-<html><head><title>8.6. Every turn</title></head>
+<html><head><title>4.11. Text with variations</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,140 +7,52 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc118.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc120.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.6. Every turn</b></td></tr></table><p>
+<table><tr><td><a href=doc54.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc56.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.11. Text with variations</b></td></tr></table><p>
 <p>
-<p>The passage of time in interactive fiction is broken up into a succession of turns, in each of which the player types a request and is given a response. Usually each such request triggers one action, but sometimes a whole sequence are fired off, as when the player types &quot;get all&quot; in a cluttered room.
+<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
 <p>
-<p>One of the last things to happen in each turn is that Inform will apply any rules which have been set to occur &quot;every turn&quot;, like so:
-<p>
-<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.
 </font></blockquote><p>
 <p>
-<p>This is equivalent to writing:
+<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
 <p>
-<blockquote><font color="#000080">An every turn rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;
 </font></blockquote><p>
 <p>
-<p>Note that the text about blossom, which will quickly become tiresome, is said at the end of every turn, not at the beginning, and in particular not before the player's first opportunity to type a command.
+<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
 <p>
-<p>As usual when defining rules, we can add stipulations: any condition can be attached using &quot;when&quot;.
+<p>We sometimes need to be careful about the printing of line breaks:
 <p>
-<blockquote><font color="#000080">Every turn when in the Orchard, say &quot;The summer breeze shakes the apple-blossom.&quot;
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell. [otherwise]the usual cell.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn when the player can see the rotting fish, say &quot;Your nose twitches involuntarily.&quot;
+<p>This room description has two possible forms: &quot;Ah, the unknown cell. &quot;, at first sight, and then &quot;Ah, the usual cell.&quot; subsequently. But the second form is rounded off with a line break because the last thing printed is a &quot;.&quot;, whereas the first form isn't, because it ended with a space. The right thing would have been:
+<p>
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell.[otherwise]the usual cell.&quot;
 </font></blockquote><p>
+<p>
+<p>allowing no space after &quot;unknown cell.&quot;
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e5"><a href=doc119.html#e5><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A kind of battery which can be put into different devices, and which will lose power after extended use.</i><p>
+<a name="e41"><a href=ex41.html#e41><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A door which says "...leads east" in one place and "...leads west" in the other.</i><p>
+<a name="e43"><a href=ex43.html#e43><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Separate the player's inventory listing into two parts, so that it says "you are carrying..." and then (if the player is wearing anything) "You are also wearing...".</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e5"><a href=doc55.html#e5><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A kind of door that always automatically describes the direction it opens and what lies on the far side (if that other room has been visited).</i><p>
 <p>
-<p>The following example makes fairly ample use of material that we haven't seen yet, but gives some idea of the flexibility of every turn rules. Suppose we want to have a number of electrical devices, all of which may be powered by a set of batteries. The batteries will all need to be discharged as they are used (regardless of what device they happen to be controlling at the moment). So:
+<p>It would be fairly tedious reading to have a large game full of doors that describe themselves this way. Nonetheless, if we insisted we could use our knowledge of the map as leverage to make every door in the game describe itself automatically:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Out of Time&quot;\n\nA battery is a kind of thing. A battery has a number called charge. The charge of a battery is usually 15.\n\nEvery turn:\n\trepeat with item running through batteries\nbegin;\n\tif item is in a compartment which is part of a switched on device (called the machine)\n\tbegin;\n\t\tchange the charge of the item to the charge of the item - 1;\n\t\tcarry out the warning about failure activity with the machine;\n\t\tif the item is discharged, carry out the putting out activity with the machine;\n\tend if;\nend repeat.\n\nWarning about failure of something is an activity.\n\nRule for warning about failure of a device (called the machine):\n\tif a random battery compartment which is part of the machine contains a battery (called the power source)\n\tbegin;\n\t\tif the charge of the power source is 2, say &quot;[The machine] is obviously going to go out quite soon.&quot;;\n\tend if.\n\nPutting out something is an activity.\n\nRule for putting out a device (called the machine):\n\t\tsay &quot;[The machine] loses power and switches off![line break]&quot;;\n\t\tsilently try switching off the machine;\n\nA battery compartment is a kind of container. A battery compartment is usually closed and openable. One battery compartment is part of every device. Instead of inserting something which is not a battery into a battery compartment, say &quot;Only batteries should go in a battery compartment.&quot;\n\nInstead of opening a device, try opening a random compartment which is part of the noun. Instead of closing a device, try closing a random compartment which is part of the noun. Instead of inserting a battery into a device, try inserting the noun into a random compartment which is part of the second noun.\n\nInstead of switching on an empty device:\n\tsay &quot;Nothing happens, perhaps because there isn\'t a charged battery in [the noun].&quot;\n\nDefinition: a device is empty:\n\tif a random battery compartment which is part of it contains a battery (called the power source)\n\tbegin;\n\t\tif the power source is discharged, yes;\n\t\tno;\n\tend if;\n\tyes.\n\nDefinition: a battery is discharged if its charge < 1.\n\nA light source is a kind of device. Carry out switching on a light source: now the noun is lit. Carry out switching off a light source: now the noun is unlit.\n\nThe flashlight is a light source. A D battery is a battery carried by the player.\n\nThe cassette recorder is a device. Every turn when the cassette recorder is switched on: say &quot;The cassette recorder hisses faintly.&quot;\n\nRule for warning about failure of the cassette recorder (called the machine):\n\tif a random battery compartment which is part of the machine contains a battery (called the power source)\n\tbegin;\n\t\tif the charge of the power source is 2, say &quot;The hiss from [the machine] begins to warble ominously.&quot;;\n\tend if.\n\nThe player wears a backpack. The backpack is openable. In the backpack is the flashlight and the cassette recorder.\n\nThe description of the cassette recorder is &quot;Useful both for recording your notes and for capturing any odd ghostly sounds you may hear.&quot;\n\nThe description of the backpack is &quot;An old familiar pack, which you know so well that you can find all its pockets and take things in and out of it in pitch darkness. To avoid it showing up oddly in photographs, it is entirely black, with no shiny or metallic attachments.&quot;\n\nThe description of the flashlight is &quot;You bought a new one just for this occasion, because you were worried about bringing something too small or light. This is a heavy-duty flashlight with an adjustable-focus beam. The case is made of metal, rather than plastic, and there is a spare light-bulb inside as well. You\'ve put a band of masking tape around the handle and written in your initials in red marker.\n\nThere is a piece of red cellophane attached to the business end of the flashlight to keep it from being overly bright.&quot;\n\nThe red cellophane is part of the flashlight.\n\nInstead of doing something to the red cellophane: say &quot;You need the cellophane on the flashlight so that using it does not completely destroy your night vision.&quot;\n\nThirtieth Street Station is a room. &quot;A huge, high, rectangular room with coffered ceilings, which looks grand but mostly makes you feel lonely and small. There are long benches in rows down the middle of the room, and an information desk with the train times, and a series of ticket windows, none of which matters very much at the moment.&quot;\n\nThe benches are an enterable supporter. They are scenery in the Station. The information desk is scenery in the Station. Some ticket windows are scenery in the Station. Instead of examining scenery in the Station: say &quot;You\'re fairly sure that whatever is going on here has nothing to do with [the noun].&quot; Understand &quot;window&quot; as ticket windows.\n\nThe mural is fixed in place in Thirtieth Street. &quot;At the north side of the station is a particularly pointless and empty annex to the main room. It is dominated by a huge relief of sorts, and this is what you remember.&quot; Understand &quot;metal&quot; or &quot;relief&quot; or &quot;huge&quot; as the mural. The description of the mural is &quot;It is both stylized and confusing, but you think it might be supposed to represent the various tasks and occupations of Philadelphia\'s population. The portions closer to the ground look as though they have recently been subjected to a light dusting of talcum powder. No unusual prints are evident.&quot;\n\nThe wind chimes are fixed in place in Thirtieth Street. &quot;Carefully attached to the wall with a piece of duct tape and a hook is a light-weight set of wind chimes. Someone else has been here before you, it seems.&quot; The description is &quot;Several of your friends use wind chimes as a sort of ghost alarm, since ghosts sometimes cause very localized movements of air when there is no natural breeze.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Out of Time&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Whence?&quot;\n\nThe temporal vortex is an open door. It is west of Yesterday and east of Today.\n\nThe initial appearance of a door is usually &quot;Nearby [an object in question] leads [if the other side of the object in question is visited][way through the object in question] to [the other side][otherwise][way through the object in question][end if].&quot;\n\nTo decide what direction is the way through (frame - a door):\n\tlet far side be the other side of frame;\n\tlet way be the best route from the location to the far side, using even locked doors;\n\tif way is a direction, result the way;\n\tresult inside.\n\n')"><img border=0 src=paste.png></a> &quot;Whence?&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A battery is a kind of thing. A battery has a number called charge. The charge of a battery is usually 15.
+<blockquote><font color="#000080">The temporal vortex is an open door. It is west of Yesterday and east of Today.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through batteries
-<br>begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if item is in a compartment which is part of a switched on device (called the machine)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the charge of the item to the charge of the item - 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carry out the warning about failure activity with the machine;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the item is discharged, carry out the putting out activity with the machine;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>end repeat.
+<blockquote><font color="#000080">The initial appearance of a door is usually &quot;Nearby [an object in question] leads [if the other side of the object in question is visited][way through the object in question] to [the other side][otherwise][way through the object in question][end if].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Warning about failure of something is an activity.
+<blockquote><font color="#000080">To decide what direction is the way through (frame - a door):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let far side be the other side of frame;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let way be the best route from the location to the far side, using even locked doors;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if way is a direction, result the way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;result inside.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Rule for warning about failure of a device (called the machine):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if a random battery compartment which is part of the machine contains a battery (called the power source)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the charge of the power source is 2, say &quot;[The machine] is obviously going to go out quite soon.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Putting out something is an activity.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Rule for putting out a device (called the machine):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The machine] loses power and switches off![line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;silently try switching off the machine;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A battery compartment is a kind of container. A battery compartment is usually closed and openable. One battery compartment is part of every device. Instead of inserting something which is not a battery into a battery compartment, say &quot;Only batteries should go in a battery compartment.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of opening a device, try opening a random compartment which is part of the noun. Instead of closing a device, try closing a random compartment which is part of the noun. Instead of inserting a battery into a device, try inserting the noun into a random compartment which is part of the second noun.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of switching on an empty device:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing happens, perhaps because there isn't a charged battery in [the noun].&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Definition: a device is empty:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if a random battery compartment which is part of it contains a battery (called the power source)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the power source is discharged, yes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;yes.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Definition: a battery is discharged if its charge < 1.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A light source is a kind of device. Carry out switching on a light source: now the noun is lit. Carry out switching off a light source: now the noun is unlit.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The flashlight is a light source. A D battery is a battery carried by the player.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The cassette recorder is a device. Every turn when the cassette recorder is switched on: say &quot;The cassette recorder hisses faintly.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Rule for warning about failure of the cassette recorder (called the machine):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if a random battery compartment which is part of the machine contains a battery (called the power source)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the charge of the power source is 2, say &quot;The hiss from [the machine] begins to warble ominously.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The player wears a backpack. The backpack is openable. In the backpack is the flashlight and the cassette recorder.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The description of the cassette recorder is &quot;Useful both for recording your notes and for capturing any odd ghostly sounds you may hear.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The description of the backpack is &quot;An old familiar pack, which you know so well that you can find all its pockets and take things in and out of it in pitch darkness. To avoid it showing up oddly in photographs, it is entirely black, with no shiny or metallic attachments.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The description of the flashlight is &quot;You bought a new one just for this occasion, because you were worried about bringing something too small or light. This is a heavy-duty flashlight with an adjustable-focus beam. The case is made of metal, rather than plastic, and there is a spare light-bulb inside as well. You've put a band of masking tape around the handle and written in your initials in red marker.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">There is a piece of red cellophane attached to the business end of the flashlight to keep it from being overly bright.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The red cellophane is part of the flashlight.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of doing something to the red cellophane: say &quot;You need the cellophane on the flashlight so that using it does not completely destroy your night vision.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Thirtieth Street Station is a room. &quot;A huge, high, rectangular room with coffered ceilings, which looks grand but mostly makes you feel lonely and small. There are long benches in rows down the middle of the room, and an information desk with the train times, and a series of ticket windows, none of which matters very much at the moment.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The benches are an enterable supporter. They are scenery in the Station. The information desk is scenery in the Station. Some ticket windows are scenery in the Station. Instead of examining scenery in the Station: say &quot;You're fairly sure that whatever is going on here has nothing to do with [the noun].&quot; Understand &quot;window&quot; as ticket windows.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The mural is fixed in place in Thirtieth Street. &quot;At the north side of the station is a particularly pointless and empty annex to the main room. It is dominated by a huge relief of sorts, and this is what you remember.&quot; Understand &quot;metal&quot; or &quot;relief&quot; or &quot;huge&quot; as the mural. The description of the mural is &quot;It is both stylized and confusing, but you think it might be supposed to represent the various tasks and occupations of Philadelphia's population. The portions closer to the ground look as though they have recently been subjected to a light dusting of talcum powder. No unusual prints are evident.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The wind chimes are fixed in place in Thirtieth Street. &quot;Carefully attached to the wall with a piece of duct tape and a hook is a light-weight set of wind chimes. Someone else has been here before you, it seems.&quot; The description is &quot;Several of your friends use wind chimes as a sort of ghost alarm, since ghosts sometimes cause very localized movements of air when there is no natural breeze.&quot;
-</font></blockquote><p>
-</td></tr></table><p><a name="e54"><a href=ex54.html#e54><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>A game of foosball which relies heavily on every-turn rules.</i><p>
-<p><hr><p><a href=doc118.html>Previous</a> / <a href=doc120.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc54.html>Previous</a> / <a href=doc56.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>4.1. New kinds</title></head>
+<html><head><title>3.22. Concealment</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,28 +7,26 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 4: Kinds</h2><p><table><tr><td><a href=doc43.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc45.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.1. New kinds</b></td></tr></table><p>
+<table><tr><td><a href=doc43.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc45.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.22. Concealment</b></td></tr></table><p>
 <p>
-<p>Everything has one and only one kind: but kinds can have more specific kinds. Inform makes the world out of three fundamental kinds of object, &quot;room&quot;, &quot;thing&quot; and &quot;direction&quot;: browsing the Kinds index will give an idea of how the others fit together. A container, for instance, is a kind of thing.
+<p>Though realism can become tiresome in interactive fiction, there are times when we cannot go along with Inform's normal assumption that all of a person's possessions are visible to everybody else. People are not like containers, which either show all of their holdings or not, according to whether they are open or transparent. If a man is carrying a fishing rod and a wallet, one will be on open show, the other not. Some clothing is outwardly visible, but not all.
 <p>
-<p>Any new kind must be created as a special case of an existing one. Here we sub-categorise rooms:
+<p>Whether or not something is concealed is not like the either/or properties we have seen so far - such as being &quot;open&quot; or &quot;closed&quot; - because it is not really a property of the thing itself, but depends on the habitual behaviour of its current owner. To talk about behaviour we have to use sentences of a kind not seen so far, and which will not fully be explained for some chapters to come.
+<p>But straightforward cases are easy to write, if only by imitating the following examples.
 <p>
-<blockquote><font color="#000080">A dead end is a kind of room.
+<p>Here we make the Cloaked Villain invariably conceal anything she is holding or wearing:
+<p>
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: yes.
 </font></blockquote><p>
 <p>
-<p>Any dead end that we make is also a room, but can also have other properties in addition, if we so decide. For the purposes of this example, it's useful to mention a property not seen so far: rooms can be &quot;dark&quot; or &quot;lighted&quot;, all the examples so far having been lighted. Similarly, a thing with the property of being &quot;lit&quot; will enable the player to see inside dark rooms, and to carry out other activities requiring light, such as examining items.
+<p>At which point we think about it more carefully, and then rewrite:
 <p>
-<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came.&quot; A dead end is usually dark.
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: if the particular possession is the sable cloak, no; otherwise yes.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove.
+<p>Parts are treated exactly as if clothes or items being held, and the following will make the face and inscription on a coin invisible unless the player is holding it - the idea being that they are too small to be seen from farther away.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, yes; otherwise no.\n\n\n')"><img border=0 src=paste.png></a> The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, yes; otherwise no.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">In the Undertomb is the candle lantern. It is lit.
-</font></blockquote><p>
-<p>
-<p>Three different rooms adjoin the Undertomb as a result. Notice how much more concise this is thanks to having the &quot;dead end&quot; kind to hand.
-<p>
-<p>What is a kind, really? In the end it is a name for a bundle of properties, and the key differences between a kind (such as &quot;container&quot;) and a property (such as &quot;fixed in place&quot;) are that, firstly, something only has one kind (except in the sense that a container is also a thing, and so on), and secondly, it has that kind forever, whereas properties may change.
 <p>
 <p><hr><p><a href=doc43.html>Previous</a> / <a href=doc45.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

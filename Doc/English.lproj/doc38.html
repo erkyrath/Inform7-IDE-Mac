@@ -1,4 +1,4 @@
-<html><head><title>3.17. Articles and proper names</title></head>
+<html><head><title>3.16. Men, women and animals</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,29 +7,20 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc37.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc39.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.17. Articles and proper names</b></td></tr></table><p>
+<table><tr><td><a href=doc37.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc39.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.16. Men, women and animals</b></td></tr></table><p>
 <p>
-<p>Suppose we have said that:
+<p>Rounding out the standard kinds provided by Inform are four for living things: &quot;person&quot;, which is a kind of thing, and &quot;man&quot;, &quot;woman&quot; and &quot;animal&quot;, all kinds of person. For instance:
 <p>
 <blockquote><font color="#000080">In the Ballroom is a man called Mr Darcy.
 </font></blockquote><p>
 <p>
-<p>When the Ballroom is visited, the man is listed in the description of the room as &quot;Mr Darcy&quot;, not as &quot;a Mr Darcy&quot;. This happened not because Inform recognised that Darcy is a proper name, or even because men tend to have proper names, but because Inform noticed that we did not use &quot;a&quot;, &quot;an&quot;, &quot;the&quot; or &quot;some&quot; in the sentence which created him. The following little example game shows most of the options:
+<p>For the time being, men and women will be little more than waxworks: they will come to life only when we go beyond the present stage of creating an initial state of the world.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Belfry&quot;\n\nThe Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton\'s wife is in the Belfry. A man called a bellringer is in the Belfry.\n\nIn the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.\n\n\n')"><img border=0 src=paste.png></a> &quot;Belfry&quot;
+<p>People are either male or female: in fact, this is an either/or property for the &quot;person&quot; kind, and it affects play at run-time a little, because the player can use &quot;him&quot; and &quot;her&quot; to refer to male or female people encountered. Since &quot;animal&quot; is a kind of person, it follows that animals are also either male or female, which might seem odd for some low-level forms of life, but generally makes sense for anything mobile which one could interact with. Animals are male unless we say otherwise:
+<p>
+<blockquote><font color="#000080">The mare is a female animal in the Stables.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton's wife is in the Belfry. A man called a bellringer is in the Belfry.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">In the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.
-</font></blockquote><p>
-<p>
-<p>In the resulting game, we read:
-<p>
-<blockquote><font color="#000080">You can see a bat, a bell, some woodworm, William Snelson, the sexton's wife, a bellringer and your local vicar here.
-</font></blockquote><p>
-<p>
-<p>The subtlest rule here is in the handling of &quot;the&quot;. We wrote &quot;The bell is in the Belfry&quot;, but this did not result in the bell always being called &quot;the&quot; bell: in fact, writing &quot;A bell is in the Belfry&quot; would have had the same effect. On the other hand, &quot;A woman called the sexton's wife is in the Belfry.&quot; led to the wife always being known as &quot;the&quot; sexton's wife, not &quot;a&quot; sexton's wife, because Inform thinks the choice of article after &quot;called&quot; shows more of our intention than it would elsewhere. These rules will never be perfect in all situations, so we are also allowed to specify indefinite articles by hand, as the vicar's case shows.
-<p>
+<p><hr><p>
+<a name="e24"><a href=ex24.html#e24><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>The captain of the boat.</i><p>
 <p><hr><p><a href=doc37.html>Previous</a> / <a href=doc39.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

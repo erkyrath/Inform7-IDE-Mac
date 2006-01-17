@@ -1,4 +1,4 @@
-<html><head><title>3.2. Rooms and the map</title></head>
+<html><head><title>10.11. Let and temporary variables</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,117 +7,74 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc22.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc24.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.2. Rooms and the map</b></td></tr></table><p>
+<table><tr><td><a href=doc146.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc148.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.11. Let and temporary variables</b></td></tr></table><p>
 <p>
-<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
+<p>A variable, as we have seen, is a name for a value which changes, though always remaining of the same kind. For instance, if &quot;target&quot; is a number variable (or &quot;number that varies&quot;) then it may change value from 2 to 4, but not from 2 to &quot;fishknife&quot;.
 <p>
-<p>Two more directions are provided by Inform: &quot;inside&quot; and &quot;outside&quot;. These are best used when one location is, say, a meadow and the other is a woodcutter's hut in the middle of it; we might then say
+<p>To make complicated decisions, phrases often need to remember values on a temporary basis. We have already seen this for the counter in a &quot;repeat&quot; loop, which exists only inside that loop, and then is no longer needed. Now we define named values which exist only inside the current phrase. For instance:
 <p>
-<blockquote><font color="#000080">Inside from the Meadow is the woodcutter's hut.
+<blockquote><font color="#000080">let outer bull be 25;
+<br>let the current appearance be &quot;reddish brown&quot;;
+<br>let the special room be Marley Wood;
 </font></blockquote><p>
 <p>
-<p>The &quot;from&quot; is important, as it clarifies that we intend to link two different locations, not to create an item - the hut - in a single location - the meadow.
+<p>creates temporary variables &quot;outer bull&quot;, &quot;current appearance&quot; and &quot;special room&quot;. The kinds of these are deduced from the values given, so that, for instance,
 <p>
-<p>A problem which sometimes arises when laying out maps is that Inform allows short forms of room names to be used as abbreviations. This is usually a good idea, but has unfortunate results if we write:
-<p>
-<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. The Airport is west of the Airport Road.
+<blockquote><font color="#000080">say &quot;The outer bull scores [the outer bull in words] when you practice archery in [special room].&quot;
 </font></blockquote><p>
 <p>
-<p>...because &quot;Airport&quot; is taken as a reference to &quot;Airport Road&quot;, so Inform makes only two locations, one of which supernaturally leads to itself. We can avoid this by writing:
+<p>produces
 <p>
-<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. A room called the Airport is west of the Airport Road.
+<blockquote><font color="#000080">The outer bull scores twenty-five when you practice archery in Marley Wood.
 </font></blockquote><p>
 <p>
-<p>Using &quot;called&quot; is often a good way to specify something whose name might give rise to confusion otherwise. It always makes something new, and it is also neatly concise, because we can establish something's kind and name in the same sentence. As another example, suppose we want to create a room called &quot;South of the Hut&quot;, to south of the Hut. We can't do so like this:
+<p>Temporary variables made by &quot;let&quot; are only temporarily in existence while a phrase is being carried out. Their values often change: we could say
 <p>
-<blockquote><font color="#000080">South of the Hut is a room. South of the Hut is south of the Hut.
+<blockquote><font color="#000080">let x be 10;
+<br>change x to 11;
 </font></blockquote><p>
 <p>
-<p>...because Inform will read that first sentence as placing a (nameless) room to the south of a room called &quot;Hut&quot;. Once again &quot;called&quot; can save the day:
+<p>for instance, or indeed we could &quot;let x be 10&quot; and then &quot;let x be 11&quot;. But although we are allowed to change the value, we are not allowed to change the kind of value. The name &quot;x&quot; must always have the same kind of value throughout the phrase to which it belongs, so the following will not be allowed:
 <p>
-<blockquote><font color="#000080">South of the Hut is a room called South of the Hut.
+<blockquote><font color="#000080">let x be 45;
+<br>change x to &quot;Norway&quot;;
 </font></blockquote><p>
 <p>
-<p>It is best to use &quot;called&quot; in the simplest way possible, and in particular, best not to use &quot;called&quot; twice in the same sentence. Consider:
-<p>
-<blockquote><font color="#000080">The kitchen cabinet contains a container called a mixing bowl and a portable supporter called a platter.
-</font></blockquote><p>
-<p>
-<p>It is unlikely that anyone would want to name something &quot;a mixing bowl and a portable supporter called a platter&quot;, but not impossible, and Inform tends not to be a good judge of what is likely.
+<p>(The difference between &quot;let&quot; and &quot;change&quot; is that &quot;let&quot; can create a new temporary variable, whereas &quot;change&quot; can only alter one which already exists: on the other hand, &quot;change&quot; can change many other things as well, whereas &quot;let&quot; applies only to temporary variables.)
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e92"><a href=doc23.html#e92><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A partial implementation of Port Royal, Jamaica, set before the earthquake of 1692 demolished large portions of the city.</i><p>
+<a name="e129"><a href=ex129.html#e129><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A worked example using a new kind of value, "colour", within phrases to talk about tinted wallpaper.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e92"><a href=doc147.html#e92><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>More on using kinds of value inside phrases, this time to simulate something new: a box which, although it cannot be picked up, can be pushed around between three different places on the floor.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;1691&quot;\n\nFort James is a room. &quot;The enclosure of Fort James is a large, roughly hexagonal court walled with heavy stone.  The walls face the entrance to Port Royal Harbour, and the battery of guns is prepared to destroy any enemy ship arriving.&quot;\n\n[Unless we arrange otherwise, this will be the first room in the game because it is the first we have defined.]\n\n[For subsequent rooms, we do not have to say explicitly that they are rooms, as long as they are connected to a room on the map. For instance, this will automatically make Thames Street End a room:]\n\nThames Street End is south of Fort James. &quot;The ill-named Thames Street runs from here -- at the point of the peninsula -- all the way east among houses and shops, through the Fish Market, edging by the round front of Fort Carlisle, to the point where the town stops and there is only sandy spit beyond.  Most of that stretch is full of people at all hours.  Imported goods are moved off of ships and taken to distributors; exported goods are brought to be loaded; and there is one public house and brothel for every ten inhabitants.\n\nLime Street, wider and healthier but not as rich, runs directly south, and to the north the road opens up into the courtyard of Fort James.&quot;\n\nWater Lane is east of Thames Street End. &quot;Here Thames Street -- never very straight -- goes steeply southeast for a portion before continuing more directly to the east.\n\nWater Lane runs south toward Queen Street, and facing onto it is the New Prison -- which, in the way of these things, is neither.  It did serve in that capacity for a time, and in a measure of the villainy which has been usual in Port Royal from its earliest days, it is nearly the largest building in the town.&quot;\n\n[If we have some concern that the room name will be confused with an existing name, we can be more explicit about it using &quot;called&quot;:]\n\nEast of Water Lane is a room called Thames Street at the Wherry Bridge.  Thames Street at the Wherry Bridge has the description &quot;To the southwest is the fishmarket; directly across the street is the entrance to a private alley through a brick archway.&quot;\n\nThe Fishmarket is southwest of Thames Street at the Wherry Bridge.\n\nThe Private Alley is south of Thames Street at the Wherry Bridge. &quot;You\'re just outside the tavern the Feathers. To the north, under a pretty little archway, is the active mayhem of Thames Street, but the alley narrows down to a dead end a little distance to the south.&quot;\n\n[And now we get &quot;inside&quot;, which generates a space treated as its own area on the map.]\n\nThe Feathers is inside from the Private Alley.  &quot;Newly built with brick, replacing the older Feathers tavern that used to stand here. It sells wines in quantity, as well as serving them directly, and the goods are always of the best quality. There\'s a room upstairs for those wanting to stay the night.&quot; The Feathers Bedroom is above the Feathers.\n\nThames Street by the King\'s House is east of Thames Street at the Wherry Bridge.  &quot;The King\'s House is reserved for the use of the Governor, but he does not live in it, and it is frequently being rented out to some merchant so that the government will at least derive some value from it. It is nearly the least interesting establishment on Thames Street, and the crowd -- which, to the west, is extremely dense -- here thins out a bit.&quot;\n\nThames Street before Fort Carlisle is east of Thames Street by the King\'s House. &quot;Here Thames Street, formerly a respectable width, narrows to a footpath in order to edge around the front of Fort Carlisle, underneath the mouths of the cannon.\n\nThere are no buildings on the harbour side of Thames Street at this point, which means that you have an unusually good view of the ships at dock, water beyond, and the Blue Mountains rising on the other side of the harbour.&quot;\n\n[We can also invert the order in which we declare things, like this:]\n\nSouth of Thames Street before Fort Carlisle is a room called Fort Carlisle. The description of Fort Carlisle is &quot;Handsomely arrayed with cannons which you could fire at any moment -- though of course there are ships at dock which might be in the way.&quot;\n\n[And if we like we can declare a number of rooms for which we will come back and write the descriptions later. There is no obligation for the description to occur at the first definition of the room.]\n\nLime Street is south of Thames Street End.\n\nQueen Street End is south of Lime Street.\n\nQueen Street Middle is east of Queen Street End.\n\n[For efficiency, we can also write multiple sets of connections at once:]\n\nQueen Street East is east of Queen Street Middle and south of Private Alley.\n\nQueen Street at the Prison is east of Queen Street East.\n\n\n')"><img border=0 src=paste.png></a> &quot;1691&quot;
+<p>The strategy is to make the three possible positions of the box into values.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase. The current box position is a box position that varies.\n\nTo shove the box to (destination - a box position):\n\tsay &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;;\n\tchange the current box position to the destination.\n\n\n')"><img border=0 src=paste.png></a> Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase. The current box position is a box position that varies.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Fort James is a room. &quot;The enclosure of Fort James is a large, roughly hexagonal court walled with heavy stone.  The walls face the entrance to Port Royal Harbour, and the battery of guns is prepared to destroy any enemy ship arriving.&quot;
+<blockquote><font color="#000080">To shove the box to (destination - a box position):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current box position to the destination.
 </font></blockquote><p>
 <p>
-<p>Unless we arrange otherwise, this will be the first room in the game because it is the first we have defined.
+<p>So, for instance:
 <p>
-<p>For subsequent rooms, we do not have to say explicitly that they are rooms, as long as they are connected to a room on the map. For instance, this will automatically make Thames Street End a room:
-<p>
-<blockquote><font color="#000080">Thames Street End is south of Fort James. &quot;The ill-named Thames Street runs from here -- at the point of the peninsula -- all the way east among houses and shops, through the Fish Market, edging by the round front of Fort Carlisle, to the point where the town stops and there is only sandy spit beyond.  Most of that stretch is full of people at all hours.  Imported goods are moved off of ships and taken to distributors; exported goods are brought to be loaded; and there is one public house and brothel for every ten inhabitants.
+<blockquote><font color="#000080">shove the box to over by the window;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Lime Street, wider and healthier but not as rich, runs directly south, and to the north the road opens up into the courtyard of Fort James.&quot;
+<p>might result in the following on screen:
+<p>
+<blockquote><font color="#000080">With some effort, you shove the old box from under the shelf to over by the window.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Water Lane is east of Thames Street End. &quot;Here Thames Street -- never very straight -- goes steeply southeast for a portion before continuing more directly to the east.
+<p>And we can write conditions like so:
+<p>
+<blockquote><font color="#000080">if the current box position is over by the window then...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Water Lane runs south toward Queen Street, and facing onto it is the New Prison -- which, in the way of these things, is neither.  It did serve in that capacity for a time, and in a measure of the villainy which has been usual in Port Royal from its earliest days, it is nearly the largest building in the town.&quot;
+<p>Using a new kind of value is a good way to set up simulations like this one because Inform will ensure that the &quot;current box position&quot; always, no matter what we do, holds one of the three legal box positions. Similarly, a line like
+<p>
+<blockquote><font color="#000080">if the current box position is green then ...
 </font></blockquote><p>
 <p>
-<p>If we have some concern that the room name will be confused with an existing name, we can be more explicit about it using &quot;called&quot;:
-<p>
-<blockquote><font color="#000080">East of Water Lane is a room called Thames Street at the Wherry Bridge.  Thames Street at the Wherry Bridge has the description &quot;To the southwest is the fishmarket; directly across the street is the entrance to a private alley through a brick archway.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Fishmarket is southwest of Thames Street at the Wherry Bridge.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Private Alley is south of Thames Street at the Wherry Bridge. &quot;You're just outside the tavern the Feathers. To the north, under a pretty little archway, is the active mayhem of Thames Street, but the alley narrows down to a dead end a little distance to the south.&quot;
-</font></blockquote><p>
-<p>
-<p>And now we get &quot;inside&quot;, which generates a space treated as its own area on the map.
-<p>
-<blockquote><font color="#000080">The Feathers is inside from the Private Alley.  &quot;Newly built with brick, replacing the older Feathers tavern that used to stand here. It sells wines in quantity, as well as serving them directly, and the goods are always of the best quality. There's a room upstairs for those wanting to stay the night.&quot; The Feathers Bedroom is above the Feathers.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Thames Street by the King's House is east of Thames Street at the Wherry Bridge.  &quot;The King's House is reserved for the use of the Governor, but he does not live in it, and it is frequently being rented out to some merchant so that the government will at least derive some value from it. It is nearly the least interesting establishment on Thames Street, and the crowd -- which, to the west, is extremely dense -- here thins out a bit.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Thames Street before Fort Carlisle is east of Thames Street by the King's House. &quot;Here Thames Street, formerly a respectable width, narrows to a footpath in order to edge around the front of Fort Carlisle, underneath the mouths of the cannon.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">There are no buildings on the harbour side of Thames Street at this point, which means that you have an unusually good view of the ships at dock, water beyond, and the Blue Mountains rising on the other side of the harbour.&quot;
-</font></blockquote><p>
-<p>
-<p>We can also invert the order in which we declare things, like this:
-<p>
-<blockquote><font color="#000080">South of Thames Street before Fort Carlisle is a room called Fort Carlisle. The description of Fort Carlisle is &quot;Handsomely arrayed with cannons which you could fire at any moment -- though of course there are ships at dock which might be in the way.&quot;
-</font></blockquote><p>
-<p>
-<p>And if we like we can declare a number of rooms for which we will come back and write the descriptions later. There is no obligation for the description to occur at the first definition of the room.
-<p>
-<blockquote><font color="#000080">Lime Street is south of Thames Street End.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Queen Street End is south of Lime Street.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Queen Street Middle is east of Queen Street End.
-</font></blockquote><p>
-<p>
-<p>For efficiency, we can also write multiple sets of connections at once:
-<p>
-<blockquote><font color="#000080">Queen Street East is east of Queen Street Middle and south of Private Alley.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Queen Street at the Prison is east of Queen Street East.
-</font></blockquote><p>
-<p>
-<p>Compiling this code will put a map together, which we can look at in the World Index.
-</td></tr></table><p><p><hr><p><a href=doc22.html>Previous</a> / <a href=doc24.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>will be disallowed because box positions and colours are incomparable.
+</td></tr></table><p><p><hr><p><a href=doc146.html>Previous</a> / <a href=doc148.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

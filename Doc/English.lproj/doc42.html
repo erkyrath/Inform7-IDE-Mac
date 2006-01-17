@@ -1,4 +1,4 @@
-<html><head><title>3.21. Parts of things</title></head>
+<html><head><title>3.20. The player's holdall</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,32 +7,26 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc41.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc43.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.21. Parts of things</b></td></tr></table><p>
+<table><tr><td><a href=doc41.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc43.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.20. The player's holdall</b></td></tr></table><p>
 <p>
-<p>Everything has one and only one kind. This is both good and bad: good for clarity, bad if something needs to behave in two different ways at once. How might we simulate a car with an ignition key, given that no single thing can be both a &quot;vehicle&quot; and a &quot;device&quot; at the same time?
+<p>When the player has only limited carrying capacity, game play is likely to be tiresome, but we can make life easier by providing a way for the player to carry endless items without dozens of free hands to hold them all:
 <p>
-<p>The Inform world model takes the view that such a car is too complicated to be simulated with a single thing. Instead it should be simulated as a vehicle (the car) which has a device (the ignition) attached. This is done using a third kind of containment to those seen so far (&quot;in...&quot; and &quot;on...&quot;): &quot;part of&quot;.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Buttons&quot;\n\nThe Confectionary Workshop is a room. The Chocolate Machine is here. &quot;The Chocolate Machine has pride of place. A lever and two buttons, one white, the other brown, seem to be the only controls. On top is a hopper.&quot;\n\nA container called the hopper is part of the Chocolate Machine. The lever, the white button and the brown button are parts of the Chocolate Machine.\n\nThe Chocolatier\'s desk is here. &quot;The Chocolatier evidently works at the imposing green-leather topped desk facing the Machine. It has three drawers with brass handles.&quot;\n\nThe upper drawer, the middle drawer and the lower drawer are parts of the desk. The upper drawer, the middle drawer and the lower drawer are openable closed containers. In the middle drawer is a sugared almond. In the lower drawer is a Battenburg cake. On the desk is a liquorice twist.\n\n\n')"><img border=0 src=paste.png></a> &quot;Buttons&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Sackcloth&quot;\n\nThe Attic is a room. The old blue rucksack is a player\'s holdall. The player is wearing the rucksack.\n\nThe carrying capacity of the player is 3.\n\nIn the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt\'s remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.\n\n\n')"><img border=0 src=paste.png></a> &quot;Sackcloth&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Confectionary Workshop is a room. The Chocolate Machine is here. &quot;The Chocolate Machine has pride of place. A lever and two buttons, one white, the other brown, seem to be the only controls. On top is a hopper.&quot;
+<blockquote><font color="#000080">The Attic is a room. The old blue rucksack is a player's holdall. The player is wearing the rucksack.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A container called the hopper is part of the Chocolate Machine. The lever, the white button and the brown button are parts of the Chocolate Machine.
+<blockquote><font color="#000080">The carrying capacity of the player is 3.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Chocolatier's desk is here. &quot;The Chocolatier evidently works at the imposing green-leather topped desk facing the Machine. It has three drawers with brass handles.&quot;
+<blockquote><font color="#000080">In the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt's remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The upper drawer, the middle drawer and the lower drawer are parts of the desk. The upper drawer, the middle drawer and the lower drawer are openable closed containers. In the middle drawer is a sugared almond. In the lower drawer is a Battenburg cake. On the desk is a liquorice twist.
-</font></blockquote><p>
+<p>This example game introduces a new kind of container, the &quot;player's holdall&quot;. This is a kind of which most games will contain at most one example, but in principle there can be any number. A player's holdall is a capacious bag into which the player automatically places surplus items whenever his or her hands are full: trying the above example game and getting the items one by one will give the general idea.
 <p>
-<p>The machine and the desk each have several &quot;parts&quot; representing subsidiary pieces of themselves. The desk is a &quot;supporter&quot; (it needs to be, for the liquorice twist to be on top) but also has three &quot;containers&quot; attached, each of which can be opened or closed independently.
-<p>
-<p>In the interests of realism, the standard rules of play protect these composite things. Thus if the desk were to be moved elsewhere (rolling on sugar casters perhaps) then its parts would move with it, and the player is not allowed to detach parts of things: the drawers can be opened or closed, but not pulled out altogether.
+<p>Of course, if the carrying capacity of the player is never reached then there will never be any surplus items and a player's holdall will behave just like any other (portable, usually openable) container.
 <p>
 <p><hr><p>
-<a name="e89"><a href=ex89.html#e89><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A red sticky label which can be attached to anything in the game, or removed again, in loose emulation of Exercise 104 in the Inform Designer's Manual, Fourth Edition.</i><p>
-<a name="e28"><a href=ex28.html#e28><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>The charter boat scenario turned into a somewhat fuller scene, with various features that have not yet been explained.</i><p>
+<a name="e16"><a href=ex16.html#e16><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Making a holdall of the backpack.</i><p>
 <p><hr><p><a href=doc41.html>Previous</a> / <a href=doc43.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

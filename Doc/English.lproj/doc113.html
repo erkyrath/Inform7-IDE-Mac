@@ -1,4 +1,4 @@
-<html><head><title>7.20. Material not for release</title></head>
+<html><head><title>8.1. When play begins</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,23 +7,17 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc112.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc114.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.20. Material not for release</b></td></tr></table><p>
+<h2>Chapter 8: Time</h2><p><table><tr><td><a href=doc112.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc114.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>8.1. When play begins</b></td></tr></table><p>
 <p>
-<p>Special testing commands, like &quot;test&quot; and &quot;showme&quot;, are automatically excluded from the game if it is compiled as a Release version. We sometimes want to write our own for-testing-purposes-only code, though, and for this purpose we are allowed to designate whole headings as being &quot;not for release&quot;:
+<p>With the material from previous chapters, we are now able to set up a simulated world, to respond to the player's actions within it, and to make it change in perhaps unexpected ways.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Section 10 - Open sesame - Not for release\n\nUniversal opening is an action out of world, applying to nothing.\nUnderstand &quot;open sesame&quot; as universal opening.\n\nCarry out universal opening: now all doors are open.\nReport universal opening: say &quot;Open Sesame!&quot;\n\n\n')"><img border=0 src=paste.png></a> Section 10 - Open sesame - Not for release
+<p>The resulting experience can be as lively as we want to make it, but so far we have no very good ways to give it any structure: a beginning and an end, for instance, or a sense of plot. This next chapter is all about the passage of time, and it begins at the beginning.
+<p>
+<p>We have already seen an example of how to write a rule which applies just once, at the start of the game:
+<p>
+<blockquote><font color="#000080">When play begins: say &quot;Welcome to Old Marston Grange, a country house cut off by fog.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Universal opening is an action out of world, applying to nothing.
-<br>Understand &quot;open sesame&quot; as universal opening.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out universal opening: now all doors are open.
-<br>Report universal opening: say &quot;Open Sesame!&quot;
-</font></blockquote><p>
-<p>
-<p>Clearly we do not wish the final reader to be able to type &quot;open sesame&quot;, so this whole heading will be disregarded in the Release version, as will any heading whose name includes &quot;not for release&quot;.
-<p>
-<p>Note that if a chapter, say, is marked as &quot;not for release&quot;, then its subheadings (mere sections) will also not be for release. If in doubt, check the &quot;Contents&quot; index: if any section is &quot;not for release&quot; then so are all of its subheadings.
+<p>The &quot;when play begins&quot; rules are checked only at the start of a game, not when a saved session is restored from disc. What happens is that these rules are followed, then the game's banner is printed, then the initial room description is printed up, and then the player is asked for a first command.
 <p>
 <p><hr><p><a href=doc112.html>Previous</a> / <a href=doc114.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

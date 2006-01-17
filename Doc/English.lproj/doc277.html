@@ -1,4 +1,4 @@
-<html><head><title>18.15. Handling phrase options</title></head>
+<html><head><title>18.11. Website templates</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,32 +7,39 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc276.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc278.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.15. Handling phrase options</b></td></tr></table><p>
+<table><tr><td><a href=doc276.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc278.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.11. Website templates</b></td></tr></table><p>
 <p>
-<p>The Standard Rules use the Inform list-writer with the following definitions, which show how a much more complicated I6 routine can be given a natural-language expression.
+<p>Web pages are very idiosyncratic things and Inform will almost certainly not produce exactly what we want. What it actually does is to take an existing &quot;template&quot; web page, and paste in the relevant information to make the final product. So by starting with a different template, we can end up with an entirely different-looking web page: like this one, for instance -
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('To list the contents of (O - an object),\n\twith newlines,\n\tindented,\n\tgiving inventory information,\n\tas a sentence,\n\tincluding contents,\n\tincluding all contents,\n\ttersely,\n\tgiving brief inventory information,\n\tusing the definite article,\n\tlisting marked items only,\n\tprefacing with is/are\n\tand/or not listing concealed items:\n\t(- WriteListFrom(child({O}), {phrase options}); -).\n\nTo say contents of (O - an object): list the contents of O, as a sentence.\n\nTo say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.\n\n\n')"><img border=0 src=paste.png></a> To list the contents of (O - an object),
-<br>&nbsp;&nbsp;&nbsp;&nbsp;with newlines,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;indented,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;giving inventory information,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;as a sentence,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;including contents,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;including all contents,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;tersely,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;giving brief inventory information,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;using the definite article,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;listing marked items only,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;prefacing with is/are
-<br>&nbsp;&nbsp;&nbsp;&nbsp;and/or not listing concealed items:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;(- WriteListFrom(child({O}), {phrase options}); -).
+<p><img border=&quot;0&quot; src=sampleweb2.jpg>
+<p>
+<p>The template ordinarily used by Inform is called &quot;Standard&quot; and comes built in. Any others we must provide ourselves, creating them with any of the many HTML-editing programs in the world. Suppose we write:
+<p>
+<blockquote><font color="#000080">Release along with cover art, a &quot;Platinum&quot; website, a file of &quot;Collegio magazine&quot; called &quot;Collegio.pdf&quot; and a file of &quot;The mating call of the green wyvern&quot; called &quot;Mating Wyverns.mp3&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say contents of (O - an object): list the contents of O, as a sentence.
+<p>This is identical to the previous version except for the &quot;Platinum&quot;: note the quotation marks. Inform does not have a template called &quot;Platinum&quot; built in, so it looks for one in the user's folder of Inform extensions (about which, more in the next chapter). Under Mac OS X, Inform will look for the template file as:
+<p>
+<blockquote><font color="#000080">~/Library/Inform/Extensions/Reserved/Templates/Platinum.html
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.
+<p>where &quot;~&quot; is the user's home folder. Under Windows, Inform will look for:
+<p>
+<blockquote><font color="#000080">My Documents\Inform\Extensions\Reserved\Templates\Platinum.html
 </font></blockquote><p>
 <p>
-<p>&quot;{phrase options}&quot; is a special substitution: it is a bitmap which assigns the given options one bit each, starting with the least significant bit for the first-mentioned option (&quot;with newlines&quot; above) and going up to the most significant bit for the last (&quot;not listing concealed items&quot;).
+<p>When it turns the template into the final web page, what Inform does is to replace certain capitalised words in square brackets with the appropriate text:
+<p>
+<blockquote><font color="#000080">[TITLE] becomes the story title
+<br>[AUTHOR] becomes the author's name
+<br>[YEAR] becomes the story creation year
+<br>[BLURB] becomes the story description
+<br>[RELEASE] becomes the release number
+<br>[COVER] becomes the cover art (the small 120x120 cover image)
+<br>[DOWNLOAD] becomes the download link
+<br>[AUXILIARY] becomes the list of feelie-like files, if any
+</font></blockquote><p>
+<p>
+<p>Everything else is left alone. This means we can simply lift a page from an existing website, stick in the appropriate square-bracketed text in the right places, and use that as a template. Perhaps this will still not be ideal, but it will probably get a lot nearer to what we want.
 <p>
 <p><hr><p><a href=doc276.html>Previous</a> / <a href=doc278.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

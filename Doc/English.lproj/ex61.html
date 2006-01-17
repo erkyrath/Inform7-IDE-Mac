@@ -1,4 +1,4 @@
-<html><head><title>12.2. What sentences are made up from</title></head>
+<html><head><title>6.15. Going from, going to</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,105 +7,71 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc170.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc172.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.2. What sentences are made up from</b></td></tr></table><p>
+<table><tr><td><a href=doc86.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc88.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.15. Going from, going to</b></td></tr></table><p>
 <p>
-<p>A sentence consists of two nouns with a verb between them. Usually, the two nouns are descriptions, as in:
+<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
 <p>
-<blockquote><font color="#000080">Mr Collins is in a lighted room.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Going Going&quot;\n\nThe Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.\n\nInstead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;\n\nInstead of going nowhere, say &quot;You really can\'t wander around at random in the Library.&quot;\n\nBefore going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Going Going&quot;
 </font></blockquote><p>
 <p>
-<p>Here &quot;Mr Collins&quot; and &quot;a lighted room&quot; are descriptions, the full rules for which were given in Chapter 5. But there are sentences where one or both of the nouns is a value instead. For instance, in
-<p>
-<blockquote><font color="#000080">if the score is greater than 10, ...
+<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
 </font></blockquote><p>
 <p>
-<p>the sentence &quot;the score is greater than 10&quot; consists of two values (&quot;the score&quot; and &quot;10&quot;) connected by a verb part (&quot;is greater than&quot;).
+<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
+</font></blockquote><p>
 <p>
-<p>This chapter is about getting the most out of sentences by defining new verbs to express ideas not already built in to Inform. Before we can define a new sentence verb, however, we must first look at the meanings of verbs: which Inform calls &quot;relations&quot;.
+<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
+</font></blockquote><p>
+<p>
+<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
+<p>
+<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
+<p>
+<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
+<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
+</font></blockquote><p>
+<p>
+<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e61"><a href=doc171.html#e61><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A more formal description of the sentence grammar used by Inform for both assertions and conditions.</i><p>
+<a name="e57"><a href=ex57.html#e57><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A "go back" command that keeps track of the direction from which the player came, and sends him back.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e61"><a href=doc87.html#e61><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>If the player tries to go a valid direction while on a supporter, make him stand up first; if he tries to go a nonexistent one, print a special refusal.</i><p>
 <p>
-<p>An entire grammar for the whole mass of Inform would not be linguistically interesting: it contains many convenient wordings which are not really part of a grand pattern. Inform does, however, have a formal notion of a Sentence, a grammatical structure which we shall call S. It is almost true that conditions (&quot;if the flowerpot is on the wall&quot;) have the same grammar as assertions (&quot;The flowerpot is on the wall&quot;) and &quot;now&quot; phrases (&quot;now the flowerpot is on the wall&quot;). All three use the S grammar, so we could define an assertion as &quot;S.&quot;, say that &quot;if S&quot;, &quot;while S&quot;, &quot;when S&quot; and so on are conditions, and say that &quot;now S&quot; defines the &quot;now&quot; declaration.
+<p>The default behavior of Inform is that if the player asks to go some direction while he is sitting down, he'll be told to get up first. If we wanted to make life a little easier, we might add a rule to do this automatically for him:
 <p>
-<p>Grammatical sentences do not necessarily make sense, of course. Many perfectly grammatical assertions in fact give rise to problem messages:
-<p>
-<blockquote><font color="#000080">The wicker basket is not in the kitchen. (<i>Unhelpfully negative.</i>)
-<br>The wicker basket has been in the kitchen. (<i>Talks about a time which never existed.</i>)
-<br>The wicker basket is full. (<i>Full of what? Too vague.</i>)
-<br>The wicker basket is the ginger cat. (<i>Demonstrably false.</i>)
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Before going somewhere when the player is on a supporter (called the chaise):\n\tsay &quot;(first getting off [the chaise])[line break]&quot;;\n\ttry exiting.\n\n\n')"><img border=0 src=paste.png></a> Before going somewhere when the player is on a supporter (called the chaise):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first getting off [the chaise])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try exiting.
 </font></blockquote><p>
 <p>
-<p>Whereas the first three, at least, would be sensible as conditions. So saying that assertions are &quot;just like&quot; conditions is a little misleading: what they have in common is S, the underlying grammar they each use as a starting-point.
+<p>Now the player will always get up before trying to walk out of a room; and the fact that we've said &quot;going somewhere&quot; means that this rule will not occur if the direction typed is not valid.
 <p>
-<p>To define S, we break it up into subsidiary structures. The most important is the Description Phrase (DP), examples of which include &quot;the red basket&quot;, &quot;somewhere lighted&quot; and &quot;an empty open container&quot;. This we will take as read, since the account given at the start of Chapter 5 is quite explicit. Clearly sentences include DPs, but they also include other ingredients. The general pattern used in Inform is very simple:
+<p>Speaking of invalid directions, it is a little strange to have the parser tell the player to stand up in order to go some direction that doesn't lead anywhere. This can lead to somewhat annoying exchanges like this:
 <p>
-<blockquote><font color="#000080">1. S = DP + VP
-<br>2. VP = Verb + DP
+<blockquote><font color="#000080">>e
+<br>You'll have to get off the boulder first.
 </font></blockquote><p>
 <p>
-<p>where VP is another structure, the Verb Phrase. For instance:
-<p>
-<blockquote><font color="#000080">S (The horseman wears a riding helmet)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;= DP (The horseman) + VP (wears a riding helmet)
-<br>VP (wears a riding helmet)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;= Verb (wears) + DP (a riding helmet)
+<blockquote><font color="#000080">>out
+<br>You get off the boulder.
 </font></blockquote><p>
 <p>
-<p>In that example, the Verb was the single word &quot;wears&quot;. More generally, Inform allows a Verb to include adverbs and prepositions, to be negated, and to come in any of four tenses, so the following are all valid examples of Verb in our grammar:
-<p>
-<blockquote><font color="#000080">wore
-<br>carries
-<br>is carried by
-<br>had not been inside
+<blockquote><font color="#000080">Hillside
 </font></blockquote><p>
 <p>
-<p>Although we are not going through the definition of Description Phrases in detail, it is worth noticing how &quot;which&quot; and &quot;who&quot; behave:
-<p>
-<blockquote><font color="#000080">3a. DP = DP + which + VP
-<br>3b. DP = DP + who + VP
+<blockquote><font color="#000080">You can see a boulder here.
 </font></blockquote><p>
 <p>
-<p>Thus &quot;an open container which is in the Ballroom&quot; can be broken down as:
-<p>
-<blockquote><font color="#000080">DP (an open container) + which + VP (is in the Ballroom)
+<blockquote><font color="#000080">>e
+<br>You can't go that way.
 </font></blockquote><p>
 <p>
-<p>To understand compounds like &quot;something in a container&quot;, we have to invent a new grammatical structure for &quot;in a container&quot; and similar: let's call this a Relative Phrase (RP).
+<p>We could override this too, like so:
 <p>
-<blockquote><font color="#000080">4. DP = DP + RP
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Instead of going nowhere when the player is on a supporter (called the divan):\n\tsay &quot;Nothing interesting lies in that direction, even if you weren\'t lazing about on [the divan].&quot;\n\n')"><img border=0 src=paste.png></a> Instead of going nowhere when the player is on a supporter (called the divan):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing interesting lies in that direction, even if you weren't lazing about on [the divan].&quot;
 </font></blockquote><p>
-<p>
-<p>Thus &quot;an open container in the Ballroom&quot; is DP (an open container) + RP (in the Ballroom). Relative Phrases have two different forms:
-<p>
-<blockquote><font color="#000080">5a. RP = Preposition + DP
-<br>5b. RP = Participle + DP
-</font></blockquote><p>
-<p>
-<p>so that &quot;in a container&quot; is an example of 5a. An example of 5b would be
-<p>
-<blockquote><font color="#000080">RP (worn by Mr Darcy) = Participle (worn by) + DP (Mr Darcy)
-</font></blockquote><p>
-<p>
-<p>That is nearly it, but not quite: we must go back to the &quot;almost&quot; in the statement above that assertions and conditions &quot;almost&quot; have the same grammar S. The difference arises from a curious irregularity in English called subject-verb inversion (see the <i>Oxford English Grammar</i> at 3.22F), whereby assertions can be reversed but not conditions. For instance,
-<p>
-<blockquote><font color="#000080">In the Garden is a sunflower.
-</font></blockquote><p>
-<p>
-<p>This does not follow the pattern S = DP + VP, because &quot;in the garden&quot; is not a DP: indeed, it is not a noun at all. To make sense of this sentence, Inform reverses it to &quot;A sunflower is in the Garden&quot;, which does indeed follow DP + VP. Hence the final rule:
-<p>
-<blockquote><font color="#000080">6 (assertions only). S = RP + Verb + DP
-</font></blockquote><p>
-<p>
-<p>So the condition &quot;if in the garden is a sunflower...&quot; fails because rule 6 does not apply to the grammar for conditions: while occasional poetic uses of subject-verb inversion do turn up in conditions (&quot;If On A Winter's Night A Traveller&quot;, say), they are rare in ordinary English usage, and illegal in Inform. That completes the S grammar, so to recap:
-<p>
-<blockquote><font color="#000080">1. S = DP + VP
-<br>2. VP = Verb + DP
-<br>3a. DP = DP + which + VP
-<br>3b. DP = DP + who + VP
-<br>4. DP = DP + RP
-<br>5a. RP = Preposition + DP
-<br>5b. RP = Participle + DP
-<br>6 (assertions only). S = RP + Verb + DP
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc170.html>Previous</a> / <a href=doc172.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc86.html>Previous</a> / <a href=doc88.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

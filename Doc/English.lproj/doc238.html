@@ -1,4 +1,4 @@
-<html><head><title>16.9. Printing the name of something</title></head>
+<html><head><title>16.5. New activities</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,39 +7,39 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc237.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc239.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.9. Printing the name of something</b></td></tr></table><p>
+<table><tr><td><a href=doc237.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc239.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.5. New activities</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> Whenever the name of a thing or room is printed.
+<p>Activities are all about influencing the standard mechanisms which Inform uses, so it might at first seem that there is no need to create new activities: but on further reflection, quite a lot of the writing of interactive fiction involves creating new and systematic ways to do things, and as soon as we have a general rule, we will want to have exceptions. Inform therefore allows us to create our own activities, giving us ways to influence the operation of our own mechanisms.
 <p>
-<p><b>2. The default behaviour.</b> Its &quot;printed name&quot; property is printed out.
+<p>There are two kinds of activity: those which relate to a specific thing or room, and those which do not. The following creates one of each kind:
 <p>
-<p><b>3. Examples.</b> (a) A pen which is described differently in inventories:
-<p>
-<blockquote><font color="#000080">Rule for printing the name of the pen while taking inventory: say &quot;useful pen&quot;.
+<blockquote><font color="#000080">Analysing something is an activity.
+<br>Assaying is an activity.
 </font></blockquote><p>
 <p>
-<p>&quot;Taking inventory&quot; is a condition which is true if that's the current action and not otherwise, so the effect is that the pen is called &quot;a useful pen&quot; only in inventory listings. &quot;While looking&quot; is a similarly useful one.
+<p>Here &quot;analysing something&quot; relates to a specific item: Inform knows this because it looks for the clue &quot;something&quot; (or &quot;of something&quot;) after the activity's name, which in the first case above is simply &quot;analysing&quot;.
 <p>
-<p>(b) Italicising the names of novels:
+<p>Creating an activity is like creating an action: it automatically makes new rulebooks - &quot;before analysing&quot;, &quot;for analysing&quot; and &quot;after analysing&quot; - but they start out empty, so the activity does nothing yet. Moreover, it never happens. We can make an activity happen at any time by writing phrases like so:
 <p>
-<blockquote><font color="#000080">A novel is a kind of thing. Dr Zhivago and Persuasion are novels. Before printing the name of a novel, say &quot;[italic type]&quot;. After printing the name of a novel, say &quot;[roman type]&quot;.
+<blockquote><font color="#000080">carry out the analysing activity with the pitchblende;
+<br>carry out the assaying activity;
 </font></blockquote><p>
 <p>
-<p>(c) Telling the time:
+<p>To make the activity do something useful, we need to put a rule into its &quot;for&quot; rulebook:
 <p>
-<blockquote><font color="#000080">After printing the name of the wrist watch while taking inventory: say &quot; (time: [the time of day])&quot;.
+<blockquote><font color="#000080">The last for assaying rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Professionally, you cast an eye around mineral deposits nearby, noticing [list of rocks in the location].&quot;
 </font></blockquote><p>
 <p>
-<p>(d) Merging containers with their contents:
+<p>&quot;The last&quot; is a technicality about rulebooks (see the next chapter) which, put briefly, guarantees that this rule comes last among all possible &quot;for assaying&quot; rules. This is good form because the whole point of an activity is to make it easy for further rules to interfere - so we deliberately hang back to last place, giving precedence to anybody else who wants it.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for printing the name of the bottle while not inserting or removing:\n\tif the bottle contains sand, say &quot;bottle of sand&quot;;\n\totherwise say &quot;empty bottle&quot;;\n\tomit contents in listing.\n\n\n')"><img border=0 src=paste.png></a> Rule for printing the name of the bottle while not inserting or removing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the bottle contains sand, say &quot;bottle of sand&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;empty bottle&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;omit contents in listing.
+<p>It may look rather pretentious to dress up the footling little &quot;assaying&quot; example as an activity, but it gains us more than might first appear. Every new activity created provides a context which other activities can observe. We could, for instance, define
+<p>
+<blockquote><font color="#000080">Rule for printing the name of a rock while assaying: ...
 </font></blockquote><p>
 <p>
-<p>The special phrase &quot;omit contents in listing&quot; means that any inventory list, room description, etc., will simply list &quot;a bottle of sand&quot; or &quot;an empty bottle&quot;, rather than &quot;a bottle (in which is sand)&quot; or &quot;a bottle (which is empty)&quot;. The clause about not inserting or removing is to prevent messages like &quot;You put the sand in the bottle of sand.&quot;, where it's confusing to refer to the bottle as anything other than &quot;the bottle&quot;.
+<p>so that during assays more technical names are used.
 <p>
 <p><hr><p>
-<a name="e98"><a href=ex98.html#e98><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A box of baking soda whose name changes to "completely ineffective baking soda" when it is in a container with something that smells funny.</i><p>
+<a name="e46"><a href=ex46.html#e46><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>An Encyclopedia set which treats volumes in the same place as a single object, but can also be split up.</i><p>
 <p><hr><p><a href=doc237.html>Previous</a> / <a href=doc239.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

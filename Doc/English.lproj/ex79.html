@@ -1,4 +1,4 @@
-<html><head><title>15.10. Understanding values</title></head>
+<html><head><title>15.7. Understanding any, understanding rooms</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,60 +7,91 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc221.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc223.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.10. Understanding values</b></td></tr></table><p>
+<table><tr><td><a href=doc222.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc224.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.7. Understanding any, understanding rooms</b></td></tr></table><p>
 <p>
-<p>So far every &quot;Understand&quot; sentence has ended with &quot;as&quot; and a description of an action. But we can also use &quot;Understand&quot; to supply new ways to talk about things and even values. For instance, if we create:
+<p>Ordinarily, if we write
 <p>
-<blockquote><font color="#000080">A brass lantern is in the Building.
+<blockquote><font color="#000080">Understand &quot;manipulate [something]&quot;.
 </font></blockquote><p>
 <p>
-<p>then it can be called &quot;brass&quot;, or &quot;lantern&quot;, but not &quot;lamp&quot;: Inform does not really know what these words mean, and has no grasp of synonyms. We can arrange for &quot;lamp&quot; to work as well like so:
+<p>then the &quot;[something]&quot; will only match what is within reach or sight: this is the concept of &quot;scope&quot;, which is what prevents a player from spookily acting on objects from a distance. The parser itself prevents the manipulation rules from ever being invoked on such distant items, which is as it should be.
 <p>
-<blockquote><font color="#000080">Understand &quot;lamp&quot; as the lantern.
-<br>Understand &quot;old lamp&quot; as the lantern.
+<p>Sometimes, though, we positively want to allow this possibility. If we use the special word &quot;any&quot;, as in
+<p>
+<blockquote><font color="#000080">Understand &quot;manipulate [any door]&quot;.
 </font></blockquote><p>
 <p>
-<p>With care, we can do the same trick for entire kinds of thing at once. It is not ordinarily the case that a thing can be called by the name of its kind: if we put a woman called April into a room, then she can usually be called &quot;April&quot;, but not &quot;woman&quot;. (The exception is when we do not specify any name for her - in that case, Inform will give up and call her just &quot;woman&quot;.) So there is not usually any form of words which can refer to anything of a given kind. If we should want this, we have to say so explicitly:
+<p>then any door, anywhere in the model world, can be allowed in the player's command. (Of course, the manipulation rules may not do what the player hopes: all that has happened is that the command is now possible to type.) The &quot;any&quot; can be followed by any description of items or rooms, and the latter opens up new possibilities, since rooms are ordinarily never allowed to be named in the player's commands.
 <p>
-<blockquote><font color="#000080">Understand &quot;machine&quot; as a device.
+<p>For example, the following gives the player the ability to walk between rooms without giving explicit directions of movement.
+<p>
+<blockquote><font color="#000080">Going by name is an action applying to one thing.
 </font></blockquote><p>
 <p>
-<p>Device is a kind, so now the word &quot;machine&quot; can be used to refer to any device: if there are two in the same place, the result might play out like so:
-<p>
-<blockquote><font color="#000080">>switch machine on
-<br>Which do you mean, the bale twiner or the grain thresher?
-<br>>twiner
-<br>You watch absorbed as a perfect cube of hay is trussed up like a parcel.
+<blockquote><font color="#000080">Carry out going by name: say &quot;You walk to [the noun].&quot;; move the player to the noun.
 </font></blockquote><p>
 <p>
-<p>Similarly, we might conceivably want to allow new ways to recognise values - in this case, a number:
-<p>
-<blockquote><font color="#000080">Understand &quot;eleventy-one&quot; as 111.
+<blockquote><font color="#000080">Understand &quot;go to [any adjacent visited room]&quot; as going by name.
 </font></blockquote><p>
+<p>
+<p>(This is really only a sketch: in a finished work, &quot;go to&quot; would produce helpful errors if non-adjacent but visited rooms were named, and we might also worry about rules applying to movement, because the method above will circumvent them.)
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e79"><a href=doc222.html#e79><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>An artist's workshop in which the canvas can be painted in any colour, and where painterly names for pigments ("cerulean") are accepted alongside everyday ones ("blue").</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e79"><a href=doc223.html#e79><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A FIND command that allows the player to find a lost object anywhere</i><p>
 <p>
-<p>There are hundreds of traditional pigments, from lampblack to burnt sienna, so we will confine ourselves to just two:
+<p>Suppose that, contrary to the usual rules of interactive fiction, we want to allow the player to discover the locations of things he hasn't actually seen yet:
 <p>
-<blockquote><font color="#000080">&quot;Palette&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;One of Those Mornings&quot;\n\nUnderstand &quot;find [any thing]&quot; as finding.\n\nFinding is an action applying to one visible thing.\n\nCarry out finding:\n\tif the player is carrying the noun\n\tbegin;\n\t\tsay &quot;You\'re holding [the noun]!&quot;;\n\totherwise;\n\t\tsay &quot;You left [the noun] [if the noun is on a supporter]on[otherwise]in[end if] [the holder of the noun].&quot;;\n\tend if.\n\n[The holder of the noun can be a room, a supporter, or a container: the phrase is not picky. We would want to be a little more careful if it were ever possible for an item to have been &quot;removed from play&quot; in our game, since then the holder could be nothing, and that would have odd results. In this particular example, though, that will not arise.]\n\n[And that\'s it, as far as the find command goes. The rest is local color.]\n\nThe Exhibition Room is a room. It contains a closed locked lockable transparent openable container called the display case. The display case contains a priceless pearl. The display case is scenery. The description of the Exhibition Room is &quot;By far the finest thing in the room is a priceless pearl in a glass display case. It should of course be yours[if key is not visible], if only you can remember where you hid the key[end if].&quot;\n\nThe silver key unlocks the display case.\n\nA jade vase, a teak chest, a bronze teakettle, and a child\'s burial casket are openable closed containers in the Exhibition Room.\n\nAfter taking the pearl:\n\tsay &quot;The pearl rolls into your hand, gleaming in the oblique light; your fortune is made.&quot;;\n\tend the game in victory.\n\n[If we want to have the key found in different places when the game is replayed:]\n\nWhen play begins:\n\tlet the space be a random container which is not the display case;\n\tmove the silver key to the space.\n\nEvery turn:\n\tsay &quot;Your watch ticks with maddening loudness.&quot;\n\nThe time of day is 1:02 AM.\n\nAt 1:08 AM: say &quot;The security guard arrives to find you fumbling about with keys. Curses.&quot;; end the game in death.\n\n')"><img border=0 src=paste.png></a> &quot;One of Those Mornings&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Atelier is a room. &quot;The floridly untidy loft space used by a moderately unsuccessful artist (you, that is).&quot; The canvas, palette and paint brush are here. Understand &quot;painting&quot; as the canvas.
+<blockquote><font color="#000080">Understand &quot;find [any thing]&quot; as finding.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are white, red, blue and green.
+<blockquote><font color="#000080">Finding is an action applying to one visible thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The canvas is allowed to have a colour. The canvas is white. The printed name of the canvas is &quot;largely [colour] canvas&quot;.
+<blockquote><font color="#000080">Carry out finding:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying the noun
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're holding [the noun]!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You left [the noun] [if the noun is on a supporter]on[otherwise]in[end if] [the holder of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Painting is an action applying to one thing and one colour. Check painting: if the noun is not the canvas then say &quot;Centuries of tradition suggest that canvas is the natural home of paint.&quot; instead. Carry out painting: change the colour of the canvas to the colour understood. Report painting: say &quot;You splash away at the now [canvas].&quot;
+<p>The holder of the noun can be a room, a supporter, or a container: the phrase is not picky. We would want to be a little more careful if it were ever possible for an item to have been &quot;removed from play&quot; in our game, since then the holder could be nothing, and that would have odd results. In this particular example, though, that will not arise.
+<p>
+<p>And that's it, as far as the find command goes. The rest is local color.
+<p>
+<blockquote><font color="#000080">The Exhibition Room is a room. It contains a closed locked lockable transparent openable container called the display case. The display case contains a priceless pearl. The display case is scenery. The description of the Exhibition Room is &quot;By far the finest thing in the room is a priceless pearl in a glass display case. It should of course be yours[if key is not visible], if only you can remember where you hid the key[end if].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;paint [something] [a colour]&quot; as painting.
+<blockquote><font color="#000080">The silver key unlocks the display case.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;calico&quot; as white. Understand &quot;cerulean&quot; or &quot;cerulean blue&quot; as blue.
+<blockquote><font color="#000080">A jade vase, a teak chest, a bronze teakettle, and a child's burial casket are openable closed containers in the Exhibition Room.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc221.html>Previous</a> / <a href=doc223.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">After taking the pearl:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The pearl rolls into your hand, gleaming in the oblique light; your fortune is made.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in victory.
+</font></blockquote><p>
+<p>
+<p>If we want to have the key found in different places when the game is replayed:
+<p>
+<blockquote><font color="#000080">When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the space be a random container which is not the display case;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the silver key to the space.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your watch ticks with maddening loudness.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The time of day is 1:02 AM.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 1:08 AM: say &quot;The security guard arrives to find you fumbling about with keys. Curses.&quot;; end the game in death.
+</font></blockquote><p>
+</td></tr></table><p><a name="e54"><a href=ex54.html#e54><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A FOLLOW command allowing the player to pursue a person who has just left the room.</i><p>
+<p><hr><p><a href=doc222.html>Previous</a> / <a href=doc224.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>4.5. Assemblies and body parts</title></head>
+<html><head><title>4.4. Duplicates</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,41 +7,35 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc47.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc49.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.5. Assemblies and body parts</b></td></tr></table><p>
+<table><tr><td><a href=doc47.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc49.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.4. Duplicates</b></td></tr></table><p>
 <p>
-<p>In the previous chapter, we saw that it was possible to make sub-parts of things. For instance,
+<p>Although it is only useful to a limited extent, we can make any number of copies of something:
 <p>
-<blockquote><font color="#000080">The white door is in the Drawing Room. The handle is part of the white door.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Polygons&quot;\n\nA shape is a kind of thing. A square is a kind of shape. A triangle is a kind of shape.\n\nThe Geometry Lab is a room. In the Geometry Lab are three triangles and two squares.\n\n\n')"><img border=0 src=paste.png></a> &quot;Polygons&quot;
 </font></blockquote><p>
 <p>
-<p>creates a door with an attached handle. But what if we want to say that not just this door, but every door, should have a handle? To do this we first need to create a kind called &quot;handle&quot;, since there will clearly need to be many handles. The solution is:
-<p>
-<blockquote><font color="#000080">A handle is a kind of thing. A handle is part of every door.
+<blockquote><font color="#000080">A shape is a kind of thing. A square is a kind of shape. A triangle is a kind of shape.
 </font></blockquote><p>
 <p>
-<p>&quot;Every&quot; is a loaded word and best used sparingly. A sentence like &quot;A handle is part of every handle&quot; would, if taken literally, mean that a handle takes forever to make and is never finished. Inform will reject this, but the moral is clear: we should think about what we are doing with &quot;every&quot;. Another restriction is it is not safe to meddle with the three fundamental kinds &quot;room&quot;, &quot;container&quot; or &quot;supporter&quot;, but in fact this one can be got around quite easily, like so -
-<p>
-<blockquote><font color="#000080">A silver coin is a kind of thing. A banking room is a kind of room. Five silver coins are in every banking room.
+<blockquote><font color="#000080">The Geometry Lab is a room. In the Geometry Lab are three triangles and two squares.
 </font></blockquote><p>
 <p>
-<p>The effect of sentences like these is to make what we might call &quot;assemblies&quot; instead of single things. When a banking room is created, so are five more silver coins; when a door is created, so is another handle. Such sentences act not only on items created later on in the source text, but also on all those created so far.
+<p>The description &quot;three triangles&quot; makes three identical things, each of the kind &quot;triangle&quot;, and similarly for the squares. When the above is compiled, the player can type &quot;take two triangles&quot; or &quot;take all the triangles&quot; and so forth.
 <p>
-<p>This is especially useful for body parts. If we would like to explore Voltaire's suggestion that history would have been very different if only Cleopatra's nose had been shorter, we will need noses:
+<p>Two caveats. Firstly, a counted-out description like &quot;two squares&quot; is only allowed if it combines a number with the name of a kind which is already known (perhaps modified with adjectives, so &quot;two open doors&quot; is fine). If we say:
 <p>
-<blockquote><font color="#000080">A nose is a kind of thing. A nose is part of every person.
+<blockquote><font color="#000080">Two circles are in the Lab.
 </font></blockquote><p>
 <p>
-<p>Something to bear in mind, though, is that in play the following may well happen:
+<p>without having defined &quot;circle&quot; as a kind in advance, then only a single object will be created - whose name is &quot;two circles&quot;. (This is because many natural names start with numbers: &quot;six of clubs&quot;, for instance, referring to a single playing card, or &quot;12 Hollywood Close&quot; meaning a single house. We wouldn't want such names to be misinterpreted.)
 <p>
-<blockquote><font color="#000080">>examine nose
-<br>Which do you mean, your nose, Antony's nose or Cleopatra's nose?
+<p>The second caveat is that excessive duplication is expensive in memory and running time. It is perfectly legal to say
+<p>
+<blockquote><font color="#000080">In the Lab are 75 triangles.
 </font></blockquote><p>
 <p>
-<p>...because the player, being also a &quot;person&quot;, is as susceptible to the invention of noses as anyone else.
-<p>
-<p>Note that Inform names the otherwise nameless noses after their owners. It will always do this unless there are multiple indistinguishable things being created, as in the &quot;five silver coins are in every banking room&quot; example: those will all just be called &quot;silver coin&quot;.
+<p>but the resulting game may be a little sluggish: and Inform draws the line at 100, refusing to create more duplicates than that in any single place. If we really need more than about fifty duplicated objects - say, a tombola containing raffle tickets numbered 1 to 1000 - it is usually better to find some less literal way to simulate this: for instance, only having a single raffle ticket, but with a randomly chosen number on it.
 <p>
 <p><hr><p>
-<a name="e33"><a href=ex33.html#e33><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>An "on/off button" which controls whatever device it is part of.</i><p>
-<a name="e29"><a href=ex29.html#e29><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A "chest" kind which consists of a container which has a lid as a supporter.</i><p>
+<a name="e11"><a href=ex11.html#e11><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A child's set of building blocks, which come in three different colours - red, green and blue - but which can be repainted during play.</i><p>
 <p><hr><p><a href=doc47.html>Previous</a> / <a href=doc49.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

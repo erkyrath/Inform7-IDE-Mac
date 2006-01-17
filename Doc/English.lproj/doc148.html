@@ -1,4 +1,4 @@
-<html><head><title>10.11. Let and temporary variables</title></head>
+<html><head><title>10.12. New conditions, new adjectives</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,42 +7,38 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc147.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc149.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.11. Let and temporary variables</b></td></tr></table><p>
+<table><tr><td><a href=doc147.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc149.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.12. New conditions, new adjectives</b></td></tr></table><p>
 <p>
-<p>A variable, as we have seen, is a name for a value which changes, though always remaining of the same kind. For instance, if &quot;target&quot; is a number variable (or &quot;number that varies&quot;) then it may change value from 2 to 4, but not from 2 to &quot;fishknife&quot;.
+<p>We can create new conditions by defining a phrase with &quot;to decide whether&quot; (or equivalently &quot;to decide if&quot;):
 <p>
-<p>To make complicated decisions, phrases often need to remember values on a temporary basis. We have already seen this for the counter in a &quot;repeat&quot; loop, which exists only inside that loop, and then is no longer needed. Now we define named values which exist only inside the current phrase. For instance:
-<p>
-<blockquote><font color="#000080">let outer bull be 25;
-<br>let the current appearance be &quot;reddish brown&quot;;
-<br>let the special room be Marley Wood;
+<blockquote><font color="#000080">To decide whether danger lurks:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if in darkness then decide yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the Control Room has been visited then decide no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;decide yes.
 </font></blockquote><p>
 <p>
-<p>creates temporary variables &quot;outer bull&quot;, &quot;current appearance&quot; and &quot;special room&quot;. The kinds of these are deduced from the values given, so that, for instance,
+<p>As can be seen, such a phrase must always resolve itself with &quot;yes&quot; or &quot;no&quot;: the first to be reached will be the answer. We can now write, for instance,
 <p>
-<blockquote><font color="#000080">say &quot;The outer bull scores [the outer bull in words] when you practice archery in [special room].&quot;
+<blockquote><font color="#000080">if danger lurks then ...
 </font></blockquote><p>
 <p>
-<p>produces
+<p>In fact, &quot;danger lurks&quot; is now a condition as good as any other, and can be used wherever a condition would be given. Rules can apply only &quot;when danger lurks&quot;, for instance.
 <p>
-<blockquote><font color="#000080">The outer bull scores twenty-five when you practice archery in Marley Wood.
+<p>We can also supply definitions of adjectives like this. So far, new adjectives have been defined like so:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Definition: a supporter is occupied if it is described and something is on it.\n\n\n')"><img border=0 src=paste.png></a> Definition: a supporter is occupied if it is described and something is on it.
 </font></blockquote><p>
 <p>
-<p>Temporary variables made by &quot;let&quot; are only temporarily in existence while a phrase is being carried out. Their values often change: we could say
+<p>If we want to give a definition which involves more complex logic, we can use a special form allowing us to make arbitrary decisions. In this longer format, the same definition would look like so:
 <p>
-<blockquote><font color="#000080">let x be 10;
-<br>change x to 11;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Definition: a supporter is occupied:\n\tif it is undescribed then decide no;\n\tif something is on it then decide yes;\n\tdecide no.\n\n\n')"><img border=0 src=paste.png></a> Definition: a supporter is occupied:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if it is undescribed then decide no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something is on it then decide yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;decide no.
 </font></blockquote><p>
 <p>
-<p>for instance, or indeed we could &quot;let x be 10&quot; and then &quot;let x be 11&quot;. But although we are allowed to change the value, we are not allowed to change the kind of value. The name &quot;x&quot; must always have the same kind of value throughout the phrase to which it belongs, so the following will not be allowed:
-<p>
-<blockquote><font color="#000080">let x be 45;
-<br>change x to &quot;Norway&quot;;
-</font></blockquote><p>
-<p>
-<p>(The difference between &quot;let&quot; and &quot;change&quot; is that &quot;let&quot; can create a new temporary variable, whereas &quot;change&quot; can only alter one which already exists: on the other hand, &quot;change&quot; can change many other things as well, whereas &quot;let&quot; applies only to temporary variables.)
+<p>Here &quot;it&quot; refers to the supporter in question. Note that there are now two colons in this sentence, one after &quot;Definition&quot;, the other after the clause being defined. But that apart, it's a phrase like any other: it must end in &quot;yes&quot; or &quot;no&quot; just as the &quot;danger lurks&quot; example must.
 <p>
 <p><hr><p>
-<a name="e121"><a href=ex121.html#e121><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A worked example using a new kind of value, "colour", within phrases to talk about tinted wallpaper.</i><p>
-<a name="e85"><a href=ex85.html#e85><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>More on using kinds of value inside phrases, this time to simulate something new: a box which, although it cannot be picked up, can be pushed around between three different places on the floor.</i><p>
+<a name="e83"><a href=ex83.html#e83><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>OUT always means "move to an outdoors room, or else to a room with more exits than this one has"; IN always means the opposite.</i><p>
 <p><hr><p><a href=doc147.html>Previous</a> / <a href=doc149.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

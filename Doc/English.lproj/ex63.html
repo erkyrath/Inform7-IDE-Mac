@@ -1,4 +1,4 @@
-<html><head><title>11.3. Giving instructions to other people</title></head>
+<html><head><title>6.17. Kinds of action</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,74 +7,50 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc155.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc157.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.3. Giving instructions to other people</b></td></tr></table><p>
+<table><tr><td><a href=doc88.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc90.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.17. Kinds of action</b></td></tr></table><p>
 <p>
-<p>So far, all actions have been carried out by the player: which is fine for exploring the passive world of an empty warehouse, but less good for a drama in which other characters have to be contended with. In fact, an action can be carried out by anybody - by any instance of the &quot;person&quot; kind, that is, which includes all the men, women and animals in the game, and not only the player.
+<p>Especially when people need to react to events going on around them, it is helpful to be able to categorise actions into whole areas of behaviour. The following example, indebted to the late Georgette Heyer, is suggestive:
 <p>
-<p>In interactive fiction, players conventionally ask other characters to do something with commands like so:
-<p>
-<blockquote><font color="#000080">> will, go west
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Dearth and the Maiden&quot;\n\nThe Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;\n\nAn oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;\n\nA man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;\n\nKissing Mr Carr is unmaidenly behaviour. Doing something to the painting is unmaidenly behaviour.\n\nInstead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Dearth and the Maiden&quot;
 </font></blockquote><p>
 <p>
-<p>Clearly &quot;will, go west&quot; should not produce the same action as &quot;go west&quot;, because a different person will be trying it: this person is called the &quot;actor&quot;, and while the actor is ordinarily the player, here it is the character called Will. Inform distinguishes these two actions like so:
-<p>
-<blockquote><font color="#000080">going west
-<br>asking Will to try going west
+<blockquote><font color="#000080">The Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;
 </font></blockquote><p>
 <p>
-<p>As a result, we can write rules like so:
-<p>
-<blockquote><font color="#000080">Instead of asking Will to try going west, say &quot;Will scratches his head, baffled by this talk of westward. Is not the ocean without bound?&quot;
+<blockquote><font color="#000080">An oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;
 </font></blockquote><p>
 <p>
-<p>To write rules like this, we sometimes want to generalise about who is supposed to do the deed. To do this we can refer to &quot;person asked&quot;, just as the &quot;noun&quot; stands for whatever noun was typed:
-<p>
-<blockquote><font color="#000080">Instead of asking somebody to take something, say &quot;I don't think we ought to tempt [the person asked] into theft, surely?&quot;
+<blockquote><font color="#000080">A man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;
 </font></blockquote><p>
 <p>
-<p>So if the player types &quot;Algy, take sandwich&quot;, the &quot;person asked&quot; would be Algy; the &quot;noun&quot; would be the sandwich; and there would be no &quot;second noun&quot;.
+<blockquote><font color="#000080">Kissing Mr Carr is unmaidenly behaviour. Doing something to the painting is unmaidenly behaviour.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;
+</font></blockquote><p>
+<p>
+<p>Here a new kind of action called &quot;unmaidenly behaviour&quot; has been created and then used in the description of an instead rule. The convenience of this approach is that when further actions suddenly occur to us as also being unmaidenly - say, attacking Mr Carr - we only need to add a single line:
+<p>
+<blockquote><font color="#000080">Attacking Mr Carr is unmaidenly behaviour.
+</font></blockquote><p>
+<p>
+<p>And this will automatically be reflected in any rules which concern the consequences of failing to be ladylike.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e63"><a href=doc156.html#e63><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A person who can accept instructions to go to new destinations and move towards them according to the most reasonable path.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e63"><a href=doc89.html#e63><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>People who must be greeted before conversation can begin.</i><p>
 <p>
-<p>Here we complete our suite of wandering people with a character who can find his way to any destination on the map.
+<p>Suppose we want to add a sense of some conversational flow, so that the player is forced to acknowledge the presence of people before beginning detailed conversations with them. We collect all speech actions into a single category:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Latris Theon&quot;\n\nCorinth is a room. Athens is east of Corinth. Epidaurus is southeast of Corinth and east of Mycenae. Mycenae is south of Corinth. Olympia is west of Mycenae. Argos is south of Mycenae. Thebes is northwest of Athens. Pylos is south of Olympia. Sparta is east of Pylos and south of Argos. Delphi is northwest of Thebes.\n\nHermes is a man in Corinth. Hermes has a property called destination.\n\nEvery turn when the destination of Hermes is a room:\n\tif Hermes is in a room (called the current space)\n\tbegin;\n\t\tif the current space is the destination of Hermes, rule succeeds;\n\t\tlet the right direction be the best route from the current space to the destination of Hermes;\n\t\tlet next space be the room the right direction from the current space;\n\t\tif Hermes is visible, say &quot;Hermes heads [right direction] to [the next space].&quot;;\n\t\tmove Hermes to next space;\n\t\tif Hermes is visible, say &quot;Hermes arrives from [the current space].&quot;;\n\tend if.\n\n[Now, we give the player the ability to command Hermes. (It stands to reason the player plays Zeus or at the very least Apollo, but let\'s not let this go to the player\'s head.)]\n\nUnderstand &quot;go to [any room]&quot; as going vaguely.\n\nGoing vaguely is an action applying to one visible thing.\n\nCarry out going vaguely:\n\tsay &quot;You\'re too thoroughly lost.&quot;\n\nInstead of asking Hermes to try going vaguely:\n\tsay &quot;Hermes looks amused, but accepts the commission to go to [the noun].&quot;;\n\tchange the destination of Hermes to the noun.\n\n\n')"><img border=0 src=paste.png></a> &quot;Latris Theon&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Asking someone about something is speech. Telling someone about something is speech. Answering someone that something is speech. Asking someone for something is speech. Asking somebody to try doing something is speech.\n\n[And then write a general rule.]\n\nBefore speech in the presence of an ungreeted person:\n\tsay &quot;You nod hello to [the list of ungreeted people who can be seen by the player].&quot;;\n\tnow every ungreeted person who can be seen by the player is greeted.\n\nA person can be greeted or ungreeted. A person is usually ungreeted. The player is greeted.\n\n')"><img border=0 src=paste.png></a> Asking someone about something is speech. Telling someone about something is speech. Answering someone that something is speech. Asking someone for something is speech. Asking somebody to try doing something is speech.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Corinth is a room. Athens is east of Corinth. Epidaurus is southeast of Corinth and east of Mycenae. Mycenae is south of Corinth. Olympia is west of Mycenae. Argos is south of Mycenae. Thebes is northwest of Athens. Pylos is south of Olympia. Sparta is east of Pylos and south of Argos. Delphi is northwest of Thebes.
+<p>And then write a general rule.
+<p>
+<blockquote><font color="#000080">Before speech in the presence of an ungreeted person:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You nod hello to [the list of ungreeted people who can be seen by the player].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now every ungreeted person who can be seen by the player is greeted.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Hermes is a man in Corinth. Hermes has a property called destination.
+<blockquote><font color="#000080">A person can be greeted or ungreeted. A person is usually ungreeted. The player is greeted.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn when the destination of Hermes is a room:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if Hermes is in a room (called the current space)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the current space is the destination of Hermes, rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the right direction be the best route from the current space to the destination of Hermes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let next space be the room the right direction from the current space;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Hermes is visible, say &quot;Hermes heads [right direction] to [the next space].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move Hermes to next space;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Hermes is visible, say &quot;Hermes arrives from [the current space].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<p>Now, we give the player the ability to command Hermes. (It stands to reason the player plays Zeus or at the very least Apollo, but let's not let this go to the player's head.)
-<p>
-<blockquote><font color="#000080">Understand &quot;go to [any room]&quot; as going vaguely.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Going vaguely is an action applying to one visible thing.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out going vaguely:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're too thoroughly lost.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of asking Hermes to try going vaguely:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Hermes looks amused, but accepts the commission to go to [the noun].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the destination of Hermes to the noun.
-</font></blockquote><p>
-<p>
-</td></tr></table><p><p><hr><p><a href=doc155.html>Previous</a> / <a href=doc157.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc88.html>Previous</a> / <a href=doc90.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

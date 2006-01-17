@@ -1,4 +1,4 @@
-<html><head><title>11.12. Report rules for actions by other people</title></head>
+<html><head><title>11.13. Out of world actions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,30 +7,26 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc164.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc166.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.12. Report rules for actions by other people</b></td></tr></table><p>
+<table><tr><td><a href=doc164.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc166.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.13. Out of world actions</b></td></tr></table><p>
 <p>
-<p>Report rules for the player's actions are easy to write, and for many actions, they are not much harder for other people either:
+<p>The actions seen so far are all impulses causing the protagonist inside the fictional world to do something, or at least try to. But when the player types &quot;quit&quot; or &quot;save&quot;, that is not a request for anything to happen in the fictional world: it is an instruction to the program simulating that world. In fact, just the same, such requests are treated as actions, but of a special category called &quot;out of world&quot; actions. They do not cause time to pass by, so the turn counter does not advance, nor does this command cycle count as a turn at all; and they are altogether exempt from &quot;Before&quot;, &quot;Instead&quot; and &quot;After&quot; rules. Only the player is allowed to try them.
 <p>
-<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
-<br>Report someone trying photographing: say &quot;Click! [The person asked] takes a snapshot of [the noun].&quot;
+<p>We can also create new out-of-world actions. Suppose we want a dialogue like so:
+<p>
+<blockquote><font color="#000080">>ROOMS
+<br>You have been to 1 out of 8 rooms.
 </font></blockquote><p>
 <p>
-<p>But once other people are involved, we have to go to some trouble to get all of the possibilities right. Here is a case which did not immediately occur to the author of the &quot;going&quot; action, for instance:
+<p>Here is a complete implementation:
 <p>
-<blockquote><font color="#000080">>get in cage
-<br>You get into the cage.
-<br>>clark, get in automobile
-<br>Clark Gable gets into the automobile.
-<br>>clark, push cage west
-<br>Clark Gable goes west in the automobile, pushing the cage in front, and you along too.
+<blockquote><font color="#000080">Requesting the room tally is an action out of world.
+<br>Report requesting the room tally: say &quot;You have been to [number of visited rooms] out of [number of rooms] room[s].&quot;
+<br>Understand &quot;rooms&quot; as requesting the room tally.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080"><b>The Lot</b> (in the cage)
-<br>In the Lot you can see an automobile (in which is Clark Gable).
-</font></blockquote><p>
+<p>It is important not to use &quot;out of world&quot; actions for anything affecting what goes on in the fictional world, or realism will collapse, and action-processing may also fail to work in the usual way. &quot;Out of world&quot; actions should be reserved for providing commands like ROOMS, which monitor events rather than participate in them.
 <p>
-<p>We said before that report rules are skipped if the action is running &quot;silently&quot;, or if the action is one that the player does not witness. But that is also a tricky concept. Inform's doctrine is that you witness an action if you can see any of the actor, the noun or the second noun at either the beginning or the end of the action; except that being able to see a backdrop does not count. Thus if Clark Gable, in Beverly Hills, photographs the Hollywood sign then we do not witness this from Sunset Boulevard merely because we, too, can see the Hollywood sign.
-<p>
-<p>While the report rules for actions by the player must actually report something, report rules for other people's actions are under no such obligation. For instance, if Clark unlocks a door from the other side to the player, then this counts as an action that the player witnesses - and after all, it could be argued that the player should hear the key turning in the lock - but in fact the standard rules for reporting locking choose to say nothing.
-<p>
+<p><hr><p>
+<a name="e124"><a href=ex124.html#e124><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>P. David Lebling's classic "Spellbreaker" (1986) includes a room where the game cannot be saved: here is an Inform implementation.</i><p>
+<a name="e69"><a href=ex69.html#e69><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>In some of the late 1970s "cave crawl" adventure games, an elaborate scoring system might still leave the player perplexed as to why an apparently perfect play-through resulted in a score which was still one point short of the supposed maximum. Why only 349 out of 350? The answer varied, but sometimes the last point was earned by never saving the game - in other words by playing it right through with nothing to guard against mistakes (except perhaps UNDO for the last command), and in one long session.</i><p>
 <p><hr><p><a href=doc164.html>Previous</a> / <a href=doc166.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

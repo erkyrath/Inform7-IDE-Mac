@@ -1,4 +1,4 @@
-<html><head><title>16.3. Rules applied to activities</title></head>
+<html><head><title>15.16. Understanding mistakes</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,19 +7,42 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc231.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc233.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.3. Rules applied to activities</b></td></tr></table><p>
+<table><tr><td><a href=doc231.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc233.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.16. Understanding mistakes</b></td></tr></table><p>
 <p>
-<p>The activity &quot;printing the name of something&quot; is the process of printing up the name of something on screen: ordinarily, this means saying the text in its &quot;printed name&quot; property.
+<p>When inspiration strikes the player, he can usually be relied upon to make a good-faith effort to communicate the new idea: he will guess the right command. If he guesses wrongly, the mistake is probably the author's, because a good author will try to anticipate all possible wordings and make all of them work.
 <p>
-<p>As with actions, rules can be attached to activities which change or augment what would normally happen. In fact the situation is simpler, because (unlike an action) an activity always finishes, so there is no question of not reaching its &quot;after&quot; stage. There are also only three rulebooks attached to an activity, as compared with the six affecting an action.
+<p>Nevertheless it is sometimes good practice to nudge the player towards the right wording - particularly if the player has the right idea but is not explicit enough: for instance, typing TALK TO JUDGE when we really want to know what is to be said (JUDGE, GUILTY); or if the player tries something like PLAY CHESS rather than MOVE PAWN TO KING 4. Similarly, if we make a casual reference such as &quot;In your childhood days, you loved sliding in stocking feet across this hallway&quot;, a player might type SLIDE IN STOCKING FEET: a nice idea, and which deserves a nice response, even though it asks to do something beyond the scope of the game.
 <p>
-<p>The three rulebooks for printing the name are called &quot;before printing the name&quot;, &quot;for printing the name&quot; and &quot;after printing the name&quot;, and this is the general pattern. What happens is:
+<p>Inform provides a simple mechanism for recognising a command but at the same time recognising that <i>it does not properly specify an action</i>. Such commands are called &quot;mistakes&quot;, for the sake of a memorable term, but the player has not really behaved badly, and should be helped rather than reproved. For instance:
 <p>
-<blockquote><font color="#000080">1. All &quot;before printing the name of&quot; rules are considered;
-<br>2. The most specific, applicable &quot;rule for printing the name of&quot; is considered;
-<br>3. All &quot;after printing the name of&quot; rules are considered.
+<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake.
 </font></blockquote><p>
 <p>
-<p>The actual task is carried out by one single rule tucked into the back of the &quot;for...&quot; rulebook: it is the rule for printing the name of whatever is concerned, hence the name. Inform's standard activities are all of this pattern: they start out with no &quot;before&quot; or &quot;after&quot; rules, and just one &quot;for&quot; rule.
+<p>While that works - the command to &quot;act&quot; is indeed rejected - it is not very good, because no very helpful message is brought up. The following is much better:
 <p>
+<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;).
+</font></blockquote><p>
+<p>
+<p>Or we could once again insist on a given context:
+<p>
+<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
+</font></blockquote><p>
+<p>
+<p>That still has the drawback that the command &quot;act hamlet&quot; will not be recognised: so the final version we want is probably
+<p>
+<blockquote><font color="#000080">Understand &quot;act [text]&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
+</font></blockquote><p>
+<p>
+<p>since the &quot;[text]&quot; part will soak up any words the player types (or none), meaning that any command at all whose first word is &quot;act&quot; will be matched.
+<p>
+<p>If we are careful, we can make the reply depend on what was typed in the mistaken command:
+<p>
+<blockquote><font color="#000080">Understand &quot;steal [something]&quot; as a mistake (&quot;Just TAKE [the noun] and leave without paying: that's stealing in my book.&quot;).
+</font></blockquote><p>
+<p>
+<p>The care comes in because Inform applies much less checking to mistakes than to other actions, and odd errors will result if we try to refer to (say) &quot;the second noun&quot; in a command which did not have a second noun.
+<p>
+<p><hr><p>
+<a name="e114"><a href=ex114.html#e114><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>If the player tries to TALK TO a character, suggest alternative modes of conversation.</i><p>
+<a name="e40"><a href=ex40.html#e40><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Responding to references to a property that the player isn't yet allowed to mention (or when not to use "understand as a mistake").</i><p>
 <p><hr><p><a href=doc231.html>Previous</a> / <a href=doc233.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

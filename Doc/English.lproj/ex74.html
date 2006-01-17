@@ -1,4 +1,4 @@
-<html><head><title>15.7. Understanding any, understanding rooms</title></head>
+<html><head><title>12.15. What are relations for?</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,91 +7,54 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc218.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc220.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.7. Understanding any, understanding rooms</b></td></tr></table><p>
+<table><tr><td><a href=doc182.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc184.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.15. What are relations for?</b></td></tr></table><p>
 <p>
-<p>Ordinarily, if we write
+<p>It is easy to say what verbs are for: they are to express relations. But what are relations for?
 <p>
-<blockquote><font color="#000080">Understand &quot;manipulate [something]&quot;.
-</font></blockquote><p>
+<p>Inform 7's focus on relations between objects is unusual as an approach to interactive fiction; the concept does not exist in most design systems, or rather, it does but is submerged. Traditional design systems do, after all, have the spatial relations of being inside, on top of, and so on. It could well be said that these are the only relationships that inanimate objects ever have. A stone can be on top of a table, and if so then that expresses their entire association.
 <p>
-<p>then the &quot;[something]&quot; will only match what is within reach or sight: this is the concept of &quot;scope&quot;, which is what prevents a player from spookily acting on objects from a distance. The parser itself prevents the manipulation rules from ever being invoked on such distant items, which is as it should be.
-<p>
-<p>Sometimes, though, we positively want to allow this possibility. If we use the special word &quot;any&quot;, as in
-<p>
-<blockquote><font color="#000080">Understand &quot;manipulate [any door]&quot;.
-</font></blockquote><p>
-<p>
-<p>then any door, anywhere in the model world, can be allowed in the player's command. (Of course, the manipulation rules may not do what the player hopes: all that has happened is that the command is now possible to type.) The &quot;any&quot; can be followed by any description of items or rooms, and the latter opens up new possibilities, since rooms are ordinarily never allowed to be named in the player's commands.
-<p>
-<p>For example, the following gives the player the ability to walk between rooms without giving explicit directions of movement.
-<p>
-<blockquote><font color="#000080">Going by name is an action applying to one thing.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out going by name: say &quot;You walk to [the noun].&quot;; move the player to the noun.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;go to [any adjacent visited room]&quot; as going by name.
-</font></blockquote><p>
-<p>
-<p>(This is really only a sketch: in a finished work, &quot;go to&quot; would produce helpful errors if non-adjacent but visited rooms were named, and we might also worry about rules applying to movement, because the method above will circumvent them.)
+<p>This is because the stone, and the table, have no opinions, emotions, knowledge or memory. If the stone is taken away and then put back, nothing has changed. People, on the other hand, tend to remember having met each other before; they like being in some places, but not others; their behaviour depends on who, or what, is nearby. Being conscious, they have internal states, unlike the stone. Relations are a simple but powerful way to express and talk about such connections, and although they have numerous uses in physical contexts too, they are at their most powerful when helping to make the characters of interactive fiction come alive.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e74"><a href=doc219.html#e74><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A FIND command that allows the player to find a lost object anywhere</i><p>
+<a name="e81"><a href=ex81.html#e81><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A number of sleuths (the player among them) find themselves aboard the Orient Express, where a murder has taken place, and one of them is apparently the culprit. Naturally they do not agree on whom, but there is physical evidence which may change their minds...</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e74"><a href=doc183.html#e74><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Some notes on relations from a mathematical point of view, provided only to clarify some technicalities for those who are interested.</i><p>
 <p>
-<p>Suppose that, contrary to the usual rules of interactive fiction, we want to allow the player to discover the locations of things he hasn't actually seen yet:
+<p>Inform uses the term &quot;relation&quot; in a broader sense than mathematics. Properly speaking, the term &quot;relation&quot; in its mathematical sense only applies to the case where the domain for the left and right objects are the same: for simplicity's sake, let us talk only about the case where they are.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;One of Those Mornings&quot;\n\nUnderstand &quot;find [any thing]&quot; as finding.\n\nFinding is an action applying to one visible thing.\n\nCarry out finding:\n\tif the player is carrying the noun\n\tbegin;\n\t\tsay &quot;You\'re holding [the noun]!&quot;;\n\totherwise;\n\t\tsay &quot;You left [the noun] [if the noun is on a supporter]on[otherwise]in[end if] [the holder of the noun].&quot;;\n\tend if.\n\n[The holder of the noun can be a room, a supporter, or a container: the phrase is not picky. We would want to be a little more careful if it were ever possible for an item to have been &quot;removed from play&quot; in our game, since then the holder could be nothing, and that would have odd results. In this particular example, though, that will not arise.]\n\n[And that\'s it, as far as the find command goes. The rest is local color.]\n\nThe Exhibition Room is a room. It contains a closed locked lockable transparent openable container called the display case. The display case contains a priceless pearl. The display case is scenery. The description of the Exhibition Room is &quot;By far the finest thing in the room is a priceless pearl in a glass display case. It should of course be yours[if key is not visible], if only you can remember where you hid the key[end if].&quot;\n\nThe silver key unlocks the display case.\n\nA jade vase, a teak chest, a bronze teakettle, and a child\'s burial casket are openable closed containers in the Exhibition Room.\n\nAfter taking the pearl:\n\tsay &quot;The pearl rolls into your hand, gleaming in the oblique light; your fortune is made.&quot;;\n\tend the game in victory.\n\n[If we want to have the key found in different places when the game is replayed:]\n\nWhen play begins:\n\tlet the space be a random container which is not the display case;\n\tmove the silver key to the space.\n\nEvery turn:\n\tsay &quot;Your watch ticks with maddening loudness.&quot;\n\nThe time of day is 1:02 AM.\n\nAt 1:08 AM: say &quot;The security guard arrives to find you fumbling about with keys. Curses.&quot;; end the game in death.\n\n')"><img border=0 src=paste.png></a> &quot;One of Those Mornings&quot;
+<p>In mathematics, the properties most often looked for in a relation are that it should be:
+<p>
+<p>(a) Reflexive: A <=> A for every A. This is not especially useful for Inform, and seldom appears in practical examples.
+<p>
+<p>(b) Symmetric: A <=> B if and only if B <=> A. Generally, Inform relations are not symmetric, but there are two important cases which are:
+<p>
+<blockquote><font color="#000080">Meeting relates people to each other.
+<br>Marriage relates one person to another.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;find [any thing]&quot; as finding.
+<p>These are automatically symmetric, so that to assert one way round is to assert the other as well.
+<p>
+<p>(c) Transitive: A <=> B and B <=> C means that A <=> C as well. Again, Inform relations are not generally transitive. In many relations, there can be long chains of things, each perhaps related to the one in front and the one behind, so that there is some indirect sense in which the two ends of the chain are connected to each other: but they are not related as such. For instance, a journey across the map might pass through ten rooms, each adjacent to the last and next, but the two ends would not themselves be adjacent. The concept we need is the &quot;transitive closure&quot; of the original relation, defined as the smallest transitive relation including the original. If R is a relation between &quot;things&quot;, then the following:
+<p>
+<blockquote><font color="#000080">TC relates a thing (called A) to a thing (called B) when the number of steps via R from A to B is greater than 0.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Finding is an action applying to one visible thing.
+<p>is the transitive closure of R. In particular,
+<p>
+<blockquote><font color="#000080">Accessibility relates a room (called A) to a room (called B) when the number of moves from B to A is greater than 0. The verb to be accessible from implies the accessibility relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out finding:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying the noun
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're holding [the noun]!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You left [the noun] [if the noun is on a supporter]on[otherwise]in[end if] [the holder of the noun].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<p>calculates the transitive closure of adjacency. Here, though, the way we normally understand &quot;accessible from&quot; suggests that it would be better to write:
+<p>
+<blockquote><font color="#000080">Accessibility relates a room (called A) to a room (called B) when the number of moves from B to A is at least 0.
 </font></blockquote><p>
 <p>
-<p>The holder of the noun can be a room, a supporter, or a container: the phrase is not picky. We would want to be a little more careful if it were ever possible for an item to have been &quot;removed from play&quot; in our game, since then the holder could be nothing, and that would have odd results. In this particular example, though, that will not arise.
+<p>which is reflexive as well as transitive. The usefulness of Inform's &quot;next step via R from A to B&quot; construction, in a wide variety of settings, reflects the importance of transitivity as an idea.
 <p>
-<p>And that's it, as far as the find command goes. The rest is local color.
+<p>A relation which has all three properties of being reflexive, symmetric and transitive is called an &quot;equivalence relation&quot;. (If all the map connections are two-way, then the accessibility relation above is symmetric and therefore a full equivalence relation: but if not, it may not be.) Inform has a special construction for making equivalence relations:
 <p>
-<blockquote><font color="#000080">The Exhibition Room is a room. It contains a closed locked lockable transparent openable container called the display case. The display case contains a priceless pearl. The display case is scenery. The description of the Exhibition Room is &quot;By far the finest thing in the room is a priceless pearl in a glass display case. It should of course be yours[if key is not visible], if only you can remember where you hid the key[end if].&quot;
+<blockquote><font color="#000080">Nationality relates people to each other in groups.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The silver key unlocks the display case.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A jade vase, a teak chest, a bronze teakettle, and a child's burial casket are openable closed containers in the Exhibition Room.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">After taking the pearl:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The pearl rolls into your hand, gleaming in the oblique light; your fortune is made.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in victory.
-</font></blockquote><p>
-<p>
-<p>If we want to have the key found in different places when the game is replayed:
-<p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let the space be a random container which is not the display case;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the silver key to the space.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your watch ticks with maddening loudness.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The time of day is 1:02 AM.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 1:08 AM: say &quot;The security guard arrives to find you fumbling about with keys. Curses.&quot;; end the game in death.
-</font></blockquote><p>
-</td></tr></table><p><a name="e53"><a href=ex53.html#e53><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A FOLLOW command allowing the player to pursue a person who has just left the room.</i><p>
-<p><hr><p><a href=doc218.html>Previous</a> / <a href=doc220.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>This language - &quot;in groups&quot; - relies on the standard theorem that every equivalence relation on a set naturally defines a partition of that set, and vice versa. The &quot;groups&quot; referred to are what are normally called &quot;equivalence classes&quot;. (Inform does little with these equivalence classes: it might be interesting to do so, in effect forming quotient kinds.)
+</td></tr></table><p><a name="e75"><a href=ex75.html#e75><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Some notes on relations from the point of view of graph theory.</i><p>
+<p><hr><p><a href=doc182.html>Previous</a> / <a href=doc184.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

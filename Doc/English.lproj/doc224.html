@@ -1,4 +1,4 @@
-<html><head><title>15.12. New tokens</title></head>
+<html><head><title>15.8. Understanding kinds of value</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,40 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc223.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc225.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.12. New tokens</b></td></tr></table><p>
+<table><tr><td><a href=doc223.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc225.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.8. Understanding kinds of value</b></td></tr></table><p>
 <p>
-<p>In the example game &quot;Lies&quot;, we are going to look for subtleties of wording in order to allow the player to lie down in three different ways. To set the scene, and make new actions to provide for two of these ways:
+<p>Newly created kinds of value can also be understood, which we make good use of in the example game &quot;Studious&quot;:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Lies&quot;\n\nThe Laundry is a room. &quot;An old Limehouse haunt, the Chinese laundry used by the down-trodden wives of the Tong of the Black Scorpion.&quot; The vast marble sink is here. &quot;There is nothing obviously oriental about the vast marble sink, which is large enough to lie down inside. A wooden-rack floor, equipped for easy drainage, turns out also to be equipped for snagging the shoes of passers-by.&quot; The sink is an enterable container, fixed in place.\n\nLying down is an action applying to nothing. Report lying down: say &quot;You lie down for a while in the middle of the Laundry, wondering about the point of existence, then get up again.&quot;\n\nLying near is an action applying to one thing. Report lying near: say &quot;You lie down next to [the noun] for a while, mumbling to yourself.&quot;\n\nInstead of lying near the sink, say &quot;Lying down close to the cool butcher\'s marble slabs of the sink, your attention is caught by the sight of coolie shoes through a floor-level grille for ventilation. The game is afoot!&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Lies&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Studious&quot;\n\nThe Studio is a room. &quot;The unreal world of the photographic studio, full of fake furniture, cantilevered stands and silver-white shades like miniature parachutes.&quot; The lumpy black camera is in the Studio. &quot;A lumpy black camera hangs from a tripod.&quot;\n\nThe rake-thin model is a woman in the Studio. &quot;A rake-thin model, exquisitely bored and boringly exquisite, angles herself indolently.&quot;\n\nLimb is a kind of value. The limbs are left leg, left arm, right leg and right arm.\n\nDetailing is an action applying to one limb and one visible thing, requiring light. Check detailing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead. Report detailing: say &quot;Click! You take a detail photograph of the [limb understood] of [the second noun].&quot;\n\nUnderstand &quot;photograph [limb] of [a person]&quot; as detailing.\n\n\n')"><img border=0 src=paste.png></a> &quot;Studious&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Laundry is a room. &quot;An old Limehouse haunt, the Chinese laundry used by the down-trodden wives of the Tong of the Black Scorpion.&quot; The vast marble sink is here. &quot;There is nothing obviously oriental about the vast marble sink, which is large enough to lie down inside. A wooden-rack floor, equipped for easy drainage, turns out also to be equipped for snagging the shoes of passers-by.&quot; The sink is an enterable container, fixed in place.
+<blockquote><font color="#000080">The Studio is a room. &quot;The unreal world of the photographic studio, full of fake furniture, cantilevered stands and silver-white shades like miniature parachutes.&quot; The lumpy black camera is in the Studio. &quot;A lumpy black camera hangs from a tripod.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Lying down is an action applying to nothing. Report lying down: say &quot;You lie down for a while in the middle of the Laundry, wondering about the point of existence, then get up again.&quot;
+<blockquote><font color="#000080">The rake-thin model is a woman in the Studio. &quot;A rake-thin model, exquisitely bored and boringly exquisite, angles herself indolently.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Lying near is an action applying to one thing. Report lying near: say &quot;You lie down next to [the noun] for a while, mumbling to yourself.&quot;
+<blockquote><font color="#000080">Limb is a kind of value. The limbs are left leg, left arm, right leg and right arm.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of lying near the sink, say &quot;Lying down close to the cool butcher's marble slabs of the sink, your attention is caught by the sight of coolie shoes through a floor-level grille for ventilation. The game is afoot!&quot;
+<blockquote><font color="#000080">Detailing is an action applying to one limb and one visible thing, requiring light. Check detailing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead. Report detailing: say &quot;Click! You take a detail photograph of the [limb understood] of [the second noun].&quot;
 </font></blockquote><p>
 <p>
-<p>So far, so good. Now for the grammar, where we create two new tokens: one for each of two groups of alternative prepositions.
-<p>
-<blockquote><font color="#000080">Understand &quot;beneath/under/by/near/beside/alongside/against&quot; or &quot;next to&quot; or &quot;in front of&quot; as &quot;[beside]&quot;.
+<blockquote><font color="#000080">Understand &quot;photograph [limb] of [a person]&quot; as detailing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;lie down&quot; as lying down.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;lie down [within] [something]&quot; as entering.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;lie [beside] [something]&quot; or &quot;lie down [beside] [something]&quot; as lying near.
-</font></blockquote><p>
+<p>Note the way we can refer to the limb mentioned by the player as the &quot;limb understood&quot;. Similarly, we could talk about the &quot;number understood&quot; if the value parsed had been a number, and so on.
 <p>
 <p><hr><p><a href=doc223.html>Previous</a> / <a href=doc225.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

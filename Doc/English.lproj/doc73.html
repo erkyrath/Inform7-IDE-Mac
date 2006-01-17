@@ -1,4 +1,4 @@
-<html><head><title>5.10. The lexicon</title></head>
+<html><head><title>6.1. Giving instructions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,32 +7,23 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc72.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc74.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.10. The lexicon</b></td></tr></table><p>
+<h2>Chapter 6: Basic Actions</h2><p><table><tr><td><a href=doc72.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc74.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.1. Giving instructions</b></td></tr></table><p>
 <p>
-<p>Inform's lexicon is not just a figure of speech: Inform actually does maintain an alphabetical list of nouns and adjectives which can be used in descriptions, and that lexicon can be browsed in a project's Index.
+<p>&quot;Actions&quot; are what we get if we try to break down a narrative into its irreducible parts. We might casually say that we are &quot;going shopping&quot;, but this involves many smaller steps: going north, going east, entering the shop, examining a loaf of bread, taking it, giving money to the baker, and so on. In order to make interesting events happen in the course of an interactive version of this story, we might need to write instructions laying out what to do in response to any of these actions. So we must first cover the giving of instructions.
 <p>
-<p>To summarise. Nouns are straightforward: they refer to specific things (&quot;wine cask&quot;) or specific kinds (even &quot;something&quot;, which refers to &quot;thing&quot;). Adjectives, however, come from three possible sources:
+<p>For instance, here is a different sort of sentence to any seen so far:
 <p>
-<p>(a) From either/or properties. For instance, &quot;open&quot; and &quot;closed&quot;, which are antonyms: what is not open is closed, and vice versa.
-<p>
-<p>(b) When we create a new kind of value, and allow it to be a property of a given kind, we also create new adjectives:
-<p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are red, blue and green. A building block is a kind of thing. A building block has a colour.
+<blockquote><font color="#000080">When play begins: say &quot;Welcome to Old Marston Grange, a country house cut off by fog.&quot;
 </font></blockquote><p>
 <p>
-<p>We can now use the adjective &quot;green&quot; (for instance) in descriptions:
+<p>This is not a passive statement of facts (&quot;The Library is a room&quot;) but takes the form of an instruction to someone: that person is the computer, acting as our agent in talking with the player. It is an example of a &quot;rule&quot;, the analogy being with the rules written inside the box-lid of an old board game, rather than rules in the scientific sense.
 <p>
-<blockquote><font color="#000080">Instead of taking a green building block, say &quot;For some reason you have an aversion to the colour green.&quot;
-</font></blockquote><p>
+<p>The sentence opens by identifying the circumstances in which the rule applies, leading up to the colon, and then gives a list of things to do, divided by semicolons except that the last ends with a full stop. In this case it's a list which has only one step to follow, but rules vary in length up to hundreds of steps.
 <p>
-<p>And similarly when we use the more convenient form for single things, such as the cask in this example:
+<p>There's nothing to stop us laying this out as a vertical list, if we prefer:
 <p>
-<blockquote><font color="#000080">The cask is either customs sealed, liable to tax or stolen goods.
-</font></blockquote><p>
-<p>
-<p>(c) From direct definitions, such as the adjective &quot;occupied&quot; created by:
-<p>
-<blockquote><font color="#000080">Definition: a supporter is occupied if something is on it.
+<blockquote><font color="#000080">When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Welcome to Old Marston Grange, a country house cut off by fog.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc72.html>Previous</a> / <a href=doc74.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

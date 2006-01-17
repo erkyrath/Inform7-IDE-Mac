@@ -1,4 +1,4 @@
-<html><head><title>18.18. Longer extracts of Inform 6 code</title></head>
+<html><head><title>18.14. Producing an EPS format map</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,30 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc279.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc281.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.18. Longer extracts of Inform 6 code</b></td></tr></table><p>
+<table><tr><td><a href=doc279.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc281.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.14. Producing an EPS format map</b></td></tr></table><p>
 <p>
-<p>Whole routines, object and class definitions (or any other directives) can be pasted in wholesale using sentences like so:
+<p>The &quot;Index map with...&quot; instruction is a much more varied thing than hinted at in the previous section, and its general form is
 <p>
-<blockquote><font color="#000080">Include (-
-<br>[ MyInform6Routine a b; return a*b; ];
-<br>-).
+<blockquote><font color="#000080">Index map with [instruction] and [instruction] and ... and [instruction].
 </font></blockquote><p>
 <p>
-<p>Such inclusions should not be too long (Inform has a maximum length of literal verbatim text of about 2K), but of course any number of inclusions like this can be made. They are pasted into the final compiled code at the end of the file, after the I6 grammar has been declared.
+<p>where the instructions can be of four different forms, as follows:
 <p>
-<p>In such extracts, we sometimes need to refer to objects, variables or values which can't be described using I6: or rather, which can be described, but we don't know how. To this end, any text in an inclusion written in &quot;(+&quot; and &quot;+)&quot; parentheses is treated as an I7 value, and compiled accordingly, with all type-checking waived for the occasion. For instance:
-<p>
-<blockquote><font color="#000080">Include (-
-<br>Global my_global = (+ the tartan rucksack +);
-<br>-).
+<blockquote><font color="#000080">[room A] mapped [direction] of [room B]
+<br>EPS file
+<br>rubric [text] ... and some optional details ...
+<br>[setting] of [whatever] set to [value]
 </font></blockquote><p>
 <p>
-<p>Here &quot;the tartan rucksack&quot; is translated into &quot;O18_tartan_rucksack&quot;, or something similar: the I6 object created to represent the rucksack. Thus the aactual line of code produced is
+<p>We have already seen the first of these instructions. The second is short and has a fixed wording:
 <p>
-<blockquote><font color="#000080">Global my_global = O18_tartan_rucksack;
+<blockquote><font color="#000080">EPS file
 </font></blockquote><p>
 <p>
-<p>(Note that the brace notation seen before for Inform 6-defined inline phrases is not allowed here. But this is better anyway.)
+<p>so can be invoked by typing &quot;Index map with EPS file.&quot;, for instance. EPS stands for Encapsulated PostScript, which is a standard file format for line art. EPS files can be edited with sophisticated graphics programs such as Adobe Illustrator, and can be used as illustrations in many word-processors and page layout programs. (They can also be converted to PDF by Mac OS X Preview.) We need a line-art format because the map produced will never be exactly what we want: we are probably going to end up hacking it to change the fonts, add some drawings, tidy up the spacing and so on.
 <p>
+<p>When the map-maker has been given the &quot;EPS file&quot; instruction, it writes an attempt to draw the current project's map in EPS format as a file onto the OS X desktop, with the filename &quot;Inform Map.eps&quot;. (Note that it will over-write any existing file of this name: but that is intentional, because one usually ends up tweaking and rebuilding the project over and over to get the map just so, and it would be tiresome for Inform to produce endless copies &quot;Inform Map 19.eps&quot;, etc.)
 <p>
 <p><hr><p><a href=doc279.html>Previous</a> / <a href=doc281.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
