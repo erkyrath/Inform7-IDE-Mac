@@ -272,8 +272,8 @@
 	if (item != nil && itemPos.y > fontHeight * 1.5) {
 		[[self window] makeFirstResponder: self];
 		
-		NSTextView* fieldEditor = [[self window] fieldEditor: YES
-												   forObject: item];
+		NSTextView* fieldEditor = (NSTextView*)[[self window] fieldEditor: YES
+																forObject: item];
 		
 		if (itemPos.x < bounds.size.width/2.0) {
 			// Clicking in the left-hand field gives us a field editor for that field
@@ -302,8 +302,8 @@
 	if (item != nil && itemPos.y > fontHeight * 0.25 && itemPos.y < fontHeight*1.25) {
 		[[self window] makeFirstResponder: self];
 		
-		NSTextView* fieldEditor = [[self window] fieldEditor: YES
-												   forObject: item];
+		NSTextView* fieldEditor = (NSTextView*)[[self window] fieldEditor: YES
+																forObject: item];
 		
 		[item setupFieldEditorForCommand: fieldEditor
 								  margin: [(NSImage*)[NSImage imageNamed: @"Bless"] size].width*2.0

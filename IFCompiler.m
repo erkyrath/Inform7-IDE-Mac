@@ -12,6 +12,7 @@
 
 #import "IFNaturalProblem.h"
 #import "IFInform6Problem.h"
+#import "IFCblorbProblem.h"
 
 static int mod = 0;
 
@@ -470,7 +471,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 							newOutput, 
 							nil]
 					   nextStageInput: newOutput
-						 errorHandler: nil
+						 errorHandler: [[[IFCblorbProblem alloc] init] autorelease]
 								named: @"cBlorb build stage"];
 			
 			// Change the output file
@@ -639,17 +640,16 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 
 - (void) taskHasReallyFinished {
 	int exitCode = [theTask terminationStatus];
-    BOOL failed = exitCode != 0;
-
-    if (failed) {
-        // [runQueue removeAllObjects];
-    }
 
     if ([runQueue count] <= 0) {
         if (exitCode != 0 && problemHandler) {
 			[problemsURL release]; problemsURL = nil;
 			
 			problemsURL = [[problemHandler urlForProblemWithErrorCode: exitCode] copy];
+		} else if (exitCode == 0 && problemHandler) {
+			if ([problemHandler respondsToSelector: @selector(urlForSuccess)]) {
+				problemsURL = [problemHandler urlForSuccess];
+			}
 		}
 			
         if (delegate &&

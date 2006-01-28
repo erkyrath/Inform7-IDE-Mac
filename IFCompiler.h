@@ -122,3 +122,12 @@ extern NSString* IFCompilerFinishedNotification;
 - (void) receivedFromStdErr: (NSString*) data;										// Called when some data arrives on stderr from the compiler
 
 @end
+
+//
+// Optional functions that can be implemented by the problem handler
+//
+@interface NSObject(IFOptionalProblemDelegate)
+
+- (NSURL*) urlForSuccess;															// Called only for the final stage, and can provide an optional page to show to indicate success
+
+@end
