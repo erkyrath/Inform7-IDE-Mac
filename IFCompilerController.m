@@ -1001,3 +1001,7 @@ void IFErrorAddError(const char* filC,
                              withType: type
                               message: message];
 }
+
+void IFErrorCopyBlorbTo(const char* whereTo) {
+	NSLog(@"Blorb to %s", whereTo);
+}

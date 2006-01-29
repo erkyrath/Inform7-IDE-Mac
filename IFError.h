@@ -37,5 +37,6 @@ extern void IFErrorAddError  (const char* file,
                               int line,
                               IFLex type, // Limited to Message, Warning or Error
                               const char* message);				// (Defined in IFCompilerController.h - called whenever a new error is encountered)
+extern void IFErrorCopyBlorbTo(const char* whereTo);			// (Defined in IFCompilerController.h - called when cblorb asks for a new location to store its blorb file)
 
 #endif

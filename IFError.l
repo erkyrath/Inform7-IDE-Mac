@@ -33,6 +33,19 @@ static struct errorValue currentError;
 
 .*\ Inform\ [0-9]+\.[0-9]+\ \(.*\)\n { return IFLexCompilerVersion; }
 
+
+Copy\ blorb\ to:\ .*\n {
+	// Blorb copy request
+	int copyLen = strlen(yytext-15);
+	char* copyTo = calloc(copyLen, 1);
+	strncpy(copyTo, yytext + 15, strlen(yytext-16));
+	copyTo[copyLen-1] = 0;
+						  
+	IFErrorCopyBlorbTo(copyTo);
+													
+	return IFLexCompilerMessage;
+}
+
 \+\+\ ([0-9]+)\%\n {
 	// A progress line
 	IFLexLastProgress = atoi(yytext+3);
