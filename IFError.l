@@ -33,15 +33,15 @@ static struct errorValue currentError;
 
 .*\ Inform\ [0-9]+\.[0-9]+\ \(.*\)\n { return IFLexCompilerVersion; }
 
-
-Copy\ blorb\ to:\ .*\n {
+Copy\ blorb\ to:\ \[\[.*\]\]\n {
 	// Blorb copy request
-	int copyLen = strlen(yytext-15);
+	int copyLen = strlen(yytext-19);
 	char* copyTo = calloc(copyLen, 1);
-	strncpy(copyTo, yytext + 15, strlen(yytext-16));
+	strncpy(copyTo, yytext + 17, strlen(yytext-20));
 	copyTo[copyLen-1] = 0;
 						  
 	IFErrorCopyBlorbTo(copyTo);
+	free(copyTo);
 													
 	return IFLexCompilerMessage;
 }

@@ -68,6 +68,7 @@ extern NSString* IFStyleStatistics;
     // Error messages
     NSMutableArray* errorFiles;						// A list of the files that the compiler has reported errors on (this is how we group errors together by file)
     NSMutableArray* errorMessages;					// A list of the error messages that the compiler has reported
+	NSString* blorbLocation;						// Where cblorb has requested that the blorb file be copied
 }
 
 + (NSDictionary*) defaultStyles;						// The default styles for the error messages
@@ -93,6 +94,8 @@ extern NSString* IFStyleStatistics;
 - (void) showContentsOfFilesIn: (NSFileWrapper*) files	// Creates tabs for the files contained in the given filewrapper (which came from the given path)
 					  fromPath: (NSString*) path;
 - (void) clearTabViews;									// Gets rid of the file tabs created by thep previous function
+
+- (NSString*) blorbLocation;							// Where cblorb thinks the final blorb file should be copied to
 
 @end
 

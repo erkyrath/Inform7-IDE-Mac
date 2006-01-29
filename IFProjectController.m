@@ -821,28 +821,39 @@ static NSDictionary*  itemDictionary = nil;
 
 // = Things to do after the compiler has finished =
 - (void) saveCompilerOutput {
-    // Setup a save panel
-    NSSavePanel* panel = [NSSavePanel savePanel];
-    //IFCompilerSettings* settings = [[self document] settings];
+	// Check to see if one of the compile controllers has already got a save location for the game
+	IFCompilerController* paneController = [[projectPanes objectAtIndex: 0] compilerController];
+	NSString* copyLocation = [paneController blorbLocation];
+	
+	if (copyLocation != nil) {
+		// Copy the result to the specified location
+		[[NSFileManager defaultManager] copyPath: [[[self document] compiler] outputFile]
+										  toPath: copyLocation
+										 handler: nil];
+	} else {	
+		// Setup a save panel
+		NSSavePanel* panel = [NSSavePanel savePanel];
+		//IFCompilerSettings* settings = [[self document] settings];
 
-    [panel setAccessoryView: nil];
-    //[panel setRequiredFileType: [settings fileExtension]];
-	[panel setRequiredFileType: [[[[self document] compiler] outputFile] pathExtension]];
-    [panel setCanSelectHiddenExtension: YES];
-    [panel setDelegate: self];
-    [panel setPrompt: @"Save"];
-    [panel setTreatsFilePackagesAsDirectories: NO];
+		[panel setAccessoryView: nil];
+		//[panel setRequiredFileType: [settings fileExtension]];
+		[panel setRequiredFileType: [[[[self document] compiler] outputFile] pathExtension]];
+		[panel setCanSelectHiddenExtension: YES];
+		[panel setDelegate: self];
+		[panel setPrompt: @"Save"];
+		[panel setTreatsFilePackagesAsDirectories: NO];
 
-    // Show it
-    NSString* file = [[[self document] fileName] lastPathComponent];
-    file = [file stringByDeletingPathExtension];
-    
-    [panel beginSheetForDirectory: @"~" // FIXME: preferences
-                             file: file
-                   modalForWindow: [self window]
-                    modalDelegate: self
-                   didEndSelector: @selector(compilerSavePanelDidEnd:returnCode:contextInfo:)
-                      contextInfo: NULL];    
+		// Show it
+		NSString* file = [[[self document] fileName] lastPathComponent];
+		file = [file stringByDeletingPathExtension];
+		
+		[panel beginSheetForDirectory: @"~" // FIXME: preferences
+								 file: file
+					   modalForWindow: [self window]
+						modalDelegate: self
+					   didEndSelector: @selector(compilerSavePanelDidEnd:returnCode:contextInfo:)
+						  contextInfo: NULL];    
+	}
 }
 
 - (void) runCompilerOutput {

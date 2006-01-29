@@ -298,6 +298,8 @@ static IFCompilerController* activeController = nil;
     [errorMessages removeAllObjects];
     [errorFiles removeAllObjects];
     [compilerMessages reloadData];
+	
+	[blorbLocation release]; blorbLocation = nil;
     
     [[[compilerResults textStorage] mutableString] setString: @""];
     highlightPos = 0;
@@ -985,6 +987,15 @@ static IFCompilerController* activeController = nil;
 	[listener use];
 }
 
+- (void) setBlorbLocation: (NSString*) location {
+	[blorbLocation release];
+	blorbLocation = [location copy];
+}
+
+- (NSString*) blorbLocation {
+	return blorbLocation;
+}
+
 @end
 
 // == The lexical helper function to actually add error messages ==
@@ -1003,5 +1014,7 @@ void IFErrorAddError(const char* filC,
 }
 
 void IFErrorCopyBlorbTo(const char* whereTo) {
-	NSLog(@"Blorb to %s", whereTo);
+	NSLog(@"DEBUG: Blorb to %s", whereTo);
+	
+	[activeController setBlorbLocation: [NSString stringWithUTF8String: whereTo]];
 }
