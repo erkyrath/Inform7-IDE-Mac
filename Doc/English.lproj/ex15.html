@@ -1,4 +1,4 @@
-<html><head><title>3.19. Possessions and clothing</title></head>
+<html><head><title>15.16. Understanding mistakes</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,40 +7,47 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc40.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc42.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.19. Possessions and clothing</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc232.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc234.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.16. Understanding mistakes</b></td></tr></table><p>
 <p>
-<p>We have seen how to place objects in rooms, and in containers or on supporters. But what about people? Perhaps it could be said that they &quot;contain&quot; the fillings in their teeth, or &quot;support&quot; a top hat, but this is not very natural. Inform therefore never speaks of things being &quot;in&quot; or &quot;on&quot; people. Instead, they have two sorts of possessions: the things they carry, and the things they wear. (Body parts, such as arms and legs, are different again: see &quot;parts&quot; below for a clue to how to do these.) Thus:
+<p>When inspiration strikes the player, he can usually be relied upon to make a good-faith effort to communicate the new idea: he will guess the right command. If he guesses wrongly, the mistake is probably the author's, because a good author will try to anticipate all possible wordings and make all of them work.
 <p>
-<blockquote><font color="#000080">Mr Darcy wears a top hat. Mr Darcy carries a silver sword.
+<p>Nevertheless it is sometimes good practice to nudge the player towards the right wording - particularly if the player has the right idea but is not explicit enough: for instance, typing TALK TO JUDGE when we really want to know what is to be said (JUDGE, GUILTY); or if the player tries something like PLAY CHESS rather than MOVE PAWN TO KING 4. Similarly, if we make a casual reference such as &quot;In your childhood days, you loved sliding in stocking feet across this hallway&quot;, a player might type SLIDE IN STOCKING FEET: a nice idea, and which deserves a nice response, even though it asks to do something beyond the scope of the game.
+<p>
+<p>Inform provides a simple mechanism for recognising a command but at the same time recognising that <i>it does not properly specify an action</i>. Such commands are called &quot;mistakes&quot;, for the sake of a memorable term, but the player has not really behaved badly, and should be helped rather than reproved. For instance:
+<p>
+<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake.
 </font></blockquote><p>
 <p>
-<p>In fact, Inform deduces from this not only who owns the hat and the sword, but also that Darcy has the kind &quot;person&quot;, because only people can wear or carry.
+<p>While that works - the command to &quot;act&quot; is indeed rejected - it is not very good, because no very helpful message is brought up. The following is much better:
 <p>
-<p>As all the assertion verbs do, &quot;to wear&quot; and &quot;to carry&quot; have participles which Inform knows about. So we could equally well write:
-<p>
-<blockquote><font color="#000080">The scarlet coat is worn by Mr Wickham. The duelling pistol is carried by Mr Wickham.
+<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;).
 </font></blockquote><p>
 <p>
-<p>If we do not specify who does the wearing, or carrying, then this is assumed to be the player. Thus:
+<p>Or we could once again insist on a given context:
 <p>
-<blockquote><font color="#000080">A brass lantern and a rusty iron key are carried. The mosquito-repellent hat is worn.
+<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
 </font></blockquote><p>
 <p>
-<p>It would make no sense to &quot;wear&quot; the key, for instance, so Inform needs to distinguish between what is clothing and what is not. It does this with an either/or property called &quot;wearable&quot;: if something has this property then the player will be allowed to wear it, provided it can first be picked up. Anything which is worn by somebody at the start of play is assumed to be wearable (unless we say otherwise). But if nobody is initially wearing the item in question, then we have to be explicit:
+<p>That still has the drawback that the command &quot;act hamlet&quot; will not be recognised: so the final version we want is probably
 <p>
-<blockquote><font color="#000080">The player carries a scarlet gown. The gown is wearable.
+<blockquote><font color="#000080">Understand &quot;act [text]&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
 </font></blockquote><p>
 <p>
-<p>(When we come to asking questions about the current situation, we will need to remember that &quot;to carry&quot; and &quot;to wear&quot; are different. Thus &quot;if Lancelot carries the plate armour&quot; will not be true if he is wearing it rather than carrying it under his arm. As we will later see, we can instead vaguely say &quot;if Lancelot has the plate armour&quot; to mean either carrying or wearing.)
+<p>since the &quot;[text]&quot; part will soak up any words the player types (or none), meaning that any command at all whose first word is &quot;act&quot; will be matched.
+<p>
+<p>If we are careful, we can make the reply depend on what was typed in the mistaken command:
+<p>
+<blockquote><font color="#000080">Understand &quot;steal [something]&quot; as a mistake (&quot;Just TAKE [the noun] and leave without paying: that's stealing in my book.&quot;).
+</font></blockquote><p>
+<p>
+<p>The care comes in because Inform applies much less checking to mistakes than to other actions, and odd errors will result if we try to refer to (say) &quot;the second noun&quot; in a command which did not have a second noun.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e15"><a href=doc41.html#e15><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Things for the player and the characters to wear and carry.</i><p>
+<a name="e147"><a href=ex147.html#e147><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Catching all questions that begin with WHO, WHAT, WHERE, and similar question words, and responding with the instruction to use commands, instead.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e15"><a href=doc233.html#e15><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Making the game ignore everything that follows a ! symbol, so that the beta-tester can insert comments into the testing transcript without having these comments parsed as game commands. This is not usually *necessary*, but can be convenient.</i><p>
 <p>
-<p>At this point we can dress both the Captain and the player with some appropriate props:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The captain wears a baseball cap. The description of the cap is &quot;It says, THE WORST DAY FISHING IS BETTER THAN THE BEST DAY WORKING.&quot;\n\nThe player is carrying a backpack and a bottle of water. The player is wearing a pair of sunglasses. The description of the sunglasses is &quot;The light off the water and the ice does get pretty bright sometimes.&quot;\n\n')"><img border=0 src=paste.png></a> The captain wears a baseball cap. The description of the cap is &quot;It says, THE WORST DAY FISHING IS BETTER THAN THE BEST DAY WORKING.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;! [text]&quot; as a mistake (&quot;Noted.&quot;).\n\n')"><img border=0 src=paste.png></a> Understand &quot;! [text]&quot; as a mistake (&quot;Noted.&quot;).
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The player is carrying a backpack and a bottle of water. The player is wearing a pair of sunglasses. The description of the sunglasses is &quot;The light off the water and the ice does get pretty bright sometimes.&quot;
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc40.html>Previous</a> / <a href=doc42.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><a name="e176"><a href=ex176.html#e176><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>If the player tries to TALK TO a character, suggest alternative modes of conversation.</i><p>
+<a name="e55"><a href=ex55.html#e55><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Responding to references to a property that the player isn't yet allowed to mention (or when not to use "understand as a mistake").</i><p>
+<p><hr><p><a href=doc232.html>Previous</a> / <a href=doc234.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

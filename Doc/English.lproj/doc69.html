@@ -7,7 +7,7 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc68.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc70.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.7. Adjacent rooms and routes through the map</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc68.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc70.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>5.7. Adjacent rooms and routes through the map</b></td></tr></table><p>
 <p>
 <p>Another useful adjective built into Inform is &quot;adjacent&quot;. Two rooms are said to be adjacent if there is a map connection between them which does not pass through some barrier such as a door. This is easily tested:
 <p>
@@ -33,6 +33,13 @@ function pasteCode(code) {
 <p>
 <p>The phrase &quot;the best route from A to B&quot; gives the direction to take next, if we are at A and want to end up at B. Suppose this is east. We can find out where we go next by looking up &quot;the room east from A&quot;: similarly for any other direction, of course. (This can see through any doors, locked or not.)
 <p>
+<p>Finally, we can also stipulate that only certain rooms may be used for the journey, as in the following example:
+<p>
+<blockquote><font color="#000080">best route from the Drawbridge to the Keep through visited rooms
+</font></blockquote><p>
+<p>
+<p>The condition - in this case, that &quot;visited rooms&quot; must be used - also applies to both ends of the journey. (Also, saying something like &quot;...through containers&quot; would mean there is never a route, since it is only rooms which appear on the map.)
+<p>
 <p>We can also find out how long the journey would be:
 <p>
 <blockquote><font color="#000080">The description of the proximity gadget is &quot;You are now [number of moves from the location to the Sundial] moves from the Sundial.&quot;;
@@ -41,7 +48,7 @@ function pasteCode(code) {
 <p>This number is, of course, 0 if the location is already the Sundial. If there is no way at all to get to the Sundial, the number is -1.
 <p>
 <p><hr><p>
-<a name="e2"><a href=ex2.html#e2><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A person who moves randomly between rooms of the map.</i><p>
-<a name="e104"><a href=ex104.html#e104><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Signposts such as those provided on hiking paths in the Swiss Alps, which show the correct direction and hiking time to all other locations.</i><p>
-<a name="e3"><a href=ex3.html#e3><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A LOOK [direction] command which allows the player to see descriptions of the nearby landscape.</i><p>
+<a name="e7"><a href=ex7.html#e7><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A person who moves randomly between rooms of the map.</i><p>
+<a name="e163"><a href=ex163.html#e163><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Signposts such as those provided on hiking paths in the Swiss Alps, which show the correct direction and hiking time to all other locations.</i><p>
+<a name="e8"><a href=ex8.html#e8><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A LOOK [direction] command which allows the player to see descriptions of the nearby landscape.</i><p>
 <p><hr><p><a href=doc68.html>Previous</a> / <a href=doc70.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

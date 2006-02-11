@@ -1,4 +1,4 @@
-<html><head><title>16.2. How activities work</title></head>
+<html><head><title>16.1. What are activities?</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,33 +7,21 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc234.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc236.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.2. How activities work</b></td></tr></table><p>
+<h2>Chapter 16: Activities</h2><p><table><tr width="100%"><td width=80 valign="top"><a href=doc234.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc236.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.1. What are activities?</b></td></tr></table><p>
 <p>
-<p>All activities start, continue for a while and then finish: however, no activity ever runs on for more than a single turn. Several activities can be going on at the same time. For instance, suppose the following is printed as part of the description of a grocery:
+<p>It is poor form to define with negatives, but the first thing to say about activities is that they are <i>not</i> actions. This needs saying because Inform often seems to treat them as if they are, by allowing us to write rules like so:
 <p>
-<blockquote><font color="#000080">You can see a banana, an apple and a star-fruit here.
+<blockquote><font color="#000080">Before printing the name of a woman, say &quot;Ms &quot;.
 </font></blockquote><p>
 <p>
-<p>At the moment when Inform prints &quot;apple&quot;, two activities are under way: &quot;listing contents of the Grocery&quot;, and &quot;printing the name of the apple&quot;. The sequence of events was in fact:
+<p>With this rule in place, someone called &quot;Daphne&quot; will always be described as &quot;Ms Daphne&quot;, and so on. The language looks as if we were imposing a rule on an action called &quot;printing the name of&quot;, but there is no such action: instead, it is an &quot;activity&quot;. To spell out the difference:
 <p>
-<blockquote><font color="#000080">say &quot;You can see &quot;
-<br><i>start listing contents of the Grocery</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;a &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>start printing the name of the banana</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;banana&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>finish printing the name of the banana</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;, an &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>start printing the name of the apple</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;apple&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>finish printing the name of the apple</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; and a &quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>start printing the name of the star-fruit</i>
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;star-fruit&quot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;<i>finish printing the name of the star-fruit</i>
-<br><i>finish listing contents of the Grocery</i>
-<br>say &quot; here.&quot;
+<blockquote><font color="#000080">An action is a simulated task for the fictional protagonist.
 </font></blockquote><p>
 <p>
-<p>The golden rule is: if activity B starts during activity A, it must also finish during activity A.
+<blockquote><font color="#000080">An activity is a real task for the computer program doing the simulation.
+</font></blockquote><p>
+<p>
+<p>Activities allow us to influence or change some of the standard habits of Inform, using rules as flexible and powerful as those applicable to actions, though activities are in several ways simpler and easier.
 <p>
 <p><hr><p><a href=doc234.html>Previous</a> / <a href=doc236.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

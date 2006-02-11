@@ -1,4 +1,4 @@
-<html><head><title>17.6. Phrases concerning rules</title></head>
+<html><head><title>15.14. Understanding things by their properties</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,47 +7,89 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc260.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc262.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.6. Phrases concerning rules</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc230.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc232.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.14. Understanding things by their properties</b></td></tr></table><p>
 <p>
-<p>The &quot;ignore&quot; phrase is only one of a suite. The full list is:
+<p>Items are ordinarily understood only by their original given names. For instance, if we have:
 <p>
-<blockquote><font color="#000080">ignore ...rule...
-<br>reinstate ...rule...
+<blockquote><font color="#000080">In the Herb Garden is a china pot.
 </font></blockquote><p>
 <p>
-<p>The &quot;reinstate&quot; phrase simply reverses any previous &quot;ignore&quot; of the same rule, and is otherwise not useful.
+<p>then the player could refer to this as &quot;pot&quot;, &quot;china pot&quot; or &quot;china&quot;. We can embellish this by adding extra forms:
 <p>
-<blockquote><font color="#000080">reject the result of ...rule...
-<br>accept the result of ...rule...
+<blockquote><font color="#000080">Understand &quot;chinese pot&quot; or &quot;chinese vase&quot; as the china pot.
 </font></blockquote><p>
 <p>
-<p>Some rules produce results (see below), but they can be set so that whatever result they produce will be ignored. Again, &quot;accept ...&quot; simply undoes a previous &quot;reject ...&quot; and otherwise has no effect.
+<p>But suppose the pot changes its nature in the course of play? If we have:
 <p>
-<blockquote><font color="#000080">substitute ...first rule... for ...second rule...
-<br>restore the original ...second rule...
+<blockquote><font color="#000080">The china pot can be unbroken or broken. The china pot is unbroken. After dropping the china pot: say &quot;Crack!&quot;; now the china pot is broken; change the printed name of the pot to &quot;broken pot&quot;.
 </font></blockquote><p>
 <p>
-<p>Whenever the second rule is to be invoked - from any rulebook, or as a result of any &quot;follow&quot; instruction - invoke the first one instead. Again, &quot;restore ...&quot; simply undoes the effect of an earlier &quot;substitute&quot;.
+<p>So now the player would reasonably expect to call it &quot;broken pot&quot;, a wording which would have been rejected before. We can achieve this by writing:
 <p>
-<blockquote><font color="#000080">move ...first rule... to before/after ...second rule...
+<blockquote><font color="#000080">Understand the unbroken property as describing the pot.
 </font></blockquote><p>
 <p>
-<p>This causes the first rule to be ignored whenever it turns up in the ordinary way, but to be invoked either immediately before or immediately after the second rule whenever that second rule is invoked. In effect, it cuts out the first rule from wherever it was, and glues it onto the second. Note that there is no obligation for the first rule to begin in the same rulebook(s) as the second, so this can be used to slot in a wholly new rule, perhaps only if certain circumstances hold.
+<p>which allows &quot;unbroken&quot; or &quot;broken&quot; to describe the pot, depending on its state. This is something of a toy example, but the feature looks rather more useful when there are more pots than just one:
 <p>
-<p>These rule-changing instructions allow apparently casual sentences to wreak havoc with the model world. This, for instance, is quite the recipe for mayhem and perplexity:
-<p>
-<blockquote><font color="#000080">A procedural rule: reject the result of the before rules; ignore the after rules; move the after rules to before the before rules.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Terracotta&quot;\n\nA flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.\n\nAfter dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.\n\nThe Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.\n\n\n')"><img border=0 src=paste.png></a> &quot;Terracotta&quot;
 </font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.
+</font></blockquote><p>
+<p>
+<p>We then have the dialogue:
+<p>
+<blockquote><font color="#000080">Herb Garden
+<br>You can see ten flowerpots here.
+<br>>get two flowerpots
+<br>flowerpot: Taken.
+<br>flowerpot: Taken.
+<br>>drop all
+<br>flowerpot: Crack!
+<br>flowerpot: Crack!
+<br>>look
+<br>Herb Garden
+<br>You can see two broken flowerpots and eight flowerpots here.
+<br>>get an unbroken flowerpot
+<br>Taken.
+</font></blockquote><p>
+<p>
+<p>and so on and so forth.
+<p>
+<p>There are in fact two slightly different forms of this kind of sentence:
+<p>
+<blockquote><font color="#000080">Understand the broken property as describing a flowerpot.
+<br>Understand the broken property as referring to a flowerpot.
+</font></blockquote><p>
+<p>
+<p>The only difference is that in the &quot;describing&quot; case, the property's name alone can mean the thing in question - so &quot;take unbroken&quot; will work; whereas, in the &quot;referring to&quot;, the property's name can only be used as an adjective preceding the name of thing itself - so &quot;take unbroken flowerpot&quot; will work but &quot;take unbroken&quot; will not.
+<p>
+<p><hr><img border=0 src=beta.png>At present, the implementation of this feature has a restriction: if we define a new kind of value (say, colour) and give it to something as a property, then define a new textual form of one of those values (say making &quot;crimson&quot; a synonym for &quot;red&quot;), this new textual form will not be understood when used adjectivally in the above way.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e72"><a href=doc261.html#e72><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Adjust time advancement so the game clock moves fifteen minutes each turn.</i><p>
+<a name="e137"><a href=ex137.html#e137><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>The peers of the English realm come in six flavours - Baron, Viscount, Earl, Marquess, Duke and Prince - and must always be addressed properly. While a peerage is for life, it may at the royal pleasure be promoted.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e72"><a href=doc231.html#e72><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>The flowerpots once again, but this time arranged so that after the first breakage all undamaged pots are said to be "unbroken", to distinguish them from the others.</i><p>
 <p>
-<p>Suppose a game in which all actions move extraordinarily slowly:
+<p>This easiest way to do this uses the &quot;printing the name of&quot; activity, which will come up in the following chapter:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Procedural rule: substitute the fast time rule for the advance time rule.\n\nThis is the fast time rule:\n\tchange the time of day to the time of day + 15 minutes.\n\n')"><img border=0 src=paste.png></a> Procedural rule: substitute the fast time rule for the advance time rule.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Terracottissima&quot;\n\nA flowerpot is a kind of thing. A flowerpot can be unbroken or broken. After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken. Understand the broken property as describing a flowerpot.\n\nBefore printing the name of a broken flowerpot, say &quot;broken &quot;. Before printing the name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.\n\nBefore printing the plural name of a broken flowerpot, say &quot;broken &quot;. Before printing the plural name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.\n\nThe Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.\n\n')"><img border=0 src=paste.png></a> &quot;Terracottissima&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">This is the fast time rule:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to the time of day + 15 minutes.
+<blockquote><font color="#000080">A flowerpot is a kind of thing. A flowerpot can be unbroken or broken. After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken. Understand the broken property as describing a flowerpot.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc260.html>Previous</a> / <a href=doc262.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Before printing the name of a broken flowerpot, say &quot;broken &quot;. Before printing the name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before printing the plural name of a broken flowerpot, say &quot;broken &quot;. Before printing the plural name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc230.html>Previous</a> / <a href=doc232.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

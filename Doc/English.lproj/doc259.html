@@ -1,4 +1,4 @@
-<html><head><title>17.4. New rulebooks</title></head>
+<html><head><title>16.25. Printing the banner text</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,37 +7,43 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc258.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc260.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.4. New rulebooks</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc258.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc260.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.25. Printing the banner text</b></td></tr></table><p>
 <p>
-<p>Creating a new rulebook is also straightforward, as we see in the following modest example game:
+<p><b>1. When it happens.</b> The banner is the bibliographic masthead text, which typically looks something like this:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Appraisal&quot;\n\nThe Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.\n\nAppraisal rules is a rulebook.\n\nAn appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;\n\nAn appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;\n\nInstead of switching on the machine, follow the appraisal rules.\n\n\n')"><img border=0 src=paste.png></a> &quot;Appraisal&quot;
+<blockquote><font color="#000080">Relations
+<br>An Interactive Fiction by Emily Short
+<br>Release 1 / Serial number 050630 / Inform 7 build 2U98 (I6/v6.30 lib 6/10N) SD
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.
+<p>The banner is printed at the start of play, and when the player types &quot;version&quot; at the command line, and when say &quot;[banner text]&quot; occurs.
+<p>
+<p><b>2. The default behaviour.</b> Prints the text above, giving the title, the genre, the author, the release number, the date of compilation (that's the serial number: YYMMDD), and version numbers of the Inform components used to put the game together.
+<p>
+<p><b>3. Examples.</b> (a) Adding a line to the banner:
+<p>
+<blockquote><font color="#000080">After printing the banner text, say &quot;DRM authentication code: 13S-451-2034u75y65u%%a1248.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Appraisal rules is a rulebook.
+<p>(b) Simplifying the banner:
+<p>
+<blockquote><font color="#000080">Rule for printing the banner text: say &quot;Welcome.&quot; instead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">An appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;
+<p>(c) Delaying the banner for later:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Bikini Atoll&quot; by Edward Teller\n\nThe Hut and the Tropical Beach are rooms.\n\nThe conch shell is in the Hut. After taking the shell for the first time: say &quot;As you gather the oddly-warm conch shell into your arms, you experience a sudden flash of deja-vu...[line break][banner text]&quot;; move the player to the Tropical Beach.\n\nRule for printing the banner text: if the player is not carrying the shell, do nothing instead.\n\n\n')"><img border=0 src=paste.png></a> &quot;Bikini Atoll&quot; by Edward Teller
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">An appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;
+<blockquote><font color="#000080">The Hut and the Tropical Beach are rooms.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.
+<blockquote><font color="#000080">The conch shell is in the Hut. After taking the shell for the first time: say &quot;As you gather the oddly-warm conch shell into your arms, you experience a sudden flash of deja-vu...[line break][banner text]&quot;; move the player to the Tropical Beach.
 </font></blockquote><p>
 <p>
-<p>The creation of the rulebook is all very well, but without the final sentence it would never be used. The crucial new phrase here is &quot;follow ...&quot;, which is the first of several phrases allowing us to use rules whenever we want to (rather than simply at predetermined times such as when a particular action is being tried, or at the end of every turn, and such).
-<p>
-<p>Like &quot;number&quot; or &quot;text&quot;, &quot;rule&quot; and &quot;rulebook&quot; are kinds of value built into Inform: &quot;the blossom rule&quot; is a value whose kind is &quot;rule&quot;, whereas &quot;the every turn rules&quot; is a value whose kind is &quot;rulebook&quot;. In fact, Inform considers a rulebook to be a special case of a rule, so that whenever a rule is required it is legal to name a rulebook instead, but not vice versa. The &quot;follow&quot; phrase here...
-<p>
-<blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.
+<blockquote><font color="#000080">Rule for printing the banner text: if the player is not carrying the shell, do nothing instead.
 </font></blockquote><p>
 <p>
-<p>...expects to be applied to a value of kind &quot;rule&quot;; &quot;the appraisal rules&quot; is in fact a rulebook, but since that counts as a rule the phrase makes sense to Inform. To follow a rulebook means to run through all its rules in turn; to follow a single rule means just that one, of course.
+<p>(By tradition, and as a courtesy to all the people who have worked on Inform, authors ensure that the banner is printed some time near the beginning of each game played. So please only defer it, rather than suppress it altogether.)
 <p>
-<p><hr><p>
-<a name="e13"><a href=ex13.html#e13><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A BURN command; flammable objects which light other items in their vicinity and can burn for different periods of time; the possibility of having parts or contents of a flaming item which survive being burnt.</i><p>
 <p><hr><p><a href=doc258.html>Previous</a> / <a href=doc260.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

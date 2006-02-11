@@ -1,4 +1,4 @@
-<html><head><title>3.20. The player's holdall</title></head>
+<html><head><title>7.9. Removing things from play</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,47 +7,39 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc41.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc43.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.20. The player's holdall</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc100.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc102.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>7.9. Removing things from play</b></td></tr></table><p>
 <p>
-<p>When the player has only limited carrying capacity, game play is likely to be tiresome, but we can make life easier by providing a way for the player to carry endless items without dozens of free hands to hold them all:
+<p>Some things will occasionally be in a limbo state called being &quot;out of play&quot;: like chess pieces which have been taken, or cards not yet dealt, they wait on the sidelines, perhaps to be needed again, perhaps not. Anything created with no apparent location will start the game out of play, as in the case of the lamp here:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Sackcloth&quot;\n\nThe Attic is a room. The old blue rucksack is a player\'s holdall. The player is wearing the rucksack.\n\nThe carrying capacity of the player is 3.\n\nIn the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt\'s remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.\n\n\n')"><img border=0 src=paste.png></a> &quot;Sackcloth&quot;
+<blockquote><font color="#000080">Aladdin's Cave is a room. The genie's lamp is a container.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Attic is a room. The old blue rucksack is a player's holdall. The player is wearing the rucksack.
+<p>To move something back into play, we simply &quot;move&quot; it back onto the board, so to speak: back to a room, or to something else which is currently in play. To remove something, we use the phrase:
+<p>
+<blockquote><font color="#000080">remove the gold coin from play
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The carrying capacity of the player is 3.
+<p>(We are not permitted to remove rooms, or the player, from play.) We can test whether something is in play with
+<p>
+<blockquote><font color="#000080">if the gold coin is somewhere ...
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">In the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt's remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.
-</font></blockquote><p>
-<p>
-<p>This example game introduces a new kind of container, the &quot;player's holdall&quot;. This is a kind of which most games will contain at most one example, but in principle there can be any number. A player's holdall is a capacious bag into which the player automatically places surplus items whenever his or her hands are full: trying the above example game and getting the items one by one will give the general idea.
-<p>
-<p>Of course, if the carrying capacity of the player is never reached then there will never be any surplus items and a player's holdall will behave just like any other (portable, usually openable) container.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e16"><a href=doc42.html#e16><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Making a holdall of the backpack.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e16"><a href=doc101.html#e16><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A potion that the player can drink.</i><p>
 <p>
-<p>If we wanted, we could make the player's backpack infinitely capacious, so:
+<p>Some kinds of game objects -- food, for instance -- can only sensibly be used once, and should then be destroyed. The EAT command already implements this, but suppose we also had a category of drinkable potions:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The backpack is a player\'s holdall.\n\n\n')"><img border=0 src=paste.png></a> The backpack is a player's holdall.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Beverage Service&quot;\n\nA potion is a kind of thing. The sparkly blue potion is a potion carried by the player.\n\nLevel 3 is a room.\n\nInstead of drinking a potion:\n\tremove the noun from play;\n\tsay &quot;You quaff [the noun]. It goes down beautifully.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Beverage Service&quot;
 </font></blockquote><p>
 <p>
-<p>...And now whenever the player character is unable to hold everything, he will automatically stow some of his possessions therein.
-<p>
-<p>This is only useful if the player doesn't have infinite carrying capacity himself, so perhaps we also need
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The carrying capacity of the player is 3.\n\n\n')"><img border=0 src=paste.png></a> The carrying capacity of the player is 3.
+<blockquote><font color="#000080">A potion is a kind of thing. The sparkly blue potion is a potion carried by the player.
 </font></blockquote><p>
 <p>
-<p>Perhaps mercifully, items which are worn are not counted against the player's carrying capacity. We might want to let him take advantage of that, too:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The backpack is wearable.\n\n\n')"><img border=0 src=paste.png></a> The backpack is wearable.
+<blockquote><font color="#000080">Level 3 is a room.
 </font></blockquote><p>
 <p>
-<p>This capacity system makes a compromise between the realistic and the absurd: on the one hand, it acknowledges that people can't carry an infinite number of items in their hands, while at the same time providing a sack that can.
-<p>
-<p>Many games will have no use for object-juggling of this kind at all; others will want to be much more rigorous about questions of capacity and volume. Fortunately, it is easy to leave the whole business out by assigning no carrying capacity to anything. The tools to implement a more sophisticated capacity system are provided in Chapter 12, on Units.
-</td></tr></table><p><p><hr><p><a href=doc41.html>Previous</a> / <a href=doc43.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Instead of drinking a potion:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the noun from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You quaff [the noun]. It goes down beautifully.&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc100.html>Previous</a> / <a href=doc102.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

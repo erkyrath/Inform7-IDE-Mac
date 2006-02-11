@@ -1,4 +1,4 @@
-<html><head><title>19.13. Using Inform 6 within Inform 7</title></head>
+<html><head><title>19.6. Version numbering</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,12 +7,35 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc297.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc299.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.13. Using Inform 6 within Inform 7</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc297.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc299.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.6. Version numbering</b></td></tr></table><p>
 <p>
-<p>The final sections of this chapter bring in how Inform 7, the current version, and Inform 6 can be made to work together, and will make little or no sense to those who do not already use I6 (as we will henceforth write).
+<p>As we have seen, extensions are referred to by name and author, but they can also (optionally) be referred to by version. For instance:
 <p>
-<p>As will become clear, it would be easy to write highly hybridised code, constantly mixing I6 and I7. The methods for incorporating I6 code into I7 have been designed to encourage people to use I6 in as self-contained a way as possible: that is, to isolate the relatively few functions which need to be written in I6, and to give them natural language expression. Ideally, all I6 content would be confined to self-contained extensions, so that the source for actual works of interactive fiction can be purely natural.
+<blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.
+</font></blockquote><p>
 <p>
-<p>So why provide I6 features at all, even for extensions? It's true that extensions do not actually <i>need</i> them either, but it's anticipated that (especially in these early days) many people will want a simple way to adapt existing I6 extensions to work in I7 as well. Besides that, for complex computational tasks better suited to a C-like computer programming language it may be entirely appropriate to drop down into I6. Lastly, the features of I7 used to mesh with I6 are essential to the workings of the Standard Rules, so it would be sensible to document those features somewhere.
+<blockquote><font color="#000080">Version 1/040426 of the Ducking Action by Graham Nelson begins here.
+</font></blockquote><p>
+<p>
+<p>A version number must be a whole number 1, 2, ... (version 0 is not allowed, and nor are decimal points), optionally followed by a slash '/' and then a six-figure date, in the form YYMMDD: so 040426 means 26 April 2004.
+<p>
+<p>A request to include version 2 of something implicitly means &quot;version 2 or later&quot;, and similarly &quot;version 2/040426&quot; means version 2 with a date of 26 April 2004 or later, or else any version higher than 2. If Inform loads the extension but finds that its version is not good enough, an error is issued.
+<p>
+<p>Where no version number is quoted, the rule is that an unspecified version predates any numbered version. This means that the line
+<p>
+<blockquote><font color="#000080">Include the Ducking Action by Graham Nelson.
+</font></blockquote><p>
+<p>
+<p>will be happy with any version of the extension at all, whether numbered or not; but
+<p>
+<blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.
+</font></blockquote><p>
+<p>
+<p>will only accept the extension if it has a version number attached (and with that number being 2 or higher).
+<p>
+<p>During play of any game compiled by Inform 7, typing &quot;version&quot; lists various serial numbers of the pieces of software used to make it. The list concludes with names, authors and version numbers of any extensions used. So every author whose work contributes to a game automatically gets a modest credit within it. The same list can be printed, at the discretion of the designer, using the textual substitution:
+<p>
+<blockquote><font color="#000080">say &quot;[list of extension credits]&quot;
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc297.html>Previous</a> / <a href=doc299.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

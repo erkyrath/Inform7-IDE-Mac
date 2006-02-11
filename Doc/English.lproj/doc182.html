@@ -1,4 +1,4 @@
-<html><head><title>12.14. Relations involving values</title></head>
+<html><head><title>12.13. Relations which express conditions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,38 +7,35 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc181.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc183.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.14. Relations involving values</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc181.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc183.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>12.13. Relations which express conditions</b></td></tr></table><p>
 <p>
-<p>Most of the openly declared relations in Inform are between things - people, for instance, or rooms - but beneath the surface, many relations also apply to values. For instance,
+<p>One last way to create a new relation and, in many ways, the easiest of all. If we write:
 <p>
-<blockquote><font color="#000080">if the turn count is less than 100, ...
+<blockquote><font color="#000080">Contact relates a thing (called X) to a thing (called Y) when X is part of Y or Y is part of X. The verb to be joined to implies the contact relation.
 </font></blockquote><p>
 <p>
-<p>involves a relation between two numbers expressed by the verb &quot;to be less than&quot;. These can also be created easily, provided we are willing to supply a definition. For instance:
+<p>then we would be able to talk about a handle being joined to a door, and a door being joined to a handle, and so on. We are not allowed to declare:
 <p>
-<blockquote><font color="#000080">Material is a kind of value. The materials are wood and metal. A thing has a material.
+<blockquote><font color="#000080">The hook is joined to the line.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Materiality relates a thing (called X) to a material (called Y) when Y is the material of X. The verb to be made of implies the materiality relation.
+<p>because the question of whether they are joined is not for us to decide: that will be for the condition to determine, whenever we test it. Similarly, we cannot meaningfully write
+<p>
+<blockquote><font color="#000080">now the hook is joined to the line;
 </font></blockquote><p>
 <p>
-<p>Of course, this does no more than to wrap up a property in the language of relations, but that does give us the elegant wording
+<p>(and Inform will not let us) because this relation is not something we can force either way: we can make it come true by other means, maybe, but we cannot simply make it true by saying so.
 <p>
-<blockquote><font color="#000080">if the cube is made of wood, ...
-<br>say &quot;The carpenter looks at [the list of things which are made of wood].&quot;;
+<p>So this way to define relations is, on the face of it, just a sort of verbal trick to write conditions in a more attractive way. The more flexible, changeable relations in previous sections have much greater expressive power. All the same, it is nice to be able to write -
+<p>
+<blockquote><font color="#000080">Nearness relates a room (called A) to a room (called B) when the number of moves from B to A is less than 3. The verb to be near implies the nearness relation.
 </font></blockquote><p>
 <p>
-<p>as an alternative to:
+<p>and then to be able to write rules like:
 <p>
-<blockquote><font color="#000080">if the cube is wood, ...
-<br>say &quot;The carpenter looks at [the list of things which are wood].&quot;;
+<blockquote><font color="#000080">Instead of listening when the location is near the Sundial: say &quot;You hear a splashing of water.&quot;
 </font></blockquote><p>
 <p>
-<p>By writing a more interesting definition, we get a more interesting relation as a result, of course. Here is a mathematical one:
-<p>
-<blockquote><font color="#000080">Divisibility relates a number (called N) to a number (called M) when remainder after dividing M by N is 0. The verb to divide (it divides, they divide, it divided, it is divisible) implies the divisibility relation. The verb to be a factor of implies the divisibility relation.
-</font></blockquote><p>
-<p>
-<p>We now find that &quot;2 divides 12&quot;, &quot;5 is not a factor of 12&quot; and &quot;12 is divisible by 3&quot; are all true. Again, we are only really gaining a nice form of words, but improving the clarity of the source text is never a bad thing.
-<p>
+<p><hr><p>
+<a name="e18"><a href=ex18.html#e18><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Relations track the relationships between one character and another. Whenever the player meets a relative of someone he already knows, he receives a brief introduction.</i><p>
 <p><hr><p><a href=doc181.html>Previous</a> / <a href=doc183.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

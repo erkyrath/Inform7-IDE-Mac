@@ -1,0 +1,65 @@
+<html><head><title>4.2. Degrees of certainty</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc45.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc47.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.2. Degrees of certainty</b></td></tr></table><p>
+<p>
+<p>When we write:
+<p>
+<blockquote><font color="#000080">A dead end is usually dark.
+</font></blockquote><p>
+<p>
+<p>we are saying that it will be dark rather than lighted unless we should specify otherwise. So it would be fine to add:
+<p>
+<blockquote><font color="#000080">The Tortuous Alcove is lighted.
+</font></blockquote><p>
+<p>
+<p>because although dead ends are usually dark, this one is evidently an exception. On the other hand, if we had originally written
+<p>
+<blockquote><font color="#000080">A dead end is always dark.
+</font></blockquote><p>
+<p>
+<p>then Inform would not have permitted any exception to be made, and would have reported a problem if we had tried to make the Tortuous Alcove lighted. Besides &quot;usually&quot; and &quot;always&quot;, we can also employ &quot;seldom&quot; and &quot;never&quot;, which are their negatives. Thus, &quot;never lighted&quot; means the same as &quot;always dark&quot;.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e151"><a href=doc46.html#e151><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Replacing "You see nothing special..." with a different default message for looking at something nondescript.</i><p>
+<p>
+<p>In recent years there has been a strong trend towards providing unique descriptions for all implemented objects. Often this is a good idea, but there are also contexts in which we may want to discourage the player from looking too closely at some things and concentrate his attention on just a few interesting ones.
+<p>
+<p>The trick here is that leaving items completely undescribed leads to rather dull exchanges like this:
+<p>
+<blockquote><font color="#000080">>x table
+<br>You see nothing special about the table.
+</font></blockquote><p>
+<p>
+<p>...which can leave the player with the impression that the author was simply too lazy to describe everything. So it can be a good idea to replace that default message with a different one more appropriate to the game. For instance:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Odin&quot;\n\nThe House of a Mortal Farmer is a room. &quot;Having two separate rooms, this house bespeaks considerable wealth and success at agriculture.&quot;\n\nThe Bedroom is inside from the House.\n\nA chair is a kind of supporter. A chair is always enterable.\n\nIn the House are a table, two chairs, a basket, and a hearth. On the table is a loaf of bread.\n\nThe description of a thing is usually &quot;You give [the noun] a glance, but it is plainly beneath your attention.&quot;\n\n[Because the description is attached to the kind (&quot;thing&quot;), any other descriptions you add later will override it. For instance, the following will work correctly:]\n\nThe infant is a man in the basket. The description of the infant is &quot;So strong and fat that you wonder whether one of your fellow gods is acquainted with the mistress of the house-- but it\'s no concern of yours, of course.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Odin&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The House of a Mortal Farmer is a room. &quot;Having two separate rooms, this house bespeaks considerable wealth and success at agriculture.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Bedroom is inside from the House.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A chair is a kind of supporter. A chair is always enterable.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">In the House are a table, two chairs, a basket, and a hearth. On the table is a loaf of bread.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The description of a thing is usually &quot;You give [the noun] a glance, but it is plainly beneath your attention.&quot;
+</font></blockquote><p>
+<p>
+<p>Because the description is attached to the kind (&quot;thing&quot;), any other descriptions you add later will override it. For instance, the following will work correctly:
+<p>
+<blockquote><font color="#000080">The infant is a man in the basket. The description of the infant is &quot;So strong and fat that you wonder whether one of your fellow gods is acquainted with the mistress of the house-- but it's no concern of yours, of course.&quot;
+</font></blockquote><p>
+</td></tr></table><p><a name="e167"><a href=ex167.html#e167><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A staircase always open and never openable.</i><p>
+<p><hr><p><a href=doc45.html>Previous</a> / <a href=doc47.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

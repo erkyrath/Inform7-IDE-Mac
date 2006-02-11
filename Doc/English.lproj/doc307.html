@@ -1,4 +1,4 @@
-<html><head><title>20.1. About these examples</title></head>
+<html><head><title>19.15. Handling phrase options</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,10 +7,32 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 20: Appendix: Worked Examples</h2><p><table><tr><td><a href=doc306.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc308.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>20.1. About these examples</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc306.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc308.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.15. Handling phrase options</b></td></tr></table><p>
 <p>
-<p>Though there are more than a hundred example texts in the main text of the documentation, few of them are plausible as playable works of interactive fiction. So they perhaps do not give a very good idea of what practical use of Inform would involve. Successful writing of IF involves orchestrating a whole range of techniques and effects, some literary, some technical, and to get the best from Inform certainly involves using the material in all of the chapters of this documentation at once.
+<p>The Standard Rules use the Inform list-writer with the following definitions, which show how a much more complicated I6 routine can be given a natural-language expression.
 <p>
-<p>The examples in this Appendix, which are much longer than those which have gone before, are intended to show how Inform's different mechanisms can be combined to produce works of more or less finished quality. We also intend them as examples of style, or at least of one idea of style, and have tried to add notes which are reasonably honest about why we have chosen one method over another, and what turned out to work badly - rather than pretending that Inform is so sublime that the creative process is effortless.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('To list the contents of (O - an object),\n\twith newlines,\n\tindented,\n\tgiving inventory information,\n\tas a sentence,\n\tincluding contents,\n\tincluding all contents,\n\ttersely,\n\tgiving brief inventory information,\n\tusing the definite article,\n\tlisting marked items only,\n\tprefacing with is/are\n\tand/or not listing concealed items:\n\t(- WriteListFrom(child({O}), {phrase options}); -).\n\nTo say contents of (O - an object): list the contents of O, as a sentence.\n\nTo say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.\n\n\n')"><img border=0 src=paste.png></a> To list the contents of (O - an object),
+<br>&nbsp;&nbsp;&nbsp;&nbsp;with newlines,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;indented,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;giving inventory information,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;as a sentence,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;including contents,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;including all contents,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;tersely,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;giving brief inventory information,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;using the definite article,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;listing marked items only,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;prefacing with is/are
+<br>&nbsp;&nbsp;&nbsp;&nbsp;and/or not listing concealed items:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(- WriteListFrom(child({O}), {phrase options}); -).
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To say contents of (O - an object): list the contents of O, as a sentence.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.
+</font></blockquote><p>
+<p>
+<p>&quot;{phrase options}&quot; is a special substitution: it is a bitmap which assigns the given options one bit each, starting with the least significant bit for the first-mentioned option (&quot;with newlines&quot; above) and going up to the most significant bit for the last (&quot;not listing concealed items&quot;).
 <p>
 <p><hr><p><a href=doc306.html>Previous</a> / <a href=doc308.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

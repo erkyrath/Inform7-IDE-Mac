@@ -1,4 +1,4 @@
-<html><head><title>6.5. Before rules</title></head>
+<html><head><title>16.10. Printing the plural name of something</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,67 +7,83 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc76.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc78.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.5. Before rules</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc243.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc245.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.10. Printing the plural name of something</b></td></tr></table><p>
 <p>
-<p>Despite what was said in the previous section, instead rules do not quite bypass all of the usual rules. Inform knows that certain actions require light: for instance,
+<p><b>1. When it happens.</b> Only when a group of identical items is present in the same place, and are being described jointly with text like &quot;You can see five gold rings here.&quot; The action happens after &quot;five&quot; and before &quot;here.&quot;
 <p>
-<blockquote><font color="#000080">examining the napkin; looking; looking under the dining table
-</font></blockquote><p>
+<p><b>2. The default behaviour.</b> The plural name - in this case &quot;gold rings&quot; - is printed out.
 <p>
-<p>and if it is dark then none of these actions will be allowed, and any instead rules about them will not even be reached. Similarly, Inform knows that most actions require physical access to their objects: so &quot;taking the napkin&quot; would be blocked if the napkin were, say, inside a closed glass bottle, whereas &quot;examining the napkin&quot; would not. So an instead rule can only take effect if the action has already passed these basic reasonability tests.
-<p>
-<p>&quot;Before&quot; rules genuinely precede checking of any kind. They also differ from instead rules in that they do not automatically stop the action in its tracks. Rather, they are provided as an opportunity to ensure that something else is done first. For example:
-<p>
-<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
-</font></blockquote><p>
-<p>
-<p>whence
-<p>
-<blockquote><font color="#000080">&gt;GET NAPKIN
-<br>(first unfolding its delicate origami swan)
-<br>Taken.
-</font></blockquote><p>
-<p>
-<p>We have seen that instead rules automatically stop actions, whereas before rules automatically allow them to continue. We sometimes want to change this. The magic word &quot;instead&quot; can therefore be tacked on to any instruction in a before rule, and will have the effect of immediately stopping the action at that instruction. Thus the following two rules are (almost) equivalent:
-<p>
-<blockquote><font color="#000080">Before removing the key, instead say &quot;It seems to be soldered to the keyhole.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of removing the key, say &quot;It seems to be soldered to the keyhole.&quot;
-</font></blockquote><p>
-<p>
-<p>Two special phrases can also be used: &quot;stop the action&quot; and &quot;continue the action&quot;. Yet a third way to achieve the same effect, then, would be:
-<p>
-<blockquote><font color="#000080">Before removing the key: say &quot;It seems to be soldered to the keyhole.&quot;; stop the action.
-</font></blockquote><p>
-<p>
-<p>And to round off the discussion, these are also (almost) equivalent:
-<p>
-<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of taking the napkin: say &quot;(first unfolding its delicate origami swan)&quot;; continue the action.
-</font></blockquote><p>
-<p>
-<p>As a general principle, it is good style to use instead rules whenever blocking actions, and before rules only when it is genuinely necessary to do something first but then to continue: in fact, it is good style to use &quot;stop the action&quot; or &quot;continue the action&quot; as little as possible.
+<p><b>3. Examples.</b> See below.
 <p>
 <p><hr><p>
-<a name="e8"><a href=ex8.html#e8><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Redirect the command PUT ALL ON FLOOR to DROP ALL.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e93"><a href=doc77.html#e93><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Make PUT and INSERT commands automatically take objects if the player is not holding them.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e93"><a href=doc244.html#e93><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Letters which are described differently as a group, depending on whether the player has read none, some, or all of them, and on whether they are alike or unlike.</i><p>
 <p>
-<p>&quot;Stop&quot; and &quot;Continue&quot; are most useful when we need to write rules that will have to stop the action some of the time but at other times let it pass; so for instance:
-<p>
-<blockquote><font color="#000080">Before inserting something which is not carried by the player into something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is in the second noun, say &quot;Already done.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first taking [the noun])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try taking the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is not holding the noun, stop the action.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Hudsucker Industries&quot;\n\nTone is a kind of value. The tones are effusive, affectionate, polite, curt, and flamingly rude.\n\nA letter is a kind of thing. The description of a letter is usually &quot;On inspection, it turns out to be quite [tone].&quot; A letter has a tone. The tone of a letter is usually polite.\n\nBefore printing the name of a letter (called the subject): if we have examined the subject, say &quot;[tone] &quot;.\n\nBefore printing the plural name of a letter (called the subject):\n\tif we have not examined the subject, make no decision;\n\tlet standard tone be the tone of the subject;\n\trepeat with X running through letters which are next to the subject\n\tbegin;\n\t\tif we have not examined X, make no decision;\n\t\tif the tone of X is not the standard tone\n\t\tbegin;\n\t\t\tsay &quot;unsorted &quot;;\n\t\t\tmake no decision;\n\t\tend if;\n\tend repeat;\n\tsay &quot;[tone] &quot;.\n\nAfter printing the plural name of a letter (called the subject):\n\tlet the read count be 0; let the unread count be 0;\n\trepeat with X running through letters which are next to the subject\n\tbegin;\n\t\tif we have examined X, let the read count be the read count plus 1;\n\t\totherwise let the unread count be the unread count plus 1;\n\tend repeat;\n\tif the unread count > 0\n\tbegin;\n\t\tif the read count is 0\n\t\tbegin;\n\t\t\tsay &quot; (all unread, at the moment)&quot;;\n\t\totherwise;\n\t\t\tsay &quot; (some as yet unread)&quot;;\n\t\tend if;\n\tend if;\n\nProximity relates a thing (called X) to a thing (called Y) when the holder of X is the holder of Y. The verb to be next to implies the proximity relation.\n\nThe Mailroom is a room. &quot;Usually a thrumming hive of bee-like workers, but you got in early to get a jump on the day\'s work.&quot;\n\nThe satchel is carried by the player. Two flamingly rude letters are in the satchel. Five polite letters are in the satchel.\n\nThe mail wall are fixed in place in the mailroom. &quot;Before you is a wall of mailboxes, including [list of mailboxes which are part of the mail wall].&quot;\n\nThe plural of mailbox is mailboxes. A mailbox is a kind of container. The CEO box is a mailbox. The Hold box is a mailbox. The Trash box is a mailbox.\n\nWhen play begins: now every mailbox is part of the mail wall;\n\trepeat with X running from 1 to 5\n\tbegin;\n\t\tmove a random letter to the satchel;\n\tend repeat.\n\n\n')"><img border=0 src=paste.png></a> &quot;Hudsucker Industries&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before putting something which is not carried by the player on something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is on the second noun, say &quot;Already done.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first taking [the noun])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try taking the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is not holding the noun, stop the action.
+<blockquote><font color="#000080">Tone is a kind of value. The tones are effusive, affectionate, polite, curt, and flamingly rude.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc76.html>Previous</a> / <a href=doc78.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">A letter is a kind of thing. The description of a letter is usually &quot;On inspection, it turns out to be quite [tone].&quot; A letter has a tone. The tone of a letter is usually polite.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before printing the name of a letter (called the subject): if we have examined the subject, say &quot;[tone] &quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before printing the plural name of a letter (called the subject):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if we have not examined the subject, make no decision;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let standard tone be the tone of the subject;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with X running through letters which are next to the subject
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if we have not examined X, make no decision;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the tone of X is not the standard tone
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;unsorted &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;make no decision;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[tone] &quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After printing the plural name of a letter (called the subject):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the read count be 0; let the unread count be 0;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with X running through letters which are next to the subject
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if we have examined X, let the read count be the read count plus 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise let the unread count be the unread count plus 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the unread count > 0
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the read count is 0
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; (all unread, at the moment)&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; (some as yet unread)&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Proximity relates a thing (called X) to a thing (called Y) when the holder of X is the holder of Y. The verb to be next to implies the proximity relation.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Mailroom is a room. &quot;Usually a thrumming hive of bee-like workers, but you got in early to get a jump on the day's work.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The satchel is carried by the player. Two flamingly rude letters are in the satchel. Five polite letters are in the satchel.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The mail wall are fixed in place in the mailroom. &quot;Before you is a wall of mailboxes, including [list of mailboxes which are part of the mail wall].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The plural of mailbox is mailboxes. A mailbox is a kind of container. The CEO box is a mailbox. The Hold box is a mailbox. The Trash box is a mailbox.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">When play begins: now every mailbox is part of the mail wall;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with X running from 1 to 5
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move a random letter to the satchel;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+<p>
+<p>That last &quot;repeat&quot; is merely a device to shuffle the order of items in the satchel so that the player will not always encounter the letters in a neatly presorted order, despite our defining them that way.
+</td></tr></table><p><p><hr><p><a href=doc243.html>Previous</a> / <a href=doc245.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

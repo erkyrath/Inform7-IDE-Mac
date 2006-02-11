@@ -7,14 +7,11 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 4: Kinds</h2><p><table><tr><td><a href=doc44.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc46.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.1. New kinds</b></td></tr></table><p>
+<h2>Chapter 4: Kinds</h2><p><table><tr width="100%"><td width=80 valign="top"><a href=doc44.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc46.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.1. New kinds</b></td></tr></table><p>
 <p>
-<p>Everything has one and only one kind: but kinds can have more specific kinds. Inform makes the world out of three fundamental kinds of object, &quot;room&quot;, &quot;thing&quot; and &quot;direction&quot;: browsing the Kinds index will give an idea of how the others fit together. (A container, for instance, is a kind of thing.) As Borges reminds us in his spoof article on the subject, dividing up the world into kinds is not so easy as it looks:
+<p>Everything has one and only one kind: but kinds can have more specific kinds. Inform makes the world out of three fundamental kinds of object, &quot;room&quot;, &quot;thing&quot; and &quot;direction&quot;: but, browsing the Kinds index, we find a dozen or so kinds built into Inform. For instance, &quot;container&quot; is a kind of &quot;thing&quot;, and &quot;woman&quot; is a kind of &quot;person&quot; which is in turn a kind of &quot;thing&quot;.
 <p>
-<blockquote><font color="#000080">These ambiguities, redundancies and deficiencies remind us of those which doctor Franz Kuhn attributes to a certain Chinese encyclopaedia entitled 'Celestial Empire of benevolent Knowledge'. In its remote pages it is written that the animals are divided into: (a) belonging to the emperor, (b) embalmed, (c) tame, (d) sucking pigs, (e) sirens, (f) fabulous, (g) stray dogs, (h) included in the present classification, (i) frenzied, (j) innumerable, (k) drawn with a very fine camelhair brush, (l) et cetera, (m) having just broken the water pitcher, (n) that from a long way off look like flies.
-</font></blockquote><p>
-<p>
-<p>Because taxonomy - setting up kinds for everything - is so difficult, and depends so much on what you want it for, Inform creates relatively few kinds in advance: it has &quot;animal&quot; built in, but not &quot;sucking pig&quot;. When we need more, we must make them ourselves.
+<p>Because taxonomy - setting up kinds for everything - is so difficult, and depends so much on what you want it for, Inform creates relatively few kinds in advance: it has &quot;animal&quot; built in, but not &quot;mammal&quot; or &quot;tiger&quot;. When we need more, we must make them ourselves.
 <p>
 <p>Any new kind must be created as a special case of an existing one. Here we sub-categorise rooms:
 <p>
@@ -33,6 +30,18 @@ function pasteCode(code) {
 </font></blockquote><p>
 <p>
 <p>Three different rooms adjoin the Undertomb as a result. Notice how much more concise this is thanks to having the &quot;dead end&quot; kind to hand.
+<p>
+<p>For the most part, Inform does not mind in what order it is told about the world, but it may need to know the name of a kind before that kind can be used. For example,
+<p>
+<blockquote><font color="#000080">A coffer is a kind of container. In the Crypt is an open coffer.
+</font></blockquote><p>
+<p>
+<p>makes sense to Inform and results in the creation of a new thing, just called &quot;coffer&quot; in the absence of any other name to give it, whose kind is &quot;coffer&quot; and which is initially open. Whereas if Inform reads:
+<p>
+<blockquote><font color="#000080">In the Crypt is an open coffer.
+</font></blockquote><p>
+<p>
+<p>when it does not know that &quot;coffer&quot; is a kind, it simply makes a thing called &quot;open coffer&quot; and which has no containment properties. Inform has to be careful like this: English is simply too overflowing with multiple meanings. (An &quot;open railway ticket&quot;, for instance, is not a &quot;railway ticket&quot; that one can put objects into.)
 <p>
 <p>What is a kind, really? In the end it is a name for a bundle of properties, and the key differences between a kind (such as &quot;container&quot;) and a property (such as &quot;fixed in place&quot;) are that, firstly, something only has one kind (except in the sense that a container is also a thing, and so on), and secondly, it has that kind forever, whereas properties may change.
 <p>

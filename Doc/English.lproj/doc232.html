@@ -1,4 +1,4 @@
-<html><head><title>15.16. Understanding mistakes</title></head>
+<html><head><title>15.15. Context: understanding when</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,42 +7,24 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc231.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc233.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.16. Understanding mistakes</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc231.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc233.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.15. Context: understanding when</b></td></tr></table><p>
 <p>
-<p>When inspiration strikes the player, he can usually be relied upon to make a good-faith effort to communicate the new idea: he will guess the right command. If he guesses wrongly, the mistake is probably the author's, because a good author will try to anticipate all possible wordings and make all of them work.
+<p>We have now seen several different forms of &quot;Understand&quot; sentence: for instance,
 <p>
-<p>Nevertheless it is sometimes good practice to nudge the player towards the right wording - particularly if the player has the right idea but is not explicit enough: for instance, typing TALK TO JUDGE when we really want to know what is to be said (JUDGE, GUILTY); or if the player tries something like PLAY CHESS rather than MOVE PAWN TO KING 4. Similarly, if we make a casual reference such as &quot;In your childhood days, you loved sliding in stocking feet across this hallway&quot;, a player might type SLIDE IN STOCKING FEET: a nice idea, and which deserves a nice response, even though it asks to do something beyond the scope of the game.
-<p>
-<p>Inform provides a simple mechanism for recognising a command but at the same time recognising that <i>it does not properly specify an action</i>. Such commands are called &quot;mistakes&quot;, for the sake of a memorable term, but the player has not really behaved badly, and should be helped rather than reproved. For instance:
-<p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake.
+<blockquote><font color="#000080">Understand the colour property as describing a building block.
+<br>Understand &quot;mix [colour] paint&quot; as mixing paint.
+<br>Understand &quot;rouge&quot; as red.
+<br>Understand &quot;curious girl&quot; as Alice.
 </font></blockquote><p>
 <p>
-<p>While that works - the command to &quot;act&quot; is indeed rejected - it is not very good, because no very helpful message is brought up. The following is much better:
+<p>Any of these may optionally have a condition tacked on: for instance,
 <p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;).
+<blockquote><font color="#000080">Understand &quot;mix [colour] paint&quot; as mixing paint when the location is the Workshop.
+<br>Understand &quot;rouge&quot; as red when the make-up set is visible.
 </font></blockquote><p>
 <p>
-<p>Or we could once again insist on a given context:
-<p>
-<blockquote><font color="#000080">Understand &quot;act&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
-</font></blockquote><p>
-<p>
-<p>That still has the drawback that the command &quot;act hamlet&quot; will not be recognised: so the final version we want is probably
-<p>
-<blockquote><font color="#000080">Understand &quot;act [text]&quot; as a mistake (&quot;To join the actors, you have to adopt a role in the play! Try PLAY HAMLET or similar.&quot;) when the location is the Garden Theatre.
-</font></blockquote><p>
-<p>
-<p>since the &quot;[text]&quot; part will soak up any words the player types (or none), meaning that any command at all whose first word is &quot;act&quot; will be matched.
-<p>
-<p>If we are careful, we can make the reply depend on what was typed in the mistaken command:
-<p>
-<blockquote><font color="#000080">Understand &quot;steal [something]&quot; as a mistake (&quot;Just TAKE [the noun] and leave without paying: that's stealing in my book.&quot;).
-</font></blockquote><p>
-<p>
-<p>The care comes in because Inform applies much less checking to mistakes than to other actions, and odd errors will result if we try to refer to (say) &quot;the second noun&quot; in a command which did not have a second noun.
+<p>In principle, &quot;when ...&quot; can take in any condition at all. In practice a little care should be exercised not to do anything too slow, or which might have side-effects. (For instance, referring the decision to a phrase which then printed text up would be a bad idea.) Moreover, we must remember that the &quot;noun&quot; and &quot;second noun&quot; are not known yet, nor do we know what the action will be. So we cannot safely say &quot;when the noun is the fir cone&quot;, for instance. If we want more sophisticated handling of such cases, we need to write checking rules and so on in the usual way.
 <p>
 <p><hr><p>
-<a name="e114"><a href=ex114.html#e114><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>If the player tries to TALK TO a character, suggest alternative modes of conversation.</i><p>
-<a name="e40"><a href=ex40.html#e40><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Responding to references to a property that the player isn't yet allowed to mention (or when not to use "understand as a mistake").</i><p>
+<a name="e17"><a href=ex17.html#e17><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A bookshelf with a number of books, where the player's command to examine something will be interpreted as an attempt to look up titles if the bookshelf is present, but otherwise given the usual response.</i><p>
 <p><hr><p><a href=doc231.html>Previous</a> / <a href=doc233.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

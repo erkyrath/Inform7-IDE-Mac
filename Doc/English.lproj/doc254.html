@@ -1,4 +1,4 @@
-<html><head><title>16.21. Printing the player's obituary</title></head>
+<html><head><title>16.20. Listing nondescript items of something</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,20 +7,30 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc253.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc255.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.21. Printing the player's obituary</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc253.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc255.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.20. Listing nondescript items of something</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> The obituary is the text &quot;*** You have died ***&quot; or similar, usually followed by the final score.
+<p><b>1. When it happens.</b> This activity prints up the also-ran paragraph at the end of a room description. These are nondescript items because they don't merit paragraphs of their own: if, as sometimes happens, there are none in the room, then no such paragraph is printed and this activity does not happen. (So to add a further paragraph to a room description, a simpler &quot;after looking&quot; rule should be used, not an &quot;after listing nondescript items&quot; rule.)
 <p>
-<p><b>2. The default behaviour.</b> Printing the aforementioned text, then the final score, and reducing the status line to a largely blank state.
+<p><b>2. The default behaviour.</b> The paragraph ordinarily reads as &quot;You can also see a cask and a clock.&quot; or similar. Before the activity begins, those objects which are nondescript - in this case the cask and the clock - are given the property of being &quot;marked for listing&quot;. If it turns out that nothing is marked for listing, because of before rules like the one in the example below, then nothing is printed.
 <p>
-<p><b>3. Examples.</b> (a) For a work with no meaningful score, it would be odd to wind up with a final reckoning of 0, so:
+<p><b>3. Examples.</b> (a) Promoting something out of the nondescript category, by unmarking it.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Procedural rule: ignore the print final score rule.\n\n\n')"><img border=0 src=paste.png></a> Procedural rule: ignore the print final score rule.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Before listing nondescript items:\n\tif the watch is marked for listing begin;\n\t\tsay &quot;The watch catches your eye.&quot;;\n\t\tchange the watch to not marked for listing;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> Before listing nondescript items:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the watch is marked for listing begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The watch catches your eye.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the watch to not marked for listing;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>(b) Or we could add to the verdict:
+<p>(b) Changing the normal phrasing of the paragraph. Note that we can also change the listing style; the one below is the default.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After printing the player\'s obituary: say &quot;And you visited [number of visited rooms] place[s].&quot;\n\n\n')"><img border=0 src=paste.png></a> After printing the player's obituary: say &quot;And you visited [number of visited rooms] place[s].&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for listing nondescript items of the Distressingly Messy Room:\n\tsay &quot;Strewn carelessly on the floor&quot;;\n\tlist the contents of the Distressingly Messy Room, as a sentence,\n\t\ttersely, listing marked items only, prefacing with is/are,\n\t\tincluding contents and giving brief inventory\n\t\tinformation;\n\tsay &quot;.&quot;\n\n\n')"><img border=0 src=paste.png></a> Rule for listing nondescript items of the Distressingly Messy Room:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Strewn carelessly on the floor&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;list the contents of the Distressingly Messy Room, as a sentence,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tersely, listing marked items only, prefacing with is/are,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;including contents and giving brief inventory
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;information;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc253.html>Previous</a> / <a href=doc255.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

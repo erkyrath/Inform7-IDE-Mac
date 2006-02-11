@@ -1,4 +1,4 @@
-<html><head><title>12.11. Defining new prepositions</title></head>
+<html><head><title>15.4. Standard tokens of grammar</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,79 +7,58 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc178.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc180.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.11. Defining new prepositions</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc220.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc222.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.4. Standard tokens of grammar</b></td></tr></table><p>
 <p>
-<p>The term preposition is used here, a little loosely, to mean anything which we add to the verb <i>to be</i> in order to talk about some relation or other. We have seen many examples already, such as:
+<p>We have already seen &quot;[something]&quot; and &quot;[someone]&quot;, which are standard examples of &quot;tokens of grammar&quot; - patterns matched by suitable named things. There are several other standard tokens, provided not so much from necessity but to allow the game parser to be more graceful and responsive. &quot;[someone]&quot; matches the same possibilities as &quot;[a person]&quot; would, but the parser handles it a little better in cases of failure. These special tokens are best explained by looking at some of the examples in the standard grammar, which can be browsed in the Index of any game.
 <p>
-<blockquote><font color="#000080">To be in - The ball is in the box.
-<br>To be part of - The lever is part of the slot machine.
+<blockquote><font color="#000080">Understand &quot;wear [something held]&quot; as wearing.
 </font></blockquote><p>
 <p>
-<p>These are easier to create than verbs, because Inform already knows the wayward grammar of <i>to be</i>, so we need not give any of the principal parts. Otherwise, the method is exactly the same. Compare the definitions in the following:
+<p>The named item must be held by the player, but the game will automatically pick it up if necessary, minimising nuisance.
 <p>
-<blockquote><font color="#000080">Suspecting relates various people to one person.
+<blockquote><font color="#000080">Understand &quot;take [things]&quot; as taking.
+<br>Understand &quot;drop [things held]&quot; as dropping.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The verb to suspect (he suspects, they suspect, he suspected, it is suspected, he is suspecting) implies the suspecting relation.
+<p>&quot;[things]&quot; is like &quot;[something]&quot; but allows a list of items, or a vague plural like &quot;all&quot;, to be typed. The result will be a sequence of actions, one for each item thus described. &quot;[things held]&quot; is the analogous token for &quot;[something held]&quot;.
+<p>
+<blockquote><font color="#000080">Understand &quot;take [things inside] from [something]&quot; as removing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The verb to be suspicious of implies the suspecting relation.
+<p>&quot;[things inside]&quot; matches only what is inside the second-named thing, and ensures that (for instance) the command &quot;take all from box&quot; does not also try to take the box.
+<p>
+<blockquote><font color="#000080">Understand &quot;put [other things] in/inside/into [something]&quot; as inserting it into.
 </font></blockquote><p>
 <p>
-<p>The result of this is that
-<p>
-<blockquote><font color="#000080">Hercule Poirot suspects Colonel Hotchkiss.
-<br>Hercule Poirot is suspicious of Colonel Hotchkiss.
-</font></blockquote><p>
-<p>
-<p>are exactly equivalent, and so are these two descriptions:
-<p>
-<blockquote><font color="#000080">somebody who suspects Colonel Hotchkiss
-<br>somebody suspicious of Colonel Hotchkiss
-</font></blockquote><p>
+<p>Similarly, &quot;[other things]&quot; will allow anything except the second-named thing.
+<p>(Like &quot;[things inside]&quot; it is really only needed for handling containers.)
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e123"><a href=doc179.html#e123><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>An "underlying" relation which adds to the world model the idea of objects hidden under other objects.</i><p>
+<a name="e118"><a href=ex118.html#e118><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A (very) simple HELP command, using tokens to accept and interpret the player's  text whatever it might be.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e123"><a href=doc221.html#e123><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Allowing the player to EXAMINE ALL.</i><p>
 <p>
-<p>The standard world model provides for the idea of containers and supporters, but this is not the only way that objects can relate to one another in the real world. Here we try adding the idea of concealment beneath another object:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Beneath the Surface&quot;\n\nSection 1 - In Which our Terms are Defined\n\nUnderlying relates various things to one thing. The verb to underlie (he underlies, they underlie, he underlaid, it is underlaid, he is underlying) implies the underlying relation. The verb to be under implies the underlying relation. The verb to be beneath implies the underlying relation.\n\nInstead of looking under a thing which is underlaid by something (called the lost object):\n\tsay &quot;You find [the list of things which underlie the noun]!&quot;;\n\tnow every thing which underlies the noun is carried by the player;\n\tnow every thing which underlies the noun underlies 0;\n\nHiding it under is an action applying to two things. Understand &quot;put [something held] under [something]&quot; as hiding it under. Understand &quot;hide [something held] under [something]&quot; as hiding it under. Understand the commands &quot;shove&quot; and &quot;conceal&quot; and &quot;stick&quot; as &quot;hide&quot;.\n\nCheck hiding it under:\n\tif the second noun is not fixed in place, say &quot;[The second noun] wouldn\'t be a very effective place of concealment.&quot; instead.\n\nCarry out hiding it under:\n\tremove the noun from play;\n\tnow the noun underlies the second noun;\n\nReport hiding it under:\n\tsay &quot;You shove [the noun] out of sight beneath [the second noun].&quot;\n\nSection 2 - In Which They are Put To Use\n\nThe Room of Hidden Objects is a room. It contains a sofa, an easy chair, and a rug. The sofa supports a lime-green pillow and an innocent-looking Chinese finger toy. The rug is fixed in place.\n\nA treasure map underlies the easy chair. A skeleton is beneath the sofa. A blueprint of Atlantis, a lexicon of Linear A, and the key to Jimmy Hoffa\'s Mausoleum are under the rug.\n\n')"><img border=0 src=paste.png></a> &quot;Beneath the Surface&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Shawn\'s Bad Day&quot;\n\nThe Treasury is a room. The vault is a lockable locked closed openable container in the Treasury. It is fixed in place. &quot;A massive vault fills up one wall.&quot; The description is &quot;The vault\'s system includes [list of things which are part of the vault].&quot;\n\nA little green light, a little blue light, a little red light, a thin black pane of glass, a laser beam, a retinal scanner, a thumbprint ID plate, a dial, and a large lever are part of the vault.\n\nThe security guard is a man in the Treasury. The description is &quot;His name is Shawn, and he doesn\'t look happy.&quot;\n\nThe description of the green light is &quot;Off.&quot; The description of the blue light is &quot;Tranquilly on.&quot; The description of the red light is &quot;Angrily flashing.&quot;\n\nUnderstand &quot;examine [things]&quot; as multiply examining.\n\nMultiply examining is an action applying to one thing.\n\nCarry out multiply examining:\n\ttry examining the noun.\n\n')"><img border=0 src=paste.png></a> &quot;Shawn's Bad Day&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Section 1 - In Which our Terms are Defined
+<blockquote><font color="#000080">The Treasury is a room. The vault is a lockable locked closed openable container in the Treasury. It is fixed in place. &quot;A massive vault fills up one wall.&quot; The description is &quot;The vault's system includes [list of things which are part of the vault].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Underlying relates various things to one thing. The verb to underlie (he underlies, they underlie, he underlaid, it is underlaid, he is underlying) implies the underlying relation. The verb to be under implies the underlying relation. The verb to be beneath implies the underlying relation.
+<blockquote><font color="#000080">A little green light, a little blue light, a little red light, a thin black pane of glass, a laser beam, a retinal scanner, a thumbprint ID plate, a dial, and a large lever are part of the vault.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of looking under a thing which is underlaid by something (called the lost object):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You find [the list of things which underlie the noun]!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now every thing which underlies the noun is carried by the player;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now every thing which underlies the noun underlies 0;
+<blockquote><font color="#000080">The security guard is a man in the Treasury. The description is &quot;His name is Shawn, and he doesn't look happy.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Hiding it under is an action applying to two things. Understand &quot;put [something held] under [something]&quot; as hiding it under. Understand &quot;hide [something held] under [something]&quot; as hiding it under. Understand the commands &quot;shove&quot; and &quot;conceal&quot; and &quot;stick&quot; as &quot;hide&quot;.
+<blockquote><font color="#000080">The description of the green light is &quot;Off.&quot; The description of the blue light is &quot;Tranquilly on.&quot; The description of the red light is &quot;Angrily flashing.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check hiding it under:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the second noun is not fixed in place, say &quot;[The second noun] wouldn't be a very effective place of concealment.&quot; instead.
+<blockquote><font color="#000080">Understand &quot;examine [things]&quot; as multiply examining.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out hiding it under:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the noun from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun underlies the second noun;
+<blockquote><font color="#000080">Multiply examining is an action applying to one thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report hiding it under:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You shove [the noun] out of sight beneath [the second noun].&quot;
+<blockquote><font color="#000080">Carry out multiply examining:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try examining the noun.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Section 2 - In Which They are Put To Use
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Room of Hidden Objects is a room. It contains a sofa, an easy chair, and a rug. The sofa supports a lime-green pillow and an innocent-looking Chinese finger toy. The rug is fixed in place.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A treasure map underlies the easy chair. A skeleton is beneath the sofa. A blueprint of Atlantis, a lexicon of Linear A, and the key to Jimmy Hoffa's Mausoleum are under the rug.
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc178.html>Previous</a> / <a href=doc180.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc220.html>Previous</a> / <a href=doc222.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>15.1. Understand</title></head>
+<html><head><title>3.15. Vehicles and pushable things</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,50 +7,41 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 15: Understanding</h2><p><table><tr><td><a href=doc216.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc218.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.1. Understand</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc36.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc38.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>3.15. Vehicles and pushable things</b></td></tr></table><p>
 <p>
-<p>During play, the computer and the player alternate in writing messages to each other: in the player's case, these are short instructions, usually saying what to do next. A wide range of such &quot;commands&quot; are automatically understood, but these only apply to the standard built-in actions. (This wide range is conveniently tabulated at the foot of the Actions index.) If we want the player to be able to command new actions, then we need to specify what is to be understood as what. For this, we supply special sentences starting with the word &quot;Understand&quot;.
+<p>Next in the tour of standard kinds is the &quot;vehicle&quot;. This behaves like (indeed, is) an enterable container, except that it will not be portable unless this is specified.
 <p>
-<p>Suppose we return to the earlier example of a newly created action:
-<p>
-<blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.
+<blockquote><font color="#000080">In the Garage is a vehicle called the red sports car.
 </font></blockquote><p>
 <p>
-<p>We then supply lines of grammar (as they are called) for Inform to recognise, like so:
+<p>The player can enter the sports car and then move around riding inside it, by typing directions exactly as if on foot: and the game will print names of rooms with &quot;(in the red sports car)&quot; appended, lest this be forgotten.
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [someone]&quot; as photographing.
+<p>We have already seen that some things are portable, others fixed in place. In fact we can also make a third sort of thing: those which, although not portable, can be pushed from one room to another with commands like &quot;push the wheelbarrow north&quot;. At a pinch, we might just be willing to allow:
+<p>
+<blockquote><font color="#000080">The red sports car is pushable between rooms.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.
+<p>But of course this is a property which almost any thing can have, not just a vehicle. (Only &quot;almost&quot; because Inform will not allow a door to be pushable between rooms, in the interests of realism rather than surrealism.)
+<p>
+<p>If we need vehicles which the passenger sits on top of, like a horse or a tractor, the standard &quot;vehicle&quot; kind will not be ideal. However, by loading one of the extensions which comes ready-installed:
+<p>
+<blockquote><font color="#000080">Include Rideable Vehicles by Graham Nelson.
 </font></blockquote><p>
 <p>
-<p>As usual, the square brackets indicate something which stands for text, rather than text to be taken verbatim. &quot;[someone]&quot; needs to be the name of anything of the kind &quot;person&quot;, for instance (though as usual that person will need to be in sight of the player for the name to be accepted). The first word - in these examples &quot;photograph&quot; - must be something definite, not a substitution like this.
-<p>
-<p>For obvious reasons, this pattern of words needs to match the expectations of the action. Photographing applies to &quot;one visible thing&quot; - the &quot;visible&quot; just means it does not need to be touched, only seen - so neither of these would be allowable:
-<p>
-<blockquote><font color="#000080">Understand &quot;photograph&quot; as photographing.
-<br>Understand &quot;photograph [someone] standing next to [something]&quot; as photographing.
-</font></blockquote><p>
-<p>
-<p>The first is bad because it supplies no things at all, the second because it supplies two: what we want, of course, is just the one.
+<p>...we are provided with two more kinds, &quot;rideable vehicle&quot; and &quot;rideable animal&quot;, just right for the tractor and the horse respectively. (As with all extensions, the documentation can be seen by clicking Go on some source which contains the above line, and then turning to the Contents index.)
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e31"><a href=doc217.html#e31><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Renaming the directions of the compass so that "white" corresponds to north, "red" to east, "yellow" to south, and "black" to west. (An adaptation of Exercise 9 of the Inform Designer's Manual, Fourth Edition.)</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e31"><a href=doc37.html#e31><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A pushable chest of ice for the boat.</i><p>
 <p>
-<p>The Inform Designer's Manual has the exercise of adding colors as names for the primary directions. This is easily done here as well:
+<p>We probably do not need a vehicle to ride around our boat, but there might be a heavy ice chest that can only be pushed from room to room:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;white&quot; and &quot;sac&quot; as north. Understand &quot;red&quot; and &quot;chac&quot; as east. Understand &quot;yellow&quot; and &quot;kan&quot; as south. Understand &quot;black&quot; and &quot;chikin&quot; as west.\n\n[...And since the original exercise does so:]\n\nUnderstand &quot;turquoise&quot; and &quot;yax&quot; as looking.\n\n\n')"><img border=0 src=paste.png></a> Understand &quot;white&quot; and &quot;sac&quot; as north. Understand &quot;red&quot; and &quot;chac&quot; as east. Understand &quot;yellow&quot; and &quot;kan&quot; as south. Understand &quot;black&quot; and &quot;chikin&quot; as west.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The ice chest is a closed openable container in the Deck. &quot;A very heavy ice chest sits on the ground.&quot; It is fixed in place and pushable between rooms. A quantity of ice is in the chest. The description is &quot;Ready and waiting just in case there\'s any fish needing to be kept cool.&quot;\n\n[This anticipates a later chapter, but it would probably be a good idea to hint to the player, if he tries to take the ice chest, that there is another way to move it:]\n\nInstead of taking the chest: say &quot;It\'s too heavy to lift, but you might be able to push it, and just inch it over the frame of the door.&quot;\n\n\n')"><img border=0 src=paste.png></a> The ice chest is a closed openable container in the Deck. &quot;A very heavy ice chest sits on the ground.&quot; It is fixed in place and pushable between rooms. A quantity of ice is in the chest. The description is &quot;Ready and waiting just in case there's any fish needing to be kept cool.&quot;
 </font></blockquote><p>
 <p>
-<p>...And since the original exercise does so:
+<p>This anticipates a later chapter, but it would probably be a good idea to hint to the player, if he tries to take the ice chest, that there is another way to move it:
 <p>
-<blockquote><font color="#000080">Understand &quot;turquoise&quot; and &quot;yax&quot; as looking.
+<blockquote><font color="#000080">Instead of taking the chest: say &quot;It's too heavy to lift, but you might be able to push it, and just inch it over the frame of the door.&quot;
 </font></blockquote><p>
 <p>
-<p>Or (in a variation of the same) we could imagine
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;fore&quot; or &quot;f&quot; as north. Understand &quot;aft&quot; or &quot;a&quot; as south. Understand &quot;port&quot; or &quot;p&quot; as west. Understand &quot;starboard&quot; or &quot;sb&quot; as east.\n\n\n')"><img border=0 src=paste.png></a> Understand &quot;fore&quot; or &quot;f&quot; as north. Understand &quot;aft&quot; or &quot;a&quot; as south. Understand &quot;port&quot; or &quot;p&quot; as west. Understand &quot;starboard&quot; or &quot;sb&quot; as east.
-</font></blockquote><p>
-<p>
-<p>for a game set on a ship. This would not prevent the player from using north, south, east, and west as well, of course.
-</td></tr></table><p><p><hr><p><a href=doc216.html>Previous</a> / <a href=doc218.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>Otherwise, attempts to pick it up will just reply with &quot;That's fixed in place.&quot;
+</td></tr></table><p><p><hr><p><a href=doc36.html>Previous</a> / <a href=doc38.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

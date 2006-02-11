@@ -1,4 +1,4 @@
-<html><head><title>11.13. Out of world actions</title></head>
+<html><head><title>16.18. Constructing the status line</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,42 +7,70 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc164.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc166.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.13. Out of world actions</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc251.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc253.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.18. Constructing the status line</b></td></tr></table><p>
 <p>
-<p>The actions seen so far are all impulses causing the protagonist inside the fictional world to do something, or at least try to. But when the player types &quot;quit&quot; or &quot;save&quot;, that is not a request for anything to happen in the fictional world: it is an instruction to the program simulating that world. In fact, just the same, such requests are treated as actions, but of a special category called &quot;out of world&quot; actions. They do not cause time to pass by, so the turn counter does not advance, nor does this command cycle count as a turn at all; and they are altogether exempt from &quot;Before&quot;, &quot;Instead&quot; and &quot;After&quot; rules. Only the player is allowed to try them.
+<p><b>1. When it happens.</b> Just before input is accepted from the keyboard, Inform constructs a &quot;status line&quot; at the top of the window which is normally displayed in reverse colours (white on black instead of black on white, say).
 <p>
-<p>We can also create new out-of-world actions. Suppose we want a dialogue like so:
+<p><b>2. The default behaviour.</b> Makes the status line up out of two pieces, the &quot;left hand status line&quot; and the &quot;right hand status line&quot;. Since these can freely be changed, note that the status line is already very customisable without using rules applied to this activity.
 <p>
-<blockquote><font color="#000080">>ROOMS
-<br>You have been to 1 out of 8 rooms.
+<p><b>3. Examples.</b> (a) The most useful thing about this activity is that it allows us to vary descriptions in the status line. This is especially helpful to abbreviate unduly long room names, which might not otherwise fit:
+<p>
+<blockquote><font color="#000080">The Temple Of A Thousand Mightily Peeved Deities is a room. Rule for printing the name of the Temple while constructing the status line: say &quot;Temple&quot;.
 </font></blockquote><p>
 <p>
-<p>Here is a complete implementation:
+<p>(b) Again, it's usually not necessary to apply activity rules to this, but occasionally amusing effects are possible if we do:
 <p>
-<blockquote><font color="#000080">Requesting the room tally is an action out of world.
-<br>Report requesting the room tally: say &quot;You have been to [number of visited rooms] out of [number of rooms] room[s].&quot;
-<br>Understand &quot;rooms&quot; as requesting the room tally.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.\n\n\n')"><img border=0 src=paste.png></a> The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.
 </font></blockquote><p>
-<p>
-<p>It is important not to use &quot;out of world&quot; actions for anything affecting what goes on in the fictional world, or realism will collapse, and action-processing may also fail to work in the usual way. &quot;Out of world&quot; actions should be reserved for providing commands like ROOMS, which monitor events rather than participate in them.
 <p>
 <p><hr><p>
-<a name="e124"><a href=ex124.html#e124><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>P. David Lebling's classic "Spellbreaker" (1986) includes a room where the game cannot be saved: here is an Inform implementation.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e69"><a href=doc165.html#e69><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>In some of the late 1970s "cave crawl" adventure games, an elaborate scoring system might still leave the player perplexed as to why an apparently perfect play-through resulted in a score which was still one point short of the supposed maximum. Why only 349 out of 350? The answer varied, but sometimes the last point was earned by never saving the game - in other words by playing it right through with nothing to guard against mistakes (except perhaps UNDO for the last command), and in one long session.</i><p>
+<a name="e70"><a href=ex70.html#e70><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A status line that lists the available exits from the current location.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e69"><a href=doc252.html#e69><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A status line that lists the available exits from the current location, changing the names of these exits depending on whether the room has been visited or not.</i><p>
 <p>
-<p>Here is one way to score this point with Inform:
+<p>It may sometimes be helpful to prompt the player with a list of exits printed up in the status line. For instance, here is a status line that will print the names of nearby rooms, as well as all the doors the player can see:
 <p>
-<blockquote><font color="#000080">Check saving the game for the first time: award -1 point.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tchange left hand status line to &quot;Nearby: [if a room is adjacent][the list of adjacent rooms][end if][if a room is adjacent and a door is visible] and [end if][if a door is visible][the list of visible doors][end if]&quot;;\n\tchange right hand status line to &quot; &quot;.\n\n[Of course, we may not want to tell the player what glories are to be found in locations he hasn\'t yet explored.]\n\nRule for printing the name of an unvisited room (called the target) while constructing the status line:\n\tlet aim be the best route from the location to the target;\n\tsay &quot;something [aim]&quot;.\n\n[Even when we have seen a room, we might still want a reminder about how to get there:]\n\nAfter printing the name of a visited room (called the target) while constructing the status line:\n\tlet aim be the best route from the location to the target;\n\tsay &quot; ([aim])&quot;.\n\n[We may also find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn\'t hard to provide a set of abbreviations to use in this context:]\n\nRule for printing the name of a direction (called the aim) while constructing the status line:\n\tchoose row with a heading of the aim in the Table of Abbreviation;\n\tsay &quot;[shortcut entry]&quot;.\n\nTable of Abbreviation\nheading\tshortcut\nnorth\t&quot;N&quot;\nnortheast\t&quot;NE&quot;\neast\t&quot;E&quot;\nsoutheast\t&quot;SE&quot;\nsouth\t&quot;S&quot;\nsouthwest\t&quot;SW&quot;\nwest\t&quot;W&quot;\nup\t&quot;U&quot;\ndown\t&quot;D&quot;\ninside\t&quot;in&quot;\noutside\t&quot;out&quot;\n\n\n')"><img border=0 src=paste.png></a> When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change left hand status line to &quot;Nearby: [if a room is adjacent][the list of adjacent rooms][end if][if a room is adjacent and a door is visible] and [end if][if a door is visible][the list of visible doors][end if]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change right hand status line to &quot; &quot;.
 </font></blockquote><p>
 <p>
-<p>That has the right effect, but it just isn't sneaky enough. Instead let us quietly keep track of how many times the player saves:
+<p>Of course, we may not want to tell the player what glories are to be found in locations he hasn't yet explored.
 <p>
-<blockquote><font color="#000080">Check saving the game: change the number of saves to the number of saves plus 1.
-<br>When play ends: if the number of saves is 0, award 1 point.
+<blockquote><font color="#000080">Rule for printing the name of an unvisited room (called the target) while constructing the status line:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let aim be the best route from the location to the target;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;something [aim]&quot;.
 </font></blockquote><p>
 <p>
-<p>Sneakier, certainly, but now we could get the bonus even if the game ends earlier on, so finally:
+<p>Even when we have seen a room, we might still want a reminder about how to get there:
 <p>
-<blockquote><font color="#000080">When play ends: if the number of saves is 0 and the score is 349, award 1 point.
+<blockquote><font color="#000080">After printing the name of a visited room (called the target) while constructing the status line:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let aim be the best route from the location to the target;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; ([aim])&quot;.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc164.html>Previous</a> / <a href=doc166.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>We may also find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn't hard to provide a set of abbreviations to use in this context:
+<p>
+<blockquote><font color="#000080">Rule for printing the name of a direction (called the aim) while constructing the status line:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with a heading of the aim in the Table of Abbreviation;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[shortcut entry]&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Abbreviation
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">heading</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">shortcut</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">north</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;N&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">northeast</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;NE&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">east</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;E&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">southeast</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;SE&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">south</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;S&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">southwest</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;SW&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">west</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;W&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">up</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;U&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">down</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;D&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">inside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;in&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">outside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;out&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<p>Everywhere else, the names of directions will still be printed out in full in the usual way.
+</td></tr></table><p><a name="e186"><a href=ex186.html#e186><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A status line which has only the name of the location, centered. (Taken from an example in the <i>Inform Designer's Manual, Fourth Edition</i>, which is itself emulating an effect used in Trinity.)</i><p>
+<p><hr><p><a href=doc251.html>Previous</a> / <a href=doc253.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

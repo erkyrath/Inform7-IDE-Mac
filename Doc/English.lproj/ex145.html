@@ -1,0 +1,72 @@
+<html><head><title>6.5. Before rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc76.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc78.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.5. Before rules</b></td></tr></table><p>
+<p>
+<p>Despite what was said in the previous section, instead rules do not quite bypass all of the usual rules. Inform knows that certain actions require light: for instance,
+<p>
+<blockquote><font color="#000080">examining the napkin; looking; looking under the dining table
+</font></blockquote><p>
+<p>
+<p>and if it is dark then none of these actions will be allowed, and any instead rules about them will not even be reached. Similarly, Inform knows that most actions require physical access to their objects: so &quot;taking the napkin&quot; would be blocked if the napkin were, say, inside a closed glass bottle, whereas &quot;examining the napkin&quot; would not. So an instead rule can only take effect if the action has already passed these basic reasonability tests.
+<p>
+<p>&quot;Before&quot; rules genuinely precede checking of any kind. They also differ from instead rules in that they do not automatically stop the action in its tracks. Rather, they are provided as an opportunity to ensure that something else is done first. For example:
+<p>
+<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
+</font></blockquote><p>
+<p>
+<p>whence
+<p>
+<blockquote><font color="#000080">&gt;GET NAPKIN
+<br>(first unfolding its delicate origami swan)
+<br>Taken.
+</font></blockquote><p>
+<p>
+<p>We have seen that instead rules automatically stop actions, whereas before rules automatically allow them to continue. We sometimes want to change this. The magic word &quot;instead&quot; can therefore be tacked on to any instruction in a before rule, and will have the effect of immediately stopping the action at that instruction. Thus the following two rules are (almost) equivalent:
+<p>
+<blockquote><font color="#000080">Before removing the key, instead say &quot;It seems to be soldered to the keyhole.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of removing the key, say &quot;It seems to be soldered to the keyhole.&quot;
+</font></blockquote><p>
+<p>
+<p>Two special phrases can also be used: &quot;stop the action&quot; and &quot;continue the action&quot;. Yet a third way to achieve the same effect, then, would be:
+<p>
+<blockquote><font color="#000080">Before removing the key: say &quot;It seems to be soldered to the keyhole.&quot;; stop the action.
+</font></blockquote><p>
+<p>
+<p>And to round off the discussion, these are also (almost) equivalent:
+<p>
+<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of taking the napkin: say &quot;(first unfolding its delicate origami swan)&quot;; continue the action.
+</font></blockquote><p>
+<p>
+<p>As a general principle, it is good style to use instead rules whenever blocking actions, and before rules only when it is genuinely necessary to do something first but then to continue: in fact, it is good style to use &quot;stop the action&quot; or &quot;continue the action&quot; as little as possible.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e145"><a href=doc77.html#e145><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Make PUT and INSERT commands automatically take objects if the player is not holding them.</i><p>
+<p>
+<p>&quot;Stop&quot; and &quot;Continue&quot; are most useful when we need to write rules that will have to stop the action some of the time but at other times let it pass; so for instance:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Before inserting something which is not carried by the player into something:\n\tif the noun is in the second noun, say &quot;Already done.&quot; instead;\n\tsay &quot;(first taking [the noun])[line break]&quot;;\n\tsilently try taking the noun;\n\tif the player is not holding the noun, stop the action.\n\nBefore putting something which is not carried by the player on something:\n\tif the noun is on the second noun, say &quot;Already done.&quot; instead;\n\tsay &quot;(first taking [the noun])[line break]&quot;;\n\tsilently try taking the noun;\n\tif the player is not holding the noun, stop the action.\n\n')"><img border=0 src=paste.png></a> Before inserting something which is not carried by the player into something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is in the second noun, say &quot;Already done.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first taking [the noun])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try taking the noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is not holding the noun, stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before putting something which is not carried by the player on something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is on the second noun, say &quot;Already done.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first taking [the noun])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try taking the noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is not holding the noun, stop the action.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc76.html>Previous</a> / <a href=doc78.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

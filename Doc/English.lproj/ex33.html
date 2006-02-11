@@ -1,4 +1,4 @@
-<html><head><title>11.9. Check, carry out, report</title></head>
+<html><head><title>8.14. The past and perfect tenses</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,53 +7,111 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc160.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc162.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.9. Check, carry out, report</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc125.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc127.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>8.14. The past and perfect tenses</b></td></tr></table><p>
 <p>
-<p>The normal behaviour of an action is specified by its three associated rulebooks - check, carry out and report. In the case of our &quot;photographing&quot; example, these rulebooks will be:
+<p>The remaining sections of this chapter go into more technical ways to think about the progress of the game through time, and can be skipped at a first reading.
 <p>
-<blockquote><font color="#000080"><b>Check photographing</b>. Here, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.
+<p>Conditions are clauses which require Inform to make a decision: is such-and-such true, or not true? We have already seen conditions attached to rules using &quot;when&quot;:
+<p>
+<blockquote><font color="#000080">Instead of waiting when the Sorting Hat is in the Hall: ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080"><b>Carry out photographing</b>. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.
+<p>and, as we shall later see, we will often want to write instructions like:
+<p>
+<blockquote><font color="#000080">if the Sorting Hat is in the Hall then say &quot;Hermione blinks apprehensively.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080"><b>Report photographing</b>. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.
+<p>The condition is &quot;the Sorting Hat is in the Hall&quot;, and during play this will sometimes be true and sometimes false.
+<p>
+<p>A condition in the form:
+<p>
+<blockquote><font color="#000080">X is Y
 </font></blockquote><p>
 <p>
-<p>So far we have not really gone into the business of what rulebooks are, and we don't do so here either - suffice to say that we can now create whatever rules we need:
+<p>is of course written the present tense, and refers to the current state of affairs. Three other tenses are allowed. First, the present perfect:
 <p>
-<blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
+<blockquote><font color="#000080">if X has been Y ...
 </font></blockquote><p>
 <p>
-<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
+<p>is true if it has ever been the case that &quot;X is Y&quot; at the start of any turn (or any action). So, for instance,
 <p>
-<blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.
+<blockquote><font color="#000080">if the gate has been open ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
+<p>will be valid if and only if the gate has ever been made open by any action (even if it is closed now), or if it started out by being open when play began.
+<p>
+<p>Next is the past tense:
+<p>
+<blockquote><font color="#000080">if X was Y ...
 </font></blockquote><p>
 <p>
-<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
+<p>holds if and only if &quot;X is Y&quot; was true at the start of the most recent action. This is convenient when trying to describe what has changed in the course of the action, but sometimes also when making the action itself happen. For instance:
 <p>
-<p>We can continue to add rules at any point, and a classic thing that happens when testing a new work is that the designer realises there is a case which has not been thought of:
-<p>
-<blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.
+<blockquote><font color="#000080">if the lantern was switched on then change the lantern to switched off;
+<br>if the lantern was switched off then change the lantern to switched on;
 </font></blockquote><p>
+<p>
+<p>Completing the set is the past perfect:
+<p>
+<blockquote><font color="#000080">if X had been Y ...
+</font></blockquote><p>
+<p>
+<p>which records whether &quot;X has been Y&quot; was true at the start of the most recent action. All these verbs can of course be negated (though &quot;wasn't&quot; and &quot;hadn't&quot; are disallowed as poor style: we use &quot;was not&quot; and &quot;had not&quot; instead). So for example,
+<p>
+<blockquote><font color="#000080">if the player had not been in the Ballroom ...
+</font></blockquote><p>
+<p>
+<p>is true if the player hadn't visited the Ballroom at the start of the most recent action.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e33"><a href=doc161.html#e33><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Containers and supporters that report their contents when you EXAMINE them.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e33"><a href=doc126.html#e33><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A candle which reacts to lighting and blowing actions differently depending on whether it has already been lit once.</i><p>
 <p>
-<p>The actual description of an examined thing is printed in the carry out phase, so whatever we add to the report phase will happen afterward:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Report examining a supporter which supports something:\n\tsay &quot;On [the noun] [is/are list of things on the noun].&quot;\n\nReport examining an open container which contains something:\n\tsay &quot;In [the noun] [is/are list of things in the noun].&quot;\n\n\n')"><img border=0 src=paste.png></a> Report examining a supporter which supports something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;On [the noun] [is/are list of things on the noun].&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Candlelight&quot;\n\nThe Sewer Access Tunnel is a room. &quot;A narrow, stone-lined passageway where there are almost certainly rats.&quot;\n\nThe candle is carried by the player. The description of the candle is &quot;A candle, [if the candle has been lit]partially burnt[otherwise]still in pristine condition with untouched wick[end if].&quot;\n\nInstead of examining the lit candle, say &quot;It burns with a pure heart.&quot;\n\nProcedural rule: ignore the block burning rule.\n\nInstead of burning the lit candle:\n\tsay &quot;The candle is already lit.&quot;\n\nCheck burning:\n\tif the noun is not the candle, say &quot;[The noun] cannot profitably be set on fire.&quot;\n\nCarry out burning the candle:\n\tnow the candle is lit.\n\nReport burning:\n\tif the candle had been lit, say &quot;You relight the candle.&quot;;\n\totherwise say &quot;You light the candle for the first time.&quot;.\n\nProcedural rule: ignore the block blowing rule.\n\nUnderstand &quot;blow out [something]&quot; as blowing. Understand &quot;blow [something] out&quot; as blowing.\n\nCarry out blowing the candle:\n\tnow the candle is unlit.\n\nReport blowing:\n\tif the noun is the candle and the candle was lit, say &quot;You blow out [the noun].&quot;;\n\totherwise say &quot;You blow on [the noun], to little effect.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Candlelight&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report examining an open container which contains something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;In [the noun] [is/are list of things in the noun].&quot;
+<blockquote><font color="#000080">The Sewer Access Tunnel is a room. &quot;A narrow, stone-lined passageway where there are almost certainly rats.&quot;
 </font></blockquote><p>
 <p>
-<p>We can easily override this report rule for individual items or types of item with an appropriate After.
-</td></tr></table><p><a name="e45"><a href=ex45.html#e45><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>An electric light kind of device which becomes lit when switched on and dark when switched off.</i><p>
-<a name="e36"><a href=ex36.html#e36><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A CUT [something] WITH [something] command which acts differently on different types of objects.</i><p>
-<p><hr><p><a href=doc160.html>Previous</a> / <a href=doc162.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">The candle is carried by the player. The description of the candle is &quot;A candle, [if the candle has been lit]partially burnt[otherwise]still in pristine condition with untouched wick[end if].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of examining the lit candle, say &quot;It burns with a pure heart.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Procedural rule: ignore the block burning rule.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of burning the lit candle:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The candle is already lit.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check burning:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is not the candle, say &quot;[The noun] cannot profitably be set on fire.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out burning the candle:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the candle is lit.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report burning:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the candle had been lit, say &quot;You relight the candle.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You light the candle for the first time.&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Procedural rule: ignore the block blowing rule.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;blow out [something]&quot; as blowing. Understand &quot;blow [something] out&quot; as blowing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out blowing the candle:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the candle is unlit.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report blowing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the candle and the candle was lit, say &quot;You blow out [the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You blow on [the noun], to little effect.&quot;
+</font></blockquote><p>
+<p>
+<p>&quot;if the noun was lit&quot; would throw errors because past-tense rules can only be applied to specific items, not to variables that could be anything.
+</td></tr></table><p><p><hr><p><a href=doc125.html>Previous</a> / <a href=doc127.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

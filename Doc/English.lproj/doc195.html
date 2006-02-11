@@ -1,4 +1,4 @@
-<html><head><title>13.12. Arithmetic with units</title></head>
+<html><head><title>13.11. Limits on the size of numbers</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,25 +7,19 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc194.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc196.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.12. Arithmetic with units</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc194.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc196.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>13.11. Limits on the size of numbers</b></td></tr></table><p>
 <p>
-<p>Inform allows us to perform arithmetic on units only where that would make sense, and it keeps track of the results. For instance,
+<p>There are still some serious restrictions. Inform has only whole numbers, not floating-point (though we could in principle simulate at least fixed-point numbers by writing something like &quot;10.99kg specifies a weight&quot;). And it only allows numbers from -32768 to 32767. Since a London bus only weighs 7000kg, 32000kg is plenty: on the other hand, if we wanted to measure weight in grammes instead, the limit would be just 32kg, an amount which a human can just about lift.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The Weighbridge is a room. &quot;A sign declares that the maximum load is [100kg multiplied by 3].&quot;\n\n\n')"><img border=0 src=paste.png></a> The Weighbridge is a room. &quot;A sign declares that the maximum load is [100kg multiplied by 3].&quot;
+<p>The limit also begins to bite when using multiple-number specifications. Internally, Inform stores the above &quot;running time&quot; as a number of seconds, so that 3'59 is actually stored as 239. Calculating the maximum legal running time is a nuisance, so we can instead check the &quot;Kinds&quot; page of the index, where we read that:
+<p>
+<blockquote><font color="#000080"><b>running time</b> (<i>plural</i> running times)
+<br><i>Written in the following form:</i> 3'59
+<br><i>Maximum value allowed:</i> 546'07
 </font></blockquote><p>
 <p>
-<p>...will produce the text &quot;A sign declares that the maximum load is 300kg.&quot; Here Inform knows that it makes sense to multiply a weight by 3, and that the result will be a weight. Similarly, Inform allows us to add and subtract weights, and several different forms of division are allowed:
+<p>The maximum legal running time is therefore a little over 9 hours, so the new Tori Amos album will not be a problem, but some of the more punishing German operas might break the bank.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: \'122 / 10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; but 122kg / 10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; and 122kg / 10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].\'&quot;\n\n\n')"><img border=0 src=paste.png></a> The blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: '122 / 10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; but 122kg / 10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; and 122kg / 10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot;
-</font></blockquote><p>
+<p>These restrictions are a nuisance, but can normally be managed, and we gain the ability to run the resulting work of IF on a very wide variety of computers indeed, some extremely small.
 <p>
-<p>When we visit the Weighbridge, we find:
-<p>
-<blockquote><font color="#000080">A blackboard propped against one wall reads: &quot;122 / 10 is 12 remainder 2; but 122kg / 10kg is 12 remainder 2kg; and 122kg / 10 is 12kg remainder 2kg.&quot;
-</font></blockquote><p>
-<p>
-<p>Whereas we are not allowed to divide 122 by 10kg: that would make no sense, since 122 is a number and not made up of kilograms. Inform will produce a problem message if we try.
-<p>
-<p><hr><p>
-<a name="e28"><a href=ex28.html#e28><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A treatment of money which keeps track of how much the player has on him, and a BUY command which lets him go shopping.</i><p>
 <p><hr><p><a href=doc194.html>Previous</a> / <a href=doc196.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

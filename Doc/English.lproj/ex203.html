@@ -1,0 +1,51 @@
+<html><head><title>17.11. First and last rules</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc271.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc273.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>17.11. First and last rules</b></td></tr></table><p>
+<p>
+<p>This is the final technicality on rulebooks. Rulebooks are, as we have seen, automatically sorted in order of how specific the conditions for invoking the relevant rules are, so that for instance
+<p>
+<blockquote><font color="#000080">Instead of taking a container, ...
+</font></blockquote><p>
+<p>
+<p>will always come before
+<p>
+<blockquote><font color="#000080">Instead of taking something, ...
+</font></blockquote><p>
+<p>
+<p>Sometimes, though, and especially with rulebooks where there is no particular ordering because conditions are usually not attached anyway (for instance, with &quot;every turn&quot; rules), it is useful to be certain that a particular rule comes first or last: especially if there is some housekeeping to do.
+<p>
+<p>For instance, the &quot;turn sequence&quot; rulebook, which is used behind the scenes to organise what happens at the end of each turn, has a crucial piece of housekeeping to do in order to maintain the consistency of the world model: it has to find out if the player's location has been plunged into darkness or, conversely, has been lit up since the last turn. It is essential that this happens last of all so that the situation cannot change again before the next time the player types at the keyboard.
+<p>
+<p>Each rulebook, then, can have two special rules, the designated &quot;first&quot; rule and the designated &quot;last&quot; rule. These, if defined, have no individual names, so that nobody can displace them from their positions or meddle with them: they belong to whoever created the rulebook.
+<p>
+<blockquote><font color="#000080">The last appraisal rule: say &quot;The Speak-Your-Progress machine sputters to a halt. You decide not to take this as a comment on your recent performance.&quot;
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e203"><a href=doc272.html#e203><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Replacing the standard action report rules to reflect our own design.</i><p>
+<p>
+<p>Suppose we don't like the library responses for certain actions and would prefer something else. We could in theory write a lot of procedural rules which said, for instance, &quot;substitute new report dropping rule for standard report dropping rule&quot;, but this would get cumbersome.
+<p>
+<p>A sleeker way is to slip in our replacements at the beginning of each report rulebook, and then stop the action before it got as far as calling the standard report rule. For instance, if we were designing a game in the first person plural:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('First report dropping rule:\n\tsay &quot;We casually toss [the noun] aside.&quot; instead.\n\nFirst report taking rule:\n\tsay &quot;We gather [the noun] to ourselves.&quot; instead.\n\nFirst report waiting rule:\n\tsay &quot;We talk amongst ourselves.&quot; instead.\n\n\n')"><img border=0 src=paste.png></a> First report dropping rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;We casually toss [the noun] aside.&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">First report taking rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;We gather [the noun] to ourselves.&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">First report waiting rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;We talk amongst ourselves.&quot; instead.
+</font></blockquote><p>
+<p>
+<p>...and so on throughout the action set.
+</td></tr></table><p><p><hr><p><a href=doc271.html>Previous</a> / <a href=doc273.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

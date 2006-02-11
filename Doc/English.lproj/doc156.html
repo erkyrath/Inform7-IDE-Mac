@@ -7,7 +7,7 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc155.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc157.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.4. Persuasion</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc155.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc157.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.4. Persuasion</b></td></tr></table><p>
 <p>
 <p>&quot;Asking ... to try ...&quot; actions run through their Before and Instead rules like any other actions, but then (if no rule has intervened) something different happens: Inform has to decide whether the person asked consents to try the action or not. By default, the answer is always no, and text like the following will be printed:
 <p>
@@ -21,7 +21,14 @@ function pasteCode(code) {
 <br>Persuasion rule for asking Will to try going west: persuasion succeeds.
 </font></blockquote><p>
 <p>
-<p>(Such a rule can either declare that &quot;persuasion succeeds&quot;, or that &quot;persuasion fails&quot;, or make no decision and leave it to another rule to say.) The following rule, which is really only suitable for testing, makes everybody infinitely obliging:
+<p>Such a rule can either declare that &quot;persuasion succeeds&quot;, or that &quot;persuasion fails&quot;, or make no decision and leave it to another rule to say. If it decides that persuasion fails, it is also allowed to say something, describing why: in that event, the standard message (&quot;Will has better things to do.&quot;) is suppressed. For example,
+<p>
+<blockquote><font color="#000080">Persuasion rule for asking Will to try going:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Will looks put out, and mutters under his breath.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;persuasion fails.
+</font></blockquote><p>
+<p>
+<p>The following rule, which is really only suitable for testing, makes everybody infinitely obliging:
 <p>
 <blockquote><font color="#000080"><a href="javascript:pasteCode('Persuasion rule for asking people to try doing something: persuasion succeeds.\n\n\n')"><img border=0 src=paste.png></a> Persuasion rule for asking people to try doing something: persuasion succeeds.
 </font></blockquote><p>
@@ -38,4 +45,7 @@ function pasteCode(code) {
 <p>
 <p>So in this case the new action (&quot;Will trying going west&quot;) failed: but the original action, &quot;asking Will to try going west&quot;, is still deemed to have succeeded - after all, Will <i>did</i> try. To put it more formally, &quot;asking X to try A&quot; succeeds if the persuasion rules succeed, and otherwise fails.
 <p>
+<p><hr><p>
+<a name="e141"><a href=ex141.html#e141><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Several friends who obey you; a policeman who doesn't (but who takes a dim view of certain kinds of antics).</i><p>
+<a name="e94"><a href=ex94.html#e94><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A hypnotist who can make people obedient and then set them free again.</i><p>
 <p><hr><p><a href=doc155.html>Previous</a> / <a href=doc157.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

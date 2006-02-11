@@ -1,4 +1,4 @@
-<html><head><title>9.6. More general linkages</title></head>
+<html><head><title>4.17. Values that vary</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,74 +7,68 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc133.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc135.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.6. More general linkages</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc60.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc62.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.17. Values that vary</b></td></tr></table><p>
 <p>
-<p>We are allowed to link the beginning or end of any scene to the beginning or end of any other scene. So, for instance:
+<p>Sometimes a value important to the simulated world will not naturally belong to any thing or room, and should not be kept in a property. For example:
 <p>
-<blockquote><font color="#000080">Luggage Trouble is a scene. Luggage Trouble begins when Brief Encounter begins.
+<blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is southwest.
 </font></blockquote><p>
 <p>
-<p>Thus the two scenes run concurrently, at least for a while. We can also add that:
+<p>Or &quot;which varies&quot; would also be allowed, as would the more traditional computing term &quot;variable&quot;:
 <p>
-<blockquote><font color="#000080">Luggage Trouble ends when Brief Encounter ends.
+<blockquote><font color="#000080">The target is a number variable. The target is 23.
 </font></blockquote><p>
 <p>
-<p>This can be useful when a large, complicated scene really contains several smaller sub-scenes.
+<p>In fact, we have seen a value that varies already: &quot;location&quot;, which holds the room in which the game is presently taking place.
 <p>
-<p>A special exceptional case is that we can have any scene or scenes starting right at the outset:
+<p>It's important to tell Inform what kind of value goes into the variable, as this will ensure that the wrong kind of value is never accidentally put into it.
 <p>
-<blockquote><font color="#000080">Railway Meeting is a scene. Railway Meeting begins when play begins.
+<p>We can have variables of any of the kinds of value, including new ones, but should watch out for a potential error. If we write:
+<p>
+<blockquote><font color="#000080">The receptacle is a container that varies.
 </font></blockquote><p>
 <p>
-<p>When play ends, of course, all scenes end, so there is no need to say that.
+<p>in a design which has no containers at all, Inform will object, because it will be unable to put any initial value into the receptacle variable. A similar complaint will be made if we write:
+<p>
+<blockquote><font color="#000080">Colour is a kind of value. The fashionable shade is a colour that varies.
+</font></blockquote><p>
+<p>
+<p>without ever having defined any colours. Something else we are not permitted is:
+<p>
+<blockquote><font color="#000080">The receptacle is an open container that varies.
+</font></blockquote><p>
+<p>
+<p>because the openness of a given container may change during play, so that the value in the variable might suddenly become invalid even though the variable itself had not changed.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e90"><a href=doc134.html#e90><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Scenes used to provide pacing while the player goes through his possessions.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e90"><a href=doc61.html#e90><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Allowing the player to turn off all access to hints for the duration of a game, in order to avoid the temptation to rely on them overmuch.</i><p>
 <p>
-<p>Suppose we want to remind the player that he doesn't have all the time in the world, by starting to nag him when he's nearly, but not entirely, done going over his inventory in preparation for a job.
+<p>Suppose we have an action called &quot;asking for help&quot; that gives the player some hints on request. We've also made it possible to turn this feature off, if the player would like to discourage himself from using the hints too much. Now we need a value that varies to keep track of whether hints are currently permitted or currently not permitted. So we might write:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Prague Job&quot;\n\nA thing can be seen or unseen. A thing is usually unseen. Carry out examining: now the noun is seen.\n\nThe player carries a lockpick, a smoke bomb, a grappling hook, and a pair of gloves. The description of the lockpick is &quot;Effective on most kinds of key locks, it is a gift from your mentor in the discipline, old Wheezy.&quot; The description of the smoke bomb is &quot;Your last of these, so you should rely on it only when other modes of escape have vanished. It takes effect when dropped, producing a cloud of purple haze sufficient to fill a medium-sized room.&quot; The description of the grappling hook is &quot;Good for shooting at balconies and other sorts of overhang.&quot;  The gloves are wearable. The description of the gloves is &quot;Black and shiny, with gripping material on the palms. Batman would be jealous.&quot;\n\nThe Toilet is a room. &quot;The walls are painted an unattractive green; the fixtures are a bit old. But it is the only place in the hostel with any privacy.&quot; The Long Hallway is outside from the Toilet.\n\nReviewing Possessions is a scene. Reviewing Possessions begins when play begins.\n\nEscalating Danger is a scene. Reviewing Possessions ends when Escalating Danger begins. Escalating Danger begins when preparations near completion.\n\nTo decide whether preparations near completion:\n\tif Escalating Danger has happened, no;\n\tif at least two of the things which are carried by the player are seen, yes;\n\tno.\n\nWhen Escalating Danger begins: say &quot;Someone pounds on the door of your hideout and yells at you in Czech.&quot;\n\nInstead of going from the Toilet during Reviewing Possessions: say &quot;You need to go over your equipment first, and make sure you\'re ready here.&quot;\n\nInstead of going from the Toilet during Escalating Danger: say &quot;You\'re not done checking over your materials.&quot;\n\nInstead of waiting during Escalating Danger: say &quot;There\'s no time to waste.&quot;\n\nEvery turn during Escalating Danger: if the time since Escalating Danger began is greater than 1, say &quot;Impatient footsteps pass your door again.&quot;\n\nEscalating Danger ends when every thing which is carried by the player is seen. When Escalating Danger ends, say &quot;There -- nothing damaged or torn. You\'re ready to go.&quot;\n\nMission is a scene. Mission begins when the player is in the Long Hallway.\n\n')"><img border=0 src=paste.png></a> &quot;The Prague Job&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('A permission is a kind of value. The permissions are allowed and denied.\n\nHint usage is a permission that varies. Hint usage is allowed.\n\n[And under the right circumstances, we change hint usage to denied:]\n\nCheck asking for help for the first time:\n\tsay &quot;Sometimes the temptation to rely on hints becomes overwhelming, and you may prefer to turn off hints now. If you do so, your further requests for guidance will be unavailing. Turn off hints? >&quot;;\n\tif player consents\n\tbegin;\n\t\tchange hint usage to denied;\n\t\tsay &quot;[line break]Truly, a real adventurer does not need hints.&quot; instead;\n\tend if.\n\n[Then we can refer back to this value later to decide whether we want to display the hint menu or not:]\n\nCheck asking for help:\n\tif hint usage is denied, say &quot;You have chosen to eschew hints in this game. Be strong! Persevere!&quot; instead.\n\nTo decide whether player consents:\n\t(- YesOrNo() -)\n\n')"><img border=0 src=paste.png></a> A permission is a kind of value. The permissions are allowed and denied.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A thing can be seen or unseen. A thing is usually unseen. Carry out examining: now the noun is seen.
+<blockquote><font color="#000080">Hint usage is a permission that varies. Hint usage is allowed.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The player carries a lockpick, a smoke bomb, a grappling hook, and a pair of gloves. The description of the lockpick is &quot;Effective on most kinds of key locks, it is a gift from your mentor in the discipline, old Wheezy.&quot; The description of the smoke bomb is &quot;Your last of these, so you should rely on it only when other modes of escape have vanished. It takes effect when dropped, producing a cloud of purple haze sufficient to fill a medium-sized room.&quot; The description of the grappling hook is &quot;Good for shooting at balconies and other sorts of overhang.&quot;  The gloves are wearable. The description of the gloves is &quot;Black and shiny, with gripping material on the palms. Batman would be jealous.&quot;
+<p>And under the right circumstances, we change hint usage to denied:
+<p>
+<blockquote><font color="#000080">Check asking for help for the first time:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Sometimes the temptation to rely on hints becomes overwhelming, and you may prefer to turn off hints now. If you do so, your further requests for guidance will be unavailing. Turn off hints? >&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if player consents
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change hint usage to denied;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[line break]Truly, a real adventurer does not need hints.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Toilet is a room. &quot;The walls are painted an unattractive green; the fixtures are a bit old. But it is the only place in the hostel with any privacy.&quot; The Long Hallway is outside from the Toilet.
+<p>Then we can refer back to this value later to decide whether we want to display the hint menu or not:
+<p>
+<blockquote><font color="#000080">Check asking for help:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if hint usage is denied, say &quot;You have chosen to eschew hints in this game. Be strong! Persevere!&quot; instead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Reviewing Possessions is a scene. Reviewing Possessions begins when play begins.
+<blockquote><font color="#000080">To decide whether player consents:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(- YesOrNo() -)
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Escalating Danger is a scene. Reviewing Possessions ends when Escalating Danger begins. Escalating Danger begins when preparations near completion.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">To decide whether preparations near completion:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if Escalating Danger has happened, no;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if at least two of the things which are carried by the player are seen, yes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;no.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Escalating Danger begins: say &quot;Someone pounds on the door of your hideout and yells at you in Czech.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of going from the Toilet during Reviewing Possessions: say &quot;You need to go over your equipment first, and make sure you're ready here.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of going from the Toilet during Escalating Danger: say &quot;You're not done checking over your materials.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of waiting during Escalating Danger: say &quot;There's no time to waste.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn during Escalating Danger: if the time since Escalating Danger began is greater than 1, say &quot;Impatient footsteps pass your door again.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Escalating Danger ends when every thing which is carried by the player is seen. When Escalating Danger ends, say &quot;There -- nothing damaged or torn. You're ready to go.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Mission is a scene. Mission begins when the player is in the Long Hallway.
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc133.html>Previous</a> / <a href=doc135.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc60.html>Previous</a> / <a href=doc62.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

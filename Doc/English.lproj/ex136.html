@@ -1,4 +1,4 @@
-<html><head><title>9.4. During scenes</title></head>
+<html><head><title>10.6. Begin and end</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,51 +7,41 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc131.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc133.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>9.4. During scenes</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc141.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc143.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>10.6. Begin and end</b></td></tr></table><p>
 <p>
-<p>Scenes are not only useful for changing the setting, by moving items or people around and providing a little narration. We can also make the rules different in one scene from another. For instance, at a sleepy country halt there is no reason why one should not walk across the tracks: but if there is a train in the way, that would be impossible.
+<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
 <p>
-<blockquote><font color="#000080">Before going north during the Train Stop, say &quot;The train blocks your way.&quot; instead.
+<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
+<p>
+<blockquote><font color="#000080">To comment upon (whatever - a thing):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>Any rule can have the clause &quot;during ...&quot; attached, provided that clause goes at the end and explicitly names a scene. This is especially useful with &quot;every turn&quot;:
+<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
 <p>
-<blockquote><font color="#000080">Every turn during the Train Stop, say &quot;Water is sluiced out of the tank and into the engine.&quot;
+<p>Similarly for while:
+<p>
+<blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while
 </font></blockquote><p>
 <p>
-<p>We can test whether a scene is happening with the condition:
-<p>
-<blockquote><font color="#000080">Train Stop is happening ...
-</font></blockquote><p>
-<p>
-<p>and there are similar conditions &quot;Train Stop has happened&quot; and &quot;Train Stop has ended&quot;. We need to be a bit careful about which we mean: it's possible to set things up so that the Train Stop scene will play out more than once, so &quot;Train Stop is happening&quot; and &quot;Train Stop has happened&quot; might both be true at once.
+<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e136"><a href=doc132.html#e136><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Random atmospheric events which last the duration of a scene.</i><p>
+<a name="e117"><a href=ex117.html#e117><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A SEARCH [room] action that will open every container the player can see, stopping only when there don't remain any that are closed, unlocked, and openable.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e136"><a href=doc142.html#e136><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Every time the player gets onto, say, a stack of mattresses, the thing on the bottom of the pile makes a groaning noise.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Full Moon\n\nWolf Pursuit is a scene. Wolf Pursuit begins when play begins.\n\nEvery turn during Wolf Pursuit:\n\tchoose a random row in the Table of Pursuit Events;\n\tsay &quot;[event entry][paragraph break]&quot;.\n\nTable of Pursuit Events\nevent\n&quot;A twig snaps behind you!&quot;\n&quot;The wind howls in your ears.&quot;\n&quot;You feel chilly.&quot;\n\nWhen play begins:\n\tsay &quot;You have lost your spectacles, and the lamp, and can see barely further than the next tree. Roots keep trying to trip you, too...[line break]&quot;\n\nThe Dark Forest is a room. &quot;You are mostly aware that you are not as alone here as you would like, and that the ground is uneven.&quot;\n\n')"><img border=0 src=paste.png></a> Full Moon
-</font></blockquote><p>
+<p>The main point here is that we need to figure out where the stack meets the floor:
 <p>
-<blockquote><font color="#000080">Wolf Pursuit is a scene. Wolf Pursuit begins when play begins.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After entering something:\n\tlet the item be the noun;\n\twhile the holder of the item is not a room\n\tbegin;\n\t\tlet the item be the holder of the item;\n\tend while;\n\tsay &quot;[The item] groans ominously.&quot;\n\n')"><img border=0 src=paste.png></a> After entering something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the item be the noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;while the holder of the item is not a room
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the item be the holder of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end while;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The item] groans ominously.&quot;
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn during Wolf Pursuit:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the Table of Pursuit Events;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[event entry][paragraph break]&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Table of Pursuit Events
-<br>event
-<br>&quot;A twig snaps behind you!&quot;
-<br>&quot;The wind howls in your ears.&quot;
-<br>&quot;You feel chilly.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You have lost your spectacles, and the lamp, and can see barely further than the next tree. Roots keep trying to trip you, too...[line break]&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Dark Forest is a room. &quot;You are mostly aware that you are not as alone here as you would like, and that the ground is uneven.&quot;
-</font></blockquote><p>
-</td></tr></table><p><a name="e70"><a href=ex70.html#e70><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A scene which plays through a series of events in order, then ends when the list of events is exhausted.</i><p>
-<p><hr><p><a href=doc131.html>Previous</a> / <a href=doc133.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc141.html>Previous</a> / <a href=doc143.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

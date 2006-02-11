@@ -1,4 +1,4 @@
-<html><head><title>12.10. The invention of love</title></head>
+<html><head><title>16.23. Reading a command</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,63 +7,133 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc177.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc179.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.10. The invention of love</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.23. Reading a command</b></td></tr></table><p>
 <p>
-<p>We have already used the example:
+<p><b>1. When it happens.</b> When reading a command from the keyboard.
 <p>
-<blockquote><font color="#000080">Loving relates various people to one person.
+<p><b>2. The default behaviour.</b> Print the prompt text; wait for the player to type something and press return. Reject an entirely blank line, and treat a command beginning &quot;oops&quot; is considered a correction to the previous one. This is a fairly complicated business, so it is probably best not to change the &quot;for&quot; rules for this activity: &quot;before&quot;, and especially &quot;after&quot;, are another matter.
+<p>
+<p><b>3. Examples.</b> (a) To lead absolute beginners in gently:
+<p>
+<blockquote><font color="#000080">Before reading a command while the turn count is 1, say &quot;(This is your chance to say what the protagonist should do next. After the '>', try typing 'take inventory'.)&quot;
 </font></blockquote><p>
 <p>
-<p>Let us create a verb which expresses this:
+<p>(b) The following responds politely but firmly if the player tries to type &quot;please look&quot;, say, instead of just &quot;look&quot;:
 <p>
-<blockquote><font color="#000080">The verb to love (he loves, they love, he loved, he is loved) implies the loving relation.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;Please do not say please.&quot;;\n\t\treject the player\'s command;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Please do not say please.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject the player's command;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>Note that we have omitted one of the parts of the verb. Actually we can legally miss out any of them, but the result is that the usages missed out will not be understood by Inform. In this case, Inform will understand
+<p>To explain. Fragments of what the player has typed are called snippets: &quot;the player's command&quot; is the entire thing. (&quot;Snippet&quot; is actually a kind of value, so we could say &quot;Ah, you typed '[the player's command]'!&quot; or some such if we liked.) We can test if a snippet matches a given pattern like so:
 <p>
-<blockquote><font color="#000080">Elizabeth loves Darcy.
-<br>if anybody has been loved by Darcy, ...
-<br>someone who is loved by Elizabeth
-<br>the number of women who love Darcy
+<blockquote><font color="#000080">if the player's command matches &quot;room [number]&quot;, ...
 </font></blockquote><p>
 <p>
-<p>but it will not understand
+<p>This requires an exact match: the weaker condition &quot;includes&quot; only means that the pattern occurs somewhere in the given snippet, so that
 <p>
-<blockquote><font color="#000080">Elizabeth is loving Darcy.
-<br>if Darcy is loving anybody, ...
+<blockquote><font color="#000080">if the player's command includes &quot;please&quot;, ...
 </font></blockquote><p>
 <p>
-<p>because we did not supply the present participle &quot;he is loving&quot; as part of the definition of the verb. (That was deliberate, because the verb &quot;to love&quot; isn't used that way.)
+<p>matches &quot;please look&quot; or &quot;look please&quot;, etc. Lastly, the phrase
 <p>
-<p>Similarly, using our reciprocated relation for mere acquaintanceship,
+<blockquote><font color="#000080">reject the player's command
+</font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Meeting relates people to each other. The verb to know (he knows, they know, he knew, he is known) implies the meeting relation. Elizabeth knows Mr Wickham. Mr Wickham knows Mr Darcy.
+<p>tells Inform not to bother analysing the text further, but to go back to the keyboard. (No time passes; no turn elapses; nothing happens in the simulated world.)
+<p>
+<p>(c) An improved version takes commands like &quot;please drop the coin&quot; and strips &quot;please&quot; from them, but then allows them to proceed normally:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;(Quelle politesse! But no need to say please.)&quot;;\n\t\tcut the matched text;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(Quelle politesse! But no need to say please.)&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut the matched text;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>&quot;Matched text&quot; is a snippet containing the words which matched against the pattern in the most recent &quot;includes&quot; condition, so in this case it contains just the single word &quot;please&quot;. Two phrases allow snippets to be altered:
+<p>
+<blockquote><font color="#000080">replace (... snippet ...) with (... text ...)
+<br>cut (...snippet ...)
+</font></blockquote><p>
+<p>
+<p>(d) To make the word &quot;grab&quot; an abbreviation for &quot;take all&quot;:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command matches &quot;grab&quot;, replace the player\'s command with &quot;take all&quot;.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;grab&quot;, replace the player's command with &quot;take all&quot;.
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e0"><a href=doc178.html#e0><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>People are to be grouped into alliances. To kiss someone is to join his or her faction, which may make a grand alliance; to strike them is to give notice of quitting, and to become a lone wolf.</i><p>
+<a name="e161"><a href=ex161.html#e161><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A list of phrases to be automatically converted to longer sequences of separate commands.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e0"><a href=doc257.html#e0><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Accepting adverbs anywhere in a command, registering what the player typed but then cutting them out before interpreting the command.</i><p>
 <p>
-<p>The following is best tested by experimentally kissing and/or attacking, and typing RELATIONS after every change to see the effect.
+<p>It has sometimes been suggested that IF should allow for the player to use adverbs, so that doing something &quot;carefully&quot; will have a different effect from doing it &quot;quickly&quot;. There are several inherent challenges here: it's a good idea to make very sure the player knows all his adverb options, and the list of possibilities should probably not be too long.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Unthinkable Alliances&quot;\n\nUnthinkable Solutions is a room. Sophie, Daisy, Ryan and Owen are in Unthinkable Solutions.\n\nAlliance relates people to each other in groups. The verb to help (he helps, they help, he helped, he is helped) implies the alliance relation.\n\nSophie helps Ryan. Daisy helps Ryan.\n\nInstead of kissing someone (called the blessed one):\n\tsay &quot;Smack!&quot;;\n\tnow the player helps the blessed one.\n\nInstead of attacking someone (called the vilified one):\n\tsay &quot;Smack!&quot;;\n\tnow the player does not help the vilified one.\n\n')"><img border=0 src=paste.png></a> &quot;Unthinkable Alliances&quot;
+<p>Another trick is that adverbs complicate understanding commands, because they can occur anywhere: one might type >GO WEST CAREFULLY or >CAREFULLY GO WEST, and ideally the game should understand both. After reading a command is the best point to do this sort of thing, because we can find adverbs, interpret them, and remove them from the command stream. So:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Cloves&quot;\n\nManner is a kind of value. The manners are insouciantly, sheepishly, and defiantly.\n\n[Now we have, automatically, a value called manner understood to be used whenever parsing manners, and we can use this even during the &quot;after reading a command&quot; stage, so:]\n\nAfter reading a command:\n\tif the player\'s command includes &quot;[manner]&quot;\n\tbegin;\n\t\tcut the matched text;\n\totherwise;\n\t\tsay &quot;But how, my dear boy, how? You simply can\'t do something without a pose. Thus far you have mastered doing things defiantly, sheepishly, or insouciantly.&quot;;\n\t\treject the player\'s command;\n\tend if.\n\nWhen play begins: change the left hand status line to &quot;Behaving [manner understood]&quot;; change the right hand status line to &quot;[location]&quot;; change the manner understood to insouciantly.\n\nThe Poseur Club is a room. &quot;Lady Mary is laid out on a sofa, her wrists bandaged importantly[if the manner understood is insouciantly] -- and she looks all the more depressed by your indifference to her state[end if]; Salvatore is at the gaming table, clutching his hair with both hands[if the manner understood is defiantly] -- though he looks up long enough to snarl in response to that expression of yours[end if]; Frackenbush is muttering lines from another of his works in progress, as though poetry has nearly made him mad[if the manner understood is sheepishly]. But he spares you a reassuring smile. He\'s not a bad fellow, Frackenbush[end if].\n\nThe usual people, in short.&quot;\n\nInstead of doing something other than waiting or looking:\n\tsay &quot;Dear. No. That would smack of effort.&quot;\n\nInstead of waiting when the manner understood is sheepishly:\n\tsay &quot;You scuff your foot against the ground for a moment, and allow a seemly blush to creep over your cheek. It\'s quite effective, you are sure, though you can\'t look up and see how it is going.&quot;\n\nInstead of waiting when the manner understood is insouciantly:\n\tsay &quot;Thrusting your hands into your pockets, you whistle a jaunty tune.\n\n\'Do shut up,\' says a Melancholy Poseur from over by the window.&quot;\n\nInstead of waiting when the manner understood is defiantly:\n\tsay &quot;You raise your chin and give a pointed glance around the room as though to say that you are waiting for someone; you are unembarrassed about waiting for her; you have by no means been stood up; and the first person to comment will receive a poke in the eye.&quot;\n\nBefore looking when the manner understood is sheepishly:\n\tsay &quot;You gaze up from under your brows...&quot;\n\nBefore looking when the manner understood is defiantly:\n\tsay &quot;You cast a withering gaze over the room.&quot;\n\nBefore looking when the manner understood is insouciantly:\n\tif turn count > 1,\n\t\tsay &quot;You turn an eye to your surroundings, looking faintly-- just faintly-- amused.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Cloves&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Unthinkable Solutions is a room. Sophie, Daisy, Ryan and Owen are in Unthinkable Solutions.
+<blockquote><font color="#000080">Manner is a kind of value. The manners are insouciantly, sheepishly, and defiantly.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Alliance relates people to each other in groups. The verb to help (he helps, they help, he helped, he is helped) implies the alliance relation.
+<p>Now we have, automatically, a value called manner understood to be used whenever parsing manners, and we can use this even during the &quot;after reading a command&quot; stage, so:
+<p>
+<blockquote><font color="#000080">After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;[manner]&quot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut the matched text;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;But how, my dear boy, how? You simply can't do something without a pose. Thus far you have mastered doing things defiantly, sheepishly, or insouciantly.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject the player's command;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Sophie helps Ryan. Daisy helps Ryan.
+<blockquote><font color="#000080">When play begins: change the left hand status line to &quot;Behaving [manner understood]&quot;; change the right hand status line to &quot;[location]&quot;; change the manner understood to insouciantly.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of kissing someone (called the blessed one):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Smack!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the player helps the blessed one.
+<blockquote><font color="#000080">The Poseur Club is a room. &quot;Lady Mary is laid out on a sofa, her wrists bandaged importantly[if the manner understood is insouciantly] -- and she looks all the more depressed by your indifference to her state[end if]; Salvatore is at the gaming table, clutching his hair with both hands[if the manner understood is defiantly] -- though he looks up long enough to snarl in response to that expression of yours[end if]; Frackenbush is muttering lines from another of his works in progress, as though poetry has nearly made him mad[if the manner understood is sheepishly]. But he spares you a reassuring smile. He's not a bad fellow, Frackenbush[end if].
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of attacking someone (called the vilified one):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Smack!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the player does not help the vilified one.
+<blockquote><font color="#000080">The usual people, in short.&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc177.html>Previous</a> / <a href=doc179.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Instead of doing something other than waiting or looking:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Dear. No. That would smack of effort.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of waiting when the manner understood is sheepishly:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You scuff your foot against the ground for a moment, and allow a seemly blush to creep over your cheek. It's quite effective, you are sure, though you can't look up and see how it is going.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of waiting when the manner understood is insouciantly:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Thrusting your hands into your pockets, you whistle a jaunty tune.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">'Do shut up,' says a Melancholy Poseur from over by the window.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of waiting when the manner understood is defiantly:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You raise your chin and give a pointed glance around the room as though to say that you are waiting for someone; you are unembarrassed about waiting for her; you have by no means been stood up; and the first person to comment will receive a poke in the eye.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before looking when the manner understood is sheepishly:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You gaze up from under your brows...&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before looking when the manner understood is defiantly:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You cast a withering gaze over the room.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before looking when the manner understood is insouciantly:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if turn count > 1,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You turn an eye to your surroundings, looking faintly-- just faintly-- amused.&quot;
+</font></blockquote><p>
+<p>
+<p>The qualification about turn count is to prevent this before message from occurring when the player first looks around the room (automatically) at the start of play.
+</td></tr></table><p><a name="e92"><a href=ex92.html#e92><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Responding to the player's input based on keywords only, and overriding the original parser entirely.</i><p>
+<a name="e102"><a href=ex102.html#e102><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A character who responds to keywords in the player's instructions and remarks, even if there are other words included.</i><p>
+<a name="e127"><a href=ex127.html#e127><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Novice mode that prefaces every prompt with a list of possible commands the player could try, and highlights every important word used, to alert players to interactive items in the scenery.</i><p>
+<p><hr><p><a href=doc256.html>Previous</a> / <a href=doc258.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

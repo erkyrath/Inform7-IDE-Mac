@@ -1,4 +1,4 @@
-<html><head><title>15.15. Context: understanding when</title></head>
+<html><head><title>9.5. Linking scenes together</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,78 +7,101 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc230.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc232.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.15. Context: understanding when</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc132.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc134.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>9.5. Linking scenes together</b></td></tr></table><p>
 <p>
-<p>We have now seen several different forms of &quot;Understand&quot; sentence: for instance,
+<p>Let us suppose that somebody gets off the train, after all, so that a second scene follows on.
 <p>
-<blockquote><font color="#000080">Understand the colour property as describing a building block.
-<br>Understand &quot;mix [colour] paint&quot; as mixing paint.
-<br>Understand &quot;rouge&quot; as red.
-<br>Understand &quot;curious girl&quot; as Alice.
+<blockquote><font color="#000080">Brief Encounter is a scene. Brief Encounter begins when Train Stop ends.
 </font></blockquote><p>
 <p>
-<p>Any of these may optionally have a condition tacked on: for instance,
+<p>The effect of this is that they occur in sequence. If we add a third to the chain of scenes:
 <p>
-<blockquote><font color="#000080">Understand &quot;mix [colour] paint&quot; as mixing paint when the location is the Workshop.
-<br>Understand &quot;rouge&quot; as red when the make-up set is visible.
+<blockquote><font color="#000080">Village Exploration is a scene. Village Exploration begins when Brief Encounter ends.
 </font></blockquote><p>
 <p>
-<p>In principle, &quot;when ...&quot; can take in any condition at all. In practice a little care should be exercised not to do anything too slow, or which might have side-effects. (For instance, referring the decision to a phrase which then printed text up would be a bad idea.) Moreover, we must remember that the &quot;noun&quot; and &quot;second noun&quot; are not known yet, nor do we know what the action will be. So we cannot safely say &quot;when the noun is the fir cone&quot;, for instance. If we want more sophisticated handling of such cases, we need to write checking rules and so on in the usual way.
+<p>...we find another chance to fool ourselves: if we check the Scenes index again, we can see the linkages between these scenes, but we also see that Brief Encounter never ends (despite its name). All we have said is that another scene begins where Brief Encounter leaves off, but it never does, so this is moot.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e9"><a href=doc231.html#e9><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A bookshelf with a number of books, where the player's command to examine something will be interpreted as an attempt to look up titles if the bookshelf is present, but otherwise given the usual response.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e9"><a href=doc133.html#e9><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A scenario using scenes to keep conversation moving forward.</i><p>
 <p>
-<p>Suppose we want a bookshelf with a very large number of books on it. They aren't to be taken or carried around in the game, but they should be mentioned, and the player should be allowed to look them up by name. Furthermore, the player's attempts to examine something unrecognized should be understood as an attempt to look up a title -- but only when the player is in the presence of the books. The rest of the time such requests should be rejected in the usual way.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Bibliophilia&quot;\n\nThe Graduate Lounge is a room. &quot;Shabby sofas; plastic cups remaining from the afternoon\'s pre-lecture espresso; a collection of Xena and Hercules figurines posed for ironic effect. It\'s somewhat depressing at this hour, when everyone has gone home.&quot;\n\nThe Classics Reading Room is south of the Lounge. &quot;Not as large a collection as the one in the Library, but it contains copies of everything really essential for reference.&quot;\n\nUnderstand &quot;examine [text]&quot; as examining as a book when the player is in the Reading Room. Understand &quot;look up [text]&quot; as examining as a book when the player is in the Reading Room.\n\nExamining as a book is an action applying to one topic.\n\nCarry out examining as a book:\n\tsay &quot;You can\'t find any such text.&quot;\n\nInstead of examining as a book a topic listed in the Table of Book Titles:\n\tsay &quot;[description entry][paragraph break]&quot;\n\nTable of Book Titles\ntopic\ttitle\tdescription\n&quot;Reading Greek Death&quot; or &quot;reading/greek/death&quot; or &quot;greek death&quot;\t&quot;Reading Greek Death&quot;\t&quot;A dense orange paperback treatise on the development of Greek eschatology.&quot;\n&quot;TAPA/Transactions/134-2&quot;\t&quot;TAPA 134-2&quot;\t&quot;Transactions of the American Philological Association from 2004.&quot;\n&quot;Oxford Classical Dictionary&quot; or &quot;OCD/dictionary/classical/oxford&quot;\t&quot;Oxford Classical Dictionary&quot;\t&quot;A hefty reference with short articles on everything from Greek meter to ancient cosmetics.&quot;\n&quot;Collected Dialogues of Plato&quot; or &quot;Plato/dialogues/hamilton/cairns&quot;\t&quot;Collected Dialogues of Plato&quot;\t&quot;All the Platonic dialogues -- some, admittedly, in rather tired translations -- but still a useful single volume, ed. Edith Hamilton and Huntington Cairns.&quot;\n&quot;Adobe Illustrator CS User Guide&quot; or &quot;user guide&quot; or &quot;adobe illustrator&quot; or &quot;adobe/illustrator/cs/user/guide&quot;\t&quot;Adobe Illustrator CS User Guide&quot;\t&quot;Hello, how did this get here? A suspiciously familiar name is scribbled inside the front cover...&quot;\n\nSome books are scenery in the Reading Room. Understand &quot;copies&quot; or &quot;book&quot; or &quot;shelf&quot; or &quot;shelves&quot; as the books. Instead of examining the books:\n\tchoose a random row in the Table of Book Titles;\n\tsay &quot;You scan the shelves and notice, among others, a volume entitled [italic type][title entry][roman type].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Bibliophilia&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Aurora&quot;\n\nA person can be asleep or awake.\n\nThe Dragon\'s Tower is a room. Sleeping Beauty is an asleep woman in the Dragon\'s Tower. &quot;[if asleep]Sleeping Beauty lies here, oblivious to your presence[otherwise]Sleeping Beauty stands beside you, looking a little confused[end if].&quot; The description is &quot;She is even more magnificent than the rumors suggested.&quot; Understand &quot;woman&quot; or &quot;girl&quot; or &quot;princess&quot; or &quot;lady&quot; as Sleeping Beauty.\n\nDiscovery is a scene. Discovery begins when play begins. Discovery ends when Sleeping Beauty is awake. Marriage Proposal is a scene. Marriage Proposal begins when Discovery ends.\n\nWhen Discovery ends: say &quot;Throughout the palace you can hear the other sounds of stirring and movement as the spell of centuries is broken.&quot;\n\nInstead of waking an awake person: say &quot;Redundant.&quot;\n\nInstead of waking an asleep person: say &quot;Yes, but how?&quot;\n\nInstead of attacking an asleep person:\n\tnow the noun is awake;\n\tsay &quot;[The noun] sits bolt upright. \'Hey! Ow!\' So much for that true love\'s kiss nonsense.&quot;\n\nInstead of kissing an asleep person:\n\tnow the noun is awake;\n\tsay &quot;[The noun] slowly stirs to wakefulness!&quot;\n\nInstead of throwing water at an asleep person:\n\tnow the second noun is awake;\n\tremove the noun from play;\n\tsay &quot;You pour out [the noun] on [the second noun].\n\n[The second noun] wakes, shuddering. \'Agh! I had a terrible dream about drowning and then-- Hey!\'&quot;\n\nThe player carries a jug of water. Understand &quot;pour [something] on [something]&quot; or &quot;splash [something] at/on [something]&quot; as throwing it at.\n\n[Suppose we want a conversation style which allows the player to move conversation forward by asking appropriate questions, but which will keep moving forward even if he doesn\'t. To this end, we provide a table with two ways of performing each conversation bit -- one which reflects the player\'s participation, and one in which the character moves things onward:]\n\nTable of Conversation\ntopic\treply\tquip\n&quot;dream/dreams/nightmare/nightmares/sleep&quot;\t&quot;\'Sleep well?\' you ask solicitously. [paragraph break]\'Not really,\' she replies, edging away from you. So much for that angle.&quot;\t&quot;\'Ghastly nightmares,\' she remarks. You nod politely.&quot;\n&quot;marriage/love/wedding/boyfriend/beau/lover&quot;\t&quot;\'So,\' you say. \'This is a little weird since we just met, but, um. Would you like to get married?\' [paragraph break]She looks at you nervously. \'Do I have to?\'&quot;\t&quot;\'I, er,\' she says. \'I hope I\'m not supposed to marry you or something.\'&quot;\n&quot;marriage/love/wedding/boyfriend/beau/lover&quot;\t&quot;\'I was told I was going to marry you and inherit the kingdom,\' you say, apologetically. \'Would that be very bad?\' [paragraph break]\'Oh, I\'m seeing someone,\' she says, smiling quickly.[paragraph break]You try to think how to point out that it\'s been a hundred years since she last saw her boyfriend.&quot;\t&quot;\'Do you think I could go look for someone? I\'m seeing him, you see, and I think I\'ve been... sick... for a while, so he might be worried.\' [paragraph break]You try to think how to point out that it\'s been a hundred years since she last saw her boyfriend.&quot;\n&quot;marriage/love/wedding/boyfriend/beau/lover&quot;\t&quot;\'You\'ve been up here for a hundred years,\' you say. An unpleasant thought occurs to you. \'Was your young man in the castle somewhere?\' [paragraph break]She shakes her head mutely.&quot;\t&quot;She goes to the window and looks out at the now-fading thicket of briar. \'That took a while to grow,\' she observes. \'I\'ve been up here longer than I thought.\' [paragraph break]You shrug, uncomfortable.&quot;\n\nInstead of asking an awake beauty about a topic listed in the Table of Conversation:\n\tsay &quot;[reply entry][line break]&quot;;\n\tblank out the whole row.\n\nInstead of telling an awake beauty about something: try asking the noun about it.\n\nInstead of asking an asleep person about something:\n\tsay &quot;[The noun] snores.&quot;\n\nMarriage Proposal ends when the number of filled rows in the Table of Conversation is 0.\n\nEvery turn during Marriage Proposal:\n\trepeat through Table of Conversation\n\tbegin;\n\t\tsay &quot;[quip entry][paragraph break]&quot;;\n\t\tblank out the whole row;\n\t\trule succeeds;\n\tend repeat.\n\nWhen Marriage Proposal ends: end the game saying &quot;This is going to take some explaining.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Aurora&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Graduate Lounge is a room. &quot;Shabby sofas; plastic cups remaining from the afternoon's pre-lecture espresso; a collection of Xena and Hercules figurines posed for ironic effect. It's somewhat depressing at this hour, when everyone has gone home.&quot;
+<blockquote><font color="#000080">A person can be asleep or awake.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Classics Reading Room is south of the Lounge. &quot;Not as large a collection as the one in the Library, but it contains copies of everything really essential for reference.&quot;
+<blockquote><font color="#000080">The Dragon's Tower is a room. Sleeping Beauty is an asleep woman in the Dragon's Tower. &quot;[if asleep]Sleeping Beauty lies here, oblivious to your presence[otherwise]Sleeping Beauty stands beside you, looking a little confused[end if].&quot; The description is &quot;She is even more magnificent than the rumors suggested.&quot; Understand &quot;woman&quot; or &quot;girl&quot; or &quot;princess&quot; or &quot;lady&quot; as Sleeping Beauty.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;examine [text]&quot; as examining as a book when the player is in the Reading Room. Understand &quot;look up [text]&quot; as examining as a book when the player is in the Reading Room.
+<blockquote><font color="#000080">Discovery is a scene. Discovery begins when play begins. Discovery ends when Sleeping Beauty is awake. Marriage Proposal is a scene. Marriage Proposal begins when Discovery ends.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Examining as a book is an action applying to one topic.
+<blockquote><font color="#000080">When Discovery ends: say &quot;Throughout the palace you can hear the other sounds of stirring and movement as the spell of centuries is broken.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out examining as a book:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You can't find any such text.&quot;
+<blockquote><font color="#000080">Instead of waking an awake person: say &quot;Redundant.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of examining as a book a topic listed in the Table of Book Titles:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[description entry][paragraph break]&quot;
+<blockquote><font color="#000080">Instead of waking an asleep person: say &quot;Yes, but how?&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Book Titles
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">title</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">description</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Reading Greek Death&quot; or &quot;reading/greek/death&quot; or &quot;greek death&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Reading Greek Death&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;A dense orange paperback treatise on the development of Greek eschatology.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;TAPA/Transactions/134-2&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;TAPA 134-2&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Transactions of the American Philological Association from 2004.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Oxford Classical Dictionary&quot; or &quot;OCD/dictionary/classical/oxford&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Oxford Classical Dictionary&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;A hefty reference with short articles on everything from Greek meter to ancient cosmetics.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Collected Dialogues of Plato&quot; or &quot;Plato/dialogues/hamilton/cairns&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Collected Dialogues of Plato&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;All the Platonic dialogues -- some, admittedly, in rather tired translations -- but still a useful single volume, ed. Edith Hamilton and Huntington Cairns.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Adobe Illustrator CS User Guide&quot; or &quot;user guide&quot; or &quot;adobe illustrator&quot; or &quot;adobe/illustrator/cs/user/guide&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Adobe Illustrator CS User Guide&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Hello, how did this get here? A suspiciously familiar name is scribbled inside the front cover...&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+<blockquote><font color="#000080">Instead of attacking an asleep person:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is awake;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] sits bolt upright. 'Hey! Ow!' So much for that true love's kiss nonsense.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of kissing an asleep person:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is awake;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] slowly stirs to wakefulness!&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of throwing water at an asleep person:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the second noun is awake;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the noun from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You pour out [the noun] on [the second noun].
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">[The second noun] wakes, shuddering. 'Agh! I had a terrible dream about drowning and then-- Hey!'&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player carries a jug of water. Understand &quot;pour [something] on [something]&quot; or &quot;splash [something] at/on [something]&quot; as throwing it at.
+</font></blockquote><p>
+<p>
+<p>Suppose we want a conversation style which allows the player to move conversation forward by asking appropriate questions, but which will keep moving forward even if he doesn't. To this end, we provide a table with two ways of performing each conversation bit -- one which reflects the player's participation, and one in which the character moves things onward:
+<p>
+<blockquote><font color="#000080">Table of Conversation
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">reply</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">quip</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;dream/dreams/nightmare/nightmares/sleep&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Sleep well?' you ask solicitously. [paragraph break]'Not really,' she replies, edging away from you. So much for that angle.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Ghastly nightmares,' she remarks. You nod politely.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;marriage/love/wedding/boyfriend/beau/lover&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'So,' you say. 'This is a little weird since we just met, but, um. Would you like to get married?' [paragraph break]She looks at you nervously. 'Do I have to?'&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I, er,' she says. 'I hope I'm not supposed to marry you or something.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;marriage/love/wedding/boyfriend/beau/lover&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I was told I was going to marry you and inherit the kingdom,' you say, apologetically. 'Would that be very bad?' [paragraph break]'Oh, I'm seeing someone,' she says, smiling quickly.[paragraph break]You try to think how to point out that it's been a hundred years since she last saw her boyfriend.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Do you think I could go look for someone? I'm seeing him, you see, and I think I've been... sick... for a while, so he might be worried.' [paragraph break]You try to think how to point out that it's been a hundred years since she last saw her boyfriend.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;marriage/love/wedding/boyfriend/beau/lover&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'You've been up here for a hundred years,' you say. An unpleasant thought occurs to you. 'Was your young man in the castle somewhere?' [paragraph break]She shakes her head mutely.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;She goes to the window and looks out at the now-fading thicket of briar. 'That took a while to grow,' she observes. 'I've been up here longer than I thought.' [paragraph break]You shrug, uncomfortable.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
 </tr></table>
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Some books are scenery in the Reading Room. Understand &quot;copies&quot; or &quot;book&quot; or &quot;shelf&quot; or &quot;shelves&quot; as the books. Instead of examining the books:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the Table of Book Titles;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You scan the shelves and notice, among others, a volume entitled [italic type][title entry][roman type].&quot;
+<blockquote><font color="#000080">Instead of asking an awake beauty about a topic listed in the Table of Conversation:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[reply entry][line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row.
 </font></blockquote><p>
 <p>
-<p>Now if we type >X HERCULES in the Lounge, we will get
-<p>
-<blockquote><font color="#000080">>x hercules
-<br>You can't see any such thing.
+<blockquote><font color="#000080">Instead of telling an awake beauty about something: try asking the noun about it.
 </font></blockquote><p>
 <p>
-<p>thanks to our somewhat slovenly implementation of the Lounge scenery; but in the Reading Room,
-<p>
-<blockquote><font color="#000080">>x hercules
-<br>You can't find any such text.
+<blockquote><font color="#000080">Instead of asking an asleep person about something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] snores.&quot;
 </font></blockquote><p>
 <p>
-<p>In practice we might also want to extend our coverage somewhat to handle a case where the player tried to take books from the bookshelf: currently that would not be understood.
-</td></tr></table><p><p><hr><p><a href=doc230.html>Previous</a> / <a href=doc232.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Marriage Proposal ends when the number of filled rows in the Table of Conversation is 0.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn during Marriage Proposal:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Conversation
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[quip entry][paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">When Marriage Proposal ends: end the game saying &quot;This is going to take some explaining.&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc132.html>Previous</a> / <a href=doc134.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

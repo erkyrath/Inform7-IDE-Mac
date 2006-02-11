@@ -1,4 +1,4 @@
-<html><head><title>18.5. Genres</title></head>
+<html><head><title>17.10. In what order?</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,28 +7,35 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc270.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc272.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.5. Genres</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc270.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc272.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>17.10. In what order?</b></td></tr></table><p>
 <p>
-<p>Information which is not supplied will be filled in automatically as follows:
+<p>Large works created by Inform are heaped high with rules, most of them instead rules, but with a leavening of befores and afters as well. What will happen if these conflict with each other? For instance:
 <p>
-<blockquote><font color="#000080">Story title: Untitled
-<br>Story author: Anonymous
-<br>Story headline: An Interactive Fiction
-<br>Story genre: Fiction
-<br>Release number: 1
+<blockquote><font color="#000080">Instead of opening a container, say &quot;Your mother-in-law looks on with such evident disappointment that you withdraw your hand again.&quot;
 </font></blockquote><p>
 <p>
-<p>The &quot;story genre&quot; is not used in the banner at all, and exists purely to help librarians. If it is at all possible to do so, authors are asked to use one of the following standard categories:
-<p>
-<blockquote><font color="#000080">Comedy, Erotica, Fairy Tale, Fantasy, Fiction, Historical, Horror, Mystery, Non-Fiction, Other, Romance, Science Fiction, Surreal
+<blockquote><font color="#000080">Instead of opening an open container, say &quot;Your daughter tuts in theatrical exasperation at your, like, lameness.&quot;
 </font></blockquote><p>
 <p>
-<p>These categories are based on those currently used by bookshops, but a few notes may be helpful. &quot;Fiction&quot; is intended for works whose essential purpose is literary, in a way which trumps any subject they happen to have: if Julian Barnes writes a mystery, for instance, a bookshop will shelve it with modern novels rather than in the detective stories section, whereas P. D. James's Adam Dalgliesh mysteries will end up filed with detective fiction even though she has appreciable claims to be an important novelist.
+<p>If the player tries to open something which is closed, there is no conflict and it is clearly the mother-in-law who gets in the way. But what if the player tries to open a container which is already open? In this case both rules are applicable, but they cannot both take effect: they are instead rules and whichever happens first will stop the action.
 <p>
-<p>&quot;Comedy&quot; is used rather than &quot;humour&quot; to avoid the clash of spellings with &quot;humor&quot;. This genre includes parodies.
+<p>The answer is that Inform does not allow rules simply to heap up chaotically, nor simply list them in the order they are described, but sorts them according to what it believes to be a logical sequence. Given any two rules A and B, it tries to see which rule is more specific - narrower in application, that is - and applies that one first. In this case Inform finds that any open container is also a container, but not vice versa. That means that the daughter rule is more specific than the mother-in-law rule, so it is given priority. But the following rule would trump either of them:
 <p>
-<p>&quot;Non-Fiction&quot; would be used for a work of IF which is essentially a presentation, perhaps in a novel interactive format, of true information. A meticulous simulation of the Great Exhibition of 1851, for instance, might qualify.
+<blockquote><font color="#000080">Instead of opening the jewelled box, say &quot;Such exquisite boxes are notorious for traps such as poisoned needles concealed around the lid.&quot;
+</font></blockquote><p>
 <p>
-<p>The distinction between &quot;Surreal&quot; and &quot;Other&quot; is that &quot;Surreal&quot; works contain at least some semblance of narrative, whereas &quot;Other&quot; is intended for works which &quot;abuse&quot; the format to present some entirely different sort of game - Tetris, say, or Minesweeper.
+<p>Note that a rule applying only in certain rooms always beats a rule which is applicable everywhere. Here is a larger example:
+<p>
+<blockquote><font color="#000080">(R1) Before taking something in the Swamp: ...
+<br>(R2) Before taking the bucket: ...
+<br>(R3) Before taking the frog: ...
+<br>(R4) Before taking an open container: ...
+<br>(R5) Before taking a container: ...
+<br>(R6) Before taking something: ...
+</font></blockquote><p>
+<p>
+<p>Rule (R1) wins because it specifies a room, whereas (R2) and (R3) do not. (R2) and (R3) then trump the others because they name specific objects, not general classes of objects. We then have (R4), (R5) and (R6) in that order since every open container is also a container, and every container is a thing.
+<p>
+<p>The full method used by Inform to sort rules is complicated, and will not always be quite right. We have now seen two different ways to change the ordering if need be. But in practice, when we need rule A to come before rule B, it will usually be a clear-cut case which comes out right. In trickier cases to judge, it mostly doesn't matter anyway.
 <p>
 <p><hr><p><a href=doc270.html>Previous</a> / <a href=doc272.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

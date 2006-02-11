@@ -1,0 +1,36 @@
+<html><head><title>7.3. Changing the status line</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc94.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc96.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>7.3. Changing the status line</b></td></tr></table><p>
+<p>
+<p>The status line is the black bar along the top of a game being played, which ordinarily displays the current position, score and number of moves taken. Like the command prompt, it is not fixed but results from values which can be changed: the &quot;left hand status line&quot; and &quot;right hand status line&quot;.
+<p>
+<p>The default values are &quot;[the player's surroundings]&quot; for the left hand status line and &quot;[score]/[turn count]&quot; for the right hand status line. Score and turn count are numbers which vary in play (there will be much more about scoring later); &quot;[the player's surroundings]&quot; expands to a succinct description of where the player is, be this in darkness, in a lighted room or inside an opaque container such as a large packing case. These make useful elements to juggle in redesigning the status line, as in the following example:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tchange the left hand status line to\n\t\t&quot;[the player\'s surroundings] / [turn count] / [score]&quot;;\n\tchange the right hand status line to &quot;Time: [time of day]&quot;.\n\n\n')"><img border=0 src=paste.png></a> When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the left hand status line to
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&quot;[the player's surroundings] / [turn count] / [score]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the right hand status line to &quot;Time: [time of day]&quot;.
+</font></blockquote><p>
+<p>
+<p>The text in the right hand status line should be kept no more than 14 letters long, including any spaces. The left hand status line has more leeway, but should still be kept brief.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e170"><a href=doc95.html#e170><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Have the status line indicate the current region of the map.</i><p>
+<p>
+<p>Suppose a game with a large map entirely subdivided into regions. We could define:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tchange the right hand status line to &quot;[map region of the location]&quot;.\n\n\n')"><img border=0 src=paste.png></a> When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the right hand status line to &quot;[map region of the location]&quot;.
+</font></blockquote><p>
+<p>
+<p>Note that, since regions can be stacked, we technically can be within more than one region at once. In the Port Royal example, for instance, the Tavern region is inside the Inland region. If there is any ambiguity, &quot;the map region of the location&quot; will be construed as &quot;the smallest region that the location belongs to&quot;: so we would see &quot;Tavern&quot; rather than &quot;Inland&quot; in the status bar, when the player was in the Feathers or the Feathers Bedroom.
+<p>
+<p>Some extra finesse would be necessary if the names of map regions were very long or if there were some rooms that were not considered to belong to any region at all.
+</td></tr></table><p><p><hr><p><a href=doc94.html>Previous</a> / <a href=doc96.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>18.1. Finding a readership</title></head>
+<html><head><title>17.6. Phrases concerning rules</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,16 +7,39 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 18: Publishing</h2><p><table><tr><td><a href=doc266.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc268.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.1. Finding a readership</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc266.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc268.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>17.6. Phrases concerning rules</b></td></tr></table><p>
 <p>
-<p>This chapter is about what to do when we have a complete, finished work on our hands.
+<p>The &quot;ignore&quot; phrase is only one of a suite. The full list is:
 <p>
-<p>There is a thriving community of readers and writers of interactive fiction, and it is sometimes supported by grants from arts foundations and other cultural bodies: there's increasing attention from the academic world, and a general consensus has gradually grown that interactive fiction is a &quot;valid&quot; artistic medium for expression. Like poetry, it is something that a few people like a lot, and which most people can see the point of, even if they don't read it themselves. Over the last thirty years, a few authors have established durable reputations: they give occasional newspaper interviews, and have a very low-key kind of fame. There are competitions, and annual awards ceremonies. Newcomers are always welcome.
+<blockquote><font color="#000080">ignore ...rule...
+<br>reinstate ...rule...
+</font></blockquote><p>
 <p>
-<p>With a small number of exceptions, though, the most important works of interactive fiction have never been &quot;published&quot; in the sense of being issued for sale by a for-profit company. They have instead been uploaded to &quot;the IF archive&quot;, which is the nearest we have to an Alexandrian Library of all the world's interactive fiction, past and present; and have been talked about, and reviewed, on two long-standing Usenet newsgroups - <b>rec.arts.int-fiction</b> and <b>rec.games.int-fiction</b>.
+<p>The &quot;reinstate&quot; phrase simply reverses any previous &quot;ignore&quot; of the same rule, and is otherwise not useful.
 <p>
-<p>For the most part, IF has not been commercially valuable since about 1988. Successful authors of IF generally take the view that while they could, perhaps, make a very modest amount of money from sales, it would be a nuisance to collect and make no meaningful difference to their incomes; it would cut the number of readers, whereas one wants the satisfaction of being read; and besides, the whole culture of IF has always been characterised by giving and sharing. (Inform itself is free.)
+<blockquote><font color="#000080">reject the result of ...rule...
+<br>accept the result of ...rule...
+</font></blockquote><p>
 <p>
-<p>Inform has nevertheless occasionally been used to produce commercial works (generally add-ons or bonuses to other games), and users are welcome to sell works created by Inform with no royalty or requirement for rights clearance.
+<p>Some rules produce results (see below), but they can be set so that whatever result they produce will be ignored. Again, &quot;accept ...&quot; simply undoes a previous &quot;reject ...&quot; and otherwise has no effect.
 <p>
+<blockquote><font color="#000080">substitute ...first rule... for ...second rule...
+<br>restore the original ...second rule...
+</font></blockquote><p>
+<p>
+<p>Whenever the second rule is to be invoked - from any rulebook, or as a result of any &quot;follow&quot; instruction - invoke the first one instead. Again, &quot;restore ...&quot; simply undoes the effect of an earlier &quot;substitute&quot;.
+<p>
+<blockquote><font color="#000080">move ...first rule... to before/after ...second rule...
+</font></blockquote><p>
+<p>
+<p>This causes the first rule to be ignored whenever it turns up in the ordinary way, but to be invoked either immediately before or immediately after the second rule whenever that second rule is invoked. In effect, it cuts out the first rule from wherever it was, and glues it onto the second. Note that there is no obligation for the first rule to begin in the same rulebook(s) as the second, so this can be used to slot in a wholly new rule, perhaps only if certain circumstances hold.
+<p>
+<p>These rule-changing instructions allow apparently casual sentences to wreak havoc with the model world. This, for instance, is quite the recipe for mayhem and perplexity:
+<p>
+<blockquote><font color="#000080">A procedural rule: reject the result of the before rules; ignore the after rules; move the after rules to before the before rules.
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<a name="e110"><a href=ex110.html#e110><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Adjust time advancement so the game clock moves fifteen minutes each turn.</i><p>
+<a name="e12"><a href=ex12.html#e12><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Adding a new kind of supporter called a perch, where everything dropped lands on the floor.</i><p>
 <p><hr><p><a href=doc266.html>Previous</a> / <a href=doc268.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

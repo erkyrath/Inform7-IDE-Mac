@@ -1,4 +1,4 @@
-<html><head><title>16.19. Deciding whether all includes</title></head>
+<html><head><title>16.18. Constructing the status line</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,29 +7,24 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc251.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc253.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.19. Deciding whether all includes</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc251.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc253.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.18. Constructing the status line</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> When parsing a command such as &quot;take all&quot;, where the player uses &quot;all&quot; to signify everything within reach.
+<p><b>1. When it happens.</b> Just before input is accepted from the keyboard, Inform constructs a &quot;status line&quot; at the top of the window which is normally displayed in reverse colours (white on black instead of black on white, say).
 <p>
-<p><b>2. The default behaviour.</b> The actual method used is complicated, as &quot;all&quot; is not as simple as it seems - &quot;take all&quot; would not include the player's own body, for instance, or the crescent moon. The point of this action is to allow the normal method to be changed for given objects, or given kinds of object.
+<p><b>2. The default behaviour.</b> Makes the status line up out of two pieces, the &quot;left hand status line&quot; and the &quot;right hand status line&quot;. Since these can freely be changed, note that the status line is already very customisable without using rules applied to this activity.
 <p>
-<p><b>3. Examples.</b> (a) Removing scenery from &quot;all&quot;:
+<p><b>3. Examples.</b> (a) The most useful thing about this activity is that it allows us to vary descriptions in the status line. This is especially helpful to abbreviate unduly long room names, which might not otherwise fit:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for deciding whether all includes scenery: it does not.\n\n\n')"><img border=0 src=paste.png></a> Rule for deciding whether all includes scenery: it does not.
+<blockquote><font color="#000080">The Temple Of A Thousand Mightily Peeved Deities is a room. Rule for printing the name of the Temple while constructing the status line: say &quot;Temple&quot;.
 </font></blockquote><p>
 <p>
-<p>The phrases &quot;it does&quot; and &quot;it does not&quot; make a decision.
+<p>(b) Again, it's usually not necessary to apply activity rules to this, but occasionally amusing effects are possible if we do:
 <p>
-<p>(b) Ensuring that a given thing, which might otherwise be excluded, is included:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for deciding whether all includes the oval roof: it does.\n\n\n')"><img border=0 src=paste.png></a> Rule for deciding whether all includes the oval roof: it does.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.\n\n\n')"><img border=0 src=paste.png></a> The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.
 </font></blockquote><p>
 <p>
-<p>(c) However, be wary of rules like this one:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for deciding whether all includes the oak tree while taking: it does not.\n\n\n')"><img border=0 src=paste.png></a> Rule for deciding whether all includes the oak tree while taking: it does not.
-</font></blockquote><p>
-<p>
-<p>This will not work even when the player types &quot;take all&quot; because we are not &quot;taking&quot; until the text is fully understood, when the action begins: and working out what &quot;all&quot; means is part of that process of understanding.
-<p>
+<p><hr><p>
+<a name="e70"><a href=ex70.html#e70><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A status line that lists the available exits from the current location.</i><p>
+<a name="e69"><a href=ex69.html#e69><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A status line that lists the available exits from the current location, changing the names of these exits depending on whether the room has been visited or not.</i><p>
+<a name="e186"><a href=ex186.html#e186><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A status line which has only the name of the location, centered. (Taken from an example in the <i>Inform Designer's Manual, Fourth Edition</i>, which is itself emulating an effect used in Trinity.)</i><p>
 <p><hr><p><a href=doc251.html>Previous</a> / <a href=doc253.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

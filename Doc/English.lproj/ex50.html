@@ -1,4 +1,4 @@
-<html><head><title>16.13. Constructing the status line</title></head>
+<html><head><title>17.3. New rules</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,69 +7,124 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc245.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc247.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.13. Constructing the status line</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc263.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc265.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>17.3. New rules</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> Just before input is accepted from the keyboard, Inform constructs a &quot;status line&quot; at the top of the window which is normally displayed in reverse colours (white on black instead of black on white, say).
+<p>Stretching a point seasonally, we might write:
 <p>
-<p><b>2. The default behaviour.</b> Makes the status line up out of two pieces, the &quot;left hand status line&quot; and the &quot;right hand status line&quot;. Since these can freely be changed, note that the status line is already very customisable without using rules applied to this activity.
-<p>
-<p><b>3. Examples.</b> (a) The most useful thing about this activity is that it allows us to vary descriptions in the status line. This is especially helpful to abbreviate unduly long room names, which might not otherwise fit:
-<p>
-<blockquote><font color="#000080">The Temple Of A Thousand Mightily Peeved Deities is a room. Rule for printing the name of the Temple while constructing the status line: say &quot;Temple&quot;.
+<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<p>(b) Again, it's usually not necessary to apply activity rules to this, but occasionally amusing effects are possible if we do:
+<p>This rule is nameless. It needs no name because it will never need to be referred to: by identifying it as an every turn rule we have already said enough to lodge it in the &quot;every turn rules&quot; rulebook. In fact, though, it is easy to create a named rule:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.\n\n\n')"><img border=0 src=paste.png></a> The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.
+<blockquote><font color="#000080">This is the blossom shaking rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
+</font></blockquote><p>
+<p>
+<p>The name of a rule must always end with the word &quot;rule&quot;, for clarity's sake. (The phrasing &quot;This is the ... rule&quot; is used because &quot;The ... rule&quot; would be open to misinterpretation.)
+<p>
+<p>Previously we had a rule which had no name, but belonged to a rulebook: now we have the opposite, because although the &quot;blossom shaking rule&quot; has a name, it has not been placed in any rulebook. That means it will probably never be applied. We can remedy this like so:
+<p>
+<blockquote><font color="#000080">The blossom rule is listed in the every turn rules.
+</font></blockquote><p>
+<p>
+<p>A single rule like this can be listed in any number of rulebooks, including none.
+<p>
+<p>Alternatively, it is possible to both name and list a rule in a single sentence:
+<p>
+<blockquote><font color="#000080">Every turn (this is the blossom rule): say &quot;The summer breeze shakes the apple-blossom.&quot;
+</font></blockquote><p>
+<p>
+<p>Where rules have been named, we are able to have a say in what order they come in:
+<p>
+<blockquote><font color="#000080">The blossom rule is listed before the moving doorways rule in the every turn rules.
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e51"><a href=ex51.html#e51><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A status line that lists the available exits from the current location.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e50"><a href=doc246.html#e50><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A status line that lists the available exits from the current location, changing the names of these exits depending on whether the room has been visited or not.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e50"><a href=doc264.html#e50><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A description text generated based on the propensities of the player-character, following different rulebooks for different characters.</i><p>
 <p>
-<p>It may sometimes be helpful to prompt the player with a list of exits printed up in the status line. For instance, here is a status line that will print the names of nearby rooms, as well as all the doors the player can see:
+<p>Names of rules can be listed in tables. This is convenient if, for instance, we decide that we'd like to swap the rules we use for a specific purpose, as in this continuation of our earlier example of automated description:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tchange left hand status line to &quot;Nearby: [if a room is adjacent][the list of adjacent rooms][end if][if a room is adjacent and a door is visible] and [end if][if a door is visible][the list of visible doors][end if]&quot;;\n\tchange right hand status line to &quot; &quot;.\n\n[Of course, we may not want to tell the player what glories are to be found in locations he hasn\'t yet explored.]\n\nRule for printing the name of an unvisited room (called the target) while constructing the status line:\n\tlet aim be the best route from the location to the target;\n\tsay &quot;something [aim]&quot;.\n\n[Even when we have seen a room, we might still want a reminder about how to get there:]\n\nAfter printing the name of a visited room (called the target) while constructing the status line:\n\tlet aim be the best route from the location to the target;\n\tsay &quot; ([aim])&quot;.\n\n[We may also find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn\'t hard to provide a set of abbreviations to use in this context:]\n\nRule for printing the name of a direction (called the aim) while constructing the status line:\n\tchoose row with a heading of the aim in the Table of Abbreviation;\n\tsay &quot;[shortcut entry]&quot;.\n\nTable of Abbreviation\nheading\tshortcut\nnorth\t&quot;N&quot;\nnortheast\t&quot;NE&quot;\neast\t&quot;E&quot;\nsoutheast\t&quot;SE&quot;\nsouth\t&quot;S&quot;\nsouthwest\t&quot;SW&quot;\nwest\t&quot;W&quot;\nup\t&quot;U&quot;\ndown\t&quot;D&quot;\ninside\t&quot;in&quot;\noutside\t&quot;out&quot;\n\n\n')"><img border=0 src=paste.png></a> When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change left hand status line to &quot;Nearby: [if a room is adjacent][the list of adjacent rooms][end if][if a room is adjacent and a door is visible] and [end if][if a door is visible][the list of visible doors][end if]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change right hand status line to &quot; &quot;.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Crane\'s Leg, Grown Longer&quot;\n\nMaterial is a kind of value. The materials are wood, glass, stone, cloth, paper, clay, and metal. A thing has a material.\n\nColor is a kind of value. The colors are red, orange, yellow, green, blue, indigo, violet, black, brown, and white. A thing has a color. A thing is usually white.\n\nA height is a kind of value. 3 feet 11 inches specifies a height. A thing has a height. Definition: a thing is tall if its height is 6 feet 0 inches or more. Definition: a thing is short if its height is 2 feet 0 inches or less.\n\nA thing has a property called the ideal.\n\nA table is a kind of supporter. A table is usually wood. The height of a table is usually 3 feet 8 inches. The ordinary table is a table. The ideal of a table is always the ordinary table.\n\nA rock is a kind of thing. A rock is usually stone. The ordinary rock is a rock. The ideal of a rock is always the ordinary rock. The height of a rock is usually 0 feet 3 inches.\n\nThe description of a thing is usually &quot;[comparison with ideal]&quot;.\n\nTo say comparison with ideal:\n\tsay &quot;You observe [the noun]:[paragraph break]&quot;;\n\tchoose row with character of the player in Table of Descriptive Reporting;\n\tfollow instructions entry.\n\n\nThis is the comparative observation rule:\n\tlet the sample be the ideal of the noun;\n\tif the sample is not a thing\n\tbegin;\n\t\tsay &quot;Nothing special, really.&quot;;\n\t\trule succeeds;\n\tend if;\n\tif the material of the noun is not the material of the sample\n\tbegin;\n\t\tif the height of the noun is not the height of the sample\n\t\tbegin;\n\t\t\tif the noun is shorter than the sample, say &quot;Unusually short at [height of the noun], and made of [material of the noun].&quot;;\n\t\t\totherwise say &quot;Unusually tall at [height of the noun], and made of [material of the noun].&quot;;\n\t\totherwise;\n\t\t\tsay &quot;Distinct mostly in being made of [material of the noun].&quot;;\n\t\tend if;\n\totherwise;\n\t\tif the height of the noun is not the height of the sample\n\t\tbegin;\n\t\t\tif the noun is shorter than the sample, say &quot;Unusually short at [height of the noun].&quot;;\n\t\t\totherwise say &quot;Unusually tall at [height of the noun].&quot;;\n\t\totherwise;\n\t\t\tsay &quot;In every respect [a sample].&quot;;\n\t\tend if;\n\tend if.\n\nThe Pleasure Garden is a room. &quot;At the riverbank, a pleasing garden, having many curving paths and one straight.&quot;\n\nThe low table is a table in the Pleasure Garden. The height of the low table is 2 feet 3 inches. On the low table is a yellow metal rock called a gold nugget. The willow is a thing in the Pleasure Garden. The height of the willow is 20 feet 2 inches.\n\nUnderstand &quot;possess [any player-character]&quot; or &quot;be [any player-character]&quot; as possessing.\n\nPossessing is an action applying to one thing. Carry out possessing: change player to the noun; say &quot;You swap bodies!&quot;\n\nThe crane is a player-character in the Garden. The height of the crane is 4 feet 0 inches.\n\nTable of Descriptive Reporting\ncharacter\tinstructions\nyourself\tcomparative observation rule\ncrane\tbird observation rule\n\nThis is the bird observation rule:\n\tif the noun is shorter than the player-character, say &quot;Small, like a duck[if the color of the noun is not white]; and [color of the noun][end if].&quot;;\n\totherwise say &quot;Supremely tall[if the color of the noun is not white] and [color of the noun][end if].&quot;\n\n')"><img border=0 src=paste.png></a> &quot;The Crane's Leg, Grown Longer&quot;
 </font></blockquote><p>
 <p>
-<p>Of course, we may not want to tell the player what glories are to be found in locations he hasn't yet explored.
-<p>
-<blockquote><font color="#000080">Rule for printing the name of an unvisited room (called the target) while constructing the status line:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let aim be the best route from the location to the target;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;something [aim]&quot;.
+<blockquote><font color="#000080">Material is a kind of value. The materials are wood, glass, stone, cloth, paper, clay, and metal. A thing has a material.
 </font></blockquote><p>
 <p>
-<p>Even when we have seen a room, we might still want a reminder about how to get there:
-<p>
-<blockquote><font color="#000080">After printing the name of a visited room (called the target) while constructing the status line:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let aim be the best route from the location to the target;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; ([aim])&quot;.
+<blockquote><font color="#000080">Color is a kind of value. The colors are red, orange, yellow, green, blue, indigo, violet, black, brown, and white. A thing has a color. A thing is usually white.
 </font></blockquote><p>
 <p>
-<p>We may also find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn't hard to provide a set of abbreviations to use in this context:
-<p>
-<blockquote><font color="#000080">Rule for printing the name of a direction (called the aim) while constructing the status line:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with a heading of the aim in the Table of Abbreviation;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[shortcut entry]&quot;.
+<blockquote><font color="#000080">A height is a kind of value. 3 feet 11 inches specifies a height. A thing has a height. Definition: a thing is tall if its height is 6 feet 0 inches or more. Definition: a thing is short if its height is 2 feet 0 inches or less.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Abbreviation
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">heading</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">shortcut</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">north</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;N&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">northeast</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;NE&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">east</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;E&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">southeast</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;SE&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">south</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;S&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">southwest</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;SW&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">west</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;W&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">up</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;U&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">down</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;D&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">inside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;in&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">outside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;out&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+<blockquote><font color="#000080">A thing has a property called the ideal.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A table is a kind of supporter. A table is usually wood. The height of a table is usually 3 feet 8 inches. The ordinary table is a table. The ideal of a table is always the ordinary table.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A rock is a kind of thing. A rock is usually stone. The ordinary rock is a rock. The ideal of a rock is always the ordinary rock. The height of a rock is usually 0 feet 3 inches.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The description of a thing is usually &quot;[comparison with ideal]&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To say comparison with ideal:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You observe [the noun]:[paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with character of the player in Table of Descriptive Reporting;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;follow instructions entry.
+</font></blockquote><p>
+<p>
+<p>
+<blockquote><font color="#000080">This is the comparative observation rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the sample be the ideal of the noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the sample is not a thing
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing special, really.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the material of the noun is not the material of the sample
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the height of the noun is not the height of the sample
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the noun is shorter than the sample, say &quot;Unusually short at [height of the noun], and made of [material of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Unusually tall at [height of the noun], and made of [material of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Distinct mostly in being made of [material of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the height of the noun is not the height of the sample
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the noun is shorter than the sample, say &quot;Unusually short at [height of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Unusually tall at [height of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;In every respect [a sample].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Pleasure Garden is a room. &quot;At the riverbank, a pleasing garden, having many curving paths and one straight.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The low table is a table in the Pleasure Garden. The height of the low table is 2 feet 3 inches. On the low table is a yellow metal rock called a gold nugget. The willow is a thing in the Pleasure Garden. The height of the willow is 20 feet 2 inches.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;possess [any player-character]&quot; or &quot;be [any player-character]&quot; as possessing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Possessing is an action applying to one thing. Carry out possessing: change player to the noun; say &quot;You swap bodies!&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The crane is a player-character in the Garden. The height of the crane is 4 feet 0 inches.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Descriptive Reporting
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">character</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">instructions</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">yourself</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">comparative observation rule</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">crane</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">bird observation rule</font>&nbsp;&nbsp;&nbsp;</td>
 </tr></table>
 </font></blockquote><p>
 <p>
-<p>Everywhere else, the names of directions will still be printed out in full in the usual way.
-</td></tr></table><p><p><hr><p><a href=doc245.html>Previous</a> / <a href=doc247.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">This is the bird observation rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is shorter than the player-character, say &quot;Small, like a duck[if the color of the noun is not white]; and [color of the noun][end if].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Supremely tall[if the color of the noun is not white] and [color of the noun][end if].&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc263.html>Previous</a> / <a href=doc265.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

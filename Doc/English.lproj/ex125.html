@@ -1,4 +1,4 @@
-<html><head><title>16.17. Supplying a missing noun/second noun</title></head>
+<html><head><title>12.15. What are relations for?</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,50 +7,64 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc249.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc251.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.17. Supplying a missing noun/second noun</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc183.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc185.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>12.15. What are relations for?</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> (Two different activities here, but identical except for applying to different nouns.) Suppose that, because of an instruction to Understand something even though it would be lacking a noun - say, 'Understand &quot;take&quot; as taking.' - an incomplete action is generated, one which is required to have a noun, but doesn't. &quot;Supplying a missing noun&quot; takes place to remedy the problem. It can either:
+<p>It is easy to say what verbs are for: they are to express relations. But what are relations for?
 <p>
-<p>(i) Set a noun, printing text like &quot;(presumably the black bag)&quot; if it wants, in which case the action goes forward, though it is still subject to the full rules on accessibility exactly as any other action would be; or
+<p>Inform 7's focus on relations between objects is unusual as an approach to interactive fiction; the concept does not exist in most design systems, or rather, it does but is submerged. Traditional design systems do, after all, have the spatial relations of being inside, on top of, and so on. It could well be said that these are the only relationships that inanimate objects ever have. A stone can be on top of a table, and if so then that expresses their entire association.
 <p>
-<p>(ii) Make no choice, in which case no action takes place and the player's command is rejected. If the activity printed nothing, Inform will produce a generic reply to the player that &quot;You must supply a noun.&quot;.
-<p>
-<p><b>2. The default behaviour.</b> In the default grammar for Inform, only three such half-finished actions are ever Understood. One is &quot;going&quot; with no direction, for which this activity simply prints a refusal. The other two are the two undirected senses, &quot;smelling&quot; and &quot;listening&quot;. In each case, the &quot;supplying a missing noun&quot; activity sets the noun to the current location: so, for instance, typing the bare command &quot;listen&quot; might generate the action &quot;listening to the Shoreline&quot;.
-<p>
-<p><b>3. Examples.</b> (a) This is the definition Inform uses to make &quot;listen&quot; work as outlined above:
-<p>
-<blockquote><font color="#000080">Rule for supplying a missing noun while listening (this is the ambient sound rule): change the noun to the location.
-</font></blockquote><p>
-<p>
-<p>(b) It can be elegant to allow second nouns to be dropped with habitual actions, or where the choice is obvious:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;unlock [something]&quot; as unlocking it with.\n\nRule for supplying a missing second noun while unlocking:\n\tif the skeleton key is carried, change the second noun to the skeleton key;\n\totherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;\n\n\n\n')"><img border=0 src=paste.png></a> Understand &quot;unlock [something]&quot; as unlocking it with.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Rule for supplying a missing second noun while unlocking:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the skeleton key is carried, change the second noun to the skeleton key;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;
-</font></blockquote><p>
-<p>
+<p>This is because the stone, and the table, have no opinions, emotions, knowledge or memory. If the stone is taken away and then put back, nothing has changed. People, on the other hand, tend to remember having met each other before; they like being in some places, but not others; their behaviour depends on who, or what, is nearby. Being conscious, they have internal states, unlike the stone. Relations are a simple but powerful way to express and talk about such connections, and although they have numerous uses in physical contexts too, they are at their most powerful when helping to make the characters of interactive fiction come alive.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e125"><a href=doc250.html#e125><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Supplying a default direction for "go", so that "leave", "go", etc., are always interpreted as "out".</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e125"><a href=doc184.html#e125><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A number of sleuths (the player among them) find themselves aboard the Orient Express, where a murder has taken place, and one of them is apparently the culprit. Naturally they do not agree on whom, but there is physical evidence which may change their minds...</i><p>
 <p>
-<p>Sometimes it would be nice to respond a little more sensitively to a vague command such as &quot;leave&quot; -- converting it, perhaps, to a &quot;go out&quot; command.
+<p>The following example creates two new relations, and two new verbs, in order to set up a tangled web of intrigue.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Minimal Movement&quot;\n\nThe Doll-like House is a room. The Postage-Stamp-Sized Garden is outside from the House.\n\nRule for supplying a missing noun while going:\n\tchange noun to outside.\n\n[This particular situation is very slightly complicated by the existing rules about vague movement, but fortunately we can easily turn those off.]\n\nProcedural rule: ignore the block vaguely going rule.\n\n')"><img border=0 src=paste.png></a> &quot;Minimal Movement&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Murder on the Orient Express&quot;\n\nThe Dining Car is a room. Lord Peter is a man in the Dining Car. Sherlock Holmes is a man in the Dining Car. Miss Marple is a woman in the Dining Car. Adam Dalgliesh is a man in the Dining Car.\n\nSuspecting relates various people to one person.\n\nThe verb to suspect (he suspects, they suspect, he suspected, it is suspected) implies the suspecting relation.\n\nDalgliesh suspects Holmes. Holmes suspects Lord Peter. Lord Peter suspects Holmes. Miss Marple suspects the player.\n\nExculpating relates one thing to various people.\n\nThe verb to exculpate (it exculpates, they exculpate, it exculpated, he is exculpated) implies the exculpating relation.\n\nThe pipe ash exculpates Holmes. The poison pen letter exculpates Lord Peter. The poison pen letter exculpates Miss Marple. [Poor Dalgliesh. I guess he did it.]\n\nThe pipe ash, the letter and the silver bullet are carried.\n\n[Given this, we can then set up elaborate rules:]\n\nInstead of showing something to a person who suspects the player:\n\tsay &quot;\'You would say that,\' remarks [the second noun] darkly.&quot;.\n\nInstead of showing something which exculpates the player to someone:\n\tsay &quot;\'How striking!\' says [the second noun]. \'Almost I begin to distrust myself.\'&quot;.\n\n\n')"><img border=0 src=paste.png></a> &quot;Murder on the Orient Express&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Doll-like House is a room. The Postage-Stamp-Sized Garden is outside from the House.
+<blockquote><font color="#000080">The Dining Car is a room. Lord Peter is a man in the Dining Car. Sherlock Holmes is a man in the Dining Car. Miss Marple is a woman in the Dining Car. Adam Dalgliesh is a man in the Dining Car.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Rule for supplying a missing noun while going:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change noun to outside.
+<blockquote><font color="#000080">Suspecting relates various people to one person.
 </font></blockquote><p>
 <p>
-<p>This particular situation is very slightly complicated by the existing rules about vague movement, but fortunately we can easily turn those off.
-<p>
-<blockquote><font color="#000080">Procedural rule: ignore the block vaguely going rule.
+<blockquote><font color="#000080">The verb to suspect (he suspects, they suspect, he suspected, it is suspected) implies the suspecting relation.
 </font></blockquote><p>
-</td></tr></table><p><a name="e39"><a href=ex39.html#e39><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>DIG implementation which digs a hole in the location (without requiring the player to type DIG GROUND or something similar).</i><p>
-<p><hr><p><a href=doc249.html>Previous</a> / <a href=doc251.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Dalgliesh suspects Holmes. Holmes suspects Lord Peter. Lord Peter suspects Holmes. Miss Marple suspects the player.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Exculpating relates one thing to various people.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The verb to exculpate (it exculpates, they exculpate, it exculpated, he is exculpated) implies the exculpating relation.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The pipe ash exculpates Holmes. The poison pen letter exculpates Lord Peter. The poison pen letter exculpates Miss Marple. [Poor Dalgliesh. I guess he did it.]
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The pipe ash, the letter and the silver bullet are carried.
+</font></blockquote><p>
+<p>
+<p>Given this, we can then set up elaborate rules:
+<p>
+<blockquote><font color="#000080">Instead of showing something to a person who suspects the player:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'You would say that,' remarks [the second noun] darkly.&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of showing something which exculpates the player to someone:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'How striking!' says [the second noun]. 'Almost I begin to distrust myself.'&quot;.
+</font></blockquote><p>
+<p>
+<p>And so on: &quot;if Dalgliesh suspects someone who is exculpated by something carried by the player...&quot;, for instance, makes a fitting final example for this chapter. The description
+<p>
+<blockquote><font color="#000080">someone who is exculpated by something carried by the player
+</font></blockquote><p>
+<p>
+<p>expresses a complicated idea in very few words, and in such a way that a passer-by looking at the source text would immediately see what was meant.
+<p>
+<p>The moral is that relations allow sophisticated patterns of behaviour to be created in a way that reads back naturally as English.
+</td></tr></table><p><a name="e115"><a href=ex115.html#e115><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Some notes on relations from a mathematical point of view, provided only to clarify some technicalities for those who are interested.</i><p>
+<a name="e116"><a href=ex116.html#e116><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Some notes on relations from the point of view of graph theory.</i><p>
+<p><hr><p><a href=doc183.html>Previous</a> / <a href=doc185.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

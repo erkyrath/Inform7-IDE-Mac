@@ -1,4 +1,4 @@
-<html><head><title>5.6. To be able to see and touch</title></head>
+<html><head><title>16.15. Printing the announcement of darkness</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,81 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc67.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc69.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.6. To be able to see and touch</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc248.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc250.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.15. Printing the announcement of darkness</b></td></tr></table><p>
 <p>
-<p>Two of the adjectives built into Inform are:
+<p><b>1. When it happens.</b> Inform frequently calculates to see if the player is in light or darkness: this activity happens on the change from light to darkness.
 <p>
-<blockquote><font color="#000080">&quot;visible&quot; - the player can see this
-<br>&quot;touchable&quot; - the player can touch this
+<p><b>2. The default behaviour.</b> To print &quot;It is now pitch dark in here!&quot;.
+<p>
+<p><b>3. Examples.</b> (a) The most obvious use is to change the text:
+<p>
+<blockquote><font color="#000080">Rule for printing the announcement of darkness: say &quot;Ooh-er! It's now very nearly pitch dark in here.&quot; instead.
 </font></blockquote><p>
 <p>
-<p>So we can write descriptions such as &quot;someone visible&quot; or &quot;a touchable container&quot;. We also have adjectives &quot;invisible&quot; and &quot;untouchable&quot;, as might be expected. The visibility adjectives are particularly useful because the following is likely to go wrong:
+<p>(b) But we could also use this activity for sneakier purposes, silently moving things around:
 <p>
-<blockquote><font color="#000080">if Helen is in a dark room, ...
+<blockquote><font color="#000080">Before printing the announcement of darkness: now all of the gremlins are in the kitchen.
 </font></blockquote><p>
-<p>
-<p>This tests whether the room is dark, of itself; Helen may in fact be able to see by means of a torch, but the room is still &quot;dark&quot;.
-<p>
-<p>We can also talk about what other people can see and touch:
-<p>
-<blockquote><font color="#000080">something able to be seen by Helen
-<br>something which can be seen by Helen
-</font></blockquote><p>
-<p>
-<p>are synonymous. Similarly for touch; and we can write such conditions as
-<p>
-<blockquote><font color="#000080">if Helen is unable to see Agamemnon, ...
-<br>if Cressida can see Troilus, ...
-</font></blockquote><p>
-<p>
-<p>Note that it is essential to establish who does the seeing and touching: so &quot;something which can be seen&quot; will not be allowed, whereas &quot;something which can be seen by Helen&quot; will.
-<p>
-<p>In fact, inside Inform the adjective &quot;invisible&quot; (for instance) has the following straightforward definition:
-<p>
-<blockquote><font color="#000080">Definition: Something is invisible if the player cannot see it.
-</font></blockquote><p>
-<p>
-<p>The exact definitions of visibility and touchability are complicated, because there are so many ways in which vision and touch can be obstructed, but the gist is that they behave as one would expect. Note that in darkness, nothing is visible, and that nobody can see from one room to another. In general anything invisible is also untouchable, but there are a few exceptions to do with being in the dark. Lastly, the player's own body (the player-character object, which is called &quot;yourself&quot; during play) is both visible (in light) and touchable.
-<p>
-<p><hr><img border=0 src=beta.png>One day &quot;something which Helen can see&quot; will be allowed, I hope, but for the moment &quot;who&quot; and &quot;which&quot; must be directly followed by the verb.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e60"><a href=doc68.html#e60><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A thief who will identify and take any valuable thing lying around that he is able to touch.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e60"><a href=doc249.html#e60><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Announcing darkness differently in the case when it arises from the player having shut himself in a container.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Lean and Hungry&quot;\n\nSubstance is a kind of value. The substances are silver, gold, and lead. Everything has a substance. A thing is usually lead.\n\nDefinition: a thing is valuable if it is not lead.\n\nThe Limestone Cave is a room. &quot;Not very big, and it doesn\'t go back far, but you\'d hoped to find some shelter here. Outside it is raining exceptionally hard.&quot;\n\nThe sinister gentleman is a man in the Cave. &quot;Leaning against the wall is a sinister gentleman in a threadbare waistcoat.&quot; The description is &quot;He looks as though he might once have been quite well off.&quot;\n\nAfter examining someone:\n\tsay &quot;[The noun] smiles back at you in an unnerving fashion.&quot;\n\n[Now we make the rule that governs the gentleman\'s behavior:]\n\nEvery turn:\n\tif the sinister gentleman can touch something valuable (called the treasure) which is not carried by a person\n\tbegin;\n\t\tmove the treasure to the gentleman;\n\t\tsay &quot;[The gentleman] slyly acquires [the treasure] and tucks it into his pocket.&quot;;\n\tend if.\n\n[That &quot;not carried by a person&quot; prevents the gentleman from stealing from the player (or, less plausibly, from himself). If we did want him to pick pockets, we could just have said &quot;which is not carried by the gentleman&quot;.]\n\nThe player is carrying a coin, a bust of Abraham Lincoln, a bottle of sherry, a small pistol, and a wad of Confederate cash. The coin is gold. The pistol is silver.\n\nA locket is in the Cave. The locket is gold. &quot;A broken gold locket lies on the ground, a token of your late Mama.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Lean and Hungry&quot;
+<p>Suppose we want a special description on occasions when the player has climbed into a container and shut it (so that the darkness is the result of his own actions, rather than some external circumstance):
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for printing the announcement of darkness when closing a container which contains the player:\n\tsay &quot;Congratulations: now you can\'t see a thing.&quot; instead.\n\n')"><img border=0 src=paste.png></a> Rule for printing the announcement of darkness when closing a container which contains the player:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Congratulations: now you can't see a thing.&quot; instead.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Substance is a kind of value. The substances are silver, gold, and lead. Everything has a substance. A thing is usually lead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Definition: a thing is valuable if it is not lead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Limestone Cave is a room. &quot;Not very big, and it doesn't go back far, but you'd hoped to find some shelter here. Outside it is raining exceptionally hard.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The sinister gentleman is a man in the Cave. &quot;Leaning against the wall is a sinister gentleman in a threadbare waistcoat.&quot; The description is &quot;He looks as though he might once have been quite well off.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">After examining someone:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] smiles back at you in an unnerving fashion.&quot;
-</font></blockquote><p>
-<p>
-<p>Now we make the rule that governs the gentleman's behavior:
-<p>
-<blockquote><font color="#000080">Every turn:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the sinister gentleman can touch something valuable (called the treasure) which is not carried by a person
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the treasure to the gentleman;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The gentleman] slyly acquires [the treasure] and tucks it into his pocket.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<p>That &quot;not carried by a person&quot; prevents the gentleman from stealing from the player (or, less plausibly, from himself). If we did want him to pick pockets, we could just have said &quot;which is not carried by the gentleman&quot;.
-<p>
-<blockquote><font color="#000080">The player is carrying a coin, a bust of Abraham Lincoln, a bottle of sherry, a small pistol, and a wad of Confederate cash. The coin is gold. The pistol is silver.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A locket is in the Cave. The locket is gold. &quot;A broken gold locket lies on the ground, a token of your late Mama.&quot;
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc67.html>Previous</a> / <a href=doc69.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc248.html>Previous</a> / <a href=doc250.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

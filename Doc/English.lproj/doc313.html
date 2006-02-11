@@ -1,4 +1,4 @@
-<html><head><title>22.1. Emily Short <emshort@mindspring.com> -  Singing bug part 2</title></head>
+<html><head><title>19.21. Inform 6 properties and attributes</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,63 +7,22 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 22: Recently Closed Bugs</h2><p><table><tr><td><a href=doc312.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc314.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>22.1. Emily Short <emshort@mindspring.com> -  Singing bug part 2</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc312.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc314.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.21. Inform 6 properties and attributes</b></td></tr></table><p>
 <p>
-<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 5 November 2005
+<p>I7's properties are compiled sometimes as I6 properties, sometimes as I6 attributes, depending on whether they need to hold values or not (and in future it will probably automatically store excess attributes in a property bitmap, to avoid running out of attributes). However, we can override I7 by telling it that one of its property names is equivalent to an already-existing I6 property or attribute: if so then I7 will use that name and will not compile any directive to create it. For example:
 <p>
-<p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
-<p>
-<p><i>Build:</i> 3C61
-<p>
-<p><i>Platform:</i> Mac OS X
-<p>
-<p>
-<p>
-<p><i>Code example:</i>
-<p>
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The Academy is a room. Aristotle is a man in the Academy. Aristotle is carrying an electric razor. The razor is a device.\n\nThe player wears a himation. The player carries an eel from the Copaic lake. The eel is edible.\n\nInstead of examining the himation for the first time:\n\tsay &quot;This is the first time you\'ve looked at the himation.&quot;\n\nInstead of examining the himation for the second time:\n\tsay &quot;This is the second time you\'ve looked at the himation. I\'m still not going to tell you anything about it. Try again later.&quot;\n\nInstead of examining the himation for the third time:\n\tsay &quot;This is the third time you\'ve looked at the himation. Good, you\'re a patient sort.&quot;\n\n\n\n\n')"><img border=0 src=paste.png></a> The Academy is a room. Aristotle is a man in the Academy. Aristotle is carrying an electric razor. The razor is a device.
+<blockquote><font color="#000080">Switched on translates into Inform as &quot;on&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The player wears a himation. The player carries an eel from the Copaic lake. The eel is edible.
+<blockquote><font color="#000080">Initial appearance translates into Inform as &quot;initial&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of examining the himation for the first time:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;This is the first time you've looked at the himation.&quot;
+<p>We do not need to translate &quot;switched off&quot;, the opposite to &quot;switched on&quot;: I7 will now compile this to &quot;~on&quot;.
+<p>
+<p>I7 is a single-inheritance system which aims to use unchanging kinds to describe function, whereas I6... isn't. For example, both have the concept of &quot;container&quot;, but in I7 this is a kind, whereas in I6 it is a mere ephemeral attribute. The Standard Rules get around this mismatch with the following trick:
+<p>
+<blockquote><font color="#000080">A thing can be an Inform library container. [...] A container is always an Inform library container. [...] Inform library container translates into Inform as &quot;container&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of examining the himation for the second time:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;This is the second time you've looked at the himation. I'm still not going to tell you anything about it. Try again later.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of examining the himation for the third time:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;This is the third time you've looked at the himation. Good, you're a patient sort.&quot;
-</font></blockquote><p>
-<p>
-<p>
-<p>
-<p><i>What goes wrong:</i>
-<p>
-<p>
-<p> >x himation
-<p>You see nothing special about the himation.
-<p>
-<p>>g
-<p>This is the first time you've looked at the himation.
-<p>
-<p>>g
-<p>This is the second time you've looked at the himation. I'm still not going to tell you anything about it. Try again later.
-<p>
-<p>>g
-<p>This is the third time you've looked at the himation. Good, you're a patient sort.
-<p>
-<p>>g
-<p>You see nothing special about the himation.
-<p>
-<p>
-<p>
-<p><i>Comments:</i>
-<p>
-<p>
-<p>
+<p>Thus any object of kind &quot;container&quot; automatically gets the I6 attribute &quot;container&quot;, without the I7 designer noticing that any property has been assigned.
 <p><hr><p><a href=doc312.html>Previous</a> / <a href=doc314.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

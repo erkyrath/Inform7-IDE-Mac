@@ -1,4 +1,4 @@
-<html><head><title>13.6. Units</title></head>
+<html><head><title>12.4. To carry, to wear, to have</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,93 +7,78 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc188.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc190.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.6. Units</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc172.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc174.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>12.4. To carry, to wear, to have</b></td></tr></table><p>
 <p>
-<p>Some of the examples in the last few sections were slightly strained because they used numbers where an English speaker not quite do so. We tend not to say &quot;Isabella has height 68&quot;: we would more normally say &quot;Isabella is 5 foot 8.&quot; Perhaps the computer will need to store that measurement as the number 68 in some register or other, but we really don't want to know that.
+<p>Inform has altogether five mutually exclusive ways in which one thing can be physically joined to another one:
 <p>
-<p>Inform allows us to create new, basically numerical kinds of value, like so:
-<p>
-<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight.
+<blockquote><font color="#000080">containment relation - The coin is in the purse.
+<br>support relation - The coin is on the table.
+<br>incorporation relation - The coin is part of the sculpture.
+<br>carrying relation - The coin is carried by Peter.
+<br>wearing relation - The jacket is worn by Peter.
 </font></blockquote><p>
 <p>
-<p>By contrast, the kinds of value seen so far have been set up thus:
+<p>This is why we cannot have
 <p>
-<blockquote><font color="#000080">A colour is a kind of value. The colours are red, green and blue.
+<blockquote><font color="#000080">The coin is on the table.
+<br>The coin is part of the table.
 </font></blockquote><p>
 <p>
-<p>We can choose to make a new kind of value of either variety, but we can't mix the two in the same kind: it will either be numerical at heart (&quot;10kg&quot;) or verbal at heart (&quot;blue&quot;).
+<p>simultaneously, and it is a rare exception to the general rule that having one relation does not affect having another.
 <p>
-<p>The effect of &quot;10kg specifies a weight&quot; is to tell Inform that text matching this form is a constant value of kind &quot;weight&quot;. So, for instance,
+<p>But there is also a sixth relation used in Inform for these meanings: the possession relation, which is the meaning of the verb &quot;to have&quot;. At first sight this looks the same as the carrying relation, but in fact it is a convenient shorthand for &quot;carrying or wearing&quot;:
 <p>
-<blockquote><font color="#000080">The maximum load is a weight that varies. The maximum load is 8000kg.
+<blockquote><font color="#000080">Mr Darcy has a rapier.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">if the maximum load <= 8000kg, ...
+<p>says that Darcy is carrying the rapier at the start of play, but
+<p>
+<blockquote><font color="#000080">if Mr Darcy has a wet shirt ...
 </font></blockquote><p>
 <p>
-<p>Weights behave just like numbers in the ways we can compare them: but Inform respects the fact that a weight is not just any number, so it would not allow us to compare (say) &quot;8000kg&quot; and &quot;5 foot 8&quot;. Weights can meaningfully be compared only with other weights.
+<p>will be true during play if he is either carrying or wearing the shirt.
 <p>
-<p>We can also say weights:
+<p>Still another relation exists which can be tested, but not declared to be true or false: the concealment relation, which is the meaning of the verb &quot;to conceal&quot;. So we can ask:
 <p>
-<blockquote><font color="#000080">The Weighbridge is a room. &quot;A sign declares that the maximum load is [maximum load].&quot;
+<blockquote><font color="#000080">if Mr Darcy conceals a fob watch ...
 </font></blockquote><p>
-<p>
-<p>...which will produce the text &quot;A sign declares that the maximum load is 8000kg.&quot;
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e95"><a href=doc189.html#e95><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Hiking Mount Rainier, with attention to which locations are higher and which lower than the present location.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e95"><a href=doc173.html#e95><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A wand which, when waved, reveals the concealed items carried by people the player can see.</i><p>
 <p>
-<p>Suppose we have a landscape with a great deal of up and down variation, where GO UP and GO DOWN will be significant almost everywhere, and specifying them all individually a tremendous pain:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Wonderland&quot;\n\nAn altitude is a kind of value. 1000 feet specifies an altitude. A room has an altitude.\n\nDefinition: a room is low if its altitude is 3000 feet or less. Definition: a room is high if its altitude is 5000 feet or more.\n\nInstead of going down:\n\tif an adjacent room is lower than the location\n\tbegin;\n\t\tlet the valley be the lowest adjacent room;\n\t\tlet the way be the best route from the location to the valley;\n\t\tsay &quot;(that is, [way])[line break]&quot;;\n\t\ttry going the way;\n\totherwise;\n\t\tsay &quot;You\'re in a local valley: there\'s no down from here.&quot;;\n\tend if.\n\nInstead of going up:\n\tif an adjacent room is higher than the location\n\tbegin;\n\t\tlet the peak be the highest adjacent room;\n\t\tlet the way be the best route from the location to the peak;\n\t\tsay &quot;(that is, [way])[line break]&quot;;\n\t\ttry going the way;\n\totherwise;\n\t\tsay &quot;You\'re on a local peak.&quot;;\n\tend if.\n\n\nParadise is a room. Paradise has altitude 5400 feet. &quot;A handsome parking lot, a picnic ground, and the Henry M. Jackson Memorial Visitor Center. The latter offers, for serious climbers, a hot shower; for nature enthusiasts, an interpretive museum; and for car-trippers, a gift shop selling canned slugs. All of which is a largely unsuccessful distraction from the peak of Mt. Rainier beyond.&quot;\n\nCougar Rock is southwest of Paradise. The altitude of Cougar Rock is 3180 feet. &quot;Numerous individual campsites and (on the road inventively labeled \'F\') a handful of larger campgrounds suitable for church groups and family reunions.&quot;\n\nLongmire is southwest of Cougar Rock. It has altitude 2760 feet. &quot;A tiny town: it has to offer a few groceries, a post office, and a lodge for people who do not care to camp, all built in a rustic Park Service way.&quot;\n\nPanorama Point is north of Paradise. It has altitude 6800 feet. Camp Muir is north of Panorama Point. It has altitude 10188 feet. Columbia Crest is northwest of Camp Muir. It has altitude 14410 feet. St Andrews Rock is west of Columbia Crest. It has altitude 10992 feet. Camp Schuman is northeast of Columbia Crest. It has altitude 9510 feet.\n\n[Since Mount Rainier National Park runs to over 235,000 acres, we will omit the rest of the locations, but it does seem fair to give a little more credit to anyone who makes the summit:]\n\nInstead of going up in the highest room:\n\tsay &quot;You\'re standing at the summit of Mt. Rainier, the highest point in the state of Washington. There is no up.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Wonderland&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Interrogation&quot;\n\nThe X-Ray Vision Wand is carried by the player.\n\nInstead of waving the X-Ray Vision Wand:\n\tsay &quot;Disappointingly, nothing happens.&quot;\n\nInstead of waving the X-Ray Vision Wand when the player can see someone who is concealing something:\n\tsay &quot;The wand glows green. Immediately you see on the monitor [list of things which are concealed by people who can be seen by the player].&quot;\n\nAfter printing the name of a thing (called target) which is carried by someone while waving the wand:\n\tsay &quot; (carried by [a random person who carries the target])&quot;\n\nThe Interrogation Chamber is a room. &quot;Despite its gothic name, this room is a rather civilized place for your work, with large plate-glass windows and a fitted carpet.&quot;\n\nA thing can be secret or obvious. A thing is usually obvious.\n\nBrian is in the Interrogation Chamber.&quot;Brian lounges against the wall.&quot; Brian carries a quantity of plastic explosive. The explosive is secret.\n\nJanine is in the Interrogation Chamber. &quot;Janine toys nervously with a laptop bag.&quot; Janine carries a chocolate biscuit, a laptop bag, and a microfilm. The microfilm is secret. The laptop bag is wearable. In the bag is a laptop computer.\n\nRule for deciding the concealed possessions of something: if the particular possession is secret, yes; otherwise no.\n\nInstead of examining someone: say &quot;[The noun] is openly carrying [list of unconcealed things carried by the noun].&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Interrogation&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">An altitude is a kind of value. 1000 feet specifies an altitude. A room has an altitude.
+<blockquote><font color="#000080">The X-Ray Vision Wand is carried by the player.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Definition: a room is low if its altitude is 3000 feet or less. Definition: a room is high if its altitude is 5000 feet or more.
+<blockquote><font color="#000080">Instead of waving the X-Ray Vision Wand:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Disappointingly, nothing happens.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going down:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if an adjacent room is lower than the location
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the valley be the lowest adjacent room;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the way be the best route from the location to the valley;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(that is, [way])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try going the way;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're in a local valley: there's no down from here.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">Instead of waving the X-Ray Vision Wand when the player can see someone who is concealing something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The wand glows green. Immediately you see on the monitor [list of things which are concealed by people who can be seen by the player].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going up:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if an adjacent room is higher than the location
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the peak be the highest adjacent room;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the way be the best route from the location to the peak;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(that is, [way])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try going the way;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're on a local peak.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">After printing the name of a thing (called target) which is carried by someone while waving the wand:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; (carried by [a random person who carries the target])&quot;
 </font></blockquote><p>
 <p>
-<p>
-<blockquote><font color="#000080">Paradise is a room. Paradise has altitude 5400 feet. &quot;A handsome parking lot, a picnic ground, and the Henry M. Jackson Memorial Visitor Center. The latter offers, for serious climbers, a hot shower; for nature enthusiasts, an interpretive museum; and for car-trippers, a gift shop selling canned slugs. All of which is a largely unsuccessful distraction from the peak of Mt. Rainier beyond.&quot;
+<blockquote><font color="#000080">The Interrogation Chamber is a room. &quot;Despite its gothic name, this room is a rather civilized place for your work, with large plate-glass windows and a fitted carpet.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Cougar Rock is southwest of Paradise. The altitude of Cougar Rock is 3180 feet. &quot;Numerous individual campsites and (on the road inventively labeled 'F') a handful of larger campgrounds suitable for church groups and family reunions.&quot;
+<blockquote><font color="#000080">A thing can be secret or obvious. A thing is usually obvious.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Longmire is southwest of Cougar Rock. It has altitude 2760 feet. &quot;A tiny town: it has to offer a few groceries, a post office, and a lodge for people who do not care to camp, all built in a rustic Park Service way.&quot;
+<blockquote><font color="#000080">Brian is in the Interrogation Chamber.&quot;Brian lounges against the wall.&quot; Brian carries a quantity of plastic explosive. The explosive is secret.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Panorama Point is north of Paradise. It has altitude 6800 feet. Camp Muir is north of Panorama Point. It has altitude 10188 feet. Columbia Crest is northwest of Camp Muir. It has altitude 14410 feet. St Andrews Rock is west of Columbia Crest. It has altitude 10992 feet. Camp Schuman is northeast of Columbia Crest. It has altitude 9510 feet.
+<blockquote><font color="#000080">Janine is in the Interrogation Chamber. &quot;Janine toys nervously with a laptop bag.&quot; Janine carries a chocolate biscuit, a laptop bag, and a microfilm. The microfilm is secret. The laptop bag is wearable. In the bag is a laptop computer.
 </font></blockquote><p>
 <p>
-<p>Since Mount Rainier National Park runs to over 235,000 acres, we will omit the rest of the locations, but it does seem fair to give a little more credit to anyone who makes the summit:
-<p>
-<blockquote><font color="#000080">Instead of going up in the highest room:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're standing at the summit of Mt. Rainier, the highest point in the state of Washington. There is no up.&quot;
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of something: if the particular possession is secret, yes; otherwise no.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc188.html>Previous</a> / <a href=doc190.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Instead of examining someone: say &quot;[The noun] is openly carrying [list of unconcealed things carried by the noun].&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc172.html>Previous</a> / <a href=doc174.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

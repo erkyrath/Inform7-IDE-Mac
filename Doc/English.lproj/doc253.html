@@ -1,4 +1,4 @@
-<html><head><title>16.20. Printing the banner text</title></head>
+<html><head><title>16.19. Writing a paragraph about</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,43 +7,21 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc252.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc254.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.20. Printing the banner text</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc252.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc254.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.19. Writing a paragraph about</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> The banner is the bibliographic masthead text, which typically looks something like this:
+<p><b>1. When it happens.</b> Just <i>before</i> writing a paragraph about some item in a room description.
 <p>
-<blockquote><font color="#000080">Relations
-<br>An Interactive Fiction by Emily Short
-<br>Release 1 / Serial number 050630 / Inform 7 build 2U98 (I6/v6.30 lib 6/10N) SD
+<p><b>2. The default behaviour.</b> Is to do nothing. However, if a rule is supplied which prints something up, then this replaces the paragraph which would otherwise have been printed. Moreover, any items whose names are said in the course of this rule - for instance, by being listed - are then excluded from the remainder of the room description, because they are considered as having been described sufficiently already.
+<p>
+<p><b>3. Examples.</b> (a) This is a neat way to wrap several things together into the same paragraph:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for writing a paragraph about Mr Wickham:\n\tsay &quot;Mr Wickham looks speculatively at [list of women in the location].&quot;\n\n\n')"><img border=0 src=paste.png></a> Rule for writing a paragraph about Mr Wickham:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Mr Wickham looks speculatively at [list of women in the location].&quot;
 </font></blockquote><p>
 <p>
-<p>The banner is printed at the start of play, and when the player types &quot;version&quot; at the command line, and when say &quot;[banner text]&quot; occurs.
+<p>because now &quot;Mr Wickham looks speculatively at Velma and Daphne&quot; will now prevent the appearance of the subsequent text &quot;You can also see Velma and Daphne.&quot;
 <p>
-<p><b>2. The default behaviour.</b> Prints the text above, giving the title, the genre, the author, the release number, the date of compilation (that's the serial number: YYMMDD), and version numbers of the Inform components used to put the game together.
-<p>
-<p><b>3. Examples.</b> (a) Adding a line to the banner:
-<p>
-<blockquote><font color="#000080">After printing the banner text, say &quot;DRM authentication code: 13S-451-2034u75y65u%%a1248.&quot;
-</font></blockquote><p>
-<p>
-<p>(b) Simplifying the banner:
-<p>
-<blockquote><font color="#000080">Rule for printing the banner text: say &quot;Welcome.&quot; instead.
-</font></blockquote><p>
-<p>
-<p>(c) Delaying the banner for later:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Bikini Atoll&quot; by Edward Teller\n\nThe Hut and the Tropical Beach are rooms.\n\nThe conch shell is in the Hut. After taking the shell for the first time: say &quot;As you gather the oddly-warm conch shell into your arms, you experience a sudden flash of deja-vu...[line break][banner text]&quot;; move the player to the Tropical Beach.\n\nRule for printing the banner text: if the player is not carrying the shell, do nothing instead.\n\n\n')"><img border=0 src=paste.png></a> &quot;Bikini Atoll&quot; by Edward Teller
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Hut and the Tropical Beach are rooms.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The conch shell is in the Hut. After taking the shell for the first time: say &quot;As you gather the oddly-warm conch shell into your arms, you experience a sudden flash of deja-vu...[line break][banner text]&quot;; move the player to the Tropical Beach.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Rule for printing the banner text: if the player is not carrying the shell, do nothing instead.
-</font></blockquote><p>
-<p>
-<p>(By tradition, and as a courtesy to all the people who have worked on Inform, authors ensure that the banner is printed some time near the beginning of each game played. So please only defer it, rather than suppress it altogether.)
-<p>
+<p><hr><p>
+<a name="e162"><a href=ex162.html#e162><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Emphasizing the reflective quality of shiny objects whenever they are described in the presence of the torch.</i><p>
+<a name="e185"><a href=ex185.html#e185><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>Uses "writing a paragraph about" to make person and object descriptions that vary considerably depending on what else is going on in the room, including some randomized NPC interactions with objects or with each other.</i><p>
 <p><hr><p><a href=doc252.html>Previous</a> / <a href=doc254.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

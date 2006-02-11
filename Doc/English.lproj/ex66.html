@@ -1,4 +1,4 @@
-<html><head><title>14.11. Sorting</title></head>
+<html><head><title>16.26. Printing the player's obituary</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,159 +7,52 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc208.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc210.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.11. Sorting</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc259.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc261.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.26. Printing the player's obituary</b></td></tr></table><p>
 <p>
-<p>We are allowed to sort a table in two ways: first, at random.
+<p><b>1. When it happens.</b> The obituary is the text &quot;*** You have died ***&quot; or similar, usually followed by the final score.
 <p>
-<blockquote><font color="#000080">sort the Table of Recent Monarchs in random order;
+<p><b>2. The default behaviour.</b> Printing the aforementioned text, then the final score, and reducing the status line to a largely blank state.
+<p>
+<p><b>3. Examples.</b> (a) For a work with no meaningful score, it would be odd to wind up with a final reckoning of 0, so:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Procedural rule: ignore the print final score rule.\n\n\n')"><img border=0 src=paste.png></a> Procedural rule: ignore the print final score rule.
 </font></blockquote><p>
 <p>
-<p>Secondly, in order of the values in any column, either forwards or backwards. Blank values will be placed last, and entirely blank rows last of all. The method of sorting is &quot;stable&quot;, that is, if two rows have the same value then they will stay the same way round in the sorted table, rather than being swapped over.
+<p>(b) Or we could add to the verdict:
 <p>
-<blockquote><font color="#000080">sort the Table of Recent Monarchs in accession order;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">sort the Table of Recent Monarchs in reverse name order;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After printing the player\'s obituary: say &quot;And you visited [number of visited rooms] place[s].&quot;\n\n\n')"><img border=0 src=paste.png></a> After printing the player's obituary: say &quot;And you visited [number of visited rooms] place[s].&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e66"><a href=doc209.html#e66><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A deck of cards which can be shuffled and dealt from.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e66"><a href=doc260.html#e66><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Completely replacing the endgame text and stopping the game without giving the player a chance to restart or restore.</i><p>
 <p>
-<p>Suppose we want a deck of cards which the player can shuffle and draw from. Our first (rather tedious) task is merely to set up the deck as a table:
+<p>Occasionally, a piece of IF is sufficiently serious that it feels bathetic to offer the player the usual restore-restart-undo-quit options at the end. The following would replace &quot;*** You have died ***&quot; with a centered epitaph, then quit the game when the player hits a key.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Jokers Wild&quot;\n\nSuit is a kind of value. The suits are hearts, clubs, diamonds, and spades.\n\nTable of Cards\nsuit\tvalue\ndiamonds\t1\ndiamonds\t2\ndiamonds\t3\ndiamonds\t4\ndiamonds\t5\ndiamonds\t6\ndiamonds\t7\ndiamonds\t8\ndiamonds\t9\ndiamonds\t10\ndiamonds\t11\ndiamonds\t12\ndiamonds\t13\nspades\t1\nspades\t2\nspades\t3\nspades\t4\nspades\t5\nspades\t6\nspades\t7\nspades\t8\nspades\t9\nspades\t10\nspades\t11\nspades\t12\nspades\t13\nhearts\t1\nhearts\t2\nhearts\t3\nhearts\t4\nhearts\t5\nhearts\t6\nhearts\t7\nhearts\t8\nhearts\t9\nhearts\t10\nhearts\t11\nhearts\t12\nhearts\t13\nclubs\t1\nclubs\t2\nclubs\t3\nclubs\t4\nclubs\t5\nclubs\t6\nclubs\t7\nclubs\t8\nclubs\t9\nclubs\t10\nclubs\t11\nclubs\t12\nclubs\t13\n\n[We\'re going to describe the higher numbers as face cards, so it helps to write a new &quot;to say&quot; phrase.]\n\nTo say (count - a number) as a card value:\n\tchoose row with a value of count in the Table of Value Names;\n\tsay &quot;[term entry]&quot;.\n\nTable of Value Names\nvalue\tterm\n1\t&quot;ace&quot;\n2\t&quot;deuce&quot;\n3\t&quot;three&quot;\n4\t&quot;four&quot;\n5\t&quot;five&quot;\n6\t&quot;six&quot;\n7\t&quot;seven&quot;\n8\t&quot;eight&quot;\n9\t&quot;nine&quot;\n10\t&quot;ten&quot;\n11\t&quot;jack&quot;\n12\t&quot;queen&quot;\n13\t&quot;king&quot;\n\n[Now we get the shuffling of the deck from &quot;sort in random order&quot;, so:]\n\nUnderstand &quot;shuffle&quot; as shuffling. Shuffling is an action applying to nothing.\n\nCarry out shuffling:\n\tsort the Table of Cards in random order;\n\tsay &quot;You expertly rearrange the cards.&quot;.\n\nWhen play begins:\n\tsort the Table of Cards in random order.\n\n[This will continue to work properly even as the deck is partially depleted. Speaking of which, suppose we want the player to be able to toss the cards one-by-one into a hat. They are going to need to be removed from the deck, so:]\n\nUnderstand &quot;toss&quot; or &quot;toss a card&quot; or &quot;toss card&quot; as tossing.\n\nTossing is an action applying to nothing.\n\nCheck tossing:\n\tif the number of filled rows in the Table of Cards is 0, say &quot;The deck is empty.&quot; instead.\n\nCarry out tossing:\n\trepeat through the Table of Cards\n\tbegin;\n\t\tlet new value be value entry;\n\t\tlet new suit be suit entry;\n\t\tsay &quot;You throw the [value entry as a card value] of [suit entry] at the top hat, and [if a random chance of 1 in 3 succeeds]hit[otherwise]miss[end if].&quot;;\n\t\tblank out the whole row;\n\t\trule succeeds;\n\tend repeat.\n\n[If we wanted to simulate a slightly more stimulating game, we could instead have a second table to represent the player\'s hand of cards and record each card drawn. That would get long for the purposes of example, however, so instead we will just admit that the player\'s life is an empty husk of existence:]\n\nThe Empty Room is a room. &quot;It has come to this: sitting on the bare floor of Lulu\'s apartment with nothing to amuse you but a deck of cards and the top hat from last year\'s act. You reckon [the number of filled rows in the Table of Cards in words] cardtosses are all that stand between you and the utter pointlessness of existence.\n\nOnce again you curse Lulu for running off with that joker.&quot;\n\nThe player is carrying the deck of cards. The top hat is an open container in the Empty Room. It is scenery.\n\n')"><img border=0 src=paste.png></a> &quot;Jokers Wild&quot;
+<p>This example relies on a standard extension to avoid any fancy programming:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Battle of Ridgefield&quot;\n\nInclude Basic Screen Effects by Emily Short.\n\nRidgefield is a room.\n\nInstead of doing something when the turn count is greater than 1: say &quot;Alas, you no longer have the strength.&quot;; end the game in death.\n\nRule for printing the player\'s obituary:\n\tsay paragraph break;\n\tcenter &quot;In defense of American Independence&quot;;\n\tcenter &quot;at the Battle of Ridgefield, April 27, 1777,&quot;;\n\tcenter &quot;died Eight Patriots who were laid in this ground,&quot;;\n\tcenter &quot;Companioned by Sixteen British Soldiers,&quot;;\n\tcenter &quot;Living, their enemies,&quot;;\n\tcenter &quot;Dying, their guests&quot;;\n\tsay paragraph break;\n\twait for any key;\n\tstop game abruptly;\n\trule succeeds.\n\n')"><img border=0 src=paste.png></a> &quot;Battle of Ridgefield&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Suit is a kind of value. The suits are hearts, clubs, diamonds, and spades.
+<blockquote><font color="#000080">Include Basic Screen Effects by Emily Short.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Cards
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">suit</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">value</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">9</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">11</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">13</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">9</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">11</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">13</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">9</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">11</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">13</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">9</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">11</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">13</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">Ridgefield is a room.
 </font></blockquote><p>
 <p>
-<p>We're going to describe the higher numbers as face cards, so it helps to write a new &quot;to say&quot; phrase.
-<p>
-<blockquote><font color="#000080">To say (count - a number) as a card value:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with a value of count in the Table of Value Names;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[term entry]&quot;.
+<blockquote><font color="#000080">Instead of doing something when the turn count is greater than 1: say &quot;Alas, you no longer have the strength.&quot;; end the game in death.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Value Names
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">value</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">term</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;ace&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;deuce&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;three&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;four&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;five&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;six&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;seven&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;eight&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">9</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;nine&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;ten&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">11</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;jack&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;queen&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">13</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;king&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">Rule for printing the player's obituary:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say paragraph break;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;center &quot;In defense of American Independence&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;center &quot;at the Battle of Ridgefield, April 27, 1777,&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;center &quot;died Eight Patriots who were laid in this ground,&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;center &quot;Companioned by Sixteen British Soldiers,&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;center &quot;Living, their enemies,&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;center &quot;Dying, their guests&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say paragraph break;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;wait for any key;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop game abruptly;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds.
 </font></blockquote><p>
-<p>
-<p>Now we get the shuffling of the deck from &quot;sort in random order&quot;, so:
-<p>
-<blockquote><font color="#000080">Understand &quot;shuffle&quot; as shuffling. Shuffling is an action applying to nothing.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out shuffling:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;sort the Table of Cards in random order;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You expertly rearrange the cards.&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;sort the Table of Cards in random order.
-</font></blockquote><p>
-<p>
-<p>This will continue to work properly even as the deck is partially depleted. Speaking of which, suppose we want the player to be able to toss the cards one-by-one into a hat. They are going to need to be removed from the deck, so:
-<p>
-<blockquote><font color="#000080">Understand &quot;toss&quot; or &quot;toss a card&quot; or &quot;toss card&quot; as tossing.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Tossing is an action applying to nothing.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Check tossing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number of filled rows in the Table of Cards is 0, say &quot;The deck is empty.&quot; instead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out tossing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Cards
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let new value be value entry;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let new suit be suit entry;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You throw the [value entry as a card value] of [suit entry] at the top hat, and [if a random chance of 1 in 3 succeeds]hit[otherwise]miss[end if].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
-</font></blockquote><p>
-<p>
-<p>If we wanted to simulate a slightly more stimulating game, we could instead have a second table to represent the player's hand of cards and record each card drawn. That would get long for the purposes of example, however, so instead we will just admit that the player's life is an empty husk of existence:
-<p>
-<blockquote><font color="#000080">The Empty Room is a room. &quot;It has come to this: sitting on the bare floor of Lulu's apartment with nothing to amuse you but a deck of cards and the top hat from last year's act. You reckon [the number of filled rows in the Table of Cards in words] cardtosses are all that stand between you and the utter pointlessness of existence.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Once again you curse Lulu for running off with that joker.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The player is carrying the deck of cards. The top hat is an open container in the Empty Room. It is scenery.
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc208.html>Previous</a> / <a href=doc210.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc259.html>Previous</a> / <a href=doc261.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

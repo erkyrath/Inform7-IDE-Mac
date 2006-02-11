@@ -1,4 +1,4 @@
-<html><head><title>12.15. What are relations for?</title></head>
+<html><head><title>15.2. New commands for old grammar</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,64 +7,51 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc182.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc184.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.15. What are relations for?</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc218.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc220.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.2. New commands for old grammar</b></td></tr></table><p>
 <p>
-<p>It is easy to say what verbs are for: they are to express relations. But what are relations for?
+<p>In the photography example, we are providing entirely new grammar for an action  not ordinarily built in to Inform. But we often want simply to provide alternative grammar for existing actions, or even to put new interpretations on commands that Inform already recognises. For instance:
 <p>
-<p>Inform 7's focus on relations between objects is unusual as an approach to interactive fiction; the concept does not exist in most design systems, or rather, it does but is submerged. Traditional design systems do, after all, have the spatial relations of being inside, on top of, and so on. It could well be said that these are the only relationships that inanimate objects ever have. A stone can be on top of a table, and if so then that expresses their entire association.
+<blockquote><font color="#000080">Understand &quot;deposit [something] in [an open container]&quot; as inserting it into.
+</font></blockquote><p>
 <p>
-<p>This is because the stone, and the table, have no opinions, emotions, knowledge or memory. If the stone is taken away and then put back, nothing has changed. People, on the other hand, tend to remember having met each other before; they like being in some places, but not others; their behaviour depends on who, or what, is nearby. Being conscious, they have internal states, unlike the stone. Relations are a simple but powerful way to express and talk about such connections, and although they have numerous uses in physical contexts too, they are at their most powerful when helping to make the characters of interactive fiction come alive.
+<p>The inserting action is built in to Inform, but the command &quot;deposit&quot; is not, so this is created as new. It is occasionally useful to put a twist on this:
+<p>
+<blockquote><font color="#000080">Understand &quot;fill [an open container] with [something]&quot; as inserting it into (with nouns reversed).
+</font></blockquote><p>
+<p>
+<p>The clause &quot;(with nouns reversed)&quot; tells Inform to exchange the two nouns parsed, which is necessary because the inserting action expects the noun to be the item and the second noun to be the container, not vice versa.
+<p>
+<p>The following example:
+<p>
+<blockquote><font color="#000080">Understand &quot;access [something]&quot; as opening.
+</font></blockquote><p>
+<p>
+<p>might look as if it makes &quot;access&quot; behave just like &quot;open&quot; when the player types it, but that's not so: &quot;open&quot; can also be used in constructions like &quot;open the door with the brass key&quot;, in which case it is understood as the unlocking action. We could add another line to make &quot;access&quot; behave this way too, but if what we really want is to make &quot;access&quot; behave just like &quot;open&quot;, it's easier simply to say so:
+<p>
+<blockquote><font color="#000080">Understand the command &quot;access&quot; as &quot;open&quot;.
+</font></blockquote><p>
+<p>
+<p>This is very useful when adding a new command which needs synonyms:
+<p>
+<blockquote><font color="#000080">Understand the command &quot;snap&quot; as &quot;photograph&quot;.
+<br>Understand the command &quot;picture&quot; as &quot;photograph&quot;.
+</font></blockquote><p>
+<p>
+<p>We can check the current stock of commands by looking at the table in the Actions index: for instance, before making &quot;snap&quot; synonymous with &quot;photograph&quot;, it might be wise to check that it is not already defined as a command for breaking something.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e81"><a href=doc183.html#e81><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A number of sleuths (the player among them) find themselves aboard the Orient Express, where a murder has taken place, and one of them is apparently the culprit. Naturally they do not agree on whom, but there is physical evidence which may change their minds...</i><p>
+<a name="e3"><a href=ex3.html#e3><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A generic USE action which behaves sensibly with a range of different objects, expanding on the EMPLOY example above.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e81"><a href=doc219.html#e81><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>By default, Inform understands GET OFF, GET UP, or GET OUT when the player is sitting or standing on an enterable object. We might also want to add GET DOWN and DOWN as exit commands, though:</i><p>
 <p>
-<p>The following example creates two new relations, and two new verbs, in order to set up a tangled web of intrigue.
+<p>With GET DOWN, we can replace the whole command, which will not interfere with the normal function of the TAKE verb, or allow the player to attempt to GET any other directions:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Murder on the Orient Express&quot;\n\nThe Dining Car is a room. Lord Peter is a man in the Dining Car. Sherlock Holmes is a man in the Dining Car. Miss Marple is a woman in the Dining Car. Adam Dalgliesh is a man in the Dining Car.\n\nSuspecting relates various people to one person.\n\nThe verb to suspect (he suspects, they suspect, he suspected, it is suspected) implies the suspecting relation.\n\nDalgliesh suspects Holmes. Holmes suspects Lord Peter. Lord Peter suspects Holmes. Miss Marple suspects the player.\n\nExculpating relates one thing to various people.\n\nThe verb to exculpate (it exculpates, they exculpate, it exculpated, he is exculpated) implies the exculpating relation.\n\nThe pipe ash exculpates Holmes. The poison pen letter exculpates Lord Peter. The poison pen letter exculpates Miss Marple. [Poor Dalgliesh. I guess he did it.]\n\nThe pipe ash, the letter and the silver bullet are carried.\n\n\n')"><img border=0 src=paste.png></a> &quot;Murder on the Orient Express&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;get down&quot; as exiting.\n\n\n')"><img border=0 src=paste.png></a> Understand &quot;get down&quot; as exiting.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Dining Car is a room. Lord Peter is a man in the Dining Car. Sherlock Holmes is a man in the Dining Car. Miss Marple is a woman in the Dining Car. Adam Dalgliesh is a man in the Dining Car.
+<p>This doesn't cover the case where the player just types &quot;DOWN&quot;, and we don't want to preempt the normal operation of the GO action here. So instead of writing a new understand instruction, we might catch this one at the action-processing level:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Instead of going down when the player is on a supporter:\n\ttry exiting.\n\n')"><img border=0 src=paste.png></a> Instead of going down when the player is on a supporter:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try exiting.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Suspecting relates various people to one person.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The verb to suspect (he suspects, they suspect, he suspected, it is suspected) implies the suspecting relation.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Dalgliesh suspects Holmes. Holmes suspects Lord Peter. Lord Peter suspects Holmes. Miss Marple suspects the player.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Exculpating relates one thing to various people.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The verb to exculpate (it exculpates, they exculpate, it exculpated, he is exculpated) implies the exculpating relation.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The pipe ash exculpates Holmes. The poison pen letter exculpates Lord Peter. The poison pen letter exculpates Miss Marple. [Poor Dalgliesh. I guess he did it.]
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The pipe ash, the letter and the silver bullet are carried.
-</font></blockquote><p>
-<p>
-<p>Given this, we can then set up elaborate rules:
-<p>
-<blockquote><font color="#000080">Instead of showing something to a person who suspects the player:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'You would say that,' remarks [the second noun] darkly.&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of showing something which exculpates the player to someone:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'How striking!' says [the second noun]. 'Almost I begin to distrust myself.'&quot;.
-</font></blockquote><p>
-<p>
-<p>And so on: &quot;if Dalgliesh suspects someone who is exculpated by something carried by the player...&quot;, for instance, makes a fitting final example for this chapter. The description
-<p>
-<blockquote><font color="#000080">someone who is exculpated by something carried by the player
-</font></blockquote><p>
-<p>
-<p>expresses a complicated idea in very few words, and in such a way that a passer-by looking at the source text would immediately see what was meant.
-<p>
-<p>The moral is that relations allow sophisticated patterns of behaviour to be created in a way that reads back naturally as English.
-</td></tr></table><p><a name="e74"><a href=ex74.html#e74><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Some notes on relations from a mathematical point of view, provided only to clarify some technicalities for those who are interested.</i><p>
-<a name="e75"><a href=ex75.html#e75><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Some notes on relations from the point of view of graph theory.</i><p>
-<p><hr><p><a href=doc182.html>Previous</a> / <a href=doc184.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><a name="e44"><a href=ex44.html#e44><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>Implementation of "Cloak of Darkness", a simple example game that for years has been used to demonstrate the features of IF languages.</i><p>
+<p><hr><p><a href=doc218.html>Previous</a> / <a href=doc220.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>17.3. New rules</title></head>
+<html><head><title>16.24. Deciding whether all includes</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,35 +7,29 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc257.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc259.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.3. New rules</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc257.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc259.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.24. Deciding whether all includes</b></td></tr></table><p>
 <p>
-<p>Stretching a point seasonally, we might write:
+<p><b>1. When it happens.</b> When parsing a command such as &quot;take all&quot;, where the player uses &quot;all&quot; to signify everything within reach.
 <p>
-<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
+<p><b>2. The default behaviour.</b> The actual method used is complicated, as &quot;all&quot; is not as simple as it seems - &quot;take all&quot; would not include the player's own body, for instance, or the crescent moon. The point of this action is to allow the normal method to be changed for given objects, or given kinds of object.
+<p>
+<p><b>3. Examples.</b> (a) Removing scenery from &quot;all&quot;:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for deciding whether all includes scenery: it does not.\n\n\n')"><img border=0 src=paste.png></a> Rule for deciding whether all includes scenery: it does not.
 </font></blockquote><p>
 <p>
-<p>This rule is nameless. It needs no name because it will never need to be referred to: by identifying it as an every turn rule we have already said enough to lodge it in the &quot;every turn rules&quot; rulebook. In fact, though, it is easy to create a named rule:
+<p>The phrases &quot;it does&quot; and &quot;it does not&quot; make a decision.
 <p>
-<blockquote><font color="#000080">This is the blossom shaking rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
+<p>(b) Ensuring that a given thing, which might otherwise be excluded, is included:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for deciding whether all includes the oval roof: it does.\n\n\n')"><img border=0 src=paste.png></a> Rule for deciding whether all includes the oval roof: it does.
 </font></blockquote><p>
 <p>
-<p>The name of a rule must always end with the word &quot;rule&quot;, for clarity's sake. (The phrasing &quot;This is the ... rule&quot; is used because &quot;The ... rule&quot; would be open to misinterpretation.)
+<p>(c) However, be wary of rules like this one:
 <p>
-<p>Previously we had a rule which had no name, but belonged to a rulebook: now we have the opposite, because although the &quot;blossom shaking rule&quot; has a name, it has not been placed in any rulebook. That means it will probably never be applied. We can remedy this like so:
-<p>
-<blockquote><font color="#000080">The blossom rule is listed in the every turn rules.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for deciding whether all includes the oak tree while taking: it does not.\n\n\n')"><img border=0 src=paste.png></a> Rule for deciding whether all includes the oak tree while taking: it does not.
 </font></blockquote><p>
 <p>
-<p>A single rule like this can be listed in any number of rulebooks, including none.
-<p>
-<p>Alternatively, it is possible to both name and list a rule in a single sentence:
-<p>
-<blockquote><font color="#000080">Every turn (this is the blossom rule): say &quot;The summer breeze shakes the apple-blossom.&quot;
-</font></blockquote><p>
-<p>
-<p>Where rules have been named, we are able to have a say in what order they come in:
-<p>
-<blockquote><font color="#000080">The blossom rule is listed before the moving doorways rule in the every turn rules.
-</font></blockquote><p>
+<p>This will not work even when the player types &quot;take all&quot; because we are not &quot;taking&quot; until the text is fully understood, when the action begins: and working out what &quot;all&quot; means is part of that process of understanding.
 <p>
 <p><hr><p><a href=doc257.html>Previous</a> / <a href=doc259.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

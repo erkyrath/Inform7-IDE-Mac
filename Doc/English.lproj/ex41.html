@@ -1,4 +1,4 @@
-<html><head><title>4.11. Text with variations</title></head>
+<html><head><title>11.12. Report rules for actions by other people</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,42 +7,61 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc54.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc56.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.11. Text with variations</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc163.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc165.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.12. Report rules for actions by other people</b></td></tr></table><p>
 <p>
-<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
+<p>Report rules for the player's actions are easy to write, and for many actions, they are not much harder for other people either:
 <p>
-<blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.
+<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
+<br>Report someone trying photographing: say &quot;Click! [The person asked] takes a snapshot of [the noun].&quot;
 </font></blockquote><p>
 <p>
-<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
+<p>But once other people are involved, we have to go to some trouble to get all of the possibilities right. Here is a case which did not immediately occur to the author of the &quot;going&quot; action, for instance:
 <p>
-<blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;
+<blockquote><font color="#000080">>get in cage
+<br>You get into the cage.
+<br>>clark, get in automobile
+<br>Clark Gable gets into the automobile.
+<br>>clark, push cage west
+<br>Clark Gable goes west in the automobile, pushing the cage in front, and you along too.
 </font></blockquote><p>
 <p>
-<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
-<p>
-<p>We sometimes need to be careful about the printing of line breaks:
-<p>
-<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell. [otherwise]the usual cell.&quot;
+<blockquote><font color="#000080"><b>The Lot</b> (in the cage)
+<br>In the Lot you can see an automobile (in which is Clark Gable).
 </font></blockquote><p>
 <p>
-<p>This room description has two possible forms: &quot;Ah, the unknown cell. &quot;, at first sight, and then &quot;Ah, the usual cell.&quot; subsequently. But the second form is rounded off with a line break because the last thing printed is a &quot;.&quot;, whereas the first form isn't, because it ended with a space. The right thing would have been:
+<p>We said before that report rules are skipped if the action is running &quot;silently&quot;, or if the action is one that the player does not witness. But that is also a tricky concept. Inform's doctrine is that you witness an action if you can see any of the actor, the noun or the second noun at either the beginning or the end of the action; except that being able to see a backdrop does not count. Thus if Clark Gable, in Beverly Hills, photographs the Hollywood sign then we do not witness this from Sunset Boulevard merely because we, too, can see the Hollywood sign.
 <p>
-<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell.[otherwise]the usual cell.&quot;
-</font></blockquote><p>
-<p>
-<p>allowing no space after &quot;unknown cell.&quot;
+<p>While the report rules for actions by the player must actually report something, report rules for other people's actions are under no such obligation. For instance, if Clark unlocks a door from the other side to the player, then this counts as an action that the player witnesses - and after all, it could be argued that the player should hear the key turning in the lock - but in fact the standard rules for reporting locking choose to say nothing.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e41"><a href=doc55.html#e41><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A door which says "...leads east" in one place and "...leads west" in the other.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e41"><a href=doc164.html#e41><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Elaborating the report rules to be more interesting than "Clark goes west."</i><p>
 <p>
-<p>Very simple, but quite frequently useful:
+<p>Report rules can be a good point at which to add local color: while Inform provides default descriptions of character behavior, these are rather generic and can stand to be customized.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;When?&quot;\n\nThe temporal vortex is an open door. It is west of Yesterday and east of Today. &quot;A whirling temporal vortex leads [if in Yesterday]west[otherwise]east[end if].&quot;\n\n')"><img border=0 src=paste.png></a> &quot;When?&quot;
+<p>For instance, if we wanted to liven up our previous Clark Kent example:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Report Clark Kent trying going a direction (called the way):\n\tsay &quot;[if a random chance of 1 in 2 succeeds]With a particularly weak excuse[otherwise]Muttering[end if] about [random excuse subject], Clark heads [way].&quot; instead.\n\nTo say random excuse subject:\n\tchoose a random row in the Table of Lame Excuses; say &quot;[reply entry]&quot;.\n\nTable of Lame Excuses\nreply\n&quot;needing a paper-clip&quot;\n&quot;wanting an English-Tuvalu dictionary&quot;\n&quot;walking a neighbor\'s dog&quot;\n&quot;hearing air-raid sirens&quot;\n&quot;having drunk too much coffee&quot;\n&quot;thinking he smells smoke&quot;\n&quot;wondering where Lois got to&quot;\n&quot;needing to speak to Jimmy&quot;\n&quot;noticing the Good Year blimp&quot;\n\n\n')"><img border=0 src=paste.png></a> Report Clark Kent trying going a direction (called the way):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[if a random chance of 1 in 2 succeeds]With a particularly weak excuse[otherwise]Muttering[end if] about [random excuse subject], Clark heads [way].&quot; instead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The temporal vortex is an open door. It is west of Yesterday and east of Today. &quot;A whirling temporal vortex leads [if in Yesterday]west[otherwise]east[end if].&quot;
+<blockquote><font color="#000080">To say random excuse subject:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the Table of Lame Excuses; say &quot;[reply entry]&quot;.
 </font></blockquote><p>
-</td></tr></table><p><a name="e43"><a href=ex43.html#e43><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Separate the player's inventory listing into two parts, so that it says "you are carrying..." and then (if the player is wearing anything) "You are also wearing...".</i><p>
-<a name="e5"><a href=ex5.html#e5><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A kind of door that always automatically describes the direction it opens and what lies on the far side (if that other room has been visited).</i><p>
-<p><hr><p><a href=doc54.html>Previous</a> / <a href=doc56.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Table of Lame Excuses
+<br>reply
+<br>&quot;needing a paper-clip&quot;
+<br>&quot;wanting an English-Tuvalu dictionary&quot;
+<br>&quot;walking a neighbor's dog&quot;
+<br>&quot;hearing air-raid sirens&quot;
+<br>&quot;having drunk too much coffee&quot;
+<br>&quot;thinking he smells smoke&quot;
+<br>&quot;wondering where Lois got to&quot;
+<br>&quot;needing to speak to Jimmy&quot;
+<br>&quot;noticing the Good Year blimp&quot;
+</font></blockquote><p>
+<p>
+<p>It's good to be careful, as the library report rules have been designed and tested to describe every contingency (going through doors, going in vehicles, etc.): so when replacing a report rule, we should try to consider all the possible variations of the action that we might want to describe.
+<p>
+<p>However, in this case, our scenario is so simple that there are no doors, vehicles, or pushable objects, so we're safe in giving Clark a very simple reporting scheme.
+</td></tr></table><p><p><hr><p><a href=doc163.html>Previous</a> / <a href=doc165.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

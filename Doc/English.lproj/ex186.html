@@ -1,0 +1,66 @@
+<html><head><title>16.18. Constructing the status line</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc251.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc253.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.18. Constructing the status line</b></td></tr></table><p>
+<p>
+<p><b>1. When it happens.</b> Just before input is accepted from the keyboard, Inform constructs a &quot;status line&quot; at the top of the window which is normally displayed in reverse colours (white on black instead of black on white, say).
+<p>
+<p><b>2. The default behaviour.</b> Makes the status line up out of two pieces, the &quot;left hand status line&quot; and the &quot;right hand status line&quot;. Since these can freely be changed, note that the status line is already very customisable without using rules applied to this activity.
+<p>
+<p><b>3. Examples.</b> (a) The most useful thing about this activity is that it allows us to vary descriptions in the status line. This is especially helpful to abbreviate unduly long room names, which might not otherwise fit:
+<p>
+<blockquote><font color="#000080">The Temple Of A Thousand Mightily Peeved Deities is a room. Rule for printing the name of the Temple while constructing the status line: say &quot;Temple&quot;.
+</font></blockquote><p>
+<p>
+<p>(b) Again, it's usually not necessary to apply activity rules to this, but occasionally amusing effects are possible if we do:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.\n\n\n')"><img border=0 src=paste.png></a> The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<a name="e70"><a href=ex70.html#e70><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A status line that lists the available exits from the current location.</i><p>
+<a name="e69"><a href=ex69.html#e69><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A status line that lists the available exits from the current location, changing the names of these exits depending on whether the room has been visited or not.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e186"><a href=doc252.html#e186><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A status line which has only the name of the location, centered. (Taken from an example in the <i>Inform Designer's Manual, Fourth Edition</i>, which is itself emulating an effect used in Trinity.)</i><p>
+<p>
+<p>Making really major changes to the structure of the status line requires that we rewrite the code that generates it. This is not very pretty, and needs included sections of Inform 6 code (about which, see the Appendix). Nonetheless, it can be done, and here is how.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for constructing the status line:\n\tprint the location in the center of the status line;\n\trule succeeds.\n\nTo print the location in the center of the status line:\n\t(- PrintCenteredStatus(); -);\n\nInclude (-\n\nArray printed_text --> 64;\n\n[ PrintCenteredStatus i j;\n\t@set_cursor 1 0;\n\ti = 0->33;\n\tspaces(i);\n\t@output_stream 3 printed_text;\n\tprint (name) location;\n\t@output_stream -3;\n\tj = (i - (printed_text-->0))/2;\n\t@set_cursor 1 j;\n\tprint (name) location;\n\tspaces j-1;\n];\n\n-)\n\n\n')"><img border=0 src=paste.png></a> Rule for constructing the status line:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;print the location in the center of the status line;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To print the location in the center of the status line:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(- PrintCenteredStatus(); -);
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Include (-
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Array printed_text --> 64;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">[ PrintCenteredStatus i j;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;@set_cursor 1 0;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;i = 0->33;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;spaces(i);
+<br>&nbsp;&nbsp;&nbsp;&nbsp;@output_stream 3 printed_text;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;print (name) location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;@output_stream -3;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;j = (i - (printed_text-->0))/2;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;@set_cursor 1 j;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;print (name) location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;spaces j-1;
+<br>];
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">-)
+</font></blockquote><p>
+<p>
+<p>A more general solution is provided in the extension &quot;Basic Screen Effects&quot;, allowing for centered status text and status bars of multiple lines.
+</td></tr></table><p><p><hr><p><a href=doc251.html>Previous</a> / <a href=doc253.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

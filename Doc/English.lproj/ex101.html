@@ -1,4 +1,4 @@
-<html><head><title>3.4. Regions and the index map</title></head>
+<html><head><title>14.16. Defining things with tables</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,112 +7,145 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc25.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc27.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.4. Regions and the index map</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc214.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc216.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>14.16. Defining things with tables</b></td></tr></table><p>
 <p>
-<p>Rooms represent individual places to which one can go, but we tend to think of the world around us in larger pieces: we think of a house and a garden, rather than each of the single rooms of the house and all corners of its garden. A collection of rooms is called a &quot;region&quot;, and we can create one like so:
+<p>Suppose we need to create a collection of items which differ in their properties, but are basically part of a larger pattern. For instance, here we set up what we need to make a collection of coloured shirts:
 <p>
-<blockquote><font color="#000080">The Arboretum is east of the Botanical Gardens. Northwest of the Gardens is the Tropical Greenhouse.
+<blockquote><font color="#000080">A jersey is a kind of thing. A jersey is wearable. A jersey has a number called year established. A jersey has a text called citation. The description of a jersey is &quot;Since [year established of the item described], the Tour de France has awarded this jersey to the [citation of the item described].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Public Area is a region. The Arboretum and Gardens are in the Public Area.
+<p>Now we have the pattern, but making the actual shirts is tedious and repetitive:
+<p>
+<blockquote><font color="#000080">The yellow jersey is a jersey. The year established of the yellow jersey is 1919. The citation of the yellow jersey is &quot;race leader&quot;. The polkadot jersey...
 </font></blockquote><p>
 <p>
-<p>The real usefulness of creating regions like &quot;Public Area&quot; will only appear later, when we begin defining rules of play which apply in some areas but not others, but in the mean time we can see the effect by turning to the Map tab of the Index. In the Map, Inform draws a stylised attempt at a diagram of the rooms and their connections: this will not always correspond to how we imagine things, but with any luck it should mostly be right.
+<p>And so on. Instead, we can use a table to abbreviate all of this:
 <p>
-<p>Rooms are represented by coloured squares, and the colour-coding is done by region. In the above example, the two &quot;Public Area&quot; rooms are coloured green (as it happens); the Greenhouse, since it belongs to no region, is a neutral grey.
-<p>
-<p>Regions can be put inside each other:
-<p>
-<blockquote><font color="#000080">The University Parks is a region. The Public Area is in the University Parks.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Tour des Maillots&quot;\n\nThe Staging Area is a room. A jersey is a kind of thing. A jersey is wearable. Some jerseys in the Staging Area are defined by the Table of Honorary Jerseys. The description of a jersey is &quot;Since [year established of the item described], the Tour de France has awarded this jersey to the [citation of the item described].&quot;\n\nTable of Honorary Jerseys\njersey\tyear established\tcitation\nyellow jersey\t1919\t&quot;race leader&quot;\npolkadot jersey\t1933\t&quot;King of the Mountains&quot;\ngreen jersey\t1953\t&quot;highest point scorer on sprints&quot;\nwhite jersey\t1975\t&quot;best cyclist aged 25 or less&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Tour des Maillots&quot;
 </font></blockquote><p>
 <p>
-<p>but they are not allowed to overlap other than by one being entirely inside the other.
+<blockquote><font color="#000080">The Staging Area is a room. A jersey is a kind of thing. A jersey is wearable. Some jerseys in the Staging Area are defined by the Table of Honorary Jerseys. The description of a jersey is &quot;Since [year established of the item described], the Tour de France has awarded this jersey to the [citation of the item described].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Honorary Jerseys
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">jersey</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">year established</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">citation</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">yellow jersey</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1919</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;race leader&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">polkadot jersey</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1933</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;King of the Mountains&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">green jersey</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1953</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;highest point scorer on sprints&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">white jersey</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1975</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;best cyclist aged 25 or less&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<p>The first column provides names for the new things to be created. Subsequent columns provide property values. Note that we did not need to say that jerseys have a number called &quot;year established&quot; because Inform is able to infer this from the column heading and the presence of numbers in the column; similarly for &quot;citation&quot;. Lastly, note that if any entry is blank (written &quot;--&quot;) then that particular property is simply not set for that particular item.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e101"><a href=doc26.html#e101><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Division of Port Royal into regions.</i><p>
+<a name="e174"><a href=ex174.html#e174><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A conversation where each topic may have multiple questions and answers associated with it, and where a given exchange can lead to new additions to the list.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e101"><a href=doc215.html#e101><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Assortment of equipment defined with price and description, in a table.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;1691&quot;\n\n[We should go ahead and do all our room definitions first...]\n\nFort James is a room. &quot;The enclosure of Fort James is a large, roughly hexagonal court walled with heavy stone.  The walls face the entrance to Port Royal Harbour, and the battery of guns is prepared to destroy any enemy ship arriving.&quot;\n\nThames Street End is south of Fort James. &quot;The ill-named Thames Street runs from here -- at the point of the peninsula -- all the way east among houses and shops, through the Fish Market, edging by the round front of Fort Carlisle, to the point where the town stops and there is only sandy spit beyond.  Most of that stretch is full of people at all hours.  Imported goods are moved off of ships and taken to distributors; exported goods are brought to be loaded; and there is one public house and brothel for every ten inhabitants.\n\nLime Street, wider and healthier but not as rich, runs directly south, and to the north the road opens up into the courtyard of Fort James.&quot;\n\nLime Street is south of Thames Street End. West of Thames Street End is north of Fisher\'s Row. The description of Fisher\'s Row is &quot;A waterfront street that runs south towards Chocolata Hole, where the small craft are harboured. It also continues north around the tip of the peninsula from here, turning into the east-west Thames Street.&quot;\n\nThames Street End is down from Fort James. Up from Thames Street End is nowhere.\n\nWater Lane is east of Thames Street End. &quot;Here Thames Street -- never very straight -- goes steeply southeast for a portion before continuing more directly to the east.\n\nWater Lane runs south toward Queen Street, and facing onto it is the New Prison -- which, in the way of these things, is neither.  It did serve in that capacity for a time, and in a measure of the villainy which has been usual in Port Royal from its earliest days, it is nearly the largest building in the town.&quot;\n\n\nEast of Water Lane is a room called Thames Street at the Wherry Bridge.  Thames Street at the Wherry Bridge has the description &quot;To the southwest is the fishmarket; directly across the street is the entrance to a private alley through a brick archway.&quot;\n\nThe Fishmarket is southwest of Thames Street at the Wherry Bridge.\n\nThe Private Alley is south of Thames Street at the Wherry Bridge. &quot;You\'re just outside the tavern the Feathers. To the north, under a pretty little archway, is the active mayhem of Thames Street, but the alley narrows down to a dead end a little distance to the south.&quot;\n\nThe Feathers is inside from the Private Alley.  &quot;Newly built with brick, replacing the older Feathers tavern that used to stand here. It sells wines in quantity, as well as serving them directly, and the goods are always of the best quality. There\'s a room upstairs for those wanting to stay the night.&quot; The Feathers Bedroom is above the Feathers.\n\nThames Street by the King\'s House is east of Thames Street at the Wherry Bridge.  &quot;The King\'s House is reserved for the use of the Governor, but he does not live in it, and it is frequently being rented out to some merchant so that the government will at least derive some value from it. It is nearly the least interesting establishment on Thames Street, and the crowd -- which, to the west, is extremely dense -- here thins out a bit.&quot;\n\nThames Street before Fort Carlisle is east of Thames Street by the King\'s House. &quot;Here Thames Street, formerly a respectable width, narrows to a footpath in order to edge around the front of Fort Carlisle, underneath the mouths of the cannon.\n\nThere are no buildings on the harbour side of Thames Street at this point, which means that you have an unusually good view of the ships at dock, water beyond, and the Blue Mountains rising on the other side of the harbour.&quot;\n\n\nSouth of Thames Street before Fort Carlisle is a room called Fort Carlisle. The description of Fort Carlisle is &quot;Handsomely arrayed with cannons which you could fire at any moment -- though of course there are ships at dock which might be in the way.&quot;\n\nQueen Street End is south of Lime Street.\n\nQueen Street Middle is east of Queen Street End.\n\n\nQueen Street East is east of Queen Street Middle and south of Private Alley.\n\nQueen Street at the Prison is east of Queen Street East.\n\n[Now, if we like, we can create regions to distinguish the coast from the portions of town that aren\'t on the water:]\n\nInland is a region. Queen Street End, Queen Street Middle, Queen Street East, Private Alley, Lime Street, and Queen Street at the Prison are in Inland.\n\nWaterfront is a region. Thames Street before Fort Carlisle, Thames Street by the King\'s House, Thames Street at the Wherry Bridge, Water Lane, Fishmarket, Fisher\'s Row, and Thames Street End are in Waterfront.\n\n\n')"><img border=0 src=paste.png></a> &quot;1691&quot;
+<p>Suppose we have a whole catalog-full of equipment that the player might want to purchase and use.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Introduction to Juggling&quot;\n\nBackstage is a room. &quot;A muffled black room with felt on the floors and walls. A glowing sign over the stage door says SHOW IN PROGRESS.&quot;\n\nPrice is a kind of value. $100.99 specifies a price.\n\nDifficulty is a kind of value. The difficulties are easy, moderate, hard.\n\n[Since we are going to use price and difficulty in the table that defines our juggling equipment, we need to mention these kinds of value before the line that says how toys are defined.]\n\nThe plural of toy is toys. A toy is a kind of thing. Some toys are defined by the Table of Juggling Equipment.\n\nTable of Juggling Equipment\ntoy\tcost\trestriction\tdescription\tdifficulty\toutcome\nan economy bounce ball set\t$10.00\t&quot;comes in set of three&quot;\t&quot;A fairly ordinary rubber ball, solid color.&quot;\tmoderate\t&quot;You create of the balls a cascade of moving color.&quot;\nan acrylic contact ball\t$14.00\t&quot;should be bought with ball polish&quot;\t&quot;A large clear ball, not for throwing but for using in various hand tricks.&quot;\thard\t&quot;You rotate the ball between your fingers and pass it over the backs of your hands.&quot;\na UV-reactive contact ball\t$55.00\t&quot;appears to glow in dark rooms&quot;\t&quot;Similar to the ordinary acrylic contact ball, but UV-reactive.&quot;\thard\t&quot;The ball glows as it passes between your fingers and over the backs of your hands, rolls up to your wrist, snaps through the air-- all apparently of its own accord.&quot;\na ball polish set\t$10.00\t&quot;useful only with acrylic contact balls&quot;\t&quot;Three bottles of polish and a rag for keeping acrylic contact balls scratch-free.&quot;\thard\t&quot;You juggle the polish bottles with difficulty, since they are full of sloshing liquid.&quot;\na teaching beanbag set\t$8.00\t&quot;set of three&quot;\t&quot;Soft, easily-juggled bag.&quot;\teasy\t&quot;You juggle the beanbags with basic competence.&quot;\na stage ball set\t$13.50\t&quot;comes in set of three&quot;\t&quot;Not much different in appearance from the economy bounce ball, but larger so as to be visible from a stage.&quot;\tmoderate\t&quot;You create of the balls a cascade of moving color, visible from quite a distance.&quot;\na fireball set\t$33.00\t&quot;will not be sold to minors&quot;\t&quot;A ball has wicking and a fuel-source inside so that it will burn while being juggled.&quot;\thard\t&quot;You juggle the fireballs rapidly, careful never to hold any of them a moment longer than necessary.&quot;\n\n[Notice that we are allowed to define &quot;description&quot; and other already-known properties in the table as well.]\n\nThe player has a price. The price of the player is $60.00.\n\nThe Juggling Equipment Catalog is a thing in Backstage.\n\nInstead of examining the Catalog:\n\tsay &quot;You read through the offerings, including: [paragraph break]&quot;;\n\trepeat through Table of Juggling Equipment\n\tbegin;\n\t\tsay &quot;[bold type][toy entry][roman type]: [description entry] [cost entry], [restriction entry]. [paragraph break]&quot;;\n\tend repeat.\n\n[And because we\'re allowing the player to order things that he can\'t currently see, we need to borrow a special kind of grammar from the Understanding chapter:]\n\nUnderstand &quot;buy [any toy]&quot; as ordering. Understand the command &quot;order&quot; as something new. Understand the command &quot;order&quot; as &quot;buy&quot;.\n\nOrdering is an action applying to one thing.\n\nCheck ordering:\n\tif the cost of the noun is greater than the price of the player, say &quot;You only have [price of the player], while [the noun] would cost [cost of the noun].&quot; instead;\n\nCarry out ordering:\n\tmove the noun to the player;\n\tchange the price of the player to the price of the player minus the cost of the noun.\n\nReport ordering:\n\tsay &quot;You order [a noun], which is delivered instantly.&quot;\n\n[We should also handle the situation where the player orders another of something he has already bought:]\n\nInstead of buying something: say &quot;You already have [a noun].&quot;\n\nWhen play begins:\n\tchange right hand status line to &quot;Budget: [price of the player]&quot;;\n\tchange left hand status line to &quot;[location], feeling [if the difficulty of player is easy]incompetent[end if][if the difficulty of player is moderate]moderately skilled[end if][if the difficulty of player is hard]highly skilled[end if]&quot;.\n\nThe player has a difficulty. The difficulty of the player is easy.\n\nUnderstand &quot;juggle [something]&quot; as juggling.\n\nJuggling is an action applying to one thing.\n\nCheck juggling:\n\tif the noun is not a toy listed in the Table of Juggling Equipment, say &quot;You can\'t juggle [a noun]!&quot; instead;\n\tif the difficulty of the noun is greater than the difficulty of the player, say &quot;You\'re not quite ready to juggle something like [the noun]. Better to start with an easier toy.&quot; instead.\n\nCarry out juggling:\n\tif a random chance of 1 in 3 succeeds\n\tbegin;\n\t\tif the difficulty of the player is less than hard and the difficulty of the player is the difficulty of the noun, change the difficulty of the player to the difficulty after the difficulty of the player;\n\tend if.\n\nReport juggling:\n\tsay &quot;[outcome of the noun][paragraph break]&quot;.\n\nInstead of burning the fireball set:\n\tsay &quot;It will flame by itself when you use it.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Introduction to Juggling&quot;
 </font></blockquote><p>
 <p>
-<p>We should go ahead and do all our room definitions first...
-<p>
-<blockquote><font color="#000080">Fort James is a room. &quot;The enclosure of Fort James is a large, roughly hexagonal court walled with heavy stone.  The walls face the entrance to Port Royal Harbour, and the battery of guns is prepared to destroy any enemy ship arriving.&quot;
+<blockquote><font color="#000080">Backstage is a room. &quot;A muffled black room with felt on the floors and walls. A glowing sign over the stage door says SHOW IN PROGRESS.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Thames Street End is south of Fort James. &quot;The ill-named Thames Street runs from here -- at the point of the peninsula -- all the way east among houses and shops, through the Fish Market, edging by the round front of Fort Carlisle, to the point where the town stops and there is only sandy spit beyond.  Most of that stretch is full of people at all hours.  Imported goods are moved off of ships and taken to distributors; exported goods are brought to be loaded; and there is one public house and brothel for every ten inhabitants.
+<blockquote><font color="#000080">Price is a kind of value. $100.99 specifies a price.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Lime Street, wider and healthier but not as rich, runs directly south, and to the north the road opens up into the courtyard of Fort James.&quot;
+<blockquote><font color="#000080">Difficulty is a kind of value. The difficulties are easy, moderate, hard.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Lime Street is south of Thames Street End. West of Thames Street End is north of Fisher's Row. The description of Fisher's Row is &quot;A waterfront street that runs south towards Chocolata Hole, where the small craft are harboured. It also continues north around the tip of the peninsula from here, turning into the east-west Thames Street.&quot;
+<p>Since we are going to use price and difficulty in the table that defines our juggling equipment, we need to mention these kinds of value before the line that says how toys are defined.
+<p>
+<blockquote><font color="#000080">The plural of toy is toys. A toy is a kind of thing. Some toys are defined by the Table of Juggling Equipment.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Thames Street End is down from Fort James. Up from Thames Street End is nowhere.
+<blockquote><font color="#000080">Table of Juggling Equipment
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">toy</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">cost</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">restriction</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">description</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">difficulty</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">outcome</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">an economy bounce ball set</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">$10.00</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;comes in set of three&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;A fairly ordinary rubber ball, solid color.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moderate</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;You create of the balls a cascade of moving color.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">an acrylic contact ball</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">$14.00</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;should be bought with ball polish&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;A large clear ball, not for throwing but for using in various hand tricks.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hard</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;You rotate the ball between your fingers and pass it over the backs of your hands.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a UV-reactive contact ball</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">$55.00</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;appears to glow in dark rooms&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Similar to the ordinary acrylic contact ball, but UV-reactive.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hard</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;The ball glows as it passes between your fingers and over the backs of your hands, rolls up to your wrist, snaps through the air-- all apparently of its own accord.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a ball polish set</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">$10.00</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;useful only with acrylic contact balls&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Three bottles of polish and a rag for keeping acrylic contact balls scratch-free.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hard</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;You juggle the polish bottles with difficulty, since they are full of sloshing liquid.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a teaching beanbag set</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">$8.00</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;set of three&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Soft, easily-juggled bag.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">easy</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;You juggle the beanbags with basic competence.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a stage ball set</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">$13.50</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;comes in set of three&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Not much different in appearance from the economy bounce ball, but larger so as to be visible from a stage.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moderate</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;You create of the balls a cascade of moving color, visible from quite a distance.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a fireball set</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">$33.00</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;will not be sold to minors&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;A ball has wicking and a fuel-source inside so that it will burn while being juggled.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hard</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;You juggle the fireballs rapidly, careful never to hold any of them a moment longer than necessary.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Water Lane is east of Thames Street End. &quot;Here Thames Street -- never very straight -- goes steeply southeast for a portion before continuing more directly to the east.
+<p>Notice that we are allowed to define &quot;description&quot; and other already-known properties in the table as well.
+<p>
+<blockquote><font color="#000080">The player has a price. The price of the player is $60.00.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Water Lane runs south toward Queen Street, and facing onto it is the New Prison -- which, in the way of these things, is neither.  It did serve in that capacity for a time, and in a measure of the villainy which has been usual in Port Royal from its earliest days, it is nearly the largest building in the town.&quot;
+<blockquote><font color="#000080">The Juggling Equipment Catalog is a thing in Backstage.
 </font></blockquote><p>
 <p>
-<p>
-<blockquote><font color="#000080">East of Water Lane is a room called Thames Street at the Wherry Bridge.  Thames Street at the Wherry Bridge has the description &quot;To the southwest is the fishmarket; directly across the street is the entrance to a private alley through a brick archway.&quot;
+<blockquote><font color="#000080">Instead of examining the Catalog:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You read through the offerings, including: [paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Juggling Equipment
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[bold type][toy entry][roman type]: [description entry] [cost entry], [restriction entry]. [paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Fishmarket is southwest of Thames Street at the Wherry Bridge.
+<p>And because we're allowing the player to order things that he can't currently see, we need to borrow a special kind of grammar from the Understanding chapter:
+<p>
+<blockquote><font color="#000080">Understand &quot;buy [any toy]&quot; as ordering. Understand the command &quot;order&quot; as something new. Understand the command &quot;order&quot; as &quot;buy&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Private Alley is south of Thames Street at the Wherry Bridge. &quot;You're just outside the tavern the Feathers. To the north, under a pretty little archway, is the active mayhem of Thames Street, but the alley narrows down to a dead end a little distance to the south.&quot;
+<blockquote><font color="#000080">Ordering is an action applying to one thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Feathers is inside from the Private Alley.  &quot;Newly built with brick, replacing the older Feathers tavern that used to stand here. It sells wines in quantity, as well as serving them directly, and the goods are always of the best quality. There's a room upstairs for those wanting to stay the night.&quot; The Feathers Bedroom is above the Feathers.
+<blockquote><font color="#000080">Check ordering:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the cost of the noun is greater than the price of the player, say &quot;You only have [price of the player], while [the noun] would cost [cost of the noun].&quot; instead;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Thames Street by the King's House is east of Thames Street at the Wherry Bridge.  &quot;The King's House is reserved for the use of the Governor, but he does not live in it, and it is frequently being rented out to some merchant so that the government will at least derive some value from it. It is nearly the least interesting establishment on Thames Street, and the crowd -- which, to the west, is extremely dense -- here thins out a bit.&quot;
+<blockquote><font color="#000080">Carry out ordering:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the noun to the player;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the price of the player to the price of the player minus the cost of the noun.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Thames Street before Fort Carlisle is east of Thames Street by the King's House. &quot;Here Thames Street, formerly a respectable width, narrows to a footpath in order to edge around the front of Fort Carlisle, underneath the mouths of the cannon.
+<blockquote><font color="#000080">Report ordering:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You order [a noun], which is delivered instantly.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">There are no buildings on the harbour side of Thames Street at this point, which means that you have an unusually good view of the ships at dock, water beyond, and the Blue Mountains rising on the other side of the harbour.&quot;
+<p>We should also handle the situation where the player orders another of something he has already bought:
+<p>
+<blockquote><font color="#000080">Instead of buying something: say &quot;You already have [a noun].&quot;
 </font></blockquote><p>
 <p>
-<p>
-<blockquote><font color="#000080">South of Thames Street before Fort Carlisle is a room called Fort Carlisle. The description of Fort Carlisle is &quot;Handsomely arrayed with cannons which you could fire at any moment -- though of course there are ships at dock which might be in the way.&quot;
+<blockquote><font color="#000080">When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change right hand status line to &quot;Budget: [price of the player]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change left hand status line to &quot;[location], feeling [if the difficulty of player is easy]incompetent[end if][if the difficulty of player is moderate]moderately skilled[end if][if the difficulty of player is hard]highly skilled[end if]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Queen Street End is south of Lime Street.
+<blockquote><font color="#000080">The player has a difficulty. The difficulty of the player is easy.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Queen Street Middle is east of Queen Street End.
+<blockquote><font color="#000080">Understand &quot;juggle [something]&quot; as juggling.
 </font></blockquote><p>
 <p>
-<p>
-<blockquote><font color="#000080">Queen Street East is east of Queen Street Middle and south of Private Alley.
+<blockquote><font color="#000080">Juggling is an action applying to one thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Queen Street at the Prison is east of Queen Street East.
+<blockquote><font color="#000080">Check juggling:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is not a toy listed in the Table of Juggling Equipment, say &quot;You can't juggle [a noun]!&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the difficulty of the noun is greater than the difficulty of the player, say &quot;You're not quite ready to juggle something like [the noun]. Better to start with an easier toy.&quot; instead.
 </font></blockquote><p>
 <p>
-<p>Now, if we like, we can create regions to distinguish the coast from the portions of town that aren't on the water:
-<p>
-<blockquote><font color="#000080">Inland is a region. Queen Street End, Queen Street Middle, Queen Street East, Private Alley, Lime Street, and Queen Street at the Prison are in Inland.
+<blockquote><font color="#000080">Carry out juggling:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a random chance of 1 in 3 succeeds
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the difficulty of the player is less than hard and the difficulty of the player is the difficulty of the noun, change the difficulty of the player to the difficulty after the difficulty of the player;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Waterfront is a region. Thames Street before Fort Carlisle, Thames Street by the King's House, Thames Street at the Wherry Bridge, Water Lane, Fishmarket, Fisher's Row, and Thames Street End are in Waterfront.
+<blockquote><font color="#000080">Report juggling:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[outcome of the noun][paragraph break]&quot;.
 </font></blockquote><p>
 <p>
-<p>There's no rule that regions must be contiguous, so we could if we like make a region consisting just of the two forts:
-<p>
-<blockquote><font color="#000080">Military Holdings is a region. Fort Carlisle and Fort James are in Military Holdings.
+<blockquote><font color="#000080">Instead of burning the fireball set:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It will flame by itself when you use it.&quot;
 </font></blockquote><p>
-<p>
-<p>And we might make the Feathers Tavern part of the Inland area, but within its own subcategory:
-<p>
-<blockquote><font color="#000080">Tavern is a region. It is in Inland. Feathers and Feathers Bedroom are in Tavern.
-</font></blockquote><p>
-<p>
-<p>Now the index map will be colored to reflect our regions, and later in the game development we would be able to make rules that affect just one region at a time.
-</td></tr></table><p><p><hr><p><a href=doc25.html>Previous</a> / <a href=doc27.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc214.html>Previous</a> / <a href=doc216.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

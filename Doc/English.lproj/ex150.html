@@ -1,0 +1,50 @@
+<html><head><title>15.3. Overriding existing commands</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc219.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc221.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.3. Overriding existing commands</b></td></tr></table><p>
+<p>
+<p>Suppose we are devising specialist commands for a game of whist, and we want &quot;discard&quot; as one of them. Looking at the table of commands in the Action index, we find that, inconveniently enough, &quot;discard&quot; already has a meaning: it is synonymous with &quot;drop&quot;, and while that might be sensible most of the time, it is perfectly wrong now. We need a way to free up &quot;discard&quot; for our own use. We can do that by:
+<p>
+<blockquote><font color="#000080">Understand the command &quot;discard&quot; as something new.
+</font></blockquote><p>
+<p>
+<p>This cuts it loose, so to speak, and ready to be given new meanings. If we check the Actions index again, we find no mention of &quot;discard&quot; - it is now a blank slate - but &quot;drop&quot; is still exactly as it was. We could now say something like:
+<p>
+<blockquote><font color="#000080">Understand the command &quot;discard [something]&quot; as discarding.
+</font></blockquote><p>
+<p>
+<p>(If we had declared that &quot;drop&quot; was something new, the whole thing would have happened in reverse, with &quot;discard&quot; retaining all of the original grammar. Inform does not distinguish between a command and its synonym.)
+<p>
+<p>The &quot;... as something new&quot; sentence works even for a command which did not exist anyway, for instance with:
+<p>
+<blockquote><font color="#000080">Understand the command &quot;zylqix&quot; as something new.
+</font></blockquote><p>
+<p>
+<p>Of course this does nothing - but it is intentional that it generates no problem messages: it means that the sentence can be used to force a command to be fresh and untouched by previous definitions, which might be useful when working with extensions by other people.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e150"><a href=doc220.html#e150><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Making a READ command, distinct from EXAMINE, for legible objects.</i><p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Trouble with Printing&quot;\n\nA thing has a property called printing. The printing of a thing is usually &quot;blank&quot;.\n\nUnderstand the command &quot;read&quot; as something new. Understand &quot;read [something]&quot; as reading. Reading is an action applying to one thing, requiring light. Check reading: if the printing of the noun is &quot;blank&quot;, say &quot;Nothing is written on [the noun].&quot; instead. Carry out reading: say &quot;You read: [printing of the noun]&quot;. Report reading: do nothing.\n\nThe Archive is a room.\n\nBerkeley\'s report is a thing in the Archive. The description is &quot;A report from Governor Sir William Berkeley of Virginia, in 1671, in answer to the queries sent by the Commissioners of Plantations the year previous. Of this report the better part is burned and only a tail fragment remains.&quot; The printing of Berkeley\'s report is &quot;I thank God, [italic type]there are no free schools[roman type] nor [italic type]printing[roman type], and I hope we shall not have these hundred years; for [italic type]learning[roman type] has brought disobedience, and heresy, and sects into the world, and [italic type]printing[roman type] has divulged them...&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;The Trouble with Printing&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A thing has a property called printing. The printing of a thing is usually &quot;blank&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand the command &quot;read&quot; as something new. Understand &quot;read [something]&quot; as reading. Reading is an action applying to one thing, requiring light. Check reading: if the printing of the noun is &quot;blank&quot;, say &quot;Nothing is written on [the noun].&quot; instead. Carry out reading: say &quot;You read: [printing of the noun]&quot;. Report reading: do nothing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Archive is a room.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Berkeley's report is a thing in the Archive. The description is &quot;A report from Governor Sir William Berkeley of Virginia, in 1671, in answer to the queries sent by the Commissioners of Plantations the year previous. Of this report the better part is burned and only a tail fragment remains.&quot; The printing of Berkeley's report is &quot;I thank God, [italic type]there are no free schools[roman type] nor [italic type]printing[roman type], and I hope we shall not have these hundred years; for [italic type]learning[roman type] has brought disobedience, and heresy, and sects into the world, and [italic type]printing[roman type] has divulged them...&quot;
+</font></blockquote><p>
+<p>
+<p>Since we defined reading as an action requiring light, we could further distinguish reading and examining (if we wanted) by writing some different visibility rules for it.
+</td></tr></table><p><p><hr><p><a href=doc219.html>Previous</a> / <a href=doc221.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

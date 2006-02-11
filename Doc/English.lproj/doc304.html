@@ -1,4 +1,4 @@
-<html><head><title>19.19. Inform 6 objects and classes</title></head>
+<html><head><title>19.12. Making new assertion sentences</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,18 +7,44 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc303.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc305.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.19. Inform 6 objects and classes</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc303.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc305.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.12. Making new assertion sentences</b></td></tr></table><p>
 <p>
-<p>We are free to mix in I6 object and class definitions, and the I6 and I7 objects should coexist peaceably, with object-oriented code for the I6 items still functioning (&quot;before&quot;, &quot;react_before&quot;, &quot;each_turn&quot; and so forth) alongside I7 rules.
+<p>The following feature is best used sparingly if at all: in fact, it is a feature introduced in the very early days of Inform 7 and which may be removed altogether now that there is a more sophisticated way to handle new verbs.
 <p>
-<p>As might be expected, I7 compiles an I6 class for each kind, and an I6 object for each of its own world objects. We can meddle with its compilation process here using a further refinement of Include. For instance, the Standard Rules say this about vehicles:
+<p>We have already seen that the following sentences are equivalent:
 <p>
-<blockquote><font color="#000080">Include (- with before [; Go: return 1; ], -) when defining a vehicle.
+<blockquote><font color="#000080">The matching key of the blue door is the brass key.
 </font></blockquote><p>
 <p>
-<p>This glues in a new property to the class compiled to represent the I7 kind &quot;vehicle&quot;. (See the DM4 for why.) And similarly:
+<blockquote><font color="#000080">The brass key unlocks the blue door.
+</font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Include (- has my_funny_attribute, -) when defining the hot air balloon.
+<p>This comes about because the Standard Rules include the following line:
+<p>
+<blockquote><font color="#000080">X unlocks Y means that the matching key of Y is X.
+</font></blockquote><p>
+<p>
+<p>We can make definitions like this at any point, but had better do so with some care and forethought. They make it possible to talk very elegantly about things belonging to new kinds, but the potential for havoc is considerable if they take effect in an unintended context. Up to four different variables are allowed, but must be called W, X, Y or Z for clarity: and note that they can be matched by empty text. Similarly, Inform also defines
+<p>
+<blockquote><font color="#000080">Above means up from. Below means down from.
+</font></blockquote><p>
+<p>
+<p>This tells Inform to transform &quot;above&quot; into &quot;up from&quot; whenever it occurs in an assertion, and similarly for &quot;below&quot;. Thus
+<p>
+<blockquote><font color="#000080">The Skylight is above the Conservatory.
+</font></blockquote><p>
+<p>
+<p>is transformed to
+<p>
+<blockquote><font color="#000080">The Skylight is up from the Conservatory.
+</font></blockquote><p>
+<p>
+<p>Notice that &quot;means that&quot; applies a change only to an entire sentence, whereas &quot;means&quot; applies to smaller pieces of text. Because of this, &quot;means&quot; has to be used with even more care. Moreover, &quot;means&quot; can't be used to change the words in phrases, so for instance the following fails:
+<p>
+<blockquote><font color="#000080">Determine means decide.
+<br>To determine whether song moves us:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying the blue note, yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;no.
 </font></blockquote><p>
 <p>
 <p><hr><p><a href=doc303.html>Previous</a> / <a href=doc305.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

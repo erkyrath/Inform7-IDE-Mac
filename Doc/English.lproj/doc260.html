@@ -1,4 +1,4 @@
-<html><head><title>17.5. Procedural rules</title></head>
+<html><head><title>16.26. Printing the player's obituary</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,20 +7,22 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc259.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc261.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.5. Procedural rules</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc259.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc261.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.26. Printing the player's obituary</b></td></tr></table><p>
 <p>
-<p>Before any rule or rulebook is followed, a special rulebook is always consulted first. This is called the &quot;procedural rules&quot;, and it starts out empty: so if we write no procedural rules, empty it will remain.
+<p><b>1. When it happens.</b> The obituary is the text &quot;*** You have died ***&quot; or similar, usually followed by the final score.
 <p>
-<p>Like the points of order which precede a debate, the procedural rules are not intended to contribute to any decision in themselves, but merely to sort out which voices are to be heard when the time for decision comes. Should some rules be waived, or others substituted? Should the rulebook be rearranged, in certain circumstances? And so on. Procedural rules offer enormous flexibility and with them one could deconstruct Inform and put it back together in a very different shape - but in practical situations they will only occasionally be needed.
+<p><b>2. The default behaviour.</b> Printing the aforementioned text, then the final score, and reducing the status line to a largely blank state.
 <p>
-<p>Procedural rules are not allowed to say anything, or indeed to do anything which might have practical consequences; they are only allowed to think about the current situation (if they need to) and then use special phrases (if they choose to) which affect how other rules are to be followed. For instance:
+<p><b>3. Examples.</b> (a) For a work with no meaningful score, it would be odd to wind up with a final reckoning of 0, so:
 <p>
-<blockquote><font color="#000080">A procedural rule: if in the Timeless Void then ignore the advance time rule.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Procedural rule: ignore the print final score rule.\n\n\n')"><img border=0 src=paste.png></a> Procedural rule: ignore the print final score rule.
 </font></blockquote><p>
 <p>
-<p>Since the &quot;advance time rule&quot; is the one which moves on the number of turns and the clock, this means that the Timeless Void lives up to its name.
+<p>(b) Or we could add to the verdict:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After printing the player\'s obituary: say &quot;And you visited [number of visited rooms] place[s].&quot;\n\n\n')"><img border=0 src=paste.png></a> After printing the player's obituary: say &quot;And you visited [number of visited rooms] place[s].&quot;
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e119"><a href=ex119.html#e119><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A set of actions which do not take any game time at all.</i><p>
-<a name="e71"><a href=ex71.html#e71><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>The Pointy Hat of Liminal Transgression allows its wearer to walk clean through closed doors.</i><p>
+<a name="e66"><a href=ex66.html#e66><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Completely replacing the endgame text and stopping the game without giving the player a chance to restart or restore.</i><p>
 <p><hr><p><a href=doc259.html>Previous</a> / <a href=doc261.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>22.6. Emily Short <emshort@mindspring.com> -  More about order of grammar</title></head>
+<html><head><title>21.4. Emily Short <emshort@mindspring.com> -  Fussy parsing bug</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,13 +7,13 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc317.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc319.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>22.6. Emily Short <emshort@mindspring.com> -  More about order of grammar</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc317.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc319.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>21.4. Emily Short <emshort@mindspring.com> -  Fussy parsing bug</b></td></tr></table><p>
 <p>
-<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 3 November 2005
+<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 22 November 2005
 <p>
 <p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
 <p>
-<p><i>Build:</i> 3C15
+<p><i>Build:</i> 3C97
 <p>
 <p><i>Platform:</i> Mac OS X
 <p>
@@ -22,86 +22,29 @@ function pasteCode(code) {
 <p><i>Code example:</i>
 <p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Mood is a kind of value. The moods are hostile, curious, friendly. A person has a mood. A person is usually curious.\nOdor sensitivity is a kind of value. The odor sensitivities are strong and weak. A person has an odor sensitivity.\n\nGravity is a kind of value. The gravities are negligible, fractional, Marslike, and Earthlike. A person has a gravity.\n\nSpeed is a kind of value. The speeds are slow, moderate, fast, and lightning.\n\nMoon is a kind of value. The moons are defined by the Table of Alien Characteristics.\n\nTable of Alien Characteristics\nmoon\tattitude\tnostrils\tmetabolic rate\tgravitation\tdifficulty\tdexterity\nMercury\thostile\tweak\t7\tMarslike\t0\tslow\nVenus\tfriendly\tstrong\t5\tEarthlike\t0\tslow\nLuna\tfriendly\tweak\t12\tfractional\t0\tmoderate\nEarth-X\thostile\tstrong\t12\tEarthlike\t1\tfast\nLuna-X\thostile\tweak\t12\tfractional\t1\tmoderate\nMars\tfriendly\tstrong\t15\tMarslike\t0\tfast\nDeimos\tfriendly\tweak\t15\tnegligible\t1\tfast\nPhobos\thostile\tweak\t15\tnegligible\t1\tlightning\nAsteroids\thostile\tweak\t18\tnegligible\t1\tslow\nGanymede\tcurious\tstrong\t20\tfractional\t1\tmoderate\nCallisto\tcurious\tweak\t20\tfractional\t1\tmoderate\nIo\tcurious\tstrong\t20\tnegligible\t1\tfast\nEuropa\tcurious\tstrong\t20\tnegligible\t0\tfast\nTitan\tcurious\tstrong\t25\tfractional\t1\tmoderate\nOberon\tcurious\tweak\t30\tnegligible\t1\tmoderate\nTitania\tcurious\tweak\t30\tnegligible\t1\tmoderate\nNereid\tcurious\tweak\t35\tnegligible\t1\tslow\nTriton\tcurious\tstrong\t35\tnegligible\t1\tfast\nCharon\tcurious\tweak\t45\tnegligible\t1\tfast\nPluto\tcurious\tstrong\t45\tnegligible\t0\tfast\n\n\n\n\nOffice on Floor Fifty-One is a room. &quot;Your office. It\'s cramped, what with the desk and the file drawers, but it\'s got a great view down Fifth Avenue.&quot;\n\n\nThe desk is scenery in the Office. It is a supporter. The  chair is scenery in the Office. It is an enterable supporter. The file drawer is scenery in the Office. Understand &quot;drawers&quot; or &quot;cabinets&quot; or &quot;files&quot; or &quot;cabinet&quot; as the drawer. In the file drawer is a lot of paperwork. The file drawer is closed and openable. The autographed picture of Dimaggio is on the desk. The paperwork is fixed in place.\n\nThe description of the paperwork is &quot;Copies of previously filed forms (mostly done by your predecessor), indexed by homeworld.&quot; Understand &quot;papers&quot; or &quot;forms&quot; or &quot;form&quot; as the paperwork.\n\nUnderstand &quot;look up [moon] in [something]&quot; as researching in it about (with nouns reversed). Understand &quot;consult [something] on/about [moon]&quot; as researching in it about. Understand &quot;read about [moon] in [something]&quot; as researching in it about (with nouns reversed). Understand &quot;read [moon] in [something]&quot; as researching in it about (with nouns reversed).\n\nResearching in it about is an action applying to one thing and one moon.\n\nCarry out researching in it about: say &quot;You find nothing of interest in [the noun].&quot;\n\nInstead of researching in paperwork about a moon listed in the Table of Paperwork Information:\n\tlet target be the moon understood;\n\tif target is a moon listed in the Table of Alien Characteristics\n\tbegin;\n\t\tchoose row with moon of target in the Table of Paperwork Information;\n\t\tsay &quot;[form entry][paragraph break]&quot;;\n\totherwise;\n\t\tsay &quot;You\'re unable to find anything -- [the moon understood] must not be an inhabited alien homeworld.&quot;;\n\tend if;\n\nTable of Paperwork Information\nmoon\tform\nIo\t&quot;Creature registered to Io. Distinguishing characteristics: unusual sulfuric odor, curiosity, weakness.&quot;\nDeimos\t&quot;Creature registered to Deimos. Displayed signs of developed pattern recognition, religious or hierarchical affiliation with the home planet. Distinctly dissimilar attitude from more hostile Phobos creature captured earlier.&quot;\nTitania\t&quot;Titania creature showed unusual interest in wood pulp products: perhaps only distinguishing characteristic from Oberon creature. Unclear whether creatures of other homeworlds might also prefer wood pulp products.&quot;\n\nInstead of taking the paperwork: say &quot;Delores will never forgive you if you get the files out of order. You could look up individual worlds, though, if you wanted.&quot;\n\n\n\n\n\n')"><img border=0 src=paste.png></a> Mood is a kind of value. The moods are hostile, curious, friendly. A person has a mood. A person is usually curious.
-<br>Odor sensitivity is a kind of value. The odor sensitivities are strong and weak. A person has an odor sensitivity.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Office on Floor Fifty-One is a room. &quot;Your office[if the number of scenery things in the office is less than three]. Recent remodeling efforts have left it positively spacious, with only [the list of scenery things in the office] as permanent features[otherwise]. It\'s cramped, what with [the list of scenery things in the office], but it\'s got a great view down Fifth Avenue[end if].&quot;\n\nThe creature is an animal in the Office on Floor Fifty-One. The description is &quot;It\'s an attractive shade of [color of creature], really, when you think about it, and [if scaly]scaly[otherwise]furry[end if].&quot;\n\nUnderstand &quot;scaly&quot; as the creature when the creature is scaly. Understand &quot;furry&quot; as the creature when the creature is not scaly.\n\nUnderstand the color property as describing the creature.\n\nColor is a kind of value. The colors are red, orange, yellow,  green, cyan, blue, indigo, purple,  tan, black, white, and grey. The creature has a color. The creature is red.\n\nA person has a number called metabolism. The metabolism of the player is 180. The metabolism of the creature is 2.\n\nDefinition: a person is scaly if its metabolism is 10 or less.\n\nThe cage is a container in the Office. It is openable and open.\n\n\n\n\n\n')"><img border=0 src=paste.png></a> Office on Floor Fifty-One is a room. &quot;Your office[if the number of scenery things in the office is less than three]. Recent remodeling efforts have left it positively spacious, with only [the list of scenery things in the office] as permanent features[otherwise]. It's cramped, what with [the list of scenery things in the office], but it's got a great view down Fifth Avenue[end if].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Gravity is a kind of value. The gravities are negligible, fractional, Marslike, and Earthlike. A person has a gravity.
+<blockquote><font color="#000080">The creature is an animal in the Office on Floor Fifty-One. The description is &quot;It's an attractive shade of [color of creature], really, when you think about it, and [if scaly]scaly[otherwise]furry[end if].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Speed is a kind of value. The speeds are slow, moderate, fast, and lightning.
+<blockquote><font color="#000080">Understand &quot;scaly&quot; as the creature when the creature is scaly. Understand &quot;furry&quot; as the creature when the creature is not scaly.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Moon is a kind of value. The moons are defined by the Table of Alien Characteristics.
+<blockquote><font color="#000080">Understand the color property as describing the creature.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Alien Characteristics
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moon</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">attitude</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">nostrils</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">metabolic rate</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">gravitation</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">difficulty</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">dexterity</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Mercury</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hostile</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Marslike</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">slow</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Venus</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">friendly</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">strong</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Earthlike</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">slow</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Luna</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">friendly</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fractional</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moderate</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Earth-X</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hostile</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">strong</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Earthlike</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fast</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Luna-X</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hostile</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fractional</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moderate</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Mars</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">friendly</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">strong</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">15</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Marslike</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fast</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Deimos</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">friendly</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">15</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fast</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Phobos</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hostile</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">15</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">lightning</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Asteroids</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hostile</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">18</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">slow</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Ganymede</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">strong</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">20</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fractional</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moderate</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Callisto</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">20</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fractional</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moderate</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Io</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">strong</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">20</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fast</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Europa</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">strong</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">20</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fast</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Titan</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">strong</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">25</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fractional</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moderate</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Oberon</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">30</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moderate</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Titania</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">30</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moderate</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Nereid</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">35</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">slow</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Triton</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">strong</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">35</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fast</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Charon</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">weak</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">45</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fast</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Pluto</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">curious</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">strong</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">45</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">negligible</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">0</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">fast</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">Color is a kind of value. The colors are red, orange, yellow,  green, cyan, blue, indigo, purple,  tan, black, white, and grey. The creature has a color. The creature is red.
 </font></blockquote><p>
 <p>
-<p>
-<p>
-<p>
-<blockquote><font color="#000080">Office on Floor Fifty-One is a room. &quot;Your office. It's cramped, what with the desk and the file drawers, but it's got a great view down Fifth Avenue.&quot;
+<blockquote><font color="#000080">A person has a number called metabolism. The metabolism of the player is 180. The metabolism of the creature is 2.
 </font></blockquote><p>
 <p>
-<p>
-<blockquote><font color="#000080">The desk is scenery in the Office. It is a supporter. The  chair is scenery in the Office. It is an enterable supporter. The file drawer is scenery in the Office. Understand &quot;drawers&quot; or &quot;cabinets&quot; or &quot;files&quot; or &quot;cabinet&quot; as the drawer. In the file drawer is a lot of paperwork. The file drawer is closed and openable. The autographed picture of Dimaggio is on the desk. The paperwork is fixed in place.
+<blockquote><font color="#000080">Definition: a person is scaly if its metabolism is 10 or less.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The description of the paperwork is &quot;Copies of previously filed forms (mostly done by your predecessor), indexed by homeworld.&quot; Understand &quot;papers&quot; or &quot;forms&quot; or &quot;form&quot; as the paperwork.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;look up [moon] in [something]&quot; as researching in it about (with nouns reversed). Understand &quot;consult [something] on/about [moon]&quot; as researching in it about. Understand &quot;read about [moon] in [something]&quot; as researching in it about (with nouns reversed). Understand &quot;read [moon] in [something]&quot; as researching in it about (with nouns reversed).
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Researching in it about is an action applying to one thing and one moon.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out researching in it about: say &quot;You find nothing of interest in [the noun].&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of researching in paperwork about a moon listed in the Table of Paperwork Information:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let target be the moon understood;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if target is a moon listed in the Table of Alien Characteristics
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose row with moon of target in the Table of Paperwork Information;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[form entry][paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're unable to find anything -- [the moon understood] must not be an inhabited alien homeworld.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Table of Paperwork Information
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">moon</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">form</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Io</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Creature registered to Io. Distinguishing characteristics: unusual sulfuric odor, curiosity, weakness.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Deimos</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Creature registered to Deimos. Displayed signs of developed pattern recognition, religious or hierarchical affiliation with the home planet. Distinctly dissimilar attitude from more hostile Phobos creature captured earlier.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Titania</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Titania creature showed unusual interest in wood pulp products: perhaps only distinguishing characteristic from Oberon creature. Unclear whether creatures of other homeworlds might also prefer wood pulp products.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of taking the paperwork: say &quot;Delores will never forgive you if you get the files out of order. You could look up individual worlds, though, if you wanted.&quot;
+<blockquote><font color="#000080">The cage is a container in the Office. It is openable and open.
 </font></blockquote><p>
 <p>
 <p>
@@ -110,33 +53,60 @@ function pasteCode(code) {
 <p><i>What goes wrong:</i>
 <p>
 <p>
-<p>>open file
-<p>You open the file drawer, revealing a lot of paperwork.
 <p>
-<p>>read about io in paperwork
-<p>You discover nothing of interest in the lot of paperwork.
 <p>
-<p>>read io in paperwork
-<p>Creature registered to Io. Distinguishing characteristics: unusual sulfuric odor, curiosity, weakness.
+<p>Office on Floor Fifty-One
+<p>Your office. Recent remodeling efforts have left it positively spacious, with only nothing as permanent features.
 <p>
-<p>>look up io in paperwork
-<p>Creature registered to Io. Distinguishing characteristics: unusual sulfuric odor, curiosity, weakness.
+<p>You can see a creature and a cage (empty) here.
 <p>
-<p>>showverb read
-<p>Verb 'read'
-<blockquote><font color="#000080"> * noun -> Examine
-<br> * Routine(28251) 'in' noun -> A87_researching_in_it_about reverse
-<br> * topic 'in' noun -> Consult reverse
-<br> * 'about' Routine(28251) 'in' noun -> A87_researching_in_it_about reverse
-<br> * 'about' topic 'in' noun -> Consult reverse
-</font></blockquote><p>
+<p>>x creature
+<p>It's an attractive shade of red, really, when you think about it, and scaly.
+<p>
+<p>>x red creature
+<p>It's an attractive shade of red, really, when you think about it, and scaly.
+<p>
+<p>>touch scaly creature
+<p>Keep your hands to yourself!
+<p>
+<p>>touch furry creature
+<p>You can't see any such thing. [so far so good]
+<p>
+<p>>ask creature about e
+<p>I didn't understand that sentence. [but this is problematic]
+<p>
+<p>>ask creature about me
+<p>I didn't understand that sentence.
+<p>
+<p>>purloin creature
+<p>[Purloined.]
+<p>
+<p>>put creature in cage
+<p>I didn't understand that sentence. [as is this]
+<p>
+<p>>put all in cage
+<p>creature: Done.
+<p>
+<p>>look
+<p>
+<p>Office on Floor Fifty-One
+<p>Your office. Recent remodeling efforts have left it positively spacious, with only nothing as permanent features.
+<p>
+<p>You can see a cage (in which is a creature) here.
+<p>
 <p>
 <p>
 <p>
 <p><i>Comments:</i>
 <p>
 <p>
-<p>Evidently the 'topic' line is scooping the 'about'... lines. I could fix this by replacing &quot;read about...&quot; in the after reading a command phase, but that seems hacky and inelegant, not the sort of thing we should allow young Mr Flower to see.
+<p>If I bracket out
+<p>
+<p>[Understand &quot;scaly&quot; as the creature when the creature is scaly. Understand &quot;furry&quot; as the creature when the creature is not scaly.]
+<p>
+<p>then put... and ask... act as they ought.
+<p>
+<p>
 <p>
 <p>
 <p><hr><p><a href=doc317.html>Previous</a> / <a href=doc319.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>10.1. Fitting values into phrases</title></head>
+<html><head><title>6.15. Going from, going to</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,43 +7,73 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 10: Phrases</h2><p><table><tr><td><a href=doc136.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc138.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.1. Fitting values into phrases</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc86.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc88.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.15. Going from, going to</b></td></tr></table><p>
 <p>
-<p>We are now able to set up the model world, to respond to certain actions of the player within it, and to make changes over time, giving the game a start and an end. But although we have defined many rules, none of them have done more than to use a few basic phrases: saying something to the player, changing some property or moving things around.
+<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
 <p>
-<p>A phrase is a pattern of words which instructs the computer to do something immediately. For instance:
-<p>
-<blockquote><font color="#000080">say &quot;Look out!&quot;
-<br>award 20 points
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Going Going&quot;\n\nThe Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.\n\nInstead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;\n\nInstead of going nowhere, say &quot;You really can\'t wander around at random in the Library.&quot;\n\nBefore going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Going Going&quot;
 </font></blockquote><p>
 <p>
-<p>are instructions using two phrases, &quot;say ...&quot; and &quot;award ... points&quot;. Phrases are not the same things as rules: rules lay out what should happen under what circumstances, but it is phrases that actually do what needs to be done.
+<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
+</font></blockquote><p>
 <p>
-<p>Where the &quot;20&quot; appears in &quot;award 20 points&quot;, any number would have done. This does not need to be a literal number expressed in digits: it can be any value known to Inform which works out as a number. For instance, &quot;the score&quot; is always acceptable as a number, since it is the name of a number variable: its value at any point in play is the current score.
+<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
+</font></blockquote><p>
+<p>
+<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
+<p>
+<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
+<p>
+<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
+<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
+</font></blockquote><p>
+<p>
+<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e84"><a href=doc137.html#e84><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Recording a whole table of scores for specific treasures.</i><p>
+<a name="e76"><a href=ex76.html#e76><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A "go back" command that keeps track of the direction from which the player came, and sends him back.</i><p>
+<a name="e193"><a href=ex193.html#e193><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Using regions to block access to an entire area when the player does not carry a pass, regardless of which entrance he uses.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e84"><a href=doc87.html#e84><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>If the player tries to go a valid direction while on a supporter, make him stand up first; if he tries to go a nonexistent one, print a special refusal.</i><p>
 <p>
-<p>Suppose we want to assign scores for a whole range of objects the player might pick up. One systematic way to do this would be with a table of point values for things:
+<p>The default behavior of Inform is that if the player asks to go some direction while he is sitting down, he'll be told to get up first. If we wanted to make life a little easier, we might add a rule to do this automatically for him:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;No Place Like Home&quot;\n\nThe Hall of the Gnome King is a room. The cow carved from emerald is a thing in the Hall of the Gnome King. The ivory chessman is a thing in the Hall of the Gnome King. The book of incantations is a thing in the Hall of the Gnome King.\n\nTable of Point Values\nitem\tscore\ncow\t10\nincantations\t4\nchessman\t1\n\nReport taking an item listed in the Table of Point Values:\n\taward score entry points;\n\tblank out the whole row.\n\n\n')"><img border=0 src=paste.png></a> &quot;No Place Like Home&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Before going somewhere when the player is on a supporter (called the chaise):\n\tsay &quot;(first getting off [the chaise])[line break]&quot;;\n\ttry exiting.\n\n\n')"><img border=0 src=paste.png></a> Before going somewhere when the player is on a supporter (called the chaise):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first getting off [the chaise])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try exiting.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Hall of the Gnome King is a room. The cow carved from emerald is a thing in the Hall of the Gnome King. The ivory chessman is a thing in the Hall of the Gnome King. The book of incantations is a thing in the Hall of the Gnome King.
+<p>Now the player will always get up before trying to walk out of a room; and the fact that we've said &quot;going somewhere&quot; means that this rule will not occur if the direction typed is not valid.
+<p>
+<p>Speaking of invalid directions, it is a little strange to have the parser tell the player to stand up in order to go some direction that doesn't lead anywhere. This can lead to somewhat annoying exchanges like this:
+<p>
+<blockquote><font color="#000080">>e
+<br>You'll have to get off the boulder first.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Point Values
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">item</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">score</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">cow</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">incantations</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">chessman</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">>out
+<br>You get off the boulder.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report taking an item listed in the Table of Point Values:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;award score entry points;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row.
+<blockquote><font color="#000080">Hillside
 </font></blockquote><p>
 <p>
-<p>&quot;Blank out the whole row&quot; removes the line from the table, so that each award will occur only once. The player will not be able to earn more and more points by dropping and taking the same item again.
-</td></tr></table><p><p><hr><p><a href=doc136.html>Previous</a> / <a href=doc138.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">You can see a boulder here.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">>e
+<br>You can't go that way.
+</font></blockquote><p>
+<p>
+<p>We could override this too, like so:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Instead of going nowhere when the player is on a supporter (called the divan):\n\tsay &quot;Nothing interesting lies in that direction, even if you weren\'t lazing about on [the divan].&quot;\n\n')"><img border=0 src=paste.png></a> Instead of going nowhere when the player is on a supporter (called the divan):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing interesting lies in that direction, even if you weren't lazing about on [the divan].&quot;
+</font></blockquote><p>
+</td></tr></table><p><a name="e165"><a href=ex165.html#e165><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Offering the player a list of valid directions if he tries to go in a direction that leads nowhere.</i><p>
+<p><hr><p><a href=doc86.html>Previous</a> / <a href=doc88.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

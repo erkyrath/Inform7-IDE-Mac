@@ -1,4 +1,4 @@
-<html><head><title>7.13. Calling names</title></head>
+<html><head><title>11.10. Making actions work for other people</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,49 +7,60 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc104.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc106.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.13. Calling names</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc161.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc163.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.10. Making actions work for other people</b></td></tr></table><p>
 <p>
-<p>Conditions like &quot;if somebody is in an adjacent room&quot; allow complicated tests to be performed with a minimum of fuss, but it's rare that we want to know only whether they are true: more likely we also want to know <i>which</i> person, and <i>which</i> room.
+<p>The &quot;photographing&quot; action now works very nicely when the player does it. But not when others try. Suppose that neither the player, not Clark Gable, is holding the camera:
 <p>
-<p>For this purpose, we are allowed to supply a name for any such vaguely-described object which comes up, and then to use that name thereafter.
-<p>
-<blockquote><font color="#000080">if somebody is in an adjacent room (called the Hiding Place), say &quot;You hear distant breathing from [the Hiding Place].&quot;
+<blockquote><font color="#000080">>photograph clark
+<br>You can hardly photograph without a camera, now can you?
 </font></blockquote><p>
 <p>
-<p>We can even name more than one of the things discovered:
-<p>
-<blockquote><font color="#000080">Instead of waiting when a woman (called the kidnapper) is holding an animal (called the pet), say &quot;How can you think of rest when, somewhere out there, [pet] has been cruelly kidnapped by [the kidnapper]?&quot;
+<blockquote><font color="#000080">>clark, photograph me
+<br>>
 </font></blockquote><p>
 <p>
-<p>Note the brackets, which are essential. The rest of typing &quot;wait&quot; is then
+<p>An uncanny silence. What has happened is that the rules written so far are all implicitly restricted to the player only. This is because when we write -
 <p>
-<blockquote><font color="#000080">How can you think of rest when, somewhere out there, a lapdog has been cruelly kidnapped by Baroness Orczy?
+<blockquote><font color="#000080">Check photographing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
 </font></blockquote><p>
 <p>
-<p>Of course, that might be just one of many animals held by women in the game. We shall later see ways to go through all of the possibilities found, performing some action with each in turn.
-<p>
-<p>A calling, if we can use that word, should be made immediately after the noun it refers to, and not left to hang back after any relative clauses. For instance,
-<p>
-<blockquote><font color="#000080">if something (called the penitential object) held by the player is hot
-</font></blockquote><p>
-<p>
-<p>is allowed, but not
-<p>
-<blockquote><font color="#000080">if something held by the player (called the penitential object) is hot
-</font></blockquote><p>
-<p>
-<p>because there is too much potential ambiguity - are we trying to call the player something?
+<p>the action is &quot;photographing&quot;, not &quot;Clark trying photographing&quot;. In the next few sections we shall see how to make the rules work nicely for everybody. This is a little bit harder, so it should be noted right away that in many projects there is no need. In a game which has no other characters who succumb to persuasion, for instance, only the player will ever try the action.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e42"><a href=doc105.html#e42><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>All doors in the game automatically attempt to open if the player approaches them when they are closed.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e42"><a href=doc162.html#e42><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>An escaping action which means "go to any room you can reach from here", and is only useful to non-player characters.</i><p>
 <p>
-<p>&quot;Called&quot; is quite useful in the context of rules about going, since go rules often refer to things other than the noun the player typed. For instance, suppose we want to have doors which politely open when the player tries to pass through them:
+<p>It will sometimes be handy to write actions that are only available to the non-player characters and not to the player. To do this, we just define an action which has no &quot;understand&quot;: the player will never be able to specify this command himself, but other characters can try it.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Before going through a closed door (called the blocking door):\n\tsay &quot;(first opening [the blocking door])[line break]&quot;;\n\tsilently try opening the blocking door;\n\tif the blocking door is closed, stop the action.\n\n\n')"><img border=0 src=paste.png></a> Before going through a closed door (called the blocking door):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first opening [the blocking door])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try opening the blocking door;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the blocking door is closed, stop the action.
+<p>This is particularly useful for creating abstract or general actions for when we want a character to eat something, wear something, or go somewhere, but aren't too particular as to what the object is; as here, where we just want Clark to move away from the kryptonite, regardless of direction:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Man of Steel&quot;\n\nEscaping is an action applying to nothing.\n\nCarry out someone trying escaping:\n\tlet space be the holder of the person asked;\n\tlet place be a random room which is adjacent to the space;\n\tlet way be the best route from the space to the place;\n\ttry the person asked trying going way.\n\nEvery turn:\n\tif Clark Kent can see kryptonite, try Clark Kent trying escaping.\n\nThe Daily Planet Newsroom is a room.\n\nPerry White\'s Office is west of the Newsroom. In Perry White\'s Office are a desk and a poster of Elvis. On the desk is a lead-lined box. The box is openable. In the box is the green kryptonite.\n\nThe Supply Closet is east of the Newsroom. The Elevator Bank is north of the Newsroom.\n\nClark Kent is a man in the Newsroom. &quot;Clark [if Clark can see the kryptonite]looks a bit ill[otherwise]is here, frowning as he revises his latest article[end if].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;The Man of Steel&quot;
 </font></blockquote><p>
 <p>
-<p>A fuller set of such rules is included in the Locksmith extension.
-</td></tr></table><p><p><hr><p><a href=doc104.html>Previous</a> / <a href=doc106.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Escaping is an action applying to nothing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out someone trying escaping:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let space be the holder of the person asked;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let place be a random room which is adjacent to the space;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let way be the best route from the space to the place;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try the person asked trying going way.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if Clark Kent can see kryptonite, try Clark Kent trying escaping.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Daily Planet Newsroom is a room.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Perry White's Office is west of the Newsroom. In Perry White's Office are a desk and a poster of Elvis. On the desk is a lead-lined box. The box is openable. In the box is the green kryptonite.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Supply Closet is east of the Newsroom. The Elevator Bank is north of the Newsroom.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Clark Kent is a man in the Newsroom. &quot;Clark [if Clark can see the kryptonite]looks a bit ill[otherwise]is here, frowning as he revises his latest article[end if].&quot;
+</font></blockquote><p>
+<p>
+</td></tr></table><p><a name="e124"><a href=ex124.html#e124><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Replacing the inventory reporting rule with another which does something slightly different.</i><p>
+<p><hr><p><a href=doc161.html>Previous</a> / <a href=doc163.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

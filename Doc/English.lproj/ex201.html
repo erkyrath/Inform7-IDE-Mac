@@ -1,0 +1,80 @@
+<html><head><title>7.5. Change of properties with values</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc96.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc98.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>7.5. Change of properties with values</b></td></tr></table><p>
+<p>
+<p>Changing properties with values is very similar:
+<p>
+<blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;
+</font></blockquote><p>
+<p>
+<p>Inform checks three different things to ensure that this change is safe to perform. Firstly, the value must be the right kind for the property in question, so this for instance would be rejected:
+<p>
+<blockquote><font color="#000080">change the printed name of the Closet to 7
+</font></blockquote><p>
+<p>
+<p>Secondly, the object in question has to be allowed to have the given property. This, for instance, would be disallowed:
+<p>
+<blockquote><font color="#000080">change the initial appearance of the Closet to &quot;Dusty&quot;
+</font></blockquote><p>
+<p>
+<p>(since &quot;initial appearance&quot; is a property which only things can have, not rooms). Finally, the object has to actually have the property, not just have the right to have that property. Thus:
+<p>
+<blockquote><font color="#000080">change the printed name of the Closet to &quot;Suddenly Spooky Closet&quot;
+</font></blockquote><p>
+<p>
+<p>...is only permitted if the Closet is designed with a &quot;printed name&quot;. In fact this is certain to be true: all rooms and things automatically have a printed name, which is the short boldface description in the case of rooms, and the usual text briefly describing something in the case of things.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e201"><a href=doc97.html#e201><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A waterskin that is depleted as the player drinks from it.</i><p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Thirst&quot;\n\nThe player carries a waterskin. The waterskin can be full, partly drained, or empty. The waterskin is full. Understand &quot;water&quot; as the waterskin.\n\nInstead of drinking the waterskin when the waterskin is empty:\n\tsay &quot;There is no water left.&quot;\n\nInstead of drinking the waterskin: if the waterskin is partly drained, change the waterskin to empty; if the waterskin is full, change the waterskin to partly drained; say &quot;You drink a long draught.&quot;\n\nAfter printing the name of the waterskin: say &quot; ([waterskin condition])&quot;\n\n[The rest is decoration.]\n\nCampfire is a room. &quot;It is solid night now, and the stars have come out. Unfamiliar stars. On the other side of the valley -- a valley round-bottomed but shallow, like a soup bowl -- burn other campfires, most likely bandits. Their voices do not carry, but the smoke rises and obscures the starlight over that way.&quot;\n\nA sleepsack is an enterable container in the Campfire. &quot;Your sleepsack is laid out in a pocket of sandy soil and coarse grass.&quot;\n\nThe sandy soil, the stars, the distant campfires, and the coarse grass are scenery in the Campfire. Understand &quot;smoke&quot; as the campfires. Instead of listening in the presence of your campfire: say &quot;All you hear are the reassuring snaps and cracks of the sticks in your fire.&quot; Understand &quot;campfires&quot; or &quot;fires&quot; as the distant campfires.\n\nYour campfire is scenery in the Campfire. Instead of pushing, pulling, turning, tasting, or touching your campfire, say &quot;You would burn yourself.&quot; Understand &quot;fire&quot; as your campfire.\n\nThe description of the stars is &quot;You invent constellations for them. The slingshot. The scroll. The heart (upside down).&quot;\n\nInstead of going nowhere when the player is in Campfire:\n\tsay &quot;Now is not the time for wandering, alone in the dark. Better to keep here, by the fire.&quot;\n\nInstead of singing:\n\tsay &quot;You sing, deep and low, a song from home. It is a good night for singing and the song raises your spirits.&quot;\n\nThe player carries a tinderbox. The tinderbox contains a flint, a steel, some tinder, and a patch of carbonized cloth. The description of the flint is &quot;A flat grey stone with flaked edges.&quot; The description of the steel is &quot;Curved so that you can hold it over the knuckles of your right hand and strike it against the flint. There is a knack to it. Those without the knack end up with bloody knuckles and no fire.&quot; The description of the tinder is &quot;Dried grass and similar.&quot; The description of the cloth is &quot;The little, precious, spark-preserving scraps without which the fire would never begin.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Thirst&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player carries a waterskin. The waterskin can be full, partly drained, or empty. The waterskin is full. Understand &quot;water&quot; as the waterskin.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of drinking the waterskin when the waterskin is empty:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;There is no water left.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of drinking the waterskin: if the waterskin is partly drained, change the waterskin to empty; if the waterskin is full, change the waterskin to partly drained; say &quot;You drink a long draught.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After printing the name of the waterskin: say &quot; ([waterskin condition])&quot;
+</font></blockquote><p>
+<p>
+<p>The rest is decoration.
+<p>
+<blockquote><font color="#000080">Campfire is a room. &quot;It is solid night now, and the stars have come out. Unfamiliar stars. On the other side of the valley -- a valley round-bottomed but shallow, like a soup bowl -- burn other campfires, most likely bandits. Their voices do not carry, but the smoke rises and obscures the starlight over that way.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A sleepsack is an enterable container in the Campfire. &quot;Your sleepsack is laid out in a pocket of sandy soil and coarse grass.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The sandy soil, the stars, the distant campfires, and the coarse grass are scenery in the Campfire. Understand &quot;smoke&quot; as the campfires. Instead of listening in the presence of your campfire: say &quot;All you hear are the reassuring snaps and cracks of the sticks in your fire.&quot; Understand &quot;campfires&quot; or &quot;fires&quot; as the distant campfires.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Your campfire is scenery in the Campfire. Instead of pushing, pulling, turning, tasting, or touching your campfire, say &quot;You would burn yourself.&quot; Understand &quot;fire&quot; as your campfire.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The description of the stars is &quot;You invent constellations for them. The slingshot. The scroll. The heart (upside down).&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going nowhere when the player is in Campfire:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Now is not the time for wandering, alone in the dark. Better to keep here, by the fire.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of singing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You sing, deep and low, a song from home. It is a good night for singing and the song raises your spirits.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player carries a tinderbox. The tinderbox contains a flint, a steel, some tinder, and a patch of carbonized cloth. The description of the flint is &quot;A flat grey stone with flaked edges.&quot; The description of the steel is &quot;Curved so that you can hold it over the knuckles of your right hand and strike it against the flint. There is a knack to it. Those without the knack end up with bloody knuckles and no fire.&quot; The description of the tinder is &quot;Dried grass and similar.&quot; The description of the cloth is &quot;The little, precious, spark-preserving scraps without which the fire would never begin.&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc96.html>Previous</a> / <a href=doc98.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

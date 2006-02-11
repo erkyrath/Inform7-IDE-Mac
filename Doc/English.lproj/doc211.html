@@ -1,4 +1,4 @@
-<html><head><title>14.13. Topic columns</title></head>
+<html><head><title>14.12. Listed in...</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,39 +7,35 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc210.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc212.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.13. Topic columns</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc210.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc212.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>14.12. Listed in...</b></td></tr></table><p>
 <p>
-<p>When double-quoted matter appears in a column of a table, Inform will normally treat that as text for printing out. The exception is when the column is called &quot;topic&quot;, where it is treated as text for comparing against what the player has typed. There is really only one operation allowed with topic columns, the &quot;...listed in...&quot; construction, but fortunately it is the one most often needed.
+<p>Tables are especially useful for combining a run of basically similar rules in a simple and concise way. The &quot;listed in&quot; condition, as in
 <p>
-<p>Let us suppose that the Sybil has a penchant for telling passers-by which is the Greek muse for what. We might write:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After asking the Sybil about a topic listed in the Table of Sybil\'s Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;\n\n\n')"><img border=0 src=paste.png></a> After asking the Sybil about a topic listed in the Table of Sybil's Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;
+<blockquote><font color="#000080">if the newfound object is an item listed in the table of treasures...
 </font></blockquote><p>
 <p>
-<p>We can then provide a simple table giving her responses:
+<p>looks through a given table (here &quot;table of treasures&quot;), in a given column (&quot;item&quot;), to see if a given value is present (&quot;the newfound object&quot;). If this is successful, the row where it was found is automatically chosen.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Table of Sybil\'s replies\nTopic\tMuse\n&quot;calliope&quot;\t&quot;epic poetry&quot;\n&quot;clio&quot;\t&quot;history&quot;\n&quot;erato&quot;\t&quot;love poetry&quot;\n&quot;euterpe&quot;\t&quot;music&quot;\n&quot;melpomene&quot;\t&quot;tragedy&quot;\n&quot;polyhymnia&quot;\t&quot;sacred poetry&quot;\n&quot;terpsichore&quot;\t&quot;dancing&quot;\n&quot;thalia&quot;\t&quot;comedy&quot;\n&quot;urania&quot;\t&quot;astronomy&quot;\n&quot;monica&quot;\t&quot;tidiness&quot;\n&quot;phoebe&quot;\t&quot;massage&quot;\n&quot;rachel&quot;\t&quot;oval hair-cuts&quot;\n\n\n')"><img border=0 src=paste.png></a> Table of Sybil's replies
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Muse</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;calliope&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;epic poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;clio&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;history&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;erato&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;love poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;euterpe&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;music&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;melpomene&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;tragedy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;polyhymnia&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;sacred poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;terpsichore&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;dancing&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;thalia&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;comedy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;urania&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;astronomy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;monica&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;tidiness&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;phoebe&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;massage&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;rachel&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;oval hair-cuts&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+<p>We can similarly use &quot;... listed in ...&quot; in a description used when specifying an action. Thus:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After taking an item listed in the table of treasures:\n\tif there is no time entry begin;\n\t\tchange the time entry to the time of day;\n\t\taward (value entry) points;\n\tend if;\n\tsay &quot;Taken!&quot;\n\n\n')"><img border=0 src=paste.png></a> After taking an item listed in the table of treasures:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if there is no time entry begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the time entry to the time of day;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;award (value entry) points;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Taken!&quot;
+</font></blockquote><p>
+<p>
+<p>This assumes a table in the following shape:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Table of treasures\nItem\tValue\tTime\nbrooch\t5\ta time\ntiara\t8\t--\ncoronet\t10\t--\n\n\n')"><img border=0 src=paste.png></a> Table of treasures
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Item</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Value</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Time</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">brooch</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a time</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">tiara</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">coronet</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
 </tr></table>
 </font></blockquote><p>
 <p>
-<p>Topics can use the full range of abilities of the &quot;understanding&quot; system which Inform uses to parse text, and which will be the subject of a later chapter. For now, note that the Sybil's topics might equally include &quot;flora/eve&quot; (matching the single word &quot;flora&quot; or the single word &quot;eve&quot;), or something more elaborate such as:
+<p>In effect the table has allowed us to combine three very similar rules into one. The time column records the first time at which the item has been picked up, which starts out blank since at the start of play it has never been picked up. This enables us to award the appropriate number of points on the first occasion only.
 <p>
-<blockquote><font color="#000080">&quot;Bridget&quot; or &quot;Bridge&quot; or &quot;Bridget Jones&quot;
-</font></blockquote><p>
-<p>
-<p><hr><p>
-<a name="e97"><a href=ex97.html#e97><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A REMEMBER command which accepts any text and looks up a response in a table of recollections.</i><p>
 <p><hr><p><a href=doc210.html>Previous</a> / <a href=doc212.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>19.1. What are extensions?</title></head>
+<html><head><title>18.14. Improving the index map</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,14 +7,27 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 19: Extensions</h2><p><table><tr><td><a href=doc285.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc287.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.1. What are extensions?</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc285.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc287.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>18.14. Improving the index map</b></td></tr></table><p>
 <p>
-<p>The range of simulation offered by Inform's model world is intentionally limited to a core of basic essentials. We could argue at the margins, and the choice of what's in and what's out is partly traditional, but most people find the model reasonable as far as it goes.
+<p>As we have seen, &quot;Release along with...&quot; allows us to package up a work of IF with all manner of extra materials. But what are these to be? One popular option is to produce a map - sometimes partial, sometimes obfuscated - and supply that with the game: besides, there are some IF competitions where the rules require that the referee is supplied with a map even if the players are not, and failing that, it is sometimes nice to be able to print out a map of a work in progress.
 <p>
-<p>A flourishing part of Inform culture since 1993 has been the development of a huge range of &quot;library extensions&quot;, most of which aimed to fill out the model by simulating other aspects of life, too: money, clothing, pourable liquids and the like. None of these extensions was official and all of them were: it was a free-for-all, and in several cases different authors wrote rival extensions to model the same basic ideas. The development of Inform 7 was strongly influenced by the recognition that the base of rules and grammar inside a typical modern game are never written by a single author: they combine the standard Inform material with extensions by several third parties, together with anything specific to the game in question.
+<p>The World map in the Index tab is heavily stylised and cartoonish, intended to be clicked on or moused over, and viewed in a browser: although it is, in fact, possible to print it, the results are not very good. Fortunately, the same underlying map mechanism can be used to output something more useful and very much more customisable, as we shall see.
 <p>
-<p>This final chapter discusses how to create extensions.
+<p>The map-maker is one of the most complex parts of Inform, even though it actually contributes nothing to the final story file: the problem of how to draw up a &quot;correct&quot; map from the source text is by no means easy to solve. Inform tries, but it often gets things wrong. Its general practice is to place rooms on a square grid (actually a cubic lattice, as it works in three dimensions), but not all conceptual maps fit well onto this, and Inform often annoyingly puts a particular room in the &quot;wrong&quot; place. For instance, suppose Inform puts &quot;Didcot&quot; east of &quot;Abingdon&quot; and this makes the geometry look different to what we had in mind. We can correct with:
 <p>
-<p>Some of the instructions here on how to write an extension are not strictly speaking requirements of Inform, but are &quot;only&quot; stylistic points intended to make the range of extensions easier to work with and contribute to. Extension writers are asked to join in the spirit of the rules and help make the whole cooperative enterprise work harmoniously.
+<blockquote><font color="#000080">Index map with Didcot mapped southeast of Abingdon.
+</font></blockquote><p>
+<p>
+<p>Note that this says nothing about exits from any room to any other room, and changes the final work of IF not at all: it simply helps Inform to draw the map index. (Instructions like this one are treated as being almost certainly true, but Inform does not quite always obey: it will never allow two rooms to be superimposed at the same grid position, no matter what we have asked in &quot;Index map with...&quot; instructions.) The same trick is useful if we have a situation like so:
+<p>
+<blockquote><font color="#000080">Inside of Sweeping Sands is Beach Hut Interior.
+</font></blockquote><p>
+<p>
+<p>&quot;Beach Hut Interior&quot; is a single room which does not connect to the rest of the map by any of the ten spatial directions, so Inform does not place it on the main map but instead moves it off out of the way in a map of its own. Given that it's just a single room, however, we might prefer to put into a convenient otherwise empty grid position like so:
+<p>
+<blockquote><font color="#000080">Index map with Beach Hut Interior mapped west of Sweeping Sands.
+</font></blockquote><p>
+<p>
+<p>Finally, note that this trick also ensures that the two locations are mapped on the same level vertically, and can be useful in cases where room A is both north of and above room B: Inform will want A to be higher up than B, but we can insist otherwise.
 <p>
 <p><hr><p><a href=doc285.html>Previous</a> / <a href=doc287.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>19.16. Defining loops</title></head>
+<html><head><title>19.9. Fuller documentation in the Contents index</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,26 +7,47 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc300.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc302.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.16. Defining loops</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc300.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc302.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.9. Fuller documentation in the Contents index</b></td></tr></table><p>
 <p>
-<p>The two I7 versions of &quot;while&quot; are defined in the Standard Rules as follows:
+<p>The Contents index contains a brief list of all extensions used, their authors and version numbers. For instance:
 <p>
-<blockquote><font color="#000080">To while (c - condition) repeatedly (ph - phrase): (- while {c} {ph} -).
+<blockquote><font color="#000080">Standard Rules version 1/040731
+<br>Locksmith by Emily Short
+<br>Tupperware by Emily Short
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To while (c - condition) begin *: (- while {c}  -).
+<p>However, fuller documentation is also given if the extensions in question provide it. This text should be written as briefly as possible, while giving examples wherever appropriate. Stylistically, it should ideally follow the model of the main Inform documentation: just as an extension expands the standard rules, so its documentation expands this manual. &quot;We need...&quot; is preferred to &quot;You need...&quot;, and so on: we're all in this together.
+<p>
+<p>The text should appear at the foot of the extension file, <i>after</i> the compulsory end sentence. The first paragraph should consist of the single word &quot;&lt;Documentation&gt;&quot;. For instance, the &quot;Ducking Action&quot; example might end:
+<p>
+<blockquote><font color="#000080">The Ducking Action ends here.
 </font></blockquote><p>
 <p>
-<p>The second case is the one which involves a block of code, to be ended later with an &quot;end while&quot;. The asterisk signals to I7 that such a block is expected. The I6 code should be such that an I6 code block, starting and ending with a brace, can legally follow it.
-<p>
-<p>Variables can be created as part of a loop which exist only within it. All that needs to be done is to supply their type and declare them to be &quot;variable&quot;:
-<p>
-<blockquote><font color="#000080">To repeat with (loopvar - number variable) running from (v - number) to (w - number) begin *: (- for ({loopvar}={v}: {loopvar}<={w}: {loopvar}++)  -).
+<blockquote><font color="#000080">&lt;Documentation&gt;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To repeat with (loopvar - object variable) running through contents of (v - object) begin *: (- objectloop ({loopvar} in {v})  -).
+<blockquote><font color="#000080">This is a modest extension, with much to be modest about. It allows us to use a new action for ducking, as in ducking the player's head (not as in ducking a witch). Ducking will do nothing unless rules are added:
 </font></blockquote><p>
 <p>
-<p>I7 will compile this using a local variable for &quot;loopvar&quot;: it may well re-use this variable later for other loops, so its value cannot be relied upon outside of the code block following the loop.
+<blockquote><font color="#000080">+&nbsp;&nbsp;&nbsp;Instead of ducking in the Shooting Gallery, say &quot;Too late!&quot;
+</font></blockquote><p>
+<p>
+<p>We obtain indented code examples (in blue) by beginning a line with a plus sign followed by a tab (not by spaces). A double indentation can be got with plus, tab, plus, tab, and so forth.
+<p>
+<blockquote><font color="#000080">+&nbsp;&nbsp;&nbsp;Before opening or pushing the chest when something is on the lid:
+<br>+&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;say &quot;(first taking [the list of things on the lid])[line break]&quot;;
+<br>+&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;repeat with item running through things on the lid begin;
+<br>+&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;try taking the item;
+<br>+&nbsp;&nbsp;&nbsp;+&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+<p>
+<p>will be rendered thus:
+<p>
+<blockquote><font color="#000080">Before opening or pushing the chest when something is on the lid:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first taking [the list of things on the lid])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through things on the lid begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try taking the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
 <p>
 <p><hr><p><a href=doc300.html>Previous</a> / <a href=doc302.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

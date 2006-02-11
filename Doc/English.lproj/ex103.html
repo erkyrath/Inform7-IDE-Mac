@@ -1,4 +1,4 @@
-<html><head><title>16.18. Reading a command</title></head>
+<html><head><title>11.15. Changing reachability</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,86 +7,87 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc250.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc252.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.18. Reading a command</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc166.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc168.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.15. Changing reachability</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> When reading a command from the keyboard.
+<p>The question of what the player can, and cannot, reach is important in interactive fiction. It contains some of the subtlest ideas in the model world, though they often go unnoticed. For instance, if a key is on a shelf which is part of a closed box, can we reach for the key? This comes down to whether the shelf, described only as &quot;part of&quot; the box, is on the inside or the outside: and in fact, because it cannot know which is the case, Inform allows either. So in general it is best to regard &quot;parts&quot; as being exterior parts, but to avoid having parts on containers that might in the course of play be closed up with the player inside.
 <p>
-<p><b>2. The default behaviour.</b> Print the prompt text; wait for the player to type something and press return. Reject an entirely blank line, and treat a command beginning &quot;oops&quot; is considered a correction to the previous one. This is a fairly complicated business, so it is probably best not to change the &quot;for&quot; rules for this activity: &quot;before&quot;, and especially &quot;after&quot;, are another matter.
+<p>We can, if we wish, change the principles of what can be touched by writing new reaching inside or reaching outside rules. Returning to the example of the conical flask:
 <p>
-<p><b>3. Examples.</b> (a) To lead absolute beginners in gently:
-<p>
-<blockquote><font color="#000080">Before reading a command while the turn count is 1, say &quot;(This is your chance to say what the protagonist should do next. After the '>', try typing 'take inventory'.)&quot;
+<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
 </font></blockquote><p>
 <p>
-<p>(b) The following responds politely but firmly if the player tries to type &quot;please look&quot;, say, instead of just &quot;look&quot;:
+<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) More generally, we could give the usual flexible description of what the rule applies to:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;Please do not say please.&quot;;\n\t\treject the player\'s command;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Please do not say please.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject the player's command;
+<blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large for [the container in question].&quot;; deny access.
+</font></blockquote><p>
+<p>
+<p>The &quot;container in question&quot; is the one to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
+<p>
+<p>If it seems possible that these rules will be employed by people other than the player, then we need to write them a little more carefully, and in particular we need to ensure that they print nothing for other people. In the first case below, anybody can reach through the glass; in the second case, only the player cannot reach into open containers.
+<p>
+<blockquote><font color="#000080">A rule for reaching inside the flask:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player, say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;allow access.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A rule for reaching inside open containers:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your hands seem enigmatically too large for [the container in question].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deny access.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>To explain. Fragments of what the player has typed are called snippets: &quot;the player's command&quot; is the entire thing. (&quot;Snippet&quot; is actually a kind of value, so we could say &quot;Ah, you typed '[the player's command]'!&quot; or some such if we liked.) We can test if a snippet matches a given pattern like so:
-<p>
-<blockquote><font color="#000080">if the player's command matches &quot;room [number]&quot;, ...
-</font></blockquote><p>
-<p>
-<p>This requires an exact match: the weaker condition &quot;includes&quot; only means that the pattern occurs somewhere in the given snippet, so that
-<p>
-<blockquote><font color="#000080">if the player's command includes &quot;please&quot;, ...
-</font></blockquote><p>
-<p>
-<p>matches &quot;please look&quot; or &quot;look please&quot;, etc. Lastly, the phrase
-<p>
-<blockquote><font color="#000080">reject the player's command
-</font></blockquote><p>
-<p>
-<p>tells Inform not to bother analysing the text further, but to go back to the keyboard. (No time passes; no turn elapses; nothing happens in the simulated world.)
-<p>
-<p>(c) An improved version takes commands like &quot;please drop the coin&quot; and strips &quot;please&quot; from them, but then allows them to proceed normally:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;(Quelle politesse! But no need to say please.)&quot;;\n\t\tcut the matched text;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(Quelle politesse! But no need to say please.)&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut the matched text;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<p>&quot;Matched text&quot; is a snippet containing the words which matched against the pattern in the most recent &quot;includes&quot; condition, so in this case it contains just the single word &quot;please&quot;. Two phrases allow snippets to be altered:
-<p>
-<blockquote><font color="#000080">replace (... snippet ...) with (... text ...)
-<br>cut (...snippet ...)
-</font></blockquote><p>
-<p>
-<p>(d) To make the word &quot;grab&quot; an abbreviation for &quot;take all&quot;:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command matches &quot;grab&quot;, replace the player\'s command with &quot;take all&quot;.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;grab&quot;, replace the player's command with &quot;take all&quot;.
-</font></blockquote><p>
+<p>The &quot;person reaching&quot; is, as its name suggests, the person trying to reach through the barrier in question.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e103"><a href=doc251.html#e103><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A list of phrases to be automatically converted to longer sequences of separate commands.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e103"><a href=doc167.html#e103><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Kitty Pryde of the X-Men is able to reach through solid objects, so we might implement her with special powers that the player does not have...</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\trepeat through Table of Compound Commands\n\tbegin;\n\t\tif the player\'s command includes topic entry\n\t\tbegin;\n\t\t\tsay &quot;(that is, [macro entry])[line break]&quot;;\n\t\t\treplace the matched text with macro entry;\n\t\tend if;\n\tend repeat.\n\nTable of Compound Commands\ntopic\tmacro\n&quot;clean up&quot;\t&quot;get all carpet bits. put all carpet bits in trash. vacuum.&quot;\n&quot;quit nicely&quot;\t&quot;save. quit.&quot;\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Compound Commands
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Magneto\'s Revenge&quot;\n\nThe School for Gifted Youngsters is a room. Kitty Pryde is a woman in the School for Gifted Youngsters. &quot;Kitty Pryde waits for you to say why you summoned her out of class.&quot; The description is &quot;You see nothing special about Kitty Pryde. But that is only because she has learned to conceal her mutant powers: in fact she has the alternative name Shadowcat, and the ability to phase through solid objects.&quot;\n\nThe glass box is a container in the School for Gifted Youngsters. It is closed, openable, and transparent. In the box is a quantity of poisonous gas. In the box is a message from Magneto.\n\nInstead of examining the message when the player is not carrying the message:\n\tsay &quot;You\'d need to be holding it before you could read it.&quot;\n\nInstead of opening the glass box: say &quot;You\'re deterred by the swirling bottle-green mist within.&quot;\n\nCheck someone trying taking the gas (this is the gaseous object rule): rule fails.\n\nUnsuccessful attempt by someone trying taking the gas: say &quot;The gas isn\'t something one can pick up in one\'s bare hands.&quot;\n\nEvery turn: if the player can touch the gas\n\tbegin;\n\t\tsay &quot;The gas has reached your lungs!&quot;;\n\t\tend the game in death;\n\tend if.\n\nA rule for reaching inside something:\n\tif the person asked is Kitty, allow access.\n\nPersuasion rule for asking someone to try doing something: persuasion succeeds.\n\n\n')"><img border=0 src=paste.png></a> &quot;Magneto's Revenge&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The School for Gifted Youngsters is a room. Kitty Pryde is a woman in the School for Gifted Youngsters. &quot;Kitty Pryde waits for you to say why you summoned her out of class.&quot; The description is &quot;You see nothing special about Kitty Pryde. But that is only because she has learned to conceal her mutant powers: in fact she has the alternative name Shadowcat, and the ability to phase through solid objects.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The glass box is a container in the School for Gifted Youngsters. It is closed, openable, and transparent. In the box is a quantity of poisonous gas. In the box is a message from Magneto.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of examining the message when the player is not carrying the message:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You'd need to be holding it before you could read it.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of opening the glass box: say &quot;You're deterred by the swirling bottle-green mist within.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check someone trying taking the gas (this is the gaseous object rule): rule fails.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Unsuccessful attempt by someone trying taking the gas: say &quot;The gas isn't something one can pick up in one's bare hands.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn: if the player can touch the gas
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes topic entry
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(that is, [macro entry])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;replace the matched text with macro entry;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The gas has reached your lungs!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end the game in death;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Compound Commands
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">macro</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;clean up&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;get all carpet bits. put all carpet bits in trash. vacuum.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;quit nicely&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;save. quit.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">A rule for reaching inside something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is Kitty, allow access.
 </font></blockquote><p>
 <p>
-<p>Most of the time it would be vastly more useful to define separate commands for these compound processes, but if for some reason we wanted to do this it would be trivial.
-</td></tr></table><p><a name="e65"><a href=ex65.html#e65><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Responding to the player's input based on keywords only, and overriding the original parser entirely.</i><p>
-<a name="e67"><a href=ex67.html#e67><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A character who responds to keywords in the player's instructions and remarks, even if there are other words included.</i><p>
-<p><hr><p><a href=doc250.html>Previous</a> / <a href=doc252.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Persuasion rule for asking someone to try doing something: persuasion succeeds.
+</font></blockquote><p>
+<p>
+<p>Now the player can get Kitty to take the message without releasing the poisonous gas:
+<p>
+<blockquote><font color="#000080">Kitty Pride waits for you to tell her why you summoned her out of class.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">You can also see a glass box (closed) (in which are some poisonous gas and a message from Magneto) here.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">>kitty, get message
+<br>Kitty Pryde picks up a message from Magneto.
+</font></blockquote><p>
+</td></tr></table><p><a name="e207"><a href=ex207.html#e207><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A window between two locations. When the window is open, the player can reach through into the other location; when it isn't, access is barred.</i><p>
+<p><hr><p><a href=doc166.html>Previous</a> / <a href=doc168.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

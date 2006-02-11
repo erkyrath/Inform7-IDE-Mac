@@ -1,4 +1,4 @@
-<html><head><title>16.13. Constructing the status line</title></head>
+<html><head><title>11.9. Check, carry out, report</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,65 +7,123 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc245.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc247.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.13. Constructing the status line</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc160.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc162.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.9. Check, carry out, report</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> Just before input is accepted from the keyboard, Inform constructs a &quot;status line&quot; at the top of the window which is normally displayed in reverse colours (white on black instead of black on white, say).
+<p>The normal behaviour of an action is specified by its three associated rulebooks - check, carry out and report. In the case of our &quot;photographing&quot; example, these rulebooks will be:
 <p>
-<p><b>2. The default behaviour.</b> Makes the status line up out of two pieces, the &quot;left hand status line&quot; and the &quot;right hand status line&quot;. Since these can freely be changed, note that the status line is already very customisable without using rules applied to this activity.
-<p>
-<p><b>3. Examples.</b> (a) The most useful thing about this activity is that it allows us to vary descriptions in the status line. This is especially helpful to abbreviate unduly long room names, which might not otherwise fit:
-<p>
-<blockquote><font color="#000080">The Temple Of A Thousand Mightily Peeved Deities is a room. Rule for printing the name of the Temple while constructing the status line: say &quot;Temple&quot;.
+<blockquote><font color="#000080"><b>Check photographing</b>. Here, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.
 </font></blockquote><p>
 <p>
-<p>(b) Again, it's usually not necessary to apply activity rules to this, but occasionally amusing effects are possible if we do:
+<blockquote><font color="#000080"><b>Carry out photographing</b>. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.
+</font></blockquote><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.\n\n\n')"><img border=0 src=paste.png></a> The blindfold is wearable and initially carried. Rule for constructing the status line while the blindfold is worn: do nothing.
+<blockquote><font color="#000080"><b>Report photographing</b>. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.
+</font></blockquote><p>
+<p>
+<p>So far we have not really gone into the business of what rulebooks are, and we don't do so here either - suffice to say that we can now create whatever rules we need:
+<p>
+<blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
+</font></blockquote><p>
+<p>
+<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
+<p>
+<blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
+</font></blockquote><p>
+<p>
+<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
+<p>
+<p>We can continue to add rules at any point, and a classic thing that happens when testing a new work is that the designer realises there is a case which has not been thought of:
+<p>
+<blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e51"><a href=doc246.html#e51><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A status line that lists the available exits from the current location.</i><p>
+<a name="e47"><a href=ex47.html#e47><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Containers and supporters that report their contents when you EXAMINE them.</i><p>
+<a name="e62"><a href=ex62.html#e62><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>An electric light kind of device which becomes lit when switched on and dark when switched off.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e51"><a href=doc161.html#e51><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A CUT [something] WITH [something] command which acts differently on different types of objects.</i><p>
 <p>
-<p>A not-uncommon device in games with large maps is a list of available exits printed in the status bar. We might do this so:
+<p>Suppose we intend a game in which the player needs to cut things open on a regular basis. We'll want to check whether he has the proper tools handy, and deal graciously with commands such as CUT [something] when no tool is specified. So:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tchange left hand status line to &quot;Exits: [exit list]&quot;;\n\tchange right hand status line to &quot;[location]&quot;.\n\nTo say exit list:\n\tlet place be location;\n\trepeat with way running through directions\n\tbegin;\n\t\tlet place be the room way from the location;\n\t\tif place is a room, say &quot; [way]&quot;;\n\tend repeat.\n\n\n[We may find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn\'t hard to provide a set of abbreviations to use in this context:]\n\nRule for printing the name of a direction (called the way) while constructing the status line:\n\tchoose row with a heading of the way in the Table of Abbreviation;\n\tsay &quot;[shortcut entry]&quot;.\n\nTable of Abbreviation\nheading\tshortcut\nnorth\t&quot;N&quot;\nnortheast\t&quot;NE&quot;\neast\t&quot;E&quot;\nsoutheast\t&quot;SE&quot;\nsouth\t&quot;S&quot;\nsouthwest\t&quot;SW&quot;\nwest\t&quot;W&quot;\nup\t&quot;U&quot;\ndown\t&quot;D&quot;\ninside\t&quot;IN&quot;\noutside\t&quot;OUT&quot;\n\n\n')"><img border=0 src=paste.png></a> When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change left hand status line to &quot;Exits: [exit list]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change right hand status line to &quot;[location]&quot;.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Paddington&quot;\n\nA blade is a kind of thing.\n\nUnderstand &quot;cut [something] with [something]&quot; as cutting it with.\n\nInstead of cutting something:\n\tif a blade (called the edge) is held by the player,\n\t\ttry cutting the noun with the edge;\n\totherwise say &quot;Your fingernails are not sharp enough.&quot;\n\nCutting it with is an action applying to two things.\n\nCheck cutting it with:\n\tif the noun is a person, say &quot;That would hurt.&quot; instead;\n\tif the second noun is not a blade, say &quot;[The second noun] has not got enough of a blade.&quot; instead.\n\nCarry out cutting it with:\n\tchange the count of rips of the noun to the count of rips of the noun + 1.\n\nReport cutting it with:\n\tsay &quot;You slash [the noun] with [the second noun].&quot;\n\n[We\'ll need a way to account for all these cuts and rips.]\n\nDefinition: a thing is ripped if the count of rips of it > 0.  A thing has a number called the count of rips. After examining something ripped, say &quot;You see [the count of rips of the noun in words] rip[s] in [the noun].&quot;\n\n[So far, so good. But suppose that we\'d like cutting also to make containers be permanently open and impossible to close again. We could write an &quot;instead&quot; rule, but that would mean that only our instead instructions would take effect, overriding the normal cutting it with rules entirely. Better would be to add a second carry out rule:]\n\nCarry out cutting a container with something:\n\tnow the noun is open;\n\tnow the noun is unopenable.\n\n[Now our rule will occur whenever a container is cut, but play will still go on to the reporting stage. And indeed we can add more of these, of varying degrees of specificity:]\n\nCarry out cutting something which is part of something with something:\n\tmove the noun to the player.\n\nCarry out cutting the quilt with something:\n\tchange the description of the quilt to &quot;Horribly tattered.&quot;\n\n[For that matter, we might want to add a report rule as well, to occur after the &quot;You slash...&quot; rule, so that every time the player cuts something open which has contents, the contents will be listed.]\n\nReport cutting it with:\n\tif the noun is open and the noun contains something,\n\t\tsay &quot;Visible within [is/are list of things in the noun].&quot;\n\n[This time we do not add the condition to the rule (ie, Report cutting an open noun...) If we did, this report rule would be more specific than the general report rule, and would occur first.]\n\nThe Safehouse is a room.\n\nThe teddy bear is a closed thing in the Safehouse. The description is &quot;Fluffy[if the head is part of the bear], with an outsized head[otherwise], but headless[end if].&quot; The head is a closed part of the teddy bear. In the bear is a large wad of stuffing. In the head are a small wad of stuffing and a packet of smuggled diamonds.\n\nThe quilt is a thing in the Safehouse. The description is &quot;An old but comforting quilt.&quot;\n\nThe player carries a blade called a switchblade.\n\n[If we may be permitted to borrow one line from chapter 16, here is a final nicety to get rid of the &quot;which is closed&quot; statement on our closed unopenable teddy bear:]\n\nAfter printing the name of a closed unopenable container:\n\tomit contents in listing.\n\n')"><img border=0 src=paste.png></a> &quot;Paddington&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say exit list:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let place be location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with way running through directions
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let place be the room way from the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if place is a room, say &quot; [way]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<blockquote><font color="#000080">A blade is a kind of thing.
 </font></blockquote><p>
 <p>
-<p>
-<p>We may find that printing out full directions makes the status line unpleasantly crowded. Fortunately, it isn't hard to provide a set of abbreviations to use in this context:
-<p>
-<blockquote><font color="#000080">Rule for printing the name of a direction (called the way) while constructing the status line:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with a heading of the way in the Table of Abbreviation;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[shortcut entry]&quot;.
+<blockquote><font color="#000080">Understand &quot;cut [something] with [something]&quot; as cutting it with.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Abbreviation
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">heading</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">shortcut</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">north</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;N&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">northeast</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;NE&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">east</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;E&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">southeast</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;SE&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">south</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;S&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">southwest</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;SW&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">west</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;W&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">up</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;U&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">down</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;D&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">inside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;IN&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">outside</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;OUT&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">Instead of cutting something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a blade (called the edge) is held by the player,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try cutting the noun with the edge;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Your fingernails are not sharp enough.&quot;
 </font></blockquote><p>
 <p>
-<p>Everywhere else, the names of directions will still be printed out in full in the usual way.
-</td></tr></table><p><a name="e50"><a href=ex50.html#e50><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A status line that lists the available exits from the current location, changing the names of these exits depending on whether the room has been visited or not.</i><p>
-<p><hr><p><a href=doc245.html>Previous</a> / <a href=doc247.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Cutting it with is an action applying to two things.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check cutting it with:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is a person, say &quot;That would hurt.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the second noun is not a blade, say &quot;[The second noun] has not got enough of a blade.&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out cutting it with:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the count of rips of the noun to the count of rips of the noun + 1.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report cutting it with:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You slash [the noun] with [the second noun].&quot;
+</font></blockquote><p>
+<p>
+<p>We'll need a way to account for all these cuts and rips.
+<p>
+<blockquote><font color="#000080">Definition: a thing is ripped if the count of rips of it > 0.  A thing has a number called the count of rips. After examining something ripped, say &quot;You see [the count of rips of the noun in words] rip[s] in [the noun].&quot;
+</font></blockquote><p>
+<p>
+<p>So far, so good. But suppose that we'd like cutting also to make containers be permanently open and impossible to close again. We could write an &quot;instead&quot; rule, but that would mean that only our instead instructions would take effect, overriding the normal cutting it with rules entirely. Better would be to add a second carry out rule:
+<p>
+<blockquote><font color="#000080">Carry out cutting a container with something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is open;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is unopenable.
+</font></blockquote><p>
+<p>
+<p>Now our rule will occur whenever a container is cut, but play will still go on to the reporting stage. And indeed we can add more of these, of varying degrees of specificity:
+<p>
+<blockquote><font color="#000080">Carry out cutting something which is part of something with something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the noun to the player.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out cutting the quilt with something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the description of the quilt to &quot;Horribly tattered.&quot;
+</font></blockquote><p>
+<p>
+<p>For that matter, we might want to add a report rule as well, to occur after the &quot;You slash...&quot; rule, so that every time the player cuts something open which has contents, the contents will be listed.
+<p>
+<blockquote><font color="#000080">Report cutting it with:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is open and the noun contains something,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Visible within [is/are list of things in the noun].&quot;
+</font></blockquote><p>
+<p>
+<p>This time we do not add the condition to the rule (ie, Report cutting an open noun...) If we did, this report rule would be more specific than the general report rule, and would occur first.
+<p>
+<blockquote><font color="#000080">The Safehouse is a room.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The teddy bear is a closed thing in the Safehouse. The description is &quot;Fluffy[if the head is part of the bear], with an outsized head[otherwise], but headless[end if].&quot; The head is a closed part of the teddy bear. In the bear is a large wad of stuffing. In the head are a small wad of stuffing and a packet of smuggled diamonds.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The quilt is a thing in the Safehouse. The description is &quot;An old but comforting quilt.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player carries a blade called a switchblade.
+</font></blockquote><p>
+<p>
+<p>If we may be permitted to borrow one line from chapter 16, here is a final nicety to get rid of the &quot;which is closed&quot; statement on our closed unopenable teddy bear:
+<p>
+<blockquote><font color="#000080">After printing the name of a closed unopenable container:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;omit contents in listing.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc160.html>Previous</a> / <a href=doc162.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

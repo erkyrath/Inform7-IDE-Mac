@@ -1,0 +1,67 @@
+<html><head><title>11.11. Check rules for actions by other people</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc162.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc164.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.11. Check rules for actions by other people</b></td></tr></table><p>
+<p>
+<p>If we want to impose the restriction about carrying the camera on everyone, we need a rule like the following:
+<p>
+<blockquote><font color="#000080">Check someone trying photographing: if the person asked does not carry the camera, stop the action.
+</font></blockquote><p>
+<p>
+<p>Implicitly, that &quot;someone&quot; excludes the player. Note that we say nothing in this rule, stopping the action without a word: after all, Clark might well be out of sight when trying this. If he is within sight, then we read:
+<p>
+<blockquote><font color="#000080">>clark, photograph me
+<br>Clark Gable is unable to do that.
+</font></blockquote><p>
+<p>
+<p>We saw before that Inform's built-in rules all have handy names (the &quot;can't drop what's already dropped rule&quot;, and such), and that these are useful when writing better &quot;unable to...&quot; messages. So for a deluxe version, we end up with:
+<p>
+<blockquote><font color="#000080">Check someone trying photographing (this is the other people can't photograph without the camera rule): if the person asked does not carry the camera, stop the action.
+</font></blockquote><p>
+<p>
+<p>And now, with ACTIONS on, we find that:
+<p>
+<blockquote><font color="#000080">>clark, photograph me
+<br>[asking Clark Gable to try photographing yourself]
+<br>[(1) Clark Gable trying photographing yourself]
+<br>[(1) Clark Gable trying photographing yourself - failed the other people can't photograph without the camera rule]
+<br>Clark Gable is unable to do that.
+<br>[asking Clark Gable to try photographing yourself - succeeded]
+</font></blockquote><p>
+<p>
+<p>which means that we could have, say,
+<p>
+<blockquote><font color="#000080">Unsuccessful attempt by Clark trying photographing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is the other people can't photograph without the camera rule, say &quot;Clark is too suave to be embarrassed. 'Frankly, my dear, I don't have a camera.'&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Clark tries, and fails, to take a photograph.&quot;
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e175"><a href=doc163.html#e175><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Changing the check rules to try automatically leaving a container before attempting to take it. (And arranging things so that other people will do likewise.)</i><p>
+<p>
+<p>We could now re-write the check rules so that any time someone (the player or someone else) tries to pick up a container which he is in, he will first get out:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;GET AXE&quot;\n\nThis is the clever can\'t take what you\'re inside rule:\n\tif the person asked is in the noun, try the person asked trying exiting;\n\tif the person asked is in the noun, rule fails.\n\nProcedural rule:\n\tsubstitute the clever can\'t take what you\'re inside rule for the can\'t take what you\'re inside rule.\n\nAttic is a room. The unused coffin is in the Attic. The coffin is enterable and openable and open. Raskolnikov is a man in the coffin.\n\nPersuasion rule for asking Raskolnikov to try doing something: persuasion succeeds.\n\n')"><img border=0 src=paste.png></a> &quot;GET AXE&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">This is the clever can't take what you're inside rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is in the noun, try the person asked trying exiting;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is in the noun, rule fails.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Procedural rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;substitute the clever can't take what you're inside rule for the can't take what you're inside rule.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Attic is a room. The unused coffin is in the Attic. The coffin is enterable and openable and open. Raskolnikov is a man in the coffin.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Persuasion rule for asking Raskolnikov to try doing something: persuasion succeeds.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc162.html>Previous</a> / <a href=doc164.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

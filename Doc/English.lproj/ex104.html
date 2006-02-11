@@ -1,4 +1,4 @@
-<html><head><title>5.7. Adjacent rooms and routes through the map</title></head>
+<html><head><title>4.8. Text with substitutions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,65 +7,58 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc68.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc70.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.7. Adjacent rooms and routes through the map</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc51.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc53.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.8. Text with substitutions</b></td></tr></table><p>
 <p>
-<p>Another useful adjective built into Inform is &quot;adjacent&quot;. Two rooms are said to be adjacent if there is a map connection between them which does not pass through some barrier such as a door. This is easily tested:
+<p>The example about the sound of an underground river is all very well, but what can we do with this new property now that we have created it? The following example gives one idea.
 <p>
-<blockquote><font color="#000080">if the Hallway is adjacent to the Study ...
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Undertomb&quot;\n\nA dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You\'ll have to go back the way you came, consoled only by [river sound].&quot; A dead end is usually dark.\n\nThe Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove. In the Undertomb is the lantern. It is lit.\n\nA dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.\n\n\n')"><img border=0 src=paste.png></a> &quot;The Undertomb&quot;
 </font></blockquote><p>
 <p>
-<p>We usually want to know about the places adjacent to the current scene of the action, so that is what the adjective &quot;adjacent&quot; means when applied to rooms. For instance:
-<p>
-<blockquote><font color="#000080">if somebody is in an adjacent room, ...
+<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end. You'll have to go back the way you came, consoled only by [river sound].&quot; A dead end is usually dark.
 </font></blockquote><p>
 <p>
-<p>As with the case of &quot;visible&quot;, the adjective is a cut-down version of the more general relationship. This often happens: &quot;worn&quot; and &quot;carried&quot;, for instance, imply &quot;by the player&quot; unless something else is specified.
-<p>
-<p>While on the subject of navigating the map, the phrase &quot;the best route from A to B&quot; gives the direction to take in order to get from A to B by the shortest number of movements between rooms - if there is any way through at all. For example, here is a lure:
-<p>
-<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room].&quot;
+<blockquote><font color="#000080">The Undertomb is a dark room. East is a dead end. South is a dead end with printed name &quot;Collapsed Dead End&quot;. Northwest is a dead end called the Tortuous Alcove. In the Undertomb is the lantern. It is lit.
 </font></blockquote><p>
 <p>
-<p>Best routes are ordinarily forbidden to go through doors, but if the suffix &quot;using doors&quot; is added as an option then any open or openable and unlocked door may be used on the way; and if &quot;using even locked doors&quot; is given, then any door at all will do. Since magnetism is no respecter of property, that seems right here:
-<p>
-<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room, using even locked doors].&quot;
+<blockquote><font color="#000080">A dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.
 </font></blockquote><p>
 <p>
-<p>The phrase &quot;the best route from A to B&quot; gives the direction to take next, if we are at A and want to end up at B. Suppose this is east. We can find out where we go next by looking up &quot;the room east from A&quot;: similarly for any other direction, of course. (This can see through any doors, locked or not.)
+<p>The novelty here is the text in square brackets in the first paragraph above. They imply more or less what they would when a journalist is quoting something in a newspaper article. The actual words &quot;river sound&quot; are not part of the text. Instead, when Inform prints up the description of a dead end, it will substitute the appropriate river sound in place of these words.
 <p>
-<p>We can also find out how long the journey would be:
+<p>Thus the description of the Collapsed Dead End is &quot;This is a dead end. You'll have to go back the way you came, consoled only by a faint whispering of running water.&quot;, whereas the description of the Tortuous Alcove is &quot;This is a dead end. You'll have to go back the way you came, consoled only by a gurgle of running water.&quot; As the player explores these dead ends, subtle differences will appear in their room descriptions.
 <p>
-<blockquote><font color="#000080">The description of the proximity gadget is &quot;You are now [number of moves from the location to the Sundial] moves from the Sundial.&quot;;
-</font></blockquote><p>
-<p>
-<p>This number is, of course, 0 if the location is already the Sundial. If there is no way at all to get to the Sundial, the number is -1.
+<p>We can put almost any description of a value in square brackets in text, and Inform will work out what kind of value it is and print something accordingly. For instance, &quot;You admire [the lantern].&quot; will expand to &quot;You admire the candle lantern.&quot;, spelling out the full name of the lantern.
 <p>
 <p><hr><p>
-<a name="e2"><a href=ex2.html#e2><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A person who moves randomly between rooms of the map.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e104"><a href=doc69.html#e104><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Signposts such as those provided on hiking paths in the Swiss Alps, which show the correct direction and hiking time to all other locations.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e104"><a href=doc52.html#e104><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Using text substitution to make characters reply differently under the same circumstances.</i><p>
 <p>
-<p>The following rule appends a paragraph to every room description. We need not worry about doors (despite the pass in the Bernese Oberland known figuratively as the &quot;Little Door&quot;).
+<p>We can use these substitutions to put together fairly complicated variations within a single piece of text:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After looking:\n\tsay &quot;Yellow arms on the signpost point:-[line break]&quot;;\n\trepeat with destination running through rooms begin;\n\t\tlet the way be the best route from the location to the destination;\n\t\tif the way is a direction, say &quot;  [way] for [the destination]: [number of moves from the location to the destination] Std.&quot;;\n\tend repeat.\n\n\n')"><img border=0 src=paste.png></a> After looking:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Yellow arms on the signpost point:-[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with destination running through rooms begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the way be the best route from the location to the destination;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the way is a direction, say &quot;  [way] for [the destination]: [number of moves from the location to the destination] Std.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Fifty Ways to Leave Your Larva&quot;\n\nThe Beekeeper\'s Palace is a room. Wasp is a woman in the palace. Drone is a man in the palace.\n\nInstead of kissing someone:\n\tsay &quot;\'[denial], [insult]! [boast]!\'[paragraph break]&quot;;\n\n[In this context, [denial] is understood to refer to the denial property of the noun -- but we could spell it out with &quot;denial of the noun&quot; if we wanted to.]\n\nA person has a property called denial. The denial of a person is usually &quot;Stand back&quot;. The denial of Drone is &quot;You forget yourself&quot;\n\nA person has a property called  insult. The insult of a person is usually &quot;Grasshopper&quot;. The insult of Wasp is &quot;Larva&quot;.\n\nA person has a property called  boast. The boast of a person is usually &quot;I am ferocious&quot;. The boast of Drone is &quot;I have ferocious allies&quot;.\n\n[And then it would be trivial to insert further rules using these responses:]\n\nInstead of attacking someone:\n\tsay &quot;\'Get away, [insult]!\'[paragraph break]&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Fifty Ways to Leave Your Larva&quot;
 </font></blockquote><p>
 <p>
-<p>The result might be:
-<p>
-<blockquote><font color="#000080">Hotel Stechelberg
-<br>The wooden hiking inn at the end of the road, with flowerboxes, canton flags, outdoor tables and a triangular paddock for the cows contesting the annual Miss Stechelberg competition. Otto and Marianne do cheerful innkeeper things, while the sun blazes from a gentian-blue sky.
+<blockquote><font color="#000080">The Beekeeper's Palace is a room. Wasp is a woman in the palace. Drone is a man in the palace.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Yellow arms on the signpost point:-
-<br>&nbsp;&nbsp;&nbsp;&nbsp;north for Lauterbrunnen: 2 Std.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;west for Sefinental: 2 Std.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;west for Schilthorn: 6 Std.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;southeast for Trachsellauenen: 1 Std.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;southeast for Oberhornsee: 3 Std.
+<blockquote><font color="#000080">Instead of kissing someone:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'[denial], [insult]! [boast]!'[paragraph break]&quot;;
 </font></blockquote><p>
-</td></tr></table><p><a name="e3"><a href=ex3.html#e3><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A LOOK [direction] command which allows the player to see descriptions of the nearby landscape.</i><p>
-<p><hr><p><a href=doc68.html>Previous</a> / <a href=doc70.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>In this context, [denial] is understood to refer to the denial property of the noun -- but we could spell it out with &quot;denial of the noun&quot; if we wanted to.
+<p>
+<blockquote><font color="#000080">A person has a property called denial. The denial of a person is usually &quot;Stand back&quot;. The denial of Drone is &quot;You forget yourself&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A person has a property called  insult. The insult of a person is usually &quot;Grasshopper&quot;. The insult of Wasp is &quot;Larva&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A person has a property called  boast. The boast of a person is usually &quot;I am ferocious&quot;. The boast of Drone is &quot;I have ferocious allies&quot;.
+</font></blockquote><p>
+<p>
+<p>And then it would be trivial to insert further rules using these responses:
+<p>
+<blockquote><font color="#000080">Instead of attacking someone:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Get away, [insult]!'[paragraph break]&quot;
+</font></blockquote><p>
+</td></tr></table><p><a name="e105"><a href=ex105.html#e105><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Writing your own rules for how to carry out substitutions.</i><p>
+<p><hr><p><a href=doc51.html>Previous</a> / <a href=doc53.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

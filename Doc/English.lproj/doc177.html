@@ -1,4 +1,4 @@
-<html><head><title>12.9. Defining new assertion verbs</title></head>
+<html><head><title>12.8. The built-in verbs and their meanings</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,35 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc176.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc178.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.9. Defining new assertion verbs</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc176.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc178.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>12.8. The built-in verbs and their meanings</b></td></tr></table><p>
 <p>
-<p>Here is an example definition of a new verb:
+<p>It is all very well to define new relations, but this does nothing if there is no way to assert that they are true, or to ask whether they are true or false. That requires a verb: in fact, a relation is nothing more than what Inform uses as the &quot;meaning&quot; of a verb. The assertion verbs built in to Inform have the following built-in relations as their meanings:
 <p>
-<blockquote><font color="#000080">The verb to sport (he sports, they sport, he sported, it is sported, he is sporting) implies the wearing relation.
+<blockquote><font color="#000080"><b>Verb - Relation</b>
+<br>to be - (none as such)
+<br>to have - possession relation
+<br>to contain - containment relation
+<br>to support - support relation
+<br>to carry - carrying relation
+<br>to wear - wearing relation
 </font></blockquote><p>
 <p>
-<p>Once this is done, we can write the assertion
+<p>Two of Inform's built-in relations are expressed using prepositions instead:
 <p>
-<blockquote><font color="#000080">Mr Wickham sports a Tory rosette.
+<blockquote><font color="#000080"><B>Preposition - Relation</b>
+<br>to be part of - incorporation relation
+<br>to be adjacent to - adjacency relation
 </font></blockquote><p>
 <p>
-<p>which will do the the same thing as
+<p>It would be easy to make verbs for these if we wanted (&quot;to incorporate&quot;, say, or &quot;to adjoin&quot;) using the techniques of the next section.
 <p>
-<blockquote><font color="#000080">Mr Wickham wears a Tory rosette.
-</font></blockquote><p>
-<p>
-<p>because both verbs have the same relation as their meaning.
-<p>
-<p>Note that we have to spell out many parts of the verb:
-<p>
-<blockquote><font color="#000080">to sport - infinitive
-<br>he sports - present singular
-<br>they sport - present plural
-<br>he sported - past
-<br>it is sported - past participle
-<br>he is sporting - present participle
-</font></blockquote><p>
-<p>
-<p>Although it looks as if NI could easily generate these given the infinitive &quot;to sport&quot; alone, by adding an &quot;-s&quot; here or an &quot;-ed&quot; there, English can be a very irregular language. Since verbs will not be defined more than a few times in any single project it seems best to be explicit.
+<p>The verb <i>to be</i> is grammatically different from any other, and its meaning is too complicated to be expressed by a relation. A great deal of the Inform program is given over to its &quot;meaning&quot;, which we are not allowed to change or imitate. But the other verbs are quite simple.
 <p>
 <p><hr><p><a href=doc176.html>Previous</a> / <a href=doc178.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

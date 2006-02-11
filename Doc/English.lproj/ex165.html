@@ -1,0 +1,60 @@
+<html><head><title>6.15. Going from, going to</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc86.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc88.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.15. Going from, going to</b></td></tr></table><p>
+<p>
+<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Going Going&quot;\n\nThe Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.\n\nInstead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;\n\nInstead of going nowhere, say &quot;You really can\'t wander around at random in the Library.&quot;\n\nBefore going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Going Going&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
+</font></blockquote><p>
+<p>
+<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
+<p>
+<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
+<p>
+<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
+<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
+</font></blockquote><p>
+<p>
+<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
+<p>
+<p><hr><p>
+<a name="e76"><a href=ex76.html#e76><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A "go back" command that keeps track of the direction from which the player came, and sends him back.</i><p>
+<a name="e193"><a href=ex193.html#e193><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Using regions to block access to an entire area when the player does not carry a pass, regardless of which entrance he uses.</i><p>
+<a name="e84"><a href=ex84.html#e84><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>If the player tries to go a valid direction while on a supporter, make him stand up first; if he tries to go a nonexistent one, print a special refusal.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e165"><a href=doc87.html#e165><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Offering the player a list of valid directions if he tries to go in a direction that leads nowhere.</i><p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Instead of going nowhere:\n\tlet count of exits be the number of adjacent rooms;\n\tif count of exits is 0, say &quot;You appear to be trapped in here.&quot; instead;\n\tsay &quot;From [the location], you can head &quot;;\n\tlet index be count of exits;\n\trepeat with place running through adjacent rooms\n\tbegin;\n\t\tlet way be the best route from location to place;\n\t\tdecrease index by 1;\n\t\tsay &quot;[way]&quot;;\n\t\tif index is greater than 1, say &quot;, &quot;;\n\t\tif index is 1, say &quot; and &quot;;\n\t\tif index is 0, say &quot;.&quot;;\n\tend repeat.\n\n')"><img border=0 src=paste.png></a> Instead of going nowhere:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let count of exits be the number of adjacent rooms;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if count of exits is 0, say &quot;You appear to be trapped in here.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;From [the location], you can head &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let index be count of exits;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with place running through adjacent rooms
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let way be the best route from location to place;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decrease index by 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[way]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if index is greater than 1, say &quot;, &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if index is 1, say &quot; and &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if index is 0, say &quot;.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc86.html>Previous</a> / <a href=doc88.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

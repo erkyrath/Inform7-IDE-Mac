@@ -1,4 +1,4 @@
-<html><head><title>6.15. Going from, going to</title></head>
+<html><head><title>8.12. Future events</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,71 +7,48 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc86.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc88.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.15. Going from, going to</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc123.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc125.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>8.12. Future events</b></td></tr></table><p>
 <p>
-<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
+<p>We often want to arrange for something to happen at some point in the future. Here is yet another timepiece:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Going Going&quot;\n\nThe Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.\n\nInstead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;\n\nInstead of going nowhere, say &quot;You really can\'t wander around at random in the Library.&quot;\n\nBefore going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Going Going&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.\n\nWhen the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;\n\n\n')"><img border=0 src=paste.png></a> An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
+<blockquote><font color="#000080">When the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
+<p>The event here is called &quot;the egg-timer clucks&quot;. It only happens if we instruct so, which we do by writing
+<p>
+<blockquote><font color="#000080">the egg-timer clucks in four turns from now
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
+<p>meaning four turns after the turn in which the egg-timer is pushed. We could alternatively describe this future moment as something like &quot;in 18 minutes from now&quot;, or &quot;at 4:15 PM&quot;.
+<p>
+<p>If we know in advance what time we want something to happen, we can more simply write:
+<p>
+<blockquote><font color="#000080">At 4 PM: say &quot;The great bells of the clock tower chime four.&quot;
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
-</font></blockquote><p>
-<p>
-<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
-<p>
-<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
-<p>
-<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
-<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
-</font></blockquote><p>
-<p>
-<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
 <p>
 <p><hr><p>
-<a name="e57"><a href=ex57.html#e57><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A "go back" command that keeps track of the direction from which the player came, and sends him back.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e61"><a href=doc87.html#e61><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>If the player tries to go a valid direction while on a supporter, make him stand up first; if he tries to go a nonexistent one, print a special refusal.</i><p>
+<a name="e184"><a href=ex184.html#e184><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A train which follows a schedule, stopping at a number of different locations.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e61"><a href=doc124.html#e61><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>To schedule an eclipse of the sun, which involves a number of related events.</i><p>
 <p>
-<p>The default behavior of Inform is that if the player asks to go some direction while he is sitting down, he'll be told to get up first. If we wanted to make life a little easier, we might add a rule to do this automatically for him:
+<p>First we define the events, and then we create a phrase to schedule them:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Before going somewhere when the player is on a supporter (called the chaise):\n\tsay &quot;(first getting off [the chaise])[line break]&quot;;\n\ttry exiting.\n\n\n')"><img border=0 src=paste.png></a> Before going somewhere when the player is on a supporter (called the chaise):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first getting off [the chaise])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try exiting.
+<blockquote><font color="#000080">When the penumbra appears: say &quot;The sunlight dies away to an eerie, brownish penumbra.&quot; When the eclipse begins: say &quot;The moon passes across the disc of the sun, plunging the world into darkness.&quot;; change the Chamber to dark. When the eclipse ends: say &quot;The moon passes away from the sun, and a gloomy penumbral light returns.&quot;; change the Chamber to lighted. When normal sunlight returns: say &quot;The sun shines once more bright in the sky, not to be eclipsed again on this spot for another thirty-seven years.&quot;
 </font></blockquote><p>
 <p>
-<p>Now the player will always get up before trying to walk out of a room; and the fact that we've said &quot;going somewhere&quot; means that this rule will not occur if the direction typed is not valid.
-<p>
-<p>Speaking of invalid directions, it is a little strange to have the parser tell the player to stand up in order to go some direction that doesn't lead anywhere. This can lead to somewhat annoying exchanges like this:
-<p>
-<blockquote><font color="#000080">>e
-<br>You'll have to get off the boulder first.
+<blockquote><font color="#000080">To schedule an eclipse for (totality - a time):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;the penumbra appears at two minutes before totality;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;the eclipse begins at totality;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;the eclipse ends at three minutes after totality;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;normal sunlight returns at five minutes after totality.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">>out
-<br>You get off the boulder.
+<p>Now we make use of the new phrase:
+<p>
+<blockquote><font color="#000080">When play begins, schedule an eclipse for 3:27 PM.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Hillside
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">You can see a boulder here.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">>e
-<br>You can't go that way.
-</font></blockquote><p>
-<p>
-<p>We could override this too, like so:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Instead of going nowhere when the player is on a supporter (called the divan):\n\tsay &quot;Nothing interesting lies in that direction, even if you weren\'t lazing about on [the divan].&quot;\n\n')"><img border=0 src=paste.png></a> Instead of going nowhere when the player is on a supporter (called the divan):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing interesting lies in that direction, even if you weren't lazing about on [the divan].&quot;
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc86.html>Previous</a> / <a href=doc88.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>We shall see much more about creating phrases later. Their advantage is that they enable a complicated sequence of operations to be given a meaningful name, and that they can be re-used many times as needed.
+</td></tr></table><p><p><hr><p><a href=doc123.html>Previous</a> / <a href=doc125.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

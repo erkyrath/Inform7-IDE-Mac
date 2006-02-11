@@ -1,4 +1,4 @@
-<html><head><title>6.17. Kinds of action</title></head>
+<html><head><title>7.4. Change of either/or properties</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,50 +7,48 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc88.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc90.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.17. Kinds of action</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc95.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc97.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>7.4. Change of either/or properties</b></td></tr></table><p>
 <p>
-<p>Especially when people need to react to events going on around them, it is helpful to be able to categorise actions into whole areas of behaviour. The following example, indebted to the late Georgette Heyer, is suggestive:
+<p>When we have an either/or property, we can set it like so:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Dearth and the Maiden&quot;\n\nThe Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;\n\nAn oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;\n\nA man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;\n\nKissing Mr Carr is unmaidenly behaviour. Doing something to the painting is unmaidenly behaviour.\n\nInstead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Dearth and the Maiden&quot;
+<blockquote><font color="#000080">Instead of waiting when the oaken door is closed: say &quot;There is a slow, creaky click! sort of noise as the door swings open, apparently all by itself.&quot;; change the oaken door to open.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;
+<p>If it is open already, nothing changes: in any case nothing is said to the player unless we give explicit instructions to that effect, as we've done here.
+<p>
+<p>Inform protects its model world from accidental damage in several ways, one of which is to ensure that things are not given properties which they are not allowed to have. So this, for instance, will not be accepted:
+<p>
+<blockquote><font color="#000080">change the oaken door to unvisited
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">An oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Kissing Mr Carr is unmaidenly behaviour. Doing something to the painting is unmaidenly behaviour.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;
-</font></blockquote><p>
-<p>
-<p>Here a new kind of action called &quot;unmaidenly behaviour&quot; has been created and then used in the description of an instead rule. The convenience of this approach is that when further actions suddenly occur to us as also being unmaidenly - say, attacking Mr Carr - we only need to add a single line:
-<p>
-<blockquote><font color="#000080">Attacking Mr Carr is unmaidenly behaviour.
-</font></blockquote><p>
-<p>
-<p>And this will automatically be reflected in any rules which concern the consequences of failing to be ladylike.
+<p>More subtle problems arise if it is not possible to tell, when the game is being constructed, what the object in question will be: for instance, if we try to change a randomly chosen object to be &quot;unvisited&quot;. Inform therefore makes additional checks during play, printing up a suitable message only if the rules are violated. The net effect is that it is impossible for the oaken door ever to have the &quot;unvisited&quot; property.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e63"><a href=doc89.html#e63><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>People who must be greeted before conversation can begin.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e63"><a href=doc96.html#e63><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>An electrochromic window that becomes transparent or opaque depending on whether it is currently turned on.</i><p>
 <p>
-<p>Suppose we want to add a sense of some conversational flow, so that the player is forced to acknowledge the presence of people before beginning detailed conversations with them. We collect all speech actions into a single category:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Asking someone about something is speech. Telling someone about something is speech. Answering someone that something is speech. Asking someone for something is speech. Asking somebody to try doing something is speech.\n\n[And then write a general rule.]\n\nBefore speech in the presence of an ungreeted person:\n\tsay &quot;You nod hello to [the list of ungreeted people who can be seen by the player].&quot;;\n\tnow every ungreeted person who can be seen by the player is greeted.\n\nA person can be greeted or ungreeted. A person is usually ungreeted. The player is greeted.\n\n')"><img border=0 src=paste.png></a> Asking someone about something is speech. Telling someone about something is speech. Answering someone that something is speech. Asking someone for something is speech. Asking somebody to try doing something is speech.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Vitrine&quot;\n\nPlaza View is a room. &quot;Your uncle\'s apartment, on loan to you for viewing the parade and celebrations today. This would be more of a sacrifice on his part if he weren\'t currently yachting around Corfu.&quot;\n\nThe smart window is a device in Plaza View. It is fixed in place. &quot;A vast smart window [if transparent]overlooks the park[otherwise]has turned to a sheet of hazy blue[end if].&quot; The smart window can be transparent. The smart window is transparent. The description is &quot;An electrochromic device which changes shade and transparency in response to the application of current.\n\nCurtains are so passe.&quot;\n\n[Note the &quot;can be transparent&quot; line. Devices ordinarily are not allowed to have transparency or opaqueness, but we can make an exception in this case. Without that line, attempts to change the transparency of the window will fail.]\n\nCarry out switching off the window: change the window to transparent.\n\nCarry out switching on the window: change the window to opaque.\n\nInstead of searching a transparent window: say &quot;Isn\'t it lovely out there?&quot;\n\nInstead of searching an opaque window: say &quot;The window is currently darkened.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Vitrine&quot;
 </font></blockquote><p>
 <p>
-<p>And then write a general rule.
-<p>
-<blockquote><font color="#000080">Before speech in the presence of an ungreeted person:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You nod hello to [the list of ungreeted people who can be seen by the player].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now every ungreeted person who can be seen by the player is greeted.
+<blockquote><font color="#000080">Plaza View is a room. &quot;Your uncle's apartment, on loan to you for viewing the parade and celebrations today. This would be more of a sacrifice on his part if he weren't currently yachting around Corfu.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A person can be greeted or ungreeted. A person is usually ungreeted. The player is greeted.
+<blockquote><font color="#000080">The smart window is a device in Plaza View. It is fixed in place. &quot;A vast smart window [if transparent]overlooks the park[otherwise]has turned to a sheet of hazy blue[end if].&quot; The smart window can be transparent. The smart window is transparent. The description is &quot;An electrochromic device which changes shade and transparency in response to the application of current.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc88.html>Previous</a> / <a href=doc90.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Curtains are so passe.&quot;
+</font></blockquote><p>
+<p>
+<p>Note the &quot;can be transparent&quot; line. Devices ordinarily are not allowed to have transparency or opaqueness, but we can make an exception in this case. Without that line, attempts to change the transparency of the window will fail.
+<p>
+<blockquote><font color="#000080">Carry out switching off the window: change the window to transparent.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out switching on the window: change the window to opaque.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of searching a transparent window: say &quot;Isn't it lovely out there?&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of searching an opaque window: say &quot;The window is currently darkened.&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc95.html>Previous</a> / <a href=doc97.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

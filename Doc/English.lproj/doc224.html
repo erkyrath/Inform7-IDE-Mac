@@ -1,4 +1,4 @@
-<html><head><title>15.8. Understanding kinds of value</title></head>
+<html><head><title>15.7. Understanding any, understanding rooms</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,28 +7,36 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc223.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc225.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.8. Understanding kinds of value</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc223.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc225.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.7. Understanding any, understanding rooms</b></td></tr></table><p>
 <p>
-<p>Newly created kinds of value can also be understood, which we make good use of in the example game &quot;Studious&quot;:
+<p>Ordinarily, if we write
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Studious&quot;\n\nThe Studio is a room. &quot;The unreal world of the photographic studio, full of fake furniture, cantilevered stands and silver-white shades like miniature parachutes.&quot; The lumpy black camera is in the Studio. &quot;A lumpy black camera hangs from a tripod.&quot;\n\nThe rake-thin model is a woman in the Studio. &quot;A rake-thin model, exquisitely bored and boringly exquisite, angles herself indolently.&quot;\n\nLimb is a kind of value. The limbs are left leg, left arm, right leg and right arm.\n\nDetailing is an action applying to one limb and one visible thing, requiring light. Check detailing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead. Report detailing: say &quot;Click! You take a detail photograph of the [limb understood] of [the second noun].&quot;\n\nUnderstand &quot;photograph [limb] of [a person]&quot; as detailing.\n\n\n')"><img border=0 src=paste.png></a> &quot;Studious&quot;
+<blockquote><font color="#000080">Understand &quot;manipulate [something]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Studio is a room. &quot;The unreal world of the photographic studio, full of fake furniture, cantilevered stands and silver-white shades like miniature parachutes.&quot; The lumpy black camera is in the Studio. &quot;A lumpy black camera hangs from a tripod.&quot;
+<p>then the &quot;[something]&quot; will only match what is within reach or sight: this is the concept of &quot;scope&quot;, which is what prevents a player from spookily acting on objects from a distance. The parser itself prevents the manipulation rules from ever being invoked on such distant items, which is as it should be.
+<p>
+<p>Sometimes, though, we positively want to allow this possibility. If we use the special word &quot;any&quot;, as in
+<p>
+<blockquote><font color="#000080">Understand &quot;manipulate [any door]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The rake-thin model is a woman in the Studio. &quot;A rake-thin model, exquisitely bored and boringly exquisite, angles herself indolently.&quot;
+<p>then any door, anywhere in the model world, can be allowed in the player's command. (Of course, the manipulation rules may not do what the player hopes: all that has happened is that the command is now possible to type.) The &quot;any&quot; can be followed by any description of items or rooms, and the latter opens up new possibilities, since rooms are ordinarily never allowed to be named in the player's commands.
+<p>
+<p>For example, the following gives the player the ability to walk between rooms without giving explicit directions of movement.
+<p>
+<blockquote><font color="#000080">Going by name is an action applying to one thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Limb is a kind of value. The limbs are left leg, left arm, right leg and right arm.
+<blockquote><font color="#000080">Carry out going by name: say &quot;You walk to [the noun].&quot;; move the player to the noun.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Detailing is an action applying to one limb and one visible thing, requiring light. Check detailing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead. Report detailing: say &quot;Click! You take a detail photograph of the [limb understood] of [the second noun].&quot;
+<blockquote><font color="#000080">Understand &quot;go to [any adjacent visited room]&quot; as going by name.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [limb] of [a person]&quot; as detailing.
-</font></blockquote><p>
+<p>(This is really only a sketch: in a finished work, &quot;go to&quot; would produce helpful errors if non-adjacent but visited rooms were named, and we might also worry about rules applying to movement, because the method above will circumvent them.)
 <p>
-<p>Note the way we can refer to the limb mentioned by the player as the &quot;limb understood&quot;. Similarly, we could talk about the &quot;number understood&quot; if the value parsed had been a number, and so on.
-<p>
+<p><hr><p>
+<a name="e121"><a href=ex121.html#e121><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A FIND command that allows the player to find a lost object anywhere</i><p>
+<a name="e73"><a href=ex73.html#e73><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A FOLLOW command allowing the player to pursue a person who has just left the room.</i><p>
 <p><hr><p><a href=doc223.html>Previous</a> / <a href=doc225.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

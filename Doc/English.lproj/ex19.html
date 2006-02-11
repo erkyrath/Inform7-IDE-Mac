@@ -1,4 +1,4 @@
-<html><head><title>3.10. Properties holding text</title></head>
+<html><head><title>4.4. Duplicates</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,65 +7,63 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc31.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc33.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.10. Properties holding text</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc47.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc49.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.4. Duplicates</b></td></tr></table><p>
 <p>
-<p>The properties we have seen so far have all been either/or: either open or closed, either transparent or opaque, either fixed in place or portable, either openable or not openable. However, some properties can have a much wider range of possibilities. For instance, the &quot;description&quot; of a room is the text revealed when the player first enters it, or types &quot;look&quot;. This needs to be textual: Inform would complain if, for instance, we tried to set the description of something to the number 42. We have already seen a concise way to set the description of a room:
+<p>Although it is only useful to a limited extent, we can make any number of copies of something:
 <p>
-<blockquote><font color="#000080">The Painted Room is north of the Undertomb. &quot;This is the Painted Room, where strange wall drawings leap out of the dark at the gleam of your candle: men with long wings and great eyes, serene and morose.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Polygons&quot;\n\nA shape is a kind of thing. A square is a kind of shape. A triangle is a kind of shape.\n\nThe Geometry Lab is a room. In the Geometry Lab are three triangles and two squares.\n\n\n')"><img border=0 src=paste.png></a> &quot;Polygons&quot;
 </font></blockquote><p>
 <p>
-<p>This does the same thing as:
-<p>
-<blockquote><font color="#000080">The Painted Room is north of the Undertomb. The description of the Painted Room is &quot;This is the Painted Room, where strange wall drawings leap out of the dark at the gleam of your candle: men with long wings and great eyes, serene and morose.&quot;
+<blockquote><font color="#000080">A shape is a kind of thing. A square is a kind of shape. A triangle is a kind of shape.
 </font></blockquote><p>
 <p>
-<p>Or even:
-<p>
-<blockquote><font color="#000080">The Painted Room is north of the Undertomb. The description is &quot;This is the Painted Room, where strange wall drawings leap out of the dark at the gleam of your candle: men with long wings and great eyes, serene and morose.&quot;
+<blockquote><font color="#000080">The Geometry Lab is a room. In the Geometry Lab are three triangles and two squares.
 </font></blockquote><p>
+<p>
+<p>The description &quot;three triangles&quot; makes three identical things, each of the kind &quot;triangle&quot;, and similarly for the squares. When the above is compiled, the player can type &quot;take two triangles&quot; or &quot;take all the triangles&quot; and so forth.
+<p>
+<p>Two caveats. Firstly, a counted-out description like &quot;two squares&quot; is only allowed if it combines a number with the name of a kind which is already known (perhaps modified with adjectives, so &quot;two open doors&quot; is fine). If we say:
+<p>
+<blockquote><font color="#000080">Two circles are in the Lab.
+</font></blockquote><p>
+<p>
+<p>without having defined &quot;circle&quot; as a kind in advance, then only a single object will be created - whose name is &quot;two circles&quot;. (This is because many natural names start with numbers: &quot;six of clubs&quot;, for instance, referring to a single playing card, or &quot;12 Hollywood Close&quot; meaning a single house. We wouldn't want such names to be misinterpreted.)
+<p>
+<p>The second caveat is that excessive duplication is expensive in memory and running time. It is perfectly legal to say
+<p>
+<blockquote><font color="#000080">In the Lab are 75 triangles.
+</font></blockquote><p>
+<p>
+<p>but the resulting game may be a little sluggish: and Inform draws the line at 100, refusing to create more duplicates than that in any single place. If we really need more than about fifty duplicated objects - say, a tombola containing raffle tickets numbered 1 to 1000 - it is usually better to find some less literal way to simulate this: for instance, only having a single raffle ticket, but with a randomly chosen number on it.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e19"><a href=doc32.html#e19><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Fleshing out the descriptions of things on the boat.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e19"><a href=doc48.html#e19><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A child's set of building blocks, which come in three different colours - red, green and blue - but which can be repainted during play.</i><p>
 <p>
-<p>Currently we have provided objects for most of what is on the boat, but it's not very interesting to look at. We might want to give some more description to these things.
+<p>This would be a one-star example if it were not for the repainting:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Disappointment Bay&quot;\n\nThe Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.\n\nScratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;\n\nThe Cabin contains a glass case. In the glass case is a collection of fishing rods. The case is closed, transparent, and openable. The case is scenery.\n\nThe bench is in the cabin. On the bench are some blue vinyl cushions. The bench is enterable and scenery. The cushions are scenery.\n\nSome navigational instruments, some scratched windows, a radar display, and some radios are scenery in the cabin.\n\nThe description of the instruments is &quot;Knowing what they do is the Captain\'s job.&quot;\n\nThe description of the windows is &quot;They\'re a bit the worse for wear, but you can still get an impressive view of the glacier through them. There were whales earlier, but they\'re gone now.&quot;\n\nThe description of the radar is &quot;Apparently necessary to avoid the larger icebergs.&quot;\n\nThe description of the radios is &quot;With any luck you will not need to radio for help, but it is reassuring that these things are here.&quot;\n\n[The order in which we define these things is fairly open. We could also define an object so:]\n\nA sign is scenery in the Cabin. The description is &quot;You can get half-day and full-day sight-seeing tours, and half-day and full-day fishing trips.&quot;\n\n[Where &quot;the description&quot; is assumed to refer to the thing most recently defined, if no object is specified.]\n\nThe view of the Malaspina glacier is a backdrop. It is everywhere. The description is &quot;The Malaspina glacier covers much of the nearby slope, and -- beyond it -- an area as large as Rhode Island.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Disappointment Bay&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('A building block is a kind of thing. A red block, a blue block and a green block are kinds of building block.\n\nThe Nursery is a room. In the Nursery are six red blocks, four blue blocks and a green block.\n\n\n')"><img border=0 src=paste.png></a> A building block is a kind of thing. A red block, a blue block and a green block are kinds of building block.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.
+<blockquote><font color="#000080">The Nursery is a room. In the Nursery are six red blocks, four blue blocks and a green block.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Scratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;
+<p>But a kind cannot change during play, so this will not do. Instead, the colour will have to be a property of the block. So we might first try this:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Colour is a kind of value. The colours are red, blue and green. A block is a kind of thing. A block has a colour. A block is usually blue.\n\nThe Nursery is a room. In the Nursery are six red blocks, four blue blocks and a green block.\n\n\n')"><img border=0 src=paste.png></a> Colour is a kind of value. The colours are red, blue and green. A block is a kind of thing. A block has a colour. A block is usually blue.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Cabin contains a glass case. In the glass case is a collection of fishing rods. The case is closed, transparent, and openable. The case is scenery.
+<blockquote><font color="#000080">The Nursery is a room. In the Nursery are six red blocks, four blue blocks and a green block.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The bench is in the cabin. On the bench are some blue vinyl cushions. The bench is enterable and scenery. The cushions are scenery.
+<p>Which is fine, so far as it goes, but the colour property is not at all visible to the player, who simply sees &quot;eleven blocks&quot;. We thought of colour as being something outwardly apparent, but Inform does not know this. To achieve a better effect, we will need features from distant chapters. The first is an activity called &quot;printing the name of&quot;:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Colour is a kind of value. The colours are red, blue and green. A block is a kind of thing. A block has a colour. A block is usually blue. Before printing the name of a block: say &quot;[colour] &quot;. Before printing the plural name of a block: say &quot;[colour] &quot;.\n\n\n')"><img border=0 src=paste.png></a> Colour is a kind of value. The colours are red, blue and green. A block is a kind of thing. A block has a colour. A block is usually blue. Before printing the name of a block: say &quot;[colour] &quot;. Before printing the plural name of a block: say &quot;[colour] &quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Some navigational instruments, some scratched windows, a radar display, and some radios are scenery in the cabin.
+<p>This too, however, is unsatisfactory. The individual blocks are correctly described, but we are unable to distinguish them during play: we cannot type &quot;take a green block&quot;, for instance. And because the blocks are indistinguishable in play, they are still massed together as &quot;eleven blocks&quot; in room descriptions. We need to go one step further:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Colour is a kind of value. The colours are red, blue and green. A block is a kind of thing. A block has a colour. A block is usually blue. Before printing the name of a block: say &quot;[colour] &quot;. Before printing the plural name of a block: say &quot;[colour] &quot;. Understand the colour property as describing a block.\n\n\n')"><img border=0 src=paste.png></a> Colour is a kind of value. The colours are red, blue and green. A block is a kind of thing. A block has a colour. A block is usually blue. Before printing the name of a block: say &quot;[colour] &quot;. Before printing the plural name of a block: say &quot;[colour] &quot;. Understand the colour property as describing a block.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The description of the instruments is &quot;Knowing what they do is the Captain's job.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The description of the windows is &quot;They're a bit the worse for wear, but you can still get an impressive view of the glacier through them. There were whales earlier, but they're gone now.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The description of the radar is &quot;Apparently necessary to avoid the larger icebergs.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The description of the radios is &quot;With any luck you will not need to radio for help, but it is reassuring that these things are here.&quot;
-</font></blockquote><p>
-<p>
-<p>The order in which we define these things is fairly open. We could also define an object so:
-<p>
-<blockquote><font color="#000080">A sign is scenery in the Cabin. The description is &quot;You can get half-day and full-day sight-seeing tours, and half-day and full-day fishing trips.&quot;
-</font></blockquote><p>
-<p>
-<p>Where &quot;the description&quot; is assumed to refer to the thing most recently defined, if no object is specified.
-<p>
-<blockquote><font color="#000080">The view of the Malaspina glacier is a backdrop. It is everywhere. The description is &quot;The Malaspina glacier covers much of the nearby slope, and -- beyond it -- an area as large as Rhode Island.&quot;
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc31.html>Previous</a> / <a href=doc33.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>And now everything works nicely: the blocks are grouped by colour, and can be referred to by colour, and we can even change the colour of an individual block during play.
+</td></tr></table><p><p><hr><p><a href=doc47.html>Previous</a> / <a href=doc49.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>6.7. After rules</title></head>
+<html><head><title>4.5. Assemblies and body parts</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,49 +7,84 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc78.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc80.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.7. After rules</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc48.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc50.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.5. Assemblies and body parts</b></td></tr></table><p>
 <p>
-<p>There is pleasantly little to be said about &quot;after&quot; rules. If an action has survived all the rules in its way, and has actually succeeded, then we need to give the player a response which acknowledges this. Inform's normal rules will be sufficient to say something undramatic: for instance, if &quot;taking the napkin&quot; has succeeded then it will reply &quot;Taken.&quot; to the player.
+<p>In the previous chapter, we saw that it was possible to make sub-parts of things. For instance,
 <p>
-<p>An after rule is an opportunity to say something more interesting:
-<p>
-<blockquote><font color="#000080">After taking the diamonds, say &quot;Taken!&quot;
+<blockquote><font color="#000080">The white door is in the Drawing Room. The handle is part of the white door.
 </font></blockquote><p>
 <p>
-<p>(Well, slightly more interesting.) After rules automatically end the action (as a success), which is what we would want in the above case. Allowing it to continue would simply result in &quot;Taken.&quot; being printed as well. However, should we really need to do something and then carry on:
+<p>creates a door with an attached handle. But what if we want to say that not just this door, but every door, should have a handle? To do this we first need to create a kind called &quot;handle&quot;, since there will clearly need to be many handles. The solution is:
 <p>
-<blockquote><font color="#000080">After taking the diamonds: say &quot;(Mr Beebe looks up sharply.) &quot;; continue the action.
+<blockquote><font color="#000080">A handle is a kind of thing. A handle is part of every door.
 </font></blockquote><p>
+<p>
+<p>&quot;Every&quot; is a loaded word and best used sparingly. A sentence like &quot;A handle is part of every handle&quot; would, if taken literally, mean that a handle takes forever to make and is never finished. Inform will reject this, but the moral is clear: we should think about what we are doing with &quot;every&quot;. Another restriction is it is not safe to meddle with the three fundamental kinds &quot;room&quot;, &quot;container&quot; or &quot;supporter&quot;, but in fact this one can be got around quite easily, like so -
+<p>
+<blockquote><font color="#000080">A silver coin is a kind of thing. A banking room is a kind of room. Five silver coins are in every banking room.
+</font></blockquote><p>
+<p>
+<p>The effect of sentences like these is to make what we might call &quot;assemblies&quot; instead of single things. When a banking room is created, so are five more silver coins; when a door is created, so is another handle. Such sentences act not only on items created later on in the source text, but also on all those created so far.
+<p>
+<p>This is especially useful for body parts. If we would like to explore Voltaire's suggestion that history would have been very different if only Cleopatra's nose had been shorter, we will need noses:
+<p>
+<blockquote><font color="#000080">A nose is a kind of thing. A nose is part of every person.
+</font></blockquote><p>
+<p>
+<p>Something to bear in mind, though, is that in play the following may well happen:
+<p>
+<blockquote><font color="#000080">>examine nose
+<br>Which do you mean, your nose, Antony's nose or Cleopatra's nose?
+</font></blockquote><p>
+<p>
+<p>...because the player, being also a &quot;person&quot;, is as susceptible to the invention of noses as anyone else.
+<p>
+<p>Note that Inform names the otherwise nameless noses after their owners. It will always do this unless there are multiple indistinguishable things being created, as in the &quot;five silver coins are in every banking room&quot; example: those will all just be called &quot;silver coin&quot;.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e48"><a href=doc79.html#e48><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>When the player picks something up which he hasn't already examined, the object is described.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e48"><a href=doc49.html#e48><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>An "on/off button" which controls whatever device it is part of.</i><p>
 <p>
-<p>Suppose we want to make the player's life slightly easier by examining everything he picks up, if he hasn't already examined it.
+<p>Suppose we're particularly mechanically-minded and would like a game in which all of our mechanical devices have buttons to turn them on and off.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Morning After&quot;\n\nA thing can be examined or unexamined.\n\nAfter taking something unexamined:\n\tsay &quot;Taken. &quot;;\n\ttry examining the noun.\n\nBefore examining something:\n\tnow the noun is examined.\n\nThe Red Door Saloon is a room. &quot;This old place is in pretty bad shape since the mine shut down. Now there\'s not much to see but the pair of deep gouges in the floorboards are where the Sheriff\'s body was dragged out with the spurs still on.&quot;\n\nJed is a man in the Red Door Saloon. &quot;At 8:30 AM the only person around is old Jed, collecting his hangover cure.&quot;\n\nThe pistol is a thing in the Red Door Saloon. The description of the pistol is &quot;It ain\'t too accurate, but for two dollars you can\'t expect much.&quot;\n\nThe hangover cure is a thing in the Red Door Saloon. The description of the hangover cure is &quot;Two yellow egg-yolks unbroken in a red-brown liquid. Yep.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Morning After&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Model Shop&quot;\n\nAn on/off button is a kind of thing.\n\nInstead of pushing an on/off button which is part of a switched off device (called the machine):\n\ttry switching on the machine.\n\nInstead of pushing an on/off button which is part of a switched on device (called the machine):\n\ttry switching off the machine.\n\nInstead of switching on a button which is part of a device (called the machine):\n\ttry switching on the machine.\n\nInstead of switching off a button which is part of a device (called the machine):\n\ttry switching off the machine.\n\n[Then we hand out buttons with a free hand:]\n\nOne on/off button is part of every device.\n\nThe Model Shop is a room. A model train is a fixed in place device in the Model Shop. A toy elephant is a device in the Model Shop.\n\nEvery turn when the model train is switched on:\n\tsay &quot;The model train circles your feet, blowing small puffs of steam.&quot;\n\nEvery turn when the toy elephant is switched on:\n\tsay &quot;The toy elephant waves its trunk at you.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Model Shop&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A thing can be examined or unexamined.
+<blockquote><font color="#000080">An on/off button is a kind of thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After taking something unexamined:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Taken. &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try examining the noun.
+<blockquote><font color="#000080">Instead of pushing an on/off button which is part of a switched off device (called the machine):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try switching on the machine.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before examining something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is examined.
+<blockquote><font color="#000080">Instead of pushing an on/off button which is part of a switched on device (called the machine):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try switching off the machine.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Red Door Saloon is a room. &quot;This old place is in pretty bad shape since the mine shut down. Now there's not much to see but the pair of deep gouges in the floorboards are where the Sheriff's body was dragged out with the spurs still on.&quot;
+<blockquote><font color="#000080">Instead of switching on a button which is part of a device (called the machine):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try switching on the machine.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Jed is a man in the Red Door Saloon. &quot;At 8:30 AM the only person around is old Jed, collecting his hangover cure.&quot;
+<blockquote><font color="#000080">Instead of switching off a button which is part of a device (called the machine):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try switching off the machine.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The pistol is a thing in the Red Door Saloon. The description of the pistol is &quot;It ain't too accurate, but for two dollars you can't expect much.&quot;
+<p>Then we hand out buttons with a free hand:
+<p>
+<blockquote><font color="#000080">One on/off button is part of every device.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The hangover cure is a thing in the Red Door Saloon. The description of the hangover cure is &quot;Two yellow egg-yolks unbroken in a red-brown liquid. Yep.&quot;
+<blockquote><font color="#000080">The Model Shop is a room. A model train is a fixed in place device in the Model Shop. A toy elephant is a device in the Model Shop.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc78.html>Previous</a> / <a href=doc80.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Every turn when the model train is switched on:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The model train circles your feet, blowing small puffs of steam.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when the toy elephant is switched on:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The toy elephant waves its trunk at you.&quot;
+</font></blockquote><p>
+<p>
+<p>And now the game will have a model train's button and a toy elephant's button.
+<p>
+</td></tr></table><p><a name="e38"><a href=ex38.html#e38><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A "chest" kind which consists of a container which has a lid as a supporter.</i><p>
+<p><hr><p><a href=doc48.html>Previous</a> / <a href=doc50.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

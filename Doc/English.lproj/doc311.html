@@ -1,4 +1,4 @@
-<html><head><title>21.3. Emily Short <emshort@mindspring.com> -  Niggling spacing issue</title></head>
+<html><head><title>19.19. Inform 6 objects and classes</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,61 +7,18 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc310.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc312.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>21.3. Emily Short <emshort@mindspring.com> -  Niggling spacing issue</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc310.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc312.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.19. Inform 6 objects and classes</b></td></tr></table><p>
 <p>
-<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 30 September 2005
+<p>We are free to mix in I6 object and class definitions, and the I6 and I7 objects should coexist peaceably, with object-oriented code for the I6 items still functioning (&quot;before&quot;, &quot;react_before&quot;, &quot;each_turn&quot; and so forth) alongside I7 rules.
 <p>
-<p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
+<p>As might be expected, I7 compiles an I6 class for each kind, and an I6 object for each of its own world objects. We can meddle with its compilation process here using a further refinement of Include. For instance, the Standard Rules say this about vehicles:
 <p>
-<p><i>Build:</i> 2Z20
-<p>
-<p><i>Platform:</i> Mac OS X
-<p>
-<p>
-<p>
-<p><i>Code example:</i>
-<p>
-<p>
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The Sound Stage is a room. Clark Gable is a transparent man in the Sound Stage. &quot;Clark is here, carrying [the list of things carried by Clark][if Clark wears anything] and wearing [the list of things worn by Clark][end if].&quot; Clark carries a swagger stick. Clark carries a player\'s holdall called a briefcase. The briefcase contains a signed contract. [The carrying capacity of Clark is 2.] Clark wears a fedora and a pair of pants. Clark carries a portable supporter called a tray.\n\nThe stage door is west of the Sound Stage and east of the Lot. It is a door. The automobile is a vehicle in the Stage.\n\nA persuasion rule for asking Clark to try doing something: persuasion succeeds.\n\n\nThe player carries a small key, a tent, and Variety Magazine. The stage door is lockable and locked. The small key unlocks the stage door.\n\nA fixed in place container called a cage is in the Sound Stage. It is openable, transparent, pushable between rooms, enterable, and closed. In the cage is a lion. The lion is an animal. A bone is in the cage.  A seat is fixed in place in the cage. The seat is an enterable supporter.\n\n\n\n\n\n')"><img border=0 src=paste.png></a> The Sound Stage is a room. Clark Gable is a transparent man in the Sound Stage. &quot;Clark is here, carrying [the list of things carried by Clark][if Clark wears anything] and wearing [the list of things worn by Clark][end if].&quot; Clark carries a swagger stick. Clark carries a player's holdall called a briefcase. The briefcase contains a signed contract. [The carrying capacity of Clark is 2.] Clark wears a fedora and a pair of pants. Clark carries a portable supporter called a tray.
+<blockquote><font color="#000080">Include (- with before [; Go: return 1; ], -) when defining a vehicle.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The stage door is west of the Sound Stage and east of the Lot. It is a door. The automobile is a vehicle in the Stage.
+<p>This glues in a new property to the class compiled to represent the I7 kind &quot;vehicle&quot;. (See the DM4 for why.) And similarly:
+<p>
+<blockquote><font color="#000080">Include (- has my_funny_attribute, -) when defining the hot air balloon.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A persuasion rule for asking Clark to try doing something: persuasion succeeds.
-</font></blockquote><p>
-<p>
-<p>
-<blockquote><font color="#000080">The player carries a small key, a tent, and Variety Magazine. The stage door is lockable and locked. The small key unlocks the stage door.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A fixed in place container called a cage is in the Sound Stage. It is openable, transparent, pushable between rooms, enterable, and closed. In the cage is a lion. The lion is an animal. A bone is in the cage.  A seat is fixed in place in the cage. The seat is an enterable supporter.
-</font></blockquote><p>
-<p>
-<p>
-<p>
-<p>
-<p><i>What goes wrong:</i>
-<p>
-<p>
-<p>>open cage
-<p>You open the cage.
-<p>
-<p>>get in cage
-<p>You get into the cage.
-<p>
-<p>
-<p>In the cage you can see a lion, a bone and a seat.
-<p>
-<p>>
-<p>
-<p>
-<p>
-<p><i>Comments:</i>
-<p>
-<p>
-<p>Note the two lines between &quot;you get into the cage&quot; and &quot;in the cage...&quot;
-<p>
 <p>
 <p><hr><p><a href=doc310.html>Previous</a> / <a href=doc312.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

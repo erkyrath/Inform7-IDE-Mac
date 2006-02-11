@@ -1,4 +1,4 @@
-<html><head><title>16.5. New activities</title></head>
+<html><head><title>16.4. While clauses</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,39 +7,24 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc237.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc239.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.5. New activities</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc237.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc239.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.4. While clauses</b></td></tr></table><p>
 <p>
-<p>Activities are all about influencing the standard mechanisms which Inform uses, so it might at first seem that there is no need to create new activities: but on further reflection, quite a lot of the writing of interactive fiction involves creating new and systematic ways to do things, and as soon as we have a general rule, we will want to have exceptions. Inform therefore allows us to create our own activities, giving us ways to influence the operation of our own mechanisms.
+<p>Rules applied to actions can become baroque (&quot;after going through a door in the presence of an animal when -&quot; and so on and so forth), but activities are again simpler: they only have one possible clause attached, which is called &quot;while&quot;. For instance, the following would provide a fairly sledgehammer hint that the sack should not lightly be thrown away:
 <p>
-<p>There are two kinds of activity: those which relate to a specific thing or room, and those which do not. The following creates one of each kind:
-<p>
-<blockquote><font color="#000080">Analysing something is an activity.
-<br>Assaying is an activity.
+<blockquote><font color="#000080">The sack is a player's holdall. The sack is initially carried. Rule for printing the name of the sack while the sack is not carried: say &quot;your abandoned sack&quot;.
 </font></blockquote><p>
 <p>
-<p>Here &quot;analysing something&quot; relates to a specific item: Inform knows this because it looks for the clue &quot;something&quot; (or &quot;of something&quot;) after the activity's name, which in the first case above is simply &quot;analysing&quot;.
+<p>Any condition can be given after the &quot;while&quot;, and we can also specify that another activity has to be going on. Thus:
 <p>
-<p>Creating an activity is like creating an action: it automatically makes new rulebooks - &quot;before analysing&quot;, &quot;for analysing&quot; and &quot;after analysing&quot; - but they start out empty, so the activity does nothing yet. Moreover, it never happens. We can make an activity happen at any time by writing phrases like so:
-<p>
-<blockquote><font color="#000080">carry out the analysing activity with the pitchblende;
-<br>carry out the assaying activity;
+<blockquote><font color="#000080">Rule for printing the name of the lemon sherbet while listing contents: say &quot;curious sort of lemon sherbet sweet&quot;.
 </font></blockquote><p>
 <p>
-<p>To make the activity do something useful, we need to put a rule into its &quot;for&quot; rulebook:
+<p>This nicely distinguishes between contexts where it's appropriate to be more verbose, and where it isn't. Thus:
 <p>
-<blockquote><font color="#000080">The last for assaying rule:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Professionally, you cast an eye around mineral deposits nearby, noticing [list of rocks in the location].&quot;
+<blockquote><font color="#000080">You can see a teaspoon and a curious sort of lemon sherbet sweet here.
+<br>> TAKE ALL
+<br>teaspoon: Taken.
+<br>lemon sherbet: Taken.
 </font></blockquote><p>
 <p>
-<p>&quot;The last&quot; is a technicality about rulebooks (see the next chapter) which, put briefly, guarantees that this rule comes last among all possible &quot;for assaying&quot; rules. This is good form because the whole point of an activity is to make it easy for further rules to interfere - so we deliberately hang back to last place, giving precedence to anybody else who wants it.
-<p>
-<p>It may look rather pretentious to dress up the footling little &quot;assaying&quot; example as an activity, but it gains us more than might first appear. Every new activity created provides a context which other activities can observe. We could, for instance, define
-<p>
-<blockquote><font color="#000080">Rule for printing the name of a rock while assaying: ...
-</font></blockquote><p>
-<p>
-<p>so that during assays more technical names are used.
-<p>
-<p><hr><p>
-<a name="e46"><a href=ex46.html#e46><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>An Encyclopedia set which treats volumes in the same place as a single object, but can also be split up.</i><p>
 <p><hr><p><a href=doc237.html>Previous</a> / <a href=doc239.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>20.3. Sorcerer's Cave</title></head>
+<html><head><title>19.17. The return context</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,8 +7,18 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc308.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><img border=0 src=../ForwardDisabled.tif></td><td><b>20.3. Sorcerer's Cave</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc308.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc310.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.17. The return context</b></td></tr></table><p>
 <p>
-<p>...and so on.
+<p>I7 has a number of conceptually different ways to define code - as phrases which are not compiled inline, as phrases to decide conditions, as rules and so on. All these are compiled to I6 routines, and return values have different meanings in the different cases. For type-checking reasons, I7 needs to detect when a return might occur in order to make sure that a condition does not end with the wrong kind of result, and so on.
 <p>
-<p><hr><p><a href=doc308.html>Previous</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>Inline phrases which cause a return should declare what happens like so:
+<p>
+<blockquote><font color="#000080">To stop the action: (- rtrue; -) - outcome.
+</font></blockquote><p>
+<p>
+<p>&quot;Outcome&quot;, used for rules, is one of four possibilities. The others are &quot;void&quot; (a return with no value), &quot;value&quot; (with a value) or &quot;condition&quot; (used to signal a result of a phrase to decide whether something is true). Thus the phrases &quot;yes&quot; and &quot;stop the action&quot; have the same definition, but a different context:
+<p>
+<blockquote><font color="#000080">To yes: (- rtrue; -) - condition.
+</font></blockquote><p>
+<p>
+<p><hr><p><a href=doc308.html>Previous</a> / <a href=doc310.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

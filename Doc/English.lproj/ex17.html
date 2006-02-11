@@ -1,4 +1,4 @@
-<html><head><title>3.8. Scenery</title></head>
+<html><head><title>15.15. Context: understanding when</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,55 +7,78 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc29.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc31.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.8. Scenery</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc231.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc233.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.15. Context: understanding when</b></td></tr></table><p>
 <p>
-<p>As we have just seen, making something &quot;fixed in place&quot; will prevent it from being picked up or moved. But it remains substantial enough to be described in its own paragraph of text when the player visits its location. This can be unfortunate if it has also been described already in the body of the main description for that location. For instance, if we wrote:
+<p>We have now seen several different forms of &quot;Understand&quot; sentence: for instance,
 <p>
-<blockquote><font color="#000080">The Orchard is a room. &quot;Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.&quot; The gnarled old oak tree is fixed in place in the Orchard.
+<blockquote><font color="#000080">Understand the colour property as describing a building block.
+<br>Understand &quot;mix [colour] paint&quot; as mixing paint.
+<br>Understand &quot;rouge&quot; as red.
+<br>Understand &quot;curious girl&quot; as Alice.
 </font></blockquote><p>
 <p>
-<p>This would end up describing the oak twice, once in the paragraph about the Orchard, then again in a list of things within it:
+<p>Any of these may optionally have a condition tacked on: for instance,
 <p>
-<blockquote><font color="#000080"><b>Orchard</b>
-<br>Within this quadrille of pear trees, a single gnarled old oak remains as a memory of centuries past.
+<blockquote><font color="#000080">Understand &quot;mix [colour] paint&quot; as mixing paint when the location is the Workshop.
+<br>Understand &quot;rouge&quot; as red when the make-up set is visible.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">You can see a gnarled old oak tree here.
-</font></blockquote><p>
-<p>
-<p>We avoid this by making it &quot;scenery&quot; instead of &quot;fixed in place&quot;:
-<p>
-<blockquote><font color="#000080">The gnarled old oak tree is scenery in the Orchard.
-</font></blockquote><p>
-<p>
-<p>Any thing can be scenery, and this does not bar it from playing a part in the game: it simply means that it will be immobile and that it will not be described independently of its room.
+<p>In principle, &quot;when ...&quot; can take in any condition at all. In practice a little care should be exercised not to do anything too slow, or which might have side-effects. (For instance, referring the decision to a phrase which then printed text up would be a bad idea.) Moreover, we must remember that the &quot;noun&quot; and &quot;second noun&quot; are not known yet, nor do we know what the action will be. So we cannot safely say &quot;when the noun is the fir cone&quot;, for instance. If we want more sophisticated handling of such cases, we need to write checking rules and so on in the usual way.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e17"><a href=doc30.html#e17><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A boat with a glass case of fishing rods in it.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e17"><a href=doc232.html#e17><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A bookshelf with a number of books, where the player's command to examine something will be interpreted as an attempt to look up titles if the bookshelf is present, but otherwise given the usual response.</i><p>
 <p>
-<p>If we compile our last version of the cabin, we get a room where the glass case and the bench are listed separately from the room description, even though they have already been mentioned once. We can prevent this by making the already-mentioned things scenery:
+<p>Suppose we want a bookshelf with a very large number of books on it. They aren't to be taken or carried around in the game, but they should be mentioned, and the player should be allowed to look them up by name. Furthermore, the player's attempts to examine something unrecognized should be understood as an attempt to look up a title -- but only when the player is in the presence of the books. The rest of the time such requests should be rejected in the usual way.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Disappointment Bay&quot;\n\nThe Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.\n\nScratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;\n\nThe Cabin contains a glass case. In the glass case is a collection of fishing rods. The case is closed, transparent, and openable. The case is scenery.\n\nThe bench is in the cabin. On the bench are some blue vinyl cushions. The bench is enterable and scenery. The cushions are scenery.\n\n[Generally speaking, it is a good idea to recognize the player\'s attempts to interact with any objects mentioned in the room description, so we should also provide]\n\nSome navigational instruments, some scratched windows, a sign, a radar display, and some radios are scenery in the cabin.\n\n\n')"><img border=0 src=paste.png></a> &quot;Disappointment Bay&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Bibliophilia&quot;\n\nThe Graduate Lounge is a room. &quot;Shabby sofas; plastic cups remaining from the afternoon\'s pre-lecture espresso; a collection of Xena and Hercules figurines posed for ironic effect. It\'s somewhat depressing at this hour, when everyone has gone home.&quot;\n\nThe Classics Reading Room is south of the Lounge. &quot;Not as large a collection as the one in the Library, but it contains copies of everything really essential for reference.&quot;\n\nUnderstand &quot;examine [text]&quot; as examining as a book when the player is in the Reading Room. Understand &quot;look up [text]&quot; as examining as a book when the player is in the Reading Room.\n\nExamining as a book is an action applying to one topic.\n\nCarry out examining as a book:\n\tsay &quot;You can\'t find any such text.&quot;\n\nInstead of examining as a book a topic listed in the Table of Book Titles:\n\tsay &quot;[description entry][paragraph break]&quot;\n\nTable of Book Titles\ntopic\ttitle\tdescription\n&quot;Reading Greek Death&quot; or &quot;reading/greek/death&quot; or &quot;greek death&quot;\t&quot;Reading Greek Death&quot;\t&quot;A dense orange paperback treatise on the development of Greek eschatology.&quot;\n&quot;TAPA/Transactions/134-2&quot;\t&quot;TAPA 134-2&quot;\t&quot;Transactions of the American Philological Association from 2004.&quot;\n&quot;Oxford Classical Dictionary&quot; or &quot;OCD/dictionary/classical/oxford&quot;\t&quot;Oxford Classical Dictionary&quot;\t&quot;A hefty reference with short articles on everything from Greek meter to ancient cosmetics.&quot;\n&quot;Collected Dialogues of Plato&quot; or &quot;Plato/dialogues/hamilton/cairns&quot;\t&quot;Collected Dialogues of Plato&quot;\t&quot;All the Platonic dialogues -- some, admittedly, in rather tired translations -- but still a useful single volume, ed. Edith Hamilton and Huntington Cairns.&quot;\n&quot;Adobe Illustrator CS User Guide&quot; or &quot;user guide&quot; or &quot;adobe illustrator&quot; or &quot;adobe/illustrator/cs/user/guide&quot;\t&quot;Adobe Illustrator CS User Guide&quot;\t&quot;Hello, how did this get here? A suspiciously familiar name is scribbled inside the front cover...&quot;\n\nSome books are scenery in the Reading Room. Understand &quot;copies&quot; or &quot;book&quot; or &quot;shelf&quot; or &quot;shelves&quot; as the books. Instead of examining the books:\n\tchoose a random row in the Table of Book Titles;\n\tsay &quot;You scan the shelves and notice, among others, a volume entitled [italic type][title entry][roman type].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Bibliophilia&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.
+<blockquote><font color="#000080">The Graduate Lounge is a room. &quot;Shabby sofas; plastic cups remaining from the afternoon's pre-lecture espresso; a collection of Xena and Hercules figurines posed for ironic effect. It's somewhat depressing at this hour, when everyone has gone home.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Scratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;
+<blockquote><font color="#000080">The Classics Reading Room is south of the Lounge. &quot;Not as large a collection as the one in the Library, but it contains copies of everything really essential for reference.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Cabin contains a glass case. In the glass case is a collection of fishing rods. The case is closed, transparent, and openable. The case is scenery.
+<blockquote><font color="#000080">Understand &quot;examine [text]&quot; as examining as a book when the player is in the Reading Room. Understand &quot;look up [text]&quot; as examining as a book when the player is in the Reading Room.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The bench is in the cabin. On the bench are some blue vinyl cushions. The bench is enterable and scenery. The cushions are scenery.
+<blockquote><font color="#000080">Examining as a book is an action applying to one topic.
 </font></blockquote><p>
 <p>
-<p>Generally speaking, it is a good idea to recognize the player's attempts to interact with any objects mentioned in the room description, so we should also provide
-<p>
-<blockquote><font color="#000080">Some navigational instruments, some scratched windows, a sign, a radar display, and some radios are scenery in the cabin.
+<blockquote><font color="#000080">Carry out examining as a book:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You can't find any such text.&quot;
 </font></blockquote><p>
 <p>
-<p>The door and the view will need to be done as well, but they are special cases which we will get to shortly.
+<blockquote><font color="#000080">Instead of examining as a book a topic listed in the Table of Book Titles:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[description entry][paragraph break]&quot;
+</font></blockquote><p>
 <p>
-<p>As noted, making something scenery also means that the player will be prevented from picking it up and carrying it away. This is sensible, though: if an object can be removed from the room where it first appears, we should be careful about mentioning it in the main room description; otherwise, it will continue to be described as present even when someone has carried it off.
-</td></tr></table><p><p><hr><p><a href=doc29.html>Previous</a> / <a href=doc31.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Table of Book Titles
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">title</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">description</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Reading Greek Death&quot; or &quot;reading/greek/death&quot; or &quot;greek death&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Reading Greek Death&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;A dense orange paperback treatise on the development of Greek eschatology.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;TAPA/Transactions/134-2&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;TAPA 134-2&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Transactions of the American Philological Association from 2004.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Oxford Classical Dictionary&quot; or &quot;OCD/dictionary/classical/oxford&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Oxford Classical Dictionary&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;A hefty reference with short articles on everything from Greek meter to ancient cosmetics.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Collected Dialogues of Plato&quot; or &quot;Plato/dialogues/hamilton/cairns&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Collected Dialogues of Plato&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;All the Platonic dialogues -- some, admittedly, in rather tired translations -- but still a useful single volume, ed. Edith Hamilton and Huntington Cairns.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Adobe Illustrator CS User Guide&quot; or &quot;user guide&quot; or &quot;adobe illustrator&quot; or &quot;adobe/illustrator/cs/user/guide&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Adobe Illustrator CS User Guide&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Hello, how did this get here? A suspiciously familiar name is scribbled inside the front cover...&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Some books are scenery in the Reading Room. Understand &quot;copies&quot; or &quot;book&quot; or &quot;shelf&quot; or &quot;shelves&quot; as the books. Instead of examining the books:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the Table of Book Titles;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You scan the shelves and notice, among others, a volume entitled [italic type][title entry][roman type].&quot;
+</font></blockquote><p>
+<p>
+<p>Now if we type >X HERCULES in the Lounge, we will get
+<p>
+<blockquote><font color="#000080">>x hercules
+<br>You can't see any such thing.
+</font></blockquote><p>
+<p>
+<p>thanks to our somewhat slovenly implementation of the Lounge scenery; but in the Reading Room,
+<p>
+<blockquote><font color="#000080">>x hercules
+<br>You can't find any such text.
+</font></blockquote><p>
+<p>
+<p>In practice we might also want to extend our coverage somewhat to handle a case where the player tried to take books from the bookshelf: currently that would not be understood.
+</td></tr></table><p><p><hr><p><a href=doc231.html>Previous</a> / <a href=doc233.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

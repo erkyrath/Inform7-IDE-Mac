@@ -1,4 +1,4 @@
-<html><head><title>10.14. The value after and the value before</title></head>
+<html><head><title>11.9. Check, carry out, report</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,75 +7,53 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc149.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc151.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.14. The value after and the value before</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc160.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc162.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.9. Check, carry out, report</b></td></tr></table><p>
 <p>
-<p>At the start of this chapter we saw that &quot;+&quot; could be used to combine two number values into one:
+<p>The normal behaviour of an action is specified by its three associated rulebooks - check, carry out and report. In the case of our &quot;photographing&quot; example, these rulebooks will be:
 <p>
-<blockquote><font color="#000080">change the score to the score + 4
+<blockquote><font color="#000080"><b>Check photographing</b>. Here, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.
 </font></blockquote><p>
 <p>
-<p>Inform generally expects to apply the &quot;+&quot; sign only to two numbers, so we cannot normally apply &quot;+&quot; to values like these:
-<p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.
+<blockquote><font color="#000080"><b>Carry out photographing</b>. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.
 </font></blockquote><p>
 <p>
-<p>There will be more about arithmetic on new kinds of value in the chapter on Units, but it may be useful to note that although we cannot (ordinarily) add up colours, we do automatically have two ways to make new colours from old:
-<p>
-<blockquote><font color="#000080">the colour after C
-<br>the colour before C
+<blockquote><font color="#000080"><b>Report photographing</b>. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.
 </font></blockquote><p>
 <p>
-<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
+<p>So far we have not really gone into the business of what rulebooks are, and we don't do so here either - suffice to say that we can now create whatever rules we need:
 <p>
-<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not. Again, more on comparisons in the chapter on units.
+<blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
+</font></blockquote><p>
+<p>
+<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
+<p>
+<blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
+</font></blockquote><p>
+<p>
+<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
+<p>
+<p>We can continue to add rules at any point, and a classic thing that happens when testing a new work is that the designer realises there is a case which has not been thought of:
+<p>
+<blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e47"><a href=doc150.html#e47><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>All objects in the game have a heat, but if not kept insulated they will tend toward room temperature (and at a somewhat exaggerated rate).</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e47"><a href=doc161.html#e47><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Containers and supporters that report their contents when you EXAMINE them.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Entropy&quot;\n\nHeat is a kind of value. The heats are frosty, cold, cool, room temperature, warm, hot, and scalding. Everything has a heat. The heat of a thing is usually room temperature.\n\nEvery turn:\n\trepeat with item running through things which are not in an insulated container\n\tbegin;\n\t\tif the heat of the item is greater than room temperature, change the heat of the item to the heat before the heat of the item;\n\t\tif the heat of the item is less than room temperature, change the heat of the item to the heat after the heat of the item;\n\tend repeat.\n\nDefinition: a container is insulated if it is closed and it is opaque.\n\nThe vacuum thermos is an opaque closed openable container carried by the player. In the vacuum thermos is a frosty thing called an ice cube.\n\nEvery turn:\n\tif the heat of the ice cube is greater than cold\n\tbegin;\n\t\tif the ice cube is visible, say &quot;The ice cube melts! \'HA ha,\' says Maxwell, in a very unsporting way.&quot;;\n\t\tremove the ice cube from play;\n\tend if.\n\nBefore printing the name of something: say &quot;[heat] &quot;.\n\nEquilibrium is a room. &quot;A perfectly smooth chamber sealed from the outside world. You can\'t at this moment work out where the exit is, though possibly that is just because the lighting is so very very even and diffuse. And doesn\'t come from anywhere that you can see, either.&quot;\n\nMaxwell is a man in Equilibrium.  &quot;Maxwell sits on a stool across from you[if Maxwell has something], holding [list of things carried by Maxwell][end if].&quot; He is carrying a box of Chinese food. The Chinese food is scalding. &quot;A discarded [object in question] lies on the floor.&quot; The description of Maxwell is &quot;He has the faintly peevish look of one who has not been properly fed.&quot;\n\nEvery turn when Maxwell has the food:\n\tif the heat of the Chinese food is greater than warm, say &quot;Maxwell takes a bite, and swears.&quot;;\n\tif the heat of the Chinese food is warm, say &quot;Maxwell eats as fast as he can, enjoying the food while it\'s at just the right temperature.&quot;;\n\tif the heat of the Chinese food is less than warm\n\tbegin;\n\t\tsay &quot;Maxwell sadly stabs at his leftovers with a chopstick, but does not try to eat any more.&quot;;\n\t\tmove the food to the location;\n\tend if.\n\n')"><img border=0 src=paste.png></a> &quot;Entropy&quot;
+<p>The actual description of an examined thing is printed in the carry out phase, so whatever we add to the report phase will happen afterward:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Report examining a supporter which supports something:\n\tsay &quot;On [the noun] [is/are list of things on the noun].&quot;\n\nReport examining an open container which contains something:\n\tsay &quot;In [the noun] [is/are list of things in the noun].&quot;\n\n\n')"><img border=0 src=paste.png></a> Report examining a supporter which supports something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;On [the noun] [is/are list of things on the noun].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Heat is a kind of value. The heats are frosty, cold, cool, room temperature, warm, hot, and scalding. Everything has a heat. The heat of a thing is usually room temperature.
+<blockquote><font color="#000080">Report examining an open container which contains something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;In [the noun] [is/are list of things in the noun].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through things which are not in an insulated container
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the item is greater than room temperature, change the heat of the item to the heat before the heat of the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the item is less than room temperature, change the heat of the item to the heat after the heat of the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Definition: a container is insulated if it is closed and it is opaque.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The vacuum thermos is an opaque closed openable container carried by the player. In the vacuum thermos is a frosty thing called an ice cube.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the ice cube is greater than cold
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the ice cube is visible, say &quot;The ice cube melts! 'HA ha,' says Maxwell, in a very unsporting way.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove the ice cube from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before printing the name of something: say &quot;[heat] &quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Equilibrium is a room. &quot;A perfectly smooth chamber sealed from the outside world. You can't at this moment work out where the exit is, though possibly that is just because the lighting is so very very even and diffuse. And doesn't come from anywhere that you can see, either.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Maxwell is a man in Equilibrium.  &quot;Maxwell sits on a stool across from you[if Maxwell has something], holding [list of things carried by Maxwell][end if].&quot; He is carrying a box of Chinese food. The Chinese food is scalding. &quot;A discarded [object in question] lies on the floor.&quot; The description of Maxwell is &quot;He has the faintly peevish look of one who has not been properly fed.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn when Maxwell has the food:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is greater than warm, say &quot;Maxwell takes a bite, and swears.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is warm, say &quot;Maxwell eats as fast as he can, enjoying the food while it's at just the right temperature.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is less than warm
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Maxwell sadly stabs at his leftovers with a chopstick, but does not try to eat any more.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the food to the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc149.html>Previous</a> / <a href=doc151.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>We can easily override this report rule for individual items or types of item with an appropriate After.
+</td></tr></table><p><a name="e62"><a href=ex62.html#e62><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>An electric light kind of device which becomes lit when switched on and dark when switched off.</i><p>
+<a name="e51"><a href=ex51.html#e51><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A CUT [something] WITH [something] command which acts differently on different types of objects.</i><p>
+<p><hr><p><a href=doc160.html>Previous</a> / <a href=doc162.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

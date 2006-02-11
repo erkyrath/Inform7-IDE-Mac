@@ -1,4 +1,4 @@
-<html><head><title>14.13. Topic columns</title></head>
+<html><head><title>8.7. The time of day</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,72 +7,82 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc210.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc212.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.13. Topic columns</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc118.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc120.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>8.7. The time of day</b></td></tr></table><p>
 <p>
-<p>When double-quoted matter appears in a column of a table, Inform will normally treat that as text for printing out. The exception is when the column is called &quot;topic&quot;, where it is treated as text for comparing against what the player has typed. There is really only one operation allowed with topic columns, the &quot;...listed in...&quot; construction, but fortunately it is the one most often needed.
+<p>Inform keeps track of the time of day automatically: play ordinarily begins at 9 AM and each turn takes one minute. In some works of interactive fiction, time of day is crucial: in others, it is irrelevant or even, by a sort of tacit convention, non-existent. So Inform does nothing to act upon the time, or to reveal it to the player, without instruction. Nevertheless it is there.
 <p>
-<p>Let us suppose that the Sybil has a penchant for telling passers-by which is the Greek muse for what. We might write:
+<p>A sentence like the following allows the initial time to be set up as something other than 9 AM:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After asking the Sybil about a topic listed in the Table of Sybil\'s Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;\n\n\n')"><img border=0 src=paste.png></a> After asking the Sybil about a topic listed in the Table of Sybil's Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;
+<blockquote><font color="#000080">The time of day is 3:13 PM.
 </font></blockquote><p>
 <p>
-<p>We can then provide a simple table giving her responses:
+<p>Here, &quot;3:13 PM&quot; is a constant value of a kind not seen before: it's a kind of value called &quot;time&quot;, and the value &quot;time of day&quot; is a time that varies. After one turn it will be 3:14 PM, then 3:15 PM and so on.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Table of Sybil\'s replies\nTopic\tMuse\n&quot;calliope&quot;\t&quot;epic poetry&quot;\n&quot;clio&quot;\t&quot;history&quot;\n&quot;erato&quot;\t&quot;love poetry&quot;\n&quot;euterpe&quot;\t&quot;music&quot;\n&quot;melpomene&quot;\t&quot;tragedy&quot;\n&quot;polyhymnia&quot;\t&quot;sacred poetry&quot;\n&quot;terpsichore&quot;\t&quot;dancing&quot;\n&quot;thalia&quot;\t&quot;comedy&quot;\n&quot;urania&quot;\t&quot;astronomy&quot;\n&quot;monica&quot;\t&quot;tidiness&quot;\n&quot;phoebe&quot;\t&quot;massage&quot;\n&quot;rachel&quot;\t&quot;oval hair-cuts&quot;\n\n\n')"><img border=0 src=paste.png></a> Table of Sybil's replies
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Muse</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;calliope&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;epic poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;clio&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;history&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;erato&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;love poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;euterpe&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;music&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;melpomene&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;tragedy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;polyhymnia&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;sacred poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;terpsichore&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;dancing&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;thalia&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;comedy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;urania&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;astronomy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;monica&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;tidiness&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;phoebe&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;massage&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;rachel&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;oval hair-cuts&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<p>Note that the sentence above is an assertion (a statement about the initial state of affairs), not an instruction which can be part of a rule. It would be equivalent to write:
+<p>
+<blockquote><font color="#000080">When play begins, change the time of day to 3:13 PM.
 </font></blockquote><p>
 <p>
-<p>Topics can use the full range of abilities of the &quot;understanding&quot; system which Inform uses to parse text, and which will be the subject of a later chapter. For now, note that the Sybil's topics might equally include &quot;flora/eve&quot; (matching the single word &quot;flora&quot; or the single word &quot;eve&quot;), or something more elaborate such as:
+<p>We more often use &quot;change the time of day to ...&quot; to take care of drastic events:
 <p>
-<blockquote><font color="#000080">&quot;Bridget&quot; or &quot;Bridge&quot; or &quot;Bridget Jones&quot;
+<blockquote><font color="#000080">When the player loses consciousness:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to 10:12 AM;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A mist comes over your vision, and when you come to, it is morning and you are in bed.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e97"><a href=doc211.html#e97><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A REMEMBER command which accepts any text and looks up a response in a table of recollections.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e97"><a href=doc119.html#e97><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Shops which each have opening and closing hours, so that it is impossible to go in at the wrong times, and the player is kicked out if he overstays his welcome.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Merlin&quot;\n\nUnderstand &quot;remember [text]&quot; as remembering.\n\nRemembering is an action applying to one topic.\n\nCarry out remembering:\n\tsay &quot;Nothing comes to mind.&quot;.\n\nInstead of remembering a topic listed in the Table of Recollections:\n\tsay &quot;[response entry][paragraph break]&quot;.\n\nTable of Recollections\nTopic\tResponse\n&quot;rain/weather&quot;\t&quot;You\'ve seen worse, but not often: it\'s falling so hard now that the tin rattles and the runoff, on the low side of the roof, would be a tenable source of hydroelectric power.&quot;\n&quot;hydroelectric power&quot; or &quot;power/hydroelectric&quot;\t&quot;It\'s not as though you have any sort of light bulb in here to turn on, even if you could power it.&quot;\n&quot;light bulb&quot; or &quot;light/bulb&quot;\t&quot;Light bulbs, like so much else, are a thing of your past. Or is it your future? Tricky, the way the world loops round on itself.&quot;\n&quot;past/time/future&quot;\t&quot;Living backwards has its drawbacks. A tendency to confuse and annoy your friends, being one; the total inability to maintain a stable relationship; and a deep dissatisfaction with most of the bodily processes people enjoy, since they ultimately make you hungrier, colder, or-- no point dwelling on it, really.&quot;\n&quot;backwards&quot;\t&quot;It\'s not even exactly *backwards*, now is it? It\'s more like a series of forwardses stuck back to back. As though someone had taken each track of a CD and put them in the exactly wrong order. You miss that. The music on demand.&quot;\n\nThe Inadequate Shelter is a room. &quot;A piece of corrugated tin, leaned on two sticks, and pathetically augmented with a tire (on one side) and a cardboard box (on the side towards the wind). And that\'s what you\'ve got between you and the driving rain.\n\nAt the moment rain is all you can remember, in fact.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Merlin&quot;
+<p>Suppose we wanted a game set in a living town, with locations opening and closing at different times of day, and business carrying on as usual. The point might be to force the player to plan his itinerary carefully to hit the right spots at the right times; or we might be writing a more contemplative piece, where part of the enjoyment came from just watching the characters wander around doing their daily business...
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;IPA&quot;\n\nWhen play begins: change the right hand status line to &quot;[time of day]&quot;.\n\nThe time of day is 9:50 AM.\n\nA shop is a kind of room. A shop has a time called the opening hour. The opening hour of the shop is usually 8 AM. A shop has a time called the closing hour. A shop usually has closing hour 6 PM.\n\nCheck going to a shop (called the target):\n\tif the time of day is before the opening hour of the target,\n\t\tsay &quot;[The target] is locked up until [the opening hour of the target].&quot; instead.\n\nCheck going to a shop (called the target):\n\tif the time of day is after the closing hour of the target,\n\t\tsay &quot;[The target] has been closed since [the closing hour of the target].&quot;\n\nEvery turn when the location is a shop:\n\tlet deadline be the closing hour of the location;\n\tif the deadline is before the time of day\n\tbegin;\n\t\tlet target be a random adjacent room which is not a shop;\n\t\tsay &quot;You are gently but firmly ushered out, since [the location] is closing.&quot;;\n\t\tmove the player to the target;\n\tend if.\n\nThe Strip-mall Parking Lot is a room. &quot;Dead Christmas trees are heaped outside the bagel shop. Strips of dirty ice survive along the curb, and in the shadows of the lamp-posts. A wet, almost illegible sheet of algebra homework is plastered to the asphalt.\n\nPinewood Brewing Supply is at the east end of the lot.&quot;\n\nPinewood Brewing Supply is a shop. It is east of Parking Lot. The opening hour of Pinewood Brewing Supply is 10:00 AM. The closing hour of Pinewood Brewing Supply is 3:30 PM. &quot;Shelves and shelves of malt and hops; large glass carboys, and plastic tubing; empty bottles; bottle-caps; bottle-labeling kits; starters for vinegar, sourdough, root beer.\n\nA sweet malty smell hangs in the air.&quot;\n\nInstead of going to Brewing Supply when the time of day is before the opening hour of Brewing Supply for the second time:\n\tsay &quot;You rattle at the door again. \'Hold your horses, for crying out loud,\' yells a voice from within.&quot;\n\nNoah\'s Bagels is a shop. It is north of the Parking Lot. The opening hour of Noah\'s Bagels is 6:00 AM. The closing hour of Noah\'s Bagels is 11:00 AM. &quot;The selection has been somewhat picked over, leaving you with your choice of Pumpernickel, Asiago, or Everything.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;IPA&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;remember [text]&quot; as remembering.
+<blockquote><font color="#000080">When play begins: change the right hand status line to &quot;[time of day]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Remembering is an action applying to one topic.
+<blockquote><font color="#000080">The time of day is 9:50 AM.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out remembering:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing comes to mind.&quot;.
+<blockquote><font color="#000080">A shop is a kind of room. A shop has a time called the opening hour. The opening hour of the shop is usually 8 AM. A shop has a time called the closing hour. A shop usually has closing hour 6 PM.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of remembering a topic listed in the Table of Recollections:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[response entry][paragraph break]&quot;.
+<blockquote><font color="#000080">Check going to a shop (called the target):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is before the opening hour of the target,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The target] is locked up until [the opening hour of the target].&quot; instead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Recollections
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Response</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;rain/weather&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;You've seen worse, but not often: it's falling so hard now that the tin rattles and the runoff, on the low side of the roof, would be a tenable source of hydroelectric power.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;hydroelectric power&quot; or &quot;power/hydroelectric&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;It's not as though you have any sort of light bulb in here to turn on, even if you could power it.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;light bulb&quot; or &quot;light/bulb&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Light bulbs, like so much else, are a thing of your past. Or is it your future? Tricky, the way the world loops round on itself.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;past/time/future&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Living backwards has its drawbacks. A tendency to confuse and annoy your friends, being one; the total inability to maintain a stable relationship; and a deep dissatisfaction with most of the bodily processes people enjoy, since they ultimately make you hungrier, colder, or-- no point dwelling on it, really.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;backwards&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;It's not even exactly *backwards*, now is it? It's more like a series of forwardses stuck back to back. As though someone had taken each track of a CD and put them in the exactly wrong order. You miss that. The music on demand.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">Check going to a shop (called the target):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is after the closing hour of the target,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The target] has been closed since [the closing hour of the target].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Inadequate Shelter is a room. &quot;A piece of corrugated tin, leaned on two sticks, and pathetically augmented with a tire (on one side) and a cardboard box (on the side towards the wind). And that's what you've got between you and the driving rain.
+<blockquote><font color="#000080">Every turn when the location is a shop:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let deadline be the closing hour of the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the deadline is before the time of day
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let target be a random adjacent room which is not a shop;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You are gently but firmly ushered out, since [the location] is closing.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the player to the target;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At the moment rain is all you can remember, in fact.&quot;
+<blockquote><font color="#000080">The Strip-mall Parking Lot is a room. &quot;Dead Christmas trees are heaped outside the bagel shop. Strips of dirty ice survive along the curb, and in the shadows of the lamp-posts. A wet, almost illegible sheet of algebra homework is plastered to the asphalt.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc210.html>Previous</a> / <a href=doc212.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Pinewood Brewing Supply is at the east end of the lot.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Pinewood Brewing Supply is a shop. It is east of Parking Lot. The opening hour of Pinewood Brewing Supply is 10:00 AM. The closing hour of Pinewood Brewing Supply is 3:30 PM. &quot;Shelves and shelves of malt and hops; large glass carboys, and plastic tubing; empty bottles; bottle-caps; bottle-labeling kits; starters for vinegar, sourdough, root beer.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A sweet malty smell hangs in the air.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going to Brewing Supply when the time of day is before the opening hour of Brewing Supply for the second time:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You rattle at the door again. 'Hold your horses, for crying out loud,' yells a voice from within.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Noah's Bagels is a shop. It is north of the Parking Lot. The opening hour of Noah's Bagels is 6:00 AM. The closing hour of Noah's Bagels is 11:00 AM. &quot;The selection has been somewhat picked over, leaving you with your choice of Pumpernickel, Asiago, or Everything.&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc118.html>Previous</a> / <a href=doc120.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

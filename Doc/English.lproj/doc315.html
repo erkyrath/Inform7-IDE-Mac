@@ -1,4 +1,4 @@
-<html><head><title>22.3. Emily Short <emshort@mindspring.com> -  First circle</title></head>
+<html><head><title>21.1. Emily Short <emshort@mindspring.com> -  Ignore until feeling hardy</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,13 +7,13 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc314.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc316.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>22.3. Emily Short <emshort@mindspring.com> -  First circle</b></td></tr></table><p>
+<h2>Chapter 21: Recently Closed Bugs</h2><p><table><tr width="100%"><td width=80 valign="top"><a href=doc314.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc316.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>21.1. Emily Short <emshort@mindspring.com> -  Ignore until feeling hardy</b></td></tr></table><p>
 <p>
-<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 5 November 2005
+<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 31 January 2006
 <p>
 <p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
 <p>
-<p><i>Build:</i> 3C42
+<p><i>Build:</i> 3E61
 <p>
 <p><i>Platform:</i> Mac OS X
 <p>
@@ -22,90 +22,40 @@ function pasteCode(code) {
 <p><i>Code example:</i>
 <p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The Academy is a room. Aristotle is a man in the Academy. Aristotle is carrying an electric razor. The razor is a device.\n\nThe player wears a himation. The player carries an eel from the Copaic lake. The eel is edible.\n\nUnderstand &quot;use [something]&quot; as examining.\n\nUnderstand &quot;use [something wearable]&quot; as wearing.\n\nUnderstand &quot;use [an edible thing]&quot; as eating.\n\nUnderstand &quot;use [a switched off thing]&quot; as switching on. Understand &quot;use [a switched on thing]&quot; as switching off.\n\nUnderstand &quot;use [text] on [someone]&quot; as asking it about (with nouns reversed).\n\nSyllogism is a kind of value. The syllogisms are modus tollens and modus ponens.\n\nUnderstand &quot;use [syllogism]&quot; as asserting. Understand &quot;use syllogism of [syllogism] type&quot; as asserting.\n\nUnderstand &quot;use [syllogism] on [someone]&quot; as asserting it to. Understand &quot;use [syllogism] in conversation with [someone]&quot; as asserting it to. Understand &quot;use syllogism of [syllogism] type on [someone]&quot; as asserting it to. Understand &quot;use on [someone] [syllogism]&quot; as asserting it to (with nouns reversed).\nUnderstand &quot;use [fallacy] on [someone]&quot; as tricking it with (with nouns reversed). Understand &quot;use on [someone] [fallacy]&quot; as tricking it with.\n\nFallacy is a kind of value. The fallacies are affirming the consequent and denying the antecedent.\n\nInstead of tricking someone with affirming the consequent:\n\tsay &quot;\'If P, then Q!\' you say. \'Q, therefore P!\'&quot;\n\nInstead of tricking someone with denying the antecedent:\n\tsay &quot;\'If P, then Q!\' you say. \'Not P, so not Q!\'&quot;\n\nTricking it with is an action applying to one thing and one fallacy.\n\nCarry out tricking it with:\n\tsay &quot;It turns out you were foolish to try this ploy.&quot;\n\nAsserting is an action applying to one syllogism.\n\nAsserting it to is an action applying to one syllogism and one thing.\nCarry out asserting modus ponens:\n\tsay &quot;\'If P, then Q,\' you assert. \'P! Therefore Q!\'&quot;\n\n\nCarry out asserting modus tollens:\n\tsay &quot;\'If P, then Q,\' you assert. \'Not P! Therefore not Q!\'&quot;\n\nCarry out asserting it to:\n\tsay &quot;You turn to [the second noun]. &quot;;\n\ttry asserting the syllogism understood instead.\n\nInstead of asking someone about a topic listed in the Table of Chatting:\n\tsay &quot;[reply entry][paragraph break]&quot;\n\nTable of Chatting\ntopic\treply\n&quot;modus tollens&quot;\t&quot;BUG BUG&quot;\n&quot;modus ponens&quot;\t&quot;BUG BUG BUG&quot;\n&quot;chicken&quot;\t&quot;Your point is well taken.&quot;\n\nUnderstand &quot;use [text]&quot; as floundering.\n\nFloundering is an action applying to one topic. Carry out floundering: say &quot;Getting desperate, are we?&quot;\n\n\n\n\n\n')"><img border=0 src=paste.png></a> The Academy is a room. Aristotle is a man in the Academy. Aristotle is carrying an electric razor. The razor is a device.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Procedural rule: substitute the helpful indirection rule for the block vaguely going rule.\n\nThis is the helpful indirection rule:\n\t\tlet chosen way be the logical exit;\n\t\tif chosen way is a direction\n\t\tbegin;\n\t\t\tsay &quot;(heading [chosen way])&quot;;\n\t\t\tchange the noun to the chosen way;\n\t\totherwise;\n\t\t\t say &quot;You will have to be more specific about which direction you want to go.&quot;;\n\t\tend if;\n\n\nThe Entrance Hall is a room. The Courtyard is north of the Entrance Hall. The Dining Hall is west of the Entrance Hall. The Kitchen is west of the Dining Hall. The Scarlet Gallery is east of the Entrance Hall.\n\n\nTo decide what direction is the logical exit:\n\tlet counter be 0;\n\tlet chosen way be north;\n\trepeat with way running through directions\n\tbegin;\n\t\tlet place be the room way from the location;\n\t\tif place is a room\n\t\tbegin;\n\t\t\tincrease counter by 1;\n\t\t\tlet chosen way be the way;\n\t\tend if;\n\tend repeat;\n\tif counter is 1, decide on the chosen way.\n\n\n\n\n\n\n')"><img border=0 src=paste.png></a> Procedural rule: substitute the helpful indirection rule for the block vaguely going rule.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The player wears a himation. The player carries an eel from the Copaic lake. The eel is edible.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;use [something]&quot; as examining.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;use [something wearable]&quot; as wearing.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;use [an edible thing]&quot; as eating.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;use [a switched off thing]&quot; as switching on. Understand &quot;use [a switched on thing]&quot; as switching off.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;use [text] on [someone]&quot; as asking it about (with nouns reversed).
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Syllogism is a kind of value. The syllogisms are modus tollens and modus ponens.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;use [syllogism]&quot; as asserting. Understand &quot;use syllogism of [syllogism] type&quot; as asserting.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;use [syllogism] on [someone]&quot; as asserting it to. Understand &quot;use [syllogism] in conversation with [someone]&quot; as asserting it to. Understand &quot;use syllogism of [syllogism] type on [someone]&quot; as asserting it to. Understand &quot;use on [someone] [syllogism]&quot; as asserting it to (with nouns reversed).
-<br>Understand &quot;use [fallacy] on [someone]&quot; as tricking it with (with nouns reversed). Understand &quot;use on [someone] [fallacy]&quot; as tricking it with.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Fallacy is a kind of value. The fallacies are affirming the consequent and denying the antecedent.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of tricking someone with affirming the consequent:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'If P, then Q!' you say. 'Q, therefore P!'&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of tricking someone with denying the antecedent:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'If P, then Q!' you say. 'Not P, so not Q!'&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Tricking it with is an action applying to one thing and one fallacy.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out tricking it with:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It turns out you were foolish to try this ploy.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Asserting is an action applying to one syllogism.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Asserting it to is an action applying to one syllogism and one thing.
-<br>Carry out asserting modus ponens:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'If P, then Q,' you assert. 'P! Therefore Q!'&quot;
+<blockquote><font color="#000080">This is the helpful indirection rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let chosen way be the logical exit;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if chosen way is a direction
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [chosen way])&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the noun to the chosen way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You will have to be more specific about which direction you want to go.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
 </font></blockquote><p>
 <p>
 <p>
-<blockquote><font color="#000080">Carry out asserting modus tollens:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'If P, then Q,' you assert. 'Not P! Therefore not Q!'&quot;
+<blockquote><font color="#000080">The Entrance Hall is a room. The Courtyard is north of the Entrance Hall. The Dining Hall is west of the Entrance Hall. The Kitchen is west of the Dining Hall. The Scarlet Gallery is east of the Entrance Hall.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out asserting it to:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You turn to [the second noun]. &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try asserting the syllogism understood instead.
+<p>
+<blockquote><font color="#000080">To decide what direction is the logical exit:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let counter be 0;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let chosen way be north;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with way running through directions
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let place be the room way from the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if place is a room
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;increase counter by 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let chosen way be the way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if counter is 1, decide on the chosen way.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of asking someone about a topic listed in the Table of Chatting:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[reply entry][paragraph break]&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Table of Chatting
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">reply</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;modus tollens&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;BUG BUG&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;modus ponens&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;BUG BUG BUG&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;chicken&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Your point is well taken.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;use [text]&quot; as floundering.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Floundering is an action applying to one topic. Carry out floundering: say &quot;Getting desperate, are we?&quot;
-</font></blockquote><p>
 <p>
 <p>
 <p>
@@ -113,34 +63,57 @@ function pasteCode(code) {
 <p><i>What goes wrong:</i>
 <p>
 <p>
-<p>>showverb use
-<p>Verb 'use'
-<blockquote><font color="#000080"> * noun=Routine(27847) -> Wear
-<br> * noun=Routine(27859) -> Eat
-<br> * noun=Routine(27871) -> SwitchOn
-<br> * noun=Routine(27883) -> SwitchOff
-<br> * noun -> Examine
-<br> * Routine(27785) -> A88_asserting
-<br> * 'on' creature Routine(27785) -> A89_asserting_it_to reverse
-<br> * 'on' creature Routine(27804) -> A87_tricking_it_with
-<br> * Routine(27785) 'on' creature -> A89_asserting_it_to
-<br> * Routine(27804) 'on' creature -> A87_tricking_it_with reverse
-<br> * 'syllogism' 'of' Routine(27785) 'type' -> A88_asserting
-<br> * Routine(27785) 'in' 'conversat' 'with' creature -> A89_asserting_it_to
-<br> * 'syllogism' 'of' Routine(27785) 'type' 'on' creature -> A89_asserting_it_to
-<br> * topic -> A90_floundering
-<br> * topic 'on' creature -> Ask reverse
-</font></blockquote><p>
+<p>This works dandily in cases pertaining to going:
 <p>
+<p>Entrance Hall
+<p>
+<p>>go
+<p>You will have to be more specific about which direction you want to go.
+<p>
+<p>>go east
+<p>
+<p>Scarlet Gallery
+<p>
+<p>>go
+<p>(heading west)
+<p>
+<p>Entrance Hall
+<p>
+<p>>
+<p>
+<p>...but inexplicably interferes under other circumstances:
+<p>
+<p>>eat all
+<p>You will have to be more specific about which direction you want to go.
+<p>
+<p>...for which reason I conclude that it is ignoring the &quot;while going&quot; part of this rule.
 <p>
 <p>
 <p>
 <p><i>Comments:</i>
 <p>
 <p>
-<p>I assert that 'use topic 'on' creature' should come before 'use topic'.
+<p>I'm assuming this is something moderately annoying to do with replacing a named rule that also had an associated restriction (while going).
 <p>
-<p>Other than that it does seem to have done pretty well with this. I may poke at it more later before introducing the whole to Ch. 15.
+<p>It is possible to tidy up a bit by converting to
+<p>
+<p>This is the helpful indirection rule:
+<blockquote><font color="#000080">if going
+<br>begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let chosen way be the logical exit;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if chosen way is a direction
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [chosen way])&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the noun to the chosen way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You will have to be more specific about which direction you want to go[if novice mode is functioning]. The available directions are[exit list][end if].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You will have to be more specific.&quot;;
+<br>end if.
+</font></blockquote><p>
+<p>
+<p>so this is not a mission-critical bug.
 <p>
 <p>
 <p><hr><p><a href=doc314.html>Previous</a> / <a href=doc316.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

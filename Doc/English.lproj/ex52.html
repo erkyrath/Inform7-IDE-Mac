@@ -1,4 +1,4 @@
-<html><head><title>5.4. Defining new adjectives</title></head>
+<html><head><title>19.11. Implications</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,54 +7,56 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc65.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc67.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.4. Defining new adjectives</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc302.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc304.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.11. Implications</b></td></tr></table><p>
 <p>
-<p>Suppose we want to coin a word for supporters currently supporting something. We can do so with the following sentence:
+<p>Extensions often need to define kinds, which we want to make as helpful as possible for the user. In particular, we want to make new instances of those kinds easy to create. An interesting example of this came up in Chapter 2, when clothing was introduced. For something to be a fully practical garment, worn by the player when play begins, it needs to be &quot;worn&quot;, &quot;wearable&quot; and &quot;initially carried&quot;: if the source forgets to specify the latter two properties, the results are mysterious and unfortunate.
 <p>
-<blockquote><font color="#000080">Definition: A supporter is occupied if something is on it.
+<p>The Standard Rules solve this problem by including the following line:
+<p>
+<blockquote><font color="#000080">Something worn is usually wearable and initially carried.
 </font></blockquote><p>
 <p>
-<p>Note the colon, which is essential, and the usage of &quot;it&quot; in the definition part to refer to the object in question. (For this purpose we would write &quot;it&quot; even if we were defining a term about, say, a woman instead of a supporter, so that &quot;she&quot; or &quot;her&quot; might seem more appropriate.)
+<p>Such a sentence is called an &quot;implication&quot;, as it is in the form &quot;Condition A implies Condition B&quot;. Inform never overrides certainties with mere implications, and is cautious about allowing them to build overly long chains of argument. This is to prevent the following kind of difficulty:
 <p>
-<p>This creates the adjective &quot;occupied&quot;, and gives it a definition valid for supporters. That restriction on validity means that non-supporters would always fail the description &quot;something occupied&quot;; which might be unfortunate if we wanted to walk about rooms being occupied. We could give a second definition thus:
-<p>
-<blockquote><font color="#000080">Definition: A room is occupied if a person is in it.
+<blockquote><font color="#000080">An open door is usually closed. A closed door is usually open.
 </font></blockquote><p>
 <p>
-<p>These are entirely different senses of the word &quot;occupied&quot; - a mantelpiece is occupied if an invitation is on it, but for a drawing room to be occupied there must be human presence - and Inform applies whichever sense is relevant when deciding whether or not a given object is &quot;occupied&quot;.
-<p>
-<p>Newly defined adjectives cannot be used when creating things, because they are not explicit enough. Inform could not satisfy:
-<p>
-<blockquote><font color="#000080">The Ballroom is occupied. The bucket is a large container.
-</font></blockquote><p>
-<p>
-<p>because there is not enough information: by whom is the Ballroom occupied? How large, exactly? On the other hand, newly defined adjectives are very helpful in conditions and for rules, as we shall see later on.
+<p>Implications have not been mentioned up to now since they are only really needed by extensions, but also because they can be tricky, with unforeseen consequences. Handle with care.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e52"><a href=doc66.html#e52><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>The "another" adjective for rules such as "in the presence of another person".</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e52"><a href=doc303.html#e52><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Rooms designated "outdoors" print a random atmospheric message every turn.</i><p>
 <p>
-<p>It is often useful to write action rules which apply only when the player is observed by a third party. &quot;In the presence of a person&quot;, however, will react even if only the player is in the room, because the player is, of course, a person as well.
-<p>
-<p>A convenient way around this problem is to define an &quot;other&quot; adjective:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Finishing School&quot;\n\nThe apple is an edible thing carried by the player.\n\nThe Hall is a room. Miss Wicket is a woman in the Hall.\n\nThe Dormitory is south of the Hall.\n\nDefinition: a person is another if it is not the player.\n\nInstead of eating something in the presence of another person (called the schoolmarm):\n\tsay &quot;[The schoolmarm] stares at you coldly because you have no fork or knife.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Finishing School&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Shadeless&quot;\n\nA room can be indoors or outdoors. A room is usually indoors.\n\nEvery turn when the location is outdoors:\n\tchoose a random row in the Table of Environmental Events;\n\tsay &quot;[event entry][paragraph break]&quot;.\n\nTable of Environmental Events\nevent\n&quot;The sun is really hot out here.&quot;\n&quot;My, the sun sure is warm.&quot;\n&quot;The heat is starting to get to you.&quot;\n&quot;A bird chirps.&quot;\n\n[No implications so far. But suppose we want to make a whole region outdoors without specifically saying so for every location in turn:]\n\nThe Farewell Bend Cafe is a room. The Parking Lot is outside from the Farewell Bend Cafe. The Parking Lot is outdoors.\n\nThe Open Desert is a region. The Flat Place, the Hilly Place, and the Ridge are in the Open Desert. The Flat Place is west of the Parking Lot. The Hilly Place is west of the Flat Place. The Ridge is west of the Hilly Place. A room in the Open Desert is always outdoors.\n\n[Now the whole Desert will be baking hot.]\n\n[Note that that &quot;always outdoors&quot; only means that all the rooms will be designated &quot;outdoors&quot; at the beginning of play. It doesn\'t prevent us changing that later, and indeed, out of pity for the player, we might want to provide a tent:]\n\nThe tent is an enterable container carried by the player. Carry out entering the tent: now the location is indoors. Carry out exiting when the player is in the tent: now the location is outdoors.\n\n')"><img border=0 src=paste.png></a> &quot;Shadeless&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The apple is an edible thing carried by the player.
+<blockquote><font color="#000080">A room can be indoors or outdoors. A room is usually indoors.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Hall is a room. Miss Wicket is a woman in the Hall.
+<blockquote><font color="#000080">Every turn when the location is outdoors:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the Table of Environmental Events;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[event entry][paragraph break]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Dormitory is south of the Hall.
+<blockquote><font color="#000080">Table of Environmental Events
+<br>event
+<br>&quot;The sun is really hot out here.&quot;
+<br>&quot;My, the sun sure is warm.&quot;
+<br>&quot;The heat is starting to get to you.&quot;
+<br>&quot;A bird chirps.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Definition: a person is another if it is not the player.
+<p>No implications so far. But suppose we want to make a whole region outdoors without specifically saying so for every location in turn:
+<p>
+<blockquote><font color="#000080">The Farewell Bend Cafe is a room. The Parking Lot is outside from the Farewell Bend Cafe. The Parking Lot is outdoors.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of eating something in the presence of another person (called the schoolmarm):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The schoolmarm] stares at you coldly because you have no fork or knife.&quot;
+<blockquote><font color="#000080">The Open Desert is a region. The Flat Place, the Hilly Place, and the Ridge are in the Open Desert. The Flat Place is west of the Parking Lot. The Hilly Place is west of the Flat Place. The Ridge is west of the Hilly Place. A room in the Open Desert is always outdoors.
 </font></blockquote><p>
 <p>
-<p>If we did not have &quot;another&quot; here, Inform would interpret even the player as a possible schoolmarm, leading to such lines as &quot;yourself stares at you coldly...&quot;. Clearly not quite the thing.
-</td></tr></table><p><p><hr><p><a href=doc65.html>Previous</a> / <a href=doc67.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>Now the whole Desert will be baking hot.
+<p>
+<p>Note that that &quot;always outdoors&quot; only means that all the rooms will be designated &quot;outdoors&quot; at the beginning of play. It doesn't prevent us changing that later, and indeed, out of pity for the player, we might want to provide a tent:
+<p>
+<blockquote><font color="#000080">The tent is an enterable container carried by the player. Carry out entering the tent: now the location is indoors. Carry out exiting when the player is in the tent: now the location is outdoors.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc302.html>Previous</a> / <a href=doc304.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

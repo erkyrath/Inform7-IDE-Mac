@@ -1,4 +1,4 @@
-<html><head><title>19.6. Version numbering</title></head>
+<html><head><title>18.19. Titling and abbreviation</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,35 +7,27 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc290.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc292.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.6. Version numbering</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc290.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc292.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>18.19. Titling and abbreviation</b></td></tr></table><p>
 <p>
-<p>As we have seen, extensions are referred to by name and author, but they can also (optionally) be referred to by version. For instance:
+<p>The main title of the map is the value of &quot;title&quot; for the whole map, so for instance we might write:
 <p>
-<blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.
+<blockquote><font color="#000080">Index map with title set to &quot;Oxford and its Environs&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Version 1/040426 of the Ducking Action by Graham Nelson begins here.
+<p>The subtitle settings apply to the subtitles used for each of the levels, so for instance
+<p>
+<blockquote><font color="#000080">Index map with subtitle of level -1 set to &quot;Tunnels and Sewers&quot;.
 </font></blockquote><p>
 <p>
-<p>A version number must be a whole number 1, 2, ... (version 0 is not allowed, and nor are decimal points), optionally followed by a slash '/' and then a six-figure date, in the form YYMMDD: so 040426 means 26 April 2004.
+<p>Names of individual rooms can be controlled with:
 <p>
-<p>A request to include version 2 of something implicitly means &quot;version 2 or later&quot;, and similarly &quot;version 2/040426&quot; means version 2 with a date of 26 April 2004 or later, or else any version higher than 2. If Inform loads the extension but finds that its version is not good enough, an error is issued.
-<p>
-<p>Where no version number is quoted, the rule is that an unspecified version predates any numbered version. This means that the line
-<p>
-<blockquote><font color="#000080">Include the Ducking Action by Graham Nelson.
+<blockquote><font color="#000080">Index map with name of Radcliffe Camera set to &quot;Library&quot;.
 </font></blockquote><p>
 <p>
-<p>will be happy with any version of the extension at all, whether numbered or not; but
+<p>(By default, the name of a room is its name in the main IF project, of course.) The smallest writing on the map is normally that used to label unorthodox or unclear exits (in particular, those going from one layer to another): this is what the &quot;annotation&quot; size, font and colour are used for.
 <p>
-<blockquote><font color="#000080">Include version 2 of the Ducking Action by Graham Nelson.
-</font></blockquote><p>
+<p>For most ways to set up the map, it's a practical necessity to abbreviate names of rooms, or they will spill out all over each other. Inform does this using the &quot;room-name-length&quot; setting. (The &quot;annotation-name-length&quot; is analogous.) For instance, if this setting is 5, then Inform will reduce the text of a name to at most 5 characters. It does this by successively throwing out spaces, lower case vowels, then other lower case letters, punctuation marks and finally upper case letters, always starting at the back of the name and working inwards: the process stops as soon as the name is short enough. For instance, &quot;Reading&quot; is abbreviated to &quot;Redng&quot;, &quot;Shangri-La&quot; to &quot;Shn-La&quot; and &quot;Cloud-Cuckoo-Land&quot; to &quot;C-C-L&quot;. The result can be a little comical, but is surprisingly unambiguous in practice. Abbreviation can effectively be abolished by raising the &quot;room-name-length&quot; to 128 (the highest permitted level), and note that the setting can be changed for individual rooms, so it is possible to have some room names abbreviated and others not, or in different degrees.
 <p>
-<p>will only accept the extension if it has a version number attached (and with that number being 2 or higher).
-<p>
-<p>During play of any game compiled by Inform 7, typing &quot;version&quot; lists various serial numbers of the pieces of software used to make it. The list concludes with names, authors and version numbers of any extensions used. So every author whose work contributes to a game automatically gets a modest credit within it. The same list can be printed, at the discretion of the designer, using the textual substitution:
-<p>
-<blockquote><font color="#000080">say &quot;[list of extension credits]&quot;
-</font></blockquote><p>
-<p>
+<p><hr><p>
+<a name="e113"><a href=ex113.html#e113><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Port Royal scenario given instructions for an EPS map.</i><p>
 <p><hr><p><a href=doc290.html>Previous</a> / <a href=doc292.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

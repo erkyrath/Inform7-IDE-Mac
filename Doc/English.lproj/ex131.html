@@ -1,4 +1,4 @@
-<html><head><title>11.8. Irregular English verbs</title></head>
+<html><head><title>11.6. Spontaneous actions by other people</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,92 +7,57 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc159.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc161.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.8. Irregular English verbs</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc157.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc159.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.6. Spontaneous actions by other people</b></td></tr></table><p>
 <p>
-<p>Our three example actions can be recognised in play using the following:
+<p>The player's actions happen not only when he types a command, but can also happen spontaneously as a result of a &quot;try&quot; phrase.
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
+<blockquote><font color="#000080">try going west
+<br>try asking Will to try going west
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;blink&quot; as blinking.
+<p>The latter might, of course, result in Will trying going west: or it might not - that depends on the persuasion rules. But as the author, we have the ultimate powers of persuasion, and can make Will act in any way we like, without asking:
+<p>
+<blockquote><font color="#000080">try Will trying going west
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;scrape [something] with [something]&quot; as scraping.
-</font></blockquote><p>
+<p>Nobody in the simulated world requested this: it is an impulse felt by Will alone, so that - from the player's point of view - Will is acting spontaneously. The player need not be anywhere nearby, and may never know what happened. Recall that when actions work their way down through the flow-chart, they are stopped before reaching the &quot;report&quot; stage - when the player is told about them - if they are running &quot;silently&quot;. This is also where Inform stops an action which is not witnessed by the player.
 <p>
-<p>The last of these examples shows why Inform does not risk generating this automatically: English is so full of irregular verbs. Inform could have guessed &quot;blink&quot; and &quot;photograph&quot;, but might then have opted for &quot;scrap&quot; instead of &quot;scrape&quot;.
-<p>
-<p>Inform does risk automatically generating the past participle of an action (many past participles are never needed, so the stakes are lower if Inform gets this wrong). What almost always happens is that the &quot;-ing&quot; is replaced with &quot;-ed&quot;, which happens to be correct in these three cases: photographed, blinked, scraped. It would be disastrously wrong for something like taking, though: we need taken, not taked. We can get around this like so:
-<p>
-<blockquote><font color="#000080">Weaving is an action with past participle woven, applying to one thing.
-</font></blockquote><p>
+<p><hr><img border=0 src=beta.png>Inform does not (yet) support &quot;try Will asking Elanor to try going west&quot;, but we hope to add actions of the form eventually.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e131"><a href=doc160.html#e131><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A shake command which agitates soda and makes items thump around in boxes.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e131"><a href=doc158.html#e131><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A person who will unlock and open a container when the player tells him to get something inside.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;3 AM&quot;\n\nUnderstand &quot;shake [something held]&quot; as shaking.\n\nShaking is an action with past participle shaken, applying to one thing.\n\nCarry out shaking:\n\tsay &quot;Nothing results of your shaking [the noun].&quot;\n\nInstead of shaking a closed container when something is in the noun:\n\tsay &quot;Something rattles inside [the noun].&quot;\n\nInstead of shaking a closed transparent container when something is in the noun:\n\tsay &quot;Inside [the noun] there are banging noises produced by [the list of things contained by the noun].&quot;\n\nInstead of shaking an open container which contains something:\n\tsay &quot;[The list of things contained by the noun] might fly out.&quot;\n\nThe Wawa is a room. &quot;A convenience store, if you like to call it that, vending the usual assortment of chips, donuts, soda, and beer. There is something of a line at the sandwich counter.&quot;\n\nThe box of enrobed cakes is in the Wawa. &quot;A box of Tastykake Enrobed Cakes has fallen off its shelf.&quot; The description is &quot;\'Enrobed Cakes\' is a fancy term for \'strange sponge-like baked good, covered in a thin shell of waxy chocolate\'. They are addictive, but not in a way that lets you respect yourself in the morning.&quot; The box is a closed openable container. In the box is a cake.\n\nInstead of opening the box, say &quot;The Wawa clerks frown on the consumption of unpurchased foodstuffs.&quot;\n\nThe can of root beer is a closed openable container carried by the player. The can of root beer is either agitated or calm.\n\n[Because the can of root beer should have some reactions to having been shaken later in the game, we need to borrow a few ideas from the later chapters on time:]\n\nInstead of shaking the can of root beer:\n\tthe can calms down in five turns from now;\n\tsay &quot;You give the can a good hard shake.&quot;;\n\tchange the can to agitated.\n\nInstead of listening to the can: say &quot;It sounds [if agitated]fizzy[otherwise]calm[end if]!&quot;\n\nWhen the can calms down:\n\tchange the can to calm.\n\nThe sticky mess is fixed in place. &quot;There is a sticky mess on the ground.&quot;\n\nInstead of opening the agitated can of root beer:\n\tremove the can of root beer from play;\n\tnow the sticky mess is in the location;\n\tsay &quot;You open the can and fizzing sweet soda goes absolutely everywhere.&quot;\n\nInstead of opening the calm can of root beer when the can has been agitated:\n\tremove the can of root beer from play;\n\tsay &quot;The root beer is disappointingly flat. That\'s what you get for shaking it up!&quot;\n\n')"><img border=0 src=paste.png></a> &quot;3 AM&quot;
+<p>We have already seen how Before... rules can generate implicit actions for the player, so that the player will, for instance, open doors before trying to walk through them. The same can be done for characters other than the player; so for instance:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode(' &quot;IQ Test&quot;\n\nThe Donut Shop is a room. &quot;Vibrantly decorated in donut colors: pink, brown, and cream.&quot;\n\nOgg is a man in the Donut Shop. &quot;Ogg is slumped in the corner[if Ogg carries something] with [list of things carried by Ogg][end if]. He wears a nametag which says \'HELLO MY NAME IS OG.\'&quot; Understand &quot;og&quot; as Ogg. Ogg wears a nametag. The description of the nametag is &quot;Sadly misspelled.&quot;\n\nThe Donut Shop contains a transparent closed openable locked lockable container called a case. The case contains some cake donuts. The donuts are edible.\n\nThe matching key of the case is a silver key. The silver key is carried by Ogg.\n\nA persuasion rule for asking someone to try doing something:\n\tpersuasion succeeds.\n\nBefore someone trying opening a locked thing (called the sealed chest):\n\tif the person asked is carrying the matching key of the sealed chest, try the person asked trying unlocking the sealed chest with the matching key of the sealed chest;\n\tif the sealed chest is locked, stop the action.\n\nBefore someone trying taking something which is in a closed container (called the shut chest):\n\ttry the person asked trying opening the shut chest;\n\tif the shut chest is closed, stop the action.\n\n\n')"><img border=0 src=paste.png></a>  &quot;IQ Test&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;shake [something held]&quot; as shaking.
+<blockquote><font color="#000080">The Donut Shop is a room. &quot;Vibrantly decorated in donut colors: pink, brown, and cream.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Shaking is an action with past participle shaken, applying to one thing.
+<blockquote><font color="#000080">Ogg is a man in the Donut Shop. &quot;Ogg is slumped in the corner[if Ogg carries something] with [list of things carried by Ogg][end if]. He wears a nametag which says 'HELLO MY NAME IS OG.'&quot; Understand &quot;og&quot; as Ogg. Ogg wears a nametag. The description of the nametag is &quot;Sadly misspelled.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out shaking:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing results of your shaking [the noun].&quot;
+<blockquote><font color="#000080">The Donut Shop contains a transparent closed openable locked lockable container called a case. The case contains some cake donuts. The donuts are edible.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of shaking a closed container when something is in the noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Something rattles inside [the noun].&quot;
+<blockquote><font color="#000080">The matching key of the case is a silver key. The silver key is carried by Ogg.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of shaking a closed transparent container when something is in the noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Inside [the noun] there are banging noises produced by [the list of things contained by the noun].&quot;
+<blockquote><font color="#000080">A persuasion rule for asking someone to try doing something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;persuasion succeeds.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of shaking an open container which contains something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The list of things contained by the noun] might fly out.&quot;
+<blockquote><font color="#000080">Before someone trying opening a locked thing (called the sealed chest):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is carrying the matching key of the sealed chest, try the person asked trying unlocking the sealed chest with the matching key of the sealed chest;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the sealed chest is locked, stop the action.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Wawa is a room. &quot;A convenience store, if you like to call it that, vending the usual assortment of chips, donuts, soda, and beer. There is something of a line at the sandwich counter.&quot;
+<blockquote><font color="#000080">Before someone trying taking something which is in a closed container (called the shut chest):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try the person asked trying opening the shut chest;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the shut chest is closed, stop the action.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The box of enrobed cakes is in the Wawa. &quot;A box of Tastykake Enrobed Cakes has fallen off its shelf.&quot; The description is &quot;'Enrobed Cakes' is a fancy term for 'strange sponge-like baked good, covered in a thin shell of waxy chocolate'. They are addictive, but not in a way that lets you respect yourself in the morning.&quot; The box is a closed openable container. In the box is a cake.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of opening the box, say &quot;The Wawa clerks frown on the consumption of unpurchased foodstuffs.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The can of root beer is a closed openable container carried by the player. The can of root beer is either agitated or calm.
-</font></blockquote><p>
-<p>
-<p>Because the can of root beer should have some reactions to having been shaken later in the game, we need to borrow a few ideas from the later chapters on time:
-<p>
-<blockquote><font color="#000080">Instead of shaking the can of root beer:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;the can calms down in five turns from now;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You give the can a good hard shake.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the can to agitated.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of listening to the can: say &quot;It sounds [if agitated]fizzy[otherwise]calm[end if]!&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When the can calms down:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the can to calm.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The sticky mess is fixed in place. &quot;There is a sticky mess on the ground.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of opening the agitated can of root beer:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the can of root beer from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the sticky mess is in the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You open the can and fizzing sweet soda goes absolutely everywhere.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of opening the calm can of root beer when the can has been agitated:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the can of root beer from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The root beer is disappointingly flat. That's what you get for shaking it up!&quot;
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc159.html>Previous</a> / <a href=doc161.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>A more detailed set of before rules for people using doors and locks is provided in Emily Short's Locksmith extension.
+</td></tr></table><p><a name="e56"><a href=ex56.html#e56><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>A fuller implementation of Ogg, giving him a motivation of his own and allowing him to react to the situation created by the player.</i><p>
+<p><hr><p><a href=doc157.html>Previous</a> / <a href=doc159.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

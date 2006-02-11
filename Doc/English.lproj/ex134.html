@@ -1,4 +1,4 @@
-<html><head><title>11.15. Changing reachability</title></head>
+<html><head><title>10.1. Fitting values into phrases</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,85 +7,43 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc166.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc168.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.15. Changing reachability</b></td></tr></table><p>
+<h2>Chapter 10: Phrases</h2><p><table><tr width="100%"><td width=80 valign="top"><a href=doc136.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc138.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>10.1. Fitting values into phrases</b></td></tr></table><p>
 <p>
-<p>The question of what the player can, and cannot, reach is important in interactive fiction. It contains some of the subtlest ideas in the model world, though they often go unnoticed. For instance, if a key is on a shelf which is part of a closed box, can we reach for the key? This comes down to whether the shelf, described only as &quot;part of&quot; the box, is on the inside or the outside: and in fact, because it cannot know which is the case, Inform allows either. So in general it is best to regard &quot;parts&quot; as being exterior parts, but to avoid having parts on containers that might in the course of play be closed up with the player inside.
+<p>We are now able to set up the model world, to respond to certain actions of the player within it, and to make changes over time, giving the game a start and an end. But although we have defined many rules, none of them have done more than to use a few basic phrases: saying something to the player, changing some property or moving things around.
 <p>
-<p>We can, if we wish, change the principles of what can be touched by writing new reaching inside or reaching outside rules. Returning to the example of the conical flask:
+<p>A phrase is a pattern of words which instructs the computer to do something immediately. For instance:
 <p>
-<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
+<blockquote><font color="#000080">say &quot;Look out!&quot;
+<br>award 20 points
 </font></blockquote><p>
 <p>
-<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) More generally, we could give the usual flexible description of what the rule applies to:
+<p>are instructions using two phrases, &quot;say ...&quot; and &quot;award ... points&quot;. Phrases are not the same things as rules: rules lay out what should happen under what circumstances, but it is phrases that actually do what needs to be done.
 <p>
-<blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large for [the container in question].&quot;; deny access.
-</font></blockquote><p>
-<p>
-<p>The &quot;container in question&quot; is the one to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
-<p>
-<p>If it seems possible that these rules will be employed by people other than the player, then we need to write them a little more carefully, and in particular we need to ensure that they print nothing for other people. In the first case below, anybody can reach through the glass; in the second case, only the player cannot reach into open containers.
-<p>
-<blockquote><font color="#000080">A rule for reaching inside the flask:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player, say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;allow access.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A rule for reaching inside open containers:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your hands seem enigmatically too large for [the container in question].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deny access.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<p>The &quot;person reaching&quot; is, as its name suggests, the person trying to reach through the barrier in question.
+<p>Where the &quot;20&quot; appears in &quot;award 20 points&quot;, any number would have done. This does not need to be a literal number expressed in digits: it can be any value known to Inform which works out as a number. For instance, &quot;the score&quot; is always acceptable as a number, since it is the name of a number variable: its value at any point in play is the current score.
 <p>
 <p><hr><p>
-<a name="e68"><a href=ex68.html#e68><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Kitty Pryde of the X-Men is able to reach through solid objects, so we might implement her with special powers that the player does not have...</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e134"><a href=doc167.html#e134><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A window between two locations. When the window is open, the player can reach through into the other location; when it isn't, access is barred.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e134"><a href=doc137.html#e134><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Recording a whole table of scores for specific treasures.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Dinner is Served&quot;\n\nStreet in Kolonaki is a room. &quot;There is a single round table out on the street here, and a window more or less at knee level looks down into the Olive Tree Gyro Shop, which is partly basement.&quot;\n\nThe Street contains a round table. The table is scenery. On the round table is a plate. On the plate are a gyro and a mound of fresh potates. The plate is portable. The potates and the gyro are edible. The description of potates is &quot;They\'d be called french fries, at home, but these are steak-cut and fried in olive oil.&quot; The description of the gyro is &quot;Dripping garlic-yogurt sauce.&quot;\n\nOlive Tree Gyro Shop is inside from Street in Kolonaki. Kostis is a man in the Gyro Shop. In the Shop is a stand. On the stand is a rotating column of cooking lamb flesh. In the shop is a closed, openable container called a drinks refrigerator. The refrigerator contains a can of Mythos beer and a can of Coke Light.\n\n[Here\'s the part that allows reaching through the window:]\n\nA procedural rule: if the window is open, ignore the can\'t reach inside rooms rule; otherwise substitute the can\'t reach through closed window rule for the can\'t reach inside rooms rule.\n\nThis is the can\'t reach through closed window rule:\n\tsay &quot;You can\'t reach through the closed window.&quot;;\n\trule fails.\n\n[And the rest is window-dressing.]\n\nAfter looking when a room (called the next room) is adjacent:\n\ttry examining the next room.\n\nInstead of examining a supporter, say &quot;On [the noun] [is/are list of things on the noun].&quot; Instead of examining a container, say &quot;In [the noun] [is/are list of things in the noun].&quot;\n\nThe window is a backdrop. It is in the Street and the Shop. The window can be openable. The window can be open. The window is openable, transparent, and closed. Instead of searching the window in the Street: try examining the shop. Instead of searching the window in the Shop: try examining the street.\n\nUnderstand &quot;examine [any adjacent room]&quot; as examining.\n\nInstead of examining a room:\n\tsay &quot;Over in [the noun], you can see [list of visible things in the noun].&quot;\n\nAfter deciding the scope of the player:\n\tif the player is in the Street, place the Shop in scope;\n\tif the player is in the Shop, place the Street in scope.\n\n')"><img border=0 src=paste.png></a> &quot;Dinner is Served&quot;
+<p>Suppose we want to assign scores for a whole range of objects the player might pick up. One systematic way to do this would be with a table of point values for things:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;No Place Like Home&quot;\n\nThe Hall of the Gnome King is a room. The cow carved from emerald is a thing in the Hall of the Gnome King. The ivory chessman is a thing in the Hall of the Gnome King. The book of incantations is a thing in the Hall of the Gnome King.\n\nTable of Point Values\nitem\tscore\ncow\t10\nincantations\t4\nchessman\t1\n\nReport taking an item listed in the Table of Point Values:\n\taward score entry points;\n\tblank out the whole row.\n\n\n')"><img border=0 src=paste.png></a> &quot;No Place Like Home&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Street in Kolonaki is a room. &quot;There is a single round table out on the street here, and a window more or less at knee level looks down into the Olive Tree Gyro Shop, which is partly basement.&quot;
+<blockquote><font color="#000080">The Hall of the Gnome King is a room. The cow carved from emerald is a thing in the Hall of the Gnome King. The ivory chessman is a thing in the Hall of the Gnome King. The book of incantations is a thing in the Hall of the Gnome King.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Street contains a round table. The table is scenery. On the round table is a plate. On the plate are a gyro and a mound of fresh potates. The plate is portable. The potates and the gyro are edible. The description of potates is &quot;They'd be called french fries, at home, but these are steak-cut and fried in olive oil.&quot; The description of the gyro is &quot;Dripping garlic-yogurt sauce.&quot;
+<blockquote><font color="#000080">Table of Point Values
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">item</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">score</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">cow</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">incantations</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">chessman</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Olive Tree Gyro Shop is inside from Street in Kolonaki. Kostis is a man in the Gyro Shop. In the Shop is a stand. On the stand is a rotating column of cooking lamb flesh. In the shop is a closed, openable container called a drinks refrigerator. The refrigerator contains a can of Mythos beer and a can of Coke Light.
+<blockquote><font color="#000080">Report taking an item listed in the Table of Point Values:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;award score entry points;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row.
 </font></blockquote><p>
 <p>
-<p>Here's the part that allows reaching through the window:
-<p>
-<blockquote><font color="#000080">A procedural rule: if the window is open, ignore the can't reach inside rooms rule; otherwise substitute the can't reach through closed window rule for the can't reach inside rooms rule.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">This is the can't reach through closed window rule:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You can't reach through the closed window.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;rule fails.
-</font></blockquote><p>
-<p>
-<p>And the rest is window-dressing.
-<p>
-<blockquote><font color="#000080">After looking when a room (called the next room) is adjacent:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try examining the next room.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of examining a supporter, say &quot;On [the noun] [is/are list of things on the noun].&quot; Instead of examining a container, say &quot;In [the noun] [is/are list of things in the noun].&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The window is a backdrop. It is in the Street and the Shop. The window can be openable. The window can be open. The window is openable, transparent, and closed. Instead of searching the window in the Street: try examining the shop. Instead of searching the window in the Shop: try examining the street.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;examine [any adjacent room]&quot; as examining.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of examining a room:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Over in [the noun], you can see [list of visible things in the noun].&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">After deciding the scope of the player:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is in the Street, place the Shop in scope;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is in the Shop, place the Street in scope.
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc166.html>Previous</a> / <a href=doc168.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>&quot;Blank out the whole row&quot; removes the line from the table, so that each award will occur only once. The player will not be able to earn more and more points by dropping and taking the same item again.
+</td></tr></table><p><p><hr><p><a href=doc136.html>Previous</a> / <a href=doc138.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>7.7. Moving things</title></head>
+<html><head><title>5.8. All, each and every</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,56 +7,340 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc98.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc100.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>7.7. Moving things</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc69.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc71.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>5.8. All, each and every</b></td></tr></table><p>
 <p>
-<p>We have now seen how to change the properties of rooms and things, and also any freestanding values which may have a bearing on the model world. We are not allowed to change the kind of anything during play. Our remaining freedom is to move things around. It would make no sense to move rooms around, because rooms are the fixed reference points in our geography, but anything else is mobile. This even includes things which are supposedly &quot;fixed in place&quot;, for unlike the player, we have god-like powers. (There is one restriction: backdrops, which are present in more than one place at once, can only be moved to regions. And while it is legal to move a door, it is not a good idea.)
+<p>When testing conditions, we normally talk only about specific things, or else ask if a particular circumstance happens:
 <p>
-<p>Here is how to move something:
-<p>
-<blockquote><font color="#000080">move the genie's lamp to Aladdin's Cave
+<blockquote><font color="#000080">if the oaken door is open
+<br>if a woman is carrying an animal
 </font></blockquote><p>
 <p>
-<p>The first object named has to be a thing; the destination can be a room, as here, or another object - this will usually need to be a container, a supporter or a person, since Inform understands what it would mean for these to have contents, but there is no absolute restriction. If the item is moved to a person, then it will be carried rather than worn.
+<p>But we can also use &quot;all&quot;, &quot;each&quot; or &quot;every&quot; to check the whole range:
 <p>
-<p>When something is moved, all its contents (and all their contents, and so on) move with it.
+<blockquote><font color="#000080">if each door is open
+<br>if anyone is carrying all of the animals
+<br>if everybody is in the Dining Room
+</font></blockquote><p>
+<p>
+<p>Inform allows other English &quot;determiners&quot; (as they are sometimes called), as well:
+<p>
+<blockquote><font color="#000080">if some of the doors are open
+<br>if most of the doors are open
+<br>if almost all of the doors are open
+</font></blockquote><p>
+<p>
+<p>are true if at least one case is true, if a majority (any number greater than one half) or at least 80 per cent of the possible cases are true, respectively.
+<p>
+<p>And we can also use &quot;none&quot; and &quot;no&quot;. These three are all ways to say the same thing:
+<p>
+<blockquote><font color="#000080">if no door is open
+<br>if all of the doors are not open
+<br>if none of the doors is open
+</font></blockquote><p>
+<p>
+<p>though it may be clearer style to find a positive way of putting things:
+<p>
+<blockquote><font color="#000080">if all of the doors are closed
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e78"><a href=doc99.html#e78><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A meteor in the night sky which is visible from many rooms, so needs to be a backdrop, but which does not appear until 11:31 PM.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e78"><a href=doc70.html#e78><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (****).</font> <i>A small game about resentful furniture and inconvenient objects.</i><p>
 <p>
-<p>The timing of the meteor's arrival uses features of Inform which the next chapter will go into at greater detail: suffice to say that the game below begins at half past eleven, and that one turn later is meteor time.
+<p>This example does include a number of features that we haven't met yet, particularly rulebooks. Nonetheless, the basic idea should be relatively clear. Our premise is that the player is faced with a series of disgruntled furnishings, none of which want to be responsible for supporting the cold, hot, drippy, or spiky objects lying around the room.
 <p>
-<blockquote><font color="#000080">The time of day is 11:30 PM.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Revenge of the Fussy Table&quot;\n\nSection 1 - The Supporters\n\nThe Dining Room is a room. &quot;A room of handsome proportions, with an octagonal dining table on a fine parquet floor. The original set of chairs has been taken away, leaving only a red velvet dining chair and a blue suede armchair.&quot;\n\nThe fussy table is a supporter in the Dining Room. It is scenery. The description is &quot;It\'s hypochondriac: the result of a sojourn in a superior antique shop, where it picked up the scent of almond oil, words like provenance, and a secretive shame about being resurfaced.\n\nChairs don\'t get along with it.\n\nIn its mellowest moods, after a really good dusting, it will mention, casually, a cabinet it once knew, which was twelve feet tall, came from the Winter Palace, and had an asking price of $350K.&quot;\n\nA chair is a kind of supporter with carrying capacity 1. A chair is enterable. A chair is usually scenery.\n\nThe blue suede armchair and the red velvet dining chair are chairs in the Dining Room. The description of the blue suede is &quot;Quiet, mellow, and with a lingering aroma of clove cigarettes, and possibly something less legal. It doesn\'t sit up straight, and doesn\'t let anyone else do so either.&quot; The red velvet has the description &quot;In temperament, in bearing, in everything it is the opposite of the blue suede chair. It is concerned for its duty all the time, has a rigidly straight back, and pokes diners in the spine when it suspects them of overdoing things.&quot;\n\nThe carrying capacity of the player is 2.\n\nSection 2 - Sources of Unpleasantness\n\nA thing can be drippy or dry.\n\nHeat is a kind of value. The heats are luke-warm, cold, and scalding. Everything has a heat. Understand the heat property as describing a thing.\n\nA thing can be spiky or smooth. The cleated left shoe is a wearable spiky thing. It is worn by the player. The cleated right shoe is a wearable spiky thing. It is worn.\n\nDefinition: a thing is unpleasant if it is scalding or it is cold or it is spiky or it is drippy.\n\nDefinition: a supporter is occupied if something is on it.\n\nDefinition: something is contented if it is not concerned.\n\nDefinition: a chair is concerned if something unpleasant is on it or something scalding is on it or something cold is on it or something spiky is on it.\n\nDefinition: the table is concerned if something drippy is on it or something scalding is on it or something spiky is on it.\n\nDefinition: the ceramic tile is concerned if something spiky is on it.\n\nDefinition: a room is concerned if something drippy is in it or something scalding is in it or something spiky is in it or someone which is in it is wearing a spiky thing.\n\nBefore printing the name of a drippy thing: say &quot;drippy &quot;. Before printing the name of a cold thing: say &quot;cold &quot;. Before printing the name of a scalding thing: say &quot;scalding &quot;.\n\nSection 3 - What the Player Can Do About It\n\nAfter putting a cold thing on a scalding thing:\n\tsay &quot;[The noun] meets [the second noun]; both shriek in pain. But the necessary heat transfer occurs.&quot;;\n\tchange the heat of the noun to luke-warm;\n\tchange the heat of the second noun to luke-warm.\n\nAfter putting a scalding thing on a cold thing:\n\tsay &quot;[The noun] meets [the second noun]; both shriek in pain. But the necessary heat transfer occurs.&quot;;\n\tchange the heat of the noun to luke-warm;\n\tchange the heat of the second noun to luke-warm.\n\nAfter taking a scalding thing:\n\tsay &quot;\'Right,\' you say. \'I\'ll just hold onto [the noun], shall I? Because that won\'t be in the least uncomfortable for me.\'&quot;\n\nAfter taking a drippy thing:\n\tsay &quot;With a sense of martyrdom, you retrieve [the noun], which dribbles water down your cuffs.&quot;\n\nAfter entering a chair when the player is wearing a spiky thing (called the clog):\n\tsay &quot;You sit on [the noun], lifting [the list of spiky things worn by the player] so that the parquet is no longer affronted.&quot;\n\nSection 4 - In Which the Furnishings Complain\n\nAn every turn rule:\n\tfollow the complaint rules.\n\nThe complaint rules is a rulebook.\n\nA complaint rule:\n\tif something (called the offending item) on the table is drippy\n\tbegin;\n\t\tsay &quot;\'Help! Get me a coaster!\' screams the table[if the table is visible], its veneer squirming under [the offending item][otherwise] from the Dining Room[end if].&quot;;\n\t\trule succeeds;\n\tend if;\n\tif something (called the offending item) on the red chair is drippy\n\tbegin;\n\t\tsay &quot;\'Oh dear,\' murmurs the red chair, as [the offending item] drips into its velvety seat. \'Oh dear, I will have a damp spot. This is so very -- what will people think?\'&quot;;\n\t\trule succeeds;\n\tend if;\n\tif something (called the offending item) on the visible armchair is drippy\n\tbegin;\n\t\tsay &quot;[The offending item] visibly begins degrading the suede where it sits. The armchair is tactfully silent.&quot;;\n\t\trule succeeds;\n\tend if;\n\tif a drippy thing (called the offending item) is in the location and the player is in the Dining Room\n\tbegin;\n\t\tsay &quot;\'Cripes,\' says the parquet. \'No one mind me at all. Just leave that [offending item] right here. You know I\'m the most valuable thing in the room?\'&quot;;\n\t\trule succeeds;\n\tend if.\n\n\nA complaint rule:\n\tif something (called the offending item) which is on the table is cold and dry\n\tbegin;\n\t\tsay &quot;The table shivers under [the offending item].&quot;;\n\t\trule succeeds;\n\tend if.\n\nA complaint rule:\n\tif something (called the offending item) on the table is scalding\n\tbegin;\n\t\tsay &quot;\'Hey!\' protests the table, practically smoking at [the offending item]. \'Heard of a trivet?\'&quot;;\n\t\trule succeeds;\n\tend if;\n\tif something (called the offending item) on the armchair is scalding\n\tbegin;\n\t\tsay &quot;The armchair doesn\'t complain about [the offending item]; it just begins, quietly, to give off warm sweet clouds of blue steam, as though its inner opium-nature had been released.&quot;;\n\t\trule succeeds;\n\tend if;\n\tif something (called the offending item) in the Dining Room is scalding\n\tbegin;\n\t\tsay &quot;\'Yes indeed,\' [if the location is the Dining Room]says[otherwise]bellows[end if] the parquet. \'That [offending item] won\'t leave any sort of mark what-so-ever.\'&quot;;\n\t\trule succeeds;\n\tend if.\n\nA complaint rule:\n\tif something (called the offending item) on the table is spiky\n\tbegin;\n\t\tsay &quot;The table holds very very very still lest [the offending item] mar its finish. But its resentment is palpable.&quot;;\n\t\trule succeeds;\n\tend if;\n\tif something (called the offending item) on the velvet chair is spiky\n\tbegin;\n\t\tsay &quot;[The offending item] stabs the velvet of the red velvet chair, which draws itself up even more sharply in a pose of dutiful martyrdom.&quot;;\n\t\trule succeeds;\n\tend if;\n\tif something (called the offending item) which is spiky is on the ceramic tile\n\tbegin;\n\t\tsay &quot;\'[The offending item] itches!\' cries the ceramic tile.&quot;;\n\t\trule succeeds;\n\tend if;\n\tif something (called the offending item) in the location is spiky\n\tbegin;\n\t\tsay &quot;\'[The offending item] should not be on a parquet floor,\' sings the parquet floor sadly.&quot;;\n\t\trule succeeds;\n\tend if;\n\tif someone (called the offending person) in the location is wearing something spiky and the location is the Dining Room\n\tbegin;\n\t\tsay &quot;The parquet floor mutters about the things people wear to walk on parquet floors these days.&quot;;\n\t\trule succeeds;\n\tend if.\n\nA complaint rule:\n\tif the table supports something which supports a drippy thing (called the offending item),\n\t\tsay &quot;\'[The offending item] could still theoretically dribble down here,\' says the table nonchalantly. \'It\'s possible.\'&quot;;\n\tif the velvet chair supports a concerned thing (called the friend),\n\t\tsay &quot;\'[The friend] seems a little worried,\' remarks the velvet chair helpfully.&quot;\n\nA complaint rule:\n\tif the concerned table can see a supporter (called the object of envy) which is not concerned\n\tbegin;\n\t\tsay &quot;The table looks jealously at [the object of envy]. \'Some people have such an easy life.\'&quot;;\n\t\trule succeeds;\n\tend if.\n\nInstead of going to an adjacent room when the player is in the Dining Room:\n\tsay &quot;\'You\'re not leaving!?\' whimpers the table at once.&quot;\n\n[Moreover, every time the player gets close to resolving this issue, his unhelpful companion Alison brings in something else inconvenient. We can use the counting of contented supporters to decide when the player is getting close to winning and it\'s time for her to bring something else...]\n\nSection 5 - Source of Further Complications\n\nThe Tidy Kitchen is south of the Dining Room. Alison is a woman in The Tidy Kitchen. The kettle is a scalding thing. The ceramic tile is a cold portable supporter. It has carrying capacity 1. The platter is a scalding portable supporter. It has carrying capacity 1. The glass of ice water is a cold, drippy thing.\n\nAlison carries the kettle, the tile, the platter, and the glass.\n\nAn every turn rule:\n\tfollow the behavior rules.\n\nThe behavior rules is a rulebook.\n\nA behavior rule:\n\tif ice water is carried by Alison and the player is in the Dining Room and almost all of the supporters are not concerned\n\tbegin;\n\t\tlet the next victim be a random fixed in place contented supporter;\n\t\tmove the ice water to the next victim;\n\t\tsay &quot;Humming to herself, Alison brings in [an ice water] and sets it down smack on [the next victim], then goes back out.&quot;;\n\t\trule succeeds;\n\tend if.\n\nA behavior rule:\n\tif platter is carried by Alison and the player is in the Dining Room and almost all of the supporters are not concerned\n\tbegin;\n\t\tlet the next victim be the red velvet chair;\n\t\tmove the platter to the next victim;\n\t\tsay &quot;Whistling a jaunty tune, Alison brings in a hot platter and deposits it on [the next victim], then returns to The Tidy Kitchen.&quot;;\n\t\trule succeeds;\n\tend if.\n\nA behavior rule:\n\tif the tile is carried by Alison and the player is in the Dining Room and almost all of the supporters are not concerned\n\tbegin;\n\t\tlet the next victim be a random contented chair;\n\t\tmove the tile to the next victim;\n\t\tsay &quot;Humming to herself, Alison brings in [the tile] and sets it down smack on [the next victim], then goes back out.&quot;;\n\t\trule succeeds;\n\tend if.\n\nA behavior rule:\n\tif kettle is carried by Alison and the player is in the Dining Room and at least three fixed in place supporters are contented\n\tbegin;\n\t\tlet the next victim be the fussy table;\n\t\tmove the kettle to the next victim;\n\t\tsay &quot;Just then the kettle boils in The Tidy Kitchen. Whistling chirpily, Alison brings it in and sets it down smack on [the next victim], then goes back out.&quot;;\n\t\trule succeeds;\n\tend if.\n\n[And just so that the player knows where he stands at the end of each turn:]\n\nSection 6 - General Assessment\n\nAn every turn rule:\n\tif some of the things are concerned, say &quot;You sense some resentment from [the list of concerned things].&quot;;\n\nAn every turn rule:\n\tif the player is carrying more than one scalding thing\n\tbegin;\n\t\tlet the dropped item be a random scalding thing carried by the player;\n\t\tsay &quot;You can\'t hang onto so many burning hot things, and lose your grip on [the dropped item].[line break]&quot;;\n\t\tsilently try dropping the dropped item;\n\tend if.\n\nAn every turn rule:\n\tif almost all of the supporters are concerned,\n\t\tsay &quot;\'I hope everything is going well,\' bellows Alison from the other room.&quot;\n\n[Finally, we need some rules to decide when the player is, in fact, finished.]\n\nSection 7 - Scoring\n\nAn every turn rule:\n\tchange score to 5 minus the number of concerned things;\n\tif the location is concerned, change score to score minus 1;\n\tif all of the supporters are concerned and the location is concerned, end the game in death;\n\tif none of the supporters are concerned and the location is not concerned, end the game in victory.\n\nThe maximum score is 5.\n\nWhen play begins, change score to 4.\n\n')"><img border=0 src=paste.png></a> &quot;Revenge of the Fussy Table&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At 11:31 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move meteor to the great outdoors;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A meteor streaks across the sky.&quot;.
+<blockquote><font color="#000080">Section 1 - The Supporters
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The great outdoors is a region. The Spanish Balcony is east of the Inner Court. The Court and Balcony are in the great outdoors. Inside from the Court is the Swimming Pool.
+<blockquote><font color="#000080">The Dining Room is a room. &quot;A room of handsome proportions, with an octagonal dining table on a fine parquet floor. The original set of chairs has been taken away, leaving only a red velvet dining chair and a blue suede armchair.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The meteor is a backdrop. Instead of doing something to the meteor, say &quot;The meteor is no longer visible, now nothing more than a memory.&quot;
+<blockquote><font color="#000080">The fussy table is a supporter in the Dining Room. It is scenery. The description is &quot;It's hypochondriac: the result of a sojourn in a superior antique shop, where it picked up the scent of almond oil, words like provenance, and a secretive shame about being resurfaced.
 </font></blockquote><p>
 <p>
-<p>Or for something a little slower-moving and with no after-image:
-<p>
-<blockquote><font color="#000080">The time of day is 4:30 PM.
+<blockquote><font color="#000080">Chairs don't get along with it.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At 4:31 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move Phobos to the great outdoors;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Phobos rises from the western horizon.&quot;
-<br>At 10:06 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove Phobos from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Phobos sets over the eastern horizon.&quot;
+<blockquote><font color="#000080">In its mellowest moods, after a really good dusting, it will mention, casually, a cabinet it once knew, which was twelve feet tall, came from the Winter Palace, and had an asking price of $350K.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The great outdoors is a region. The Martian Balcony is east of the Inner Court. The Court and Balcony are in the great outdoors. Inside from the Court is the Heavy Water Swimming Pool.
+<blockquote><font color="#000080">A chair is a kind of supporter with carrying capacity 1. A chair is enterable. A chair is usually scenery.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Phobos is a backdrop. Instead of doing something to Phobos, say &quot;Phobos orbits a mere 6000km above you, which is practically touching range for astronomy. On the other hand, astronomy isn't all that practical.&quot;
+<blockquote><font color="#000080">The blue suede armchair and the red velvet dining chair are chairs in the Dining Room. The description of the blue suede is &quot;Quiet, mellow, and with a lingering aroma of clove cigarettes, and possibly something less legal. It doesn't sit up straight, and doesn't let anyone else do so either.&quot; The red velvet has the description &quot;In temperament, in bearing, in everything it is the opposite of the blue suede chair. It is concerned for its duty all the time, has a rigidly straight back, and pokes diners in the spine when it suspects them of overdoing things.&quot;
 </font></blockquote><p>
 <p>
-<p>Though we should not really use Earthly time-keeping, since the Martian day is about half an hour longer than ours.
-</td></tr></table><p><p><hr><p><a href=doc98.html>Previous</a> / <a href=doc100.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">The carrying capacity of the player is 2.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Section 2 - Sources of Unpleasantness
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A thing can be drippy or dry.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Heat is a kind of value. The heats are luke-warm, cold, and scalding. Everything has a heat. Understand the heat property as describing a thing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A thing can be spiky or smooth. The cleated left shoe is a wearable spiky thing. It is worn by the player. The cleated right shoe is a wearable spiky thing. It is worn.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: a thing is unpleasant if it is scalding or it is cold or it is spiky or it is drippy.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: a supporter is occupied if something is on it.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: something is contented if it is not concerned.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: a chair is concerned if something unpleasant is on it or something scalding is on it or something cold is on it or something spiky is on it.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: the table is concerned if something drippy is on it or something scalding is on it or something spiky is on it.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: the ceramic tile is concerned if something spiky is on it.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: a room is concerned if something drippy is in it or something scalding is in it or something spiky is in it or someone which is in it is wearing a spiky thing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before printing the name of a drippy thing: say &quot;drippy &quot;. Before printing the name of a cold thing: say &quot;cold &quot;. Before printing the name of a scalding thing: say &quot;scalding &quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Section 3 - What the Player Can Do About It
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After putting a cold thing on a scalding thing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] meets [the second noun]; both shriek in pain. But the necessary heat transfer occurs.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the heat of the noun to luke-warm;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the heat of the second noun to luke-warm.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After putting a scalding thing on a cold thing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] meets [the second noun]; both shriek in pain. But the necessary heat transfer occurs.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the heat of the noun to luke-warm;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the heat of the second noun to luke-warm.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After taking a scalding thing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Right,' you say. 'I'll just hold onto [the noun], shall I? Because that won't be in the least uncomfortable for me.'&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After taking a drippy thing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;With a sense of martyrdom, you retrieve [the noun], which dribbles water down your cuffs.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After entering a chair when the player is wearing a spiky thing (called the clog):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You sit on [the noun], lifting [the list of spiky things worn by the player] so that the parquet is no longer affronted.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Section 4 - In Which the Furnishings Complain
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">An every turn rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;follow the complaint rules.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The complaint rules is a rulebook.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A complaint rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) on the table is drippy
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Help! Get me a coaster!' screams the table[if the table is visible], its veneer squirming under [the offending item][otherwise] from the Dining Room[end if].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) on the red chair is drippy
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Oh dear,' murmurs the red chair, as [the offending item] drips into its velvety seat. 'Oh dear, I will have a damp spot. This is so very -- what will people think?'&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) on the visible armchair is drippy
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The offending item] visibly begins degrading the suede where it sits. The armchair is tactfully silent.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a drippy thing (called the offending item) is in the location and the player is in the Dining Room
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Cripes,' says the parquet. 'No one mind me at all. Just leave that [offending item] right here. You know I'm the most valuable thing in the room?'&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>
+<blockquote><font color="#000080">A complaint rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) which is on the table is cold and dry
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The table shivers under [the offending item].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A complaint rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) on the table is scalding
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Hey!' protests the table, practically smoking at [the offending item]. 'Heard of a trivet?'&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) on the armchair is scalding
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The armchair doesn't complain about [the offending item]; it just begins, quietly, to give off warm sweet clouds of blue steam, as though its inner opium-nature had been released.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) in the Dining Room is scalding
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Yes indeed,' [if the location is the Dining Room]says[otherwise]bellows[end if] the parquet. 'That [offending item] won't leave any sort of mark what-so-ever.'&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A complaint rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) on the table is spiky
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The table holds very very very still lest [the offending item] mar its finish. But its resentment is palpable.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) on the velvet chair is spiky
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The offending item] stabs the velvet of the red velvet chair, which draws itself up even more sharply in a pose of dutiful martyrdom.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) which is spiky is on the ceramic tile
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'[The offending item] itches!' cries the ceramic tile.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the offending item) in the location is spiky
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'[The offending item] should not be on a parquet floor,' sings the parquet floor sadly.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if someone (called the offending person) in the location is wearing something spiky and the location is the Dining Room
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The parquet floor mutters about the things people wear to walk on parquet floors these days.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A complaint rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the table supports something which supports a drippy thing (called the offending item),
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'[The offending item] could still theoretically dribble down here,' says the table nonchalantly. 'It's possible.'&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the velvet chair supports a concerned thing (called the friend),
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'[The friend] seems a little worried,' remarks the velvet chair helpfully.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A complaint rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the concerned table can see a supporter (called the object of envy) which is not concerned
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The table looks jealously at [the object of envy]. 'Some people have such an easy life.'&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going to an adjacent room when the player is in the Dining Room:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'You're not leaving!?' whimpers the table at once.&quot;
+</font></blockquote><p>
+<p>
+<p>Moreover, every time the player gets close to resolving this issue, his unhelpful companion Alison brings in something else inconvenient. We can use the counting of contented supporters to decide when the player is getting close to winning and it's time for her to bring something else...
+<p>
+<blockquote><font color="#000080">Section 5 - Source of Further Complications
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Tidy Kitchen is south of the Dining Room. Alison is a woman in The Tidy Kitchen. The kettle is a scalding thing. The ceramic tile is a cold portable supporter. It has carrying capacity 1. The platter is a scalding portable supporter. It has carrying capacity 1. The glass of ice water is a cold, drippy thing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Alison carries the kettle, the tile, the platter, and the glass.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">An every turn rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;follow the behavior rules.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The behavior rules is a rulebook.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A behavior rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if ice water is carried by Alison and the player is in the Dining Room and almost all of the supporters are not concerned
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the next victim be a random fixed in place contented supporter;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the ice water to the next victim;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Humming to herself, Alison brings in [an ice water] and sets it down smack on [the next victim], then goes back out.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A behavior rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if platter is carried by Alison and the player is in the Dining Room and almost all of the supporters are not concerned
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the next victim be the red velvet chair;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the platter to the next victim;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Whistling a jaunty tune, Alison brings in a hot platter and deposits it on [the next victim], then returns to The Tidy Kitchen.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A behavior rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the tile is carried by Alison and the player is in the Dining Room and almost all of the supporters are not concerned
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the next victim be a random contented chair;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the tile to the next victim;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Humming to herself, Alison brings in [the tile] and sets it down smack on [the next victim], then goes back out.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A behavior rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if kettle is carried by Alison and the player is in the Dining Room and at least three fixed in place supporters are contented
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the next victim be the fussy table;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the kettle to the next victim;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Just then the kettle boils in The Tidy Kitchen. Whistling chirpily, Alison brings it in and sets it down smack on [the next victim], then goes back out.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>And just so that the player knows where he stands at the end of each turn:
+<p>
+<blockquote><font color="#000080">Section 6 - General Assessment
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">An every turn rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if some of the things are concerned, say &quot;You sense some resentment from [the list of concerned things].&quot;;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">An every turn rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying more than one scalding thing
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the dropped item be a random scalding thing carried by the player;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You can't hang onto so many burning hot things, and lose your grip on [the dropped item].[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;silently try dropping the dropped item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">An every turn rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if almost all of the supporters are concerned,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'I hope everything is going well,' bellows Alison from the other room.&quot;
+</font></blockquote><p>
+<p>
+<p>Finally, we need some rules to decide when the player is, in fact, finished.
+<p>
+<blockquote><font color="#000080">Section 7 - Scoring
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">An every turn rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change score to 5 minus the number of concerned things;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the location is concerned, change score to score minus 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if all of the supporters are concerned and the location is concerned, end the game in death;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if none of the supporters are concerned and the location is not concerned, end the game in victory.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The maximum score is 5.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">When play begins, change score to 4.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc69.html>Previous</a> / <a href=doc71.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

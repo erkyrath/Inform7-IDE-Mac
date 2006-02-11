@@ -1,4 +1,4 @@
-<html><head><title>17.2. Named rules and rulebooks</title></head>
+<html><head><title>16.23. Reading a command</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,56 +7,137 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.2. Named rules and rulebooks</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.23. Reading a command</b></td></tr></table><p>
 <p>
-<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns - usually visible on the &quot;status line&quot; displayed above the window of a game in progress - and advances the clock, which is usually not visible, but ticking away behind the scenes.
+<p><b>1. When it happens.</b> When reading a command from the keyboard.
 <p>
-<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
+<p><b>2. The default behaviour.</b> Print the prompt text; wait for the player to type something and press return. Reject an entirely blank line, and treat a command beginning &quot;oops&quot; is considered a correction to the previous one. This is a fairly complicated business, so it is probably best not to change the &quot;for&quot; rules for this activity: &quot;before&quot;, and especially &quot;after&quot;, are another matter.
 <p>
-<blockquote><font color="#000080">advance time = the advance time rule
+<p><b>3. Examples.</b> (a) To lead absolute beginners in gently:
+<p>
+<blockquote><font color="#000080">Before reading a command while the turn count is 1, say &quot;(This is your chance to say what the protagonist should do next. After the '>', try typing 'take inventory'.)&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
+<p>(b) The following responds politely but firmly if the player tries to type &quot;please look&quot;, say, instead of just &quot;look&quot;:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;Please do not say please.&quot;;\n\t\treject the player\'s command;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Please do not say please.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject the player's command;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p>To explain. Fragments of what the player has typed are called snippets: &quot;the player's command&quot; is the entire thing. (&quot;Snippet&quot; is actually a kind of value, so we could say &quot;Ah, you typed '[the player's command]'!&quot; or some such if we liked.) We can test if a snippet matches a given pattern like so:
 <p>
-<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We have already seen some of these names used in the Advanced Actions chapter, and will later use them like so:
-<p>
-<blockquote><font color="#000080">ignore the can't go through closed doors rule;
+<blockquote><font color="#000080">if the player's command matches &quot;room [number]&quot;, ...
 </font></blockquote><p>
 <p>
-<p>Names for rules tend to be verbose, but this is a situation where clarity is very much better than brevity.
+<p>This requires an exact match: the weaker condition &quot;includes&quot; only means that the pattern occurs somewhere in the given snippet, so that
+<p>
+<blockquote><font color="#000080">if the player's command includes &quot;please&quot;, ...
+</font></blockquote><p>
+<p>
+<p>matches &quot;please look&quot; or &quot;look please&quot;, etc. Lastly, the phrase
+<p>
+<blockquote><font color="#000080">reject the player's command
+</font></blockquote><p>
+<p>
+<p>tells Inform not to bother analysing the text further, but to go back to the keyboard. (No time passes; no turn elapses; nothing happens in the simulated world.)
+<p>
+<p>(c) An improved version takes commands like &quot;please drop the coin&quot; and strips &quot;please&quot; from them, but then allows them to proceed normally:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;(Quelle politesse! But no need to say please.)&quot;;\n\t\tcut the matched text;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(Quelle politesse! But no need to say please.)&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut the matched text;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>&quot;Matched text&quot; is a snippet containing the words which matched against the pattern in the most recent &quot;includes&quot; condition, so in this case it contains just the single word &quot;please&quot;. Two phrases allow snippets to be altered:
+<p>
+<blockquote><font color="#000080">replace (... snippet ...) with (... text ...)
+<br>cut (...snippet ...)
+</font></blockquote><p>
+<p>
+<p>(d) To make the word &quot;grab&quot; an abbreviation for &quot;take all&quot;:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command matches &quot;grab&quot;, replace the player\'s command with &quot;take all&quot;.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;grab&quot;, replace the player's command with &quot;take all&quot;.
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e127"><a href=doc257.html#e127><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A WAIT [number] MINUTES command which advances through an arbitrary number of turns.</i><p>
+<a name="e161"><a href=ex161.html#e161><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A list of phrases to be automatically converted to longer sequences of separate commands.</i><p>
+<a name="e0"><a href=ex0.html#e0><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Accepting adverbs anywhere in a command, registering what the player typed but then cutting them out before interpreting the command.</i><p>
+<a name="e92"><a href=ex92.html#e92><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Responding to the player's input based on keywords only, and overriding the original parser entirely.</i><p>
+<a name="e102"><a href=ex102.html#e102><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A character who responds to keywords in the player's instructions and remarks, even if there are other words included.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e127"><a href=doc257.html#e127><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Novice mode that prefaces every prompt with a list of possible commands the player could try, and highlights every important word used, to alert players to interactive items in the scenery.</i><p>
 <p>
-<p>If there's some reason the player needs to be at a specific place and time, we might want to allow him to wait a number of minutes at once.
+<p>Observation of novice IF players suggests that they often have a hard time figuring out how to get started, especially if they are encountering the game in a setting where they don't have time to settle in and read instructions. Here we provide some training wheels to help them get started:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Waiting more is an action applying to one number.\n\nUnderstand &quot;wait [number] minutes/turns&quot; or &quot;wait [number]&quot; as waiting more.\n\nCarry out waiting more:\n\tlet duration be the number understood - 1;\n\trepeat with X running from 1 to duration\n\tbegin;\n\t\tfollow the turn sequence rules;\n\tend repeat.\n\n[The one nuance here is that after our wait command occurs, the turn sequence rules will occur one more time. So we need to subtract one from the parsed number to make it to the right number of minutes.]\n\nReport waiting more:\n\tsay &quot;It is now [time of day + 1 minute].&quot;\n\n[And if we want to ensure that the player doesn\'t (accidentally or intentionally) put the interpreter through a really long loop, we could put an upper limit on his patience:]\n\nCheck waiting more:\n\tif the number understood > 59, say &quot;You really haven\'t got that kind of patience.&quot; instead.\n\n')"><img border=0 src=paste.png></a> Waiting more is an action applying to one number.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('When play begins:\n\tsay &quot;Have you played interactive fiction before? >&quot;;\n\tif the player consents, change novice mode to unused;\n\totherwise change novice mode to used.\n\nTo decide whether player consents:\n\t(- YesOrNo() -);\n\nSetting is a kind of value. The settings are used and unused.\n\nNovice mode is a setting that varies. Novice mode is used. Stopping novice mode is an action out of world. Starting novice mode is an action out of world. Understand &quot;novice mode off&quot; as stopping novice mode. Understand &quot;novice mode on&quot; as starting novice mode. Carry out stopping novice mode: change novice mode to unused. Carry out starting novice mode: change novice mode to used. Report stopping novice mode: say &quot;Novice mode is now off.&quot; Report starting novice mode: say &quot;Novice mode is now on.&quot;\n\nBefore reading a command when novice mode is used:\n\tsay &quot;[line break]Some options to try: &quot;;\n\tif not looking, say &quot;[line break]  [bold type]look[roman type]&quot;;\n\tif the player carries something and we are not taking inventory, say &quot;[line break]  [bold type]inventory[roman type] (I)&quot;;\n\tif a gettable thing is relevant, say &quot;[line break]  [bold type]take[roman type] [the list of gettable relevant things]&quot;;\n\tif an unexamined thing is relevant, say &quot;[line break]  [bold type]examine[roman type] (X) [the list of unexamined relevant things]&quot;;\n\tif an enterable thing is relevant, say &quot;[line break]  [bold type]enter[roman type] [the list of enterable relevant things], or [bold type]get out[roman type]&quot;;\n\tif an openable thing is relevant, say &quot;[line break]  [bold type]open[roman type] or [bold type]close[roman type] [the list of openable relevant things]&quot;;\n\tif a lockable thing is relevant, say &quot;[line break]  [bold type]lock[roman type] or [bold type]unlock[roman type] [the list of lockable relevant things]&quot;;\n\tif the player carries an edible relevant thing, say &quot;[line break]  [bold type]eat[roman type] [the list of edible relevant things carried by the player]&quot;;\n\tif the player carries a wearable relevant thing, say &quot;[line break]  [bold type]wear[roman type] [the list of wearable relevant things carried by the player]&quot;;\n\tif the player wears something relevant, say &quot;[line break]  [bold type]take off[roman type] [the list of relevant things worn by the player]&quot;;\n\tif a device is relevant, say &quot;[line break]  [bold type]turn on[roman type] or [bold type]turn off[roman type] [the list of relevant devices]&quot;;\n\tif a room is adjacent, say &quot;[line break]  [bold type]go[roman type][exit list]&quot;;\n\tif an open door is relevant, say &quot;[line break]  [bold type]go through[roman type] [the list of relevant open doors]&quot;;\n\tsay &quot;[line break]  [bold type]help[roman type] to see a more complete set of instructions&quot;;\n\tsay &quot;[paragraph break]&quot;;\n\nAfter taking inventory when novice mode is used: say &quot;To get rid of any of these objects, [bold type]drop[roman type] it.&quot;\n\nA thing can be examined or unexamined. Carry out examining something: now the noun is examined.\n\nA thing can be seen or unseen. A thing is usually unseen. Definition: a thing is relevant if it is seen and it is visible. Before printing the name of something (called the target): now the target is seen; if novice mode is used, say &quot;[bold type]&quot;. After printing the name of something: say &quot;[roman type]&quot;.\n\nTo say exit list:\n\tlet place be location;\n\tlet count be 0;\n\trepeat with way running through directions\n\tbegin;\n\t\tlet place be the room way from the location;\n\t\tif place is a room\n\t\tbegin;\n\t\t\tincrease count by 1;\n\t\t\tsay &quot;[if count is greater than 1] or[end if] [bold type][way][roman type]&quot;;\n\t\tend if;\n\tend repeat.\n\nDefinition: a thing is gettable:\n\tif it is scenery, no;\n\tif it is fixed in place, no;\n\tif it is a person, no;\n\tif the player is carrying it, no;\n\tif the player is wearing it, no;\n\tyes.\n\n')"><img border=0 src=paste.png></a> When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Have you played interactive fiction before? >&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player consents, change novice mode to unused;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise change novice mode to used.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;wait [number] minutes/turns&quot; or &quot;wait [number]&quot; as waiting more.
+<blockquote><font color="#000080">To decide whether player consents:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(- YesOrNo() -);
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out waiting more:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let duration be the number understood - 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with X running from 1 to duration
+<blockquote><font color="#000080">Setting is a kind of value. The settings are used and unused.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Novice mode is a setting that varies. Novice mode is used. Stopping novice mode is an action out of world. Starting novice mode is an action out of world. Understand &quot;novice mode off&quot; as stopping novice mode. Understand &quot;novice mode on&quot; as starting novice mode. Carry out stopping novice mode: change novice mode to unused. Carry out starting novice mode: change novice mode to used. Report stopping novice mode: say &quot;Novice mode is now off.&quot; Report starting novice mode: say &quot;Novice mode is now on.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before reading a command when novice mode is used:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[line break]Some options to try: &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if not looking, say &quot;[line break]  [bold type]look[roman type]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player carries something and we are not taking inventory, say &quot;[line break]  [bold type]inventory[roman type] (I)&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a gettable thing is relevant, say &quot;[line break]  [bold type]take[roman type] [the list of gettable relevant things]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if an unexamined thing is relevant, say &quot;[line break]  [bold type]examine[roman type] (X) [the list of unexamined relevant things]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if an enterable thing is relevant, say &quot;[line break]  [bold type]enter[roman type] [the list of enterable relevant things], or [bold type]get out[roman type]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if an openable thing is relevant, say &quot;[line break]  [bold type]open[roman type] or [bold type]close[roman type] [the list of openable relevant things]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a lockable thing is relevant, say &quot;[line break]  [bold type]lock[roman type] or [bold type]unlock[roman type] [the list of lockable relevant things]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player carries an edible relevant thing, say &quot;[line break]  [bold type]eat[roman type] [the list of edible relevant things carried by the player]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player carries a wearable relevant thing, say &quot;[line break]  [bold type]wear[roman type] [the list of wearable relevant things carried by the player]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player wears something relevant, say &quot;[line break]  [bold type]take off[roman type] [the list of relevant things worn by the player]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a device is relevant, say &quot;[line break]  [bold type]turn on[roman type] or [bold type]turn off[roman type] [the list of relevant devices]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a room is adjacent, say &quot;[line break]  [bold type]go[roman type][exit list]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if an open door is relevant, say &quot;[line break]  [bold type]go through[roman type] [the list of relevant open doors]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[line break]  [bold type]help[roman type] to see a more complete set of instructions&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[paragraph break]&quot;;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After taking inventory when novice mode is used: say &quot;To get rid of any of these objects, [bold type]drop[roman type] it.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A thing can be examined or unexamined. Carry out examining something: now the noun is examined.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A thing can be seen or unseen. A thing is usually unseen. Definition: a thing is relevant if it is seen and it is visible. Before printing the name of something (called the target): now the target is seen; if novice mode is used, say &quot;[bold type]&quot;. After printing the name of something: say &quot;[roman type]&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To say exit list:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let place be location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let count be 0;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with way running through directions
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;follow the turn sequence rules;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let place be the room way from the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if place is a room
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;increase count by 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[if count is greater than 1] or[end if] [bold type][way][roman type]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
 <p>
-<p>The one nuance here is that after our wait command occurs, the turn sequence rules will occur one more time. So we need to subtract one from the parsed number to make it to the right number of minutes.
-<p>
-<blockquote><font color="#000080">Report waiting more:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It is now [time of day + 1 minute].&quot;
+<blockquote><font color="#000080">Definition: a thing is gettable:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if it is scenery, no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if it is fixed in place, no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if it is a person, no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying it, no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is wearing it, no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;yes.
 </font></blockquote><p>
-<p>
-<p>And if we want to ensure that the player doesn't (accidentally or intentionally) put the interpreter through a really long loop, we could put an upper limit on his patience:
-<p>
-<blockquote><font color="#000080">Check waiting more:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number understood > 59, say &quot;You really haven't got that kind of patience.&quot; instead.
-</font></blockquote><p>
-</td></tr></table><p><a name="e128"><a href=ex128.html#e128><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A WAIT UNTIL [time] command which advances until the game clock reaches the correct hour.</i><p>
-<p><hr><p><a href=doc256.html>Previous</a> / <a href=doc258.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc256.html>Previous</a> / <a href=doc258.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

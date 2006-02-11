@@ -1,4 +1,4 @@
-<html><head><title>15.2. New commands for old grammar</title></head>
+<html><head><title>15.1. Understand</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,36 +7,33 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc217.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc219.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.2. New commands for old grammar</b></td></tr></table><p>
+<h2>Chapter 15: Understanding</h2><p><table><tr width="100%"><td width=80 valign="top"><a href=doc217.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc219.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.1. Understand</b></td></tr></table><p>
 <p>
-<p>In the photography example, we are providing entirely new grammar for an action  not ordinarily built in to Inform. But we often want simply to provide alternative grammar for existing actions, or even to put new interpretations on commands that Inform already recognises. For instance:
+<p>During play, the computer and the player alternate in writing messages to each other: in the player's case, these are short instructions, usually saying what to do next. A wide range of such &quot;commands&quot; are automatically understood, but these only apply to the standard built-in actions. (This wide range is conveniently tabulated at the foot of the Actions index.) If we want the player to be able to command new actions, then we need to specify what is to be understood as what. For this, we supply special sentences starting with the word &quot;Understand&quot;.
 <p>
-<blockquote><font color="#000080">Understand &quot;deposit [something] in [an open container]&quot; as inserting it into.
+<p>Suppose we return to the earlier example of a newly created action:
+<p>
+<blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.
 </font></blockquote><p>
 <p>
-<p>The inserting action is built in to Inform, but the command &quot;deposit&quot; is not, so this is created as new. It is occasionally useful to put a twist on this:
+<p>We then supply lines of grammar (as they are called) for Inform to recognise, like so:
 <p>
-<blockquote><font color="#000080">Understand &quot;fill [an open container] with [something]&quot; as inserting it into (with nouns reversed).
+<blockquote><font color="#000080">Understand &quot;photograph [someone]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>The clause &quot;(with nouns reversed)&quot; tells Inform to exchange the two nouns parsed, which is necessary because the inserting action expects the noun to be the item and the second noun to be the container, not vice versa.
-<p>
-<p>The following example:
-<p>
-<blockquote><font color="#000080">Understand &quot;access [something]&quot; as opening.
+<blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>might look as if it makes &quot;access&quot; behave just like &quot;open&quot; when the player types it, but that's not so: &quot;open&quot; can also be used in constructions like &quot;open the door with the brass key&quot;, in which case it is understood as the unlocking action. We could add another line to make &quot;access&quot; behave this way too, but if what we really want is to make &quot;access&quot; behave just like &quot;open&quot;, it's easier simply to say so:
+<p>As usual, the square brackets indicate something which stands for text, rather than text to be taken verbatim. &quot;[someone]&quot; needs to be the name of anything of the kind &quot;person&quot;, for instance (though as usual that person will need to be in sight of the player for the name to be accepted). The first word - in these examples &quot;photograph&quot; - must be something definite, not a substitution like this.
 <p>
-<blockquote><font color="#000080">Understand the command &quot;access&quot; as &quot;open&quot;.
+<p>For obvious reasons, this pattern of words needs to match the expectations of the action. Photographing applies to &quot;one visible thing&quot; - the &quot;visible&quot; just means it does not need to be touched, only seen - so neither of these would be allowable:
+<p>
+<blockquote><font color="#000080">Understand &quot;photograph&quot; as photographing.
+<br>Understand &quot;photograph [someone] standing next to [something]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>This is very useful when adding a new command which needs synonyms:
+<p>The first is bad because it supplies no things at all, the second because it supplies two: what we want, of course, is just the one.
 <p>
-<blockquote><font color="#000080">Understand the command &quot;snap&quot; as &quot;photograph&quot;.
-<br>Understand the command &quot;picture&quot; as &quot;photograph&quot;.
-</font></blockquote><p>
-<p>
-<p>We can check the current stock of commands by looking at the table in the Actions index: for instance, before making &quot;snap&quot; synonymous with &quot;photograph&quot;, it might be wise to check that it is not already defined as a command for breaking something.
-<p>
+<p><hr><p>
+<a name="e45"><a href=ex45.html#e45><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Renaming the directions of the compass so that "white" corresponds to north, "red" to east, "yellow" to south, and "black" to west. (An adaptation of Exercise 9 of the Inform Designer's Manual, Fourth Edition.)</i><p>
 <p><hr><p><a href=doc217.html>Previous</a> / <a href=doc219.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

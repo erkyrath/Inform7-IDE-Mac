@@ -1,4 +1,4 @@
-<html><head><title>15.14. Understanding things by their properties</title></head>
+<html><head><title>11.7. New actions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,89 +7,49 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc229.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc231.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.14. Understanding things by their properties</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc158.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc160.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.7. New actions</b></td></tr></table><p>
 <p>
-<p>Items are ordinarily understood only by their original given names. For instance, if we have:
+<p>It is not often that we need to create new actions, but a large work of interactive fiction with no novelty actions is a flavourless dish. Here we shall create an action for photographing things.
 <p>
-<blockquote><font color="#000080">In the Herb Garden is a china pot.
+<blockquote><font color="#000080">The Ruins is a room. &quot;You find this clearing in the rainforest oddly familiar.&quot; The camera is in the Ruins. &quot;Your elephantine camera hangs from a convenient branch.&quot;
 </font></blockquote><p>
 <p>
-<p>then the player could refer to this as &quot;pot&quot;, &quot;china pot&quot; or &quot;china&quot;. We can embellish this by adding extra forms:
-<p>
-<blockquote><font color="#000080">Understand &quot;chinese pot&quot; or &quot;chinese vase&quot; as the china pot.
+<blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.
 </font></blockquote><p>
 <p>
-<p>But suppose the pot changes its nature in the course of play? If we have:
+<p>In theory that text is already sufficient in to make the new action, but what we have so far is rudimentary to say the least. The two qualifications give Inform the useful information that we cannot photograph in the dark, and that we need to be photographing something - not, as in the case of waiting or taking inventory, acting without reference to any particular thing external to ourselves.
 <p>
-<blockquote><font color="#000080">The china pot can be unbroken or broken. The china pot is unbroken. After dropping the china pot: say &quot;Crack!&quot;; now the china pot is broken; change the printed name of the pot to &quot;broken pot&quot;.
+<p>The word &quot;visible&quot; here tells Inform that we do not need to be able to touch the thing in question: a line of sight is good enough. These two stipulations were necessary because the default arrangement is that any object must be in touching range, and that most actions can be performed in darkness. (Also, note that if you invent an action which needs to apply to directions like &quot;north&quot; or &quot;south&quot;, you need to make this apply to visible things, because the object used inside Inform to represent the idea of &quot;north&quot; can be seen but not touched.)
+<p>
+<p>As further examples, here we create &quot;blinking&quot; and &quot;scraping X with Y&quot;. Note the use of &quot;it&quot; to indicate that the name of an object should go here.
+<p>
+<blockquote><font color="#000080">Blinking is an action applying to nothing. Scraping it with is an action applying to two things.
 </font></blockquote><p>
 <p>
-<p>So now the player would reasonably expect to call it &quot;broken pot&quot;, a wording which would have been rejected before. We can achieve this by writing:
+<p>The photographing action now exists, but with two provisos: (a) it never happens, because Inform does not know what commands by the player should cause it, and (b) even if it were to happen, nothing would follow, because Inform does not know what to do. (There are no check, carry out or report rules yet.)
 <p>
-<blockquote><font color="#000080">Understand the unbroken property as describing the pot.
+<p>The first problem is easily overcome:
+<p>
+<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>which allows &quot;unbroken&quot; or &quot;broken&quot; to describe the pot, depending on its state. This is something of a toy example, but the feature looks rather more useful when there are more pots than just one:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Terracotta&quot;\n\nA flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.\n\nAfter dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.\n\nThe Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.\n\n\n')"><img border=0 src=paste.png></a> &quot;Terracotta&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.
-</font></blockquote><p>
-<p>
-<p>We then have the dialogue:
-<p>
-<blockquote><font color="#000080">Herb Garden
-<br>You can see ten flowerpots here.
-<br>>get two flowerpots
-<br>flowerpot: Taken.
-<br>flowerpot: Taken.
-<br>>drop all
-<br>flowerpot: Crack!
-<br>flowerpot: Crack!
-<br>>look
-<br>Herb Garden
-<br>You can see two broken flowerpots and eight flowerpots here.
-<br>>get an unbroken flowerpot
-<br>Taken.
-</font></blockquote><p>
-<p>
-<p>and so on and so forth.
-<p>
-<p>There are in fact two slightly different forms of this kind of sentence:
-<p>
-<blockquote><font color="#000080">Understand the broken property as describing a flowerpot.
-<br>Understand the broken property as referring to a flowerpot.
-</font></blockquote><p>
-<p>
-<p>The only difference is that in the &quot;describing&quot; case, the property's name alone can mean the thing in question - so &quot;take unbroken&quot; will work; whereas, in the &quot;referring to&quot;, the property's name can only be used as an adjective preceding the name of thing itself - so &quot;take unbroken flowerpot&quot; will work but &quot;take unbroken&quot; will not.
-<p>
-<p><hr><img border=0 src=beta.png>At present, the implementation of this feature has a restriction: if we define a new kind of value (say, colour) and give it to something as a property, then define a new textual form of one of those values (say making &quot;crimson&quot; a synonym for &quot;red&quot;), this new textual form will not be understood when used adjectivally in the above way.
+<p>We will return to the whole subject of parsing, as this process of understanding the player's commands is called, later. But this gives the gist of it.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e53"><a href=doc230.html#e53><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>The flowerpots once again, but this time arranged so that after the first breakage all undamaged pots are said to be "unbroken", to distinguish them from the others.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e53"><a href=doc159.html#e53><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A DIAGNOSE command which allows the player to check on the health of someone.</i><p>
 <p>
-<p>This easiest way to do this uses the &quot;printing the name of&quot; activity, which will come up in the following chapter:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Terracottissima&quot;\n\nA flowerpot is a kind of thing. A flowerpot can be unbroken or broken. After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken. Understand the broken property as describing a flowerpot.\n\nBefore printing the name of a broken flowerpot, say &quot;broken &quot;. Before printing the name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.\n\nBefore printing the plural name of a broken flowerpot, say &quot;broken &quot;. Before printing the plural name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.\n\nThe Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.\n\n')"><img border=0 src=paste.png></a> &quot;Terracottissima&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Diagnosing is an action applying to one visible thing. Understand &quot;diagnose [something]&quot; as diagnosing.\n\nCheck diagnosing:\n\tif the noun is not a person, say &quot;Only people can have diagnoses.&quot; instead.\n\nCarry out diagnosing:\n\tsay &quot;You\'re not a medical expert.&quot;\n\nInstead of diagnosing the player:\n\tsay &quot;You feel fine!&quot;\n\n')"><img border=0 src=paste.png></a> Diagnosing is an action applying to one visible thing. Understand &quot;diagnose [something]&quot; as diagnosing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A flowerpot is a kind of thing. A flowerpot can be unbroken or broken. After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken. Understand the broken property as describing a flowerpot.
+<blockquote><font color="#000080">Check diagnosing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is not a person, say &quot;Only people can have diagnoses.&quot; instead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before printing the name of a broken flowerpot, say &quot;broken &quot;. Before printing the name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.
+<blockquote><font color="#000080">Carry out diagnosing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're not a medical expert.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before printing the plural name of a broken flowerpot, say &quot;broken &quot;. Before printing the plural name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.
+<blockquote><font color="#000080">Instead of diagnosing the player:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You feel fine!&quot;
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.
-</font></blockquote><p>
-</td></tr></table><p><a name="e87"><a href=ex87.html#e87><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>The peers of the English realm come in six flavours - Baron, Viscount, Earl, Marquess, Duke and Prince - and must always be addressed properly. While a peerage is for life, it may at the royal pleasure be promoted.</i><p>
-<p><hr><p><a href=doc229.html>Previous</a> / <a href=doc231.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc158.html>Previous</a> / <a href=doc160.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

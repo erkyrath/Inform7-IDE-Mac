@@ -1,4 +1,4 @@
-<html><head><title>23.4. Fundamental semantics</title></head>
+<html><head><title>22.2. Documentation</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,34 +7,8 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc321.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc323.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>23.4. Fundamental semantics</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc321.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc323.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>22.2. Documentation</b></td></tr></table><p>
 <p>
-<p>Tables. When a table defines a new kind of value, named properties of these, e.g. &quot;red component of colour&quot;.
-<p>
-<p>Scenes. Greater flexibility: perhaps with scenes implemented as objects, though there are problems with this, and the basic difficulty is that if we have classes of scenes then what we really need is to have classes of rulebooks and ambiguous treatment of said - e.g., &quot;When a surreal scene ends:&quot; looks like an action pattern, but if anything it's a &quot;rule pattern&quot;, a concept which does not exist in Inform right now. Examples of what might be gained, maybe:
-<p>
-<blockquote><font color="#000080">A movie is a kind of scene. A movie has a table-name called sequence.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn during a movie (called the current movie):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the sequence of the current movie
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[Event entry][paragraph break]&quot;; blank out the whole row; rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A timer is a kind of scene. A timer has a number called length. A timer (called the current scene) ends when the number of turns since the current scene began is the length of the current scene.
-</font></blockquote><p>
-<p>
-<p>Action patterns. These can at present be vague about objects, but not values, which is why the following is not now allowed:
-<p>
-<blockquote><font color="#000080">Understand &quot;spin [something] to [a number]&quot; as spinning it to.
-<br>After spinning the dial to a number:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;That turns out not to open the dial.&quot;
-</font></blockquote><p>
-<p>
-<p>Action patterns could also usefully understand choices of objects/values, as in &quot;taking the duck or the drake&quot;, though &quot;or&quot; ambiguities are already a potential killer on run-time for the parser, and sufficiently long chains of &quot;or&quot; clauses can cause the memory manager to explode in boils.
-<p>
-<p>Basic kinds of value. There is (for alas good reasons) not quite a concept of a &quot;set of things&quot; in Inform at present - there is no efficient run-time representation which could reliably work in the Z-machine architecture, which relies on call by value and has no direct access to the stack. But we might be able to do this, if the user could accept that there could be no local variables, and that sets could therefore not be passed by value to routines. The aim would be to implement a set of objects - not values - as a bitmap, so it would very much be &quot;sets&quot;, not &quot;lists&quot;. A set could have a kind attached, forcing it to contain only instances of that kind. Lots of other data types would also be nice - long integers, arbitrary-precision integers, floating-point numbers, etcetera. But they all founder on the Z-machine. Zarf thinks this can't be done.
+<p>None.
 <p>
 <p><hr><p><a href=doc321.html>Previous</a> / <a href=doc323.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

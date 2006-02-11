@@ -1,4 +1,4 @@
-<html><head><title>19.11. Implications</title></head>
+<html><head><title>19.4. Where extensions are kept</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,22 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc295.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc297.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.11. Implications</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc295.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc297.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.4. Where extensions are kept</b></td></tr></table><p>
 <p>
-<p>Extensions often need to define kinds, which we want to make as helpful as possible for the user. In particular, we want to make new instances of those kinds easy to create. An interesting example of this came up in Chapter 2, when clothing was introduced. For something to be a fully practical garment, worn by the player when play begins, it needs to be &quot;worn&quot;, &quot;wearable&quot; and &quot;initially carried&quot;: if the source forgets to specify the latter two properties, the results are mysterious and unfortunate.
+<p>This depends on the operating system we use. On Mac OS X, extensions live in
 <p>
-<p>The Standard Rules solve this problem by including the following line:
-<p>
-<blockquote><font color="#000080">Something worn is usually wearable and initially carried.
+<blockquote><font color="#000080">~/Library/Inform/Extensions/
 </font></blockquote><p>
 <p>
-<p>Such a sentence is called an &quot;implication&quot;, as it is in the form &quot;Condition A implies Condition B&quot;. Inform never overrides certainties with mere implications, and is cautious about allowing them to build overly long chains of argument. This is to prevent the following kind of difficulty:
+<p>where &quot;~&quot; signifies the user's home folder. The extension &quot;Following People by Mary Brown&quot; would live in
 <p>
-<blockquote><font color="#000080">An open door is usually closed. A closed door is usually open.
+<blockquote><font color="#000080">~/Library/Inform/Extensions/Mary Brown/Following People
 </font></blockquote><p>
 <p>
-<p>Implications have not been mentioned up to now since they are only really needed by extensions, but also because they can be tricky, with unforeseen consequences. Handle with care.
+<p>(no filename extension is used). A similar arrangement is used under Windows: extensions live in
 <p>
-<p><hr><p>
-<a name="e37"><a href=ex37.html#e37><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Rooms designated "outdoors" print a random atmospheric message every turn.</i><p>
+<blockquote><font color="#000080">My Documents\Inform\Extensions
+</font></blockquote><p>
+<p>
+<p>and our example extension would be stored as:
+<p>
+<blockquote><font color="#000080">My Documents\Inform\Extensions\Mary Brown\Following People
+</font></blockquote><p>
+<p>
+<p>Again, no filename extension is used.
+<p>
 <p><hr><p><a href=doc295.html>Previous</a> / <a href=doc297.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>3.7. Properties depend on kind</title></head>
+<html><head><title>16.21. Deciding the scope of something</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,51 +7,124 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc28.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc30.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.7. Properties depend on kind</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc254.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc256.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.21. Deciding the scope of something</b></td></tr></table><p>
 <p>
-<p>Properties depend very much on kind. It makes no sense to ask whether a room is transparent or opaque, for instance, so Inform will not allow this either to be specified or queried.
+<p><b>1. When it happens.</b> &quot;Scope&quot; is a term of art in interactive fiction programming: it means the collection of things which can be interacted with at any given moment, which depends on who you are and where you are. Commands typed by the player will only be allowed to go forward into actions if the things they refer to are &quot;in scope&quot;. Inform also needs to determine scope at other times, too: for instance, when deciding whether a rule conditional on being &quot;in the presence of&quot; something is valid. It is a bad idea to say anything during this activity.
 <p>
-<p>Another way that kind influences properties can be seen from an earlier example:
+<p><b>2. The default behaviour.</b> Is complicated: see the Inform Designer's Manual, 4th edition, page 227. Briefly, the scope for someone consists of everything in the same place as them, unless it is dark.
 <p>
-<blockquote><font color="#000080">The Gazebo is a room. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup.
+<p><b>3. Examples.</b> (a) We very rarely want to forbid the player to refer to things close at hand, but often want to allow references to distant ones. For instance, a mirage of something which is not present at all:
+<p>
+<blockquote><font color="#000080">After deciding the scope of the player while in the Shrine: place the holy grail in scope.
 </font></blockquote><p>
 <p>
-<p>The cup, the pistol and the table are all allowed to have the &quot;fixed in place&quot; property, but in fact only the table actually has it: the cup and the pistol are created as &quot;portable&quot; instead. This is because Inform knows that most things are portable, but that supporters - such as the table - are usually fixed in place. If this assumption is wrong, we need only add the line:
+<p>The special phrase &quot;place ... in scope&quot; does what it suggests. Ordinarily if something is placed in scope, then so are its parts and (in the case of a room, a supporter or a transparent or open container) its contents; but we can also &quot;place the box in scope, but not its contents&quot; if we really need to place just the box itself in scope.
 <p>
-<blockquote><font color="#000080">The table is portable.
+<p>(b) Another useful device is to be able to see, but not touch, another room:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;\n\nAfter deciding the scope of the player while in the Cloakroom: place the Beyond in scope.\n\nThe Beyond is a room. Johnny Depp is a man in the Beyond.\n\n\n')"><img border=0 src=paste.png></a> The Cloakroom is a room. &quot;This is just a cloakroom, but through a vague, misty mirror-window you can make out the Beyond.&quot; After looking in the Cloakroom, say &quot;In the mirror you can see [list of things in the Beyond].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After deciding the scope of the player while in the Cloakroom: place the Beyond in scope.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Beyond is a room. Johnny Depp is a man in the Beyond.
+</font></blockquote><p>
+<p>
+<p>(This must, however, also be a mirage, as at time of writing Mr Depp is alive, well and playing Willy Wonka in the forthcoming movie of &quot;Charlie and the Chocolate Factory&quot;.)
+<p>
+<p>(c) In darkness, the scope of someone is ordinarily restricted to his or her possessions (and body), but we can override that:
+<p>
+<blockquote><font color="#000080">After deciding the scope of the player while in darkness: place the location in scope.
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e14"><a href=doc29.html#e14><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A boat with a glass case of fishing rods in it.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e14"><a href=doc255.html#e14><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A portable magic telescope which allows the player to view items in another room of his choice.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Disappointment Bay&quot;\n\n[Suppose we begin with a room description like this:]\n\nThe Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.\n\nScratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;\n\n[We might want to start with the glass case.]\n\nThe Cabin contains a glass case. In the glass case is a collection of fishing rods.\n\n[Now Inform will have guessed that the case is a container, but its default idea of a container is something like a bucket: permanently open and not able to be opened and shut. We can change that:]\n\nThe case is closed, transparent, and openable.\n\n[We get a similar set of guesses if we write]\n\nThe bench is in the cabin. On the bench are some blue vinyl cushions.\n\n[Using &quot;some&quot; rather than &quot;a&quot; or &quot;the&quot; tells Inform that the cushions are to be referred to as a plural object in the future. And because of the &quot;on the bench...&quot; phrase, Inform will guess that the bench is a supporter and that it is fixed in place and cannot be moved from room to room. We do have to tell it that the bench can be sat on, though:]\n\nThe bench is enterable.\n\n')"><img border=0 src=paste.png></a> &quot;Disappointment Bay&quot;
+<p>Suppose we want to have a pair of linked lenses so that the player can look into one of them and see things which occur in room containing the other lens.
+<p>
+<p>We begin simply with a bit of environment for the player to wander around:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Ginger Beer&quot;\n\nThe Ginger Beer Factory is a room.  &quot;In the center of the room is an enormous pot filled with crushed ginger, which seems to be bubbling slightly on its own.  The fumes are overwhelming.&quot;\n\nThe pot is scenery in the Ginger Beer Factory. The description of the pot is &quot;Cast iron.&quot; In the pot is a bubbling brew.\n\nInstead of smelling the Ginger Beer Factory: try smelling the brew.\n\nInstead of smelling the brew, say &quot;You blink back tears.&quot;\n\nThe Storeroom is south of the Ginger Beer Factory.  &quot;The walls here are lined with a prodigious number of small, rounded bottles, each with a screw top and a smiling pirate on the label.&quot;\n\nThe Clippings Room is west of the Ginger Beer Factory. &quot;A clean room lined with steel tables, for preparing ingredients.&quot;\n\nSome steel tables are a supporter in the Clippings Room.  They are scenery.  The description is &quot;They are roughly the size and height of laboratory worksurfaces.&quot;\n\nThe quantity of dandelion is on the steel tables.  The description is &quot;Horrible common weed.&quot;\n\nThe wooden box is on the steel tables.  It is openable and closed.  The description is &quot;A large wooden box with a lid, used for ingredient storage.  There is a label on the lid.&quot;\n\nThe label is part of the box.  The description is &quot;BURDOCK: the root beaten with a little salt and laid on the place suddenly easeth the pain thereof, and helpeth those that are bit by a mad dog:... the seed being drunk in wine 40 days together doth wonderfully help the sciatica: the leaves bruised with the white of an egg and applied to any place burnt with fire, taketh out the fire, gives sudden ease and heals it up afterwards.... The root may be preserved with sugar for consumption, stone and the lax.&quot;\n\nThe quantity of burdock is in the box.  The description is &quot;It looks like a kind of thistle.&quot;\n\nSome bottles are in the Storeroom.  They are scenery.  The description is &quot;They are smaller than the average bottle, because more potent.&quot;  Instead of taking the bottles, say &quot;Take one away and the whole lineup will cascade to the floor.&quot;\n\n[Now for the lenses themselves:]\n\nA lens is a kind of thing.\n\nThe large end of the telescope is a lens in the Ginger Beer Factory.  &quot;There is a large glass lens propped against the wall, in which are reflected all the contents of the room.&quot;  Understand &quot;glass&quot; or &quot;lens&quot; as the large end.\n\nThe small end of the telescope is a lens in the Storeroom.  &quot;There is a small glass lens sitting on the floor.  Due to some curious effect of the optics, it appears to be giving a view of somewhere else entirely.&quot;  Understand &quot;glass&quot; or &quot;lens&quot; as the small end.  The description is &quot;A gleaming lens about the size of a pound coin.&quot;\n\n[Here is the critical bit, which needs to be somewhat flexible, since the large end of the telescope could in theory be left anywhere in the game (and should still work).]\n\nAfter deciding the scope of the player while the small end is carried by the player:\n\tlet there be the holder of the large end;\n\tplace there in scope.\n\nBefore searching the small end when the small end is not carried by the player:\n\tsay &quot;(first picking up [the small end] and holding it to your eye)[line break]&quot;;\n\tsilently try taking the small end.\n\nInstead of searching the small end when the player is not carrying the small end:\n\tsay &quot;It\'s too hard to look through the small end from a distance.&quot;\n\nInstead of searching the large end,\n\tsay &quot;You see only your own reflection.&quot;\n\n[We also want to make sure that the player who looks through the small lens does not see the large lens listed among the contents of the other location:]\n\nDefinition: a thing is recognizable if it is not a lens.\n\nInstead of searching the small end:\n\tlet the far side be the holder of the large end of the telescope;\n\tsay &quot;You peer into the little lens and through it see, in [the far side], [the list of recognizable things in the far side].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Ginger Beer&quot;
 </font></blockquote><p>
 <p>
-<p>Suppose we begin with a room description like this:
-<p>
-<blockquote><font color="#000080">The Cabin is a room.  &quot;The front of the small cabin is entirely occupied with navigational instruments, a radar display, and radios for calling back to shore. Along each side runs a bench with faded blue vinyl cushions, which can be lifted to reveal the storage space underneath. A glass case against the wall contains several fishing rods.
+<blockquote><font color="#000080">The Ginger Beer Factory is a room.  &quot;In the center of the room is an enormous pot filled with crushed ginger, which seems to be bubbling slightly on its own.  The fumes are overwhelming.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Scratched windows offer a view of the surrounding bay, and there is a door south to the deck. A sign taped to one wall announces the menu of tours offered by the Yakutat Charter Boat Company.&quot;
+<blockquote><font color="#000080">The pot is scenery in the Ginger Beer Factory. The description of the pot is &quot;Cast iron.&quot; In the pot is a bubbling brew.
 </font></blockquote><p>
 <p>
-<p>We might want to start with the glass case.
-<p>
-<blockquote><font color="#000080">The Cabin contains a glass case. In the glass case is a collection of fishing rods.
+<blockquote><font color="#000080">Instead of smelling the Ginger Beer Factory: try smelling the brew.
 </font></blockquote><p>
 <p>
-<p>Now Inform will have guessed that the case is a container, but its default idea of a container is something like a bucket: permanently open and not able to be opened and shut. We can change that:
-<p>
-<blockquote><font color="#000080">The case is closed, transparent, and openable.
+<blockquote><font color="#000080">Instead of smelling the brew, say &quot;You blink back tears.&quot;
 </font></blockquote><p>
 <p>
-<p>We get a similar set of guesses if we write
-<p>
-<blockquote><font color="#000080">The bench is in the cabin. On the bench are some blue vinyl cushions.
+<blockquote><font color="#000080">The Storeroom is south of the Ginger Beer Factory.  &quot;The walls here are lined with a prodigious number of small, rounded bottles, each with a screw top and a smiling pirate on the label.&quot;
 </font></blockquote><p>
 <p>
-<p>Using &quot;some&quot; rather than &quot;a&quot; or &quot;the&quot; tells Inform that the cushions are to be referred to as a plural object in the future. And because of the &quot;on the bench...&quot; phrase, Inform will guess that the bench is a supporter and that it is fixed in place and cannot be moved from room to room. We do have to tell it that the bench can be sat on, though:
-<p>
-<blockquote><font color="#000080">The bench is enterable.
+<blockquote><font color="#000080">The Clippings Room is west of the Ginger Beer Factory. &quot;A clean room lined with steel tables, for preparing ingredients.&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc28.html>Previous</a> / <a href=doc30.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Some steel tables are a supporter in the Clippings Room.  They are scenery.  The description is &quot;They are roughly the size and height of laboratory worksurfaces.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The quantity of dandelion is on the steel tables.  The description is &quot;Horrible common weed.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The wooden box is on the steel tables.  It is openable and closed.  The description is &quot;A large wooden box with a lid, used for ingredient storage.  There is a label on the lid.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The label is part of the box.  The description is &quot;BURDOCK: the root beaten with a little salt and laid on the place suddenly easeth the pain thereof, and helpeth those that are bit by a mad dog:... the seed being drunk in wine 40 days together doth wonderfully help the sciatica: the leaves bruised with the white of an egg and applied to any place burnt with fire, taketh out the fire, gives sudden ease and heals it up afterwards.... The root may be preserved with sugar for consumption, stone and the lax.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The quantity of burdock is in the box.  The description is &quot;It looks like a kind of thistle.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Some bottles are in the Storeroom.  They are scenery.  The description is &quot;They are smaller than the average bottle, because more potent.&quot;  Instead of taking the bottles, say &quot;Take one away and the whole lineup will cascade to the floor.&quot;
+</font></blockquote><p>
+<p>
+<p>Now for the lenses themselves:
+<p>
+<blockquote><font color="#000080">A lens is a kind of thing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The large end of the telescope is a lens in the Ginger Beer Factory.  &quot;There is a large glass lens propped against the wall, in which are reflected all the contents of the room.&quot;  Understand &quot;glass&quot; or &quot;lens&quot; as the large end.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The small end of the telescope is a lens in the Storeroom.  &quot;There is a small glass lens sitting on the floor.  Due to some curious effect of the optics, it appears to be giving a view of somewhere else entirely.&quot;  Understand &quot;glass&quot; or &quot;lens&quot; as the small end.  The description is &quot;A gleaming lens about the size of a pound coin.&quot;
+</font></blockquote><p>
+<p>
+<p>Here is the critical bit, which needs to be somewhat flexible, since the large end of the telescope could in theory be left anywhere in the game (and should still work).
+<p>
+<blockquote><font color="#000080">After deciding the scope of the player while the small end is carried by the player:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let there be the holder of the large end;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;place there in scope.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before searching the small end when the small end is not carried by the player:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first picking up [the small end] and holding it to your eye)[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try taking the small end.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of searching the small end when the player is not carrying the small end:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It's too hard to look through the small end from a distance.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of searching the large end,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You see only your own reflection.&quot;
+</font></blockquote><p>
+<p>
+<p>We also want to make sure that the player who looks through the small lens does not see the large lens listed among the contents of the other location:
+<p>
+<blockquote><font color="#000080">Definition: a thing is recognizable if it is not a lens.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of searching the small end:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the far side be the holder of the large end of the telescope;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You peer into the little lens and through it see, in [the far side], [the list of recognizable things in the far side].&quot;
+</font></blockquote><p>
+<p>
+<p>And we're done.
+</td></tr></table><p><a name="e169"><a href=ex169.html#e169><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>An open landscape where the player can see landmarks in nearby areas, and automatically moves to interact with them.</i><p>
+<p><hr><p><a href=doc254.html>Previous</a> / <a href=doc256.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

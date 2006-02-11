@@ -1,4 +1,4 @@
-<html><head><title>17.1. On rules</title></head>
+<html><head><title>16.22. Supplying a missing noun/second noun</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,48 +7,33 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 17: Rulebooks</h2><p><table><tr><td><a href=doc255.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc257.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.1. On rules</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc255.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc257.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.22. Supplying a missing noun/second noun</b></td></tr></table><p>
 <p>
-<p>When we open the casing and look inside the machinery of Inform, what we see are rules and rulebooks. We seldom need to know how this machinery works, but every once in a while we want to replace components, or even install new mechanisms of our own. This chapter is in some ways the most remote from practical, day-to-day writing, but in the same way that a maintenance manual is remote from everyday driving: worth knowing where to find when the time comes.
+<p><b>1. When it happens.</b> (Two different activities here, but identical except for applying to different nouns.) Suppose that, because of an instruction to Understand something even though it would be lacking a noun - say, 'Understand &quot;take&quot; as taking.' - an incomplete action is generated, one which is required to have a noun, but doesn't. &quot;Supplying a missing noun&quot; takes place to remedy the problem. It can either:
 <p>
-<p>So far we have seen many rules, and the term &quot;rulebook&quot; has frequently but vaguely been used. Here is a summary of the rulebooks seen so far:
+<p>(i) Set a noun, printing text like &quot;(presumably the black bag)&quot; if it wants, in which case the action goes forward, though it is still subject to the full rules on accessibility exactly as any other action would be; or
 <p>
-<blockquote><font color="#000080">before
-<br>instead
-<br>after
-<br>check taking, carry out taking, report taking
-<br><i>and three similar rulebooks for each of the 90 or so actions</i>
-<br>persuasion
-<br>unsuccessful attempt
-<br>reaching inside
-<br>reaching outside
+<p>(ii) Make no choice, in which case no action takes place and the player's command is rejected. If the activity printed nothing, Inform will produce a generic reply to the player that &quot;You must supply a noun.&quot;.
+<p>
+<p><b>2. The default behaviour.</b> In the default grammar for Inform, only three such half-finished actions are ever Understood. One is &quot;going&quot; with no direction, for which this activity simply prints a refusal. The other two are the two undirected senses, &quot;smelling&quot; and &quot;listening&quot;. In each case, the &quot;supplying a missing noun&quot; activity sets the noun to the current location: so, for instance, typing the bare command &quot;listen&quot; might generate the action &quot;listening to the Shoreline&quot;.
+<p>
+<p><b>3. Examples.</b> (a) This is the definition Inform uses to make &quot;listen&quot; work as outlined above:
+<p>
+<blockquote><font color="#000080">Rule for supplying a missing noun while listening (this is the ambient sound rule): change the noun to the location.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">when play begins
-<br>when play ends
-<br>every turn
-<br>when Confrontation Scene begins
-<br>when Confrontation Scene ends
-<br><i>and two similar rulebooks for each scene we create, if any</i>
+<p>(b) It can be elegant to allow second nouns to be dropped with habitual actions, or where the choice is obvious:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;unlock [something]&quot; as unlocking it with.\n\nRule for supplying a missing second noun while unlocking:\n\tif the skeleton key is carried, change the second noun to the skeleton key;\n\totherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;\n\n\n\n')"><img border=0 src=paste.png></a> Understand &quot;unlock [something]&quot; as unlocking it with.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">before printing the name of
-<br>for printing the name of
-<br>after printing the name of
-<br><i>and three similar rulebooks for each of the 20 or so activities</i>
+<blockquote><font color="#000080">Rule for supplying a missing second noun while unlocking:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the skeleton key is carried, change the second noun to the skeleton key;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You will have to specify what to unlock [the noun] with.&quot;
 </font></blockquote><p>
 <p>
-<p>Which makes around 340 rulebooks before we even start to write - and two more are going to turn up later in this chapter:
 <p>
-<blockquote><font color="#000080">procedural
-<br>turn sequence
-</font></blockquote><p>
-<p>
-<p>All the same, not everything in Inform is a rule - timed events, newly-created phrases, and definitions may look vaguely as if they define rules, but they do not, so the following are not rulebooks:
-<p>
-<blockquote><font color="#000080">At 11:10 PM: ...
-<br>To dislodge the shelf: ...
-<br>Definition: ...
-</font></blockquote><p>
-<p>
+<p><hr><p>
+<a name="e190"><a href=ex190.html#e190><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Supplying a default direction for "go", so that "leave", "go", etc., are always interpreted as "out".</i><p>
+<a name="e54"><a href=ex54.html#e54><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>DIG implementation which digs a hole in the location (without requiring the player to type DIG GROUND or something similar).</i><p>
 <p><hr><p><a href=doc255.html>Previous</a> / <a href=doc257.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

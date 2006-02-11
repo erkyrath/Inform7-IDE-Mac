@@ -1,4 +1,4 @@
-<html><head><title>14.10. Adding and removing rows</title></head>
+<html><head><title>6.18. Repeated actions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,90 +7,39 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc207.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc209.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>14.10. Adding and removing rows</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc89.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc91.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.18. Repeated actions</b></td></tr></table><p>
 <p>
-<p>Writing in new rows is simple:
+<p>We come at last to the final thing which can be specified about an action, and appropriately enough it must be specified with the final words of the description. This is the way to talk about repeated activity:
 <p>
-<blockquote><font color="#000080">choose a blank row in Table 3;
-<br>change element entry to &quot;Fluorine&quot;;
-<br>change symbol to &quot;F&quot;;
-<br>change atomic number to 9;
-<br>change atomic weight to 19;
+<blockquote><font color="#000080">Instead of examining the tapestry for the third time, say &quot;All right, so it's a masterpiece, but is this really the time to make a detailed study?&quot;
 </font></blockquote><p>
 <p>
-<p>This will produce an error if there are no blank rows left in Table 3, so it can be important to worry about free space. To that end we can not only find the number of rows (as we have already seen) but also the number currently blank and not blank. Thus these:
-<p>
-<blockquote><font color="#000080">the number of blank rows in Table 3
-<br>the number of filled rows in Table 3
+<blockquote><font color="#000080">Instead of examining the urn at least twice, say &quot;It's an urn. What do you want from me?&quot;
 </font></blockquote><p>
 <p>
-<p>always add up to &quot;the number of rows in Table 3&quot;.
-<p>
-<p>To delete a row, we first choose it and then &quot;blank out the whole row&quot;. Thus, for abdication purposes:
-<p>
-<blockquote><font color="#000080">choose row with name of &quot;Edward VIII&quot; in the Table of Recent Monarchs;
-<br>blank out the whole row;
+<blockquote><font color="#000080">Instead of going nowhere for the 20th time, say &quot;Do stop walking into walls, there's a good fellow.&quot;
 </font></blockquote><p>
+<p>
+<p>Note that we are allowed to spell out numbers up to ten in English words, but beyond that must use digits (thus &quot;tenth&quot; is allowed but not &quot;eleventh&quot;: &quot;11th&quot; should be used instead). The following example is instructive:
+<p>
+<blockquote><font color="#000080">Instead of taking something for the fourth time, say &quot;No. I'm capricious.&quot;
+</font></blockquote><p>
+<p>
+<p>This means that it is the fourth time a &quot;taking...&quot; action has been tried, and does not mean that the same item was taken each time. Also, note that we are counting the number of times the action has been tried, not the number of times it succeeded.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e130"><a href=doc208.html#e130><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A person who follows a path predetermined and stored in a table, and who can be delayed if the player tries to interact with her.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e130"><a href=doc90.html#e130><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Noticing when the player seems to be at a loss, and recommending the use of hints.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Odyssey&quot;\n\nCorinth is a room. Athens is east of Corinth. Epidaurus is southeast of Corinth and east of Mycenae. Mycenae is south of Corinth. Olympia is west of Mycenae. Argos is south of Mycenae. Thebes is northwest of Athens. Pylos is south of Olympia. Sparta is east of Pylos and south of Argos. Delphi is northwest of Thebes.\n\nAthena is a woman in Athens.\n\n[Now we have the most trivial possible sort of table to account for where Athena will go, and call on it each turn. This does not attempt any clever path-finding, really, so in a case where there might be closed doors between locations it would not be suitable. But it will do for simple purposes.]\n\nTable of Athena\'s Movement\ndestination\nThebes\nDelphi\nThebes\nAthens\nCorinth\nMycenae\n\nEvery turn when Athena is active:\n\trepeat through the Table of Athena\'s Movement\n\tbegin;\n\t\tlet last space be a random room which contains Athena;\n\t\tif Athena can be seen by the player, say &quot;Athena heads to [the destination entry].&quot;;\n\t\tmove Athena to destination entry;\n\t\tif Athena can be seen by the player, say &quot;Athena arrives from [the last space].&quot;;\n\t\tblank out the whole row;\n\t\trule succeeds;\n\tend repeat.\n\n[By blanking out the table line by line, we make sure that we never lose our place in the path.]\n\n[Since we want the player to be able to talk to Athena, we need a way to stall her in her path, as well.]\n\nAthena can be active or passive. Athena is active.\n\nBefore doing something to Athena:\n\tchange Athena to passive;\n\tsay &quot;Athena waits around patiently, though you can tell she would like to leave...&quot;\n\nInstead of telling Athena about something:\n\tsay &quot;She watches you patiently as though to say that she already knows.&quot;\n\nInstead of asking Athena about something:\n\tsay &quot;Her response is inscrutably ancient and Greek. Afterwards you remember only the flash of bright eyes.&quot;\n\n[Finally, we do need to wake Athena up again if she has become passive. The following rule will occur after the movement rule just because of code ordering, though we could make matters more explicit if we needed to:]\n\nEvery turn when Athena is passive:\n\tchange Athena to active.\n\n')"><img border=0 src=paste.png></a> &quot;Odyssey&quot;
+<p>Suppose we'd like to watch for signs that the player is floundering, and if we see them, recommend that he try the hints. There are probably more sophisticated diagnostics, but as a first cut, let's assume that a player who repeatedly reviews descriptions of objects he's already seen, looks around the room, and takes inventory, is at a loss for more productive activities. So then...
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('A thing can be examined or unexamined. A thing is usually unexamined. Carry out examining something: now the noun is examined.\n\nTaking inventory is acting confused. Looking is acting confused. Examining an examined thing is acting confused.\n\nAfter acting confused for the sixth turn:\n\tsay &quot;(If you are feeling lost, try typing HELP for suggestions.)&quot;\n\n')"><img border=0 src=paste.png></a> A thing can be examined or unexamined. A thing is usually unexamined. Carry out examining something: now the noun is examined.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Corinth is a room. Athens is east of Corinth. Epidaurus is southeast of Corinth and east of Mycenae. Mycenae is south of Corinth. Olympia is west of Mycenae. Argos is south of Mycenae. Thebes is northwest of Athens. Pylos is south of Olympia. Sparta is east of Pylos and south of Argos. Delphi is northwest of Thebes.
+<blockquote><font color="#000080">Taking inventory is acting confused. Looking is acting confused. Examining an examined thing is acting confused.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Athena is a woman in Athens.
+<blockquote><font color="#000080">After acting confused for the sixth turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(If you are feeling lost, try typing HELP for suggestions.)&quot;
 </font></blockquote><p>
-<p>
-<p>Now we have the most trivial possible sort of table to account for where Athena will go, and call on it each turn. This does not attempt any clever path-finding, really, so in a case where there might be closed doors between locations it would not be suitable. But it will do for simple purposes.
-<p>
-<blockquote><font color="#000080">Table of Athena's Movement
-<br>destination
-<br>Thebes
-<br>Delphi
-<br>Thebes
-<br>Athens
-<br>Corinth
-<br>Mycenae
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn when Athena is active:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Athena's Movement
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let last space be a random room which contains Athena;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Athena can be seen by the player, say &quot;Athena heads to [the destination entry].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move Athena to destination entry;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Athena can be seen by the player, say &quot;Athena arrives from [the last space].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
-</font></blockquote><p>
-<p>
-<p>By blanking out the table line by line, we make sure that we never lose our place in the path.
-<p>
-<p>Since we want the player to be able to talk to Athena, we need a way to stall her in her path, as well.
-<p>
-<blockquote><font color="#000080">Athena can be active or passive. Athena is active.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before doing something to Athena:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change Athena to passive;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Athena waits around patiently, though you can tell she would like to leave...&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of telling Athena about something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;She watches you patiently as though to say that she already knows.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of asking Athena about something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Her response is inscrutably ancient and Greek. Afterwards you remember only the flash of bright eyes.&quot;
-</font></blockquote><p>
-<p>
-<p>Finally, we do need to wake Athena up again if she has become passive. The following rule will occur after the movement rule just because of code ordering, though we could make matters more explicit if we needed to:
-<p>
-<blockquote><font color="#000080">Every turn when Athena is passive:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change Athena to active.
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc207.html>Previous</a> / <a href=doc209.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><a name="e173"><a href=ex173.html#e173><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>A snarky commenter remarks on everything the player does, but only the first time each action is performed. (Port of the Inform 6 game "A Day For Fresh Sushi".)</i><p>
+<p><hr><p><a href=doc89.html>Previous</a> / <a href=doc91.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

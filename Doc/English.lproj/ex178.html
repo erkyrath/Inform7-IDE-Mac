@@ -1,0 +1,39 @@
+<html><head><title>7.19. Stipulations on testing</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc110.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc112.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>7.19. Stipulations on testing</b></td></tr></table><p>
+<p>
+<p>Many tests will only be sensible in given places, which may be hard to reach from the initial position; or with the aid of given things, which may be difficult to obtain. We are therefore allowed to add stipulations to test scripts:
+<p>
+<blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot; holding the balloon.
+</font></blockquote><p>
+<p>
+<p>The &quot;... holding the balloon&quot; means that the balloon will be transferred to the player's ownership immediately before the test script is run, unless it is already held. Similarly:
+<p>
+<blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen.
+</font></blockquote><p>
+<p>
+<p>Or we might want to say both:
+<p>
+<blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen holding the jam.
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e178"><a href=doc111.html#e178><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Commands to test Day for Fresh Sushi.</i><p>
+<p>
+<p>Suppose we wanted a series of test commands for &quot;Day for Fresh Sushi&quot;:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Test discovery with &quot;open cabinet / examine cloths / search cloths&quot;.\n\n\n')"><img border=0 src=paste.png></a> Test discovery with &quot;open cabinet / examine cloths / search cloths&quot;.
+</font></blockquote><p>
+<p>
+<p>Or perhaps one to win the game:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Test feeding with &quot;feed fish&quot; holding the can.\n\n')"><img border=0 src=paste.png></a> Test feeding with &quot;feed fish&quot; holding the can.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc110.html>Previous</a> / <a href=doc112.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

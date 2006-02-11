@@ -1,4 +1,4 @@
-<html><head><title>18.10. Accompanying a release with a website</title></head>
+<html><head><title>18.4. Bibliographic data</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,30 +7,32 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc275.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc277.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>18.10. Accompanying a release with a website</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc275.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc277.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>18.4. Bibliographic data</b></td></tr></table><p>
 <p>
-<p>The final touch is to use Inform to manufacture a suitable web page which will act as a cover page for the work. We request this by writing:
+<p>Inform has a number of special named values to hold the bibliographic data about the work being created - who wrote it, what it is called, what headline it has, what genre it has and what its release number is, and so on.
 <p>
-<blockquote><font color="#000080">Release along with cover art, a website, a file of &quot;Collegio magazine&quot; called &quot;Collegio.pdf&quot; and a file of &quot;The mating call of the green wyvern&quot; called &quot;Mating Wyverns.mp3&quot;.
+<p>These can be set as follows:
+<p>
+<blockquote><font color="#000080">The story title is &quot;Mansfield Perk&quot;. The story author is &quot;Janet Austen&quot;. The story headline is &quot;An Interactive Romance&quot;. The story genre is &quot;Romance&quot;. The release number is 7. The story description is &quot;In Miss Austen's new interactive novella, Miss Henrietta Pollifax is adopted by the tempestuous landowner Sir Tankerley Mordant, and must make a new life for herself on the rugged moors.&quot; The story creation year is 2005.
 </font></blockquote><p>
 <p>
-<p>where the list of ingredients now includes &quot;a website&quot;. In fact, Inform makes only a single web page, called &quot;index.html&quot;, which it places in the materials folder (as set up in the previous section): this then contains suitable links to all the other material. For instance:
+<p>Most of these are self-explanatory. The &quot;story creation year&quot; is provided so that if we need to revise the work to fix some bugs a year later - by no means an uncommon occurrence - then we can make sure it is correctly identified as still being basically a 2005 work. (Just as a book which has had innumerable revised printings may say &quot;First published 1988&quot; on its imprint page.) The &quot;story description&quot; is a piece of text, analogous to the back cover blurb on a book: it might be two or three paragraphs long, so the example above is rather minimal, but it should not be epic in length.
 <p>
-<p><img border=&quot;0&quot; src=sampleweb.jpg>
+<p>As we have already seen, a convenient abbreviation provides that if the first sentence of the source text consists solely of text in quotation marks, then that is considered the title. Thus if the source begins:
 <p>
-<p>Once this is done, take the Blorb file produced by Inform, rename it &quot;story.zblorb&quot; and move it into the Materials folder. This folder now contains everything needed:
-<p>
-<blockquote><font color="#000080">Works in Progress
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Magician Materials
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Collegio.pdf
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cover.jpg
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;index.html
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mating Wyverns.mp3
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Small Cover.jpg
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;story.zblorb
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Magician.inform
+<blockquote><font color="#000080">&quot;Mansfield Perk&quot;
 </font></blockquote><p>
 <p>
-<p>Finally, then, the whole folder here called &quot;Magician Materials&quot; can be put online as part of a website, or can be zipped into a single &quot;.zip&quot; archive and emailed out, or uploaded to the IF Archive. (It can be renamed as anything we like: no need for it to still be called &quot;Magician Materials&quot;.)
+<p>then that will be the &quot;story title&quot;. Further, we can write
+<p>
+<blockquote><font color="#000080">&quot;Mansfield Perk&quot; by Janet Austen
+</font></blockquote><p>
+<p>
+<p>with the obvious effect: quotation marks around the author's name are optional here, for convenience, but note that we'd better have them in cases like:
+<p>
+<blockquote><font color="#000080">&quot;Three Men in a Boat&quot; by &quot;Jerome K. Jerome&quot;
+</font></blockquote><p>
+<p>
+<p>as otherwise the full stop after the K will end the sentence prematurely.
 <p>
 <p><hr><p><a href=doc275.html>Previous</a> / <a href=doc277.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

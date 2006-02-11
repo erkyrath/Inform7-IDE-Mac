@@ -1,4 +1,4 @@
-<html><head><title>5.7. Adjacent rooms and routes through the map</title></head>
+<html><head><title>15.2. New commands for old grammar</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,84 +7,104 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc68.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc70.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.7. Adjacent rooms and routes through the map</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc218.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc220.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.2. New commands for old grammar</b></td></tr></table><p>
 <p>
-<p>Another useful adjective built into Inform is &quot;adjacent&quot;. Two rooms are said to be adjacent if there is a map connection between them which does not pass through some barrier such as a door. This is easily tested:
+<p>In the photography example, we are providing entirely new grammar for an action  not ordinarily built in to Inform. But we often want simply to provide alternative grammar for existing actions, or even to put new interpretations on commands that Inform already recognises. For instance:
 <p>
-<blockquote><font color="#000080">if the Hallway is adjacent to the Study ...
+<blockquote><font color="#000080">Understand &quot;deposit [something] in [an open container]&quot; as inserting it into.
 </font></blockquote><p>
 <p>
-<p>We usually want to know about the places adjacent to the current scene of the action, so that is what the adjective &quot;adjacent&quot; means when applied to rooms. For instance:
+<p>The inserting action is built in to Inform, but the command &quot;deposit&quot; is not, so this is created as new. It is occasionally useful to put a twist on this:
 <p>
-<blockquote><font color="#000080">if somebody is in an adjacent room, ...
+<blockquote><font color="#000080">Understand &quot;fill [an open container] with [something]&quot; as inserting it into (with nouns reversed).
 </font></blockquote><p>
 <p>
-<p>As with the case of &quot;visible&quot;, the adjective is a cut-down version of the more general relationship. This often happens: &quot;worn&quot; and &quot;carried&quot;, for instance, imply &quot;by the player&quot; unless something else is specified.
+<p>The clause &quot;(with nouns reversed)&quot; tells Inform to exchange the two nouns parsed, which is necessary because the inserting action expects the noun to be the item and the second noun to be the container, not vice versa.
 <p>
-<p>While on the subject of navigating the map, the phrase &quot;the best route from A to B&quot; gives the direction to take in order to get from A to B by the shortest number of movements between rooms - if there is any way through at all. For example, here is a lure:
+<p>The following example:
 <p>
-<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room].&quot;
+<blockquote><font color="#000080">Understand &quot;access [something]&quot; as opening.
 </font></blockquote><p>
 <p>
-<p>Best routes are ordinarily forbidden to go through doors, but if the suffix &quot;using doors&quot; is added as an option then any open or openable and unlocked door may be used on the way; and if &quot;using even locked doors&quot; is given, then any door at all will do. Since magnetism is no respecter of property, that seems right here:
+<p>might look as if it makes &quot;access&quot; behave just like &quot;open&quot; when the player types it, but that's not so: &quot;open&quot; can also be used in constructions like &quot;open the door with the brass key&quot;, in which case it is understood as the unlocking action. We could add another line to make &quot;access&quot; behave this way too, but if what we really want is to make &quot;access&quot; behave just like &quot;open&quot;, it's easier simply to say so:
 <p>
-<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room, using even locked doors].&quot;
+<blockquote><font color="#000080">Understand the command &quot;access&quot; as &quot;open&quot;.
 </font></blockquote><p>
 <p>
-<p>The phrase &quot;the best route from A to B&quot; gives the direction to take next, if we are at A and want to end up at B. Suppose this is east. We can find out where we go next by looking up &quot;the room east from A&quot;: similarly for any other direction, of course. (This can see through any doors, locked or not.)
+<p>This is very useful when adding a new command which needs synonyms:
 <p>
-<p>We can also find out how long the journey would be:
-<p>
-<blockquote><font color="#000080">The description of the proximity gadget is &quot;You are now [number of moves from the location to the Sundial] moves from the Sundial.&quot;;
+<blockquote><font color="#000080">Understand the command &quot;snap&quot; as &quot;photograph&quot;.
+<br>Understand the command &quot;picture&quot; as &quot;photograph&quot;.
 </font></blockquote><p>
 <p>
-<p>This number is, of course, 0 if the location is already the Sundial. If there is no way at all to get to the Sundial, the number is -1.
+<p>We can check the current stock of commands by looking at the table in the Actions index: for instance, before making &quot;snap&quot; synonymous with &quot;photograph&quot;, it might be wise to check that it is not already defined as a command for breaking something.
 <p>
 <p><hr><p>
-<a name="e2"><a href=ex2.html#e2><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A person who moves randomly between rooms of the map.</i><p>
-<a name="e104"><a href=ex104.html#e104><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Signposts such as those provided on hiking paths in the Swiss Alps, which show the correct direction and hiking time to all other locations.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e3"><a href=doc69.html#e3><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A LOOK [direction] command which allows the player to see descriptions of the nearby landscape.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e3"><a href=doc219.html#e3><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A generic USE action which behaves sensibly with a range of different objects, expanding on the EMPLOY example above.</i><p>
 <p>
-<p>Suppose a game in which the player is wandering an open landscape with long vistas, allowing him to LOOK in some direction, or even look at an adjacent location.
+<p>This example takes the ordering of grammar lines to its logical extreme, sorting the player's input into different categories depending on the kind and condition of the objects mentioned.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;A View of Green Hills&quot;\n\nCorinth is a room. Athens is east of Corinth. Epidaurus is southeast of Corinth and east of Mycenae. Mycenae is south of Corinth. Olympia is west of Mycenae. Argos is south of Mycenae. Thebes is northwest of Athens. Pylos is south of Olympia. Sparta is east of Pylos and south of Argos. Delphi is northwest of Thebes.\n\nUnderstand &quot;look [direction]&quot; as facing.\n\nFacing is an action applying to one visible thing.\n\nCarry out facing:\n\tlet the viewed item be the room noun from the location;\n\tif the viewed item is not a room, say &quot;You can\'t see anything promising that way.&quot; instead;\n\ttry looking toward the viewed item.\n\n[We can at need override the default behavior, if it is not going to be appropriate for the player to see the next room over. There is only sky above at any time, so...]\n\nInstead of facing up:\n\tsay &quot;Above you is bright sky.&quot;\n\nUnderstand &quot;look toward [any adjacent room]&quot; as looking toward. Understand &quot;examine [any adjacent room]&quot; as looking toward.\n\nLooking toward is an action applying to one visible thing.\n\nCarry out looking toward:\n\tsay &quot;You make out [the noun] that way.&quot;\n\n[This design allows us to create descriptions for rooms (as seen from the outside) which will work regardless of where we\'re looking from. For instance:]\n\nInstead of looking toward Athens:\n\tsay &quot;Even from here you can make out the silhouette of the Acropolis.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;A View of Green Hills&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Alpaca Farm&quot;\n\nUnderstand &quot;use [an edible thing]&quot; as eating.\n\nUnderstand &quot;use [a wearable thing]&quot; as wearing.\n\nUnderstand &quot;use [a closed openable container]&quot; as opening. Understand &quot;use [an open openable container]&quot; as closing.\n\nUnderstand &quot;use [something held] on [a locked lockable thing]&quot; as unlocking it with (with nouns reversed). Understand &quot;use [something held] on [an unlocked lockable thing]&quot; as locking it with (with nouns reversed).\n\nUnderstand &quot;use [a switched off device]&quot; as switching on.\n\nUnderstand &quot;use [something]&quot; as using. Using is an action applying to one thing. Carry out using: say &quot;You will have to be more specific about your intentions.&quot;\n\nUnderstand &quot;use [a door]&quot; as opening. Understand &quot;use [an open door]&quot; as entering.\n\nThe Llama Pen is a room. North of the Pen is the gate. The gate is a door. North of the gate is the Rocky Path. The brown llama is an animal in the Llama Pen.\n\nAppearance is a kind of value. The appearances are muddy, scruffy, fluffy, and dapper. The brown llama has an appearance. The brown llama is muddy. Before printing the name of the brown llama, say &quot;[appearance] &quot;. Before printing the name of the brown llama while grooming: say &quot;now-[if appearance of the brown llama is less than dapper]merely-[end if]&quot;.\n\nA grooming tool is a kind of thing. Understand &quot;use [a grooming tool] on [something]&quot; as grooming it with (with nouns reversed). Grooming it with is an action applying to two things. Understand &quot;groom [something] with [something]&quot; as grooming it with.\n\nCarry out grooming it with:\n\tif the appearance of the noun is less than dapper, change the appearance of the noun to the appearance after the appearance of the noun.\n\nReport grooming it with:\n\tsay &quot;You attend diligently to the appearance and hygiene of [the noun].&quot;\n\nInstead of using a grooming tool in the presence of the brown llama:\n\ttry grooming the brown llama with the noun.\n\nThe player carries some nail nippers, a slicker brush, and an apple. The apple is edible. The brush and the nippers are grooming tools. The player wears a sombrero.\n\nThe description of the nail nippers is &quot;Ten inches long, to give you the necessary leverage to cut tough llama toenails. It still helps to soften them up by making the llama stand in a bucket of water first, though.&quot;\n\nThe description of the slicker brush is &quot;Fine, angled soft bristles set into a broad back, perfect for removing mud from the coat of a long-woolled llama.&quot;\n\nThe industrial-strength blower is a fixed in place device in the Llama Pen. &quot;Attached to the nearest wall, on its own movable boom, is an industrial-strength blower for doing llama hair.&quot;\n\nUnderstand &quot;use [switched off blower]&quot; as switching on. Understand &quot;use [switched on blower] on [brown llama]&quot; as grooming it with (with nouns reversed). Instead of using the blower in the presence of the brown llama, try grooming the brown llama with the blower.\n\n\n')"><img border=0 src=paste.png></a> &quot;Alpaca Farm&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Corinth is a room. Athens is east of Corinth. Epidaurus is southeast of Corinth and east of Mycenae. Mycenae is south of Corinth. Olympia is west of Mycenae. Argos is south of Mycenae. Thebes is northwest of Athens. Pylos is south of Olympia. Sparta is east of Pylos and south of Argos. Delphi is northwest of Thebes.
+<blockquote><font color="#000080">Understand &quot;use [an edible thing]&quot; as eating.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;look [direction]&quot; as facing.
+<blockquote><font color="#000080">Understand &quot;use [a wearable thing]&quot; as wearing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Facing is an action applying to one visible thing.
+<blockquote><font color="#000080">Understand &quot;use [a closed openable container]&quot; as opening. Understand &quot;use [an open openable container]&quot; as closing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out facing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let the viewed item be the room noun from the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the viewed item is not a room, say &quot;You can't see anything promising that way.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try looking toward the viewed item.
+<blockquote><font color="#000080">Understand &quot;use [something held] on [a locked lockable thing]&quot; as unlocking it with (with nouns reversed). Understand &quot;use [something held] on [an unlocked lockable thing]&quot; as locking it with (with nouns reversed).
 </font></blockquote><p>
 <p>
-<p>We can at need override the default behavior, if it is not going to be appropriate for the player to see the next room over. There is only sky above at any time, so...
-<p>
-<blockquote><font color="#000080">Instead of facing up:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Above you is bright sky.&quot;
+<blockquote><font color="#000080">Understand &quot;use [a switched off device]&quot; as switching on.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;look toward [any adjacent room]&quot; as looking toward. Understand &quot;examine [any adjacent room]&quot; as looking toward.
+<blockquote><font color="#000080">Understand &quot;use [something]&quot; as using. Using is an action applying to one thing. Carry out using: say &quot;You will have to be more specific about your intentions.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Looking toward is an action applying to one visible thing.
+<blockquote><font color="#000080">Understand &quot;use [a door]&quot; as opening. Understand &quot;use [an open door]&quot; as entering.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out looking toward:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You make out [the noun] that way.&quot;
+<blockquote><font color="#000080">The Llama Pen is a room. North of the Pen is the gate. The gate is a door. North of the gate is the Rocky Path. The brown llama is an animal in the Llama Pen.
 </font></blockquote><p>
 <p>
-<p>This design allows us to create descriptions for rooms (as seen from the outside) which will work regardless of where we're looking from. For instance:
-<p>
-<blockquote><font color="#000080">Instead of looking toward Athens:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Even from here you can make out the silhouette of the Acropolis.&quot;
+<blockquote><font color="#000080">Appearance is a kind of value. The appearances are muddy, scruffy, fluffy, and dapper. The brown llama has an appearance. The brown llama is muddy. Before printing the name of the brown llama, say &quot;[appearance] &quot;. Before printing the name of the brown llama while grooming: say &quot;now-[if appearance of the brown llama is less than dapper]merely-[end if]&quot;.
 </font></blockquote><p>
 <p>
-</td></tr></table><p><p><hr><p><a href=doc68.html>Previous</a> / <a href=doc70.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">A grooming tool is a kind of thing. Understand &quot;use [a grooming tool] on [something]&quot; as grooming it with (with nouns reversed). Grooming it with is an action applying to two things. Understand &quot;groom [something] with [something]&quot; as grooming it with.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out grooming it with:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the appearance of the noun is less than dapper, change the appearance of the noun to the appearance after the appearance of the noun.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report grooming it with:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You attend diligently to the appearance and hygiene of [the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of using a grooming tool in the presence of the brown llama:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try grooming the brown llama with the noun.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player carries some nail nippers, a slicker brush, and an apple. The apple is edible. The brush and the nippers are grooming tools. The player wears a sombrero.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The description of the nail nippers is &quot;Ten inches long, to give you the necessary leverage to cut tough llama toenails. It still helps to soften them up by making the llama stand in a bucket of water first, though.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The description of the slicker brush is &quot;Fine, angled soft bristles set into a broad back, perfect for removing mud from the coat of a long-woolled llama.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The industrial-strength blower is a fixed in place device in the Llama Pen. &quot;Attached to the nearest wall, on its own movable boom, is an industrial-strength blower for doing llama hair.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;use [switched off blower]&quot; as switching on. Understand &quot;use [switched on blower] on [brown llama]&quot; as grooming it with (with nouns reversed). Instead of using the blower in the presence of the brown llama, try grooming the brown llama with the blower.
+</font></blockquote><p>
+<p>
+<p>Whether we actually want a USE action is a subject of some theoretical debate in the IF community. On the one hand, it helps avoid guess-the-verb problems where the player cannot figure out what term to use in order to express a fairly simple idea. On the other, it encourages the player to think that all items have one and exactly one use, rather than getting him to consider the range of possibilities that arise from having a complex vocabulary.
+</td></tr></table><p><a name="e81"><a href=ex81.html#e81><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>By default, Inform understands GET OFF, GET UP, or GET OUT when the player is sitting or standing on an enterable object. We might also want to add GET DOWN and DOWN as exit commands, though:</i><p>
+<a name="e44"><a href=ex44.html#e44><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>Implementation of "Cloak of Darkness", a simple example game that for years has been used to demonstrate the features of IF languages.</i><p>
+<p><hr><p><a href=doc218.html>Previous</a> / <a href=doc220.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

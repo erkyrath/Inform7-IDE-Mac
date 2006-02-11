@@ -1,4 +1,4 @@
-<html><head><title>16.1. What are activities?</title></head>
+<html><head><title>15.17. Precedence</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,21 +7,41 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 16: Activities</h2><p><table><tr><td><a href=doc233.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc235.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.1. What are activities?</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc233.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc235.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.17. Precedence</b></td></tr></table><p>
 <p>
-<p>It is poor form to define with negatives, but the first thing to say about activities is that they are <i>not</i> actions. This needs saying because Inform often seems to treat them as if they are, by allowing us to write rules like so:
+<p>When several different lines of grammar are supplied to meet the same circumstances, it makes a big difference what order they are tried in. For instance, suppose we have:
 <p>
-<blockquote><font color="#000080">Before printing the name of a woman, say &quot;Ms &quot;.
+<blockquote><font color="#000080">Understand &quot;photograph [a door]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>With this rule in place, someone called &quot;Daphne&quot; will always be described as &quot;Ms Daphne&quot;, and so on. The language looks as if we were imposing a rule on an action called &quot;printing the name of&quot;, but there is no such action: instead, it is an &quot;activity&quot;. To spell out the difference:
-<p>
-<blockquote><font color="#000080">An action is a simulated task for the fictional protagonist.
+<blockquote><font color="#000080">Understand &quot;photograph [an open door]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">An activity is a real task for the computer program doing the simulation.
+<p>The second line is more specific than the first, so Inform takes these grammar lines the other way around: it checks for &quot;open door&quot; before it checks for &quot;door&quot;. That didn't matter here, since both lines came out with the same result (the action of photographing), but it matters very much in the next example:
+<p>
+<blockquote><font color="#000080">Understand &quot;employ [a door]&quot; as opening.
 </font></blockquote><p>
 <p>
-<p>Activities allow us to influence or change some of the standard habits of Inform, using rules as flexible and powerful as those applicable to actions, though activities are in several ways simpler and easier.
+<blockquote><font color="#000080">Understand &quot;employ [an open door]&quot; as entering.
+</font></blockquote><p>
+<p>
+<p>More subtle is a line already seen:
+<p>
+<blockquote><font color="#000080">Understand &quot;on/in/inside&quot; or &quot;on top of&quot; as &quot;[within]&quot;.
+</font></blockquote><p>
+<p>
+<p>Here Inform puts &quot;on top of&quot; before &quot;on/in/inside&quot;, since otherwise only the &quot;on&quot; of &quot;on top of&quot; will be recognised.
+<p>
+<p>Mistakes always take precedence over non-mistakes: this is intended to make sure that
+<p>
+<blockquote><font color="#000080">Understand &quot;take umbrage&quot; as a mistake (&quot;Nobody takes umbrage in this game, mister.&quot;).
+</font></blockquote><p>
+<p>
+<p>will take precedence over
+<p>
+<blockquote><font color="#000080">Understand &quot;take [something]&quot; as taking.
+</font></blockquote><p>
+<p>
+<p>even if there is, in fact, a character called Mr Nimbus Umbrage so that the command could conceivably make sense.
 <p>
 <p><hr><p><a href=doc233.html>Previous</a> / <a href=doc235.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

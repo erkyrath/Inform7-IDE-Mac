@@ -1,4 +1,4 @@
-<html><head><title>12.13. Relations which express conditions</title></head>
+<html><head><title>4.11. Text with variations</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,93 +7,52 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc180.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc182.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.13. Relations which express conditions</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc54.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc56.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.11. Text with variations</b></td></tr></table><p>
 <p>
-<p>One last way to create a new relation and, in many ways, the easiest of all. If we write:
+<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
 <p>
-<blockquote><font color="#000080">Contact relates a thing (called X) to a thing (called Y) when X is part of Y or Y is part of X. The verb to be joined to implies the contact relation.
+<blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.
 </font></blockquote><p>
 <p>
-<p>then we would be able to talk about a handle being joined to a door, and a door being joined to a handle, and so on. We are not allowed to declare:
+<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
 <p>
-<blockquote><font color="#000080">The hook is joined to the line.
+<blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;
 </font></blockquote><p>
 <p>
-<p>because the question of whether they are joined is not for us to decide: that will be for the condition to determine, whenever we test it. Similarly, we cannot meaningfully write
+<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
 <p>
-<blockquote><font color="#000080">now the hook is joined to the line;
+<p>We sometimes need to be careful about the printing of line breaks:
+<p>
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell. [otherwise]the usual cell.&quot;
 </font></blockquote><p>
 <p>
-<p>(and Inform will not let us) because this relation is not something we can force either way: we can make it come true by other means, maybe, but we cannot simply make it true by saying so.
+<p>This room description has two possible forms: &quot;Ah, the unknown cell. &quot;, at first sight, and then &quot;Ah, the usual cell.&quot; subsequently. But the second form is rounded off with a line break because the last thing printed is a &quot;.&quot;, whereas the first form isn't, because it ended with a space. The right thing would have been:
 <p>
-<p>So this way to define relations is, on the face of it, just a sort of verbal trick to write conditions in a more attractive way. The more flexible, changeable relations in previous sections have much greater expressive power. All the same, it is nice to be able to write -
-<p>
-<blockquote><font color="#000080">Nearness relates a room (called A) to a room (called B) when the number of moves from B to A is less than 3. The verb to be near implies the nearness relation.
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell.[otherwise]the usual cell.&quot;
 </font></blockquote><p>
 <p>
-<p>and then to be able to write rules like:
-<p>
-<blockquote><font color="#000080">Instead of listening when the location is near the Sundial: say &quot;You hear a splashing of water.&quot;
-</font></blockquote><p>
+<p>allowing no space after &quot;unknown cell.&quot;
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e10"><a href=doc181.html#e10><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Relations track the relationships between one character and another. Whenever the player meets a relative of someone he already knows, he receives a brief introduction.</i><p>
+<a name="e57"><a href=ex57.html#e57><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A door which says "...leads east" in one place and "...leads west" in the other.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e10"><a href=doc55.html#e10><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A kind of door that always automatically describes the direction it opens and what lies on the far side (if that other room has been visited).</i><p>
 <p>
-<p>First we define the relationships we choose to acknowledge:
+<p>It would be fairly tedious reading to have a large game full of doors that describe themselves this way. Nonetheless, if we insisted we could use our knowledge of the map as leverage to make every door in the game describe itself automatically:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;A Humble Wayside Flower&quot;\n\nMarriage relates one person to another (called the spouse). The verb to be married to implies the marriage relation.\n\nFatherhood relates one person (called father) to various people. The verb to engender (he engenders, they engender) implies the fatherhood relation.\n\n[For brevity, we will ignore the existence of mothers. It is a sad world.]\n\nSiblinghood relates a person (called A) to a person (called B) when a person who engenders A engenders B. The verb to be sibling to implies the siblinghood relation.\n\nFamily relates a person (called A) to a person (called B) when A is married to B or A engenders B or B engenders A or A is sibling to B. The verb to be related to implies the family relation.\n\nA person can be known or unknown. After printing the name of an unknown person (called the alien):\n\tif a known person (called the contact) is related to the alien\n\tbegin;\n\t\tsay &quot; ([relation between alien and contact] of [the contact])&quot;;\n\t\tnow the alien is known;\n\t\trule succeeds;\n\tend if.\n\nTo say relation between (first party - a person) and (second party - a person):\n\tif the first party is married to the second party\n\tbegin;\n\t\tif the first party is female, say &quot;wife&quot;;\n\t\totherwise say &quot;husband&quot;;\n\t\trule succeeds;\n\tend if;\n\tif the first party is sibling to the second party\n\tbegin;\n\t\tif the first party is female, say &quot;sister&quot;;\n\t\totherwise say &quot;brother&quot;;\n\t\trule succeeds;\n\tend if;\n\tif the first party engenders the second party\n\tbegin;\n\t\tsay &quot;father&quot;; rule succeeds;\n\tend if;\n\tif the second party is the father of the first party\n\tbegin;\n\t\tif the first party is female, say &quot;daughter&quot;;\n\t\totherwise say &quot;son&quot;;\n\t\trule succeeds;\n\tend if.\n\nPere Blanchard\'s Hut is a room. Percival Blakeney is a known man in the Hut. Marguerite is a woman in the Hut. Percival is married to Marguerite. Outside from the Hut is the Garden. Louise is a woman in the Garden. The Road to Paris is west of the Garden. Armand St Just is a man in the Road. Louise is married to Armand. Monsieur St Just is a man. He engenders Armand and Marguerite.\n\n\n')"><img border=0 src=paste.png></a> &quot;A Humble Wayside Flower&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Whence?&quot;\n\nThe temporal vortex is an open door. It is west of Yesterday and east of Today.\n\nThe initial appearance of a door is usually &quot;Nearby [an item described] leads [if the other side of the item described is visited][way through the item described] to [the other side][otherwise][way through the item described][end if].&quot;\n\nTo decide what direction is the way through (frame - a door):\n\tlet far side be the other side of frame;\n\tlet way be the best route from the location to the far side, using even locked doors;\n\tif way is a direction, decide on the way;\n\tdecide on inside.\n\n')"><img border=0 src=paste.png></a> &quot;Whence?&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Marriage relates one person to another (called the spouse). The verb to be married to implies the marriage relation.
+<blockquote><font color="#000080">The temporal vortex is an open door. It is west of Yesterday and east of Today.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Fatherhood relates one person (called father) to various people. The verb to engender (he engenders, they engender) implies the fatherhood relation.
+<blockquote><font color="#000080">The initial appearance of a door is usually &quot;Nearby [an item described] leads [if the other side of the item described is visited][way through the item described] to [the other side][otherwise][way through the item described][end if].&quot;
 </font></blockquote><p>
 <p>
-<p>For brevity, we will ignore the existence of mothers. It is a sad world.
-<p>
-<blockquote><font color="#000080">Siblinghood relates a person (called A) to a person (called B) when a person who engenders A engenders B. The verb to be sibling to implies the siblinghood relation.
+<blockquote><font color="#000080">To decide what direction is the way through (frame - a door):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let far side be the other side of frame;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let way be the best route from the location to the far side, using even locked doors;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if way is a direction, decide on the way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;decide on inside.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Family relates a person (called A) to a person (called B) when A is married to B or A engenders B or B engenders A or A is sibling to B. The verb to be related to implies the family relation.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A person can be known or unknown. After printing the name of an unknown person (called the alien):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if a known person (called the contact) is related to the alien
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; ([relation between alien and contact] of [the contact])&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now the alien is known;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">To say relation between (first party - a person) and (second party - a person):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the first party is married to the second party
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the first party is female, say &quot;wife&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;husband&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the first party is sibling to the second party
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the first party is female, say &quot;sister&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;brother&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the first party engenders the second party
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;father&quot;; rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the second party is the father of the first party
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the first party is female, say &quot;daughter&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;son&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Pere Blanchard's Hut is a room. Percival Blakeney is a known man in the Hut. Marguerite is a woman in the Hut. Percival is married to Marguerite. Outside from the Hut is the Garden. Louise is a woman in the Garden. The Road to Paris is west of the Garden. Armand St Just is a man in the Road. Louise is married to Armand. Monsieur St Just is a man. He engenders Armand and Marguerite.
-</font></blockquote><p>
-<p>
-<p>Monsieur St Just never appears on the scene in this piece, but if we did put him somewhere the player could find him, he, too, would be properly introduced.
-</td></tr></table><p><p><hr><p><a href=doc180.html>Previous</a> / <a href=doc182.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><a name="e59"><a href=ex59.html#e59><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Separate the player's inventory listing into two parts, so that it says "you are carrying..." and then (if the player is wearing anything) "You are also wearing...".</i><p>
+<p><hr><p><a href=doc54.html>Previous</a> / <a href=doc56.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

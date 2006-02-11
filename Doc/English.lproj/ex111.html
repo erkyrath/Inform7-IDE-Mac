@@ -1,4 +1,4 @@
-<html><head><title>13.15. Making the verb "to weigh"</title></head>
+<html><head><title>15.9. Commands consisting only of nouns</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,42 +7,67 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc197.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc199.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.15. Making the verb "to weigh"</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc225.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc227.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.9. Commands consisting only of nouns</b></td></tr></table><p>
 <p>
-<p>We have already created new verbs: for instance, in the previous chapter we set up a verb &quot;to love&quot;, which was such that we could say &quot;A loves B&quot; for people A and B. Suppose we want a verb &quot;to weigh&quot;, in the sense of &quot;the lead pig weighs 45kg&quot;. This is not like &quot;to love&quot;, because it relates something tangible (the lead pig) to something intangible (45kg). So its creation looks a little different:
+<p>In every example so far, and in almost all practical cases, the first word in a command which results in an action will be something fixed: a verb, in fact. When we write
 <p>
-<blockquote><font color="#000080">The verb to weigh (it weighs, they weigh, it is weighing) implies the weight property.
+<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p>Our previous verb definitions ended &quot;implies the ... relation&quot;, rather than &quot;implies the ... property&quot;, but otherwise the idea is the same. The effect is that we can say things like:
+<p>we are saying that the first word of such a command will always be &quot;photograph&quot;. Occasionally, though, we would like to understand a noun as a command, perhaps in a situation where the command is obvious. If we say:
 <p>
-<blockquote><font color="#000080">A thing usually weighs 1kg. The lead pig weighs 45kg.
-<br>something weighing 20kg
-<br>if three things weigh 5kg, ...
+<blockquote><font color="#000080">Understand &quot;[something]&quot; as examining.
 </font></blockquote><p>
+<p>
+<p>then the command &quot;examine&quot; will be implicit when the player types a bare noun:
+<p>
+<blockquote><font color="#000080">A red box and a blue ball are here.
+<br>> ball
+<br>The blue ball is plaited from many small leather patches.
+</font></blockquote><p>
+<p>
+<p>so that the command &quot;ball&quot; has resulted in the action &quot;examining the blue ball&quot;.
+<p>
+<p>This is a feature which should be used sparingly, since it could easily lead to confusion if not carefully explained to the player. By default, it is not used at all.
 <p>
 <p><hr><p>
-<a name="e132"><a href=ex132.html#e132><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>This example draws together the previous snippets into a working implementation of the weighbridge.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e111"><a href=doc198.html#e111><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>To give every container a breaking strain, that is, a maximum weight of contents which it can bear - so that to put the lead pig into a paper bag invites disaster.</i><p>
+<a name="e46"><a href=ex46.html#e46><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A going by name command which does respect movement rules, and accepts names of rooms as commands.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e111"><a href=doc226.html#e111><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>The same functionality, but making the player continue to move until he reaches his destination or a barrier, handling all openable doors on the way.</i><p>
 <p>
-<p>The following uses a few features which will not be explained until later chapters, but it shows the kind of &quot;realism&quot; rules which could be introduced using weights. Not entirely realistic: we do not bother to rupture containers out of the player's sight.
+<p>The foregoing example moves the player one location towards his destination, and requires that rooms have been visited before. But suppose we wanted to be a bit more lenient about movement, and let the player make as many steps as necessary per turn.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Lead Cuts Paper&quot;\n\nA weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg.\n\nA container has a weight called breaking strain. The breaking strain of a container is usually 50kg. Definition: A container is bursting if the total weight of things in it is greater than its breaking strain.\n\nA lead pig, a feather, a silver coin and a paper bag are in a room called the Metallurgy Workshop. The paper bag is a container with breaking strain 2kg.\n\nEvery turn when a container (called the sack) held by someone visible (called the chump) is bursting:\n\tsay &quot;[The sack] splits and breaks under the weight! [if the player is the chump]You discard[otherwise][The chump] discards[end if] its ruined remains, looking miserably down at [the list of things in the sack] on the floor.&quot;;\n\tnow all of the things in the sack are in the location;\n\tremove the sack from play.\n\n\n')"><img border=0 src=paste.png></a> &quot;Lead Cuts Paper&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Safari Guide\n\nThe Monkey House is a room. The African Grasslands Exhibit is north of the Monkey House. The bird door is north of the African Grasslands Exhibit and south of the Aviary. The Ostrich Enclosure is west of the Aviary. The bird door is a door. It is closed, lockable, and locked. The silver key is a passkey. It unlocks the bird door. The player carries the silver key.\n\nUnderstand &quot;go to [any room]&quot; as going by name. Understand &quot;[any room]&quot; as going by name. Understand &quot;[door]&quot; as entering.\n\nGoing by name is an action applying to one thing.\n\nCheck going by name:\n\tif the noun is the location, say &quot;You\'re already in [the location].&quot; instead.\n\nCarry out going by name:\n\twhile the player is not in the noun\n\tbegin;\n\t\tlet heading be the best route from the location to the noun, using even locked doors;\n\t\tif heading is not a direction, say &quot;You can\'t think how to get there from here.&quot; instead;\n\t\tlet destination be the room heading from the location;\n\t\tsay &quot;(heading [heading])[line break]&quot;;\n\t\ttry going heading;\n\t\tif the player is not in the destination, rule fails;\n\tend while.\n\n[Notice that we continue the movement until one of two things happens: either the player reaches the room that is his destination, or the going attempt doesn\'t work. In the latter case we stop the action in order to avoid hanging the game up in a loop. This event might occur when the player runs into a locked door, for instance.]\n\n[We might also want him to automatically open and unlock any doors he encounters on the way; to this end we can just include the lock-handling extension. Now every time the code attempts opening a door, unlocking rules will also be invoked.]\n\nInclude Locksmith by Emily Short.\n\n')"><img border=0 src=paste.png></a> Safari Guide
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg.
+<blockquote><font color="#000080">The Monkey House is a room. The African Grasslands Exhibit is north of the Monkey House. The bird door is north of the African Grasslands Exhibit and south of the Aviary. The Ostrich Enclosure is west of the Aviary. The bird door is a door. It is closed, lockable, and locked. The silver key is a passkey. It unlocks the bird door. The player carries the silver key.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A container has a weight called breaking strain. The breaking strain of a container is usually 50kg. Definition: A container is bursting if the total weight of things in it is greater than its breaking strain.
+<blockquote><font color="#000080">Understand &quot;go to [any room]&quot; as going by name. Understand &quot;[any room]&quot; as going by name. Understand &quot;[door]&quot; as entering.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A lead pig, a feather, a silver coin and a paper bag are in a room called the Metallurgy Workshop. The paper bag is a container with breaking strain 2kg.
+<blockquote><font color="#000080">Going by name is an action applying to one thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn when a container (called the sack) held by someone visible (called the chump) is bursting:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The sack] splits and breaks under the weight! [if the player is the chump]You discard[otherwise][The chump] discards[end if] its ruined remains, looking miserably down at [the list of things in the sack] on the floor.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now all of the things in the sack are in the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the sack from play.
+<blockquote><font color="#000080">Check going by name:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the location, say &quot;You're already in [the location].&quot; instead.
 </font></blockquote><p>
 <p>
-</td></tr></table><p><p><hr><p><a href=doc197.html>Previous</a> / <a href=doc199.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Carry out going by name:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;while the player is not in the noun
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let heading be the best route from the location to the noun, using even locked doors;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if heading is not a direction, say &quot;You can't think how to get there from here.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let destination be the room heading from the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [heading])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try going heading;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player is not in the destination, rule fails;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end while.
+</font></blockquote><p>
+<p>
+<p>Notice that we continue the movement until one of two things happens: either the player reaches the room that is his destination, or the going attempt doesn't work. In the latter case we stop the action in order to avoid hanging the game up in a loop. This event might occur when the player runs into a locked door, for instance.
+<p>
+<p>We might also want him to automatically open and unlock any doors he encounters on the way; to this end we can just include the lock-handling extension. Now every time the code attempts opening a door, unlocking rules will also be invoked.
+<p>
+<blockquote><font color="#000080">Include Locksmith by Emily Short.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc225.html>Previous</a> / <a href=doc227.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

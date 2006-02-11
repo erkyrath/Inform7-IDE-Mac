@@ -1,4 +1,4 @@
-<html><head><title>13.12. Arithmetic with units</title></head>
+<html><head><title>3.12. Doors</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,99 +7,39 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc194.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc196.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.12. Arithmetic with units</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc33.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc35.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>3.12. Doors</b></td></tr></table><p>
 <p>
-<p>Inform allows us to perform arithmetic on units only where that would make sense, and it keeps track of the results. For instance,
+<p>The map of an interactive fiction is the layout of rooms and the entrances and exits which connect them. So far, these map connections have always run from one room to another, like so:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The Weighbridge is a room. &quot;A sign declares that the maximum load is [100kg multiplied by 3].&quot;\n\n\n')"><img border=0 src=paste.png></a> The Weighbridge is a room. &quot;A sign declares that the maximum load is [100kg multiplied by 3].&quot;
+<blockquote><font color="#000080">The Painted Room is north of the Undertomb.
 </font></blockquote><p>
 <p>
-<p>...will produce the text &quot;A sign declares that the maximum load is 300kg.&quot; Here Inform knows that it makes sense to multiply a weight by 3, and that the result will be a weight. Similarly, Inform allows us to add and subtract weights, and several different forms of division are allowed:
+<p>However, we can also interpose doors between rooms, like so:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: \'122 / 10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; but 122kg / 10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; and 122kg / 10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].\'&quot;\n\n\n')"><img border=0 src=paste.png></a> The blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: '122 / 10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; but 122kg / 10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; and 122kg / 10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot;
+<blockquote><font color="#000080">The heavy iron grating is east of the Orchard and above the Undertomb. The grating is a door.
 </font></blockquote><p>
 <p>
-<p>When we visit the Weighbridge, we find:
+<p>The second sentence is needed since otherwise Inform will take &quot;heavy iron grating&quot; to be the name of a third room, whereas what we want is for the grating to be something physically present in both the Orchard and in the Undertomb, and acting as a conduit between them. To this end it needs to be a &quot;door&quot;, a kind we have not so far seen. In the absence of any other instruction, a newly created door will be fixed in place, closed and openable.
 <p>
-<blockquote><font color="#000080">A blackboard propped against one wall reads: &quot;122 / 10 is 12 remainder 2; but 122kg / 10kg is 12 remainder 2kg; and 122kg / 10 is 12kg remainder 2kg.&quot;
+<p>Inform's &quot;door&quot; kind can be used for all manner of conduits, so the word door need not be taken literally. In Ursula K. LeGuin's beguiling novel &quot;The Tombs of Atuan&quot;, from which the above rooms are stolen, it is not a grating which interposes, but:
+<p>
+<blockquote><font color="#000080">The red rock stair is east of the Orchard and above the Undertomb. The stair is an open door. The stair is not openable.
 </font></blockquote><p>
 <p>
-<p>Whereas we are not allowed to divide 122 by 10kg: that would make no sense, since 122 is a number and not made up of kilograms. Inform will produce a problem message if we try.
+<p>In real life, most doors are two-sided, and can be used from either of the rooms which they join, but this is not always convenient for interactive fiction. Here is a one-sided door:
+<p>
+<blockquote><font color="#000080">The blue door is a door. It is south of Notting Hill. Through it is the Flat Landing.
+</font></blockquote><p>
+<p>
+<p>(Note the use of &quot;it&quot; here as an optional abbreviation.) This will make a door visible only on the Notting Hill side; no map connection will be made in the reverse direction, unless we ask for one.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e28"><a href=doc195.html#e28><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A treatment of money which keeps track of how much the player has on him, and a BUY command which lets him go shopping.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e28"><a href=doc34.html#e28><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Adding the door and the deck to our charter boat.</i><p>
 <p>
-<p>In our brave new world, everything will have a price, so we had better spell this out.
+<p>We mentioned that there is a door out to the deck in our example. The following two sentences will create both the door and the other room:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Frozen&quot;\n\nPrice is a kind of value. $10.99 specifies a price. A thing has a price. The price of a thing is usually $0.00. After examining something for sale, say &quot;It can be yours for [the price of the noun].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Frozen&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The cabin door is south of the Cabin and north of the Deck. It is a door and scenery.\n\n\n')"><img border=0 src=paste.png></a> The cabin door is south of the Cabin and north of the Deck. It is a door and scenery.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Price is a kind of value. $10.99 specifies a price. A thing has a price. The price of a thing is usually $0.00. After examining something for sale, say &quot;It can be yours for [the price of the noun].&quot;
-</font></blockquote><p>
-<p>
-<p>Now we assume a simple shopping model in which the player can't take anything without paying for it.
-<p>
-<blockquote><font color="#000080">Definition: a thing is free if the price of it is $0.00.
-<br>Definition: a thing is for sale if it is not free.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of taking something for sale:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You'll have to pay for that.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before buying something for sale when the money is not in the wallet:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're broke.&quot; instead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before buying something for sale when the money is free:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're broke.&quot; instead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before buying something for sale when the price of the money is less than the price of the noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your funds do not run to the price of [the noun].&quot; instead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of buying something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change price of the money to the price of the money minus the price of the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You fork over [the price of the noun] for [the noun], leaving yourself with [the price of the money].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the money is free, remove the money from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the price of the noun to $0.00;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the player is carrying the noun.
-</font></blockquote><p>
-<p>
-<p>The player's money object is going to be a bit unusual, because it has value but cannot itself be bought.
-<p>
-<blockquote><font color="#000080">The player carries a wallet. The wallet contains money. The price of the money is $4.50. The printed name of the money is &quot;[price of the money] in cash&quot;. Understand &quot;cash&quot; as the money.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of taking the money:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Best to leave it alone until you need to buy something.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of buying something free:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] is yours already.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of buying the money:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The money belongs to you; you buy things with it.&quot;
-</font></blockquote><p>
-<p>
-<p>Now we just need something to buy.
-<p>
-<blockquote><font color="#000080">The Dessert Parlor is a room. &quot;An underlit, over-crowded room campily furnished with a lot of gilt-frame mirrors and twinkle lights: it is essentially a brothel of food. The service is slow at best, and on Saturday nights glacial. However. The wares on display more than make up for these trivial inconveniences.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The vanilla ice cream is an edible thing in the Parlor. The price of the ice cream is $2.45. The description is &quot;In the scale of ice creams, you recognize this as a very inferior vanilla because it has no adjectives in the title.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The raspberry tart is an edible thing in the Parlor. The price of the tart is $4.50. The description is &quot;An almond-laced shell packed with raspberries-under-glaze.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The syllabub is an edible thing in the Parlor. The price of the syllabub is $4.25. The description is &quot;Whipped cream, alcohol, and lime juice, a substance without any redeeming food value whatever.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The espresso cake is an edible thing in the Parlor. The price of the espresso cake is $5.50. The description is &quot;A lethal wedge of purest blackness.&quot;
-</font></blockquote><p>
-<p>
-<p>Implementing caloric units for this scenario is left as an exercise for the reader.
-</td></tr></table><p><p><hr><p><a href=doc194.html>Previous</a> / <a href=doc196.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>Now Inform has constructed a generic room called &quot;Deck&quot; to the south. It has neither a description nor any contents yet, but we could fix that in time. It does have a view of the glacier, though, since we defined the glacier view to be everywhere.
+</td></tr></table><p><p><hr><p><a href=doc33.html>Previous</a> / <a href=doc35.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

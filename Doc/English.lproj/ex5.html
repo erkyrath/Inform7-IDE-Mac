@@ -1,4 +1,4 @@
-<html><head><title>4.11. Text with variations</title></head>
+<html><head><title>8.16. How many turns?</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,52 +7,53 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc54.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc56.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>4.11. Text with variations</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc127.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc129.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>8.16. How many turns?</b></td></tr></table><p>
 <p>
-<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
+<p>So much for &quot;times&quot; - spells in which a condition is true. We can also test the length of time, in turns of play, that something has been true. Thus:
 <p>
-<blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.
+<blockquote><font color="#000080">if ... for three turns;
 </font></blockquote><p>
 <p>
-<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
+<p>means that the condition holds now, and held at the start of this turn, at the start of last turn, and at the start of the turn before that. In particular:
 <p>
-<blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;
+<blockquote><font color="#000080">if the floppy hat has been worn for three turns ...
 </font></blockquote><p>
 <p>
-<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
+<p>will be false if the hat is not currently worn (even if it has been often in the past) and, on the other hand, will be true if the hat has been worn for twenty turns. Here again we can be more specific. These are synonymous:
 <p>
-<p>We sometimes need to be careful about the printing of line breaks:
-<p>
-<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell. [otherwise]the usual cell.&quot;
+<blockquote><font color="#000080">if the floppy hat is worn for the third turn ...
+<br>if the floppy hat has been worn for only 3 turns ...
+<br>if the floppy hat has been worn for exactly three turns ...
 </font></blockquote><p>
 <p>
-<p>This room description has two possible forms: &quot;Ah, the unknown cell. &quot;, at first sight, and then &quot;Ah, the usual cell.&quot; subsequently. But the second form is rounded off with a line break because the last thing printed is a &quot;.&quot;, whereas the first form isn't, because it ended with a space. The right thing would have been:
+<p>all requiring that the hat wasn't worn four turns ago. As before, &quot;more than&quot;, &quot;less than&quot;, &quot;at least&quot; and &quot;at most&quot; so forth can also be used - say, &quot;for at least 21 turns&quot;.
 <p>
-<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell.[otherwise]the usual cell.&quot;
+<p>A warning: we must be careful when writing something like
+<p>
+<blockquote><font color="#000080">if the noun has been open ...
 </font></blockquote><p>
 <p>
-<p>allowing no space after &quot;unknown cell.&quot;
+<p>since this tests whether it has ever been true that the noun of the then action was open: not whether the current noun-object has ever been open.
 <p>
 <p><hr><p>
-<a name="e41"><a href=ex41.html#e41><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A door which says "...leads east" in one place and "...leads west" in the other.</i><p>
-<a name="e43"><a href=ex43.html#e43><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Separate the player's inventory listing into two parts, so that it says "you are carrying..." and then (if the player is wearing anything) "You are also wearing...".</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e5"><a href=doc55.html#e5><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A kind of door that always automatically describes the direction it opens and what lies on the far side (if that other room has been visited).</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e5"><a href=doc128.html#e5><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A child who after a certain period in the car starts asking annoying questions.</i><p>
 <p>
-<p>It would be fairly tedious reading to have a large game full of doors that describe themselves this way. Nonetheless, if we insisted we could use our knowledge of the map as leverage to make every door in the game describe itself automatically:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Whence?&quot;\n\nThe temporal vortex is an open door. It is west of Yesterday and east of Today.\n\nThe initial appearance of a door is usually &quot;Nearby [an object in question] leads [if the other side of the object in question is visited][way through the object in question] to [the other side][otherwise][way through the object in question][end if].&quot;\n\nTo decide what direction is the way through (frame - a door):\n\tlet far side be the other side of frame;\n\tlet way be the best route from the location to the far side, using even locked doors;\n\tif way is a direction, result the way;\n\tresult inside.\n\n')"><img border=0 src=paste.png></a> &quot;Whence?&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Annoyotron Jr&quot;\n\nThe Minivan is a room. The Open Road is outside from the Minivan. Pete is a man in the Minivan. &quot;Pete [if the player has been in the Minivan for 3 turns]is starting to look bored[otherwise]is playing with his travel activity book[end if].&quot;\n\nEvery turn:\n\tif the player has been in the Minivan for 5 turns, say &quot;\'Are we there [if saying no]now?\'[otherwise]yet?\' asks Pete.[end if]&quot;\n\nInstead of saying no:\n\tsay &quot;\'Oh,\' says Pete. There is a blessed, momentary silence.&quot;\n\nInstead of going to the Open Road:\n\tsay &quot;You leap to your death.&quot;;\n\tend the game in death.\n\n')"><img border=0 src=paste.png></a> &quot;Annoyotron Jr&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The temporal vortex is an open door. It is west of Yesterday and east of Today.
+<blockquote><font color="#000080">The Minivan is a room. The Open Road is outside from the Minivan. Pete is a man in the Minivan. &quot;Pete [if the player has been in the Minivan for 3 turns]is starting to look bored[otherwise]is playing with his travel activity book[end if].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The initial appearance of a door is usually &quot;Nearby [an object in question] leads [if the other side of the object in question is visited][way through the object in question] to [the other side][otherwise][way through the object in question][end if].&quot;
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player has been in the Minivan for 5 turns, say &quot;'Are we there [if saying no]now?'[otherwise]yet?' asks Pete.[end if]&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To decide what direction is the way through (frame - a door):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let far side be the other side of frame;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let way be the best route from the location to the far side, using even locked doors;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if way is a direction, result the way;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;result inside.
+<blockquote><font color="#000080">Instead of saying no:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Oh,' says Pete. There is a blessed, momentary silence.&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc54.html>Previous</a> / <a href=doc56.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Instead of going to the Open Road:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You leap to your death.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in death.
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc127.html>Previous</a> / <a href=doc129.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

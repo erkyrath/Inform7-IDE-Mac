@@ -1,4 +1,4 @@
-<html><head><title>16.18. Reading a command</title></head>
+<html><head><title>6.7. After rules</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,135 +7,49 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc250.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc252.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>16.18. Reading a command</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc78.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc80.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.7. After rules</b></td></tr></table><p>
 <p>
-<p><b>1. When it happens.</b> When reading a command from the keyboard.
+<p>There is pleasantly little to be said about &quot;after&quot; rules. If an action has survived all the rules in its way, and has actually succeeded, then we need to give the player a response which acknowledges this. Inform's normal rules will be sufficient to say something undramatic: for instance, if &quot;taking the napkin&quot; has succeeded then it will reply &quot;Taken.&quot; to the player.
 <p>
-<p><b>2. The default behaviour.</b> Print the prompt text; wait for the player to type something and press return. Reject an entirely blank line, and treat a command beginning &quot;oops&quot; is considered a correction to the previous one. This is a fairly complicated business, so it is probably best not to change the &quot;for&quot; rules for this activity: &quot;before&quot;, and especially &quot;after&quot;, are another matter.
+<p>An after rule is an opportunity to say something more interesting:
 <p>
-<p><b>3. Examples.</b> (a) To lead absolute beginners in gently:
-<p>
-<blockquote><font color="#000080">Before reading a command while the turn count is 1, say &quot;(This is your chance to say what the protagonist should do next. After the '>', try typing 'take inventory'.)&quot;
+<blockquote><font color="#000080">After taking the diamonds, say &quot;Taken!&quot;
 </font></blockquote><p>
 <p>
-<p>(b) The following responds politely but firmly if the player tries to type &quot;please look&quot;, say, instead of just &quot;look&quot;:
+<p>(Well, slightly more interesting.) After rules automatically end the action (as a success), which is what we would want in the above case. Allowing it to continue would simply result in &quot;Taken.&quot; being printed as well. However, should we really need to do something and then carry on:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;Please do not say please.&quot;;\n\t\treject the player\'s command;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Please do not say please.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject the player's command;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<p>To explain. Fragments of what the player has typed are called snippets: &quot;the player's command&quot; is the entire thing. (&quot;Snippet&quot; is actually a kind of value, so we could say &quot;Ah, you typed '[the player's command]'!&quot; or some such if we liked.) We can test if a snippet matches a given pattern like so:
-<p>
-<blockquote><font color="#000080">if the player's command matches &quot;room [number]&quot;, ...
-</font></blockquote><p>
-<p>
-<p>This requires an exact match: the weaker condition &quot;includes&quot; only means that the pattern occurs somewhere in the given snippet, so that
-<p>
-<blockquote><font color="#000080">if the player's command includes &quot;please&quot;, ...
-</font></blockquote><p>
-<p>
-<p>matches &quot;please look&quot; or &quot;look please&quot;, etc. Lastly, the phrase
-<p>
-<blockquote><font color="#000080">reject the player's command
-</font></blockquote><p>
-<p>
-<p>tells Inform not to bother analysing the text further, but to go back to the keyboard. (No time passes; no turn elapses; nothing happens in the simulated world.)
-<p>
-<p>(c) An improved version takes commands like &quot;please drop the coin&quot; and strips &quot;please&quot; from them, but then allows them to proceed normally:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;(Quelle politesse! But no need to say please.)&quot;;\n\t\tcut the matched text;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(Quelle politesse! But no need to say please.)&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut the matched text;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<p>&quot;Matched text&quot; is a snippet containing the words which matched against the pattern in the most recent &quot;includes&quot; condition, so in this case it contains just the single word &quot;please&quot;. Two phrases allow snippets to be altered:
-<p>
-<blockquote><font color="#000080">replace (... snippet ...) with (... text ...)
-<br>cut (...snippet ...)
-</font></blockquote><p>
-<p>
-<p>(d) To make the word &quot;grab&quot; an abbreviation for &quot;take all&quot;:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command matches &quot;grab&quot;, replace the player\'s command with &quot;take all&quot;.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;grab&quot;, replace the player's command with &quot;take all&quot;.
+<blockquote><font color="#000080">After taking the diamonds: say &quot;(Mr Beebe looks up sharply.) &quot;; continue the action.
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e103"><a href=ex103.html#e103><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A list of phrases to be automatically converted to longer sequences of separate commands.</i><p>
-<a name="e65"><a href=ex65.html#e65><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Responding to the player's input based on keywords only, and overriding the original parser entirely.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e67"><a href=doc251.html#e67><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A character who responds to keywords in the player's instructions and remarks, even if there are other words included.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e67"><a href=doc79.html#e67><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>When the player picks something up which he hasn't already examined, the object is described.</i><p>
 <p>
-<p>The &quot;reading a command&quot; activity is not the only point at which we can interact with snippets, as it happens; it is merely the most useful. &quot;The player's command&quot; can be consulted at other points, however, as in this example of your somewhat deaf (or distracted, or simply cussed) Aunt:
+<p>Suppose we want to make the player's life slightly easier by examining everything he picks up, if he hasn't already examined it.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Complimentary Peanuts&quot;\n\nInstead of asking Aunt Martha to try doing something:\n\trepeat through Table of Aunt Martha\'s Commentary\n\tbegin;\n\t\tif player\'s command includes topic entry\n\t\tbegin;\n\t\t\tsay &quot;[commentary entry][paragraph break]&quot;;\n\t\t\trule succeeds;\n\t\tend if;\n\tend repeat;\n\tsay &quot;\'Hmmf,\' says Aunt Martha.&quot;\n\n[The topic understood is also a snippet, so that whenever one has been generated, we can treat it in the same way as &quot;the player\'s command&quot;:]\n\nAsking someone about something is speech.\nTelling someone about something is speech.\nAnswering someone that something is speech.\nAsking someone for something is speech.\n\nInstead of speech when the noun is Aunt Martha:\n\trepeat through Table of Aunt Martha\'s commentary\n\tbegin;\n\t\tif the topic understood includes topic entry\n\t\tbegin;\n\t\t\tsay &quot;[commentary entry][paragraph break]&quot;;\n\t\t\trule succeeds;\n\t\tend if;\n\tend repeat;\n\tsay &quot;\'Hmmf,\' says Aunt Martha.&quot;\n\n[This is superior to checking &quot;the player\'s command&quot; because we do not want ASK MARTHA ABOUT FRENCH FRIES to trigger the &quot;Martha&quot; keyword, only the &quot;french fries&quot; keywords.]\n\nThe Empyrean Shuttle Bay is a room. &quot;From here you have an excellent view of the colony world, which looks... well, it looks discouragingly orange. But terraforming is in progress.&quot;\n\nAunt Martha is a woman in the Empyrean Shuttle Bay. A gleaming shuttle and a stack of rations are in the Shuttle Bay. The shuttle is a vehicle. &quot;Your shuttle awaits.&quot;\n\nTable of Aunt Martha\'s Commentary\ntopic\tcommentary\n&quot;shuttle&quot;\t&quot;\'Shuttles! I hate shuttles,\' Aunt Martha grumbles. \'Give me an airplane! AIRPLANE.\'&quot;\n&quot;airplane/airport&quot;\t&quot;\'Those were the days,\' Aunt Martha agrees, plainly reliving the days when she wore a blue-and-white uniform and passed out packets of salted pretzels.&quot;\n&quot;rations&quot;\t&quot;\'Do you think there are any peanuts in there?\' she asks in a wistful tone.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Complimentary Peanuts&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Morning After&quot;\n\nA thing can be examined or unexamined.\n\nAfter taking something unexamined:\n\tsay &quot;Taken. &quot;;\n\ttry examining the noun.\n\nCarry out examining something:\n\tnow the noun is examined.\n\nThe Red Door Saloon is a room. &quot;This old place is in pretty bad shape since the mine shut down. Now there\'s not much to see but the pair of deep gouges in the floorboards where they dragged away the Sheriff\'s corpse with the spurs still on.&quot;\n\nJed is a man in the Red Door Saloon. &quot;At 8:30 AM the only person around is old Jed, collecting his hangover cure.&quot;\n\nThe pistol is a thing in the Red Door Saloon. The description of the pistol is &quot;It ain\'t too accurate, but for two dollars you can\'t expect much.&quot;\n\nThe hangover cure is a thing in the Red Door Saloon. The description of the hangover cure is &quot;Two yellow egg-yolks unbroken in a red-brown liquid. Yep.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Morning After&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of asking Aunt Martha to try doing something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Aunt Martha's Commentary
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if player's command includes topic entry
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[commentary entry][paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Hmmf,' says Aunt Martha.&quot;
+<blockquote><font color="#000080">A thing can be examined or unexamined.
 </font></blockquote><p>
 <p>
-<p>The topic understood is also a snippet, so that whenever one has been generated, we can treat it in the same way as &quot;the player's command&quot;:
-<p>
-<blockquote><font color="#000080">Asking someone about something is speech.
-<br>Telling someone about something is speech.
-<br>Answering someone that something is speech.
-<br>Asking someone for something is speech.
+<blockquote><font color="#000080">After taking something unexamined:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Taken. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try examining the noun.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of speech when the noun is Aunt Martha:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Aunt Martha's commentary
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the topic understood includes topic entry
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[commentary entry][paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Hmmf,' says Aunt Martha.&quot;
+<blockquote><font color="#000080">Carry out examining something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is examined.
 </font></blockquote><p>
 <p>
-<p>This is superior to checking &quot;the player's command&quot; because we do not want ASK MARTHA ABOUT FRENCH FRIES to trigger the &quot;Martha&quot; keyword, only the &quot;french fries&quot; keywords.
-<p>
-<blockquote><font color="#000080">The Empyrean Shuttle Bay is a room. &quot;From here you have an excellent view of the colony world, which looks... well, it looks discouragingly orange. But terraforming is in progress.&quot;
+<blockquote><font color="#000080">The Red Door Saloon is a room. &quot;This old place is in pretty bad shape since the mine shut down. Now there's not much to see but the pair of deep gouges in the floorboards where they dragged away the Sheriff's corpse with the spurs still on.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Aunt Martha is a woman in the Empyrean Shuttle Bay. A gleaming shuttle and a stack of rations are in the Shuttle Bay. The shuttle is a vehicle. &quot;Your shuttle awaits.&quot;
+<blockquote><font color="#000080">Jed is a man in the Red Door Saloon. &quot;At 8:30 AM the only person around is old Jed, collecting his hangover cure.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Aunt Martha's Commentary
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">commentary</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;shuttle&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Shuttles! I hate shuttles,' Aunt Martha grumbles. 'Give me an airplane! AIRPLANE.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;airplane/airport&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Those were the days,' Aunt Martha agrees, plainly reliving the days when she wore a blue-and-white uniform and passed out packets of salted pretzels.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;rations&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Do you think there are any peanuts in there?' she asks in a wistful tone.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">The pistol is a thing in the Red Door Saloon. The description of the pistol is &quot;It ain't too accurate, but for two dollars you can't expect much.&quot;
 </font></blockquote><p>
 <p>
-<p>This means that Martha will respond to keywords regardless of the setting in which they occur. For instance:
-<p>
-<blockquote><font color="#000080">>martha, get in the shuttle
-<br>&quot;Shuttles! I hate shuttles,&quot; Aunt Martha grumbles. &quot;Give me an airplane! AIRPLANE.&quot;
+<blockquote><font color="#000080">The hangover cure is a thing in the Red Door Saloon. The description of the hangover cure is &quot;Two yellow egg-yolks unbroken in a red-brown liquid. Yep.&quot;
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">>martha, for pity's sake, do you see an airplane around here?
-<br>&quot;Those were the days,&quot; Aunt Martha agrees, plainly reliving the days when she wore a blue-and-white uniform and passed out packets of salted peanuts.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">>martha, pass me the rations
-<br>&quot;Do you think there are any peanuts in there?&quot; she asks in a wistful tone.
-</font></blockquote><p>
-<p>
-<p>This is not the stuff of which Loebner-winning chatbots are made, admittedly, but it is occasionally a useful alternative to stricter modes of command-parsing.
-</td></tr></table><p><p><hr><p><a href=doc250.html>Previous</a> / <a href=doc252.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc78.html>Previous</a> / <a href=doc80.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

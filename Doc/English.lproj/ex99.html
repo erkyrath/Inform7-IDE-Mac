@@ -1,4 +1,4 @@
-<html><head><title>3.2. Rooms and the map</title></head>
+<html><head><title>11.5. Unsuccessful attempts</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,117 +7,128 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc23.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc25.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.2. Rooms and the map</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc156.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc158.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.5. Unsuccessful attempts</b></td></tr></table><p>
 <p>
-<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
+<p>Suppose, finally, that Will not only consents to try the action, but it also survives its passage through Before and Instead rules. What happens then? In principle, what happens to Will is exactly what would have happened to the player in his place. For instance:
 <p>
-<p>Two more directions are provided by Inform: &quot;inside&quot; and &quot;outside&quot;. These are best used when one location is, say, a meadow and the other is a woodcutter's hut in the middle of it; we might then say
-<p>
-<blockquote><font color="#000080">Inside from the Meadow is the woodcutter's hut.
+<blockquote><font color="#000080">> will, go east
+<br>Will leaves to the east.
 </font></blockquote><p>
 <p>
-<p>The &quot;from&quot; is important, as it clarifies that we intend to link two different locations, not to create an item - the hut - in a single location - the meadow.
+<p>If on the other hand Will's attempt is frustrated because one of the checking rules stops him, then Will's action fails. For instance, if Will tries going northeast but there is no room to northeast, one of the rules checking the &quot;going&quot; action will stop him. We will then see this:
 <p>
-<p>A problem which sometimes arises when laying out maps is that Inform allows short forms of room names to be used as abbreviations. This is usually a good idea, but has unfortunate results if we write:
-<p>
-<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. The Airport is west of the Airport Road.
+<blockquote><font color="#000080">> will, go northeast
+<br>Will is unable to do that.
 </font></blockquote><p>
 <p>
-<p>...because &quot;Airport&quot; is taken as a reference to &quot;Airport Road&quot;, so Inform makes only two locations, one of which supernaturally leads to itself. We can avoid this by writing:
+<p>This is rather a generic message, and we may want something more interesting. We can provide that using yet another special kind of rule:
 <p>
-<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. A room called the Airport is west of the Airport Road.
+<blockquote><font color="#000080">Unsuccessful attempt by Will trying going: say &quot;Will blunders around going nowhere, as usual.&quot;
 </font></blockquote><p>
 <p>
-<p>Using &quot;called&quot; is often a good way to specify something whose name might give rise to confusion otherwise. It always makes something new, and it is also neatly concise, because we can establish something's kind and name in the same sentence. As another example, suppose we want to create a room called &quot;South of the Hut&quot;, to south of the Hut. We can't do so like this:
+<p>Even that is still a little generic, though, because it treats all of the various ways that &quot;going&quot; can fail as the same. If we have ACTIONS switched on, we can see what goes on behind the scenes when we ask Will to walk into a door:
 <p>
-<blockquote><font color="#000080">South of the Hut is a room. South of the Hut is south of the Hut.
+<blockquote><font color="#000080">>will, go west
+<br>[asking Will to try going west]
+<br>[(1) Will trying going west]
+<br>[(1) Will trying going west - failed the can't go through closed doors rule]
+<br>Will blunders around going nowhere, as usual.
+<br>[asking Will to try going west - succeeded]
 </font></blockquote><p>
 <p>
-<p>...because Inform will read that first sentence as placing a (nameless) room to the south of a room called &quot;Hut&quot;. Once again &quot;called&quot; can save the day:
+<p>(The &quot;(1)&quot; lets us know that a new action is starting during the old one, and before the old one finishes: sometimes we go up to three or four deep, though seldom more in practical cases.) We can now rewrite the &quot;unsuccessful attempt&quot; rule like so:
 <p>
-<blockquote><font color="#000080">South of the Hut is a room called South of the Hut.
+<blockquote><font color="#000080">Unsuccessful attempt by Will trying going:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is the can't go through closed doors rule, say &quot;Will looks doubtful and mumbles about doors.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Will blunders around going nowhere, as usual.&quot;
 </font></blockquote><p>
 <p>
-<p>It is best to use &quot;called&quot; in the simplest way possible, and in particular, best not to use &quot;called&quot; twice in the same sentence. Consider:
-<p>
-<blockquote><font color="#000080">The kitchen cabinet contains a container called a mixing bowl and a portable supporter called a platter.
-</font></blockquote><p>
-<p>
-<p>It is unlikely that anyone would want to name something &quot;a mixing bowl and a portable supporter called a platter&quot;, but not impossible, and Inform tends not to be a good judge of what is likely.
+<p>The value &quot;reason the action failed&quot; is set to whichever checking rule threw out the action which Will tried. The names of these rules try to be self-explanatory - at any rate, those with gnomic names are not useful for this sort of thing, and can be ignored - and can be found out either using ACTIONS or by consulting the Actions index.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e99"><a href=doc24.html#e99><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A partial implementation of Port Royal, Jamaica, set before the earthquake of 1692 demolished large portions of the city.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e99"><a href=doc157.html#e99><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A person who goes along with the player's instructions, but reluctantly, and will get annoyed after too many repetitions of the same kind of unsuccessful command.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;1691&quot;\n\nFort James is a room. &quot;The enclosure of Fort James is a large, roughly hexagonal court walled with heavy stone.  The walls face the entrance to Port Royal Harbour, and the battery of guns is prepared to destroy any enemy ship arriving.&quot;\n\n[Unless we arrange otherwise, this will be the first room in the game because it is the first we have defined.]\n\n[For subsequent rooms, we do not have to say explicitly that they are rooms, as long as they are connected to a room on the map. For instance, this will automatically make Thames Street End a room:]\n\nThames Street End is south of Fort James. &quot;The ill-named Thames Street runs from here -- at the point of the peninsula -- all the way east among houses and shops, through the Fish Market, edging by the round front of Fort Carlisle, to the point where the town stops and there is only sandy spit beyond.  Most of that stretch is full of people at all hours.  Imported goods are moved off of ships and taken to distributors; exported goods are brought to be loaded; and there is one public house and brothel for every ten inhabitants.\n\nLime Street, wider and healthier but not as rich, runs directly south, and to the north the road opens up into the courtyard of Fort James.&quot;\n\nWater Lane is east of Thames Street End. &quot;Here Thames Street -- never very straight -- goes steeply southeast for a portion before continuing more directly to the east.\n\nWater Lane runs south toward Queen Street, and facing onto it is the New Prison -- which, in the way of these things, is neither.  It did serve in that capacity for a time, and in a measure of the villainy which has been usual in Port Royal from its earliest days, it is nearly the largest building in the town.&quot;\n\n[If we have some concern that the room name will be confused with an existing name, we can be more explicit about it using &quot;called&quot;:]\n\nEast of Water Lane is a room called Thames Street at the Wherry Bridge.  Thames Street at the Wherry Bridge has the description &quot;To the southwest is the fishmarket; directly across the street is the entrance to a private alley through a brick archway.&quot;\n\nThe Fishmarket is southwest of Thames Street at the Wherry Bridge.\n\nThe Private Alley is south of Thames Street at the Wherry Bridge. &quot;You\'re just outside the tavern the Feathers. To the north, under a pretty little archway, is the active mayhem of Thames Street, but the alley narrows down to a dead end a little distance to the south.&quot;\n\n[And now we get &quot;inside&quot;, which generates a space treated as its own area on the map.]\n\nThe Feathers is inside from the Private Alley.  &quot;Newly built with brick, replacing the older Feathers tavern that used to stand here. It sells wines in quantity, as well as serving them directly, and the goods are always of the best quality. There\'s a room upstairs for those wanting to stay the night.&quot; The Feathers Bedroom is above the Feathers.\n\nThames Street by the King\'s House is east of Thames Street at the Wherry Bridge.  &quot;The King\'s House is reserved for the use of the Governor, but he does not live in it, and it is frequently being rented out to some merchant so that the government will at least derive some value from it. It is nearly the least interesting establishment on Thames Street, and the crowd -- which, to the west, is extremely dense -- here thins out a bit.&quot;\n\nThames Street before Fort Carlisle is east of Thames Street by the King\'s House. &quot;Here Thames Street, formerly a respectable width, narrows to a footpath in order to edge around the front of Fort Carlisle, underneath the mouths of the cannon.\n\nThere are no buildings on the harbour side of Thames Street at this point, which means that you have an unusually good view of the ships at dock, water beyond, and the Blue Mountains rising on the other side of the harbour.&quot;\n\n[We can also invert the order in which we declare things, like this:]\n\nSouth of Thames Street before Fort Carlisle is a room called Fort Carlisle. The description of Fort Carlisle is &quot;Handsomely arrayed with cannons which you could fire at any moment -- though of course there are ships at dock which might be in the way.&quot;\n\n[And if we like we can declare a number of rooms for which we will come back and write the descriptions later. There is no obligation for the description to occur at the first definition of the room.]\n\nLime Street is south of Thames Street End.\n\nQueen Street End is south of Lime Street.\n\nQueen Street Middle is east of Queen Street End.\n\n[For efficiency, we can also write multiple sets of connections at once:]\n\nQueen Street East is east of Queen Street Middle and south of Private Alley.\n\nQueen Street at the Prison is east of Queen Street East.\n\n\n')"><img border=0 src=paste.png></a> &quot;1691&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Generation X&quot;\n\nThe Volunteer Center is a room. &quot;A fairly spartan office, though there are a few attractive posters from advertising campaigns of the past, and an ominous map charting the deforestation of Brazil.&quot;\n\nThe desk is scenery in the Volunteer Center. &quot;Your standard metal desk, with a drawer for postal supplies and the like.&quot; On the desk is a pile of leaflets and a pile of business cards. The power stapler is a device on the desk. A drawer is part of the desk. It is openable and closed. In the drawer are a sponge and a roll of bulk-mail stamps.\n\nInstead of doing something:\n\tif examining, continue the action;\n\tif searching, continue the action;\n\tif looking, continue the action;\n\tif asking Jenna to try doing something, continue the action;\n\tsay &quot;The whole point of this exercise is to train Jenna. Once you have her on the envelope-stuffing, you can go make some calls.&quot;\n\nInstead of answering Jenna that something:\n\tsay &quot;You\'re going to have to break the instructions down to the simplest ones possible, given that she\'s in the mood to misunderstand on purpose.&quot;\n\nA cardboard box is in the Center. In the cardboard box is a pile of empty envelopes. The box is openable and closed. The description is &quot;A recycling symbol is prominent on the side, which makes you feel a little bit better about using a mailing campaign for this cause.&quot;\n\nJenna is a woman in the Volunteer Center. &quot;Your daughter Jenna is here, barely visible through the cloud of resentment.&quot; The description is &quot;Jenna [if jenna carries something]has [the list of things carried by Jenna][otherwise]returns your stare, with added hostility[end if].&quot;\n\nA persuasion rule for asking Jenna to try doing something: persuasion succeeds.\n\nUnsuccessful attempt by Jenna trying doing something:\n\trepeat through Table of Retorts\n\tbegin;\n\t\tif the reason the action failed is the cause entry\n\t\tbegin;\n\t\t\tsay &quot;[response entry][paragraph break]&quot;;\n\t\t\trule succeeds;\n\t\tend if;\n\tend repeat;\n\tsay &quot;\'I don\'t see how I\'m supposed to do that, Mom,\' Jenna says.&quot;\n\nTable of Retorts\ncause\tresponse\ncan\'t take yourself rule\t&quot;\'Is that like \'get a grip on yourself\' or something?\' Jenna asks, momentarily diverted.&quot;\ncan\'t take what\'s fixed in place rule\t&quot;[physical impossibility]&quot;\ncan\'t take scenery rule\t&quot;[physical impossibility]&quot;\ncan\'t take what\'s already taken rule\t&quot;[already done]&quot;\ncan\'t drop what\'s already dropped rule\t&quot;[already done]&quot;\ncan\'t wear what\'s already worn rule\t&quot;[already done]&quot;\ncan\'t take off what\'s not worn rule\t&quot;[already done]&quot;\ncan\'t close what\'s already closed rule\t&quot;[already done]&quot;\ncan\'t open what\'s already open rule\t&quot;[already done]&quot;\ncan\'t switch off what\'s already off rule\t&quot;[already done]&quot;\ncan\'t switch on what\'s already on rule\t&quot;[already done]&quot;\ncan\'t unlock what\'s already unlocked rule\t&quot;[already done]&quot;\ncan\'t lock what\'s already locked rule\t&quot;[already done]&quot;\n\nTo say physical impossibility:\n\tsay &quot;\'Maybe you should\'ve brought someone a little stronger,\' Jenna says. \'Like the Incredible Hulk.\' &quot;\n\nTo say already done:\n\trepeat through Table of Bored Remarks\n\tbegin;\n\t\tsay &quot;[response entry]&quot;;\n\t\tblank out the whole row;\n\t\trule succeeds;\n\tend repeat;\n\tsay &quot;\'Okay, I\'m going to be, like, in the car,\' says Jenna. \'Outside.\' &quot;;\n\tend the game saying &quot;Jenna has gotten fed up&quot;.\n\nTable of Bored Remarks\nresponse\n&quot;\'Did that,\' says Jenna.&quot;\n&quot;\'Check,\' says Jenna.&quot;\n&quot;\'Yeah, Mom, I already did that, okay?\'&quot;\n&quot;\'Look, if I have to be here doing dumb stuff, could you at least tell me to do stuff that isn\'t already done?\' Jenna asks wearily.&quot;\n&quot;Jenna gives a great upward sigh, riffling her bangs. \'Once again... there is totally no point.\'&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Generation X&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Fort James is a room. &quot;The enclosure of Fort James is a large, roughly hexagonal court walled with heavy stone.  The walls face the entrance to Port Royal Harbour, and the battery of guns is prepared to destroy any enemy ship arriving.&quot;
+<blockquote><font color="#000080">The Volunteer Center is a room. &quot;A fairly spartan office, though there are a few attractive posters from advertising campaigns of the past, and an ominous map charting the deforestation of Brazil.&quot;
 </font></blockquote><p>
 <p>
-<p>Unless we arrange otherwise, this will be the first room in the game because it is the first we have defined.
-<p>
-<p>For subsequent rooms, we do not have to say explicitly that they are rooms, as long as they are connected to a room on the map. For instance, this will automatically make Thames Street End a room:
-<p>
-<blockquote><font color="#000080">Thames Street End is south of Fort James. &quot;The ill-named Thames Street runs from here -- at the point of the peninsula -- all the way east among houses and shops, through the Fish Market, edging by the round front of Fort Carlisle, to the point where the town stops and there is only sandy spit beyond.  Most of that stretch is full of people at all hours.  Imported goods are moved off of ships and taken to distributors; exported goods are brought to be loaded; and there is one public house and brothel for every ten inhabitants.
+<blockquote><font color="#000080">The desk is scenery in the Volunteer Center. &quot;Your standard metal desk, with a drawer for postal supplies and the like.&quot; On the desk is a pile of leaflets and a pile of business cards. The power stapler is a device on the desk. A drawer is part of the desk. It is openable and closed. In the drawer are a sponge and a roll of bulk-mail stamps.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Lime Street, wider and healthier but not as rich, runs directly south, and to the north the road opens up into the courtyard of Fort James.&quot;
+<blockquote><font color="#000080">Instead of doing something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if examining, continue the action;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if searching, continue the action;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if looking, continue the action;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if asking Jenna to try doing something, continue the action;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The whole point of this exercise is to train Jenna. Once you have her on the envelope-stuffing, you can go make some calls.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Water Lane is east of Thames Street End. &quot;Here Thames Street -- never very straight -- goes steeply southeast for a portion before continuing more directly to the east.
+<blockquote><font color="#000080">Instead of answering Jenna that something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're going to have to break the instructions down to the simplest ones possible, given that she's in the mood to misunderstand on purpose.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Water Lane runs south toward Queen Street, and facing onto it is the New Prison -- which, in the way of these things, is neither.  It did serve in that capacity for a time, and in a measure of the villainy which has been usual in Port Royal from its earliest days, it is nearly the largest building in the town.&quot;
+<blockquote><font color="#000080">A cardboard box is in the Center. In the cardboard box is a pile of empty envelopes. The box is openable and closed. The description is &quot;A recycling symbol is prominent on the side, which makes you feel a little bit better about using a mailing campaign for this cause.&quot;
 </font></blockquote><p>
 <p>
-<p>If we have some concern that the room name will be confused with an existing name, we can be more explicit about it using &quot;called&quot;:
-<p>
-<blockquote><font color="#000080">East of Water Lane is a room called Thames Street at the Wherry Bridge.  Thames Street at the Wherry Bridge has the description &quot;To the southwest is the fishmarket; directly across the street is the entrance to a private alley through a brick archway.&quot;
+<blockquote><font color="#000080">Jenna is a woman in the Volunteer Center. &quot;Your daughter Jenna is here, barely visible through the cloud of resentment.&quot; The description is &quot;Jenna [if jenna carries something]has [the list of things carried by Jenna][otherwise]returns your stare, with added hostility[end if].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Fishmarket is southwest of Thames Street at the Wherry Bridge.
+<blockquote><font color="#000080">A persuasion rule for asking Jenna to try doing something: persuasion succeeds.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Private Alley is south of Thames Street at the Wherry Bridge. &quot;You're just outside the tavern the Feathers. To the north, under a pretty little archway, is the active mayhem of Thames Street, but the alley narrows down to a dead end a little distance to the south.&quot;
+<blockquote><font color="#000080">Unsuccessful attempt by Jenna trying doing something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Retorts
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is the cause entry
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[response entry][paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'I don't see how I'm supposed to do that, Mom,' Jenna says.&quot;
 </font></blockquote><p>
 <p>
-<p>And now we get &quot;inside&quot;, which generates a space treated as its own area on the map.
-<p>
-<blockquote><font color="#000080">The Feathers is inside from the Private Alley.  &quot;Newly built with brick, replacing the older Feathers tavern that used to stand here. It sells wines in quantity, as well as serving them directly, and the goods are always of the best quality. There's a room upstairs for those wanting to stay the night.&quot; The Feathers Bedroom is above the Feathers.
+<blockquote><font color="#000080">Table of Retorts
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">cause</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">response</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take yourself rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Is that like 'get a grip on yourself' or something?' Jenna asks, momentarily diverted.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take what's fixed in place rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[physical impossibility]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take scenery rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[physical impossibility]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take what's already taken rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't drop what's already dropped rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't wear what's already worn rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take off what's not worn rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't close what's already closed rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't open what's already open rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't switch off what's already off rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't switch on what's already on rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't unlock what's already unlocked rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't lock what's already locked rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;[already done]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Thames Street by the King's House is east of Thames Street at the Wherry Bridge.  &quot;The King's House is reserved for the use of the Governor, but he does not live in it, and it is frequently being rented out to some merchant so that the government will at least derive some value from it. It is nearly the least interesting establishment on Thames Street, and the crowd -- which, to the west, is extremely dense -- here thins out a bit.&quot;
+<blockquote><font color="#000080">To say physical impossibility:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Maybe you should've brought someone a little stronger,' Jenna says. 'Like the Incredible Hulk.' &quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Thames Street before Fort Carlisle is east of Thames Street by the King's House. &quot;Here Thames Street, formerly a respectable width, narrows to a footpath in order to edge around the front of Fort Carlisle, underneath the mouths of the cannon.
+<blockquote><font color="#000080">To say already done:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Bored Remarks
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[response entry]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Okay, I'm going to be, like, in the car,' says Jenna. 'Outside.' &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;Jenna has gotten fed up&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">There are no buildings on the harbour side of Thames Street at this point, which means that you have an unusually good view of the ships at dock, water beyond, and the Blue Mountains rising on the other side of the harbour.&quot;
+<blockquote><font color="#000080">Table of Bored Remarks
+<br>response
+<br>&quot;'Did that,' says Jenna.&quot;
+<br>&quot;'Check,' says Jenna.&quot;
+<br>&quot;'Yeah, Mom, I already did that, okay?'&quot;
+<br>&quot;'Look, if I have to be here doing dumb stuff, could you at least tell me to do stuff that isn't already done?' Jenna asks wearily.&quot;
+<br>&quot;Jenna gives a great upward sigh, riffling her bangs. 'Once again... there is totally no point.'&quot;
 </font></blockquote><p>
-<p>
-<p>We can also invert the order in which we declare things, like this:
-<p>
-<blockquote><font color="#000080">South of Thames Street before Fort Carlisle is a room called Fort Carlisle. The description of Fort Carlisle is &quot;Handsomely arrayed with cannons which you could fire at any moment -- though of course there are ships at dock which might be in the way.&quot;
-</font></blockquote><p>
-<p>
-<p>And if we like we can declare a number of rooms for which we will come back and write the descriptions later. There is no obligation for the description to occur at the first definition of the room.
-<p>
-<blockquote><font color="#000080">Lime Street is south of Thames Street End.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Queen Street End is south of Lime Street.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Queen Street Middle is east of Queen Street End.
-</font></blockquote><p>
-<p>
-<p>For efficiency, we can also write multiple sets of connections at once:
-<p>
-<blockquote><font color="#000080">Queen Street East is east of Queen Street Middle and south of Private Alley.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Queen Street at the Prison is east of Queen Street East.
-</font></blockquote><p>
-<p>
-<p>Compiling this code will put a map together, which we can look at in the World Index.
-</td></tr></table><p><p><hr><p><a href=doc23.html>Previous</a> / <a href=doc25.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc156.html>Previous</a> / <a href=doc158.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

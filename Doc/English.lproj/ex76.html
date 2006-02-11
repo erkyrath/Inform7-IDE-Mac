@@ -1,4 +1,4 @@
-<html><head><title>15.4. Standard tokens of grammar</title></head>
+<html><head><title>6.15. Going from, going to</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,85 +7,71 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc219.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc221.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.4. Standard tokens of grammar</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc86.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc88.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.15. Going from, going to</b></td></tr></table><p>
 <p>
-<p>We have already seen &quot;[something]&quot; and &quot;[someone]&quot;, which are standard examples of &quot;tokens of grammar&quot; - patterns matched by suitable named things. There are several other standard tokens, provided not so much from necessity but to allow the game parser to be more graceful and responsive. &quot;[someone]&quot; matches the same possibilities as &quot;[a person]&quot; would, but the parser handles it a little better in cases of failure. These special tokens are best explained by looking at some of the examples in the standard grammar, which can be browsed in the Index of any game.
+<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
 <p>
-<blockquote><font color="#000080">Understand &quot;wear [something held]&quot; as wearing.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Going Going&quot;\n\nThe Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.\n\nInstead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;\n\nInstead of going nowhere, say &quot;You really can\'t wander around at random in the Library.&quot;\n\nBefore going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Going Going&quot;
 </font></blockquote><p>
 <p>
-<p>The named item must be held by the player, but the game will automatically pick it up if necessary, minimising nuisance.
-<p>
-<blockquote><font color="#000080">Understand &quot;take [things]&quot; as taking.
-<br>Understand &quot;drop [things held]&quot; as dropping.
+<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
 </font></blockquote><p>
 <p>
-<p>&quot;[things]&quot; is like &quot;[something]&quot; but allows a list of items, or a vague plural like &quot;all&quot;, to be typed. The result will be a sequence of actions, one for each item thus described. &quot;[things held]&quot; is the analogous token for &quot;[something held]&quot;.
-<p>
-<blockquote><font color="#000080">Understand &quot;take [things inside] from [something]&quot; as removing.
+<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
 </font></blockquote><p>
 <p>
-<p>&quot;[things inside]&quot; matches only what is inside the second-named thing, and ensures that (for instance) the command &quot;take all from box&quot; does not also try to take the box.
-<p>
-<blockquote><font color="#000080">Understand &quot;put [other things] in/inside/into [something]&quot; as inserting it into.
+<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
 </font></blockquote><p>
 <p>
-<p>Similarly, &quot;[other things]&quot; will allow anything except the second-named thing.
-<p>(Like &quot;[things inside]&quot; it is really only needed for handling containers.)
+<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
+</font></blockquote><p>
+<p>
+<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
+<p>
+<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
+<p>
+<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
+<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
+</font></blockquote><p>
+<p>
+<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e76"><a href=doc220.html#e76><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A (very) simple HELP command, using tokens to accept and interpret the player's  text whatever it might be.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e76"><a href=doc87.html#e76><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A "go back" command that keeps track of the direction from which the player came, and sends him back.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Ish.&quot;\n\nIchiro\'s Dubious Sushi Hut is a room.  &quot;Despite the allure of the dusty plastic sushi models in the window, you\'re beginning to have second thoughts about the selection of this particular restaurant for your rendezvous with Agent Fowler.  There are no other patrons, for one thing. Afternoon sunlight filters lazily through the window and illuminates a number of empty glass-topped tables, at each of which is a chopstick dispenser (in form of cute ceramic cat) and a pitcher of soy sauce (sticky).\n\nThe sushi bar itself is what gives the most pause, however. Behind it sits an angry-looking Japanese woman, aggressively eating a Quarter Pounder with Cheese.&quot;\n\n[We can, when necessary, accept any text at all as a token:]\n\nUnderstand &quot;help [text]&quot; or &quot;help about [text]&quot; as getting help about. Understand the commands &quot;instructions&quot; or &quot;hint&quot; or &quot;hints&quot; or &quot;menu&quot; or &quot;info&quot; or &quot;about&quot; as &quot;help&quot;.\n\nGetting help about is an action applying to one topic.\n\n[After that, we can use &quot;the topic understood&quot; to refer to the text we read:]\n\nCarry out getting help about:\n\tif the topic understood is a topic listed in the Table of Standard Help\n\tbegin;\n\t\tsay &quot;[explanation entry][paragraph break]&quot;;\n\totherwise;\n\t\tsay &quot;You\'re out of ideas.&quot;;\n\tend if.\n\nTable of Standard Help\ntopic\ttitle\tsummary\texplanation\n&quot;sushi&quot;\t&quot;sushi&quot;\t&quot;Really it\'s just vinegary rice&quot;\t&quot;Popular misconception says that sushi inevitably entails raw fish, but it is in fact just rice with rice vinegar on it.  It\'s just that the really good kinds have raw fish in.&quot;\n&quot;cucumber roll&quot; or &quot;cucumber&quot;\t&quot;Cucumber roll&quot;\t&quot;Sushi for people who are afraid of sushi&quot;\t&quot;It is just rice and slivers of cucumber in the middle, and as long as you don\'t go too crazy with the wasabi, all should be well.&quot;\n&quot;california roll&quot; or &quot;california&quot;\t&quot;California roll&quot;\t&quot;Travesty of the sushi concept&quot;\t&quot;It\'s. Fake. Crab.&quot;\n&quot;monkfish liver&quot;\t&quot;monkfish liver&quot;\t&quot;Expert eaters only&quot;\t&quot;The odds of Ichiro\'s having this unusual delicacy is near zero.&quot;\n&quot;microdot&quot;\t&quot;microdot&quot;\t&quot;What you came here to deliver&quot;\t&quot;There\'ll be time enough for that later. If Fowler ever turns up. Where is she, anyway?&quot;\n\n[Since the player may not know what all the help options are, we might as well let him get an overview, as well.]\n\nUnderstand &quot;help&quot; as summoning help.  Summoning help is an action applying to nothing.\n\nCarry out summoning help:\n\tsay &quot;Help is available about the following topics.  Typing HELP followed by the name of a topic will give further information.[line break]&quot;;\n\trepeat through the Table of Standard Help\n\tbegin;\n\t\tsay &quot;  [title entry]: [summary entry][line break]&quot;;\n\tend repeat;\n\tsay line break.\n\n')"><img border=0 src=paste.png></a> &quot;Ish.&quot;
+<p>The main trick of this is always to record where the player has gone when he has just moved.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Polarity&quot;\n\nThe North Pole is a room. The South Pole is south of the North Pole.\n\nThe former direction is a direction that varies.\n\nCarry out going a direction:\n\tchange the former direction to the noun.\n\n[Obviously, this will not be adequate in a game which also moves the player arbitrarily on a regular basis; in that case the &quot;former direction&quot; would have to be reset manually by the author. Assuming, however, that the player always moves around the map on his own volition, we can implement this command safely:]\n\nUnderstand &quot;go back&quot; as retreating. Understand &quot;back&quot; or &quot;return&quot; or &quot;retreat&quot; as retreating.\n\nRetreating is an action applying to nothing.\n\n[Now we\'re helped a bit by the fact that the library directions are all defined with opposites, so that for instance the opposite of &quot;south&quot; is known to be &quot;north&quot;. Thus:]\n\nCarry out retreating:\n\tlet new direction be the opposite of the former direction;\n\tsay &quot;(heading [new direction])[line break]&quot;;\n\ttry going the new direction.\n\n\n')"><img border=0 src=paste.png></a> &quot;Polarity&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Ichiro's Dubious Sushi Hut is a room.  &quot;Despite the allure of the dusty plastic sushi models in the window, you're beginning to have second thoughts about the selection of this particular restaurant for your rendezvous with Agent Fowler.  There are no other patrons, for one thing. Afternoon sunlight filters lazily through the window and illuminates a number of empty glass-topped tables, at each of which is a chopstick dispenser (in form of cute ceramic cat) and a pitcher of soy sauce (sticky).
+<blockquote><font color="#000080">The North Pole is a room. The South Pole is south of the North Pole.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The sushi bar itself is what gives the most pause, however. Behind it sits an angry-looking Japanese woman, aggressively eating a Quarter Pounder with Cheese.&quot;
+<blockquote><font color="#000080">The former direction is a direction that varies.
 </font></blockquote><p>
 <p>
-<p>We can, when necessary, accept any text at all as a token:
-<p>
-<blockquote><font color="#000080">Understand &quot;help [text]&quot; or &quot;help about [text]&quot; as getting help about. Understand the commands &quot;instructions&quot; or &quot;hint&quot; or &quot;hints&quot; or &quot;menu&quot; or &quot;info&quot; or &quot;about&quot; as &quot;help&quot;.
+<blockquote><font color="#000080">Carry out going a direction:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the former direction to the noun.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Getting help about is an action applying to one topic.
+<p>Obviously, this will not be adequate in a game which also moves the player arbitrarily on a regular basis; in that case the &quot;former direction&quot; would have to be reset manually by the author. Assuming, however, that the player always moves around the map on his own volition, we can implement this command safely:
+<p>
+<blockquote><font color="#000080">Understand &quot;go back&quot; as retreating. Understand &quot;back&quot; or &quot;return&quot; or &quot;retreat&quot; as retreating.
 </font></blockquote><p>
 <p>
-<p>After that, we can use &quot;the topic understood&quot; to refer to the text we read:
-<p>
-<blockquote><font color="#000080">Carry out getting help about:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the topic understood is a topic listed in the Table of Standard Help
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[explanation entry][paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're out of ideas.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">Retreating is an action applying to nothing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Standard Help
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">title</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">summary</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">explanation</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;sushi&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;sushi&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Really it's just vinegary rice&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Popular misconception says that sushi inevitably entails raw fish, but it is in fact just rice with rice vinegar on it.  It's just that the really good kinds have raw fish in.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;cucumber roll&quot; or &quot;cucumber&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Cucumber roll&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Sushi for people who are afraid of sushi&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;It is just rice and slivers of cucumber in the middle, and as long as you don't go too crazy with the wasabi, all should be well.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;california roll&quot; or &quot;california&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;California roll&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Travesty of the sushi concept&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;It's. Fake. Crab.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;monkfish liver&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;monkfish liver&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Expert eaters only&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;The odds of Ichiro's having this unusual delicacy is near zero.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;microdot&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;microdot&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;What you came here to deliver&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;There'll be time enough for that later. If Fowler ever turns up. Where is she, anyway?&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<p>Now we're helped a bit by the fact that the library directions are all defined with opposites, so that for instance the opposite of &quot;south&quot; is known to be &quot;north&quot;. Thus:
+<p>
+<blockquote><font color="#000080">Carry out retreating:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let new direction be the opposite of the former direction;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [new direction])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try going the new direction.
 </font></blockquote><p>
 <p>
-<p>Since the player may not know what all the help options are, we might as well let him get an overview, as well.
-<p>
-<blockquote><font color="#000080">Understand &quot;help&quot; as summoning help.  Summoning help is an action applying to nothing.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out summoning help:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Help is available about the following topics.  Typing HELP followed by the name of a topic will give further information.[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Standard Help
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;  [title entry]: [summary entry][line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say line break.
-</font></blockquote><p>
-</td></tr></table><p><a name="e80"><a href=ex80.html#e80><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Allowing the player to EXAMINE ALL.</i><p>
-<p><hr><p><a href=doc219.html>Previous</a> / <a href=doc221.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>A refinement on this would be to make sure that the player who types &quot;BACK&quot; before going anywhere will be scolded rather than sent in some direction.
+</td></tr></table><p><a name="e193"><a href=ex193.html#e193><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Using regions to block access to an entire area when the player does not carry a pass, regardless of which entrance he uses.</i><p>
+<a name="e84"><a href=ex84.html#e84><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>If the player tries to go a valid direction while on a supporter, make him stand up first; if he tries to go a nonexistent one, print a special refusal.</i><p>
+<a name="e165"><a href=ex165.html#e165><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Offering the player a list of valid directions if he tries to go in a direction that leads nowhere.</i><p>
+<p><hr><p><a href=doc86.html>Previous</a> / <a href=doc88.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

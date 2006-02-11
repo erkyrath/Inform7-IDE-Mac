@@ -1,4 +1,4 @@
-<html><head><title>5.9. Counting while comparing</title></head>
+<html><head><title>11.4. Persuasion</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,134 +7,93 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc70.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc72.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>5.9. Counting while comparing</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc155.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc157.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.4. Persuasion</b></td></tr></table><p>
 <p>
-<p>Lastly we can also ask for a more specific number of possibilities, like so:
+<p>&quot;Asking ... to try ...&quot; actions run through their Before and Instead rules like any other actions, but then (if no rule has intervened) something different happens: Inform has to decide whether the person asked consents to try the action or not. By default, the answer is always no, and text like the following will be printed:
 <p>
-<blockquote><font color="#000080">if two women are carrying animals
-<br>if at most three doors are open
-<br>if fewer than 10 portable containers are closed
-<br>if all but two of the devices are switched on
+<blockquote><font color="#000080">> will, go west
+<br>Will has better things to do.
 </font></blockquote><p>
 <p>
-<p>Likewise for &quot;less than&quot;, &quot;more than&quot;, &quot;at least&quot;, &quot;all except&quot;. Something to watch out for is that
+<p>However, we can intervene to make the answer &quot;yes&quot;, using a special kind of rule which produces a yes/no answer. The following examples show how we can give broad or narrow permission, as we choose:
 <p>
-<blockquote><font color="#000080">if two doors are open
+<blockquote><font color="#000080">Persuasion rule for asking people to try going: persuasion succeeds.
+<br>Persuasion rule for asking Will to try going west: persuasion succeeds.
 </font></blockquote><p>
 <p>
-<p>will be found true if there are (say) three open doors: after all, if three doors are open, then certainly two doors are. So this is not quite counting. We can be more precise by writing
+<p>Such a rule can either declare that &quot;persuasion succeeds&quot;, or that &quot;persuasion fails&quot;, or make no decision and leave it to another rule to say. If it decides that persuasion fails, it is also allowed to say something, describing why: in that event, the standard message (&quot;Will has better things to do.&quot;) is suppressed. For example,
 <p>
-<blockquote><font color="#000080">if exactly two doors are open
+<blockquote><font color="#000080">Persuasion rule for asking Will to try going:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Will looks put out, and mutters under his breath.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;persuasion fails.
 </font></blockquote><p>
 <p>
-<p>The &quot;all but&quot; counts - say, &quot;if all but two doors are open&quot; - are exact: if, in fact, all of the doors are open then this will be found false.
+<p>The following rule, which is really only suitable for testing, makes everybody infinitely obliging:
 <p>
-<p>Lastly, note that the &quot;the&quot; in text like &quot;two of the doors&quot; matters: without it, the phrase will not be recognised as a requirement on the number. (This is to make sure that names of things like &quot;two of hearts&quot; are not misinterpreted.)
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Persuasion rule for asking people to try doing something: persuasion succeeds.\n\n\n')"><img border=0 src=paste.png></a> Persuasion rule for asking people to try doing something: persuasion succeeds.
+</font></blockquote><p>
+<p>
+<p>Supposing that Will does decide to cooperate, a new action is generated:
+<p>
+<blockquote><font color="#000080">Will trying going west
+</font></blockquote><p>
+<p>
+<p>and this is then subject to all of the usual action machinery. For instance, we could write a rule such as:
+<p>
+<blockquote><font color="#000080">Instead of Will trying going west, say &quot;He runs out into the waves, but soon returns, rueful.&quot;
+</font></blockquote><p>
+<p>
+<p>So in this case the new action (&quot;Will trying going west&quot;) failed: but the original action, &quot;asking Will to try going west&quot;, is still deemed to have succeeded - after all, Will <i>did</i> try. To put it more formally, &quot;asking X to try A&quot; succeeds if the persuasion rules succeed, and otherwise fails.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e94"><a href=doc71.html#e94><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Set of drawers where the item the player seeks is always in the last drawer he opens, regardless of the order of opening.</i><p>
+<a name="e141"><a href=ex141.html#e141><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Several friends who obey you; a policeman who doesn't (but who takes a dim view of certain kinds of antics).</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e94"><a href=doc156.html#e94><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A hypnotist who can make people obedient and then set them free again.</i><p>
 <p>
-<p>Suppose that for dramatic effect we would like the player to find the thing he is looking for always in the last drawer he opens...
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Retrieval&quot;\n\nThe Turret is a room. &quot;A cramped little room distinguished chiefly by the spiral staircase that descends from it. The windows look out over the rooftop.&quot;\n\nThe Rooftop is outside from the Turret.\n\nThe staircase is an open unopenable door. It is scenery. It is below the Turret and above the Library. The description is &quot;A winding stair carved out of the single trunk of a massive tree, all in a dark wood; the outside of the stairs left unfinished with the bark still on, but the treads worn smooth by long and constant use.&quot;\n\nThe description of the Library is &quot;Here, it seems, you have found your mark: books line both walls, a dark carpet lies on the floor, and a strange dress hangs up in a presentation case. And the thing you were told to look for, a desk with three drawers.\n\nA spiral staircase leads up and out.&quot;\n\nThe cherry desk is scenery in the library. The description is &quot;A deep, satin-lustrous cherry, with scrollwork legs and gilt touches. The years have not been kind, and it has cracked and split in several places; the finish is damaged, and where there is inlaid mother of pearl, it is beginning to come up from its bed.  But it is still a sound piece, and features three drawers.&quot;\n\nAfter examining the desk for the first time, say &quot;(Your employers were able to tell you to look for it, but not which drawer to look in. Typical.)&quot;\n\nA drawer is a kind of container. A drawer is always openable and closed. The description of a drawer is &quot;The usual drawer of heavy wood, inadequately smoothed for ease of use.&quot;\n\nThe top drawer is a drawer. The middle drawer is a drawer. The bottom drawer is a drawer. The top drawer, the middle drawer, and the bottom drawer are part of the desk. A drawer can be explored or unexplored. A drawer is usually unexplored. Instead of searching a closed drawer, try opening the noun.\n\nAfter opening a drawer when no drawers are explored:\n\tnow the noun is explored;\n\tsay &quot;There is a tremendous screech, but nothing whatsoever inside, not even dust.&quot;\n\nAfter opening an unexplored drawer when exactly one drawer is explored:\n\tnow the noun is explored;\n\tsay &quot;You struggle to open this one a bit more quietly, conscious all the time of noise...  but no, it\'s empty.  Just stands to reason.&quot;\n\nAfter closing a drawer:\n\tsay &quot;There is a racket of wood protesting against wood as you do so, which makes you wonder if you hadn\'t better just leave them open from now on.  The unhappy owner is probably going to catch on soon enough anyway.&quot;\n\nBefore opening an unexplored drawer when exactly two drawers are explored:\n\tmove the mysterious thing to the noun;\n\tnow the noun is explored.\n\nThe mysterious thing is a thing. The description is &quot;A very familiar-looking hemispherical weight of metal, goldish in tone though perhaps not made of gold.  This one has a slight stickiness about the bottom surface.&quot;\n\nInstead of opening the desk when at least one drawer is unexplored:\n\tlet the next drawer be a random unexplored drawer;\n\tsay &quot;(starting with [the next drawer])[line break]&quot;;\n\ttry opening the next drawer.\n\nInstead of looking under the desk when no drawers are explored:\n\tsay &quot;You carefully survey the ground around the desk.  There don\'t seem to be any hidden tripwires or traps to prevent you from having a look in the drawers.&quot;\n\nInstead of looking under the desk when at least one drawer is unexplored:\n\tsay &quot;Nothing there either.  Thoroughness is a virtue with tedium as a side effect, as your mother used to say -- but they always counted her a trifle slapdash.&quot;\n\nInstead of looking under the desk when all drawers are explored:\n\tsay &quot;There\'s nothing down there, but this doesn\'t come as a great surprise.&quot;\n\nInstead of searching the desk when at least one drawer is unexplored:\n\tmove the mysterious thing to the player;\n\tsay &quot;You perform a hasty, squeaky search of &quot;;\n\tif no drawer is explored, say &quot;all three drawers, discovering nothing and nothing in rapid succession.  But on the third drawer you &quot;;\n\tif exactly two drawers are unexplored, say &quot;the remaining two drawers.  There\'s nothing in the second, but in the third you &quot;;\n\tif exactly one drawer is unexplored, say &quot;the last drawer.  In it, you &quot;;\n\tsay &quot;turn up a promising hemispherical object.&quot;;\n\tnow all the drawers are explored.\n\n[Perhaps, just for fun, we have all the other scenery draw the player\'s attention back to the main point, as well.]\n\nThe carpet is scenery in the Library. The description is &quot;It is too dark for you to make out details of the antique design, which seems dimly to represent an early voyage to the moon, with ships and the travelling stars.&quot; Understand &quot;rug&quot; as carpet.\n\nInstead of looking under the carpet:\n\tif none of the drawers are explored, say &quot;You peel up a corner of the rug gingerly; nothing results. A perfectly ordinary rug, then.&quot; instead;\n\tif some of the drawers are explored, say &quot;No time for that nonsense. The desk\'s what you want now; what you came for won\'t be embedded in the flooring.&quot; instead;\n\tif all of the drawers are explored, say &quot;No time for that kind of nonsense. You\'d better get out and away while you can.&quot;\n\nThe glass presentation case is transparent scenery in the Library. The description is &quot;The case is taller than you are, framed in wood, with large panels of glass, the better to display the remarkable contents.&quot;\n\nInstead of attacking the glass presentation case:\n\tsay &quot;The glass pane of the presentation case shatters, throwing fine glass everywhere, including over the delicate museum-piece inside. Nor does the noise pass unnoted: only a second passes before there are footsteps in the hall, and though you make for the concealing darkness and escape of the turret, you are not swift enough. The servants are soon on you, and you are made to regret, quite painfully, this casual act of vandalism.&quot;;\n\tend the game saying &quot;You have lost your opportunity.&quot;\n\nThe strange dress is a wearable thing in the glass case. The description is &quot;Not the sort of dress that anyone wears now: such elaboration would be ludicrous.  It drips gold -- gilt lace, ruffles of trimmed gold, shimmering golden tracery -- dulled here and there by the sinister black of faceted jet.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Retrieval&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Hypnotist of Blois&quot;\n\nA person is either hypnotized or alert. A person is usually alert.\n\nPersuasion rule for asking a hypnotized person to try doing something:\n\tpersuasion succeeds.\n\nUnderstand &quot;hypnotize [someone]&quot; as hypnotizing.\n\nHypnotizing is an action applying to one thing.\n\nCheck hypnotizing:\n\tif the noun is hypnotized, say &quot;Already done.&quot; instead.\n\nCarry out hypnotizing:\n\tnow the noun is hypnotized.\n\nReport hypnotizing:\n\tsay &quot;[The noun] slips under your control.&quot;\n\nInstead of waking someone hypnotized:\n\tnow the noun is alert;\n\tsay &quot;[The noun] returns abruptly to consciousness.&quot;\n\n[We will learn more about check rules for other characters shortly, but the following prevents the hypnosis patient from trying to hypnotize us in turn:]\n\nCheck someone trying hypnotizing someone:\n\tstop the action.\n\nMaison de la Magie is a room. &quot;In a darkened room, a few hundreds of paces from the chateau of Blois, you give to tourists three shows a day: displaying to them power they do not comprehend and spectacles they do not deserve.&quot;\n\nA volunteer is a woman in the Maison. &quot;A volunteer from the audience stands facing you, [if alert]skeptically awaiting hypnosis[otherwise]her face worshipful and obedient[end if].&quot; The printed name of the volunteer is &quot;volunteer from the audience&quot;. The description is &quot;A distracted, susceptible woman.&quot; The volunteer wears a t-shirt and a baseball hat.\n\nThe player wears a top hat and a cape.\n\n')"><img border=0 src=paste.png></a> &quot;The Hypnotist of Blois&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Turret is a room. &quot;A cramped little room distinguished chiefly by the spiral staircase that descends from it. The windows look out over the rooftop.&quot;
+<blockquote><font color="#000080">A person is either hypnotized or alert. A person is usually alert.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Rooftop is outside from the Turret.
+<blockquote><font color="#000080">Persuasion rule for asking a hypnotized person to try doing something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;persuasion succeeds.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The staircase is an open unopenable door. It is scenery. It is below the Turret and above the Library. The description is &quot;A winding stair carved out of the single trunk of a massive tree, all in a dark wood; the outside of the stairs left unfinished with the bark still on, but the treads worn smooth by long and constant use.&quot;
+<blockquote><font color="#000080">Understand &quot;hypnotize [someone]&quot; as hypnotizing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The description of the Library is &quot;Here, it seems, you have found your mark: books line both walls, a dark carpet lies on the floor, and a strange dress hangs up in a presentation case. And the thing you were told to look for, a desk with three drawers.
+<blockquote><font color="#000080">Hypnotizing is an action applying to one thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A spiral staircase leads up and out.&quot;
+<blockquote><font color="#000080">Check hypnotizing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is hypnotized, say &quot;Already done.&quot; instead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The cherry desk is scenery in the library. The description is &quot;A deep, satin-lustrous cherry, with scrollwork legs and gilt touches. The years have not been kind, and it has cracked and split in several places; the finish is damaged, and where there is inlaid mother of pearl, it is beginning to come up from its bed.  But it is still a sound piece, and features three drawers.&quot;
+<blockquote><font color="#000080">Carry out hypnotizing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is hypnotized.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After examining the desk for the first time, say &quot;(Your employers were able to tell you to look for it, but not which drawer to look in. Typical.)&quot;
+<blockquote><font color="#000080">Report hypnotizing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] slips under your control.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A drawer is a kind of container. A drawer is always openable and closed. The description of a drawer is &quot;The usual drawer of heavy wood, inadequately smoothed for ease of use.&quot;
+<blockquote><font color="#000080">Instead of waking someone hypnotized:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is alert;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] returns abruptly to consciousness.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The top drawer is a drawer. The middle drawer is a drawer. The bottom drawer is a drawer. The top drawer, the middle drawer, and the bottom drawer are part of the desk. A drawer can be explored or unexplored. A drawer is usually unexplored. Instead of searching a closed drawer, try opening the noun.
+<p>We will learn more about check rules for other characters shortly, but the following prevents the hypnosis patient from trying to hypnotize us in turn:
+<p>
+<blockquote><font color="#000080">Check someone trying hypnotizing someone:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After opening a drawer when no drawers are explored:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is explored;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;There is a tremendous screech, but nothing whatsoever inside, not even dust.&quot;
+<blockquote><font color="#000080">Maison de la Magie is a room. &quot;In a darkened room, a few hundreds of paces from the chateau of Blois, you give to tourists three shows a day: displaying to them power they do not comprehend and spectacles they do not deserve.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After opening an unexplored drawer when exactly one drawer is explored:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is explored;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You struggle to open this one a bit more quietly, conscious all the time of noise...  but no, it's empty.  Just stands to reason.&quot;
+<blockquote><font color="#000080">A volunteer is a woman in the Maison. &quot;A volunteer from the audience stands facing you, [if alert]skeptically awaiting hypnosis[otherwise]her face worshipful and obedient[end if].&quot; The printed name of the volunteer is &quot;volunteer from the audience&quot;. The description is &quot;A distracted, susceptible woman.&quot; The volunteer wears a t-shirt and a baseball hat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After closing a drawer:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;There is a racket of wood protesting against wood as you do so, which makes you wonder if you hadn't better just leave them open from now on.  The unhappy owner is probably going to catch on soon enough anyway.&quot;
+<blockquote><font color="#000080">The player wears a top hat and a cape.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before opening an unexplored drawer when exactly two drawers are explored:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the mysterious thing to the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is explored.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The mysterious thing is a thing. The description is &quot;A very familiar-looking hemispherical weight of metal, goldish in tone though perhaps not made of gold.  This one has a slight stickiness about the bottom surface.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of opening the desk when at least one drawer is unexplored:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let the next drawer be a random unexplored drawer;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(starting with [the next drawer])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try opening the next drawer.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of looking under the desk when no drawers are explored:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You carefully survey the ground around the desk.  There don't seem to be any hidden tripwires or traps to prevent you from having a look in the drawers.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of looking under the desk when at least one drawer is unexplored:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing there either.  Thoroughness is a virtue with tedium as a side effect, as your mother used to say -- but they always counted her a trifle slapdash.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of looking under the desk when all drawers are explored:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;There's nothing down there, but this doesn't come as a great surprise.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of searching the desk when at least one drawer is unexplored:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the mysterious thing to the player;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You perform a hasty, squeaky search of &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if no drawer is explored, say &quot;all three drawers, discovering nothing and nothing in rapid succession.  But on the third drawer you &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if exactly two drawers are unexplored, say &quot;the remaining two drawers.  There's nothing in the second, but in the third you &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if exactly one drawer is unexplored, say &quot;the last drawer.  In it, you &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;turn up a promising hemispherical object.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now all the drawers are explored.
-</font></blockquote><p>
-<p>
-<p>Perhaps, just for fun, we have all the other scenery draw the player's attention back to the main point, as well.
-<p>
-<blockquote><font color="#000080">The carpet is scenery in the Library. The description is &quot;It is too dark for you to make out details of the antique design, which seems dimly to represent an early voyage to the moon, with ships and the travelling stars.&quot; Understand &quot;rug&quot; as carpet.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of looking under the carpet:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if none of the drawers are explored, say &quot;You peel up a corner of the rug gingerly; nothing results. A perfectly ordinary rug, then.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if some of the drawers are explored, say &quot;No time for that nonsense. The desk's what you want now; what you came for won't be embedded in the flooring.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if all of the drawers are explored, say &quot;No time for that kind of nonsense. You'd better get out and away while you can.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The glass presentation case is transparent scenery in the Library. The description is &quot;The case is taller than you are, framed in wood, with large panels of glass, the better to display the remarkable contents.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of attacking the glass presentation case:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The glass pane of the presentation case shatters, throwing fine glass everywhere, including over the delicate museum-piece inside. Nor does the noise pass unnoted: only a second passes before there are footsteps in the hall, and though you make for the concealing darkness and escape of the turret, you are not swift enough. The servants are soon on you, and you are made to regret, quite painfully, this casual act of vandalism.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;You have lost your opportunity.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The strange dress is a wearable thing in the glass case. The description is &quot;Not the sort of dress that anyone wears now: such elaboration would be ludicrous.  It drips gold -- gilt lace, ruffles of trimmed gold, shimmering golden tracery -- dulled here and there by the sinister black of faceted jet.&quot;
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc70.html>Previous</a> / <a href=doc72.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc155.html>Previous</a> / <a href=doc157.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

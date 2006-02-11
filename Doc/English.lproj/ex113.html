@@ -1,4 +1,4 @@
-<html><head><title>11.11. Check rules for actions by other people</title></head>
+<html><head><title>18.19. Titling and abbreviation</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,61 +7,81 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc162.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc164.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>11.11. Check rules for actions by other people</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc290.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc292.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>18.19. Titling and abbreviation</b></td></tr></table><p>
 <p>
-<p>If we want to impose the restriction about carrying the camera on everyone, we need a rule like the following:
+<p>The main title of the map is the value of &quot;title&quot; for the whole map, so for instance we might write:
 <p>
-<blockquote><font color="#000080">Check someone trying photographing: if the person asked does not carry the camera, stop the action.
+<blockquote><font color="#000080">Index map with title set to &quot;Oxford and its Environs&quot;.
 </font></blockquote><p>
 <p>
-<p>Implicitly, that &quot;someone&quot; excludes the player. Note that we say nothing in this rule, stopping the action without a word: after all, Clark might well be out of sight when trying this. If he is within sight, then we read:
+<p>The subtitle settings apply to the subtitles used for each of the levels, so for instance
 <p>
-<blockquote><font color="#000080">>clark, photograph me
-<br>Clark Gable is unable to do that.
+<blockquote><font color="#000080">Index map with subtitle of level -1 set to &quot;Tunnels and Sewers&quot;.
 </font></blockquote><p>
 <p>
-<p>We saw before that Inform's built-in rules all have handy names (the &quot;can't drop what's already dropped rule&quot;, and such), and that these are useful when writing better &quot;unable to...&quot; messages. So for a deluxe version, we end up with:
+<p>Names of individual rooms can be controlled with:
 <p>
-<blockquote><font color="#000080">Check someone trying photographing (this is the other people can't photograph without the camera rule): if the person asked does not carry the camera, stop the action.
+<blockquote><font color="#000080">Index map with name of Radcliffe Camera set to &quot;Library&quot;.
 </font></blockquote><p>
 <p>
-<p>And now, with ACTIONS on, we find that:
+<p>(By default, the name of a room is its name in the main IF project, of course.) The smallest writing on the map is normally that used to label unorthodox or unclear exits (in particular, those going from one layer to another): this is what the &quot;annotation&quot; size, font and colour are used for.
 <p>
-<blockquote><font color="#000080">>clark, photograph me
-<br>[asking Clark Gable to try photographing yourself]
-<br>[(1) Clark Gable trying photographing yourself]
-<br>[(1) Clark Gable trying photographing yourself - failed the other people can't photograph without the camera rule]
-<br>Clark Gable is unable to do that.
-<br>[asking Clark Gable to try photographing yourself - succeeded]
-</font></blockquote><p>
-<p>
-<p>which means that we could have, say,
-<p>
-<blockquote><font color="#000080">Unsuccessful attempt by Clark trying photographing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is the other people can't photograph without the camera rule, say &quot;Clark is too suave to be embarrassed. 'Frankly, my dear, I don't have a camera.'&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Clark tries, and fails, to take a photograph.&quot;
-</font></blockquote><p>
+<p>For most ways to set up the map, it's a practical necessity to abbreviate names of rooms, or they will spill out all over each other. Inform does this using the &quot;room-name-length&quot; setting. (The &quot;annotation-name-length&quot; is analogous.) For instance, if this setting is 5, then Inform will reduce the text of a name to at most 5 characters. It does this by successively throwing out spaces, lower case vowels, then other lower case letters, punctuation marks and finally upper case letters, always starting at the back of the name and working inwards: the process stops as soon as the name is short enough. For instance, &quot;Reading&quot; is abbreviated to &quot;Redng&quot;, &quot;Shangri-La&quot; to &quot;Shn-La&quot; and &quot;Cloud-Cuckoo-Land&quot; to &quot;C-C-L&quot;. The result can be a little comical, but is surprisingly unambiguous in practice. Abbreviation can effectively be abolished by raising the &quot;room-name-length&quot; to 128 (the highest permitted level), and note that the setting can be changed for individual rooms, so it is possible to have some room names abbreviated and others not, or in different degrees.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e113"><a href=doc163.html#e113><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Changing the check rules to try automatically leaving a container before attempting to take it. (And arranging things so that other people will do likewise.)</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e113"><a href=doc291.html#e113><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Port Royal scenario given instructions for an EPS map.</i><p>
 <p>
-<p>We could now re-write the check rules so that any time someone (the player or someone else) tries to pick up a container which he is in, he will first get out:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;GET AXE&quot;\n\nThis is the clever can\'t take what you\'re inside rule:\n\tif the person asked is in the noun, try the person asked trying exiting;\n\tif the person asked is in the noun, rule fails.\n\nProcedural rule:\n\tsubstitute the clever can\'t take what you\'re inside rule for the can\'t take what you\'re inside rule.\n\nAttic is a room. The unused coffin is in the Attic. The coffin is enterable and openable and open. Raskolnikov is a man in the coffin.\n\nPersuasion rule for asking Raskolnikov to try doing something: persuasion succeeds.\n\n')"><img border=0 src=paste.png></a> &quot;GET AXE&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;1691&quot;\n\nFort James is a room.\n\nThames Street End is south of Fort James.\n\nLime Street is south of Thames Street End. West of Thames Street End is north of Fisher\'s Row. The description of Fisher\'s Row is &quot;A waterfront street that runs south towards Chocolata Hole, where the small craft are harboured. It also continues north around the tip of the peninsula from here, turning into the east-west Thames Street.&quot;\n\nWater Lane is east of Thames Street End.\n\nEast of Water Lane is a room called Thames Street at the Wherry Bridge.  Thames Street at the Wherry Bridge has the description &quot;To the southwest is the fishmarket; directly across the street is the entrance to a private alley through a brick archway.&quot;\n\nThe Fishmarket is southwest of Thames Street at the Wherry Bridge.\n\nThe Private Alley is south of Thames Street at the Wherry Bridge.\n\nThames Street by the King\'s House is east of Thames Street at the Wherry Bridge.\n\nThames Street before Fort Carlisle is east of Thames Street by the King\'s House.\n\nSouth of Thames Street before Fort Carlisle is a room called Fort Carlisle. The description of Fort Carlisle is &quot;Handsomely arrayed with cannons which you could fire at any moment -- though of course there are ships at dock which might be in the way.&quot;\n\nQueen Street End is south of Lime Street.\n\nQueen Street Middle is east of Queen Street End.\n\nQueen Street East is east of Queen Street Middle and south of Private Alley.\n\nQueen Street at the Prison is east of Queen Street East.\n\nIndex map with Fisher\'s Row mapped southwest of Thames Street End and room-size set to 50 and room-name-size set to 10 and room-name-length set to 15 and and route-thickness set to 2 and room-outline set to off and map-outline set to off and route-colour set to &quot;Chocolate&quot; and room-colour set to &quot;Burly Wood&quot; and title set to &quot;Port Royal, 1691&quot; and font set to &quot;Baskerville&quot; and room-offset of Thames Street by the King\'s House set to 160&-40 and room-offset of Thames Street before Fort Carlisle set to 210&10 and room-offset of Fort Carlisle set to 210&0 and room-offset of Fort James set to -90&-20 and room-offset of Water Lane set to 0&20 and room-offset of Queen Street End set to 5&0 and EPS file.\n\n\n')"><img border=0 src=paste.png></a> &quot;1691&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">This is the clever can't take what you're inside rule:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is in the noun, try the person asked trying exiting;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is in the noun, rule fails.
+<blockquote><font color="#000080">Fort James is a room.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Procedural rule:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;substitute the clever can't take what you're inside rule for the can't take what you're inside rule.
+<blockquote><font color="#000080">Thames Street End is south of Fort James.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Attic is a room. The unused coffin is in the Attic. The coffin is enterable and openable and open. Raskolnikov is a man in the coffin.
+<blockquote><font color="#000080">Lime Street is south of Thames Street End. West of Thames Street End is north of Fisher's Row. The description of Fisher's Row is &quot;A waterfront street that runs south towards Chocolata Hole, where the small craft are harboured. It also continues north around the tip of the peninsula from here, turning into the east-west Thames Street.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Persuasion rule for asking Raskolnikov to try doing something: persuasion succeeds.
+<blockquote><font color="#000080">Water Lane is east of Thames Street End.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc162.html>Previous</a> / <a href=doc164.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">East of Water Lane is a room called Thames Street at the Wherry Bridge.  Thames Street at the Wherry Bridge has the description &quot;To the southwest is the fishmarket; directly across the street is the entrance to a private alley through a brick archway.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Fishmarket is southwest of Thames Street at the Wherry Bridge.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Private Alley is south of Thames Street at the Wherry Bridge.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Thames Street by the King's House is east of Thames Street at the Wherry Bridge.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Thames Street before Fort Carlisle is east of Thames Street by the King's House.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">South of Thames Street before Fort Carlisle is a room called Fort Carlisle. The description of Fort Carlisle is &quot;Handsomely arrayed with cannons which you could fire at any moment -- though of course there are ships at dock which might be in the way.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Queen Street End is south of Lime Street.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Queen Street Middle is east of Queen Street End.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Queen Street East is east of Queen Street Middle and south of Private Alley.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Queen Street at the Prison is east of Queen Street East.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Index map with Fisher's Row mapped southwest of Thames Street End and room-size set to 50 and room-name-size set to 10 and room-name-length set to 15 and and route-thickness set to 2 and room-outline set to off and map-outline set to off and route-colour set to &quot;Chocolate&quot; and room-colour set to &quot;Burly Wood&quot; and title set to &quot;Port Royal, 1691&quot; and font set to &quot;Baskerville&quot; and room-offset of Thames Street by the King's House set to 160&-40 and room-offset of Thames Street before Fort Carlisle set to 210&10 and room-offset of Fort Carlisle set to 210&0 and room-offset of Fort James set to -90&-20 and room-offset of Water Lane set to 0&20 and room-offset of Queen Street End set to 5&0 and EPS file.
+</font></blockquote><p>
+<p>
+<p>This sentence has gotten fairly long and ugly. To break it down: we disambiguate the placement of Thames Street End, which otherwise is hard to locate because the directions to and from the room are not symmetrical. Then we apply some general rules about size, font, and color. Finally, we add instructions about offsetting the room locations of a few specific rooms.
+<p>
+<p>This last part is a bit finicky and will not be necessary in many cases, but our goal this time is to create a map diagram that can be superimposed on the real coastal outline of Port Royal at the time. With a bit of editing, the result looks like this:
+<p>
+<p><img border=&quot;0&quot; src=portroyal.png>
+</td></tr></table><p><p><hr><p><a href=doc290.html>Previous</a> / <a href=doc292.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

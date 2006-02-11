@@ -1,4 +1,4 @@
-<html><head><title>19.14. Defining phrases in Inform 6</title></head>
+<html><head><title>5.6. To be able to see and touch</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,126 +7,100 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc298.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc300.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.14. Defining phrases in Inform 6</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc67.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc69.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>5.6. To be able to see and touch</b></td></tr></table><p>
 <p>
-<p>The phrases described in this documentation, such as &quot;say...&quot;, are all defined in the Standard Rules, and are for the most part defined not in terms of other I7 phrases but instead reduced to equivalents in I6. For instance:
+<p>Two of the adjectives built into Inform are:
 <p>
-<blockquote><font color="#000080">To end the game in death: (- deadflag=1; -).
+<blockquote><font color="#000080">&quot;visible&quot; - the player can see this
+<br>&quot;touchable&quot; - the player can touch this
 </font></blockquote><p>
 <p>
-<p>The notation &quot;(-&quot; and &quot;-)&quot; indicates that what comes in between is I6 code. The minus sign is supposed to be a mnemonic for the decrease from 7 to 6: later we shall use &quot;(+&quot; and &quot;+)&quot; to go back up the other way, from 6 to 7.
+<p>So we can write descriptions such as &quot;someone visible&quot; or &quot;a touchable container&quot;. We also have adjectives &quot;invisible&quot; and &quot;untouchable&quot;, as might be expected. The visibility adjectives are particularly useful because the following is likely to go wrong:
 <p>
-<p>When a phrase is defined as containing only a single command, and that command is defined using I6 - as here - it is compiled in-line. This means that the phrase &quot;end the game in death&quot; will always be translated as &quot;deadflag=1;&quot;, rather than being translated into a call to a suitable function whose only statement is &quot;deadflag=1;&quot;.
-<p>
-<p>This is an easy case since the wording never varies. A more typical example would be:
-<p>
-<blockquote><font color="#000080">To say the (something - number): (- print {something}; -).
+<blockquote><font color="#000080">if Helen is in a dark room, ...
 </font></blockquote><p>
 <p>
-<p>Where the &quot;{something}&quot; appears, the appropriate I7 code is compiled to a suitable I6 expression. So, for instance,
+<p>This tests whether the room is dark, of itself; Helen may in fact be able to see by means of a torch, but the room is still &quot;dark&quot;.
 <p>
-<blockquote><font color="#000080">say the capacity of the table
+<p>We can also talk about what other people can see and touch:
+<p>
+<blockquote><font color="#000080">something able to be seen by Helen
+<br>something which can be seen by Helen
 </font></blockquote><p>
 <p>
-<p>might become
+<p>are synonymous. Similarly for touch; and we can write such conditions as
 <p>
-<blockquote><font color="#000080">print O17_table.capacity;
+<blockquote><font color="#000080">if Helen is unable to see Agamemnon, ...
+<br>if Cressida can see Troilus, ...
 </font></blockquote><p>
 <p>
-<p>Braces &quot;{&quot; are of course significant in I6. A real brace can be obtained by making the character following it a space, and then I7 will not attempt to read it as a request for substitution.
+<p>Note that it is essential to establish who does the seeing and touching: so &quot;something which can be seen&quot; will not be allowed, whereas &quot;something which can be seen by Helen&quot; will.
+<p>
+<p>In fact, inside Inform the adjective &quot;invisible&quot; (for instance) has the following straightforward definition:
+<p>
+<blockquote><font color="#000080">Definition: Something is invisible if the player cannot see it.
+</font></blockquote><p>
+<p>
+<p>The exact definitions of visibility and touchability are complicated, because there are so many ways in which vision and touch can be obstructed, but the gist is that they behave as one would expect. Note that in darkness, nothing is visible, and that nobody can see from one room to another. In general anything invisible is also untouchable, but there are a few exceptions to do with being in the dark. Lastly, the player's own body (the player-character object, which is called &quot;yourself&quot; during play) is both visible (in light) and touchable.
+<p>
+<p><hr><img border=0 src=beta.png>One day &quot;something which Helen can see&quot; will be allowed, I hope, but for the moment &quot;who&quot; and &quot;which&quot; must be directly followed by the verb.
 <p>
 <p><hr><p>
-<a name="e59"><a href=ex59.html#e59><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Asking the player to select a gender to begin play.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e91"><a href=doc299.html#e91><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Asking the player a yes/no question which he must answer, and another which he may answer or not as he chooses.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e91"><a href=doc68.html#e91><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Changing the way dark rooms are described to avoid the standard Inform phrasing.</i><p>
 <p>
-<p>Suppose we want to ask the player a question where he might say yes or no in response. There are two possible forms of this: the modal question where the player must pick one to proceed, and the non-modal question where he might also type other verbs.
+<p>Inform automatically keeps track of light and darkness, handling such questions as whether a room is lit, whether the player can see any light sources, etc., and then managing the descriptions accordingly. When the room is dark and no light sources are visible, the player is said to be &quot;in darkness&quot;.
 <p>
-<p>The modal question is provided for with a built-in Inform 6 function called &quot;YesOrNo&quot;, which we can wrap in Inform 7 if we need it.
+<p>If we don't specify otherwise, Inform will describe our surroundings in a dark room thus:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Proposal&quot;\n\nThe story genre is &quot;A Worked Example about Yes/No Questions&quot;.\n\nSection 1 - Asking a Modal Yes/No Question\n\n')"><img border=0 src=paste.png></a> &quot;Proposal&quot;
+<blockquote><font color="#000080">Darkness
+<br>It is pitch dark, and you can't see a thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The story genre is &quot;A Worked Example about Yes/No Questions&quot;.
+<p>This is fine in many situations, but we may sometimes want to replace this phrase with something else.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Hohmann Transfer&quot;\n\nThe Western Hemisphere is a dark room. &quot;The cloud mass covers much of the land on this side of the planet, and a particularly nasty storm is brewing off to the south.&quot;\n\nThe Eastern Hemisphere is west of the Western Hemisphere. The Eastern Hemisphere is east of the Western Hemisphere. The Eastern Hemisphere is north of the Western Hemisphere. The Eastern Hemisphere is south of the Western Hemisphere. &quot;This side of the planet is more ocean than land, with only two continents worthy of the name, and a volcanic archipelago in the north seas.&quot;\n\nUse full-length room descriptions.\n\n[Since what we see in a dark room is not the description of the room, but substitute text, we need to pre-empt looking with something else:]\n\nInstead of looking when in darkness:\n\tsay substitute dark description.\n\nTo say substitute dark description:\n\tsay &quot;[line break][bold type]Darkness[roman type][line break]&quot;;\n\tsay &quot;It\'s night on this side of the planet, so you can make out only the glow of urbanized areas along the seacoasts.&quot;\n\n[There\'s one other point when the darkness description is printed, and that is when we walk into the darkened room for the first time. So we should catch that as well:]\n\nAfter going when in darkness:\n\tsay substitute dark description.\n\n[And now a few minor refinements so that we can see what happens when one room becomes dark and the other light:]\n\nCarry out going:\n\tsay &quot;You fire the thrusters and loop around to the other side of the planet before settling into a new geosynchronous orbit.&quot;\n\nThe time of day is 4:55 PM.\n\nAt 5 PM:\n\tnow the Eastern Hemisphere is dark;\n\tnow the Western Hemisphere is lit;\n\tsay &quot;The planet abruptly spins itself over, exposing its cool underbelly to the sun.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Hohmann Transfer&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Section 1 - Asking a Modal Yes/No Question
-</font></blockquote><p>
-<p>[Forcing the player to say yes or no...]
-<p>
-<blockquote><font color="#000080">To decide whether player consents:
-<br>    (- YesOrNo() -)
+<blockquote><font color="#000080">The Western Hemisphere is a dark room. &quot;The cloud mass covers much of the land on this side of the planet, and a particularly nasty storm is brewing off to the south.&quot;
 </font></blockquote><p>
 <p>
-<p>The critical thing here is to leave out the ; after the function call, because we are using this function to decide an if statement. It will get wrapped in the I6 incarnation of the code as if (YesOrNo()) ... , so if you put the ; in, you'll wind up with &quot;if (YesOrNo(); )&quot;. At that point, of course, the I6 compilation will not work.
-<p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Do you like Mr Spruce? &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if player consents, now Spruce is handsome;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise now Spruce is ugly;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say paragraph break.
-</font></blockquote><p>
-<p>
-<p>The non-modal question is possible to achieve entirely with Inform 7, so:
-<p>
-<blockquote><font color="#000080">Section 2 - Mr Spruce's Non-Modal Question
+<blockquote><font color="#000080">The Eastern Hemisphere is west of the Western Hemisphere. The Eastern Hemisphere is east of the Western Hemisphere. The Eastern Hemisphere is north of the Western Hemisphere. The Eastern Hemisphere is south of the Western Hemisphere. &quot;This side of the planet is more ocean than land, with only two continents worthy of the name, and a volcanic archipelago in the north seas.&quot;
 </font></blockquote><p>
 <p>
 <blockquote><font color="#000080">Use full-length room descriptions.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Conservatory is a room. &quot;You are in a room full of plants.&quot;
+<p>Since what we see in a dark room is not the description of the room, but substitute text, we need to pre-empt looking with something else:
+<p>
+<blockquote><font color="#000080">Instead of looking when in darkness:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say substitute dark description.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Mr Spruce is a man in the Conservatory. Mr Spruce can be apprehensive or calm. Mr Spruce is calm. Mr Spruce can be handsome or ugly.
+<blockquote><font color="#000080">To say substitute dark description:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[line break][bold type]Darkness[roman type][line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It's night on this side of the planet, so you can make out only the glow of urbanized areas along the seacoasts.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At 9:02 AM: say &quot;Mr Spruce flings himself to his knees and implores you to become his lawfully wedded wife.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is apprehensive;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Mr Spruce gives up in two minutes from now.
+<p>There's one other point when the darkness description is printed, and that is when we walk into the darkened room for the first time. So we should catch that as well:
+<p>
+<blockquote><font color="#000080">After going when in darkness:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say substitute dark description.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When Mr Spruce gives up:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Mr Spruce sighs heavily, seeing that you don't intend to reply. 'Never mind, my dear, I'll ask later. Perhaps I should have spoken to your Papa first... yes, a gently-bred female... no wonder...'&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Mr Spruce departs in one minute from now.
+<p>And now a few minor refinements so that we can see what happens when one room becomes dark and the other light:
+<p>
+<blockquote><font color="#000080">Carry out going:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You fire the thrusters and loop around to the other side of the planet before settling into a new geosynchronous orbit.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When Mr Spruce departs:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player can see Mr Spruce, say &quot;Mr Spruce takes his leave of you.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Mr Spruce pokes his head in to say that he is leaving.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;Well, that is over...&quot;
+<blockquote><font color="#000080">The time of day is 4:55 PM.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of saying yes in the presence of an ugly apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Remembering what your mother said to you about the stock exchange and Dear Papa, you close your eyes and accept Mr Spruce.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;Alas for your maiden hopes.&quot;
+<blockquote><font color="#000080">At 5 PM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the Eastern Hemisphere is dark;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the Western Hemisphere is lit;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The planet abruptly spins itself over, exposing its cool underbelly to the sun.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of saying yes in the presence of a handsome apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You are silent with delight for a moment before you say yes, yes!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;How Genevieve Stubbs will cry!&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying no in the presence of an ugly apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Gently you inform Mr Spruce that it is impossible. He seems less deflated than you had expected.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;Odd, that...&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying no in the presence of a handsome apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You lower your eyes and refuse petulantly, hoping to stir him to a more ardent repetition of these same requests. But then -- alack! -- he says 'I see how it is!' in a strangled voice, and strides from the room!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;A fatal error!&quot;
-</font></blockquote><p>
-<p>
-<p>And since the player might SAY YES TO SPRUCE, we had better reroute the relevant options:
-<p>
-<blockquote><font color="#000080">Instead of answering &quot;no&quot; to Mr Spruce, try saying no.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of answering &quot;yes&quot; to Mr Spruce, try saying yes.
-</font></blockquote><p>
-<p>
-</td></tr></table><p><p><hr><p><a href=doc298.html>Previous</a> / <a href=doc300.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><a name="e80"><a href=ex80.html#e80><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A thief who will identify and take any valuable thing lying around that he is able to touch.</i><p>
+<p><hr><p><a href=doc67.html>Previous</a> / <a href=doc69.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

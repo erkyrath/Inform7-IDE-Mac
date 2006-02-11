@@ -1,4 +1,4 @@
-<html><head><title>13.6. Units</title></head>
+<html><head><title>13.5. Superlatives</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,39 +7,22 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc188.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc190.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>13.6. Units</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc188.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc190.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>13.5. Superlatives</b></td></tr></table><p>
 <p>
-<p>Some of the examples in the last few sections were slightly strained because they used numbers where an English speaker not quite do so. We tend not to say &quot;Isabella has height 68&quot;: we would more normally say &quot;Isabella is 5 foot 8.&quot; Perhaps the computer will need to store that measurement as the number 68 in some register or other, but we really don't want to know that.
+<p>Lastly, if we define an adjective in this calibrating way, we also automatically benefit from the use of the superlative form. That is, if we define
 <p>
-<p>Inform allows us to create new, basically numerical kinds of value, like so:
-<p>
-<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight.
+<blockquote><font color="#000080">Definition: A container is large if its carrying capacity is 10 or more.
+<br>Definition: A container is small if its carrying capacity is 5 or less.
 </font></blockquote><p>
 <p>
-<p>By contrast, the kinds of value seen so far have been set up thus:
+<p>then we can talk about things like this:
 <p>
-<blockquote><font color="#000080">A colour is a kind of value. The colours are red, green and blue.
+<blockquote><font color="#000080">the largest container
+<br>the smallest open container
 </font></blockquote><p>
 <p>
-<p>We can choose to make a new kind of value of either variety, but we can't mix the two in the same kind: it will either be numerical at heart (&quot;10kg&quot;) or verbal at heart (&quot;blue&quot;).
+<p>Though we should be careful, in the second case, because we might get nothing: maybe all the containers are closed at the moment this is used. And in general there might be several equally large largest containers, in which case we should not rely on getting any particular one of those rather than another.
 <p>
-<p>The effect of &quot;10kg specifies a weight&quot; is to tell Inform that text matching this form is a constant value of kind &quot;weight&quot;. So, for instance,
+<p>Note that Inform constructs comparatives and superlatives by a pretty simplistic system. If we want to use these forms for an adjective expressing the relatively large size of a room, we had better go with &quot;roomy&quot; (roomier, roomiest) - not &quot;spacious&quot; (spaciouser, spaciousest).
 <p>
-<blockquote><font color="#000080">The maximum load is a weight that varies. The maximum load is 8000kg.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">if the maximum load <= 8000kg, ...
-</font></blockquote><p>
-<p>
-<p>Weights behave just like numbers in the ways we can compare them: but Inform respects the fact that a weight is not just any number, so it would not allow us to compare (say) &quot;8000kg&quot; and &quot;5 foot 8&quot;. Weights can meaningfully be compared only with other weights.
-<p>
-<p>We can also say weights:
-<p>
-<blockquote><font color="#000080">The Weighbridge is a room. &quot;A sign declares that the maximum load is [maximum load].&quot;
-</font></blockquote><p>
-<p>
-<p>...which will produce the text &quot;A sign declares that the maximum load is 8000kg.&quot;
-<p>
-<p><hr><p>
-<a name="e95"><a href=ex95.html#e95><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Hiking Mount Rainier, with attention to which locations are higher and which lower than the present location.</i><p>
 <p><hr><p><a href=doc188.html>Previous</a> / <a href=doc190.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

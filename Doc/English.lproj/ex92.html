@@ -1,4 +1,4 @@
-<html><head><title>10.11. Let and temporary variables</title></head>
+<html><head><title>16.23. Reading a command</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,74 +7,127 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc146.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc148.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>10.11. Let and temporary variables</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.23. Reading a command</b></td></tr></table><p>
 <p>
-<p>A variable, as we have seen, is a name for a value which changes, though always remaining of the same kind. For instance, if &quot;target&quot; is a number variable (or &quot;number that varies&quot;) then it may change value from 2 to 4, but not from 2 to &quot;fishknife&quot;.
+<p><b>1. When it happens.</b> When reading a command from the keyboard.
 <p>
-<p>To make complicated decisions, phrases often need to remember values on a temporary basis. We have already seen this for the counter in a &quot;repeat&quot; loop, which exists only inside that loop, and then is no longer needed. Now we define named values which exist only inside the current phrase. For instance:
+<p><b>2. The default behaviour.</b> Print the prompt text; wait for the player to type something and press return. Reject an entirely blank line, and treat a command beginning &quot;oops&quot; is considered a correction to the previous one. This is a fairly complicated business, so it is probably best not to change the &quot;for&quot; rules for this activity: &quot;before&quot;, and especially &quot;after&quot;, are another matter.
 <p>
-<blockquote><font color="#000080">let outer bull be 25;
-<br>let the current appearance be &quot;reddish brown&quot;;
-<br>let the special room be Marley Wood;
+<p><b>3. Examples.</b> (a) To lead absolute beginners in gently:
+<p>
+<blockquote><font color="#000080">Before reading a command while the turn count is 1, say &quot;(This is your chance to say what the protagonist should do next. After the '>', try typing 'take inventory'.)&quot;
 </font></blockquote><p>
 <p>
-<p>creates temporary variables &quot;outer bull&quot;, &quot;current appearance&quot; and &quot;special room&quot;. The kinds of these are deduced from the values given, so that, for instance,
+<p>(b) The following responds politely but firmly if the player tries to type &quot;please look&quot;, say, instead of just &quot;look&quot;:
 <p>
-<blockquote><font color="#000080">say &quot;The outer bull scores [the outer bull in words] when you practice archery in [special room].&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;Please do not say please.&quot;;\n\t\treject the player\'s command;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Please do not say please.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject the player's command;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>produces
+<p>To explain. Fragments of what the player has typed are called snippets: &quot;the player's command&quot; is the entire thing. (&quot;Snippet&quot; is actually a kind of value, so we could say &quot;Ah, you typed '[the player's command]'!&quot; or some such if we liked.) We can test if a snippet matches a given pattern like so:
 <p>
-<blockquote><font color="#000080">The outer bull scores twenty-five when you practice archery in Marley Wood.
+<blockquote><font color="#000080">if the player's command matches &quot;room [number]&quot;, ...
 </font></blockquote><p>
 <p>
-<p>Temporary variables made by &quot;let&quot; are only temporarily in existence while a phrase is being carried out. Their values often change: we could say
+<p>This requires an exact match: the weaker condition &quot;includes&quot; only means that the pattern occurs somewhere in the given snippet, so that
 <p>
-<blockquote><font color="#000080">let x be 10;
-<br>change x to 11;
+<blockquote><font color="#000080">if the player's command includes &quot;please&quot;, ...
 </font></blockquote><p>
 <p>
-<p>for instance, or indeed we could &quot;let x be 10&quot; and then &quot;let x be 11&quot;. But although we are allowed to change the value, we are not allowed to change the kind of value. The name &quot;x&quot; must always have the same kind of value throughout the phrase to which it belongs, so the following will not be allowed:
+<p>matches &quot;please look&quot; or &quot;look please&quot;, etc. Lastly, the phrase
 <p>
-<blockquote><font color="#000080">let x be 45;
-<br>change x to &quot;Norway&quot;;
+<blockquote><font color="#000080">reject the player's command
 </font></blockquote><p>
 <p>
-<p>(The difference between &quot;let&quot; and &quot;change&quot; is that &quot;let&quot; can create a new temporary variable, whereas &quot;change&quot; can only alter one which already exists: on the other hand, &quot;change&quot; can change many other things as well, whereas &quot;let&quot; applies only to temporary variables.)
+<p>tells Inform not to bother analysing the text further, but to go back to the keyboard. (No time passes; no turn elapses; nothing happens in the simulated world.)
+<p>
+<p>(c) An improved version takes commands like &quot;please drop the coin&quot; and strips &quot;please&quot; from them, but then allows them to proceed normally:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;(Quelle politesse! But no need to say please.)&quot;;\n\t\tcut the matched text;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(Quelle politesse! But no need to say please.)&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut the matched text;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>&quot;Matched text&quot; is a snippet containing the words which matched against the pattern in the most recent &quot;includes&quot; condition, so in this case it contains just the single word &quot;please&quot;. Two phrases allow snippets to be altered:
+<p>
+<blockquote><font color="#000080">replace (... snippet ...) with (... text ...)
+<br>cut (...snippet ...)
+</font></blockquote><p>
+<p>
+<p>(d) To make the word &quot;grab&quot; an abbreviation for &quot;take all&quot;:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command matches &quot;grab&quot;, replace the player\'s command with &quot;take all&quot;.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;grab&quot;, replace the player's command with &quot;take all&quot;.
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e129"><a href=ex129.html#e129><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A worked example using a new kind of value, "colour", within phrases to talk about tinted wallpaper.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e92"><a href=doc147.html#e92><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>More on using kinds of value inside phrases, this time to simulate something new: a box which, although it cannot be picked up, can be pushed around between three different places on the floor.</i><p>
+<a name="e161"><a href=ex161.html#e161><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A list of phrases to be automatically converted to longer sequences of separate commands.</i><p>
+<a name="e0"><a href=ex0.html#e0><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Accepting adverbs anywhere in a command, registering what the player typed but then cutting them out before interpreting the command.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e92"><a href=doc257.html#e92><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Responding to the player's input based on keywords only, and overriding the original parser entirely.</i><p>
 <p>
-<p>The strategy is to make the three possible positions of the box into values.
+<p>Apologies to the shade of Housman.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase. The current box position is a box position that varies.\n\nTo shove the box to (destination - a box position):\n\tsay &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;;\n\tchange the current box position to the destination.\n\n\n')"><img border=0 src=paste.png></a> Box position is a kind of value. The box positions are over by the window, under the shelf and near the bookcase. The current box position is a box position that varies.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Fragment of a Greek Tragedy&quot;\n\nUnderstand &quot;restart/restore/save/quit&quot; as &quot;[meta-command]&quot;.\n\nAfter reading a command:\n\tif the player\'s command matches &quot;[meta-command]&quot;, make no decision;\n\tsay line break;\n\trepeat through Table of Current Topics\n\tbegin;\n\t\tif the player\'s command includes topic entry\n\t\tbegin;\n\t\t\tsay &quot;CHORUS: [reply entry][paragraph break]&quot;;\n\t\t\tfollow the advance time rule;\n\t\t\trule succeeds;\n\t\tend if;\n\tend repeat;\n\tsay &quot;[italic type]   Pause.[roman type][line break]&quot;;\n\tfollow the advance time rule;\n\trule succeeds.\n\nTable of Current Topics\ntopic\treply\n&quot;journey/trip/travel/came/arrived&quot;\t&quot;Sailing on horseback, or with feet for oars?&quot;\n&quot;horseback/legs/feet/oars&quot;\t&quot;Beneath a shining or a rainy Zeus?&quot;\n&quot;shining/rainy/weather/zeus&quot;\t&quot;Mud\'s sister, not herself, adorns thy boots.&quot;\n\n[This would be a bit bare if we didn\'t provide the player with some sort of context at the outset, so let\'s put some remarks before the first command prompt:]\n\nBefore reading a command while the turn count is 1:\n\tsay &quot;CHORUS: O suitably-attired-in-leather-boots\n\tHead of a traveller, wherefore seeking whom\n\tWhence by what way how purposed art thou come\n\tTo this well-nightingaled vicinity?\n\tMy object in inquiring is to know.\n\tBut if you happen to be deaf and dumb\n\tAnd do not understand a word I say,\n\tThen wave your hand, to signify as much.&quot;\n\n[This &quot;turn count&quot; condition is why it was useful to follow the advance time rule in &quot;after reading a command&quot;: the game (or drama, if you like) will continue to count moves elapsed even though the rest of Inform\'s command parsing and world model is being ignored. In a longer and more ambitious implementation of this idea, we might want to keep following the turn sequence rules and allow scenes to govern the behavior and responses of the Chorus.]\n\n[And then to give the whole exchange a play\'s format:]\n\nThe Stage is a room.\n\nA procedural rule: ignore the room description heading rule.\n\nWhen play begins: change the command prompt to &quot;YOU: &quot;; change left hand status line to &quot;Fragment of a Greek Tragedy&quot;; change right hand status line to &quot;A. E. Housman&quot;.\n\n')"><img border=0 src=paste.png></a> &quot;Fragment of a Greek Tragedy&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To shove the box to (destination - a box position):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;With some effort, you shove the old box from [current box position] to [destination].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current box position to the destination.
+<blockquote><font color="#000080">Understand &quot;restart/restore/save/quit&quot; as &quot;[meta-command]&quot;.
 </font></blockquote><p>
 <p>
-<p>So, for instance:
-<p>
-<blockquote><font color="#000080">shove the box to over by the window;
+<blockquote><font color="#000080">After reading a command:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;[meta-command]&quot;, make no decision;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say line break;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Current Topics
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes topic entry
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;CHORUS: [reply entry][paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;follow the advance time rule;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[italic type]   Pause.[roman type][line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;follow the advance time rule;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds.
 </font></blockquote><p>
 <p>
-<p>might result in the following on screen:
-<p>
-<blockquote><font color="#000080">With some effort, you shove the old box from under the shelf to over by the window.
+<blockquote><font color="#000080">Table of Current Topics
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">reply</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;journey/trip/travel/came/arrived&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Sailing on horseback, or with feet for oars?&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;horseback/legs/feet/oars&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Beneath a shining or a rainy Zeus?&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;shining/rainy/weather/zeus&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Mud's sister, not herself, adorns thy boots.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>And we can write conditions like so:
+<p>This would be a bit bare if we didn't provide the player with some sort of context at the outset, so let's put some remarks before the first command prompt:
 <p>
-<blockquote><font color="#000080">if the current box position is over by the window then...
+<blockquote><font color="#000080">Before reading a command while the turn count is 1:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;CHORUS: O suitably-attired-in-leather-boots
+<br>&nbsp;&nbsp;&nbsp;&nbsp;Head of a traveller, wherefore seeking whom
+<br>&nbsp;&nbsp;&nbsp;&nbsp;Whence by what way how purposed art thou come
+<br>&nbsp;&nbsp;&nbsp;&nbsp;To this well-nightingaled vicinity?
+<br>&nbsp;&nbsp;&nbsp;&nbsp;My object in inquiring is to know.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;But if you happen to be deaf and dumb
+<br>&nbsp;&nbsp;&nbsp;&nbsp;And do not understand a word I say,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;Then wave your hand, to signify as much.&quot;
 </font></blockquote><p>
 <p>
-<p>Using a new kind of value is a good way to set up simulations like this one because Inform will ensure that the &quot;current box position&quot; always, no matter what we do, holds one of the three legal box positions. Similarly, a line like
+<p>This &quot;turn count&quot; condition is why it was useful to follow the advance time rule in &quot;after reading a command&quot;: the game (or drama, if you like) will continue to count moves elapsed even though the rest of Inform's command parsing and world model is being ignored. In a longer and more ambitious implementation of this idea, we might want to keep following the turn sequence rules and allow scenes to govern the behavior and responses of the Chorus.
 <p>
-<blockquote><font color="#000080">if the current box position is green then ...
+<p>And then to give the whole exchange a play's format:
+<p>
+<blockquote><font color="#000080">The Stage is a room.
 </font></blockquote><p>
 <p>
-<p>will be disallowed because box positions and colours are incomparable.
-</td></tr></table><p><p><hr><p><a href=doc146.html>Previous</a> / <a href=doc148.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">A procedural rule: ignore the room description heading rule.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">When play begins: change the command prompt to &quot;YOU: &quot;; change left hand status line to &quot;Fragment of a Greek Tragedy&quot;; change right hand status line to &quot;A. E. Housman&quot;.
+</font></blockquote><p>
+</td></tr></table><p><a name="e102"><a href=ex102.html#e102><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A character who responds to keywords in the player's instructions and remarks, even if there are other words included.</i><p>
+<a name="e127"><a href=ex127.html#e127><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Novice mode that prefaces every prompt with a list of possible commands the player could try, and highlights every important word used, to alert players to interactive items in the scenery.</i><p>
+<p><hr><p><a href=doc256.html>Previous</a> / <a href=doc258.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>6.15. Going from, going to</title></head>
+<html><head><title>4.11. Text with variations</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,69 +7,42 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc86.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc88.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.15. Going from, going to</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc54.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc56.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.11. Text with variations</b></td></tr></table><p>
 <p>
-<p>Going is an action defined like any other: it is the one which happens when the player tries to go from one location to another. But it is unlike other actions because it happens in two locations, not just one, and has other complications such as vehicles and doors to contend with. To make it easier to write legible and flexible rules, &quot;going&quot; is allowed to be described in a number of special ways not open to other actions, as demonstrated by the following example game:
+<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Going Going&quot;\n\nThe Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.\n\nInstead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;\n\nInstead of going nowhere, say &quot;You really can\'t wander around at random in the Library.&quot;\n\nBefore going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Going Going&quot;
+<blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Catalogue Room is east of the Front Stacks. South of the Catalogue Room is the Musicology Section.
+<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
+<p>
+<blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere from the Front Stacks, say &quot;Bookcases obstruct almost all passages out of here.&quot;
+<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
+<p>
+<p>We sometimes need to be careful about the printing of line breaks:
+<p>
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell. [otherwise]the usual cell.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere, say &quot;You really can't wander around at random in the Library.&quot;
+<p>This room description has two possible forms: &quot;Ah, the unknown cell. &quot;, at first sight, and then &quot;Ah, the usual cell.&quot; subsequently. But the second form is rounded off with a line break because the last thing printed is a &quot;.&quot;, whereas the first form isn't, because it ended with a space. The right thing would have been:
+<p>
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell.[otherwise]the usual cell.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before going to the Catalogue Room, say &quot;You emerge back into the Catalogue Room.&quot;
-</font></blockquote><p>
-<p>
-<p>Note that &quot;going nowhere&quot; means trying a map connection which is blank, and if no rules intervene then &quot;You can't go that way&quot; is normally printed. Unless &quot;nowhere&quot; is specified, descriptions of going apply only when there is a map connection. So &quot;going from the Musicology Section&quot; would not match if the player were trying to go east from there, since there is no map connection to the east. Similarly, &quot;going somewhere&quot; excludes blank connections.
-<p>
-<p>The places gone &quot;from&quot; or &quot;to&quot; can be regions instead of rooms. This is convenient when there are several different ways into or out of an area of map but a common rule needs to apply to all: so, for example,
-<p>
-<blockquote><font color="#000080">Before going from the Cultivated Land to the Wilderness, ...
-<br>Before going nowhere from the Wilderness, say &quot;Tangled brush forces you back.&quot;
-</font></blockquote><p>
-<p>
-<p>(Note that it must be &quot;going nowhere from the Wilderness&quot;, not &quot;...in the Wilderness&quot;.)
+<p>allowing no space after &quot;unknown cell.&quot;
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e57"><a href=doc87.html#e57><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A "go back" command that keeps track of the direction from which the player came, and sends him back.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e57"><a href=doc55.html#e57><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A door which says "...leads east" in one place and "...leads west" in the other.</i><p>
 <p>
-<p>The main trick of this is always to record where the player has gone when he has just moved.
+<p>Very simple, but quite frequently useful:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Polarity&quot;\n\nThe North Pole is a room. The South Pole is south of the North Pole.\n\nThe former direction is a direction that varies.\n\nCarry out going a direction:\n\tchange the former direction to the noun.\n\n[Obviously, this will not be adequate in a game which also moves the player arbitrarily on a regular basis; in that case the &quot;former direction&quot; would have to be reset manually by the author. Assuming, however, that the player always moves around the map on his own volition, we can implement this command safely:]\n\nUnderstand &quot;go back&quot; as retreating. Understand &quot;back&quot; or &quot;return&quot; or &quot;retreat&quot; as retreating.\n\nRetreating is an action applying to nothing.\n\n[Now we\'re helped a bit by the fact that the library directions are all defined with opposites, so that for instance the opposite of &quot;south&quot; is known to be &quot;north&quot;. Thus:]\n\nCarry out retreating:\n\tlet new direction be the opposite of the former direction;\n\tsay &quot;(heading [new direction])[line break]&quot;;\n\ttry going the new direction.\n\n\n')"><img border=0 src=paste.png></a> &quot;Polarity&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;When?&quot;\n\nThe temporal vortex is an open door. It is west of Yesterday and east of Today. &quot;A whirling temporal vortex leads [if in Yesterday]west[otherwise]east[end if].&quot;\n\n')"><img border=0 src=paste.png></a> &quot;When?&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The North Pole is a room. The South Pole is south of the North Pole.
+<blockquote><font color="#000080">The temporal vortex is an open door. It is west of Yesterday and east of Today. &quot;A whirling temporal vortex leads [if in Yesterday]west[otherwise]east[end if].&quot;
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The former direction is a direction that varies.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out going a direction:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the former direction to the noun.
-</font></blockquote><p>
-<p>
-<p>Obviously, this will not be adequate in a game which also moves the player arbitrarily on a regular basis; in that case the &quot;former direction&quot; would have to be reset manually by the author. Assuming, however, that the player always moves around the map on his own volition, we can implement this command safely:
-<p>
-<blockquote><font color="#000080">Understand &quot;go back&quot; as retreating. Understand &quot;back&quot; or &quot;return&quot; or &quot;retreat&quot; as retreating.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Retreating is an action applying to nothing.
-</font></blockquote><p>
-<p>
-<p>Now we're helped a bit by the fact that the library directions are all defined with opposites, so that for instance the opposite of &quot;south&quot; is known to be &quot;north&quot;. Thus:
-<p>
-<blockquote><font color="#000080">Carry out retreating:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let new direction be the opposite of the former direction;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [new direction])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try going the new direction.
-</font></blockquote><p>
-<p>
-<p>A refinement on this would be to make sure that the player who types &quot;BACK&quot; before going anywhere will be scolded rather than sent in some direction.
-</td></tr></table><p><a name="e61"><a href=ex61.html#e61><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>If the player tries to go a valid direction while on a supporter, make him stand up first; if he tries to go a nonexistent one, print a special refusal.</i><p>
-<p><hr><p><a href=doc86.html>Previous</a> / <a href=doc88.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><a name="e10"><a href=ex10.html#e10><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A kind of door that always automatically describes the direction it opens and what lies on the far side (if that other room has been visited).</i><p>
+<a name="e59"><a href=ex59.html#e59><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Separate the player's inventory listing into two parts, so that it says "you are carrying..." and then (if the player is wearing anything) "You are also wearing...".</i><p>
+<p><hr><p><a href=doc54.html>Previous</a> / <a href=doc56.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

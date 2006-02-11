@@ -1,0 +1,117 @@
+<html><head><title>14.15. Varying which table to look at</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc213.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc215.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>14.15. Varying which table to look at</b></td></tr></table><p>
+<p>
+<p>So far, we have always used fixed table names when referring to tables: for instance in source like &quot;sort the Table of Recent Monarchs in accession order&quot;, we refer to the &quot;Table of Recent Monarchs&quot;, a definite and explicitly named table.
+<p>
+<p>With a little care, however, we are allowed to have variables which themselves hold the names of tables. This opens up the possibility of more elaborate ways of storing and interconnecting information in table form, but is probably best avoided until it becomes necessary.
+<p>
+<p>For example, suppose we have two different tables with the same basic structure:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Table 1 - Nifty Opening Plays in US Scrabble\nword\tscore\n&quot;muzjiks&quot;\t128\n\nTable 2 - Nifty Opening Plays in UK Scrabble\nword\tscore\n&quot;quartzy&quot;\t126\n&quot;squeezy&quot;\t126\n\n\n')"><img border=0 src=paste.png></a> Table 1 - Nifty Opening Plays in US Scrabble
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">word</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">score</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;muzjiks&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">128</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table 2 - Nifty Opening Plays in UK Scrabble
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">word</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">score</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;quartzy&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">126</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;squeezy&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">126</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<p>We could then record which one of these tables to use in a variable:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The lexicon is a table-name that varies. The lexicon is Table 1.\n\n\n')"><img border=0 src=paste.png></a> The lexicon is a table-name that varies. The lexicon is Table 1.
+</font></blockquote><p>
+<p>
+<p>Note that for this purpose, the kind of value is a special kind called &quot;table-name&quot;, not &quot;table&quot;. (The word &quot;table&quot; already has too many meanings and we must be careful to avoid ambiguities here.) We could make use of this as follows, for instance:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('To flip tables:\n\tsay &quot;You exchange dictionaries, lexically crossing the Atlantic. &quot;;\n\tif the lexicon is Table 1, change the lexicon to Table 2;\n\totherwise change the lexicon to Table 1;\n\tchoose a random row in the lexicon;\n\tsay &quot;Did you know that according to [the lexicon], [word entry] scores [score entry]?&quot;\n\n\n')"><img border=0 src=paste.png></a> To flip tables:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You exchange dictionaries, lexically crossing the Atlantic. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the lexicon is Table 1, change the lexicon to Table 2;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise change the lexicon to Table 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a random row in the lexicon;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Did you know that according to [the lexicon], [word entry] scores [score entry]?&quot;
+</font></blockquote><p>
+<p>
+<p>which produces text such as
+<p>
+<blockquote><font color="#000080">You exchange dictionaries, lexically crossing the Atlantic. Did you know that according to Table 1 - Nifty Opening Plays in US Scrabble, muzjiks scores 128?
+</font></blockquote><p>
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e138"><a href=doc214.html#e138><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Layout where the player is allowed to wander any direction he likes, and the map will arrange itself in order so that he finds the correct "next" location.</i><p>
+<p>
+<p>Suppose we want to allow the player to wander freely in any direction, but ourselves maintain control over the order in which he encounters the rooms. This sort of effect emphasizes the order of the story-telling over any kind of rigorous simulation of space; on multiple play-throughs, the player might not find all the same rooms in the same locations.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;All Roads Lead to Mars&quot;\n\nA room has a table-name called the exits.\n\nBefore going a direction (called way):\n\tif the way is a direction listed in exits of the location\n\tbegin;\n\t\tmove the player to the destination entry instead;\n\totherwise;\n\t\tif a room (called next target) is unvisited\n\t\tbegin;\n\t\t\tchoose a blank row in the exits of the location;\n\t\t\tchange direction entry to the way;\n\t\t\tchange destination entry to next target;\n\t\t\tchoose a blank row in the exits of the next target;\n\t\t\tchange direction entry to the opposite of the way;\n\t\t\tchange destination entry to location;\n\t\t\tmove the player to the next target instead;\n\t\totherwise;\n\t\t\tsay &quot;You can\'t go that way at present.&quot; instead;\n\t\tend if;\n\tend if.\n\nThe Open Plain is a room. &quot;A wide-open grassy expanse, from which you could really go any way at all.&quot;\n\nThe Hilly Place is a room. &quot;The grassland gives way to a somewhat more hilly area, though there is still very little to guide you any particular way.&quot;\n\nThe Stream is a room. &quot;This is the third place you\'ve been today, and so the stream is welcome. How refreshing!&quot; The exits of the Stream is Table of Stream Exits.\n\nThe exits of the Open Plain is Table of Open Plain Exits. The exits of the Hilly Place is Table of Hilly Place Exits.\n\nTable of Open Plain Exits\ndirection\tdestination\na direction\ta room\nwith 12 blank rows.\n\nTable of Hilly Place Exits\ndirection\tdestination\na direction\ta room\nwith 12 blank rows.\n\nTable of Stream Exits\ndirection\tdestination\na direction\ta room\nwith 12 blank rows.\n\n\n')"><img border=0 src=paste.png></a> &quot;All Roads Lead to Mars&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A room has a table-name called the exits.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before going a direction (called way):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the way is a direction listed in exits of the location
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the player to the destination entry instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if a room (called next target) is unvisited
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose a blank row in the exits of the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change direction entry to the way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change destination entry to next target;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose a blank row in the exits of the next target;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change direction entry to the opposite of the way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change destination entry to location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the player to the next target instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You can't go that way at present.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Open Plain is a room. &quot;A wide-open grassy expanse, from which you could really go any way at all.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Hilly Place is a room. &quot;The grassland gives way to a somewhat more hilly area, though there is still very little to guide you any particular way.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Stream is a room. &quot;This is the third place you've been today, and so the stream is welcome. How refreshing!&quot; The exits of the Stream is Table of Stream Exits.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The exits of the Open Plain is Table of Open Plain Exits. The exits of the Hilly Place is Table of Hilly Place Exits.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Open Plain Exits
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">direction</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">destination</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a direction</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a room</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">with 12 blank rows.</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Hilly Place Exits
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">direction</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">destination</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a direction</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a room</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">with 12 blank rows.</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Stream Exits
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">direction</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">destination</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a direction</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a room</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">with 12 blank rows.</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<p>If we wanted still to be able to find routes between places, we could define a relationship of connection between rooms, which we would add to as we went along.
+</td></tr></table><p><a name="e49"><a href=ex49.html#e49><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>People who respond to conversational gambits, summarize what they said before if asked again, and provide recap of conversation that is past.</i><p>
+<p><hr><p><a href=doc213.html>Previous</a> / <a href=doc215.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

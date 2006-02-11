@@ -1,4 +1,4 @@
-<html><head><title>6.16. Going by, going through, going with</title></head>
+<html><head><title>6.17. Kinds of action</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,65 +7,50 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc87.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc89.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.16. Going by, going through, going with</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc88.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc90.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.17. Kinds of action</b></td></tr></table><p>
 <p>
-<p>Adding to the previous example game, we apply rules which depend on travelling by a particular vehicle:
+<p>Especially when people need to react to events going on around them, it is helpful to be able to categorise actions into whole areas of behaviour. The following example, indebted to the late Georgette Heyer, is suggestive:
 <p>
-<blockquote><font color="#000080">The book trolley is in the Musicology Section. &quot;The book trolley, a sort of motorised tractor for trundling around through the stacks, is parked here.&quot; The trolley is a vehicle. Instead of going nowhere by the trolley, say &quot;Don't go crashing the trolley into walls.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Dearth and the Maiden&quot;\n\nThe Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;\n\nAn oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;\n\nA man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;\n\nKissing Mr Carr is unmaidenly behaviour. Doing something to the painting is unmaidenly behaviour.\n\nInstead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Dearth and the Maiden&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going to the Front Stacks by the trolley, say &quot;The Front Stacks are far too confined for the trolley to manoeuvre into them.&quot;
+<blockquote><font color="#000080">The Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;
 </font></blockquote><p>
 <p>
-<p>And, lastly, rules which apply to movements through particular doors:
-<p>
-<blockquote><font color="#000080">The green baize door is east of the Catalogue Room and west of the Clerk's Office. The green baize door is an open door.
+<blockquote><font color="#000080">An oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before going through the green baize door, say &quot;Through you go...&quot; After going through the green baize door: try looking; say &quot;...and here you are.&quot;
+<blockquote><font color="#000080">A man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;
 </font></blockquote><p>
 <p>
-<p>(Note that these apply whether the action is &quot;going east&quot; or &quot;entering the green baize door&quot;, each having the same effect.) The last rule is worth a second look: the normal way that a &quot;going&quot; action is reported is to produce the room description of the new location. So if an &quot;after&quot; rule stops the action before we get to reporting, we have to produce any room description by hand (hence the &quot;try looking&quot; to cause the looking action). Alternatively, we could simply say something and let the normal course of events take place:
-<p>
-<blockquote><font color="#000080">After going through the green baize door: say &quot;...and here you are:&quot;; continue the action.
+<blockquote><font color="#000080">Kissing Mr Carr is unmaidenly behaviour. Doing something to the painting is unmaidenly behaviour.
 </font></blockquote><p>
 <p>
-<p>Finally, going is an action which can also happen while the player is pushing something from one room to another, and we can describe this like so:
-<p>
-<blockquote><font color="#000080">Instead of going from the Office with the trolley, say &quot;But it looks perfectly placed here. Why push any further?&quot;
+<blockquote><font color="#000080">Instead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;
 </font></blockquote><p>
+<p>
+<p>Here a new kind of action called &quot;unmaidenly behaviour&quot; has been created and then used in the description of an instead rule. The convenience of this approach is that when further actions suddenly occur to us as also being unmaidenly - say, attacking Mr Carr - we only need to add a single line:
+<p>
+<blockquote><font color="#000080">Attacking Mr Carr is unmaidenly behaviour.
+</font></blockquote><p>
+<p>
+<p>And this will automatically be reflected in any rules which concern the consequences of failing to be ladylike.
 <p>
 <p><hr><p>
-<a name="e26"><a href=ex26.html#e26><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A car which must be turned on before it can be driven, and can only go to roads.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e88"><a href=doc88.html#e88><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A plank bridge which breaks if the player is carrying something when he goes across it. Pushing anything over the bridge is forbidden outright.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e88"><a href=doc89.html#e88><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>People who must be greeted before conversation can begin.</i><p>
 <p>
-<p>Another example cribbed shamelessly from the Inform Designer's Manual:
+<p>Suppose we want to add a sense of some conversational flow, so that the player is forced to acknowledge the presence of people before beginning detailed conversations with them. We collect all speech actions into a single category:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Example 20&quot;\n\nThe East Jungle is a room. The plank bridge is west of the East Jungle and east of the West Jungle. The plank is an open unopenable door. &quot;A precarious plank bridge extends [if the location is West Jungle]east[otherwise]west[end if] across the chasm.&quot; The description of the plank is &quot;Extremely fragile and precarious.&quot;\n\nInstead of going through the plank when the player is carrying something:\n\tsay &quot;You step gingerly across the plank, which bows under your weight. But your meagre possessions are the straw which breaks the camel\'s back!&quot;;\n\tend the game in death.\n\nAfter going through the plank:\n\tsay &quot;You step gingerly across the plank, grateful that you\'re not burdened.&quot;;\n\tcontinue the action.\n\nThe feather is a thing in the East Jungle.\n\n[But indeed, why stop there?]\n\nThe gigantic stone ball is a thing in the West Jungle. It is pushable between rooms.\n\nInstead of going through the plank with something:\n\tsay &quot;Surely you jest.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Example 20&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Asking someone about something is speech. Telling someone about something is speech. Answering someone that something is speech. Asking someone for something is speech.\n\n[And then write a general rule.]\n\nBefore speech in the presence of an ungreeted person:\n\tsay &quot;You nod hello to [the list of ungreeted people who can be seen by the player].&quot;;\n\tnow every ungreeted person who can be seen by the player is greeted.\n\nA person can be greeted or ungreeted. A person is usually ungreeted. The player is greeted.\n\n')"><img border=0 src=paste.png></a> Asking someone about something is speech. Telling someone about something is speech. Answering someone that something is speech. Asking someone for something is speech.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The East Jungle is a room. The plank bridge is west of the East Jungle and east of the West Jungle. The plank is an open unopenable door. &quot;A precarious plank bridge extends [if the location is West Jungle]east[otherwise]west[end if] across the chasm.&quot; The description of the plank is &quot;Extremely fragile and precarious.&quot;
+<p>And then write a general rule.
+<p>
+<blockquote><font color="#000080">Before speech in the presence of an ungreeted person:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You nod hello to [the list of ungreeted people who can be seen by the player].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now every ungreeted person who can be seen by the player is greeted.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going through the plank when the player is carrying something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You step gingerly across the plank, which bows under your weight. But your meagre possessions are the straw which breaks the camel's back!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in death.
+<blockquote><font color="#000080">A person can be greeted or ungreeted. A person is usually ungreeted. The player is greeted.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">After going through the plank:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You step gingerly across the plank, grateful that you're not burdened.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;continue the action.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The feather is a thing in the East Jungle.
-</font></blockquote><p>
-<p>
-<p>But indeed, why stop there?
-<p>
-<blockquote><font color="#000080">The gigantic stone ball is a thing in the West Jungle. It is pushable between rooms.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of going through the plank with something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Surely you jest.&quot;
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc87.html>Previous</a> / <a href=doc89.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc88.html>Previous</a> / <a href=doc90.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

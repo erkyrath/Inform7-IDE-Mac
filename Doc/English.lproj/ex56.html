@@ -1,4 +1,4 @@
-<html><head><title>15.6. Actions applying to kinds of value</title></head>
+<html><head><title>11.6. Spontaneous actions by other people</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,102 +7,204 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc221.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc223.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.6. Actions applying to kinds of value</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc157.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc159.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.6. Spontaneous actions by other people</b></td></tr></table><p>
 <p>
-<p>Almost all actions apply to things: the player picks them up, pushes them, looks at them and so on. Only occasionally do we need to recognise other kinds of value: but when we do, we can, as in the example called &quot;Safety&quot;:
+<p>The player's actions happen not only when he types a command, but can also happen spontaneously as a result of a &quot;try&quot; phrase.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Safety&quot;\n\nThe Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don\'t get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.\n\nSpinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;\n\nUnderstand &quot;spin [something] to [a number]&quot; as spinning it to.\n\nAfter spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [list of things in the Safe].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Safety&quot;
+<blockquote><font color="#000080">try going west
+<br>try asking Will to try going west
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don't get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.
+<p>The latter might, of course, result in Will trying going west: or it might not - that depends on the persuasion rules. But as the author, we have the ultimate powers of persuasion, and can make Will act in any way we like, without asking:
+<p>
+<blockquote><font color="#000080">try Will trying going west
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Spinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;
-</font></blockquote><p>
+<p>Nobody in the simulated world requested this: it is an impulse felt by Will alone, so that - from the player's point of view - Will is acting spontaneously. The player need not be anywhere nearby, and may never know what happened. Recall that when actions work their way down through the flow-chart, they are stopped before reaching the &quot;report&quot; stage - when the player is told about them - if they are running &quot;silently&quot;. This is also where Inform stops an action which is not witnessed by the player.
 <p>
-<blockquote><font color="#000080">Understand &quot;spin [something] to [a number]&quot; as spinning it to.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">After spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [list of things in the Safe].&quot;
-</font></blockquote><p>
-<p>
-<p>The substitution &quot;[a number]&quot; matches any number (actually any whole number that is not too large) typed by the player. Inform checks the various kinds being used to make sure that everything matches, so, for instance, this would be disallowed:
-<p>
-<blockquote><font color="#000080">Understand &quot;spin [something] to [something]&quot; as spinning it to.
-</font></blockquote><p>
+<p><hr><img border=0 src=beta.png>Inform does not (yet) support &quot;try Will asking Elanor to try going west&quot;, but we hope to add actions of the form eventually.
 <p>
 <p><hr><p>
-<a name="e118"><a href=ex118.html#e118><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A clock kind that can be set to any time using "the time understood"; may be turned on and off; and will advance itself only when running. Time on the face is also reported differently depending on whether the clock is analog or digital.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e56"><a href=doc222.html#e56><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A system which allows the author to assign footnotes to descriptions, and permits the player to retrieve them again by number, using "the number understood". Footnotes will automatically number themselves, according to the order in which the player discovers them.</i><p>
+<a name="e131"><a href=ex131.html#e131><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A person who will unlock and open a container when the player tells him to get something inside.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e56"><a href=doc158.html#e56><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (****).</font> <i>A fuller implementation of Ogg, giving him a motivation of his own and allowing him to react to the situation created by the player.</i><p>
 <p>
-<p>&quot;Hitchhiker's Guide to the Galaxy&quot; introduced the idea of footnoted descriptions, and various IF games since have toyed with the idea. The recommended implementation in Inform 6 involved keeping an assortment of footnote objects around, but in Inform 7 the table is a much tidier way of handling the same problem.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Ibid.&quot;\n\nThe Ship Inn is a room. &quot;Here you are in a lovely pub which your guidebook assures you is extremely authentic. [1 as a footnote].\n\nTo your left sits a party of Italians, with their guidebook.\n\nTo your right is a silent, but not unappealing, young man.&quot;.\n\nA party of Italians and a silent young man are people in the Ship Inn. The Italians and the young man are scenery.\n\nThe table is a supporter in the Ship Inn. On the table is a mysterious pie. The description of the pie is &quot;Your waitress told you it was the specialty of the day, Steak and Owl Pie. [2 as a footnote].&quot; The pie is edible.\n\nTable of Footnotes\nassignment\tnote\na number\t&quot;Francis Drake ate here, if the sign on the door is to be believed&quot;\n--\t&quot;this is unlikely, considering that owls are protected animals in England these days [3 as a footnote]&quot;\n--\t&quot;moreover, you can\'t imagine that owl would be very tasty&quot;\n\nFootnotes mentioned is a number that varies.\n\n[Whenever we mention a footnote for the first time, we need to assign it a number, which we will use consistently thereafter. And it\'s probably a good idea to protect ourselves against the author accidentally using a number too large for the footnote table, too. So:]\n\nTo say (footnote - a number) as a footnote:\n\tif footnote > number of filled rows in the Table of Footnotes\n\tbegin;\n\t\tsay &quot;Programming error: footnote assignment out of range.&quot;;\n\totherwise;\n\t\tchoose row footnote in the Table of Footnotes;\n\t\tif there is an assignment entry\n\t\tbegin;\n\t\t\tsay &quot;([assignment entry])&quot;;\n\t\totherwise;\n\t\t\tchange footnotes mentioned to footnotes mentioned + 1;\n\t\t\tchoose row footnote in the Table of Footnotes;\n\t\t\tchange assignment entry to footnotes mentioned;\n\t\t\tsay &quot;([assignment entry])&quot;;\n\t\tend if;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> &quot;Ibid.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Boston Cream&quot;\n\nThe Donut Shop is a room. &quot;Vibrantly decorated in donut colors: pink, brown, and cream.&quot;\n\nOgg is a man in the Donut Shop. &quot;Ogg is slumped in the corner[if Ogg carries something] with [list of things carried by Ogg][end if]. He wears a nametag which says \'HELLO MY NAME IS OG.\'&quot; Understand &quot;og&quot; as Ogg. Ogg wears a nametag. The description of the nametag is &quot;Very neatly written.&quot;\n\nThe Donut Shop contains a transparent closed openable locked lockable enterable container called a case. The case is fixed in place. The case contains some cake donuts, some jelly donuts, and some apple fritters. &quot;The [if unopenable]damaged[otherwise]gleaming[end if] donut case [if something is in the case]contains [list of things in the case][otherwise]has been stripped of its contents[end if].&quot; The cake donuts, the jelly donuts, and the apple fritters are edible.\n\nThe matching key of the case is a silver key. The silver key is in a mesh basket. The mesh basket is closed, transparent, and openable. It is in the Donut Shop.\n\nBefore someone trying taking something which is carried by the player:\n\tif the person asked cannot touch the player\n\tbegin;\n\t\tsay &quot;Ogg looks with a fixed frown at [the noun].&quot;;\n\t\tcontinue the action;\n\tend if;\n\tsay &quot;[The person asked] comes up and shakes your arm until you drop [the noun].&quot;;\n\tsay line break;\n\tsilently try dropping the noun;\n\tstop the action.\n\nBefore someone trying unlocking a locked thing with something which is not carried by the person asked:\n\ttry the person asked trying taking the second noun;\n\tstop the action.\n\nBefore someone trying opening a locked thing (called the sealed chest):\n\tif the person asked can see the matching key of the sealed chest\n\tbegin;\n\t\tif the matching key of the sealed chest is in the sealed chest\n\t\tbegin;\n\t\t\tsay &quot;Seeing the paradoxical location of [the matching key of the sealed chest], [the person asked] gives a howl of rage.&quot;;\n\t\t\taward 1 point;\n\t\t\tend the game saying &quot;You have thwarted Ogg&quot;;\n\t\totherwise;\n\t\t\ttry the person asked trying unlocking the sealed chest with the matching key of the sealed chest;\n\t\tend if;\n\t\tstop the action;\n\tend if.\n\nBefore someone trying taking something which is in a closed container (called the shut chest):\n\ttry the person asked trying opening the shut chest;\n\tstop the action.\n\nOgg has a number called hunger.  The hunger of Ogg is 0.\n\nEvery turn:\n\tchange the hunger of Ogg to the hunger of Ogg plus 1;\n\tif the hunger of Ogg is 2 and Ogg is visible, say &quot;Ogg\'s stomach growls.&quot;;\n\tif the hunger of Ogg is 3 and Ogg is visible\n\tbegin;\n\t\tif Ogg can see an edible thing (called the target)\n\t\tbegin;\n\t\t\tsay &quot;Ogg eyes [the target] with obvious intent.&quot;;\n\t\totherwise;\n\t\t\tsay &quot;Ogg glances at you in a disturbingly shifty way.&quot;;\n\t\tend if;\n\tend if;\n\tif the hunger of Ogg > 3\n\tbegin;\n\t\tif Ogg carries an edible thing (called the target)\n\t\tbegin;\n\t\t\ttry Ogg trying eating the target;\n\t\totherwise;\n\t\t\tlet new target be a random edible thing which can be seen by Ogg;\n\t\t\tif the new target is a thing\n\t\t\tbegin;\n\t\t\t\ttry Ogg trying taking the new target;\n\t\t\totherwise;\n\t\t\t\t if Ogg can touch the player, end the game saying &quot;Ogg is gnawing your ankle&quot;;\n\t\t\t\totherwise try Ogg trying taking the player;\n\t\t\tend if;\n\t\tend if;\n\tend if.\n\nThe crumbs are a thing. &quot;Crumbs of [the list of edible things which cannot be seen by the player] lie scattered over the whole floor.&quot;\n\nInstead of asking Ogg to try doing something when Ogg cannot touch the player:\n\tsay &quot;Ogg tilts his head and shrugs, unable to hear your instruction clearly.&quot;\n\nInstead of asking Ogg to try eating something:\n\tsay &quot;It\'s not as though Ogg really needs any encouragement in that department, is it?&quot;\n\nDefinition: Ogg is hungry if the hunger of Ogg > 2.\n\nPersuasion rule for asking Ogg to try doing something: if Ogg is hungry, persuasion fails; persuasion succeeds.\n\nPersuasion rule for asking Ogg to try giving something edible to the player:\n\tpersuasion fails.\n\nUnsuccessful attempt by Ogg trying doing something:\n\tif the reason the action failed is a failing listed in the Table of Ogg Retorts\n\tbegin;\n\t\tsay &quot;[reply entry][paragraph break]&quot;;\n\totherwise;\n\t\tsay &quot;Ogg looks adorably confused.&quot;;\n\tend if.\n\nTable of Ogg Retorts\nfailing\treply\ncan\'t take people\'s possessions rule\t&quot;\'Ogg too polite.\'&quot;\ncan\'t take other people rule\t&quot;\'Ogg not that greedy.\'&quot;\ncan\'t take scenery rule\t&quot;\'[The noun] very very heavy.\'&quot;\ncan\'t take what\'s fixed in place rule\t&quot;\'[The noun] very heavy.&quot;\ncan\'t drop what\'s not held rule\t&quot;\'Hunh?\'&quot;\n\nCarry out Ogg trying eating an edible thing:\n\tmove the crumbs to the holder of Ogg;\n\tchange the hunger of Ogg to 0.\n\nReport Ogg trying unlocking something with something:\n\tsay &quot;Ogg struggles a bit with [the second noun] in the lock of [the noun], but does eventually succeed. \'Hunh!\' says Ogg.&quot;;\n\tstop the action.\n\nCarry out Ogg trying opening the case when the case has been open:\n\tnow the case is unopenable.\n\nInstead of closing the unopenable case:\n\tsay &quot;The glass panels are no longer properly seated in their tracks, and the case cannot be closed ever again.&quot;\n\nReport Ogg trying opening the unopenable case:\n\tsay &quot;Ogg forces [the case] so hard that it does break.&quot;;\n\tstop the action.\n\nReport Ogg trying opening the case:\n\tsay &quot;Ogg yanks [the noun] open with such force that you fear for its structural integrity.&quot;;\n\tstop the action.\n\nReport Ogg trying taking something edible:\n\tsay &quot;Ogg acquires [the noun] with a look of tender affection.&quot;;\n\tstop the action.\n\nReport Ogg trying eating something:\n\tsay &quot;Ogg chows down on [the noun], scattering crumbs in all directions.&quot;;\n\tstop the action.\n\nReport Ogg trying eating something when the number of visible edible things is 1:\n\tsay &quot;Ogg eats [the noun] in his trademark style. You can no longer bear to watch.&quot;;\n\tstop the action.\n\nAfter entering the case:\n\tsay &quot;You climb inside the case, folding yourself up uncomfortably.&quot;\n\nAfter locking the case with something when the player is in the case:\n\tsay &quot;You turn the key firmly in the lock -- amazing it locks from within, but it does -- and settle yourself for a long wait, hoping this thing is not air-tight.&quot;\n\nThe maximum score is 1.\n\n\n')"><img border=0 src=paste.png></a> &quot;Boston Cream&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Ship Inn is a room. &quot;Here you are in a lovely pub which your guidebook assures you is extremely authentic. [1 as a footnote].
+<blockquote><font color="#000080">The Donut Shop is a room. &quot;Vibrantly decorated in donut colors: pink, brown, and cream.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To your left sits a party of Italians, with their guidebook.
+<blockquote><font color="#000080">Ogg is a man in the Donut Shop. &quot;Ogg is slumped in the corner[if Ogg carries something] with [list of things carried by Ogg][end if]. He wears a nametag which says 'HELLO MY NAME IS OG.'&quot; Understand &quot;og&quot; as Ogg. Ogg wears a nametag. The description of the nametag is &quot;Very neatly written.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To your right is a silent, but not unappealing, young man.&quot;.
+<blockquote><font color="#000080">The Donut Shop contains a transparent closed openable locked lockable enterable container called a case. The case is fixed in place. The case contains some cake donuts, some jelly donuts, and some apple fritters. &quot;The [if unopenable]damaged[otherwise]gleaming[end if] donut case [if something is in the case]contains [list of things in the case][otherwise]has been stripped of its contents[end if].&quot; The cake donuts, the jelly donuts, and the apple fritters are edible.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A party of Italians and a silent young man are people in the Ship Inn. The Italians and the young man are scenery.
+<blockquote><font color="#000080">The matching key of the case is a silver key. The silver key is in a mesh basket. The mesh basket is closed, transparent, and openable. It is in the Donut Shop.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The table is a supporter in the Ship Inn. On the table is a mysterious pie. The description of the pie is &quot;Your waitress told you it was the specialty of the day, Steak and Owl Pie. [2 as a footnote].&quot; The pie is edible.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Table of Footnotes
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">assignment</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">note</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a number</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Francis Drake ate here, if the sign on the door is to be believed&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;this is unlikely, considering that owls are protected animals in England these days [3 as a footnote]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;moreover, you can't imagine that owl would be very tasty&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Footnotes mentioned is a number that varies.
-</font></blockquote><p>
-<p>
-<p>Whenever we mention a footnote for the first time, we need to assign it a number, which we will use consistently thereafter. And it's probably a good idea to protect ourselves against the author accidentally using a number too large for the footnote table, too. So:
-<p>
-<blockquote><font color="#000080">To say (footnote - a number) as a footnote:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if footnote > number of filled rows in the Table of Footnotes
+<blockquote><font color="#000080">Before someone trying taking something which is carried by the player:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked cannot touch the player
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Programming error: footnote assignment out of range.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose row footnote in the Table of Footnotes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if there is an assignment entry
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg looks with a fixed frown at [the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;continue the action;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The person asked] comes up and shakes your arm until you drop [the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say line break;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try dropping the noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before someone trying unlocking a locked thing with something which is not carried by the person asked:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try the person asked trying taking the second noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before someone trying opening a locked thing (called the sealed chest):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked can see the matching key of the sealed chest
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the matching key of the sealed chest is in the sealed chest
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;([assignment entry])&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Seeing the paradoxical location of [the matching key of the sealed chest], [the person asked] gives a howl of rage.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;award 1 point;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;You have thwarted Ogg&quot;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change footnotes mentioned to footnotes mentioned + 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose row footnote in the Table of Footnotes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change assignment entry to footnotes mentioned;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;([assignment entry])&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try the person asked trying unlocking the sealed chest with the matching key of the sealed chest;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;stop the action;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before someone trying taking something which is in a closed container (called the shut chest):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try the person asked trying opening the shut chest;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Ogg has a number called hunger.  The hunger of Ogg is 0.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the hunger of Ogg to the hunger of Ogg plus 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the hunger of Ogg is 2 and Ogg is visible, say &quot;Ogg's stomach growls.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the hunger of Ogg is 3 and Ogg is visible
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Ogg can see an edible thing (called the target)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg eyes [the target] with obvious intent.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg glances at you in a disturbingly shifty way.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the hunger of Ogg > 3
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if Ogg carries an edible thing (called the target)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try Ogg trying eating the target;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let new target be a random edible thing which can be seen by Ogg;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the new target is a thing
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try Ogg trying taking the new target;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if Ogg can touch the player, end the game saying &quot;Ogg is gnawing your ankle&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise try Ogg trying taking the player;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>Now, in order to let the player view these footnotes, we'll need to parse numbers.
-<p>
-<blockquote><font color="#000080">Understand &quot;footnote [number]&quot; as looking up a footnote.
+<blockquote><font color="#000080">The crumbs are a thing. &quot;Crumbs of [the list of edible things which cannot be seen by the player] lie scattered over the whole floor.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Looking up a footnote is an action applying to one number.
+<blockquote><font color="#000080">Instead of asking Ogg to try doing something when Ogg cannot touch the player:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg tilts his head and shrugs, unable to hear your instruction clearly.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check looking up a footnote:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number understood > footnotes mentioned, say &quot;You haven't seen any such footnote.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number understood < 1, say &quot;Footnotes are numbered from 1.&quot;
+<blockquote><font color="#000080">Instead of asking Ogg to try eating something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It's not as though Ogg really needs any encouragement in that department, is it?&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out looking up a footnote:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with assignment of number understood in the Table of Footnotes;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;([assignment entry]): [note entry].&quot;
+<blockquote><font color="#000080">Definition: Ogg is hungry if the hunger of Ogg > 2.
 </font></blockquote><p>
 <p>
-<p>This method does require us to keep track of where a footnote appears in the table. If we found this inconvenient, we could add a column to the footnote table so that we could invoke it with tags like &quot;[appearance quip as a footnote]&quot;.
-</td></tr></table><p><p><hr><p><a href=doc221.html>Previous</a> / <a href=doc223.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Persuasion rule for asking Ogg to try doing something: if Ogg is hungry, persuasion fails; persuasion succeeds.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Persuasion rule for asking Ogg to try giving something edible to the player:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;persuasion fails.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Unsuccessful attempt by Ogg trying doing something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the reason the action failed is a failing listed in the Table of Ogg Retorts
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[reply entry][paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg looks adorably confused.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Ogg Retorts
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">failing</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">reply</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take people's possessions rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Ogg too polite.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take other people rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Ogg not that greedy.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take scenery rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'[The noun] very very heavy.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't take what's fixed in place rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'[The noun] very heavy.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">can't drop what's not held rule</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Hunh?'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out Ogg trying eating an edible thing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the crumbs to the holder of Ogg;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the hunger of Ogg to 0.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report Ogg trying unlocking something with something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg struggles a bit with [the second noun] in the lock of [the noun], but does eventually succeed. 'Hunh!' says Ogg.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out Ogg trying opening the case when the case has been open:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the case is unopenable.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of closing the unopenable case:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The glass panels are no longer properly seated in their tracks, and the case cannot be closed ever again.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report Ogg trying opening the unopenable case:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg forces [the case] so hard that it does break.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report Ogg trying opening the case:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg yanks [the noun] open with such force that you fear for its structural integrity.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report Ogg trying taking something edible:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg acquires [the noun] with a look of tender affection.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report Ogg trying eating something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg chows down on [the noun], scattering crumbs in all directions.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report Ogg trying eating something when the number of visible edible things is 1:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Ogg eats [the noun] in his trademark style. You can no longer bear to watch.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After entering the case:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You climb inside the case, folding yourself up uncomfortably.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After locking the case with something when the player is in the case:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You turn the key firmly in the lock -- amazing it locks from within, but it does -- and settle yourself for a long wait, hoping this thing is not air-tight.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The maximum score is 1.
+</font></blockquote><p>
+<p>
+</td></tr></table><p><p><hr><p><a href=doc157.html>Previous</a> / <a href=doc159.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

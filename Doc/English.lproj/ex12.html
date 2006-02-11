@@ -1,4 +1,4 @@
-<html><head><title>12.12. Indirect relations</title></head>
+<html><head><title>17.6. Phrases concerning rules</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,130 +7,81 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc179.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc181.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.12. Indirect relations</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc266.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc268.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>17.6. Phrases concerning rules</b></td></tr></table><p>
 <p>
-<p>We have already seen, in the chapter on Descriptions which is a forerunner of this one, that Inform provides not only &quot;adjacent&quot; as a way of seeing if one room is directly connected to another, but also &quot;the best route from A to B&quot;, which allows us to see if any sequence of moves connects them.
+<p>The &quot;ignore&quot; phrase is only one of a suite. The full list is:
 <p>
-<p>Something similar - in fact, simpler - is allowed for any relation. Suppose we would like to go sledging: we can go downhill, but not up. Some quite distant places may be reachable, while others close by may not be, even if lower than us, because they would involve climbing again at some point. The following would implement this:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Overlooking relates various rooms to various rooms.\n\nThe verb to overlook (it overlooks, they overlook, it overlooked, it is overlooked, it is overlooking) implies the overlooking relation.\n\nThe Garden overlooks the Shrubbery. The Folly overlooks the Garden. The Shrubbery overlooks the Sundial Plot. The Old Ice House overlooks the Garden.\n\nAfter looking:\n\tsay &quot;This wintry vantage point overlooks [the list of rooms overlooked by the location].&quot;;\n\tlet the way be the next step via the overlooking relation from the location to the Sundial Plot;\n\tif the way is a room, say &quot;To sledge downhill to the Sundial, aim for [the way].&quot;;\n\totherwise say &quot;It is not possible to sledge downhill to the Sundial.&quot;\n\n\n')"><img border=0 src=paste.png></a> Overlooking relates various rooms to various rooms.
+<blockquote><font color="#000080">ignore ...rule...
+<br>reinstate ...rule...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The verb to overlook (it overlooks, they overlook, it overlooked, it is overlooked, it is overlooking) implies the overlooking relation.
+<p>The &quot;reinstate&quot; phrase simply reverses any previous &quot;ignore&quot; of the same rule, and is otherwise not useful.
+<p>
+<blockquote><font color="#000080">reject the result of ...rule...
+<br>accept the result of ...rule...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Garden overlooks the Shrubbery. The Folly overlooks the Garden. The Shrubbery overlooks the Sundial Plot. The Old Ice House overlooks the Garden.
+<p>Some rules produce results (see below), but they can be set so that whatever result they produce will be ignored. Again, &quot;accept ...&quot; simply undoes a previous &quot;reject ...&quot; and otherwise has no effect.
+<p>
+<blockquote><font color="#000080">substitute ...first rule... for ...second rule...
+<br>restore the original ...second rule...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After looking:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;This wintry vantage point overlooks [the list of rooms overlooked by the location].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let the way be the next step via the overlooking relation from the location to the Sundial Plot;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the way is a room, say &quot;To sledge downhill to the Sundial, aim for [the way].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;It is not possible to sledge downhill to the Sundial.&quot;
+<p>Whenever the second rule is to be invoked - from any rulebook, or as a result of any &quot;follow&quot; instruction - invoke the first one instead. Again, &quot;restore ...&quot; simply undoes the effect of an earlier &quot;substitute&quot;.
+<p>
+<blockquote><font color="#000080">move ...first rule... to before/after ...second rule...
 </font></blockquote><p>
 <p>
-<p>Another example would be the &quot;six degrees of separation&quot; game, where it is claimed that any two people on Earth are connected by a sequence of up to six acquaintances. In an Inform implementation, we might talk about &quot;the next step via the friendship relation from George Bush to Saddam Hussein&quot;, for instance, a phrase likely to evaluate to Donald Rumsfeld, and then
+<p>This causes the first rule to be ignored whenever it turns up in the ordinary way, but to be invoked either immediately before or immediately after the second rule whenever that second rule is invoked. In effect, it cuts out the first rule from wherever it was, and glues it onto the second. Note that there is no obligation for the first rule to begin in the same rulebook(s) as the second, so this can be used to slot in a wholly new rule, perhaps only if certain circumstances hold.
 <p>
-<blockquote><font color="#000080">the number of steps via the friendship relation from George Bush to Saddam Hussein
+<p>These rule-changing instructions allow apparently casual sentences to wreak havoc with the model world. This, for instance, is quite the recipe for mayhem and perplexity:
+<p>
+<blockquote><font color="#000080">A procedural rule: reject the result of the before rules; ignore the after rules; move the after rules to before the before rules.
 </font></blockquote><p>
-<p>
-<p>would be... but that would be telling. We can calculate the number of steps like this for any relation: it works exactly analogously to &quot;the number of moves from A to B&quot;, which reads the map. The same conventions apply: the result is 0 if the two things are the same, and -1 if there is no way to get from one to the other.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e12"><a href=doc180.html#e12><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A conversation in which the main character tries to build logical connections between what the player is saying now and what went immediately before.</i><p>
+<a name="e110"><a href=ex110.html#e110><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Adjust time advancement so the game clock moves fifteen minutes each turn.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e12"><a href=doc267.html#e12><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Adding a new kind of supporter called a perch, where everything dropped lands on the floor.</i><p>
 <p>
-<p>Suppose that we have a core set of issues we want to be able to bring up with all the characters, and we want characters to draw intelligent connections between different conversation topics. We will need some model of how things relate to one another, so:
+<p>Inform's default assumption is that if a player on an enterable object drops something, the dropped article winds up beside him on the same supporter or in the same container. This makes lots of sense for a dais, say, or a king-sized bed. It's a little less sensible if the enterable supporter in question is a bar stool or the like. So suppose we want to add a new kind of supporter called a perch, where everything dropped lands on the floor.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Problem of Edith&quot;\n\nSuggestion relates things to each other. The verb to suggest (it suggests, they suggest, it is suggested) implies the suggestion relation.\n\nA subject is a kind of thing. The current subject is a thing that varies. The current subject is greeting.\n\nUnderstand &quot;ask [someone] about [any subject]&quot; as asking it about the subject. Understand &quot;tell [someone] about [any subject]&quot; as asking it about the subject.\n\nAsking it about the subject is an action applying to two things.\n\nCarry out asking it about the subject:\n\tsay &quot;\'Hmm, [the second noun],\' says [the noun]. &quot;;\n\trelate the current subject with the second noun;\n\tchange the current subject to the second noun.\n\n[For that matter, we could use the same system to have characters make sense of any physical evidence the character shows them:]\n\nInstead of showing something which suggests the current subject to someone:\n\tsay &quot;[The second noun] nods impatiently.&quot;\n\nInstead of showing something to someone:\n\tlet the next subject be the next step via the suggestion relation from the noun to the current subject;\n\tif the next subject is a subject\n\tbegin;\n\t\ttry asking the second noun about the subject the next subject;\n\totherwise;\n\t\tsay &quot;[The second noun] shrugs.&quot;;\n\tend if.\n\nWhen play begins:\n\tchange the left hand status line to &quot;Discussing: [current subject]&quot;;\n\tchange the right hand status line to &quot; &quot;.\n\nBroughton Hall is a room. Lady Uckfield is a woman in Broughton Hall. &quot;Lady Uckfield sits at her desk, looking wholly composed.&quot;\n\nThe nasty letter is a thing carried by the player. The nasty letter suggests infidelity and penmanship. The ten-pound note is carried by the player. It suggests money.\n\nInfidelity is a subject. Infidelity suggests marriage and divorce. Marriage suggests love. Marriage, love, and divorce are subjects.\n\nPenmanship is a subject. Penmanship suggests education. Education is a subject. Class status and money are subjects. Class status suggests education. Money suggests class status and marriage.\n\nThe current subject is divorce.\n\n[Now we can define what gets said when the subject is changed, regardless of whether the segue was introduced in speech or by a shown object. Since rows are blanked after use, the speaker will never repeat herself; if we provide more than one line about the same pair of topics, the first one will be used, then the second, and so on, until the table runs out:]\n\nTo relate (initial - a subject) with (next - a subject):\n\trepeat through Table of Remarks\n\tbegin;\n\t\tif the initial is starting entry and the next is the final entry\n\t\tbegin;\n\t\t\tsay &quot;[comment entry][paragraph break]&quot;;\n\t\t\tblank out the whole row;\n\t\t\trule succeeds;\n\t\tend if;\n\tend repeat;\n\tsay paragraph break.\n\nTable of Remarks\nstarting\tfinal\tcomment\ndivorce\tlove\t&quot;\'As it seems to me, all the love is on one side,\' she says crisply. \'And that rarely works.\'&quot;\ndivorce\tlove\t&quot;\'Stop making that plea: it won\'t work.\'&quot;\ndivorce\tinfidelity\t&quot;\'Frankly, I rather think there would have been cause enough for divorce without the perversely plentiful evidence of unfaithfulness.\'&quot;\nmarriage\tmoney\t&quot;\'If you wish me to understand that it was a marriage for money, you could have spared your energy. That was patent from the outset.\'&quot;\ninfidelity\tmoney\t&quot;\'I\'m sorry, but I don\'t see how having married for money excuses a subsequent infidelity.\'&quot;\n\n[If we had more than one character in the scenario, we could provide multiple tables, but this will do to demonstrate the idea.]\n\n[Of course, we can override specific instances, if we want the character always to say the same thing regardless of how we came to this point:]\n\nInstead of asking Lady Uckfield about the subject penmanship:\n\tchange the current subject to penmanship;\n\tsay &quot;She sighs. \'So few people write really beautifully these days.\'&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;The Problem of Edith&quot;
+<p>There are actually several ways of implementing this, but one of them is to reach right into the drop action and replace the &quot;standard dropping rule&quot; with a different one of our own invention -- like this:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Swigmore U.&quot;\n\nMoe\'s Tavern is a room. The bar is an enterable supporter in Moe\'s. A drink is a kind of thing. On the bar is a drink called a flaming Homer.\n\nA perch is a kind of supporter. A perch is always enterable. The stool is a perch in Moe\'s.\n\nThe player carries a dead field mouse and a tomacco fruit.\n\nA procedural rule:\n\tsubstitute the sophisticated dropping rule for the standard dropping rule.\n\nThis is the sophisticated dropping rule:\n\tif the player is on a perch (called the awkward position)\n\tbegin;\n\t\tlet place be the holder of the awkward position;\n\t\tmove the noun to the place;\n\totherwise;\n\t\tmove the noun to the holder of the player;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> &quot;Swigmore U.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Suggestion relates things to each other. The verb to suggest (it suggests, they suggest, it is suggested) implies the suggestion relation.
+<blockquote><font color="#000080">Moe's Tavern is a room. The bar is an enterable supporter in Moe's. A drink is a kind of thing. On the bar is a drink called a flaming Homer.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A subject is a kind of thing. The current subject is a thing that varies. The current subject is greeting.
+<blockquote><font color="#000080">A perch is a kind of supporter. A perch is always enterable. The stool is a perch in Moe's.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;ask [someone] about [any subject]&quot; as asking it about the subject. Understand &quot;tell [someone] about [any subject]&quot; as asking it about the subject.
+<blockquote><font color="#000080">The player carries a dead field mouse and a tomacco fruit.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Asking it about the subject is an action applying to two things.
+<blockquote><font color="#000080">A procedural rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;substitute the sophisticated dropping rule for the standard dropping rule.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out asking it about the subject:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Hmm, [the second noun],' says [the noun]. &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;relate the current subject with the second noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current subject to the second noun.
-</font></blockquote><p>
-<p>
-<p>For that matter, we could use the same system to have characters make sense of any physical evidence the character shows them:
-<p>
-<blockquote><font color="#000080">Instead of showing something which suggests the current subject to someone:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The second noun] nods impatiently.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of showing something to someone:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let the next subject be the next step via the suggestion relation from the noun to the current subject;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the next subject is a subject
+<blockquote><font color="#000080">This is the sophisticated dropping rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is on a perch (called the awkward position)
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try asking the second noun about the subject the next subject;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let place be the holder of the awkward position;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the noun to the place;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The second noun] shrugs.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the noun to the holder of the player;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the left hand status line to &quot;Discussing: [current subject]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the right hand status line to &quot; &quot;.
+<p>Now the carry-out behavior of the dropping action has been changed, but we haven't had to interfere in the checks or reporting at all. The rest of the action works just as it always did.
+<p>
+<p>Of course, maybe we do want to change the way the action is reported, to make it clearer to the player where the dropped article wound up:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('A procedural rule:\n\tsubstitute the sophisticated report dropping rule for the standard report dropping rule.\n\nThis is the sophisticated report dropping rule:\n\tsay &quot;You drop [the noun] on [if the holder of the noun is a room]the ground[otherwise][the holder of the noun][end if].&quot;\n\n')"><img border=0 src=paste.png></a> A procedural rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;substitute the sophisticated report dropping rule for the standard report dropping rule.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Broughton Hall is a room. Lady Uckfield is a woman in Broughton Hall. &quot;Lady Uckfield sits at her desk, looking wholly composed.&quot;
+<blockquote><font color="#000080">This is the sophisticated report dropping rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You drop [the noun] on [if the holder of the noun is a room]the ground[otherwise][the holder of the noun][end if].&quot;
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The nasty letter is a thing carried by the player. The nasty letter suggests infidelity and penmanship. The ten-pound note is carried by the player. It suggests money.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Infidelity is a subject. Infidelity suggests marriage and divorce. Marriage suggests love. Marriage, love, and divorce are subjects.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Penmanship is a subject. Penmanship suggests education. Education is a subject. Class status and money are subjects. Class status suggests education. Money suggests class status and marriage.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The current subject is divorce.
-</font></blockquote><p>
-<p>
-<p>Now we can define what gets said when the subject is changed, regardless of whether the segue was introduced in speech or by a shown object. Since rows are blanked after use, the speaker will never repeat herself; if we provide more than one line about the same pair of topics, the first one will be used, then the second, and so on, until the table runs out:
-<p>
-<blockquote><font color="#000080">To relate (initial - a subject) with (next - a subject):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Remarks
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the initial is starting entry and the next is the final entry
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[comment entry][paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say paragraph break.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Table of Remarks
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">starting</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">final</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">comment</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">divorce</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">love</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'As it seems to me, all the love is on one side,' she says crisply. 'And that rarely works.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">divorce</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">love</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Stop making that plea: it won't work.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">divorce</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">infidelity</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Frankly, I rather think there would have been cause enough for divorce without the perversely plentiful evidence of unfaithfulness.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">marriage</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">money</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'If you wish me to understand that it was a marriage for money, you could have spared your energy. That was patent from the outset.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">infidelity</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">money</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I'm sorry, but I don't see how having married for money excuses a subsequent infidelity.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
-</font></blockquote><p>
-<p>
-<p>If we had more than one character in the scenario, we could provide multiple tables, but this will do to demonstrate the idea.
-<p>
-<p>Of course, we can override specific instances, if we want the character always to say the same thing regardless of how we came to this point:
-<p>
-<blockquote><font color="#000080">Instead of asking Lady Uckfield about the subject penmanship:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current subject to penmanship;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;She sighs. 'So few people write really beautifully these days.'&quot;
-</font></blockquote><p>
-<p>
-<p>We would have to be careful about this system, since we have applied a various-to-various relation to every single object in the game. In practice it would probably be wisest to restrict it a bit, with judicious definitions of kind and so on.
-</td></tr></table><p><p><hr><p><a href=doc179.html>Previous</a> / <a href=doc181.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc266.html>Previous</a> / <a href=doc268.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

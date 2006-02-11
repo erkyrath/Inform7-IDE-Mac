@@ -1,4 +1,4 @@
-<html><head><title>15.4. Standard tokens of grammar</title></head>
+<html><head><title>5.6. To be able to see and touch</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,58 +7,85 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc219.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc221.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.4. Standard tokens of grammar</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc67.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc69.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>5.6. To be able to see and touch</b></td></tr></table><p>
 <p>
-<p>We have already seen &quot;[something]&quot; and &quot;[someone]&quot;, which are standard examples of &quot;tokens of grammar&quot; - patterns matched by suitable named things. There are several other standard tokens, provided not so much from necessity but to allow the game parser to be more graceful and responsive. &quot;[someone]&quot; matches the same possibilities as &quot;[a person]&quot; would, but the parser handles it a little better in cases of failure. These special tokens are best explained by looking at some of the examples in the standard grammar, which can be browsed in the Index of any game.
+<p>Two of the adjectives built into Inform are:
 <p>
-<blockquote><font color="#000080">Understand &quot;wear [something held]&quot; as wearing.
+<blockquote><font color="#000080">&quot;visible&quot; - the player can see this
+<br>&quot;touchable&quot; - the player can touch this
 </font></blockquote><p>
 <p>
-<p>The named item must be held by the player, but the game will automatically pick it up if necessary, minimising nuisance.
+<p>So we can write descriptions such as &quot;someone visible&quot; or &quot;a touchable container&quot;. We also have adjectives &quot;invisible&quot; and &quot;untouchable&quot;, as might be expected. The visibility adjectives are particularly useful because the following is likely to go wrong:
 <p>
-<blockquote><font color="#000080">Understand &quot;take [things]&quot; as taking.
-<br>Understand &quot;drop [things held]&quot; as dropping.
+<blockquote><font color="#000080">if Helen is in a dark room, ...
 </font></blockquote><p>
 <p>
-<p>&quot;[things]&quot; is like &quot;[something]&quot; but allows a list of items, or a vague plural like &quot;all&quot;, to be typed. The result will be a sequence of actions, one for each item thus described. &quot;[things held]&quot; is the analogous token for &quot;[something held]&quot;.
+<p>This tests whether the room is dark, of itself; Helen may in fact be able to see by means of a torch, but the room is still &quot;dark&quot;.
 <p>
-<blockquote><font color="#000080">Understand &quot;take [things inside] from [something]&quot; as removing.
+<p>We can also talk about what other people can see and touch:
+<p>
+<blockquote><font color="#000080">something able to be seen by Helen
+<br>something which can be seen by Helen
 </font></blockquote><p>
 <p>
-<p>&quot;[things inside]&quot; matches only what is inside the second-named thing, and ensures that (for instance) the command &quot;take all from box&quot; does not also try to take the box.
+<p>are synonymous. Similarly for touch; and we can write such conditions as
 <p>
-<blockquote><font color="#000080">Understand &quot;put [other things] in/inside/into [something]&quot; as inserting it into.
+<blockquote><font color="#000080">if Helen is unable to see Agamemnon, ...
+<br>if Cressida can see Troilus, ...
 </font></blockquote><p>
 <p>
-<p>Similarly, &quot;[other things]&quot; will allow anything except the second-named thing.
-<p>(Like &quot;[things inside]&quot; it is really only needed for handling containers.)
+<p>Note that it is essential to establish who does the seeing and touching: so &quot;something which can be seen&quot; will not be allowed, whereas &quot;something which can be seen by Helen&quot; will.
+<p>
+<p>In fact, inside Inform the adjective &quot;invisible&quot; (for instance) has the following straightforward definition:
+<p>
+<blockquote><font color="#000080">Definition: Something is invisible if the player cannot see it.
+</font></blockquote><p>
+<p>
+<p>The exact definitions of visibility and touchability are complicated, because there are so many ways in which vision and touch can be obstructed, but the gist is that they behave as one would expect. Note that in darkness, nothing is visible, and that nobody can see from one room to another. In general anything invisible is also untouchable, but there are a few exceptions to do with being in the dark. Lastly, the player's own body (the player-character object, which is called &quot;yourself&quot; during play) is both visible (in light) and touchable.
+<p>
+<p><hr><img border=0 src=beta.png>One day &quot;something which Helen can see&quot; will be allowed, I hope, but for the moment &quot;who&quot; and &quot;which&quot; must be directly followed by the verb.
 <p>
 <p><hr><p>
-<a name="e76"><a href=ex76.html#e76><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A (very) simple HELP command, using tokens to accept and interpret the player's  text whatever it might be.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e80"><a href=doc220.html#e80><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Allowing the player to EXAMINE ALL.</i><p>
+<a name="e91"><a href=ex91.html#e91><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Changing the way dark rooms are described to avoid the standard Inform phrasing.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e80"><a href=doc68.html#e80><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A thief who will identify and take any valuable thing lying around that he is able to touch.</i><p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Shawn\'s Bad Day&quot;\n\nThe Treasury is a room. The vault is a lockable locked closed openable container in the Treasury. It is fixed in place. &quot;A massive vault fills up one wall.&quot; The description is &quot;The vault\'s system includes [list of things which are part of the vault].&quot;\n\nA little green light, a little blue light, a little red light, a thin black pane of glass, a laser beam, a retinal scanner, a thumbprint ID plate, a dial, and a large lever are part of the vault.\n\nThe security guard is a man in the Treasury. The description is &quot;His name is Shawn, and he doesn\'t look happy.&quot;\n\nThe description of the green light is &quot;Off.&quot; The description of the blue light is &quot;Tranquilly on.&quot; The description of the red light is &quot;Angrily flashing.&quot;\n\nUnderstand &quot;examine [things]&quot; as multiply examining.\n\nMultiply examining is an action applying to one thing.\n\nCarry out multiply examining:\n\ttry examining the noun.\n\n')"><img border=0 src=paste.png></a> &quot;Shawn's Bad Day&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Lean and Hungry&quot;\n\nSubstance is a kind of value. The substances are silver, gold, and lead. Everything has a substance. A thing is usually lead.\n\nDefinition: a thing is valuable if it is not lead.\n\nThe Limestone Cave is a room. &quot;Not very big, and it doesn\'t go back far, but you\'d hoped to find some shelter here. Outside it is raining exceptionally hard.&quot;\n\nThe sinister gentleman is a man in the Cave. &quot;Leaning against the wall is a sinister gentleman in a threadbare waistcoat.&quot; The description is &quot;He looks as though he might once have been quite well off.&quot;\n\nAfter examining someone:\n\tsay &quot;[The noun] smiles back at you in an unnerving fashion.&quot;\n\n[Now we make the rule that governs the gentleman\'s behavior. Here we\'re going to invoke the rules that allow characters besides the player to do actions. More about this can be found in the Advanced Actions chapter:]\n\nEvery turn:\n\tif the sinister gentleman can touch something valuable (called the treasure) which is not carried by a person\n\tbegin;\n\t\ttry the gentleman trying taking the treasure;\n\tend if.\n\nReport the gentleman trying taking something:\n\t\tsay &quot;[The gentleman] slyly acquires [the noun] and tucks it into his pocket.&quot; instead.\n\n[That &quot;not carried by a person&quot; prevents the gentleman from stealing from the player (or, less plausibly, from himself). If we did want him to pick pockets, we could just have said &quot;which is not carried by the gentleman&quot;.]\n\nThe player is carrying a coin, a bust of Abraham Lincoln, a bottle of sherry, a small pistol, and a wad of Confederate cash. The coin is gold. The pistol is silver.\n\nA locket is in the Cave. The locket is gold. &quot;A broken gold locket lies on the ground, a token of your late Mama.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Lean and Hungry&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Treasury is a room. The vault is a lockable locked closed openable container in the Treasury. It is fixed in place. &quot;A massive vault fills up one wall.&quot; The description is &quot;The vault's system includes [list of things which are part of the vault].&quot;
+<blockquote><font color="#000080">Substance is a kind of value. The substances are silver, gold, and lead. Everything has a substance. A thing is usually lead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A little green light, a little blue light, a little red light, a thin black pane of glass, a laser beam, a retinal scanner, a thumbprint ID plate, a dial, and a large lever are part of the vault.
+<blockquote><font color="#000080">Definition: a thing is valuable if it is not lead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The security guard is a man in the Treasury. The description is &quot;His name is Shawn, and he doesn't look happy.&quot;
+<blockquote><font color="#000080">The Limestone Cave is a room. &quot;Not very big, and it doesn't go back far, but you'd hoped to find some shelter here. Outside it is raining exceptionally hard.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The description of the green light is &quot;Off.&quot; The description of the blue light is &quot;Tranquilly on.&quot; The description of the red light is &quot;Angrily flashing.&quot;
+<blockquote><font color="#000080">The sinister gentleman is a man in the Cave. &quot;Leaning against the wall is a sinister gentleman in a threadbare waistcoat.&quot; The description is &quot;He looks as though he might once have been quite well off.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;examine [things]&quot; as multiply examining.
+<blockquote><font color="#000080">After examining someone:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] smiles back at you in an unnerving fashion.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Multiply examining is an action applying to one thing.
+<p>Now we make the rule that governs the gentleman's behavior. Here we're going to invoke the rules that allow characters besides the player to do actions. More about this can be found in the Advanced Actions chapter:
+<p>
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the sinister gentleman can touch something valuable (called the treasure) which is not carried by a person
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try the gentleman trying taking the treasure;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out multiply examining:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try examining the noun.
+<blockquote><font color="#000080">Report the gentleman trying taking something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The gentleman] slyly acquires [the noun] and tucks it into his pocket.&quot; instead.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc219.html>Previous</a> / <a href=doc221.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>That &quot;not carried by a person&quot; prevents the gentleman from stealing from the player (or, less plausibly, from himself). If we did want him to pick pockets, we could just have said &quot;which is not carried by the gentleman&quot;.
+<p>
+<blockquote><font color="#000080">The player is carrying a coin, a bust of Abraham Lincoln, a bottle of sherry, a small pistol, and a wad of Confederate cash. The coin is gold. The pistol is silver.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A locket is in the Cave. The locket is gold. &quot;A broken gold locket lies on the ground, a token of your late Mama.&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc67.html>Previous</a> / <a href=doc69.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

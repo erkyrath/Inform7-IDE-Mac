@@ -1,4 +1,4 @@
-<html><head><title>6.4. Instead rules</title></head>
+<html><head><title>11.3. Giving instructions to other people</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,26 +7,79 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc75.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc77.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>6.4. Instead rules</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc154.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc156.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.3. Giving instructions to other people</b></td></tr></table><p>
 <p>
-<p>An action is ordinarily handled by running it through Inform's extensive rulebooks of what might be called normal behaviour. An action such as &quot;taking the napkin&quot;, for instance, will be run through numerous checks to see if it is physically reasonable, and then provided all is well, the napkin will be moved into the possession of the player.
+<p>So far, all actions have been carried out by the player: which is fine for exploring the passive world of an empty warehouse, but less good for a drama in which other characters have to be contended with. In fact, an action can be carried out by anybody - by any instance of the &quot;person&quot; kind, that is, which includes all the men, women and animals in the game, and not only the player.
 <p>
-<p>Instead, though, we can bypass that whole process and do something else:
+<p>In interactive fiction, players conventionally ask other characters to do something with commands like so:
 <p>
-<blockquote><font color="#000080">Instead of eating the napkin: say &quot;Why not wait for the actual dinner to arrive?&quot;
+<blockquote><font color="#000080">> will, go west
 </font></blockquote><p>
 <p>
-<p>This is an example of a &quot;rule&quot;: a set of circumstances followed by a list of instructions. When those circumstances apply, the instructions are carried out. In the case of an &quot;instead&quot; rule, after this is done the action is immediately ended (and counts as a failure, since the original intention has been thwarted).
+<p>Clearly &quot;will, go west&quot; should not produce the same action as &quot;go west&quot;, because a different person will be trying it: this person is called the &quot;actor&quot;, and while the actor is ordinarily the player, here it is the character called Will. Inform distinguishes these two actions like so:
 <p>
-<p>A friendly alternative can be used when there is only a single instruction, as here: in such rules the colon can be replaced with a comma. Thus:
-<p>
-<blockquote><font color="#000080">Instead of eating the napkin, say &quot;Why not wait for the actual dinner to arrive?&quot;
+<blockquote><font color="#000080">going west
+<br>asking Will to try going west
 </font></blockquote><p>
+<p>
+<p>As a result, we can write rules like so:
+<p>
+<blockquote><font color="#000080">Instead of asking Will to try going west, say &quot;Will scratches his head, baffled by this talk of westward. Is not the ocean without bound?&quot;
+</font></blockquote><p>
+<p>
+<p>To write rules like this, we sometimes want to generalise about who is supposed to do the deed. To do this we can refer to &quot;person asked&quot;, just as the &quot;noun&quot; stands for whatever noun was typed:
+<p>
+<blockquote><font color="#000080">Instead of asking somebody to take something, say &quot;I don't think we ought to tempt [the person asked] into theft, surely?&quot;
+</font></blockquote><p>
+<p>
+<p>So if the player types &quot;Algy, take sandwich&quot;, the &quot;person asked&quot; would be Algy; the &quot;noun&quot; would be the sandwich; and there would be no &quot;second noun&quot;.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e89"><a href=doc76.html#e89><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Change the player's appearance in response to EXAMINE ME.</i><p>
+<a name="e194"><a href=ex194.html#e194><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Defining certain kinds of behavior as inappropriate, so that other characters will refuse indignantly to do any such thing.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e89"><a href=doc155.html#e89><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A person who can accept instructions to go to new destinations and move towards them according to the most reasonable path.</i><p>
 <p>
-<blockquote><font color="#000080">Instead of examining the player:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh, stop fussing. You look fine.&quot;
+<p>Here we complete our suite of wandering people with a character who can find his way to any destination on the map.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Latris Theon&quot;\n\nCorinth is a room. Athens is east of Corinth. Epidaurus is southeast of Corinth and east of Mycenae. Mycenae is south of Corinth. Olympia is west of Mycenae. Argos is south of Mycenae. Thebes is northwest of Athens. Pylos is south of Olympia. Sparta is east of Pylos and south of Argos. Delphi is northwest of Thebes.\n\nHermes is a man in Corinth. Hermes has a property called destination.\n\nEvery turn when the destination of Hermes is a room:\n\tif Hermes is in a room (called the current space)\n\tbegin;\n\t\tif the current space is the destination of Hermes, rule succeeds;\n\t\tlet the right direction be the best route from the current space to the destination of Hermes;\n\t\ttry Hermes trying going the right direction;\n\tend if.\n\n[Now, we give the player the ability to command Hermes.]\n\nUnderstand &quot;go to [any room]&quot; as going vaguely.\n\nGoing vaguely is an action applying to one visible thing.\n\nCarry out someone trying going vaguely:\n\tchange the destination of the person asked to the noun.\n\nReport someone trying going vaguely:\n\tsay &quot;[The person asked] looks amused, but accepts the commission to go to [the noun].&quot;;\n\nPersuasion rule for asking Hermes to try going vaguely: persuasion succeeds.\n\n[It stands to reason the player plays Zeus or at the very least Apollo, but let\'s not let this go to the player\'s head:]\n\nCarry out going vaguely:\n\tsay &quot;You\'re too thoroughly lost.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Latris Theon&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc75.html>Previous</a> / <a href=doc77.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Corinth is a room. Athens is east of Corinth. Epidaurus is southeast of Corinth and east of Mycenae. Mycenae is south of Corinth. Olympia is west of Mycenae. Argos is south of Mycenae. Thebes is northwest of Athens. Pylos is south of Olympia. Sparta is east of Pylos and south of Argos. Delphi is northwest of Thebes.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Hermes is a man in Corinth. Hermes has a property called destination.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when the destination of Hermes is a room:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if Hermes is in a room (called the current space)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the current space is the destination of Hermes, rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the right direction be the best route from the current space to the destination of Hermes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try Hermes trying going the right direction;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>Now, we give the player the ability to command Hermes.
+<p>
+<blockquote><font color="#000080">Understand &quot;go to [any room]&quot; as going vaguely.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Going vaguely is an action applying to one visible thing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out someone trying going vaguely:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the destination of the person asked to the noun.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report someone trying going vaguely:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The person asked] looks amused, but accepts the commission to go to [the noun].&quot;;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Persuasion rule for asking Hermes to try going vaguely: persuasion succeeds.
+</font></blockquote><p>
+<p>
+<p>It stands to reason the player plays Zeus or at the very least Apollo, but let's not let this go to the player's head:
+<p>
+<blockquote><font color="#000080">Carry out going vaguely:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're too thoroughly lost.&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc154.html>Previous</a> / <a href=doc156.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

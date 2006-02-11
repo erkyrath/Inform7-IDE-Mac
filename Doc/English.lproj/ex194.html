@@ -1,0 +1,52 @@
+<html><head><title>11.3. Giving instructions to other people</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc154.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc156.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.3. Giving instructions to other people</b></td></tr></table><p>
+<p>
+<p>So far, all actions have been carried out by the player: which is fine for exploring the passive world of an empty warehouse, but less good for a drama in which other characters have to be contended with. In fact, an action can be carried out by anybody - by any instance of the &quot;person&quot; kind, that is, which includes all the men, women and animals in the game, and not only the player.
+<p>
+<p>In interactive fiction, players conventionally ask other characters to do something with commands like so:
+<p>
+<blockquote><font color="#000080">> will, go west
+</font></blockquote><p>
+<p>
+<p>Clearly &quot;will, go west&quot; should not produce the same action as &quot;go west&quot;, because a different person will be trying it: this person is called the &quot;actor&quot;, and while the actor is ordinarily the player, here it is the character called Will. Inform distinguishes these two actions like so:
+<p>
+<blockquote><font color="#000080">going west
+<br>asking Will to try going west
+</font></blockquote><p>
+<p>
+<p>As a result, we can write rules like so:
+<p>
+<blockquote><font color="#000080">Instead of asking Will to try going west, say &quot;Will scratches his head, baffled by this talk of westward. Is not the ocean without bound?&quot;
+</font></blockquote><p>
+<p>
+<p>To write rules like this, we sometimes want to generalise about who is supposed to do the deed. To do this we can refer to &quot;person asked&quot;, just as the &quot;noun&quot; stands for whatever noun was typed:
+<p>
+<blockquote><font color="#000080">Instead of asking somebody to take something, say &quot;I don't think we ought to tempt [the person asked] into theft, surely?&quot;
+</font></blockquote><p>
+<p>
+<p>So if the player types &quot;Algy, take sandwich&quot;, the &quot;person asked&quot; would be Algy; the &quot;noun&quot; would be the sandwich; and there would be no &quot;second noun&quot;.
+<p>
+<p><hr><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e194"><a href=doc155.html#e194><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Defining certain kinds of behavior as inappropriate, so that other characters will refuse indignantly to do any such thing.</i><p>
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Virtue&quot;\n\nThe Cloister is a room. Lady Teresa is a woman in the Cloister. Mother Margaret is a woman in the Cloister.\n\nAttacking someone is misbehavior. Kissing someone is misbehavior.\n\nInstead of asking someone to try misbehavior: say &quot;[The person asked] stiffens, offended by your suggestion.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Virtue&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Cloister is a room. Lady Teresa is a woman in the Cloister. Mother Margaret is a woman in the Cloister.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Attacking someone is misbehavior. Kissing someone is misbehavior.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of asking someone to try misbehavior: say &quot;[The person asked] stiffens, offended by your suggestion.&quot;
+</font></blockquote><p>
+</td></tr></table><p><a name="e89"><a href=ex89.html#e89><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A person who can accept instructions to go to new destinations and move towards them according to the most reasonable path.</i><p>
+<p><hr><p><a href=doc154.html>Previous</a> / <a href=doc156.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

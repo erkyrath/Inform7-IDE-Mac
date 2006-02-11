@@ -1,0 +1,100 @@
+<html><head><title>13.6. Units</title></head>
+<body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
+function pasteCode(code) {
+    var myProject = window.Project;
+
+    myProject.selectView('source');
+    myProject.pasteCode(code);
+}
+</script>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc189.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc191.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>13.6. Units</b></td></tr></table><p>
+<p>
+<p>Some of the examples in the last few sections were slightly strained because they used numbers where an English speaker not quite do so. We tend not to say &quot;Isabella has height 68&quot;: we would more normally say &quot;Isabella is 5 foot 8.&quot; Perhaps the computer will need to store that measurement as the number 68 in some register or other, but we really don't want to know that.
+<p>
+<p>Inform allows us to create new, basically numerical kinds of value, like so:
+<p>
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight.
+</font></blockquote><p>
+<p>
+<p>By contrast, the kinds of value seen so far have been set up thus:
+<p>
+<blockquote><font color="#000080">A colour is a kind of value. The colours are red, green and blue.
+</font></blockquote><p>
+<p>
+<p>We can choose to make a new kind of value of either variety, but we can't mix the two in the same kind: it will either be numerical at heart (&quot;10kg&quot;) or verbal at heart (&quot;blue&quot;).
+<p>
+<p>The effect of &quot;10kg specifies a weight&quot; is to tell Inform that text matching this form is a constant value of kind &quot;weight&quot;. So, for instance,
+<p>
+<blockquote><font color="#000080">The maximum load is a weight that varies. The maximum load is 8000kg.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">if the maximum load <= 8000kg, ...
+</font></blockquote><p>
+<p>
+<p>Weights behave just like numbers in the ways we can compare them: but Inform respects the fact that a weight is not just any number, so it would not allow us to compare (say) &quot;8000kg&quot; and &quot;5 foot 8&quot;. Weights can meaningfully be compared only with other weights.
+<p>
+<p>We can also say weights:
+<p>
+<blockquote><font color="#000080">The Weighbridge is a room. &quot;A sign declares that the maximum load is [maximum load].&quot;
+</font></blockquote><p>
+<p>
+<p>...which will produce the text &quot;A sign declares that the maximum load is 8000kg.&quot;
+<p>
+<p><hr><p>
+<a name="e179"><a href=ex179.html#e179><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>The player character's height is selected randomly at the start of play.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e148"><a href=doc190.html#e148><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Hiking Mount Rainier, with attention to which locations are higher and which lower than the present location.</i><p>
+<p>
+<p>Suppose we have a landscape with a great deal of up and down variation, where GO UP and GO DOWN will be significant almost everywhere, and specifying them all individually a tremendous pain:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Wonderland&quot;\n\nAn altitude is a kind of value. 1000 feet specifies an altitude. A room has an altitude.\n\nDefinition: a room is low if its altitude is 3000 feet or less. Definition: a room is high if its altitude is 5000 feet or more.\n\nInstead of going down:\n\tif an adjacent room is lower than the location\n\tbegin;\n\t\tlet the valley be the lowest adjacent room;\n\t\tlet the way be the best route from the location to the valley;\n\t\tsay &quot;(that is, [way])[line break]&quot;;\n\t\ttry going the way;\n\totherwise;\n\t\tsay &quot;You\'re in a local valley: there\'s no down from here.&quot;;\n\tend if.\n\nInstead of going up:\n\tif an adjacent room is higher than the location\n\tbegin;\n\t\tlet the peak be the highest adjacent room;\n\t\tlet the way be the best route from the location to the peak;\n\t\tsay &quot;(that is, [way])[line break]&quot;;\n\t\ttry going the way;\n\totherwise;\n\t\tsay &quot;You\'re on a local peak.&quot;;\n\tend if.\n\n\nParadise is a room. Paradise has altitude 5400 feet. &quot;A handsome parking lot, a picnic ground, and the Henry M. Jackson Memorial Visitor Center. The latter offers, for serious climbers, a hot shower; for nature enthusiasts, an interpretive museum; and for car-trippers, a gift shop selling canned slugs. All of which is a largely unsuccessful distraction from the peak of Mt. Rainier beyond.&quot;\n\nCougar Rock is southwest of Paradise. The altitude of Cougar Rock is 3180 feet. &quot;Numerous individual campsites and (on the road inventively labeled \'F\') a handful of larger campgrounds suitable for church groups and family reunions.&quot;\n\nLongmire is southwest of Cougar Rock. It has altitude 2760 feet. &quot;A tiny town: it has to offer a few groceries, a post office, and a lodge for people who do not care to camp, all built in a rustic Park Service way.&quot;\n\nPanorama Point is north of Paradise. It has altitude 6800 feet. Camp Muir is north of Panorama Point. It has altitude 10188 feet. Columbia Crest is northwest of Camp Muir. It has altitude 14410 feet. St Andrews Rock is west of Columbia Crest. It has altitude 10992 feet. Camp Schuman is northeast of Columbia Crest. It has altitude 9510 feet.\n\n[Since Mount Rainier National Park runs to over 235,000 acres, we will omit the rest of the locations, but it does seem fair to give a little more credit to anyone who makes the summit:]\n\nInstead of going up in the highest room:\n\tsay &quot;You\'re standing at the summit of Mt. Rainier, the highest point in the state of Washington. There is no up.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Wonderland&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">An altitude is a kind of value. 1000 feet specifies an altitude. A room has an altitude.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: a room is low if its altitude is 3000 feet or less. Definition: a room is high if its altitude is 5000 feet or more.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going down:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if an adjacent room is lower than the location
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the valley be the lowest adjacent room;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the way be the best route from the location to the valley;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(that is, [way])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try going the way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're in a local valley: there's no down from here.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going up:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if an adjacent room is higher than the location
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the peak be the highest adjacent room;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the way be the best route from the location to the peak;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(that is, [way])[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try going the way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're on a local peak.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>
+<blockquote><font color="#000080">Paradise is a room. Paradise has altitude 5400 feet. &quot;A handsome parking lot, a picnic ground, and the Henry M. Jackson Memorial Visitor Center. The latter offers, for serious climbers, a hot shower; for nature enthusiasts, an interpretive museum; and for car-trippers, a gift shop selling canned slugs. All of which is a largely unsuccessful distraction from the peak of Mt. Rainier beyond.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Cougar Rock is southwest of Paradise. The altitude of Cougar Rock is 3180 feet. &quot;Numerous individual campsites and (on the road inventively labeled 'F') a handful of larger campgrounds suitable for church groups and family reunions.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Longmire is southwest of Cougar Rock. It has altitude 2760 feet. &quot;A tiny town: it has to offer a few groceries, a post office, and a lodge for people who do not care to camp, all built in a rustic Park Service way.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Panorama Point is north of Paradise. It has altitude 6800 feet. Camp Muir is north of Panorama Point. It has altitude 10188 feet. Columbia Crest is northwest of Camp Muir. It has altitude 14410 feet. St Andrews Rock is west of Columbia Crest. It has altitude 10992 feet. Camp Schuman is northeast of Columbia Crest. It has altitude 9510 feet.
+</font></blockquote><p>
+<p>
+<p>Since Mount Rainier National Park runs to over 235,000 acres, we will omit the rest of the locations, but it does seem fair to give a little more credit to anyone who makes the summit:
+<p>
+<blockquote><font color="#000080">Instead of going up in the highest room:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're standing at the summit of Mt. Rainier, the highest point in the state of Washington. There is no up.&quot;
+</font></blockquote><p>
+</td></tr></table><p><p><hr><p><a href=doc189.html>Previous</a> / <a href=doc191.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

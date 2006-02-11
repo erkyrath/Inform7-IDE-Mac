@@ -1,4 +1,4 @@
-<html><head><title>12.2. What sentences are made up from</title></head>
+<html><head><title>12.1. Sentence verbs</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,22 +7,43 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc169.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc171.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.2. What sentences are made up from</b></td></tr></table><p>
+<h2>Chapter 12: Relations</h2><p><table><tr width="100%"><td width=80 valign="top"><a href=doc169.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc171.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>12.1. Sentence verbs</b></td></tr></table><p>
 <p>
-<p>A sentence consists of two nouns with a verb between them. Usually, the two nouns are descriptions, as in:
+<p>Descriptions of things - &quot;open door&quot;, &quot;people in the Drawing Room&quot; - had a whole chapter (Chapter 5) to themselves. But descriptions are only half of the story of Inform's highly flexible language for talking about places, things and circumstances: this chapter is the other half, and is about the &quot;sentence&quot;. Of course all text is made up of sentences, but Inform has a more specific meaning than that. Consider the following pieces of source text:
 <p>
-<blockquote><font color="#000080">Mr Collins is in a lighted room.
+<blockquote><font color="#000080">The mouse is in the teapot.
 </font></blockquote><p>
 <p>
-<p>Here &quot;Mr Collins&quot; and &quot;a lighted room&quot; are descriptions, the full rules for which were given in Chapter 5. But there are sentences where one or both of the nouns is a value instead. For instance, in
-<p>
-<blockquote><font color="#000080">if the score is greater than 10, ...
+<blockquote><font color="#000080">Every turn when the mouse is in the teapot, say &quot;A tail hangs out of the spout.&quot;
 </font></blockquote><p>
 <p>
-<p>the sentence &quot;the score is greater than 10&quot; consists of two values (&quot;the score&quot; and &quot;10&quot;) connected by a verb part (&quot;is greater than&quot;).
+<blockquote><font color="#000080">Instead of taking the mouse:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The mouse slips from your hand and disappears into the teapot!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the mouse is in the teapot.
+</font></blockquote><p>
 <p>
-<p>This chapter is about getting the most out of sentences by defining new verbs to express ideas not already built in to Inform. Before we can define a new sentence verb, however, we must first look at the meanings of verbs: which Inform calls &quot;relations&quot;.
+<p>What these three extracts have in common is the sentence &quot;the mouse is in the teapot&quot;. Such a sentence can be used in three different ways: to declare the original state of the world, to ask during play if the world currently has that state, or to change things during play so that it does.
 <p>
-<p><hr><p>
-<a name="e62"><a href=ex62.html#e62><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A more formal description of the sentence grammar used by Inform for both assertions and conditions.</i><p>
+<p>Actually, though, only definite sentences about the present can be used in all three ways. A vague instruction like
+<p>
+<blockquote><font color="#000080">now Mr Darcy can see the mouse;
+</font></blockquote><p>
+<p>
+<p>will fail, because there are so many ways in which Darcy might be able to see the mouse that Inform has no way to know how to arrange matters. And this by contrast is not merely difficult but impossible:
+<p>
+<blockquote><font color="#000080">now Mr Darcy has never seen the mouse;
+</font></blockquote><p>
+<p>
+<p>Which cannot be arranged because the past cannot be changed.
+<p>
+<p>Verbs also turn up inside the more complicated descriptions. For instance,
+<p>
+<blockquote><font color="#000080">things which are in the teapot
+<br>people who can see the mouse
+</font></blockquote><p>
+<p>
+<p>are both descriptions, not sentences, but they contain &quot;to be&quot; and &quot;to be able to see&quot; respectively.
+<p>
+<p>This chapter is about the verbs which can be used in sentences and descriptions. Inform involves many other features which use verbs - the action &quot;taking the mouse&quot; and the phrase &quot;award two points&quot; both use forms of verbs (to take and to award) - but this chapter has nothing to do with them: so for the sake of clarity, we will call verbs that occur in sentences &quot;sentence verbs&quot;.
+<p>
 <p><hr><p><a href=doc169.html>Previous</a> / <a href=doc171.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

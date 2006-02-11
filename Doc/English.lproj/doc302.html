@@ -1,4 +1,4 @@
-<html><head><title>19.17. The return context</title></head>
+<html><head><title>19.10. Headings and subheadings</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,18 +7,17 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc301.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc303.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>19.17. The return context</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc301.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc303.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.10. Headings and subheadings</b></td></tr></table><p>
 <p>
-<p>I7 has a number of conceptually different ways to define code - as phrases which are not compiled inline, as phrases to decide conditions, as rules and so on. All these are compiled to I6 routines, and return values have different meanings in the different cases. For type-checking reasons, I7 needs to detect when a return might occur in order to make sure that a condition does not end with the wrong kind of result, and so on.
+<p>Every extension, including the Standard Rules, has the right to its own set of headings and subheadings, independently of those used by the main source for the work or by any other extension which may be included. So if the extension is divided into four sections and finishes on Section D, say, that doesn't mean that Section D will continue outside the extension as the main source of the game runs on.
 <p>
-<p>Inline phrases which cause a return should declare what happens like so:
+<p>Extensions should, of course, never produce errors, so at first sight it appears that these headings will never be outwardly visible. In fact, though, they are used when indexing phrases (and also actions) to group similar phrases together. For instance, the Standard Rules contain the heading:
 <p>
-<blockquote><font color="#000080">To stop the action: (- rtrue; -) - outcome.
+<blockquote><font color="#000080">Section SR4/7 - Searching and sorting tables
 </font></blockquote><p>
 <p>
-<p>&quot;Outcome&quot;, used for rules, is one of four possibilities. The others are &quot;void&quot; (a return with no value), &quot;value&quot; (with a value) or &quot;condition&quot; (used to signal a result of a phrase to decide whether something is true). Thus the phrases &quot;yes&quot; and &quot;stop the action&quot; have the same definition, but a different context:
+<p>The half-dozen phrases defined in this section of the Standard Rules are then indexed under the subheading &quot;Searching and sorting tables&quot;: Inform looks for a hyphen in the heading and then uses any text which follows the hyphen. (If there is no hyphen, the entire heading text is used.)
 <p>
-<blockquote><font color="#000080">To yes: (- rtrue; -) - condition.
-</font></blockquote><p>
+<p>If an extension contains no headings, its phrases (or actions) are indexed simply as &quot;Miscellaneous&quot;.
 <p>
 <p><hr><p><a href=doc301.html>Previous</a> / <a href=doc303.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

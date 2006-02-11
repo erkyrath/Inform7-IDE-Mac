@@ -1,4 +1,4 @@
-<html><head><title>15.14. Understanding things by their properties</title></head>
+<html><head><title>3.22. Concealment</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,107 +7,93 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc229.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc231.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.14. Understanding things by their properties</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc43.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc45.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>3.22. Concealment</b></td></tr></table><p>
 <p>
-<p>Items are ordinarily understood only by their original given names. For instance, if we have:
+<p>Though realism can become tiresome in interactive fiction, there are times when we cannot go along with Inform's normal assumption that all of a person's possessions are visible to everybody else. People are not like containers, which either show all of their holdings or not, according to whether they are open or transparent. If a man is carrying a fishing rod and a wallet, one will be on open show, the other not. Some clothing is outwardly visible, but not all.
 <p>
-<blockquote><font color="#000080">In the Herb Garden is a china pot.
+<p>Whether or not something is concealed is not like the either/or properties we have seen so far - such as being &quot;open&quot; or &quot;closed&quot; - because it is not really a property of the thing itself, but depends on the habitual behaviour of its current owner. To talk about behaviour we have to use sentences of a kind not seen so far, and which will not fully be explained for some chapters to come.
+<p>But straightforward cases are easy to write, if only by imitating the following examples.
+<p>
+<p>Here we make the Cloaked Villain invariably conceal anything she is holding or wearing:
+<p>
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: yes.
 </font></blockquote><p>
 <p>
-<p>then the player could refer to this as &quot;pot&quot;, &quot;china pot&quot; or &quot;china&quot;. We can embellish this by adding extra forms:
+<p>At which point we think about it more carefully, and then rewrite:
 <p>
-<blockquote><font color="#000080">Understand &quot;chinese pot&quot; or &quot;chinese vase&quot; as the china pot.
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: if the particular possession is the sable cloak, no; otherwise yes.
 </font></blockquote><p>
 <p>
-<p>But suppose the pot changes its nature in the course of play? If we have:
+<p>Parts are treated exactly as if clothes or items being held, and the following will make the face and inscription on a coin invisible unless the player is holding it - the idea being that they are too small to be seen from farther away.
 <p>
-<blockquote><font color="#000080">The china pot can be unbroken or broken. The china pot is unbroken. After dropping the china pot: say &quot;Crack!&quot;; now the china pot is broken; change the printed name of the pot to &quot;broken pot&quot;.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, yes; otherwise no.\n\n\n')"><img border=0 src=paste.png></a> The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, yes; otherwise no.
 </font></blockquote><p>
-<p>
-<p>So now the player would reasonably expect to call it &quot;broken pot&quot;, a wording which would have been rejected before. We can achieve this by writing:
-<p>
-<blockquote><font color="#000080">Understand the unbroken property as describing the pot.
-</font></blockquote><p>
-<p>
-<p>which allows &quot;unbroken&quot; or &quot;broken&quot; to describe the pot, depending on its state. This is something of a toy example, but the feature looks rather more useful when there are more pots than just one:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Terracotta&quot;\n\nA flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.\n\nAfter dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.\n\nThe Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.\n\n\n')"><img border=0 src=paste.png></a> &quot;Terracotta&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.
-</font></blockquote><p>
-<p>
-<p>We then have the dialogue:
-<p>
-<blockquote><font color="#000080">Herb Garden
-<br>You can see ten flowerpots here.
-<br>>get two flowerpots
-<br>flowerpot: Taken.
-<br>flowerpot: Taken.
-<br>>drop all
-<br>flowerpot: Crack!
-<br>flowerpot: Crack!
-<br>>look
-<br>Herb Garden
-<br>You can see two broken flowerpots and eight flowerpots here.
-<br>>get an unbroken flowerpot
-<br>Taken.
-</font></blockquote><p>
-<p>
-<p>and so on and so forth.
-<p>
-<p>There are in fact two slightly different forms of this kind of sentence:
-<p>
-<blockquote><font color="#000080">Understand the broken property as describing a flowerpot.
-<br>Understand the broken property as referring to a flowerpot.
-</font></blockquote><p>
-<p>
-<p>The only difference is that in the &quot;describing&quot; case, the property's name alone can mean the thing in question - so &quot;take unbroken&quot; will work; whereas, in the &quot;referring to&quot;, the property's name can only be used as an adjective preceding the name of thing itself - so &quot;take unbroken flowerpot&quot; will work but &quot;take unbroken&quot; will not.
-<p>
-<p><hr><img border=0 src=beta.png>At present, the implementation of this feature has a restriction: if we define a new kind of value (say, colour) and give it to something as a property, then define a new textual form of one of those values (say making &quot;crimson&quot; a synonym for &quot;red&quot;), this new textual form will not be understood when used adjectivally in the above way.
 <p>
 <p><hr><p>
-<a name="e53"><a href=ex53.html#e53><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>The flowerpots once again, but this time arranged so that after the first breakage all undamaged pots are said to be "unbroken", to distinguish them from the others.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e87"><a href=doc230.html#e87><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>The peers of the English realm come in six flavours - Baron, Viscount, Earl, Marquess, Duke and Prince - and must always be addressed properly. While a peerage is for life, it may at the royal pleasure be promoted.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e87"><a href=doc44.html#e87><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A smuggler who has items, some of which are hidden.</i><p>
 <p>
-<p>Almost all of this example is the flummery of pomp and circumstance: only the first two paragraphs really do anything.
+<p>Suppose we want a character who carries hidden objects, but only while he is wearing his jacket. If we deprive him of this, his other possessions become known. Furthermore, if we ever search him, his possessions also become known, and can thereafter be mentioned by us.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Peers&quot; by Elizabeth II R\n\nA title is a kind of value. The titles are Baron, Viscount, Earl, Marquess, Duke and Prince.\n\nA peer is a kind of man. A peer has a title. A peer is usually a Baron. Before printing the name of a peer, say &quot;[title] &quot;. Understand the title property as describing a peer.\n\nThe House of Lords is a room. Maltravers, Pollifax, Omnium and St Vincent are peers in the House of Lords. Omnium is a Duke. St Vincent is an Earl.\n\nEnnobling is an action applying to one thing and one title.\n\nCheck ennobling:\n\tif the noun is the player, say &quot;The Sovereign is the fountain of honour, and may not be ennobled.&quot; instead;\n\tif the noun is not a peer, say &quot;Commoners should remain so.&quot; instead;\n\tif the title of the noun is the title understood, say &quot;But that is his title already.&quot; instead;\n\tif the title of the noun is greater than the title understood, say &quot;As he is already of the rank of [title of the noun], any such letters patent are liable to be deemed invalid, following the precedent of the Buckhurst Peerage Case (1876). Best not.&quot; instead.\n\nCarry out ennobling:\n\tchange the title of the noun to the title understood.\n\nReport ennobling:\n\tsay &quot;\'Whereas Our Parliament for arduous and urgent affairs concerning Us the state and defence of Our United Kingdom and the Church is now met at Our City of Westminster We strictly enjoining Command you upon the faith and allegiance by which you are bound to Us that the weightness of the said affairs and imminent perils considered (waiving all excuses) you be at the said day and place personally present with Us and with the said Prelates Great Men and Peers to treat and give your counsel upon the affairs aforesaid And this as you regard Us and Our honour and the safety and defence of the said Kingdom and Church and dispatch of the said affairs in nowise do you omit Witness Ourself at Westminster the Fifth day of November in the 43rd year of Our Reign,\' you say, with unpunctuated serenity. The new [noun] bows stiffly.&quot;\n\nUnderstand &quot;dub [someone] a/an [title]&quot; as ennobling.\n\n')"><img border=0 src=paste.png></a> &quot;Peers&quot; by Elizabeth II R
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Search and Seizure&quot;\n\nSize is a kind of value. The sizes are small, medium, and large. A thing has a size. A thing is usually small.\n\nA thing can be licit or contraband. A thing is usually licit.\n\nA thing can be discovered or secret. A thing is usually secret.\n\n[Now, we want the character to be able to hide small things if he has some sort of concealing garment on. We also want to be able to see anything that the player has already found once, perhaps by using the >SEARCH PERSON command. So:]\n\nRule for deciding the concealed possessions of someone (called the suspect):\n\tif the particular possession is discovered, no;\n\tif the suspect wears something and the particular possession is small, yes;\n\totherwise no.\n\n[The following rule, borrowed from a later chapter, assures that any items that are ever mentioned to the player will be treated as known from then on:]\n\nBefore printing the name of something (called discovery): now the discovery is discovered.\n\nThe Customs House is a room. The smuggler is a man in the Customs House. The smuggler wears a leather jacket. He carries a bottle of Altairan rum, some raspberries, and a laser pistol. The pistol is large. The jacket is large. The rum and the raspberries are contraband. The description of the smuggler is &quot;He has a bestubbled chin and a sinister eye.&quot;\n\nAfter examining someone, say &quot;[The noun] is [if the noun is wearing something]wearing [list of unconcealed things worn by the noun] and [end if]carrying [list of unconcealed things carried by the noun].&quot;\n\nAfter examining someone who is concealing something contraband:\n\tsay &quot;[The noun] looks nervous. You can just tell.&quot;\n\nAfter examining someone who is carrying an unconcealed contraband thing:\n\tsay &quot;Your eye goes at once to [the list of unconcealed contraband things carried by the noun].&quot;\n\nInstead of searching someone:\n\tsay &quot;[The noun] is revealed to be carrying [list of things carried by the noun].&quot;\n\nUnderstand &quot;confiscate [something]&quot; as confiscating.\n\nConfiscating is an action applying to one thing.\n\nCheck confiscating:\n\tif the noun is had by someone who is not the player, do nothing;\n\totherwise say &quot;You can only confiscate other people\'s possessions.&quot; instead.\n\nCarry out confiscating:\n\tnow the noun is carried by the player.\n\nReport confiscating:\n\tsay &quot;Through the authority vested in you by the power of the Sovereign of Centauri Proxima, you make [the noun] your own.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Search and Seizure&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A title is a kind of value. The titles are Baron, Viscount, Earl, Marquess, Duke and Prince.
+<blockquote><font color="#000080">Size is a kind of value. The sizes are small, medium, and large. A thing has a size. A thing is usually small.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A peer is a kind of man. A peer has a title. A peer is usually a Baron. Before printing the name of a peer, say &quot;[title] &quot;. Understand the title property as describing a peer.
+<blockquote><font color="#000080">A thing can be licit or contraband. A thing is usually licit.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The House of Lords is a room. Maltravers, Pollifax, Omnium and St Vincent are peers in the House of Lords. Omnium is a Duke. St Vincent is an Earl.
+<blockquote><font color="#000080">A thing can be discovered or secret. A thing is usually secret.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Ennobling is an action applying to one thing and one title.
+<p>Now, we want the character to be able to hide small things if he has some sort of concealing garment on. We also want to be able to see anything that the player has already found once, perhaps by using the >SEARCH PERSON command. So:
+<p>
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of someone (called the suspect):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the particular possession is discovered, no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the suspect wears something and the particular possession is small, yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise no.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check ennobling:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the player, say &quot;The Sovereign is the fountain of honour, and may not be ennobled.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is not a peer, say &quot;Commoners should remain so.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the title of the noun is the title understood, say &quot;But that is his title already.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the title of the noun is greater than the title understood, say &quot;As he is already of the rank of [title of the noun], any such letters patent are liable to be deemed invalid, following the precedent of the Buckhurst Peerage Case (1876). Best not.&quot; instead.
+<p>The following rule, borrowed from a later chapter, assures that any items that are ever mentioned to the player will be treated as known from then on:
+<p>
+<blockquote><font color="#000080">Before printing the name of something (called discovery): now the discovery is discovered.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out ennobling:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the title of the noun to the title understood.
+<blockquote><font color="#000080">The Customs House is a room. The smuggler is a man in the Customs House. The smuggler wears a leather jacket. He carries a bottle of Altairan rum, some raspberries, and a laser pistol. The pistol is large. The jacket is large. The rum and the raspberries are contraband. The description of the smuggler is &quot;He has a bestubbled chin and a sinister eye.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report ennobling:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Whereas Our Parliament for arduous and urgent affairs concerning Us the state and defence of Our United Kingdom and the Church is now met at Our City of Westminster We strictly enjoining Command you upon the faith and allegiance by which you are bound to Us that the weightness of the said affairs and imminent perils considered (waiving all excuses) you be at the said day and place personally present with Us and with the said Prelates Great Men and Peers to treat and give your counsel upon the affairs aforesaid And this as you regard Us and Our honour and the safety and defence of the said Kingdom and Church and dispatch of the said affairs in nowise do you omit Witness Ourself at Westminster the Fifth day of November in the 43rd year of Our Reign,' you say, with unpunctuated serenity. The new [noun] bows stiffly.&quot;
+<blockquote><font color="#000080">After examining someone, say &quot;[The noun] is [if the noun is wearing something]wearing [list of unconcealed things worn by the noun] and [end if]carrying [list of unconcealed things carried by the noun].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;dub [someone] a/an [title]&quot; as ennobling.
+<blockquote><font color="#000080">After examining someone who is concealing something contraband:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] looks nervous. You can just tell.&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc229.html>Previous</a> / <a href=doc231.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">After examining someone who is carrying an unconcealed contraband thing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your eye goes at once to [the list of unconcealed contraband things carried by the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of searching someone:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] is revealed to be carrying [list of things carried by the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;confiscate [something]&quot; as confiscating.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Confiscating is an action applying to one thing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check confiscating:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is had by someone who is not the player, do nothing;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;You can only confiscate other people's possessions.&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out confiscating:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is carried by the player.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Report confiscating:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Through the authority vested in you by the power of the Sovereign of Centauri Proxima, you make [the noun] your own.&quot;
+</font></blockquote><p>
+<p>
+</td></tr></table><p><p><hr><p><a href=doc43.html>Previous</a> / <a href=doc45.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>17.4. New rulebooks</title></head>
+<html><head><title>8.6. Every turn</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,273 +7,157 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc258.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc260.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>17.4. New rulebooks</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc117.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc119.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>8.6. Every turn</b></td></tr></table><p>
 <p>
-<p>Creating a new rulebook is also straightforward, as we see in the following modest example game:
+<p>The passage of time in interactive fiction is broken up into a succession of turns, in each of which the player types a request and is given a response. Usually each such request triggers one action, but sometimes a whole sequence are fired off, as when the player types &quot;get all&quot; in a cluttered room.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Appraisal&quot;\n\nThe Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.\n\nAppraisal rules is a rulebook.\n\nAn appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;\n\nAn appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;\n\nInstead of switching on the machine, follow the appraisal rules.\n\n\n')"><img border=0 src=paste.png></a> &quot;Appraisal&quot;
+<p>One of the last things to happen in each turn is that Inform will apply any rules which have been set to occur &quot;every turn&quot;, like so:
+<p>
+<blockquote><font color="#000080">Every turn, say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Passage is east of the Tomb. The green-eyed idol is in the Tomb. A Speak-Your-Progress machine is in the Passage.
+<p>This is equivalent to writing:
+<p>
+<blockquote><font color="#000080">An every turn rule: say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Appraisal rules is a rulebook.
+<p>Note that the text about blossom, which will quickly become tiresome, is said at the end of every turn, not at the beginning, and in particular not before the player's first opportunity to type a command.
+<p>
+<p>As usual when defining rules, we can add stipulations: any condition can be attached using &quot;when&quot;.
+<p>
+<blockquote><font color="#000080">Every turn when in the Orchard, say &quot;The summer breeze shakes the apple-blossom.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">An appraisal rule: say &quot;Click... whirr... the score is [the score in words] points.&quot;
+<blockquote><font color="#000080">Every turn when the player can see the rotting fish, say &quot;Your nose twitches involuntarily.&quot;
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">An appraisal rule: if we have taken the idol then say &quot;Most importantly of all, the idol has been found.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.
-</font></blockquote><p>
-<p>
-<p>The creation of the rulebook is all very well, but without the final sentence it would never be used. The crucial new phrase here is &quot;follow ...&quot;, which is the first of several phrases allowing us to use rules whenever we want to (rather than simply at predetermined times such as when a particular action is being tried, or at the end of every turn, and such).
-<p>
-<p>Like &quot;number&quot; or &quot;text&quot;, &quot;rule&quot; and &quot;rulebook&quot; are kinds of value built into Inform: &quot;the blossom rule&quot; is a value whose kind is &quot;rule&quot;, whereas &quot;the every turn rules&quot; is a value whose kind is &quot;rulebook&quot;. In fact, Inform considers a rulebook to be a special case of a rule, so that whenever a rule is required it is legal to name a rulebook instead, but not vice versa. The &quot;follow&quot; phrase here...
-<p>
-<blockquote><font color="#000080">Instead of switching on the machine, follow the appraisal rules.
-</font></blockquote><p>
-<p>
-<p>...expects to be applied to a value of kind &quot;rule&quot;; &quot;the appraisal rules&quot; is in fact a rulebook, but since that counts as a rule the phrase makes sense to Inform. To follow a rulebook means to run through all its rules in turn; to follow a single rule means just that one, of course.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e13"><a href=doc259.html#e13><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A BURN command; flammable objects which light other items in their vicinity and can burn for different periods of time; the possibility of having parts or contents of a flaming item which survive being burnt.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e13"><a href=doc118.html#e13><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A kind of battery which can be put into different devices, and which will lose power after extended use.</i><p>
 <p>
+<p>The following example makes fairly ample use of material that we haven't seen yet, but gives some idea of the flexibility of every turn rules. Suppose we want to have a number of electrical devices, all of which may be powered by a set of batteries. The batteries will all need to be discharged as they are used (regardless of what device they happen to be controlling at the moment). So:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;In Fire or in Flood&quot;\n\nHeat is a kind of value. The heats are whole, damp, or flaming. A thing has a heat. A thing is usually whole.\n\nA thing has a number called endurance. The endurance of a thing is usually 5. A thing has a number called turns of burning. A thing can be flammable or flame-retardant.\n\nBefore printing the name of something flaming:\n\tsay &quot;flaming &quot;;\n\nBefore burning something when the player is not carrying something flaming:\n\tif a flaming portable thing (called the lighter) is touchable\n\tbegin;\n\t\tsay &quot;(with [the lighter], which you first take)[paragraph break]&quot;;\n\t\ttry taking the lighter;\n\tend if.\n\nInstead of burning something when the player is not carrying something flaming:\n\tsay &quot;You would first need a fire source.&quot;\n\nInstead of burning something flame-retardant:\n\tsay &quot;[The noun] is not the sort of thing that catches fire.&quot;\n\nInstead of burning something flammable when the player is carrying something flaming (called the flame source):\n\tsay &quot;You light [the noun] with [the flame source].&quot;;\n\tchange the heat of the noun to flaming.\n\nInstead of burning something when the player is in the noun:\n\tsay &quot;That seems dangerous given that you yourself are in [the noun].&quot;\n\nInstead of burning something when the player is on the noun:\n\tsay &quot;That seems dangerous given that you yourself are on [the noun].&quot;\n\nInstead of examining something:\n\tsay &quot;Hm, the [printed name] appears to be [heat].&quot;;\n\nBefore taking a flaming thing:\n\tlet turns remaining be the endurance of the noun minus the turns of burning of the noun;\n\tif turns remaining is less than two, say &quot;There\'s no portion of [the noun] sufficiently cool for you to pick up.&quot; instead.\n\n\n[But that\'s only a small part of the battle. The thing about fire is that it keeps on doing fiery things even when the player is otherwise occupied: destroying items that are on fire, and spreading to other things nearby. So we need a set of rules for the fire\'s behavior.]\n\nEvery turn when something is flaming:\n\tfollow the fire rules.\n\nThe fire rules is a rulebook.\n\nA fire rule (this is the can\'t hold flaming objects rule):\n\trepeat with item running through flaming things\n\tbegin;\n\t\tif the item is held by the player\n\t\tbegin;\n\t\t\tlet turns remaining be the endurance of the item minus the turns of burning of the item;\n\t\t\tif turns remaining is less than two\n\t\t\tbegin;\n\t\t\t\tsay &quot;[The item] becomes too hot to hold! &quot;;\n\t\t\t\ttry dropping the item;\n\t\t\t\tif the item is held by the player, say &quot;This is certainly painful.&quot;;\n\t\t\tend if;\n\t\tend if;\n\tend repeat.\n\nA fire rule (this is the flames spread rule):\n\trepeat with item running through flaming things\n\tbegin;\n\t\tif the turns of burning of the item is one\n\t\tbegin;\n\t\t\tspread the flames from the item;\n\t\tend if;\n\tend repeat.\n\nA fire rule (this is the fire destroys things rule):\n\tchange started printing to 0;\n\trepeat with item running through flaming things\n\tbegin;\n\t\tchange the turns of burning of the item to the turns of burning of the item + 1;\n\t\tif the turns of burning of the item is greater than the endurance of the item, destroy the item;\n\tend repeat;\n\tif started printing is 1, say &quot;[paragraph break]&quot;;\n\tchange started printing to 0.\n\n[Because we\'ve labelled all the fire rules, we could swap their order, or turn some of them off, while allowing the others run as usual. For instance, if there were a pair of fireproof gloves in the game, we might want to turn off the &quot;can\'t hold flaming objects rule&quot; whenever the player is wearing them.]\n\n[This sort of flexibility is especially useful in the context of extensions. Someone writing an extension about burning would have no way of anticipating the need for a Fireproof Gauntlet of Thog, but the author would nonetheless be able to implement one easily.]\n\nDefinition: a thing is vulnerable if it is flammable and it is whole.\n\n[The contact between things is a critical factor when it comes to fire, so we might add a couple of conditional relations do determine what is touching what.]\n\nReliance relates a thing (called X) to a thing (called Y) when X is part of Y or X is in Y or X is on Y. The verb to be relying on implies the reliance relation.\n\nContact relates a thing (called X) to a thing (called Y) when X is relying on Y or Y is relying on X. The verb to be joined to implies the contact relation.\n\n[Having these at our disposal makes it much tidier to write what happens next:]\n\nTo spread the flames from (item - a thing):\n\tchange started printing to 0;\n\tif the item is joined to a flammable whole thing (called the sacrifice)\n\tbegin;\n\t\tif the sacrifice is visible\n\t\tbegin;\n\t\t\tchange started printing to 1;\n\t\t\tsay &quot;Flames engulf [the list of flammable whole things which are joined to the item].&quot;;\n\t\tend if;\n\t\tnow all the flammable whole things joined to the item are flaming;\n\tend if.\n\nStarted printing is a number that varies. Started printing is 0.\n\nTo destroy (item - a thing):\n\tlet home be the holder of the item;\n\tif the item is part of something (called the superstructure), let home be the holder of the superstructure;\n\tif the item is visible\n\tbegin;\n\t\tchange started printing to 1;\n\t\tsay &quot;[The item] burns away[if something is relying on the item], leaving [list of things which are relying on the item] behind[end if]. &quot;;\n\tend if;\n\tif something is relying on the item,\n\t\tnow all the things which are relying on the item are in the home;\n\tremove the item from play;\n\tnow the item is damp;\n\tnow every flaming thing which is part of the item is damp.\n\nTo destroy (item - a door):\n\tlet home be the holder of the item;\n\tif item is visible\n\tbegin;\n\t\tchange started printing to 1;\n\t\tsay &quot;[The item] burns away[if something flame-retardant is part of the item], leaving [list of flame-retardant parts of the item] behind[end if]. &quot;;\n\tend if;\n\tif home is a room, now all of the flame-retardant parts of the item are in the home;\n\tnow the item is damp;\n\tchange the item to open;\n\tchange the item to unopenable.\n\nBefore printing the name of a damp door:\n\tsay &quot;burnt-out frame of &quot;.\n\nInstead of opening or closing a damp door:\n\tsay &quot;[The noun] can no longer be opened or closed in any meaningful sense.&quot;\n\nInstead of doing something other than examining or dropping to a flaming thing when the turns of burning of the noun is greater than 1:\n\tsay &quot;Fire has too thoroughly engulfed [the noun] for that to be a good idea.&quot;\n\nInstead of taking something when the noun is in a flaming thing (called the receptacle):\n\tsay &quot;You don\'t quite dare reach into [the receptacle].&quot;\n\nInstead of touching something which is within a flaming thing (called the receptacle):\n\tsay &quot;It seems a little risky since [the receptacle] is on fire.&quot;\n\nInstead of turning something when the noun is contained in a flaming thing (called the receptacle):\n\tsay &quot;It seems a little risky since [the receptacle] is on fire.&quot;\n\nInstead of pushing or pulling something when the noun is inside a flaming thing (called the receptacle):\n\tsay &quot;[The receptacle] deters you.&quot;\n\nBefore burning something which is in a container when the holder of the noun contains the player:\nsay &quot;This could make things toasty for you...&quot;\n\nThe Library of the Dead is a room. &quot;This room -- little, dank, stone -- is filling with some miasma you do not quite dare breathe. It is imperative that you get out.&quot;\n\nThe desk is a flammable supporter in the Library. A drawer is part of the desk. The drawer is a flammable closed container. It is openable, lockable, and locked. The desk is scenery.\n\nA box is in the Library. A metal hinge is part of the box. The hinge is flame-retardant. The box is open, flammable, and openable. The shroud of Laertes is a flammable thing in the box.\n\nInstead of examining something when something is part of the noun:\n\tsay &quot;You note [the list of things which are part of the noun].&quot;\n\nThe world\'s last manuscript of the Psychagogoi by Aeschylus is on the desk. The manuscript is flammable. The manuscript has endurance 1.\n\nThe torch is a flammable flaming thing carried by the player. It has endurance 60. The asbestos sack is a flame-retardant player\'s holdall in the drawer.\n\nThe trapdoor is up of the Library and east of the Plaza. The trapdoor is a door. It is flammable, closed, lockable, and locked. &quot;A trapdoor in the ceiling is your only hope of escape[if flaming]. Fortunately, it is rapidly burning through[end if].&quot; The trapdoor has endurance 15.\n\nInstead of going through the closed trapdoor, say &quot;[The trapdoor] is closed.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;In Fire or in Flood&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Out of Time&quot;\n\nA battery is a kind of thing. A battery has a number called charge. The charge of a battery is usually 15.\n\nEvery turn:\n\trepeat with item running through batteries\nbegin;\n\tif item is in a compartment which is part of a switched on device (called the machine)\n\tbegin;\n\t\tchange the charge of the item to the charge of the item - 1;\n\t\tcarry out the warning about failure activity with the machine;\n\t\tif the item is discharged, carry out the putting out activity with the machine;\n\tend if;\nend repeat.\n\nWarning about failure of something is an activity.\n\nRule for warning about failure of a device (called the machine):\n\tif a random battery compartment which is part of the machine contains a battery (called the power source)\n\tbegin;\n\t\tif the charge of the power source is 2, say &quot;[The machine] is obviously going to go out quite soon.&quot;;\n\tend if.\n\nPutting out something is an activity.\n\nRule for putting out a device (called the machine):\n\t\tsay &quot;[The machine] loses power and switches off![line break]&quot;;\n\t\tsilently try switching off the machine;\n\nA battery compartment is a kind of container. A battery compartment is usually closed and openable. One battery compartment is part of every device. Instead of inserting something which is not a battery into a battery compartment, say &quot;Only batteries should go in a battery compartment.&quot;\n\n[And to get rid of annoying messages like &quot;Which would you like to close, the flashlight or the flashlight\'s battery compartment?&quot; when only the compartment is closable, we might add some understanding instructions:]\n\nUnderstand &quot;turn on [device]&quot; as switching on.\n\nUnderstand &quot;turn off [device]&quot; as switching off.\n\nUnderstand &quot;open [openable closed thing]&quot; as opening.\n\nUnderstand &quot;close [openable open thing]&quot; as closing.\n\nUnderstand &quot;put [something] in [container]&quot; as inserting it into.\n\nInstead of opening a device, try opening a random compartment which is part of the noun. Instead of closing a device, try closing a random compartment which is part of the noun. Instead of inserting a battery into a device, try inserting the noun into a random compartment which is part of the second noun.\n\nInstead of switching on an empty device:\n\tsay &quot;Nothing happens, perhaps because there isn\'t a charged battery in [the noun].&quot;\n\nDefinition: a device is empty:\n\tif a random battery compartment which is part of it contains a battery (called the power source)\n\tbegin;\n\t\tif the power source is discharged, yes;\n\t\tno;\n\tend if;\n\tyes.\n\nDefinition: a battery is discharged if its charge < 1.\n\nA light source is a kind of device. Carry out switching on a light source: now the noun is lit. Carry out switching off a light source: now the noun is unlit.\n\nThe flashlight is a light source. A D battery is a battery carried by the player.\n\nThe cassette recorder is a device. Every turn when the cassette recorder is switched on: say &quot;The cassette recorder hisses faintly.&quot;\n\nRule for warning about failure of the cassette recorder (called the machine):\n\tif a random battery compartment which is part of the machine contains a battery (called the power source)\n\tbegin;\n\t\tif the charge of the power source is 2, say &quot;The hiss from [the machine] begins to warble ominously.&quot;;\n\tend if.\n\nThe player wears a backpack. The backpack is openable. In the backpack is the flashlight and the cassette recorder.\n\nThe description of the cassette recorder is &quot;Useful both for recording your notes and for capturing any odd ghostly sounds you may hear.&quot;\n\nThe description of the backpack is &quot;An old familiar pack, which you know so well that you can find all its pockets and take things in and out of it in pitch darkness. To avoid it showing up oddly in photographs, it is entirely black, with no shiny or metallic attachments.&quot;\n\nThe description of the flashlight is &quot;You bought a new one just for this occasion, because you were worried about bringing something too small or light. This is a heavy-duty flashlight with an adjustable-focus beam. The case is made of metal, rather than plastic, and there is a spare light-bulb inside as well. You\'ve put a band of masking tape around the handle and written in your initials in red marker.\n\nThere is a piece of red cellophane attached to the business end of the flashlight to keep it from being overly bright.&quot;\n\nThe red cellophane is part of the flashlight.\n\nInstead of doing something to the red cellophane: say &quot;You need the cellophane on the flashlight so that using it does not completely destroy your night vision.&quot;\n\nThirtieth Street Station is a room. &quot;A huge, high, rectangular room with coffered ceilings, which looks grand but mostly makes you feel lonely and small. There are long benches in rows down the middle of the room, and an information desk with the train times, and a series of ticket windows, none of which matters very much at the moment.&quot;\n\nThe benches are an enterable supporter. They are scenery in the Station. The information desk is scenery in the Station. Some ticket windows are scenery in the Station. Instead of examining scenery in the Station: say &quot;You\'re fairly sure that whatever is going on here has nothing to do with [the noun].&quot; Understand &quot;window&quot; as ticket windows.\n\nThe mural is fixed in place in Thirtieth Street. &quot;At the north side of the station is a particularly pointless and empty annex to the main room. It is dominated by a huge relief of sorts, and this is what you remember.&quot; Understand &quot;metal&quot; or &quot;relief&quot; or &quot;huge&quot; as the mural. The description of the mural is &quot;It is both stylized and confusing, but you think it might be supposed to represent the various tasks and occupations of Philadelphia\'s population. The portions closer to the ground look as though they have recently been subjected to a light dusting of talcum powder. No unusual prints are evident.&quot;\n\nThe wind chimes are fixed in place in Thirtieth Street. &quot;Carefully attached to the wall with a piece of duct tape and a hook is a light-weight set of wind chimes. Someone else has been here before you, it seems.&quot; The description is &quot;Several of your friends use wind chimes as a sort of ghost alarm, since ghosts sometimes cause very localized movements of air when there is no natural breeze.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Out of Time&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Heat is a kind of value. The heats are whole, damp, or flaming. A thing has a heat. A thing is usually whole.
+<blockquote><font color="#000080">A battery is a kind of thing. A battery has a number called charge. The charge of a battery is usually 15.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A thing has a number called endurance. The endurance of a thing is usually 5. A thing has a number called turns of burning. A thing can be flammable or flame-retardant.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before printing the name of something flaming:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;flaming &quot;;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before burning something when the player is not carrying something flaming:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if a flaming portable thing (called the lighter) is touchable
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through batteries
+<br>begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if item is in a compartment which is part of a switched on device (called the machine)
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(with [the lighter], which you first take)[paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try taking the lighter;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of burning something when the player is not carrying something flaming:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You would first need a fire source.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of burning something flame-retardant:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] is not the sort of thing that catches fire.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of burning something flammable when the player is carrying something flaming (called the flame source):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You light [the noun] with [the flame source].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the heat of the noun to flaming.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of burning something when the player is in the noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;That seems dangerous given that you yourself are in [the noun].&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of burning something when the player is on the noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;That seems dangerous given that you yourself are on [the noun].&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of examining something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Hm, the [printed name] appears to be [heat].&quot;;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before taking a flaming thing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let turns remaining be the endurance of the noun minus the turns of burning of the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if turns remaining is less than two, say &quot;There's no portion of [the noun] sufficiently cool for you to pick up.&quot; instead.
-</font></blockquote><p>
-<p>
-<p>
-<p>But that's only a small part of the battle. The thing about fire is that it keeps on doing fiery things even when the player is otherwise occupied: destroying items that are on fire, and spreading to other things nearby. So we need a set of rules for the fire's behavior.
-<p>
-<blockquote><font color="#000080">Every turn when something is flaming:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;follow the fire rules.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The fire rules is a rulebook.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A fire rule (this is the can't hold flaming objects rule):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through flaming things
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the item is held by the player
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let turns remaining be the endurance of the item minus the turns of burning of the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if turns remaining is less than two
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The item] becomes too hot to hold! &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try dropping the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the item is held by the player, say &quot;This is certainly painful.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A fire rule (this is the flames spread rule):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through flaming things
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the turns of burning of the item is one
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;spread the flames from the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A fire rule (this is the fire destroys things rule):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 0;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through flaming things
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the turns of burning of the item to the turns of burning of the item + 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the turns of burning of the item is greater than the endurance of the item, destroy the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if started printing is 1, say &quot;[paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 0.
-</font></blockquote><p>
-<p>
-<p>Because we've labelled all the fire rules, we could swap their order, or turn some of them off, while allowing the others run as usual. For instance, if there were a pair of fireproof gloves in the game, we might want to turn off the &quot;can't hold flaming objects rule&quot; whenever the player is wearing them.
-<p>
-<p>This sort of flexibility is especially useful in the context of extensions. Someone writing an extension about burning would have no way of anticipating the need for a Fireproof Gauntlet of Thog, but the author would nonetheless be able to implement one easily.
-<p>
-<blockquote><font color="#000080">Definition: a thing is vulnerable if it is flammable and it is whole.
-</font></blockquote><p>
-<p>
-<p>The contact between things is a critical factor when it comes to fire, so we might add a couple of conditional relations do determine what is touching what.
-<p>
-<blockquote><font color="#000080">Reliance relates a thing (called X) to a thing (called Y) when X is part of Y or X is in Y or X is on Y. The verb to be relying on implies the reliance relation.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Contact relates a thing (called X) to a thing (called Y) when X is relying on Y or Y is relying on X. The verb to be joined to implies the contact relation.
-</font></blockquote><p>
-<p>
-<p>Having these at our disposal makes it much tidier to write what happens next:
-<p>
-<blockquote><font color="#000080">To spread the flames from (item - a thing):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 0;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the item is joined to a flammable whole thing (called the sacrifice)
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the sacrifice is visible
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Flames engulf [the list of flammable whole things which are joined to the item].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now all the flammable whole things joined to the item are flaming;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Started printing is a number that varies. Started printing is 0.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">To destroy (item - a thing):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let home be the holder of the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the item is part of something (called the superstructure), let home be the holder of the superstructure;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the item is visible
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The item] burns away[if something is relying on the item], leaving [list of things which are relying on the item] behind[end if]. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the charge of the item to the charge of the item - 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;carry out the warning about failure activity with the machine;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the item is discharged, carry out the putting out activity with the machine;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if something is relying on the item,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now all the things which are relying on the item are in the home;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the item from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the item is damp;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now every flaming thing which is part of the item is damp.
+<br>end repeat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To destroy (item - a door):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let home be the holder of the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if item is visible
+<blockquote><font color="#000080">Warning about failure of something is an activity.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Rule for warning about failure of a device (called the machine):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a random battery compartment which is part of the machine contains a battery (called the power source)
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change started printing to 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The item] burns away[if something flame-retardant is part of the item], leaving [list of flame-retardant parts of the item] behind[end if]. &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if home is a room, now all of the flame-retardant parts of the item are in the home;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the item is damp;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the item to open;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the item to unopenable.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before printing the name of a damp door:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;burnt-out frame of &quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of opening or closing a damp door:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] can no longer be opened or closed in any meaningful sense.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of doing something other than examining or dropping to a flaming thing when the turns of burning of the noun is greater than 1:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Fire has too thoroughly engulfed [the noun] for that to be a good idea.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of taking something when the noun is in a flaming thing (called the receptacle):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You don't quite dare reach into [the receptacle].&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of touching something which is within a flaming thing (called the receptacle):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It seems a little risky since [the receptacle] is on fire.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of turning something when the noun is contained in a flaming thing (called the receptacle):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It seems a little risky since [the receptacle] is on fire.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of pushing or pulling something when the noun is inside a flaming thing (called the receptacle):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The receptacle] deters you.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Before burning something which is in a container when the holder of the noun contains the player:
-<br>say &quot;This could make things toasty for you...&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Library of the Dead is a room. &quot;This room -- little, dank, stone -- is filling with some miasma you do not quite dare breathe. It is imperative that you get out.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The desk is a flammable supporter in the Library. A drawer is part of the desk. The drawer is a flammable closed container. It is openable, lockable, and locked. The desk is scenery.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A box is in the Library. A metal hinge is part of the box. The hinge is flame-retardant. The box is open, flammable, and openable. The shroud of Laertes is a flammable thing in the box.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of examining something when something is part of the noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You note [the list of things which are part of the noun].&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The world's last manuscript of the Psychagogoi by Aeschylus is on the desk. The manuscript is flammable. The manuscript has endurance 1.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The torch is a flammable flaming thing carried by the player. It has endurance 60. The asbestos sack is a flame-retardant player's holdall in the drawer.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The trapdoor is up of the Library and east of the Plaza. The trapdoor is a door. It is flammable, closed, lockable, and locked. &quot;A trapdoor in the ceiling is your only hope of escape[if flaming]. Fortunately, it is rapidly burning through[end if].&quot; The trapdoor has endurance 15.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of going through the closed trapdoor, say &quot;[The trapdoor] is closed.&quot;
-</font></blockquote><p>
-<p>
-<p>We can then add a special fire rule to handle the trapdoor, which will be called as part of the same sequence. Again, this would be most important if the fire rules were part of a standard extension, and the trapdoor fire rule the author's own addition.
-<p>
-<blockquote><font color="#000080">A fire rule:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the trapdoor is flaming and a random chance of 1 in 3 succeeds
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the caught thing be a random flammable whole thing which can be touched by the trapdoor;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the caught thing is a thing
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A spark from [the trapdoor] catches [the caught thing]!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now the caught thing is flaming;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the charge of the power source is 2, say &quot;[The machine] is obviously going to go out quite soon.&quot;;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going to the Plaza:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Out at last!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in victory.
+<blockquote><font color="#000080">Putting out something is an activity.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc258.html>Previous</a> / <a href=doc260.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Rule for putting out a device (called the machine):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The machine] loses power and switches off![line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;silently try switching off the machine;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A battery compartment is a kind of container. A battery compartment is usually closed and openable. One battery compartment is part of every device. Instead of inserting something which is not a battery into a battery compartment, say &quot;Only batteries should go in a battery compartment.&quot;
+</font></blockquote><p>
+<p>
+<p>And to get rid of annoying messages like &quot;Which would you like to close, the flashlight or the flashlight's battery compartment?&quot; when only the compartment is closable, we might add some understanding instructions:
+<p>
+<blockquote><font color="#000080">Understand &quot;turn on [device]&quot; as switching on.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;turn off [device]&quot; as switching off.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;open [openable closed thing]&quot; as opening.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;close [openable open thing]&quot; as closing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;put [something] in [container]&quot; as inserting it into.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of opening a device, try opening a random compartment which is part of the noun. Instead of closing a device, try closing a random compartment which is part of the noun. Instead of inserting a battery into a device, try inserting the noun into a random compartment which is part of the second noun.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of switching on an empty device:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing happens, perhaps because there isn't a charged battery in [the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: a device is empty:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a random battery compartment which is part of it contains a battery (called the power source)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the power source is discharged, yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;no;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;yes.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Definition: a battery is discharged if its charge < 1.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A light source is a kind of device. Carry out switching on a light source: now the noun is lit. Carry out switching off a light source: now the noun is unlit.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The flashlight is a light source. A D battery is a battery carried by the player.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The cassette recorder is a device. Every turn when the cassette recorder is switched on: say &quot;The cassette recorder hisses faintly.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Rule for warning about failure of the cassette recorder (called the machine):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a random battery compartment which is part of the machine contains a battery (called the power source)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the charge of the power source is 2, say &quot;The hiss from [the machine] begins to warble ominously.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player wears a backpack. The backpack is openable. In the backpack is the flashlight and the cassette recorder.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The description of the cassette recorder is &quot;Useful both for recording your notes and for capturing any odd ghostly sounds you may hear.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The description of the backpack is &quot;An old familiar pack, which you know so well that you can find all its pockets and take things in and out of it in pitch darkness. To avoid it showing up oddly in photographs, it is entirely black, with no shiny or metallic attachments.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The description of the flashlight is &quot;You bought a new one just for this occasion, because you were worried about bringing something too small or light. This is a heavy-duty flashlight with an adjustable-focus beam. The case is made of metal, rather than plastic, and there is a spare light-bulb inside as well. You've put a band of masking tape around the handle and written in your initials in red marker.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">There is a piece of red cellophane attached to the business end of the flashlight to keep it from being overly bright.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The red cellophane is part of the flashlight.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of doing something to the red cellophane: say &quot;You need the cellophane on the flashlight so that using it does not completely destroy your night vision.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Thirtieth Street Station is a room. &quot;A huge, high, rectangular room with coffered ceilings, which looks grand but mostly makes you feel lonely and small. There are long benches in rows down the middle of the room, and an information desk with the train times, and a series of ticket windows, none of which matters very much at the moment.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The benches are an enterable supporter. They are scenery in the Station. The information desk is scenery in the Station. Some ticket windows are scenery in the Station. Instead of examining scenery in the Station: say &quot;You're fairly sure that whatever is going on here has nothing to do with [the noun].&quot; Understand &quot;window&quot; as ticket windows.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The mural is fixed in place in Thirtieth Street. &quot;At the north side of the station is a particularly pointless and empty annex to the main room. It is dominated by a huge relief of sorts, and this is what you remember.&quot; Understand &quot;metal&quot; or &quot;relief&quot; or &quot;huge&quot; as the mural. The description of the mural is &quot;It is both stylized and confusing, but you think it might be supposed to represent the various tasks and occupations of Philadelphia's population. The portions closer to the ground look as though they have recently been subjected to a light dusting of talcum powder. No unusual prints are evident.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The wind chimes are fixed in place in Thirtieth Street. &quot;Carefully attached to the wall with a piece of duct tape and a hook is a light-weight set of wind chimes. Someone else has been here before you, it seems.&quot; The description is &quot;Several of your friends use wind chimes as a sort of ghost alarm, since ghosts sometimes cause very localized movements of air when there is no natural breeze.&quot;
+</font></blockquote><p>
+</td></tr></table><p><a name="e74"><a href=ex74.html#e74><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>A game of foosball which relies heavily on every-turn rules.</i><p>
+<p><hr><p><a href=doc117.html>Previous</a> / <a href=doc119.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

@@ -1,4 +1,4 @@
-<html><head><title>15.9. Commands consisting only of nouns</title></head>
+<html><head><title>3.16. Men, women and animals</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,63 +7,25 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc224.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc226.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.9. Commands consisting only of nouns</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc37.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc39.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>3.16. Men, women and animals</b></td></tr></table><p>
 <p>
-<p>In every example so far, and in almost all practical cases, the first word in a command which results in an action will be something fixed: a verb, in fact. When we write
+<p>Rounding out the standard kinds provided by Inform are four for living things: &quot;person&quot;, which is a kind of thing, and &quot;man&quot;, &quot;woman&quot; and &quot;animal&quot;, all kinds of person. For instance:
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
+<blockquote><font color="#000080">In the Ballroom is a man called Mr Darcy.
 </font></blockquote><p>
 <p>
-<p>we are saying that the first word of such a command will always be &quot;photograph&quot;. Occasionally, though, we would like to understand a noun as a command, perhaps in a situation where the command is obvious. If we say:
+<p>For the time being, men and women will be little more than waxworks: they will come to life only when we go beyond the present stage of creating an initial state of the world.
 <p>
-<blockquote><font color="#000080">Understand &quot;[something]&quot; as examining.
+<p>People are either male or female: in fact, this is an either/or property for the &quot;person&quot; kind, and it affects play at run-time a little, because the player can use &quot;him&quot; and &quot;her&quot; to refer to male or female people encountered. Since &quot;animal&quot; is a kind of person, it follows that animals are also either male or female, which might seem odd for some low-level forms of life, but generally makes sense for anything mobile which one could interact with. Animals are male unless we say otherwise:
+<p>
+<blockquote><font color="#000080">The mare is a female animal in the Stables.
 </font></blockquote><p>
-<p>
-<p>then the command &quot;examine&quot; will be implicit when the player types a bare noun:
-<p>
-<blockquote><font color="#000080">A red box and a blue ball are here.
-<br>> ball
-<br>The blue ball is plaited from many small leather patches.
-</font></blockquote><p>
-<p>
-<p>so that the command &quot;ball&quot; has resulted in the action &quot;examining the blue ball&quot;.
-<p>
-<p>This is a feature which should be used sparingly, since it could easily lead to confusion if not carefully explained to the player. By default, it is not used at all.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e32"><a href=doc225.html#e32><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A going by name command which does respect movement rules, and accepts names of rooms as commands.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e32"><a href=doc38.html#e32><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>The captain of the boat.</i><p>
 <p>
-<p>The original Adventure allowed the player to type the names of rooms in order to move to them, and it is now not too difficult for us to do the same. Adventure restricted this option to adjacent rooms, but we might want to be a bit more flexible, so we will accept any room:
+<p>Now finally we can put a Captain in the boat:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Understand &quot;[any room]&quot; as going by name. Understand &quot;go to [any room]&quot; as going by name.\n\nGoing by name is an action applying to one thing.\n\n[We should reject movement to the player\'s current location, or to anywhere he hasn\'t been and can\'t see:]\n\nCheck going by name:\n\tif the noun is the location, say &quot;You\'re already in [the location].&quot; instead;\n\tif the noun is not adjacent and the noun is unvisited, say &quot;That noun did not make sense in this context.&quot; instead.\n\n[The assumption here is that the player does know the names of the rooms adjacent to his current location, even if he hasn\'t been there yet.]\n\n[Now for the travel itself. The simplest way to ensure that the usual movement rules will still apply is to convert GO BY NAME into a GO action, and here the best route comes to our aid:]\n\nCarry out going by name:\n\tlet aim be the best route from the location to the noun, using doors;\n\tif aim is not a direction, say &quot;You can\'t think how to get there from here.&quot; instead;\n\tsay &quot;(heading [aim])[line break]&quot;;\n\ttry going aim.\n\n[This will allow the player to travel toward rooms he has already visited even if they are several moves away.]\n\n[Finally, so that the player can also use the names of doors as commands:]\n\nUnderstand &quot;[door]&quot; as entering.\n\n')"><img border=0 src=paste.png></a> Understand &quot;[any room]&quot; as going by name. Understand &quot;go to [any room]&quot; as going by name.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The Captain is a man in the Cabin. &quot;The captain sits at the wheel, steering the boat and occasionally checking the radar readout.&quot;\n\n')"><img border=0 src=paste.png></a> The Captain is a man in the Cabin. &quot;The captain sits at the wheel, steering the boat and occasionally checking the radar readout.&quot;
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Going by name is an action applying to one thing.
-</font></blockquote><p>
-<p>
-<p>We should reject movement to the player's current location, or to anywhere he hasn't been and can't see:
-<p>
-<blockquote><font color="#000080">Check going by name:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the location, say &quot;You're already in [the location].&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is not adjacent and the noun is unvisited, say &quot;That noun did not make sense in this context.&quot; instead.
-</font></blockquote><p>
-<p>
-<p>The assumption here is that the player does know the names of the rooms adjacent to his current location, even if he hasn't been there yet.
-<p>
-<p>Now for the travel itself. The simplest way to ensure that the usual movement rules will still apply is to convert GO BY NAME into a GO action, and here the best route comes to our aid:
-<p>
-<blockquote><font color="#000080">Carry out going by name:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let aim be the best route from the location to the noun, using doors;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if aim is not a direction, say &quot;You can't think how to get there from here.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [aim])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try going aim.
-</font></blockquote><p>
-<p>
-<p>This will allow the player to travel toward rooms he has already visited even if they are several moves away.
-<p>
-<p>Finally, so that the player can also use the names of doors as commands:
-<p>
-<blockquote><font color="#000080">Understand &quot;[door]&quot; as entering.
-</font></blockquote><p>
-</td></tr></table><p><a name="e73"><a href=ex73.html#e73><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>The same functionality, but making the player continue to move until he reaches his destination or a barrier, handling all openable doors on the way.</i><p>
-<p><hr><p><a href=doc224.html>Previous</a> / <a href=doc226.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+</td></tr></table><p><p><hr><p><a href=doc37.html>Previous</a> / <a href=doc39.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

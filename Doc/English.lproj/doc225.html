@@ -1,4 +1,4 @@
-<html><head><title>15.9. Commands consisting only of nouns</title></head>
+<html><head><title>15.8. Understanding kinds of value</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,30 +7,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc224.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc226.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>15.9. Commands consisting only of nouns</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc224.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc226.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.8. Understanding kinds of value</b></td></tr></table><p>
 <p>
-<p>In every example so far, and in almost all practical cases, the first word in a command which results in an action will be something fixed: a verb, in fact. When we write
+<p>Newly created kinds of value can also be understood, which we make good use of in the example game &quot;Studious&quot;:
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Studious&quot;\n\nThe Studio is a room. &quot;The unreal world of the photographic studio, full of fake furniture, cantilevered stands and silver-white shades like miniature parachutes.&quot; The lumpy black camera is in the Studio. &quot;A lumpy black camera hangs from a tripod.&quot;\n\nThe rake-thin model is a woman in the Studio. &quot;A rake-thin model, exquisitely bored and boringly exquisite, angles herself indolently.&quot;\n\nLimb is a kind of value. The limbs are left leg, left arm, right leg and right arm.\n\nDetailing is an action applying to one limb and one visible thing, requiring light. Check detailing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead. Report detailing: say &quot;Click! You take a detail photograph of the [limb understood] of [the second noun].&quot;\n\nUnderstand &quot;photograph [limb] of [a person]&quot; as detailing.\n\n\n')"><img border=0 src=paste.png></a> &quot;Studious&quot;
 </font></blockquote><p>
 <p>
-<p>we are saying that the first word of such a command will always be &quot;photograph&quot;. Occasionally, though, we would like to understand a noun as a command, perhaps in a situation where the command is obvious. If we say:
-<p>
-<blockquote><font color="#000080">Understand &quot;[something]&quot; as examining.
+<blockquote><font color="#000080">The Studio is a room. &quot;The unreal world of the photographic studio, full of fake furniture, cantilevered stands and silver-white shades like miniature parachutes.&quot; The lumpy black camera is in the Studio. &quot;A lumpy black camera hangs from a tripod.&quot;
 </font></blockquote><p>
 <p>
-<p>then the command &quot;examine&quot; will be implicit when the player types a bare noun:
-<p>
-<blockquote><font color="#000080">A red box and a blue ball are here.
-<br>> ball
-<br>The blue ball is plaited from many small leather patches.
+<blockquote><font color="#000080">The rake-thin model is a woman in the Studio. &quot;A rake-thin model, exquisitely bored and boringly exquisite, angles herself indolently.&quot;
 </font></blockquote><p>
 <p>
-<p>so that the command &quot;ball&quot; has resulted in the action &quot;examining the blue ball&quot;.
+<blockquote><font color="#000080">Limb is a kind of value. The limbs are left leg, left arm, right leg and right arm.
+</font></blockquote><p>
 <p>
-<p>This is a feature which should be used sparingly, since it could easily lead to confusion if not carefully explained to the player. By default, it is not used at all.
+<blockquote><font color="#000080">Detailing is an action applying to one limb and one visible thing, requiring light. Check detailing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead. Report detailing: say &quot;Click! You take a detail photograph of the [limb understood] of [the second noun].&quot;
+</font></blockquote><p>
 <p>
-<p><hr><p>
-<a name="e32"><a href=ex32.html#e32><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A going by name command which does respect movement rules, and accepts names of rooms as commands.</i><p>
-<a name="e73"><a href=ex73.html#e73><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>The same functionality, but making the player continue to move until he reaches his destination or a barrier, handling all openable doors on the way.</i><p>
+<blockquote><font color="#000080">Understand &quot;photograph [limb] of [a person]&quot; as detailing.
+</font></blockquote><p>
+<p>
+<p>Note the way we can refer to the limb mentioned by the player as the &quot;limb understood&quot;. Similarly, we could talk about the &quot;number understood&quot; if the value parsed had been a number, and so on.
+<p>
 <p><hr><p><a href=doc224.html>Previous</a> / <a href=doc226.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

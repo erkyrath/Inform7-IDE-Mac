@@ -1,4 +1,4 @@
-<html><head><title>12.10. The invention of love</title></head>
+<html><head><title>12.9. Defining new assertion verbs</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,39 +7,37 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc177.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc179.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.10. The invention of love</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc177.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc179.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>12.9. Defining new assertion verbs</b></td></tr></table><p>
 <p>
-<p>We have already used the example:
+<p>Here is an example definition of a new verb:
 <p>
-<blockquote><font color="#000080">Loving relates various people to one person.
+<blockquote><font color="#000080">The verb to sport (he sports, they sport, he sported, it is sported, he is sporting) implies the wearing relation.
 </font></blockquote><p>
 <p>
-<p>Let us create a verb which expresses this:
+<p>Once this is done, we can write the assertion
 <p>
-<blockquote><font color="#000080">The verb to love (he loves, they love, he loved, he is loved) implies the loving relation.
+<blockquote><font color="#000080">Mr Wickham sports a Tory rosette.
 </font></blockquote><p>
 <p>
-<p>Note that we have omitted one of the parts of the verb. Actually we can legally miss out any of them, but the result is that the usages missed out will not be understood by Inform. In this case, Inform will understand
+<p>which will do the the same thing as
 <p>
-<blockquote><font color="#000080">Elizabeth loves Darcy.
-<br>if anybody has been loved by Darcy, ...
-<br>someone who is loved by Elizabeth
-<br>the number of women who love Darcy
+<blockquote><font color="#000080">Mr Wickham wears a Tory rosette.
 </font></blockquote><p>
 <p>
-<p>but it will not understand
+<p>because both verbs have the same relation as their meaning.
 <p>
-<blockquote><font color="#000080">Elizabeth is loving Darcy.
-<br>if Darcy is loving anybody, ...
+<p>Note that we have to spell out many parts of the verb:
+<p>
+<blockquote><font color="#000080">to sport - infinitive
+<br>he sports - present singular
+<br>they sport - present plural
+<br>he sported - past
+<br>it is sported - past participle
+<br>he is sporting - present participle
 </font></blockquote><p>
 <p>
-<p>because we did not supply the present participle &quot;he is loving&quot; as part of the definition of the verb. (That was deliberate, because the verb &quot;to love&quot; isn't used that way.)
-<p>
-<p>Similarly, using our reciprocated relation for mere acquaintanceship,
-<p>
-<blockquote><font color="#000080">Meeting relates people to each other. The verb to know (he knows, they know, he knew, he is known) implies the meeting relation. Elizabeth knows Mr Wickham. Mr Wickham knows Mr Darcy.
-</font></blockquote><p>
+<p>Although it looks as if NI could easily generate these given the infinitive &quot;to sport&quot; alone, by adding an &quot;-s&quot; here or an &quot;-ed&quot; there, English can be a very irregular language. Since verbs will not be defined more than a few times in any single project it seems best to be explicit.
 <p>
 <p><hr><p>
-<a name="e0"><a href=ex0.html#e0><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>People are to be grouped into alliances. To kiss someone is to join his or her faction, which may make a grand alliance; to strike them is to give notice of quitting, and to become a lone wolf.</i><p>
+<a name="e206"><a href=ex206.html#e206><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>An adaptive hint system that tracks what the player needs to have seen or to possess in order to solve a given puzzle, and doles out suggestions accordingly. Handles changes in the game state with remarkable flexibility, and allows the player to decide how explicit a nudge he wants at any given moment.</i><p>
 <p><hr><p><a href=doc177.html>Previous</a> / <a href=doc179.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

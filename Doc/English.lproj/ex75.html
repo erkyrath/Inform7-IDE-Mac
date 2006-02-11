@@ -1,4 +1,4 @@
-<html><head><title>12.15. What are relations for?</title></head>
+<html><head><title>15.6. Actions applying to kinds of value</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,37 +7,102 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc182.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc184.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>12.15. What are relations for?</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc222.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc224.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.6. Actions applying to kinds of value</b></td></tr></table><p>
 <p>
-<p>It is easy to say what verbs are for: they are to express relations. But what are relations for?
+<p>Almost all actions apply to things: the player picks them up, pushes them, looks at them and so on. Only occasionally do we need to recognise other kinds of value: but when we do, we can, as in the example called &quot;Safety&quot;:
 <p>
-<p>Inform 7's focus on relations between objects is unusual as an approach to interactive fiction; the concept does not exist in most design systems, or rather, it does but is submerged. Traditional design systems do, after all, have the spatial relations of being inside, on top of, and so on. It could well be said that these are the only relationships that inanimate objects ever have. A stone can be on top of a table, and if so then that expresses their entire association.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Safety&quot;\n\nThe Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don\'t get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.\n\nSpinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;\n\nUnderstand &quot;spin [something] to [a number]&quot; as spinning it to.\n\nAfter spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [list of things in the Safe].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Safety&quot;
+</font></blockquote><p>
 <p>
-<p>This is because the stone, and the table, have no opinions, emotions, knowledge or memory. If the stone is taken away and then put back, nothing has changed. People, on the other hand, tend to remember having met each other before; they like being in some places, but not others; their behaviour depends on who, or what, is nearby. Being conscious, they have internal states, unlike the stone. Relations are a simple but powerful way to express and talk about such connections, and although they have numerous uses in physical contexts too, they are at their most powerful when helping to make the characters of interactive fiction come alive.
+<blockquote><font color="#000080">The Vault is a room. &quot;Snug yet paranoid, this represents the state of the art in cheerless security.&quot; The Safe is here. &quot;A mammoth safe, with a dial which can spin to any number, has pride of place. It must weigh about the same as a small car, so don't get any ideas.&quot; In the Safe is a silver florin. The Safe is closed and fixed in place. Understand &quot;dial&quot; as the Safe.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Spinning it to is an action applying to one thing and one number. Check spinning it to: if the noun is not the Safe then say &quot;[The noun] does not spin.&quot; instead. Report spinning it to: say &quot;Click! and nothing else happens.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;spin [something] to [a number]&quot; as spinning it to.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After spinning the closed Safe to 1384: change the Safe to open; say &quot;Clonk! and the safe door swings slowly open, revealing [list of things in the Safe].&quot;
+</font></blockquote><p>
+<p>
+<p>The substitution &quot;[a number]&quot; matches any number (actually any whole number that is not too large) typed by the player. Inform checks the various kinds being used to make sure that everything matches, so, for instance, this would be disallowed:
+<p>
+<blockquote><font color="#000080">Understand &quot;spin [something] to [something]&quot; as spinning it to.
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e81"><a href=ex81.html#e81><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A number of sleuths (the player among them) find themselves aboard the Orient Express, where a murder has taken place, and one of them is apparently the culprit. Naturally they do not agree on whom, but there is physical evidence which may change their minds...</i><p>
-<a name="e74"><a href=ex74.html#e74><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Some notes on relations from a mathematical point of view, provided only to clarify some technicalities for those who are interested.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e75"><a href=doc183.html#e75><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Some notes on relations from the point of view of graph theory.</i><p>
+<a name="e181"><a href=ex181.html#e181><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A clock kind that can be set to any time using "the time understood"; may be turned on and off; and will advance itself only when running. Time on the face is also reported differently depending on whether the clock is analog or digital.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e75"><a href=doc223.html#e75><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A system which allows the author to assign footnotes to descriptions, and permits the player to retrieve them again by number, using "the number understood". Footnotes will automatically number themselves, according to the order in which the player discovers them.</i><p>
 <p>
-<p>One way to look at a relation is to regard it as a directed graph: that is, a collection of things (&quot;vertices&quot;) with arrows drawn between them (&quot;edges&quot;). We write our items A, B, C, ... on a piece of paper: then, if A relates to B, we draw an arrow pointing from A to B, and so on. If we made this drawing for the adjacency relation, we would more or less have reconstructed the map (or at least a simplified one which does not care about precise directions, like the famous diagram of the London Underground). But the drawing can be made for any relation. If we define:
+<p>&quot;Hitchhiker's Guide to the Galaxy&quot; introduced the idea of footnoted descriptions, and various IF games since have toyed with the idea. The recommended implementation in Inform 6 involved keeping an assortment of footnote objects around, but in Inform 7 the table is a much tidier way of handling the same problem.
 <p>
-<blockquote><font color="#000080">Suspecting relates various people to one person.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Ibid.&quot;\n\nThe Ship Inn is a room. &quot;Here you are in a lovely pub which your guidebook assures you is extremely authentic. [1 as a footnote].\n\nTo your left sits a party of Italians, with their guidebook.\n\nTo your right is a silent, but not unappealing, young man.&quot;.\n\nA party of Italians and a silent young man are people in the Ship Inn. The Italians and the young man are scenery.\n\nThe table is a supporter in the Ship Inn. On the table is a mysterious pie. The description of the pie is &quot;Your waitress told you it was the specialty of the day, Steak and Owl Pie. [2 as a footnote].&quot; The pie is edible.\n\nTable of Footnotes\nassignment\tnote\na number\t&quot;Francis Drake ate here, if the sign on the door is to be believed&quot;\n--\t&quot;this is unlikely, considering that owls are protected animals in England these days [3 as a footnote]&quot;\n--\t&quot;moreover, you can\'t imagine that owl would be very tasty&quot;\n\nFootnotes mentioned is a number that varies.\n\n[Whenever we mention a footnote for the first time, we need to assign it a number, which we will use consistently thereafter. And it\'s probably a good idea to protect ourselves against the author accidentally using a number too large for the footnote table, too. So:]\n\nTo say (footnote - a number) as a footnote:\n\tif footnote > number of filled rows in the Table of Footnotes\n\tbegin;\n\t\tsay &quot;Programming error: footnote assignment out of range.&quot;;\n\totherwise;\n\t\tchoose row footnote in the Table of Footnotes;\n\t\tif there is an assignment entry\n\t\tbegin;\n\t\t\tsay &quot;([assignment entry])&quot;;\n\t\totherwise;\n\t\t\tchange footnotes mentioned to footnotes mentioned + 1;\n\t\t\tchoose row footnote in the Table of Footnotes;\n\t\t\tchange assignment entry to footnotes mentioned;\n\t\t\tsay &quot;([assignment entry])&quot;;\n\t\tend if;\n\tend if.\n\n[Now, in order to let the player view these footnotes, we\'ll need to parse numbers.]\n\nUnderstand &quot;footnote [number]&quot; as looking up a footnote.\n\nLooking up a footnote is an action applying to one number.\n\nCheck looking up a footnote:\n\tif the number understood > footnotes mentioned, say &quot;You haven\'t seen any such footnote.&quot; instead;\n\tif the number understood < 1, say &quot;Footnotes are numbered from 1.&quot;\n\nCarry out looking up a footnote:\n\tchoose row with assignment of number understood in the Table of Footnotes;\n\tsay &quot;([assignment entry]): [note entry].&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Ibid.&quot;
 </font></blockquote><p>
 <p>
-<p>then, in the corresponding graph, each &quot;vertex&quot; will have at most one arrow leading away from it - though there could be many (or none) leading towards. Conversely, a one-to-various relation produces a graph where each vertex has at most one arrow coming in. A one-to-one relation means that the picture consists of some vertices on their own, with no arrows, a few perhaps with looped arrows leading from and to themselves, and then a collection of pairs joined by arrows. On the other hand, a various-to-various relation is just a free-for-all, with no restrictions on the arrows. The relations:
-<p>
-<blockquote><font color="#000080">Meeting relates people to each other.
-<br>Marriage relates one person to another.
+<blockquote><font color="#000080">The Ship Inn is a room. &quot;Here you are in a lovely pub which your guidebook assures you is extremely authentic. [1 as a footnote].
 </font></blockquote><p>
 <p>
-<p>always have the property of working both ways round, and these are easiest to visualise by forgetting the direction of the arrows, so that they just become lines joining the vertices.
+<blockquote><font color="#000080">To your left sits a party of Italians, with their guidebook.
+</font></blockquote><p>
 <p>
-<p>Inform uses a different algorithm for finding routes (&quot;the next step via R from A to B&quot;) in each of these cases, and internally it stores relations in different formats in the different cases, because it makes a big difference to the efficiency of Inform to minimise the storage required for a relation and the time taken to explore it.
+<blockquote><font color="#000080">To your right is a silent, but not unappealing, young man.&quot;.
+</font></blockquote><p>
 <p>
-<p>All the cases are benign except for &quot;various to various&quot; - the most useful - and for its closely related symmetrical version, &quot;relates... to each other&quot;. Inform cannot afford to assume that the relation will be &quot;sparse&quot; (that is: that no vertex will have more than a certain number of arrows, or that the total number of arrows will be small), because it has no idea how the arrows will come and go during play. It therefore uses 1 bit of storage for each pair of objects. This sounds harmless, but if there are 200 rooms, there are 40,000 pairs of rooms, which means a 5000-byte allocation of storage (plus a handful of bytes as overhead). Gratuitous various-to-various relations are therefore not a good idea.
+<blockquote><font color="#000080">A party of Italians and a silent young man are people in the Ship Inn. The Italians and the young man are scenery.
+</font></blockquote><p>
 <p>
-<p>There is a standard algorithm for calculating shortest paths through a directed graph, but Inform does not use it, because there is no memory to store the required matrix of partial results. Inform's method requires a storage overhead which is equal to the number of vertices, not the square of that number, but the worst-case running time can be bad: if there are N vertices, and the diameter of graph (the longest distance between vertices) is D, then the running time is proportional to D times N. The worst case in finding routes from A to B is when almost every vertex can reach B, some across long trails, but A cannot. In the case of finding routes across the game's map, this must be multiplied further by the number of possible directions - usually 16.
+<blockquote><font color="#000080">The table is a supporter in the Ship Inn. On the table is a mysterious pie. The description of the pie is &quot;Your waitress told you it was the specialty of the day, Steak and Owl Pie. [2 as a footnote].&quot; The pie is edible.
+</font></blockquote><p>
 <p>
-<p>This does not sound too awful, but if one is trying to find (say) &quot;the most distant room from A&quot;, that means a further loop and now the running time will be D times N squared. Extension writers will need to be careful of this kind of thing: it is easy to write highly cool prototypes which work terribly slowly on larger, more realistic maps.
-</td></tr></table><p><p><hr><p><a href=doc182.html>Previous</a> / <a href=doc184.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Table of Footnotes
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">assignment</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">note</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a number</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Francis Drake ate here, if the sign on the door is to be believed&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;this is unlikely, considering that owls are protected animals in England these days [3 as a footnote]&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;moreover, you can't imagine that owl would be very tasty&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Footnotes mentioned is a number that varies.
+</font></blockquote><p>
+<p>
+<p>Whenever we mention a footnote for the first time, we need to assign it a number, which we will use consistently thereafter. And it's probably a good idea to protect ourselves against the author accidentally using a number too large for the footnote table, too. So:
+<p>
+<blockquote><font color="#000080">To say (footnote - a number) as a footnote:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if footnote > number of filled rows in the Table of Footnotes
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Programming error: footnote assignment out of range.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose row footnote in the Table of Footnotes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if there is an assignment entry
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;([assignment entry])&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change footnotes mentioned to footnotes mentioned + 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose row footnote in the Table of Footnotes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change assignment entry to footnotes mentioned;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;([assignment entry])&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<p>Now, in order to let the player view these footnotes, we'll need to parse numbers.
+<p>
+<blockquote><font color="#000080">Understand &quot;footnote [number]&quot; as looking up a footnote.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Looking up a footnote is an action applying to one number.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check looking up a footnote:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number understood > footnotes mentioned, say &quot;You haven't seen any such footnote.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number understood < 1, say &quot;Footnotes are numbered from 1.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out looking up a footnote:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with assignment of number understood in the Table of Footnotes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;([assignment entry]): [note entry].&quot;
+</font></blockquote><p>
+<p>
+<p>This method does require us to keep track of where a footnote appears in the table. If we found this inconvenient, we could add a column to the footnote table so that we could invoke it with tags like &quot;[appearance quip as a footnote]&quot;.
+</td></tr></table><p><p><hr><p><a href=doc222.html>Previous</a> / <a href=doc224.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

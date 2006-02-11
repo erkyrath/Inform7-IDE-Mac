@@ -1,4 +1,4 @@
-<html><head><title>3.9. Backdrops</title></head>
+<html><head><title>12.13. Relations which express conditions</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,38 +7,93 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc30.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc32.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>3.9. Backdrops</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc181.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc183.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>12.13. Relations which express conditions</b></td></tr></table><p>
 <p>
-<p>It is a cardinal rule that nothing can be in more than one place at the same time, but rules were made to be broken, and an exception is allowed for a special kind of thing called a &quot;backdrop&quot;. For instance:
+<p>One last way to create a new relation and, in many ways, the easiest of all. If we write:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Streaming&quot;\n\nThe Upper Cave is above the Rock Pool.\n\nThe stream is a backdrop. It is in the Upper Cave and the Rock Pool.\n\n\n')"><img border=0 src=paste.png></a> &quot;Streaming&quot;
+<blockquote><font color="#000080">Contact relates a thing (called X) to a thing (called Y) when X is part of Y or Y is part of X. The verb to be joined to implies the contact relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Upper Cave is above the Rock Pool.
+<p>then we would be able to talk about a handle being joined to a door, and a door being joined to a handle, and so on. We are not allowed to declare:
+<p>
+<blockquote><font color="#000080">The hook is joined to the line.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The stream is a backdrop. It is in the Upper Cave and the Rock Pool.
+<p>because the question of whether they are joined is not for us to decide: that will be for the condition to determine, whenever we test it. Similarly, we cannot meaningfully write
+<p>
+<blockquote><font color="#000080">now the hook is joined to the line;
 </font></blockquote><p>
 <p>
-<p>Backdrops are ordinarily in the background: if the sky needed to be referred to in the course of play, it might be represented by a backdrop, for instance. Here we have a stream of water running through two rooms, though it might be any number. Backdrops are always fixed in place.
+<p>(and Inform will not let us) because this relation is not something we can force either way: we can make it come true by other means, maybe, but we cannot simply make it true by saying so.
 <p>
-<p>Backdrops can be put in regions as well as rooms, and if so, then they are present at every room in the given region (or regions), as well as any specific rooms they may also be put into. For instance:
+<p>So this way to define relations is, on the face of it, just a sort of verbal trick to write conditions in a more attractive way. The more flexible, changeable relations in previous sections have much greater expressive power. All the same, it is nice to be able to write -
 <p>
-<blockquote><font color="#000080">The Outdoors Area is a region. The Moon is a backdrop. The Moon is in the Outdoors Area. The Moon is in the Skylight Room.
+<blockquote><font color="#000080">Nearness relates a room (called A) to a room (called B) when the number of moves from B to A is less than 3. The verb to be near implies the nearness relation.
 </font></blockquote><p>
 <p>
-<p>Lastly, the special place &quot;everywhere&quot; can be given as the location of a backdrop to make it omnipresent:
+<p>and then to be able to write rules like:
 <p>
-<blockquote><font color="#000080">The sky is a backdrop. The sky is everywhere.
+<blockquote><font color="#000080">Instead of listening when the location is near the Sundial: say &quot;You hear a splashing of water.&quot;
 </font></blockquote><p>
-<p>
-<p>Inform assumes that backdrops are also scenery unless told otherwise, so this will not result in messages like &quot;You can also see the sky here.&quot; being included in room descriptions. In the case of the stream above, we could artfully mention it in passing in the room descriptions of the Upper Cave and the Rock Pool.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e18"><a href=doc31.html#e18><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Adding a view of the glacier.</i><p>
+<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e18"><a href=doc182.html#e18><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Relations track the relationships between one character and another. Whenever the player meets a relative of someone he already knows, he receives a brief introduction.</i><p>
 <p>
-<p>Suppose we wanted to have the glacier visible from the Cabin of our boat, and anywhere else we might add to the game:
+<p>First we define the relationships we choose to acknowledge:
 <p>
-<blockquote><font color="#000080">The view of the Malaspina glacier is a backdrop. It is everywhere. The description is &quot;The Malaspina glacier covers much of the nearby slope, and -- beyond it -- an area as large as Rhode Island.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;A Humble Wayside Flower&quot;\n\nMarriage relates one person to another (called the spouse). The verb to be married to implies the marriage relation.\n\nFatherhood relates one person (called father) to various people. The verb to engender (he engenders, they engender) implies the fatherhood relation.\n\n[For brevity, we will ignore the existence of mothers. It is a sad world.]\n\nSiblinghood relates a person (called A) to a person (called B) when a person who engenders A engenders B. The verb to be sibling to implies the siblinghood relation.\n\nFamily relates a person (called A) to a person (called B) when A is married to B or A engenders B or B engenders A or A is sibling to B. The verb to be related to implies the family relation.\n\nA person can be known or unknown. After printing the name of an unknown person (called the alien):\n\tif a known person (called the contact) is related to the alien\n\tbegin;\n\t\tsay &quot; ([relation between alien and contact] of [the contact])&quot;;\n\t\tnow the alien is known;\n\t\trule succeeds;\n\tend if.\n\nTo say relation between (first party - a person) and (second party - a person):\n\tif the first party is married to the second party\n\tbegin;\n\t\tif the first party is female, say &quot;wife&quot;;\n\t\totherwise say &quot;husband&quot;;\n\t\trule succeeds;\n\tend if;\n\tif the first party is sibling to the second party\n\tbegin;\n\t\tif the first party is female, say &quot;sister&quot;;\n\t\totherwise say &quot;brother&quot;;\n\t\trule succeeds;\n\tend if;\n\tif the first party engenders the second party\n\tbegin;\n\t\tsay &quot;father&quot;; rule succeeds;\n\tend if;\n\tif the second party is the father of the first party\n\tbegin;\n\t\tif the first party is female, say &quot;daughter&quot;;\n\t\totherwise say &quot;son&quot;;\n\t\trule succeeds;\n\tend if.\n\nPere Blanchard\'s Hut is a room. Percival Blakeney is a known man in the Hut. Marguerite is a woman in the Hut. Percival is married to Marguerite. Outside from the Hut is the Garden. Louise is a woman in the Garden. The Road to Paris is west of the Garden. Armand St Just is a man in the Road. Louise is married to Armand. Monsieur St Just is a man. He engenders Armand and Marguerite.\n\n\n')"><img border=0 src=paste.png></a> &quot;A Humble Wayside Flower&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc30.html>Previous</a> / <a href=doc32.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Marriage relates one person to another (called the spouse). The verb to be married to implies the marriage relation.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Fatherhood relates one person (called father) to various people. The verb to engender (he engenders, they engender) implies the fatherhood relation.
+</font></blockquote><p>
+<p>
+<p>For brevity, we will ignore the existence of mothers. It is a sad world.
+<p>
+<blockquote><font color="#000080">Siblinghood relates a person (called A) to a person (called B) when a person who engenders A engenders B. The verb to be sibling to implies the siblinghood relation.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Family relates a person (called A) to a person (called B) when A is married to B or A engenders B or B engenders A or A is sibling to B. The verb to be related to implies the family relation.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A person can be known or unknown. After printing the name of an unknown person (called the alien):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if a known person (called the contact) is related to the alien
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; ([relation between alien and contact] of [the contact])&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;now the alien is known;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To say relation between (first party - a person) and (second party - a person):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the first party is married to the second party
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the first party is female, say &quot;wife&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;husband&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the first party is sibling to the second party
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the first party is female, say &quot;sister&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;brother&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the first party engenders the second party
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;father&quot;; rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the second party is the father of the first party
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the first party is female, say &quot;daughter&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;son&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Pere Blanchard's Hut is a room. Percival Blakeney is a known man in the Hut. Marguerite is a woman in the Hut. Percival is married to Marguerite. Outside from the Hut is the Garden. Louise is a woman in the Garden. The Road to Paris is west of the Garden. Armand St Just is a man in the Road. Louise is married to Armand. Monsieur St Just is a man. He engenders Armand and Marguerite.
+</font></blockquote><p>
+<p>
+<p>Monsieur St Just never appears on the scene in this piece, but if we did put him somewhere the player could find him, he, too, would be properly introduced.
+</td></tr></table><p><p><hr><p><a href=doc181.html>Previous</a> / <a href=doc183.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>

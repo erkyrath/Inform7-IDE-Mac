@@ -1,4 +1,4 @@
-<html><head><title>22.5. Emily Short <emshort@mindspring.com> -  Report rules not as flexible as I am used to</title></head>
+<html><head><title>21.3. Sam Ashwell <magadog@gmail.com> -  issues with order of declarations</title></head>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,13 +7,13 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr><td><a href=doc316.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc318.html border=0><img border=0 src=../Forward.tif border=0></a></td><td><b>22.5. Emily Short <emshort@mindspring.com> -  Report rules not as flexible as I am used to</b></td></tr></table><p>
+<table><tr width="100%"><td width=80 valign="top"><a href=doc316.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc318.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>21.3. Sam Ashwell <magadog@gmail.com> -  issues with order of declarations</b></td></tr></table><p>
 <p>
-<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 3 November 2005
+<p><i>Reported by:</i> Sam Ashwell <magadog@gmail.com> / <i>Date:</i> 25 November 2005
 <p>
 <p><i>Nature:</i> The source looks legal, but generates Problem messages
 <p>
-<p><i>Build:</i> 3C15
+<p><i>Build:</i> 2V60
 <p>
 <p><i>Platform:</i> Mac OS X
 <p>
@@ -22,35 +22,14 @@ function pasteCode(code) {
 <p><i>Code example:</i>
 <p>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Mood is a kind of value. The moods are hostile, curious, friendly. A person has a mood. A person is usually curious.\nA thing can be explored or unexplored. A thing is always unexplored.\n\nPlaying with is an action applying to one thing.\n\nCarry out someone trying playing with something: now the noun is explored.\n\nReport someone trying playing with something:\n\tsay &quot;[The person asked] pokes at [the noun] in a bored manner.&quot;;\n\nReport someone hostile trying playing with something fixed in place:\n\tsay &quot;[The person asked] bangs its head against [the noun] repeatedly.&quot; instead.\n\nReport someone hostile trying playing with something fixed in place for the first time:\n\tsay &quot;[The person asked] bangs its head against [the noun], raising a bit of a racket.\n\n\'I hope everything is all right in there,\' Delores shouts from the other room.\n\n\'Swell!\' you assure her.&quot; instead.\n\nOffice on Floor Fifty-One is a room. &quot;Your office. It\'s cramped, what with the desk and the file drawers, but it\'s got a great view down Fifth Avenue.&quot;\n\n\n\n\n\n')"><img border=0 src=paste.png></a> Mood is a kind of value. The moods are hostile, curious, friendly. A person has a mood. A person is usually curious.
-<br>A thing can be explored or unexplored. A thing is always unexplored.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Test&quot; by Sam Kabo Ashwell\n\nTestroom is a room.\n\nEating a mustelid is revolting behaviour.\nMustelid is a kind of thing.\n\n\n\n\n\n')"><img border=0 src=paste.png></a> &quot;Test&quot; by Sam Kabo Ashwell
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Playing with is an action applying to one thing.
+<blockquote><font color="#000080">Testroom is a room.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out someone trying playing with something: now the noun is explored.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Report someone trying playing with something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The person asked] pokes at [the noun] in a bored manner.&quot;;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Report someone hostile trying playing with something fixed in place:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The person asked] bangs its head against [the noun] repeatedly.&quot; instead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Report someone hostile trying playing with something fixed in place for the first time:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The person asked] bangs its head against [the noun], raising a bit of a racket.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">'I hope everything is all right in there,' Delores shouts from the other room.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">'Swell!' you assure her.&quot; instead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Office on Floor Fifty-One is a room. &quot;Your office. It's cramped, what with the desk and the file drawers, but it's got a great view down Fifth Avenue.&quot;
+<blockquote><font color="#000080">Eating a mustelid is revolting behaviour.
+<br>Mustelid is a kind of thing.
 </font></blockquote><p>
 <p>
 <p>
@@ -59,14 +38,30 @@ function pasteCode(code) {
 <p><i>What goes wrong:</i>
 <p>
 <p>
-<p>Problem. You wrote 'Report someone hostile trying playing with something fixed in place' , which seems to introduce a rule, but the circumstances for the rule to apply ('someone hostile trying playing with something fixed in place') did not make sense.
-<p>
+<p>Problem. You wrote 'Eating a mustelid is revolting behaviour'  : but
+<p>this seems to say that two different things are the same, like saying
+<p>that 'the hawk is the handsaw'.
 <p>
 <p>
 <p>
 <p><i>Comments:</i>
 <p>
 <p>
+<p>If the two statements are reversed, like so:
+<p>
+<p>Mustelid is a kind of thing.
+<p>Eating a mustelid is revolting behaviour.
+<p>
+<p>then the game will compile as expected.
+<p>
+<p>It seems to me that a requirement to declare things (apart from a few
+<p>things like the title) in a particular order is a pretty hefty
+<p>weakness. If this weakness is too problematic to overcome, however, I
+<p>think it only fair to prominently mention it in the docs. If it's
+<p>going to be necessary to declare all my kinds at the start of the
+<p>source, I'd like to know about it before I start organising my code.
+<p>
+<p>SKA
 <p>
 <p>
 <p><hr><p><a href=doc316.html>Previous</a> / <a href=doc318.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
