@@ -366,7 +366,6 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     }
 
     [result addObject: incString];
-	NSLog(@"incString is '%@'", incString);
 	
 	// Command line options from the set of generic settings objects
 	[result addObjectsFromArray: [self genericCommandLineForCompiler: IFCompilerInform6]];

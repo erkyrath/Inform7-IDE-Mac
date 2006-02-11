@@ -537,18 +537,22 @@ Global I7_wlf_sp;
 [ WriteAfterEntry o depth stack_p  flag flag2 flag3 p comb;
 
   if (c_style & PARTINV_BIT ~= 0)
-  {   comb=0;
-      if (o has light && location hasnt light) comb=comb+1;
-      if (o has container && o hasnt open)     comb=comb+2;
-      if ((o has container && (o has open || o has transparent))
-          && (child(o)==0)) comb=comb+4;
-      if (comb==1) L__M(##ListMiscellany, 1, o);
-      if (comb==2) L__M(##ListMiscellany, 2, o);
-      if (comb==3) L__M(##ListMiscellany, 3, o);
-      if (comb==4) L__M(##ListMiscellany, 4, o);
-      if (comb==5) L__M(##ListMiscellany, 5, o);
-      if (comb==6) L__M(##ListMiscellany, 6, o);
-      if (comb==7) L__M(##ListMiscellany, 7, o);
+  {   BeginActivity(DETAILS_ACT);
+      if (ForActivity(DETAILS_ACT)==false) {
+		  comb=0;
+		  if (o has light && location hasnt light) comb=comb+1;
+		  if (o has container && o hasnt open)     comb=comb+2;
+		  if ((o has container && (o has open || o has transparent))
+			  && (child(o)==0)) comb=comb+4;
+		  if (comb==1) L__M(##ListMiscellany, 1, o);
+		  if (comb==2) L__M(##ListMiscellany, 2, o);
+		  if (comb==3) L__M(##ListMiscellany, 3, o);
+		  if (comb==4) L__M(##ListMiscellany, 4, o);
+		  if (comb==5) L__M(##ListMiscellany, 5, o);
+		  if (comb==6) L__M(##ListMiscellany, 6, o);
+		  if (comb==7) L__M(##ListMiscellany, 7, o);
+      }
+      EndActivity(DETAILS_ACT);
   }
 
   if (c_style & FULLINV_BIT ~= 0)
@@ -817,9 +821,10 @@ Global I7_wlf_sp;
   location=newplace;
   real_location=location; MoveFloatingObjects();
   AdjustLight(1);
+  I7_DivideParagraph();
   if (flag==0) <Look>;
   if (flag==1) { NoteArrival(); ScoreArrival(); }
-  if (flag==2) LookSub_P(1);
+  if (flag==2) { LookSub_P(1); }
 ];
 
 [ MovePlayer direc; <Go direc>; <Look>; ];
@@ -1555,18 +1560,22 @@ Global I7_wlf_sp;
   rtrue;
 ];
 
-[ Locale descin text1 text2 o k p j f2 flag;
+!Constant TRL 1;
+
+[ Locale descin text1 text2 o k p j f2 flag ssp;
   I7_Locale(descin, text1, text2);
   objectloop (o ofclass Object) give o ~workflag;
 
-  k=0;
+  k=0; ssp = say__p; #IFDEF TRL; print "L", ssp; #ENDIF;
   objectloop (o in descin)
       if (o hasnt concealed && NotSupportingThePlayer(o))
-      {  #IFNDEF MANUAL_PRONOUNS;
+      {  say__p = ssp;
+         #IFNDEF MANUAL_PRONOUNS;
          PronounNotice(o);
          #ENDIF;
          if (o hasnt scenery)
-         {   give o workflag; k++;
+         {   I7_DivideParagraph(); ssp = false;
+         	 give o workflag; k++;
              p=initial; f2=0;
              if ((o has door || o has container)
                  && o has open && o provides when_open)
@@ -1587,30 +1596,39 @@ Global I7_wlf_sp;
              {   if (o.describe~=NULL && RunRoutines(o,describe)~=0)
                  {   flag=1;
                      give o ~workflag; k--;
+                     ssp = true; #IFDEF TRL; print "T1"; #ENDIF;
                  }    
                  else
                  {   if (o hasnt moved || f2==1) {
                      j=o.p;
                      if (j~=0)
-                     {   new_line;
+                     {   I7_DivideParagraph();
+                     	 #IFDEF TRL; print "P2"; #ENDIF;
                          PrintOrRun(o,p);
                          flag=1;
                          give o ~workflag; k--;
                          if (o has supporter && child(o)~=0) SayWhatsOn(o);
+                         ssp = true; #IFDEF TRL; print "T2"; #ENDIF;
                      }
                      }
                  }
              }
          }
-         else
-             if (o has supporter && child(o)~=0) SayWhatsOn(o);
+         else {
+             if (o has supporter && child(o)~=0) {
+             	 I7_DivideParagraph();
+                 #IFDEF TRL; print "T3a", say__p, ssp; #ENDIF; SayWhatsOn(o);
+                 ssp = true; #IFDEF TRL; print "T3b"; #ENDIF;
+             }
+         }
       }
 
+  say__p = ssp; #IFDEF TRL; print "LX", say__p; #ENDIF;
   k=0; objectloop (o in descin) if (o has workflag) k++;
-  if (k==0) return 0;
+  if (k==0) { return 0; }
 
   if (text1~=0)
-  {   new_line;
+  {   I7_DivideParagraph();
       if (flag==1) text1=text2;
       print (string) text1, " ";
       WriteListFrom(child(descin),
@@ -1619,14 +1637,14 @@ Global I7_wlf_sp;
       return k;
   }
 
-  new_line;
-#ifdef NI_BUILD_COUNT;
+  I7_DivideParagraph();
+  #ifdef NI_BUILD_COUNT;
   say__p = 0;
   BeginActivity(NONDESCRIPT_ACT,descin);
   objectloop (o ofclass Object) if (o has I7_mentioned) give o ~workflag;
   k=0; objectloop (o ofclass Object) if (o has workflag) k++;
   if (k==0) { AbandonActivity(NONDESCRIPT_ACT,descin); return; }
-  if (say__p) { new_line; say__p = 0; }
+  I7_DivideParagraph();
   if (ForActivity(NONDESCRIPT_ACT,descin) == false) {
 #endif;
   ! objectloop (o ofclass Object) if (o has workflag) print o, " ";

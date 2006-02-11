@@ -67,6 +67,7 @@ Constant GENERIC_CHECK_RB = 25;
 Constant GENERIC_REPORT_RB = 26;
 Constant PERSUADE_RB = 27;
 Constant UNABLE_RB = 28;
+Constant VISIBLE_RB = 29;
 
 ! To "follow" a rulebook, we start a new frame, process the
 ! procedural rules, then process the rulebook, then clear
@@ -254,10 +255,9 @@ Verb meta "scenes"
           rv = 0;
       }
   } else {
-      if ((say__p) && (bits & RS_NOSKIPS == 0)) { new_line; say__p=0; }
+      if ((say__p) && (bits & RS_NOSKIPS == 0)) I7_DivideParagraph();
       rv = indirect(substituted_rule);
       if (rv) rv = substituted_rule;
-      ! if ((say__p) && (bits & RS_NOSKIPS == 0)) { new_line; say__p=0; }
   }
   if (rv && (bits & RS_USERESULT_BIT)) {
       AdjustDbr(substituted_rule);
@@ -556,7 +556,8 @@ Global trace_actions = 0;
 [ ActionPrimitive sa sn mf mt mb mth rv p1 p2 p3 p4 p5;
   sa = action; sn = noun; mf = move_from; mt = move_to;
   mb = move_by; mth = move_through;
-  self = noun; say__p = 0;
+  self = noun;
+  if ((keep_silent == false) && (multiflag == false)) I7_DivideParagraph();
   I7_action_deciding_rule = 0;
 
   if (action == ##Consult or ##Ask or ##Tell or ##NotUnderstood or ##Answer) {
@@ -644,6 +645,7 @@ Global trace_actions = 0;
   move_from = mf; move_to = mt; action = sa; noun = sn;
   move_by = mb; move_through = mth;
   TrackActions(1);
+  if ((keep_silent == false) && (multiflag == false)) I7_DivideParagraph();
   if (rv == RS_SUCCEEDS) rtrue;
   rfalse;
 ];
@@ -869,18 +871,34 @@ Global GVS_converted = -1;
       return;
   }
   if (PermitAttribute(false, obj, pr)) obj.pr = val; ];
-[ I7_Para x; say__p = 1; ];
-[ I7_LineBreak; if (say__p) { new_line; say__p=0; } ];
-[ I7_ParaBreak; if (say__p) { new_line; new_line; say__p=0; } ];
+
+[ I7_DivideParagraph; !print "[DP", say__p, say__pc, "]";
+  if (say__p) {
+      new_line; say__p = 0; say__pc = say__pc | PARA_COMPLETED;
+      if (say__pc & PARA_LINEBREAK) say__pc = say__pc - PARA_LINEBREAK;
+      if (say__pc & PARA_FORCELINEBREAK)
+          say__pc = say__pc - PARA_FORCELINEBREAK;
+  }
+];
+
+[ I7_RunOnParagraph said;
+  say__p = 0; say__pc = say__pc | PARA_LINEBREAK;
+  if (said) say__pc = say__pc | PARA_FORCELINEBREAK;
+];
+
 Global I7_enable_rte = true;
 [ I7_Prompt i;
   ! print "^";
   style roman;
-  I7_LineBreak();
+  if ((say__p) ||
+      ((say__pc & PARA_LINEBREAK) && ((say__pc & PARA_FORCELINEBREAK)==0))) {
+      new_line; say__p=0; say__pc = 0;
+  }
   switch(metaclass(I7_prompt_text)) {
       String: print (string) I7_prompt_text;
       Routine: I7_prompt_text();
   }
+  say__pc = 0; say__pc = 0;
   if (I7_box) {
       for (i=0: I7_boxes_appeared-->i: i++)
           if (I7_boxes_appeared-->i == I7_box) {
@@ -905,7 +923,8 @@ Global I7_enable_rte = true;
        else print (The) visibility_ceiling;
    }
 ];
-[ DrawStatusLine width posb;
+[ DrawStatusLine width posb s spc;
+   s = say__p; spc = say__pc;
    BeginActivity(3);
    @split_window 1; @set_window 1; @set_cursor 1 1; style reverse;
    width = 0->33; posb = width-15;
@@ -924,6 +943,7 @@ Global I7_enable_rte = true;
    }
    @set_cursor 1 1; style roman; @set_window 0;
    EndActivity(3);
+   say__p = s; say__pc = spc;
 ];
 [ I7_parent o; if (o==0) return 0; return parent(o); ];
 
@@ -1029,14 +1049,14 @@ Global inhibit_dr = 0;
   First = Of.component_child;
   Of.component_child = P; P.component_sibling = First;
 ];
-[ I7_NPCA;
+[ I7_NPCA s;
   if ((actor == player) || (act_requester == nothing)) rfalse;
-  ProcessRulebook(PERSUADE_RB);
+  s = say__p; say__p = FALSE; ProcessRulebook(PERSUADE_RB);
   if (rulechange_stack-->rulechange_sp ~= RS_SUCCEEDS) {
-	  L__M(##Order, 1, actor);
+	  if (say__p == FALSE) L__M(##Order, 1, actor);
 	  RulebookFails(); rtrue;
   }
-  rfalse;
+  say__p = s; rfalse;
 ];
 [ I7_PlaceInScope O opts;
   if (opts) return PlaceInScope(O);
@@ -1393,7 +1413,7 @@ Global inhibit_dr = 0;
   }
   RunTimeProblem(RTP_NOEXIT, r1, dir);
 ];
-[ I7_RouteTo from to use_doors obj dir in_direction progressed sl through_door;
+[ I7_RouteTo from to filter use_doors obj dir in_direction progressed sl through_door;
 	if (from == to) return nothing;
 	objectloop (obj ofclass K1_room) obj.vector = 0;
 	to.vector = 1;
@@ -1401,7 +1421,7 @@ Global inhibit_dr = 0;
 	while (true) {
 		progressed = false;
 		!print "Pass begins^";
-		objectloop (obj ofclass K1_room)
+		objectloop (obj && (obj ofclass K1_room) && ((filter == 0) || (filter(obj))))
 			if (obj.vector == 0)
 				objectloop (dir in compass)
 					if (obj provides (dir.door_dir)) {
@@ -1409,7 +1429,8 @@ Global inhibit_dr = 0;
 						if (in_direction == nothing) continue;
 						!print (the) obj, " > ", (the) dir, " > ", (the) in_direction, "^";
 						if ((in_direction ofclass K1_room)
-							&& (in_direction.vector > 0)) {
+							&& (in_direction.vector > 0)
+							&& ((filter == 0) || (filter(in_direction)))) {
 							obj.vector = dir-1000;
 							!print "* ", (the) obj, " vector is ", (the) dir, "^";
 							progressed = true;
@@ -1423,7 +1444,8 @@ Global inhibit_dr = 0;
 							through_door = in_direction.door_to();
 							location = sl;
 							!print "Through door is ", (the) through_door, "^";
-							if ((through_door ofclass K1_room) && (through_door.vector > 0)) {
+							if ((through_door ofclass K1_room) && (through_door.vector > 0)
+								&& ((filter == 0) || (filter(through_door)))) {
 								obj.vector = dir-1000;
 								!print "* ", (the) obj, " vector is ", (the) dir, "^";
 								progressed = true;
@@ -1436,10 +1458,10 @@ Global inhibit_dr = 0;
 		if (progressed == false) return from.vector;
 	}
 ];
-[ I7_CountRouteTo from to use_doors obj i;
+[ I7_CountRouteTo from to filter use_doors obj i;
 	if (from == to) return 0;
 	if (from ofclass K1_room && to ofclass K1_room) {
-		obj = I7_RouteTo(from,to,use_doors);
+		obj = I7_RouteTo(from,to,filter,use_doors);
 		if (obj == nothing) return -1;
 		i = 0; obj = from;
 		while ((obj ~= to) && (i<1000)) { i++; obj = I7_RoomFrom(obj,obj.vector); }

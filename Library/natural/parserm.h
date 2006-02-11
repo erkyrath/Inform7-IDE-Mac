@@ -81,7 +81,17 @@ Constant AMUSING_ACT 11;
 Constant BANNER_ACT 12;
 Constant PLURALNAME_ACT 13;
 Constant CONCEALMENT_ACT 14;
+Constant TOODARK_ACT 15;
+Constant NOWDARK_ACT 16;
+Constant DARKNAME_ACT 17;
+Constant DARKDESC_ACT 18;
+Constant DETAILS_ACT 19;
 ENDIF;
+
+Constant PARA_COMPLETED = 1;
+Constant PARA_LINEBREAK = 2;
+Constant PARA_FORCELINEBREAK = 4;
+
 ! ------------------------------------------------------------------------------
 !   Z-Machine and interpreter issues
 ! ------------------------------------------------------------------------------
@@ -446,9 +456,17 @@ Global old_herobj = NULL;            ! The object which is currently "her"
 ! ----------------------------------------------------------------------------
 Object thedark "(darkness object)"
   with initial 0,
-       short_name DARKNESS__TX,
+       short_name
+       [;  BeginActivity(DARKNAME_ACT);
+           if (ForActivity(DARKNAME_ACT)==false) print (string) DARKNESS__TX;
+           EndActivity(DARKNAME_ACT);
+		   rtrue;
+       ],
        description
-       [;  return L__M(##Miscellany, 17);
+       [;  BeginActivity(DARKDESC_ACT);
+           if (ForActivity(DARKDESC_ACT)==false) L__M(##Miscellany, 17);
+           EndActivity(DARKDESC_ACT);
+		   rtrue;
        ];
 #ifndef NI_BUILD_COUNT;
 Object selfobj "(self object)"
@@ -1354,7 +1372,7 @@ Object InformParser "(Inform Parser)"
 !  ...explain any inferences made (using the pattern)...
 
                 if (inferfrom~=0)
-                {   print "("; PrintCommand(inferfrom); print ")^";
+                {   print "("; PrintCommand(inferfrom); print ")^"; say__p=0;
                 }
 
 !  ...copy the action number, and the number of parameters...
@@ -1391,7 +1409,7 @@ Object InformParser "(Inform Parser)"
                     results-->0 = ##Take;
                     results-->1 = 1;
                     results-->2 = not_holding;
-                    L__M(##Miscellany, 26, not_holding);
+                    L__M(##Miscellany, 26, not_holding); say__p = 0;
                 }
 
 !  (Notice that implicit takes are only generated for the player, and not
@@ -3751,7 +3769,7 @@ Object InformLibrary "(Inform Library)"
        real_location = location;
        objectloop (i in player) give i moved ~concealed;
     
-       if (j~=2) Banner();
+       if (j~=2) { Banner(); say__p = 1; I7_DivideParagraph(); }
 
        MoveFloatingObjects();
        lightflag=OffersLight(parent(player));
@@ -3910,7 +3928,7 @@ Object InformLibrary "(Inform Library)"
                }
                l = multiple_object-->k;
                PronounNotice(l);
-               print (name) l, ": ";
+               print (name) l, ": "; say__p = 0;
                if (inp1 == 0)
                {   inp1 = l; self.begin_action(action, l, second, 0); inp1 = 0;
                }
@@ -4263,7 +4281,7 @@ Object InformLibrary "(Inform Library)"
 ];
 
 [ NotifyTheScore;
-   if (say__p) { new_line; say__p = 0; }
+   I7_DivideParagraph();
    print "[";  L__M(##Miscellany, 50, score-last_score);  print ".]^";
 ];
 
@@ -4279,8 +4297,12 @@ Object InformLibrary "(Inform Library)"
 
    if (i==1 && lightflag==0)
    {   real_location=location; location=thedark;
-       if (flag==0) { NoteArrival();
-                      return L__M(##Miscellany, 9); }
+       if (flag==0) { NoteArrival(); I7_DivideParagraph();
+           BeginActivity(NOWDARK_ACT);
+           if (ForActivity(NOWDARK_ACT)==false) L__M(##Miscellany, 9);
+           EndActivity(NOWDARK_ACT);
+		   rtrue;
+	   }
    }
    if (i==0 && lightflag==0) location=thedark;
 ];

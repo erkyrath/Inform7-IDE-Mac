@@ -340,7 +340,7 @@ Constant WHICH__TX    = "which ";
 ];
 
 [ LanguageLM n x1;
-  I7_Para(1);
+  say__p = 1;
   Prompt:  print "^>";
   Miscellany:
            switch(n)
@@ -368,7 +368,7 @@ Constant WHICH__TX    = "which ";
                6: "[Your interpreter does not provide ~undo~.  Sorry!]";
                7: "~Undo~ failed.  [Not all interpreters provide it.]";
                8: "Please give one of the answers above.";
-               9: "^It is now pitch dark in here!";
+               9: "It is now pitch dark in here!";
               10: "I beg your pardon?";
               11: "[You can't ~undo~ what hasn't been done!]";
               12: "[Can't ~undo~ twice in succession. Sorry!]";
@@ -558,8 +558,8 @@ Constant WHICH__TX    = "which ";
                   else print "That's ";
                   "fixed in place.";
               12: "You're carrying too many things already.";
-              13: "(putting ", (the) x1, " into ", (the) SACK_OBJECT,
-                  " to make room)";
+              13: print "(putting ", (the) x1, " into ", (the) SACK_OBJECT,
+                  " to make room)^"; say__p = 0; return;
               14: "You can't reach into ", (the) x1, ".";
            }
   Drop:    switch(n)
@@ -567,7 +567,7 @@ Constant WHICH__TX    = "which ";
                   else print (The) x1, " is ";
                   "already here.";
                2: "You haven't got ", (thatorthose) x1, ".";
-               3: "(first taking ", (the) x1, " off)";
+               3: print "(first taking ", (the) x1, " off)^"; say__p = 0; return;
                4: "Dropped.";
            }
   Remove:  switch(n)
@@ -586,7 +586,7 @@ Constant WHICH__TX    = "which ";
                2: "You can't put something on top of itself.";
                3: "Putting things on ", (the) x1, " would achieve nothing.";
                4: "You lack the dexterity.";
-               5: "(first taking ", (itorthem) x1, " off)^";
+               5: print "(first taking ", (itorthem) x1, " off)^"; say__p=0; return;
                6: "There is no more room on ", (the) x1, ".";
                7: "Done.";
                8: "You put ", (the) x1, " on ", (the) second, ".";
@@ -599,7 +599,7 @@ Constant WHICH__TX    = "which ";
                3: print_ret (The) x1, " ", (isorare) x1, " closed.";
                4: "You'll need to take ", (itorthem) x1, " off first.";
                5: "You can't put something inside itself.";
-               6: "(first taking ", (itorthem) x1, " off)^";
+               6: print "(first taking ", (itorthem) x1, " off)^"; say__p = 0; return;
                7: "There is no more room in ", (the) x1, ".";
                8: "Done.";
                9: "You put ", (the) x1, " into ", (the) second, ".";
@@ -642,8 +642,9 @@ Constant WHICH__TX    = "which ";
                   print_ret (the) x1, ".";
                6: print "(getting ";
                   if (x1 has supporter) print "off "; else print "out of ";
-                  print (the) x1; ")";
-               7: if (x1 has supporter) "(getting onto ", (the) x1, ")^";
+                  print (the) x1; print ")^"; say__p = 0; return;
+               7: say__p = 0;
+                  if (x1 has supporter) "(getting onto ", (the) x1, ")^";
                   if (x1 has container) "(getting into ", (the) x1, ")^";
                   "(entering ", (the) x1, ")^";
            }
@@ -685,7 +686,7 @@ Constant WHICH__TX    = "which ";
            {   1: print " (on ", (the) x1, ")";
                2: print " (in ", (the) x1, ")";
                3: print " (as "; @print_obj x1; print ")";
-               4: print "^On ", (the) x1;
+               4: print "On ", (the) x1;
                   WriteListFrom(child(x1),
                       ENGLISH_BIT + RECURSE_BIT + PARTINV_BIT
                       + TERSE_BIT + ISARE_BIT + CONCEAL_BIT);

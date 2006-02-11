@@ -35,9 +35,9 @@ static struct errorValue currentError;
 
 Copy\ blorb\ to:\ \[\[.*\]\]\n {
 	// Blorb copy request
-	int copyLen = strlen(yytext-19);
+	int copyLen = strlen(yytext)-19;
 	char* copyTo = calloc(copyLen, 1);
-	strncpy(copyTo, yytext + 17, strlen(yytext-20));
+	strncpy(copyTo, yytext + 17, copyLen);
 	copyTo[copyLen-1] = 0;
 						  
 	IFErrorCopyBlorbTo(copyTo);

@@ -1,32 +1,37 @@
 Version 1/051107 of the Standard Rules by Graham Nelson begins here.
 
 Document ACTIONS at doc75.
-Document ACTIVITIES at doc234.
+Document ACTIVITIES at doc235.
 Document ARSUMMARY at doc154.
-Document EXTACTIVITIES at doc238.
+Document EXTACTIVITIES at doc239.
 Document HEADINGS at doc16.
 Document KINDS at doc27.
 Document KINDSVALUE at doc58.
-Document LCARDS at doc272.
-Document NEWRULEBOOKS at doc259.
+Document LCARDS at doc278.
+Document NEWRULEBOOKS at doc265.
 Document PHRASES at doc137.
 Document ROOMPLAYBEGINS at doc113.
 Document SCENESINTRO at doc129.
-Document act_all at doc252.
-Document act_amuse at doc255.
-Document act_banner at doc253.
-Document act_con at doc241.
-Document act_csl at doc246.
-Document act_ds at doc249.
-Document act_gt at doc245.
-Document act_lc at doc244.
-Document act_lni at doc248.
-Document act_obit at doc254.
-Document act_pn at doc242.
-Document act_ppn at doc243.
-Document act_reading at doc251.
-Document act_smn at doc250.
-Document act_wpa at doc247.
+Document act_all at doc258.
+Document act_amuse at doc261.
+Document act_banner at doc259.
+Document act_con at doc242.
+Document act_csl at doc252.
+Document act_darkdesc at doc251.
+Document act_darkname at doc250.
+Document act_details at doc247.
+Document act_ds at doc255.
+Document act_gt at doc246.
+Document act_lc at doc245.
+Document act_lni at doc254.
+Document act_nowdark at doc249.
+Document act_obit at doc260.
+Document act_pn at doc243.
+Document act_ppn at doc244.
+Document act_reading at doc257.
+Document act_smn at doc256.
+Document act_toodark at doc248.
+Document act_wpa at doc253.
 Document kind_backdrop at doc31.
 Document kind_device at doc36.
 Document kind_door at doc34.
@@ -35,31 +40,31 @@ Document kind_player's at doc42.
 Document kind_time at doc119.
 Document kind_vehicle at doc37.
 Document ph_allow at doc166.
-Document ph_blankout at doc208.
+Document ph_blankout at doc209.
 Document ph_boxed at doc116.
-Document ph_carryout at doc238.
+Document ph_carryout at doc239.
 Document ph_change at doc93.
 Document ph_changep at doc96.
 Document ph_changev at doc97.
-Document ph_chooserow at doc203.
-Document ph_consider at doc263.
+Document ph_chooserow at doc204.
+Document ph_consider at doc269.
 Document ph_end at doc117.
-Document ph_follow at doc259.
+Document ph_follow at doc265.
 Document ph_future at doc124.
-Document ph_group at doc244.
+Document ph_group at doc245.
 Document ph_happening at doc132.
 Document ph_holder at doc107.
 Document ph_if at doc140.
-Document ph_ignore at doc261.
+Document ph_ignore at doc267.
 Document ph_list at doc146.
 Document ph_minspart at doc123.
 Document ph_move at doc99.
 Document ph_nearest at doc121.
-Document ph_numblank at doc208.
-Document ph_numrows at doc200.
-Document ph_omit at doc242.
+Document ph_numblank at doc209.
+Document ph_numrows at doc201.
+Document ph_omit at doc243.
 Document ph_otherwise at doc143.
-Document ph_plus at doc185.
+Document ph_plus at doc186.
 Document ph_random at doc108.
 Document ph_remove at doc101.
 Document ph_repeat at doc144.
@@ -67,13 +72,13 @@ Document ph_result at doc148.
 Document ph_runthrough at doc145.
 Document ph_say at doc74.
 Document ph_sayif at doc55.
-Document ph_scope at doc249.
-Document ph_sort at doc209.
+Document ph_scope at doc255.
+Document ph_sort at doc210.
 Document ph_stop at doc77.
-Document ph_succeeds at doc262.
+Document ph_succeeds at doc268.
 Document ph_surrounds at doc95.
-Document ph_tabrepeat at doc204.
-Document ph_thereis at doc205.
+Document ph_tabrepeat at doc205.
+Document ph_thereis at doc206.
 Document ph_timeshift at doc122.
 Document ph_try at doc78.
 Document ph_tsince at doc131.
@@ -87,10 +92,10 @@ Document rules_instead at doc76.
 Document rules_ri at doc166.
 Document rules_wpb at doc113.
 Document rules_wpe at doc117.
-Document var_command at doc251.
+Document var_command at doc257.
 Document var_location at doc61.
 Document var_noun at doc84.
-Document var_particular at doc241.
+Document var_particular at doc242.
 Document var_person_asked at doc155.
 Document var_person_reaching at doc167.
 Document var_prompt at doc94.
@@ -98,7 +103,8 @@ Document var_reason at doc157.
 Document var_score at doc114.
 Document var_sl at doc95.
 Document var_time at doc119.
-Document var_understood at doc224.
+Document var_understood at doc225.
+Document visibility at doc168.
 
 Use MAX_ARRAYS of 1500.
 Use MAX_CLASSES of 200.
@@ -537,6 +543,7 @@ Check rules is a rulebook. [25]
 Report rules is a rulebook. [26]
 Persuasion rules is a rulebook. [27]
 Unsuccessful attempt by is a rulebook. [28]
+Visibility rules is a rulebook. [29]
 [From here on they can be meddled with.]
 
 Every turn rules is a rulebook.
@@ -583,8 +590,8 @@ The access through barriers rule corresponds to routine OIU_Barrier.
 The can't reach inside closed containers rule corresponds to routine OIUB_CCI.
 The can't reach outside closed containers rule corresponds to routine OIUB_CCO.
 The can't reach inside rooms rule corresponds to routine OIUB_RI.
-
-basic accessibility rule corresponds to routine PA_R.
+The basic accessibility rule corresponds to routine PA_R.
+The can't act in the dark rule corresponds to routine CSITDR.
 
 The first accessibility rule:
 	abide by the access to scoped objects rule.
@@ -598,6 +605,9 @@ The last reaching inside rule:
 
 The last reaching outside rule:
 	abide by the can't reach outside closed containers rule.
+
+The last visibility rule:
+	abide by the can't act in the dark rule.
 
 
 Section SR2/4 - Action processing
@@ -663,6 +673,11 @@ Amusing a victorious player documented act_amuse is an activity.
 Printing the banner text documented act_banner is an activity.
 Printing the plural name of something documented act_ppn is an activity.
 Deciding the concealed possessions of something documented act_con is an activity.
+Printing a refusal to act in the dark documented act_toodark is an activity.
+Printing the announcement of darkness documented act_nowdark is an activity.
+Printing the name of a dark room documented act_darkname is an activity.
+Printing the description of a dark room documented act_darkdesc is an activity.
+Printing room description details of something documented act_details is an activity.
 
 The last for printing the name rule:
 	cause the description to take place.
@@ -2027,9 +2042,9 @@ To say otherwise:
 	(- {/}
 .{L#}; if (say__c==false) say__c=true; else jump {L##}; -).
 To say line break:
-	(- new_line; say__p = 0; -).
+	(- I7_RunOnParagraph(true); new_line; -).
 To say paragraph break:
-	(- if (say__p) new_line; new_line; say__p = 0; -).
+	(- I7_DivideParagraph(); new_line; -).
 To say bracket:
 	(- print "["; -).
 To say close bracket:
@@ -2117,12 +2132,20 @@ To decide whether in (somewhere - a region):
 To decide whether in darkness:
 	(- (location==thedark) -).
 
-To decide which room is best route from (R1 - room) to (R2 - room),
+To decide which object is best route from (R1 - object) to (R2 - object),
 	using doors or using even locked doors:
-	(- I7_RouteTo({R1},{R2},{phrase options}); -).
-To decide which number is number of moves from (R1 - room) to (R2 - room),
+	(- I7_RouteTo({R1},{R2},0,{phrase options}) -).
+To decide which number is number of moves from (R1 - object) to (R2 - object),
 	using doors or using even locked doors:
-	(- I7_CountRouteTo({R1},{R2},{phrase options}); -).
+	(- I7_CountRouteTo({R1},{R2},0,{phrase options}) -).
+To decide which object is best route from (R1 - object) to (R2 - object) through
+	(RS - object-specification-unsub),
+	using doors or using even locked doors:
+	(- I7_RouteTo({R1},{R2},{P#RS},{phrase options}) -).
+To decide which number is number of moves from (R1 - object) to (R2 - object) through
+	(RS - object-specification-unsub),
+	using doors or using even locked doors:
+	(- I7_CountRouteTo({R1},{R2},{P#RS},{phrase options}) -).
 To decide which room is room (D - direction) from (R1 - room):
 	(- I7_RoomFrom({R1},{D},2); -).
 To change (D - direction) exit of (R1 - room) to (R2 - room):
@@ -2466,6 +2489,10 @@ To allow access documented ph_allow:
 	(- RulebookSucceeds(); rtrue; -).
 To deny access:
 	(- RulebookFails(); rtrue; -).
+To there is sufficient light documented visibility:
+	(- RulebookFails(); rtrue; -).
+To there is insufficient light documented visibility:
+	(- RulebookSucceeds(); rtrue; -).
 To persuasion succeeds:
 	(- RulebookSucceeds(); rtrue; -).
 To persuasion fails:

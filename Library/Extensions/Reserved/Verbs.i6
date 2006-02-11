@@ -1,5 +1,7 @@
 ! The primitive accessibility rule
 
+[ CSITDR; if (location == thedark) { RulebookSucceeds(); rtrue; } rfalse; ];
+
 [ PA_R mask at;
 !  print "Actor is ", (the) actor, "^";
   if (act_requester) rfalse;
@@ -11,10 +13,15 @@
 ! print "inp1 = ", inp1, "; inp2 = ", inp2, "^";
 
 !  print "Mask is ", mask, "^";
-  if ((mask & $$00100) && (actor == player) && (location == thedark)) {
-      L__M(##Miscellany, 17);
-      I7_action_deciding_rule = PA_R;
-      RulebookFails(); rtrue; }
+  if ((mask & $$00100) && (actor == player) &&
+      (ProcessRulebook(VISIBLE_RB)) &&
+      ((rulechange_stack-->rulechange_sp == RS_SUCCEEDS))) {
+      BeginActivity(TOODARK_ACT);
+      if (ForActivity(TOODARK_ACT)==false) L__M(##Miscellany, 17);
+      EndActivity(TOODARK_ACT);
+      I7_action_deciding_rule = CSITDR;
+      RulebookFails(); rtrue;
+  }
   if ((mask & $$00001) && noun && (inp1 ~= 1)) {
       if (noun in compass) {
           RulebookFails();
@@ -506,7 +513,10 @@ Global go_dir_prop;
   } rfalse; ];
 
 [ GoSub_R1;
-  if (player == actor) LookSub_P(1); else {
+  if (player == actor) {
+      if (say__pc & PARA_COMPLETED == 0) new_line;
+      LookSub_P(1);
+  } else {
       say__p = 1;
       print (The) actor;
       if (noun ofclass K3_direction) {
@@ -590,7 +600,7 @@ Global visibility_levels;
   !   Octagonal Room (on the table) (as Frodo)
 
   if (actor ~= player) rfalse;
-  new_line;
+  I7_DivideParagraph();
   style bold;
   if (visibility_levels == 0) print (name) thedark;
   else
@@ -603,27 +613,34 @@ Global visibility_levels;
       if (i has supporter) GL__M(##Look,1,i);
                       else GL__M(##Look,2,i);
 
-  if (print_player_flag==1) GL__M(##Look,3,actor); say__p = 0;
-  new_line; rfalse;
+  if (print_player_flag==1) GL__M(##Look,3,actor);
+  new_line;
+  I7_RunOnParagraph();
+  rfalse;
 ];
 
 [ LookSub_O3;
   if (actor ~= player) rfalse;
   if (lookmode<3 && visibility_ceiling==location)
   {   if ((allow_abbreviated_look~=1) || (lookmode==2) || (location hasnt visited))
-      {   if (location.describe~=NULL) RunRoutines(location,describe);
-          else
-          {   if (location.description==0) RunTimeError(11,location);
-              else PrintOrRun(location,description);
+      {   if (location.describe~=NULL) {
+              RunRoutines(location,describe);
+              say__p = 1;
+          } else {
+              if (location.description==0) RunTimeError(11,location);
+              else {
+                  if (PrintOrRun(location,description)) say__p = 1;
+                  else say__p = 0;
+              }
           }
       }
-      say__p = 0;
+!      say__p = 1;
   } rfalse;
 ];
 
 [ LookSub_O4 i j k;
   if (actor ~= player) rfalse;
-  if (visibility_levels == 0) { Locale(thedark); say__p = 1; }
+  if (visibility_levels == 0) { Locale(thedark); }
   else
   {   for (i=actor, j=visibility_levels: j>0: j--, i=Vis_parent(i))
           give i workflag;
@@ -632,7 +649,7 @@ Global visibility_levels;
       {   for (i=actor, k=0: k<j: k++) i=Vis_parent(i);
           if (i.inside_description~=0)
           { new_line; PrintOrRun(i,inside_description); }
-          Locale(i); say__p = 1;
+          Locale(i); !say__p = 1;
       }
   }
   action=##Look; rfalse;

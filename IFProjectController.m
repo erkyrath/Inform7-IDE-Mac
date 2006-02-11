@@ -825,6 +825,9 @@ static NSDictionary*  itemDictionary = nil;
 	IFCompilerController* paneController = [[projectPanes objectAtIndex: 0] compilerController];
 	NSString* copyLocation = [paneController blorbLocation];
 	
+	// Show the 'success' pane
+	[[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
+	
 	if (copyLocation != nil) {
 		// Copy the result to the specified location
 		[[NSFileManager defaultManager] copyPath: [[[self document] compiler] outputFile]
@@ -879,7 +882,7 @@ static NSDictionary*  itemDictionary = nil;
 	
 	[self removeProgressIndicator: [[[self document] compiler] progress]];
 	
-	if (exitCode != 0) {
+	if (exitCode != 0 || [[not object] problemsURL] != nil) {
 		// Show the errors pane if there was an error while compiling
 		[[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
 	}
