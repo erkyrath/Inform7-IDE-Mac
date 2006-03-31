@@ -648,7 +648,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 			problemsURL = [[problemHandler urlForProblemWithErrorCode: exitCode] copy];
 		} else if (exitCode == 0 && problemHandler) {
 			if ([problemHandler respondsToSelector: @selector(urlForSuccess)]) {
-				problemsURL = [problemHandler urlForSuccess];
+				problemsURL = [[problemHandler urlForSuccess] copy];
 			}
 		}
 			
