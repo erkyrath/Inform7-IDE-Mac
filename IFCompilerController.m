@@ -733,7 +733,15 @@ static IFCompilerController* activeController = nil;
 - (NSTabViewItem*) makeTabForURL: (NSURL*) url
 						   named: (NSString*) tabName {
 	// Create a parent view
-	NSView* aView = [[NSView alloc] initWithFrame: [fileTabView contentRect]];
+	NSRect viewRect;
+	
+	if (fileTabView == nil) {
+		viewRect = NSMakeRect(0,0, 100,100);
+	} else {
+		viewRect = [fileTabView contentRect];
+	}
+	
+	NSView* aView = [[NSView alloc] initWithFrame: viewRect];
 	[aView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 	
 	// Create a 'fake' web view which will get replaced when the view is actually displayed on screen
