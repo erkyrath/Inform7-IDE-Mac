@@ -829,7 +829,12 @@ static NSDictionary*  itemDictionary = nil;
 	[[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
 	
 	if (copyLocation != nil) {
-		// Copy the result to the specified location
+		// Copy the result to the specified location (overwriting any existing file)
+		if ([[NSFileManager defaultManager] fileExistsAtPath: copyLocation]) {
+			[[NSFileManager defaultManager] removeFileAtPath: copyLocation
+													 handler: nil];
+		}
+		
 		[[NSFileManager defaultManager] copyPath: [[[self document] compiler] outputFile]
 										  toPath: copyLocation
 										 handler: nil];
