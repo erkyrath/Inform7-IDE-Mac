@@ -1014,7 +1014,5 @@ void IFErrorAddError(const char* filC,
 }
 
 void IFErrorCopyBlorbTo(const char* whereTo) {
-	NSLog(@"DEBUG: Blorb to %s", whereTo);
-	
 	[activeController setBlorbLocation: [NSString stringWithUTF8String: whereTo]];
 }
