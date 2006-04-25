@@ -8,6 +8,7 @@
 
 #import "IFWelcomeWindow.h"
 
+#import "IFMaintenanceTask.h"
 
 @implementation IFWelcomeWindow
 
@@ -31,6 +32,14 @@
 	self = [super initWithWindow: win];
 	
 	if (self) {
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(startedMaintaining:)
+													 name: IFMaintenanceTasksStarted
+												   object: nil];
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(finishedMaintaining:)
+													 name: IFMaintenanceTasksFinished
+												   object: nil];
 	}
 	
 	return self;
@@ -58,8 +67,21 @@
 																	  value: @"(Oops, welcome text is missing)"
 																	  table: nil]];
 	
-	// Window shouldn't 'float' above the other windows like most panels
+	// This window shouldn't 'float' above the other windows like most panels
 	[[self window] setLevel: NSNormalWindowLevel];
+	
+	// As the maintenance task centre interacts with this window, we use this opportunity to run the ni census command
+	NSString* compilerPath = [[NSBundle mainBundle] pathForResource: @"ni"
+															 ofType: @""
+														inDirectory: @"Compilers"];
+	if (compilerPath != nil) {
+		[[IFMaintenanceTask sharedMaintenanceTask] queueTask: compilerPath
+											   withArguments: [NSArray arrayWithObjects: 
+												   @"-census",
+												   @"-rules",
+												   [[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: @"Inform7"] stringByAppendingPathComponent: @"Extensions"],
+												   nil]];
+	}
 }
 
 // = Actions =
@@ -74,6 +96,14 @@
 	[NSApp sendAction: @selector(newProject:)
 				   to: nil 
 				 from: self];
+}
+
+- (void) startedMaintaining: (NSNotification*) not {
+	[backgroundProgress startAnimation: self];
+}
+
+- (void) finishedMaintaining: (NSNotification*) not {
+	[backgroundProgress stopAnimation: self];
 }
 
 - (NSURL*) lastProject {

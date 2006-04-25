@@ -12,6 +12,7 @@
 @interface IFWelcomeWindow : NSWindowController {
 	IBOutlet NSTextField* introText;					// The text field that should contain the introductory text
 	IBOutlet NSButton* openLastProject;					// Button used to reopen the last project that was open in Inform
+	IBOutlet NSProgressIndicator* backgroundProgress;	// Progress indicator that shows when a background process is running
 }
 
 // Creating the window
