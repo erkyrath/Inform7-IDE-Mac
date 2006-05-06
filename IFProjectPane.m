@@ -1091,6 +1091,34 @@ NSDictionary* IFSyntaxAttributes[256];
 	[skeinLabelButton selectItem: nil];
 }
 
+- (void) clearSkeinDidEnd: (NSWindow*) sheet
+			   returnCode: (int) returnCode
+			  contextInfo: (void*) contextInfo {
+	if (returnCode == NSAlertAlternateReturn) {
+		ZoomSkein* skein = [[parent document] skein];
+		
+		[skein removeTemporaryItems: 0];
+		[skein zoomSkeinChanged];
+	}
+}
+
+- (IBAction) clearSkein: (id) sender {
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Are you sure you want to clear the skein?"
+															 value: @"Are you sure you want to clear the skein?"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															 value: @"Cancel"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Clear Skein"
+															 value: @"Clear Skein"
+															 table: nil],
+					  nil, [skeinView window], self, 
+					  @selector(clearSkeinDidEnd:returnCode:contextInfo:), nil,
+					  nil, [[NSBundle mainBundle] localizedStringForKey: @"Clear skein explanation"
+																  value: @"Clear skein explanation"
+																  table: nil]);
+}
+
 - (IBAction) skeinLabelSelected: (id) sender {
 	NSString* annotation = [[sender selectedItem] title];
 	

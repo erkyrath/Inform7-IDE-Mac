@@ -167,6 +167,7 @@ enum IFProjectPaneType {
 // The skein view
 - (ZoomSkeinView*) skeinView;									// The skein view
 - (IBAction) skeinLabelSelected: (id) sender;					// The user has selected a skein item from the drop-down list (so we should scroll there)
+- (IBAction) clearSkein: (id) sender;							// The user has clicked the 'clear skein' button
 - (void) skeinDidChange: (NSNotification*) not;					// Called by Zoom to notify that the skein has changed
 
 // The transcript view
