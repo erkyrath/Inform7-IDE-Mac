@@ -530,6 +530,7 @@ static int resultComparator(id a, id b, void* context) {
 - (void) searchInIndex: (SKIndexRef) index
 		withController: (IFSearchResultsController*) resultsDest {
 	// Search a SearchKit index for results
+#if 0
 	if (NSAppKitVersionNumber >= 824.0) {
 		// Use 10.4 async search and summarisation tools
 		SKSearchRef search = SKSearchCreate(index,
@@ -620,7 +621,9 @@ static int resultComparator(id a, id b, void* context) {
 		
 		SKSearchCancel(search);
 		CFRelease(search);
-	} else {
+	} 
+	else
+	{
 		// Use 10.3 synchronous search (sadly, this causes a crash under 10.3 itself: SearchKit in 10.3 seems far too buggy to be used)
 		
 		// Create the search group
@@ -696,6 +699,7 @@ static int resultComparator(id a, id b, void* context) {
 		CFRelease(results);
 		CFRelease(group);
 	}
+#endif
 }
 
 - (NSString*) stripNewlines: (NSString*) stringToStrip {

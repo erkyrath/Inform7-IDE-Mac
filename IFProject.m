@@ -17,7 +17,7 @@
 
 #import "IFNaturalIntel.h"
 
-#include <uuid/uuid.h>
+#include "uuid/uuid.h"
 
 NSString* IFProjectFilesChangedNotification = @"IFProjectFilesChangedNotification";
 NSString* IFProjectWatchExpressionsChangedNotification = @"IFProjectWatchExpressionsChangedNotification";
