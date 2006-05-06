@@ -91,6 +91,9 @@ enum IFProjectPaneType {
 	IBOutlet NSPopUpButton* skeinLabelButton;			// The button used to jump to different skein items
 	int annotationCount;								// The number of annotations (labels)
 	NSString* lastAnnotation;							// The last annotation skipped to using the label button
+	
+	IBOutlet NSWindow* pruneSkein;						// The 'prune skein' window
+	IBOutlet NSSlider* pruneAmount;						// The 'prune amount' slider
 
     // Settings
 	IBOutlet IFSettingsView* settingsView;				// The settings view
@@ -167,8 +170,10 @@ enum IFProjectPaneType {
 // The skein view
 - (ZoomSkeinView*) skeinView;									// The skein view
 - (IBAction) skeinLabelSelected: (id) sender;					// The user has selected a skein item from the drop-down list (so we should scroll there)
-- (IBAction) clearSkein: (id) sender;							// The user has clicked the 'clear skein' button
 - (void) skeinDidChange: (NSNotification*) not;					// Called by Zoom to notify that the skein has changed
+
+- (IBAction) performPruning: (id) sender;						// The user has clicked a button in the 'prune skein' sheet
+- (IBAction) pruneSkein: (id) sender;							// The user has clicked the 'prune skein' button
 
 // The transcript view
 - (IFTranscriptView*) transcriptView;							// Returns the transcript view object associated with this pane

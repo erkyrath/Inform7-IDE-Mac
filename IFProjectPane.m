@@ -1102,21 +1102,35 @@ NSDictionary* IFSyntaxAttributes[256];
 	}
 }
 
-- (IBAction) clearSkein: (id) sender {
-	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Are you sure you want to clear the skein?"
-															 value: @"Are you sure you want to clear the skein?"
-															 table: nil],
-					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
-															 value: @"Cancel"
-															 table: nil],
-					  [[NSBundle mainBundle] localizedStringForKey: @"Clear Skein"
-															 value: @"Clear Skein"
-															 table: nil],
-					  nil, [skeinView window], self, 
-					  @selector(clearSkeinDidEnd:returnCode:contextInfo:), nil,
-					  nil, [[NSBundle mainBundle] localizedStringForKey: @"Clear skein explanation"
-																  value: @"Clear skein explanation"
-																  table: nil]);
+- (IBAction) performPruning: (id) sender {
+	if ([sender tag] == 1) {
+		// Perform the pruning
+		ZoomSkein* skein = [[parent document] skein];
+
+		int pruning = 31 - [pruneAmount floatValue];
+		if (pruning < 1) pruning = 1;
+		
+		[skein removeTemporaryItems: pruning];
+		[skein zoomSkeinChanged];
+	}
+	
+	// Finish with the sheet
+	[NSApp stopModal];
+}
+
+- (IBAction) pruneSkein: (id) sender {
+	// Set the slider to a default value (prune a little - this is only a little harsher than the auto-pruning)
+	[pruneAmount setFloatValue: 10.0];
+	
+	// Run the 'prune skein' sheet
+	[NSApp beginSheet: pruneSkein
+	   modalForWindow: [skeinView window]
+		modalDelegate: self
+	   didEndSelector: nil
+		  contextInfo: nil];
+	[NSApp runModalForWindow: [skeinView window]];
+	[NSApp endSheet: pruneSkein];
+	[pruneSkein orderOut: self];
 }
 
 - (IBAction) skeinLabelSelected: (id) sender {
