@@ -57,11 +57,38 @@
 
 // = Receiving data from/updating the interface =
 
+- (float) fontSizeForTag: (int) tag {
+	switch (tag) {
+		case 0:
+			return 1.0;
+		case 1:
+			return 1.25;
+		case 2:
+			return 1.5;
+		case 3:
+			return 2.5;
+	}
+	
+	return 1.0;
+}
+
+- (int) tagForFontSize: (float) fontSize {
+	if (fontSize >= 2.5)
+		return 3;
+	else if (fontSize >= 1.5)
+		return 2;
+	else if (fontSize >= 1.25)
+		return 1;
+	else
+		return 0;
+}
+
 - (IBAction) styleSetHasChanged: (id) sender {
 	IFPreferences* prefs = [IFPreferences sharedPreferences];
 	
 	if (sender == fontSet)			[prefs setFontSet:			[[fontSet selectedItem] tag]];
 	if (sender == fontStyle)		[prefs setFontStyling:		[[fontStyle selectedItem] tag]];
+	if (sender == fontSize)			[prefs setFontSize:			[self fontSizeForTag: [[fontSize selectedItem] tag]]];
 	if (sender == colourSet)		[prefs setColourSet:		[[colourSet selectedItem] tag]];
 	if (sender == changeColours)	[prefs setChangeColours:	[[changeColours selectedItem] tag]];
 }
@@ -71,6 +98,7 @@
 	
 	[fontSet selectItem:		[[fontSet menu]			itemWithTag: [prefs fontSet]]];
 	[fontStyle selectItem:		[[fontStyle menu]		itemWithTag: [prefs fontStyling]]];
+	[fontSize selectItem:		[[fontSize menu]		itemWithTag: [self tagForFontSize: [prefs fontSize]]]];
 	[colourSet selectItem:		[[colourSet menu]		itemWithTag: [prefs colourSet]]];
 	[changeColours selectItem:	[[changeColours menu]	itemWithTag: [prefs changeColours]]];
 	

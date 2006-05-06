@@ -78,11 +78,13 @@ enum IFPreferencesColourSet {
 // Style preferences
 - (enum IFPreferencesFontSet) fontSet;										// The currently active font set
 - (enum IFPreferencesFontStyling) fontStyling;								// ... styling
+- (float) fontSize;															// ... size
 - (enum IFPreferencesColourChanges) changeColours;							// ... colour changes
 - (enum IFPreferencesColourSet) colourSet;									// ... colour set
 
 - (void) setFontSet: (enum IFPreferencesFontSet) newFontSet;				// Set the currently active font set
 - (void) setFontStyling: (enum IFPreferencesFontStyling) newFontStyling;	// ... styling
+- (void) setFontSize: (float) sizeMultiplier;								// ... size
 - (void) setChangeColours: (enum IFPreferencesColourChanges) newColourChanges; // ... colour changes
 - (void) setColourSet: (enum IFPreferencesColourSet) newColourSet;			// ... colour set
 

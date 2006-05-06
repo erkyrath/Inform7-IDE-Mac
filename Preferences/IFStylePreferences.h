@@ -18,6 +18,7 @@
 @interface IFStylePreferences : IFPreferencePane {
 	IBOutlet NSPopUpButton* fontSet;
 	IBOutlet NSPopUpButton* fontStyle;
+	IBOutlet NSPopUpButton* fontSize;
 	IBOutlet NSPopUpButton* changeColours;
 	IBOutlet NSPopUpButton* colourSet;
 	IBOutlet NSTextView* previewView;

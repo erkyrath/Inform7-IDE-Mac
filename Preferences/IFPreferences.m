@@ -134,6 +134,21 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 		return IFColoursStandard;
 }
 
+- (float) fontSize {
+	NSNumber* fontSize = [preferences objectForKey: @"fontSize"];
+	
+	if (fontSize)
+		return [fontSize floatValue];
+	else
+		return 1.0;
+}
+
+- (void) setFontSize: (float) multiplier {
+	[preferences setObject: [NSNumber numberWithFloat: multiplier]
+					forKey: @"fontSize"];
+	[self preferencesHaveChanged];
+}
+
 - (void) setFontSet: (enum IFPreferencesFontSet) newFontSet {
 	[preferences setObject: [NSNumber numberWithInt: newFontSet]
 					forKey: @"fontSet"];
@@ -170,6 +185,8 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 	if (styles)			 [styles release];
 	
 	// Allocate the caches
+	float fontSize = [self fontSize];
+	
 	cacheFontSet	= nil;
 	cacheFontStyles	= nil;
 	cacheColourSet	= nil;
@@ -182,33 +199,33 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 		default:
 		case IFFontSetStandard:
 			cacheFontSet = [[NSMutableDictionary dictionaryWithObjectsAndKeys: 
-				[NSFont systemFontOfSize: 11], IFPreferencesBaseFont,
-				[NSFont boldSystemFontOfSize: 11], IFPreferencesBoldFont,
-				[NSFont systemFontOfSize: 10], IFPreferencesItalicFont,
-				[NSFont boldSystemFontOfSize: 9],  IFPreferencesCommentFont,
-				[NSFont boldSystemFontOfSize: 12], IFPreferencesHeaderFont,
+				[NSFont systemFontOfSize: 11*fontSize], IFPreferencesBaseFont,
+				[NSFont boldSystemFontOfSize: 11*fontSize], IFPreferencesBoldFont,
+				[NSFont systemFontOfSize: 10*fontSize], IFPreferencesItalicFont,
+				[NSFont boldSystemFontOfSize: 9*fontSize],  IFPreferencesCommentFont,
+				[NSFont boldSystemFontOfSize: 12*fontSize], IFPreferencesHeaderFont,
 				nil]
 				retain];
 			break;
 			
 		case IFFontSetProgrammer:
 			cacheFontSet = [[NSMutableDictionary dictionaryWithObjectsAndKeys: 
-				[NSFont fontWithName: @"Monaco" size: 10], IFPreferencesBaseFont,
-				[NSFont fontWithName: @"Monaco" size: 10], IFPreferencesBoldFont,
-				[NSFont fontWithName: @"Monaco" size: 9], IFPreferencesItalicFont,
-				[NSFont fontWithName: @"Monaco" size: 9], IFPreferencesCommentFont,
-				[NSFont fontWithName: @"Helvetica Bold" size: 12], IFPreferencesHeaderFont,
+				[NSFont fontWithName: @"Monaco" size: 10*fontSize], IFPreferencesBaseFont,
+				[NSFont fontWithName: @"Monaco" size: 10*fontSize], IFPreferencesBoldFont,
+				[NSFont fontWithName: @"Monaco" size: 9*fontSize], IFPreferencesItalicFont,
+				[NSFont fontWithName: @"Monaco" size: 9*fontSize], IFPreferencesCommentFont,
+				[NSFont fontWithName: @"Helvetica Bold" size: 12*fontSize], IFPreferencesHeaderFont,
 				nil]
 				retain];
 			break;
 			
 		case IFFontSetStylised:
 			cacheFontSet = [[NSMutableDictionary dictionaryWithObjectsAndKeys: 
-				[NSFont fontWithName: @"Gill Sans" size: 12], IFPreferencesBaseFont,
-				[NSFont fontWithName: @"Gill Sans Bold" size: 12], IFPreferencesBoldFont,
-				[NSFont fontWithName: @"Gill Sans Italic" size: 10], IFPreferencesCommentFont,
-				[NSFont fontWithName: @"Gill Sans Italic" size: 12], IFPreferencesItalicFont,
-				[NSFont fontWithName: @"Gill Sans Bold Italic" size: 14], IFPreferencesHeaderFont,
+				[NSFont fontWithName: @"Gill Sans" size: 12*fontSize], IFPreferencesBaseFont,
+				[NSFont fontWithName: @"Gill Sans Bold" size: 12*fontSize], IFPreferencesBoldFont,
+				[NSFont fontWithName: @"Gill Sans Italic" size: 10*fontSize], IFPreferencesCommentFont,
+				[NSFont fontWithName: @"Gill Sans Italic" size: 12*fontSize], IFPreferencesItalicFont,
+				[NSFont fontWithName: @"Gill Sans Bold Italic" size: 14*fontSize], IFPreferencesHeaderFont,
 				nil]
 				retain];
 			break;
