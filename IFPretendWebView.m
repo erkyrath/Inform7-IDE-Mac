@@ -7,6 +7,7 @@
 //
 
 #import "IFPretendWebView.h"
+#import "IFPreferences.h"
 
 
 @implementation IFPretendWebView
@@ -58,6 +59,7 @@
 	// Create the webview
 	WebView* replacementView = [[WebView alloc] initWithFrame: [self frame]];
 	[replacementView setAutoresizingMask: [self autoresizingMask]];
+	[replacementView setTextSizeMultiplier: [[IFPreferences sharedPreferences] fontSize]];
 	
 	if (hostWindow) {
 		[replacementView setHostWindow: hostWindow];

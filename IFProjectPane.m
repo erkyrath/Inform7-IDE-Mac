@@ -157,6 +157,11 @@ NSDictionary* IFSyntaxAttributes[256];
         [openSourceFile release];
 		
 		textStorage = nil;
+		
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(preferencesChanged:)
+													 name: IFPreferencesChangedEarlierNotification
+												   object: [IFPreferences sharedPreferences]];
     }
 
     return self;
@@ -183,7 +188,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	[transcriptView setDelegate: nil];
     
 	if (textStorage) {
-		// Hrm? Cocoa seems to like deallocating NSTextStorage despite it's retain count.
+		// Hrm? Cocoa seems to like deallocating NSTextStorage despite its retain count.
 		// Ah, wait, NSTextView does not retain a text storage added using [NSTextStorage addLayoutManager:]
 		// so, it does honour the retain count, but doesn't monitor it correctly.
 		// Regardless, this fixes the problem. Not sure if this is a Cocoa bug or not.
@@ -316,6 +321,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	if ((int)[[NSApp delegate] isWebKitAvailable]) {
 		// Create the view for the documentation tab
 		wView = [[WebView alloc] init];
+		[wView setTextSizeMultiplier: [[IFPreferences sharedPreferences] fontSize]];
 		[wView setResourceLoadDelegate: self];
 		[wView setFrameLoadDelegate: self];
 		[docTabView setView: wView];
@@ -682,6 +688,11 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = The game view =
 
+- (void) preferencesChanged: (NSNotification*) not {
+	[zView setScaleFactor: 1.0/[[IFPreferences sharedPreferences] fontSize]];
+	[wView setTextSizeMultiplier: [[IFPreferences sharedPreferences] fontSize]];
+}
+
 - (void) activateDebug {
 	setBreakpoint = YES;
 }
@@ -756,6 +767,8 @@ NSDictionary* IFSyntaxAttributes[256];
 			[NSColor colorWithDeviceRed: .53 green: .53 blue: .53 alpha: 1],
 			[NSColor colorWithDeviceRed: .26 green: .26 blue: .26 alpha: 1],
 			nil]];
+		
+		[zView setScaleFactor: 1.0/[[IFPreferences sharedPreferences] fontSize]];
 		
 		[zView setFrame: [gameView bounds]];
 		[zView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
