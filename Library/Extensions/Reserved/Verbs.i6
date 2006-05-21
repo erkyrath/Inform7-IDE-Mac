@@ -629,8 +629,12 @@ Global visibility_levels;
           } else {
               if (location.description==0) RunTimeError(11,location);
               else {
-                  if (PrintOrRun(location,description)) say__p = 1;
-                  else say__p = 0;
+                  if (location == thedark)
+                      PrintOrRun(thedark,description);
+                  else {
+                      if (PrintOrRun(location,description)) say__p = 1;
+                      else say__p = 0;
+                  }
               }
           }
       }
@@ -860,6 +864,11 @@ Global visibility_levels;
       return GL__M(##Touch,3,noun);
   } rfalse; ];
 [ TouchSub_R2;
+  if (actor ~= player) {
+      print (The) actor, " touches ";
+      if (noun == player) print "you"; else print (the) noun;
+      ".^";
+  }
   if (noun has animate) return GL__M(##Touch,1,noun); rfalse; ];
 [ TouchSub_R3;
   if (actor ~= player) print (The) actor, " touches ", (the) noun, ".^^";
@@ -918,7 +927,18 @@ Global visibility_levels;
 [ GiveSub_C3;
   if (RunLife(second,##Give)~=0) rtrue; rfalse; ];
 [ GiveSub_C4;
+  if (second ofclass K8_person) rfalse;
+  return GL__M(##Give,4,second); ];
+[ GiveSub_C5;
   return GL__M(##Give,3,second); ];
+[ GiveSub_O1;
+  I7_Move(noun, second); rfalse; ];
+[ GiveSub_R1;
+  if (actor ~= player) print (The) actor, " gives ";
+  else print "You give ";
+  print (the) noun, " to ";
+  if (second ~= player) print (the) second, ".^^"; else print "you.^^";
+  rtrue; ];
 
 [ ShowSub_C1;
   if (parent(noun)~=actor) return GL__M(##Show,1,noun); rfalse; ];
@@ -975,7 +995,7 @@ Global visibility_levels;
 [ AskSub_C2; return GL__M(##Ask,1,noun); ];
 
 [ AskForSub_C1; if (noun==actor) <<Inv>>; rfalse; ];
-[ AskForSub_C2; return GL__M(##Order,1,noun); ];
+[ AskForSub_C2; I7_TryAction(1, noun, ##Give, second, actor); rtrue; ];
 
 ! Actions blocked in all cases
 

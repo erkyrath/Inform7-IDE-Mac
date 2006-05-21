@@ -27,7 +27,7 @@ Constant RTP_TABLE_NOTABLE 24;
 Constant RTP_TABLE_NOMOREBLANKS 25;
 Constant RTP_TABLE_NOROWS 26;
 Constant RTP_TABLE_CANTSORT 27;
-
+Constant RTP_NOTINAROOM 28;
 
 ! The rule change stack contains 3-word (6 byte) records,
 ! defined thus:
@@ -564,6 +564,7 @@ Global trace_actions = 0;
       inp2 = 1; second = consult_from + 256*consult_words;
       parsed_number = 100*consult_from + consult_words;
   }
+!  DB_Action(actor, false, action, noun, second);
 !  print "Actor = ", (the) actor, "^";
 !  print noun, "/", second, ";", inp1, "/", inp2, "^";
   if (I7_VerifyNouns()) return;
@@ -801,10 +802,10 @@ Global GVS_converted = -1;
 !  print inp1, inp2, "^";
   by = FindAction(ac);
   if (by) {
-      if (ActionData-->(by+2) == 7) inp1 = noun; else inp1 = 1;
-      if (ActionData-->(by+3) == 7) inp2 = second; else inp2 = 1;
+      if (ActionData-->(by+2) == 7) inp1 = n; else inp1 = 1;
+      if (ActionData-->(by+3) == 7) inp2 = s; else inp2 = 1;
   }
-!  print inp1, inp2, "^";
+!  print "Made by ITA: ", inp1, inp2, "^";
   InformLibrary.begin_action(ac, n, s);
 !  <(ac) n s>;
 !  print inp1, inp2, "^";
@@ -879,6 +880,7 @@ Global GVS_converted = -1;
       if (say__pc & PARA_FORCELINEBREAK)
           say__pc = say__pc - PARA_FORCELINEBREAK;
   }
+  !print "[TO", say__p, say__pc, "]";
 ];
 
 [ I7_RunOnParagraph said;
@@ -898,7 +900,7 @@ Global I7_enable_rte = true;
       String: print (string) I7_prompt_text;
       Routine: I7_prompt_text();
   }
-  say__pc = 0; say__pc = 0;
+  say__p = 0; say__pc = 0;
   if (I7_box) {
       for (i=0: I7_boxes_appeared-->i: i++)
           if (I7_boxes_appeared-->i == I7_box) {
@@ -908,6 +910,7 @@ Global I7_enable_rte = true;
       I7_boxes_appeared-->i = I7_box;
       I7_box();
       I7_box = 0;
+      say__p = 0; say__pc = 0;
   }
   I7_enable_rte = true;
 ];
@@ -929,6 +932,7 @@ Global I7_enable_rte = true;
    @split_window 1; @set_window 1; @set_cursor 1 1; style reverse;
    width = 0->33; posb = width-15;
    spaces width;
+   say__p = 0; say__pc = 0;
    if (ForActivity(3) == false) {
    @set_cursor 1 2;
    switch(metaclass(I7_left_sl)) {
@@ -942,6 +946,7 @@ Global I7_enable_rte = true;
    }
    }
    @set_cursor 1 1; style roman; @set_window 0;
+   say__p = 0; say__pc = 0;
    EndActivity(3);
    say__p = s; say__pc = spc;
 ];
@@ -969,20 +974,28 @@ Global inhibit_dr = 0;
   rv = FollowRulebook(R, o, true);
   self = ss; return rv;
 ];
-[ BeginActivity A o;
+[ BeginActivity A o x;
   if (activities_sp == 25) return RunTimeProblem(RTP_TOOMANYACTS);
   activities_ostack-->activities_sp = o;
   activities_stack-->(activities_sp++) = A;
   FixInhibitFlag();
-  return FollowRulebookSelfed(Activity_before_rulebooks-->A, o);
+  if (Activity_atb_rulebooks->A) { x = action; action = action_to_be; }
+  o = FollowRulebookSelfed(Activity_before_rulebooks-->A, o);
+  if (Activity_atb_rulebooks->A) action = x;
+  return o;
 ];
-[ ForActivity A o;
-  return FollowRulebookSelfed(Activity_when_rulebooks-->A, o);
+[ ForActivity A o x;
+  if (Activity_atb_rulebooks->A) { x = action; action = action_to_be; }
+  o = FollowRulebookSelfed(Activity_when_rulebooks-->A, o);
+  if (Activity_atb_rulebooks->A) action = x;
+  return o;
 ];
-[ EndActivity A o rv;
+[ EndActivity A o rv x;
   if (activities_sp == 0) jump BadEnd;
   if (activities_stack-->(activities_sp-1) == A) {
+      if (Activity_atb_rulebooks->A) { x = action; action = action_to_be; }
       rv = FollowRulebookSelfed(Activity_after_rulebooks-->A, o);
+      if (Activity_atb_rulebooks->A) action = x;
       activities_sp--; FixInhibitFlag(); return rv; }
   .BadEnd; return RunTimeProblem(RTP_CANTABANDON);
 ];
@@ -1001,6 +1014,15 @@ Global inhibit_dr = 0;
           if ((Pattern)(activities_ostack-->i)) rtrue;
       }
   rfalse;
+];
+[ I7_WhetherIn obj;
+    if (obj ofclass K9_region) return I7_In(real_location, obj);
+    if (obj ofclass K1_room) {
+        if (obj == real_location) rtrue;
+        rfalse;
+    }
+    RunTimeProblem(RTP_NOTINAROOM, obj);
+    rfalse;
 ];
 [ I7_Move F T opt ln;
   if (F == false) return RunTimeProblem(RTP_CANTMOVENOTHING);
@@ -1145,6 +1167,7 @@ Global inhibit_dr = 0;
       c_style = ct;
       return;
   }
+
   objectloop (obj ofclass Object && obj has i7listflag) {
       give obj ~i7listflag;
       if (supp & DEFART_BIT) {
@@ -1743,8 +1766,61 @@ Constant I7_TWELVE_HOURS = 720;
 		RTP_TABLE_CANTSORT:
 			print "Attempt to sort a table whose ordering must remain fixed: table '",
 				(PrintTableName) obj, "'.^";
-	}
+		RTP_NOTINAROOM:
+			print "Attempt to test if the current location is '",
+				(the) obj, "', which is not a room or region.^";
+    }
 	print "^";
 ];
 
 [ I7_char_to_digit c n; n = c-'0'; if ((n<0) || (n>9)) return -1; return n; ];
+
+[ I7_FrontSide D; if (~~(D ofclass K4_door)) rfalse;
+  if (D provides found_in) return (D.&found_in)-->0;
+  return parent(D);
+];
+[ I7_BackSide D; if (~~(D ofclass K4_door)) rfalse;
+  if (D provides found_in) return (D.&found_in)-->1;
+  rfalse;
+];
+[ I7_Location O;
+  if (~~(O ofclass K2_thing)) rfalse;
+  if (O ofclass K4_door) return I7_FrontSide(O);
+  if (O ofclass K7_backdrop) rfalse;
+  while (O && (~~(O ofclass K1_room))) {
+      if (parent(O)) O = parent(O);
+      else O = O.component_parent;
+  }
+  return O;
+];
+[ I7_IndirectlyContains o1 o2;
+  !  Does o1 enclose o2?
+  if ((o1==o2) || (o1 == 0) || (o2 == 0)) rfalse;
+  if (o2 ofclass K4_door) {
+      if (o1 == I7_FrontSide(o2)) rtrue;
+      if (o1 == I7_BackSide(o2)) rtrue;
+      rfalse;
+  }
+  if (o2 ofclass K7_backdrop) rfalse;
+  while (o2) {
+      if (o1==o2) rtrue;
+      if (parent(o2)) o2 = parent(o2);
+      else o2 = o2.component_parent;
+  }
+  rfalse;
+];
+[ I7_TestActionMask match mask at; 
+    at = FindAction(); 
+    if (at == 0) rfalse; 
+    mask = ActionData-->(at+1); 
+    if (mask & match) rtrue; 
+    rfalse; 
+];
+
+[ I7_NeedToTouchNoun; return I7_TestActionMask($$00001); ];
+[ I7_NeedToTouchSecondNoun; return I7_TestActionMask($$00010); ];
+[ I7_NeedLightForAction; return I7_TestActionMask($$00100); ];
+[ I7_SeedRNG n;
+  if (n > 0) n = -n;
+  @random n -> n;
+];

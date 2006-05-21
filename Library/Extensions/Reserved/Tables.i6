@@ -149,9 +149,10 @@ Constant I7_TABLE_NOVALUE $7fe3;
 ! TableBlankRows(T) returns the number of blank rows in T.
 
 [ TableBlankRows tab i j c;
-  i = TableRows(tab);
+  i = TableRows(tab); !print i, " rows^";
   for (j=1:j<=i:j++)
       if (TableRowIsBlank(tab, j)) c++;
+  !print c, " blank^";
   return c;
 ];
 
