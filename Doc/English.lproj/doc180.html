@@ -1,4 +1,13 @@
-<html><head><title>12.11. Defining new prepositions</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>12.4. To carry, to wear, to have</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,37 +16,42 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc179.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc181.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>12.11. Defining new prepositions</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc179.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap12.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 12: Relations</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc181.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>12.4. To carry, to wear, to have</b></font></td></tr></table>
 <p>
-<p>The term preposition is used here, a little loosely, to mean anything which we add to the verb <i>to be</i> in order to talk about some relation or other. We have seen many examples already, such as:
+<p>Inform has altogether five mutually exclusive ways in which one thing can be physically joined to another one:
 <p>
-<blockquote><font color="#000080">To be in - The ball is in the box.
-<br>To be part of - The lever is part of the slot machine.
+<blockquote><font color="#000080">containment relation - The coin is in the purse.
+<br>support relation - The coin is on the table.
+<br>incorporation relation - The coin is part of the sculpture.
+<br>carrying relation - The coin is carried by Peter.
+<br>wearing relation - The jacket is worn by Peter.
 </font></blockquote><p>
 <p>
-<p>These are easier to create than verbs, because Inform already knows the wayward grammar of <i>to be</i>, so we need not give any of the principal parts. Otherwise, the method is exactly the same. Compare the definitions in the following:
+<p>This is why we cannot have
 <p>
-<blockquote><font color="#000080">Suspecting relates various people to one person.
+<blockquote><font color="#000080">The coin is on the table.
+<br>The coin is part of the table.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The verb to suspect (he suspects, they suspect, he suspected, it is suspected, he is suspecting) implies the suspecting relation.
+<p>simultaneously, and it is a rare exception to the general rule that having one relation does not affect having another.
+<p>
+<p>But there is also a sixth relation used in Inform for these meanings: the possession relation, which is the meaning of the verb &quot;to have&quot;. At first sight this looks the same as the carrying relation, but in fact it is a convenient shorthand for &quot;carrying or wearing&quot;:
+<p>
+<blockquote><font color="#000080">Mr Darcy has a rapier.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The verb to be suspicious of implies the suspecting relation.
+<p>says that Darcy is carrying the rapier at the start of play, but
+<p>
+<blockquote><font color="#000080">if Mr Darcy has a wet shirt ...
 </font></blockquote><p>
 <p>
-<p>The result of this is that
+<p>will be true during play if he is either carrying or wearing the shirt.
 <p>
-<blockquote><font color="#000080">Hercule Poirot suspects Colonel Hotchkiss.
-<br>Hercule Poirot is suspicious of Colonel Hotchkiss.
-</font></blockquote><p>
+<p>Still another relation exists which can be tested, but not declared to be true or false: the concealment relation, which is the meaning of the verb &quot;to conceal&quot;. So we can ask:
 <p>
-<p>are exactly equivalent, and so are these two descriptions:
-<p>
-<blockquote><font color="#000080">somebody who suspects Colonel Hotchkiss
-<br>somebody suspicious of Colonel Hotchkiss
+<blockquote><font color="#000080">if Mr Darcy conceals a fob watch ...
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e188"><a href=ex188.html#e188><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>An "underlying" relation which adds to the world model the idea of objects hidden under other objects.</i><p>
-<p><hr><p><a href=doc179.html>Previous</a> / <a href=doc181.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e112"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex112.html#e112 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>145</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex112.html#e112 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Interrogation</font></b></a><br>A wand which, when waved, reveals the concealed items carried by people the player can see.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc179.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc181.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

@@ -1,4 +1,13 @@
-<html><head><title>8.4. Displaying quotations</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>7.17. Random choices of things</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,26 +16,24 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc115.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc117.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>8.4. Displaying quotations</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc115.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap7.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 7: Change</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc117.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>7.17. Random choices of things</b></font></td></tr></table>
 <p>
-<p>Awarding points is only one of the traditional ways which interactive fictions use to signal that progress is being made. Another is to display quotations, as if they were epigraphs, floating over the main text of the game.
+<p>As well as choosing random values, we often want to make a random choice of things or rooms. Perhaps a character is to wander about at random; perhaps a falling block of masonry will crush some random item. The value
 <p>
-<p>The original example came in <i>Trinity</i>, by Brian Moriarty, in which the player exploring Kensington Gardens comes upon a location enigmatically called The Wabe. By way of explanation, a quotation pops up. The effect can be duplicated in Inform like so:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After looking in the Wabe, display the boxed quotation\n\t&quot;And \'the wabe\' is the grass-plot round\n\ta sun-dial, I suppose? said Alice,\n\tsurprised at her own ingenuity.\n\n\tOf course it is. It\'s called \'wabe,\'\n\tyou know, because it goes a long way\n\tbefore it, and a long way behind it --\n\n\t-- Lewis Carroll&quot;.\n\n\n')"><img border=0 src=paste.png></a> After looking in the Wabe, display the boxed quotation
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&quot;And 'the wabe' is the grass-plot round
-<br>&nbsp;&nbsp;&nbsp;&nbsp;a sun-dial, I suppose? said Alice,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;surprised at her own ingenuity.
+<blockquote><font color="#000080">random D
+<br>a random D
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">&nbsp;&nbsp;&nbsp;&nbsp;Of course it is. It's called 'wabe,'
-<br>&nbsp;&nbsp;&nbsp;&nbsp;you know, because it goes a long way
-<br>&nbsp;&nbsp;&nbsp;&nbsp;before it, and a long way behind it --
+<p>(the article &quot;a&quot; is optional) produces a random choice of the things in the world which fit the description D. For instance,
+<p>
+<blockquote><font color="#000080">say &quot;You can see [number of adjacent rooms] way[s] from here; how about [random adjacent room]?&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">&nbsp;&nbsp;&nbsp;&nbsp;-- Lewis Carroll&quot;.
+<p>Unexpected results may follow if there is nothing in the game which fits the description, as then the random choice will be nothing. For instance, the above would then say:
+<p>
+<blockquote><font color="#000080">You can see 0 ways from here; how about nothing?
 </font></blockquote><p>
 <p>
-<p>The quotation will only ever appear once, regardless of the number of times the &quot;display the boxed quotation ...&quot; phrase is reached. This is an effect best not overused: <i>Trinity</i> contains only 13 quotations, despite its size and complexity.
-<p>
-<p><hr><p><a href=doc115.html>Previous</a> / <a href=doc117.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><p>
+<a name="e35"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex35.html#e35 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>83</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex35.html#e35 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Zork II</font></b></a><br>A "Carousel Room", as in Zork II, where moving in any direction from the room leads (at random) to one of the eight rooms nearby.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc115.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc117.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

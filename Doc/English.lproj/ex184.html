@@ -1,4 +1,13 @@
-<html><head><title>8.12. Future events</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>7.10. Now...</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,124 +16,91 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc123.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc125.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>8.12. Future events</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc108.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap7.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 7: Change</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc110.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>7.10. Now...</b></font></td></tr></table>
 <p>
-<p>We often want to arrange for something to happen at some point in the future. Here is yet another timepiece:
+<p>As Chapter 5 has already discussed, Inform looks at a whole range of &quot;relations&quot; between objects, many of which we can change. The general rule is as follows. Suppose S is a sentence about a relationship between things. Then there are three things we can do with S:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.\n\nWhen the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;\n\n\n')"><img border=0 src=paste.png></a> An egg-timer is in the Chamber. &quot;A plastic egg timer in the shape of a chicken can be pressed to set it going.&quot; Instead of pushing the egg-timer: say &quot;It begins to mark time.&quot;; the egg-timer clucks in four turns from now.
+<blockquote><font color="#000080">S. - The relation holds at the start of play.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When the egg-timer clucks: say &quot;Cluck! Cluck! Cluck! says the egg-timer.&quot;
+<blockquote><font color="#000080">if S, ...; - Does the relation hold right now?
+<br>now S; - Make the relation hold from now on.
 </font></blockquote><p>
 <p>
-<p>The event here is called &quot;the egg-timer clucks&quot;. It only happens if we instruct so, which we do by writing
+<p>For instance,
 <p>
-<blockquote><font color="#000080">the egg-timer clucks in four turns from now
+<blockquote><font color="#000080">The apple is in the basket.
 </font></blockquote><p>
 <p>
-<p>meaning four turns after the turn in which the egg-timer is pushed. We could alternatively describe this future moment as something like &quot;in 18 minutes from now&quot;, or &quot;at 4:15 PM&quot;.
-<p>
-<p>If we know in advance what time we want something to happen, we can more simply write:
-<p>
-<blockquote><font color="#000080">At 4 PM: say &quot;The great bells of the clock tower chime four.&quot;
+<blockquote><font color="#000080">if the apple is in the basket, ...;
+<br>now the apple is in the basket;
 </font></blockquote><p>
+<p>
+<p>The effect of &quot;now the apple is in the basket&quot; is identical to &quot;move the apple to the basket&quot;, so this appears to offer nothing new; and &quot;now&quot; duplicates other things already available, too, because &quot;now the oaken door is open&quot; does the same thing as &quot;change the oaken door to open&quot;. But &quot;now&quot; is more general and more flexible. For instance,
+<p>
+<blockquote><font color="#000080">now the top hat is worn by Mr Darcy;
+</font></blockquote><p>
+<p>
+<p>will make the hat worn, rather than simply carried, by Darcy: this is something which could not be done with the &quot;move&quot; phrase. We can also apply &quot;now&quot; to many things at once:
+<p>
+<blockquote><font color="#000080">now all the doors are open;
+<br>now all of the things in the sack are in the box;
+</font></blockquote><p>
+<p>
+<p>The second of these moves the entire contents of the sack to the box.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e184"><a href=doc124.html#e184><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A train which follows a schedule, stopping at a number of different locations.</i><p>
-<p>
-<p>Suppose we want to have a train which, at fixed times, arrives at and leaves stations. It should be possible for the player to get on and off the train when it is stopped, but not while the train is in motion.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Empire&quot;\n\nThe Empire Builder Train is a room. The Train has a property called the station. The station of the Train is Seattle.\n\nThe description of the Empire Builder is &quot;One of the (relatively) plush long-distance Amtrak trains. You\'re in a two-story car with toilets and a cafe at one end, not having sprung for a sleeper.\n\n[if the station of the Train is the train]Outside the window there is rapidly-passing countryside.[otherwise]Through the windows you can see the [station of the Train] train station.[end if]&quot;\n\nInstead of exiting when the player is in the Train:\n\tif the station of the Train is the Train\n\tbegin;\n\t\tsay &quot;The train is not stopped at a station.&quot; instead;\n\totherwise;\n\t\tmove the player to the station of the train instead;\n\tend if.\n\nBefore going outside when the player is in the Train:\n\ttry exiting instead.\n\nBefore going inside when the player is in the station of the Train:\n\tmove the player to the Train instead.\n\nSeattle, Edmonds, Everett, Wenatchee, and Spokane are rooms. The description of a room is usually &quot;The scenic train station of [the location][if the location is the station of the train].\n\nThe pompously-titled Empire Builder train is pulled up here, soon to continue its journey towards Chicago[end if].&quot;\n\n[And now our schedule for the train -- somewhat truncated, admittedly, since the full three-day journey from Seattle to Chicago is a bit long even for an ambitious example.]\n\nAt 4:45 PM:\n\tsay &quot;The train pulls out of [the station of the Train]!&quot;;\n\tchange the station of the Train to the Train.\n\nAt 5:10 PM:\n\tchange the station of the Train to Edmonds;\n\tsay &quot;The train pulls into Edmonds and comes to a stop.&quot;\n\nAt 5:17 PM:\n\tsay &quot;The train pulls out of [the station of the Train], running north along the shore towards Everett.&quot;;\n\tchange the station of the Train to the Train.\n\nAt 5:39 PM:\n\tchange the station of the Train to Everett;\n\tsay &quot;The train arrives in scenic Everett, WA: the last stop before it turns east and heads over the mountains.&quot;\n\nAt 5:44 PM:\n\tsay &quot;The train pulls out of [the station of the Train] and turns east.&quot;;\n\tchange the station of the Train to the Train.\n\nAt 8:39 PM:\n\tsay &quot;In darkness the train rolls into Wenatchee; which is just fine, considering that there is nothing to see here at all.&quot;;\n\tchange the station of the Train to Wenatchee.\n\nAt 8:44 PM:\n\tsay &quot;The train pulls out of [the station of the Train] and continues east through the darkness towards Spokane.&quot;;\n\tchange the station of the Train to the Train.\n\nAt 12:28 AM:\n\tsay &quot;The train comes into Spokane, WA. Next stop, Idaho.&quot;;\n\tchange the station of the Train to Spokane.\n\nAt 12:32 AM:\n\tsay &quot;The train slowly pulls itself back up to speed and continues sleepily eastward.&quot;;\n\tchange the station of the Train to the Train.\n\n[Playing this out would of course require near inhuman patience. Let\'s set things up so that the player at least doesn\'t have to wait too long for his first departure:]\n\nThe time of day is 4:43 PM.\n\n[...and provide fair warning of how slowly time is elapsing.]\n\nWhen play begins:\n\tchange the right hand status line to &quot;[time of day]&quot;.\n\n')"><img border=0 src=paste.png></a> &quot;Empire&quot;
+<a name="e184"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc109.html#e184 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>80</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc109.html#e184 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Technological Terror</font></b></a><br>A ray gun which destroys objects, leaving their component parts behind.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Technological Terror&quot;\n\nThe Decomposition Ray Gun is a thing carried by the player.\n\n[First we need to define our shooting action:]\n\nShooting it with is an action applying to two things.\n\nCheck shooting something with something:\n\tif the player is not carrying the Ray Gun, say &quot;You are pathetically unarmed!&quot; instead;\n\tif the second noun is not the Ray Gun, say &quot;[The second noun] does not fire.&quot; instead;\n\tif the noun is the Ray Gun, say &quot;Nice trick if you can do it!&quot; instead;\n\tif the noun is the player, say &quot;That would be disastrous!&quot; instead.\n\n[Next, some grammar to allow the player to use this action:]\n\nUnderstand &quot;shoot [gun] at [something ungunlike]&quot; as shooting it with (with nouns reversed).\n\nDefinition: a thing is ungunlike if it is not the gun.\n\nUnderstand &quot;shoot [something ungunlike] with [gun]&quot; as shooting it with. Understand &quot;shoot [something] with [something]&quot; as shooting it with.\n\nUnderstand &quot;shoot [something] at [something]&quot; as shooting it with (with nouns reversed). Understand &quot;fire [gun] at [something ungunlike]&quot; as shooting it with (with nouns reversed). Understand &quot;fire at [something ungunlike] with [gun]&quot; as shooting it with. Understand &quot;fire at [something] with [something]&quot; as shooting it with.\n\n[Strictly speaking, we only need these last grammar lines (with &quot;understand shoot something...&quot;) in order to define an action that the player can take. Adding more grammar lines means that Inform will try to match the most specific ones first, which is useful when the player types something ambiguous and there is one choice that obviously fits this action better than the others. See the chapter on Understanding for a further discussion.]\n\n[Here we get to use &quot;now...&quot; to give it its destructive effect:]\n\nCarry out shooting something with something:\n\tsay &quot;ZAP! [The noun] twinkles out of existence! [if something is part of the noun][The list of things which are part of the noun] clatter to the ground! [end if][paragraph break]&quot;;\n\tnow every thing which is part of the noun is in the location;\n\tremove the noun from play.\n\nThe Deathbot Assembly Line is a room. &quot;Here is the heart of the whole operation, where your opponents are assembled fresh from scrap metal and bits of old car.&quot; The dangerous robot is a thing in the Assembly Line. &quot;One dangerous robot looks ready to take you on!&quot; A robotic head, a drill arm, a needle arm, a crushing leg and a kicking leg are parts of the dangerous robot.\n\nInstead of examining something when something is part of the noun:\n\tsay &quot;[The noun] consists of [list of things which are part of the noun].&quot;\n\nTest me with &quot;x robot / shoot robot / fire at kicking leg / shoot gun at drill arm / look&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Technological Terror&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Empire Builder Train is a room. The Train has a property called the station. The station of the Train is Seattle.
+<blockquote><font color="#000080">The Decomposition Ray Gun is a thing carried by the player.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The description of the Empire Builder is &quot;One of the (relatively) plush long-distance Amtrak trains. You're in a two-story car with toilets and a cafe at one end, not having sprung for a sleeper.
+<p>First we need to define our shooting action:
+<p>
+<blockquote><font color="#000080">Shooting it with is an action applying to two things.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">[if the station of the Train is the train]Outside the window there is rapidly-passing countryside.[otherwise]Through the windows you can see the [station of the Train] train station.[end if]&quot;
+<blockquote><font color="#000080">Check shooting something with something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is not carrying the Ray Gun, say &quot;You are pathetically unarmed!&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the second noun is not the Ray Gun, say &quot;[The second noun] does not fire.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the Ray Gun, say &quot;Nice trick if you can do it!&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the player, say &quot;That would be disastrous!&quot; instead.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of exiting when the player is in the Train:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the station of the Train is the Train
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train is not stopped at a station.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the player to the station of the train instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<p>Next, some grammar to allow the player to use this action:
+<p>
+<blockquote><font color="#000080">Understand &quot;shoot [gun] at [something ungunlike]&quot; as shooting it with (with nouns reversed).
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before going outside when the player is in the Train:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;try exiting instead.
+<blockquote><font color="#000080">Definition: a thing is ungunlike if it is not the gun.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before going inside when the player is in the station of the Train:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the player to the Train instead.
+<blockquote><font color="#000080">Understand &quot;shoot [something ungunlike] with [gun]&quot; as shooting it with. Understand &quot;shoot [something] with [something]&quot; as shooting it with.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Seattle, Edmonds, Everett, Wenatchee, and Spokane are rooms. The description of a room is usually &quot;The scenic train station of [the location][if the location is the station of the train].
+<blockquote><font color="#000080">Understand &quot;shoot [something] at [something]&quot; as shooting it with (with nouns reversed). Understand &quot;fire [gun] at [something ungunlike]&quot; as shooting it with (with nouns reversed). Understand &quot;fire at [something ungunlike] with [gun]&quot; as shooting it with. Understand &quot;fire at [something] with [something]&quot; as shooting it with.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The pompously-titled Empire Builder train is pulled up here, soon to continue its journey towards Chicago[end if].&quot;
+<p>Strictly speaking, we only need these last grammar lines (with &quot;understand shoot something...&quot;) in order to define an action that the player can take. Adding more grammar lines means that Inform will try to match the most specific ones first, which is useful when the player types something ambiguous and there is one choice that obviously fits this action better than the others. See the chapter on Understanding for a further discussion.
+<p>
+<p>Here we get to use &quot;now...&quot; to give it its destructive effect:
+<p>
+<blockquote><font color="#000080">Carry out shooting something with something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;ZAP! [The noun] twinkles out of existence! [if something is part of the noun][The list of things which are part of the noun] clatter to the ground! [end if][paragraph break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now every thing which is part of the noun is in the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the noun from play.
 </font></blockquote><p>
 <p>
-<p>And now our schedule for the train -- somewhat truncated, admittedly, since the full three-day journey from Seattle to Chicago is a bit long even for an ambitious example.
-<p>
-<blockquote><font color="#000080">At 4:45 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train pulls out of [the station of the Train]!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to the Train.
+<blockquote><font color="#000080">The Deathbot Assembly Line is a room. &quot;Here is the heart of the whole operation, where your opponents are assembled fresh from scrap metal and bits of old car.&quot; The dangerous robot is a thing in the Assembly Line. &quot;One dangerous robot looks ready to take you on!&quot; A robotic head, a drill arm, a needle arm, a crushing leg and a kicking leg are parts of the dangerous robot.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At 5:10 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to Edmonds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train pulls into Edmonds and comes to a stop.&quot;
+<blockquote><font color="#000080">Instead of examining something when something is part of the noun:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] consists of [list of things which are part of the noun].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At 5:17 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train pulls out of [the station of the Train], running north along the shore towards Everett.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to the Train.
+<blockquote><font color="#000080">Test me with &quot;x robot / shoot robot / fire at kicking leg / shoot gun at drill arm / look&quot;.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 5:39 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to Everett;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train arrives in scenic Everett, WA: the last stop before it turns east and heads over the mountains.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 5:44 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train pulls out of [the station of the Train] and turns east.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to the Train.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 8:39 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;In darkness the train rolls into Wenatchee; which is just fine, considering that there is nothing to see here at all.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to Wenatchee.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 8:44 PM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train pulls out of [the station of the Train] and continues east through the darkness towards Spokane.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to the Train.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 12:28 AM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train comes into Spokane, WA. Next stop, Idaho.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to Spokane.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 12:32 AM:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The train slowly pulls itself back up to speed and continues sleepily eastward.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the station of the Train to the Train.
-</font></blockquote><p>
-<p>
-<p>Playing this out would of course require near inhuman patience. Let's set things up so that the player at least doesn't have to wait too long for his first departure:
-<p>
-<blockquote><font color="#000080">The time of day is 4:43 PM.
-</font></blockquote><p>
-<p>
-<p>...and provide fair warning of how slowly time is elapsing.
-<p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the right hand status line to &quot;[time of day]&quot;.
-</font></blockquote><p>
-</td></tr></table><p><a name="e61"><a href=ex61.html#e61><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>To schedule an eclipse of the sun, which involves a number of related events.</i><p>
-<p><hr><p><a href=doc123.html>Previous</a> / <a href=doc125.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc109.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc108.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc110.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

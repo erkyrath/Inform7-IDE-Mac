@@ -1,4 +1,13 @@
-<html><head><title>21.1. Emily Short <emshort@mindspring.com> -  Ignore until feeling hardy</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>19.11. Making new assertion sentences</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,113 +16,44 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 21: Recently Closed Bugs</h2><p><table><tr width="100%"><td width=80 valign="top"><a href=doc314.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc316.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>21.1. Emily Short <emshort@mindspring.com> -  Ignore until feeling hardy</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc314.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap19.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 19: Extensions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc316.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>19.11. Making new assertion sentences</b></font></td></tr></table>
 <p>
-<p><i>Reported by:</i> Emily Short <emshort@mindspring.com> / <i>Date:</i> 31 January 2006
+<p>The following feature is a relic from the very early days of Inform 7, and its use is now deprecated: in future it may be withdrawn, and the Standard Rules rewritten to make it unnecessary even for internal use. The ability to create new verbs, relations and prepositions will in most cases provide a much more sophisticated solution.
 <p>
-<p><i>Nature:</i> The source looks legal and produces a playable game, but 	  the game does not do what it should
+<p>We have already seen that the following sentences are equivalent:
 <p>
-<p><i>Build:</i> 3E61
-<p>
-<p><i>Platform:</i> Mac OS X
-<p>
-<p>
-<p>
-<p><i>Code example:</i>
-<p>
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Procedural rule: substitute the helpful indirection rule for the block vaguely going rule.\n\nThis is the helpful indirection rule:\n\t\tlet chosen way be the logical exit;\n\t\tif chosen way is a direction\n\t\tbegin;\n\t\t\tsay &quot;(heading [chosen way])&quot;;\n\t\t\tchange the noun to the chosen way;\n\t\totherwise;\n\t\t\t say &quot;You will have to be more specific about which direction you want to go.&quot;;\n\t\tend if;\n\n\nThe Entrance Hall is a room. The Courtyard is north of the Entrance Hall. The Dining Hall is west of the Entrance Hall. The Kitchen is west of the Dining Hall. The Scarlet Gallery is east of the Entrance Hall.\n\n\nTo decide what direction is the logical exit:\n\tlet counter be 0;\n\tlet chosen way be north;\n\trepeat with way running through directions\n\tbegin;\n\t\tlet place be the room way from the location;\n\t\tif place is a room\n\t\tbegin;\n\t\t\tincrease counter by 1;\n\t\t\tlet chosen way be the way;\n\t\tend if;\n\tend repeat;\n\tif counter is 1, decide on the chosen way.\n\n\n\n\n\n\n')"><img border=0 src=paste.png></a> Procedural rule: substitute the helpful indirection rule for the block vaguely going rule.
+<blockquote><font color="#000080">The matching key of the blue door is the brass key.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">This is the helpful indirection rule:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let chosen way be the logical exit;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if chosen way is a direction
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [chosen way])&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the noun to the chosen way;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You will have to be more specific about which direction you want to go.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<blockquote><font color="#000080">The brass key unlocks the blue door.
 </font></blockquote><p>
 <p>
+<p>This comes about because the Standard Rules include the following line:
 <p>
-<blockquote><font color="#000080">The Entrance Hall is a room. The Courtyard is north of the Entrance Hall. The Dining Hall is west of the Entrance Hall. The Kitchen is west of the Dining Hall. The Scarlet Gallery is east of the Entrance Hall.
+<blockquote><font color="#000080">X unlocks Y means that the matching key of Y is X.
 </font></blockquote><p>
 <p>
+<p>We can make definitions like this at any point, but had better do so with some care and forethought. They make it possible to talk very elegantly about things belonging to new kinds, but the potential for havoc is considerable if they take effect in an unintended context. Up to four different variables are allowed, but must be called W, X, Y or Z for clarity: and note that they can be matched by empty text. Similarly, Inform also defines
 <p>
-<blockquote><font color="#000080">To decide what direction is the logical exit:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let counter be 0;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let chosen way be north;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with way running through directions
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let place be the room way from the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if place is a room
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;increase counter by 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let chosen way be the way;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if counter is 1, decide on the chosen way.
+<blockquote><font color="#000080">Above means up from. Below means down from.
 </font></blockquote><p>
 <p>
+<p>This tells Inform to transform &quot;above&quot; into &quot;up from&quot; whenever it occurs in an assertion, and similarly for &quot;below&quot;. Thus
 <p>
-<p>
-<p>
-<p>
-<p><i>What goes wrong:</i>
-<p>
-<p>
-<p>This works dandily in cases pertaining to going:
-<p>
-<p>Entrance Hall
-<p>
-<p>>go
-<p>You will have to be more specific about which direction you want to go.
-<p>
-<p>>go east
-<p>
-<p>Scarlet Gallery
-<p>
-<p>>go
-<p>(heading west)
-<p>
-<p>Entrance Hall
-<p>
-<p>>
-<p>
-<p>...but inexplicably interferes under other circumstances:
-<p>
-<p>>eat all
-<p>You will have to be more specific about which direction you want to go.
-<p>
-<p>...for which reason I conclude that it is ignoring the &quot;while going&quot; part of this rule.
-<p>
-<p>
-<p>
-<p><i>Comments:</i>
-<p>
-<p>
-<p>I'm assuming this is something moderately annoying to do with replacing a named rule that also had an associated restriction (while going).
-<p>
-<p>It is possible to tidy up a bit by converting to
-<p>
-<p>This is the helpful indirection rule:
-<blockquote><font color="#000080">if going
-<br>begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let chosen way be the logical exit;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if chosen way is a direction
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [chosen way])&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the noun to the chosen way;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; say &quot;You will have to be more specific about which direction you want to go[if novice mode is functioning]. The available directions are[exit list][end if].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You will have to be more specific.&quot;;
-<br>end if.
+<blockquote><font color="#000080">The Skylight is above the Conservatory.
 </font></blockquote><p>
 <p>
-<p>so this is not a mission-critical bug.
+<p>is transformed to
 <p>
+<blockquote><font color="#000080">The Skylight is up from the Conservatory.
+</font></blockquote><p>
 <p>
-<p><hr><p><a href=doc314.html>Previous</a> / <a href=doc316.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>Notice that &quot;means that&quot; applies a change only to an entire sentence, whereas &quot;means&quot; applies to smaller pieces of text. Because of this, &quot;means&quot; has to be used with even more care. Moreover, &quot;means&quot; can't be used to change the words in phrases, so for instance the following fails:
+<p>
+<blockquote><font color="#000080">Determine means decide.
+<br>To determine whether song moves us:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying the blue note, yes;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;no.
+</font></blockquote><p>
+<p>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc314.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc316.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

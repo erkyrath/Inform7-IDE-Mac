@@ -1,4 +1,13 @@
-<html><head><title>11.4. Persuasion</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>10.15. The value after and the value before</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,45 +16,29 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc155.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc157.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.4. Persuasion</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc155.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap10.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 10: Phrases</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc157.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>10.15. The value after and the value before</b></font></td></tr></table>
 <p>
-<p>&quot;Asking ... to try ...&quot; actions run through their Before and Instead rules like any other actions, but then (if no rule has intervened) something different happens: Inform has to decide whether the person asked consents to try the action or not. By default, the answer is always no, and text like the following will be printed:
+<p>Arithmetic is fundamental to most systems for computer programming: with Inform that is less true, so we only now come to the first mention of the addition of numbers. As might be expected, &quot;+&quot; can be used to combine two number values into one:
 <p>
-<blockquote><font color="#000080">> will, go west
-<br>Will has better things to do.
+<blockquote><font color="#000080">change the score to the score + 4
 </font></blockquote><p>
 <p>
-<p>However, we can intervene to make the answer &quot;yes&quot;, using a special kind of rule which produces a yes/no answer. The following examples show how we can give broad or narrow permission, as we choose:
+<p>(This can also be spelled out &quot;plus&quot;: or we could have written &quot;increase the score by 4&quot;.) Inform generally expects to apply addition only to two numbers, so we cannot normally apply &quot;+&quot; to values like these:
 <p>
-<blockquote><font color="#000080">Persuasion rule for asking people to try going: persuasion succeeds.
-<br>Persuasion rule for asking Will to try going west: persuasion succeeds.
+<blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.
 </font></blockquote><p>
 <p>
-<p>Such a rule can either declare that &quot;persuasion succeeds&quot;, or that &quot;persuasion fails&quot;, or make no decision and leave it to another rule to say. If it decides that persuasion fails, it is also allowed to say something, describing why: in that event, the standard message (&quot;Will has better things to do.&quot;) is suppressed. For example,
+<p>There will be more about arithmetic on new kinds of value in the chapter on Units, but it may be useful to note that although we cannot (ordinarily) add up colours, we do automatically have two ways to make new colours from old:
 <p>
-<blockquote><font color="#000080">Persuasion rule for asking Will to try going:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Will looks put out, and mutters under his breath.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;persuasion fails.
+<blockquote><font color="#000080">the colour after C
+<br>the colour before C
 </font></blockquote><p>
 <p>
-<p>The following rule, which is really only suitable for testing, makes everybody infinitely obliging:
+<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Persuasion rule for asking people to try doing something: persuasion succeeds.\n\n\n')"><img border=0 src=paste.png></a> Persuasion rule for asking people to try doing something: persuasion succeeds.
-</font></blockquote><p>
-<p>
-<p>Supposing that Will does decide to cooperate, a new action is generated:
-<p>
-<blockquote><font color="#000080">Will trying going west
-</font></blockquote><p>
-<p>
-<p>and this is then subject to all of the usual action machinery. For instance, we could write a rule such as:
-<p>
-<blockquote><font color="#000080">Instead of Will trying going west, say &quot;He runs out into the waves, but soon returns, rueful.&quot;
-</font></blockquote><p>
-<p>
-<p>So in this case the new action (&quot;Will trying going west&quot;) failed: but the original action, &quot;asking Will to try going west&quot;, is still deemed to have succeeded - after all, Will <i>did</i> try. To put it more formally, &quot;asking X to try A&quot; succeeds if the persuasion rules succeed, and otherwise fails.
+<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not. Again, more on comparisons in the chapter on units.
 <p>
 <p><hr><p>
-<a name="e141"><a href=ex141.html#e141><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Several friends who obey you; a policeman who doesn't (but who takes a dim view of certain kinds of antics).</i><p>
-<a name="e94"><a href=ex94.html#e94><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A hypnotist who can make people obedient and then set them free again.</i><p>
-<p><hr><p><a href=doc155.html>Previous</a> / <a href=doc157.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e71"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex71.html#e71 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>117</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex71.html#e71 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Entropy</font></b></a><br>All objects in the game have a heat, but if not kept insulated they will tend toward room temperature (and at a somewhat exaggerated rate).<p></td></tr></table>
+<a name="e180"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex180.html#e180 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>118</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex180.html#e180 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> The Hang of Thursdays</font></b></a><br>Turns take a quarter day each, and the game rotates through the days of the week.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc155.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc157.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

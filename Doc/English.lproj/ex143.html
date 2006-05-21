@@ -1,4 +1,13 @@
-<html><head><title>19.14. Defining phrases in Inform 6</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>14.18. Table continuations</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,141 +16,68 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc305.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc307.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.14. Defining phrases in Inform 6</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc223.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap14.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 14: Tables</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc225.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>14.18. Table continuations</b></font></td></tr></table>
 <p>
-<p>The phrases described in this documentation, such as &quot;say...&quot;, are all defined in the Standard Rules, and are for the most part defined not in terms of other I7 phrases but instead reduced to equivalents in I6. For instance:
+<p>A table is an arrangement for putting information together concisely in a single place, so it might seem odd that we sometimes need to divide it up: but once in a while, we do. Suppose we have:
 <p>
-<blockquote><font color="#000080">To end the game in death: (- deadflag=1; -).
+<blockquote><font color="#000080">Table of Outer Planets
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">planet</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">semimajor axis</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Jupiter</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5 AU</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Saturn</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10 AU</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Uranus</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">19 AU</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Neptune</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">30 AU</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Pluto</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">40 AU</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>The notation &quot;(-&quot; and &quot;-)&quot; indicates that what comes in between is I6 code. The minus sign is supposed to be a mnemonic for the decrease from 7 to 6: later we shall use &quot;(+&quot; and &quot;+)&quot; to go back up the other way, from 6 to 7.
+<p>But then someone in Chile with a telescope the size of God's own teacup notices something a long, long way out, and the newspapers get terribly excited. We can write an addendum:
 <p>
-<p>When a phrase is defined as containing only a single command, and that command is defined using I6 - as here - it is compiled in-line. This means that the phrase &quot;end the game in death&quot; will always be translated as &quot;deadflag=1;&quot;, rather than being translated into a call to a suitable function whose only statement is &quot;deadflag=1;&quot;.
-<p>
-<p>This is an easy case since the wording never varies. A more typical example would be:
-<p>
-<blockquote><font color="#000080">To say the (something - number): (- print {something}; -).
+<blockquote><font color="#000080">Table of Outer Planets (continued)
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">planet</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">semimajor axis</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Orcus</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">40 AU</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Quaoar</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">42 AU</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Xena</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">68 AU</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Sedna</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">502 AU</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>Where the &quot;{something}&quot; appears, the appropriate I7 code is compiled to a suitable I6 expression. So, for instance,
+<p>This may seem unnecessary - why not simply add extra rows to the original table? - but it allows us to split the table between different parts of the source text, if we want to, or to continue a table which exists only in an extension. (Thus if we were using an extension which involved the planets, and had a table like this one, we would be able to add new planets without changing the extension.)
 <p>
-<blockquote><font color="#000080">say the capacity of the table
-</font></blockquote><p>
+<p>The name for the continuation must be identical to the original. The continuation has no existence in its own right: Inform simply splices the two (or more) pieces together, exactly as if the table were all in one piece at the place where it first occurred. Thus the above creates only one table, the &quot;Table of Outer Planets&quot;, with nine rows. Each column in the continuation must exist in the original, but not every column need be given: those omitted are filled with blank entries. The columns need not be in the same order. Both original and continuations are allowed to quote a number of blank rows: if so, the combined total is used.
 <p>
-<p>might become
-<p>
-<blockquote><font color="#000080">print O17_table.capacity;
-</font></blockquote><p>
-<p>
-<p>Braces &quot;{&quot; are of course significant in I6. A real brace can be obtained by making the character following it a space, and then I7 will not attempt to read it as a request for substitution.
+<p>At time of writing the International Astronomical Union has not yet consented to name 2003 UB313 after Xena, the Warrior Princess, but this is surely only a bureaucratic delay.
 <p>
 <p><hr><p>
-<a name="e98"><a href=ex98.html#e98><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Making [is/are] and [it/them] say tokens that will choose appropriately based on the last object mentioned.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e143"><a href=doc306.html#e143><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Asking the player a yes/no question which he must answer, and another which he may answer or not as he chooses.</i><p>
+<a name="e143"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc224.html#e143 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>182</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc224.html#e143 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Food Network Interactive</font></b></a><br>Using a menu system from an extension, but adding our own material to it for this game.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>&quot;Basic Help Menu&quot; is an extension that uses tables to provide a menu of instructions. Suppose we wanted to include this menu in our own game, but add a few custom menu items of our own:
 <p>
-<p>Suppose we want to ask the player a question where he might say yes or no in response. There are two possible forms of this: the modal question where the player must pick one to proceed, and the non-modal question where he might also type other verbs.
-<p>
-<p>The modal question is provided for with a built-in Inform 6 function called &quot;YesOrNo&quot;, which we can wrap in Inform 7 if we need it.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Proposal&quot;\n\nThe story genre is &quot;A Worked Example about Yes/No Questions&quot;.\n\nSection 1 - Asking a Modal Yes/No Question\n\nTo decide whether player consents:\n    (- YesOrNo() -)\n\n[The critical thing here is to leave out the ; after the function call, because we are using this function to decide an if statement. It will get wrapped in the I6 incarnation of the code as if (YesOrNo()) ... , so if you put the ; in, you\'ll wind up with &quot;if (YesOrNo(); )&quot;. At that point, of course, the I6 compilation will not work.]\n\nWhen play begins:\n\tsay &quot;Do you like Mr Spruce? &quot;;\n\tif player consents, now Spruce is handsome;\n\totherwise now Spruce is ugly;\n\tsay paragraph break.\n\n[The non-modal question is possible to achieve entirely with Inform 7, so:]\n\nSection 2 - Mr Spruce\'s Non-Modal Question\n\nUse full-length room descriptions.\n\nThe Conservatory is a room. &quot;You are in a room full of plants.&quot;\n\nMr Spruce is a man in the Conservatory. Mr Spruce can be apprehensive or calm. Mr Spruce is calm. Mr Spruce can be handsome or ugly.\n\nAt 9:02 AM: say &quot;Mr Spruce flings himself to his knees and implores you to become his lawfully wedded wife.&quot;;\n\tnow Mr Spruce is apprehensive;\n\tMr Spruce gives up in two minutes from now.\n\nWhen Mr Spruce gives up:\n\tsay &quot;Mr Spruce sighs heavily, seeing that you don\'t intend to reply. \'Never mind, my dear, I\'ll ask later. Perhaps I should have spoken to your Papa first... yes, a gently-bred female... no wonder...\'&quot;;\n\tnow Mr Spruce is calm;\n\tMr Spruce departs in one minute from now.\n\nWhen Mr Spruce departs:\n\tif the player can see Mr Spruce, say &quot;Mr Spruce takes his leave of you.&quot;;\n\totherwise say &quot;Mr Spruce pokes his head in to say that he is leaving.&quot;;\n\tend the game saying &quot;Well, that is over...&quot;\n\nInstead of saying yes in the presence of an ugly apprehensive Mr Spruce:\n\tnow Mr Spruce is calm;\n\tsay &quot;Remembering what your mother said to you about the stock exchange and Dear Papa, you close your eyes and accept Mr Spruce.&quot;;\n\tend the game saying &quot;Alas for your maiden hopes.&quot;\n\nInstead of saying yes in the presence of a handsome apprehensive Mr Spruce:\n\tnow Mr Spruce is calm;\n\tsay &quot;You are silent with delight for a moment before you say yes, yes!&quot;;\n\tend the game saying &quot;How Genevieve Stubbs will cry!&quot;\n\nInstead of saying no in the presence of an ugly apprehensive Mr Spruce:\n\tnow Mr Spruce is calm;\n\tsay &quot;Gently you inform Mr Spruce that it is impossible. He seems less deflated than you had expected.&quot;;\n\tend the game saying &quot;Odd, that...&quot;\n\nInstead of saying no in the presence of a handsome apprehensive Mr Spruce:\n\tnow Mr Spruce is calm;\n\tsay &quot;You lower your eyes and refuse petulantly, hoping to stir him to a more ardent repetition of these same requests. But then -- alack! -- he says \'I see how it is!\' in a strangled voice, and strides from the room!&quot;;\n\tend the game saying &quot;A fatal error!&quot;\n\n[And since the player might SAY YES TO SPRUCE, we had better reroute the relevant options:]\n\nInstead of answering Mr Spruce that &quot;no&quot;, try saying no.\n\nInstead of answering Mr Spruce that &quot;yes&quot;, try saying yes.\n\nInstead of asking Mr Spruce to try saying yes, try saying yes.\n\nInstead of asking Mr Spruce to try saying no, try saying no.\n\nInstead of saying sorry, try saying no.\n\nInstead of asking Mr Spruce to try saying sorry, try saying no.\n\nInstead of answering Mr Spruce that &quot;sorry&quot;, try saying no.\n\n\n')"><img border=0 src=paste.png></a> &quot;Proposal&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Food Network Interactive&quot;\n\nInclude Basic Screen Effects by Emily Short. Include Menus by Emily Short. Include Basic Help Menu by Emily Short.\n\nTable of Basic Help Options (continued)\ntitle\tsubtable\tdescription\ttoggle\n&quot;Recipes in This Game&quot;\tTable of Recipes\t--\t--\n&quot;Contacting the Author&quot;\t--\t&quot;If you have any difficulties with [story title], please contact me at fakeaddress@gmail.com.&quot;\t--\n\n[This table is one that is pre-defined by the extension. By continuing it, we add a few additional items to the list.]\n\n[And since we\'ve promised a sub-menu of recipes:]\n\nTable of Recipes\ntitle\tsubtable\tdescription\ttoggle\n&quot;Salmon Tartare&quot;\t--\t&quot;First, be sure to buy extremely fresh salmon. Raw fish should be served on the day it was caught, if possible. To guarantee this, visit an Asian supermarket or specialty store, and buy salmon marked \'sashimi grade\'...&quot;\t--\n&quot;Pecan Brownies&quot;\t--\t&quot;Begin by shelling half a pound of pecans...&quot;\t--\n\nWhole Foods is a room.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Food Network Interactive&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The story genre is &quot;A Worked Example about Yes/No Questions&quot;.
+<blockquote><font color="#000080">Include Basic Screen Effects by Emily Short. Include Menus by Emily Short. Include Basic Help Menu by Emily Short.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Section 1 - Asking a Modal Yes/No Question
+<blockquote><font color="#000080">Table of Basic Help Options (continued)
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">title</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">subtable</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">description</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">toggle</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Recipes in This Game&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Table of Recipes</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Contacting the Author&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;If you have any difficulties with [story title], please contact me at fakeaddress@gmail.com.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To decide whether player consents:
-<br>    (- YesOrNo() -)
+<p>This table is one that is pre-defined by the extension. By continuing it, we add a few additional items to the list.
+<p>
+<p>And since we've promised a sub-menu of recipes:
+<p>
+<blockquote><font color="#000080">Table of Recipes
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">title</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">subtable</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">description</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">toggle</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Salmon Tartare&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;First, be sure to buy extremely fresh salmon. Raw fish should be served on the day it was caught, if possible. To guarantee this, visit an Asian supermarket or specialty store, and buy salmon marked 'sashimi grade'...&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Pecan Brownies&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Begin by shelling half a pound of pecans...&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>The critical thing here is to leave out the ; after the function call, because we are using this function to decide an if statement. It will get wrapped in the I6 incarnation of the code as if (YesOrNo()) ... , so if you put the ; in, you'll wind up with &quot;if (YesOrNo(); )&quot;. At that point, of course, the I6 compilation will not work.
-<p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Do you like Mr Spruce? &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if player consents, now Spruce is handsome;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise now Spruce is ugly;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say paragraph break.
+<blockquote><font color="#000080">Whole Foods is a room.
 </font></blockquote><p>
 <p>
-<p>The non-modal question is possible to achieve entirely with Inform 7, so:
-<p>
-<blockquote><font color="#000080">Section 2 - Mr Spruce's Non-Modal Question
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Use full-length room descriptions.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Conservatory is a room. &quot;You are in a room full of plants.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Mr Spruce is a man in the Conservatory. Mr Spruce can be apprehensive or calm. Mr Spruce is calm. Mr Spruce can be handsome or ugly.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">At 9:02 AM: say &quot;Mr Spruce flings himself to his knees and implores you to become his lawfully wedded wife.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is apprehensive;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Mr Spruce gives up in two minutes from now.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Mr Spruce gives up:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Mr Spruce sighs heavily, seeing that you don't intend to reply. 'Never mind, my dear, I'll ask later. Perhaps I should have spoken to your Papa first... yes, a gently-bred female... no wonder...'&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Mr Spruce departs in one minute from now.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Mr Spruce departs:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player can see Mr Spruce, say &quot;Mr Spruce takes his leave of you.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Mr Spruce pokes his head in to say that he is leaving.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;Well, that is over...&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying yes in the presence of an ugly apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Remembering what your mother said to you about the stock exchange and Dear Papa, you close your eyes and accept Mr Spruce.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;Alas for your maiden hopes.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying yes in the presence of a handsome apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You are silent with delight for a moment before you say yes, yes!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;How Genevieve Stubbs will cry!&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying no in the presence of an ugly apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Gently you inform Mr Spruce that it is impossible. He seems less deflated than you had expected.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;Odd, that...&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying no in the presence of a handsome apprehensive Mr Spruce:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now Mr Spruce is calm;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You lower your eyes and refuse petulantly, hoping to stir him to a more ardent repetition of these same requests. But then -- alack! -- he says 'I see how it is!' in a strangled voice, and strides from the room!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game saying &quot;A fatal error!&quot;
-</font></blockquote><p>
-<p>
-<p>And since the player might SAY YES TO SPRUCE, we had better reroute the relevant options:
-<p>
-<blockquote><font color="#000080">Instead of answering Mr Spruce that &quot;no&quot;, try saying no.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of answering Mr Spruce that &quot;yes&quot;, try saying yes.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of asking Mr Spruce to try saying yes, try saying yes.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of asking Mr Spruce to try saying no, try saying no.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of saying sorry, try saying no.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of asking Mr Spruce to try saying sorry, try saying no.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of answering Mr Spruce that &quot;sorry&quot;, try saying no.
-</font></blockquote><p>
-<p>
-</td></tr></table><p><a name="e79"><a href=ex79.html#e79><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Asking the player to select a gender to begin play.</i><p>
-<p><hr><p><a href=doc305.html>Previous</a> / <a href=doc307.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>To test it, type HELP and then experiment.
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc224.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc223.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc225.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

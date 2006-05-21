@@ -1,4 +1,13 @@
-<html><head><title>2.2. Making rules</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2.3. Punctuation</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,15 +16,42 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc12.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc14.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>2.2. Making rules</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc12.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap2.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 2: The Source Text</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc14.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>2.3. Punctuation</b></font></td></tr></table>
 <p>
-<p>The other kind of sentence tells Inform what should happen in certain circumstances, and reads like an instruction issued to someone:
+<p>The example rule just given demonstrates one of Inform's conventions about punctuation, and is worth pausing to look at again.
 <p>
 <blockquote><font color="#000080">Instead of taking the crate, say &quot;It's far too heavy to lift.&quot;
 </font></blockquote><p>
 <p>
-<p>This is a &quot;rule&quot;, and it changes the crate's behaviour. The player who tries typing &quot;take crate&quot;, &quot;pick up the crate&quot; or similar will be met only with the unhelpful reply &quot;It's far too heavy to lift.&quot; The many different kinds of thing which the player can do are called &quot;actions&quot;, and are always written as participles: &quot;taking ...&quot;, for instance, or &quot;putting ... on ...&quot;.
+<p>In English grammar, it's usual to regard a full stop as closing its sentence even when it occurs inside quotation marks, provided there is no indication to the contrary, and this is also the rule used by Inform. Thus:
 <p>
-<p>Inform is built on a mass of several hundred rules, some quite complex, and it could even be said that Inform <i>is</i> that mass of rules. We never see the complexity behind the scenes because the whole aim is to provide a basic, penny-plain, vanilla flavoured sort of realism. It would be surprising if one could put the crate inside itself, so a rule exists to forbid this. It would be surprising if one could drop something which was already on the ground, and so on. These basic rules of realism are the ones which every new Inform project starts with.
+<blockquote><font color="#000080">The description is &quot;Shiny.&quot; It is valuable.
+</font></blockquote><p>
 <p>
-<p><hr><p><a href=doc12.html>Previous</a> / <a href=doc14.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>is read as equivalent to
+<p>
+<blockquote><font color="#000080">The description is &quot;Shiny.&quot;. It is valuable.
+</font></blockquote><p>
+<p>
+<p>Sentence breaks like this occur only when the final character of the quoted text is a full stop, question mark or exclamation mark (or one of these three followed by a close bracket) and the next word begins, in the source code, with a capital letter. A paragraph break also divides sentences, behaving as if it were a full stop.
+<p>
+<p>Double quotation marks can't be used in text, because they would end the piece of text then and there. Instead, we use single quotation marks:
+<p>
+<blockquote><font color="#000080">Instead of taking the crate, say &quot;Simon says, 'It's far too heavy to lift.'&quot;
+</font></blockquote><p>
+<p>
+<p>Inform will automatically convert the speech marks to double-quotes when it prints, resulting in:
+<p>
+<blockquote><font color="#000080">Simon says, &quot;It's far too heavy to lift.&quot;
+</font></blockquote><p>
+<p>
+<p>Text in square brackets [like so] is &quot;comment&quot;, in computing jargon: it is considered as being an aside, a private note by the author, and not read in by Inform. This allows us to make notes to ourselves like so:
+<p>
+<blockquote><font color="#000080">The China Shop is a room. [Remember to work out what happens if the bull gets in here!]
+</font></blockquote><p>
+<p>
+<p>As these examples begin to show, Inform source imitates the conventions of printed books whenever there is a question of how to write something not easily fitting into words. The first example of this is how Inform handles headings, but to see why these are so useful we first look at Problems.
+<p>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width=&quot;100%&quot;><tr><TD width=38px valign=top><img border=&quot;0&quot; src=../../doc_images/beta.png id=&quot;betaoval&quot; style=&quot;height:31px; width=40px&quot;></td><td valign=top><font size=2>Apostrophes used to contracted speech at the end of words are wrongly converted to double-quotes: thus &quot;Lucy snaps, 'What's the matter? You don't trust my cookin' mister?'&quot; has the apostrophe in &quot;cookin'&quot; wrongly converted. For now, best avoid such contractions.
+<p>
+<p></font></td></tr></table><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc12.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc14.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

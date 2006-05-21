@@ -1,4 +1,13 @@
-<html><head><title>14.3. Corresponding entries</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>13.11. Limits on the size of numbers</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,44 +16,19 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc201.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc203.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>14.3. Corresponding entries</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc201.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap13.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 13: Units</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc203.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>13.11. Limits on the size of numbers</b></font></td></tr></table>
 <p>
-<p>Continuing our example of the elements:
+<p>There are still some serious restrictions. Inform has only whole numbers, not floating-point (though we could in principle simulate at least fixed-point numbers by writing something like &quot;10.99kg specifies a weight&quot;). And it only allows numbers from -32768 to 32767. Since a London bus only weighs 7000kg, 32000kg is plenty: on the other hand, if we wanted to measure weight in grammes instead, the limit would be just 32kg, an amount which a human can just about lift.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Table 2.1 - Selected Elements\nElement\tSymbol\tAtomic number\tAtomic weight\n&quot;Hydrogen&quot;\t&quot;H&quot;\t1\t1\n&quot;Iron&quot;\t&quot;Fe&quot;\t26\t56\n&quot;Zinc&quot;\t&quot;Zn&quot;\t30\t65\n&quot;Uranium&quot;\t&quot;U&quot;\t92\t238\n\n\n')"><img border=0 src=paste.png></a> Table 2.1 - Selected Elements
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Element</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Symbol</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Atomic number</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Atomic weight</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Hydrogen&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;H&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Iron&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Fe&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">26</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">56</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Zinc&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Zn&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">30</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">65</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Uranium&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;U&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">92</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">238</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<p>The limit also begins to bite when using multiple-number specifications. Internally, Inform stores the above &quot;running time&quot; as a number of seconds, so that 3'59 is actually stored as 239. Calculating the maximum legal running time is a nuisance, so we can instead check the &quot;Kinds&quot; page of the index, where we read that:
+<p>
+<blockquote><font color="#000080"><b>running time</b> (<i>plural</i> running times)
+<br><i>Written in the following form:</i> 3'59
+<br><i>Maximum value allowed:</i> 546'07
 </font></blockquote><p>
 <p>
-<p>If we want to know the atomic number of Uranium, say, it seems artificial to have to talk about the particular row number where the information happens to be. So we are also allowed to cross-reference, like so:
+<p>The maximum legal running time is therefore a little over 9 hours, so the new Tori Amos album will not be a problem, but some of the more punishing German operas might break the bank.
 <p>
-<blockquote><font color="#000080">the atomic number corresponding to a symbol of &quot;Fe&quot; in the Table of Selected Elements
-</font></blockquote><p>
+<p>These restrictions are a nuisance, but can normally be managed, and we gain the ability to run the resulting work of IF on a very wide variety of computers indeed, some extremely small.
 <p>
-<p>This results in 26, and similarly
-<p>
-<blockquote><font color="#000080">the symbol corresponding to an atomic number of 26 in the Table of Selected Elements
-</font></blockquote><p>
-<p>
-<p>results in &quot;Fe&quot;. But we have to be careful:
-<p>
-<blockquote><font color="#000080">the element corresponding to an atomic number of 27 in the Table of Selected Elements
-</font></blockquote><p>
-<p>
-<p>This is not allowed (it produces an error at run-time), because there is no row with atomic number 27 in this rather limited table. We can check this in advance with the condition:
-<p>
-<blockquote><font color="#000080">if there is an element corresponding to an atomic number of 27 in the Table of Standard Elements ...
-</font></blockquote><p>
-<p>
-<p>Or more simply:
-<p>
-<blockquote><font color="#000080">if there is an atomic number of 27 in the Table of Standard Elements ...
-</font></blockquote><p>
-<p>
-<p>The condition &quot;if there is...&quot; can be used with any reference to a table entry: for instance, &quot;if there is a symbol in row 5 of the Table of Standard Elements&quot; would be false, because there are only four rows.
-<p>
-<p><hr><p><a href=doc201.html>Previous</a> / <a href=doc203.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc201.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc203.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

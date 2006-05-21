@@ -1,4 +1,13 @@
-<html><head><title>6.5. Before rules</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>3.5. Kinds</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,66 +16,49 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc76.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc78.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.5. Before rules</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc31.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap3.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 3: Things</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc33.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>3.5. Kinds</b></font></td></tr></table>
 <p>
-<p>Despite what was said in the previous section, instead rules do not quite bypass all of the usual rules. Inform knows that certain actions require light: for instance,
+<p>The following description runs to only 33 words, but makes a surprisingly intricate design. It not only places things within rooms, but also places them very specifically with respect to each other:
 <p>
-<blockquote><font color="#000080">examining the napkin; looking; looking under the dining table
+<blockquote><font color="#000080">&quot;Midsummer Day&quot;
 </font></blockquote><p>
 <p>
-<p>and if it is dark then none of these actions will be allowed, and any instead rules about them will not even be reached. Similarly, Inform knows that most actions require physical access to their objects: so &quot;taking the napkin&quot; would be blocked if the napkin were, say, inside a closed glass bottle, whereas &quot;examining the napkin&quot; would not. So an instead rule can only take effect if the action has already passed these basic reasonability tests.
-<p>
-<p>&quot;Before&quot; rules genuinely precede checking of any kind. They also differ from instead rules in that they do not automatically stop the action in its tracks. Rather, they are provided as an opportunity to ensure that something else is done first. For example:
-<p>
-<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
+<blockquote><font color="#000080">East of the Garden is the Gazebo. Above is the Treehouse. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup.
 </font></blockquote><p>
 <p>
-<p>whence
+<p>Inform needs to identify the places and objects being described by the nouns here, and to guess what it can about them. For instance, the pistol can be picked up but not walked inside, whereas the Summer House is the reverse. (This is obvious to someone who knows what these words mean, less obvious to a computer which does not, but the text contains sufficient clues.) Inform does this by sorting the various nouns into different categories, which are called &quot;kinds&quot;. For instance:
 <p>
-<blockquote><font color="#000080">&gt;GET NAPKIN
-<br>(first unfolding its delicate origami swan)
-<br>Taken.
+<blockquote><font color="#000080">Garden, Gazebo, Treehouse - <b>room</b>
+<br>billiards table - <b>supporter</b>
+<br>cup - <b>container</b>
+<br>starting pistol - <b>thing</b>
+<br>East, up (implied by &quot;above&quot;) - <b>direction</b>
 </font></blockquote><p>
 <p>
-<p>We have seen that instead rules automatically stop actions, whereas before rules automatically allow them to continue. We sometimes want to change this. The magic word &quot;instead&quot; can therefore be tacked on to any instruction in a before rule, and will have the effect of immediately stopping the action at that instruction. Thus the following two rules are (almost) equivalent:
+<p>(A container is something which can contain other things, and a supporter similarly.) For instance Inform knows that if one thing is in another, then the second thing is either a room or a container, and if one thing is on another, the second thing is a supporter. This worked nicely for the design above, but:
 <p>
-<blockquote><font color="#000080">Before removing the key, instead say &quot;It seems to be soldered to the keyhole.&quot;
+<blockquote><font color="#000080">In the Treehouse is a cardboard box.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of removing the key, say &quot;It seems to be soldered to the keyhole.&quot;
+<p>results in the cardboard box being made only a &quot;thing&quot;: because nothing has been put inside it, there is no reason for Inform - which does not know what a cardboard box looks like - to guess that it is a &quot;container&quot;. So we need to add:
+<p>
+<blockquote><font color="#000080">The box is a container.
 </font></blockquote><p>
 <p>
-<p>Two special phrases can also be used: &quot;stop the action&quot; and &quot;continue the action&quot;. Yet a third way to achieve the same effect, then, would be:
+<p>It is rather clumsy to have to write two sentences like this, so we would normally write this instead:
 <p>
-<blockquote><font color="#000080">Before removing the key: say &quot;It seems to be soldered to the keyhole.&quot;; stop the action.
+<blockquote><font color="#000080">In the Treehouse is a container called the cardboard box.
 </font></blockquote><p>
-<p>
-<p>And to round off the discussion, these are also (almost) equivalent:
-<p>
-<blockquote><font color="#000080">Before taking the napkin, say &quot;(first unfolding its delicate origami swan)&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of taking the napkin: say &quot;(first unfolding its delicate origami swan)&quot;; continue the action.
-</font></blockquote><p>
-<p>
-<p>As a general principle, it is good style to use instead rules whenever blocking actions, and before rules only when it is genuinely necessary to do something first but then to continue: in fact, it is good style to use &quot;stop the action&quot; or &quot;continue the action&quot; as little as possible.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e145"><a href=doc77.html#e145><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>Make PUT and INSERT commands automatically take objects if the player is not holding them.</i><p>
-<p>
-<p>&quot;Stop&quot; and &quot;Continue&quot; are most useful when we need to write rules that will have to stop the action some of the time but at other times let it pass; so for instance:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Before inserting something which is not carried by the player into something:\n\tif the noun is in the second noun, say &quot;Already done.&quot; instead;\n\tsay &quot;(first taking [the noun])[line break]&quot;;\n\tsilently try taking the noun;\n\tif the player is not holding the noun, stop the action.\n\nBefore putting something which is not carried by the player on something:\n\tif the noun is on the second noun, say &quot;Already done.&quot; instead;\n\tsay &quot;(first taking [the noun])[line break]&quot;;\n\tsilently try taking the noun;\n\tif the player is not holding the noun, stop the action.\n\n')"><img border=0 src=paste.png></a> Before inserting something which is not carried by the player into something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is in the second noun, say &quot;Already done.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first taking [the noun])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try taking the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is not holding the noun, stop the action.
+<a name="e145"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc32.html#e145 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>6</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc32.html#e145 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Midsummer Day</font></b></a><br>The above example accumulated into one place, to experiment with.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Midsummer Day&quot;\n\nEast of the Garden is the Gazebo. Above is the Treehouse. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup. In the Treehouse is a container called a cardboard box.\n\nTest me with &quot;up / x box / d / e / x table / x cup / x pistol / get cup&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Midsummer Day&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Before putting something which is not carried by the player on something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is on the second noun, say &quot;Already done.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(first taking [the noun])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;silently try taking the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is not holding the noun, stop the action.
+<blockquote><font color="#000080">East of the Garden is the Gazebo. Above is the Treehouse. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup. In the Treehouse is a container called a cardboard box.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc76.html>Previous</a> / <a href=doc78.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Test me with &quot;up / x box / d / e / x table / x cup / x pistol / get cup&quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc32.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc31.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc33.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

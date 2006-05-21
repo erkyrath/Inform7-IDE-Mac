@@ -1,4 +1,13 @@
-<html><head><title>11.9. Check, carry out, report</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>4.11. Text with variations</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,53 +16,49 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc160.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc162.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.9. Check, carry out, report</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc61.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap4.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 4: Kinds</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc63.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>4.11. Text with variations</b></font></td></tr></table>
 <p>
-<p>The normal behaviour of an action is specified by its three associated rulebooks - check, carry out and report. In the case of our &quot;photographing&quot; example, these rulebooks will be:
+<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
 <p>
-<blockquote><font color="#000080"><b>Check photographing</b>. Here, for instance, we need to verify that the player has the camera. If any of our checks fail, we should say why and stop the action. If they succeed, we say nothing.
+<blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080"><b>Carry out photographing</b>. At this stage no further checking is needed (or allowed): the action now definitively takes place. At this point we might, for instance, deduct one from the number of exposures left on the film in the camera, or award the player points for capturing something interesting for posterity. But we should say nothing.
+<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
+<p>
+<blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080"><b>Report photographing</b>. At this stage no further activity is needed (or allowed): whatever effect the action had, it has happened and is now over. All we can do is to say what has taken place.
+<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
+<p>
+<p>We sometimes need to be careful about the printing of line breaks:
+<p>
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell. [otherwise]the usual cell.&quot;
 </font></blockquote><p>
 <p>
-<p>So far we have not really gone into the business of what rulebooks are, and we don't do so here either - suffice to say that we can now create whatever rules we need:
+<p>This room description has two possible forms: &quot;Ah, the unknown cell. &quot;, at first sight, and then &quot;Ah, the usual cell.&quot; subsequently. But the second form is rounded off with a line break because the last thing printed is a &quot;.&quot;, whereas the first form isn't, because it ended with a space. The right thing would have been:
 <p>
-<blockquote><font color="#000080">A check photographing rule: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell.[otherwise]the usual cell.&quot;
 </font></blockquote><p>
 <p>
-<p>In fact, writing &quot;a check photographing rule&quot; is over-formal. We can more simply label our rules like so:
-<p>
-<blockquote><font color="#000080">Check photographing: if we have photographed the noun then say &quot;You've already snapped [the noun].&quot; instead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Report photographing: say &quot;Click!&quot;
-</font></blockquote><p>
-<p>
-<p>For the sake of brevity, photography has no interesting consequence (no points to be won, no film to use up), so there are no carry out rules here. Note the way we used the word &quot;instead&quot; once again to stop actions in their tracks.
-<p>
-<p>We can continue to add rules at any point, and a classic thing that happens when testing a new work is that the designer realises there is a case which has not been thought of:
-<p>
-<blockquote><font color="#000080">Check photographing: if the noun is the camera then say &quot;That would require some sort of contraption with mirrors.&quot; instead.
-</font></blockquote><p>
+<p>allowing no space after &quot;unknown cell.&quot;
 <p>
 <p><hr><p>
-<a name="e47"><a href=ex47.html#e47><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Containers and supporters that report their contents when you EXAMINE them.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e62"><a href=doc161.html#e62><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>An electric light kind of device which becomes lit when switched on and dark when switched off.</i><p>
+<a name="e60"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex60.html#e60 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>34</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex60.html#e60 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> When?</font></b></a><br>A door which says "...leads east" in one place and "...leads west" in the other.<p></td></tr></table>
+<a name="e62"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc62.html#e62 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>35</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc62.html#e62 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000">INVENTORY listing with separate carried and worn items</font></b></a><br>Separate the player's inventory listing into two parts, so that it says "you are carrying..." and then (if the player is wearing anything) "You are also wearing...".<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>If we wanted, we might replace the rule for taking inventory as follows:
 <p>
-<p>This will be explored more in subsequent examples, but one of the things we can do with carry out rules is extend the function of existing commands so that they do more, or have special effects in specific situations. For instance, suppose we want to have a class of electric light:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('An electric light is a kind of device. Carry out switching on an electric light: now the noun is lit. Carry out switching off an electric light: now the noun is unlit.\n\n\n')"><img border=0 src=paste.png></a> An electric light is a kind of device. Carry out switching on an electric light: now the noun is lit. Carry out switching off an electric light: now the noun is unlit.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Persephone&quot;\n\nInstead of taking inventory:\n\tsay &quot;You\'re carrying [list of things carried by the player][if the player wears something]. You are wearing [list of things worn by the player][end if].&quot;\n\nThe Fancy Party is a room. The player carries a sword, a strawberry stem, and 20 credits worth of platinum. The player wears a sash indicating lordhood.\n\nTest me with &quot;i / take off sash / i&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Persephone&quot;
 </font></blockquote><p>
 <p>
-<p>This will not affect the behavior of any other devices when switched; it will also not change the way in which switching lights on and off is reported. The player will still see
-<p>
-<blockquote><font color="#000080">You switch the sodium lamp on.
+<blockquote><font color="#000080">Instead of taking inventory:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're carrying [list of things carried by the player][if the player wears something]. You are wearing [list of things worn by the player][end if].&quot;
 </font></blockquote><p>
 <p>
-<p>or the like. In this case that is probably what we want. If we wanted a special way of describing turning on electric lights as opposed to all other devices, we could also add an after rule for the electric light class. Adding this rule to the carry out train does guarantee, though, that in no case will we manage to make the lamp lit without actually making it switched on (or vice versa).
-</td></tr></table><p><a name="e51"><a href=ex51.html#e51><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A CUT [something] WITH [something] command which acts differently on different types of objects.</i><p>
-<p><hr><p><a href=doc160.html>Previous</a> / <a href=doc162.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">The Fancy Party is a room. The player carries a sword, a strawberry stem, and 20 credits worth of platinum. The player wears a sash indicating lordhood.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;i / take off sash / i&quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc62.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e9"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex9.html#e9 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>36</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex9.html#e9 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Whence?</font></b></a><br>A kind of door that always automatically describes the direction it opens and what lies on the far side (if that other room has been visited).<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc61.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc63.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

@@ -1,4 +1,13 @@
-<html><head><title>16.23. Reading a command</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>19.13. Defining phrases in Inform 6</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,127 +16,96 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.23. Reading a command</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc316.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap19.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 19: Extensions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc318.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>19.13. Defining phrases in Inform 6</b></font></td></tr></table>
 <p>
-<p><b>1. When it happens.</b> When reading a command from the keyboard.
+<p>The phrases described in this documentation, such as &quot;end the game in death&quot;, are all defined in the Standard Rules, and are for the most part defined not in terms of other I7 phrases but instead reduced to equivalents in I6. For instance:
 <p>
-<p><b>2. The default behaviour.</b> Print the prompt text; wait for the player to type something and press return. Reject an entirely blank line, and treat a command beginning &quot;oops&quot; is considered a correction to the previous one. This is a fairly complicated business, so it is probably best not to change the &quot;for&quot; rules for this activity: &quot;before&quot;, and especially &quot;after&quot;, are another matter.
-<p>
-<p><b>3. Examples.</b> (a) To lead absolute beginners in gently:
-<p>
-<blockquote><font color="#000080">Before reading a command while the turn count is 1, say &quot;(This is your chance to say what the protagonist should do next. After the '>', try typing 'take inventory'.)&quot;
+<blockquote><font color="#000080">To end the game in death: (- deadflag=1; -).
 </font></blockquote><p>
 <p>
-<p>(b) The following responds politely but firmly if the player tries to type &quot;please look&quot;, say, instead of just &quot;look&quot;:
+<p>The notation &quot;(-&quot; and &quot;-)&quot; indicates that what comes in between is I6 code. The minus sign is supposed to be a mnemonic for the decrease from 7 to 6: later we shall use &quot;(+&quot; and &quot;+)&quot; to go back up the other way, from 6 to 7.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;Please do not say please.&quot;;\n\t\treject the player\'s command;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Please do not say please.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject the player's command;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<p>When a phrase is defined as containing only a single command, and that command is defined using I6 - as here - it is compiled in-line. This means that the phrase &quot;end the game in death&quot; will always be translated as &quot;deadflag=1;&quot;, rather than being translated into a call to a suitable function whose only statement is &quot;deadflag=1;&quot;.
+<p>
+<p>This is an easy case since the wording never varies. More typical examples would be:
+<p>
+<blockquote><font color="#000080">To say (something - number): (- print {something}; -).
+<br>To sort (T - table-name) in (TC - table-column) order:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(- TableSort({T}, {TC}, 1); -).
 </font></blockquote><p>
 <p>
-<p>To explain. Fragments of what the player has typed are called snippets: &quot;the player's command&quot; is the entire thing. (&quot;Snippet&quot; is actually a kind of value, so we could say &quot;Ah, you typed '[the player's command]'!&quot; or some such if we liked.) We can test if a snippet matches a given pattern like so:
+<p>When the braced name of one of the variables in the phrase preamble appears, this is compiled to the corresponding I6 expression at the relevant position in the I6 code. So, for instance,
 <p>
-<blockquote><font color="#000080">if the player's command matches &quot;room [number]&quot;, ...
+<blockquote><font color="#000080">say the capacity of the basket
 </font></blockquote><p>
 <p>
-<p>This requires an exact match: the weaker condition &quot;includes&quot; only means that the pattern occurs somewhere in the given snippet, so that
+<p>might be compiled to
 <p>
-<blockquote><font color="#000080">if the player's command includes &quot;please&quot;, ...
+<blockquote><font color="#000080">print O17_basket.capacity;
 </font></blockquote><p>
 <p>
-<p>matches &quot;please look&quot; or &quot;look please&quot;, etc. Lastly, the phrase
+<p>because &quot;{something}&quot; is expanded to &quot;capacity of the basket&quot; (I7 code) and then translated to &quot;O17_basket.capacity&quot; (I6 code), which is then spliced into the original I6 definition &quot;print {something};&quot;.
 <p>
-<blockquote><font color="#000080">reject the player's command
+<p>Braces &quot;{&quot; are of course significant in I6. A real brace can be obtained by making the character following it a space, and then I7 will not attempt to read it as a request for substitution.
+<p>
+<p>Finally, note that while a normal I7 phrase definition can give a kind as what must be matched, e.g.,
+<p>
+<blockquote><font color="#000080">To release wild tigers into (arena - a room): ...
 </font></blockquote><p>
 <p>
-<p>tells Inform not to bother analysing the text further, but to go back to the keyboard. (No time passes; no turn elapses; nothing happens in the simulated world.)
+<p>it is in general a bad idea, and will result in inefficient code, for an phrase defined using I6 to do this. Instead, if possible, match against &quot;object&quot;, where any room, region, thing or direction will be a valid match:
 <p>
-<p>(c) An improved version takes commands like &quot;please drop the coin&quot; and strips &quot;please&quot; from them, but then allows them to proceed normally:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;(Quelle politesse! But no need to say please.)&quot;;\n\t\tcut the matched text;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(Quelle politesse! But no need to say please.)&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut the matched text;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<p>&quot;Matched text&quot; is a snippet containing the words which matched against the pattern in the most recent &quot;includes&quot; condition, so in this case it contains just the single word &quot;please&quot;. Two phrases allow snippets to be altered:
-<p>
-<blockquote><font color="#000080">replace (... snippet ...) with (... text ...)
-<br>cut (...snippet ...)
-</font></blockquote><p>
-<p>
-<p>(d) To make the word &quot;grab&quot; an abbreviation for &quot;take all&quot;:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command matches &quot;grab&quot;, replace the player\'s command with &quot;take all&quot;.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;grab&quot;, replace the player's command with &quot;take all&quot;.
+<blockquote><font color="#000080">To release wild tigers into (arena - an object): ...
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e161"><a href=ex161.html#e161><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A list of phrases to be automatically converted to longer sequences of separate commands.</i><p>
-<a name="e0"><a href=ex0.html#e0><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Accepting adverbs anywhere in a command, registering what the player typed but then cutting them out before interpreting the command.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e92"><a href=doc257.html#e92><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>Responding to the player's input based on keywords only, and overriding the original parser entirely.</i><p>
+<a name="e115"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex115.html#e115 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>258</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex115.html#e115 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Odins</font></b></a><br>Making [is/are] and [it/them] say tokens that will choose appropriately based on the last object mentioned.<p></td></tr></table>
+<a name="e92"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc317.html#e92 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>259</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc317.html#e92 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Pink or Blue</font></b></a><br>Asking the player to select a gender to begin play.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>Suppose we would like to allow the player to choose a gender for the main character. We'd also like this to happen at the beginning of the game and outside the main parsing sequence. &quot;When play begins&quot; seems like a good place to put this.
 <p>
-<p>Apologies to the shade of Housman.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Fragment of a Greek Tragedy&quot;\n\nUnderstand &quot;restart/restore/save/quit&quot; as &quot;[meta-command]&quot;.\n\nAfter reading a command:\n\tif the player\'s command matches &quot;[meta-command]&quot;, make no decision;\n\tsay line break;\n\trepeat through Table of Current Topics\n\tbegin;\n\t\tif the player\'s command includes topic entry\n\t\tbegin;\n\t\t\tsay &quot;CHORUS: [reply entry][paragraph break]&quot;;\n\t\t\tfollow the advance time rule;\n\t\t\trule succeeds;\n\t\tend if;\n\tend repeat;\n\tsay &quot;[italic type]   Pause.[roman type][line break]&quot;;\n\tfollow the advance time rule;\n\trule succeeds.\n\nTable of Current Topics\ntopic\treply\n&quot;journey/trip/travel/came/arrived&quot;\t&quot;Sailing on horseback, or with feet for oars?&quot;\n&quot;horseback/legs/feet/oars&quot;\t&quot;Beneath a shining or a rainy Zeus?&quot;\n&quot;shining/rainy/weather/zeus&quot;\t&quot;Mud\'s sister, not herself, adorns thy boots.&quot;\n\n[This would be a bit bare if we didn\'t provide the player with some sort of context at the outset, so let\'s put some remarks before the first command prompt:]\n\nBefore reading a command while the turn count is 1:\n\tsay &quot;CHORUS: O suitably-attired-in-leather-boots\n\tHead of a traveller, wherefore seeking whom\n\tWhence by what way how purposed art thou come\n\tTo this well-nightingaled vicinity?\n\tMy object in inquiring is to know.\n\tBut if you happen to be deaf and dumb\n\tAnd do not understand a word I say,\n\tThen wave your hand, to signify as much.&quot;\n\n[This &quot;turn count&quot; condition is why it was useful to follow the advance time rule in &quot;after reading a command&quot;: the game (or drama, if you like) will continue to count moves elapsed even though the rest of Inform\'s command parsing and world model is being ignored. In a longer and more ambitious implementation of this idea, we might want to keep following the turn sequence rules and allow scenes to govern the behavior and responses of the Chorus.]\n\n[And then to give the whole exchange a play\'s format:]\n\nThe Stage is a room.\n\nA procedural rule: ignore the room description heading rule.\n\nWhen play begins: change the command prompt to &quot;YOU: &quot;; change left hand status line to &quot;Fragment of a Greek Tragedy&quot;; change right hand status line to &quot;A. E. Housman&quot;.\n\n')"><img border=0 src=paste.png></a> &quot;Fragment of a Greek Tragedy&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Pink or Blue&quot;\n\nWhen play begins:\n\tsay &quot;Should your character be male or female? >&quot;;\n\tif men win, now the player is male;\n\totherwise now the player is female;\n\tsay paragraph break.\n\n[Now a piece of Inform 6 code handles the unusual input. It\'s not necessary to understand this to use it, and the code should work for any question you\'d like to ask the player. The first three words in quotation marks (\'male\', \'M\', \'man\'...) correspond to positive feedback; the later three words correspond to negative feedback. So &quot;to decide whether men win&quot; will be true if the player types one of the first three, and false if he types one of the last three.]\n\nTo decide whether men win:\n\t(- Question(\'male\',\'M\',\'man\',\'female\',\'F\',\'woman\') -)\n\nInclude (-\n\n[ Question pos1 pos2 pos3 neg1 neg2 neg3 i;\n\tfor (::)\n\t{   if (location == nothing || parent(player) == nothing) read buffer parse;\n\t\telse read buffer parse DrawStatusLine;\n\t\ti=parse-->1;\n\t\tif (i==pos1 or pos2 or pos3) rtrue;\n\t\tif (i==neg1 or neg2 or neg3) rfalse;\n\t\tprint &quot;Please choose &quot;, (address) pos1, &quot; or &quot;, (address) neg1, &quot;. > &quot;;\n\t}\n];\n\n-)\n\nInstead of examining the player when the player is female:\n\tsay &quot;Congratulations, you are a girl!&quot;\n\nInstead of examining the player when the player is male:\n\tsay &quot;Congratulations, you are a boy!&quot;\n\nThe Room of Self-Knowledge is a room. &quot;Mirrors cover every available wall-surface of this hexagonal chamber, allowing you to examine yourself from all angles.&quot;\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Pink or Blue&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;restart/restore/save/quit&quot; as &quot;[meta-command]&quot;.
+<blockquote><font color="#000080">When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Should your character be male or female? >&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if men win, now the player is male;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise now the player is female;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say paragraph break.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;[meta-command]&quot;, make no decision;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say line break;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Current Topics
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes topic entry
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;CHORUS: [reply entry][paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;follow the advance time rule;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[italic type]   Pause.[roman type][line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;follow the advance time rule;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds.
+<p>Now a piece of Inform 6 code handles the unusual input. It's not necessary to understand this to use it, and the code should work for any question you'd like to ask the player. The first three words in quotation marks ('male', 'M', 'man'...) correspond to positive feedback; the later three words correspond to negative feedback. So &quot;to decide whether men win&quot; will be true if the player types one of the first three, and false if he types one of the last three.
+<p>
+<blockquote><font color="#000080">To decide whether men win:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;(- Question('male','M','man','female','F','woman') -)
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Current Topics
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">reply</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;journey/trip/travel/came/arrived&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Sailing on horseback, or with feet for oars?&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;horseback/legs/feet/oars&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Beneath a shining or a rainy Zeus?&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;shining/rainy/weather/zeus&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Mud's sister, not herself, adorns thy boots.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<blockquote><font color="#000080">Include (-
 </font></blockquote><p>
 <p>
-<p>This would be a bit bare if we didn't provide the player with some sort of context at the outset, so let's put some remarks before the first command prompt:
-<p>
-<blockquote><font color="#000080">Before reading a command while the turn count is 1:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;CHORUS: O suitably-attired-in-leather-boots
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Head of a traveller, wherefore seeking whom
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Whence by what way how purposed art thou come
-<br>&nbsp;&nbsp;&nbsp;&nbsp;To this well-nightingaled vicinity?
-<br>&nbsp;&nbsp;&nbsp;&nbsp;My object in inquiring is to know.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;But if you happen to be deaf and dumb
-<br>&nbsp;&nbsp;&nbsp;&nbsp;And do not understand a word I say,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;Then wave your hand, to signify as much.&quot;
+<blockquote><font color="#000080">[ Question pos1 pos2 pos3 neg1 neg2 neg3 i;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;for (::)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;{   if (location == nothing || parent(player) == nothing) read buffer parse;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else read buffer parse DrawStatusLine;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i=parse-->1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i==pos1 or pos2 or pos3) rtrue;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (i==neg1 or neg2 or neg3) rfalse;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;print &quot;Please choose &quot;, (address) pos1, &quot; or &quot;, (address) neg1, &quot;. > &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;}
+<br>];
 </font></blockquote><p>
 <p>
-<p>This &quot;turn count&quot; condition is why it was useful to follow the advance time rule in &quot;after reading a command&quot;: the game (or drama, if you like) will continue to count moves elapsed even though the rest of Inform's command parsing and world model is being ignored. In a longer and more ambitious implementation of this idea, we might want to keep following the turn sequence rules and allow scenes to govern the behavior and responses of the Chorus.
-<p>
-<p>And then to give the whole exchange a play's format:
-<p>
-<blockquote><font color="#000080">The Stage is a room.
+<blockquote><font color="#000080">-)
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A procedural rule: ignore the room description heading rule.
+<blockquote><font color="#000080">Instead of examining the player when the player is female:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Congratulations, you are a girl!&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When play begins: change the command prompt to &quot;YOU: &quot;; change left hand status line to &quot;Fragment of a Greek Tragedy&quot;; change right hand status line to &quot;A. E. Housman&quot;.
+<blockquote><font color="#000080">Instead of examining the player when the player is male:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Congratulations, you are a boy!&quot;
 </font></blockquote><p>
-</td></tr></table><p><a name="e102"><a href=ex102.html#e102><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A character who responds to keywords in the player's instructions and remarks, even if there are other words included.</i><p>
-<a name="e127"><a href=ex127.html#e127><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Novice mode that prefaces every prompt with a list of possible commands the player could try, and highlights every important word used, to alert players to interactive items in the scenery.</i><p>
-<p><hr><p><a href=doc256.html>Previous</a> / <a href=doc258.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">The Room of Self-Knowledge is a room. &quot;Mirrors cover every available wall-surface of this hexagonal chamber, allowing you to examine yourself from all angles.&quot;
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc317.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc316.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc318.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

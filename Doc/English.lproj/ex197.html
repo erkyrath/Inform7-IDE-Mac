@@ -1,4 +1,13 @@
-<html><head><title>17.2. Named rules and rulebooks</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>4.10. Text with lists</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,47 +16,83 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc262.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc264.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>17.2. Named rules and rulebooks</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc60.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap4.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 4: Kinds</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc62.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>4.10. Text with lists</b></font></td></tr></table>
 <p>
-<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns - usually visible on the &quot;status line&quot; displayed above the window of a game in progress - and advances the clock, which is usually not visible, but ticking away behind the scenes.
+<p>The useful substitution &quot;[list of <i>description</i>]&quot; prints out, as an English sentence, a list of all the objects which match the given description. For instance,
 <p>
-<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
-<p>
-<blockquote><font color="#000080">advance time = the advance time rule
+<blockquote><font color="#000080">&quot;The places you can go are [list of rooms].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
+<p>Any description can be given and, as we shall see, descriptions can be very flexible indeed:
+<p>
+<blockquote><font color="#000080">&quot;Mr Darcy glares proudly at you. He is wearing [list of things worn by Darcy] and carrying [list of things carried by Darcy].&quot;
 </font></blockquote><p>
 <p>
-<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p>And, if this were from a dramatisation of the novel by Miss Fielding rather than Miss Austen, we might find:
 <p>
-<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We have already seen some of these names used in the Advanced Actions chapter, and will later use them like so:
-<p>
-<blockquote><font color="#000080">ignore the can't go through closed doors rule;
+<blockquote><font color="#000080">Mr Darcy glares proudly at you. He is wearing a pair of Newcastle United boxer shorts and carrying a self-help book.
 </font></blockquote><p>
 <p>
-<p>Names for rules tend to be verbose, but this is a situation where clarity is very much better than brevity.
+<p>If the description matches nothing - for instance, if Darcy has empty hands - then &quot;nothing&quot; is printed. A more insidious problem is that the list may end up either singular or plural. We might be expecting that the example above will produce something like:
+<p>
+<blockquote><font color="#000080">The places you can go are Old Bailey, Bridget's Flat and TV Centre.
+</font></blockquote><p>
+<p>
+<p>But if there is only one room, then the result would be:
+<p>
+<blockquote><font color="#000080">The places you can go are Bridget's Flat.
+</font></blockquote><p>
+<p>
+<p>which is wrong. We can get around this with careful wording and a slightly different substitution:
+<p>
+<blockquote><font color="#000080">&quot;Near here [is/are list of rooms].&quot;
+</font></blockquote><p>
+<p>
+<p>which uses &quot;is&quot; or &quot;are&quot; as appropriate. Lastly, we can also make the items listed take the definite article by writing:
+<p>
+<blockquote><font color="#000080">&quot;Mr Darcy impatiently bundles [the list of things carried by Darcy] into your hands and stomps out of the room.&quot;
+</font></blockquote><p>
+<p>
+<p>which might result in
+<p>
+<blockquote><font color="#000080">Mr Darcy impatiently bundles the self-help book and the Christmas card into your hands and stomps out of the room.
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e195"><a href=ex195.html#e195><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A WAIT [number] MINUTES command which advances through an arbitrary number of turns.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e197"><a href=doc263.html#e197><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>A WAIT UNTIL [time] command which advances until the game clock reaches the correct hour.</i><p>
+<a name="e197"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc61.html#e197 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>33</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc61.html#e197 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Control Center</font></b></a><br>Objects which automatically include a description of their component parts whenever they are examined.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>It is straightforward to make a rule that anything with parts must mention all those parts during an EXAMINE command:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Hanging around until is an action applying to one time.\n\nCheck hanging around until:\n\tif the time of day is the time understood, say &quot;It is [time understood] now!&quot; instead;\n\tif the time of day is after the time understood, say &quot;It is too late for that now.&quot; instead.\n\nCarry out hanging around until:\n\twhile the time of day is before time understood repeatedly follow the turn sequence rules.\n\nReport hanging around until:\n\tsay &quot;You yawn until [time understood].&quot;\n\nUnderstand &quot;wait until [time]&quot; as hanging around until.\n\n')"><img border=0 src=paste.png></a> Hanging around until is an action applying to one time.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Control Center&quot;\n\nAfter examining a thing when something is part of the noun:\n\tsay &quot;[The noun] includes [list of things which are part of the noun].&quot;\n\nThe Control Center is a room. &quot;Here you are at the Control Center of the universe.&quot;\n\nThe Universe Management Computer is a fixed in place thing in the Control Center. &quot;The Universe Management Computer sits directly before you, unguarded.&quot; The description of the Universe Management Computer is &quot;The computer is so large that you would be unable to operate it all from one position. Alas, it does not come with a manual.&quot;\n\nA chartreuse indicator light, an ennui meter, a golden knob settable to 15,000 positions, a toothpick dispensor, and a button labeled RESTART are part of the Universe Management Computer.\n\nThe command chair is an enterable supporter in the Control Center. It is pushable between rooms. &quot;Because the computer is too large for you to reach all of the front panel from a standing position, there is a command chair on casters which allows you to push back and forth.&quot; The description of the command chair is &quot;Quite ordinary, really, but for the heady rush of power that comes of sitting in it.&quot;. Some casters are part of the command chair.\n\n[Now whenever we look at any object with components, we will first see the description, then a list of parts which belong to it. The following refinement brings in elements of later chapters, but it may be worth noting: because we\'ve written our rule as an &quot;After examining...&quot;, anything that pre-empts the operation of the examine command will also prevent that rule from occurring. So for instance:]\n\nA hair-thick needle is part of the ennui meter.\n\nInstead of examining the ennui meter: say &quot;You can\'t be bothered.&quot;\n\n[...would not result in the needle being mentioned.]\n\nTest me with &quot;x chair / x computer / x ennui meter&quot;\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Control Center&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check hanging around until:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is the time understood, say &quot;It is [time understood] now!&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is after the time understood, say &quot;It is too late for that now.&quot; instead.
+<blockquote><font color="#000080">After examining a thing when something is part of the noun:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] includes [list of things which are part of the noun].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out hanging around until:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;while the time of day is before time understood repeatedly follow the turn sequence rules.
+<blockquote><font color="#000080">The Control Center is a room. &quot;Here you are at the Control Center of the universe.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report hanging around until:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You yawn until [time understood].&quot;
+<blockquote><font color="#000080">The Universe Management Computer is a fixed in place thing in the Control Center. &quot;The Universe Management Computer sits directly before you, unguarded.&quot; The description of the Universe Management Computer is &quot;The computer is so large that you would be unable to operate it all from one position. Alas, it does not come with a manual.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;wait until [time]&quot; as hanging around until.
+<blockquote><font color="#000080">A chartreuse indicator light, an ennui meter, a golden knob settable to 15,000 positions, a toothpick dispensor, and a button labeled RESTART are part of the Universe Management Computer.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc262.html>Previous</a> / <a href=doc264.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">The command chair is an enterable supporter in the Control Center. It is pushable between rooms. &quot;Because the computer is too large for you to reach all of the front panel from a standing position, there is a command chair on casters which allows you to push back and forth.&quot; The description of the command chair is &quot;Quite ordinary, really, but for the heady rush of power that comes of sitting in it.&quot;. Some casters are part of the command chair.
+</font></blockquote><p>
+<p>
+<p>Now whenever we look at any object with components, we will first see the description, then a list of parts which belong to it. The following refinement brings in elements of later chapters, but it may be worth noting: because we've written our rule as an &quot;After examining...&quot;, anything that pre-empts the operation of the examine command will also prevent that rule from occurring. So for instance:
+<p>
+<blockquote><font color="#000080">A hair-thick needle is part of the ennui meter.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of examining the ennui meter: say &quot;You can't be bothered.&quot;
+</font></blockquote><p>
+<p>
+<p>...would not result in the needle being mentioned.
+<p>
+<blockquote><font color="#000080">Test me with &quot;x chair / x computer / x ennui meter&quot;
+</font></blockquote><p>
+<p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc61.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc60.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc62.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

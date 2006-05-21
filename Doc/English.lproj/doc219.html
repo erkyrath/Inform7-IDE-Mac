@@ -1,4 +1,13 @@
-<html><head><title>15.2. New commands for old grammar</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>14.13. Topic columns</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,40 +16,41 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc218.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc220.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.2. New commands for old grammar</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc218.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap14.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 14: Tables</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc220.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>14.13. Topic columns</b></font></td></tr></table>
 <p>
-<p>In the photography example, we are providing entirely new grammar for an action  not ordinarily built in to Inform. But we often want simply to provide alternative grammar for existing actions, or even to put new interpretations on commands that Inform already recognises. For instance:
+<p>When double-quoted matter appears in a column of a table, Inform will normally treat that as text for printing out. The exception is when the column is called &quot;topic&quot;, where it is treated as text for comparing against what the player has typed. There is really only one operation allowed with topic columns, the &quot;...listed in...&quot; construction, but fortunately it is the one most often needed.
 <p>
-<blockquote><font color="#000080">Understand &quot;deposit [something] in [an open container]&quot; as inserting it into.
+<p>Let us suppose that the Sybil has a penchant for telling passers-by which is the Greek muse for what. We might write:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('After asking the Sybil about a topic listed in the Table of Sybil\'s Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;\n\n[We can then provide a simple table giving her responses:]\n\nTable of Sybil\'s Replies\nTopic\tMuse\n&quot;calliope&quot;\t&quot;epic poetry&quot;\n&quot;clio&quot;\t&quot;history&quot;\n&quot;erato&quot;\t&quot;love poetry&quot;\n&quot;euterpe&quot;\t&quot;music&quot;\n&quot;melpomene&quot;\t&quot;tragedy&quot;\n&quot;polyhymnia&quot;\t&quot;sacred poetry&quot;\n&quot;terpsichore&quot;\t&quot;dancing&quot;\n&quot;thalia&quot;\t&quot;comedy&quot;\n&quot;urania&quot;\t&quot;astronomy&quot;\n&quot;monica&quot;\t&quot;tidiness&quot;\n&quot;phoebe&quot;\t&quot;massage&quot;\n&quot;rachel&quot;\t&quot;oval hair-cuts&quot;\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> After asking the Sybil about a topic listed in the Table of Sybil's Replies, say &quot;The Sybil declaims for a while, the gist being that the muse in question looks after [muse entry].&quot;
 </font></blockquote><p>
 <p>
-<p>The inserting action is built in to Inform, but the command &quot;deposit&quot; is not, so this is created as new. It is occasionally useful to put a twist on this:
+<p>We can then provide a simple table giving her responses:
 <p>
-<blockquote><font color="#000080">Understand &quot;fill [an open container] with [something]&quot; as inserting it into (with nouns reversed).
+<blockquote><font color="#000080">Table of Sybil's Replies
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Muse</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;calliope&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;epic poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;clio&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;history&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;erato&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;love poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;euterpe&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;music&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;melpomene&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;tragedy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;polyhymnia&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;sacred poetry&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;terpsichore&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;dancing&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;thalia&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;comedy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;urania&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;astronomy&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;monica&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;tidiness&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;phoebe&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;massage&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;rachel&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;oval hair-cuts&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>The clause &quot;(with nouns reversed)&quot; tells Inform to exchange the two nouns parsed, which is necessary because the inserting action expects the noun to be the item and the second noun to be the container, not vice versa.
+<p>Topics can use the full range of abilities of the &quot;understanding&quot; system which Inform uses to parse text, and which will be the subject of a later chapter. For now, note that the Sybil's topics might equally include &quot;flora/eve&quot; (matching the single word &quot;flora&quot; or the single word &quot;eve&quot;), or something more elaborate such as:
 <p>
-<p>The following example:
-<p>
-<blockquote><font color="#000080">Understand &quot;access [something]&quot; as opening.
+<blockquote><font color="#000080">&quot;Bridget&quot; or &quot;Bridge&quot; or &quot;Bridget Jones&quot;
 </font></blockquote><p>
-<p>
-<p>might look as if it makes &quot;access&quot; behave just like &quot;open&quot; when the player types it, but that's not so: &quot;open&quot; can also be used in constructions like &quot;open the door with the brass key&quot;, in which case it is understood as the unlocking action. We could add another line to make &quot;access&quot; behave this way too, but if what we really want is to make &quot;access&quot; behave just like &quot;open&quot;, it's easier simply to say so:
-<p>
-<blockquote><font color="#000080">Understand the command &quot;access&quot; as &quot;open&quot;.
-</font></blockquote><p>
-<p>
-<p>This is very useful when adding a new command which needs synonyms:
-<p>
-<blockquote><font color="#000080">Understand the command &quot;snap&quot; as &quot;photograph&quot;.
-<br>Understand the command &quot;picture&quot; as &quot;photograph&quot;.
-</font></blockquote><p>
-<p>
-<p>We can check the current stock of commands by looking at the table in the Actions index: for instance, before making &quot;snap&quot; synonymous with &quot;photograph&quot;, it might be wise to check that it is not already defined as a command for breaking something.
 <p>
 <p><hr><p>
-<a name="e3"><a href=ex3.html#e3><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A generic USE action which behaves sensibly with a range of different objects, expanding on the EMPLOY example above.</i><p>
-<a name="e81"><a href=ex81.html#e81><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>By default, Inform understands GET OFF, GET UP, or GET OUT when the player is sitting or standing on an enterable object. We might also want to add GET DOWN and DOWN as exit commands, though:</i><p>
-<a name="e44"><a href=ex44.html#e44><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>Implementation of "Cloak of Darkness", a simple example game that for years has been used to demonstrate the features of IF languages.</i><p>
-<p><hr><p><a href=doc218.html>Previous</a> / <a href=doc220.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e189"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex189.html#e189 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>175</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex189.html#e189 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Merlin</font></b></a><br>A REMEMBER command which accepts any text and looks up a response in a table of recollections.<p></td></tr></table>
+<a name="e104"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex104.html#e104 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>176</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex104.html#e104 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Questionable Revolutions</font></b></a><br>An expansion on the previous idea, only this time we store information and let characters answer depending on their expertise in a given area.<p></td></tr></table>
+<a name="e181"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex181.html#e181 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>177</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex181.html#e181 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> The Queen of Sheba</font></b></a><br>Allowing the player to use question words, and using that information to modify the response given by the other character.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc218.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc220.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

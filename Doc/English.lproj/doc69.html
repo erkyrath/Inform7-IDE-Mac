@@ -1,4 +1,13 @@
-<html><head><title>5.7. Adjacent rooms and routes through the map</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>4.18. Postscript on simulation</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,48 +16,10 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc68.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc70.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>5.7. Adjacent rooms and routes through the map</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc68.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap4.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 4: Kinds</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc70.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>4.18. Postscript on simulation</b></font></td></tr></table>
 <p>
-<p>Another useful adjective built into Inform is &quot;adjacent&quot;. Two rooms are said to be adjacent if there is a map connection between them which does not pass through some barrier such as a door. This is easily tested:
+<p>That concludes our tour through the design of the initial state of a simulated world. We have seen how to create rooms and to stock them with containers, supporters, devices, doors, men and women. The player of such a simulation can explore, move things around, open and close certain doors and containers, lock or unlock them provided a suitable key is found, switch machines on or off, and so on.
 <p>
-<blockquote><font color="#000080">if the Hallway is adjacent to the Study ...
-</font></blockquote><p>
+<p>But that is about all. There is as yet no element of surprise, no aim or sense of progress to be earned, and no narrative thread. We have painted the backcloth, and laid out the properties, but the actors have yet to take the stage.
 <p>
-<p>We usually want to know about the places adjacent to the current scene of the action, so that is what the adjective &quot;adjacent&quot; means when applied to rooms. For instance:
-<p>
-<blockquote><font color="#000080">if somebody is in an adjacent room, ...
-</font></blockquote><p>
-<p>
-<p>As with the case of &quot;visible&quot;, the adjective is a cut-down version of the more general relationship. This often happens: &quot;worn&quot; and &quot;carried&quot;, for instance, imply &quot;by the player&quot; unless something else is specified.
-<p>
-<p>While on the subject of navigating the map, the phrase &quot;the best route from A to B&quot; gives the direction to take in order to get from A to B by the shortest number of movements between rooms - if there is any way through at all. For example, here is a lure:
-<p>
-<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room].&quot;
-</font></blockquote><p>
-<p>
-<p>Best routes are ordinarily forbidden to go through doors, but if the suffix &quot;using doors&quot; is added as an option then any open or openable and unlocked door may be used on the way; and if &quot;using even locked doors&quot; is given, then any door at all will do. Since magnetism is no respecter of property, that seems right here:
-<p>
-<blockquote><font color="#000080">The description of the brass compass is &quot;The dial points quiveringly to [best route from the location to the Lodestone Room, using even locked doors].&quot;
-</font></blockquote><p>
-<p>
-<p>The phrase &quot;the best route from A to B&quot; gives the direction to take next, if we are at A and want to end up at B. Suppose this is east. We can find out where we go next by looking up &quot;the room east from A&quot;: similarly for any other direction, of course. (This can see through any doors, locked or not.)
-<p>
-<p>Finally, we can also stipulate that only certain rooms may be used for the journey, as in the following example:
-<p>
-<blockquote><font color="#000080">best route from the Drawbridge to the Keep through visited rooms
-</font></blockquote><p>
-<p>
-<p>The condition - in this case, that &quot;visited rooms&quot; must be used - also applies to both ends of the journey. (Also, saying something like &quot;...through containers&quot; would mean there is never a route, since it is only rooms which appear on the map.)
-<p>
-<p>We can also find out how long the journey would be:
-<p>
-<blockquote><font color="#000080">The description of the proximity gadget is &quot;You are now [number of moves from the location to the Sundial] moves from the Sundial.&quot;;
-</font></blockquote><p>
-<p>
-<p>This number is, of course, 0 if the location is already the Sundial. If there is no way at all to get to the Sundial, the number is -1.
-<p>
-<p><hr><p>
-<a name="e7"><a href=ex7.html#e7><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A person who moves randomly between rooms of the map.</i><p>
-<a name="e163"><a href=ex163.html#e163><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Signposts such as those provided on hiking paths in the Swiss Alps, which show the correct direction and hiking time to all other locations.</i><p>
-<a name="e8"><a href=ex8.html#e8><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A LOOK [direction] command which allows the player to see descriptions of the nearby landscape.</i><p>
-<p><hr><p><a href=doc68.html>Previous</a> / <a href=doc70.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc68.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc70.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

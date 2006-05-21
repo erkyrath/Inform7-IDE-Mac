@@ -1,4 +1,13 @@
-<html><head><title>7.18. Testing</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>7.11. Checking on whereabouts</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,22 +16,36 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc109.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc111.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>7.18. Testing</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc109.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap7.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 7: Change</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc111.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>7.11. Checking on whereabouts</b></font></td></tr></table>
 <p>
-<p>Inform provides a convenient shorthand for testing. Most works of interactive fiction contain numerous vignettes, either in terms of short scenes of narrative, or in the behaviour of particular things or rooms. This means we often need to test little pieces of the whole; on the other hand, we also want a way to test the entire thing right through. And it is all too easy to lose track of the solution while working out the design.
+<p>We have seen that while rooms are fixed, their contents move around, so we will need ways to examine the current whereabouts of things. The following examples show the kind of conditions allowed:
 <p>
-<p>Solutions or sequences for testing (&quot;scripts&quot;) can be defined with sentences like so:
-<p>
-<blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot;.
+<blockquote><font color="#000080">if the genie's lamp <b>is in</b> Aladdin's Cave ...
+<br>if Aladdin <b>is not in</b> Aladdin's Cave ...
+<br>if Aladdin's Cave <b>contains</b> the genie's lamp ...
+<br>if the genie's lamp <b>is carried by</b> Aladdin ...
+<br>if Aladdin <b>is carrying</b> the genie's lamp ...
+<br>if Aladdin <b>does not have</b> the genie's lamp ...
+<br>if the table <b>supports</b> the genie's lamp ...
+<br>if the table <b>is supporting</b> the genie's lamp ...
+<br>if the genie's lamp <b>is supported by</b> the table ...
+<br>if the genie's lamp <b>is on</b> the table ...
+<br>if the genie's lamp <b>is on top of</b> the table ...
+<br>if the genie's lamp <b>is in</b> the cupboard ...
+<br>if the genie's lamp <b>is contained in</b> the cupboard ...
+<br>if the genie's lamp <b>is inside</b> the cupboard ...
+<br>if the genie's lamp <b>is within</b> the cupboard ...
+<br>if the wick <b>is part of</b> the genie's lamp ...
 </font></blockquote><p>
 <p>
-<p>This has no effect on the design itself, but ensures that when the game is played, typing &quot;test balloon&quot; will run through the given three commands in sequence, as if we had typed &quot;get balloon&quot; and then &quot;blow balloon&quot; and then &quot;drop balloon&quot;.
+<p>As the previous section mentioned, these are exactly like the assertions which we use to set up the world, except that we make them questions by placing &quot;if&quot; in front. But we shall later see that we can also use three other tenses, not to mention plural forms, so that new verbal forms like &quot;had not been inside&quot; and &quot;were not supported by&quot; are legal here (which they would not be in assertions). What we are not allowed is to contract these verbs with apostrophes: &quot;isn't&quot;, &quot;hasn't&quot; and &quot;hadn't&quot; are forbidden.
 <p>
-<p>The name for the test (balloon in this example) has to be a single word. Typing just &quot;test&quot; at the game prompt gives a list of all the test scripts known to the game. Test scripts can make use of each other, for instance:
+<p>Overwhelmingly the condition we check most is whether the player is carrying something. The following are therefore equivalent:
 <p>
-<blockquote><font color="#000080">Test all with &quot;test balloon / test door&quot;.
+<blockquote><font color="#000080">if the genie's lamp is carried by the player ...
+<br>if the genie's lamp is carried ...
 </font></blockquote><p>
 <p>
-<p>One convenient way to keep track of the solution for a work being written is to include a test script at the end of each section, and to place a master test script (like &quot;test all&quot;) at the top of the source. But different designers will prefer different approaches, and this testing system is no more than an optional convenience.
+<p>And similarly for &quot;not carried&quot;, &quot;worn&quot; and &quot;not worn&quot;. To be precise, if a form of <i>to be carried</i> or <i>to be worn</i> is not followed by any other description, then &quot;the player&quot; is assumed to be doing the carrying or wearing.
 <p>
-<p><hr><p><a href=doc109.html>Previous</a> / <a href=doc111.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc109.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc111.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

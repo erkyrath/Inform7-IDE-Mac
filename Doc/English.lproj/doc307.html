@@ -1,4 +1,13 @@
-<html><head><title>19.15. Handling phrase options</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>19.3. Authorship</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,32 +16,14 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc306.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc308.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.15. Handling phrase options</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc306.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap19.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 19: Extensions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc308.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>19.3. Authorship</b></font></td></tr></table>
 <p>
-<p>The Standard Rules use the Inform list-writer with the following definitions, which show how a much more complicated I6 routine can be given a natural-language expression.
+<p>Extensions are identified by author and by name, so that a given author can produce his or her own range of extensions, and need only ensure that these are named differently from each other. If John Smith and Mary Brown each want to write an extension called &quot;Following People&quot;, there is no conflict.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('To list the contents of (O - an object),\n\twith newlines,\n\tindented,\n\tgiving inventory information,\n\tas a sentence,\n\tincluding contents,\n\tincluding all contents,\n\ttersely,\n\tgiving brief inventory information,\n\tusing the definite article,\n\tlisting marked items only,\n\tprefacing with is/are\n\tand/or not listing concealed items:\n\t(- WriteListFrom(child({O}), {phrase options}); -).\n\nTo say contents of (O - an object): list the contents of O, as a sentence.\n\nTo say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.\n\n\n')"><img border=0 src=paste.png></a> To list the contents of (O - an object),
-<br>&nbsp;&nbsp;&nbsp;&nbsp;with newlines,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;indented,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;giving inventory information,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;as a sentence,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;including contents,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;including all contents,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;tersely,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;giving brief inventory information,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;using the definite article,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;listing marked items only,
-<br>&nbsp;&nbsp;&nbsp;&nbsp;prefacing with is/are
-<br>&nbsp;&nbsp;&nbsp;&nbsp;and/or not listing concealed items:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;(- WriteListFrom(child({O}), {phrase options}); -).
-</font></blockquote><p>
+<p>The name of an extension, and of an author, should always be written in Full Sentence Capitalisation: that is, upper case for the first letter in each word. (Inform enforces this to avoid problems on machines where filenames are read with case sensitivity.) Abbreviations in capitals like &quot;IF&quot; or &quot;BBC&quot; are therefore best avoided.
 <p>
-<blockquote><font color="#000080">To say contents of (O - an object): list the contents of O, as a sentence.
-</font></blockquote><p>
+<p>The extension name should not start with &quot;The&quot;, nor contain the words &quot;By&quot;, &quot;And&quot; or &quot;Version&quot;. Name and author's name should each be no more than 31 characters long, including any spaces between words. At present the author's name should also not contain &quot;And&quot;, but this may be changed later, in case we need to credit joint authors.
 <p>
-<blockquote><font color="#000080">To say the contents of (O - an object): list the contents of O, as a sentence, using the definite article.
-</font></blockquote><p>
+<p>Authors are asked to use real names rather than cryptic handles like &quot;ifguy&quot;, and to use genteel, plausible pseudonyms like &quot;Emily Short&quot; rather than, say, &quot;Drooling Zombie&quot; or &quot;Team Inform&quot;. Authors are also asked to use the same author's name for all their own extensions, and (it should go without saying) not to masquerade as anybody else.
 <p>
-<p>&quot;{phrase options}&quot; is a special substitution: it is a bitmap which assigns the given options one bit each, starting with the least significant bit for the first-mentioned option (&quot;with newlines&quot; above) and going up to the most significant bit for the last (&quot;not listing concealed items&quot;).
-<p>
-<p><hr><p><a href=doc306.html>Previous</a> / <a href=doc308.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc306.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc308.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

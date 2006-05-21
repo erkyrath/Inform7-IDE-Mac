@@ -1,4 +1,13 @@
-<html><head><title>15.7. Understanding any, understanding rooms</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>11.15. Changing reachability</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,91 +16,90 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc223.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc225.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.7. Understanding any, understanding rooms</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc173.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap11.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 11: Advanced Actions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc175.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>11.15. Changing reachability</b></font></td></tr></table>
 <p>
-<p>Ordinarily, if we write
+<p>The question of what the player can, and cannot, reach is important in interactive fiction. It contains some of the subtlest ideas in the model world, though they often go unnoticed. For instance, if a key is on a shelf which is part of a closed box, can we reach for the key? This comes down to whether the shelf, described only as &quot;part of&quot; the box, is on the inside or the outside: and in fact, because it cannot know which is the case, Inform allows either. So in general it is best to regard &quot;parts&quot; as being exterior parts, but to avoid having parts on containers that might in the course of play be closed up with the player inside.
 <p>
-<blockquote><font color="#000080">Understand &quot;manipulate [something]&quot;.
+<p>We can, if we wish, change the principles of what can be touched by writing new reaching inside or reaching outside rules. Returning to the example of the conical flask:
+<p>
+<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
 </font></blockquote><p>
 <p>
-<p>then the &quot;[something]&quot; will only match what is within reach or sight: this is the concept of &quot;scope&quot;, which is what prevents a player from spookily acting on objects from a distance. The parser itself prevents the manipulation rules from ever being invoked on such distant items, which is as it should be.
+<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) More generally, we could give the usual flexible description of what the rule applies to:
 <p>
-<p>Sometimes, though, we positively want to allow this possibility. If we use the special word &quot;any&quot;, as in
-<p>
-<blockquote><font color="#000080">Understand &quot;manipulate [any door]&quot;.
+<blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large for [the container in question].&quot;; deny access.
 </font></blockquote><p>
 <p>
-<p>then any door, anywhere in the model world, can be allowed in the player's command. (Of course, the manipulation rules may not do what the player hopes: all that has happened is that the command is now possible to type.) The &quot;any&quot; can be followed by any description of items or rooms, and the latter opens up new possibilities, since rooms are ordinarily never allowed to be named in the player's commands.
+<p>The &quot;container in question&quot; is the one to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
 <p>
-<p>For example, the following gives the player the ability to walk between rooms without giving explicit directions of movement.
+<p>If it seems possible that these rules will be employed by people other than the player, then we need to write them a little more carefully, and in particular we need to ensure that they print nothing for other people. In the first case below, anybody can reach through the glass; in the second case, only the player cannot reach into open containers.
 <p>
-<blockquote><font color="#000080">Going by name is an action applying to one thing.
+<blockquote><font color="#000080">A rule for reaching inside the flask:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player, say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;allow access.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out going by name: say &quot;You walk to [the noun].&quot;; move the player to the noun.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;go to [any adjacent visited room]&quot; as going by name.
-</font></blockquote><p>
-<p>
-<p>(This is really only a sketch: in a finished work, &quot;go to&quot; would produce helpful errors if non-adjacent but visited rooms were named, and we might also worry about rules applying to movement, because the method above will circumvent them.)
-<p>
-<p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e121"><a href=doc224.html#e121><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A FIND command that allows the player to find a lost object anywhere</i><p>
-<p>
-<p>Suppose that, contrary to the usual rules of interactive fiction, we want to allow the player to discover the locations of things he hasn't actually seen yet:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;One of Those Mornings&quot;\n\nUnderstand &quot;find [any thing]&quot; as finding.\n\nFinding is an action applying to one visible thing.\n\nCarry out finding:\n\tif the player is carrying the noun\n\tbegin;\n\t\tsay &quot;You\'re holding [the noun]!&quot;;\n\totherwise;\n\t\tsay &quot;You left [the noun] [if the noun is on a supporter]on[otherwise]in[end if] [the holder of the noun].&quot;;\n\tend if.\n\n[The holder of the noun can be a room, a supporter, or a container: the phrase is not picky. We would want to be a little more careful if it were ever possible for an item to have been &quot;removed from play&quot; in our game, since then the holder could be nothing, and that would have odd results. In this particular example, though, that will not arise.]\n\n[And that\'s it, as far as the find command goes. The rest is local color.]\n\nThe Exhibition Room is a room. It contains a closed locked lockable transparent openable container called the display case. The display case contains a priceless pearl. The display case is scenery. The description of the Exhibition Room is &quot;By far the finest thing in the room is a priceless pearl in a glass display case. It should of course be yours[if key is not visible], if only you can remember where you hid the key[end if].&quot;\n\nThe silver key unlocks the display case.\n\nA jade vase, a teak chest, a bronze teakettle, and a child\'s burial casket are openable closed containers in the Exhibition Room.\n\nAfter taking the pearl:\n\tsay &quot;The pearl rolls into your hand, gleaming in the oblique light; your fortune is made.&quot;;\n\tend the game in victory.\n\n[If we want to have the key found in different places when the game is replayed:]\n\nWhen play begins:\n\tlet the space be a random container which is not the display case;\n\tmove the silver key to the space.\n\nEvery turn:\n\tsay &quot;Your watch ticks with maddening loudness.&quot;\n\nThe time of day is 1:02 AM.\n\nAt 1:08 AM: say &quot;The security guard arrives to find you fumbling about with keys. Curses.&quot;; end the game in death.\n\n')"><img border=0 src=paste.png></a> &quot;One of Those Mornings&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Understand &quot;find [any thing]&quot; as finding.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Finding is an action applying to one visible thing.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out finding:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying the noun
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're holding [the noun]!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You left [the noun] [if the noun is on a supporter]on[otherwise]in[end if] [the holder of the noun].&quot;;
+<blockquote><font color="#000080">A rule for reaching inside open containers:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your hands seem enigmatically too large for [the container in question].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deny access.
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>The holder of the noun can be a room, a supporter, or a container: the phrase is not picky. We would want to be a little more careful if it were ever possible for an item to have been &quot;removed from play&quot; in our game, since then the holder could be nothing, and that would have odd results. In this particular example, though, that will not arise.
+<p>The &quot;person reaching&quot; is, as its name suggests, the person trying to reach through the barrier in question.
 <p>
-<p>And that's it, as far as the find command goes. The rest is local color.
-<p>
-<blockquote><font color="#000080">The Exhibition Room is a room. It contains a closed locked lockable transparent openable container called the display case. The display case contains a priceless pearl. The display case is scenery. The description of the Exhibition Room is &quot;By far the finest thing in the room is a priceless pearl in a glass display case. It should of course be yours[if key is not visible], if only you can remember where you hid the key[end if].&quot;
+<p><hr><p>
+<a name="e121"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc174.html#e121 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>141</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc174.html#e121 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Magneto's Revenge</font></b></a><br>Kitty Pryde of the X-Men is able to reach through solid objects, so we might implement her with special powers that the player does not have...<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Magneto\'s Revenge&quot;\n\nThe School for Gifted Youngsters is a room. Kitty Pryde is a woman in the School for Gifted Youngsters. &quot;Kitty Pryde waits for you to say why you summoned her out of class.&quot; The description is &quot;You see nothing special about Kitty Pryde. But that is only because she has learned to conceal her mutant powers: in fact she has the alternative name Shadowcat, and the ability to phase through solid objects.&quot;\n\nThe glass box is a container in the School for Gifted Youngsters. It is closed, openable, and transparent. In the box is a quantity of poisonous gas. In the box is a message from Magneto.\n\nInstead of examining the message when the player is not carrying the message:\n\tsay &quot;You\'d need to be holding it before you could read it.&quot;\n\nInstead of opening the glass box: say &quot;You\'re deterred by the swirling bottle-green mist within.&quot;\n\nCheck someone trying taking the gas (this is the gaseous object rule): rule fails.\n\nUnsuccessful attempt by someone trying taking the gas: say &quot;The gas isn\'t something one can pick up in one\'s bare hands.&quot;\n\nEvery turn: if the player can touch the gas\n\tbegin;\n\t\tsay &quot;The gas has reached your lungs!&quot;;\n\t\tend the game in death;\n\tend if.\n\nA rule for reaching inside something:\n\tif the person asked is Kitty, allow access.\n\nPersuasion rule for asking someone to try doing something: persuasion succeeds.\n\nTest me with &quot;get message / kitty, get message / open box / kitty, open box&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Magneto's Revenge&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The silver key unlocks the display case.
+<blockquote><font color="#000080">The School for Gifted Youngsters is a room. Kitty Pryde is a woman in the School for Gifted Youngsters. &quot;Kitty Pryde waits for you to say why you summoned her out of class.&quot; The description is &quot;You see nothing special about Kitty Pryde. But that is only because she has learned to conceal her mutant powers: in fact she has the alternative name Shadowcat, and the ability to phase through solid objects.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A jade vase, a teak chest, a bronze teakettle, and a child's burial casket are openable closed containers in the Exhibition Room.
+<blockquote><font color="#000080">The glass box is a container in the School for Gifted Youngsters. It is closed, openable, and transparent. In the box is a quantity of poisonous gas. In the box is a message from Magneto.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After taking the pearl:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The pearl rolls into your hand, gleaming in the oblique light; your fortune is made.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in victory.
+<blockquote><font color="#000080">Instead of examining the message when the player is not carrying the message:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You'd need to be holding it before you could read it.&quot;
 </font></blockquote><p>
 <p>
-<p>If we want to have the key found in different places when the game is replayed:
-<p>
-<blockquote><font color="#000080">When play begins:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let the space be a random container which is not the display case;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the silver key to the space.
+<blockquote><font color="#000080">Instead of opening the glass box: say &quot;You're deterred by the swirling bottle-green mist within.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your watch ticks with maddening loudness.&quot;
+<blockquote><font color="#000080">Check someone trying taking the gas (this is the gaseous object rule): rule fails.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The time of day is 1:02 AM.
+<blockquote><font color="#000080">Unsuccessful attempt by someone trying taking the gas: say &quot;The gas isn't something one can pick up in one's bare hands.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">At 1:08 AM: say &quot;The security guard arrives to find you fumbling about with keys. Curses.&quot;; end the game in death.
+<blockquote><font color="#000080">Every turn: if the player can touch the gas
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The gas has reached your lungs!&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end the game in death;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
-</td></tr></table><p><a name="e73"><a href=ex73.html#e73><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A FOLLOW command allowing the player to pursue a person who has just left the room.</i><p>
-<p><hr><p><a href=doc223.html>Previous</a> / <a href=doc225.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">A rule for reaching inside something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person asked is Kitty, allow access.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Persuasion rule for asking someone to try doing something: persuasion succeeds.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;get message / kitty, get message / open box / kitty, open box&quot;.
+</font></blockquote><p>
+<p>
+<p>Now the player can get Kitty to take the message without releasing the poisonous gas:
+<p>
+<blockquote><font color="#000080">Kitty Pride waits for you to tell her why you summoned her out of class.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">You can also see a glass box (closed) (in which are some poisonous gas and a message from Magneto) here.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">>kitty, get message
+<br>Kitty Pryde picks up a message from Magneto.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc174.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e252"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex252.html#e252 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>142</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex252.html#e252 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Dinner is Served</font></b></a><br>A window between two locations. When the window is open, the player can reach through into the other location; when it isn't, access is barred.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc173.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc175.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

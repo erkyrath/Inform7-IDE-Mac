@@ -1,4 +1,13 @@
-<html><head><title>7.19. Stipulations on testing</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>7.12. More flexible descriptions of whereabouts</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,23 +16,31 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc110.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc112.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>7.19. Stipulations on testing</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc110.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap7.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 7: Change</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc112.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>7.12. More flexible descriptions of whereabouts</b></font></td></tr></table>
 <p>
-<p>Many tests will only be sensible in given places, which may be hard to reach from the initial position; or with the aid of given things, which may be difficult to obtain. We are therefore allowed to add stipulations to test scripts:
+<p>The examples just given were all basically of the form &quot;X <i>relation</i> Y&quot; where X and Y were specific names of things. For example,
 <p>
-<blockquote><font color="#000080">Test balloon with &quot;get balloon / blow balloon / drop balloon&quot; holding the balloon.
+<blockquote><font color="#000080">if the genie's lamp is carried by Cinderella ...
+<br>if the genie's lamp is inside the cupboard ...
 </font></blockquote><p>
 <p>
-<p>The &quot;... holding the balloon&quot; means that the balloon will be transferred to the player's ownership immediately before the test script is run, unless it is already held. Similarly:
+<p>Just as actions could be described with patterns to be matched (&quot;taking an open container&quot;, say), so can the positions of things. Giving subtler descriptions of our X and Y sometimes broadens the possibilities, sometimes narrows them:
 <p>
-<blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen.
+<blockquote><font color="#000080">if the genie's lamp is carried by a woman ...
+<br>if the genie's lamp is inside the closed cupboard ...
 </font></blockquote><p>
 <p>
-<p>Or we might want to say both:
+<p>In the first case, Y is allowed to be one of a whole range of things - any of the women existing in the world. This makes for a broader condition. In the second case, Y has not only to be the cupboard, but at a time when it is closed: which makes for a narrower condition. We can, of course, also vary X:
 <p>
-<blockquote><font color="#000080">Test jam with &quot;get jam / taste jam / eat jam&quot; in the Kitchen holding the jam.
+<blockquote><font color="#000080">if an animal is inside the cupboard ...
+<br>if a container is carried ...
 </font></blockquote><p>
 <p>
-<p><hr><p>
-<a name="e178"><a href=ex178.html#e178><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Commands to test Day for Fresh Sushi.</i><p>
-<p><hr><p><a href=doc110.html>Previous</a> / <a href=doc112.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>And we can even vary both X and Y at once:
+<p>
+<blockquote><font color="#000080">if a woman is holding an animal ...
+</font></blockquote><p>
+<p>
+<p>a condition which will be true if, anywhere in the game's world, any woman is holding any animal.
+<p>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc110.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc112.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

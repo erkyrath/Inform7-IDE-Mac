@@ -1,4 +1,13 @@
-<html><head><title>5.4. Defining new adjectives</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>10.15. The value after and the value before</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,54 +16,79 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc65.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc67.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>5.4. Defining new adjectives</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc155.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap10.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 10: Phrases</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc157.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>10.15. The value after and the value before</b></font></td></tr></table>
 <p>
-<p>Suppose we want to coin a word for supporters currently supporting something. We can do so with the following sentence:
+<p>Arithmetic is fundamental to most systems for computer programming: with Inform that is less true, so we only now come to the first mention of the addition of numbers. As might be expected, &quot;+&quot; can be used to combine two number values into one:
 <p>
-<blockquote><font color="#000080">Definition: A supporter is occupied if something is on it.
+<blockquote><font color="#000080">change the score to the score + 4
 </font></blockquote><p>
 <p>
-<p>Note the colon, which is essential, and the usage of &quot;it&quot; in the definition part to refer to the object in question. (For this purpose we would write &quot;it&quot; even if we were defining a term about, say, a woman instead of a supporter, so that &quot;she&quot; or &quot;her&quot; might seem more appropriate.)
+<p>(This can also be spelled out &quot;plus&quot;: or we could have written &quot;increase the score by 4&quot;.) Inform generally expects to apply addition only to two numbers, so we cannot normally apply &quot;+&quot; to values like these:
 <p>
-<p>This creates the adjective &quot;occupied&quot;, and gives it a definition valid for supporters. That restriction on validity means that non-supporters would always fail the description &quot;something occupied&quot;; which might be unfortunate if we wanted to walk about rooms being occupied. We could give a second definition thus:
-<p>
-<blockquote><font color="#000080">Definition: A room is occupied if a person is in it.
+<blockquote><font color="#000080">Colour is a kind of value. The colours are red, orange, yellow, green, blue, indigo and violet.
 </font></blockquote><p>
 <p>
-<p>These are entirely different senses of the word &quot;occupied&quot; - a mantelpiece is occupied if an invitation is on it, but for a drawing room to be occupied there must be human presence - and Inform applies whichever sense is relevant when deciding whether or not a given object is &quot;occupied&quot;.
+<p>There will be more about arithmetic on new kinds of value in the chapter on Units, but it may be useful to note that although we cannot (ordinarily) add up colours, we do automatically have two ways to make new colours from old:
 <p>
-<p>Newly defined adjectives cannot be used when creating things, because they are not explicit enough. Inform could not satisfy:
-<p>
-<blockquote><font color="#000080">The Ballroom is occupied. The bucket is a large container.
+<blockquote><font color="#000080">the colour after C
+<br>the colour before C
 </font></blockquote><p>
 <p>
-<p>because there is not enough information: by whom is the Ballroom occupied? How large, exactly? On the other hand, newly defined adjectives are very helpful in conditions and for rules, as we shall see later on.
+<p>produce the next, and the previous colour respectively, in order of their declaration. Thus &quot;the colour after red&quot; is orange; &quot;the colour before blue&quot; is green. The values wrap around, that is, &quot;the colour before red&quot; is violet and &quot;the colour after violet&quot; is red.
+<p>
+<p>We are also allowed to use number-like comparisons with new kinds of value. Thus &quot;red < yellow&quot; is true, while &quot;green >= violet&quot; is not. Again, more on comparisons in the chapter on units.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e71"><a href=doc66.html#e71><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>The "another" adjective for rules such as "in the presence of another person".</i><p>
-<p>
-<p>It is often useful to write action rules which apply only when the player is observed by a third party. &quot;In the presence of a person&quot;, however, will react even if only the player is in the room, because the player is, of course, a person as well.
-<p>
-<p>A convenient way around this problem is to define an &quot;other&quot; adjective:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Finishing School&quot;\n\nThe apple is an edible thing carried by the player.\n\nThe Hall is a room. Miss Wicket is a woman in the Hall.\n\nThe Dormitory is south of the Hall.\n\nDefinition: a person is another if it is not the player.\n\nInstead of eating something in the presence of another person (called the schoolmarm):\n\tsay &quot;[The schoolmarm] stares at you coldly because you have no fork or knife.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Finishing School&quot;
+<a name="e71"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc156.html#e71 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>117</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc156.html#e71 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Entropy</font></b></a><br>All objects in the game have a heat, but if not kept insulated they will tend toward room temperature (and at a somewhat exaggerated rate).<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Entropy&quot;\n\nHeat is a kind of value. The heats are frosty, cold, cool, room temperature, warm, hot, and scalding. Everything has a heat. The heat of a thing is usually room temperature.\n\nEvery turn:\n\trepeat with item running through things which are not in an insulated container\n\tbegin;\n\t\tif the heat of the item is greater than room temperature, change the heat of the item to the heat before the heat of the item;\n\t\tif the heat of the item is less than room temperature, change the heat of the item to the heat after the heat of the item;\n\tend repeat.\n\nDefinition: a container is insulated if it is closed and it is opaque.\n\nThe vacuum thermos is an opaque closed openable container carried by the player. In the vacuum thermos is a frosty thing called an ice cube.\n\nEvery turn:\n\tif the heat of the ice cube is greater than cold\n\tbegin;\n\t\tif the ice cube is visible, say &quot;The ice cube melts! \'HA ha,\' says Maxwell, in a very unsporting, some might say demonic, way.&quot;;\n\t\tremove the ice cube from play;\n\tend if.\n\nBefore printing the name of something: say &quot;[heat] &quot;.\n\nEquilibrium is a room. &quot;A perfectly smooth chamber sealed from the outside world. You can\'t at this moment work out where the exit is, though possibly that is just because the lighting is so very very even and diffuse. And doesn\'t come from anywhere that you can see, either.&quot;\n\nMaxwell is a man in Equilibrium.  &quot;Maxwell perches awkwardly on a stool across from you[if Maxwell has something], holding [list of things carried by Maxwell][end if].&quot; He is carrying a box of Chinese food. The Chinese food is scalding. &quot;A discarded [item described] lies on the floor.&quot; The description of Maxwell is &quot;He has the faintly peevish look of one who has not been properly fed.&quot;\n\nEvery turn when Maxwell has the food:\n\tif the heat of the Chinese food is greater than warm, say &quot;Maxwell takes a bite, and swears.&quot;;\n\tif the heat of the Chinese food is warm, say &quot;Maxwell eats as fast as he can, enjoying the food while it\'s at just the right temperature.&quot;;\n\tif the heat of the Chinese food is less than warm\n\tbegin;\n\t\tsay &quot;Maxwell sadly stabs at his leftovers with a chopstick, but does not try to eat any more.&quot;;\n\t\tmove the food to the location;\n\tend if.\n\nTest me with &quot;z / z / open thermos / close thermos / open thermos&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Entropy&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The apple is an edible thing carried by the player.
+<blockquote><font color="#000080">Heat is a kind of value. The heats are frosty, cold, cool, room temperature, warm, hot, and scalding. Everything has a heat. The heat of a thing is usually room temperature.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Hall is a room. Miss Wicket is a woman in the Hall.
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through things which are not in an insulated container
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the item is greater than room temperature, change the heat of the item to the heat before the heat of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the item is less than room temperature, change the heat of the item to the heat after the heat of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Dormitory is south of the Hall.
+<blockquote><font color="#000080">Definition: a container is insulated if it is closed and it is opaque.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Definition: a person is another if it is not the player.
+<blockquote><font color="#000080">The vacuum thermos is an opaque closed openable container carried by the player. In the vacuum thermos is a frosty thing called an ice cube.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of eating something in the presence of another person (called the schoolmarm):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The schoolmarm] stares at you coldly because you have no fork or knife.&quot;
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the ice cube is greater than cold
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the ice cube is visible, say &quot;The ice cube melts! 'HA ha,' says Maxwell, in a very unsporting, some might say demonic, way.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remove the ice cube from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>If we did not have &quot;another&quot; here, Inform would interpret even the player as a possible schoolmarm, leading to such lines as &quot;yourself stares at you coldly...&quot;. Clearly not quite the thing.
-</td></tr></table><p><p><hr><p><a href=doc65.html>Previous</a> / <a href=doc67.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Before printing the name of something: say &quot;[heat] &quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Equilibrium is a room. &quot;A perfectly smooth chamber sealed from the outside world. You can't at this moment work out where the exit is, though possibly that is just because the lighting is so very very even and diffuse. And doesn't come from anywhere that you can see, either.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Maxwell is a man in Equilibrium.  &quot;Maxwell perches awkwardly on a stool across from you[if Maxwell has something], holding [list of things carried by Maxwell][end if].&quot; He is carrying a box of Chinese food. The Chinese food is scalding. &quot;A discarded [item described] lies on the floor.&quot; The description of Maxwell is &quot;He has the faintly peevish look of one who has not been properly fed.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when Maxwell has the food:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is greater than warm, say &quot;Maxwell takes a bite, and swears.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is warm, say &quot;Maxwell eats as fast as he can, enjoying the food while it's at just the right temperature.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the heat of the Chinese food is less than warm
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Maxwell sadly stabs at his leftovers with a chopstick, but does not try to eat any more.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the food to the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;z / z / open thermos / close thermos / open thermos&quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc156.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e180"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex180.html#e180 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>118</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex180.html#e180 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> The Hang of Thursdays</font></b></a><br>Turns take a quarter day each, and the game rotates through the days of the week.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc155.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc157.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

@@ -1,4 +1,13 @@
-<html><head><title>18.19. Titling and abbreviation</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>6.8. Reading and talking</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,81 +16,66 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc290.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc292.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>18.19. Titling and abbreviation</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc86.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap6.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 6: Basic Actions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc88.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>6.8. Reading and talking</b></font></td></tr></table>
 <p>
-<p>The main title of the map is the value of &quot;title&quot; for the whole map, so for instance we might write:
+<p>A few actions apply not to items alone, but also involve what might be called conversation. The first is the one used for looking things up in books (which is conversation of a kind, even if the author is not present): &quot;consulting ... about ...&quot;. For example,
 <p>
-<blockquote><font color="#000080">Index map with title set to &quot;Oxford and its Environs&quot;.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('In the Grove is a book of sybilline verses.\n\nAfter consulting the book about &quot;grove&quot;, say &quot;The Grove is a sacred yadda, yadda. There\'s a tree, that sort of thing. Wisdom.&quot;\n\nAfter consulting the book about &quot;future events&quot;, say &quot;It\'s a bit, what\'s the word? Delphic.&quot;\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> In the Grove is a book of sybilline verses.
 </font></blockquote><p>
 <p>
-<p>The subtitle settings apply to the subtitles used for each of the levels, so for instance
-<p>
-<blockquote><font color="#000080">Index map with subtitle of level -1 set to &quot;Tunnels and Sewers&quot;.
+<blockquote><font color="#000080">After consulting the book about &quot;grove&quot;, say &quot;The Grove is a sacred yadda, yadda. There's a tree, that sort of thing. Wisdom.&quot;
 </font></blockquote><p>
 <p>
-<p>Names of individual rooms can be controlled with:
-<p>
-<blockquote><font color="#000080">Index map with name of Radcliffe Camera set to &quot;Library&quot;.
+<blockquote><font color="#000080">After consulting the book about &quot;future events&quot;, say &quot;It's a bit, what's the word? Delphic.&quot;
 </font></blockquote><p>
 <p>
-<p>(By default, the name of a room is its name in the main IF project, of course.) The smallest writing on the map is normally that used to label unorthodox or unclear exits (in particular, those going from one layer to another): this is what the &quot;annotation&quot; size, font and colour are used for.
+<p>Note that what follows &quot;about&quot; here is a piece of text in double-quotes, and not the name of something. It can be almost any text at all, and in fact we shall later see (in the chapter on &quot;Understanding&quot;) that we can match complicated patterns of words, too.
 <p>
-<p>For most ways to set up the map, it's a practical necessity to abbreviate names of rooms, or they will spill out all over each other. Inform does this using the &quot;room-name-length&quot; setting. (The &quot;annotation-name-length&quot; is analogous.) For instance, if this setting is 5, then Inform will reduce the text of a name to at most 5 characters. It does this by successively throwing out spaces, lower case vowels, then other lower case letters, punctuation marks and finally upper case letters, always starting at the back of the name and working inwards: the process stops as soon as the name is short enough. For instance, &quot;Reading&quot; is abbreviated to &quot;Redng&quot;, &quot;Shangri-La&quot; to &quot;Shn-La&quot; and &quot;Cloud-Cuckoo-Land&quot; to &quot;C-C-L&quot;. The result can be a little comical, but is surprisingly unambiguous in practice. Abbreviation can effectively be abolished by raising the &quot;room-name-length&quot; to 128 (the highest permitted level), and note that the setting can be changed for individual rooms, so it is possible to have some room names abbreviated and others not, or in different degrees.
+<p>Similar actions are used for conversing with people:
+<p>
+<blockquote><font color="#000080">After asking the Sybil about &quot;verses&quot;, say &quot;She blushes.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After telling the Sybil about &quot;persians&quot;, say &quot;She nods gravely.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After answering the Sybil that &quot;I am mad&quot;, say &quot;She sighs.&quot;
+</font></blockquote><p>
+<p>
+<p>These would be produced by commands like &quot;ask sybil about verses&quot;, &quot;tell sybil about persians&quot; and &quot;answer i am mad&quot;. Answering is very seldom used and can be forgotten about, but the distinction between asking and telling is often worth preserving, which is why there are two different actions for these. If you would prefer to make &quot;tell sybil about X&quot; do the same as &quot;ask sybil about X&quot;, the following rule would serve:
+<p>
+<blockquote><font color="#000080">Instead of telling the Sybil about something, try asking the Sybil about it.
+</font></blockquote><p>
+<p>
+<p>Games with a lot of conversation often involve great heaps of rules like the ones above, which can be repetitious to type out. We shall also later see (in the chapter on &quot;Tables&quot;) that we can tabulate questions and answers in a much more concise way, if we prefer.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e113"><a href=doc291.html#e113><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Port Royal scenario given instructions for an EPS map.</i><p>
+<a name="e113"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc87.html#e113 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>55</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc87.html#e113 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000">Sybil 1</font></b></a><br>Direct all ASK, TELL, and ANSWER commands to ASK.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>Sometimes we do not particularly want to deal with all the variations on asking, telling, or answering someone something, but want to direct everything to a single conversational command:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;1691&quot;\n\nFort James is a room.\n\nThames Street End is south of Fort James.\n\nLime Street is south of Thames Street End. West of Thames Street End is north of Fisher\'s Row. The description of Fisher\'s Row is &quot;A waterfront street that runs south towards Chocolata Hole, where the small craft are harboured. It also continues north around the tip of the peninsula from here, turning into the east-west Thames Street.&quot;\n\nWater Lane is east of Thames Street End.\n\nEast of Water Lane is a room called Thames Street at the Wherry Bridge.  Thames Street at the Wherry Bridge has the description &quot;To the southwest is the fishmarket; directly across the street is the entrance to a private alley through a brick archway.&quot;\n\nThe Fishmarket is southwest of Thames Street at the Wherry Bridge.\n\nThe Private Alley is south of Thames Street at the Wherry Bridge.\n\nThames Street by the King\'s House is east of Thames Street at the Wherry Bridge.\n\nThames Street before Fort Carlisle is east of Thames Street by the King\'s House.\n\nSouth of Thames Street before Fort Carlisle is a room called Fort Carlisle. The description of Fort Carlisle is &quot;Handsomely arrayed with cannons which you could fire at any moment -- though of course there are ships at dock which might be in the way.&quot;\n\nQueen Street End is south of Lime Street.\n\nQueen Street Middle is east of Queen Street End.\n\nQueen Street East is east of Queen Street Middle and south of Private Alley.\n\nQueen Street at the Prison is east of Queen Street East.\n\nIndex map with Fisher\'s Row mapped southwest of Thames Street End and room-size set to 50 and room-name-size set to 10 and room-name-length set to 15 and and route-thickness set to 2 and room-outline set to off and map-outline set to off and route-colour set to &quot;Chocolate&quot; and room-colour set to &quot;Burly Wood&quot; and title set to &quot;Port Royal, 1691&quot; and font set to &quot;Baskerville&quot; and room-offset of Thames Street by the King\'s House set to 160&-40 and room-offset of Thames Street before Fort Carlisle set to 210&10 and room-offset of Fort Carlisle set to 210&0 and room-offset of Fort James set to -90&-20 and room-offset of Water Lane set to 0&20 and room-offset of Queen Street End set to 5&0 and EPS file.\n\n\n')"><img border=0 src=paste.png></a> &quot;1691&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Consulting the Oracle&quot;\n\nThe Grove is a room. In the Grove is a woman called the Sybil.\n\nInstead of telling someone about something, try asking the noun about it. Instead of answering the noun that something, try asking the noun about it.\n\nInstead of asking the Sybil about &quot;persians&quot;, say &quot;She nods gravely.&quot;\n\n[And similarly, a difference between GIVE and SHOW is sometimes overkill:]\n\nInstead of showing something to someone, try giving the noun to the second noun.\n\nThe player carries a coin. Instead of giving the coin to the Sybil: move the coin to the Sybil; say &quot;She accepts with a smile.&quot;\n\nTest me with &quot;ask sybil about persians / tell sybil about persians / sybil, persians / give the coin to the sybil&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Consulting the Oracle&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Fort James is a room.
+<blockquote><font color="#000080">The Grove is a room. In the Grove is a woman called the Sybil.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Thames Street End is south of Fort James.
+<blockquote><font color="#000080">Instead of telling someone about something, try asking the noun about it. Instead of answering the noun that something, try asking the noun about it.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Lime Street is south of Thames Street End. West of Thames Street End is north of Fisher's Row. The description of Fisher's Row is &quot;A waterfront street that runs south towards Chocolata Hole, where the small craft are harboured. It also continues north around the tip of the peninsula from here, turning into the east-west Thames Street.&quot;
+<blockquote><font color="#000080">Instead of asking the Sybil about &quot;persians&quot;, say &quot;She nods gravely.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Water Lane is east of Thames Street End.
+<p>And similarly, a difference between GIVE and SHOW is sometimes overkill:
+<p>
+<blockquote><font color="#000080">Instead of showing something to someone, try giving the noun to the second noun.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">East of Water Lane is a room called Thames Street at the Wherry Bridge.  Thames Street at the Wherry Bridge has the description &quot;To the southwest is the fishmarket; directly across the street is the entrance to a private alley through a brick archway.&quot;
+<blockquote><font color="#000080">The player carries a coin. Instead of giving the coin to the Sybil: move the coin to the Sybil; say &quot;She accepts with a smile.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Fishmarket is southwest of Thames Street at the Wherry Bridge.
+<blockquote><font color="#000080">Test me with &quot;ask sybil about persians / tell sybil about persians / sybil, persians / give the coin to the sybil&quot;.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Private Alley is south of Thames Street at the Wherry Bridge.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Thames Street by the King's House is east of Thames Street at the Wherry Bridge.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Thames Street before Fort Carlisle is east of Thames Street by the King's House.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">South of Thames Street before Fort Carlisle is a room called Fort Carlisle. The description of Fort Carlisle is &quot;Handsomely arrayed with cannons which you could fire at any moment -- though of course there are ships at dock which might be in the way.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Queen Street End is south of Lime Street.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Queen Street Middle is east of Queen Street End.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Queen Street East is east of Queen Street Middle and south of Private Alley.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Queen Street at the Prison is east of Queen Street East.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Index map with Fisher's Row mapped southwest of Thames Street End and room-size set to 50 and room-name-size set to 10 and room-name-length set to 15 and and route-thickness set to 2 and room-outline set to off and map-outline set to off and route-colour set to &quot;Chocolate&quot; and room-colour set to &quot;Burly Wood&quot; and title set to &quot;Port Royal, 1691&quot; and font set to &quot;Baskerville&quot; and room-offset of Thames Street by the King's House set to 160&-40 and room-offset of Thames Street before Fort Carlisle set to 210&10 and room-offset of Fort Carlisle set to 210&0 and room-offset of Fort James set to -90&-20 and room-offset of Water Lane set to 0&20 and room-offset of Queen Street End set to 5&0 and EPS file.
-</font></blockquote><p>
-<p>
-<p>This sentence has gotten fairly long and ugly. To break it down: we disambiguate the placement of Thames Street End, which otherwise is hard to locate because the directions to and from the room are not symmetrical. Then we apply some general rules about size, font, and color. Finally, we add instructions about offsetting the room locations of a few specific rooms.
-<p>
-<p>This last part is a bit finicky and will not be necessary in many cases, but our goal this time is to create a map diagram that can be superimposed on the real coastal outline of Port Royal at the time. With a bit of editing, the result looks like this:
-<p>
-<p><img border=&quot;0&quot; src=portroyal.png>
-</td></tr></table><p><p><hr><p><a href=doc290.html>Previous</a> / <a href=doc292.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc87.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e190"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex190.html#e190 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>56</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex190.html#e190 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000">Sybil 2</font></b></a><br>Making the character understand YES, SAY YES TO CHARACTER, TELL CHARACTER YES, ANSWER YES, and CHARACTER, YES.<p></td></tr></table>
+<a name="e52"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex52.html#e52 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>57</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex52.html#e52 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Costa Rican Ornithology</font></b></a><br>A fully-implemented book, answering questions from a table of data, and responding to failed consultation with a custom message such as "You flip through the Guide to Central American Birds, but find no reference to penguins."<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc86.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc88.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

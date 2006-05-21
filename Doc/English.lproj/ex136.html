@@ -1,4 +1,13 @@
-<html><head><title>10.6. Begin and end</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>11.16. Changing visibility</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,41 +16,60 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc141.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc143.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>10.6. Begin and end</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc174.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap11.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 11: Advanced Actions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc176.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>11.16. Changing visibility</b></font></td></tr></table>
 <p>
-<p>In practice it is not enough to apply &quot;if&quot; or &quot;while&quot; to a single phrase alone: we want to give a whole list of phrases to be followed repeatedly, or to be followed only if a condition holds.
+<p>Ordinarily, Inform has a simple model for visibility: it is either fully light or it is fully dark, and certain actions are impossible in the dark, such as examining something. If an action is tried which was defined as requiring light, Inform consults the visibility rules to see if it can go ahead. By default, there is only one visibility rule, which says &quot;yes&quot; in the light and &quot;no&quot; in darkness. Here, though, we create another one:
 <p>
-<p>We do this using &quot;begin&quot; and &quot;end&quot;, as in the following examples.
-<p>
-<blockquote><font color="#000080">To comment upon (whatever - a thing):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is transparent then say &quot;I see right through this!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if whatever is an open door begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Oh look, an open door!&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if whatever is openable then say &quot;But you could always shut it.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">Visibility rule when in darkness:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if examining the book begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You have to squint. Still...&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;there is sufficient light;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;there is insufficient light.
 </font></blockquote><p>
 <p>
-<p>Here we group two phrases together under the same &quot;if&quot;. Note that the &quot;then&quot; has been replaced by &quot;begin&quot;, and that the end is marked by &quot;end if&quot;.
+<p>A visibility rule must always conclude &quot;there is sufficient light&quot;, or &quot;there is insufficient light&quot;, or else do nothing and leave it to other rules to decide.
 <p>
-<p>Similarly for while:
+<p>It is a possibly unexpected fact that &quot;looking&quot; does not require light, but instead behaves differently in darkness - it prints a pseudo-room-description such as
 <p>
-<blockquote><font color="#000080">while (condition) begin; (... phrases ...); end while
+<blockquote><font color="#000080"><b>Darkness</b>
+<br>It is pitch dark, and you can't see a thing.
 </font></blockquote><p>
 <p>
-<p>The &quot;begin&quot; of an &quot;if&quot; must of course match an &quot;end if&quot;, not an &quot;end while&quot;, and so on.
+<p>instead of printing the description of the player's current room. This means that the &quot;looking&quot; action is unaffected by visibility rules. All the same, what &quot;looking&quot; does in the dark can be changed by using the two activities &quot;printing the name of a dark room&quot; and &quot;printing the description of a dark room&quot; (see the Activities chapter for details).
 <p>
 <p><hr><p>
-<a name="e117"><a href=ex117.html#e117><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A SEARCH [room] action that will open every container the player can see, stopping only when there don't remain any that are closed, unlocked, and openable.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e136"><a href=doc142.html#e136><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Every time the player gets onto, say, a stack of mattresses, the thing on the bottom of the pile makes a groaning noise.</i><p>
-<p>
-<p>The main point here is that we need to figure out where the stack meets the floor:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After entering something:\n\tlet the item be the noun;\n\twhile the holder of the item is not a room\n\tbegin;\n\t\tlet the item be the holder of the item;\n\tend while;\n\tsay &quot;[The item] groans ominously.&quot;\n\n')"><img border=0 src=paste.png></a> After entering something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let the item be the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;while the holder of the item is not a room
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the item be the holder of the item;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end while;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The item] groans ominously.&quot;
+<a name="e136"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc175.html#e136 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>143</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc175.html#e136 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Flashlight</font></b></a><br>Visibility set so that looking under objects produces no result unless the player has a light source to shine there (regardless of the light level of the room).<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Flashlight&quot;\n\nThe Schoolhouse is a room. &quot;Though normally comfortable, the room is dark and menacing during the storm; rain sheets on the windows, and you can barely see the flash of the lighthouse only a few miles away.&quot;\n\nThe cabinet is a fixed in place openable container in the Schoolhouse. The hurricane lantern is a thing in the Schoolhouse. &quot;A hurricane lantern hangs from a peg.&quot; The lantern is lit.\n\nVisibility rule when looking under something:\n\tif the player is carrying a lit thing (called lamp)\n\tbegin;\n\t\tsay &quot;You shine [the lamp] under [the noun]...&quot;;\n\t\tthere is sufficient light;\n\tend if;\n\tthere is insufficient light.\n\nThe marble is a thing. The marble can be found or lost. The marble is lost.\n\nInstead of looking under the cabinet when the marble is lost:\n\tmove the marble to the player;\n\tnow the marble is found;\n\tsay &quot;Billy\'s lost marble! So that\'s where it got to!&quot;\n\nTest me with &quot;look under cabinet / get lantern / look under cabinet&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Flashlight&quot;
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc141.html>Previous</a> / <a href=doc143.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">The Schoolhouse is a room. &quot;Though normally comfortable, the room is dark and menacing during the storm; rain sheets on the windows, and you can barely see the flash of the lighthouse only a few miles away.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The cabinet is a fixed in place openable container in the Schoolhouse. The hurricane lantern is a thing in the Schoolhouse. &quot;A hurricane lantern hangs from a peg.&quot; The lantern is lit.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Visibility rule when looking under something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying a lit thing (called lamp)
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You shine [the lamp] under [the noun]...&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;there is sufficient light;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;there is insufficient light.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The marble is a thing. The marble can be found or lost. The marble is lost.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of looking under the cabinet when the marble is lost:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the marble to the player;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the marble is found;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Billy's lost marble! So that's where it got to!&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;look under cabinet / get lantern / look under cabinet&quot;.
+</font></blockquote><p>
+<p>
+<p>Because visibility is checked before instead rules, this discovery will (correctly) occur only when the player does have enough light.
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc175.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc174.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc176.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

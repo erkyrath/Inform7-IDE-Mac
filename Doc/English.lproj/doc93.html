@@ -1,4 +1,13 @@
-<html><head><title>7.1. Change of values that vary</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>6.14. In the presence of, and when</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,39 +16,25 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<h2>Chapter 7: Change</h2><p><table><tr width="100%"><td width=80 valign="top"><a href=doc92.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc94.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>7.1. Change of values that vary</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc92.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap6.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 6: Basic Actions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc94.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>6.14. In the presence of, and when</b></font></td></tr></table>
 <p>
-<p>So far, what we have done in response to the player's commands amounts to little more than a few ripostes. The simulated world does change during play, as the player moves from room to room or picks up things, but all of this is happening automatically, not at our direct instruction. How then can we make the world change?
+<p>Relative location can also be important: relative to other people, that is -
 <p>
-<p>Recall that the world consists of rooms, in which are things, and that all of these have properties appropriate to their kinds. Some properties are either/or (&quot;open&quot; or &quot;closed&quot; but not both and not neither), while others have values (the &quot;matching key&quot; of a lockable door, for instance). Finally, we may also have created some free-standing values or &quot;variables&quot;.
-<p>
-<p>We take the last example first, as it is the simplest. Suppose we have:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Winds of Change&quot;\n\nThe prevailing wind is a direction that varies. The prevailing wind is northwest.\n\nThe Blasted Heath is a room. &quot;Merely an arena for the play of witches and kings, my dear, where the [prevailing wind] wind blows.&quot;\n\nInstead of waiting when the prevailing wind is northwest: say &quot;A fresh gust of wind bowls you over.&quot;; change the prevailing wind to the east.\n\n\n')"><img border=0 src=paste.png></a> &quot;Winds of Change&quot;
+<blockquote><font color="#000080">Instead of eating something in the presence of Lady Bracknell, say &quot;Lady Bracknell disapproves thoroughly of gentlemen who snack between meals, and there are few disapprovals in this world quite so thorough as Lady Bracknell's.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The prevailing wind is a direction that varies. The prevailing wind is northwest.
+<p>As might be guessed, this applies when the action takes place in the same location as the person named: and of course that person can also be described more vaguely (&quot;... in the presence of a woman&quot;, say), and can just as easily be an inanimate thing (&quot;... in the presence of the radio set&quot;).
+<p>
+<p>Lady Bracknell is a pushover compared to some matriarchs:
+<p>
+<blockquote><font color="#000080">Instead of doing something other than looking, examining or waiting in the presence of the Queen: say &quot;I'm afraid they take what you might call a zero tolerance approach to court etiquette here.&quot;; end the game saying &quot;You have been summarily beheaded&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Blasted Heath is a room. &quot;Merely an arena for the play of witches and kings, my dear, where the [prevailing wind] wind blows.&quot;
+<p>The last of the optional clauses we can tack on to the description of an action is the most general of all. We can add &quot;when&quot; and then any condition at all, as in:
+<p>
+<blockquote><font color="#000080">Instead of eating something when the radio set is switched on, say &quot;Something about the howling short-wave static puts you right off luncheon.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of waiting when the prevailing wind is northwest: say &quot;A fresh gust of wind bowls you over.&quot;; change the prevailing wind to the east.
-</font></blockquote><p>
-<p>
-<p>The new phrase here is &quot;change&quot;. This automatically checks that the new value is one which makes sense in the given context, so for instance it would not allow either of these:
-<p>
-<blockquote><font color="#000080">change the prevailing wind to 25; change the prevailing wind to the Heath;
-</font></blockquote><p>
-<p>
-<p>the former being a number, and the latter a room, so that neither is a direction. Similarly, &quot;change&quot; will not allow values to be changed, only values which vary. So
-<p>
-<blockquote><font color="#000080">Colour is a kind of value. The colours are blue, red and mauve. Instead of pulling the psychedelic lever, change blue to mauve.
-</font></blockquote><p>
-<p>
-<p>...will result in a complaint like so:
-<p>
-<blockquote><font color="#000080"><b>Problem.</b> You wrote 'change blue to mauve' <img src=../Reveal.tif>, but 'blue' is not something which can ever change.
-</font></blockquote><p>
-<p>
-<p><hr><p><a href=doc92.html>Previous</a> / <a href=doc94.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><p>
+<a name="e39"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex39.html#e39 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>62</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex39.html#e39 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Today Tomorrow</font></b></a><br>A few notes on "In the presence of" and how it interacts with concealed objects.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc92.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc94.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

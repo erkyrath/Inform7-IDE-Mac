@@ -1,4 +1,13 @@
-<html><head><title>8.15. How many times?</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>8.11. Calculating times</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,41 +16,21 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc126.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc128.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>8.15. How many times?</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc126.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap8.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 8: Time</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc128.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>8.11. Calculating times</b></font></td></tr></table>
 <p>
-<p>There are two further ways to examine the historical record. Given any condition, we can say
+<p>We will occasionally need to perform more complex calculations with time, and in order to do that, we have a way to convert the time of day to numbers. Thus the phrase &quot;the minutes part of ...&quot; takes a time and produces a number from 0 to 59; similarly &quot;the hours part of ...&quot; extracts a number from 0 to 23, using the twenty-four hour clock.
 <p>
-<blockquote><font color="#000080">if (...condition...) for the second time ...
-<br>if (...condition...) twice ...
-<br>if (...condition...) 2 times...
-<br>if (...condition...) two times...
+<p>To go the other way, we can convert any number to a duration by writing &quot;minutes&quot; or &quot;hours&quot; after it. For instance:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The clock error is a number that varies. To thump the mechanism: change the clock error to a random number from -10 to 10.\n\nThe broken grandfather clock is in the Chamber. &quot;An erratic grandfather clock seems to say it is [clock error minutes after the time of day].&quot;\n\nWhen play begins, thump the mechanism. Instead of attacking the broken clock: thump the mechanism; say &quot;You thump the clock, which now reads [clock error minutes after the time of day].&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> The clock error is a number that varies. To thump the mechanism: change the clock error to a random number from -10 to 10.
 </font></blockquote><p>
 <p>
-<p>(all of which are synonymous: the words once, twice, thrice, one, two, three, four, five, six, seven, eight, nine, ten, first, second, third, fourth, fifth, sixth, seventh, eighth, ninth and tenth all mean what they obviously should). The result is true if the condition holds now and has held for only one previous spell in the past. A condition holding for, say, fifteen consecutive turns without a break counts as only one &quot;time&quot; - so what we mean by &quot;twice&quot; here is that it is true now, was previously false for a while, and was previously true for a while before that, but no more. In effect, then,
-<p>
-<blockquote><font color="#000080">if the player is in the Ballroom for the third time ...
+<blockquote><font color="#000080">The broken grandfather clock is in the Chamber. &quot;An erratic grandfather clock seems to say it is [clock error minutes after the time of day].&quot;
 </font></blockquote><p>
 <p>
-<p>is true if this is the third visit to the Ballroom. We can also say
-<p>
-<blockquote><font color="#000080">if the player is in the Ballroom for more than the third time ...
+<blockquote><font color="#000080">When play begins, thump the mechanism. Instead of attacking the broken clock: thump the mechanism; say &quot;You thump the clock, which now reads [clock error minutes after the time of day].&quot;.
 </font></blockquote><p>
 <p>
-<p>or similarly &quot;less than&quot;, &quot;at least&quot;, &quot;at most&quot;. It would be more natural, though, to say
+<p>Note that &quot;clock error&quot; is a number, but &quot;clock error minutes&quot; is a time.
 <p>
-<blockquote><font color="#000080">if the player has been in the Ballroom three times ...
-</font></blockquote><p>
-<p>
-<p>The adjective &quot;only&quot; (or equivalently &quot;exactly&quot;) can be added to obtain
-<p>
-<blockquote><font color="#000080">if the player has been in the Ballroom only three times ...
-</font></blockquote><p>
-<p>
-<p>To recap, this means there have been exactly three visits to the Ballroom in history, whereas
-<p>
-<blockquote><font color="#000080">if the player is in the Ballroom for the third time ...
-</font></blockquote><p>
-<p>
-<p>means there have been exactly three visits, the third of which is still going on - an important distinction.
-<p>
-<p><hr><p><a href=doc126.html>Previous</a> / <a href=doc128.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc126.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc128.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

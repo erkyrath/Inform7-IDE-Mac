@@ -1,4 +1,13 @@
-<html><head><title>7.16. Randomness</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>7.9. Removing things from play</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,38 +16,23 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc107.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc109.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>7.16. Randomness</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc107.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap7.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 7: Change</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc109.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>7.9. Removing things from play</b></font></td></tr></table>
 <p>
-<p>Sometimes we want to introduce random behaviour into play. We usually do this by generating random values, and then acting differently depending on what they are. The following:
+<p>Some things will occasionally be in a limbo state called being &quot;out of play&quot;: like chess pieces which have been taken, or cards not yet dealt, they wait on the sidelines, perhaps to be needed again, perhaps not. Anything created with no apparent location will start the game out of play, as in the case of the lamp here:
 <p>
-<blockquote><font color="#000080">a random number from 2 to 5
+<blockquote><font color="#000080">Aladdin's Cave is a room. The genie's lamp is a container.
 </font></blockquote><p>
 <p>
-<p>produces, as it suggests, a random number drawn from the choices 2, 3, 4 or 5, each of which is equally likely to come up.
+<p>To move something back into play, we simply &quot;move&quot; it back onto the board, so to speak: back to a room, or to something else which is currently in play. To remove something, we use the phrase:
 <p>
-<p>We can also use random conditions:
-<p>
-<blockquote><font color="#000080">if a random chance of 2 in 3 succeeds then ...
+<blockquote><font color="#000080">remove the gold coin from play
 </font></blockquote><p>
 <p>
-<p>Here is a rule which applies only 15% of the time:
+<p>(We are not permitted to remove rooms, or the player, from play.) We can test whether something is in play with
 <p>
-<blockquote><font color="#000080">Instead of waiting when a random chance of 15 in 100 succeeds: ...
+<blockquote><font color="#000080">if the gold coin is somewhere ...
 </font></blockquote><p>
-<p>
-<p>If we make a new kind of value, we can also take random values from it, as in the following miniature world:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Weathering&quot;\n\nA cloud pattern is a kind of value. The cloud patterns are cumulus, altocumulus, cumulonimbus, stratus, cirrus, nimbus, nimbostratus.\n\nThe Mount Pisgah Station is a room. &quot;The rocky peak of Mt. Pisgah (altitude 872m) is graced only by an automatic weather station. The clouds, close enough almost to touch, are [a random cloud pattern]. Temperature: [a random number from 7 to 17] degrees, barometric pressure: [950 + a random number from 0 to 15] millibars.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Weathering&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A cloud pattern is a kind of value. The cloud patterns are cumulus, altocumulus, cumulonimbus, stratus, cirrus, nimbus, nimbostratus.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Mount Pisgah Station is a room. &quot;The rocky peak of Mt. Pisgah (altitude 872m) is graced only by an automatic weather station. The clouds, close enough almost to touch, are [a random cloud pattern]. Temperature: [a random number from 7 to 17] degrees, barometric pressure: [950 + a random number from 0 to 15] millibars.&quot;
-</font></blockquote><p>
-<p>
-<p>The value &quot;a random cloud pattern&quot; produces a random choice from the seven cloud patterns, each equally likely.
 <p>
 <p><hr><p>
-<a name="e82"><a href=ex82.html#e82><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A stream of random pedestrians who go by the player.</i><p>
-<p><hr><p><a href=doc107.html>Previous</a> / <a href=doc109.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e16"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex16.html#e16 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>79</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex16.html#e16 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Beverage Service</font></b></a><br>A potion that the player can drink.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc107.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc109.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

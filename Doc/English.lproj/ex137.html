@@ -1,4 +1,13 @@
-<html><head><title>15.14. Understanding things by their properties</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>12.11. Defining new prepositions</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,107 +16,104 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc230.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc232.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.14. Understanding things by their properties</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc186.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap12.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 12: Relations</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc188.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>12.11. Defining new prepositions</b></font></td></tr></table>
 <p>
-<p>Items are ordinarily understood only by their original given names. For instance, if we have:
+<p>The term preposition is used here, a little loosely, to mean anything which we add to the verb <i>to be</i> in order to talk about some relation or other. We have seen many examples already, such as:
 <p>
-<blockquote><font color="#000080">In the Herb Garden is a china pot.
+<blockquote><font color="#000080">To be in - The ball is in the box.
+<br>To be part of - The lever is part of the slot machine.
 </font></blockquote><p>
 <p>
-<p>then the player could refer to this as &quot;pot&quot;, &quot;china pot&quot; or &quot;china&quot;. We can embellish this by adding extra forms:
+<p>These are easier to create than verbs, because Inform already knows the wayward grammar of <i>to be</i>, so we need not give any of the principal parts. Otherwise, the method is exactly the same. Compare the definitions in the following:
 <p>
-<blockquote><font color="#000080">Understand &quot;chinese pot&quot; or &quot;chinese vase&quot; as the china pot.
+<blockquote><font color="#000080">Suspecting relates various people to one person.
 </font></blockquote><p>
 <p>
-<p>But suppose the pot changes its nature in the course of play? If we have:
-<p>
-<blockquote><font color="#000080">The china pot can be unbroken or broken. The china pot is unbroken. After dropping the china pot: say &quot;Crack!&quot;; now the china pot is broken; change the printed name of the pot to &quot;broken pot&quot;.
+<blockquote><font color="#000080">The verb to suspect (he suspects, they suspect, he suspected, it is suspected, he is suspecting) implies the suspecting relation.
 </font></blockquote><p>
 <p>
-<p>So now the player would reasonably expect to call it &quot;broken pot&quot;, a wording which would have been rejected before. We can achieve this by writing:
-<p>
-<blockquote><font color="#000080">Understand the unbroken property as describing the pot.
+<blockquote><font color="#000080">The verb to be suspicious of implies the suspecting relation.
 </font></blockquote><p>
 <p>
-<p>which allows &quot;unbroken&quot; or &quot;broken&quot; to describe the pot, depending on its state. This is something of a toy example, but the feature looks rather more useful when there are more pots than just one:
+<p>The result of this is that
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Terracotta&quot;\n\nA flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.\n\nAfter dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.\n\nThe Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.\n\n\n')"><img border=0 src=paste.png></a> &quot;Terracotta&quot;
+<blockquote><font color="#000080">Hercule Poirot suspects Colonel Hotchkiss.
+<br>Hercule Poirot is suspicious of Colonel Hotchkiss.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.
+<p>are exactly equivalent, and so are these two descriptions:
+<p>
+<blockquote><font color="#000080">somebody who suspects Colonel Hotchkiss
+<br>somebody suspicious of Colonel Hotchkiss
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.
-</font></blockquote><p>
-<p>
-<p>We then have the dialogue:
-<p>
-<blockquote><font color="#000080">Herb Garden
-<br>You can see ten flowerpots here.
-<br>>get two flowerpots
-<br>flowerpot: Taken.
-<br>flowerpot: Taken.
-<br>>drop all
-<br>flowerpot: Crack!
-<br>flowerpot: Crack!
-<br>>look
-<br>Herb Garden
-<br>You can see two broken flowerpots and eight flowerpots here.
-<br>>get an unbroken flowerpot
-<br>Taken.
-</font></blockquote><p>
-<p>
-<p>and so on and so forth.
-<p>
-<p>There are in fact two slightly different forms of this kind of sentence:
-<p>
-<blockquote><font color="#000080">Understand the broken property as describing a flowerpot.
-<br>Understand the broken property as referring to a flowerpot.
-</font></blockquote><p>
-<p>
-<p>The only difference is that in the &quot;describing&quot; case, the property's name alone can mean the thing in question - so &quot;take unbroken&quot; will work; whereas, in the &quot;referring to&quot;, the property's name can only be used as an adjective preceding the name of thing itself - so &quot;take unbroken flowerpot&quot; will work but &quot;take unbroken&quot; will not.
-<p>
-<p><hr><img border=0 src=beta.png>At present, the implementation of this feature has a restriction: if we define a new kind of value (say, colour) and give it to something as a property, then define a new textual form of one of those values (say making &quot;crimson&quot; a synonym for &quot;red&quot;), this new textual form will not be understood when used adjectivally in the above way.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e137"><a href=doc231.html#e137><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>The peers of the English realm come in six flavours - Baron, Viscount, Earl, Marquess, Duke and Prince - and must always be addressed properly. While a peerage is for life, it may at the royal pleasure be promoted.</i><p>
+<a name="e137"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc187.html#e137 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>151</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc187.html#e137 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Swerve left? Swerve right? Or think about it and die?</font></b></a><br>Building a marble chute track in which a dropped marble will automatically roll downhill.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>Suppose we have marbles that roll downhill across our map, in a life-size version of one of those marble-chute toys. We might now want to keep track of both compass relationships and which-room-slopes-into-which, so we make a new relation:
 <p>
-<p>Almost all of this example is the flummery of pomp and circumstance: only the first two paragraphs really do anything.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Peers&quot; by Elizabeth II R\n\nA title is a kind of value. The titles are Baron, Viscount, Earl, Marquess, Duke and Prince.\n\nA peer is a kind of man. A peer has a title. A peer is usually a Baron. Before printing the name of a peer, say &quot;[title] &quot;. Understand the title property as describing a peer.\n\nThe House of Lords is a room. Maltravers, Pollifax, Omnium and St Vincent are peers in the House of Lords. Omnium is a Duke. St Vincent is an Earl.\n\nEnnobling is an action applying to one thing and one title.\n\nCheck ennobling:\n\tif the noun is the player, say &quot;The Sovereign is the fountain of honour, and may not be ennobled.&quot; instead;\n\tif the noun is not a peer, say &quot;Commoners should remain so.&quot; instead;\n\tif the title of the noun is the title understood, say &quot;But that is his title already.&quot; instead;\n\tif the title of the noun is greater than the title understood, say &quot;As he is already of the rank of [title of the noun], any such letters patent are liable to be deemed invalid, following the precedent of the Buckhurst Peerage Case (1876). Best not.&quot; instead.\n\nCarry out ennobling:\n\tchange the title of the noun to the title understood.\n\nReport ennobling:\n\tsay &quot;\'Whereas Our Parliament for arduous and urgent affairs concerning Us the state and defence of Our United Kingdom and the Church is now met at Our City of Westminster We strictly enjoining Command you upon the faith and allegiance by which you are bound to Us that the weightness of the said affairs and imminent perils considered (waiving all excuses) you be at the said day and place personally present with Us and with the said Prelates Great Men and Peers to treat and give your counsel upon the affairs aforesaid And this as you regard Us and Our honour and the safety and defence of the said Kingdom and Church and dispatch of the said affairs in nowise do you omit Witness Ourself at Westminster the Fifth day of November in the 43rd year of Our Reign,\' you say, with unpunctuated serenity. The new [noun] bows stiffly.&quot;\n\nUnderstand &quot;dub [someone] a/an [title]&quot; as ennobling.\n\n')"><img border=0 src=paste.png></a> &quot;Peers&quot; by Elizabeth II R
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Swerve left? Swerve right? Or think about it and die?&quot;\n\nOverlooking relates various rooms to various rooms.\n\nThe verb to overlook (it overlooks, they overlook, it overlooked, it is overlooked, it is overlooking) implies the overlooking relation.\n\nA thing can be spherical or lumpy. A marble is a kind of thing. A marble is always spherical. The player carries a marble called a red marble. The player carries a marble called an agate marble. The player carries a marble called a blue cloudy marble.\n\nThe Long Yellow Slide is north of the Funnel. The Long Yellow Slide overlooks the Blue Funnel. The Ski-jump is below the Blue Funnel. The Blue Funnel overlooks the Ski-jump. The Ski-jump overlooks the Landing Bowl. The Landing Bowl overlooks the Snake Run. The Landing Bowl is north of the Snake Run. The Snake Run overlooks the Goal. The Snake Run is north of the Goal.\n\nDefinition: a room is sloping if it overlooks a room.\n\n[And let\'s say we want the player to be allowed to slide, too, since that would be much more fun than just watching the marbles go:]\n\nUnderstand &quot;sit&quot; as sitting down. Sitting down is an action applying to nothing. Check sitting down: if the player is spherical, say &quot;You are already seated.&quot; Carry out sitting down: now the player is spherical. Report sitting down: say &quot;You sit, ready to slide wherever fate takes you.&quot;\n\nUnderstand the command &quot;stand&quot; as something new.\n\nUnderstand &quot;stand&quot; or &quot;stand up&quot; as standing up. Standing up is an action applying to nothing. Check standing up: if the player is lumpy, say &quot;You are already standing.&quot; Carry out standing up: now the player is lumpy. Report standing up: say &quot;You get to your feet.&quot;\n\n[Now a rule to control what happens to all our sliding and rolling objects:]\n\nEvery turn:\n\trepeat with item running through spherical things which are in sloping rooms\n\tbegin;\n\t\tlet the current space be the holder of the item;\n\t\tlet the final space be a random room which is overlooked by the current space;\n\t\tif the player can see the item and the item is a marble, say &quot;[The item] rolls out of the room toward [the final space].[line break]&quot;;\n\t\tif the player is the item, say &quot;You keep sliding...&quot;;\n\t\tmove the item to the final space;\n\t\tif the player can see the item and the item is a marble, say &quot;[The item] rolls into the room from [the current space].[line break]&quot;;\n\tend repeat.\n\n[Since the Ski-jump overlooks the Landing Bowl, the marble will be able to fly through the air to its destination, even though there is no map connection to allow the player to cross. We might want to let the player make it across this barrier also, so:]\n\nInstead of jumping in a sloping room:\n\tsay &quot;You leap...&quot;;\n\tmove the player to a random room overlooked by the location.\n\n[Because overlooking is various-to-various, we could include that element popular in marble chute toys, the splitter:]\n\nThe Downhill Splitter is north of the Long Yellow Slide. &quot;The green plastic chute runs downhill towards a Y-junction, forcing incoming marbles right or left.&quot;\n\nThe Downhill Splitter overlooks the Long Yellow Slide and the Purple Snaking Passage. The Purple Snaking Passage is southeast of the Downhill Splitter. The Purple Snaking Passage overlooks the Landing Bowl. The Purple Snaking Passage is above the Landing Bowl.\n\nThe player is in the Downhill Splitter.\n\nTest me with &quot;drop red / drop blue / sit / z / stand up / drop agate / sit / z / z / z / z / z&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Swerve left? Swerve right? Or think about it and die?&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A title is a kind of value. The titles are Baron, Viscount, Earl, Marquess, Duke and Prince.
+<blockquote><font color="#000080">Overlooking relates various rooms to various rooms.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A peer is a kind of man. A peer has a title. A peer is usually a Baron. Before printing the name of a peer, say &quot;[title] &quot;. Understand the title property as describing a peer.
+<blockquote><font color="#000080">The verb to overlook (it overlooks, they overlook, it overlooked, it is overlooked, it is overlooking) implies the overlooking relation.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The House of Lords is a room. Maltravers, Pollifax, Omnium and St Vincent are peers in the House of Lords. Omnium is a Duke. St Vincent is an Earl.
+<blockquote><font color="#000080">A thing can be spherical or lumpy. A marble is a kind of thing. A marble is always spherical. The player carries a marble called a red marble. The player carries a marble called an agate marble. The player carries a marble called a blue cloudy marble.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Ennobling is an action applying to one thing and one title.
+<blockquote><font color="#000080">The Long Yellow Slide is north of the Funnel. The Long Yellow Slide overlooks the Blue Funnel. The Ski-jump is below the Blue Funnel. The Blue Funnel overlooks the Ski-jump. The Ski-jump overlooks the Landing Bowl. The Landing Bowl overlooks the Snake Run. The Landing Bowl is north of the Snake Run. The Snake Run overlooks the Goal. The Snake Run is north of the Goal.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check ennobling:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the player, say &quot;The Sovereign is the fountain of honour, and may not be ennobled.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is not a peer, say &quot;Commoners should remain so.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the title of the noun is the title understood, say &quot;But that is his title already.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the title of the noun is greater than the title understood, say &quot;As he is already of the rank of [title of the noun], any such letters patent are liable to be deemed invalid, following the precedent of the Buckhurst Peerage Case (1876). Best not.&quot; instead.
+<blockquote><font color="#000080">Definition: a room is sloping if it overlooks a room.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out ennobling:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the title of the noun to the title understood.
+<p>And let's say we want the player to be allowed to slide, too, since that would be much more fun than just watching the marbles go:
+<p>
+<blockquote><font color="#000080">Understand &quot;sit&quot; as sitting down. Sitting down is an action applying to nothing. Check sitting down: if the player is spherical, say &quot;You are already seated.&quot; Carry out sitting down: now the player is spherical. Report sitting down: say &quot;You sit, ready to slide wherever fate takes you.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report ennobling:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Whereas Our Parliament for arduous and urgent affairs concerning Us the state and defence of Our United Kingdom and the Church is now met at Our City of Westminster We strictly enjoining Command you upon the faith and allegiance by which you are bound to Us that the weightness of the said affairs and imminent perils considered (waiving all excuses) you be at the said day and place personally present with Us and with the said Prelates Great Men and Peers to treat and give your counsel upon the affairs aforesaid And this as you regard Us and Our honour and the safety and defence of the said Kingdom and Church and dispatch of the said affairs in nowise do you omit Witness Ourself at Westminster the Fifth day of November in the 43rd year of Our Reign,' you say, with unpunctuated serenity. The new [noun] bows stiffly.&quot;
+<blockquote><font color="#000080">Understand the command &quot;stand&quot; as something new.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;dub [someone] a/an [title]&quot; as ennobling.
+<blockquote><font color="#000080">Understand &quot;stand&quot; or &quot;stand up&quot; as standing up. Standing up is an action applying to nothing. Check standing up: if the player is lumpy, say &quot;You are already standing.&quot; Carry out standing up: now the player is lumpy. Report standing up: say &quot;You get to your feet.&quot;
 </font></blockquote><p>
-</td></tr></table><p><a name="e72"><a href=ex72.html#e72><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>The flowerpots once again, but this time arranged so that after the first breakage all undamaged pots are said to be "unbroken", to distinguish them from the others.</i><p>
-<p><hr><p><a href=doc230.html>Previous</a> / <a href=doc232.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>Now a rule to control what happens to all our sliding and rolling objects:
+<p>
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with item running through spherical things which are in sloping rooms
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the current space be the holder of the item;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the final space be a random room which is overlooked by the current space;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player can see the item and the item is a marble, say &quot;[The item] rolls out of the room toward [the final space].[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player is the item, say &quot;You keep sliding...&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the item to the final space;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player can see the item and the item is a marble, say &quot;[The item] rolls into the room from [the current space].[line break]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+</font></blockquote><p>
+<p>
+<p>Since the Ski-jump overlooks the Landing Bowl, the marble will be able to fly through the air to its destination, even though there is no map connection to allow the player to cross. We might want to let the player make it across this barrier also, so:
+<p>
+<blockquote><font color="#000080">Instead of jumping in a sloping room:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You leap...&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the player to a random room overlooked by the location.
+</font></blockquote><p>
+<p>
+<p>Because overlooking is various-to-various, we could include that element popular in marble chute toys, the splitter:
+<p>
+<blockquote><font color="#000080">The Downhill Splitter is north of the Long Yellow Slide. &quot;The green plastic chute runs downhill towards a Y-junction, forcing incoming marbles right or left.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Downhill Splitter overlooks the Long Yellow Slide and the Purple Snaking Passage. The Purple Snaking Passage is southeast of the Downhill Splitter. The Purple Snaking Passage overlooks the Landing Bowl. The Purple Snaking Passage is above the Landing Bowl.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player is in the Downhill Splitter.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;drop red / drop blue / sit / z / stand up / drop agate / sit / z / z / z / z / z&quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc187.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e231"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex231.html#e231 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>152</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex231.html#e231 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Beneath the Surface</font></b></a><br>An "underlying" relation which adds to the world model the idea of objects hidden under other objects.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc186.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc188.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

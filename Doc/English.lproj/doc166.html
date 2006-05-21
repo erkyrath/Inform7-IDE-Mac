@@ -1,4 +1,13 @@
-<html><head><title>11.14. Reaching inside rules</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>11.7. New actions</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,32 +16,42 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc165.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc167.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.14. Reaching inside rules</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc165.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap11.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 11: Advanced Actions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc167.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>11.7. New actions</b></font></td></tr></table>
 <p>
-<p>The flow chart back at the start of this chapter shows that, early on in processing an action (between Before and Instead), Inform asks the question &quot;Can we see or touch things?&quot; This is where it enforces the requirements in the action's definition:
+<p>It is not often that we need to create new actions, but a large work of interactive fiction with no novelty actions is a flavourless dish. Here we shall create an action for photographing things.
+<p>
+<blockquote><font color="#000080">The Ruins is a room. &quot;You find this clearing in the rainforest oddly familiar.&quot; The camera is in the Ruins. &quot;Your elephantine camera hangs from a convenient branch.&quot;
+</font></blockquote><p>
 <p>
 <blockquote><font color="#000080">Photographing is an action applying to one visible thing and requiring light.
-<br>Scraping it with is an action applying to two things.
 </font></blockquote><p>
 <p>
-<p>The questions of seeing and touching are handled rather differently, and we shall see ways to influence what can be seen using the &quot;deciding the scope of something&quot; activity when we get to the Activities chapter. The question of what we can touch
+<p>In theory that text is already sufficient to make the new action, but what we have so far is rudimentary to say the least. The two qualifications give Inform the useful information that we cannot photograph in the dark, and that we need to be photographing something - not, as in the case of waiting or taking inventory, acting without reference to any particular thing external to ourselves.
 <p>
-<p>An example of rules applying to given objects is provided by the way that Inform decides whether the player can reach something or not. For instance, suppose the following:
+<p>The word &quot;visible&quot; here tells Inform that we do not need to be able to touch the thing in question: a line of sight is good enough. These two stipulations were necessary because the default arrangement is that any object must be in touching range, and that most actions can be performed in darkness. (Also, note that if you invent an action which needs to apply to directions like &quot;north&quot; or &quot;south&quot;, you need to make this apply to visible things, because the object used inside Inform to represent the idea of &quot;north&quot; can be seen but not touched.) Occasionally, when writing general rules about actions, it can be useful to find out what the current action's requirements are: the following conditions do what they suggest.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The Laboratory is a room. In the Laboratory is a conical flask. The flask is closed and transparent. In the flask is an antibumping granule.\n\n\n')"><img border=0 src=paste.png></a> The Laboratory is a room. In the Laboratory is a conical flask. The flask is closed and transparent. In the flask is an antibumping granule.
+<blockquote><font color="#000080">if the action requires a touchable noun...
+<br>if the action requires a touchable second noun...
+<br>if the action requires light...
 </font></blockquote><p>
 <p>
-<p>The player will be able to examine the granule but not to take it, as that would require reaching through glass. Suppose the player does type TAKE GRANULE: then Inform looks for potential barriers between the player and the granule, and of course finds the conical flask. If, as in this case, the thing to be touched is on the inside, then Inform asks the &quot;reaching inside&quot; rules for permission. There are two reaching inside rules built in to Inform:
+<p>For instance, if we are currently examining something, then the first condition will be untrue, because that requires only a visible noun.
 <p>
-<blockquote><font color="#000080">can't reach inside rooms rule
-<br>can't reach inside closed containers rule
+<p>As further examples, here we create &quot;blinking&quot; and &quot;scraping X with Y&quot;. Note the use of &quot;it&quot; to indicate that the name of an object should go here.
+<p>
+<blockquote><font color="#000080">Blinking is an action applying to nothing. Scraping it with is an action applying to two things.
 </font></blockquote><p>
 <p>
-<p>and in fact the second of these rules will cause the taking action to fail, because the conical flask is a closed container. (The other rule has to do with a player in one room able to see another room through, say, a telescope - merely having a line of sight doesn't give the ability to reach into the frame.)
+<p>The photographing action now exists, but with two provisos: (a) it never happens, because Inform does not know what commands by the player should cause it, and (b) even if it were to happen, nothing would follow, because Inform does not know what to do. (There are no check, carry out or report rules yet.)
 <p>
-<p>Symmetrically, Inform also has &quot;reaching outside&quot; rules, used if the player is inside something and wants to reach an object in the wider room. (From a bed, probably yes; from a cage, probably no.) This ordinarily contains just one rule:
+<p>The first problem is easily overcome:
 <p>
-<blockquote><font color="#000080">can't reach outside closed containers rule
+<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
 </font></blockquote><p>
 <p>
-<p><hr><p><a href=doc165.html>Previous</a> / <a href=doc167.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>We will return to the whole subject of parsing, as this process of understanding the player's commands is called, later. But this gives the gist of it.
+<p>
+<p><hr><p>
+<a name="e56"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex56.html#e56 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>126</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex56.html#e56 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000">DIAGNOSE command</font></b></a><br>A DIAGNOSE command which allows the player to check on the health of someone.<p></td></tr></table>
+<a name="e97"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex97.html#e97 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>127</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex97.html#e97 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Frizz</font></b></a><br>Liquid flows within containers and soaks objects that are not waterproof; any contact with a wet object can dampen our gloves.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc165.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc167.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

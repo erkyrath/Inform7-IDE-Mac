@@ -1,4 +1,13 @@
-<html><head><title>11.10. Making actions work for other people</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>11.3. Giving instructions to other people</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,26 +16,34 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc161.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc163.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.10. Making actions work for other people</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc161.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap11.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 11: Advanced Actions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc163.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>11.3. Giving instructions to other people</b></font></td></tr></table>
 <p>
-<p>The &quot;photographing&quot; action now works very nicely when the player does it. But not when others try. Suppose that neither the player, not Clark Gable, is holding the camera:
+<p>So far, all actions have been carried out by the player: which is fine for exploring the passive world of an empty warehouse, but less good for a drama in which other characters have to be contended with. In fact, an action can be carried out by anybody - by any instance of the &quot;person&quot; kind, that is, which includes all the men, women and animals in the game, and not only the player.
 <p>
-<blockquote><font color="#000080">>photograph clark
-<br>You can hardly photograph without a camera, now can you?
+<p>In interactive fiction, players conventionally ask other characters to do something with commands like so:
+<p>
+<blockquote><font color="#000080">> will, go west
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">>clark, photograph me
-<br>>
+<p>Clearly &quot;will, go west&quot; should not produce the same action as &quot;go west&quot;, because a different person will be trying it: this person is called the &quot;actor&quot;, and while the actor is ordinarily the player, here it is the character called Will. Inform distinguishes these two actions like so:
+<p>
+<blockquote><font color="#000080">going west
+<br>asking Will to try going west
 </font></blockquote><p>
 <p>
-<p>An uncanny silence. What has happened is that the rules written so far are all implicitly restricted to the player only. This is because when we write -
+<p>As a result, we can write rules like so:
 <p>
-<blockquote><font color="#000080">Check photographing: if the camera is not carried then say &quot;You can hardly photograph without a camera, now can you?&quot; instead.
+<blockquote><font color="#000080">Instead of asking Will to try going west, say &quot;Will scratches his head, baffled by this talk of westward. Is not the ocean without bound?&quot;
 </font></blockquote><p>
 <p>
-<p>the action is &quot;photographing&quot;, not &quot;Clark trying photographing&quot;. In the next few sections we shall see how to make the rules work nicely for everybody. This is a little bit harder, so it should be noted right away that in many projects there is no need. In a game which has no other characters who succumb to persuasion, for instance, only the player will ever try the action.
+<p>To write rules like this, we sometimes want to generalise about who is supposed to do the deed. To do this we can refer to &quot;person asked&quot;, just as the &quot;noun&quot; stands for whatever noun was typed:
+<p>
+<blockquote><font color="#000080">Instead of asking somebody to take something, say &quot;I don't think we ought to tempt [the person asked] into theft, surely?&quot;
+</font></blockquote><p>
+<p>
+<p>So if the player types &quot;Algy, take sandwich&quot;, the &quot;person asked&quot; would be Algy; the &quot;noun&quot; would be the sandwich; and there would be no &quot;second noun&quot;.
 <p>
 <p><hr><p>
-<a name="e42"><a href=ex42.html#e42><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>An escaping action which means "go to any room you can reach from here", and is only useful to non-player characters.</i><p>
-<a name="e124"><a href=ex124.html#e124><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Replacing the inventory reporting rule with another which does something slightly different.</i><p>
-<p><hr><p><a href=doc161.html>Previous</a> / <a href=doc163.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e238"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex238.html#e238 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>119</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex238.html#e238 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Virtue</font></b></a><br>Defining certain kinds of behavior as inappropriate, so that other characters will refuse indignantly to do any such thing.<p></td></tr></table>
+<a name="e106"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex106.html#e106 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>120</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex106.html#e106 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Latris Theon</font></b></a><br>A person who can accept instructions to go to new destinations and move towards them according to the most reasonable path.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc161.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc163.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

@@ -1,4 +1,13 @@
-<html><head><title>6.17. Kinds of action</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>6.10. Rules applying to more than one action</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,35 +16,33 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc88.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc90.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.17. Kinds of action</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc88.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap6.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 6: Basic Actions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc90.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>6.10. Rules applying to more than one action</b></font></td></tr></table>
 <p>
-<p>Especially when people need to react to events going on around them, it is helpful to be able to categorise actions into whole areas of behaviour. The following example, indebted to the late Georgette Heyer, is suggestive:
+<p>A description can include more than one choice of action. For instance:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Dearth and the Maiden&quot;\n\nThe Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;\n\nAn oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;\n\nA man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;\n\nKissing Mr Carr is unmaidenly behaviour. Doing something to the painting is unmaidenly behaviour.\n\nInstead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Dearth and the Maiden&quot;
+<blockquote><font color="#000080">examining or searching the desk
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Chequers Inn is a room. &quot;The room is panelled and ceilinged in oak, with blue curtains to the windows and blue cushions on the high-backed settle by the fire.&quot;
+<p>matches either of &quot;examining the desk&quot; or &quot;searching the desk&quot;. We can have more than two actions, of course:
+<p>
+<blockquote><font color="#000080">examining, looking under or searching the desk
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">An oil painting is in the Inn. &quot;An oil painting hangs upon one wall, a lascivious work from the Indes in which a very bendy, sloe-eyed courtesan - but no.&quot;
+<p>The actions combined like this need to be compatible with each other, at least a little. For instance, this will generate a problem message:
+<p>
+<blockquote><font color="#000080">waiting or searching the desk
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A man called Mr Carr is in the Inn. &quot;Standing bashfully aside is one Mr Carr, who we have been led to understand is by profession a Highwayman (yet whose visage oddly recalls Lord John Carstares, disgraced eldest son of the Earl of Wyncham).&quot;
+<p>because it makes no sense to &quot;wait the desk&quot;. On the other hand, this is fine:
+<p>
+<blockquote><font color="#000080">waiting or searching
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Kissing Mr Carr is unmaidenly behaviour. Doing something to the painting is unmaidenly behaviour.
+<p>The general rule is that if we specify one or more objects (&quot;the desk&quot; in the above example), then each of the actions we quote must take at least that many objects.
+<p>
+<p>For example, the following saves us writing the same basic rule three times over:
+<p>
+<blockquote><font color="#000080">Instead of examining, looking under or searching the desk: say &quot;There's no use poking around in that old desk.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of unmaidenly behaviour in the Inn, say &quot;How unmaidenly! Why, one might just as wantonly strip a rose of its petals, letting each fragrant leaf flutter slowly to the ground.&quot;
-</font></blockquote><p>
-<p>
-<p>Here a new kind of action called &quot;unmaidenly behaviour&quot; has been created and then used in the description of an instead rule. The convenience of this approach is that when further actions suddenly occur to us as also being unmaidenly - say, attacking Mr Carr - we only need to add a single line:
-<p>
-<blockquote><font color="#000080">Attacking Mr Carr is unmaidenly behaviour.
-</font></blockquote><p>
-<p>
-<p>And this will automatically be reflected in any rules which concern the consequences of failing to be ladylike.
-<p>
-<p><hr><p>
-<a name="e88"><a href=ex88.html#e88><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>People who must be greeted before conversation can begin.</i><p>
-<p><hr><p><a href=doc88.html>Previous</a> / <a href=doc90.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc88.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc90.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

@@ -1,4 +1,13 @@
-<html><head><title>3.2. Rooms and the map</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2.14. Use options</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,44 +16,41 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc23.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc25.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>3.2. Rooms and the map</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc23.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap2.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 2: The Source Text</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc25.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>2.14. Use options</b></font></td></tr></table>
 <p>
-<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
+<p>One more preliminary. Inform has a small number of optional settings which affect the result of translating the source. The sentence:
 <p>
-<p>Two more directions are provided by Inform: &quot;inside&quot; and &quot;outside&quot;. These are best used when one location is, say, a meadow and the other is a woodcutter's hut in the middle of it; we might then say
-<p>
-<blockquote><font color="#000080">Inside from the Meadow is the woodcutter's hut.
+<blockquote><font color="#000080">Use American dialect.
 </font></blockquote><p>
 <p>
-<p>The &quot;from&quot; is important, as it clarifies that we intend to link two different locations, not to create an item - the hut - in a single location - the meadow.
+<p>makes the resulting work of IF use American spellings (except where the designer spells otherwise) and the American convention for spelling out numbers (thus, &quot;one hundred seventeen&quot; not &quot;one hundred and seventeen&quot;). Similarly:
 <p>
-<p>A problem which sometimes arises when laying out maps is that Inform allows short forms of room names to be used as abbreviations. This is usually a good idea, but has unfortunate results if we write:
-<p>
-<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. The Airport is west of the Airport Road.
+<blockquote><font color="#000080">Use the serial comma.
 </font></blockquote><p>
 <p>
-<p>...because &quot;Airport&quot; is taken as a reference to &quot;Airport Road&quot;, so Inform makes only two locations, one of which supernaturally leads to itself. We can avoid this by writing:
+<p>uses a comma when printing lists: thus &quot;Julian, Dick, George, and Anne&quot; rather than &quot;Julian, Dick, George and Anne&quot;. A more profound change is made by
 <p>
-<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. A room called the Airport is west of the Airport Road.
+<blockquote><font color="#000080">Use no scoring.
 </font></blockquote><p>
 <p>
-<p>Using &quot;called&quot; is often a good way to specify something whose name might give rise to confusion otherwise. It always makes something new, and it is also neatly concise, because we can establish something's kind and name in the same sentence. As another example, suppose we want to create a room called &quot;South of the Hut&quot;, to south of the Hut. We can't do so like this:
+<p>which abolishes the concept of a numerical score - something which modern authors of interactive fiction often feel is inappropriate, but which Inform does provide by default. Two alternative options:
 <p>
-<blockquote><font color="#000080">South of the Hut is a room. South of the Hut is south of the Hut.
+<blockquote><font color="#000080">Use full-length room descriptions.
+<br>Use abbreviated room descriptions.
 </font></blockquote><p>
 <p>
-<p>...because Inform will read that first sentence as placing a (nameless) room to the south of a room called &quot;Hut&quot;. Once again &quot;called&quot; can save the day:
+<p>change the normal way room descriptions are shown: normally they are given in full when the room is first entered, but are subsequently shortened unless the player actually asks to &quot;look&quot;. In full-length mode, they are always given in full; in abbreviated mode, never. (The latter is a bad idea in any publically released game, but is provided for completeness and in case it may help testing.) Then we have:
 <p>
-<blockquote><font color="#000080">South of the Hut is a room called South of the Hut.
+<blockquote><font color="#000080">Use undo prevention.
 </font></blockquote><p>
 <p>
-<p>It is best to use &quot;called&quot; in the simplest way possible, and in particular, best not to use &quot;called&quot; twice in the same sentence. Consider:
+<p>which disables the UNDO verb, both in play and after death, for the benefit of games which are heavily randomised and where we do not want players to keep on UNDOing until they get a random outcome which is to their taste. (Many players consider UNDO to be their birthright, and that any work using this option is an abomination: indeed, it has even been suggested that this section of the Inform documentation be censored. To use the option is to court controversy if not outright hostility.)
 <p>
-<blockquote><font color="#000080">The kitchen cabinet contains a container called a mixing bowl and a portable supporter called a platter.
+<p>We can combine any number of options in a single &quot;Use&quot; sentence, so for example:
+<p>
+<blockquote><font color="#000080">Use American dialect and the serial comma.
 </font></blockquote><p>
 <p>
-<p>It is unlikely that anyone would want to name something &quot;a mixing bowl and a portable supporter called a platter&quot;, but not impossible, and Inform tends not to be a good judge of what is likely.
+<p>brings about both of these changes.
 <p>
-<p><hr><p>
-<a name="e156"><a href=ex156.html#e156><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A partial implementation of Port Royal, Jamaica, set before the earthquake of 1692 demolished large portions of the city.</i><p>
-<p><hr><p><a href=doc23.html>Previous</a> / <a href=doc25.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc23.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc25.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

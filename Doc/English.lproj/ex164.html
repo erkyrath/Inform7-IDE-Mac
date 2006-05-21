@@ -1,4 +1,13 @@
-<html><head><title>4.15. Using new kinds of value in properties</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>15.15. Understanding things by their properties</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,96 +16,111 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc58.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc60.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.15. Using new kinds of value in properties</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc238.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap15.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 15: Understanding</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc240.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>15.15. Understanding things by their properties</b></font></td></tr></table>
 <p>
-<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
+<p>Items are ordinarily understood only by their original given names. For instance, if we have:
 <p>
-<blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.
+<blockquote><font color="#000080">In the Herb Garden is a china pot.
 </font></blockquote><p>
 <p>
-<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
+<p>then the player could refer to this as &quot;pot&quot;, &quot;china pot&quot; or &quot;china&quot;. We can embellish this by adding extra forms:
 <p>
-<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
-<p>
-<blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.
+<blockquote><font color="#000080">Understand &quot;chinese pot&quot; or &quot;chinese vase&quot; as the china pot.
 </font></blockquote><p>
 <p>
-<p>New kinds of value are very convenient when substituting variations in text:
+<p>But suppose the pot changes its nature in the course of play? If we have:
 <p>
-<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.
+<blockquote><font color="#000080">The china pot can be unbroken or broken. The china pot is unbroken. After dropping the china pot: say &quot;Crack!&quot;; now the china pot is broken; change the printed name of the pot to &quot;broken pot&quot;.
 </font></blockquote><p>
 <p>
-<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
+<p>So now the player would reasonably expect to call it &quot;broken pot&quot;, a wording which would have been rejected before. We can achieve this by writing:
 <p>
-<p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e164"><a href=doc59.html#e164><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A description text that automatically highlights the ways in which the object differs from a standard member of its kind.</i><p>
-<p>
-<blockquote><font color="#000080">When you see a long object, you don't have to think that it is too long if being long is the property given by the nature. It is proved by the fact that a duckling, having short legs, will cry if you try to draw them out by force, and that a crane, having long legs, will protest you with tears if you try to cut them with a knife. -- Zhuangzi
+<blockquote><font color="#000080">Understand the unbroken property as describing the pot.
 </font></blockquote><p>
 <p>
-<p>Suppose we have an extremely detailed world model in which every object is characterized by many features -- in this example, material, color, and height, though one could add more. Suppose further that we would like to generate descriptions of these things automatically for the most part, drawing the player's attention only to those aspects of the object that are particularly interesting.
+<p>which allows &quot;unbroken&quot; or &quot;broken&quot; to describe the pot, depending on its state. This is something of a toy example, but the feature looks rather more useful when there are more pots than just one:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Crane\'s Leg&quot;\n\nMaterial is a kind of value. The materials are wood, glass, stone, cloth, paper, clay, and metal. A thing has a material.\n\nA height is a kind of value. 3 feet 11 inches specifies a height. A thing has a height. Definition: a thing is tall if its height is 6 feet 0 inches or more. Definition: a thing is short if its height is 2 feet 0 inches or less.\n\nA thing has a property called the ideal.\n\nA chair is a kind of supporter. A chair is always enterable. A chair is usually wood. The height of a chair is usually 4 feet 0 inches. The ordinary chair is a chair. The ideal of a chair is always the ordinary chair.\n\nA table is a kind of supporter. A table is usually wood. The height of a table is usually 3 feet 8 inches. The ordinary table is a table. The ideal of a table is always the ordinary table.\n\nA rock is a kind of thing. A rock is usually stone. The ordinary rock is a rock. The ideal of a rock is always the ordinary rock. The height of a rock is usually 0 feet 3 inches.\n\nA jug is a kind of container. A jug is usually clay. The ordinary jug is a jug. The ideal of a jug is always the ordinary jug. The height of a jug is usually 8 inches.\n\nThe description of a thing is usually &quot;[comparison with ideal]&quot;.\n\nTo say comparison with ideal:\n\tlet the sample be the ideal of the noun;\n\tif the sample is not a thing\n\tbegin;\n\t\tsay &quot;Perfectly conforming to your expectations of its type.&quot;;\n\t\trule succeeds;\n\tend if;\n\tif the material of the noun is not the material of the sample\n\tbegin;\n\t\tif the height of the noun is not the height of the sample\n\t\tbegin;\n\t\t\tif the noun is shorter than the sample, say &quot;Unusually short at [height of the noun], and made of [material of the noun].&quot;;\n\t\t\totherwise say &quot;Unusually tall at [height of the noun], and made of [material of the noun].&quot;;\n\t\totherwise;\n\t\t\tsay &quot;Distinct mostly in being made of [material of the noun].&quot;;\n\t\tend if;\n\totherwise;\n\t\tif the height of the noun is not the height of the sample\n\t\tbegin;\n\t\t\tif the noun is shorter than the sample, say &quot;Unusually short at [height of the noun].&quot;;\n\t\t\totherwise say &quot;Unusually tall at [height of the noun].&quot;;\n\t\totherwise;\n\t\t\tsay &quot;In every respect [a sample].&quot;;\n\t\tend if;\n\tend if.\n\nThe Pleasure Garden is a room. &quot;At the riverbank, a pleasing garden, having many curving paths and one straight.&quot;\n\nThe low table is a table in the Pleasure Garden. The height of the low table is 2 feet 3 inches. On the low table is a yellow metal rock called a gold nugget.\n\n\n\n')"><img border=0 src=paste.png></a> &quot;The Crane's Leg&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Terracotta&quot;\n\nA flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.\n\nAfter dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.\n\nThe Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Terracotta&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Material is a kind of value. The materials are wood, glass, stone, cloth, paper, clay, and metal. A thing has a material.
+<blockquote><font color="#000080">A flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A height is a kind of value. 3 feet 11 inches specifies a height. A thing has a height. Definition: a thing is tall if its height is 6 feet 0 inches or more. Definition: a thing is short if its height is 2 feet 0 inches or less.
+<blockquote><font color="#000080">After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A thing has a property called the ideal.
+<blockquote><font color="#000080">The Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A chair is a kind of supporter. A chair is always enterable. A chair is usually wood. The height of a chair is usually 4 feet 0 inches. The ordinary chair is a chair. The ideal of a chair is always the ordinary chair.
+<p>We then have the dialogue:
+<p>
+<blockquote><font color="#000080">Herb Garden
+<br>You can see ten flowerpots here.
+<br>>get two flowerpots
+<br>flowerpot: Taken.
+<br>flowerpot: Taken.
+<br>>drop all
+<br>flowerpot: Crack!
+<br>flowerpot: Crack!
+<br>>look
+<br>Herb Garden
+<br>You can see two broken flowerpots and eight flowerpots here.
+<br>>get an unbroken flowerpot
+<br>Taken.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A table is a kind of supporter. A table is usually wood. The height of a table is usually 3 feet 8 inches. The ordinary table is a table. The ideal of a table is always the ordinary table.
+<p>and so on and so forth.
+<p>
+<p>There are in fact two slightly different forms of this kind of sentence:
+<p>
+<blockquote><font color="#000080">Understand the broken property as describing a flowerpot.
+<br>Understand the broken property as referring to a flowerpot.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A rock is a kind of thing. A rock is usually stone. The ordinary rock is a rock. The ideal of a rock is always the ordinary rock. The height of a rock is usually 0 feet 3 inches.
+<p>The only difference is that in the &quot;describing&quot; case, the property's name alone can mean the thing in question - so &quot;take unbroken&quot; will work; whereas, in the &quot;referring to&quot;, the property's name can only be used as an adjective preceding the name of thing itself - so &quot;take unbroken flowerpot&quot; will work but &quot;take unbroken&quot; will not.
+<p>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width=&quot;100%&quot;><tr><TD width=38px valign=top><img border=&quot;0&quot; src=../../doc_images/beta.png id=&quot;betaoval&quot; style=&quot;height:31px; width=40px&quot;></td><td valign=top><font size=2>At present, the implementation of this feature has a restriction: if we define a new kind of value (say, colour) and give it to something as a property, then define a new textual form of one of those values (say making &quot;crimson&quot; a synonym for &quot;red&quot;), this new textual form will not be understood when used adjectivally in the above way.
+<p>
+<p></font></td></tr></table><hr><p>
+<a name="e164"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc239.html#e164 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>200</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc239.html#e164 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Peers</font></b></a><br>The peers of the English realm come in six flavours - Baron, Viscount, Earl, Marquess, Duke and Prince - and must always be addressed properly. While a peerage is for life, it may at the royal pleasure be promoted.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>Almost all of this example is the flummery of pomp and circumstance: only the first two paragraphs really do anything.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Peers&quot; by Elizabeth II R\n\nA title is a kind of value. The titles are Baron, Viscount, Earl, Marquess, Duke and Prince.\n\nA peer is a kind of man. A peer has a title. A peer is usually a Baron. Before printing the name of a peer, say &quot;[title] &quot;. Understand the title property as describing a peer.\n\nThe House of Lords is a room. Maltravers, Pollifax, Omnium and St Vincent are peers in the House of Lords. Omnium is a Duke. St Vincent is an Earl.\n\nEnnobling is an action applying to one thing and one title.\n\nCheck ennobling:\n\tif the noun is the player, say &quot;The Sovereign is the fountain of honour, and may not be ennobled.&quot; instead;\n\tif the noun is not a peer, say &quot;Commoners should remain so.&quot; instead;\n\tif the title of the noun is the title understood, say &quot;But that is his title already.&quot; instead;\n\tif the title of the noun is greater than the title understood, say &quot;As he is already of the rank of [title of the noun], any such letters patent are liable to be deemed invalid, following the precedent of the Buckhurst Peerage Case (1876). Best not.&quot; instead.\n\nCarry out ennobling:\n\tchange the title of the noun to the title understood.\n\nReport ennobling:\n\tsay &quot;\'Whereas Our Parliament for arduous and urgent affairs concerning Us the state and defence of Our United Kingdom and the Church is now met at Our City of Westminster We strictly enjoining Command you upon the faith and allegiance by which you are bound to Us that the weightness of the said affairs and imminent perils considered (waiving all excuses) you be at the said day and place personally present with Us and with the said Prelates Great Men and Peers to treat and give your counsel upon the affairs aforesaid And this as you regard Us and Our honour and the safety and defence of the said Kingdom and Church and dispatch of the said affairs in nowise do you omit Witness Ourself at Westminster the Fifth day of November in the 43rd year of Our Reign,\' you say, with unpunctuated serenity. The new [noun] bows stiffly.&quot;\n\nUnderstand &quot;dub [someone] a/an [title]&quot; as ennobling.\n\nTest me with &quot;dub st vincent a baron / dub maltravers a marquess / look / examine marquess&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Peers&quot; by Elizabeth II R
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A jug is a kind of container. A jug is usually clay. The ordinary jug is a jug. The ideal of a jug is always the ordinary jug. The height of a jug is usually 8 inches.
+<blockquote><font color="#000080">A title is a kind of value. The titles are Baron, Viscount, Earl, Marquess, Duke and Prince.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The description of a thing is usually &quot;[comparison with ideal]&quot;.
+<blockquote><font color="#000080">A peer is a kind of man. A peer has a title. A peer is usually a Baron. Before printing the name of a peer, say &quot;[title] &quot;. Understand the title property as describing a peer.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">To say comparison with ideal:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let the sample be the ideal of the noun;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the sample is not a thing
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Perfectly conforming to your expectations of its type.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the material of the noun is not the material of the sample
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the height of the noun is not the height of the sample
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the noun is shorter than the sample, say &quot;Unusually short at [height of the noun], and made of [material of the noun].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Unusually tall at [height of the noun], and made of [material of the noun].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Distinct mostly in being made of [material of the noun].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the height of the noun is not the height of the sample
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the noun is shorter than the sample, say &quot;Unusually short at [height of the noun].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Unusually tall at [height of the noun].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;In every respect [a sample].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">The House of Lords is a room. Maltravers, Pollifax, Omnium and St Vincent are peers in the House of Lords. Omnium is a Duke. St Vincent is an Earl.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Pleasure Garden is a room. &quot;At the riverbank, a pleasing garden, having many curving paths and one straight.&quot;
+<blockquote><font color="#000080">Ennobling is an action applying to one thing and one title.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The low table is a table in the Pleasure Garden. The height of the low table is 2 feet 3 inches. On the low table is a yellow metal rock called a gold nugget.
+<blockquote><font color="#000080">Check ennobling:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the player, say &quot;The Sovereign is the fountain of honour, and may not be ennobled.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is not a peer, say &quot;Commoners should remain so.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the title of the noun is the title understood, say &quot;But that is his title already.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the title of the noun is greater than the title understood, say &quot;As he is already of the rank of [title of the noun], any such letters patent are liable to be deemed invalid, following the precedent of the Buckhurst Peerage Case (1876). Best not.&quot; instead.
 </font></blockquote><p>
 <p>
+<blockquote><font color="#000080">Carry out ennobling:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the title of the noun to the title understood.
+</font></blockquote><p>
 <p>
-<p>So far the effect is not very deep, but we could take the auto-description a great deal further: providing a larger and more interesting set of variations; or writing a complicated set of rules such that the player only notices height variations when carrying a ruler; or switching between several player-characters, each of whom notices a different subset of characteristics. But these refinements would require more input from later chapters.
-</td></tr></table><p><a name="e205"><a href=ex205.html#e205><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Signpost that points to various destinations, depending on how the player has turned it.</i><p>
-<p><hr><p><a href=doc58.html>Previous</a> / <a href=doc60.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Report ennobling:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Whereas Our Parliament for arduous and urgent affairs concerning Us the state and defence of Our United Kingdom and the Church is now met at Our City of Westminster We strictly enjoining Command you upon the faith and allegiance by which you are bound to Us that the weightness of the said affairs and imminent perils considered (waiving all excuses) you be at the said day and place personally present with Us and with the said Prelates Great Men and Peers to treat and give your counsel upon the affairs aforesaid And this as you regard Us and Our honour and the safety and defence of the said Kingdom and Church and dispatch of the said affairs in nowise do you omit Witness Ourself at Westminster the Fifth day of November in the 43rd year of Our Reign,' you say, with unpunctuated serenity. The new [noun] bows stiffly.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;dub [someone] a/an [title]&quot; as ennobling.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;dub st vincent a baron / dub maltravers a marquess / look / examine marquess&quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc239.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e80"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex80.html#e80 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>201</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex80.html#e80 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Terracottissima</font></b></a><br>The flowerpots once again, but this time arranged so that after the first breakage all undamaged pots are said to be "unbroken", to distinguish them from the others.<p></td></tr></table>
+<a name="e215"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex215.html#e215 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>202</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex215.html#e215 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000">Snip 2</font></b></a><br>Strings that can be divided arbitrarily and then named by length.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc238.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc240.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

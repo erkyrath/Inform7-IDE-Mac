@@ -1,4 +1,13 @@
-<html><head><title>1.11. The Inspector</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2.1. Creating the world</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,23 +16,22 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc10.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc12.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>1.11. The Inspector</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc10.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap2.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 2: The Source Text</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc12.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>2.1. Creating the world</b></font></td></tr></table>
 <p>
-<p>The Inspector window is a small separate panel which contains a number of useful ways to look into the project - to inspect it, in fact. This is not the place to document everything the Inspector does, because many of its features are designed for use with Inform 6 (&quot;I6&quot;) projects, which this manual does not talk about: what this manual calls Inform is Inform 7 (&quot;I7&quot;). For the same reason, it is not normally open for I7 projects, but can be opened from the Window menu, and its palette of utilities can be selected from the Preferences.
+<p>Designing an interactive fiction can be divided into two related activities. One is the creation of the world as it appears at the start of play: where and what everything is. The other is to specify the rules of play, which shape how the player interacts with that initially created world. A new Inform project is void and without form, so to speak, with nothing created: but it starts with hundreds of standard rules already in place.
 <p>
-<p><b>Project Files</b> - I7 projects generally keep their source text in a single file organised internally with headings and subheadings: whereas older I6 projects organised their sources by cutting them into numerous separate files. This panel allows us to switch between those source files, so although it is an essential tool for I6 users, I7 users can leave it closed.
+<p>The same division between creating things, and laying down rules, is visible in Inform source text. The creation of the world is done by making unconditional factual statements about it. For example,
 <p>
-<p><b>Notes</b> - A place where we can type any aides-memoires, notes to ourselves about what to do next, etc.: a sort of scratchpad associated with the project.
+<blockquote><font color="#000080">The wood-slatted crate is in the Gazebo. The crate is a container.
+</font></blockquote><p>
 <p>
-<p><b>Index</b> - A contents page for the project, listing all its headings and subheadings. Clicking on one jumps the source panel to the relevant point in the source. While you can see a fuller list of contents from the Contents tab of the Index pane in the main window, this is more concise and may be convenient to keep open, especially if you have a wide screen.
+<p>Inform calls sentences like these &quot;assertions&quot;. The verb is always written in the present tense (thus the crate &quot;is&quot;, not &quot;will be&quot;). Further examples are:
 <p>
-<p><b>Skein</b> - A more condensed view of the same Skein shown in the main window panel. (Seeing it here allows us to have this open at the same time as two different panels are open on the main window, and it takes less screen space here.)
+<blockquote><font color="#000080">Mr Jones wears a top hat. The crate contains a croquet mallet.
+</font></blockquote><p>
 <p>
-<p><b>Watch Expressions</b> - Part of the I6 source-level debugger, so not useful for I7 projects.
+<p>The words &quot;is&quot;, &quot;wears&quot; and &quot;contains&quot; are forms of three of the basic verbs built in to Inform. There are only a few built-in assertion verbs, of which the most important are <i>to be</i>, <i>to have</i>, <i>to carry</i>, <i>to wear</i>, <i>to contain</i> and <i>to support</i>. (As we shall see, further assertion verbs can be created if needed.)
 <p>
-<p><b>Breakpoints</b> - Ditto.
+<p>The world described by these assertions is the starting condition of the game: what happens when play begins is another matter. The crate will always be a container, but if somebody picks it up and walks off with it then it will no longer be in the Gazebo. Mr Jones may remove his hat.
 <p>
-<p><b>Search Files</b> - This searches not only the source code, but also the documentation and even the extensions for all references to given text. Search results are produced in a fresh window and clicking on each result jumps the source (or the documentation) there. For instance, searching for &quot;trilobite&quot; will almost always bring us to the present page, which is the only one in the documentation containing that word.
-<p>
-<p>
-<p><hr><p><a href=doc10.html>Previous</a> / <a href=doc12.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc10.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc12.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

@@ -1,4 +1,13 @@
-<html><head><title>22.4. Fundamental semantics</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>19.20. Inform 6 objects and classes</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,32 +16,18 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc323.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc325.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>22.4. Fundamental semantics</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc323.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap19.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 19: Extensions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc325.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>19.20. Inform 6 objects and classes</b></font></td></tr></table>
 <p>
-<p>Scenes. Greater flexibility: perhaps with scenes implemented as objects, though there are problems with this, and the basic difficulty is that if we have classes of scenes then what we really need is to have classes of rulebooks and ambiguous treatment of said - e.g., &quot;When a surreal scene ends:&quot; looks like an action pattern, but if anything it's a &quot;rule pattern&quot;, a concept which does not exist in Inform right now. Examples of what might be gained, maybe:
+<p>We are free to mix in I6 object and class definitions, and the I6 and I7 objects should coexist peaceably, with object-oriented code for the I6 items still functioning (&quot;before&quot;, &quot;react_before&quot;, &quot;each_turn&quot; and so forth) alongside I7 rules.
 <p>
-<blockquote><font color="#000080">A movie is a kind of scene. A movie has a table-name called sequence.
+<p>As might be expected, I7 compiles an I6 class for each kind, and an I6 object for each of its own world objects. We can meddle with its compilation process here using a further refinement of Include. For instance, the Standard Rules say this about vehicles:
+<p>
+<blockquote><font color="#000080">Include (- with before [; Go: return 1; ], -) when defining a vehicle.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Every turn during a movie (called the current movie):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the sequence of the current movie
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[Event entry][paragraph break]&quot;; blank out the whole row; rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<p>This glues in a new property to the class compiled to represent the I7 kind &quot;vehicle&quot;. (See the DM4 for why.) And similarly:
+<p>
+<blockquote><font color="#000080">Include (- has my_funny_attribute, -) when defining the hot air balloon.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A timer is a kind of scene. A timer has a number called length. A timer (called the current scene) ends when the number of turns since the current scene began is the length of the current scene.
-</font></blockquote><p>
-<p>
-<p>Action patterns. These can at present be vague about objects, but not values, which is why the following is not now allowed:
-<p>
-<blockquote><font color="#000080">Understand &quot;spin [something] to [a number]&quot; as spinning it to.
-<br>After spinning the dial to a number:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;That turns out not to open the dial.&quot;
-</font></blockquote><p>
-<p>
-<p>Action patterns could also usefully understand choices of objects/values, as in &quot;taking the duck or the drake&quot;, though &quot;or&quot; ambiguities are already a potential killer on run-time for the parser, and sufficiently long chains of &quot;or&quot; clauses can cause the memory manager to explode in boils.
-<p>
-<p>Basic kinds of value. There is (for alas good reasons) not quite a concept of a &quot;set of things&quot; in Inform at present - there is no efficient run-time representation which could reliably work in the Z-machine architecture, which relies on call by value and has no direct access to the stack. But we might be able to do this, if the user could accept that there could be no local variables, and that sets could therefore not be passed by value to routines. The aim would be to implement a set of objects - not values - as a bitmap, so it would very much be &quot;sets&quot;, not &quot;lists&quot;. A set could have a kind attached, forcing it to contain only instances of that kind. Lots of other data types would also be nice - long integers, arbitrary-precision integers, floating-point numbers, etcetera. But they all founder on the Z-machine. Zarf thinks this can't be done.
-<p>
-<p><hr><p><a href=doc323.html>Previous</a> / <a href=doc325.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc323.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc325.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

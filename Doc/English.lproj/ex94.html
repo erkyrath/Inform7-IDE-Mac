@@ -1,4 +1,13 @@
-<html><head><title>11.4. Persuasion</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>15.2. New commands for old grammar</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,93 +16,59 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc155.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc157.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.4. Persuasion</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc225.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap15.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 15: Understanding</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc227.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>15.2. New commands for old grammar</b></font></td></tr></table>
 <p>
-<p>&quot;Asking ... to try ...&quot; actions run through their Before and Instead rules like any other actions, but then (if no rule has intervened) something different happens: Inform has to decide whether the person asked consents to try the action or not. By default, the answer is always no, and text like the following will be printed:
+<p>In the photography example, we are providing entirely new grammar for an action  not ordinarily built in to Inform. But we often want simply to provide alternative grammar for existing actions, or even to put new interpretations on commands that Inform already recognises. For instance:
 <p>
-<blockquote><font color="#000080">> will, go west
-<br>Will has better things to do.
+<blockquote><font color="#000080">Understand &quot;deposit [something] in [an open container]&quot; as inserting it into.
 </font></blockquote><p>
 <p>
-<p>However, we can intervene to make the answer &quot;yes&quot;, using a special kind of rule which produces a yes/no answer. The following examples show how we can give broad or narrow permission, as we choose:
+<p>The inserting action is built in to Inform, but the command &quot;deposit&quot; is not, so this is created as new. It is occasionally useful to put a twist on this:
 <p>
-<blockquote><font color="#000080">Persuasion rule for asking people to try going: persuasion succeeds.
-<br>Persuasion rule for asking Will to try going west: persuasion succeeds.
+<blockquote><font color="#000080">Understand &quot;fill [an open container] with [something]&quot; as inserting it into (with nouns reversed).
 </font></blockquote><p>
 <p>
-<p>Such a rule can either declare that &quot;persuasion succeeds&quot;, or that &quot;persuasion fails&quot;, or make no decision and leave it to another rule to say. If it decides that persuasion fails, it is also allowed to say something, describing why: in that event, the standard message (&quot;Will has better things to do.&quot;) is suppressed. For example,
+<p>The clause &quot;(with nouns reversed)&quot; tells Inform to exchange the two nouns parsed, which is necessary because the inserting action expects the noun to be the item and the second noun to be the container, not vice versa.
 <p>
-<blockquote><font color="#000080">Persuasion rule for asking Will to try going:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Will looks put out, and mutters under his breath.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;persuasion fails.
+<p>The following example:
+<p>
+<blockquote><font color="#000080">Understand &quot;access [something]&quot; as opening.
 </font></blockquote><p>
 <p>
-<p>The following rule, which is really only suitable for testing, makes everybody infinitely obliging:
+<p>might look as if it makes &quot;access&quot; behave just like &quot;open&quot; when the player types it, but that's not so: &quot;open&quot; can also be used in constructions like &quot;open the door with the brass key&quot;, in which case it is understood as the unlocking action. We could add another line to make &quot;access&quot; behave this way too, but if what we really want is to make &quot;access&quot; behave just like &quot;open&quot;, it's easier simply to say so:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Persuasion rule for asking people to try doing something: persuasion succeeds.\n\n\n')"><img border=0 src=paste.png></a> Persuasion rule for asking people to try doing something: persuasion succeeds.
+<blockquote><font color="#000080">Understand the command &quot;access&quot; as &quot;open&quot;.
 </font></blockquote><p>
 <p>
-<p>Supposing that Will does decide to cooperate, a new action is generated:
+<p>This is very useful when adding a new command which needs synonyms:
 <p>
-<blockquote><font color="#000080">Will trying going west
+<blockquote><font color="#000080">Understand the commands &quot;snap&quot; and &quot;picture&quot; as &quot;photograph&quot;.
 </font></blockquote><p>
 <p>
-<p>and this is then subject to all of the usual action machinery. For instance, we could write a rule such as:
-<p>
-<blockquote><font color="#000080">Instead of Will trying going west, say &quot;He runs out into the waves, but soon returns, rueful.&quot;
-</font></blockquote><p>
-<p>
-<p>So in this case the new action (&quot;Will trying going west&quot;) failed: but the original action, &quot;asking Will to try going west&quot;, is still deemed to have succeeded - after all, Will <i>did</i> try. To put it more formally, &quot;asking X to try A&quot; succeeds if the persuasion rules succeed, and otherwise fails.
+<p>We can check the current stock of commands by looking at the table in the Actions index: for instance, before making &quot;snap&quot; synonymous with &quot;photograph&quot;, it might be wise to check that it is not already defined as a command for breaking something.
 <p>
 <p><hr><p>
-<a name="e141"><a href=ex141.html#e141><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Several friends who obey you; a policeman who doesn't (but who takes a dim view of certain kinds of antics).</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e94"><a href=doc156.html#e94><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A hypnotist who can make people obedient and then set them free again.</i><p>
+<a name="e3"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex3.html#e3 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>186</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex3.html#e3 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Alpaca Farm</font></b></a><br>A generic USE action which behaves sensibly with a range of different objects, expanding on the EMPLOY example above.<p></td></tr></table>
+<a name="e94"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc226.html#e94 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>187</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc226.html#e94 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Anchorite</font></b></a><br>By default, Inform understands GET OFF, GET UP, or GET OUT when the player is sitting or standing on an enterable object. We might also want to add GET DOWN and DOWN as exit commands, though:<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>With GET DOWN, we can replace the whole command, which will not interfere with the normal function of the TAKE verb, or allow the player to attempt to GET any other directions:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Hypnotist of Blois&quot;\n\nA person is either hypnotized or alert. A person is usually alert.\n\nPersuasion rule for asking a hypnotized person to try doing something:\n\tpersuasion succeeds.\n\nUnderstand &quot;hypnotize [someone]&quot; as hypnotizing.\n\nHypnotizing is an action applying to one thing.\n\nCheck hypnotizing:\n\tif the noun is hypnotized, say &quot;Already done.&quot; instead.\n\nCarry out hypnotizing:\n\tnow the noun is hypnotized.\n\nReport hypnotizing:\n\tsay &quot;[The noun] slips under your control.&quot;\n\nInstead of waking someone hypnotized:\n\tnow the noun is alert;\n\tsay &quot;[The noun] returns abruptly to consciousness.&quot;\n\n[We will learn more about check rules for other characters shortly, but the following prevents the hypnosis patient from trying to hypnotize us in turn:]\n\nCheck someone trying hypnotizing someone:\n\tstop the action.\n\nMaison de la Magie is a room. &quot;In a darkened room, a few hundreds of paces from the chateau of Blois, you give to tourists three shows a day: displaying to them power they do not comprehend and spectacles they do not deserve.&quot;\n\nA volunteer is a woman in the Maison. &quot;A volunteer from the audience stands facing you, [if alert]skeptically awaiting hypnosis[otherwise]her face worshipful and obedient[end if].&quot; The printed name of the volunteer is &quot;volunteer from the audience&quot;. The description is &quot;A distracted, susceptible woman.&quot; The volunteer wears a t-shirt and a baseball hat.\n\nThe player wears a top hat and a cape.\n\n')"><img border=0 src=paste.png></a> &quot;The Hypnotist of Blois&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Anchorite&quot;\n\nThe Solitary Place is a room. &quot;A glittering, shimmering desert without either locusts or honey.&quot; The pillar is an enterable supporter in the Solitary Place. &quot;The broken pillar is short enough to climb and sit on.&quot; The description of the pillar is &quot;Once it was a monument: a long frieze of battles and lion-hunts spirals up the side, in honor of an earthly king.&quot; The player is on the pillar.\n\nUnderstand &quot;get down&quot; as exiting.\n\n[This doesn\'t cover the case where the player just types &quot;DOWN&quot;, and we don\'t want to preempt the normal operation of the GO action here. So instead of writing a new understand instruction, we might catch this one at the action-processing level:]\n\nInstead of going down when the player is on a supporter:\n\ttry exiting.\n\nTest me with &quot;down / enter pillar / get down / down / get down&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Anchorite&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A person is either hypnotized or alert. A person is usually alert.
+<blockquote><font color="#000080">The Solitary Place is a room. &quot;A glittering, shimmering desert without either locusts or honey.&quot; The pillar is an enterable supporter in the Solitary Place. &quot;The broken pillar is short enough to climb and sit on.&quot; The description of the pillar is &quot;Once it was a monument: a long frieze of battles and lion-hunts spirals up the side, in honor of an earthly king.&quot; The player is on the pillar.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Persuasion rule for asking a hypnotized person to try doing something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;persuasion succeeds.
+<blockquote><font color="#000080">Understand &quot;get down&quot; as exiting.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;hypnotize [someone]&quot; as hypnotizing.
+<p>This doesn't cover the case where the player just types &quot;DOWN&quot;, and we don't want to preempt the normal operation of the GO action here. So instead of writing a new understand instruction, we might catch this one at the action-processing level:
+<p>
+<blockquote><font color="#000080">Instead of going down when the player is on a supporter:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try exiting.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Hypnotizing is an action applying to one thing.
+<blockquote><font color="#000080">Test me with &quot;down / enter pillar / get down / down / get down&quot;.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Check hypnotizing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is hypnotized, say &quot;Already done.&quot; instead.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Carry out hypnotizing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is hypnotized.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Report hypnotizing:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] slips under your control.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of waking someone hypnotized:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is alert;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] returns abruptly to consciousness.&quot;
-</font></blockquote><p>
-<p>
-<p>We will learn more about check rules for other characters shortly, but the following prevents the hypnosis patient from trying to hypnotize us in turn:
-<p>
-<blockquote><font color="#000080">Check someone trying hypnotizing someone:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Maison de la Magie is a room. &quot;In a darkened room, a few hundreds of paces from the chateau of Blois, you give to tourists three shows a day: displaying to them power they do not comprehend and spectacles they do not deserve.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">A volunteer is a woman in the Maison. &quot;A volunteer from the audience stands facing you, [if alert]skeptically awaiting hypnosis[otherwise]her face worshipful and obedient[end if].&quot; The printed name of the volunteer is &quot;volunteer from the audience&quot;. The description is &quot;A distracted, susceptible woman.&quot; The volunteer wears a t-shirt and a baseball hat.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The player wears a top hat and a cape.
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc155.html>Previous</a> / <a href=doc157.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc226.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e45"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex45.html#e45 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>188</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex45.html#e45 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Cloak of Darkness</font></b></a><br>Implementation of "Cloak of Darkness", a simple example game that for years has been used to demonstrate the features of IF languages.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc225.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc227.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

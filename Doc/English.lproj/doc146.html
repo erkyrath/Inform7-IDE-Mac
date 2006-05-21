@@ -1,4 +1,13 @@
-<html><head><title>10.10. Phrase options</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>10.5. If</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,41 +16,47 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc145.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc147.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>10.10. Phrase options</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc145.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap10.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 10: Phrases</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc147.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>10.5. If</b></font></td></tr></table>
 <p>
-<p>There are often several slightly different ways to perform a given task but which have substantially the same definition. In the following example:
+<p>We now run through a few special phrases which control other phrases: causing them to repeat, perhaps, or to be skipped. These phrases are equivalent to the &quot;control structures&quot; of other computer programming languages: no system for interactive fiction can possibly be adequate unless it allows us to carry out arbitrary computations, so the pretence that Inform is not really a programming language must be dropped sooner or later. That time is now.
 <p>
-<blockquote><font color="#000080">To go hiking, into the woods or up the mountain:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if into the woods then say &quot;Watch out for badgers.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if up the mountain then say &quot;Better take your compass.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You go hiking.&quot;.
+<p>The phrase:
+<p>
+<blockquote><font color="#000080">if (... condition ...) then (... another whole phrase ...)
 </font></blockquote><p>
 <p>
-<p>...a phrase has been set up which can be used in three ways:
+<p>causes the phrase after &quot;then&quot; to be followed only if the condition holds. Some people prefer to use a comma, which is treated just the same:
 <p>
-<blockquote><font color="#000080">go hiking;
-<br>go hiking, into the woods;
-<br>go hiking, up the mountain;
+<blockquote><font color="#000080">if (... condition ...), (... another whole phrase ...)
 </font></blockquote><p>
 <p>
-<p>Note that commas must be used to divide these &quot;phrase options&quot; from the rest of the text of the phrase. Within the definition of the phrase, the option's name is a valid condition, and
+<p>Because of this conventional use of a comma, it is a good idea to avoid using a comma in the condition itself:
 <p>
-<blockquote><font color="#000080">if up the mountain then ...
+<blockquote><font color="#000080">if opening, closing a door, ...
 </font></blockquote><p>
 <p>
-<p>is true if the phrase was called with &quot;up the mountain&quot; specified and false otherwise, in the obvious way. A more substantial example from the standard rules is given by the Inform list-writer, which produces lists of things to specifications we choose. For instance:
+<p>tends to confuse Inform.
 <p>
-<blockquote><font color="#000080">list the contents of Marley Wood, as a sentence, with newlines
-<br>and including all contents;
+<p>There are many different forms of condition in Inform (and, as we shall see, we can easily add more), but the simplest is:
+<p>
+<blockquote><font color="#000080">(first value) is (second value)
 </font></blockquote><p>
 <p>
-<p>Note that this phrase is allowed to have multiple options specified, whereas &quot;go hiking&quot; above was not: this is because it was defined thus:
+<p>As always, Inform checks that these two values are of kinds which can be compared. The following will produce an objection, for instance:
 <p>
-<blockquote><font color="#000080">To list the contents of (something - an object), with newlines, indented, as a sentence, including contents, including all contents, giving inventory information, giving brief inventory information, using the definite article, listing marked items only, prefacing with is/are and/or not listing concealed items: ...
+<blockquote><font color="#000080">if 10 is a door then say &quot;Huzzah!&quot;
 </font></blockquote><p>
 <p>
-<p>The significant difference is the word &quot;and/or&quot; instead of &quot;or&quot;, which signals that more than one option can apply at a time.
+<p>since it makes no sense to ask the question, and the only result will be the baffled reply:
 <p>
-<p>(As it happens, not all of the above options are equally useful: &quot;not listing concealed items&quot;, for instance, is probably helpful only to people creating projects which mingle Inform 6 and Inform 7 material. &quot;Concealed&quot; is a concept no longer in use.)
+<blockquote><font color="#000080"><b>Problem.</b> In the line 'if 10 is a door then say &quot;Huzzah!&quot;' <img border=0 src=../../doc_images/Reveal.png>, I can't determine whether or not '10 is a door', because it seems to ask if a number is some sort of door.
+</font></blockquote><p>
 <p>
-<p><hr><p><a href=doc145.html>Previous</a> / <a href=doc147.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>This, however, would be fine:
+<p>
+<blockquote><font color="#000080">To comment upon (whatever - a thing): if whatever is transparent then say &quot;I see right through this!&quot;; if whatever is an open door then say &quot;Oh look, an open door!&quot;.
+</font></blockquote><p>
+<p>
+<p>since &quot;whatever&quot; is known to be a thing, and Inform knows that things are indeed sometimes transparent and sometimes open doors.
+<p>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc145.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc147.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

@@ -1,4 +1,13 @@
-<html><head><title>15.4. Standard tokens of grammar</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>14.11. Sorting</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,85 +16,162 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc220.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc222.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.4. Standard tokens of grammar</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc216.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap14.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 14: Tables</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc218.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>14.11. Sorting</b></font></td></tr></table>
 <p>
-<p>We have already seen &quot;[something]&quot; and &quot;[someone]&quot;, which are standard examples of &quot;tokens of grammar&quot; - patterns matched by suitable named things. There are several other standard tokens, provided not so much from necessity but to allow the game parser to be more graceful and responsive. &quot;[someone]&quot; matches the same possibilities as &quot;[a person]&quot; would, but the parser handles it a little better in cases of failure. These special tokens are best explained by looking at some of the examples in the standard grammar, which can be browsed in the Index of any game.
+<p>We are allowed to sort a table in two ways: first, at random.
 <p>
-<blockquote><font color="#000080">Understand &quot;wear [something held]&quot; as wearing.
+<blockquote><font color="#000080">sort the Table of Recent Monarchs in random order;
 </font></blockquote><p>
 <p>
-<p>The named item must be held by the player, but the game will automatically pick it up if necessary, minimising nuisance.
+<p>Secondly, in order of the values in any column, either forwards or backwards. Blank values will be placed last, and entirely blank rows last of all. The method of sorting is &quot;stable&quot;, that is, if two rows have the same value then they will stay the same way round in the sorted table, rather than being swapped over.
 <p>
-<blockquote><font color="#000080">Understand &quot;take [things]&quot; as taking.
-<br>Understand &quot;drop [things held]&quot; as dropping.
+<blockquote><font color="#000080">sort the Table of Recent Monarchs in accession order;
 </font></blockquote><p>
 <p>
-<p>&quot;[things]&quot; is like &quot;[something]&quot; but allows a list of items, or a vague plural like &quot;all&quot;, to be typed. The result will be a sequence of actions, one for each item thus described. &quot;[things held]&quot; is the analogous token for &quot;[something held]&quot;.
-<p>
-<blockquote><font color="#000080">Understand &quot;take [things inside] from [something]&quot; as removing.
+<blockquote><font color="#000080">sort the Table of Recent Monarchs in reverse name order;
 </font></blockquote><p>
-<p>
-<p>&quot;[things inside]&quot; matches only what is inside the second-named thing, and ensures that (for instance) the command &quot;take all from box&quot; does not also try to take the box.
-<p>
-<blockquote><font color="#000080">Understand &quot;put [other things] in/inside/into [something]&quot; as inserting it into.
-</font></blockquote><p>
-<p>
-<p>Similarly, &quot;[other things]&quot; will allow anything except the second-named thing.
-<p>(Like &quot;[things inside]&quot; it is really only needed for handling containers.)
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e118"><a href=doc221.html#e118><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A (very) simple HELP command, using tokens to accept and interpret the player's  text whatever it might be.</i><p>
+<a name="e118"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc217.html#e118 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>173</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc217.html#e118 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Jokers Wild</font></b></a><br>A deck of cards which can be shuffled and dealt from.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>Suppose we want a deck of cards which the player can shuffle and draw from. Our first (rather tedious) task is merely to set up the deck as a table:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Ish.&quot;\n\nIchiro\'s Dubious Sushi Hut is a room.  &quot;Despite the allure of the dusty plastic sushi models in the window, you\'re beginning to have second thoughts about the selection of this particular restaurant for your rendezvous with Agent Fowler.  There are no other patrons, for one thing. Afternoon sunlight filters lazily through the window and illuminates a number of empty glass-topped tables, at each of which is a chopstick dispenser (in form of cute ceramic cat) and a pitcher of soy sauce (sticky).\n\nThe sushi bar itself is what gives the most pause, however. Behind it sits an angry-looking Japanese woman, aggressively eating a Quarter Pounder with Cheese.&quot;\n\n[We can, when necessary, accept any text at all as a token:]\n\nUnderstand &quot;help [text]&quot; or &quot;help about [text]&quot; as getting help about. Understand the commands &quot;instructions&quot; or &quot;hint&quot; or &quot;hints&quot; or &quot;menu&quot; or &quot;info&quot; or &quot;about&quot; as &quot;help&quot;.\n\nGetting help about is an action applying to one topic.\n\n[After that, we can use &quot;the topic understood&quot; to refer to the text we read:]\n\nCarry out getting help about:\n\tif the topic understood is a topic listed in the Table of Standard Help\n\tbegin;\n\t\tsay &quot;[explanation entry][paragraph break]&quot;;\n\totherwise;\n\t\tsay &quot;You\'re out of ideas.&quot;;\n\tend if.\n\nTable of Standard Help\ntopic\ttitle\tsummary\texplanation\n&quot;sushi&quot;\t&quot;sushi&quot;\t&quot;Really it\'s just vinegary rice&quot;\t&quot;Popular misconception says that sushi inevitably entails raw fish, but it is in fact just rice with rice vinegar on it.  It\'s just that the really good kinds have raw fish in.&quot;\n&quot;cucumber roll&quot; or &quot;cucumber&quot;\t&quot;Cucumber roll&quot;\t&quot;Sushi for people who are afraid of sushi&quot;\t&quot;It is just rice and slivers of cucumber in the middle, and as long as you don\'t go too crazy with the wasabi, all should be well.&quot;\n&quot;california roll&quot; or &quot;california&quot;\t&quot;California roll&quot;\t&quot;Travesty of the sushi concept&quot;\t&quot;It\'s. Fake. Crab.&quot;\n&quot;monkfish liver&quot;\t&quot;monkfish liver&quot;\t&quot;Expert eaters only&quot;\t&quot;The odds of Ichiro\'s having this unusual delicacy is near zero.&quot;\n&quot;microdot&quot;\t&quot;microdot&quot;\t&quot;What you came here to deliver&quot;\t&quot;There\'ll be time enough for that later. If Fowler ever turns up. Where is she, anyway?&quot;\n\n[Since the player may not know what all the help options are, we might as well let him get an overview, as well.]\n\nUnderstand &quot;help&quot; as summoning help.  Summoning help is an action applying to nothing.\n\nCarry out summoning help:\n\tsay &quot;Help is available about the following topics.  Typing HELP followed by the name of a topic will give further information.[line break]&quot;;\n\trepeat through the Table of Standard Help\n\tbegin;\n\t\tsay &quot;  [title entry]: [summary entry][line break]&quot;;\n\tend repeat;\n\tsay line break.\n\n')"><img border=0 src=paste.png></a> &quot;Ish.&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Jokers Wild&quot;\n\nSuit is a kind of value. The suits are hearts, clubs, diamonds, and spades.\n\nTable of Cards\nsuit\tvalue\ndiamonds\t1\ndiamonds\t2\ndiamonds\t3\ndiamonds\t4\ndiamonds\t5\ndiamonds\t6\ndiamonds\t7\ndiamonds\t8\ndiamonds\t9\ndiamonds\t10\ndiamonds\t11\ndiamonds\t12\ndiamonds\t13\nspades\t1\nspades\t2\nspades\t3\nspades\t4\nspades\t5\nspades\t6\nspades\t7\nspades\t8\nspades\t9\nspades\t10\nspades\t11\nspades\t12\nspades\t13\nhearts\t1\nhearts\t2\nhearts\t3\nhearts\t4\nhearts\t5\nhearts\t6\nhearts\t7\nhearts\t8\nhearts\t9\nhearts\t10\nhearts\t11\nhearts\t12\nhearts\t13\nclubs\t1\nclubs\t2\nclubs\t3\nclubs\t4\nclubs\t5\nclubs\t6\nclubs\t7\nclubs\t8\nclubs\t9\nclubs\t10\nclubs\t11\nclubs\t12\nclubs\t13\n\n[We\'re going to describe the higher numbers as face cards, so it helps to write a new &quot;to say&quot; phrase.]\n\nTo say (count - a number) as a card value:\n\tchoose row with a value of count in the Table of Value Names;\n\tsay &quot;[term entry]&quot;.\n\nTable of Value Names\nvalue\tterm\n1\t&quot;ace&quot;\n2\t&quot;deuce&quot;\n3\t&quot;three&quot;\n4\t&quot;four&quot;\n5\t&quot;five&quot;\n6\t&quot;six&quot;\n7\t&quot;seven&quot;\n8\t&quot;eight&quot;\n9\t&quot;nine&quot;\n10\t&quot;ten&quot;\n11\t&quot;jack&quot;\n12\t&quot;queen&quot;\n13\t&quot;king&quot;\n\n[Now we get the shuffling of the deck from &quot;sort in random order&quot;, so:]\n\nUnderstand &quot;shuffle&quot; as shuffling. Shuffling is an action applying to nothing.\n\nCarry out shuffling:\n\tsort the Table of Cards in random order;\n\tsay &quot;You expertly rearrange the cards.&quot;.\n\nWhen play begins:\n\tsort the Table of Cards in random order.\n\n[This will continue to work properly even as the deck is partially depleted. Speaking of which, suppose we want the player to be able to toss the cards one-by-one into a hat. They are going to need to be removed from the deck, so:]\n\nUnderstand &quot;toss&quot; or &quot;toss a card&quot; or &quot;toss card&quot; as tossing.\n\nTossing is an action applying to nothing.\n\nCheck tossing:\n\tif the number of filled rows in the Table of Cards is 0, say &quot;The deck is empty.&quot; instead.\n\nCarry out tossing:\n\trepeat through the Table of Cards\n\tbegin;\n\t\tlet new value be value entry;\n\t\tlet new suit be suit entry;\n\t\tsay &quot;You throw the [value entry as a card value] of [suit entry] at the top hat, and [if a random chance of 1 in 3 succeeds]hit[otherwise]miss[end if].&quot;;\n\t\tblank out the whole row;\n\t\trule succeeds;\n\tend repeat.\n\n[If we wanted to simulate a slightly more stimulating game, we could instead have a second table to represent the player\'s hand of cards and record each card drawn. That would get long for the purposes of example, however, so instead we will just admit that the player\'s life is an empty husk of existence:]\n\nThe Empty Room is a room. &quot;It has come to this: sitting on the bare floor of Lulu\'s apartment with nothing to amuse you but a deck of cards and the top hat from last year\'s act. You reckon [the number of filled rows in the Table of Cards in words] cardtosses are all that stand between you and the utter pointlessness of existence.\n\nOnce again you curse Lulu for running off with that joker.&quot;\n\nThe player is carrying the deck of cards. The top hat is an open container in the Empty Room. It is scenery.\n\nTest me with &quot;toss / again / again / again / again / again / again / again&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Jokers Wild&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Ichiro's Dubious Sushi Hut is a room.  &quot;Despite the allure of the dusty plastic sushi models in the window, you're beginning to have second thoughts about the selection of this particular restaurant for your rendezvous with Agent Fowler.  There are no other patrons, for one thing. Afternoon sunlight filters lazily through the window and illuminates a number of empty glass-topped tables, at each of which is a chopstick dispenser (in form of cute ceramic cat) and a pitcher of soy sauce (sticky).
+<blockquote><font color="#000080">Suit is a kind of value. The suits are hearts, clubs, diamonds, and spades.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The sushi bar itself is what gives the most pause, however. Behind it sits an angry-looking Japanese woman, aggressively eating a Quarter Pounder with Cheese.&quot;
-</font></blockquote><p>
-<p>
-<p>We can, when necessary, accept any text at all as a token:
-<p>
-<blockquote><font color="#000080">Understand &quot;help [text]&quot; or &quot;help about [text]&quot; as getting help about. Understand the commands &quot;instructions&quot; or &quot;hint&quot; or &quot;hints&quot; or &quot;menu&quot; or &quot;info&quot; or &quot;about&quot; as &quot;help&quot;.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Getting help about is an action applying to one topic.
-</font></blockquote><p>
-<p>
-<p>After that, we can use &quot;the topic understood&quot; to refer to the text we read:
-<p>
-<blockquote><font color="#000080">Carry out getting help about:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the topic understood is a topic listed in the Table of Standard Help
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[explanation entry][paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You're out of ideas.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Table of Standard Help
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">title</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">summary</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">explanation</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;sushi&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;sushi&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Really it's just vinegary rice&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Popular misconception says that sushi inevitably entails raw fish, but it is in fact just rice with rice vinegar on it.  It's just that the really good kinds have raw fish in.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;cucumber roll&quot; or &quot;cucumber&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Cucumber roll&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Sushi for people who are afraid of sushi&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;It is just rice and slivers of cucumber in the middle, and as long as you don't go too crazy with the wasabi, all should be well.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;california roll&quot; or &quot;california&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;California roll&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Travesty of the sushi concept&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;It's. Fake. Crab.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;monkfish liver&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;monkfish liver&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Expert eaters only&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;The odds of Ichiro's having this unusual delicacy is near zero.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;microdot&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;microdot&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;What you came here to deliver&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;There'll be time enough for that later. If Fowler ever turns up. Where is she, anyway?&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+<blockquote><font color="#000080">Table of Cards
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">suit</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">value</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">9</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">11</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">diamonds</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">13</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">9</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">11</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">spades</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">13</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">9</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">11</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">hearts</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">13</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">9</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">11</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">clubs</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">13</font>&nbsp;&nbsp;&nbsp;</td>
 </tr></table>
 </font></blockquote><p>
 <p>
-<p>Since the player may not know what all the help options are, we might as well let him get an overview, as well.
+<p>We're going to describe the higher numbers as face cards, so it helps to write a new &quot;to say&quot; phrase.
 <p>
-<blockquote><font color="#000080">Understand &quot;help&quot; as summoning help.  Summoning help is an action applying to nothing.
+<blockquote><font color="#000080">To say (count - a number) as a card value:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose row with a value of count in the Table of Value Names;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[term entry]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out summoning help:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Help is available about the following topics.  Typing HELP followed by the name of a topic will give further information.[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Standard Help
+<blockquote><font color="#000080">Table of Value Names
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">value</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">term</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;ace&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">2</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;deuce&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">3</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;three&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">4</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;four&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">5</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;five&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">6</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;six&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">7</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;seven&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">8</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;eight&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">9</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;nine&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">10</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;ten&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">11</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;jack&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">12</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;queen&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">13</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;king&quot;</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<p>Now we get the shuffling of the deck from &quot;sort in random order&quot;, so:
+<p>
+<blockquote><font color="#000080">Understand &quot;shuffle&quot; as shuffling. Shuffling is an action applying to nothing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out shuffling:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;sort the Table of Cards in random order;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You expertly rearrange the cards.&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">When play begins:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;sort the Table of Cards in random order.
+</font></blockquote><p>
+<p>
+<p>This will continue to work properly even as the deck is partially depleted. Speaking of which, suppose we want the player to be able to toss the cards one-by-one into a hat. They are going to need to be removed from the deck, so:
+<p>
+<blockquote><font color="#000080">Understand &quot;toss&quot; or &quot;toss a card&quot; or &quot;toss card&quot; as tossing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Tossing is an action applying to nothing.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check tossing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number of filled rows in the Table of Cards is 0, say &quot;The deck is empty.&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out tossing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Cards
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;  [title entry]: [summary entry][line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say line break.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let new value be value entry;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let new suit be suit entry;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You throw the [value entry as a card value] of [suit entry] at the top hat, and [if a random chance of 1 in 3 succeeds]hit[otherwise]miss[end if].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
 </font></blockquote><p>
-</td></tr></table><p><a name="e123"><a href=ex123.html#e123><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Allowing the player to EXAMINE ALL.</i><p>
-<p><hr><p><a href=doc220.html>Previous</a> / <a href=doc222.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<p>If we wanted to simulate a slightly more stimulating game, we could instead have a second table to represent the player's hand of cards and record each card drawn. That would get long for the purposes of example, however, so instead we will just admit that the player's life is an empty husk of existence:
+<p>
+<blockquote><font color="#000080">The Empty Room is a room. &quot;It has come to this: sitting on the bare floor of Lulu's apartment with nothing to amuse you but a deck of cards and the top hat from last year's act. You reckon [the number of filled rows in the Table of Cards in words] cardtosses are all that stand between you and the utter pointlessness of existence.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Once again you curse Lulu for running off with that joker.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player is carrying the deck of cards. The top hat is an open container in the Empty Room. It is scenery.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;toss / again / again / again / again / again / again / again&quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc217.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc216.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc218.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

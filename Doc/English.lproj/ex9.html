@@ -1,4 +1,13 @@
-<html><head><title>9.5. Linking scenes together</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>4.11. Text with variations</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,101 +16,55 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc132.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc134.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>9.5. Linking scenes together</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc61.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap4.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 4: Kinds</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc63.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>4.11. Text with variations</b></font></td></tr></table>
 <p>
-<p>Let us suppose that somebody gets off the train, after all, so that a second scene follows on.
+<p>Messages sometimes need to take different forms in different circumstances. For instance, suppose we have a cask which, being a container, is always either open or closed. Then setting this:
 <p>
-<blockquote><font color="#000080">Brief Encounter is a scene. Brief Encounter begins when Train Stop ends.
+<blockquote><font color="#000080">The printed name of the cask is &quot;[if open]broached, empty cask[if closed]sealed wine-cask&quot;.
 </font></blockquote><p>
 <p>
-<p>The effect of this is that they occur in sequence. If we add a third to the chain of scenes:
+<p>we find that the cask is described as &quot;a broached, empty cask&quot; when open, and &quot;a sealed wine-cask&quot; when closed. Any condition can follow the &quot;if&quot;, and there will be much more about conditions later. Here is a more substantial example:
 <p>
-<blockquote><font color="#000080">Village Exploration is a scene. Village Exploration begins when Brief Encounter ends.
+<blockquote><font color="#000080">The Customs Wharf is a room. &quot;Amid the bustle of the quayside, [if the cask is open]many eyes stray to your broached cask. [otherwise]nobody takes much notice of a man heaving a cask about. [end if]Sleek gondolas jostle at the plank pier.&quot;
 </font></blockquote><p>
 <p>
-<p>...we find another chance to fool ourselves: if we check the Scenes index again, we can see the linkages between these scenes, but we also see that Brief Encounter never ends (despite its name). All we have said is that another scene begins where Brief Encounter leaves off, but it never does, so this is moot.
+<p>The text following &quot;[otherwise]&quot; is printed only if none of the previous &quot;if&quot; conditions have been satisfied. After the &quot;[end if]&quot;, it is back to printing as normal: so the part about gondolas is printed in every eventuality.
+<p>
+<p>We sometimes need to be careful about the printing of line breaks:
+<p>
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell. [otherwise]the usual cell.&quot;
+</font></blockquote><p>
+<p>
+<p>This room description has two possible forms: &quot;Ah, the unknown cell. &quot;, at first sight, and then &quot;Ah, the usual cell.&quot; subsequently. But the second form is rounded off with a line break because the last thing printed is a &quot;.&quot;, whereas the first form isn't, because it ended with a space. The right thing would have been:
+<p>
+<blockquote><font color="#000080">The Cell is a room. &quot;Ah, [if unvisited]the unknown cell.[otherwise]the usual cell.&quot;
+</font></blockquote><p>
+<p>
+<p>allowing no space after &quot;unknown cell.&quot;
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e9"><a href=doc133.html#e9><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A scenario using scenes to keep conversation moving forward.</i><p>
+<a name="e60"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex60.html#e60 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>34</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex60.html#e60 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> When?</font></b></a><br>A door which says "...leads east" in one place and "...leads west" in the other.<p></td></tr></table>
+<a name="e62"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex62.html#e62 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>35</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex62.html#e62 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000">INVENTORY listing with separate carried and worn items</font></b></a><br>Separate the player's inventory listing into two parts, so that it says "you are carrying..." and then (if the player is wearing anything) "You are also wearing...".<p></td></tr></table>
+<a name="e9"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc62.html#e9 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>36</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc62.html#e9 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Whence?</font></b></a><br>A kind of door that always automatically describes the direction it opens and what lies on the far side (if that other room has been visited).<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>It would be fairly tedious reading to have a large game full of doors that describe themselves this way. Nonetheless, if we insisted we could use our knowledge of the map as leverage to make every door in the game describe itself automatically:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Aurora&quot;\n\nA person can be asleep or awake.\n\nThe Dragon\'s Tower is a room. Sleeping Beauty is an asleep woman in the Dragon\'s Tower. &quot;[if asleep]Sleeping Beauty lies here, oblivious to your presence[otherwise]Sleeping Beauty stands beside you, looking a little confused[end if].&quot; The description is &quot;She is even more magnificent than the rumors suggested.&quot; Understand &quot;woman&quot; or &quot;girl&quot; or &quot;princess&quot; or &quot;lady&quot; as Sleeping Beauty.\n\nDiscovery is a scene. Discovery begins when play begins. Discovery ends when Sleeping Beauty is awake. Marriage Proposal is a scene. Marriage Proposal begins when Discovery ends.\n\nWhen Discovery ends: say &quot;Throughout the palace you can hear the other sounds of stirring and movement as the spell of centuries is broken.&quot;\n\nInstead of waking an awake person: say &quot;Redundant.&quot;\n\nInstead of waking an asleep person: say &quot;Yes, but how?&quot;\n\nInstead of attacking an asleep person:\n\tnow the noun is awake;\n\tsay &quot;[The noun] sits bolt upright. \'Hey! Ow!\' So much for that true love\'s kiss nonsense.&quot;\n\nInstead of kissing an asleep person:\n\tnow the noun is awake;\n\tsay &quot;[The noun] slowly stirs to wakefulness!&quot;\n\nInstead of throwing water at an asleep person:\n\tnow the second noun is awake;\n\tremove the noun from play;\n\tsay &quot;You pour out [the noun] on [the second noun].\n\n[The second noun] wakes, shuddering. \'Agh! I had a terrible dream about drowning and then-- Hey!\'&quot;\n\nThe player carries a jug of water. Understand &quot;pour [something] on [something]&quot; or &quot;splash [something] at/on [something]&quot; as throwing it at.\n\n[Suppose we want a conversation style which allows the player to move conversation forward by asking appropriate questions, but which will keep moving forward even if he doesn\'t. To this end, we provide a table with two ways of performing each conversation bit -- one which reflects the player\'s participation, and one in which the character moves things onward:]\n\nTable of Conversation\ntopic\treply\tquip\n&quot;dream/dreams/nightmare/nightmares/sleep&quot;\t&quot;\'Sleep well?\' you ask solicitously. [paragraph break]\'Not really,\' she replies, edging away from you. So much for that angle.&quot;\t&quot;\'Ghastly nightmares,\' she remarks. You nod politely.&quot;\n&quot;marriage/love/wedding/boyfriend/beau/lover&quot;\t&quot;\'So,\' you say. \'This is a little weird since we just met, but, um. Would you like to get married?\' [paragraph break]She looks at you nervously. \'Do I have to?\'&quot;\t&quot;\'I, er,\' she says. \'I hope I\'m not supposed to marry you or something.\'&quot;\n&quot;marriage/love/wedding/boyfriend/beau/lover&quot;\t&quot;\'I was told I was going to marry you and inherit the kingdom,\' you say, apologetically. \'Would that be very bad?\' [paragraph break]\'Oh, I\'m seeing someone,\' she says, smiling quickly.[paragraph break]You try to think how to point out that it\'s been a hundred years since she last saw her boyfriend.&quot;\t&quot;\'Do you think I could go look for someone? I\'m seeing him, you see, and I think I\'ve been... sick... for a while, so he might be worried.\' [paragraph break]You try to think how to point out that it\'s been a hundred years since she last saw her boyfriend.&quot;\n&quot;marriage/love/wedding/boyfriend/beau/lover&quot;\t&quot;\'You\'ve been up here for a hundred years,\' you say. An unpleasant thought occurs to you. \'Was your young man in the castle somewhere?\' [paragraph break]She shakes her head mutely.&quot;\t&quot;She goes to the window and looks out at the now-fading thicket of briar. \'That took a while to grow,\' she observes. \'I\'ve been up here longer than I thought.\' [paragraph break]You shrug, uncomfortable.&quot;\n\nInstead of asking an awake beauty about a topic listed in the Table of Conversation:\n\tsay &quot;[reply entry][line break]&quot;;\n\tblank out the whole row.\n\nInstead of telling an awake beauty about something: try asking the noun about it.\n\nInstead of asking an asleep person about something:\n\tsay &quot;[The noun] snores.&quot;\n\nMarriage Proposal ends when the number of filled rows in the Table of Conversation is 0.\n\nEvery turn during Marriage Proposal:\n\trepeat through Table of Conversation\n\tbegin;\n\t\tsay &quot;[quip entry][paragraph break]&quot;;\n\t\tblank out the whole row;\n\t\trule succeeds;\n\tend repeat.\n\nWhen Marriage Proposal ends: end the game saying &quot;This is going to take some explaining.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Aurora&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Whence?&quot;\n\nThe temporal vortex is an open door. It is west of Yesterday and east of Today.\n\nThe initial appearance of a door is usually &quot;Nearby [an item described] leads [if the other side of the item described is visited][way through the item described] to [the other side][otherwise][way through the item described][end if].&quot;\n\nTo decide what direction is the way through (frame - a door):\n\tlet far side be the other side of frame;\n\tlet way be the best route from the location to the far side, using even locked doors;\n\tif way is a direction, decide on the way;\n\tdecide on inside.\n\nTest me with &quot;w / e&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Whence?&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A person can be asleep or awake.
+<blockquote><font color="#000080">The temporal vortex is an open door. It is west of Yesterday and east of Today.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Dragon's Tower is a room. Sleeping Beauty is an asleep woman in the Dragon's Tower. &quot;[if asleep]Sleeping Beauty lies here, oblivious to your presence[otherwise]Sleeping Beauty stands beside you, looking a little confused[end if].&quot; The description is &quot;She is even more magnificent than the rumors suggested.&quot; Understand &quot;woman&quot; or &quot;girl&quot; or &quot;princess&quot; or &quot;lady&quot; as Sleeping Beauty.
+<blockquote><font color="#000080">The initial appearance of a door is usually &quot;Nearby [an item described] leads [if the other side of the item described is visited][way through the item described] to [the other side][otherwise][way through the item described][end if].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Discovery is a scene. Discovery begins when play begins. Discovery ends when Sleeping Beauty is awake. Marriage Proposal is a scene. Marriage Proposal begins when Discovery ends.
+<blockquote><font color="#000080">To decide what direction is the way through (frame - a door):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let far side be the other side of frame;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let way be the best route from the location to the far side, using even locked doors;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if way is a direction, decide on the way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;decide on inside.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When Discovery ends: say &quot;Throughout the palace you can hear the other sounds of stirring and movement as the spell of centuries is broken.&quot;
+<blockquote><font color="#000080">Test me with &quot;w / e&quot;.
 </font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of waking an awake person: say &quot;Redundant.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of waking an asleep person: say &quot;Yes, but how?&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of attacking an asleep person:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is awake;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] sits bolt upright. 'Hey! Ow!' So much for that true love's kiss nonsense.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of kissing an asleep person:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is awake;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] slowly stirs to wakefulness!&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of throwing water at an asleep person:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the second noun is awake;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the noun from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You pour out [the noun] on [the second noun].
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">[The second noun] wakes, shuddering. 'Agh! I had a terrible dream about drowning and then-- Hey!'&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">The player carries a jug of water. Understand &quot;pour [something] on [something]&quot; or &quot;splash [something] at/on [something]&quot; as throwing it at.
-</font></blockquote><p>
-<p>
-<p>Suppose we want a conversation style which allows the player to move conversation forward by asking appropriate questions, but which will keep moving forward even if he doesn't. To this end, we provide a table with two ways of performing each conversation bit -- one which reflects the player's participation, and one in which the character moves things onward:
-<p>
-<blockquote><font color="#000080">Table of Conversation
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">reply</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">quip</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;dream/dreams/nightmare/nightmares/sleep&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Sleep well?' you ask solicitously. [paragraph break]'Not really,' she replies, edging away from you. So much for that angle.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Ghastly nightmares,' she remarks. You nod politely.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;marriage/love/wedding/boyfriend/beau/lover&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'So,' you say. 'This is a little weird since we just met, but, um. Would you like to get married?' [paragraph break]She looks at you nervously. 'Do I have to?'&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I, er,' she says. 'I hope I'm not supposed to marry you or something.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;marriage/love/wedding/boyfriend/beau/lover&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'I was told I was going to marry you and inherit the kingdom,' you say, apologetically. 'Would that be very bad?' [paragraph break]'Oh, I'm seeing someone,' she says, smiling quickly.[paragraph break]You try to think how to point out that it's been a hundred years since she last saw her boyfriend.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Do you think I could go look for someone? I'm seeing him, you see, and I think I've been... sick... for a while, so he might be worried.' [paragraph break]You try to think how to point out that it's been a hundred years since she last saw her boyfriend.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;marriage/love/wedding/boyfriend/beau/lover&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'You've been up here for a hundred years,' you say. An unpleasant thought occurs to you. 'Was your young man in the castle somewhere?' [paragraph break]She shakes her head mutely.&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;She goes to the window and looks out at the now-fading thicket of briar. 'That took a while to grow,' she observes. 'I've been up here longer than I thought.' [paragraph break]You shrug, uncomfortable.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of asking an awake beauty about a topic listed in the Table of Conversation:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[reply entry][line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of telling an awake beauty about something: try asking the noun about it.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of asking an asleep person about something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] snores.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Marriage Proposal ends when the number of filled rows in the Table of Conversation is 0.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Every turn during Marriage Proposal:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Conversation
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[quip entry][paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;blank out the whole row;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">When Marriage Proposal ends: end the game saying &quot;This is going to take some explaining.&quot;
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc132.html>Previous</a> / <a href=doc134.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc62.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc61.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc63.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

@@ -1,4 +1,13 @@
-<html><head><title>6.11. All actions and exceptional actions</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>6.4. Instead rules</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,29 +16,22 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc82.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc84.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.11. All actions and exceptional actions</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc82.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap6.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 6: Basic Actions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc84.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>6.4. Instead rules</b></font></td></tr></table>
 <p>
-<p>The special description &quot;doing something&quot; (or &quot;doing anything&quot;) matches any action, and &quot;doing something to ...&quot; also allow an object to be specified.
+<p>An action is ordinarily handled by running it through Inform's extensive rulebooks of what might be called normal behaviour. An action such as &quot;taking the napkin&quot;, for instance, will be run through numerous checks to see if it is physically reasonable, and then provided all is well, the napkin will be moved into the possession of the player.
 <p>
-<p>For instance, the following puts its object entirely out of bounds:
+<p>Instead, though, we can bypass that whole process and do something else:
 <p>
-<blockquote><font color="#000080">Instead of doing something to the cucumber sandwich, say &quot;Lady Bracknell stares disapprovingly down her pince-nez at you, in a way which no amount of hunger or curiosity could overcome.&quot;
+<blockquote><font color="#000080">Instead of eating the napkin: say &quot;Why not wait for the actual dinner to arrive?&quot;
 </font></blockquote><p>
 <p>
-<p>We sometimes need to be a little careful here: &quot;waiting&quot; qualifies as &quot;doing something&quot;, but not as &quot;doing something to something&quot;, because there is no object.
+<p>This is an example of a &quot;rule&quot;: a set of circumstances followed by a list of instructions. When those circumstances apply, the instructions are carried out. In the case of an &quot;instead&quot; rule, after this is done the action is immediately ended (and counts as a failure, since the original intention has been thwarted).
 <p>
-<p>More often, we would like to restrict the range of allowable actions to a select few. For instance:
+<p>A friendly alternative can be used when there is only a single instruction, as here: in such rules the colon can be replaced with a comma. Thus:
 <p>
-<blockquote><font color="#000080">Instead of doing something other than looking, examining or waiting: say &quot;You must learn patience.&quot;
+<blockquote><font color="#000080">Instead of eating the napkin, say &quot;Why not wait for the actual dinner to arrive?&quot;
 </font></blockquote><p>
-<p>
-<p>(Or we can write &quot;except&quot; instead of &quot;other than&quot;.) Or we might have an object, too:
-<p>
-<blockquote><font color="#000080">Instead of doing something other than examining, taking or dropping with the dagger: say &quot;Don't fool around with that dagger. It's exceedingly sharp.&quot;
-</font></blockquote><p>
-<p>
-<p>Note the &quot;with&quot;, which was optional, but makes it clearer that the rule applies only to actions on the dagger.
 <p>
 <p><hr><p>
-<a name="e192"><a href=ex192.html#e192><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A backdrop which the player can examine, but cannot interact with in any other way.</i><p>
-<p><hr><p><a href=doc82.html>Previous</a> / <a href=doc84.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e171"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex171.html#e171 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>50</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex171.html#e171 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Bad Hair Day</font></b></a><br>Change the player's appearance in response to EXAMINE ME.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc82.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc84.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

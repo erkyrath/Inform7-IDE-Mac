@@ -1,4 +1,13 @@
-<html><head><title>5.6. To be able to see and touch</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>15.15. Understanding things by their properties</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,85 +16,93 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc67.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc69.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>5.6. To be able to see and touch</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc238.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap15.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 15: Understanding</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc240.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>15.15. Understanding things by their properties</b></font></td></tr></table>
 <p>
-<p>Two of the adjectives built into Inform are:
+<p>Items are ordinarily understood only by their original given names. For instance, if we have:
 <p>
-<blockquote><font color="#000080">&quot;visible&quot; - the player can see this
-<br>&quot;touchable&quot; - the player can touch this
+<blockquote><font color="#000080">In the Herb Garden is a china pot.
 </font></blockquote><p>
 <p>
-<p>So we can write descriptions such as &quot;someone visible&quot; or &quot;a touchable container&quot;. We also have adjectives &quot;invisible&quot; and &quot;untouchable&quot;, as might be expected. The visibility adjectives are particularly useful because the following is likely to go wrong:
+<p>then the player could refer to this as &quot;pot&quot;, &quot;china pot&quot; or &quot;china&quot;. We can embellish this by adding extra forms:
 <p>
-<blockquote><font color="#000080">if Helen is in a dark room, ...
+<blockquote><font color="#000080">Understand &quot;chinese pot&quot; or &quot;chinese vase&quot; as the china pot.
 </font></blockquote><p>
 <p>
-<p>This tests whether the room is dark, of itself; Helen may in fact be able to see by means of a torch, but the room is still &quot;dark&quot;.
+<p>But suppose the pot changes its nature in the course of play? If we have:
 <p>
-<p>We can also talk about what other people can see and touch:
-<p>
-<blockquote><font color="#000080">something able to be seen by Helen
-<br>something which can be seen by Helen
+<blockquote><font color="#000080">The china pot can be unbroken or broken. The china pot is unbroken. After dropping the china pot: say &quot;Crack!&quot;; now the china pot is broken; change the printed name of the pot to &quot;broken pot&quot;.
 </font></blockquote><p>
 <p>
-<p>are synonymous. Similarly for touch; and we can write such conditions as
+<p>So now the player would reasonably expect to call it &quot;broken pot&quot;, a wording which would have been rejected before. We can achieve this by writing:
 <p>
-<blockquote><font color="#000080">if Helen is unable to see Agamemnon, ...
-<br>if Cressida can see Troilus, ...
+<blockquote><font color="#000080">Understand the unbroken property as describing the pot.
 </font></blockquote><p>
 <p>
-<p>Note that it is essential to establish who does the seeing and touching: so &quot;something which can be seen&quot; will not be allowed, whereas &quot;something which can be seen by Helen&quot; will.
+<p>which allows &quot;unbroken&quot; or &quot;broken&quot; to describe the pot, depending on its state. This is something of a toy example, but the feature looks rather more useful when there are more pots than just one:
 <p>
-<p>In fact, inside Inform the adjective &quot;invisible&quot; (for instance) has the following straightforward definition:
-<p>
-<blockquote><font color="#000080">Definition: Something is invisible if the player cannot see it.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Terracotta&quot;\n\nA flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.\n\nAfter dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.\n\nThe Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Terracotta&quot;
 </font></blockquote><p>
 <p>
-<p>The exact definitions of visibility and touchability are complicated, because there are so many ways in which vision and touch can be obstructed, but the gist is that they behave as one would expect. Note that in darkness, nothing is visible, and that nobody can see from one room to another. In general anything invisible is also untouchable, but there are a few exceptions to do with being in the dark. Lastly, the player's own body (the player-character object, which is called &quot;yourself&quot; during play) is both visible (in light) and touchable.
-<p>
-<p><hr><img border=0 src=beta.png>One day &quot;something which Helen can see&quot; will be allowed, I hope, but for the moment &quot;who&quot; and &quot;which&quot; must be directly followed by the verb.
-<p>
-<p><hr><p>
-<a name="e91"><a href=ex91.html#e91><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Changing the way dark rooms are described to avoid the standard Inform phrasing.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e80"><a href=doc68.html#e80><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A thief who will identify and take any valuable thing lying around that he is able to touch.</i><p>
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Lean and Hungry&quot;\n\nSubstance is a kind of value. The substances are silver, gold, and lead. Everything has a substance. A thing is usually lead.\n\nDefinition: a thing is valuable if it is not lead.\n\nThe Limestone Cave is a room. &quot;Not very big, and it doesn\'t go back far, but you\'d hoped to find some shelter here. Outside it is raining exceptionally hard.&quot;\n\nThe sinister gentleman is a man in the Cave. &quot;Leaning against the wall is a sinister gentleman in a threadbare waistcoat.&quot; The description is &quot;He looks as though he might once have been quite well off.&quot;\n\nAfter examining someone:\n\tsay &quot;[The noun] smiles back at you in an unnerving fashion.&quot;\n\n[Now we make the rule that governs the gentleman\'s behavior. Here we\'re going to invoke the rules that allow characters besides the player to do actions. More about this can be found in the Advanced Actions chapter:]\n\nEvery turn:\n\tif the sinister gentleman can touch something valuable (called the treasure) which is not carried by a person\n\tbegin;\n\t\ttry the gentleman trying taking the treasure;\n\tend if.\n\nReport the gentleman trying taking something:\n\t\tsay &quot;[The gentleman] slyly acquires [the noun] and tucks it into his pocket.&quot; instead.\n\n[That &quot;not carried by a person&quot; prevents the gentleman from stealing from the player (or, less plausibly, from himself). If we did want him to pick pockets, we could just have said &quot;which is not carried by the gentleman&quot;.]\n\nThe player is carrying a coin, a bust of Abraham Lincoln, a bottle of sherry, a small pistol, and a wad of Confederate cash. The coin is gold. The pistol is silver.\n\nA locket is in the Cave. The locket is gold. &quot;A broken gold locket lies on the ground, a token of your late Mama.&quot;\n\n')"><img border=0 src=paste.png></a> &quot;Lean and Hungry&quot;
+<blockquote><font color="#000080">A flowerpot is a kind of thing. A flowerpot can be unbroken or broken. Understand the broken property as describing a flowerpot.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Substance is a kind of value. The substances are silver, gold, and lead. Everything has a substance. A thing is usually lead.
+<blockquote><font color="#000080">After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken; change the printed name of the noun to &quot;broken flowerpot&quot;; change the printed plural name of the noun to &quot;broken flowerpots&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Definition: a thing is valuable if it is not lead.
+<blockquote><font color="#000080">The Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Limestone Cave is a room. &quot;Not very big, and it doesn't go back far, but you'd hoped to find some shelter here. Outside it is raining exceptionally hard.&quot;
+<p>We then have the dialogue:
+<p>
+<blockquote><font color="#000080">Herb Garden
+<br>You can see ten flowerpots here.
+<br>>get two flowerpots
+<br>flowerpot: Taken.
+<br>flowerpot: Taken.
+<br>>drop all
+<br>flowerpot: Crack!
+<br>flowerpot: Crack!
+<br>>look
+<br>Herb Garden
+<br>You can see two broken flowerpots and eight flowerpots here.
+<br>>get an unbroken flowerpot
+<br>Taken.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The sinister gentleman is a man in the Cave. &quot;Leaning against the wall is a sinister gentleman in a threadbare waistcoat.&quot; The description is &quot;He looks as though he might once have been quite well off.&quot;
+<p>and so on and so forth.
+<p>
+<p>There are in fact two slightly different forms of this kind of sentence:
+<p>
+<blockquote><font color="#000080">Understand the broken property as describing a flowerpot.
+<br>Understand the broken property as referring to a flowerpot.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After examining someone:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] smiles back at you in an unnerving fashion.&quot;
+<p>The only difference is that in the &quot;describing&quot; case, the property's name alone can mean the thing in question - so &quot;take unbroken&quot; will work; whereas, in the &quot;referring to&quot;, the property's name can only be used as an adjective preceding the name of thing itself - so &quot;take unbroken flowerpot&quot; will work but &quot;take unbroken&quot; will not.
+<p>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width=&quot;100%&quot;><tr><TD width=38px valign=top><img border=&quot;0&quot; src=../../doc_images/beta.png id=&quot;betaoval&quot; style=&quot;height:31px; width=40px&quot;></td><td valign=top><font size=2>At present, the implementation of this feature has a restriction: if we define a new kind of value (say, colour) and give it to something as a property, then define a new textual form of one of those values (say making &quot;crimson&quot; a synonym for &quot;red&quot;), this new textual form will not be understood when used adjectivally in the above way.
+<p>
+<p></font></td></tr></table><hr><p>
+<a name="e164"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex164.html#e164 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>200</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex164.html#e164 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Peers</font></b></a><br>The peers of the English realm come in six flavours - Baron, Viscount, Earl, Marquess, Duke and Prince - and must always be addressed properly. While a peerage is for life, it may at the royal pleasure be promoted.<p></td></tr></table>
+<a name="e80"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc239.html#e80 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>201</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc239.html#e80 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Terracottissima</font></b></a><br>The flowerpots once again, but this time arranged so that after the first breakage all undamaged pots are said to be "unbroken", to distinguish them from the others.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>This easiest way to do this uses the &quot;printing the name of&quot; activity, which will come up in the following chapter:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Terracottissima&quot;\n\nA flowerpot is a kind of thing. A flowerpot can be unbroken or broken. After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken. Understand the broken property as describing a flowerpot.\n\nBefore printing the name of a broken flowerpot, say &quot;broken &quot;. Before printing the name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.\n\nBefore printing the plural name of a broken flowerpot, say &quot;broken &quot;. Before printing the plural name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.\n\nThe Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.\n\nTest me with &quot;get three flowerpots / drop all / look&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Terracottissima&quot;
 </font></blockquote><p>
 <p>
-<p>Now we make the rule that governs the gentleman's behavior. Here we're going to invoke the rules that allow characters besides the player to do actions. More about this can be found in the Advanced Actions chapter:
-<p>
-<blockquote><font color="#000080">Every turn:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the sinister gentleman can touch something valuable (called the treasure) which is not carried by a person
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try the gentleman trying taking the treasure;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">A flowerpot is a kind of thing. A flowerpot can be unbroken or broken. After dropping an unbroken flowerpot: say &quot;Crack!&quot;; now the noun is broken. Understand the broken property as describing a flowerpot.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report the gentleman trying taking something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The gentleman] slyly acquires [the noun] and tucks it into his pocket.&quot; instead.
+<blockquote><font color="#000080">Before printing the name of a broken flowerpot, say &quot;broken &quot;. Before printing the name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.
 </font></blockquote><p>
 <p>
-<p>That &quot;not carried by a person&quot; prevents the gentleman from stealing from the player (or, less plausibly, from himself). If we did want him to pick pockets, we could just have said &quot;which is not carried by the gentleman&quot;.
-<p>
-<blockquote><font color="#000080">The player is carrying a coin, a bust of Abraham Lincoln, a bottle of sherry, a small pistol, and a wad of Confederate cash. The coin is gold. The pistol is silver.
+<blockquote><font color="#000080">Before printing the plural name of a broken flowerpot, say &quot;broken &quot;. Before printing the plural name of an unbroken flowerpot: if a flowerpot is broken, say &quot;unbroken &quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A locket is in the Cave. The locket is gold. &quot;A broken gold locket lies on the ground, a token of your late Mama.&quot;
+<blockquote><font color="#000080">The Herb Garden is a room. In the Herb Garden are ten unbroken flowerpots.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc67.html>Previous</a> / <a href=doc69.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Test me with &quot;get three flowerpots / drop all / look&quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc239.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e215"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex215.html#e215 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>202</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex215.html#e215 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000">Snip 2</font></b></a><br>Strings that can be divided arbitrarily and then named by length.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc238.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc240.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

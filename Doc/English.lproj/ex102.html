@@ -1,4 +1,13 @@
-<html><head><title>16.23. Reading a command</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>16.20. Listing nondescript items of something</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,137 +16,107 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc256.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc258.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>16.23. Reading a command</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc261.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap16.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 16: Activities</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc263.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>16.20. Listing nondescript items of something</b></font></td></tr></table>
 <p>
-<p><b>1. When it happens.</b> When reading a command from the keyboard.
+<p><b>1. When it happens.</b> This activity prints up the also-ran paragraph at the end of a room description. These are nondescript items because they don't merit paragraphs of their own: if, as sometimes happens, there are none in the room, then no such paragraph is printed and this activity does not happen. (So to add a further paragraph to a room description, a simpler &quot;after looking&quot; rule should be used, not an &quot;after listing nondescript items&quot; rule.)
 <p>
-<p><b>2. The default behaviour.</b> Print the prompt text; wait for the player to type something and press return. Reject an entirely blank line, and treat a command beginning &quot;oops&quot; is considered a correction to the previous one. This is a fairly complicated business, so it is probably best not to change the &quot;for&quot; rules for this activity: &quot;before&quot;, and especially &quot;after&quot;, are another matter.
+<p><b>2. The default behaviour.</b> The paragraph ordinarily reads as &quot;You can also see a cask and a clock.&quot; or similar. Before the activity begins, those objects which are nondescript - in this case the cask and the clock - are given the property of being &quot;marked for listing&quot;. If it turns out that nothing is marked for listing, because of before rules like the one in the example below, then nothing is printed.
 <p>
-<p><b>3. Examples.</b> (a) To lead absolute beginners in gently:
+<p><b>3. Examples.</b> (a) Promoting something out of the nondescript category, by unmarking it.
 <p>
-<blockquote><font color="#000080">Before reading a command while the turn count is 1, say &quot;(This is your chance to say what the protagonist should do next. After the '>', try typing 'take inventory'.)&quot;
-</font></blockquote><p>
-<p>
-<p>(b) The following responds politely but firmly if the player tries to type &quot;please look&quot;, say, instead of just &quot;look&quot;:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;Please do not say please.&quot;;\n\t\treject the player\'s command;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Please do not say please.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reject the player's command;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Before listing nondescript items:\n\tif the watch is marked for listing begin;\n\t\tsay &quot;The watch catches your eye.&quot;;\n\t\tchange the watch to not marked for listing;\n\tend if.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> Before listing nondescript items:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the watch is marked for listing begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The watch catches your eye.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the watch to not marked for listing;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>To explain. Fragments of what the player has typed are called snippets: &quot;the player's command&quot; is the entire thing. (&quot;Snippet&quot; is actually a kind of value, so we could say &quot;Ah, you typed '[the player's command]'!&quot; or some such if we liked.) We can test if a snippet matches a given pattern like so:
+<p>(b) Changing the normal phrasing of the paragraph. Note that we can also change the listing style; the one below is the default.
 <p>
-<blockquote><font color="#000080">if the player's command matches &quot;room [number]&quot;, ...
-</font></blockquote><p>
-<p>
-<p>This requires an exact match: the weaker condition &quot;includes&quot; only means that the pattern occurs somewhere in the given snippet, so that
-<p>
-<blockquote><font color="#000080">if the player's command includes &quot;please&quot;, ...
-</font></blockquote><p>
-<p>
-<p>matches &quot;please look&quot; or &quot;look please&quot;, etc. Lastly, the phrase
-<p>
-<blockquote><font color="#000080">reject the player's command
-</font></blockquote><p>
-<p>
-<p>tells Inform not to bother analysing the text further, but to go back to the keyboard. (No time passes; no turn elapses; nothing happens in the simulated world.)
-<p>
-<p>(c) An improved version takes commands like &quot;please drop the coin&quot; and strips &quot;please&quot; from them, but then allows them to proceed normally:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command includes &quot;please&quot; begin;\n\t\tsay &quot;(Quelle politesse! But no need to say please.)&quot;;\n\t\tcut the matched text;\n\tend if.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command includes &quot;please&quot; begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(Quelle politesse! But no need to say please.)&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cut the matched text;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
-</font></blockquote><p>
-<p>
-<p>&quot;Matched text&quot; is a snippet containing the words which matched against the pattern in the most recent &quot;includes&quot; condition, so in this case it contains just the single word &quot;please&quot;. Two phrases allow snippets to be altered:
-<p>
-<blockquote><font color="#000080">replace (... snippet ...) with (... text ...)
-<br>cut (...snippet ...)
-</font></blockquote><p>
-<p>
-<p>(d) To make the word &quot;grab&quot; an abbreviation for &quot;take all&quot;:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('After reading a command:\n\tif the player\'s command matches &quot;grab&quot;, replace the player\'s command with &quot;take all&quot;.\n\n\n')"><img border=0 src=paste.png></a> After reading a command:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player's command matches &quot;grab&quot;, replace the player's command with &quot;take all&quot;.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for listing nondescript items of the Distressingly Messy Room:\n\tsay &quot;Strewn carelessly on the floor&quot;;\n\tlist the contents of the Distressingly Messy Room, as a sentence,\n\t\ttersely, listing marked items only, prefacing with is/are,\n\t\tincluding contents and giving brief inventory\n\t\tinformation;\n\tsay &quot;.&quot;\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> Rule for listing nondescript items of the Distressingly Messy Room:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Strewn carelessly on the floor&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;list the contents of the Distressingly Messy Room, as a sentence,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;tersely, listing marked items only, prefacing with is/are,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;including contents and giving brief inventory
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;information;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;
 </font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e161"><a href=ex161.html#e161><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A list of phrases to be automatically converted to longer sequences of separate commands.</i><p>
-<a name="e0"><a href=ex0.html#e0><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Accepting adverbs anywhere in a command, registering what the player typed but then cutting them out before interpreting the command.</i><p>
-<a name="e92"><a href=ex92.html#e92><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>Responding to the player's input based on keywords only, and overriding the original parser entirely.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e102"><a href=doc257.html#e102><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A character who responds to keywords in the player's instructions and remarks, even if there are other words included.</i><p>
+<a name="e102"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc262.html#e102 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>226</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc262.html#e102 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Happy Hour</font></b></a><br>Listing visible characters as a group, then giving some followup details in the same paragraph about specific ones.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>Often it is best to have an entire paragraph about the characters present in a room, but suppose we're narrating a large party with a lot of people moving around. In that case, it might be better to list everyone together, then add a few salient details by way of follow-up, like this:
 <p>
-<p>The &quot;reading a command&quot; activity is not the only point at which we can interact with snippets, as it happens; it is merely the most useful. &quot;The player's command&quot; can be consulted at other points, however, as in this example of your somewhat deaf (or distracted, or simply cussed) Aunt:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Complimentary Peanuts&quot;\n\nInstead of asking Aunt Martha to try doing something:\n\trepeat through Table of Aunt Martha\'s Commentary\n\tbegin;\n\t\tif player\'s command includes topic entry\n\t\tbegin;\n\t\t\tsay &quot;[commentary entry][paragraph break]&quot;;\n\t\t\trule succeeds;\n\t\tend if;\n\tend repeat;\n\tsay &quot;\'Hmmf,\' says Aunt Martha.&quot;\n\n[The topic understood is also a snippet, so that whenever one has been generated, we can treat it in the same way as &quot;the player\'s command&quot;:]\n\nAsking someone about something is speech.\nTelling someone about something is speech.\nAnswering someone that something is speech.\nAsking someone for something is speech.\n\nInstead of speech when the noun is Aunt Martha:\n\trepeat through Table of Aunt Martha\'s commentary\n\tbegin;\n\t\tif the topic understood includes topic entry\n\t\tbegin;\n\t\t\tsay &quot;[commentary entry][paragraph break]&quot;;\n\t\t\trule succeeds;\n\t\tend if;\n\tend repeat;\n\tsay &quot;\'Hmmf,\' says Aunt Martha.&quot;\n\n[This is superior to checking &quot;the player\'s command&quot; because we do not want ASK MARTHA ABOUT FRENCH FRIES to trigger the &quot;Martha&quot; keyword, only the &quot;french fries&quot; keywords.]\n\nThe Empyrean Shuttle Bay is a room. &quot;From here you have an excellent view of the colony world, which looks... well, it looks discouragingly orange. But terraforming is in progress.&quot;\n\nAunt Martha is a woman in the Empyrean Shuttle Bay. A gleaming shuttle and a stack of rations are in the Shuttle Bay. The shuttle is a vehicle. &quot;Your shuttle awaits.&quot;\n\nTable of Aunt Martha\'s Commentary\ntopic\tcommentary\n&quot;shuttle&quot;\t&quot;\'Shuttles! I hate shuttles,\' Aunt Martha grumbles. \'Give me an airplane! AIRPLANE.\'&quot;\n&quot;airplane/airport&quot;\t&quot;\'Those were the days,\' Aunt Martha agrees, plainly reliving the days when she wore a blue-and-white uniform and passed out packets of salted pretzels.&quot;\n&quot;rations&quot;\t&quot;\'Do you think there are any peanuts in there?\' she asks in a wistful tone.&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Complimentary Peanuts&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Happy Hour&quot;\n\nBefore listing nondescript items:\n\tsay &quot;You can see [list of people who are marked for listing] here. &quot;;\n\trepeat with named party running through people\n\tbegin;\n\t\tchange the named party to not marked for listing;\n\tend repeat;\n\tlet count be the number of visible other people who are carrying something;\n\tif count is 0\n\tbegin;\n\t\tsay paragraph break; continue the action;\n\tend if;\n\tlet index be count;\n\trepeat with holder running through visible other people who are carrying something\n\tbegin;\n\t\tif index is count, say &quot;[The holder]&quot;; otherwise say &quot;[the holder]&quot;;\n\t\tsay &quot; has [a list of things carried by the holder]&quot;;\n\t\tdecrease index by 1;\n\t\tmake delimiter index of count;\n\tend repeat;\n\tsay line break.\n\n[The next part could be simpler, but for rigor we will write it in such a way that it will work whether or not the serial comma is in use. This requires some extra work; feel free to skip down to the scenario if you prefer.]\n\nTo make delimiter (index - a number) of (count - a number), continuing or halting:\n\tif index is 0\n\tbegin;\n\t\tif continuing, say &quot;. [run paragraph on]&quot;;\n\t\totherwise say &quot;.&quot;;\n\totherwise;\n\t\tif index is 1\n\t\tbegin;\n\t\t\tif count is 2, say &quot; and &quot;;\n\t\t\totherwise say &quot;[optional comma] and &quot;;\n\t\totherwise;\n\t\t\tsay &quot;, &quot;;\n\t\tend if;\n\tend if.\n\nTo say optional comma:\n\tif using the serial comma option, say &quot;,&quot;;\n\totherwise do nothing.\n\n[And now the scene:]\n\nThe Banquet Hall is a room. &quot;A large cheery banner over the door (which, incidentally, vanishes when you approach it) reads: HELLO NEW INDUCTEES! WELCOME TO THE AFTERLIFE!&quot;\n\nFred, George, and Larry are men in the Banquet Hall. Fred carries a dry martini. Larry carries a cream puff. Matilda and Louise are women in the Banquet Hall.\n\nDefinition: a person is other if it is not the player.\n\nEvery turn:\n\tlet wanderer be a random other person;\n\tlet place be the holder of the wanderer;\n\tlet next place be a random room adjacent to the place;\n\tlet the way be the best route from the place to the next place;\n\ttry the wanderer trying going the way.\n\nThe Kitchen is west of the Banquet Hall. &quot;Dominated by a pile of dirty plates which you imagine it will be someone\'s privilege to wash, later.&quot; Vanessa is a woman in the Kitchen. Vanessa carries a tray. On the tray is a salmon roll. The roll is edible.\n\nTest me with &quot;z / look / g / g / g &quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Happy Hour&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of asking Aunt Martha to try doing something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Aunt Martha's Commentary
+<blockquote><font color="#000080">Before listing nondescript items:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You can see [list of people who are marked for listing] here. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with named party running through people
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if player's command includes topic entry
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[commentary entry][paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;change the named party to not marked for listing;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Hmmf,' says Aunt Martha.&quot;
-</font></blockquote><p>
-<p>
-<p>The topic understood is also a snippet, so that whenever one has been generated, we can treat it in the same way as &quot;the player's command&quot;:
-<p>
-<blockquote><font color="#000080">Asking someone about something is speech.
-<br>Telling someone about something is speech.
-<br>Answering someone that something is speech.
-<br>Asking someone for something is speech.
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of speech when the noun is Aunt Martha:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through Table of Aunt Martha's commentary
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let count be the number of visible other people who are carrying something;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if count is 0
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the topic understood includes topic entry
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[commentary entry][paragraph break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say paragraph break; continue the action;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let index be count;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with holder running through visible other people who are carrying something
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if index is count, say &quot;[The holder]&quot;; otherwise say &quot;[the holder]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; has [a list of things carried by the holder]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;decrease index by 1;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;make delimiter index of count;
 <br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Hmmf,' says Aunt Martha.&quot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say line break.
 </font></blockquote><p>
 <p>
-<p>This is superior to checking &quot;the player's command&quot; because we do not want ASK MARTHA ABOUT FRENCH FRIES to trigger the &quot;Martha&quot; keyword, only the &quot;french fries&quot; keywords.
+<p>The next part could be simpler, but for rigor we will write it in such a way that it will work whether or not the serial comma is in use. This requires some extra work; feel free to skip down to the scenario if you prefer.
 <p>
-<blockquote><font color="#000080">The Empyrean Shuttle Bay is a room. &quot;From here you have an excellent view of the colony world, which looks... well, it looks discouragingly orange. But terraforming is in progress.&quot;
+<blockquote><font color="#000080">To make delimiter (index - a number) of (count - a number), continuing or halting:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if index is 0
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if continuing, say &quot;. [run paragraph on]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if index is 1
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if count is 2, say &quot; and &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;[optional comma] and &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;, &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Aunt Martha is a woman in the Empyrean Shuttle Bay. A gleaming shuttle and a stack of rations are in the Shuttle Bay. The shuttle is a vehicle. &quot;Your shuttle awaits.&quot;
+<blockquote><font color="#000080">To say optional comma:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if using the serial comma option, say &quot;,&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise do nothing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Table of Aunt Martha's Commentary
-<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">topic</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">commentary</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;shuttle&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Shuttles! I hate shuttles,' Aunt Martha grumbles. 'Give me an airplane! AIRPLANE.'&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;airplane/airport&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Those were the days,' Aunt Martha agrees, plainly reliving the days when she wore a blue-and-white uniform and passed out packets of salted pretzels.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;rations&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;'Do you think there are any peanuts in there?' she asks in a wistful tone.&quot;</font>&nbsp;&nbsp;&nbsp;</td>
-</tr></table>
+<p>And now the scene:
+<p>
+<blockquote><font color="#000080">The Banquet Hall is a room. &quot;A large cheery banner over the door (which, incidentally, vanishes when you approach it) reads: HELLO NEW INDUCTEES! WELCOME TO THE AFTERLIFE!&quot;
 </font></blockquote><p>
 <p>
-<p>This means that Martha will respond to keywords regardless of the setting in which they occur. For instance:
-<p>
-<blockquote><font color="#000080">>martha, get in the shuttle
-<br>&quot;Shuttles! I hate shuttles,&quot; Aunt Martha grumbles. &quot;Give me an airplane! AIRPLANE.&quot;
+<blockquote><font color="#000080">Fred, George, and Larry are men in the Banquet Hall. Fred carries a dry martini. Larry carries a cream puff. Matilda and Louise are women in the Banquet Hall.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">>martha, for pity's sake, do you see an airplane around here?
-<br>&quot;Those were the days,&quot; Aunt Martha agrees, plainly reliving the days when she wore a blue-and-white uniform and passed out packets of salted peanuts.
+<blockquote><font color="#000080">Definition: a person is other if it is not the player.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">>martha, pass me the rations
-<br>&quot;Do you think there are any peanuts in there?&quot; she asks in a wistful tone.
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let wanderer be a random other person;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let place be the holder of the wanderer;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let next place be a random room adjacent to the place;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the way be the best route from the place to the next place;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try the wanderer trying going the way.
 </font></blockquote><p>
 <p>
-<p>This is not the stuff of which Loebner-winning chatbots are made, admittedly, but it is occasionally a useful alternative to stricter modes of command-parsing.
-</td></tr></table><p><a name="e127"><a href=ex127.html#e127><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Novice mode that prefaces every prompt with a list of possible commands the player could try, and highlights every important word used, to alert players to interactive items in the scenery.</i><p>
-<p><hr><p><a href=doc256.html>Previous</a> / <a href=doc258.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">The Kitchen is west of the Banquet Hall. &quot;Dominated by a pile of dirty plates which you imagine it will be someone's privilege to wash, later.&quot; Vanessa is a woman in the Kitchen. Vanessa carries a tray. On the tray is a salmon roll. The roll is edible.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;z / look / g / g / g &quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc262.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc261.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc263.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

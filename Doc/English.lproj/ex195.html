@@ -1,4 +1,13 @@
-<html><head><title>17.2. Named rules and rulebooks</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>14.9. Blank rows</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,56 +16,146 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc262.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc264.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>17.2. Named rules and rulebooks</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc214.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap14.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 14: Tables</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc216.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>14.9. Blank rows</b></font></td></tr></table>
 <p>
-<p>Most of the rules built into Inform are malleable, and so that they can be referred to, they have names. For instance, a rule called &quot;the advance time rule&quot; is the one which increments the number of turns - usually visible on the &quot;status line&quot; displayed above the window of a game in progress - and advances the clock, which is usually not visible, but ticking away behind the scenes.
+<p>There is no difficulty about entirely blank rows: or rather, the only difficulty is once again that they are boring to type out. We can avoid the necessity by appending &quot;with ... blank rows&quot; at the foot of the table:
 <p>
-<p>A rulebook is a list of rules to be followed in sequence. It is a rulebook called &quot;the turn sequence&quot; that contains all of the end-of-turn operations, each in its own named rule. The advance time rule is one of these; another tells Inform to run through the every turn rules. For convenience, the following names are synonymous:
-<p>
-<blockquote><font color="#000080">advance time = the advance time rule
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Table 2 - Selected Elements\nElement\tSymbol\tAtomic number\tAtomic weight\n&quot;Hydrogen&quot;\t&quot;H&quot;\t1\ta number\n&quot;Iron&quot;\t&quot;Fe&quot;\t26\t--\n&quot;Zinc&quot;\t&quot;Zn&quot;\t30\t--\n&quot;Uranium&quot;\t&quot;U&quot;\t92\t--\nwith 3 blank rows\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> Table 2 - Selected Elements
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Element</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Symbol</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Atomic number</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Atomic weight</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Hydrogen&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;H&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">1</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a number</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Iron&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Fe&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">26</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Zinc&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Zn&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">30</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;Uranium&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">&quot;U&quot;</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">92</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">--</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">with 3 blank rows</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">the turn sequence rules = turn sequence rulebook = turn sequence = the turn sequence
+<p>(These words cannot be placed in between rows, but only at the bottom.) And indeed the table can start out completely empty:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Table 3 - Empty Periodic Table\nElement\tSymbol\tAtomic number\tAtomic weight\ntext\ttext\ta number\ta number\nwith 92 blank rows\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> Table 3 - Empty Periodic Table
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Element</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Symbol</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Atomic number</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">Atomic weight</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">text</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">text</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a number</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a number</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">with 92 blank rows</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
 </font></blockquote><p>
 <p>
-<p>Whereas &quot;the turn sequence rule&quot; (singular) is not allowed, as it would suggest that the rulebook is constrained to have room for only one rule, which is not true.
+<p>Blank rows are useful because they enable us to add new data to a table. In effect, they are invisible when not used. A repeat loop like
 <p>
-<p>The names of built-in rules have been chosen as descriptively as possible: the &quot;can't go through closed doors rule&quot;, for instance. We have already seen some of these names used in the Advanced Actions chapter, and will later use them like so:
-<p>
-<blockquote><font color="#000080">ignore the can't go through closed doors rule;
+<blockquote><font color="#000080">repeat through Table 3 begin; ...; end repeat
 </font></blockquote><p>
 <p>
-<p>Names for rules tend to be verbose, but this is a situation where clarity is very much better than brevity.
+<p>automatically skips blank rows, so it would initially do nothing at all. Similarly, choosing a &quot;random&quot; row will never choose a blank one.
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e195"><a href=doc263.html#e195><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A WAIT [number] MINUTES command which advances through an arbitrary number of turns.</i><p>
+<a name="e195"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc215.html#e195 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>171</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc215.html#e195 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> If It Hadn't Been For...</font></b></a><br>A sound recording device that records the noises made by player and non-player actions, then plays them back on demand.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>We start out by giving ourselves a capacious recording device:
 <p>
-<p>If there's some reason the player needs to be at a specific place and time, we might want to allow him to wait a number of minutes at once.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Waiting more is an action applying to one number.\n\nUnderstand &quot;wait [number] minutes/turns&quot; or &quot;wait [number]&quot; as waiting more.\n\nCarry out waiting more:\n\tlet duration be the number understood - 1;\n\trepeat with X running from 1 to duration\n\tbegin;\n\t\tfollow the turn sequence rules;\n\tend repeat.\n\n[The one nuance here is that after our wait command occurs, the turn sequence rules will occur one more time. So we need to subtract one from the parsed number to make it to the right number of minutes.]\n\nReport waiting more:\n\tsay &quot;It is now [time of day + 1 minute].&quot;\n\n[And if we want to ensure that the player doesn\'t (accidentally or intentionally) put the interpreter through a really long loop, we could put an upper limit on his patience:]\n\nCheck waiting more:\n\tif the number understood > 59, say &quot;You really haven\'t got that kind of patience.&quot; instead.\n\n')"><img border=0 src=paste.png></a> Waiting more is an action applying to one number.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;If It Hadn\'t Been For...&quot;\n\nThe digital recorder is a device. The description is &quot;A noise-activated recorder, which time-stamps each recording segment. It has space for about 60 short recordings.&quot;\n\nEvery turn:\n\tif the digital recorder is switched on and the number of blank rows in the Table of Recorded Content is 0, change the recorder to switched off.\n\nTable of Recorded Content\ntime stamp\tsound\na time\tsome text\nwith 60 blank rows.\n\n[And most of what follows is attaching sounds to various events. (We could have made noises associated with all the actions, but for simplicity we stuck to a few.)]\n\n[The thing to note here is that the recording happens as part of Carry out, not as part of Report, so sounds will be recorded even when they are the result of non-player action when the player is not even in the room.]\n\nCarry out opening something in the presence of the switched on recorder:\n\trecord &quot;A creaking noise, as of something being opened.&quot;\n\nCarry out someone trying opening something when the switched on recorder can see the noun:\n\trecord &quot;A creaking noise, as of something being opened.&quot;\n\nCarry out closing something in the presence of the switched on recorder:\n\trecord &quot;A creaking followed by a slam.&quot;\n\nCarry out someone trying closing something in the presence of the switched on recorder:\n\trecord &quot;A creaking followed by a slam.&quot;\n\nCarry out someone trying going to a room (called destination) in the presence of the switched on recorder:\n\tif the destination is the holder of the recorder, record &quot;Footsteps, growing louder.&quot;;\n\totherwise record &quot;Footsteps, fading out.&quot;\n\nCarry out going to a room (called destination) in the presence of the switched on recorder:\n\tif the destination is the holder of the recorder, record &quot;Footsteps, growing louder.&quot;;\n\totherwise record &quot;Footsteps, fading out.&quot;\n\nCarry out someone trying eating something in the presence of the switched on recorder:\n\trecord &quot;Loud uncouth chewing sounds.&quot;\n\nCarry out eating something in the presence of the switched on recorder:\n\trecord &quot;Distant muffled chewing sounds.&quot;\n\nTo record (noise - some text):\n\tif the number of blank rows in the Table of Recorded Content is 0, rule succeeds;\n\tchoose a blank row in the Table of Recorded Content;\n\tchange time stamp entry to the time of day;\n\tchange sound entry to noise.\n\nUnderstand &quot;play [something]&quot; as listening.\n\nInstead of listening to the recorder:\n\tif the number of filled rows in the Table of Recorded Content is 0, say &quot;The recorder remains blank.&quot; instead;\n\trepeat through the Table of Recorded Content\n\tbegin;\n\t\tsay &quot;[line break][time stamp entry]: [sound entry]&quot;;\n\tend repeat;\n\tsay paragraph break.\n\nThe Haunted House is a room. The squeaky cupboard is an openable enterable closed fixed in place container in the House. The ghost is a man in the cupboard. The Lawn is outside from the Haunted House.\n\nInstead of opening the closed cupboard when the ghost is in the cupboard: say &quot;The cupboard stubbornly refuses to open.&quot;\n\nEvery turn when the player is not in the House:\n\tif the ghost is in the cupboard, try the ghost trying exiting;\n\totherwise if the cupboard is open, try the ghost trying closing the cupboard.\n\nBefore someone trying exiting when the person asked is in a closed container (called the trap):\n\ttry the person asked trying opening the trap.\n\nBefore someone trying entering a closed container: try the person asked trying opening the noun.\n\nBefore going to the House when the House contains the ghost:\n\ttry the ghost trying entering the cupboard;\n\ttry the ghost trying closing the cupboard.\n\nThe player carries the recorder, chips, and a sandwich. The sandwich is edible. The chips are edible.\n\nCarry out someone trying eating the chips in the presence of the switched on recorder: record &quot;An incredible racket of a packet being opened.&quot; Carry out eating the chips in the presence of the switched on recorder: record &quot;An incredible racket of a packet being opened.&quot;\n\nTest me with &quot;open cupboard / drop recorder / switch it on / eat chips / out / wait / wait / wait / in / switch recorder off / play recorder&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;If It Hadn't Been For...&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;wait [number] minutes/turns&quot; or &quot;wait [number]&quot; as waiting more.
+<blockquote><font color="#000080">The digital recorder is a device. The description is &quot;A noise-activated recorder, which time-stamps each recording segment. It has space for about 60 short recordings.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out waiting more:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let duration be the number understood - 1;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with X running from 1 to duration
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the digital recorder is switched on and the number of blank rows in the Table of Recorded Content is 0, change the recorder to switched off.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Table of Recorded Content
+<br><table border="0" valign="top" cellpadding="0" cellspacing="0"><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">time stamp</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">sound</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">a time</font>&nbsp;&nbsp;&nbsp;</td><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">some text</font>&nbsp;&nbsp;&nbsp;</td>
+</tr><tr><td valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2 color="#000080">with 60 blank rows.</font>&nbsp;&nbsp;&nbsp;</td>
+</tr></table>
+</font></blockquote><p>
+<p>
+<p>And most of what follows is attaching sounds to various events. (We could have made noises associated with all the actions, but for simplicity we stuck to a few.)
+<p>
+<p>The thing to note here is that the recording happens as part of Carry out, not as part of Report, so sounds will be recorded even when they are the result of non-player action when the player is not even in the room.
+<p>
+<blockquote><font color="#000080">Carry out opening something in the presence of the switched on recorder:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record &quot;A creaking noise, as of something being opened.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out someone trying opening something when the switched on recorder can see the noun:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record &quot;A creaking noise, as of something being opened.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out closing something in the presence of the switched on recorder:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record &quot;A creaking followed by a slam.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out someone trying closing something in the presence of the switched on recorder:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record &quot;A creaking followed by a slam.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out someone trying going to a room (called destination) in the presence of the switched on recorder:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the destination is the holder of the recorder, record &quot;Footsteps, growing louder.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise record &quot;Footsteps, fading out.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out going to a room (called destination) in the presence of the switched on recorder:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the destination is the holder of the recorder, record &quot;Footsteps, growing louder.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise record &quot;Footsteps, fading out.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out someone trying eating something in the presence of the switched on recorder:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record &quot;Loud uncouth chewing sounds.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out eating something in the presence of the switched on recorder:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;record &quot;Distant muffled chewing sounds.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">To record (noise - some text):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number of blank rows in the Table of Recorded Content is 0, rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;choose a blank row in the Table of Recorded Content;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change time stamp entry to the time of day;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change sound entry to noise.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Understand &quot;play [something]&quot; as listening.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of listening to the recorder:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number of filled rows in the Table of Recorded Content is 0, say &quot;The recorder remains blank.&quot; instead;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Recorded Content
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;follow the turn sequence rules;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[line break][time stamp entry]: [sound entry]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say paragraph break.
 </font></blockquote><p>
 <p>
-<p>The one nuance here is that after our wait command occurs, the turn sequence rules will occur one more time. So we need to subtract one from the parsed number to make it to the right number of minutes.
-<p>
-<blockquote><font color="#000080">Report waiting more:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It is now [time of day + 1 minute].&quot;
+<blockquote><font color="#000080">The Haunted House is a room. The squeaky cupboard is an openable enterable closed fixed in place container in the House. The ghost is a man in the cupboard. The Lawn is outside from the Haunted House.
 </font></blockquote><p>
 <p>
-<p>And if we want to ensure that the player doesn't (accidentally or intentionally) put the interpreter through a really long loop, we could put an upper limit on his patience:
-<p>
-<blockquote><font color="#000080">Check waiting more:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the number understood > 59, say &quot;You really haven't got that kind of patience.&quot; instead.
+<blockquote><font color="#000080">Instead of opening the closed cupboard when the ghost is in the cupboard: say &quot;The cupboard stubbornly refuses to open.&quot;
 </font></blockquote><p>
-</td></tr></table><p><a name="e197"><a href=ex197.html#e197><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A WAIT UNTIL [time] command which advances until the game clock reaches the correct hour.</i><p>
-<p><hr><p><a href=doc262.html>Previous</a> / <a href=doc264.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Every turn when the player is not in the House:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the ghost is in the cupboard, try the ghost trying exiting;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise if the cupboard is open, try the ghost trying closing the cupboard.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before someone trying exiting when the person asked is in a closed container (called the trap):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try the person asked trying opening the trap.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before someone trying entering a closed container: try the person asked trying opening the noun.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before going to the House when the House contains the ghost:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try the ghost trying entering the cupboard;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;try the ghost trying closing the cupboard.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player carries the recorder, chips, and a sandwich. The sandwich is edible. The chips are edible.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Carry out someone trying eating the chips in the presence of the switched on recorder: record &quot;An incredible racket of a packet being opened.&quot; Carry out eating the chips in the presence of the switched on recorder: record &quot;An incredible racket of a packet being opened.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;open cupboard / drop recorder / switch it on / eat chips / out / wait / wait / wait / in / switch recorder off / play recorder&quot;.
+</font></blockquote><p>
+<p>
+<p>Now we're at liberty to record evidence of the ghost getting out of the cupboard and getting back in, while we ourselves stand about on the lawn.
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc215.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc214.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc216.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

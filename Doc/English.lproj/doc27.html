@@ -1,4 +1,13 @@
-<html><head><title>3.5. Kinds</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>2.17. Does Inform really understand English?</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,38 +16,44 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc26.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc28.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>3.5. Kinds</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc26.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap2.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 2: The Source Text</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc28.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>2.17. Does Inform really understand English?</b></font></td></tr></table>
 <p>
-<p>Consider the following design. Unlike the previous example, this one not only places things within rooms, but also places them very specifically with respect to each other, so it is a surprisingly intricate design despite running to only 33 words.
+<p>No. No computer does, and Inform does not even try to read the whole wide range of text: it is a practical tool for a particular purpose, and it deals only with certain forms of sentence useful to that purpose. Inform source text may look like &quot;natural language&quot;, the language we find natural among ourselves, but in the end it is a computer programming language. Many things which seem reasonable to the human reader are not understood by Inform. For instance, Inform understands
 <p>
-<blockquote><font color="#000080">&quot;Midsummer Day&quot;
+<blockquote><font color="#000080">something which is carried by the player
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">East of the Garden is the Gazebo. Above is the Treehouse. A billiards table is in the Gazebo. On it is a trophy cup. A starting pistol is in the cup.
+<p>but not (at present, anyway)
+<p>
+<blockquote><font color="#000080">something which the player carries
 </font></blockquote><p>
 <p>
-<p>Inform needs to identify the places and objects being described by the nouns here, and to guess what it can about them. For instance, the pistol can be picked up but not walked inside, whereas the Summer House is the reverse. (This is obvious to someone who knows what these words mean, less obvious to a computer which does not, but the text contains sufficient clues.) Inform does this by sorting the various nouns into different categories, which are called &quot;kinds&quot;. For instance:
+<p>even though both are perfectly good English. So it is not always safe to assume that Inform will understand any reasonable instruction it is given: when in doubt, we must go back to the manual.
 <p>
-<blockquote><font color="#000080">Garden, Gazebo, Treehouse - <b>room</b>
-<br>billiards table - <b>supporter</b>
-<br>cup - <b>container</b>
-<br>starting pistol - <b>thing</b>
-<br>East, up (implied by &quot;above&quot;) - <b>direction</b>
+<p>More philosophically, to &quot;understand&quot; involves contextual knowledge. Just because Inform recognises and acts on a sentence, does it really understand what we meant? It will turn out that Inform is both good and bad at this. For instance, from
+<p>
+<blockquote><font color="#000080">Mr Darcy wears a top hat.
 </font></blockquote><p>
 <p>
-<p>(A container is something which can contain other things, and a supporter similarly.) For instance Inform knows that if one thing is in another, then the second thing is either a room or a container, and if one thing is on another, the second thing is a supporter. This worked nicely for the design above, but:
+<p>Inform will correctly deduce that Darcy is a person, because inanimate objects do not ordinarily wear clothes, and that the top hat is clothing. But it will not automatically know that Darcy is a man rather than a woman because it does not know the social convention implied by &quot;Mr&quot;. Moreover, if instead we had written
 <p>
-<blockquote><font color="#000080">In the Treehouse is a cardboard box.
+<blockquote><font color="#000080">Mr Darcy carries a top hat.
 </font></blockquote><p>
 <p>
-<p>results in the cardboard box being made only a &quot;thing&quot;: because nothing has been put inside it, there is no reason for Inform - which does not know what a cardboard box looks like - to guess that it is a &quot;container&quot;. So we need to add:
+<p>then Inform would not guess that the top hat is clothing. This is because it does not have the vast vocabulary and experience of a human reader: it is probably discovering the word &quot;hat&quot; for the first time.
 <p>
-<blockquote><font color="#000080">The box is a container.
+<p>Finally, it is best to avoid ambiguities rather than rely on Inform to know which meaning is patently absurd. For instance, in
+<p>
+<blockquote><font color="#000080">Heatwave bone breaks clog hospital.
 </font></blockquote><p>
 <p>
-<p>It is rather clumsy to have to write two sentences like this, so we would normally write this instead:
+<p>(a headline once printed by the <i>Oxford Mail</i> newspaper) a human reader quickly realises that there is no clog hospital being broken. But if Inform had been taught the verbs <i>to break</i> and <i>to clog</i> then that is exactly the conclusion it would have drawn. Or an example which genuinely arose in beta-testing:
 <p>
-<blockquote><font color="#000080">In the Treehouse is a container called the cardboard box.
+<blockquote><font color="#000080">The life support unit fits the egg.
 </font></blockquote><p>
 <p>
-<p><hr><p><a href=doc26.html>Previous</a> / <a href=doc28.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>in which Inform construed the verb as <i>support</i> and not <i>fits</i>, and then created items called &quot;the life&quot; (plural) and &quot;unit fits the egg&quot;.
+<p>
+<p>That disclaimer completes the groundwork, and we are ready to begin on simulating a world to explore.
+<p>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc26.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc28.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

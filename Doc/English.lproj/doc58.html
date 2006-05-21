@@ -1,4 +1,13 @@
-<html><head><title>4.14. Kinds of value</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>4.7. New value properties</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,20 +16,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc57.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc59.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.14. Kinds of value</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc57.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap4.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 4: Kinds</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc59.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>4.7. New value properties</b></font></td></tr></table>
 <p>
-<p>Several kinds of value have appeared so far, chiefly numbers, 1, 2, 3, ... and 0, -1, -2, ... and texts, such as &quot;Jackdaws love my big sphinx of quartz&quot;. We can give objects properties holding such values, and we can also endow them with either/or properties such as &quot;dark&quot;/&quot;lighted&quot;.
+<p>Moving on to properties which contain values, such as the &quot;matching key&quot; property of a door or a container, we need to use a different formulation.
 <p>
-<p>These arrangements are all very well, but not ideal when it comes to simulating something which can be in, say, one of four states. Suppose we would like the candle lantern to burn down, gradually diminishing in brightness. A property attached to the lantern should hold the current strength of the flame. We could do this like so:
-<p>
-<blockquote><font color="#000080">The lantern has a number called the brightness level.
+<blockquote><font color="#000080">A dead end has a property called river sound. The river sound of a dead end is usually &quot;a faint whispering of running water&quot;. The Tortuous Alcove has river sound &quot;a gurgle of running water&quot;.
 </font></blockquote><p>
 <p>
-<p>(Thus far we have only given new properties to kinds, but in fact we can also give them to individual things, as here. It would be cumbersome to make a new kind called, say, &quot;lamp&quot; and then make the lantern the only lamp in the game, just as a way of attaching a number to it.) We could then set the brightness level to be 1, 2, 3 or 4 according to the strength of flame, and find some way of conveying this to the player. That would work, but is not very elegant. Brightness is not, in the end, a number, and it seems strange to have to pretend that it is. A much better solution is:
+<p>The property &quot;river sound&quot; is now applicable only to dead ends, and we would not be allowed to talk about it in any other context. As can be seen, it holds a piece of text. If we tried the following:
 <p>
-<blockquote><font color="#000080">Brightness is a kind of value. The brightnesses are guttering, weak, radiant and blazing.
+<blockquote><font color="#000080">The river sound of the Tortuous Alcove is 7.
 </font></blockquote><p>
 <p>
-<p>This makes &quot;brightness&quot; a kind of value on a par with (for instance) &quot;number&quot; or &quot;text&quot;, except that there are only four possible values, named as above.
+<p>...then Inform would object, because the number 7 is the wrong kind of value to go into the &quot;river sound&quot; property. If we need a numerical property, we can try this instead:
 <p>
-<p><hr><p><a href=doc57.html>Previous</a> / <a href=doc59.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">A dead end has a number called the difficulty rating. The Tortuous Alcove has difficulty rating 7.
+</font></blockquote><p>
+<p>
+<p>(When we say &quot;has a property called...&quot; we implicitly allow it to hold either text or the name of a room or object, since it is often convenient to be able to store both interchangeably in the same property.)
+<p>
+<p>If we ever need to check whether or not a given object has a property, we can test something like this:
+<p>
+<blockquote><font color="#000080">If the location has a river sound, ...
+</font></blockquote><p>
+<p>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc57.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc59.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

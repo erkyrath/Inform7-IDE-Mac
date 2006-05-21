@@ -1,4 +1,13 @@
-<html><head><title>3.22. Concealment</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>3.17. Articles and proper names</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,28 +16,29 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc43.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc45.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>3.22. Concealment</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc43.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap3.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 3: Things</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc45.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>3.17. Articles and proper names</b></font></td></tr></table>
 <p>
-<p>Though realism can become tiresome in interactive fiction, there are times when we cannot go along with Inform's normal assumption that all of a person's possessions are visible to everybody else. People are not like containers, which either show all of their holdings or not, according to whether they are open or transparent. If a man is carrying a fishing rod and a wallet, one will be on open show, the other not. Some clothing is outwardly visible, but not all.
+<p>Suppose we have said that:
 <p>
-<p>Whether or not something is concealed is not like the either/or properties we have seen so far - such as being &quot;open&quot; or &quot;closed&quot; - because it is not really a property of the thing itself, but depends on the habitual behaviour of its current owner. To talk about behaviour we have to use sentences of a kind not seen so far, and which will not fully be explained for some chapters to come.
-<p>But straightforward cases are easy to write, if only by imitating the following examples.
-<p>
-<p>Here we make the Cloaked Villain invariably conceal anything she is holding or wearing:
-<p>
-<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: yes.
+<blockquote><font color="#000080">In the Ballroom is a man called Mr Darcy.
 </font></blockquote><p>
 <p>
-<p>At which point we think about it more carefully, and then rewrite:
+<p>When the Ballroom is visited, the man is listed in the description of the room as &quot;Mr Darcy&quot;, not as &quot;a Mr Darcy&quot;. This happened not because Inform recognised that Darcy is a proper name, or even because men tend to have proper names, but because Inform noticed that we did not use &quot;a&quot;, &quot;an&quot;, &quot;the&quot; or &quot;some&quot; in the sentence which created him. The following little example game shows most of the options:
 <p>
-<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: if the particular possession is the sable cloak, no; otherwise yes.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Belfry&quot;\n\nThe Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton\'s wife is in the Belfry. A man called a bellringer is in the Belfry.\n\nIn the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Belfry&quot;
 </font></blockquote><p>
 <p>
-<p>Parts are treated exactly as if clothes or items being held, and the following will make the face and inscription on a coin invisible unless the player is holding it - the idea being that they are too small to be seen from farther away.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, yes; otherwise no.\n\n\n')"><img border=0 src=paste.png></a> The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, yes; otherwise no.
+<blockquote><font color="#000080">The Belfry is a room. A bat is in the Belfry. The bell is in the Belfry. Some woodworm are in the Belfry. A man called William Snelson is in the Belfry. A woman called the sexton's wife is in the Belfry. A man called a bellringer is in the Belfry.
 </font></blockquote><p>
 <p>
-<p><hr><p>
-<a name="e87"><a href=ex87.html#e87><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A smuggler who has items, some of which are hidden.</i><p>
-<p><hr><p><a href=doc43.html>Previous</a> / <a href=doc45.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">In the Belfry is a man called the vicar. The indefinite article of the vicar is &quot;your local&quot;.
+</font></blockquote><p>
+<p>
+<p>In the resulting game, we read:
+<p>
+<blockquote><font color="#000080">You can see a bat, a bell, some woodworm, William Snelson, the sexton's wife, a bellringer and your local vicar here.
+</font></blockquote><p>
+<p>
+<p>The subtlest rule here is in the handling of &quot;the&quot;. We wrote &quot;The bell is in the Belfry&quot;, but this did not result in the bell always being called &quot;the&quot; bell: in fact, writing &quot;A bell is in the Belfry&quot; would have had the same effect. On the other hand, &quot;A woman called the sexton's wife is in the Belfry.&quot; led to the wife always being known as &quot;the&quot; sexton's wife, not &quot;a&quot; sexton's wife, because Inform thinks the choice of article after &quot;called&quot; shows more of our intention than it would elsewhere. These rules will never be perfect in all situations, so we are also allowed to specify indefinite articles by hand, as the vicar's case shows.
+<p>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc43.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc45.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

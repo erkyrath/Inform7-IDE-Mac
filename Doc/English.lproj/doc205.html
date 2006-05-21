@@ -1,4 +1,13 @@
-<html><head><title>14.6. Repeating through tables</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>13.14. Totals</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,38 +16,47 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc204.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc206.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>14.6. Repeating through tables</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc204.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap13.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 13: Units</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc206.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>13.14. Totals</b></font></td></tr></table>
 <p>
-<p>We very often want to run through a table doing something to, or with, each row in turn, so a special loop is provided for this. Rather than having to write all this out:
+<p>It often happens that we want to look at the measurements of a whole collection of things. Suppose we invent the idea of weight, and give everything a weight of its own. Most items will have a nominal weight of just 1 kilogram, but people will be heavier. Going on actuarial tables, we might say:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('To list the succession:\n\tsay &quot;The Succession List runs as follows...&quot;;\n\trepeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;\n\t\tchoose row N of the Table of Recent Monarchs;\n\t\tsay &quot;[accession entry]: [name entry] ([family entry]).&quot;;\n\tend repeat.\n\n\n')"><img border=0 src=paste.png></a> To list the succession:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Succession List runs as follows...&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with N running from 1 to the number of rows in the Table of Recent Monarchs begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;choose row N of the Table of Recent Monarchs;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[accession entry]: [name entry] ([family entry]).&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight. A thing usually has weight 1kg. A man is usually 80kg. A woman is usually 67kg.
 </font></blockquote><p>
 <p>
-<p>We can simply write this instead:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('To list the succession:\n\tsay &quot;The Succession List runs as follows...&quot;;\n\trepeat through the Table of Recent Monarchs begin;\n\t\tsay &quot;[accession entry]: [name entry] ([family entry]).&quot;;\n\tend repeat.\n\n\n')"><img border=0 src=paste.png></a> To list the succession:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The Succession List runs as follows...&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat through the Table of Recent Monarchs begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[accession entry]: [name entry] ([family entry]).&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<blockquote><font color="#000080">Definition: A thing is light if its weight is 3kg or less.
+<br>Definition: A thing is heavy if its weight is 10kg or more.
 </font></blockquote><p>
 <p>
-<p>As we might expect, this runs through the rows in order, starting at the top and choosing each in turn. (No loop variable is needed here.) We can alternatively go through in reverse order, or in order of the values in any column:
+<p>and this provides us with &quot;lighter&quot;, &quot;lightest&quot;, &quot;heavier&quot; and &quot;heaviest&quot; as before. Now we could say &quot;if Peter is heavier than Paul&quot;, or even &quot;if Peter is heavier than 75kg&quot;, and so forth.
 <p>
-<blockquote><font color="#000080">repeat through the Table of Recent Monarchs in reverse order begin; ...
-<br>repeat through the Table of Recent Monarchs in name order begin; ...
-<br>repeat through the Table of Recent Monarchs in reverse accession order begin; ...
+<p>The value &quot;total ... of ...&quot; is a convenient way to total up a given property of everything described. The following now makes the balance platform actually work:
+<p>
+<blockquote><font color="#000080">The balance platform is a supporter in the Weighbridge. &quot;The balance platform is currently weighing [contents of platform]. The scale alongside reads: [total weight of things on the platform].&quot;
 </font></blockquote><p>
 <p>
-<p>Here text is placed in alphabetical order, numbers are in numerical order, times in chronological order and so forth. (In a loop like this, the data is not searched very efficiently, which is fine for modest-sized tables like the examples in this chapter, but might be a problem for much larger tables: see the later section on sorting.)
+<p>Note that this only works because we said that &quot;everything has a weight&quot;: otherwise it would make no sense to add up the weights of things.
 <p>
-<p>&quot;Repeat through...&quot; does something else, too: it skips any blank rows in the table, which brings us to the business of blankness.
+<p>This enables us to get the average weight of a group of things, too:
+<p>
+<blockquote><font color="#000080">the total weight of things on the platform divided by the number of things on the platform
+</font></blockquote><p>
+<p>
+<p>But we should be careful that this does not accidentally divide by zero, which it will if the platform has nothing on it! As well as the average, we could find the maximum and minimum weights:
+<p>
+<blockquote><font color="#000080">the weight of the heaviest thing on the platform
+<br>the weight of the lightest thing on the platform
+</font></blockquote><p>
+<p>
+<p>We should remember that &quot;the heaviest thing on the platform&quot; may be ambiguous, because there may be several equally heavy things there. That means
+<p>
+<blockquote><font color="#000080">if the lead pig is the heaviest thing on the platform
+</font></blockquote><p>
+<p>
+<p>will only reliably work if there is no possibility of a tie. A safer bet is:
+<p>
+<blockquote><font color="#000080">if the lead pig is the weight of the heaviest thing on the platform
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<a name="e126"><a href=ex126.html#e126><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A cell window through which the player can see people who were in Port Royal in the current year of game-time.</i><p>
-<p><hr><p><a href=doc204.html>Previous</a> / <a href=doc206.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e223"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex223.html#e223 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>166</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex223.html#e223 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Nickel and Dimed</font></b></a><br>A more intricate system of money, this time keeping track of the individual denominations of coins and bills, specifying what gets spent at each transaction, and calculating appropriate change.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc204.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc206.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

@@ -1,4 +1,13 @@
-<html><head><title>3.9. Backdrops</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>3.4. Regions and the index map</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,33 +16,27 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc30.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc32.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>3.9. Backdrops</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc30.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap3.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 3: Things</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc32.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>3.4. Regions and the index map</b></font></td></tr></table>
 <p>
-<p>It is a cardinal rule that nothing can be in more than one place at the same time, but rules were made to be broken, and an exception is allowed for a special kind of thing called a &quot;backdrop&quot;. For instance:
+<p>Rooms represent individual places to which one can go, but we tend to think of the world around us in larger pieces: we think of a house and a garden, rather than each of the single rooms of the house and all corners of its garden. To Inform a collection of rooms is called a &quot;region&quot;, and we can create one like so:
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Streaming&quot;\n\nThe Upper Cave is above the Rock Pool.\n\nThe stream is a backdrop. It is in the Upper Cave and the Rock Pool.\n\n\n')"><img border=0 src=paste.png></a> &quot;Streaming&quot;
+<blockquote><font color="#000080">The Arboretum is east of the Botanical Gardens. Northwest of the Gardens is the Tropical Greenhouse.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Upper Cave is above the Rock Pool.
+<blockquote><font color="#000080">The Public Area is a region. The Arboretum and Gardens are in the Public Area.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The stream is a backdrop. It is in the Upper Cave and the Rock Pool.
+<p>The real usefulness of creating regions like &quot;Public Area&quot; will only appear later, when we begin defining rules of play which apply in some areas but not others, but in the mean time we can see the effect by turning to the World tab of the Index. In the World Index, Inform draws a map - or at least a stylised attempt at a diagram of the rooms and their connections: this will not always correspond to how we imagine things, but with any luck it should mostly be right.
+<p>
+<p>Rooms are represented by coloured squares, and the colour-coding is done by region. In the above example, the two &quot;Public Area&quot; rooms are coloured green (as it happens); the Greenhouse, since it belongs to no region, is a neutral grey.
+<p>
+<p>Regions can be put inside each other:
+<p>
+<blockquote><font color="#000080">The University Parks is a region. The Public Area is in the University Parks.
 </font></blockquote><p>
 <p>
-<p>Backdrops are ordinarily in the background: if the sky needed to be referred to in the course of play, it might be represented by a backdrop, for instance. Here we have a stream of water running through two rooms, though it might be any number. Backdrops are always fixed in place.
-<p>
-<p>Backdrops can be put in regions as well as rooms, and if so, then they are present at every room in the given region (or regions), as well as any specific rooms they may also be put into. For instance:
-<p>
-<blockquote><font color="#000080">The Outdoors Area is a region. The Moon is a backdrop. The Moon is in the Outdoors Area. The Moon is in the Skylight Room.
-</font></blockquote><p>
-<p>
-<p>Lastly, the special place &quot;everywhere&quot; can be given as the location of a backdrop to make it omnipresent:
-<p>
-<blockquote><font color="#000080">The sky is a backdrop. The sky is everywhere.
-</font></blockquote><p>
-<p>
-<p>Inform assumes that backdrops are also scenery unless told otherwise, so this will not result in messages like &quot;You can also see the sky here.&quot; being included in room descriptions. In the case of the stream above, we could artfully mention it in passing in the room descriptions of the Upper Cave and the Rock Pool.
+<p>but they are not allowed to overlap other than by one being entirely inside the other.
 <p>
 <p><hr><p>
-<a name="e26"><a href=ex26.html#e26><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Adding a view of the glacier.</i><p>
-<p><hr><p><a href=doc30.html>Previous</a> / <a href=doc32.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e194"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex194.html#e194 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>5</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex194.html#e194 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000">Port Royal 3</font></b></a><br>Division of Port Royal into regions.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc30.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc32.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

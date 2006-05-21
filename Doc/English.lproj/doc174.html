@@ -1,4 +1,13 @@
-<html><head><title>12.5. Making new relations</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>11.15. Changing reachability</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,43 +16,39 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc173.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc175.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>12.5. Making new relations</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc173.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap11.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 11: Advanced Actions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc175.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>11.15. Changing reachability</b></font></td></tr></table>
 <p>
-<p>We can create new relations like so:
+<p>The question of what the player can, and cannot, reach is important in interactive fiction. It contains some of the subtlest ideas in the model world, though they often go unnoticed. For instance, if a key is on a shelf which is part of a closed box, can we reach for the key? This comes down to whether the shelf, described only as &quot;part of&quot; the box, is on the inside or the outside: and in fact, because it cannot know which is the case, Inform allows either. So in general it is best to regard &quot;parts&quot; as being exterior parts, but to avoid having parts on containers that might in the course of play be closed up with the player inside.
 <p>
-<blockquote><font color="#000080">Loving relates various people to one person.
+<p>We can, if we wish, change the principles of what can be touched by writing new reaching inside or reaching outside rules. Returning to the example of the conical flask:
+<p>
+<blockquote><font color="#000080">A rule for reaching inside the flask: say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;; allow access.
 </font></blockquote><p>
 <p>
-<p>Each of the relations has a name of the form &quot;something relation&quot;, where the &quot;something&quot; is a single word, and in this case the name is &quot;loving relation&quot;. In such a definition, we have to say what kind of thing appears on the left and right of any relation, and also whether &quot;one&quot; or &quot;various&quot; possibilities can exist. In the example
+<p>(Or this could equally be called &quot;a reaching inside rule for the flask&quot;.) More generally, we could give the usual flexible description of what the rule applies to:
 <p>
-<blockquote><font color="#000080">Loving relates various people to one person.
+<blockquote><font color="#000080">A rule for reaching inside open containers: say &quot;Your hands seem enigmatically too large for [the container in question].&quot;; deny access.
 </font></blockquote><p>
 <p>
-<p>what we are saying is that only people love; that they only love people; and that each person loves only one other person (at any given moment).
+<p>The &quot;container in question&quot; is the one to which the rule is being applied. Note that a reaching inside rule can &quot;deny access&quot; (stopping with fail), or &quot;allow access&quot; (stopping with success), or neither, in which case the decision is left up to any subsequent rules in the rulebook to make. If none of them decide, access is allowed.
 <p>
-<p>The &quot;various&quot; part comes in because, for instance, we might have:
+<p>If it seems possible that these rules will be employed by people other than the player, then we need to write them a little more carefully, and in particular we need to ensure that they print nothing for other people. In the first case below, anybody can reach through the glass; in the second case, only the player cannot reach into open containers.
 <p>
-<blockquote><font color="#000080">Verenka <i>loving relation</i> Stankevich
-<br>Liubov <i>loving relation</i> Stankevich
+<blockquote><font color="#000080">A rule for reaching inside the flask:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player, say &quot;Your hand passes through the glass as if it were not there, chilling you to the bone.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;allow access.
 </font></blockquote><p>
 <p>
-<p>so that various people (Verenka and Liubov, to name but two) love one person (Stankevich). But we are forbidding anyone to love two other people at the same time: Stankevich must decide which of them to love, or pick someone else, or no-one at all. Similarly, we would not allow
-<p>
-<blockquote><font color="#000080">Liubov <i>loving relation</i> Belinsky
+<blockquote><font color="#000080">A rule for reaching inside open containers:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the person reaching is the player begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Your hands seem enigmatically too large for [the container in question].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;deny access.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>It is sometimes convenient to give a name to the other side of a relationship, so to speak. We might imagine:
-<p>
-<blockquote><font color="#000080">Pet-ownership relates various animals to one person (called the owner).
-</font></blockquote><p>
-<p>
-<p>It would then make sense to talk about &quot;the owner of Loulou&quot;, and we could have phrases like &quot;now Flaubert is the owner of Loulou&quot; or &quot;if the owner of Loulou is a woman...&quot; and so forth. This, however, would not be allowed:
-<p>
-<blockquote><font color="#000080">Pet-ownership relates various animals (called the pet) to one person.
-</font></blockquote><p>
-<p>
-<p>because &quot;the pet of Flaubert&quot; would be ambiguous: he might have owned dozens.
+<p>The &quot;person reaching&quot; is, as its name suggests, the person trying to reach through the barrier in question.
 <p>
 <p><hr><p>
-<a name="e43"><a href=ex43.html#e43><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Clothing for the player that layers, so that items cannot be taken off in the wrong order, and the player's inventory lists only the clothing that is currently visible.</i><p>
-<p><hr><p><a href=doc173.html>Previous</a> / <a href=doc175.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e121"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex121.html#e121 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>141</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex121.html#e121 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Magneto's Revenge</font></b></a><br>Kitty Pryde of the X-Men is able to reach through solid objects, so we might implement her with special powers that the player does not have...<p></td></tr></table>
+<a name="e252"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex252.html#e252 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>142</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex252.html#e252 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Dinner is Served</font></b></a><br>A window between two locations. When the window is open, the player can reach through into the other location; when it isn't, access is barred.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc173.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc175.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

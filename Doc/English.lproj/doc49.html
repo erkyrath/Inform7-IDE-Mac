@@ -1,4 +1,13 @@
-<html><head><title>4.5. Assemblies and body parts</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>3.22. Concealment</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,41 +16,28 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc48.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc50.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>4.5. Assemblies and body parts</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc48.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap3.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 3: Things</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc50.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>3.22. Concealment</b></font></td></tr></table>
 <p>
-<p>In the previous chapter, we saw that it was possible to make sub-parts of things. For instance,
+<p>Though realism can become tiresome in interactive fiction, there are times when we cannot go along with Inform's normal assumption that all of a person's possessions are visible to everybody else. People are not like containers, which either show all of their holdings or not, according to whether they are open or transparent. If a man is carrying a fishing rod and a wallet, one will be on open show, the other not. Some clothing is outwardly visible, but not all.
 <p>
-<blockquote><font color="#000080">The white door is in the Drawing Room. The handle is part of the white door.
+<p>Whether or not something is concealed is not like the either/or properties we have seen so far - such as being &quot;open&quot; or &quot;closed&quot; - because it is not really a property of the thing itself, but depends on the habitual behaviour of its current owner. To talk about behaviour we have to use sentences of a kind not seen so far, and which will not fully be explained for some chapters to come.
+<p>But straightforward cases are easy to write, if only by imitating the following examples.
+<p>
+<p>Here we make the Cloaked Villain invariably conceal anything she is holding or wearing:
+<p>
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: yes.
 </font></blockquote><p>
 <p>
-<p>creates a door with an attached handle. But what if we want to say that not just this door, but every door, should have a handle? To do this we first need to create a kind called &quot;handle&quot;, since there will clearly need to be many handles. The solution is:
+<p>At which point we think about it more carefully, and then rewrite:
 <p>
-<blockquote><font color="#000080">A handle is a kind of thing. A handle is part of every door.
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of the Cloaked Villain: if the particular possession is the sable cloak, no; otherwise yes.
 </font></blockquote><p>
 <p>
-<p>&quot;Every&quot; is a loaded word and best used sparingly. A sentence like &quot;A handle is part of every handle&quot; would, if taken literally, mean that a handle takes forever to make and is never finished. Inform will reject this, but the moral is clear: we should think about what we are doing with &quot;every&quot;. Another restriction is it is not safe to meddle with the three fundamental kinds &quot;room&quot;, &quot;container&quot; or &quot;supporter&quot;, but in fact this one can be got around quite easily, like so -
+<p>Parts are treated exactly as if clothes or items being held, and the following will make the face and inscription on a coin invisible unless the player is holding it - the idea being that they are too small to be seen from farther away.
 <p>
-<blockquote><font color="#000080">A silver coin is a kind of thing. A banking room is a kind of room. Five silver coins are in every banking room.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, no; otherwise yes.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> The coin is in the Roman Villa. The face and inscription are parts of the coin. Rule for deciding the concealed possessions of the coin: if the coin is carried, no; otherwise yes.
 </font></blockquote><p>
-<p>
-<p>The effect of sentences like these is to make what we might call &quot;assemblies&quot; instead of single things. When a banking room is created, so are five more silver coins; when a door is created, so is another handle. Such sentences act not only on items created later on in the source text, but also on all those created so far.
-<p>
-<p>This is especially useful for body parts. If we would like to explore Voltaire's suggestion that history would have been very different if only Cleopatra's nose had been shorter, we will need noses:
-<p>
-<blockquote><font color="#000080">A nose is a kind of thing. A nose is part of every person.
-</font></blockquote><p>
-<p>
-<p>Something to bear in mind, though, is that in play the following may well happen:
-<p>
-<blockquote><font color="#000080">>examine nose
-<br>Which do you mean, your nose, Antony's nose or Cleopatra's nose?
-</font></blockquote><p>
-<p>
-<p>...because the player, being also a &quot;person&quot;, is as susceptible to the invention of noses as anyone else.
-<p>
-<p>Note that Inform names the otherwise nameless noses after their owners. It will always do this unless there are multiple indistinguishable things being created, as in the &quot;five silver coins are in every banking room&quot; example: those will all just be called &quot;silver coin&quot;.
 <p>
 <p><hr><p>
-<a name="e48"><a href=ex48.html#e48><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>An "on/off button" which controls whatever device it is part of.</i><p>
-<a name="e38"><a href=ex38.html#e38><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>A "chest" kind which consists of a container which has a lid as a supporter.</i><p>
-<p><hr><p><a href=doc48.html>Previous</a> / <a href=doc50.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e103"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex103.html#e103 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>21</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex103.html#e103 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Search and Seizure</font></b></a><br>A smuggler who has items, some of which are hidden.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc48.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc50.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

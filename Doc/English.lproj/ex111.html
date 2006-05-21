@@ -1,4 +1,13 @@
-<html><head><title>15.9. Commands consisting only of nouns</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>11.4. Persuasion</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,67 +16,96 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc225.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc227.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>15.9. Commands consisting only of nouns</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc162.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap11.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 11: Advanced Actions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc164.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>11.4. Persuasion</b></font></td></tr></table>
 <p>
-<p>In every example so far, and in almost all practical cases, the first word in a command which results in an action will be something fixed: a verb, in fact. When we write
+<p>&quot;Asking ... to try ...&quot; actions run through their Before and Instead rules like any other actions, but then (if no rule has intervened) something different happens: Inform has to decide whether the person asked consents to try the action or not. By default, the answer is always no, and text like the following will be printed:
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
+<blockquote><font color="#000080">> will, go west
+<br>Will has better things to do.
 </font></blockquote><p>
 <p>
-<p>we are saying that the first word of such a command will always be &quot;photograph&quot;. Occasionally, though, we would like to understand a noun as a command, perhaps in a situation where the command is obvious. If we say:
+<p>However, we can intervene to make the answer &quot;yes&quot;, using a special kind of rule which produces a yes/no answer. The following examples show how we can give broad or narrow permission, as we choose:
 <p>
-<blockquote><font color="#000080">Understand &quot;[something]&quot; as examining.
+<blockquote><font color="#000080">Persuasion rule for asking people to try going: persuasion succeeds.
+<br>Persuasion rule for asking Will to try going west: persuasion succeeds.
 </font></blockquote><p>
 <p>
-<p>then the command &quot;examine&quot; will be implicit when the player types a bare noun:
+<p>Such a rule can either declare that &quot;persuasion succeeds&quot;, or that &quot;persuasion fails&quot;, or make no decision and leave it to another rule to say. If it decides that persuasion fails, it is also allowed to say something, describing why: in that event, the standard message (&quot;Will has better things to do.&quot;) is suppressed. For example,
 <p>
-<blockquote><font color="#000080">A red box and a blue ball are here.
-<br>> ball
-<br>The blue ball is plaited from many small leather patches.
+<blockquote><font color="#000080">Persuasion rule for asking Will to try going:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Will looks put out, and mutters under his breath.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;persuasion fails.
 </font></blockquote><p>
 <p>
-<p>so that the command &quot;ball&quot; has resulted in the action &quot;examining the blue ball&quot;.
+<p>The following rule, which is really only suitable for testing, makes everybody infinitely obliging:
 <p>
-<p>This is a feature which should be used sparingly, since it could easily lead to confusion if not carefully explained to the player. By default, it is not used at all.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Persuasion rule for asking people to try doing something: persuasion succeeds.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> Persuasion rule for asking people to try doing something: persuasion succeeds.
+</font></blockquote><p>
+<p>
+<p>Supposing that Will does decide to cooperate, a new action is generated:
+<p>
+<blockquote><font color="#000080">Will trying going west
+</font></blockquote><p>
+<p>
+<p>and this is then subject to all of the usual action machinery. For instance, we could write a rule such as:
+<p>
+<blockquote><font color="#000080">Instead of Will trying going west, say &quot;He runs out into the waves, but soon returns, rueful.&quot;
+</font></blockquote><p>
+<p>
+<p>So in this case the new action (&quot;Will trying going west&quot;) failed: but the original action, &quot;asking Will to try going west&quot;, is still deemed to have succeeded - after all, Will <i>did</i> try. To put it more formally, &quot;asking X to try A&quot; succeeds if the persuasion rules succeed, and otherwise fails.
 <p>
 <p><hr><p>
-<a name="e46"><a href=ex46.html#e46><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>A going by name command which does respect movement rules, and accepts names of rooms as commands.</i><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e111"><a href=doc226.html#e111><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (**).</font> <i>The same functionality, but making the player continue to move until he reaches his destination or a barrier, handling all openable doors on the way.</i><p>
-<p>
-<p>The foregoing example moves the player one location towards his destination, and requires that rooms have been visited before. But suppose we wanted to be a bit more lenient about movement, and let the player make as many steps as necessary per turn.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('Safari Guide\n\nThe Monkey House is a room. The African Grasslands Exhibit is north of the Monkey House. The bird door is north of the African Grasslands Exhibit and south of the Aviary. The Ostrich Enclosure is west of the Aviary. The bird door is a door. It is closed, lockable, and locked. The silver key is a passkey. It unlocks the bird door. The player carries the silver key.\n\nUnderstand &quot;go to [any room]&quot; as going by name. Understand &quot;[any room]&quot; as going by name. Understand &quot;[door]&quot; as entering.\n\nGoing by name is an action applying to one thing.\n\nCheck going by name:\n\tif the noun is the location, say &quot;You\'re already in [the location].&quot; instead.\n\nCarry out going by name:\n\twhile the player is not in the noun\n\tbegin;\n\t\tlet heading be the best route from the location to the noun, using even locked doors;\n\t\tif heading is not a direction, say &quot;You can\'t think how to get there from here.&quot; instead;\n\t\tlet destination be the room heading from the location;\n\t\tsay &quot;(heading [heading])[line break]&quot;;\n\t\ttry going heading;\n\t\tif the player is not in the destination, rule fails;\n\tend while.\n\n[Notice that we continue the movement until one of two things happens: either the player reaches the room that is his destination, or the going attempt doesn\'t work. In the latter case we stop the action in order to avoid hanging the game up in a loop. This event might occur when the player runs into a locked door, for instance.]\n\n[We might also want him to automatically open and unlock any doors he encounters on the way; to this end we can just include the lock-handling extension. Now every time the code attempts opening a door, unlocking rules will also be invoked.]\n\nInclude Locksmith by Emily Short.\n\n')"><img border=0 src=paste.png></a> Safari Guide
+<a name="e111"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc163.html#e111 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>121</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc163.html#e111 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> The Hypnotist of Blois</font></b></a><br>A hypnotist who can make people obedient and then set them free again.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Hypnotist of Blois&quot;\n\nA person is either hypnotized or alert. A person is usually alert.\n\nPersuasion rule for asking a hypnotized person to try doing something:\n\tpersuasion succeeds.\n\nUnderstand &quot;hypnotize [someone]&quot; as hypnotizing.\n\nHypnotizing is an action applying to one thing.\n\nCheck hypnotizing:\n\tif the noun is hypnotized, say &quot;Already done.&quot; instead.\n\nCarry out hypnotizing:\n\tnow the noun is hypnotized.\n\nReport hypnotizing:\n\tsay &quot;[The noun] slips under your control.&quot;\n\nInstead of waking someone hypnotized:\n\tnow the noun is alert;\n\tsay &quot;[The noun] returns abruptly to consciousness.&quot;\n\n[We will learn more about check rules for other characters shortly, but the following prevents the hypnosis patient from trying to hypnotize us in turn:]\n\nCheck someone trying hypnotizing someone:\n\tstop the action.\n\nMaison de la Magie is a room. &quot;In a darkened room, a few hundreds of paces from the chateau of Blois, you give to tourists three shows a day: displaying to them power they do not comprehend and spectacles they do not deserve.&quot;\n\nA volunteer is a woman in the Maison. &quot;A volunteer from the audience stands facing you, [if alert]skeptically awaiting hypnosis[otherwise]her face worshipful and obedient[end if].&quot; The printed name of the volunteer is &quot;volunteer from the audience&quot;. The description is &quot;A distracted, susceptible woman.&quot; The volunteer wears a t-shirt and a baseball hat.\n\nThe player wears a top hat and a cape.\n\nTest me with &quot;volunteer, remove hat / hypnotize volunteer / look / volunteer, remove hat / wake volunteer / volunteer, wear hat&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;The Hypnotist of Blois&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Monkey House is a room. The African Grasslands Exhibit is north of the Monkey House. The bird door is north of the African Grasslands Exhibit and south of the Aviary. The Ostrich Enclosure is west of the Aviary. The bird door is a door. It is closed, lockable, and locked. The silver key is a passkey. It unlocks the bird door. The player carries the silver key.
+<blockquote><font color="#000080">A person is either hypnotized or alert. A person is usually alert.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;go to [any room]&quot; as going by name. Understand &quot;[any room]&quot; as going by name. Understand &quot;[door]&quot; as entering.
+<blockquote><font color="#000080">Persuasion rule for asking a hypnotized person to try doing something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;persuasion succeeds.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Going by name is an action applying to one thing.
+<blockquote><font color="#000080">Understand &quot;hypnotize [someone]&quot; as hypnotizing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check going by name:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is the location, say &quot;You're already in [the location].&quot; instead.
+<blockquote><font color="#000080">Hypnotizing is an action applying to one thing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out going by name:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;while the player is not in the noun
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let heading be the best route from the location to the noun, using even locked doors;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if heading is not a direction, say &quot;You can't think how to get there from here.&quot; instead;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let destination be the room heading from the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(heading [heading])[line break]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try going heading;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the player is not in the destination, rule fails;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end while.
+<blockquote><font color="#000080">Check hypnotizing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun is hypnotized, say &quot;Already done.&quot; instead.
 </font></blockquote><p>
 <p>
-<p>Notice that we continue the movement until one of two things happens: either the player reaches the room that is his destination, or the going attempt doesn't work. In the latter case we stop the action in order to avoid hanging the game up in a loop. This event might occur when the player runs into a locked door, for instance.
-<p>
-<p>We might also want him to automatically open and unlock any doors he encounters on the way; to this end we can just include the lock-handling extension. Now every time the code attempts opening a door, unlocking rules will also be invoked.
-<p>
-<blockquote><font color="#000080">Include Locksmith by Emily Short.
+<blockquote><font color="#000080">Carry out hypnotizing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is hypnotized.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc225.html>Previous</a> / <a href=doc227.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Report hypnotizing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] slips under your control.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of waking someone hypnotized:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the noun is alert;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The noun] returns abruptly to consciousness.&quot;
+</font></blockquote><p>
+<p>
+<p>We will learn more about check rules for other characters shortly, but the following prevents the hypnosis patient from trying to hypnotize us in turn:
+<p>
+<blockquote><font color="#000080">Check someone trying hypnotizing someone:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;stop the action.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Maison de la Magie is a room. &quot;In a darkened room, a few hundreds of paces from the chateau of Blois, you give to tourists three shows a day: displaying to them power they do not comprehend and spectacles they do not deserve.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A volunteer is a woman in the Maison. &quot;A volunteer from the audience stands facing you, [if alert]skeptically awaiting hypnosis[otherwise]her face worshipful and obedient[end if].&quot; The printed name of the volunteer is &quot;volunteer from the audience&quot;. The description is &quot;A distracted, susceptible woman.&quot; The volunteer wears a t-shirt and a baseball hat.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The player wears a top hat and a cape.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;volunteer, remove hat / hypnotize volunteer / look / volunteer, remove hat / wake volunteer / volunteer, wear hat&quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc163.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e172"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex172.html#e172 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>122</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex172.html#e172 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Police State</font></b></a><br>Several friends who obey you; a policeman who doesn't (but who takes a dim view of certain kinds of antics).<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc162.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc164.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

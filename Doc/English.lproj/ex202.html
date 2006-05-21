@@ -1,4 +1,13 @@
-<html><head><title>11.8. Irregular English verbs</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>4.15. Using new kinds of value in properties</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,92 +16,98 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc159.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc161.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.8. Irregular English verbs</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc65.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap4.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 4: Kinds</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc67.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>4.15. Using new kinds of value in properties</b></font></td></tr></table>
 <p>
-<p>Our three example actions can be recognised in play using the following:
+<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
 <p>
-<blockquote><font color="#000080">Understand &quot;photograph [something]&quot; as photographing.
+<blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;blink&quot; as blinking.
+<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
+<p>
+<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
+<p>
+<blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;scrape [something] with [something]&quot; as scraping.
+<p>New kinds of value are very convenient when substituting variations in text:
+<p>
+<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.
 </font></blockquote><p>
 <p>
-<p>The last of these examples shows why Inform does not risk generating this automatically: English is so full of irregular verbs. Inform could have guessed &quot;blink&quot; and &quot;photograph&quot;, but might then have opted for &quot;scrap&quot; instead of &quot;scrape&quot;.
-<p>
-<p>Inform does risk automatically generating the past participle of an action (many past participles are never needed, so the stakes are lower if Inform gets this wrong). What almost always happens is that the &quot;-ing&quot; is replaced with &quot;-ed&quot;, which happens to be correct in these three cases: photographed, blinked, scraped. It would be disastrously wrong for something like taking, though: we need taken, not taked. We can get around this like so:
-<p>
-<blockquote><font color="#000080">Weaving is an action with past participle woven, applying to one thing.
-</font></blockquote><p>
+<p>If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e202"><a href=doc160.html#e202><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (***).</font> <i>A shake command which agitates soda and makes items thump around in boxes.</i><p>
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;3 AM&quot;\n\nUnderstand &quot;shake [something held]&quot; as shaking.\n\nShaking is an action with past participle shaken, applying to one thing.\n\nCarry out shaking:\n\tsay &quot;Nothing results of your shaking [the noun].&quot;\n\nInstead of shaking a closed container when something is in the noun:\n\tsay &quot;Something rattles inside [the noun].&quot;\n\nInstead of shaking a closed transparent container when something is in the noun:\n\tsay &quot;Inside [the noun] there are banging noises produced by [the list of things contained by the noun].&quot;\n\nInstead of shaking an open container which contains something:\n\tsay &quot;[The list of things contained by the noun] might fly out.&quot;\n\nThe Wawa is a room. &quot;A convenience store, if you like to call it that, vending the usual assortment of chips, donuts, soda, and beer. There is something of a line at the sandwich counter.&quot;\n\nThe box of enrobed cakes is in the Wawa. &quot;A box of Tastykake Enrobed Cakes has fallen off its shelf.&quot; The description is &quot;\'Enrobed Cakes\' is a fancy term for \'strange sponge-like baked good, covered in a thin shell of waxy chocolate\'. They are addictive, but not in a way that lets you respect yourself in the morning.&quot; The box is a closed openable container. In the box is a cake.\n\nInstead of opening the box, say &quot;The Wawa clerks frown on the consumption of unpurchased foodstuffs.&quot;\n\nThe can of root beer is a closed openable container carried by the player. The can of root beer is either agitated or calm.\n\n[Because the can of root beer should have some reactions to having been shaken later in the game, we need to borrow a few ideas from the later chapters on time:]\n\nInstead of shaking the can of root beer:\n\tthe can calms down in five turns from now;\n\tsay &quot;You give the can a good hard shake.&quot;;\n\tchange the can to agitated.\n\nInstead of listening to the can: say &quot;It sounds [if agitated]fizzy[otherwise]calm[end if]!&quot;\n\nWhen the can calms down:\n\tchange the can to calm.\n\nThe sticky mess is fixed in place. &quot;There is a sticky mess on the ground.&quot;\n\nInstead of opening the agitated can of root beer:\n\tremove the can of root beer from play;\n\tnow the sticky mess is in the location;\n\tsay &quot;You open the can and fizzing sweet soda goes absolutely everywhere.&quot;\n\nInstead of opening the calm can of root beer when the can has been agitated:\n\tremove the can of root beer from play;\n\tsay &quot;The root beer is disappointingly flat. That\'s what you get for shaking it up!&quot;\n\n')"><img border=0 src=paste.png></a> &quot;3 AM&quot;
+<a name="e202"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc66.html#e202 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>39</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc66.html#e202 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000">The Crane's Leg 1</font></b></a><br>A description text that automatically highlights the ways in which the object differs from a standard member of its kind.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<blockquote><font color="#000080">When you see a long object, you don't have to think that it is too long if being long is the property given by the nature. It is proved by the fact that a duckling, having short legs, will cry if you try to draw them out by force, and that a crane, having long legs, will protest you with tears if you try to cut them with a knife. -- Zhuangzi
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;shake [something held]&quot; as shaking.
+<p>Suppose we have an extremely detailed world model in which every object is characterized by many features -- in this example, material and height, though one could add more. Suppose further that we would like to generate descriptions of these things automatically for the most part, drawing the player's attention only to those aspects of the object that are particularly interesting.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;The Crane\'s Leg&quot;\n\nMaterial is a kind of value. The materials are wood, glass, stone, cloth, paper, clay, and metal. A thing has a material.\n\nA height is a kind of value. 3 feet 11 inches specifies a height. A thing has a height. Definition: a thing is tall if its height is 6 feet 0 inches or more. Definition: a thing is short if its height is 2 feet 0 inches or less.\n\nA thing has a property called the ideal.\n\nA chair is a kind of supporter. A chair is always enterable. A chair is usually wood. The height of a chair is usually 4 feet 0 inches. The ordinary chair is a chair. The ideal of a chair is always the ordinary chair.\n\nA table is a kind of supporter. A table is usually wood. The height of a table is usually 3 feet 8 inches. The ordinary table is a table. The ideal of a table is always the ordinary table.\n\nA rock is a kind of thing. A rock is usually stone. The ordinary rock is a rock. The ideal of a rock is always the ordinary rock. The height of a rock is usually 0 feet 3 inches.\n\nA jug is a kind of container. A jug is usually clay. The ordinary jug is a jug. The ideal of a jug is always the ordinary jug. The height of a jug is usually 0 feet 8 inches.\n\nThe description of a thing is usually &quot;[comparison with ideal]&quot;.\n\nTo say comparison with ideal:\n\tlet the sample be the ideal of the noun;\n\tif the sample is not a thing\n\tbegin;\n\t\tsay &quot;Perfectly conforming to your expectations of its type.&quot;;\n\t\trule succeeds;\n\tend if;\n\tif the material of the noun is not the material of the sample\n\tbegin;\n\t\tif the height of the noun is not the height of the sample\n\t\tbegin;\n\t\t\tif the noun is shorter than the sample, say &quot;Unusually short at [height of the noun], and made of [material of the noun].&quot;;\n\t\t\totherwise say &quot;Unusually tall at [height of the noun], and made of [material of the noun].&quot;;\n\t\totherwise;\n\t\t\tsay &quot;Distinct mostly in being made of [material of the noun].&quot;;\n\t\tend if;\n\totherwise;\n\t\tif the height of the noun is not the height of the sample\n\t\tbegin;\n\t\t\tif the noun is shorter than the sample, say &quot;Unusually short at [height of the noun].&quot;;\n\t\t\totherwise say &quot;Unusually tall at [height of the noun].&quot;;\n\t\totherwise;\n\t\t\tsay &quot;In every respect [a sample].&quot;;\n\t\tend if;\n\tend if.\n\nThe Pleasure Garden is a room. &quot;At the riverbank, a pleasing garden, having many curving paths and one straight.&quot;\n\nThe low table is a table in the Pleasure Garden. The height of the low table is 2 feet 3 inches. On the low table is a metal rock called a gold nugget.\n\nTest me with &quot;x table / x nugget&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;The Crane's Leg&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Shaking is an action with past participle shaken, applying to one thing.
+<blockquote><font color="#000080">Material is a kind of value. The materials are wood, glass, stone, cloth, paper, clay, and metal. A thing has a material.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out shaking:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Nothing results of your shaking [the noun].&quot;
+<blockquote><font color="#000080">A height is a kind of value. 3 feet 11 inches specifies a height. A thing has a height. Definition: a thing is tall if its height is 6 feet 0 inches or more. Definition: a thing is short if its height is 2 feet 0 inches or less.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of shaking a closed container when something is in the noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Something rattles inside [the noun].&quot;
+<blockquote><font color="#000080">A thing has a property called the ideal.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of shaking a closed transparent container when something is in the noun:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Inside [the noun] there are banging noises produced by [the list of things contained by the noun].&quot;
+<blockquote><font color="#000080">A chair is a kind of supporter. A chair is always enterable. A chair is usually wood. The height of a chair is usually 4 feet 0 inches. The ordinary chair is a chair. The ideal of a chair is always the ordinary chair.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of shaking an open container which contains something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The list of things contained by the noun] might fly out.&quot;
+<blockquote><font color="#000080">A table is a kind of supporter. A table is usually wood. The height of a table is usually 3 feet 8 inches. The ordinary table is a table. The ideal of a table is always the ordinary table.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Wawa is a room. &quot;A convenience store, if you like to call it that, vending the usual assortment of chips, donuts, soda, and beer. There is something of a line at the sandwich counter.&quot;
+<blockquote><font color="#000080">A rock is a kind of thing. A rock is usually stone. The ordinary rock is a rock. The ideal of a rock is always the ordinary rock. The height of a rock is usually 0 feet 3 inches.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The box of enrobed cakes is in the Wawa. &quot;A box of Tastykake Enrobed Cakes has fallen off its shelf.&quot; The description is &quot;'Enrobed Cakes' is a fancy term for 'strange sponge-like baked good, covered in a thin shell of waxy chocolate'. They are addictive, but not in a way that lets you respect yourself in the morning.&quot; The box is a closed openable container. In the box is a cake.
+<blockquote><font color="#000080">A jug is a kind of container. A jug is usually clay. The ordinary jug is a jug. The ideal of a jug is always the ordinary jug. The height of a jug is usually 0 feet 8 inches.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of opening the box, say &quot;The Wawa clerks frown on the consumption of unpurchased foodstuffs.&quot;
+<blockquote><font color="#000080">The description of a thing is usually &quot;[comparison with ideal]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The can of root beer is a closed openable container carried by the player. The can of root beer is either agitated or calm.
+<blockquote><font color="#000080">To say comparison with ideal:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the sample be the ideal of the noun;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the sample is not a thing
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Perfectly conforming to your expectations of its type.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rule succeeds;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the material of the noun is not the material of the sample
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the height of the noun is not the height of the sample
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the noun is shorter than the sample, say &quot;Unusually short at [height of the noun], and made of [material of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Unusually tall at [height of the noun], and made of [material of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Distinct mostly in being made of [material of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the height of the noun is not the height of the sample
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the noun is shorter than the sample, say &quot;Unusually short at [height of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Unusually tall at [height of the noun].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;In every respect [a sample].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<p>Because the can of root beer should have some reactions to having been shaken later in the game, we need to borrow a few ideas from the later chapters on time:
-<p>
-<blockquote><font color="#000080">Instead of shaking the can of root beer:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;the can calms down in five turns from now;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You give the can a good hard shake.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the can to agitated.
+<blockquote><font color="#000080">The Pleasure Garden is a room. &quot;At the riverbank, a pleasing garden, having many curving paths and one straight.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of listening to the can: say &quot;It sounds [if agitated]fizzy[otherwise]calm[end if]!&quot;
+<blockquote><font color="#000080">The low table is a table in the Pleasure Garden. The height of the low table is 2 feet 3 inches. On the low table is a metal rock called a gold nugget.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">When the can calms down:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the can to calm.
+<blockquote><font color="#000080">Test me with &quot;x table / x nugget&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The sticky mess is fixed in place. &quot;There is a sticky mess on the ground.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of opening the agitated can of root beer:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the can of root beer from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the sticky mess is in the location;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You open the can and fizzing sweet soda goes absolutely everywhere.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Instead of opening the calm can of root beer when the can has been agitated:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the can of root beer from play;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The root beer is disappointingly flat. That's what you get for shaking it up!&quot;
-</font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc159.html>Previous</a> / <a href=doc161.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>So far the effect is not very deep, but we could take the auto-description a great deal further: providing a larger and more interesting set of variations; or writing a complicated set of rules such that the player only notices height variations when carrying a ruler; or switching between several player-characters, each of whom notices a different subset of characteristics. But these refinements would require more input from later chapters.
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc66.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e250"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex250.html#e250 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>40</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex250.html#e250 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Signs and Portents</font></b></a><br>Signpost that points to various destinations, depending on how the player has turned it.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc65.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc67.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

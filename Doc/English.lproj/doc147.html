@@ -1,4 +1,13 @@
-<html><head><title>10.11. Let and temporary variables</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>10.6. While</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,42 +16,25 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc146.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc148.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>10.11. Let and temporary variables</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc146.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap10.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 10: Phrases</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc148.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>10.6. While</b></font></td></tr></table>
 <p>
-<p>A variable, as we have seen, is a name for a value which changes, though always remaining of the same kind. For instance, if &quot;target&quot; is a number variable (or &quot;number that varies&quot;) then it may change value from 2 to 4, but not from 2 to &quot;fishknife&quot;.
+<p>The other main control phrase is &quot;while&quot;, which has the form:
 <p>
-<p>To make complicated decisions, phrases often need to remember values on a temporary basis. We have already seen this for the counter in a &quot;repeat&quot; loop, which exists only inside that loop, and then is no longer needed. Now we define named values which exist only inside the current phrase. For instance:
-<p>
-<blockquote><font color="#000080">let outer bull be 25;
-<br>let the current appearance be &quot;reddish brown&quot;;
-<br>let the special room be Marley Wood;
+<blockquote><font color="#000080">while (... condition ...) repeatedly (... another whole phrase ...)
 </font></blockquote><p>
 <p>
-<p>creates temporary variables &quot;outer bull&quot;, &quot;current appearance&quot; and &quot;special room&quot;. The kinds of these are deduced from the values given, so that, for instance,
+<p>which keeps on applying the same phrase as long as the condition holds. If it never holds, even at the start, then the phrase is never applied at all and nothing happens. Just as the word &quot;then&quot; in an &quot;if&quot; can be abbreviated with a comma, so can the word &quot;repeatedly&quot; here.
 <p>
-<blockquote><font color="#000080">say &quot;The outer bull scores [the outer bull in words] when you practice archery in [special room].&quot;
+<p>We must be careful not to commit mistakes like the following:
+<p>
+<blockquote><font color="#000080">while eggs is eggs repeatedly say &quot;again and &quot;
 </font></blockquote><p>
 <p>
-<p>produces
+<p>which, as sure as eggs is eggs (which is very sure indeed), writes out
 <p>
-<blockquote><font color="#000080">The outer bull scores twenty-five when you practice archery in Marley Wood.
+<blockquote><font color="#000080">again and again and again and again and again and ...
 </font></blockquote><p>
 <p>
-<p>Temporary variables made by &quot;let&quot; are only temporarily in existence while a phrase is being carried out. Their values often change: we could say
+<p>forever. (Inform won't prevent this: we will find out the hard way when the game is played.) While we would probably never write anything so blatant as that, the mistake is all too easy to commit in disguised form. We should never design a loop, as repetitions like this are called, without worrying about if and when it will finish.
 <p>
-<blockquote><font color="#000080">let x be 10;
-<br>change x to 11;
-</font></blockquote><p>
-<p>
-<p>for instance, or indeed we could &quot;let x be 10&quot; and then &quot;let x be 11&quot;. But although we are allowed to change the value, we are not allowed to change the kind of value. The name &quot;x&quot; must always have the same kind of value throughout the phrase to which it belongs, so the following will not be allowed:
-<p>
-<blockquote><font color="#000080">let x be 45;
-<br>change x to &quot;Norway&quot;;
-</font></blockquote><p>
-<p>
-<p>(The difference between &quot;let&quot; and &quot;change&quot; is that &quot;let&quot; can create a new temporary variable, whereas &quot;change&quot; can only alter one which already exists: on the other hand, &quot;change&quot; can change many other things as well, whereas &quot;let&quot; applies only to temporary variables.)
-<p>
-<p><hr><p>
-<a name="e144"><a href=ex144.html#e144><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>More on using kinds of value inside phrases, this time to simulate something new: a box which, although it cannot be picked up, can be pushed around between three different places on the floor.</i><p>
-<a name="e198"><a href=ex198.html#e198><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (**).</font> <i>A worked example using a new kind of value, "colour", within phrases to talk about tinted wallpaper.</i><p>
-<p><hr><p><a href=doc146.html>Previous</a> / <a href=doc148.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc146.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc148.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

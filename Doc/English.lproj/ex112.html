@@ -1,4 +1,13 @@
-<html><head><title>10.8. Repeat</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>12.4. To carry, to wear, to have</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,91 +16,82 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc143.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc145.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>10.8. Repeat</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc179.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap12.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 12: Relations</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc181.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>12.4. To carry, to wear, to have</b></font></td></tr></table>
 <p>
-<p>The following kind of loop could if necessary be achieved just as well with a suitable &quot;while&quot;, but occurs so often that it is convenient to have a standard form. Repeat loops also have the great advantage of being certain to finish.
+<p>Inform has altogether five mutually exclusive ways in which one thing can be physically joined to another one:
 <p>
-<blockquote><font color="#000080">repeat with my counter running from 1 to 10 begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;(phrases)
-<br>end repeat;
+<blockquote><font color="#000080">containment relation - The coin is in the purse.
+<br>support relation - The coin is on the table.
+<br>incorporation relation - The coin is part of the sculpture.
+<br>carrying relation - The coin is carried by Peter.
+<br>wearing relation - The jacket is worn by Peter.
 </font></blockquote><p>
 <p>
-<p>This is similar to the old FOR/NEXT loop from BASIC, for those with long memories, and runs through the given phrases ten times. Within those phrases, a special value called &quot;my counter&quot; has the value 1 the first time through, then the value 2, then 3 and so on up to 10. This value exists only within the loop, so it makes no sense to talk about &quot;my counter&quot; elsewhere. (It can of course be called whatever we like: this is only an example.)
+<p>This is why we cannot have
 <p>
-<p>The &quot;begin&quot; and &quot;end repeat&quot; are compulsory for repeat loops, in the interests of clarity.
-<p>
-<p>We are allowed to &quot;nest&quot; loops, that is, to put one inside another.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('To plot a grid with size (S - a number):\n\trepeat with x running from 1 to S begin;\n\t\tsay &quot;Row [x]:&quot;;\n\t\trepeat with y running from 1 to S begin;\n\t\t\tsay &quot; [y]&quot;;\n\t\tend repeat;\n\t\tsay &quot;.&quot;;\n\tend repeat.\n\n\n')"><img border=0 src=paste.png></a> To plot a grid with size (S - a number):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with x running from 1 to S begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Row [x]:&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;repeat with y running from 1 to S begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; [y]&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;end repeat;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<blockquote><font color="#000080">The coin is on the table.
+<br>The coin is part of the table.
 </font></blockquote><p>
 <p>
-<p>If we then write
+<p>simultaneously, and it is a rare exception to the general rule that having one relation does not affect having another.
 <p>
-<blockquote><font color="#000080">plot a grid with size 5
+<p>But there is also a sixth relation used in Inform for these meanings: the possession relation, which is the meaning of the verb &quot;to have&quot;. At first sight this looks the same as the carrying relation, but in fact it is a convenient shorthand for &quot;carrying or wearing&quot;:
+<p>
+<blockquote><font color="#000080">Mr Darcy has a rapier.
 </font></blockquote><p>
 <p>
-<p>then the result is
+<p>says that Darcy is carrying the rapier at the start of play, but
 <p>
-<blockquote><font color="#000080">Row 1: 1 2 3 4 5.
-<br>Row 2: 1 2 3 4 5.
-<br>Row 3: 1 2 3 4 5.
-<br>Row 4: 1 2 3 4 5.
-<br>Row 5: 1 2 3 4 5.
+<blockquote><font color="#000080">if Mr Darcy has a wet shirt ...
 </font></blockquote><p>
 <p>
-<p>Thus the innermost phrase, the say which mentions &quot;y&quot;, happens 25 times.
+<p>will be true during play if he is either carrying or wearing the shirt.
+<p>
+<p>Still another relation exists which can be tested, but not declared to be true or false: the concealment relation, which is the meaning of the verb &quot;to conceal&quot;. So we can ask:
+<p>
+<blockquote><font color="#000080">if Mr Darcy conceals a fob watch ...
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e112"><a href=doc144.html#e112><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>A lottery drum which redistributes the tickets inside whenever the player spins it.</i><p>
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Wonka\'s Revenge&quot;\n\nThe Caribou Lodge is a room. &quot;Hundreds of expectant faces are turned your way from every table.&quot; A lottery drum is in the Lodge. &quot;Before you is the lottery drum[if we have spun the drum], ready to disgorge a ticket[otherwise], waiting to be spun[end if].&quot; In the drum are a red ticket, an orange ticket, a yellow ticket, a green ticket, a blue ticket, a purple ticket, and a ticket of pure gold. The drum is closed and openable.\n\nUnderstand &quot;spin [something]&quot; as spinning.\n\nSpinning is an action with past participle spun, applying to one thing.\n\nCheck spinning: if the noun is an open container which contains something, say &quot;[The list of things in the noun] would fly out.&quot; instead.\n\nCarry out spinning a container:\n\tshuffle the contents of the noun.\n\nReport spinning:\n\tif the noun contains something, say &quot;You rattle [if the container is transparent][the list of things in the container][otherwise]the stuff[end if] in [the noun].&quot;;\n\totherwise say &quot;Nothing results of your shaking [the noun].&quot;\n\n[Inform keeps track of the order in which things have been put into a container. If we want to change that order without the player\'s intervention, we can move the things ourselves.]\n\nTo shuffle the contents of (basket - a container):\n\tlet moves be the number of things in the basket;\n\trepeat with counter running from 1 to moves\n\tbegin;\n\t\tmove a random thing in the basket to the basket;\n\tend repeat.\n\nAfter opening the drum when we have spun the drum for the first time:\n\tif something (called the pick) is in the drum\n\tbegin;\n\t\tsay &quot;[The pick] it is, then. &quot;;\n\t\ttry taking the pick;\n\t\tif the pick is the ticket of pure gold, end the game in victory;\n\t\totherwise end the game saying &quot;Oh well, better luck next time.&quot;;\n\tend if.\n\n')"><img border=0 src=paste.png></a> &quot;Wonka's Revenge&quot;
+<a name="e112"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc180.html#e112 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>145</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc180.html#e112 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Interrogation</font></b></a><br>A wand which, when waved, reveals the concealed items carried by people the player can see.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Interrogation&quot;\n\nThe X-Ray Vision Wand is carried by the player.\n\nInstead of waving the X-Ray Vision Wand:\n\tsay &quot;Disappointingly, nothing happens.&quot;\n\nInstead of waving the X-Ray Vision Wand when the player can see someone who is concealing something:\n\tsay &quot;The wand glows green. Immediately you see on the monitor [list of things which are concealed by people who can be seen by the player].&quot;\n\nAfter printing the name of a thing (called target) which is carried by someone while waving the wand:\n\tsay &quot; (carried by [a random person who carries the target])&quot;\n\nThe Interrogation Chamber is a room. &quot;Despite its gothic name, this room is a rather civilized place for your work, with large plate-glass windows and a fitted carpet.&quot;\n\nA thing can be secret or obvious. A thing is usually obvious.\n\nBrian is in the Interrogation Chamber.&quot;Brian lounges against the wall.&quot; Brian carries a quantity of plastic explosive. The explosive is secret.\n\nJanine is in the Interrogation Chamber. &quot;Janine toys nervously with a laptop bag.&quot; Janine carries a chocolate biscuit, a laptop bag, and a microfilm. The microfilm is secret. The laptop bag is wearable. In the bag is a laptop computer.\n\nRule for deciding the concealed possessions of something: if the particular possession is secret, yes; otherwise no.\n\nInstead of examining someone: say &quot;[The noun] is openly carrying [list of unconcealed things carried by the noun].&quot;\n\nTest me with &quot;wave wand / examine janine / examine brian&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Interrogation&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Caribou Lodge is a room. &quot;Hundreds of expectant faces are turned your way from every table.&quot; A lottery drum is in the Lodge. &quot;Before you is the lottery drum[if we have spun the drum], ready to disgorge a ticket[otherwise], waiting to be spun[end if].&quot; In the drum are a red ticket, an orange ticket, a yellow ticket, a green ticket, a blue ticket, a purple ticket, and a ticket of pure gold. The drum is closed and openable.
+<blockquote><font color="#000080">The X-Ray Vision Wand is carried by the player.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Understand &quot;spin [something]&quot; as spinning.
+<blockquote><font color="#000080">Instead of waving the X-Ray Vision Wand:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Disappointingly, nothing happens.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Spinning is an action with past participle spun, applying to one thing.
+<blockquote><font color="#000080">Instead of waving the X-Ray Vision Wand when the player can see someone who is concealing something:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The wand glows green. Immediately you see on the monitor [list of things which are concealed by people who can be seen by the player].&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Check spinning: if the noun is an open container which contains something, say &quot;[The list of things in the noun] would fly out.&quot; instead.
+<blockquote><font color="#000080">After printing the name of a thing (called target) which is carried by someone while waving the wand:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot; (carried by [a random person who carries the target])&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Carry out spinning a container:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;shuffle the contents of the noun.
+<blockquote><font color="#000080">The Interrogation Chamber is a room. &quot;Despite its gothic name, this room is a rather civilized place for your work, with large plate-glass windows and a fitted carpet.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Report spinning:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the noun contains something, say &quot;You rattle [if the container is transparent][the list of things in the container][otherwise]the stuff[end if] in [the noun].&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;Nothing results of your shaking [the noun].&quot;
+<blockquote><font color="#000080">A thing can be secret or obvious. A thing is usually obvious.
 </font></blockquote><p>
 <p>
-<p>Inform keeps track of the order in which things have been put into a container. If we want to change that order without the player's intervention, we can move the things ourselves.
-<p>
-<blockquote><font color="#000080">To shuffle the contents of (basket - a container):
-<br>&nbsp;&nbsp;&nbsp;&nbsp;let moves be the number of things in the basket;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;repeat with counter running from 1 to moves
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move a random thing in the basket to the basket;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end repeat.
+<blockquote><font color="#000080">Brian is in the Interrogation Chamber.&quot;Brian lounges against the wall.&quot; Brian carries a quantity of plastic explosive. The explosive is secret.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After opening the drum when we have spun the drum for the first time:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if something (called the pick) is in the drum
-<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The pick] it is, then. &quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try taking the pick;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the pick is the ticket of pure gold, end the game in victory;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;otherwise end the game saying &quot;Oh well, better luck next time.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
+<blockquote><font color="#000080">Janine is in the Interrogation Chamber. &quot;Janine toys nervously with a laptop bag.&quot; Janine carries a chocolate biscuit, a laptop bag, and a microfilm. The microfilm is secret. The laptop bag is wearable. In the bag is a laptop computer.
 </font></blockquote><p>
-</td></tr></table><p><p><hr><p><a href=doc143.html>Previous</a> / <a href=doc145.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">Rule for deciding the concealed possessions of something: if the particular possession is secret, yes; otherwise no.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of examining someone: say &quot;[The noun] is openly carrying [list of unconcealed things carried by the noun].&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;wave wand / examine janine / examine brian&quot;.
+</font></blockquote><p>
+<p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc180.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc179.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc181.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

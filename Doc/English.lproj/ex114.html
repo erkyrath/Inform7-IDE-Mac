@@ -1,4 +1,13 @@
-<html><head><title>11.16. Changing visibility</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>8.7. The time of day</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,57 +16,85 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc167.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc169.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>11.16. Changing visibility</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc122.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap8.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 8: Time</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc124.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>8.7. The time of day</b></font></td></tr></table>
 <p>
-<p>Ordinarily, Inform has a simple model for visibility: it is either fully light or it is fully dark, and certain actions are impossible in the dark, such as examining something. If an action is tried which was defined as requiring light, Inform consults the visibility rules to see if it can go ahead. By default, there is only one visibility rule, which says &quot;yes&quot; in the light and &quot;no&quot; in darkness. Here, though, we create another one:
+<p>Inform keeps track of the time of day automatically: play ordinarily begins at 9 AM and each turn takes one minute. In some works of interactive fiction, time of day is crucial: in others, it is irrelevant or even, by a sort of tacit convention, non-existent. So Inform does nothing to act upon the time, or to reveal it to the player, without instruction. Nevertheless it is there.
 <p>
-<blockquote><font color="#000080">Visibility rule when in darkness:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if examining the book begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You have to squint. Still...&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;there is sufficient light;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;there is insufficient light.
+<p>A sentence like the following allows the initial time to be set up as something other than 9 AM:
+<p>
+<blockquote><font color="#000080">The time of day is 3:13 PM.
 </font></blockquote><p>
 <p>
-<p>A visibility rule must always conclude &quot;there is sufficient light&quot;, or &quot;there is insufficient light&quot;, or else do nothing and leave it to other rules to decide.
+<p>Here, &quot;3:13 PM&quot; is a constant value of a kind not seen before: it's a kind of value called &quot;time&quot;, and the value &quot;time of day&quot; is a time that varies. After one turn it will be 3:14 PM, then 3:15 PM and so on.
 <p>
-<p>It is a possibly unexpected fact that &quot;looking&quot; does not require light, but instead behaves differently in darkness - it prints a pseudo-room-description such as
+<p>Note that the sentence above is an assertion (a statement about the initial state of affairs), not an instruction which can be part of a rule. It would be equivalent to write:
 <p>
-<blockquote><font color="#000080"><b>Darkness</b>
-<br>It is pitch dark, and you can't see a thing.
+<blockquote><font color="#000080">When play begins, change the time of day to 3:13 PM.
 </font></blockquote><p>
 <p>
-<p>instead of printing the description of the player's current room. This means that the &quot;looking&quot; action is unaffected by visibility rules. All the same, what &quot;looking&quot; does in the dark can be changed by using the two activities &quot;printing the name of a dark room&quot; and &quot;printing the description of a dark room&quot; (see the Activities chapter for details).
+<p>We more often use &quot;change the time of day to ...&quot; to take care of drastic events:
+<p>
+<blockquote><font color="#000080">When the player loses consciousness:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to 10:12 AM;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A mist comes over your vision, and when you come to, it is morning and you are in bed.&quot;
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e114"><a href=doc168.html#e114><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Visibility set so that looking under objects produces no result unless the player has a light source to shine there (regardless of the light level of the room).</i><p>
+<a name="e114"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc123.html#e114 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>88</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc123.html#e114 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> IPA</font></b></a><br>Shops which each have opening and closing hours, so that it is impossible to go in at the wrong times, and the player is kicked out if he overstays his welcome.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>Suppose we wanted a game set in a living town, with locations opening and closing at different times of day, and business carrying on as usual. The point might be to force the player to plan his itinerary carefully to hit the right spots at the right times; or we might be writing a more contemplative piece, where part of the enjoyment came from just watching the characters wander around doing their daily business...
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Flashlight&quot;\n\nThe Schoolhouse is a room. &quot;Though normally comfortable, the room is dark and menacing during the storm; rain sheets on the windows, and you can barely see the flash of the lighthouse only a few miles away.&quot;\n\nThe cabinet is a fixed in place openable container in the Schoolhouse. The hurricane lantern is a thing in the Schoolhouse. &quot;A hurricane lantern hangs from a peg.&quot; The lantern is lit.\n\nVisibility rule when looking under something:\n\tif the player is carrying a lit thing (called lamp)\n\tbegin;\n\t\tsay &quot;You shine [the lamp] under [the noun]...&quot;;\n\t\tthere is sufficient light;\n\tend if;\n\tthere is insufficient light.\n\nThe marble is a thing. The marble can be found or lost. The marble is lost.\n\nInstead of looking under the cabinet when the marble is lost:\n\tmove the marble to the player;\n\tnow the marble is found;\n\tsay &quot;Billy\'s lost marble! So that\'s where it got to!&quot;\n\n\n')"><img border=0 src=paste.png></a> &quot;Flashlight&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;IPA&quot;\n\nWhen play begins: change the right hand status line to &quot;[time of day]&quot;.\n\nThe time of day is 9:50 AM.\n\nA shop is a kind of room. A shop has a time called the opening hour. The opening hour of the shop is usually 8 AM. A shop has a time called the closing hour. A shop usually has closing hour 6 PM.\n\nCheck going to a shop (called the target):\n\tif the time of day is before the opening hour of the target,\n\t\tsay &quot;[The target] is locked up until [the opening hour of the target].&quot; instead.\n\nCheck going to a shop (called the target):\n\tif the time of day is after the closing hour of the target,\n\t\tsay &quot;[The target] has been closed since [the closing hour of the target].&quot; instead.\n\nEvery turn when the location is a shop:\n\tlet deadline be the closing hour of the location;\n\tif the deadline is before the time of day\n\tbegin;\n\t\tlet target be a random adjacent room which is not a shop;\n\t\tsay &quot;You are gently but firmly ushered out, since [the location] is closing.&quot;;\n\t\tmove the player to the target;\n\tend if.\n\nThe Strip-mall Parking Lot is a room. &quot;Dead Christmas trees are heaped outside the bagel shop. Strips of dirty ice survive along the curb, and in the shadows of the lamp-posts. A wet, almost illegible sheet of algebra homework is plastered to the asphalt.\n\nPinewood Brewing Supply is at the east end of the lot.&quot;\n\nPinewood Brewing Supply is a shop. It is east of Parking Lot. The opening hour of Pinewood Brewing Supply is 10:00 AM. The closing hour of Pinewood Brewing Supply is 3:30 PM. &quot;Shelves and shelves of malt and hops; large glass carboys, and plastic tubing; empty bottles; bottle-caps; bottle-labeling kits; starters for vinegar, sourdough, root beer.\n\nA sweet malty smell hangs in the air.&quot;\n\nInstead of going to Brewing Supply when the time of day is before the opening hour of Brewing Supply for the second time:\n\tsay &quot;You rattle at the door again. \'Hold your horses, for crying out loud,\' yells a voice from within.&quot;\n\nNoah\'s Bagels is a shop. It is north of the Parking Lot. The opening hour of Noah\'s Bagels is 6:00 AM. The closing hour of Noah\'s Bagels is 11:00 AM. &quot;The selection has been somewhat picked over, leaving you with your choice of Pumpernickel, Asiago, or Everything.&quot;\n\nTest me with &quot;e / e / n / z / s / e / z / e / z / z / e&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;IPA&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Schoolhouse is a room. &quot;Though normally comfortable, the room is dark and menacing during the storm; rain sheets on the windows, and you can barely see the flash of the lighthouse only a few miles away.&quot;
+<blockquote><font color="#000080">When play begins: change the right hand status line to &quot;[time of day]&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The cabinet is a fixed in place openable container in the Schoolhouse. The hurricane lantern is a thing in the Schoolhouse. &quot;A hurricane lantern hangs from a peg.&quot; The lantern is lit.
+<blockquote><font color="#000080">The time of day is 9:50 AM.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Visibility rule when looking under something:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;if the player is carrying a lit thing (called lamp)
+<blockquote><font color="#000080">A shop is a kind of room. A shop has a time called the opening hour. The opening hour of the shop is usually 8 AM. A shop has a time called the closing hour. A shop usually has closing hour 6 PM.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check going to a shop (called the target):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is before the opening hour of the target,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The target] is locked up until [the opening hour of the target].&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Check going to a shop (called the target):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the time of day is after the closing hour of the target,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The target] has been closed since [the closing hour of the target].&quot; instead.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when the location is a shop:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let deadline be the closing hour of the location;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the deadline is before the time of day
 <br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You shine [the lamp] under [the noun]...&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;there is sufficient light;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;there is insufficient light.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let target be a random adjacent room which is not a shop;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You are gently but firmly ushered out, since [the location] is closing.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;move the player to the target;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The marble is a thing. The marble can be found or lost. The marble is lost.
+<blockquote><font color="#000080">The Strip-mall Parking Lot is a room. &quot;Dead Christmas trees are heaped outside the bagel shop. Strips of dirty ice survive along the curb, and in the shadows of the lamp-posts. A wet, almost illegible sheet of algebra homework is plastered to the asphalt.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of looking under the cabinet when the marble is lost:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;move the marble to the player;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;now the marble is found;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Billy's lost marble! So that's where it got to!&quot;
+<blockquote><font color="#000080">Pinewood Brewing Supply is at the east end of the lot.&quot;
 </font></blockquote><p>
 <p>
-<p>Because visibility is checked before instead rules, this discovery will (correctly) occur only when the player does have enough light.
-</td></tr></table><p><p><hr><p><a href=doc167.html>Previous</a> / <a href=doc169.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<blockquote><font color="#000080">Pinewood Brewing Supply is a shop. It is east of Parking Lot. The opening hour of Pinewood Brewing Supply is 10:00 AM. The closing hour of Pinewood Brewing Supply is 3:30 PM. &quot;Shelves and shelves of malt and hops; large glass carboys, and plastic tubing; empty bottles; bottle-caps; bottle-labeling kits; starters for vinegar, sourdough, root beer.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A sweet malty smell hangs in the air.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Instead of going to Brewing Supply when the time of day is before the opening hour of Brewing Supply for the second time:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You rattle at the door again. 'Hold your horses, for crying out loud,' yells a voice from within.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Noah's Bagels is a shop. It is north of the Parking Lot. The opening hour of Noah's Bagels is 6:00 AM. The closing hour of Noah's Bagels is 11:00 AM. &quot;The selection has been somewhat picked over, leaving you with your choice of Pumpernickel, Asiago, or Everything.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;e / e / n / z / s / e / z / e / z / z / e&quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc123.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc122.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc124.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

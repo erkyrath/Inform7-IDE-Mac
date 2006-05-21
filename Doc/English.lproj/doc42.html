@@ -1,4 +1,13 @@
-<html><head><title>3.20. The player's holdall</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>3.15. Vehicles and pushable things</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,26 +16,29 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc41.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc43.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>3.20. The player's holdall</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc41.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap3.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 3: Things</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc43.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>3.15. Vehicles and pushable things</b></font></td></tr></table>
 <p>
-<p>When the player has only limited carrying capacity, game play is likely to be tiresome, but we can make life easier by providing a way for the player to carry endless items without dozens of free hands to hold them all:
+<p>Next in the tour of standard kinds is the &quot;vehicle&quot;. This behaves like (indeed, is) an enterable container, except that it will not be portable unless this is specified.
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Sackcloth&quot;\n\nThe Attic is a room. The old blue rucksack is a player\'s holdall. The player is wearing the rucksack.\n\nThe carrying capacity of the player is 3.\n\nIn the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt\'s remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.\n\n\n')"><img border=0 src=paste.png></a> &quot;Sackcloth&quot;
+<blockquote><font color="#000080">In the Garage is a vehicle called the red sports car.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Attic is a room. The old blue rucksack is a player's holdall. The player is wearing the rucksack.
+<p>The player can enter the sports car and then move around riding inside it, by typing directions exactly as if on foot: and the game will print names of rooms with &quot;(in the red sports car)&quot; appended, lest this be forgotten.
+<p>
+<p>We have already seen that some things are portable, others fixed in place. In fact we can also make a third sort of thing: those which, although not portable, can be pushed from one room to another with commands like &quot;push the wheelbarrow north&quot;. At a pinch, we might just be willing to allow:
+<p>
+<blockquote><font color="#000080">The red sports car is pushable between rooms.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The carrying capacity of the player is 3.
+<p>But of course this is a property which almost any thing can have, not just a vehicle. (Only &quot;almost&quot; because Inform will not allow a door to be pushable between rooms, in the interests of realism rather than surrealism.)
+<p>
+<p>If we need vehicles which the passenger sits on top of, like a horse or a tractor, the standard &quot;vehicle&quot; kind will not be ideal. However, by loading one of the extensions which comes ready-installed:
+<p>
+<blockquote><font color="#000080">Include Rideable Vehicles by Graham Nelson.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">In the Attic are a CD entitled No Smoke Without Fire, a 70s photograph of an American winning Wimbledon, a fraxinus branch, an urn holding your late great-aunt's remains, a convention badge from the American Society of Hypertension and a ghost story by M R James.
-</font></blockquote><p>
-<p>
-<p>This example game introduces a new kind of container, the &quot;player's holdall&quot;. This is a kind of which most games will contain at most one example, but in principle there can be any number. A player's holdall is a capacious bag into which the player automatically places surplus items whenever his or her hands are full: trying the above example game and getting the items one by one will give the general idea.
-<p>
-<p>Of course, if the carrying capacity of the player is never reached then there will never be any surplus items and a player's holdall will behave just like any other (portable, usually openable) container.
+<p>...we are provided with two more kinds, &quot;rideable vehicle&quot; and &quot;rideable animal&quot;, just right for the tractor and the horse respectively. (As with all extensions, the documentation can be seen by clicking Go on some source which contains the above line, and then turning to the Contents index.)
 <p>
 <p><hr><p>
-<a name="e24"><a href=ex24.html#e24><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Making a holdall of the backpack.</i><p>
-<p><hr><p><a href=doc41.html>Previous</a> / <a href=doc43.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<a name="e31"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex31.html#e31 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>15</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex31.html#e31 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000">Disappointment Bay 8</font></b></a><br>Disappointment Bay: a pushable chest of ice for the boat.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc41.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc43.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

@@ -1,4 +1,13 @@
-<html><head><title>19.14. Defining phrases in Inform 6</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>19.2. The Standard Rules</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,36 +16,22 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc305.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc307.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>19.14. Defining phrases in Inform 6</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc305.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap19.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 19: Extensions</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc307.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>19.2. The Standard Rules</b></font></td></tr></table>
 <p>
-<p>The phrases described in this documentation, such as &quot;say...&quot;, are all defined in the Standard Rules, and are for the most part defined not in terms of other I7 phrases but instead reduced to equivalents in I6. For instance:
+<p>When any source text is run through Inform, a secret first line is inserted, which reads:
 <p>
-<blockquote><font color="#000080">To end the game in death: (- deadflag=1; -).
+<blockquote><font color="#000080">Include the Standard Rules by Graham Nelson.
 </font></blockquote><p>
 <p>
-<p>The notation &quot;(-&quot; and &quot;-)&quot; indicates that what comes in between is I6 code. The minus sign is supposed to be a mnemonic for the decrease from 7 to 6: later we shall use &quot;(+&quot; and &quot;+)&quot; to go back up the other way, from 6 to 7.
+<p>The &quot;Standard Rules&quot; file contains the definitions of the basic kinds, phrases, actions and grammar described in this documentation: for instance, it includes lines like
 <p>
-<p>When a phrase is defined as containing only a single command, and that command is defined using I6 - as here - it is compiled in-line. This means that the phrase &quot;end the game in death&quot; will always be translated as &quot;deadflag=1;&quot;, rather than being translated into a call to a suitable function whose only statement is &quot;deadflag=1;&quot;.
-<p>
-<p>This is an easy case since the wording never varies. A more typical example would be:
-<p>
-<blockquote><font color="#000080">To say the (something - number): (- print {something}; -).
+<blockquote><font color="#000080">A container is a kind of thing.
 </font></blockquote><p>
 <p>
-<p>Where the &quot;{something}&quot; appears, the appropriate I7 code is compiled to a suitable I6 expression. So, for instance,
+<p>...without which Inform would be lost. Although including the Standard Rules is compulsory, it is treated internally as if it were any other &quot;extension&quot;.
 <p>
-<blockquote><font color="#000080">say the capacity of the table
-</font></blockquote><p>
+<p>What happens when an &quot;Include&quot; sentence is reached is that the sentence is replaced with the whole text of the file in question, often many paragraphs long.
 <p>
-<p>might become
+<p>If the file has already been included, then the sentence is simply ignored. This is so that we can have two extensions, each of which needs the other: if A says to include B, and B says to include A, the result is that including one automatically includes the other, so we always get both which ever we ask for - not that there is a hideous infinite regress.
 <p>
-<blockquote><font color="#000080">print O17_table.capacity;
-</font></blockquote><p>
-<p>
-<p>Braces &quot;{&quot; are of course significant in I6. A real brace can be obtained by making the character following it a space, and then I7 will not attempt to read it as a request for substitution.
-<p>
-<p><hr><p>
-<a name="e98"><a href=ex98.html#e98><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (*).</font> <i>Making [is/are] and [it/them] say tokens that will choose appropriately based on the last object mentioned.</i><p>
-<a name="e143"><a href=ex143.html#e143><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Asking the player a yes/no question which he must answer, and another which he may answer or not as he chooses.</i><p>
-<a name="e79"><a href=ex79.html#e79><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (***).</font> <i>Asking the player to select a gender to begin play.</i><p>
-<p><hr><p><a href=doc305.html>Previous</a> / <a href=doc307.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc305.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc307.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

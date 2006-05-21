@@ -1,4 +1,13 @@
-<html><head><title>6.18. Repeated actions</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>17.6. Phrases concerning rules</title></head>
+<STYLE TYPE="text/css">
+<!--
+.oval, .oval TD
+{
+background-image:url('../../doc_images/ovoid.png');
+color:white;
+}
+-->
+</STYLE>
 <body><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -7,39 +16,115 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table><tr width="100%"><td width=80 valign="top"><a href=doc89.html border=0><img border=0 src=../Back.tif border=0></a><a href=../index.html border=0><img border=0 src=../Home.png border=0></a><a href=doc91.html border=0><img border=0 src=../Forward.tif border=0></a></td><td valign="top"><b>6.18. Repeated actions</b></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc275.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap17.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 17: Rulebooks</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc277.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>17.6. Phrases concerning rules</b></font></td></tr></table>
 <p>
-<p>We come at last to the final thing which can be specified about an action, and appropriately enough it must be specified with the final words of the description. This is the way to talk about repeated activity:
+<p>The &quot;ignore&quot; phrase is only one of a suite. The full list is:
 <p>
-<blockquote><font color="#000080">Instead of examining the tapestry for the third time, say &quot;All right, so it's a masterpiece, but is this really the time to make a detailed study?&quot;
+<blockquote><font color="#000080">ignore ...rule...
+<br>reinstate ...rule...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of examining the urn at least twice, say &quot;It's an urn. What do you want from me?&quot;
+<p>The &quot;reinstate&quot; phrase simply reverses any previous &quot;ignore&quot; of the same rule, and is otherwise not useful.
+<p>
+<blockquote><font color="#000080">reject the result of ...rule...
+<br>accept the result of ...rule...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going nowhere for the 20th time, say &quot;Do stop walking into walls, there's a good fellow.&quot;
+<p>Some rules produce results, as we shall see in the next section, but they can be set so that whatever result they produce will be ignored. Again, &quot;accept ...&quot; simply undoes a previous &quot;reject ...&quot; and otherwise has no effect.
+<p>
+<blockquote><font color="#000080">substitute ...first rule... for ...second rule...
+<br>restore the original ...second rule...
 </font></blockquote><p>
 <p>
-<p>Note that we are allowed to spell out numbers up to ten in English words, but beyond that must use digits (thus &quot;tenth&quot; is allowed but not &quot;eleventh&quot;: &quot;11th&quot; should be used instead). The following example is instructive:
+<p>Whenever the second rule is to be invoked - from any rulebook, or as a result of any &quot;follow&quot; instruction - invoke the first one instead. Again, &quot;restore ...&quot; simply undoes the effect of an earlier &quot;substitute&quot;.
 <p>
-<blockquote><font color="#000080">Instead of taking something for the fourth time, say &quot;No. I'm capricious.&quot;
+<blockquote><font color="#000080">move ...first rule... to before/after ...second rule...
 </font></blockquote><p>
 <p>
-<p>This means that it is the fourth time a &quot;taking...&quot; action has been tried, and does not mean that the same item was taken each time. Also, note that we are counting the number of times the action has been tried, not the number of times it succeeded.
+<p>This causes the first rule to be ignored whenever it turns up in the ordinary way, but to be invoked either immediately before or immediately after the second rule whenever that second rule is invoked. In effect, it cuts out the first rule from wherever it was, and glues it onto the second. Note that there is no obligation for the first rule to begin in the same rulebook(s) as the second, so this can be used to slot in a wholly new rule, perhaps only if certain circumstances hold.
+<p>
+<p>These rule-changing instructions allow apparently casual sentences to wreak havoc with the model world. This, for instance, is quite the recipe for mayhem and perplexity:
+<p>
+<blockquote><font color="#000080">A procedural rule: reject the result of the before rules; ignore the after rules; move the after rules to before the before rules.
+</font></blockquote><p>
 <p>
 <p><hr><p>
-<table border=0 bgcolor="#e0e0e0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a name="e130"><a href=doc90.html#e130><img border=0 src=../FlipOpen.png></a> <font color="#800000"><b>Example</b> (*).</font> <i>Noticing when the player seems to be at a loss, and recommending the use of hints.</i><p>
+<a name="e130"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc276.html#e130 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>246</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc276.html#e130 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Uptempo</font></b></a><br>Adjust time advancement so the game clock moves fifteen minutes each turn.<p></td></tr></table>
+<table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><p>
+<p>Suppose a game in which all actions take a very long time. Here's a simple implementation:
 <p>
-<p>Suppose we'd like to watch for signs that the player is floundering, and if we see them, recommend that he try the hints. There are probably more sophisticated diagnostics, but as a first cut, let's assume that a player who repeatedly reviews descriptions of objects he's already seen, looks around the room, and takes inventory, is at a loss for more productive activities. So then...
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('A thing can be examined or unexamined. A thing is usually unexamined. Carry out examining something: now the noun is examined.\n\nTaking inventory is acting confused. Looking is acting confused. Examining an examined thing is acting confused.\n\nAfter acting confused for the sixth turn:\n\tsay &quot;(If you are feeling lost, try typing HELP for suggestions.)&quot;\n\n')"><img border=0 src=paste.png></a> A thing can be examined or unexamined. A thing is usually unexamined. Carry out examining something: now the noun is examined.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Uptempo&quot;\n\nProcedural rule: substitute the fast time rule for the advance time rule.\n\nThis is the fast time rule:\n\tchange the time of day to the time of day + 15 minutes.\n\nWhen play begins: change the right hand status line to &quot;[time of day]&quot;.\n\nThe Temporal Hot Spot is a room.\n\nTest me with &quot;z / z&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Uptempo&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Taking inventory is acting confused. Looking is acting confused. Examining an examined thing is acting confused.
+<blockquote><font color="#000080">Procedural rule: substitute the fast time rule for the advance time rule.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">After acting confused for the sixth turn:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;(If you are feeling lost, try typing HELP for suggestions.)&quot;
+<blockquote><font color="#000080">This is the fast time rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to the time of day + 15 minutes.
 </font></blockquote><p>
-</td></tr></table><p><a name="e173"><a href=ex173.html#e173><img border=0 src=../FlipClosed.png></a> <font color="#800000">Example (****).</font> <i>A snarky commenter remarks on everything the player does, but only the first time each action is performed. (Port of the Inform 6 game "A Day For Fresh Sushi".)</i><p>
-<p><hr><p><a href=doc89.html>Previous</a> / <a href=doc91.html>Next</a> / <a href=../index.html>Contents</a><p></font></body></html>
+<p>
+<blockquote><font color="#000080">When play begins: change the right hand status line to &quot;[time of day]&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Temporal Hot Spot is a room.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;z / z&quot;.
+</font></blockquote><p>
+<p>
+<p>This works fine as it stands, but we may run into some difficulty with it if we add scheduled events:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('At 9:30 AM:\n\tsay &quot;Two turtles run by, almost too fast to see.&quot;\n\nAt 9:37 AM:\n\tsay &quot;A snail blitzes past.&quot;\n\nAt 9:42 AM:\n\tsay &quot;The grass grows.&quot;\n\nAt 9:50 AM:\n\tsay &quot;Several flowers burst open.&quot;\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> At 9:30 AM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Two turtles run by, almost too fast to see.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 9:37 AM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A snail blitzes past.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 9:42 AM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The grass grows.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 9:50 AM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Several flowers burst open.&quot;
+</font></blockquote><p>
+<p>
+<p>Time is counted forward after the schedule has already been consulted, so that only the 9:30 AM event happens between 9:30 and 9:45; the next two appear to occur between 9:45 and 10:00 AM, and the 9:50 AM event is not reported until the 10:00 AM to 10:15 wait. To get around this, we might schedule events only on the fifteen-minute mark when we want them to occur. Alternatively, we might try instead
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Uptempo&quot;\n\nFirst turn sequence rule:\n\tchange the time of day to the time of day + 14 minutes.\n\nWhen play begins: change the right hand status line to &quot;[time of day]&quot;.\n\nThe Temporal Hot Spot is a room.\n\nAt 9:30 AM:\n\tsay &quot;Two turtles run by, almost too fast to see.&quot;\n\nAt 9:37 AM:\n\tsay &quot;A snail blitzes past.&quot;\n\nAt 9:42 AM:\n\tsay &quot;The grass grows.&quot;\n\nAt 9:50 AM:\n\tsay &quot;Several flowers burst open.&quot;\n\nTest me with &quot;z / z / z / z&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Uptempo&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">First turn sequence rule:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the time of day to the time of day + 14 minutes.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">When play begins: change the right hand status line to &quot;[time of day]&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Temporal Hot Spot is a room.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 9:30 AM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Two turtles run by, almost too fast to see.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 9:37 AM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A snail blitzes past.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 9:42 AM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The grass grows.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 9:50 AM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Several flowers burst open.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;z / z / z / z&quot;.
+</font></blockquote><p>
+<p>
+<p>This moves time forward substantially at the beginning of each turn-sequence rule set, then checks the schedule and prints events, and then (using the ordinary advance time rule) moves time forward one last minute, for a total of fifteen minutes each move.
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc276.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p><a name="e12"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex12.html#e12 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>247</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex12.html#e12 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Swigmore U.</font></b></a><br>Adding a new kind of supporter called a perch, where everything dropped lands on the floor.<p></td></tr></table>
+<a name="e152"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex152.html#e152 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>248</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex152.html#e152 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Solitude</font></b></a><br>Novice mode that prefaces every prompt with a list of possible commands the player could try, and highlights every important word used, to alert players to interactive items in the scenery.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc275.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc277.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>
