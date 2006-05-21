@@ -86,6 +86,7 @@ Constant NOWDARK_ACT 16;
 Constant DARKNAME_ACT 17;
 Constant DARKDESC_ACT 18;
 Constant DETAILS_ACT 19;
+Constant PARSERERROR_ACT 20;
 ENDIF;
 
 Constant PARA_COMPLETED = 1;
@@ -231,7 +232,7 @@ Global toomany_flag;                 ! Flag for "multiple match too large"
 Global special_word;                 ! Dictionary address for "special" token
 Global special_number;               ! Number typed for "special" token
 Global parsed_number;                ! For user-supplied parsing routines
-Global consult_from;                 ! Word that a "consult" topic starts on
+Global consult_from;                 ! Word that a "consult" topic starts on
 Global consult_words;                ! ...and number of words in topic
 ! ------------------------------------------------------------------------------
 !   Implicit taking
@@ -266,6 +267,8 @@ Constant JUNKAFTER_PE = 15;
 Constant TOOFEW_PE    = 16;
 Constant NOTHING_PE   = 17;
 Constant ASKSCOPE_PE  = 18;
+Constant BLANKLINE_PE = 19; ! Not formally a parser error, but used by I7 as if
+
 ! ------------------------------------------------------------------------------
 !   Pattern-matching against a single grammar line
 ! ------------------------------------------------------------------------------
@@ -464,7 +467,9 @@ Object thedark "(darkness object)"
        ],
        description
        [;  BeginActivity(DARKDESC_ACT);
-           if (ForActivity(DARKDESC_ACT)==false) L__M(##Miscellany, 17);
+           if (ForActivity(DARKDESC_ACT)==false) {
+               L__M(##Miscellany, 17); say__p = 1;
+           }
            EndActivity(DARKDESC_ACT);
 		   rtrue;
        ];
@@ -681,7 +686,13 @@ Object InformParser "(Inform Parser)"
 
 !  If the line was blank, get a fresh line
     if (nw == 0)
-    { L__M(##Miscellany,10); jump FreshInput; }
+    { i = etype; etype = BLANKLINE_PE;
+      BeginActivity(PARSERERROR_ACT);
+   	  if (ForActivity(PARSERERROR_ACT) == false) L__M(##Miscellany,10);
+   	  EndActivity(PARSERERROR_ACT);
+      etype = i;
+      jump FreshInput;
+    }
 
 !  Unless the opening word was "oops", return
 
@@ -789,6 +800,9 @@ Object InformParser "(Inform Parser)"
 #ifdef NI_BUILD_COUNT;
 [ PrintSnippet snip from to i w1 w2;
   w1 = snip/100; w2 = w1 + (snip%100) - 1;
+  if ((w2<1) || (w1<1) || (w2>30))
+  	">--> You tried to print a snippet ", snip, " (words ", w1, " to ", w2,
+  		") that is invalid.";
   from = parse->(4*w1 + 1);
   to = parse->(4*w2 + 1) +
        parse->(4*w2) - 1;
@@ -1473,7 +1487,12 @@ Object InformParser "(Inform Parser)"
 !  If the player was the actor (eg, in "take dfghh") the error must be printed,
 !  and fresh input called for.  In three cases the oops word must be jiggled.
 
-    if (ParserError(etype)~=0) jump ReType;
+    if ((etype ofclass Routine) || (etype ofclass String)) {
+	    if (ParserError(etype)~=0) jump ReType;
+    } else {
+    	BeginActivity(PARSERERROR_ACT);
+   		if (ForActivity(PARSERERROR_ACT)) jump SkipParserError;
+    }
     pronoun_word = pronoun__word; pronoun_obj = pronoun__obj;
 
     if (etype==STUCK_PE)   { L__M(##Miscellany, 27); oops_from=1; }
@@ -1506,6 +1525,11 @@ Object InformParser "(Inform Parser)"
         if (indirect(scope_error)==-1)
         {   best_etype=nextbest_etype; jump GiveError;  }
     }
+
+	.SkipParserError;
+    if ((etype ofclass Routine) || (etype ofclass String)) jump ReType;
+	say__p = 1;
+	EndActivity(PARSERERROR_ACT);
 
 !  **** (J) ****
 
@@ -2521,6 +2545,7 @@ Constant UNLIT_BIT  =  32;
 	          if (j hasnt concealed && j hasnt worn) flag=1;
     	      if (context==MULTIHELD_TOKEN or MULTIEXCEPT_TOKEN
     	          && parent(j)~=actor) flag=0;
+    	      if (action_to_be == ##Take && parent(j)==actor) flag=0;
     	      k=ChooseObjects(j,flag);
     	      if (k==1) flag=1; else { if (k==2) flag=0; }
     	  } else {

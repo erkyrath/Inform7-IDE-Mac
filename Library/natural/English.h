@@ -275,19 +275,19 @@ Constant QKEY2__KY    = 'q';
 Constant SCORE__TX    = "Score: ";
 Constant MOVES__TX    = "Moves: ";
 Constant TIME__TX     = "Time: ";
-Constant CANTGO__TX   = "You can't go that way.";
-Constant FORMER__TX   = "your former self";
-Constant YOURSELF__TX = "yourself";
+Global CANTGO__TX   = "You can't go that way.";
+Global FORMER__TX   = "your former self";
+Global YOURSELF__TX = "yourself";
 Constant DARKNESS__TX = "Darkness";
 
 Constant THOSET__TX   = "those things";
 Constant THAT__TX     = "that";
 Constant OR__TX       = " or ";
 Constant NOTHING__TX  = "nothing";
-Constant IS__TX       = " is";
-Constant ARE__TX      = " are";
-Constant IS2__TX      = "is ";
-Constant ARE2__TX     = "are ";
+Global IS__TX       = " is";
+Global ARE__TX      = " are";
+Global IS2__TX      = "is ";
+Global ARE2__TX     = "are ";
 Constant AND__TX      = " and ";
 #ifdef I7_SERIAL_COMMA;
 Constant LISTAND__TX  = ", and ";
@@ -618,6 +618,10 @@ Constant WHICH__TX    = "which ";
                   if (x1 has pluralname) print " don't";
                   else print " doesn't";
                   " seem interested.";
+               4: print (The) x1;
+                  if (x1 has pluralname) print " aren't";
+                  else print " isn't";
+                  " able to receive things.";
            }
   Show:    switch(n)
            {   1: "You aren't holding ", (the) x1, ".";

@@ -259,6 +259,8 @@ Global I7_wlf_sp;
 
 [ WriteListR o depth stack_pointer  classes_p sizes_p i j k k2 l m n q senc mr;
 
+!print "(a)", c_style, ";";
+
   if ((o==0) || (parent(o)==0)) return;
   if (depth>0 && o==child(parent(o)))
   {   SortOutList(o); o=child(parent(o)); }
@@ -271,6 +273,8 @@ Global I7_wlf_sp;
       {   o=sibling(o); continue; }
       break;
   }
+
+!print "(b)", c_style, ";";
 
   classes_p = match_classes + stack_pointer;
   sizes_p   = match_list + stack_pointer;
@@ -287,11 +291,16 @@ Global I7_wlf_sp;
       c_style = c_style - ISARE_BIT;
   }
 
+!print "(c)", c_style, ";";
+
   stack_pointer = stack_pointer+j+1;
   @push I7_wlf_sp;
   I7_wlf_sp = stack_pointer;
 
   if (k<2) jump EconomyVersion;   ! It takes two to plural
+
+!print "(d)", c_style, ";";
+
   n=1;
   for (i=o,k=0:k<j:i=NextEntry(i,depth),k++)
       if (classes_p->k==0)
@@ -322,6 +331,8 @@ Global I7_wlf_sp;
   }
   senc--;
 
+!print "(e)", c_style, ";";
+
   for (i=1, j=o, k=0, mr=0: senc>=0: i++, senc--)
   {   ! print "^[i=", i, "j=", j, "k=", k, "senc=", senc, "]; /", classes_p, "/";
       ! for (k2=0:k2<15:k2++) print classes_p->k2, " ";
@@ -349,7 +360,9 @@ Global I7_wlf_sp;
               if (c_style & INDENT_BIT ~= 0)
                   Print__Spaces(2*(depth+wlf_indent));
               BeginActivity(GROUP_ACT,j);
-              if (ForActivity(GROUP_ACT,j)) { c_style = c_style &~ NEWLINE_BIT; jump RuleOmitted2; }
+              if (ForActivity(GROUP_ACT,j)) {
+                  c_style = c_style &~ NEWLINE_BIT; jump RuleOmitted2;
+              }
               ! #endif;
               if (k2==3)
               {   @push q;
@@ -397,7 +410,11 @@ Global I7_wlf_sp;
 
      .Omit_WL2;
       @push c_style;
+
+!print "(x)", c_style, ";";
+
       if (WriteBeforeEntry(j,depth,-senc)==1) jump Omit_FL2;
+!print sizes_p->i, "-", c_style, "-";
       if (sizes_p->i == 1)
       {   if (c_style & NOARTICLE_BIT ~= 0) print (name) j;
           else
@@ -1547,7 +1564,7 @@ Global I7_wlf_sp;
   objectloop (j in descon)
       if (j hasnt concealed && j hasnt scenery) f=1;
   if (f==0) rfalse;
-  L__M(##Look, 4, descon); rtrue;
+  L__M(##Look, 4, descon); say__p = 1; rtrue;
 ];
 
 [ NotSupportingThePlayer o i;
@@ -1593,10 +1610,12 @@ Global I7_wlf_sp;
              .Prop_Chosen;
 
              if (o hasnt moved || o.describe~=NULL || f2==1)
-             {   if (o.describe~=NULL && RunRoutines(o,describe)~=0)
+             {   if (o has I7_mentioned) give o ~workflag;
+                 else
+             	 if (o.describe~=NULL && RunRoutines(o,describe)~=0)
                  {   flag=1;
                      give o ~workflag; k--;
-                     ssp = true; #IFDEF TRL; print "T1"; #ENDIF;
+                     ssp = true; #IFDEF TRL; print "T1(", (name) o, ")"; #ENDIF;
                  }    
                  else
                  {   if (o hasnt moved || f2==1) {
@@ -1618,7 +1637,7 @@ Global I7_wlf_sp;
              if (o has supporter && child(o)~=0) {
              	 I7_DivideParagraph();
                  #IFDEF TRL; print "T3a", say__p, ssp; #ENDIF; SayWhatsOn(o);
-                 ssp = true; #IFDEF TRL; print "T3b"; #ENDIF;
+                 if (say__p) ssp = true; #IFDEF TRL; print "T3b"; #ENDIF;
              }
          }
       }
