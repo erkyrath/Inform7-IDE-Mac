@@ -24,6 +24,7 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		
 		[mgr setSubdirectory: @"Inform 6 Extensions"];
 		[mgr setMergesMultipleExtensions: NO];
+		[mgr setExtensionsDefineName: NO];
 	}
 	
 	return mgr;
@@ -37,6 +38,7 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		
 		[mgr setSubdirectory: @"Extensions"];
 		[mgr setMergesMultipleExtensions: YES];
+		[mgr setExtensionsDefineName: YES];
 		
 		[mgr addExtensionDirectory: [[NSBundle mainBundle] pathForResource: @"Extensions"
 																	ofType: @""
@@ -114,6 +116,10 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	
 	extensionDirectories = [[NSMutableArray alloc] initWithArray: directories 
 													   copyItems: YES];
+}
+
+- (void) setExtensionsDefineName: (BOOL) defines {
+	extensionsDefineName = defines;
 }
 
 - (void) addExtensionDirectory: (NSString*) directory {
@@ -394,6 +400,77 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	[self createRecursiveDir: directory];
 }
 
+- (NSString*) authorForNaturalInformExtension: (NSString*) file
+										title: (NSString**) title {
+	// Work out the author and title from a Natural Inform extension file
+	NSFileManager* mgr = [NSFileManager defaultManager];
+	
+	if (title != nil) *title = nil;
+
+	// Can't do anything with a non-existant file
+	BOOL isDir;
+	BOOL exists = [mgr fileExistsAtPath: file
+							isDirectory: &isDir];
+	
+	if (!exists || isDir) return nil;
+	
+	// Read the first 1k of the extension
+	NSFileHandle* extensionFile = [NSFileHandle fileHandleForReadingAtPath: file];
+	NSData* extensionInitialData = [extensionFile readDataOfLength: 1024];
+	
+	// Get up to the first newline
+	const unsigned char* bytes = [extensionInitialData bytes];
+	
+	int x;
+	for (x=0; x<[extensionInitialData length] && bytes[x] != '\n' && bytes[x] != '\r'; x++);
+	
+	// No newline means this is not an extension
+	if (x >= [extensionInitialData length]) return nil;
+	
+	// Initial line should be "<foo> by <bar> begins here." or "Version <x> of <foo> by <bar> begins here."
+	NSString* extensionString = [[[NSString alloc] initWithBytes: bytes
+														  length: x
+														encoding: NSUTF8StringEncoding]
+		autorelease];
+	if (extensionString == nil) return nil;
+	
+	// Check that the ending is 'begins here'
+	if (![[[extensionString substringFromIndex: 
+			[extensionString length]-[@" begins here." length]] lowercaseString] isEqualToString: @" begins here."]) return nil;
+	
+	// Get the indexes of ' by ', and ' of '
+	NSRange byPosition = [extensionString rangeOfString: @" by "
+												options: NSCaseInsensitiveSearch];
+	NSRange ofPosition = [extensionString rangeOfString: @" of "
+												options: NSCaseInsensitiveSearch];
+	NSRange versionPosition = [extensionString rangeOfString: @"version "
+													 options: NSCaseInsensitiveSearch];
+	
+	// Must be a ' by '
+	if (byPosition.location == NSNotFound) return nil;
+	
+	if (ofPosition.location != NSNotFound && versionPosition.location == 0) {
+		// Must be version <x> of <foo> by ..., not version <x> by <foo> of ...
+		if (ofPosition.location > byPosition.location) return nil;
+		
+		// Set ofPosition.location to be the start of the name
+		ofPosition.location += ofPosition.length;
+	} else {
+		// No 'of', or at least, no 'of' indicating a version
+		ofPosition.location = 0;
+	}
+	
+	// Now we have enough information to work out the author and suggested extension name
+	NSString* titleName = [extensionString substringWithRange: NSMakeRange(ofPosition.location, byPosition.location-ofPosition.location)];
+	NSString* authorName = [extensionString substringWithRange: NSMakeRange(byPosition.location+byPosition.length, [extensionString length]-(byPosition.location+byPosition.length)-[@" begins here." length])];
+	
+	authorName = [authorName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+	titleName = [titleName stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
+	
+	if (title) *title = titleName;
+	return authorName;
+}
+
 - (BOOL) addExtension: (NSString*) extensionPath {
 	// We can add directories (of all sorts, but with no subdirectories, and no larger than 1Mb total)
 	// We can also add .h, .inf and .i6 files on their own, creating a directory to do so
@@ -410,10 +487,19 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 					   isDirectory: &isDir];
 	if (!exists) return NO;										// Can't add something that does not exist
 	
+	NSString* author = nil;
+	NSString* title = nil;
+	
 	if (!isDir) {
 		NSString* extn = [[extensionPath pathExtension] lowercaseString];
 		
-		if (!([extn isEqualToString: @"h"] || [extn isEqualToString: @"inf"] || [extn isEqualToString: @"i6"])) {
+		if (extensionsDefineName) {
+			// Try to read out the author and title name
+			author = [self authorForNaturalInformExtension: extensionPath
+													 title: &title];
+			
+			if (author == nil || title == nil || [author length] <= 0 || [title length] <= 0) return NO;
+		} else if (!([extn isEqualToString: @"h"] || [extn isEqualToString: @"inf"] || [extn isEqualToString: @"i6"])) {
 			// File is probably not an Inform source file
 			return NO;
 		}
@@ -452,7 +538,11 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	if (isDir) {
 		destDir = [directory stringByAppendingPathComponent: [extensionPath lastPathComponent]];
 	} else {
-		destDir = [directory stringByAppendingPathComponent: [[extensionPath lastPathComponent] stringByDeletingPathExtension]];
+		if (author) {
+			destDir = [directory stringByAppendingPathComponent: author];
+		} else {
+			destDir = [directory stringByAppendingPathComponent: [[extensionPath lastPathComponent] stringByDeletingPathExtension]];
+		}
 	}
 	
 	destDir = [destDir stringByStandardizingPath];
@@ -502,8 +592,14 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 				  handler: nil];
 		}
 	} else {
+		NSString* destFile;
+		if (title != nil)
+			destFile = title;
+		else
+			destFile = [extensionPath lastPathComponent];
+		
 		if (![mgr copyPath: extensionPath
-					toPath: [destDir stringByAppendingPathComponent: [extensionPath lastPathComponent]]
+					toPath: [destDir stringByAppendingPathComponent: destFile]
 				   handler: nil]) {
 			// Couldn't finish installing the extension
 			return NO;
@@ -1063,7 +1159,7 @@ static int compare_insensitive(id a, id b, void* context) {
 		return NO;
 	}
 	
-	if (item == nil) {
+	if (item == nil || extensionsDefineName) {
 		// Add the new item(s) as a new extension
 		NSEnumerator* fileEnum = [pbFiles objectEnumerator];
 		NSString* file;

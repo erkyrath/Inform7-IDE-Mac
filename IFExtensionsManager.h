@@ -31,6 +31,7 @@ extern NSString* IFExtensionsUpdatedNotification;				// Sent when the extensions
 
 	// Settings
 	BOOL mergesMultipleExtensions;						// Whether extension directories in multiple places override each other (NO) or merge with each other (YES)
+	BOOL extensionsDefineName;							// Whether or not the extensions have a 'foo by blah begins here' that define where it should be installed
 	NSString* subdirectory;								// Subdirectory to append to directories in the extensionDirectories array
 	
 	// Temporary data
@@ -59,6 +60,7 @@ extern NSString* IFExtensionsUpdatedNotification;				// Sent when the extensions
 - (NSString*) subdirectory;
 
 - (void) setMergesMultipleExtensions: (BOOL) mergeMultipleExtensions;	// If YES, then behave as for Natural Inform extensions: ie, if there is an extension with the same author name in multiple directories, functions like filesInExtensionWithName: iterate through all possible directories
+- (void) setExtensionsDefineName: (BOOL) extensionsDefineName;			// If YES, then extensions are treated as Natural Inform extension files and are added by looking at the name at the top of the file (you should use addExtension: instead of addFile: with this set)
 
 // Retrieving the list of installed extensions
 - (NSArray*) availableExtensions;										// List of extensions being handled by this manager
