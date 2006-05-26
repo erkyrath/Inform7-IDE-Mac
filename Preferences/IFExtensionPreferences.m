@@ -69,7 +69,41 @@
 
 // = Actions =
 
+- (void) addNaturalExtensionPanelDidEnd: (NSOpenPanel*) sheet
+							 returnCode: (int) returnCode
+							contextInfo: (void*) contextInfo {
+	[sheet setDelegate: nil];
+	
+	if (returnCode != NSOKButton) return;
+	
+	// Add the files
+	NSEnumerator* fileEnum = [[sheet filenames] objectEnumerator];
+	NSString* file;
+	
+	while (file = [fileEnum nextObject]) {
+		[[IFExtensionsManager sharedNaturalInformExtensionsManager] addExtension: file];
+	}	
+}
+	
 - (IBAction) addNaturalExtension: (id) sender {
+	// Present a panel for adding new extensions
+	NSOpenPanel* panel = [NSOpenPanel openPanel];
+	
+	[panel setAccessoryView: nil];
+	[panel setCanChooseFiles: YES];
+	[panel setCanChooseDirectories: NO];
+	[panel setResolvesAliases: YES];
+	[panel setAllowsMultipleSelection: NO];
+	[panel setTitle: @"Add new Inform 7 Extension"];
+	[panel setDelegate: self];
+	
+	[panel beginSheetForDirectory: @"~"
+							 file: nil
+							types: nil
+				   modalForWindow: [sender window]
+					modalDelegate: self
+				   didEndSelector: @selector(addNaturalExtensionPanelDidEnd:returnCode:contextInfo:)
+					  contextInfo: nil];
 }
 
 - (IBAction) deleteNaturalExtension: (id) sender {
