@@ -2272,7 +2272,13 @@ static NSDictionary*  itemDictionary = nil;
 		NSString* symbolName = [symbol name];
 		symbolName = [symbolName substringToIndex: [symbolName length]-1];
 		
+		NSRange dashRange = [symbolName rangeOfString: @" - "];
+		if (dashRange.location != NSNotFound && dashRange.location + 5 < [symbolName length]) {
+			symbolName = [symbolName substringFromIndex: dashRange.location+3];
+		}
+		
 		// Add the current symbol as a new menu item
+		/*
 		NSMenuItem* symbolItem = [[NSMenuItem alloc] init];
 		[symbolItem setAttributedTitle: [[[NSAttributedString alloc] initWithString: symbolName
 																		 attributes: smallAttributes]
@@ -2282,7 +2288,14 @@ static NSDictionary*  itemDictionary = nil;
 		[symbolItem setAction: @selector(selectedIndexItem:)];
 
 		[menu addItem: [symbolItem autorelease]];
+		 */
 		
+		[menu addItemWithTitle: symbolName
+						action: @selector(selectedIndexItem:)
+				 keyEquivalent: @""];
+		NSMenuItem* symbolItem = [[menu itemArray] lastObject];
+		[symbolItem setRepresentedObject: symbol];
+
 		// Process any children of this element into a submenu
 		IFIntelSymbol* child = [symbol child];
 		
@@ -2306,7 +2319,7 @@ static NSDictionary*  itemDictionary = nil;
 	while (item = [itemEnum nextObject]) {
 		if ([[item itemIdentifier] isEqualToString: @"browseIndexItem"]) {
 			// TODO: base this on the current section
-			NSPopUpButton* popup = [item view];
+			NSPopUpButton* popup = (NSPopUpButton*)[item view];
 			[popup setTitle: @"Index"];
 		}
 	}
