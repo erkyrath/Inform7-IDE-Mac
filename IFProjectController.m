@@ -53,6 +53,7 @@ static NSToolbarItem* breakpointItem		= nil;
 
 static NSToolbarItem* searchDocsItem		= nil;
 static NSToolbarItem* searchProjectItem		= nil;
+static NSToolbarItem* browseIndexItem		= nil;
 
 static NSDictionary*  itemDictionary = nil;
 
@@ -85,6 +86,7 @@ static NSDictionary*  itemDictionary = nil;
 	
 	searchDocsItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"searchDocsItem"];
 	searchProjectItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"searchProjectItem"];
+	browseIndexItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"browseIndexItem"];
 
     itemDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
         compileItem, @"compileItem",
@@ -103,6 +105,7 @@ static NSDictionary*  itemDictionary = nil;
 		breakpointItem, @"breakpointItem",
 		searchDocsItem, @"searchDocsItem",
 		searchProjectItem, @"searchProjectItem",
+		browseIndexItem, @"browseIndexItem",
         nil];
 
 	// Images
@@ -180,6 +183,10 @@ static NSDictionary*  itemDictionary = nil;
 	[searchProjectItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Search Project"
 																		value: @"Search Project"
 																		table: nil]];
+	
+	[browseIndexItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Browse Index"
+																	  value: @"Index"
+																	  table: nil]];
 
 	// The tooltips
     [compileItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"CompileTip"
@@ -236,6 +243,10 @@ static NSDictionary*  itemDictionary = nil;
 																		  value: nil
 																		  table: nil]];
 	
+	[browseIndexItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"BrowseIndexTip"
+																		value: nil
+																		table: nil]];
+	
     // The action heroes
     [compileItem setAction: @selector(compile:)];
     [compileAndRunItem setAction: @selector(compileAndRun:)];
@@ -277,6 +288,11 @@ static NSDictionary*  itemDictionary = nil;
 		
 		progressIndicators = [[NSMutableArray alloc] init];
 		progressing = NO;
+		
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(updateIntelSymbols:)
+													 name: IFIntelFileHasChangedNotification 
+												   object: nil];
     }
 
     return self;
@@ -295,6 +311,7 @@ static NSDictionary*  itemDictionary = nil;
 	[lastFilename release];
 	
 	[lineHighlighting release];
+	[indexMenu release];
 	
 	[generalPolicy release];
 	[docPolicy release];
@@ -393,6 +410,13 @@ static NSDictionary*  itemDictionary = nil;
 											 selector: @selector(skeinChanged:)
 												 name: ZoomSkeinChangedNotification
 											   object: [[self document] skein]];
+	
+	// The index menu
+	indexMenu = [[NSMenu alloc] init];
+	
+	[indexMenu addItemWithTitle: @"nil"
+						 action: nil
+				  keyEquivalent: @""];
 	
     // Create the view switch toolbar
 	if ([[[self document] settings] usingNaturalInform]) {
@@ -617,6 +641,21 @@ static NSDictionary*  itemDictionary = nil;
 		[item setLabel: nil];
 		
 		return item;
+	} else if ([itemIdentifier isEqualToString: @"browseIndexItem"]) {
+		NSPopUpButton* popup = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0,0,120,22)
+														  pullsDown: YES];
+		
+		[item setMinSize: NSMakeSize(64, 22)];
+		[item setMaxSize: NSMakeSize(120, 22)];
+		[item setView: [popup autorelease]];
+		
+		[popup sizeToFit];
+		
+		[popup setMenu: indexMenu];
+		[[popup cell] setUsesItemFromMenu: NO];
+		[[popup cell] setPreferredEdge: NSMaxYEdge];
+		
+		return item;
 	}
 	
 	return item;
@@ -625,7 +664,7 @@ static NSDictionary*  itemDictionary = nil;
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
         @"compileItem", @"compileAndRunItem", @"replayItem", @"compileAndDebugItem", @"pauseItem", @"continueItem", @"stepItem", 
-		@"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem", @"searchDocsItem", @"searchProjectItem",
+		@"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem", @"searchDocsItem", @"searchProjectItem", @"browseIndexItem",
 		NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, 
 		@"releaseItem",
         nil];
@@ -2211,6 +2250,94 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Change the source view to the errors view (so we can see the text leading to the error as well as the error itself
 	[[projectPanes objectAtIndex: 0] selectView: IFErrorPane];
+}
+
+// = The index menu =
+
+- (void) updateWithSiblingsOfSymbol: (IFIntelSymbol*) symbol
+							   menu: (NSMenu*) menu {
+	NSFont* smallFont = [NSFont systemFontOfSize: [NSFont smallSystemFontSize]];
+	NSDictionary* smallAttributes = [NSDictionary dictionaryWithObjectsAndKeys: smallFont, NSFontAttributeName, nil];
+	
+	while (symbol != nil) {
+		// Last character of index item names is a newline character
+		NSString* symbolName = [symbol name];
+		symbolName = [symbolName substringToIndex: [symbolName length]-1];
+		
+		// Add the current symbol as a new menu item
+		NSMenuItem* symbolItem = [[NSMenuItem alloc] init];
+		[symbolItem setAttributedTitle: [[[NSAttributedString alloc] initWithString: symbolName
+																		 attributes: smallAttributes]
+			autorelease]];
+		[symbolItem setRepresentedObject: symbol];
+		[symbolItem setTarget: self];
+		[symbolItem setAction: @selector(selectedIndexItem:)];
+
+		[menu addItem: [symbolItem autorelease]];
+		
+		// Process any children of this element into a submenu
+		IFIntelSymbol* child = [symbol child];
+		
+		if (child != nil) {
+			NSMenu* submenu = [[NSMenu alloc] init];
+			[symbolItem setSubmenu: [submenu autorelease]];
+			
+			[self updateWithSiblingsOfSymbol: child
+										menu: submenu];
+		}
+
+		// Move to the next sibling of this symbol
+		symbol = [symbol sibling];
+	}
+}
+
+- (void) setIndexControlTitle {
+	NSEnumerator* itemEnum = [[toolbar items] objectEnumerator];
+	NSToolbarItem* item;
+	
+	while (item = [itemEnum nextObject]) {
+		if ([[item itemIdentifier] isEqualToString: @"browseIndexItem"]) {
+			// TODO: base this on the current section
+			NSPopUpButton* popup = [item view];
+			[popup setTitle: @"Index"];
+		}
+	}
+}
+
+- (void) updateIndexMenu {
+	// Clear the index menu
+	int x, menuSize;
+	menuSize = [indexMenu numberOfItems];
+	for (x=1; x<menuSize; x++)
+		[indexMenu removeItemAtIndex: 1];
+	
+	// Go through the list of symbols in the current file, and update the symbol menu for this window
+	IFIntelFile* intel = [self currentIntelligence];
+	
+	[self updateWithSiblingsOfSymbol: [intel firstSymbol]
+								menu: indexMenu];
+	
+	// Set the title of the index control
+	[self setIndexControlTitle];
+}
+
+- (void) updateIntelSymbols: (NSNotification*) not {
+	if ([not object] != [self currentIntelligence]) return;
+	
+	[self updateIndexMenu];
+}
+
+- (void) selectedIndexItem: (id) sender {
+	IFIntelSymbol* selectedItem = [sender representedObject];
+	int lineNumber = [[self currentIntelligence] lineForSymbol: selectedItem]+1;
+	
+	if (lineNumber != NSNotFound) {
+		[self removeAllTemporaryHighlights];
+		[self highlightSourceFileLine: lineNumber
+							   inFile: [[self sourcePane] currentFile]
+								style: IFLineStyleHighlight];
+		[self moveToSourceFileLine: lineNumber];
+	}
 }
 
 @end

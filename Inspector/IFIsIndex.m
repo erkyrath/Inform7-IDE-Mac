@@ -249,6 +249,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 		}
 	}
 	
+	// Bug if we reach this position.
 	return @"<< BAD ITEM >>";
 }
 
