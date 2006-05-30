@@ -157,4 +157,43 @@ NSString* IFSectionSymbolType = @"IFSectionSymbolType";
 	return lastSymbol;
 }
 
+// = NSCoding =
+
+// (This is required in order to use these objects in a menu, though is not especially useful in general)
+
+- (void)encodeWithCoder:(NSCoder *)encoder {
+	[encoder encodeObject: name
+				   forKey: @"name"];
+	[encoder encodeObject: type
+				   forKey: @"type"];
+	[encoder encodeInt: level
+				forKey: @"level"];
+	[encoder encodeInt: relation
+				forKey: @"relation"];
+	[encoder encodeInt: levelDelta
+				forKey: @"levelDelta"];
+	[encoder encodeObject: nextSymbol
+				   forKey: @"nextSymbol"];
+	[encoder encodeObject: lastSymbol
+				   forKey: @"lastSymbol"];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder {
+	self = [super init];
+	
+	if (self) {
+		name = [[decoder decodeObjectForKey: @"name"] retain];
+		type = [[decoder decodeObjectForKey: @"type"] retain];
+		level = [decoder decodeIntForKey: @"level"];
+		relation = [decoder decodeIntForKey: @"relation"];
+		levelDelta = [decoder decodeIntForKey: @"levelDelta"];
+		
+		// No point in loading these, as we can't retain them!
+		//nextSymbol = [decoder decodeObjectForKey: @"nextSymbol"];
+		//lastSymbol = [decoder decodeObjectForKey: @"lastSymbol"];
+	}
+	
+	return self;
+}
+
 @end
