@@ -1435,6 +1435,14 @@ static NSDictionary*  itemDictionary = nil;
 	[[self auxPane] openURL: [NSURL URLWithString: @"inform:/index.html"]];
 }
 
+- (void) docRecipes: (id) sender {
+	[[self auxPane] openURL: [NSURL URLWithString: @"inform:/recipes.html"]];
+}
+
+- (void) docExtensions: (id) sender {
+	[[self auxPane] openURL: [NSURL URLWithString: @"inform://Extensions/Extensions.html"]];
+}
+
 // = Adding files =
 - (void) addNewFile: (id) sender {
 	IFNewProjectFile* npf = [[IFNewProjectFile alloc] initWithProjectController: self];
