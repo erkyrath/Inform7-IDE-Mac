@@ -654,6 +654,7 @@ static NSDictionary*  itemDictionary = nil;
 		[popup setMenu: indexMenu];
 		[[popup cell] setUsesItemFromMenu: NO];
 		[[popup cell] setPreferredEdge: NSMaxYEdge];
+		[[popup cell] setControlSize: NSSmallControlSize];
 		
 		return item;
 	}
@@ -2295,7 +2296,10 @@ static NSDictionary*  itemDictionary = nil;
 				 keyEquivalent: @""];
 		NSMenuItem* symbolItem = [[menu itemArray] lastObject];
 		[symbolItem setRepresentedObject: symbol];
-
+		[symbolItem setAttributedTitle: [[[NSAttributedString alloc] initWithString: symbolName
+																		 attributes: smallAttributes]
+			autorelease]];
+		
 		// Process any children of this element into a submenu
 		IFIntelSymbol* child = [symbol child];
 		
