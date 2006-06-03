@@ -9,6 +9,7 @@
 #import "IFExtensionPreferences.h"
 
 #import "IFExtensionsManager.h"
+#import "IFMaintenanceTask.h"
 
 @implementation IFExtensionPreferences
 
@@ -83,6 +84,19 @@
 	while (file = [fileEnum nextObject]) {
 		[[IFExtensionsManager sharedNaturalInformExtensionsManager] addExtension: file];
 	}	
+	
+	// Re-run the maintenance tasks
+	NSString* compilerPath = [[NSBundle mainBundle] pathForResource: @"ni"
+															 ofType: @""
+														inDirectory: @"Compilers"];
+	if (compilerPath != nil) {
+		[[IFMaintenanceTask sharedMaintenanceTask] queueTask: compilerPath
+											   withArguments: [NSArray arrayWithObjects: 
+												   @"-census",
+												   @"-rules",
+												   [[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: @"Inform7"] stringByAppendingPathComponent: @"Extensions"],
+												   nil]];
+	}
 }
 	
 - (IBAction) addNaturalExtension: (id) sender {
