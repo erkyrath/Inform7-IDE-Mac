@@ -609,7 +609,11 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 }
 
 - (NSString*) libraryToUse {
-    return [[self dictionaryForClass: [IFLibrarySettings class]] objectForKey: IFSettingLibraryToUse];
+	NSString* library = [[self dictionaryForClass: [IFLibrarySettings class]] objectForKey: IFSettingLibraryToUse];
+	
+	if (library == nil) library = @"Standard";
+	
+	return library;
 }
 
 // = Generic settings =

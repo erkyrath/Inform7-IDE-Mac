@@ -123,6 +123,23 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
 		}
     }
 	
+	if (comp == nil) {
+		// Try harder to find a compiler version
+		NSEnumerator* compEnum = [compilers objectEnumerator];
+
+		while (compDetails = [compEnum nextObject]) {
+			if (comp == nil && 
+				[IFCompiler compareCompilerVersion: ver
+										 toVersion: [compDetails objectForKey: @"version"]] == NSOrderedDescending) {
+				comp = [compDetails objectForKey: @"pathname"];
+			}
+		}
+		
+		if (comp == nil) {
+			comp = [[compilers objectAtIndex: 0] objectForKey: @"pathname"];
+		}
+	}
+	
 	return comp;
 }
 
