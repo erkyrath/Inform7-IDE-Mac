@@ -331,6 +331,10 @@
 				 cursor: aCursor];
 }
 
+- (BOOL) acceptsFirstResponder {
+	return YES;
+}
+
 - (void) resetCursorRects {
 	// Get the visible items
 	NSRect bounds = [self bounds];

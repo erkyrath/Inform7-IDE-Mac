@@ -13,6 +13,8 @@
                 findInProject = id; 
                 findNext = id; 
                 findPrevious = id; 
+                gotoLeftPane = id; 
+                gotoRightPane = id; 
                 lastChangedCommand = id; 
                 lastCommand = id; 
                 lastCommandInSkein = id; 
@@ -38,6 +40,15 @@
                 stepOutProcess = id; 
                 stepOverProcess = id; 
                 stopProcess = id; 
+                switchPanes = id; 
+                tabDocumentation = id; 
+                tabErrors = id; 
+                tabGame = id; 
+                tabIndex = id; 
+                tabSettings = id; 
+                tabSkein = id; 
+                tabSource = id; 
+                tabTranscript = id; 
                 useSelectionForFind = id; 
             }; 
             CLASS = FirstResponder; 
@@ -56,6 +67,39 @@
             LANGUAGE = ObjC; 
             OUTLETS = {extensionsMenu = NSMenuItem; }; 
             SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                addNewFile = id; 
+                gotoLeftPane = id; 
+                gotoRightPane = id; 
+                lastChangedCommand = id; 
+                lastCommand = id; 
+                lastCommandInSkein = id; 
+                lastDifference = id; 
+                nextChangedCommand = id; 
+                nextDifference = id; 
+                renumberSections = id; 
+                shiftLeft = id; 
+                shiftRight = id; 
+                switchPanes = id; 
+                tabDocumentation = id; 
+                tabErrors = id; 
+                tabGame = id; 
+                tabIndex = id; 
+                tabSettings = id; 
+                tabSkein = id; 
+                tabSource = id; 
+                tabTranscript = id; 
+            }; 
+            CLASS = IFProjectController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                panesView = NSView; 
+                progress = NSProgressIndicator; 
+                statusInfo = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
         }
     ); 
     IBVersion = 1; 

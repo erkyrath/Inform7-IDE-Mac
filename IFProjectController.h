@@ -133,6 +133,21 @@ enum lineStyle {
 - (IBAction) lastDifference: (id) sender;
 - (IBAction) nextDifference: (id) sender;
 
+// Tabbing around
+
+- (IBAction) tabSource: (id) sender;
+- (IBAction) tabErrors: (id) sender;
+- (IBAction) tabIndex: (id) sender;
+- (IBAction) tabSkein: (id) sender;
+- (IBAction) tabTranscript: (id) sender;
+- (IBAction) tabGame: (id) sender;
+- (IBAction) tabDocumentation: (id) sender;
+- (IBAction) tabSettings: (id) sender;
+
+- (IBAction) gotoLeftPane: (id) sender;
+- (IBAction) gotoRightPane: (id) sender;
+- (IBAction) switchPanes: (id) sender;
+
 // Undoing
 - (NSRange) shiftRangeLeft: (NSRange) range
 				 inStorage: (NSTextStorage*) textStorage;

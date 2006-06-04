@@ -1303,4 +1303,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	}
 }
 
+- (NSTabView*) tabView {
+	return tabView;
+}
+
 @end

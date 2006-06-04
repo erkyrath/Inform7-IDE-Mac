@@ -128,6 +128,7 @@ enum IFProjectPaneType {
 // Selecting the view
 - (void) selectView: (enum IFProjectPaneType) pane;				// Changes the view displayed in this pane to the specified setting
 - (enum IFProjectPaneType) currentView;							// Returns the currently displayed view (IFUnknownPane is a possibility for some views I haven't added code to check for)
+- (NSTabView*) tabView;											// The tab view itself
 
 // The source view
 - (void) moveToLine: (int) line									// Scrolls the source view so that the given line/character to be visible

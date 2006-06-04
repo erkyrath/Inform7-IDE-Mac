@@ -711,6 +711,22 @@ static NSDictionary*  itemDictionary = nil;
 	return YES;
 }
 
+- (NSTabView*) currentTabView {
+	NSResponder* first = [[self window] firstResponder];
+	
+	if ([first isKindOfClass: [NSView class]]) {
+		NSView* firstView = (NSView*)first;
+		
+		while (firstView != nil && ![firstView isKindOfClass: [NSTabView class]]) {
+			firstView = [firstView superview];
+		}
+		
+		return (NSTabView*)firstView;
+	}
+	
+	return nil;
+}
+
 - (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
 	SEL itemSelector = [menuItem action];
 	BOOL isRunning = [[self gamePane] isRunningGame];
@@ -765,6 +781,19 @@ static NSDictionary*  itemDictionary = nil;
 	if (itemSelector == @selector(lastCommand:) ||
 		itemSelector == @selector(lastCommandInSkein:)) {
 		return [[[[self skeinPane] skeinView] skein] activeItem] != nil;
+	}
+	
+	// Tabbing options
+	if (itemSelector == @selector(tabSource:) 
+		|| itemSelector == @selector(tabErrors:)
+		|| itemSelector == @selector(tabIndex:)
+		|| itemSelector == @selector(tabSkein:)
+		|| itemSelector == @selector(tabTranscript:)
+		|| itemSelector == @selector(tabGame:)
+		|| itemSelector == @selector(tabDocumentation:)
+		|| itemSelector == @selector(tabSettings:)
+		|| itemSelector == @selector(switchPanes:)) {
+		return [self currentTabView] != nil;
 	}
 
 	return YES;
@@ -2264,8 +2293,8 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) updateWithSiblingsOfSymbol: (IFIntelSymbol*) symbol
 							   menu: (NSMenu*) menu {
-	NSFont* smallFont = [NSFont systemFontOfSize: [NSFont smallSystemFontSize]];
-	NSDictionary* smallAttributes = [NSDictionary dictionaryWithObjectsAndKeys: smallFont, NSFontAttributeName, nil];
+	//NSFont* smallFont = [NSFont systemFontOfSize: [NSFont smallSystemFontSize]];
+	//NSDictionary* smallAttributes = [NSDictionary dictionaryWithObjectsAndKeys: smallFont, NSFontAttributeName, nil];
 	
 	while (symbol != nil) {
 		// Last character of index item names is a newline character
@@ -2358,6 +2387,119 @@ static NSDictionary*  itemDictionary = nil;
 							   inFile: [[self sourcePane] currentFile]
 								style: IFLineStyleHighlight];
 		[self moveToSourceFileLine: lineNumber];
+	}
+}
+
+// = Tabbing around =
+
+- (void) activateNearestTextView {
+	// Start from the current tab view
+	NSResponder* first = [self currentTabView];
+	
+	// Get the first responder
+	if (first == nil) first = [[self window] firstResponder];
+		
+	// Go inside the tab view
+	if ([first isKindOfClass: [NSTabView class]]) {
+		// Is a tab view: try the view for the active tab item
+		first = [[(NSTabView*)first selectedTabViewItem] view];
+	}
+	
+	// Iterate past things that won't accept the first responder
+	while (first != nil && [first isKindOfClass: [NSView class]] && ![(NSView*)first acceptsFirstResponder]) {
+		if ([[(NSView*)first subviews] count] > 0) {
+			first = [[(NSView*)first subviews] objectAtIndex: 0];
+		} else {
+			first = nil;
+		}
+	}
+	
+	if ([first isKindOfClass: [ZoomView class]]) {
+		// Zoom view: use the contained text view
+		first = [(ZoomView*)first textView];
+	}
+	
+	if ([first isKindOfClass: [NSScrollView class]]) {
+		// If a scroll view, then activate the document view
+		NSScrollView* scroll = (NSScrollView*)first;
+		
+		first = [scroll documentView];
+	} else if ([first isKindOfClass: [NSClipView class]]) {
+		// Same for a clip view
+		NSClipView* clip = (NSClipView*)first;
+		
+		first = [clip documentView];
+	}
+	
+	if (first != nil && [first isKindOfClass: [NSText class]]) {
+		// If the contents of the active scroll or clip view is a text view, then make that the first responder
+		[[self window] makeFirstResponder: first];
+	}
+}
+
+- (IBAction) tabSource: (id) sender {
+	[[self currentTabView] selectTabViewItemWithIdentifier: @"1"];
+	[self activateNearestTextView];
+}
+
+- (IBAction) tabErrors: (id) sender {
+	[[self currentTabView] selectTabViewItemWithIdentifier: @"2"];
+	[self activateNearestTextView];
+}
+
+- (IBAction) tabIndex: (id) sender {
+	[[self currentTabView] selectTabViewItemWithIdentifier: @"5"];
+	[self activateNearestTextView];
+}
+
+- (IBAction) tabSkein: (id) sender {
+	[[self currentTabView] selectTabViewItemWithIdentifier: @"6"];
+	[self activateNearestTextView];
+}
+
+- (IBAction) tabTranscript: (id) sender {
+	[[self currentTabView] selectTabViewItemWithIdentifier: @"8"];
+	[self activateNearestTextView];
+}
+
+- (IBAction) tabGame: (id) sender {
+	[[[self gamePane] tabView] selectTabViewItemWithIdentifier: @"3"];
+	[[self window] makeFirstResponder: [[self gamePane] tabView]];
+	[self activateNearestTextView];
+}
+
+- (IBAction) tabDocumentation: (id) sender {
+	[[self currentTabView] selectTabViewItemWithIdentifier: @"4"];
+	[self activateNearestTextView];
+}
+
+- (IBAction) tabSettings: (id) sender {
+	[[self currentTabView] selectTabViewItemWithIdentifier: @"7"];
+	[self activateNearestTextView];
+}
+
+- (IBAction) gotoLeftPane: (id) sender {
+	[[self window] makeFirstResponder: [[[[projectPanes objectAtIndex: 0] tabView] selectedTabViewItem] view]];
+	[self activateNearestTextView];
+}
+
+- (IBAction) gotoRightPane: (id) sender {
+	[[self window] makeFirstResponder: [[[[projectPanes objectAtIndex: 1] tabView] selectedTabViewItem] view]];
+	[self activateNearestTextView];
+}
+
+- (IBAction) switchPanes: (id) sender {
+	NSTabView* newView = nil;
+	
+	if ([self currentTabView] == [(IFProjectPane*)[projectPanes objectAtIndex: 0] tabView]) {
+		newView = [projectPanes objectAtIndex: 1];
+	} else {
+		newView = [projectPanes objectAtIndex: 0];
+	}
+
+	if (newView != nil) {
+		[[self window] makeFirstResponder: [[newView selectedTabViewItem] view]];
+		[self activateNearestTextView];
 	}
 }
 
