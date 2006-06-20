@@ -7,6 +7,7 @@
 //
 
 #import "IFExtensionsManager.h"
+#import "IFMaintenanceTask.h"
 
 #import "IFTempObject.h"
 
@@ -832,6 +833,19 @@ static int compare_insensitive(id a, id b, void* context) {
 		// Tell anything that wants to know that the data has been updated
 		[[NSNotificationCenter defaultCenter] postNotificationName: IFExtensionsUpdatedNotification
 															object: self];
+
+		// Re-run the maintenance tasks
+		NSString* compilerPath = [[NSBundle mainBundle] pathForResource: @"ni"
+																 ofType: @""
+															inDirectory: @"Compilers"];
+		if (compilerPath != nil) {
+			[[IFMaintenanceTask sharedMaintenanceTask] queueTask: compilerPath
+												   withArguments: [NSArray arrayWithObjects: 
+													   @"-census",
+													   @"-rules",
+													   [[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: @"Inform7"] stringByAppendingPathComponent: @"Extensions"],
+													   nil]];
+		}
 	}
 }
 

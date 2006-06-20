@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define DEBUG_BUILD
+#undef DEBUG_BUILD
 #ifdef DEBUG_BUILD
 
 #include <sys/types.h>

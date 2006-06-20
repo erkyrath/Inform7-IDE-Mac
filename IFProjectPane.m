@@ -19,6 +19,7 @@
 
 #import "IFJSProject.h"
 #import "IFRuntimeErrorParser.h"
+#import "IFMaintenanceTask.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
 #define minHighlightAmount 2048
@@ -162,6 +163,11 @@ NSDictionary* IFSyntaxAttributes[256];
 												 selector: @selector(preferencesChanged:)
 													 name: IFPreferencesChangedEarlierNotification
 												   object: [IFPreferences sharedPreferences]];
+		
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(censusCompleted:)
+													 name: IFMaintenanceTasksFinished
+												   object: nil];
     }
 
     return self;
@@ -1305,6 +1311,13 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (NSTabView*) tabView {
 	return tabView;
+}
+
+// = Updating extensions =
+
+- (void) censusCompleted: (NSNotification*) not {
+	// Force the documentation view to reload (the 'installed extensions' page may be updated)
+	[wView reload: self];
 }
 
 @end

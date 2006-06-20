@@ -21,6 +21,7 @@
 #import "IFIsBreakpoints.h"
 
 #import "IFSearchResultsController.h"
+#import "IFExtensionsManager.h"
 
 #import "IFOutputSettings.h"
 
@@ -292,6 +293,10 @@ static NSDictionary*  itemDictionary = nil;
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(updateIntelSymbols:)
 													 name: IFIntelFileHasChangedNotification 
+												   object: nil];
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(extensionsUpdated:)
+													 name: IFExtensionsUpdatedNotification
 												   object: nil];
     }
 
@@ -2501,6 +2506,14 @@ static NSDictionary*  itemDictionary = nil;
 		[[self window] makeFirstResponder: [[newView selectedTabViewItem] view]];
 		[self activateNearestTextView];
 	}
+}
+
+// = Updating extensions =
+
+- (void) extensionsUpdated: (NSNotification*) not {
+	// Show 'installed extensions' in the documentation pane (it'll refresh after the census completes)
+	[[self auxPane] selectView: IFDocumentationPane];
+	[[self auxPane] openURL: [NSURL URLWithString: @"inform://Extensions/Extensions.html"]];
 }
 
 @end
