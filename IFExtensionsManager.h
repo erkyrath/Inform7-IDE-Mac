@@ -24,6 +24,9 @@ extern NSString* IFExtensionsUpdatedNotification;				// Sent when the extensions
 // For NI extensions, directories are merged. Files have to be added to the extensions owned by a
 // particular author.
 //
+// This class can be used as a delegate for NSSave/Open panel delegates to only allow valid extensions
+// to be selected.
+//
 @interface IFExtensionsManager : NSObject {
 	// Places to look
 	NSMutableArray* extensionDirectories;				// Standard set of extension directories (subdirectory is appended)
@@ -71,6 +74,8 @@ extern NSString* IFExtensionsUpdatedNotification;				// Sent when the extensions
 - (NSArray*) filesInExtensionWithName: (NSString*) name;				// Complete list of files in the given extension
 - (NSArray*) sourceFilesInExtensionWithName: (NSString*) name;			// Complete list of source files in the given extension
 
+- (NSString*) authorForNaturalInformExtension: (NSString*) file			// From a file potentially containing a natural inform extension, works out the author and title
+										title: (NSString**) title;
 // Editing the installed extensions
 - (BOOL) addExtension: (NSString*) extensionPath;						// Creates an extension from the file/directory at the given path (if a directory, the directory is copied/merged as appropriate. If a file, the file is put in a new extension directory)
 - (BOOL) addFile: (NSString*) filePath									// Adds a file to an existing extension

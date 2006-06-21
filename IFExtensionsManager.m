@@ -436,8 +436,10 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	if (extensionString == nil) return nil;
 	
 	// Check that the ending is 'begins here'
-	if (![[[extensionString substringFromIndex: 
-			[extensionString length]-[@" begins here." length]] lowercaseString] isEqualToString: @" begins here."]) return nil;
+	if ([extensionString length] < [@" begins here." length]
+		|| ![[[extensionString substringFromIndex: 
+				[extensionString length]-[@" begins here." length]] lowercaseString] isEqualToString: @" begins here."])
+		return nil;
 	
 	// Get the indexes of ' by ', and ' of '
 	NSRange byPosition = [extensionString rangeOfString: @" by "
@@ -599,8 +601,14 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		else
 			destFile = [extensionPath lastPathComponent];
 		
+		NSString* dest = [destDir stringByAppendingPathComponent: destFile];
+		if ([mgr fileExistsAtPath: dest]) {
+			[mgr removeFileAtPath: dest
+						  handler: nil];
+		}
+		
 		if (![mgr copyPath: extensionPath
-					toPath: [destDir stringByAppendingPathComponent: destFile]
+					toPath: dest
 				   handler: nil]) {
 			// Couldn't finish installing the extension
 			return NO;
@@ -1207,6 +1215,36 @@ static int compare_insensitive(id a, id b, void* context) {
 	}
 	
 	return NO;
+}
+
+// = NSSavePanel delegate methods =
+
+- (BOOL)           panel:(id)sender 
+	  shouldShowFilename:(NSString *)filename {
+	BOOL isDir;
+	BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath: filename
+													   isDirectory: &isDir];
+	
+	if (!exists) return NO;
+	if (isDir) return YES;
+	
+	NSString* extn = [[filename pathExtension] lowercaseString];
+	
+	if (extensionsDefineName) {
+		// Try to read out the author and title name
+		NSString* author;
+		NSString* title;
+		
+		author = [self authorForNaturalInformExtension: filename
+												 title: &title];
+		
+		if (author == nil || title == nil || [author length] <= 0 || [title length] <= 0) return NO;
+	} else if (!([extn isEqualToString: @"h"] || [extn isEqualToString: @"inf"] || [extn isEqualToString: @"i6"])) {
+		// File is probably not an Inform source file
+		return NO;
+	}
+	
+	return YES;
 }
 
 @end

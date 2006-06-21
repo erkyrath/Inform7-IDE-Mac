@@ -70,19 +70,15 @@
 
 // = Actions =
 
-- (void) addNaturalExtensionPanelDidEnd: (NSOpenPanel*) sheet
-							 returnCode: (int) returnCode
-							contextInfo: (void*) contextInfo {
-	[sheet setDelegate: nil];
-	
-	if (returnCode != NSOKButton) return;
-	
+- (void) finishAddingExtensions: (NSArray*) filenames {
 	// Add the files
-	NSEnumerator* fileEnum = [[sheet filenames] objectEnumerator];
+	NSEnumerator* fileEnum = [filenames objectEnumerator];
+	BOOL succeeded = YES;
 	NSString* file;
 	
 	while (file = [fileEnum nextObject]) {
-		[[IFExtensionsManager sharedNaturalInformExtensionsManager] addExtension: file];
+		succeeded = [[IFExtensionsManager sharedNaturalInformExtensionsManager] addExtension: file];
+		if (!succeeded) break;
 	}	
 	
 	// Re-run the maintenance tasks
@@ -97,6 +93,103 @@
 												   [[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent: @"Inform7"] stringByAppendingPathComponent: @"Extensions"],
 												   nil]];
 	}
+	
+	// Report an error if we couldn't install the extension for some reason
+	if (!succeeded) {
+		[[NSRunLoop currentRunLoop] performSelector: @selector(failedToAddExtension:)
+											 target: self
+										   argument: nil
+											  order: 64
+											  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+	}
+}
+
+- (void) addNaturalExtensionPanelDidEnd: (NSOpenPanel*) sheet
+							 returnCode: (int) returnCode
+							contextInfo: (void*) contextInfo {
+	[sheet setDelegate: nil];
+	
+	if (returnCode != NSOKButton) return;
+	
+	// Check to see if any of the files exist
+	NSEnumerator* fileEnum = [[sheet filenames] objectEnumerator];
+	NSString* file;
+	BOOL exists = NO;
+
+	while (file = [fileEnum nextObject]) {
+		NSString* title;
+		NSString* author;
+		
+		author = [[IFExtensionsManager sharedNaturalInformExtensionsManager] authorForNaturalInformExtension: file
+																									   title: &title];
+		
+		if (author != nil) {
+			NSArray* authorFiles = [[IFExtensionsManager sharedNaturalInformExtensionsManager] filesInExtensionWithName: author];
+			
+			NSEnumerator* extnEnum = [authorFiles objectEnumerator];
+			title = [title lowercaseString];
+			NSString* extn;
+			
+			while (extn = [extnEnum nextObject]) {
+				if ([[[extn lastPathComponent] lowercaseString] isEqualToString: title]) {
+					exists = YES;
+					break;
+				}
+			}
+		}
+		
+		if (exists) break;
+	}
+	
+	if (exists) {
+		// Ask for confirmation
+		[[NSRunLoop currentRunLoop] performSelector: @selector(confirmExtensionOverwrite:)
+											 target: self
+										   argument: [[[sheet filenames] copy] autorelease]
+											  order: 64
+											  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+	} else {
+		// Just add the extension
+		[self finishAddingExtensions: [sheet filenames]];
+	}
+}
+
+- (void) confirmExtensionOverwrite: (id) filenames {
+	// Display a 'failed to add extension' alert sheet
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Overwrite Extension"
+															 value: @"Overwrite Extension?"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel" value: @"Cancel" table: nil], 
+					  [[NSBundle mainBundle] localizedStringForKey: @"Replace" value: @"Replace" table: nil], nil,
+					  [[self preferenceView] window],
+					  self, @selector(overwriteConfirmation:returnCode:contextInfo:),nil, [filenames retain],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Overwrite Extension Explanation"
+															 value: nil
+															 table: nil]);
+}
+
+- (void) overwriteConfirmation: (NSWindow *)sheet
+					returnCode: (int) returnCode
+				   contextInfo: (void*) filen {
+	// User has clicked 'Replace' or 'Cancel' to the 'overwrite extensions' dialog
+	NSArray* filenames = [(NSArray*)filen autorelease];
+	
+	if (returnCode == NSAlertAlternateReturn) {
+		[self finishAddingExtensions: filenames];
+	}
+}
+
+- (void) failedToAddExtension: (id) obj {
+	// Display a 'failed to add extension' alert sheet
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Failed to Install Extension"
+															 value: @"Failed to Install Extension"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel" value: @"Cancel" table: nil], nil, nil,
+					  [[self preferenceView] window],
+					  nil,nil,nil,nil,
+					  [[NSBundle mainBundle] localizedStringForKey: @"Failed to Install Extension Explanation"
+															 value: nil
+															 table: nil]);
 }
 	
 - (IBAction) addNaturalExtension: (id) sender {
@@ -109,7 +202,7 @@
 	[panel setResolvesAliases: YES];
 	[panel setAllowsMultipleSelection: NO];
 	[panel setTitle: @"Add new Inform 7 Extension"];
-	[panel setDelegate: self];
+	[panel setDelegate: [IFExtensionsManager sharedNaturalInformExtensionsManager]];
 	
 	[panel beginSheetForDirectory: @"~"
 							 file: nil
