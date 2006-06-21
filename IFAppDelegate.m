@@ -391,4 +391,14 @@ static int stringCompare(id a, id b, void* context) {
 															 table: nil]);
 }
 
+// = Installing extensions =
+
+- (IBAction) installExtension: (id) sender {
+	[[IFPreferenceController sharedPreferenceController] showWindow: self];
+	[[IFPreferenceController sharedPreferenceController] switchToPreferencePane: [[IFExtensionPreferences class] description]];
+	
+	IFExtensionPreferences* prefs = (IFExtensionPreferences*)[[IFPreferenceController sharedPreferenceController] preferencePane: [[IFExtensionPreferences class] description]];
+	[prefs addNaturalExtension: [prefs preferenceView]];
+}
+
 @end

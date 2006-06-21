@@ -132,6 +132,18 @@
 
 // = Preference switching =
 
+- (IFPreferencePane*) preferencePane: (NSString*) paneIdentifier {
+	NSEnumerator* toolEnum = [preferenceViews objectEnumerator];
+	IFPreferencePane* toolId;
+	
+	while (toolId = [toolEnum nextObject]) {
+		if ([[toolId identifier] isEqualToString: paneIdentifier])
+			break;
+	}
+	
+	return toolId;
+}
+
 - (void) switchToPreferencePane: (NSString*) paneIdentifier {
 	// Find the preference view that we're using
 	NSEnumerator* toolEnum = [preferenceViews objectEnumerator];
