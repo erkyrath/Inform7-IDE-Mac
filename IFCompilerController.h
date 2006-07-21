@@ -60,6 +60,7 @@ extern NSString* IFStyleStatistics;
     // The subtask
     IFCompiler* compiler;							// This is the actual compiler
 	NSURL* lastProblemURL;							// The last problem URL returned by the compiler
+	NSURL* overrideURL;								// The overridden problems URL
 
     // Styles
     NSMutableDictionary* styles;					// The attributes used to render various strings recognised by the parser
@@ -90,6 +91,7 @@ extern NSString* IFStyleStatistics;
 - (void) setDelegate: (NSObject*) delegate;				// Sets the delegate object
 - (NSObject*) delegate;									// Retrieves the delegate object
 
+- (void) overrideProblemsURL: (NSURL*) problemsURL;		// No matter the exit/RTP supplied by the compiler, use this problems URL instead
 - (void) showRuntimeError: (NSURL*) errorURL;			// Creates a tab for the 'runtime error' file given by errorURL (displayed by webkit)
 - (void) showContentsOfFilesIn: (NSFileWrapper*) files	// Creates tabs for the files contained in the given filewrapper (which came from the given path)
 					  fromPath: (NSString*) path;

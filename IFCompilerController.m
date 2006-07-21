@@ -179,6 +179,7 @@ static IFCompilerController* activeController = nil;
     if (fileTabView)   [fileTabView release];
 	
 	if (lastProblemURL) [lastProblemURL release];
+	if (overrideURL) [overrideURL release];
     
     [super dealloc];
 }
@@ -261,6 +262,9 @@ static IFCompilerController* activeController = nil;
 
     errorFiles    = [[NSMutableArray array] retain];
     errorMessages = [[NSMutableArray array] retain];
+	
+	if (overrideURL != nil) [overrideURL release];
+	overrideURL = nil;
 
     if (delegate &&
         [delegate respondsToSelector: @selector(errorMessagesCleared:)]) {
@@ -314,7 +318,10 @@ static IFCompilerController* activeController = nil;
     int exitCode = [[[not userInfo] objectForKey: @"exitCode"] intValue];
 	
 	[lastProblemURL release];
-	lastProblemURL = [[compiler problemsURL] retain];
+	if (overrideURL)
+		lastProblemURL = [overrideURL retain];
+	else
+		lastProblemURL = [[compiler problemsURL] retain];
 
     [[[compilerResults textStorage] mutableString] appendString: @"\n"];
 	[[[compilerResults textStorage] mutableString] appendString: 
@@ -1004,9 +1011,18 @@ static IFCompilerController* activeController = nil;
 	return blorbLocation;
 }
 
+- (void) overrideProblemsURL: (NSURL*) problemsURL {
+	[overrideURL release];
+	overrideURL = [problemsURL copy];
+}
+
 @end
 
 // == The lexical helper function to actually add error messages ==
+
+static NSString* memSetting = @"The memory setting ";
+static NSString* exceeds = @"The story file exceeds ";
+static NSString* readable = @"This program has overflowed the maximum readable-memory size of the Z-machine format ";
 
 void IFErrorAddError(const char* filC,
 					 int line,
@@ -1014,7 +1030,27 @@ void IFErrorAddError(const char* filC,
                      const char* mesC) {
     NSString* file    = [NSString stringWithCString: filC];
     NSString* message = [NSString stringWithCString: mesC];
-
+	
+	// Look for known error messages
+	if (type == IFLexCompilerFatalError 
+		&& [message length] > [memSetting length]
+		&& [[message substringToIndex: [memSetting length]] isEqualToString: memSetting]) {
+		[activeController overrideProblemsURL: [NSURL URLWithString: @"inform:/ErrorI6MemorySetting.html"]];
+	}
+	
+	if (type == IFLexCompilerFatalError
+		&& [message length] > [exceeds length]
+		&& [[message substringToIndex: [exceeds length]] isEqualToString: exceeds]) {
+		[activeController overrideProblemsURL: [NSURL URLWithString: @"inform:/ErrorI6TooBig.html"]];
+	}
+	
+	if (type == IFLexCompilerFatalError
+		&& [message length] > [readable length]
+		&& [[message substringToIndex: [readable length]] isEqualToString: readable]) {
+		[activeController overrideProblemsURL: [NSURL URLWithString: @"inform:/ErrorI6Readable.html"]];
+	}
+	
+    // Pass the rest to the controller
     [activeController addErrorForFile: file
                                atLine: line
                              withType: type
