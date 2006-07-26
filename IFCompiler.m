@@ -289,7 +289,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 
     if (stdOut) [stdOut release];
     if (stdErr) [stdErr release];
-
+	
+	if (stdErrH) [stdErrH release];
+	if (stdOutH) [stdOutH release];
+	
     //if (delegate) [delegate release];
 	
 	if (problemsURL) [problemsURL release];
@@ -575,7 +578,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     // waitForDataInBackground is a daft way of doing things and a waste of a thread
     if (stdErr) [stdErr release];
     if (stdOut) [stdOut release];
-
+	
+	if (stdErrH) [stdErrH release];
+	if (stdOutH) [stdOutH release];
+	
     [[NSNotificationCenter defaultCenter] removeObserver: self];
 
     stdErr = [[NSPipe allocWithZone: [self zone]] init];
@@ -584,8 +590,8 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
     [theTask setStandardOutput: stdOut];
     [theTask setStandardError:  stdErr];
 
-    stdErrH = [stdErr fileHandleForReading];
-    stdOutH = [stdOut fileHandleForReading];
+    stdErrH = [[stdErr fileHandleForReading] retain];
+    stdOutH = [[stdOut fileHandleForReading] retain];
 
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(stdOutWaiting:)
@@ -790,6 +796,9 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
         if (stdErr) [stdErr release];
         if (stdOut) [stdOut release];
 
+		if (stdErrH) [stdErrH release];
+        if (stdOutH) [stdOutH release];
+
         [[NSNotificationCenter defaultCenter] removeObserver: self];
 
         stdErr = [[NSPipe allocWithZone: [self zone]] init];
@@ -798,8 +807,8 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
         [theTask setStandardOutput: stdOut];
         [theTask setStandardError:  stdErr];
 
-        stdErrH = [stdErr fileHandleForReading];
-        stdOutH = [stdOut fileHandleForReading];
+        stdErrH = [[stdErr fileHandleForReading] retain];
+        stdOutH = [[stdOut fileHandleForReading] retain];
 
         [[NSNotificationCenter defaultCenter] addObserver: self
                                                  selector: @selector(stdOutWaiting:)
@@ -841,6 +850,8 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 }
 
 - (void) stdOutWaiting: (NSNotification*) not {
+	if (finishCount >= 3) return;
+
     NSData* inData = [stdOutH availableData];
 
     if ([inData length]) {
@@ -858,6 +869,8 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 }
 
 - (void) stdErrWaiting: (NSNotification*) not {
+	if (finishCount >= 3) return;
+	
     NSData* inData = [stdErrH availableData];
 
     if ([inData length]) {
