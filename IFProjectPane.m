@@ -744,7 +744,7 @@ NSDictionary* IFSyntaxAttributes[256];
 		[gView setInputFilename: fileName];
 		[gView launchClientApplication: [[NSBundle mainBundle] pathForResource: @"glulxe"
 																		ofType: @""
-																   inDirectory: @""]
+																   inDirectory: @"this/is_a/workaround"]
 						 withArguments: nil];
 	} else {
 		// Start running as a Zoom task
