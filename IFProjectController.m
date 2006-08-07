@@ -806,7 +806,8 @@ static NSDictionary*  itemDictionary = nil;
 
 // == View selection functions ==
 
-- (void) performCompileWithRelease: (BOOL) release {
+- (void) performCompileWithRelease: (BOOL) release
+					   refreshOnly: (BOOL) onlyRefresh {
     IFProject* doc = [self document];
 	IFOutputSettings* outputSettings = (IFOutputSettings*)[[doc settings] settingForClass: [IFOutputSettings class]];
 	BOOL buildBlorb = [outputSettings createBlorbForRelease] && release;
@@ -848,7 +849,14 @@ static NSDictionary*  itemDictionary = nil;
 	
     // Time to go!
 	[self addProgressIndicator: [theCompiler progress]];
-    [theCompiler prepareForLaunchWithBlorbStage: buildBlorb];
+	
+	if (onlyRefresh) {
+		[theCompiler addNaturalInformStage];
+		[theCompiler prepareForLaunchWithBlorbStage: NO];
+	} else {
+		[theCompiler prepareForLaunchWithBlorbStage: buildBlorb];
+	}
+
     [theCompiler launch];
 	
     // [[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
@@ -856,25 +864,35 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) release: (id) sender {
     compileFinishedAction = @selector(saveCompilerOutput);
-	[self performCompileWithRelease: YES];
+	[self performCompileWithRelease: YES
+						refreshOnly: NO];
 }
 
 - (IBAction) compile: (id) sender {
     compileFinishedAction = @selector(saveCompilerOutput);
-	[self performCompileWithRelease: NO];
+	[self performCompileWithRelease: NO
+						refreshOnly: NO];
+}
+
+- (IBAction) compileAndRefresh: (id) sender {
+	compileFinishedAction = @selector(refreshIndexTabs);
+	[self performCompileWithRelease: NO
+						refreshOnly: YES];
 }
 
 - (IBAction) compileAndRun: (id) sender {
 	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
     compileFinishedAction = @selector(runCompilerOutput);
-    [self performCompileWithRelease: NO];
+    [self performCompileWithRelease: NO
+						refreshOnly: NO];
 
 	waitingAtBreakpoint = NO;
 }
 
 - (IBAction) replayUsingSkein: (id) sender {
     compileFinishedAction = @selector(runCompilerOutputAndReplay);
-	[self performCompileWithRelease: NO];
+	[self performCompileWithRelease: NO
+						refreshOnly: NO];
 	
 	waitingAtBreakpoint = NO;
 }
@@ -882,7 +900,8 @@ static NSDictionary*  itemDictionary = nil;
 - (IBAction) compileAndDebug: (id) sender {
 	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
 	compileFinishedAction = @selector(debugCompilerOutput);
-    [self performCompileWithRelease: NO];
+    [self performCompileWithRelease: NO
+						refreshOnly: NO];
 	
 	waitingAtBreakpoint = NO;
  }
@@ -893,6 +912,11 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 // = Things to do after the compiler has finished =
+
+- (void) refreshIndexTabs {
+	// This is a side-effect of compiling, so nothing to do here
+}
+
 - (void) saveCompilerOutput {
 	// Check to see if one of the compile controllers has already got a save location for the game
 	IFCompilerController* paneController = [[projectPanes objectAtIndex: 0] compilerController];
