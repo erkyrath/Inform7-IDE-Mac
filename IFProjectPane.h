@@ -85,6 +85,8 @@ enum IFProjectPaneType {
 	BOOL indexAvailable;								// YES if the index tab should be active
 	
 	NSTabView* indexTabs;								// The tab view containing the various index files
+	int indexMachineSelection;							// A reference count - number of 'machine' operations that might be affecting the index tab selection
+	NSString* lastUserTab;								// The last tab selected by a user action
 	
 	// The skein view
 	IBOutlet ZoomSkeinView* skeinView;					// The skein view

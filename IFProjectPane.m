@@ -192,6 +192,11 @@ NSDictionary* IFSyntaxAttributes[256];
     [sourceFiles    release];
 	
 	[transcriptView setDelegate: nil];
+	
+	if (indexTabs != nil) {
+		[indexTabs setDelegate: nil];
+		[indexTabs release];
+	}
     
 	if (textStorage) {
 		// Hrm? Cocoa seems to like deallocating NSTextStorage despite its retain count.
@@ -888,8 +893,15 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 // = Tab view delegate =
+
 - (BOOL)            tabView: (NSTabView *)view 
     shouldSelectTabViewItem:(NSTabViewItem *)item {
+	// Do nothing if this is the index tab view
+	if (view == indexTabs) {
+		return YES;
+	}
+		
+	// Assume we're in the main tab view otherwise
     if (item == gameTabView && (zView == nil && gView == nil)) {
         // FIXME: if another view is running a game, then display the tabView in there
         return NO;
@@ -900,6 +912,18 @@ NSDictionary* IFSyntaxAttributes[256];
 	}
 
     return YES;
+}
+
+-  (void)			tabView:(NSTabView *)view 
+	   didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
+	if (view == indexTabs) {
+		// Do nothing if something mechanical may be changing the selection
+		if (indexMachineSelection > 0) return;
+		
+		// Store this as the last 'user-selected' tab view item
+		[lastUserTab release];
+		lastUserTab = [[tabViewItem label] retain];
+	}
 }
 
 // = Intelligence =
@@ -1003,7 +1027,10 @@ NSDictionary* IFSyntaxAttributes[256];
 	if (!isDir) return;		
 	
 	// Create the tab view that will eventually go into the main view
+	indexMachineSelection++;
+		
 	if (indexTabs != nil) {
+		[indexTabs setDelegate: nil];
 		[indexTabs removeFromSuperview];
 		[indexTabs release];
 		indexTabs = nil;
@@ -1012,6 +1039,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	indexTabs = [[NSTabView alloc] initWithFrame: [indexView bounds]];
 	[indexTabs setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 	[indexView addSubview: indexTabs];
+	
+	[indexTabs setDelegate: self];
 	
 	[indexTabs setControlSize: NSSmallControlSize];
 	[indexTabs setFont: [NSFont systemFontOfSize: 10]];
@@ -1027,6 +1056,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	while (theFile = [fileEnum nextObject]) {
 		NSString* extension = [[theFile pathExtension] lowercaseString];
 		NSString* fullPath = [indexPath stringByAppendingPathComponent: theFile];
+		
+		NSTabViewItem* userTab = nil;
 		
 		if ([extension isEqualToString: @"htm"] ||
 			[extension isEqualToString: @"html"] ||
@@ -1052,15 +1083,28 @@ NSDictionary* IFSyntaxAttributes[256];
 			NSTabViewItem* newTab = [[[NSTabViewItem alloc] init] autorelease];
 			
 			[newTab setView: fileView];
-			[newTab setLabel: [mB localizedStringForKey: theFile
+			
+			NSString* label = [mB localizedStringForKey: theFile
 												  value: [theFile stringByDeletingPathExtension]
-												  table: @"CompilerOutput"]];
+												  table: @"CompilerOutput"];
+			[newTab setLabel: label];
+			
+			// Check if this was the last tab being viewed by the user
+			if (lastUserTab != nil && [label caseInsensitiveCompare: lastUserTab] == NSOrderedSame) {
+				userTab = newTab;
+			}
 			
 			// Add the tab
 			[indexTabs addTabViewItem: newTab];
 			indexAvailable = YES;
 		}
+		
+		if (userTab != nil) {
+			[indexTabs selectTabViewItem: userTab];
+		}
 	}
+
+	indexMachineSelection--;
 }
 
 // = WebResourceLoadDelegate methods =
