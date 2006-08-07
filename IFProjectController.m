@@ -355,14 +355,13 @@ static NSDictionary*  itemDictionary = nil;
 	[IFWelcomeWindow hideWelcomeWindow];
 	
 	[[NSNotificationCenter defaultCenter] addObserver: self
-											 selector: @selector(undoHasChanged:)
+											 selector: @selector(willNeedRecompile:)
 												 name: NSUndoManagerCheckpointNotification
 											   object: [[self document] undoManager]];
 }
 
-- (void) undoHasChanged: (NSNotification*) not {
+- (void) willNeedRecompile: (NSNotification*) not {
 	noChangesSinceLastCompile = NO;
-	NSLog(@"Undo has changed");
 }
 
 - (BOOL)windowShouldClose:(id)sender {

@@ -112,6 +112,8 @@ enum lineStyle {
 
 - (IBAction) addNewFile: (id) sender;
 
+- (void) willNeedRecompile: (NSNotification*) not;
+
 // Debugging
 - (void) updatedBreakpoints: (NSNotification*) not;
 - (void) hitBreakpoint: (int) pc;

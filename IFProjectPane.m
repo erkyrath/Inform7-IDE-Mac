@@ -691,6 +691,8 @@ NSDictionary* IFSyntaxAttributes[256];
 		return; // Nothing to do
 	}
 	
+	[parent willNeedRecompile: nil];
+	
 	[settingsController setCompilerSettings: [[parent document] settings]];
 	[settingsController updateAllSettings];
 	
