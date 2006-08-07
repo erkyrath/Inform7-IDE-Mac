@@ -57,6 +57,9 @@ enum lineStyle {
     // Action after a compile has finished
     SEL compileFinishedAction;
 	
+	// Compiling
+	BOOL noChangesSinceLastCompile;							// Set to YES after a successful compile/run cycle
+	
 	// The last file selected
 	NSString* lastFilename;
 	

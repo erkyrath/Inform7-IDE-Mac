@@ -353,6 +353,16 @@ static NSDictionary*  itemDictionary = nil;
 	[self setWindowFrameAutosaveName: @"ProjectWindow"];
 	[[self window] setFrameAutosaveName: @"ProjectWindow"];
 	[IFWelcomeWindow hideWelcomeWindow];
+	
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(undoHasChanged:)
+												 name: NSUndoManagerCheckpointNotification
+											   object: [[self document] undoManager]];
+}
+
+- (void) undoHasChanged: (NSNotification*) not {
+	noChangesSinceLastCompile = NO;
+	NSLog(@"Undo has changed");
 }
 
 - (BOOL)windowShouldClose:(id)sender {
@@ -863,12 +873,16 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IBAction) release: (id) sender {
+	noChangesSinceLastCompile = NO;
+
     compileFinishedAction = @selector(saveCompilerOutput);
 	[self performCompileWithRelease: YES
 						refreshOnly: NO];
 }
 
 - (IBAction) compile: (id) sender {
+	noChangesSinceLastCompile = NO;
+	
     compileFinishedAction = @selector(saveCompilerOutput);
 	[self performCompileWithRelease: NO
 						refreshOnly: NO];
@@ -883,16 +897,28 @@ static NSDictionary*  itemDictionary = nil;
 - (IBAction) compileAndRun: (id) sender {
 	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
     compileFinishedAction = @selector(runCompilerOutput);
-    [self performCompileWithRelease: NO
-						refreshOnly: NO];
+	
+	// Only actually compile if there are undo actions added since the last compile
+	if (!noChangesSinceLastCompile) {
+		[self performCompileWithRelease: NO
+							refreshOnly: NO];
+	} else {
+		[self runCompilerOutput];
+	}
 
 	waitingAtBreakpoint = NO;
 }
 
 - (IBAction) replayUsingSkein: (id) sender {
     compileFinishedAction = @selector(runCompilerOutputAndReplay);
-	[self performCompileWithRelease: NO
-						refreshOnly: NO];
+	
+	// Only actually compile if there are undo actions added since the last compile
+	if (!noChangesSinceLastCompile) {
+		[self performCompileWithRelease: NO
+							refreshOnly: NO];
+	} else {
+		[self runCompilerOutputAndReplay];
+	}
 	
 	waitingAtBreakpoint = NO;
 }
@@ -963,16 +989,19 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) runCompilerOutput {
 	waitingAtBreakpoint = NO;
+	noChangesSinceLastCompile = YES;
     [[projectPanes objectAtIndex: 1] startRunningGame: [[[self document] compiler] outputFile]];
 }
 
 - (void) runCompilerOutputAndReplay {
+	noChangesSinceLastCompile = YES;
 	[[projectPanes objectAtIndex: 1] setPointToRunTo: [[[self document] skein] activeItem]];
 	[self runCompilerOutput];
 }
 
 - (void) debugCompilerOutput {
 	waitingAtBreakpoint = NO;
+	noChangesSinceLastCompile = YES;
 	[[projectPanes objectAtIndex: 1] activateDebug];
     [[projectPanes objectAtIndex: 1] startRunningGame: [[[self document] compiler] outputFile]];
 }
