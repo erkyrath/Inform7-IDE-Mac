@@ -38,6 +38,7 @@ static NSToolbarItem* compileAndRunItem		= nil;
 static NSToolbarItem* replayItem			= nil;
 static NSToolbarItem* compileAndDebugItem	= nil;
 static NSToolbarItem* releaseItem			= nil;
+static NSToolbarItem* refreshIndexItem		= nil;
 
 static NSToolbarItem* stopItem				= nil;
 static NSToolbarItem* pauseItem				= nil;
@@ -71,6 +72,7 @@ static NSDictionary*  itemDictionary = nil;
     compileAndDebugItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"compileAndDebugItem"];
     releaseItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"releaseItem"];
 	replayItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"replayItem"];
+	refreshIndexItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"refreshIndexItem"];
 	
     stopItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"stopItem"];
     continueItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"continueItem"];
@@ -93,6 +95,7 @@ static NSDictionary*  itemDictionary = nil;
         compileItem, @"compileItem",
         compileAndRunItem, @"compileAndRunItem",
 		replayItem, @"replayItem",
+		refreshIndexItem, @"refreshIndexItem",
 		compileAndDebugItem, @"compileAndDebugItem",
         releaseItem, @"releaseItem",
 		stopItem, @"stopItem",
@@ -115,6 +118,7 @@ static NSDictionary*  itemDictionary = nil;
 	[compileAndDebugItem setImage: [NSImage imageNamed: @"debug"]];
 	[releaseItem setImage: [NSImage imageNamed: @"release"]];
 	[replayItem setImage: [NSImage imageNamed: @"replay"]];
+	[refreshIndexItem setImage: [NSImage imageNamed: @"refresh_index"]];
 	
 	[stopItem setImage: [NSImage imageNamed: @"stop"]];
 	[pauseItem setImage: [NSImage imageNamed: @"pause"]];
@@ -145,6 +149,9 @@ static NSDictionary*  itemDictionary = nil;
     [replayItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Replay"
 																 value: @"Replay"
 																 table: nil]];
+    [refreshIndexItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Refresh Index"
+																	   value: @"Refresh Index"
+																	   table: nil]];
 	
 	[stepItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Step"
 															   value: @"Step"
@@ -247,6 +254,9 @@ static NSDictionary*  itemDictionary = nil;
 	[browseIndexItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"BrowseIndexTip"
 																		value: nil
 																		table: nil]];
+	[refreshIndexItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"RefreshIndexTip"
+																		 value: nil
+																		 table: nil]];
 	
     // The action heroes
     [compileItem setAction: @selector(compile:)];
@@ -254,6 +264,7 @@ static NSDictionary*  itemDictionary = nil;
     [compileAndDebugItem setAction: @selector(compileAndDebug:)];
     [releaseItem setAction: @selector(release:)];
     [replayItem setAction: @selector(replayUsingSkein:)];
+    [refreshIndexItem setAction: @selector(compileAndRefresh:)];
 	
 	[indexItem setAction: @selector(docIndex:)];
 	
@@ -677,7 +688,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
-        @"compileItem", @"compileAndRunItem", @"replayItem", @"compileAndDebugItem", @"pauseItem", @"continueItem", @"stepItem", 
+        @"compileItem", @"compileAndRunItem", @"replayItem", @"compileAndDebugItem", @"refreshIndexItem", @"pauseItem", @"continueItem", @"stepItem", 
 		@"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem", @"searchDocsItem", @"searchProjectItem", @"browseIndexItem",
 		NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, 
 		@"releaseItem",
@@ -699,10 +710,16 @@ static NSDictionary*  itemDictionary = nil;
 
 // == Toolbar item validation ==
 
+- (BOOL) canDebug {
+	// Can only debug Z-Code Inform 6 games
+	return ![[[self document] settings] usingNaturalInform] && [[[self document] settings] zcodeVersion] < 16;
+}
+
 - (BOOL) validateToolbarItem: (NSToolbarItem*) item {
 	BOOL isRunning = [[self gamePane] isRunningGame];
 	
-	if ([[item itemIdentifier] isEqualToString: [stopItem itemIdentifier]] || [[item itemIdentifier] isEqualToString: [pauseItem itemIdentifier]]) {
+	if ([[item itemIdentifier] isEqualToString: [stopItem itemIdentifier]] ||
+		[[item itemIdentifier] isEqualToString: [pauseItem itemIdentifier]]) {
 		return isRunning;
 	}
 	
@@ -714,6 +731,12 @@ static NSDictionary*  itemDictionary = nil;
 	}
 
 	SEL itemSelector = [item action];
+	
+	if (itemSelector == @selector(compileAndDebug:) &&
+		![self canDebug]) {
+		return NO;
+	}
+
 	if (itemSelector == @selector(compile:) || 
 		itemSelector == @selector(release:) ||
 		itemSelector == @selector(compileAndRun:) ||
@@ -755,6 +778,13 @@ static NSDictionary*  itemDictionary = nil;
 	if (itemSelector == @selector(stopProcess:) ||
 		itemSelector == @selector(pauseProcess:)) {
 		return isRunning;
+	}
+	
+	if ( (itemSelector == @selector(compileAndDebug:) ||
+		  itemSelector == @selector(setBreakpoint:) ||
+		  itemSelector == @selector(deleteBreakpoint:)) && 
+		![self canDebug]) {
+		return NO;
 	}
 	
 	if (itemSelector == @selector(compile:) || 
