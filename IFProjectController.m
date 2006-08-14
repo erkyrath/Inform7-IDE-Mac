@@ -15,6 +15,7 @@
 #import "IFWelcomeWindow.h"
 
 #import "IFPreferences.h"
+#import "IFSingleFile.h"
 
 #import "IFIsFiles.h"
 #import "IFIsWatch.h"
@@ -749,7 +750,8 @@ static NSDictionary*  itemDictionary = nil;
 		itemSelector == @selector(release:) ||
 		itemSelector == @selector(compileAndRun:) ||
 		itemSelector == @selector(compileAndDebug:) ||
-		itemSelector == @selector(replayUsingSkein:)) {
+		itemSelector == @selector(replayUsingSkein:) ||
+		itemSelector == @selector(compileAndRefresh:)) {
 		return ![[[self document] compiler] isRunning];
 	}
 	
@@ -799,7 +801,8 @@ static NSDictionary*  itemDictionary = nil;
 		itemSelector == @selector(release:) ||
 		itemSelector == @selector(compileAndRun:) ||
 		itemSelector == @selector(compileAndDebug:) ||
-		itemSelector == @selector(replayUsingSkein:)) {
+		itemSelector == @selector(replayUsingSkein:) ||
+		itemSelector == @selector(compileAndRefresh:)) {
 		return ![[[self document] compiler] isRunning];
 	}
 	
@@ -1286,6 +1289,53 @@ static NSDictionary*  itemDictionary = nil;
 	return [self auxPane];
 }
 
+- (BOOL) loadNaturalInformExtension: (NSString*) filename {
+	// Get the author and extension name
+	NSArray* components = [filename pathComponents];
+	if ([components count] != 2)
+		return NO;
+	
+	NSString* author = [components objectAtIndex: 0];
+	NSString* extension = [components objectAtIndex: 1];
+	
+	// Search for this extension
+	NSArray* possibleExtensions = [[IFExtensionsManager sharedNaturalInformExtensionsManager] filesInExtensionWithName: author];
+	if ([possibleExtensions count] <= 0) return NO;
+	
+	NSEnumerator* extnEnum = [possibleExtensions objectEnumerator];
+	NSString* extnFile;
+	while (extnFile = [extnEnum nextObject]) {
+		if ([[extnFile lastPathComponent] caseInsensitiveCompare: extension] == NSOrderedSame) {
+			// This is the extension file we need to open
+			
+			// Try to find the old document
+			NSDocument* newDoc = [[NSDocumentController sharedDocumentController] documentForFileName: extnFile];
+			
+			// If it doesn't exist, then construct it
+			if (newDoc == nil) {
+				newDoc = [[IFSingleFile alloc] initWithContentsOfFile: extnFile
+															   ofType: @"Inform 7 extension"];
+				
+				[[NSDocumentController sharedDocumentController] addDocument: [newDoc autorelease]];
+				[newDoc makeWindowControllers];
+				[newDoc showWindows];
+			} else {
+				// Force it to the front
+				NSEnumerator* winEnum = [[newDoc windowControllers] objectEnumerator];;
+				NSWindowController* controller;
+				
+				while (controller = [winEnum nextObject]) {
+					[[controller window] makeKeyAndOrderFront: self];
+				}
+			}
+			
+			return YES;
+		}
+	}
+	
+	return NO;
+}
+
 - (BOOL) selectSourceFile: (NSString*) fileName {	
 	if ([[self document] storageForFile: fileName] != nil) {
 		// Load this file
@@ -1304,7 +1354,7 @@ static NSDictionary*  itemDictionary = nil;
 																	 value: @"You are opening a temporary file"
 																	 table: nil]);
 		}
-	} else {
+	} else if (![self loadNaturalInformExtension: fileName]) {
 		// Display an error if we couldn't find the file
 		NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Unable to open source file"
 																 value: @"Unable to open source file"
