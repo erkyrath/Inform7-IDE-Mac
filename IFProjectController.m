@@ -28,6 +28,7 @@
 // = Preferences =
 
 NSString* IFSplitViewSizes = @"IFSplitViewSizes";
+NSString* IFSourceSpellChecking = @"IFSourceSpellChecking";
 
 @implementation IFProjectController
 
@@ -64,6 +65,7 @@ static NSDictionary*  itemDictionary = nil;
 	NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
 	[defaults registerDefaults: [NSDictionary dictionaryWithObjectsAndKeys: 
 		[NSArray arrayWithObjects: [NSNumber numberWithFloat: 0.625], [NSNumber numberWithFloat: 0.375], nil], IFSplitViewSizes, 
+		[NSNumber numberWithBool: NO], IFSourceSpellChecking,
 		nil]];
 	
 	// Create the toolbar items
@@ -400,6 +402,9 @@ static NSDictionary*  itemDictionary = nil;
 - (void) awakeFromNib {
 	// [self setWindowFrameAutosaveName: @"ProjectWindow"];
 
+	// Work out whether or not we should use spell-checking in the source views
+	sourceSpellChecking = [[NSUserDefaults standardUserDefaults] boolForKey: IFSourceSpellChecking];
+	
 	// Register for settings updates
     [[NSNotificationCenter defaultCenter] addObserver: self
 											 selector: @selector(updateSettings)
@@ -421,6 +426,9 @@ static NSDictionary*  itemDictionary = nil;
 	
     [[projectPanes objectAtIndex: 0] selectView: IFSourcePane];
     [[projectPanes objectAtIndex: 1] selectView: IFDocumentationPane];
+
+	[[projectPanes objectAtIndex: 0] setSpellChecking: sourceSpellChecking];
+    [[projectPanes objectAtIndex: 1] setSpellChecking: sourceSpellChecking];
 
     [self layoutPanes];
 
@@ -838,6 +846,12 @@ static NSDictionary*  itemDictionary = nil;
 		|| itemSelector == @selector(tabSettings:)
 		|| itemSelector == @selector(switchPanes:)) {
 		return [self currentTabView] != nil;
+	}
+	
+	// Spell checking
+	if (itemSelector == @selector(toggleSourceSpellChecking:)) {
+		[menuItem setState: sourceSpellChecking?NSOnState:NSOffState];
+		return YES;
 	}
 
 	return YES;
@@ -2596,6 +2610,25 @@ static NSDictionary*  itemDictionary = nil;
 	// Show 'installed extensions' in the documentation pane (it'll refresh after the census completes)
 	[[self auxPane] selectView: IFDocumentationPane];
 	[[self auxPane] openURL: [NSURL URLWithString: @"inform://Extensions/Extensions.html"]];
+}
+
+// = Spell checking =
+
+- (IBAction) toggleSourceSpellChecking: (id) sender {
+	// Toggle the setting
+	sourceSpellChecking = !sourceSpellChecking;
+	
+	// Update the panes
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
+	
+	while (pane = [paneEnum nextObject]) {
+		[pane setSpellChecking: sourceSpellChecking];
+	}
+	
+	// Store the result
+	[[NSUserDefaults standardUserDefaults] setBool: sourceSpellChecking
+											forKey: IFSourceSpellChecking];
 }
 
 @end

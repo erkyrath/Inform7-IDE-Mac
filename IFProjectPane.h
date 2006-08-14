@@ -188,4 +188,7 @@ enum IFProjectPaneType {
 - (IBAction) setBreakpoint: (id) sender;						// Sets a breakpoint at the current line in response to a menu selection
 - (IBAction) deleteBreakpoint: (id) sender;						// Clears the breakpoint at the current line in response to a menu selection
 
+// Spell checking
+- (void) setSpellChecking: (BOOL) checkSpelling;				// Set to true if this pane should spell-check the source code
+
 @end

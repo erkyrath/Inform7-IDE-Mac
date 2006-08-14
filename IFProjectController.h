@@ -77,6 +77,9 @@ enum lineStyle {
 	BOOL progressing;
 	int  progressNum;
 	NSMutableArray* progressIndicators;
+	
+	// Spell checking
+	BOOL sourceSpellChecking;
 }
 
 - (void) layoutPanes;
@@ -158,5 +161,8 @@ enum lineStyle {
 				 inStorage: (NSTextStorage*) textStorage;
 - (NSRange) shiftRangeRight: (NSRange) range
 				  inStorage: (NSTextStorage*) textStorage;
+
+// Spell checking
+- (IBAction) toggleSourceSpellChecking: (id) sender;
 
 @end

@@ -277,7 +277,7 @@ NSDictionary* IFSyntaxAttributes[256];
 		
     doc = [parent document];
 
-	[sourceText setContinuousSpellCheckingEnabled: NO];
+	//[sourceText setContinuousSpellCheckingEnabled: NO];
     [[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
 
     NSTextStorage* mainFile = [doc storageForFile: [doc mainSourceFile]];
@@ -1364,6 +1364,12 @@ NSDictionary* IFSyntaxAttributes[256];
 - (void) censusCompleted: (NSNotification*) not {
 	// Force the documentation view to reload (the 'installed extensions' page may be updated)
 	[wView reload: self];
+}
+
+// = Spell checking =
+
+- (void) setSpellChecking: (BOOL) checkSpelling {
+	[sourceText setContinuousSpellCheckingEnabled: checkSpelling];
 }
 
 @end
