@@ -297,6 +297,8 @@ static IFCompilerController* activeController = nil;
 - (void) started: (NSNotification*) not {
     if (errorFiles == nil) errorFiles = [[NSMutableArray alloc] init];
     if (errorMessages == nil) errorMessages = [[NSMutableArray alloc] init];
+	if (overrideURL != nil) [overrideURL release];
+	overrideURL = nil;
 
     [self clearTabViews];
     [errorMessages removeAllObjects];
