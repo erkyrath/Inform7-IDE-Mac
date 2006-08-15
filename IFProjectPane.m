@@ -743,6 +743,7 @@ NSDictionary* IFSyntaxAttributes[256];
 		// Start running as a glulxe task
 		gView = [[GlkView alloc] init];
 		[gView setDelegate: self];
+		[gView addOutputReceiver: parent];
 		
 		[gView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 		[gView setFrame: [gameView bounds]];
@@ -829,6 +830,8 @@ NSDictionary* IFSyntaxAttributes[256];
 // (GlkView delegate functions)
 - (void) taskHasStarted {
     [tabView selectTabViewItem: gameTabView];
+	
+	[parent glkTaskHasStarted: self];
 
 	[gameRunningProgress setMessage: [[NSBundle mainBundle] localizedStringForKey: @"Story started"
 																			value: @"Story started"
@@ -836,6 +839,19 @@ NSDictionary* IFSyntaxAttributes[256];
 	[parent removeProgressIndicator: gameRunningProgress];
 	[gameRunningProgress release];
 	gameRunningProgress = nil;	
+
+	if (pointToRunTo) {
+		[parent transcriptToPoint: pointToRunTo];
+		
+		id inputSource = [ZoomSkein inputSourceFromSkeinItem: [[[parent document] skein] rootItem]
+													  toItem: pointToRunTo];
+		
+		[parent setGlkInputSource: inputSource];
+		[gView addInputReceiver: parent];
+		
+		[pointToRunTo release];
+		pointToRunTo = nil;
+	}
 }
 
 // (ZoomView delegate functions)

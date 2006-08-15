@@ -9,6 +9,7 @@
 #import <AppKit/AppKit.h>
 #import <ZoomView/ZoomView.h>
 #import <ZoomView/ZoomSkeinItem.h>
+#import <GlkView/GlkAutomation.h>
 
 #import "IFProjectPolicy.h"
 #import "IFProgress.h"
@@ -37,7 +38,7 @@ enum lineStyle {
 };
 
 @class IFProjectPane;
-@interface IFProjectController : NSWindowController {
+@interface IFProjectController : NSWindowController<GlkAutomation> {
     IBOutlet NSView* panesView;
 	IBOutlet NSTextField* statusInfo;
 	IBOutlet NSProgressIndicator* progress;
@@ -80,6 +81,9 @@ enum lineStyle {
 	
 	// Spell checking
 	BOOL sourceSpellChecking;
+	
+	// Glk automation
+	id glkInputSource;
 }
 
 - (void) layoutPanes;
@@ -164,5 +168,9 @@ enum lineStyle {
 
 // Spell checking
 - (IBAction) toggleSourceSpellChecking: (id) sender;
+
+// The GLK view
+- (IBAction) glkTaskHasStarted: (id) sender;
+- (void) setGlkInputSource: (id) glkInputSource;
 
 @end

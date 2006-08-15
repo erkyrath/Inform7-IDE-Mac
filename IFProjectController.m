@@ -2681,4 +2681,63 @@ static NSDictionary*  itemDictionary = nil;
 											forKey: IFSourceSpellChecking];
 }
 
+// = CocoaGlk -> skein gateway (GlkAutomation) =
+
+- (IBAction) glkTaskHasStarted: (id) sender {
+	ZoomSkein* skein = [[self document] skein];
+	
+	[skein zoomInterpreterRestart];	
+}
+
+- (void) setGlkInputSource: (id) newSource {
+	[glkInputSource release];
+	glkInputSource = [newSource retain];
+}
+
+- (void) receivedCharacters: (NSString*) characters
+					 window: (int) windowNumber
+				   fromView: (GlkView*) view {
+	ZoomSkein* skein = [[self document] skein];
+	
+	[skein outputText: characters];
+}
+
+- (void) userTyped: (NSString*) userInput
+			window: (int) windowNumber
+		 lineInput: (BOOL) isLineInput
+		  fromView: (GlkView*) view {
+	ZoomSkein* skein = [[self document] skein];
+
+	[skein zoomWaitingForInput];
+	if (isLineInput) {
+		[skein inputCommand: userInput];
+	} else {
+		[skein inputCharacter: userInput];
+	}
+}
+
+- (void) userClickedAtXPos: (int) xpos
+					  ypos: (int) ypos
+					window: (int) windowNumber
+				  fromView: (GlkView*) view {
+}
+
+- (void) viewIsWaitingForInput: (GlkView*) view {
+	// Only do anything if there's at least one view waiting for input
+	if (![view canSendInput]) return;
+	
+	// Get the next command from the input source (which is a zoom-style input source)
+	NSString* nextCommand = [glkInputSource nextCommand];
+	
+	if (nextCommand == nil) {
+		[view removeAutomationObject: self];
+		[view addOutputReceiver: self];
+		return;
+	}
+	
+	// TODO: fix the window rotation so that it actually works
+	[view sendCharacters: nextCommand
+				toWindow: 0];
+}
+
 @end
