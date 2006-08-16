@@ -220,6 +220,7 @@ NSDictionary* IFSyntaxAttributes[256];
 		[gView setDelegate: nil];
 		[gView terminateClient];
 		[gView release];
+		gView = nil;
 	}
 	if (pointToRunTo) [pointToRunTo release];
     if (gameToRun) [gameToRun release];
@@ -841,7 +842,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	gameRunningProgress = nil;	
 
 	if (pointToRunTo) {
-		[parent transcriptToPoint: pointToRunTo];
+		[parent transcriptToPoint: pointToRunTo
+					  switchViews: NO];
 		
 		id inputSource = [ZoomSkein inputSourceFromSkeinItem: [[[parent document] skein] rootItem]
 													  toItem: pointToRunTo];

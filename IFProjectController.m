@@ -1695,10 +1695,13 @@ static NSDictionary*  itemDictionary = nil;
 	}
 }
 
-- (void) transcriptToPoint: (ZoomSkeinItem*) point {
+- (void) transcriptToPoint: (ZoomSkeinItem*) point
+			   switchViews: (BOOL) switchViews {
 	// Select the transcript in the appropriate pane
-	IFProjectPane* transcriptPane = [self transcriptPane];
-	[transcriptPane selectView: IFTranscriptPane];
+	if (switchViews) {
+		IFProjectPane* transcriptPane = [self transcriptPane];
+		[transcriptPane selectView: IFTranscriptPane];
+	}
 	
 	[self moveTranscriptToPoint: point];
 	
@@ -1709,6 +1712,11 @@ static NSDictionary*  itemDictionary = nil;
 	while (pane = [paneEnum nextObject]) {
 		[[pane transcriptView] setHighlightedItem: point];
 	}
+}
+
+- (void) transcriptToPoint: (ZoomSkeinItem*) point {
+	[self transcriptToPoint: point
+				switchViews: YES];
 }
 
 - (void) cantDeleteActiveBranch {

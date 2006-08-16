@@ -114,6 +114,9 @@ enum lineStyle {
 - (void) removeHighlightsOfStyle: (enum lineStyle) style;
 - (void) removeAllTemporaryHighlights;
 
+- (void) transcriptToPoint: (ZoomSkeinItem*) point
+			   switchViews: (BOOL) switchViews;
+
 - (NSString*) pathToIndexFile;
 - (IFIntelFile*) currentIntelligence;
 
