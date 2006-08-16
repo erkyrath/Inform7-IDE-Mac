@@ -93,6 +93,7 @@ enum lineStyle {
 - (IFProjectPane*) auxPane;
 - (IFProjectPane*) skeinPane;
 - (IFProjectPane*) transcriptPane;
+- (IFProjectPane*) indexPane;
 
 - (IFProjectPane*) oppositePane: (IFProjectPane*) pane;
 

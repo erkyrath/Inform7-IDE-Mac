@@ -707,7 +707,7 @@ static NSDictionary*  itemDictionary = nil;
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)tb {
 	if ([[tb identifier] isEqualToString: @"ProjectNiToolbar"]) {
 		return [NSArray arrayWithObjects: @"compileAndRunItem", @"replayItem", @"stopItem", NSToolbarSeparatorItemIdentifier, 
-			@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"searchDocsItem", NSToolbarSeparatorItemIdentifier, @"indexItem", nil];
+			@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"searchDocsItem", NSToolbarSeparatorItemIdentifier, @"refreshIndexItem", @"indexItem", nil];
 	} else {
 		return [NSArray arrayWithObjects: @"compileAndRunItem", @"replayItem", @"compileAndDebugItem",
 			NSToolbarSeparatorItemIdentifier,  @"stopItem", @"pauseItem", NSToolbarSeparatorItemIdentifier, 
@@ -986,7 +986,8 @@ static NSDictionary*  itemDictionary = nil;
 // = Things to do after the compiler has finished =
 
 - (void) refreshIndexTabs {
-	// This is a side-effect of compiling, so nothing to do here
+	// Display the index pane
+	[[self indexPane] selectView: IFIndexPane];
 }
 
 - (void) saveCompilerOutput {
@@ -1241,6 +1242,23 @@ static NSDictionary*  itemDictionary = nil;
     }
 	
 	return [projectPanes objectAtIndex: paneToUse];
+}
+
+- (IFProjectPane*) indexPane {
+	// Returns the current pane containing the index
+    int x;
+	
+    for (x=0; x<[projectPanes count]; x++) {
+        IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
+		
+        if ([thisPane currentView] == IFIndexPane) {
+			// This is the index pane
+			return thisPane;
+        }
+    }
+	
+	// No transcript pane showing: use the auxilary pane
+	return [self auxPane];
 }
 
 - (IFProjectPane*) transcriptPane {
