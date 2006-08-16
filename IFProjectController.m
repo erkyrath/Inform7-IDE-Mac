@@ -1666,7 +1666,17 @@ static NSDictionary*  itemDictionary = nil;
 		id inputSource = [ZoomSkein inputSourceFromSkeinItem: currentPoint
 												  toItem: point];
 	
-		[[[projectPanes objectAtIndex: 1] zoomView] setInputSource: inputSource];
+		ZoomView* zView = [[projectPanes objectAtIndex: 1] zoomView];
+		GlkView* gView = [[projectPanes objectAtIndex: 1] glkView];
+		
+		if (zView != nil) {
+			[zView setInputSource: inputSource];
+		} else {
+			[self setGlkInputSource: inputSource];
+			[gView addInputReceiver: self];
+			
+			[self viewIsWaitingForInput: gView];
+		}
 	} else {
 		[self compileAndRun: self];
 		[[projectPanes objectAtIndex: 1] setPointToRunTo: point];
