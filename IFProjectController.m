@@ -375,7 +375,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) willNeedRecompile: (NSNotification*) not {
-	noChangesSinceLastCompile = NO;
+	noChangesSinceLastCompile = noChangesSinceLastRefresh = NO;
 }
 
 - (BOOL)windowShouldClose:(id)sender {
@@ -919,7 +919,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IBAction) release: (id) sender {
-	noChangesSinceLastCompile = NO;
+	noChangesSinceLastCompile = noChangesSinceLastRefresh = NO;
 
     compileFinishedAction = @selector(saveCompilerOutput);
 	[self performCompileWithRelease: YES
@@ -927,7 +927,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IBAction) compile: (id) sender {
-	noChangesSinceLastCompile = NO;
+	noChangesSinceLastCompile = noChangesSinceLastRefresh = NO;
 	
     compileFinishedAction = @selector(saveCompilerOutput);
 	[self performCompileWithRelease: NO
@@ -936,8 +936,12 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) compileAndRefresh: (id) sender {
 	compileFinishedAction = @selector(refreshIndexTabs);
-	[self performCompileWithRelease: NO
-						refreshOnly: YES];
+	if (!noChangesSinceLastRefresh) {
+		[self performCompileWithRelease: NO
+							refreshOnly: YES];
+	} else {
+		[self refreshIndexTabs];
+	}
 }
 
 - (IBAction) compileAndRun: (id) sender {
@@ -988,6 +992,7 @@ static NSDictionary*  itemDictionary = nil;
 - (void) refreshIndexTabs {
 	// Display the index pane
 	[[self indexPane] selectView: IFIndexPane];
+	noChangesSinceLastRefresh = YES;
 }
 
 - (void) saveCompilerOutput {
@@ -1036,12 +1041,12 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) runCompilerOutput {
 	waitingAtBreakpoint = NO;
-	noChangesSinceLastCompile = YES;
+	noChangesSinceLastCompile = noChangesSinceLastRefresh = YES;
     [[projectPanes objectAtIndex: 1] startRunningGame: [[[self document] compiler] outputFile]];
 }
 
 - (void) runCompilerOutputAndReplay {
-	noChangesSinceLastCompile = YES;
+	noChangesSinceLastCompile = noChangesSinceLastRefresh = YES;
 	[[projectPanes objectAtIndex: 1] setPointToRunTo: [[[self document] skein] activeItem]];
 	[self runCompilerOutput];
 }
@@ -1098,8 +1103,10 @@ static NSDictionary*  itemDictionary = nil;
                 [self performSelector: compileFinishedAction];
             }
         } else {
-            // FIXME: show an alert sheet
-            
+            // FIXME: show an alert sheet (and deal with refreshing properly)
+            if ([self respondsToSelector: compileFinishedAction]) {
+                [self performSelector: compileFinishedAction];
+            }            
         }
     }
 }
@@ -1257,8 +1264,8 @@ static NSDictionary*  itemDictionary = nil;
         }
     }
 	
-	// No transcript pane showing: use the auxilary pane
-	return [self auxPane];
+	// No transcript pane showing: use the source pane
+	return [self sourcePane];
 }
 
 - (IFProjectPane*) transcriptPane {

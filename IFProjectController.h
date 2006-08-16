@@ -60,6 +60,7 @@ enum lineStyle {
 	
 	// Compiling
 	BOOL noChangesSinceLastCompile;							// Set to YES after a successful compile/run cycle
+	BOOL noChangesSinceLastRefresh;
 	
 	// The last file selected
 	NSString* lastFilename;
