@@ -707,7 +707,7 @@ static NSDictionary*  itemDictionary = nil;
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)tb {
 	if ([[tb identifier] isEqualToString: @"ProjectNiToolbar"]) {
 		return [NSArray arrayWithObjects: @"compileAndRunItem", @"replayItem", @"stopItem", NSToolbarSeparatorItemIdentifier, 
-			@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"searchDocsItem", NSToolbarSeparatorItemIdentifier, @"refreshIndexItem", @"indexItem", nil];
+			@"releaseItem", NSToolbarFlexibleSpaceItemIdentifier, @"searchDocsItem", NSToolbarSeparatorItemIdentifier, @"indexItem", nil];
 	} else {
 		return [NSArray arrayWithObjects: @"compileAndRunItem", @"replayItem", @"compileAndDebugItem",
 			NSToolbarSeparatorItemIdentifier,  @"stopItem", @"pauseItem", NSToolbarSeparatorItemIdentifier, 
