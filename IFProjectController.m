@@ -727,6 +727,11 @@ static NSDictionary*  itemDictionary = nil;
 - (BOOL) validateToolbarItem: (NSToolbarItem*) item {
 	BOOL isRunning = [[self gamePane] isRunningGame];
 	
+	if ([[item itemIdentifier] isEqualToString: [pauseItem itemIdentifier]] &&
+		![self canDebug]) {
+		return NO;
+	}
+	
 	if ([[item itemIdentifier] isEqualToString: [stopItem itemIdentifier]] ||
 		[[item itemIdentifier] isEqualToString: [pauseItem itemIdentifier]]) {
 		return isRunning;
@@ -783,6 +788,11 @@ static NSDictionary*  itemDictionary = nil;
 		itemSelector == @selector(stepIntoProcess:) ||
 		itemSelector == @selector(stepOutProcess:)) {
 		return isRunning?waitingAtBreakpoint:NO;
+	}
+	
+	if (itemSelector == @selector(pauseProcess:) &&
+		![self canDebug]) {
+		return NO;
 	}
 			
 	if (itemSelector == @selector(stopProcess:) ||
