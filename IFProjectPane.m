@@ -21,6 +21,8 @@
 #import "IFRuntimeErrorParser.h"
 #import "IFMaintenanceTask.h"
 
+#import "IFBreadcrumbControl.h"
+
 // Approximate maximum length of file to highlight in one 'iteration'
 #define minHighlightAmount 2048
 #define maxHighlightAmount 2048
@@ -348,6 +350,9 @@ NSDictionary* IFSyntaxAttributes[256];
     }
 	
     [tabView setDelegate: self];
+	
+	// TODO: DEBUGGING
+	[self addTestControls];
     
     //[sourceText setUsesFindPanel: YES]; -- Not 10.2
 }
@@ -1388,6 +1393,25 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (void) setSpellChecking: (BOOL) checkSpelling {
 	[sourceText setContinuousSpellCheckingEnabled: checkSpelling];
+}
+
+// = Debugging =
+
+- (void) addTestControls {
+	NSTabViewItem* testTab = [[NSTabViewItem alloc] init];
+	
+	[testTab setLabel: @"Testing"];
+	[tabView addTabViewItem: testTab];
+	
+	// Add a test breadcrumb control
+	IFBreadcrumbControl* testBreadcrumb = [[IFBreadcrumbControl alloc] initWithFrame: NSMakeRect(20, 20, 300, 32)];
+	
+	[testBreadcrumb addBreadcrumbWithText: @"*" tag: 0];
+	[testBreadcrumb addBreadcrumbWithText: @"Some thing..." tag: 0];
+	[testBreadcrumb addBreadcrumbWithText: @"Something else" tag: 0];
+	[testBreadcrumb addBreadcrumbWithText: @"The end" tag: 0];
+	
+	[[testTab view] addSubview: testBreadcrumb];
 }
 
 @end
