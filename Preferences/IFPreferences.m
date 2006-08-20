@@ -143,6 +143,21 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 		return 1.0;
 }
 
+- (float) tabWidth {
+	NSNumber* tabWidth = [preferences objectForKey: @"tabWidth"];
+	
+	if (tabWidth)
+		return [tabWidth floatValue];
+	else
+		return 56.0;
+}
+
+- (void) setTabWidth: (float) newTabWidth {
+	[preferences setObject: [NSNumber numberWithInt: newTabWidth]
+					forKey: @"tabWidth"];
+	[self preferencesHaveChanged];
+}
+
 - (void) setFontSize: (float) multiplier {
 	[preferences setObject: [NSNumber numberWithFloat: multiplier]
 					forKey: @"fontSize"];

@@ -34,6 +34,25 @@
 		
 		[oldStorage removeLayoutManager: [previewView layoutManager]];
 		[previewStorage addLayoutManager: [previewView layoutManager]];
+
+		// ... and the tab preview
+		oldStorage = [tabStopView textStorage];
+		tabStopStorage = [[IFSyntaxStorage alloc] initWithString: [oldStorage string]];
+		
+		[tabStopStorage setHighlighter: [[[IFNaturalHighlighter alloc] init] autorelease]];
+		
+		[oldStorage removeLayoutManager: [tabStopView layoutManager]];
+		[tabStopStorage addLayoutManager: [tabStopView layoutManager]];
+		
+		[tabStopView setTextContainerInset: NSMakeSize(0, 2)];
+		
+		// Register for notifications about view size changes
+		[preferenceView setPostsFrameChangedNotifications: YES];
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(viewWidthChanged:)
+													 name: NSViewFrameDidChangeNotification
+												   object: preferenceView];
+		[tabStopSlider setMaxValue: [tabStopSlider bounds].size.width-12];
 	}
 	
 	return self;
@@ -72,12 +91,12 @@
 	return 1.0;
 }
 
-- (int) tagForFontSize: (float) fontSize {
-	if (fontSize >= 2.5)
+- (int) tagForFontSize: (float) size {
+	if (size >= 2.5)
 		return 3;
-	else if (fontSize >= 1.5)
+	else if (size >= 1.5)
 		return 2;
-	else if (fontSize >= 1.25)
+	else if (size >= 1.25)
 		return 1;
 	else
 		return 0;
@@ -91,19 +110,29 @@
 	if (sender == fontSize)			[prefs setFontSize:			[self fontSizeForTag: [[fontSize selectedItem] tag]]];
 	if (sender == colourSet)		[prefs setColourSet:		[[colourSet selectedItem] tag]];
 	if (sender == changeColours)	[prefs setChangeColours:	[[changeColours selectedItem] tag]];
+	if (sender == tabStopSlider)	[prefs setTabWidth:			[tabStopSlider floatValue]];
 }
 
 - (void) reflectCurrentPreferences {
 	IFPreferences* prefs = [IFPreferences sharedPreferences];
 	
-	[fontSet selectItem:		[[fontSet menu]			itemWithTag: [prefs fontSet]]];
-	[fontStyle selectItem:		[[fontStyle menu]		itemWithTag: [prefs fontStyling]]];
-	[fontSize selectItem:		[[fontSize menu]		itemWithTag: [self tagForFontSize: [prefs fontSize]]]];
-	[colourSet selectItem:		[[colourSet menu]		itemWithTag: [prefs colourSet]]];
-	[changeColours selectItem:	[[changeColours menu]	itemWithTag: [prefs changeColours]]];
+	[fontSet selectItem:		  [[fontSet menu]		itemWithTag: [prefs fontSet]]];
+	[fontStyle selectItem:		  [[fontStyle menu]		itemWithTag: [prefs fontStyling]]];
+	[fontSize selectItem:		  [[fontSize menu]		itemWithTag: [self tagForFontSize: [prefs fontSize]]]];
+	[colourSet selectItem:		  [[colourSet menu]		itemWithTag: [prefs colourSet]]];
+	[changeColours selectItem:	  [[changeColours menu]	itemWithTag: [prefs changeColours]]];
+	[tabStopSlider setMaxValue: [tabStopSlider bounds].size.width-12];
+	[tabStopSlider setFloatValue: [prefs tabWidth]];
 	
+	[tabStopStorage preferencesChanged: nil];
+	[tabStopStorage highlighterPass];
 	[previewStorage preferencesChanged: nil];
 	[previewStorage highlighterPass];
+}
+
+- (void) viewWidthChanged: (NSNotification*) not {
+	// Update the maximum value of the tab slider
+	[tabStopSlider setMaxValue: [tabStopSlider bounds].size.width-12];
 }
 
 @end

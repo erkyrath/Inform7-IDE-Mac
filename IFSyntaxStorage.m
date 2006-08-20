@@ -875,6 +875,11 @@ static inline BOOL IsWhitespace(unichar c) {
 
 - (void) preferencesChanged: (NSNotification*) not {
 	// Force a re-highlight of everything
+	[paragraphStyles release];
+	paragraphStyles = nil;
+	[tabStops release];
+	tabStops = nil;
+
 	[self highlightRange: NSMakeRange(0, [string length])];
 }
 
@@ -886,7 +891,7 @@ static inline BOOL IsWhitespace(unichar c) {
 	
 	float stopWidth = [highlighter tabStopWidth];
 	
-	if (stopWidth < 1.0) stopWidth = 16.0;
+	if (stopWidth < 1.0) stopWidth = 1.0;
 		
 	NSMutableParagraphStyle* res = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
 	

@@ -8,6 +8,7 @@
 
 #import "IFNaturalHighlighter.h"
 #import "IFProjectPane.h"
+#import "IFPreferences.h"
 
 @implementation IFNaturalHighlighter
 
@@ -247,7 +248,8 @@ static BOOL IsInform6Style(IFSyntaxStyle style) {
 }
 
 - (float) tabStopWidth {
-	return 56.0;
+	return [[IFPreferences sharedPreferences] tabWidth];
+	//return 56.0;
 }
 
 @end

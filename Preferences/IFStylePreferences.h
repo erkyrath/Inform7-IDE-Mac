@@ -21,9 +21,12 @@
 	IBOutlet NSPopUpButton* fontSize;
 	IBOutlet NSPopUpButton* changeColours;
 	IBOutlet NSPopUpButton* colourSet;
+	IBOutlet NSSlider* tabStopSlider;
 	IBOutlet NSTextView* previewView;
+	IBOutlet NSTextView* tabStopView;
 	
 	IFSyntaxStorage* previewStorage;
+	IFSyntaxStorage* tabStopStorage;
 }
 
 // Receiving data from/updating the interface

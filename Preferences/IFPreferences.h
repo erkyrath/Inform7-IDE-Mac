@@ -81,12 +81,14 @@ enum IFPreferencesColourSet {
 - (float) fontSize;															// ... size
 - (enum IFPreferencesColourChanges) changeColours;							// ... colour changes
 - (enum IFPreferencesColourSet) colourSet;									// ... colour set
+- (float) tabWidth;															// ... tab width
 
 - (void) setFontSet: (enum IFPreferencesFontSet) newFontSet;				// Set the currently active font set
 - (void) setFontStyling: (enum IFPreferencesFontStyling) newFontStyling;	// ... styling
 - (void) setFontSize: (float) sizeMultiplier;								// ... size
 - (void) setChangeColours: (enum IFPreferencesColourChanges) newColourChanges; // ... colour changes
 - (void) setColourSet: (enum IFPreferencesColourSet) newColourSet;			// ... colour set
+- (void) setTabWidth: (float) newTabWidth;									// ... tab width
 
 - (void) recalculateStyles;													// Regenerate the array of attribute dictionaries that make up the styles
 - (NSArray*) styles;														// Retrieves an array of attribute dictionaries that describe how the styles should be displayed
