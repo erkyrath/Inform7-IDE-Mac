@@ -13,9 +13,11 @@
 
 // Natural Inform states
 enum {
-	IFNaturalStateText = IFSyntaxStateDefault,
+	IFNaturalStateTitle = IFSyntaxStateDefault,
+	IFNaturalStateText,
 	IFNaturalStateComment,
 	IFNaturalStateQuote,
+	IFNaturalStateTitleQuote,
 	IFNaturalStateSubstitution,
 	
 	IFNaturalStateHeading,

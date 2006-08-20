@@ -89,6 +89,17 @@
 						return IFNaturalStateMaybeInform6;
 					return IFNaturalStateText;
 					
+				case IFNaturalStateTitle:
+					// The title
+					if (chr == '\n' || chr == '\r')
+						return IFNaturalStateBlankLine;
+
+					if (chr == '"')
+						return IFNaturalStateTitleQuote;
+
+					return IFNaturalStateTitle;
+
+					
 				case IFNaturalStateComment:
 					if (chr == '[') {
 						[activeStorage pushState];
@@ -107,6 +118,11 @@
 						return IFNaturalStateText;
 					if (chr == '[')
 						return IFNaturalStateSubstitution;
+					return lastState;
+
+				case IFNaturalStateTitleQuote:
+					if (chr == '"')
+						return IFNaturalStateTitle;
 					return lastState;
 					
 				case IFNaturalStateHeading:
@@ -157,6 +173,12 @@
 					if (nextState == IFNaturalStateComment) return IFSyntaxComment;
 					if (nextState == IFNaturalStateQuote) return IFSyntaxGameText;
 					return IFSyntaxNaturalInform;
+					
+				case IFNaturalStateTitle:
+					return IFSyntaxNaturalInform;
+					
+				case IFNaturalStateTitleQuote:
+					return IFSyntaxTitle;
 					
 				case IFNaturalStateSubstitution:
 					return IFSyntaxSubstitution;

@@ -188,6 +188,19 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 	[self preferencesHaveChanged];
 }
 
+- (NSFont*) fontWithName: (NSString*) name
+					size: (float) size {
+	NSFont* result = [NSFont fontWithName: name
+									 size: size];
+	
+	if (result == nil) {
+		result = [NSFont systemFontOfSize: size];
+		NSLog(@"Warning: could not find font '%@'", name);
+	}
+	
+	return result;
+}
+
 - (void) recalculateStyles {
 	int x;
 	
@@ -225,22 +238,22 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 			
 		case IFFontSetProgrammer:
 			cacheFontSet = [[NSMutableDictionary dictionaryWithObjectsAndKeys: 
-				[NSFont fontWithName: @"Monaco" size: 10*fontSize], IFPreferencesBaseFont,
-				[NSFont fontWithName: @"Monaco" size: 10*fontSize], IFPreferencesBoldFont,
-				[NSFont fontWithName: @"Monaco" size: 9*fontSize], IFPreferencesItalicFont,
-				[NSFont fontWithName: @"Monaco" size: 9*fontSize], IFPreferencesCommentFont,
-				[NSFont fontWithName: @"Helvetica Bold" size: 12*fontSize], IFPreferencesHeaderFont,
+				[self fontWithName: @"Monaco" size: 10*fontSize], IFPreferencesBaseFont,
+				[self fontWithName: @"Monaco" size: 10*fontSize], IFPreferencesBoldFont,
+				[self fontWithName: @"Monaco" size: 9*fontSize], IFPreferencesItalicFont,
+				[self fontWithName: @"Monaco" size: 9*fontSize], IFPreferencesCommentFont,
+				[self fontWithName: @"Helvetica Bold" size: 12*fontSize], IFPreferencesHeaderFont,
 				nil]
 				retain];
 			break;
 			
 		case IFFontSetStylised:
 			cacheFontSet = [[NSMutableDictionary dictionaryWithObjectsAndKeys: 
-				[NSFont fontWithName: @"Gill Sans" size: 12*fontSize], IFPreferencesBaseFont,
-				[NSFont fontWithName: @"Gill Sans Bold" size: 12*fontSize], IFPreferencesBoldFont,
-				[NSFont fontWithName: @"Gill Sans Italic" size: 10*fontSize], IFPreferencesCommentFont,
-				[NSFont fontWithName: @"Gill Sans Italic" size: 12*fontSize], IFPreferencesItalicFont,
-				[NSFont fontWithName: @"Gill Sans Bold Italic" size: 14*fontSize], IFPreferencesHeaderFont,
+				[self fontWithName: @"Gill Sans" size: 12*fontSize], IFPreferencesBaseFont,
+				[self fontWithName: @"Gill Sans Bold" size: 12*fontSize], IFPreferencesBoldFont,
+				[self fontWithName: @"Gill Sans Italic" size: 10*fontSize], IFPreferencesCommentFont,
+				[self fontWithName: @"Gill Sans Italic" size: 12*fontSize], IFPreferencesItalicFont,
+				[self fontWithName: @"Gill Sans Bold Italic" size: 14*fontSize], IFPreferencesHeaderFont,
 				nil]
 				retain];
 			break;
@@ -272,6 +285,8 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 									   withObject: [cacheFontSet objectForKey: IFPreferencesBoldFont]];
 			[cacheFontStyles replaceObjectAtIndex: IFSyntaxHeading
 									   withObject: [cacheFontSet objectForKey: IFPreferencesHeaderFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxTitle
+									   withObject: [cacheFontSet objectForKey: IFPreferencesHeaderFont]];
 			break;
 			
 		case IFStylingNone:
@@ -296,6 +311,8 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 			[cacheFontStyles replaceObjectAtIndex: IFSyntaxGameText
 									   withObject: [cacheFontSet objectForKey: IFPreferencesBoldFont]];
 			[cacheFontStyles replaceObjectAtIndex: IFSyntaxHeading
+									   withObject: [cacheFontSet objectForKey: IFPreferencesHeaderFont]];
+			[cacheFontStyles replaceObjectAtIndex: IFSyntaxTitle
 									   withObject: [cacheFontSet objectForKey: IFPreferencesHeaderFont]];
 			[cacheFontStyles replaceObjectAtIndex: IFSyntaxSubstitution
 									   withObject: [cacheFontSet objectForKey: IFPreferencesItalicFont]];

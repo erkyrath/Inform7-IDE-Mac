@@ -44,6 +44,7 @@ enum {
 	IFSyntaxGameText,					// Text that appears in the game
 	IFSyntaxSubstitution,				// Substitution instructions
 	IFSyntaxNaturalInform,				// Natural inform standard text
+	IFSyntaxTitle,						// The title of a Natural Inform game
 	
 	IFSyntaxStyleNotHighlighted = 0xf0,	// Used internally by the highlighter to indicate that the highlights are invalid for a particular range
     
