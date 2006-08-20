@@ -936,7 +936,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) compileAndRefresh: (id) sender {
 	compileFinishedAction = @selector(refreshIndexTabs);
-	if (!noChangesSinceLastRefresh) {
+	if (!noChangesSinceLastRefresh || [[IFPreferences sharedPreferences] runBuildSh]) {
 		[self performCompileWithRelease: NO
 							refreshOnly: YES];
 	} else {
@@ -949,7 +949,7 @@ static NSDictionary*  itemDictionary = nil;
     compileFinishedAction = @selector(runCompilerOutput);
 	
 	// Only actually compile if there are undo actions added since the last compile
-	if (!noChangesSinceLastCompile) {
+	if (!noChangesSinceLastCompile || [[IFPreferences sharedPreferences] runBuildSh]) {
 		[self performCompileWithRelease: NO
 							refreshOnly: NO];
 	} else {
@@ -963,7 +963,7 @@ static NSDictionary*  itemDictionary = nil;
     compileFinishedAction = @selector(runCompilerOutputAndReplay);
 	
 	// Only actually compile if there are undo actions added since the last compile
-	if (!noChangesSinceLastCompile) {
+	if (!noChangesSinceLastCompile || [[IFPreferences sharedPreferences] runBuildSh]) {
 		[self performCompileWithRelease: NO
 							refreshOnly: NO];
 	} else {
