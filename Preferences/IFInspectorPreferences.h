@@ -17,6 +17,7 @@
 	NSArray* inspectors;						// Maps tags to inspectors
 	
 	IBOutlet NSMatrix* activeInspectors;		// Matrix of active inspector buttons
+	IBOutlet NSMatrix* activeI6Inspectors;		// Matrix of active inspector buttons
 }
 
 // Receiving data from/updating the interface

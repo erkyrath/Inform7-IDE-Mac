@@ -587,11 +587,7 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 	NSMutableDictionary* mutDict;
 	
 	// Make dict mutable if necessary
-	if ([dict isKindOfClass: [NSMutableDictionary class]]) {
-		mutDict = (NSMutableDictionary*)dict;
-	} else {
-		mutDict = [[dict mutableCopy] autorelease];
-	}
+	mutDict = [[dict mutableCopy] autorelease];
 	
 	if (mutDict == nil) mutDict = [NSMutableDictionary dictionary];
 	

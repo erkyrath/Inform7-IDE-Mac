@@ -81,6 +81,7 @@
 			BOOL shown = [prefs enableInspector: inspect];
 			
 			[[activeInspectors cellWithTag: tag] setState: shown?NSOnState:NSOffState];
+			[[activeI6Inspectors cellWithTag: tag] setState: shown?NSOnState:NSOffState];
 		}
 	}
 }
@@ -89,7 +90,7 @@
 	IFPreferences* prefs = [IFPreferences sharedPreferences];
 	
 	// Annoyingly, even if we set individual cells actions, we end up being called with 'sender' set to the NSMatrix
-	NSEnumerator* cEnum = [[activeInspectors cells] objectEnumerator];
+	NSEnumerator* cEnum = [[sender cells] objectEnumerator];
 	NSCell* cell;
 	
 	while (cell = [cEnum nextObject]) {
