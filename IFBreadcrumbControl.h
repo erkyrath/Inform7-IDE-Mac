@@ -8,10 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFBreadcrumbCell.h"
 
 @interface IFBreadcrumbControl : NSControl {
 	NSMutableArray* cells;
 	NSMutableArray* cellRects;
+	
+	IFBreadcrumbCell* selectedCell;
 }
 
 - (void) addBreadcrumbWithText: (NSString*) text						// Adds a breadcrumb item with the specified tag

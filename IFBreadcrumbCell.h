@@ -17,9 +17,11 @@
 }
 
 // Layout information
-- (float) overlap;						// The amount of overlap with the next cell
+- (float) overlap;								// The amount of overlap with the next cell
 
-- (void) setIsRight: (BOOL) isRight;	// True if this is the rightmost cell
-- (void) setIsLeft: (BOOL) isLeft;		// True if this is the leftmost cell
+- (void) setIsRight: (BOOL) isRight;			// True if this is the rightmost cell
+- (void) setIsLeft: (BOOL) isLeft;				// True if this is the leftmost cell
+
+- (BOOL) hitTest: (NSPoint) relativeToCell;		// True if the specified point (relative to this cell's origin) is within the cell
 
 @end

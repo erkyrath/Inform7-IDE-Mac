@@ -32,6 +32,7 @@
 - (void) dealloc {
 	[cells release];
 	[cellRects release];
+	[selectedCell release];
 	
 	[super dealloc];
 }
@@ -118,5 +119,90 @@
 		}
 	}
 }
+
+// = Dealing with mouse events =
+
+- (void) updateCell: (IFBreadcrumbCell*) whichCell {
+	int cellIndex = [cells indexOfObjectIdenticalTo: whichCell];
+	if (cellIndex == NSNotFound) return;
+	
+	NSRect rect = [[cellRects objectAtIndex: cellIndex] rectValue];
+	
+	[self setNeedsDisplayInRect: rect];
+}
+
+- (void) selectCell: (IFBreadcrumbCell*) whichCell {
+	if (selectedCell) {
+		[selectedCell setState: NSOffState];
+		[self updateCell: selectedCell];
+
+		[selectedCell release];
+		selectedCell = nil;
+	}
+	
+	selectedCell = [whichCell retain];
+	[selectedCell setState: NSOnState];
+	
+	[self updateCell: selectedCell];	
+}
+
+- (IFBreadcrumbCell*) cellAtPoint: (NSPoint) position {
+	NSEnumerator* cellEnum = [cells objectEnumerator];
+	NSEnumerator* rectEnum = [cellRects objectEnumerator];
+	IFBreadcrumbCell* cell;
+	
+	while (cell = [cellEnum nextObject]) {
+		NSRect rect = [[rectEnum nextObject] rectValue];
+		
+		if (NSPointInRect(position, rect)) {
+			// Get the next cell
+			IFBreadcrumbCell* nextCell = [cellEnum nextObject];
+			
+			// Perform a hit test to see if we're now in this cell
+			if (position.x > NSMaxX(rect)-[cell overlap]) {
+				if ([nextCell hitTest: NSMakePoint(position.x - (NSMaxX(rect)-[cell overlap]),
+												   position.y - NSMinY(rect))]) {
+					return nextCell;
+				}
+			}
+			
+			return cell;
+		}
+	}
+	
+	return nil;
+}
+
+- (void) mouseDown: (NSEvent*) evt {
+	NSPoint mousePoint = [self convertPoint: [evt locationInWindow]
+								   fromView: nil];
+	
+	IFBreadcrumbCell* cell = [self cellAtPoint: mousePoint];
+	[self selectCell: cell];
+}
+
+- (void) mouseDragged: (NSEvent*) evt {
+	NSPoint mousePoint = [self convertPoint: [evt locationInWindow]
+								   fromView: nil];
+	
+	IFBreadcrumbCell* cell = [self cellAtPoint: mousePoint];
+	[self selectCell: cell];
+}
+
+- (void) mouseUp: (NSEvent*) evt {
+	NSPoint mousePoint = [self convertPoint: [evt locationInWindow]
+								   fromView: nil];
+	
+	IFBreadcrumbCell* cell = [self cellAtPoint: mousePoint];
+	if ([cell action] != nil) {
+		[[cell target] performSelector: [cell action]
+							withObject: cell];
+	}
+
+	[self selectCell: nil];
+}
+
+// TODO: accessibility
+// TODO: keyboard?
 
 @end

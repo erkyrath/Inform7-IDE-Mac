@@ -104,9 +104,19 @@ static NSImage* rightArrowSelect;
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame 
 					   inView:(NSView *)controlView {
-	NSImage* left = isLeft?leftUnselect:leftArrowUnselect;
-	NSImage* right = isRight?rightUnselect:rightArrowUnselect;
-	NSImage* center = centerUnselect;
+	NSImage* left;
+	NSImage* right;
+	NSImage* center;
+
+	if ([self state] != NSOnState) {
+		left = isLeft?leftUnselect:leftArrowUnselect;
+		right = isRight?rightUnselect:rightArrowUnselect;
+		center = centerUnselect;
+	} else {
+		left = isLeft?leftSelect:leftArrowSelect;
+		right = isRight?rightSelect:rightArrowSelect;
+		center = centerSelect;
+	}
 	
 	NSSize leftSize = [left size];
 	NSSize rightSize = [right size];
@@ -158,6 +168,25 @@ static NSImage* rightArrowSelect;
 		
 		[[self attributedStringValue] drawInRect: rect];
 	}
+}
+
+- (BOOL) hitTest: (NSPoint) relativeToCell {
+	// Technically, this is inaccurate, as we do not test on the right-hand side. However, as this is only ever
+	// called for the left-hand side, this will be No Problem(tm)
+	NSImage* hitImage = isLeft?leftUnselect:leftArrowUnselect;
+	NSSize hitSize = [hitImage size];
+	
+	if (relativeToCell.x > hitSize.width) {
+		return YES;
+	}
+	
+	NSColor* hitColour;
+	
+	[hitImage lockFocus];
+	hitColour = NSReadPixel(relativeToCell);
+	[hitImage unlockFocus];
+	
+	return [hitColour alphaComponent] > 0.5;
 }
 
 @end
