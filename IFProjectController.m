@@ -26,6 +26,8 @@
 
 #import "IFOutputSettings.h"
 
+#import "IFCustomPopup.h"
+
 // = Preferences =
 
 NSString* IFSplitViewSizes = @"IFSplitViewSizes";
@@ -676,7 +678,10 @@ static NSDictionary*  itemDictionary = nil;
 		
 		return item;
 	} else if ([itemIdentifier isEqualToString: @"browseIndexItem"]) {
-		NSPopUpButton* popup = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0,0,120,22)
+		//
+		//NSPopUpButton* popup = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0,0,120,22)
+		//												  pullsDown: YES];
+		NSPopUpButton* popup = [[IFCustomPopup alloc] initWithFrame: NSMakeRect(0,0,120,22)
 														  pullsDown: YES];
 		
 		[item setMinSize: NSMakeSize(64, 22)];
