@@ -6,7 +6,13 @@
 //  Copyright 2006 Andrew Hunter. All rights reserved.
 //
 
+// TODO: wheel scrolling still works while the popup is visible (it shouldn't)
+
 #import "IFCustomPopup.h"
+
+extern OSStatus CGSGetWindowTags  (int, int, int*, int);
+extern OSStatus CGSSetWindowTags  (int, int, int*, int);
+extern OSStatus CGSClearWindowTags(int, int, int*, int);
 
 // = Custom view interfaces used by this class =
 
@@ -47,13 +53,31 @@
 
 - (void) setPopupView: (NSView*) view {
 	[popupView release];
+	popupView = [view retain];
+}
+
+- (void) setDelegate: (id) newDelegate {
+	delegate = newDelegate;
 }
 
 // = Getting down =
 
+- (void) hidePopup {
+	[backgroundWindow orderOut: self];
+	[popupWindow orderOut: self];
+	
+	[[self cell] setHighlighted: NO];
+	[self setNeedsDisplay: YES];
+}
+
 - (IBAction) showPopup: (id) sender {
 	// Close any open popups
 	[[self class] closeAllPopups];
+	
+	// Talk to the delegate
+	if (delegate && [delegate respondsToSelector: @selector(customPopupOpening:)]) {
+		[delegate customPopupOpening: self];
+	}
 	
 	// Get the current screen
 	NSScreen* currentScreen = [[self window] screen];
@@ -87,6 +111,12 @@
 		[backgroundWindow setBackgroundColor: [NSColor clearColor]];
 		[backgroundWindow setHasShadow: NO];
 		[backgroundWindow setHidesOnDeactivate: YES];
+		
+		int tags[2];
+        
+        tags[0] = tags[1] = 0;
+        tags[0] = 1<<10;
+		CGSSetWindowTags(_CGSDefaultConnection(), [backgroundWindow windowNumber], tags, 32);
 		
 		// Set up the popup window
 		IFPopupContentView* contentView = [[IFPopupContentView alloc] initWithFrame: [[popupWindow contentView] frame]];
@@ -138,22 +168,48 @@
 	windowFrame.size = windowSize;
 	
 	windowFrame.origin.x = NSMinX(controlFrame) + (controlFrame.size.width-windowFrame.size.width)/2;
-	windowFrame.origin.y = NSMinY(controlFrame)-windowFrame.size.height;
+	windowFrame.origin.y = NSMinY(controlFrame)-windowFrame.size.height+1;
 	
 	[popupWindow setFrame: windowFrame
 				  display: NO];
 	
 	// Display the windows
-	[backgroundWindow orderFront: self];
+	// [backgroundWindow orderFront: self];
 	[popupWindow makeKeyAndOrderFront: self];
-}
-
-- (void) hidePopup {
-	[backgroundWindow orderOut: self];
-	[popupWindow orderOut: self];
 	
-	[[self cell] setHighlighted: NO];
-	[self setNeedsDisplay: YES];
+	// Run modally until it's time to close the window
+	while (true) {
+		NSEvent* ev = 
+			[NSApp nextEventMatchingMask: NSAnyEventMask
+							   untilDate: [NSDate distantFuture]
+								  inMode: NSEventTrackingRunLoopMode
+								 dequeue: YES];
+		
+		// Background window events get discarded
+		if ([ev window] == backgroundWindow) {
+			break;
+		} else if (([ev type] == NSKeyDown ||
+					[ev type] == NSKeyUp) &&
+				   [[ev characters] isEqualToString: @"\@"]) {
+			// Escape pressed
+			break;
+		} else if (([ev type] == NSLeftMouseDown ||
+					[ev type] == NSRightMouseDown ||
+					[ev type] == NSOtherMouseDown) &&
+				   [ev window] != popupWindow) {
+			// Click outside of the window
+			if ([ev type] != NSLeftMouseDown ||
+				![NSApp isActive]) {
+				[NSApp sendEvent: ev];
+			}
+			break;
+		}
+		
+		// Pass the event through
+		[NSApp sendEvent: ev];
+	}
+	
+	[self hidePopup];
 }
 
 - (IBAction) closePopup: (id) sender {
@@ -170,7 +226,7 @@
 
 - (void) mouseUp: (NSEvent*) evt {
 	// TODO: only actually close the popup if the mouse up event was outside the popup view, otherwise forward the event on
-	[self hidePopup];
+	//[self hidePopup];
 }
 
 @end
@@ -181,10 +237,16 @@
 
 - (IBAction) closePopup: (id) sender {
 	[IFCustomPopup closeAllPopups];
+	NSLog(@"Bing!");
 }
 
 - (BOOL) isOpaque {
 	return NO;
+}
+
+- (NSView *)hitTest:(NSPoint)aPoint {
+	NSLog(@"hitTest");
+	return self;
 }
 
 @end

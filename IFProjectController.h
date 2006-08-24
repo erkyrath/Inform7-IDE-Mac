@@ -15,6 +15,7 @@
 #import "IFProgress.h"
 
 #import "IFIntelFile.h"
+#import "IFHeadingsBrowser.h"
 
 enum lineStyle {
     IFLineStyleNeutral = 0,
@@ -79,6 +80,9 @@ enum lineStyle {
 	BOOL progressing;
 	int  progressNum;
 	NSMutableArray* progressIndicators;
+	
+	// The headings popup
+	IFHeadingsBrowser* headingsBrowser;
 	
 	// Spell checking
 	BOOL sourceSpellChecking;

@@ -39,7 +39,7 @@
 
 // = Maintaining cells =
 
-- (void)calcSize {
+- (void) calcSize {
 	NSPoint origin = [self bounds].origin;
 
 	NSEnumerator* cellEnum = [cells objectEnumerator];
@@ -49,6 +49,10 @@
 	while (cell = [cellEnum nextObject]) {
 		[cell setIsLeft: NO];
 		[cell setIsRight: NO];
+	}
+	
+	if ([cells count] == 0) {
+		return;
 	}
 	
 	[[cells objectAtIndex: 0] setIsLeft: YES];
@@ -75,10 +79,48 @@
 		origin.x += cellRect.size.width - [cell overlap];
 	}
 	
-	// TODO: compress the cells if necessary
+	// Compress the cells if necessary
+	NSRect bounds = [self bounds];
+	
+	// If the crumbs are wider than this view, then compact them
+	if ([cellRects count] > 0) {
+		NSRect lastRect = [[cellRects lastObject] rectValue];
+		
+		horizontalRatio = bounds.size.width/NSMaxX(lastRect);
+		if (horizontalRatio > 1.0) horizontalRatio = 1.0;
+	}
+	
+	// Perform the compression
+	NSEnumerator* rectEnum = [cellRects objectEnumerator];
+	NSValue* rect;
+	
+	[cellRects autorelease];
+	cellRects = [[NSMutableArray alloc] init];
+	
+	cellEnum = [cells objectEnumerator];
+	float xpos = 0;
+	while (rect = [rectEnum nextObject]) {
+		cell = [cellEnum nextObject];
+		
+		NSRect oldRect = [rect rectValue];
+		
+		float overlap = [cell overlap];
+		oldRect.origin.x = xpos;
+		oldRect.size.width = floorf((oldRect.size.width-overlap) * horizontalRatio + overlap);
+		
+		xpos += oldRect.size.width-overlap;
+		
+		[cellRects addObject: [NSValue valueWithRect: oldRect]];
+	}
 }
 
 // = Adding cells =
+
+- (void) removeAllBreadcrumbs {
+	[cells removeAllObjects];
+	[self calcSize];
+	[self setNeedsDisplay: YES];
+}
 
 - (void) addBreadcrumbWithText: (NSString*) text 
 						   tag: (int) tag {
@@ -104,7 +146,7 @@
 
 // = Rendering =
 
-- (void) drawRect: (NSRect) rect {
+- (void) drawRect: (NSRect) rect {	
 	// Draw the cells
 	NSEnumerator* cellEnum = [cells reverseObjectEnumerator];
 	NSEnumerator* rectEnum = [cellRects reverseObjectEnumerator];

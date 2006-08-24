@@ -306,6 +306,8 @@ static NSDictionary*  itemDictionary = nil;
 		progressIndicators = [[NSMutableArray alloc] init];
 		progressing = NO;
 		
+		headingsBrowser = [[IFHeadingsBrowser alloc] init];
+		
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(updateIntelSymbols:)
 													 name: IFIntelFileHasChangedNotification 
@@ -336,6 +338,8 @@ static NSDictionary*  itemDictionary = nil;
 	
 	[generalPolicy release];
 	[docPolicy release];
+	
+	[headingsBrowser release];
 
 	[progressIndicators release];
 	
@@ -693,6 +697,8 @@ static NSDictionary*  itemDictionary = nil;
 		[popup setMenu: indexMenu];
 		[[popup cell] setUsesItemFromMenu: NO];
 		[[popup cell] setPreferredEdge: NSMaxYEdge];
+		
+		[popup setDelegate: self];
 		
 		return item;
 	}
@@ -2796,6 +2802,15 @@ static NSDictionary*  itemDictionary = nil;
 	// TODO: fix the window rotation so that it actually works
 	[view sendCharacters: nextCommand
 				toWindow: 0];
+}
+
+// = The headings browser =
+
+- (void) customPopupOpening: (IFCustomPopup*) popup {
+	[popup setPopupView: [headingsBrowser view]];
+
+	[headingsBrowser setIntel: [self currentIntelligence]];
+	[headingsBrowser setSectionByLine: [[self sourcePane] currentLine]];
 }
 
 @end

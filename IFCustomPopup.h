@@ -19,6 +19,9 @@
 	// Managing the pop-up
 	NSPanel* backgroundWindow;						// Window used to detect clicks outside the popup
 	NSPanel* popupWindow;							// Window that contains the pop-up view
+	
+	// The delegate
+	id delegate;									// The pop-up delegate
 }
 
 // General methods
@@ -26,9 +29,16 @@
 
 // Setting up
 - (void) setPopupView: (NSView*) view;				// Sets the view to use for the popup
+- (void) setDelegate: (id) delegate;				// Sets the delegate to send informational events to
 
 // Getting down
 - (IBAction) showPopup: (id) sender;				// Cause the pop-up window to be displayed
 - (IBAction) closePopup: (id) sender;				// Responder method that can be used to close this popup and generate an action (point view controls actions to this method in the first responder)
+
+@end
+
+@interface NSObject(IFCustomPopupDelegate)
+
+- (void) customPopupOpening: (IFCustomPopup*) popup;
 
 @end

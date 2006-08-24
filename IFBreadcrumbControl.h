@@ -15,9 +15,11 @@
 	NSMutableArray* cellRects;
 	
 	IFBreadcrumbCell* selectedCell;
+	float horizontalRatio;
 }
 
 - (void) addBreadcrumbWithText: (NSString*) text						// Adds a breadcrumb item with the specified tag
 						   tag: (int) tag;
+- (void) removeAllBreadcrumbs;											// Clears this control
 
 @end
