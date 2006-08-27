@@ -187,6 +187,10 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 	// [backgroundWindow orderFront: self];
 	[popupWindow makeKeyAndOrderFront: self];
 	
+	unichar escape = 27;
+	NSString* escapeString = [NSString stringWithCharacters: &escape
+													 length: 1];
+	
 	// Run modally until it's time to close the window
 	while (true) {
 		NSEvent* ev = 
@@ -200,7 +204,7 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 			break;
 		} else if (([ev type] == NSKeyDown ||
 					[ev type] == NSKeyUp) &&
-				   [[ev characters] isEqualToString: @"\@"]) {
+				   [[ev characters] isEqualToString: escapeString]) {
 			// Escape pressed
 			break;
 		} else if (([ev type] == NSKeyDown ||
@@ -231,9 +235,10 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 		}
 		
 		// Pass the event through
-		[NSApp sendEvent: ev];
+		if (ev != nil) [NSApp sendEvent: ev];
 	}
 	
+	// TODO: if the last event was a mouse down event, loop until we get the mouse up
 	[self hidePopup];
 }
 

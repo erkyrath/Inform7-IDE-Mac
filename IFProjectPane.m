@@ -350,9 +350,6 @@ NSDictionary* IFSyntaxAttributes[256];
     }
 	
     [tabView setDelegate: self];
-	
-	// TODO: DEBUGGING
-	[self addTestControls];
     
     //[sourceText setUsesFindPanel: YES]; -- Not 10.2
 }
@@ -1397,6 +1394,7 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = Debugging =
 
+#if 0
 - (void) addTestControls {
 	NSTabViewItem* testTab = [[NSTabViewItem alloc] init];
 	
@@ -1413,5 +1411,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	
 	[[testTab view] addSubview: testBreadcrumb];
 }
+
+#endif
 
 @end

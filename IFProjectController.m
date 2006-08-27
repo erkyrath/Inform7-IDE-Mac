@@ -685,7 +685,7 @@ static NSDictionary*  itemDictionary = nil;
 		//
 		//NSPopUpButton* popup = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0,0,120,22)
 		//												  pullsDown: YES];
-		NSPopUpButton* popup = [[IFCustomPopup alloc] initWithFrame: NSMakeRect(0,0,120,22)
+		IFCustomPopup* popup = [[IFCustomPopup alloc] initWithFrame: NSMakeRect(0,0,120,22)
 														  pullsDown: YES];
 		
 		[item setMinSize: NSMakeSize(64, 22)];
