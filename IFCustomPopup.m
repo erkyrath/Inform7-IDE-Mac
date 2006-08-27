@@ -81,6 +81,7 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 	
 	// Get the current screen
 	NSScreen* currentScreen = [[self window] screen];
+	NSRect screenFrame = [currentScreen frame];
 	
 	// Not a lot we can do if the control is not visible
 	if (currentScreen == nil) return;
@@ -90,7 +91,7 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 		[popupWindow release];						// Safety net
 		
 		// Construct the windows
-		backgroundWindow = [[NSPanel alloc] initWithContentRect: [currentScreen frame]
+		backgroundWindow = [[NSPanel alloc] initWithContentRect: screenFrame
 													   styleMask: NSBorderlessWindowMask
 														 backing: NSBackingStoreBuffered
 														   defer: NO];
@@ -128,11 +129,8 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 	}
 		
 	// Size the background window
-	[backgroundWindow setFrame: [currentScreen frame]
+	[backgroundWindow setFrame: screenFrame
 					   display: NO];
-	
-	// Size the content window
-	// (TODO)
 	
 	// Set up the content window view
 	IFPopupContentView* contentView	 = [popupWindow contentView];
@@ -163,13 +161,25 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 	controlFrame.origin.x += windowOrigin.x;
 	controlFrame.origin.y += windowOrigin.y;
 	
-	// Position the popup window
+	// Calculate the popup window position
 	NSRect windowFrame;
 	windowFrame.size = windowSize;
 	
 	windowFrame.origin.x = NSMinX(controlFrame) + (controlFrame.size.width-windowFrame.size.width)/2;
 	windowFrame.origin.y = NSMinY(controlFrame)-windowFrame.size.height+1;
 	
+	// Move back onscreen (left/right)
+	float offscreenRight = NSMaxX(windowFrame) - NSMaxX(screenFrame);
+	float offscreenLeft = NSMinX(screenFrame) - NSMinX(windowFrame);
+	
+	if (offscreenRight > 0) windowFrame.origin.x -= offscreenRight;
+	if (offscreenLeft > 0) windowFrame.origin.x += offscreenLeft;
+	
+	// Move back onscreen (bottom)
+	float offscreenBottom = NSMinY(screenFrame) - NSMinY(windowFrame);
+	if (offscreenBottom > 0) windowFrame.origin.y += offscreenBottom;
+	
+	// Position the window
 	[popupWindow setFrame: windowFrame
 				  display: NO];
 	
