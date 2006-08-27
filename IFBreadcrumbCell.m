@@ -156,17 +156,38 @@ static NSImage* rightArrowSelect;
 			operation: NSCompositeSourceOver
 			 fraction: 1.0];
 	
-	// Draw the text/image
+	// Draw the text or image
 	if ([self image]) {
 	} else {
-		NSSize textSize = [[self attributedStringValue] size];
+		NSAttributedString* stringToDraw = [self attributedStringValue];
+		NSFont* font = [[stringToDraw attributesAtIndex: 0
+										 effectiveRange: nil]
+			objectForKey: NSFontAttributeName];
+		NSSize textSize = [stringToDraw size];
 		
+		// For some reason, [stringToDraw size] sometimes gives the height incorrectly	
+		float fontHeight = [font ascender] - [font descender];
+		textSize.height = fontHeight;
+		
+		// Work out the rectangle we should draw the string in
 		rect.origin.x = cellFrame.origin.x + leftSize.width + 3;
-		rect.origin.y = (cellFrame.size.height - textSize.height + 1)/2 + cellFrame.origin.y;
+		rect.origin.y = (cellFrame.size.height - textSize.height)/2 + cellFrame.origin.y;
 		rect.size.width = cellFrame.size.width - leftSize.width - rightSize.width - 3;
 		rect.size.height = textSize.height;
 		
-		[[self attributedStringValue] drawInRect: rect];
+		// If the string is too long to fit in, then choose a compacted version (TODO: is there a faster way to do this?)
+		if (rect.size.width < textSize.width) {
+			int newLength = [stringToDraw length];
+
+			while (rect.size.width < textSize.width && newLength > 0) {
+				newLength--;
+				stringToDraw = [stringToDraw attributedSubstringFromRange: NSMakeRange(0, newLength)];
+				textSize = [stringToDraw size];
+				textSize.height = fontHeight;
+			}
+		}
+		
+		[stringToDraw drawAtPoint: rect.origin];
 	}
 }
 

@@ -193,6 +193,20 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 				   [[ev characters] isEqualToString: @"\@"]) {
 			// Escape pressed
 			break;
+		} else if (([ev type] == NSKeyDown ||
+					[ev type] == NSKeyUp) &&
+				   [ev window] != popupWindow) {
+			// Redirect any key events to the popup window
+			ev = [NSEvent keyEventWithType: [ev type]
+								  location: [ev locationInWindow]
+							 modifierFlags: [ev modifierFlags]
+								 timestamp: [ev timestamp]
+							  windowNumber: [popupWindow windowNumber]
+								   context: [popupWindow graphicsContext]
+								characters: [ev characters]
+			   charactersIgnoringModifiers: [ev charactersIgnoringModifiers]
+								 isARepeat: [ev isARepeat]
+								   keyCode: [ev keyCode]];
 		} else if (([ev type] == NSLeftMouseDown ||
 					[ev type] == NSRightMouseDown ||
 					[ev type] == NSOtherMouseDown ||
