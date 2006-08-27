@@ -195,7 +195,8 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 			break;
 		} else if (([ev type] == NSLeftMouseDown ||
 					[ev type] == NSRightMouseDown ||
-					[ev type] == NSOtherMouseDown) &&
+					[ev type] == NSOtherMouseDown ||
+					[ev type] == NSScrollWheel) &&
 				   [ev window] != popupWindow) {
 			// Click outside of the window
 			if ([ev type] != NSLeftMouseDown ||
