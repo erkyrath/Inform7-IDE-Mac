@@ -226,6 +226,7 @@ static IFCustomPopup* shownPopup = nil;
 	[NSApp endModalSession: ses];
 	
 	// TODO: if the last event was a mouse down event, loop until we get the mouse up
+	// TODO: send a mouse up event directed at this control (or something; we have a problem where if we close the control by clicking on the close button of a window, then we click the close button again, the control pops up again!)
 
 	// Finish up
 	[pool release];

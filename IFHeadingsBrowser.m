@@ -67,7 +67,7 @@
 	for (part=2; part<[parts count] && displayed < 2; part++) {
 		NSString* thisPart = [[parts objectAtIndex: part] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		
-		// Check that this part is not too sh
+		// Check that this part is not too short
 		if ([thisPart length] <= 1) continue;
 		if ([stopwords objectForKey: [thisPart lowercaseString]] != nil) continue;
 		
@@ -83,6 +83,45 @@
 													  length: 1]];
 	}
 
+	// Return the result
+	return result;
+}
+
+- (NSString*) typeForHeading: (NSString*) fullHeading {
+	// Get the parts of the heading
+	NSArray* parts = [fullHeading componentsSeparatedByString: @" "];
+	if ([parts count] < 1) return fullHeading;	
+
+	return [[parts objectAtIndex: 0] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+- (NSString*) titleForHeading: (NSString*) fullHeading {
+	// Get the parts of the heading
+	NSArray* parts = [fullHeading componentsSeparatedByString: @" "];
+	if ([parts count] < 2) return fullHeading;
+	
+	// Create the result
+	NSMutableString* result = [[[NSMutableString alloc] init] autorelease];
+	
+	// Format is 'X - heading something[...]'
+	[result appendFormat: @"%@", [parts objectAtIndex: 1]];
+	
+	// Iterate through the parts of the name after the section dash
+	int part;
+	for (part=2; part<[parts count]; part++) {
+		NSString* thisPart = [[parts objectAtIndex: part] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		
+		// Add this part to the list displayed
+		[result appendFormat: @" %@", thisPart];
+	}
+	
+	// Add an ellipsis
+	if (part < [parts count]) {
+		unichar ellipsis = 0x2026;
+		[result appendString: [NSString stringWithCharacters: &ellipsis
+													  length: 1]];
+	}
+	
 	// Return the result
 	return result;
 }
@@ -119,6 +158,21 @@
 	while (crumb = [crumbEnum nextObject]) {
 		[breadcrumb addBreadcrumbWithText: [self crumbForHeading: crumb]
 									  tag: tagCount--];
+	}
+	
+	// Update the section view
+	IFIntelSymbol* section = [[root parent] child];
+	[sectionView clear];
+
+	[sectionView addHeading: [[self typeForHeading: [section name]] stringByAppendingString: @"..."]
+						tag: section];
+	
+	while (section != nil) {
+		[sectionView addSection: [self titleForHeading: [section name]]
+					subSections: [section child] != nil
+							tag: section];
+		
+		section = [section sibling];
 	}
 }
 

@@ -12,11 +12,12 @@
 
 #import "IFIntelFile.h"
 #import "IFIntelSymbol.h"
+#import "IFSectionalView.h"
 
 @interface IFHeadingsBrowser : NSObject {
 	// Views
 	IBOutlet NSView* headingsView;
-	IBOutlet NSView* sectionView;
+	IBOutlet IFSectionalView* sectionView;
 	IBOutlet IFBreadcrumbControl* breadcrumb;
 	
 	// Current status
