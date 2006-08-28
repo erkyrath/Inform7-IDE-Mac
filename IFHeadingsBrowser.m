@@ -65,7 +65,7 @@
 	int part;
 	int displayed = 0;
 	for (part=2; part<[parts count] && displayed < 2; part++) {
-		NSString* thisPart = [parts objectAtIndex: part];
+		NSString* thisPart = [[parts objectAtIndex: part] stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
 		
 		// Check that this part is not too sh
 		if ([thisPart length] <= 1) continue;
@@ -73,7 +73,7 @@
 		
 		// Add this part to the list displayed
 		displayed++;
-		[result appendFormat: @" %@", [thisPart stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]]];
+		[result appendFormat: @" %@", thisPart];
 	}
 	
 	// Add an ellipsis
