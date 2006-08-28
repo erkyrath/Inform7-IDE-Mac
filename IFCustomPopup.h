@@ -17,7 +17,6 @@
 	NSView* popupView;
 	
 	// Managing the pop-up
-	NSPanel* backgroundWindow;						// Window used to detect clicks outside the popup
 	NSPanel* popupWindow;							// Window that contains the pop-up view
 	
 	// The delegate

@@ -10,9 +10,7 @@
 
 #import "IFCustomPopup.h"
 
-extern OSStatus CGSGetWindowTags  (int, int, int*, int);
-extern OSStatus CGSSetWindowTags  (int, int, int*, int);
-extern OSStatus CGSClearWindowTags(int, int, int*, int);
+static IFCustomPopup* shownPopup = nil;
 
 // = Custom view interfaces used by this class =
 
@@ -35,6 +33,9 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 
 // = General methods =
 + (void) closeAllPopups {
+	if (shownPopup != nil) {
+		[shownPopup hidePopup];
+	}
 }
 
 // = Initialisation =
@@ -43,7 +44,6 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 	[IFCustomPopup closeAllPopups];
 	
 	[popupView release];
-	[backgroundWindow release];
 	[popupWindow release];
 	
 	[super dealloc];
@@ -63,16 +63,23 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 // = Getting down =
 
 - (void) hidePopup {
-	[backgroundWindow orderOut: self];
 	[popupWindow orderOut: self];
 	
 	[[self cell] setHighlighted: NO];
 	[self setNeedsDisplay: YES];
+	
+	if (shownPopup == self) {
+		[shownPopup release];
+		shownPopup = nil;
+	}
 }
 
 - (IBAction) showPopup: (id) sender {
 	// Close any open popups
 	[[self class] closeAllPopups];
+	
+	[shownPopup release];
+	shownPopup = [self retain];
 	
 	// Talk to the delegate
 	if (delegate && [delegate respondsToSelector: @selector(customPopupOpening:)]) {
@@ -87,37 +94,13 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 	if (currentScreen == nil) return;
 	
 	// Create the windows if they do not already exist
-	if (backgroundWindow == nil) {
-		[popupWindow release];						// Safety net
-		
+	if (popupWindow == nil) {
 		// Construct the windows
-		backgroundWindow = [[NSPanel alloc] initWithContentRect: screenFrame
-													   styleMask: NSBorderlessWindowMask
-														 backing: NSBackingStoreBuffered
-														   defer: NO];
 		popupWindow = [[NSPanel alloc] initWithContentRect: NSMakeRect(0,0, 100, 100)
 												 styleMask: NSBorderlessWindowMask
 												   backing: NSBackingStoreBuffered
 													 defer: NO];
 		[popupWindow setWorksWhenModal: YES];
-		[backgroundWindow setWorksWhenModal: YES];
-		
-		// Set up the background window
-		[backgroundWindow setOpaque: NO];
-		
-		IFPopupTransparentView* backgroundView = [[IFPopupTransparentView alloc] initWithFrame: [[backgroundWindow contentView] frame]];
-		[backgroundWindow setContentView: [backgroundView autorelease]];
-		
-		[backgroundWindow setLevel: NSPopUpMenuWindowLevel];
-		[backgroundWindow setBackgroundColor: [NSColor clearColor]];
-		[backgroundWindow setHasShadow: NO];
-		[backgroundWindow setHidesOnDeactivate: YES];
-		
-		int tags[2];
-        
-        tags[0] = tags[1] = 0;
-        tags[0] = 1<<10;
-		CGSSetWindowTags(_CGSDefaultConnection(), [backgroundWindow windowNumber], tags, 32);
 		
 		// Set up the popup window
 		IFPopupContentView* contentView = [[IFPopupContentView alloc] initWithFrame: [[popupWindow contentView] frame]];
@@ -126,11 +109,8 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 		[popupWindow setLevel: NSPopUpMenuWindowLevel];
 		[popupWindow setHasShadow: YES];
 		[popupWindow setHidesOnDeactivate: YES];
+		[popupWindow setAlphaValue: 0.95];
 	}
-		
-	// Size the background window
-	[backgroundWindow setFrame: screenFrame
-					   display: NO];
 	
 	// Set up the content window view
 	IFPopupContentView* contentView	 = [popupWindow contentView];
@@ -184,7 +164,6 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 				  display: NO];
 	
 	// Display the windows
-	// [backgroundWindow orderFront: self];
 	[popupWindow makeKeyAndOrderFront: self];
 	
 	unichar escape = 27;
@@ -192,7 +171,9 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 													 length: 1];
 	
 	// Run modally until it's time to close the window
-	while (true) {
+	// This is not true modal behaviour: however, we're not acting like a modal dialog and want to do some
+	// weird stuff with the events.
+	while (shownPopup == self) {
 		NSEvent* ev = 
 			[NSApp nextEventMatchingMask: NSAnyEventMask
 							   untilDate: [NSDate distantFuture]
@@ -200,9 +181,7 @@ extern OSStatus CGSClearWindowTags(int, int, int*, int);
 								 dequeue: YES];
 		
 		// Background window events get discarded
-		if ([ev window] == backgroundWindow) {
-			break;
-		} else if (([ev type] == NSKeyDown ||
+		if (([ev type] == NSKeyDown ||
 					[ev type] == NSKeyUp) &&
 				   [[ev characters] isEqualToString: escapeString]) {
 			// Escape pressed
