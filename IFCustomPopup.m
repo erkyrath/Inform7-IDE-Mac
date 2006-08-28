@@ -173,7 +173,14 @@ static IFCustomPopup* shownPopup = nil;
 	// Run modally until it's time to close the window
 	// This is not true modal behaviour: however, we're not acting like a modal dialog and want to do some
 	// weird stuff with the events.
+	// TODO: annoyingly, we don't seem to be able to intercept main menu open events, which mucks things up a bit
+	NSModalSession ses = [NSApp beginModalSessionForWindow: popupWindow];
+	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+
 	while (shownPopup == self) {
+		[pool release];
+		pool = [[NSAutoreleasePool alloc] init];
+		
 		NSEvent* ev = 
 			[NSApp nextEventMatchingMask: NSAnyEventMask
 							   untilDate: [NSDate distantFuture]
@@ -216,8 +223,12 @@ static IFCustomPopup* shownPopup = nil;
 		// Pass the event through
 		if (ev != nil) [NSApp sendEvent: ev];
 	}
+	[NSApp endModalSession: ses];
 	
 	// TODO: if the last event was a mouse down event, loop until we get the mouse up
+
+	// Finish up
+	[pool release];
 	[self hidePopup];
 }
 

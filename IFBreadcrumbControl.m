@@ -237,8 +237,8 @@
 	
 	IFBreadcrumbCell* cell = [self cellAtPoint: mousePoint];
 	if ([cell action] != nil) {
-		[[cell target] performSelector: [cell action]
-							withObject: cell];
+		[NSApp sendAction: [cell action]
+					   to: [cell target]];
 	}
 
 	[self selectCell: nil];

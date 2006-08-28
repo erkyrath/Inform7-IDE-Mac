@@ -33,6 +33,7 @@
 // Getting down
 - (IBAction) showPopup: (id) sender;				// Cause the pop-up window to be displayed
 - (IBAction) closePopup: (id) sender;				// Responder method that can be used to close this popup and generate an action (point view controls actions to this method in the first responder)
+- (void) hidePopup;									// Close the popup and generate no action
 
 @end
 

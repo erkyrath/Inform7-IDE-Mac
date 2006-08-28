@@ -98,7 +98,7 @@
 	
 	// Calculate the rest of the sections
 	NSMutableArray* sections = [NSMutableArray array];
-	IFIntelSymbol* parent = root;
+	IFIntelSymbol* parent = [root parent];
 	
 	int tagCount = 0;
 	while (parent != nil) {
