@@ -520,7 +520,7 @@ NSDictionary* IFSyntaxAttributes[256];
 			unichar chr = [store characterAtIndex: x];
 			
 			if (chr == '\n' || chr == '\r') {
-				unichar otherchar = chr == '\n'?'r':'n';
+				unichar otherchar = chr == '\n'?'\r':'\n';
 				
 				lineno++;
 				linepos = x + 1;
@@ -659,7 +659,7 @@ NSDictionary* IFSyntaxAttributes[256];
 			unichar chr = [store characterAtIndex: x];
 			
 			if (chr == '\n' || chr == '\r') {
-				unichar otherchar = chr == '\n'?'r':'n';
+				unichar otherchar = chr == '\n'?'\r':'\n';
 				
 				lineno++;
 				linepos = x + 1;
