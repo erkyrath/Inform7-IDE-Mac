@@ -2162,12 +2162,14 @@ static NSDictionary*  itemDictionary = nil;
 	NSMutableArray* linesToRenumber = [[NSMutableArray alloc] init];
 	
 	while (section != nil) {
-		int lineNumber = [intel lineForSymbol: section];
-		
-		IFIntelSymbol* lastSection = [section previousSibling];
-		int lastLineNumber = [intel lineForSymbol: lastSection];
+		if ([section level] > 0) {
+			int lineNumber = [intel lineForSymbol: section];
+			
+			IFIntelSymbol* lastSection = [section previousSibling];
+			int lastLineNumber = [intel lineForSymbol: lastSection];
 
-		[linesToRenumber addObject: [NSArray arrayWithObjects: [NSNumber numberWithInt: lineNumber], [NSNumber numberWithInt: lastLineNumber], nil]];
+			[linesToRenumber addObject: [NSArray arrayWithObjects: [NSNumber numberWithInt: lineNumber], [NSNumber numberWithInt: lastLineNumber], nil]];
+		}
 		
 		section = [section nextSymbol];
 	}

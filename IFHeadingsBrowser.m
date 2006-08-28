@@ -102,6 +102,10 @@
 	
 	int tagCount = 0;
 	while (parent != nil) {
+		if ([parent level] <= 0) {
+			break;
+		}
+		
 		tagCount++;
 		[sections addObject: [parent name]];
 		

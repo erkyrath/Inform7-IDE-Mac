@@ -67,28 +67,51 @@ static NSArray* majorUnits;
 	// Heading lines beginning with 'Volume', 'Part', etc  are added to the intelligence
 	if ([line length] < 4) return;				// Nothing to do in this case
 	
-	if (styles[0] != IFSyntaxHeading) return;	// Not a heading
-	
-	// Check if this is a heading or not
-	// MAYBE FIXME: won't deal well with headings starting with whitespace. Bug or not?
-	NSArray* words = [line componentsSeparatedByString: @" "];
-	if ([words count] < 1) return;
-	
-	int headingType = [headingList indexOfObject: [[words objectAtIndex: 0] lowercaseString]];
-	if (headingType == NSNotFound) return;		// Not a heading (hmm, shouldn't happen, I guess)
-	
-	// Got a heading: add to the intel
-	IFIntelSymbol* newSymbol = [[IFIntelSymbol alloc] init];
+	if (styles[0] == IFSyntaxHeading) {
+		// Check if this is a heading or not
+		// MAYBE FIXME: won't deal well with headings starting with whitespace. Bug or not?
+		NSArray* words = [line componentsSeparatedByString: @" "];
+		if ([words count] < 1) return;
+		
+		int headingType = [headingList indexOfObject: [[words objectAtIndex: 0] lowercaseString]] + 1;
+		if (headingType == NSNotFound) return;		// Not a heading (hmm, shouldn't happen, I guess)
+		
+		// Got a heading: add to the intel
+		IFIntelSymbol* newSymbol = [[IFIntelSymbol alloc] init];
 
-	[newSymbol setType: IFSectionSymbolType];
-	[newSymbol setName: line];
-	[newSymbol setRelation: IFSymbolOnLevel];
-	[newSymbol setLevelDelta: headingType];
-	
-	[data addSymbol: newSymbol
-			 atLine: lineNumber];
+		[newSymbol setType: IFSectionSymbolType];
+		[newSymbol setName: line];
+		[newSymbol setRelation: IFSymbolOnLevel];
+		[newSymbol setLevelDelta: headingType];
+		
+		[data addSymbol: newSymbol
+				 atLine: lineNumber];
 
-	[newSymbol release];
+		[newSymbol release];
+	} else if (lineNumber == 0) {
+		// The title string
+		int x = 0;
+		int start = 0;
+		while (x < [line length] && styles[x] != IFSyntaxTitle) x++;
+		start = x;
+		while (x < [line length] && styles[x] == IFSyntaxTitle) x++;
+		x--;
+		
+		// Add this as a level 0 item
+		if (start <= x) {
+			IFIntelSymbol* newSymbol = [[IFIntelSymbol alloc] init];
+			
+			[newSymbol setType: IFSectionSymbolType];
+			[newSymbol setName: [line substringWithRange: NSMakeRange(start, x-start)]];
+			[newSymbol setRelation: IFSymbolOnLevel];
+			[newSymbol setLevelDelta: 0];
+			
+			[data addSymbol: newSymbol
+					 atLine: lineNumber];
+			
+			[newSymbol release];		
+		}
+	}
 }
 
 // = Rewriting =
@@ -230,6 +253,7 @@ static NSArray* majorUnits;
 	int currentSectionNumber = [IFNaturalIntel numberOfHeading: [firstSymbol name]];
 
 	if (currentSectionNumber <= 0) return;
+	if ([firstSymbol level] == 0) return;
 	
 	// Renumber all the siblings
 	IFIntelSymbol* symbol = [firstSymbol sibling];

@@ -514,25 +514,28 @@ NSDictionary* IFSyntaxAttributes[256];
 
     int x, lineno, linepos, lineLength;
     lineno = 1; linepos = 0;
-    for (x=0; x<length; x++) {
-        unichar chr = [store characterAtIndex: x];
-        
-        if (chr == '\n' || chr == '\r') {
-            unichar otherchar = chr == '\n'?'r':'n';
-            
-            lineno++;
-            linepos = x + 1;
-            
-            // Deal with DOS line endings
-            if ([store characterAtIndex: linepos] == otherchar) {
-                x++; linepos++;
-            }
-            
-            if (lineno == line) {
-                break;
-            }
-        }
-    }
+	if (line > lineno)
+	{
+		for (x=0; x<length; x++) {
+			unichar chr = [store characterAtIndex: x];
+			
+			if (chr == '\n' || chr == '\r') {
+				unichar otherchar = chr == '\n'?'r':'n';
+				
+				lineno++;
+				linepos = x + 1;
+				
+				// Deal with DOS line endings
+				if ([store characterAtIndex: linepos] == otherchar) {
+					x++; linepos++;
+				}
+				
+				if (lineno == line) {
+					break;
+				}
+			}
+		}
+	}
 
     if (lineno != line) {
         NSBeep(); // DOH!
@@ -651,25 +654,27 @@ NSDictionary* IFSyntaxAttributes[256];
 	
     int x, lineno, linepos;
     lineno = 1; linepos = 0;
-    for (x=0; x<length; x++) {
-        unichar chr = [store characterAtIndex: x];
-        
-        if (chr == '\n' || chr == '\r') {
-            unichar otherchar = chr == '\n'?'r':'n';
-            
-            lineno++;
-            linepos = x + 1;
-            
-            // Deal with DOS line endings
-            if (linepos < length && [store characterAtIndex: linepos] == otherchar) {
-                x++; linepos++;
-            }
-            
-            if (lineno == line) {
-                break;
-            }
-        }
-    }
+	if (line > lineno) {
+		for (x=0; x<length; x++) {
+			unichar chr = [store characterAtIndex: x];
+			
+			if (chr == '\n' || chr == '\r') {
+				unichar otherchar = chr == '\n'?'r':'n';
+				
+				lineno++;
+				linepos = x + 1;
+				
+				// Deal with DOS line endings
+				if (linepos < length && [store characterAtIndex: linepos] == otherchar) {
+					x++; linepos++;
+				}
+				
+				if (lineno == line) {
+					break;
+				}
+			}
+		}
+	}
 	
     if (lineno != line) {
         return NSMakeRange(NSNotFound, 0);
