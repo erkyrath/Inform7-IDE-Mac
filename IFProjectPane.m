@@ -22,6 +22,7 @@
 #import "IFMaintenanceTask.h"
 
 #import "IFBreadcrumbControl.h"
+#import "IFGlkResources.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
 #define minHighlightAmount 2048
@@ -752,6 +753,7 @@ NSDictionary* IFSyntaxAttributes[256];
 		gView = [[GlkView alloc] init];
 		[gView setDelegate: self];
 		[gView addOutputReceiver: parent];
+		[gView setImageSource: [[[IFGlkResources alloc] initWithProject: [parent document]] autorelease]];
 		
 		[gView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 		[gView setFrame: [gameView bounds]];
