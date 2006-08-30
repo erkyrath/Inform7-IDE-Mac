@@ -54,7 +54,7 @@ static NSFont* headingFont = nil;
 	
 	// Measure the length of the string
 	NSSize stringSize = [string sizeWithAttributes: attributes];
-	if (stringSize.width >= width) return string;
+	if (stringSize.width <= width) return string;
 	
 	// This string needs to be shortened.. measure the length of an ellipsis
 	NSSize ellipsisSize = [@"..." sizeWithAttributes: attributes];
@@ -77,7 +77,7 @@ static NSFont* headingFont = nil;
 	}
 	
 	// Return the result (top will contain the length of the first string shorter than the specified length)
-	return [[NSString substringToIndex: bottom] stringByAppendingString: @"..."];
+	return [[string substringToIndex: bottom] stringByAppendingString: @"..."];
 }
 
 - (void) recalculate {
