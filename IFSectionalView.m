@@ -77,7 +77,8 @@ static NSFont* headingFont = nil;
 	}
 	
 	// Return the result (top will contain the length of the first string shorter than the specified length)
-	return [[string substringToIndex: bottom] stringByAppendingString: @"..."];
+	if (top < 0) top = 0;
+	return [[string substringToIndex: top] stringByAppendingString: @"..."];
 }
 
 - (void) recalculate {
