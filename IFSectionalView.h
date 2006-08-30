@@ -14,11 +14,12 @@
 ///
 @interface IFSectionalView : NSView {
 	// Details about the sections
-	BOOL calculateSizes;
-	NSMutableArray* contents;
+	BOOL calculateSizes;										// If true, then we need to calculate the size of the sections in this view
+	BOOL compactStrings;										// If true, then we need to compact the strings in this view so that they fit
+	NSMutableArray* contents;									// An array of IFSectionalSections
 	
 	// Calculated items
-	NSSize idealSize;
+	NSSize idealSize;											// The ideal size for this control
 }
 
 // Setting up the contents
@@ -29,6 +30,6 @@
 		subSections: (BOOL) hasSubsections
 				tag: (id) tag;
 
-- (NSSize) size;												// The ideal size for this view: it can be resized to have a lower width, but the height must be the same or greater
+- (NSSize) idealSize;											// The ideal size for this view: it can be resized to have a lower width, but the height must be the same or greater
 
 @end

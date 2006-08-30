@@ -40,6 +40,8 @@
 // = Maintaining cells =
 
 - (void) calcSize {
+	needsCalculation = NO;
+	
 	NSPoint origin = [self bounds].origin;
 
 	NSEnumerator* cellEnum = [cells objectEnumerator];
@@ -63,6 +65,8 @@
 	cellRects = [[NSMutableArray alloc] init];
 	
 	cellEnum = [cells objectEnumerator];
+	float width = 0;
+	float height = 0;
 	while (cell = [cellEnum nextObject]) {
 		// Recalculate the bounds for this cell
 		[cell calcDrawInfo: [self bounds]];
@@ -74,10 +78,16 @@
 		cellRect.origin = origin;
 		cellRect.size = cellSize;
 		
+		if (cellSize.height > height) height = cellSize.height;
+		
 		[cellRects addObject: [NSValue valueWithRect: cellRect]];
 		
 		origin.x += cellRect.size.width - [cell overlap];
+		width += cellRect.size.width - [cell overlap];
 	}
+	
+	// Store the ideal size
+	idealSize = NSMakeSize(width, height);
 	
 	// Compress the cells if necessary
 	NSRect bounds = [self bounds];
@@ -114,11 +124,17 @@
 	}
 }
 
+- (NSSize) idealSize {
+	if (needsCalculation) [self recalculate];
+	
+	return idealSize;
+}
+
 // = Adding cells =
 
 - (void) removeAllBreadcrumbs {
 	[cells removeAllObjects];
-	[self calcSize];
+	needsCalculation = YES;
 	[self setNeedsDisplay: YES];
 }
 
@@ -129,7 +145,7 @@
 	
 	[cells addObject: [newCell autorelease]];
 	
-	[self calcSize];
+	needsCalculation = YES;
 	[self setNeedsDisplay: YES];
 }
 
@@ -140,13 +156,15 @@
 	
 	[cells addObject: [newCell autorelease]];
 	
-	[self calcSize];
+	needsCalculation = YES;
 	[self setNeedsDisplay: YES];
 }
 
 // = Rendering =
 
 - (void) drawRect: (NSRect) rect {	
+	if (needsCalculation) [self calcSize];
+	
 	// Draw the cells
 	NSEnumerator* cellEnum = [cells reverseObjectEnumerator];
 	NSEnumerator* rectEnum = [cellRects reverseObjectEnumerator];
@@ -189,6 +207,8 @@
 }
 
 - (IFBreadcrumbCell*) cellAtPoint: (NSPoint) position {
+	if (needsCalculation) [self calcSize];
+
 	NSEnumerator* cellEnum = [cells objectEnumerator];
 	NSEnumerator* rectEnum = [cellRects objectEnumerator];
 	IFBreadcrumbCell* cell;

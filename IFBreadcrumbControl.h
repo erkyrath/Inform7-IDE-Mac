@@ -11,15 +11,19 @@
 #import "IFBreadcrumbCell.h"
 
 @interface IFBreadcrumbControl : NSControl {
+	BOOL needsCalculation;
 	NSMutableArray* cells;
 	NSMutableArray* cellRects;
 	
 	IFBreadcrumbCell* selectedCell;
 	float horizontalRatio;
+	NSSize idealSize;
 }
 
 - (void) addBreadcrumbWithText: (NSString*) text						// Adds a breadcrumb item with the specified tag
 						   tag: (int) tag;
 - (void) removeAllBreadcrumbs;											// Clears this control
+
+- (NSSize) idealSize;													// Returns the 'ideal' size of this control
 
 @end

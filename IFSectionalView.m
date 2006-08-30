@@ -44,9 +44,48 @@ static NSFont* headingFont = nil;
 
 // = Recalculating sizes =
 
+- (NSString*) fitString: (NSString*) string
+				toWidth: (float) width
+			   withFont: (NSFont*) font {
+	// Fits a string to the specified width, using the specified font. 
+	
+	// Get the string attributes
+	NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys: font, NSFontAttributeName, nil];
+	
+	// Measure the length of the string
+	NSSize stringSize = [string sizeWithAttributes: attributes];
+	if (stringSize.width >= width) return string;
+	
+	// This string needs to be shortened.. measure the length of an ellipsis
+	NSSize ellipsisSize = [@"..." sizeWithAttributes: attributes];
+	
+	// Use a binary search to find the ideal length of this string
+	int bottom = 0;
+	int top = [string length];
+	while (top > bottom) {
+		int middle = (top+bottom)>>1;
+		
+		NSString* testString = [string substringToIndex: middle];
+		NSSize testSize = [testString sizeWithAttributes: attributes];
+		testSize.width -= ellipsisSize.width;
+		
+		if (testSize.width <= width) {
+			bottom = middle + 1;
+		} else if (testSize.width > width) {
+			top = middle - 1;
+		}
+	}
+	
+	// Return the result (top will contain the length of the first string shorter than the specified length)
+	return [[NSString substringToIndex: bottom] stringByAppendingString: @"..."];
+}
+
 - (void) recalculate {
 	// No need to calculate any more after this has been called
 	calculateSizes = NO;
+	compactStrings = NO;
+	
+	NSRect bounds = [self bounds];
 
 	// Some font attributes
 	NSDictionary* headingAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -98,7 +137,11 @@ static NSFont* headingFont = nil;
 		
 		// Store the results
 		[section setBounds: sectionBounds];
-		[section setStringToRender: text];
+		
+		// TODO: recalculate stringToRender seperately after a resize
+		[section setStringToRender: [self fitString: text
+											toWidth: bounds.size.width
+										   withFont: font]];
 		
 		// Move on
 		lastY = NSMaxY(sectionBounds);
@@ -145,10 +188,15 @@ static NSFont* headingFont = nil;
 	[self addSection: [newSection autorelease]];
 }
 
-- (NSSize) size {
+- (NSSize) idealSize {
 	if (calculateSizes) [self recalculate];
 	
 	return idealSize;
+}
+
+- (void) setFrame: (NSRect) frame { 
+	compactStrings = YES;
+	[super setFrame: frame];
 }
 
 // = Drawing =
