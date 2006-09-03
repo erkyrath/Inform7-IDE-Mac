@@ -13,12 +13,16 @@
 #import "IFIntelFile.h"
 #import "IFIntelSymbol.h"
 #import "IFSectionalView.h"
+#import "IFViewAnimator.h"
 
 @interface IFHeadingsBrowser : NSObject {
 	// Views
 	IBOutlet NSView* headingsView;
 	IBOutlet IFSectionalView* sectionView;
 	IBOutlet IFBreadcrumbControl* breadcrumb;
+	
+	IFViewAnimator* animator;
+	IFViewAnimationStyle animStyle;
 	
 	// Current status
 	IFIntelFile* intel;											// The intel file to find symbols from

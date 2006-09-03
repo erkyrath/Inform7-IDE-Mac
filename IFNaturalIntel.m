@@ -30,6 +30,8 @@ static NSArray* majorUnits;
 + (int) numberOfHeading: (NSString*) heading {
 	NSArray* words = [heading componentsSeparatedByString: @" "];
 	
+	if ([words count] < 2) return 0;
+	
 	return [IFNaturalIntel parseNumber: [words objectAtIndex: 1]];
 }
 
@@ -200,6 +202,7 @@ static NSArray* majorUnits;
 			int headingLevel = [headingList indexOfObject: [prefix lowercaseString]];
 			
 			if (headingLevel == NSNotFound) return nil;		// Not a heading
+			headingLevel++;
 			
 			// We've got a heading: auto-insert a number
 			

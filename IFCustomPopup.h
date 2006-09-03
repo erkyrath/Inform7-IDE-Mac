@@ -18,6 +18,7 @@
 	
 	// Managing the pop-up
 	NSPanel* popupWindow;							// Window that contains the pop-up view
+	id lastCloseValue;								// Last value sent to a close popup event
 	
 	// The delegate
 	id delegate;									// The pop-up delegate
@@ -34,6 +35,7 @@
 - (IBAction) showPopup: (id) sender;				// Cause the pop-up window to be displayed
 - (IBAction) closePopup: (id) sender;				// Responder method that can be used to close this popup and generate an action (point view controls actions to this method in the first responder)
 - (void) hidePopup;									// Close the popup and generate no action
+- (id) lastCloseValue;								// Last sender sent to a closePopup event
 
 @end
 

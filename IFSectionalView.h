@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFSectionalSection.h"
+
 
 ///
 /// Hierarchical view for showing things by section
@@ -20,6 +22,13 @@
 	
 	// Calculated items
 	NSSize idealSize;											// The ideal size for this control
+	NSMutableArray* tracking;									// Array of tracking rectangle tags (NSNumbers)
+	IFSectionalSection* highlighted;							// The section that is curren
+	
+	// The actions
+	id target;
+	SEL selectedItem;
+	SEL gotoSubsection;
 }
 
 // Setting up the contents
@@ -29,7 +38,14 @@
 - (void) addSection: (NSString*) section						// Adds a new section (optionally displaying whether or not it has a subsection)
 		subSections: (BOOL) hasSubsections
 				tag: (id) tag;
+- (id) highlightedTag;											// The tag for the currently highlighted symbol
 
 - (NSSize) idealSize;											// The ideal size for this view: it can be resized to have a lower width, but the height must be the same or greater
+
+// = The actions =
+
+- (void) setTarget: (id) target;								// Sets the target for messages from this control (this is not retained)
+- (void) setSelectedItemAction: (SEL) action;					// Sets the action sent when an item is selected
+- (void) setGotoSubsectionAction: (SEL) action;					// Sets the action sent when we are requested to go to a specific subsection
 
 @end

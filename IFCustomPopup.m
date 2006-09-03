@@ -14,13 +14,6 @@ static IFCustomPopup* shownPopup = nil;
 
 // = Custom view interfaces used by this class =
 
-@interface IFPopupTransparentView : NSView {
-}
-
-- (IBAction) closePopup: (id) sender;
-
-@end
-
 @interface IFPopupContentView : NSView {
 }
 
@@ -32,6 +25,7 @@ static IFCustomPopup* shownPopup = nil;
 @implementation IFCustomPopup
 
 // = General methods =
+
 + (void) closeAllPopups {
 	if (shownPopup != nil) {
 		[shownPopup hidePopup];
@@ -45,6 +39,9 @@ static IFCustomPopup* shownPopup = nil;
 	
 	[popupView release];
 	[popupWindow release];
+	[lastCloseValue autorelease];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	
 	[super dealloc];
 }
@@ -52,8 +49,20 @@ static IFCustomPopup* shownPopup = nil;
 // = Setting up =
 
 - (void) setPopupView: (NSView*) view {
+	if (popupView != nil) {
+		[[NSNotificationCenter defaultCenter] removeObserver: self
+														name: NSViewFrameDidChangeNotification
+													  object: popupView];
+	}
+
 	[popupView release];
 	popupView = [view retain];
+	
+	[popupView setPostsFrameChangedNotifications: YES];
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(popupViewFrameChanged:)
+												 name: NSViewFrameDidChangeNotification
+											   object: popupView];
 }
 
 - (void) setDelegate: (id) newDelegate {
@@ -72,6 +81,46 @@ static IFCustomPopup* shownPopup = nil;
 		[shownPopup release];
 		shownPopup = nil;
 	}
+}
+
+- (void) popupViewFrameChanged: (NSNotification*) not {
+	if ([not object] != popupView) return;
+	if (![popupWindow isVisible]) return;
+	
+	// Get the control position
+	NSRect controlFrame = [self convertRect: [self bounds]
+									 toView: nil];
+	NSPoint windowOrigin = [[self window] frame].origin;
+	
+	controlFrame.origin.x += windowOrigin.x;
+	controlFrame.origin.y += windowOrigin.y;
+	
+	// Calculate the popup window position
+	NSScreen* currentScreen = [[self window] screen];
+	NSRect screenFrame = [currentScreen frame];
+
+	NSSize windowSize = [popupView frame].size;
+
+	NSRect windowFrame;
+	windowFrame.size = windowSize;
+	
+	windowFrame.origin.x = NSMinX(controlFrame) + (controlFrame.size.width-windowFrame.size.width)/2;
+	windowFrame.origin.y = NSMinY(controlFrame)-windowFrame.size.height+1;
+	
+	// Move back onscreen (left/right)
+	float offscreenRight = NSMaxX(windowFrame) - NSMaxX(screenFrame);
+	float offscreenLeft = NSMinX(screenFrame) - NSMinX(windowFrame);
+	
+	if (offscreenRight > 0) windowFrame.origin.x -= offscreenRight;
+	if (offscreenLeft > 0) windowFrame.origin.x += offscreenLeft;
+	
+	// Move back onscreen (bottom)
+	float offscreenBottom = NSMinY(screenFrame) - NSMinY(windowFrame);
+	if (offscreenBottom > 0) windowFrame.origin.y += offscreenBottom;
+	
+	// Position the window
+	[popupWindow setFrame: windowFrame
+				  display: YES];
 }
 
 - (IBAction) showPopup: (id) sender {
@@ -114,6 +163,7 @@ static IFCustomPopup* shownPopup = nil;
 	
 	// Set up the content window view
 	IFPopupContentView* contentView	 = [popupWindow contentView];
+	[contentView setAutoresizesSubviews: NO];
 	
 	[[[[contentView subviews] copy] autorelease] makeObjectsPerformSelector: @selector(removeFromSuperview)];
 	
@@ -176,7 +226,7 @@ static IFCustomPopup* shownPopup = nil;
 	// TODO: annoyingly, we don't seem to be able to intercept main menu open events, which mucks things up a bit
 	NSModalSession ses = [NSApp beginModalSessionForWindow: popupWindow];
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-
+	
 	while (shownPopup == self) {
 		[pool release];
 		pool = [[NSAutoreleasePool alloc] init];
@@ -187,16 +237,14 @@ static IFCustomPopup* shownPopup = nil;
 								  inMode: NSEventTrackingRunLoopMode
 								 dequeue: YES];
 		
-		// Background window events get discarded
 		if (([ev type] == NSKeyDown ||
 					[ev type] == NSKeyUp) &&
 				   [[ev characters] isEqualToString: escapeString]) {
 			// Escape pressed
 			break;
 		} else if (([ev type] == NSKeyDown ||
-					[ev type] == NSKeyUp) &&
-				   [ev window] != popupWindow) {
-			// Redirect any key events to the popup window
+					[ev type] == NSKeyUp)) {
+			// Redirect any key events to the popup window [TODO: direct this properly]
 			ev = [NSEvent keyEventWithType: [ev type]
 								  location: [ev locationInWindow]
 							 modifierFlags: [ev modifierFlags]
@@ -207,6 +255,13 @@ static IFCustomPopup* shownPopup = nil;
 			   charactersIgnoringModifiers: [ev charactersIgnoringModifiers]
 								 isARepeat: [ev isARepeat]
 								   keyCode: [ev keyCode]];
+			
+			if ([ev type] == NSKeyDown) {
+				[popupView keyDown: ev];
+			} else if ([ev type] == NSKeyUp) {
+				[popupView keyUp: ev];
+			}
+			ev = nil;
 		} else if (([ev type] == NSLeftMouseDown ||
 					[ev type] == NSRightMouseDown ||
 					[ev type] == NSOtherMouseDown ||
@@ -235,6 +290,16 @@ static IFCustomPopup* shownPopup = nil;
 
 - (IBAction) closePopup: (id) sender {
 	[self hidePopup];
+	
+	[lastCloseValue release];
+	lastCloseValue = [sender retain];
+	
+	[self sendAction: [self action]
+				  to: [self target]];
+}
+
+- (id) lastCloseValue {
+	return lastCloseValue;
 }
 
 - (void) mouseDown: (NSEvent*) evt {
@@ -254,28 +319,12 @@ static IFCustomPopup* shownPopup = nil;
 
 // = Custom view implementations =
 
-@implementation IFPopupTransparentView
-
-- (IBAction) closePopup: (id) sender {
-	[IFCustomPopup closeAllPopups];
-	NSLog(@"Bing!");
-}
-
-- (BOOL) isOpaque {
-	return NO;
-}
-
-- (NSView *)hitTest:(NSPoint)aPoint {
-	NSLog(@"hitTest");
-	return self;
-}
-
-@end
-
 @implementation IFPopupContentView
 
+- (BOOL) isFlipped { return YES; }
+
 - (IBAction) closePopup: (id) sender {
-	[IFCustomPopup closeAllPopups];
+	if (shownPopup) [shownPopup closePopup: sender];
 }
 
 @end

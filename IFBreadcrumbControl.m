@@ -165,6 +165,14 @@
 - (void) drawRect: (NSRect) rect {	
 	if (needsCalculation) [self calcSize];
 	
+	// Draw the background
+	NSRect bounds = [self bounds];
+	
+	[[NSColor lightGrayColor] set];
+	bounds.origin.y += 2;
+	bounds.size.height -= 2;
+	NSRectFill(bounds);
+	
 	// Draw the cells
 	NSEnumerator* cellEnum = [cells reverseObjectEnumerator];
 	NSEnumerator* rectEnum = [cellRects reverseObjectEnumerator];
@@ -258,7 +266,19 @@
 	IFBreadcrumbCell* cell = [self cellAtPoint: mousePoint];
 	if ([cell action] != nil) {
 		[NSApp sendAction: [cell action]
-					   to: [cell target]];
+					   to: [cell target]
+					 from: cell];
+	}
+	if ([self action] != nil) {
+		// For some reason, [NSApp sendAction:] fails to do what it says on the tin
+		if ([[self target] respondsToSelector: [self action]]) {
+			[[self target] performSelector: [self action]
+								withObject: cell];
+		} else {
+			[NSApp sendAction: [self action]
+						   to: [self target]
+						 from: cell];
+		}
 	}
 
 	[self selectCell: nil];

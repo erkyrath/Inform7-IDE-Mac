@@ -134,6 +134,10 @@ NSString* IFSectionSymbolType = @"IFSectionSymbolType";
 	if (sibling == nil) return nil;
 	if ([sibling level] == myLevel) return sibling;
 	
+	if ([sibling level] < myLevel) {
+		if ([sibling parent] == [self parent]) return sibling;
+	}
+	
 	return nil;
 }
 

@@ -699,6 +699,8 @@ static NSDictionary*  itemDictionary = nil;
 		[[popup cell] setPreferredEdge: NSMaxYEdge];
 		
 		[popup setDelegate: self];
+		[popup setTarget: self];
+		[popup setAction: @selector(gotoSection:)];
 		
 		return item;
 	}
@@ -2813,6 +2815,23 @@ static NSDictionary*  itemDictionary = nil;
 
 	[headingsBrowser setIntel: [self currentIntelligence]];
 	[headingsBrowser setSectionByLine: [[self sourcePane] currentLine]];
+}
+
+- (void) gotoSection: (id) sender {
+	IFCustomPopup* popup = sender;
+	IFIntelSymbol* symbol = [popup lastCloseValue];
+	
+	if (symbol != nil) {
+		int lineNumber = [[self currentIntelligence] lineForSymbol: symbol]+1;
+		
+		if (lineNumber != NSNotFound) {
+			[self removeAllTemporaryHighlights];
+			[self highlightSourceFileLine: lineNumber
+								   inFile: [[self sourcePane] currentFile]
+									style: IFLineStyleHighlight];
+			[self moveToSourceFileLine: lineNumber];
+		}		
+	}
 }
 
 @end
