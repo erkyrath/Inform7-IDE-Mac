@@ -8,6 +8,7 @@
 
 #import "IFHeadingsBrowser.h"
 
+#import "IFCustomPopup.h"
 
 @implementation IFHeadingsBrowser
 
@@ -271,9 +272,7 @@
 		[self setSection: [root parent]];
 	} else {
 		// If you select an actual section, then close the popup
-		[NSApp sendAction: @selector(closePopup:)
-					   to: nil
-					 from: subsection];
+		[IFCustomPopup closeAllPopupsWithSender: subsection];
 	}
 }
 

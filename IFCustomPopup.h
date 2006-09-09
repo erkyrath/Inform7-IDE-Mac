@@ -26,6 +26,7 @@
 
 // General methods
 + (void) closeAllPopups;							// Closes all open pop-up windows
++ (void) closeAllPopupsWithSender: (id) sender;		// Closes all open pop-up windows, using the specified sender (causes an action)
 
 // Setting up
 - (void) setPopupView: (NSView*) view;				// Sets the view to use for the popup

@@ -32,6 +32,12 @@ static IFCustomPopup* shownPopup = nil;
 	}
 }
 
++ (void) closeAllPopupsWithSender: (id) sender {
+	if (shownPopup != nil) {
+		[shownPopup closePopup: sender];
+	}
+}
+
 // = Initialisation =
 
 - (void) dealloc {
