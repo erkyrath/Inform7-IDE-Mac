@@ -46,7 +46,6 @@ enum lineStyle {
     
     // The toolbar
     NSToolbar* toolbar;
-	NSMenu* indexMenu;
 
     // The collection of panes
     NSMutableArray* projectPanes;

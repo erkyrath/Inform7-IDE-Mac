@@ -309,10 +309,6 @@ static NSDictionary*  itemDictionary = nil;
 		headingsBrowser = [[IFHeadingsBrowser alloc] init];
 		
 		[[NSNotificationCenter defaultCenter] addObserver: self
-												 selector: @selector(updateIntelSymbols:)
-													 name: IFIntelFileHasChangedNotification 
-												   object: nil];
-		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(extensionsUpdated:)
 													 name: IFExtensionsUpdatedNotification
 												   object: nil];
@@ -334,7 +330,6 @@ static NSDictionary*  itemDictionary = nil;
 	[lastFilename release];
 	
 	[lineHighlighting release];
-	[indexMenu release];
 	
 	[generalPolicy release];
 	[docPolicy release];
@@ -450,13 +445,6 @@ static NSDictionary*  itemDictionary = nil;
 											 selector: @selector(skeinChanged:)
 												 name: ZoomSkeinChangedNotification
 											   object: [[self document] skein]];
-	
-	// The index menu
-	indexMenu = [[NSMenu alloc] init];
-	
-	[indexMenu addItemWithTitle: @"nil"
-						 action: nil
-				  keyEquivalent: @""];
 	
     // Create the view switch toolbar
 	if ([[[self document] settings] usingNaturalInform]) {
@@ -687,29 +675,31 @@ static NSDictionary*  itemDictionary = nil;
 		//												  pullsDown: YES];
 		IFCustomPopup* popup = [[IFCustomPopup alloc] initWithFrame: NSMakeRect(0,0,120,22)
 														  pullsDown: YES];
-		[popup setTitle: [[NSBundle mainBundle] localizedStringForKey: @"BrowseIndexTitle"
-																value: @"Browse Headings"
-																table: nil]];
-		
-		[item setMinSize: NSMakeSize(64, 22)];
-		[item setMaxSize: NSMakeSize(120, 22)];
-		[item setView: [popup autorelease]];
 		
 		[popup sizeToFit];
 		
-		[popup setMenu: indexMenu];
-		[[popup cell] setUsesItemFromMenu: NO];
-		[[popup cell] setPreferredEdge: NSMaxYEdge];
+		[[popup cell] setControlSize: NSRegularControlSize];
+		//[popup setFont: [NSFont systemFontOfSize: [NSFont systemFontSizeForControlSize: NSRegularControlSize]]];
 		
 		[popup setDelegate: self];
 		[popup setTarget: self];
 		[popup setAction: @selector(gotoSection:)];
+
+		[popup addItemWithTitle: [[NSBundle mainBundle] localizedStringForKey: @"BrowseIndexTitle"
+																		value: @"Headings"
+																		table: nil]];
+		
+		[item setMinSize: NSMakeSize(64, 28)];
+		[item setMaxSize: NSMakeSize(120, 28)];
+		[item setView: [popup autorelease]];
 		
 		return item;
 	}
 	
 	return item;
 }
+
+- (void) doNothing: (id) sender { }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
@@ -2574,29 +2564,6 @@ static NSDictionary*  itemDictionary = nil;
 			[popup setTitle: @"Index"];
 		}
 	}
-}
-
-- (void) updateIndexMenu {
-	// Clear the index menu
-	int x, menuSize;
-	menuSize = [indexMenu numberOfItems];
-	for (x=1; x<menuSize; x++)
-		[indexMenu removeItemAtIndex: 1];
-	
-	// Go through the list of symbols in the current file, and update the symbol menu for this window
-	IFIntelFile* intel = [self currentIntelligence];
-	
-	[self updateWithSiblingsOfSymbol: [intel firstSymbol]
-								menu: indexMenu];
-	
-	// Set the title of the index control
-	[self setIndexControlTitle];
-}
-
-- (void) updateIntelSymbols: (NSNotification*) not {
-	if ([not object] != [self currentIntelligence]) return;
-	
-	[self updateIndexMenu];
 }
 
 - (void) selectedIndexItem: (id) sender {
