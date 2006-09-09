@@ -412,6 +412,11 @@ static NSImage* seeSubsections = nil;
 			break;
 	}
 	
+	// Do not send goto requests to items with no subsections
+	if (isGoto && ![section hasSubsections]) {
+		return;
+	}
+	
 	// Send the action
 	if (section != nil) {
 		SEL selector = isGoto?gotoSubsection:selectedItem;
