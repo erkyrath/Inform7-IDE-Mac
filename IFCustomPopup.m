@@ -40,6 +40,27 @@ static IFCustomPopup* shownPopup = nil;
 
 // = Initialisation =
 
+- (id) initWithFrame: (NSRect) frame {
+	self = [self initWithFrame: frame
+					 pullsDown: YES];
+	return self;
+}
+
+- (id) initWithFrame: (NSRect) frame 
+		   pullsDown: (BOOL) pullDown {
+	self = [super initWithFrame: frame
+					  pullsDown: pullDown];
+	
+	if (self) {
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(applicationDidResignActive:)
+													 name: NSApplicationDidResignActiveNotification
+												   object: nil];		
+	}
+	
+	return self;
+}
+
 - (void) dealloc {
 	[IFCustomPopup closeAllPopups];
 	
@@ -319,6 +340,11 @@ static IFCustomPopup* shownPopup = nil;
 - (void) mouseUp: (NSEvent*) evt {
 	// TODO: only actually close the popup if the mouse up event was outside the popup view, otherwise forward the event on
 	//[self hidePopup];
+}
+
+- (void) applicationDidResignActive: (NSNotification*) not {
+	// Abort any active popup when the application stops being active
+	[[self class] closeAllPopups];
 }
 
 @end
