@@ -687,6 +687,9 @@ static NSDictionary*  itemDictionary = nil;
 		//												  pullsDown: YES];
 		IFCustomPopup* popup = [[IFCustomPopup alloc] initWithFrame: NSMakeRect(0,0,120,22)
 														  pullsDown: YES];
+		[popup setTitle: [[NSBundle mainBundle] localizedStringForKey: @"BrowseIndexTitle"
+																value: @"Browse Headings"
+																table: nil]];
 		
 		[item setMinSize: NSMakeSize(64, 22)];
 		[item setMaxSize: NSMakeSize(120, 22)];
