@@ -1402,6 +1402,7 @@ NSDictionary* IFSyntaxAttributes[256];
 // = Debugging =
 
 #if 0
+
 - (void) addTestControls {
 	NSTabViewItem* testTab = [[NSTabViewItem alloc] init];
 	
