@@ -471,10 +471,17 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 		
 		if (makeBlorb && [settings usingNaturalInform]) {
 			// Blorb files kind of create an exception: we change our output file, for instance, and the input file is determined by the blurb file output by NI
+			NSString* extension;
+			
+			if ([settings zcodeVersion] > 128) {
+				extension = @"gblorb";
+			} else {
+				extension = @"zblorb";
+			}
 			
 			// Work out the new output file
 			NSString* oldOutput = [self outputFile];
-			NSString* newOutput = [NSString stringWithFormat: @"%@.zlb", [oldOutput stringByDeletingPathExtension]];
+			NSString* newOutput = [NSString stringWithFormat: @"%@.%@", [oldOutput stringByDeletingPathExtension], extension];
 			
 			// Work out where the blorb is coming from (this will only work for project directories, which luckily is all the current version of Inform will compile)
 			NSString* blorbFile = [NSString stringWithFormat: @"%@/Release.blurb",
