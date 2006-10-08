@@ -2521,9 +2521,9 @@
 				4B8148000A1A884F00C38509 /* CopyFiles */,
 				4B81D2E408112D1300CF609F /* Copy interpreters */,
 				4BD36FA1055EEC0D00F98A80 /* (Script): Copy library files */,
-				4B274FAB0754FBAC00851A38 /* (Script): Remove any svn files that have crept in */,
 				4BC6243F082A71E4007827B5 /* (Script): Build applescript dictionaries */,
 				4B0D80220AC55EC8003E8CCA /* (Script): Perform compiler injection */,
+				4B274FAB0754FBAC00851A38 /* (Script): Remove any svn files that have crept in */,
 			);
 			buildRules = (
 			);
@@ -2847,7 +2847,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \\*\\*\\* Erasing .svn files\n\nfind ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH} -name \".svn\" -type d -exec \"rm\" \"-r\" \"{}\" \";\"\n\necho \\*\\*\\* Done";
+			shellScript = "echo \\*\\*\\* Erasing .svn files\n\nfind ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH} -name \".svn\" -type d -exec \"rm\" \"-r\" \"{}\" \";\"\nfind ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH} -name \".svn-work\" -type d -exec \"rm\" \"-r\" \"{}\" \";\"\n\necho \\*\\*\\* Done";
 		};
 		4BC6243F082A71E4007827B5 /* (Script): Build applescript dictionaries */ = {
 			isa = PBXShellScriptBuildPhase;
