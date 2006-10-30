@@ -9,6 +9,7 @@
 #import "IFSearchResultsController.h"
 
 #import "IFAppDelegate.h"
+#import "IFDocParser.h"
 
 #define contextLength 12
 
@@ -396,9 +397,9 @@ static int resultComparator(id a, id b, void* context) {
 	res = [str1 compare: str2];
 	if (res != NSOrderedSame) return res;
 	
-	// Then compare display names
-	str1 = [one objectForKey: @"displayname"];
-	str2 = [two objectForKey: @"displayname"];
+	// Then compare sort keys
+	str1 = [one objectForKey: @"sortkey"];
+	str2 = [two objectForKey: @"sortkey"];
 	
 	// If str1 and str2 both begin with a number, then compare numerically (floating-point)
 	NSString* num1 = startingNumber(str1);
@@ -456,11 +457,13 @@ static int resultComparator(id a, id b, void* context) {
 - (void) foundMatchInFile: (NSString*) filename
 				 location: (int) location
 			  displayName: (NSString*) displayname
+				  sortKey: (NSString*) sortKey
 					 type: (NSString*) type
 				  context: (NSAttributedString*) context {
 	if (filename == nil) filename = @"NO FILE!";
 	if (displayname == nil) displayname = @"NO DISPLAY!";
 	if (type == nil) type = @"BUG";
+	if (sortKey == nil) sortKey = displayname;
 	
 	// Make the context centered (need to do this to work around a bug in NSMutableParagraphStyle)
 	NSMutableAttributedString* centeredContext = [[NSMutableAttributedString alloc] initWithAttributedString: context];
@@ -473,6 +476,7 @@ static int resultComparator(id a, id b, void* context) {
 		[NSString stringWithString: filename], @"filename",
 		[NSNumber numberWithInt: location], @"location",
 		[NSString stringWithString: displayname], @"displayname",
+		[NSString stringWithString: sortKey], @"sortkey",
 		[NSString stringWithString: type], @"type",
 		[centeredContext autorelease], @"context",
 		nil];
@@ -756,6 +760,9 @@ static int resultComparator(id a, id b, void* context) {
 			NSNumber* useSearchKit = [searchItem objectForKey: @"searchkit"];
 				
 			NSString* displayName = [filename lastPathComponent];
+			NSString* sortKey = nil;
+			
+			BOOL onlyOneMatch = NO;
 					
 			if (storage == nil && filename != nil) {
 				// What we do depends on file type
@@ -865,28 +872,37 @@ static int resultComparator(id a, id b, void* context) {
 												 documentAttributes: nil] autorelease];
 				} else if ([extn isEqualToString: @"html"] ||
 						   [extn isEqualToString: @"htm"]) {
-					NSDictionary* attr = nil;
-					storage = [(IFSearchResultsController*)[mainThread rootProxy] loadHTMLFile: filename
-																					attributes: &attr];
+					// Parse the file
+					IFDocParser* fileContents = [[IFDocParser alloc] initWithHtml: [NSString stringWithContentsOfFile: filename]];
 					
-					if (storage) {
-						// Although it is not documented (for some reason), the @"Title" attribute now contains the
-						// document title. We'll take some care and assume this will always be true provided that
-						//		- the Title attribute exists
-						//		- it's a string
-						NSString* title = [attr objectForKey: @"NSTitleDocumentAttribute"];		// Under 10.4 (but can't weak-link to constants)
-						if (title == nil) title = [attr objectForKey: @"Title"];				// Undocumented under 10.3
-						
-						if (title && [title isKindOfClass: [NSString class]]) {
-							displayName = [[title copy] autorelease];
-						} 
+					// Retrieve the storage contents
+					storage = [fileContents example];
+					if (storage == nil) storage = [fileContents plainText];
+
+					// Work out the display name
+					NSString* title = [[fileContents attributes] objectForKey: IFDocTitleAttribute];
+					NSString* section = [[fileContents attributes] objectForKey: IFDocSectionAttribute];
+					
+					sortKey = [[fileContents attributes] objectForKey: IFDocSortAttribute];
+					
+					if (title != nil && section != nil) {
+						displayName = [NSString stringWithFormat: @"%@ %@", section, title];
+					} else {
+						displayName = [[fileContents attributes] objectForKey: IFDocHtmlTitleAttribute];
 					}
+					
+					[fileContents autorelease];
+					
+					// Match this file a maximum of one time
+					onlyOneMatch = YES;
 				}
 				
 				if (res) {
 					storage = [res string];
 				}
 			}
+			
+			if (sortKey == nil) sortKey = displayName;
 			
 			// storage now contains the string for the file/internal data - search it
 			if (storage) {
@@ -980,6 +996,7 @@ static int resultComparator(id a, id b, void* context) {
 						[(IFSearchResultsController*)[mainThread rootProxy] foundMatchInFile: filename
 																					location: location
 																				 displayName: displayName
+																					 sortKey: sortKey
 																						type: type 
 																					 context: context];
 						
@@ -990,6 +1007,8 @@ static int resultComparator(id a, id b, void* context) {
 					int length = found?[searchPhrase length]:1;
 					if (![stringScanner isAtEnd] && location+length < [storage length])
 						[stringScanner setScanLocation: location+length];
+					
+					if (found && onlyOneMatch) break;
 				}
 			}
 			
@@ -1053,9 +1072,10 @@ static int resultComparator(id a, id b, void* context) {
 		NSString* description = [[[path lastPathComponent] stringByDeletingPathExtension] lowercaseString];
 		
 		// Must be an html file...
-		// and must be the index or a docxxx file
+		// and must be the index, a docxxx or a exxxx file file
 		if ([description isEqualToString: @"index"] ||
-			([description length] > 3 && [[description substringToIndex: 3] isEqualToString: @"doc"])) {
+			([description hasPrefix: @"doc"]) ||
+			([description hasPrefix: @"ex"])) {
 			if ([extension isEqualToString: @"html"] ||
 				[extension isEqualToString: @"htm"]) {
 				[self addSearchFile: [resourcePath stringByAppendingPathComponent: path]

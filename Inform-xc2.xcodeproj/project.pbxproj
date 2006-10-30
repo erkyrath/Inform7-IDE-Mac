@@ -232,6 +232,8 @@
 		4B8147DE0A1A884300C38509 /* FlipClosed.png in Copy docs */ = {isa = PBXBuildFile; fileRef = 4B8147B20A1A884300C38509 /* FlipClosed.png */; };
 		4B8148360A1A89CB00C38509 /* ni_failed.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B8148340A1A89CB00C38509 /* ni_failed.png */; };
 		4B8148370A1A89CB00C38509 /* ni_succeeded.png in Resources */ = {isa = PBXBuildFile; fileRef = 4B8148350A1A89CB00C38509 /* ni_succeeded.png */; };
+		4B85671C0AF3AC9600E316FB /* IFDocParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B85671A0AF3AC9600E316FB /* IFDocParser.h */; };
+		4B85671D0AF3AC9600E316FB /* IFDocParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B85671B0AF3AC9600E316FB /* IFDocParser.m */; };
 		4B896FDF0668A7C500F666D7 /* IFIsFlippedView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B741E880646EE9D0078C9B6 /* IFIsFlippedView.h */; };
 		4B9256E50628901500598E67 /* iclFile.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4B9256E10628901400598E67 /* iclFile.icns */; };
 		4B9256E60628901500598E67 /* infFile.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4B9256E20628901400598E67 /* infFile.icns */; };
@@ -998,6 +1000,8 @@
 		4B81D33D08112F6C00CF609F /* GlkClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GlkClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B81D33E08112F6C00CF609F /* GlkView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = GlkView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B81D33F08112F6C00CF609F /* glulxe */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = glulxe; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B85671A0AF3AC9600E316FB /* IFDocParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFDocParser.h; sourceTree = "<group>"; };
+		4B85671B0AF3AC9600E316FB /* IFDocParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFDocParser.m; sourceTree = "<group>"; };
 		4B9256E10628901400598E67 /* iclFile.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = iclFile.icns; path = Images/iclFile.icns; sourceTree = "<group>"; };
 		4B9256E20628901400598E67 /* infFile.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = infFile.icns; path = Images/infFile.icns; sourceTree = "<group>"; };
 		4B9256E30628901400598E67 /* projectFile.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = projectFile.icns; path = Images/projectFile.icns; sourceTree = "<group>"; };
@@ -1249,7 +1253,7 @@
 		4BD699D507B80BA700BFDF2B /* IFIntelligencePreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFIntelligencePreferences.h; sourceTree = "<group>"; };
 		4BD699D607B80BA700BFDF2B /* IFIntelligencePreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFIntelligencePreferences.m; sourceTree = "<group>"; };
 		4BD95A33055EE949008DEFF4 /* Info-Inform__Upgraded_.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Info-Inform__Upgraded_.plist"; sourceTree = "<group>"; };
-		4BD95A34055EE949008DEFF4 /* Inform.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Inform.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BD95A34055EE949008DEFF4 /* Inform.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Inform.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BDAFC53066D12E400A49E79 /* IFNewProjectFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFNewProjectFile.h; sourceTree = "<group>"; };
 		4BDAFC54066D12E400A49E79 /* IFNewProjectFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFNewProjectFile.m; sourceTree = "<group>"; };
 		4BDF9CEE07DFB18B0006A354 /* IFTempObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFTempObject.h; sourceTree = "<group>"; };
@@ -2291,6 +2295,8 @@
 				4BC84A4307ABC1080076B993 /* IFIsSearch.m */,
 				4BC84BC007AC1C3C0076B993 /* IFSearchResultsController.h */,
 				4BC84BC107AC1C3C0076B993 /* IFSearchResultsController.m */,
+				4B85671A0AF3AC9600E316FB /* IFDocParser.h */,
+				4B85671B0AF3AC9600E316FB /* IFDocParser.m */,
 			);
 			name = Inspectors;
 			sourceTree = "<group>";
@@ -2449,6 +2455,7 @@
 				4B4D404D0AA4CDC60007FD80 /* IFGlkResources.h in Headers */,
 				4BDFDD870AA8866A009F69F7 /* IFViewAnimator.h in Headers */,
 				4BDFDEE60AA8A858009F69F7 /* IFHeadingsBrowserView.h in Headers */,
+				4B85671C0AF3AC9600E316FB /* IFDocParser.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2890,7 +2897,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \\*\\*\\* Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.10\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.11\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Natural\n\n# cp ${SRCROOT}/Library/Biplatform/Standard/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.10\ncp ${SRCROOT}/Library/lib611/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.11\necho -n \"6.11\" >${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Standard\n\ncp ${SRCROOT}/Library/natural/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Natural\n\n\n# Inform 7 rules\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Graham\\ Nelson\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved/Templates\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Emily\\ Short\n\ncp ${SRCROOT}/Library/Extensions/Graham\\ Nelson/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Graham\\ Nelson\ncp ${SRCROOT}/Library/Extensions/Emily\\ Short/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Emily\\ Short\n#cp ${SRCROOT}/Library/Extensions/Roger\\ Firth/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Roger\\ Firth\ncp ${SRCROOT}/Library/Extensions/Reserved/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved\ncp ${SRCROOT}/Library/Extensions/Reserved/Templates/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved/Templates\n\necho \\*\\*\\* Done";
+			shellScript = "echo \\*\\*\\* Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.10\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.11\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Natural\n\n# cp ${SRCROOT}/Library/Biplatform/Standard/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.10\n# cp ${SRCROOT}/Library/lib611/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.11\necho -n \"6.11\" >${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Standard\n\n# cp ${SRCROOT}/Library/natural/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Natural\n\n\n# Inform 7 rules\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Graham\\ Nelson\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved/Templates\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Emily\\ Short\n\n#cp ${SRCROOT}/Library/Extensions/Graham\\ Nelson/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Graham\\ Nelson\n#cp ${SRCROOT}/Library/Extensions/Emily\\ Short/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Emily\\ Short\n##cp ${SRCROOT}/Library/Extensions/Roger\\ Firth/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Roger\\ Firth\n#cp ${SRCROOT}/Library/Extensions/Reserved/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved\n#cp ${SRCROOT}/Library/Extensions/Reserved/Templates/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved/Templates\n\nrm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\nrm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\n\necho \\*\\*\\* Done";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -3098,6 +3105,7 @@
 				4B4D404E0AA4CDC60007FD80 /* IFGlkResources.m in Sources */,
 				4BDFDD880AA8866A009F69F7 /* IFViewAnimator.m in Sources */,
 				4BDFDEE70AA8A860009F69F7 /* IFHeadingsBrowserView.m in Sources */,
+				4B85671D0AF3AC9600E316FB /* IFDocParser.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

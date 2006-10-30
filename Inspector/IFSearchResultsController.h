@@ -86,6 +86,7 @@ enum IFSearchType {
 - (void) foundMatchInFile: (NSString*) filename				// Called when the thread finds a match
 				 location: (int) location
 			  displayName: (NSString*) displayname
+				  sortKey: (NSString*) sortKey
 					 type: (NSString*) type
 				  context: (NSAttributedString*) context;
 
