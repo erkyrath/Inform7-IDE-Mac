@@ -886,7 +886,7 @@ static int resultComparator(id a, id b, void* context) {
 					sortKey = [[fileContents attributes] objectForKey: IFDocSortAttribute];
 					
 					if (title != nil && section != nil) {
-						displayName = [NSString stringWithFormat: @"%@ %@", section, title];
+						displayName = [NSString stringWithFormat: @"%@: %@", section, title];
 					} else {
 						displayName = [[fileContents attributes] objectForKey: IFDocHtmlTitleAttribute];
 					}

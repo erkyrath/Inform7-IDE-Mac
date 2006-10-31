@@ -204,7 +204,15 @@ enum ParseState {
 									ignoreCount--;
 								}
 							}
-								
+							
+							if (ignoreCount <= 0 && ([tag isEqualToString: @"br"] || [tag isEqualToString: @"p"])) {
+								if (!whitespace) {
+									whitespace = YES;
+									result[resultLength++] = ' ';
+									if (inExample) exampleResult[exampleLength++] = ' ';
+								}
+							}
+							
 							if ([tag isEqualToString: @"title"]) {
 								if (state == HtmlTag) {
 									inTitle = YES;
