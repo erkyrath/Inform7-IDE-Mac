@@ -2681,9 +2681,9 @@ static NSDictionary*  itemDictionary = nil;
 	NSTabView* newView = nil;
 	
 	if ([self currentTabView] == [(IFProjectPane*)[projectPanes objectAtIndex: 0] tabView]) {
-		newView = [projectPanes objectAtIndex: 1];
+		newView = [[projectPanes objectAtIndex: 1] tabView];
 	} else {
-		newView = [projectPanes objectAtIndex: 0];
+		newView = [[projectPanes objectAtIndex: 0] tabView];
 	}
 
 	if (newView != nil) {
