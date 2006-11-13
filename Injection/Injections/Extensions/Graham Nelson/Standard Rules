@@ -10,7 +10,7 @@ Document EXTACTIVITIES at doc258.
 Document HEADINGS at doc15.
 Document KINDS at doc31.
 Document KINDSVALUE at doc61.
-Document LCARDS at doc303.
+Document LCARDS at doc309.
 Document NEWRULEBOOKS at doc287.
 Document PHRASES at doc152.
 Document ROOMPLAYBEGINS at doc127.
@@ -407,13 +407,11 @@ A player-character is a kind of person.
 
 The specification of player-character is "Represents a body through
 which the game can be played. In most games there is only one of these,
-normally called 'yourself'."
+normally called 'yourself'." The description of a player-character is
+usually "As good-looking as ever."
 
 Include (-
-  with description
-       [;  return L__M(##Miscellany, 19);
-       ],
-       before NULL, after NULL, life NULL, each_turn NULL,
+  with before NULL, after NULL, life NULL, each_turn NULL,
        time_out NULL, before_implicit NULL,
        parse_name 0,
        orders 0, number 0,
@@ -794,10 +792,10 @@ Removing it from is an action corresponding to Remove
 	applying to two things
 	- check -
 	can't take component parts rule = qv
-	can't remove from closed containers rule = RemoveSub_C1
 	can't remove what's not inside rule = RemoveSub_C2
 	can't remove from people rule = RemoveSub_C3
 	convert remove to take rule = RemoveSub_C4
+	can't remove from closed containers rule = RemoveSub_C1
 	can't take yourself rule = qv
 	can't take other people rule = qv
 	determine common ancestor for taking rule = qv
@@ -2513,10 +2511,10 @@ Section SR4/9a - The player's command
 
 To decide if (S - a snippet) matches (T - a topic)
 	(documented at act_reading):
-	(- (wn=1,{T}({S}/100,{S}%100)~=GPR_FAIL) -).
+	(- (I7_SnippetMatches({S}, {T})) -).
 To decide if (S - a snippet) does not match (T - a topic)
 	(documented at act_reading):
-	(- (wn=1,{T}({S}/100,{S}%100)==GPR_FAIL) -).
+	(- (I7_SnippetMatches({S}, {T}) == false) -).
 To decide if (S - a snippet) includes (T - a topic):
 	(- (I7_match_snippet=I7_Match({T},{S})) -).
 To decide if (S - a snippet) does not include (T - a topic):
@@ -2547,6 +2545,10 @@ To else (ph - phrase)
 	(- else {ph} -).
 To if (c - condition) begin -- end:
 	(- if {c}  -).
+To otherwise if (c - condition) -- in if:
+	(- } else if {c} { -).
+To else if (c - condition) -- in if:
+	(- } else if {c} { -).
 To while (c - condition) repeatedly (ph - phrase)
 	(documented at ph_while):
 	(- while {c} {ph} -).
@@ -2565,7 +2567,7 @@ To repeat with (loopvar - object variable)
 To issue the error (message - string-of-text):
 	(- print ">--> ", (string) {message}, "^^"; rtrue; -).
 To stop:
-	(- return; -) - void.
+	(- return; -).
 To yes
 	(documented at ph_yes):
 	(- rtrue; -) - condition.

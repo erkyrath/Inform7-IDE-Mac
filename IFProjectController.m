@@ -2804,4 +2804,10 @@ static NSDictionary*  itemDictionary = nil;
 	}
 }
 
+// = The find action =
+
+- (void) performFindPanelAction: (id) sender {
+	[[self currentTabView] performFindPanelAction: sender];
+}
+
 @end

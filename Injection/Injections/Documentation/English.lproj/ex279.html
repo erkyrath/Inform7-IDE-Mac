@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>4.9. Using new kinds of value in properties</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>14.15. Making the verb "to weigh"</title></head>
 <STYLE TYPE="text/css">
 <!--
 .oval, .oval TD
@@ -9,9 +9,9 @@ color:white;
 -->
 </STYLE>
 <body>
-<!-- SEARCH TITLE "Signs and Portents" -->
-<!-- SEARCH SECTION "Ex 44" -->
-<!-- SEARCH SORT "Ex 004-009-044" -->
+<!-- SEARCH TITLE "Dimensions" -->
+<!-- SEARCH SECTION "Ex 197" -->
+<!-- SEARCH SORT "Ex 014-015-197" -->
 <font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -20,75 +20,60 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc61.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap4.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 4: Kinds</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc63.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>4.9. Using new kinds of value in properties</b></font></td></tr></table>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc217.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap14.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 14: Units</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc219.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>14.15. Making the verb "to weigh"</b></font></td></tr></table>
 <p>
-<p>Having created a new kind of value called &quot;brightness&quot;, we are free to use it in the ordinary way like this:
+<p>We have already created new verbs: for instance, in the previous chapter we set up a verb &quot;to love&quot;, which was such that we could say &quot;A loves B&quot; for people A and B. Suppose we want a verb &quot;to weigh&quot;, in the sense of &quot;the lead pig weighs 45kg&quot;. This is not like &quot;to love&quot;, because it relates something tangible (the lead pig) to something intangible (45kg). So its creation looks a little different:
 <p>
-<blockquote><font color="#000080">The lantern has a brightness called the flame strength. The flame strength of the lantern is blazing.
+<blockquote><font color="#000080">The verb to weigh (it weighs, they weigh, it is weighing) implies the weight property.
 </font></blockquote><p>
 <p>
-<p>The &quot;flame strength&quot; property is now only allowed to have one of four values we allowed: guttering light, weak light, radiant light or blazing light. Inform will not allow anything else to be put into it, or allow it to be compared to (say) the number 3.
+<p>Our previous verb definitions ended &quot;implies the ... relation&quot;, rather than &quot;implies the ... property&quot;, but otherwise the idea is the same. The effect is that we can say things like:
 <p>
-<p>However, it seems artificial to call the brightness of the lantern &quot;flame strength&quot;, when we could instead simply call it &quot;brightness&quot;, so we are also allowed this:
-<p>
-<blockquote><font color="#000080">The lantern has a brightness. The lantern is blazing.
+<blockquote><font color="#000080">A thing usually weighs 1kg. The lead pig weighs 45kg.
+<br>something weighing 20kg
+<br>if three things weigh 5kg, ...
 </font></blockquote><p>
-<p>
-<p>New kinds of value are very convenient when substituting variations in text:
-<p>
-<blockquote><font color="#000080">A dead end is a kind of room with printed name &quot;Dead End&quot; and description &quot;This is a dead end, where crags in the uneven rock are caught by the [brightness of the lantern] flame you hold aloft. Despite [river sound] there is no sign of the stream.&quot; A dead end is usually dark.
-</font></blockquote><p>
-<p>
-<p>The &quot;brightness of the lantern&quot; in square brackets is printed not as literal text, but as whatever the brightness currently is. (This is called a text substitution, and will be the subject of the next chapter.) If the brightness had been a number from 1 to 4, this would have resulted in something like &quot;... by the 3 flame...&quot;, but since it is a new kind of value, the result is &quot;... by the radiant flame...&quot;
 <p>
 <p><hr><p>
-<a name="e223"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex223.html#e223 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>43</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex223.html#e223 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000">The Crane's Leg 1</font></b></a><br>A description text that automatically highlights the ways in which the object differs from a standard member of its kind.<p></td></tr></table>
 <!-- EXAMPLE START -->
-<a name="e279"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc62.html#e279 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>44</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc62.html#e279 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Signs and Portents</font></b></a><br>Signpost that points to various destinations, depending on how the player has turned it.<p></td></tr></table>
+<a name="e279"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc218.html#e279 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>197</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc218.html#e279 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Dimensions</font></b></a><br>This example draws together the previous snippets into a working implementation of the weighbridge.<p></td></tr></table>
 <table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2>
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Signs and Portents&quot;\n\nSeven Dials is a room. The description of Seven Dials is &quot;There is a signpost, on which seven hands swivel and swing, freely as weathercocks. They make your present road now London, now Abingdon; now Weston-super-Mare, or now Hell.&quot;\n\nSeven Dials contains a signpost. The signpost is scenery. Understand &quot;sign&quot; and &quot;post&quot; as the signpost.\n\nDestination is a kind of value. The destinations are London, Abingdon, Luton, Weston-super-Mare, Runnymede, Hell, and Low Noon.\n\nThe signpost has a destination.\n\n[In order to interact with the signpost, we will need to borrow some action rules from chapter 6:]\n\nInstead of examining the signpost:\n\tsay &quot;[The signpost] currently puts you on the road to [italic type][the destination of the signpost][roman type], but it swiftly alters again.&quot;;\n\tchange the destination of the signpost to the destination after the destination of the signpost.\n\nInstead of turning the signpost:\n\tchange the destination of the signpost to the destination after the destination of the signpost;\n\tsay &quot;With a hand\'s touch you turn the signpost to mark your way for [italic type][the destination of the signpost][roman type].&quot;\n\nInstead of going north in Seven Dials when the destination of the signpost is Hell:\n\tsay &quot;It is a path that goes gently ever down and down with no stumbling block or any distraction at either side; there are no bandits and no tolls.&quot;;\n\tend the game in death.\n\nInstead of going north in Seven Dials when the destination of the signpost is Low Noon:\n\tsay &quot;A long road whose scenery does not change, nor anything on the horizon move but the sun. When at last you come to Noon, she hangs above your head like a hat.&quot;;\n\tend the game in victory.\n\nTest me with &quot;x signpost / n / turn signpost / n / turn signpost / n / turn signpost / n / turn signpost / n&quot;.\n\nTest more with  &quot;x signpost / n / turn signpost / n / turn signpost / n / turn signpost / n / turn signpost / turn signpost / n&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Signs and Portents&quot;
+<p>The following is not a very sophisticated approach, because it does not allow for weight to accumulate: if we put a gold ingot into a paper bag, then put the bag on the balance platform, only the bag's weight will register. But it will do for a first try.
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Dimensions&quot;\n\nA length is a kind of value. 10m specifies a length. An area is a kind of value. 10 sq m specifies an area. A length times a length specifies an area.\n\nA weight is a kind of value. 10kg specifies a weight. Everything has a weight.\n\nThe verb to weigh (it weighs, they weigh, it is weighing) implies the weight property. A thing usually weighs 1kg.\n\nDefinition: A thing is light if its weight is 3kg or less.\n\nDefinition: A thing is heavy if its weight is 10kg or more.\n\nThe Weighbridge is a room.\n\nA blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: \'122/10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; 122kg/10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; 122kg/10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].\'&quot; The blackboard weighs 10kg.\n\nA feather and a lead pig are in the Weighbridge. The lead pig weighs 45kg.\n\nThe balance platform is a supporter in the Weighbridge. &quot;The balance platform is 10m by 8m, giving it an area of [10m multiplied by 8m], currently weighing [the list of things on the platform]. The scale alongside reads: [total weight of things on the platform]. [if two things are on the platform]Average weight is: [the total weight of things on the platform divided by the number of things on the platform]. Heaviest item is [the heaviest thing on the platform], at [weight of the heaviest thing on the platform]. Lightest item is [the lightest thing on the platform], at [weight of the lightest thing on the platform].[otherwise]It seems to be able to weigh several things at once.&quot;\n\nTest me with &quot;get feather / put it on platform / look / get pig / put it on platform / look&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Dimensions&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Seven Dials is a room. The description of Seven Dials is &quot;There is a signpost, on which seven hands swivel and swing, freely as weathercocks. They make your present road now London, now Abingdon; now Weston-super-Mare, or now Hell.&quot;
+<blockquote><font color="#000080">A length is a kind of value. 10m specifies a length. An area is a kind of value. 10 sq m specifies an area. A length times a length specifies an area.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Seven Dials contains a signpost. The signpost is scenery. Understand &quot;sign&quot; and &quot;post&quot; as the signpost.
+<blockquote><font color="#000080">A weight is a kind of value. 10kg specifies a weight. Everything has a weight.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Destination is a kind of value. The destinations are London, Abingdon, Luton, Weston-super-Mare, Runnymede, Hell, and Low Noon.
+<blockquote><font color="#000080">The verb to weigh (it weighs, they weigh, it is weighing) implies the weight property. A thing usually weighs 1kg.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The signpost has a destination.
+<blockquote><font color="#000080">Definition: A thing is light if its weight is 3kg or less.
 </font></blockquote><p>
 <p>
-<p>In order to interact with the signpost, we will need to borrow some action rules from chapter 6:
-<p>
-<blockquote><font color="#000080">Instead of examining the signpost:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The signpost] currently puts you on the road to [italic type][the destination of the signpost][roman type], but it swiftly alters again.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the destination of the signpost to the destination after the destination of the signpost.
+<blockquote><font color="#000080">Definition: A thing is heavy if its weight is 10kg or more.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of turning the signpost:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;change the destination of the signpost to the destination after the destination of the signpost;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;With a hand's touch you turn the signpost to mark your way for [italic type][the destination of the signpost][roman type].&quot;
+<blockquote><font color="#000080">The Weighbridge is a room.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going north in Seven Dials when the destination of the signpost is Hell:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;It is a path that goes gently ever down and down with no stumbling block or any distraction at either side; there are no bandits and no tolls.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in death.
+<blockquote><font color="#000080">A blackboard is in the Weighbridge. &quot;A blackboard propped against one wall reads: '122/10 is [122 divided by 10] remainder [remainder after dividing 122 by 10]; 122kg/10kg is [122kg divided by 10kg] remainder [remainder after dividing 122kg by 10kg]; 122kg/10 is [122kg divided by 10] remainder [remainder after dividing 122kg by 10].'&quot; The blackboard weighs 10kg.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Instead of going north in Seven Dials when the destination of the signpost is Low Noon:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;A long road whose scenery does not change, nor anything on the horizon move but the sun. When at last you come to Noon, she hangs above your head like a hat.&quot;;
-<br>&nbsp;&nbsp;&nbsp;&nbsp;end the game in victory.
+<blockquote><font color="#000080">A feather and a lead pig are in the Weighbridge. The lead pig weighs 45kg.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Test me with &quot;x signpost / n / turn signpost / n / turn signpost / n / turn signpost / n / turn signpost / n&quot;.
+<blockquote><font color="#000080">The balance platform is a supporter in the Weighbridge. &quot;The balance platform is 10m by 8m, giving it an area of [10m multiplied by 8m], currently weighing [the list of things on the platform]. The scale alongside reads: [total weight of things on the platform]. [if two things are on the platform]Average weight is: [the total weight of things on the platform divided by the number of things on the platform]. Heaviest item is [the heaviest thing on the platform], at [weight of the heaviest thing on the platform]. Lightest item is [the lightest thing on the platform], at [weight of the lightest thing on the platform].[otherwise]It seems to be able to weigh several things at once.&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Test more with  &quot;x signpost / n / turn signpost / n / turn signpost / n / turn signpost / n / turn signpost / turn signpost / n&quot;.
+<blockquote><font color="#000080">Test me with &quot;get feather / put it on platform / look / get pig / put it on platform / look&quot;.
 </font></blockquote><p>
-<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc62.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc218.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p>
 <!-- EXAMPLE END -->
-<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc61.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc63.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>
+<a name="e237"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex237.html#e237 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>198</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex237.html#e237 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Lead Cuts Paper</font></b></a><br>To give every container a breaking strain, that is, a maximum weight of contents which it can bear - so that to put the lead pig into a paper bag invites disaster.<p></td></tr></table>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc217.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc219.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

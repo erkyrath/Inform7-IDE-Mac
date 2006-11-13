@@ -191,4 +191,7 @@ enum IFProjectPaneType {
 // Spell checking
 - (void) setSpellChecking: (BOOL) checkSpelling;				// Set to true if this pane should spell-check the source code
 
+// Search/replace
+- (void) performFindPanelAction: (id) sender;					// Called to invoke the find panel for the current pane
+
 @end

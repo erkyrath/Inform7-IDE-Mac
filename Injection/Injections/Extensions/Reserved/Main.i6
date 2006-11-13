@@ -65,6 +65,8 @@
 {-callv:traverse_for_phrases}
 {-callv:register_phrase_meanings}
 {-callv:add_rules_to_rulebooks}
+{-callv:parse_rule_placements}
+
 {-callv:empty_all_headings}
 {-callv:prepare_use_options}
 
@@ -111,7 +113,7 @@ Global I7_TSign;
 
 Global say__n;
 Array I7_CS --> 16;
-Array I7_boxes_appeared --> {-value:extent_of_runtime_quotations_array};
+Array I7_boxes_appeared --> I7_BOXES;
 
 Constant WITHOUT_DIRECTIONS;
 {-call:compile_max_score}
@@ -423,6 +425,8 @@ Include "Grammar";
 #IFNDEF I7_cap_short_name;
 Constant I7_cap_short_name = short_name;
 #ENDIF;
+
+Constant I7_BOXES = {-value:extent_of_runtime_quotations_array};
 
 {-log-phase:Compilation now complete}
 

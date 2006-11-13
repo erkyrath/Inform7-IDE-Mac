@@ -5070,7 +5070,11 @@ Object  InformLibrary "(Inform Library)"
 
             } ! end of while()
 
+            #ifdef NI_BUILD_COUNT;
+            AfterLife();
+            #ifnot; ! NI_BUILD_COUNT;
             if (deadflag ~= 2) AfterLife();
+            #endif;
             if (deadflag == 0) jump very__late__error;
 
             #ifdef NI_BUILD_COUNT;
@@ -6769,9 +6773,11 @@ Array StorageForShortName -> 250 + WORDSIZE;
 	if (o == 0) { PrintCapitalised(NOTHING__TX, 0); rtrue; }
     i = indef_mode; indef_mode = true;
     if (o has proper) {
-    	indef_mode = NULL; I7_caps_mode = true;
+    	indef_mode = NULL;
+    	#Ifdef NI_BUILD_COUNT; I7_caps_mode = true; #Endif;
     	print (PSN__) o;
-    	indef_mode = i; I7_caps_mode = false;
+    	indef_mode = i;
+    	#Ifdef NI_BUILD_COUNT; I7_caps_mode = false; #Endif;
     	return;
     }
     if (o provides article) {
@@ -6799,9 +6805,11 @@ Array StorageForShortName -> 250 + WORDSIZE;
     #Endif;
     i = indef_mode; indef_mode = false;
     if ((o ofclass Object) && (o has proper)) {
-    	indef_mode = NULL; I7_caps_mode = true;
+    	indef_mode = NULL;
+    	#Ifdef NI_BUILD_COUNT; I7_caps_mode = true; #Endif;
     	print (PSN__) o;
-    	indef_mode = i; I7_caps_mode = false;
+    	indef_mode = i;
+    	#Ifdef NI_BUILD_COUNT; I7_caps_mode = false; #Endif;
     	return;
     }
     if ((~~o ofclass Object) || o has proper) {

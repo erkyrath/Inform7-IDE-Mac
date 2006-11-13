@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>3.1. Descriptions</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>3.25. The location of something</title></head>
 <STYLE TYPE="text/css">
 <!--
 .oval, .oval TD
@@ -9,9 +9,9 @@ color:white;
 -->
 </STYLE>
 <body>
-<!-- SEARCH TITLE "Verbosity" -->
-<!-- SEARCH SECTION "Ex 2" -->
-<!-- SEARCH SORT "Ex 003-001-002" -->
+<!-- SEARCH TITLE "Van Helsing" -->
+<!-- SEARCH SECTION "Ex 32" -->
+<!-- SEARCH SORT "Ex 003-025-032" -->
 <font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -20,70 +20,71 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc26.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap3.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 3: Things</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc28.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>3.1. Descriptions</b></font></td></tr></table>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc50.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap3.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 3: Things</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc52.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>3.25. The location of something</b></font></td></tr></table>
 <p>
-<p>At its simplest, the interactive fiction will be simulating a physical world to explore. The forerunner of today's IF is generally agreed to be a computer simulation by Will Crowther of the exploration of a cave system in the Mammoth and Flint Ridge chain of caves in Kentucky, a part of which might be described in Inform thus:
+<p>The model world created by Inform is partitioned into rooms. This means that everything which exists in the model world, exists in one of the rooms. If we write a sentence such as
 <p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Cave Entrance&quot;\n\nThe Cobble Crawl is a room. &quot;You are crawling over cobbles in a low passage. There is a dim light at the east end of the passage.&quot;\n\nA wicker cage is here. &quot;There is a small wicker cage discarded nearby.&quot;\n\nThe Debris Room is west of the Crawl. &quot;You are in a debris room filled with stuff washed in from the surface. A low wide passage with cobbles becomes plugged with mud and debris here, but an awkward canyon leads upward and west. A note on the wall says, \'Magic word XYZZY\'.&quot;\n\nThe black rod is here. &quot;A three foot black rod with a rusty star on one end lies nearby.&quot;\n\nAbove the Debris Room is the Sloping E/W Canyon. West of the Canyon is the Orange River Chamber.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Cave Entrance&quot;
+<blockquote><font color="#000080">Professor Wilderspin is a man.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Cobble Crawl is a room. &quot;You are crawling over cobbles in a low passage. There is a dim light at the east end of the passage.&quot;
+<p>and say nothing more about Wilderspin, then he does not physically exist at the start of the game: he is said to be &quot;out of play&quot;, and stays that way until we move him into one of the rooms. A better metaphor might be that he is waiting in the wings, ready to come onto the stage.
+<p>
+<p>Every thing is either out of play, or can be found in one of the rooms, and the property &quot;location of X&quot; gives us the room in question. The following condition tests, in effect, whether Wilderspin is in play:
+<p>
+<blockquote><font color="#000080">if the location of Wilderspin is a room, ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">A wicker cage is here. &quot;There is a small wicker cage discarded nearby.&quot;
+<p>The &quot;location of the player&quot; is simply called the &quot;location&quot;, and as the player is always in play, this is always a room. If the player stands in Biblioll College and wears a waistcoat, inside which is a fob watch, then &quot;location of the fob watch&quot; is Biblioll College.
+<p>
+<p>In general, a thing cannot be in two rooms at once, but there are two exceptions: (two-sided) doors, present on both sides, and backdrops. The &quot;location of&quot; a door is its front side, whether it is one-sided or two-sided; but a backdrop is deemed to have no location, in the sense above. (Objects which are not things at all, such as rooms and directions, also have no location.)
+<p>
+<p>The idea of indirect containment is useful enough to have a name: Inform calls it &quot;enclosure&quot;. A thing encloses whatever is a part of itself, or inside itself, or on top of itself, and it also encloses anything that they enclose. And when something moves around, anything it encloses will move with it. In the example above, Biblioll College (a room) and the player (a person) both enclose the fob watch and the waistcoat. (The small print: a door is enclosed by the rooms on both sides; a backdrop is never enclosed.)
+<p>
+<p>Enclosure is only useful when being used as a question. So the following is fine:
+<p>
+<blockquote><font color="#000080">if the player encloses the fob watch, ...
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Debris Room is west of the Crawl. &quot;You are in a debris room filled with stuff washed in from the surface. A low wide passage with cobbles becomes plugged with mud and debris here, but an awkward canyon leads upward and west. A note on the wall says, 'Magic word XYZZY'.&quot;
+<p>But these will produce problem messages:
+<p>
+<blockquote><font color="#000080">The player encloses the fob watch. The location of the trilobite is the Museum.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The black rod is here. &quot;A three foot black rod with a rusty star on one end lies nearby.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Above the Debris Room is the Sloping E/W Canyon. West of the Canyon is the Orange River Chamber.
-</font></blockquote><p>
-<p>
-<p>Here we sketch in four of Crowther's locations, and two objects: just enough to be able to walk around the caves and pick up the rod and the cage. The text in quotation marks will appear verbatim as paragraphs shown to the player as the caves are explored. The first paragraph, as we have seen, is the title of the work. The other quotations describe the places and objects introduced.
+<p>because they are too vague. Inform needs to know exactly where the fob watch and the trilobite will begin the game, whereas these sentences leave room for doubt about who or what is actually holding them.
 <p>
 <p><hr><p>
 <!-- EXAMPLE START -->
-<a name="e264"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc27.html#e264 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>2</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc27.html#e264 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Verbosity</font></b></a><br>Making rooms give full descriptions each time we enter, even if we have visited before.<p></td></tr></table>
+<a name="e264"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc51.html#e264 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>32</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc51.html#e264 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Van Helsing</font></b></a><br>A character who approaches the player, then follows him from room to room.<p></td></tr></table>
 <table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2>
 <p>
-<p>By default, the description of a room is printed only when the player enters that room for the first time. Afterwards, the text is skipped, for brevity, though the player can see it again at any time by typing LOOK.
+<p>Suppose we want to write a character who tries to be in the same room as the player. We will do this by testing every turn whether the character's location and the player's location are the same; if the answer is no, the character will look for a path to the player's location, then try to move along that path. (We will learn more about finding paths and giving characters instructions later.)
 <p>
-<p>This is not always desirable behavior, though, especially when the description of a room changes during play or we want to be sure that the player has access to all the important details: so it is also possible to override this default.
+<p>The result will be that if the player ever moves to another location, the character will automatically pursue him.
 <p>
-<p>As we saw in the previous chapter, we can set &quot;use options&quot; to control certain aspects of the player's experience. One of the use options is the option to
-<p>
-<blockquote><font color="#000080">Use full-length room descriptions.
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Van Helsing&quot;\n\nThe Drawbridge is a room. North of the Drawbridge is the Immensely Enormous Entry Hall. West of the Entry Hall is the Vast Dining Area. North of the Vast Dining Area is the Colossal Kitchen. The Spooky Guano-filled Attic is above the Entry Hall.\n\nCount Dracula is a man in the Attic.\n\n[In the following condition, we could also have written &quot;if the location of Count Dracula is not the location&quot;, because &quot;location&quot; by itself is always understood to be the player\'s location. But it seemed better for clarity to write it this way:]\n\nEvery turn:\n\tif the location of Count Dracula is not the location of the player\n\tbegin;\n\t\tlet the way be the best route from the location of Count Dracula to the location of the player, using doors;\n\t\ttry Count Dracula trying going the way;\n\totherwise;\n\t\tsay &quot;\'Muhahaha,\' says Count Dracula.&quot;;\n\tend if.\n\nTest me with &quot;z / z / n / w / e / u / z / d&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Van Helsing&quot;
 </font></blockquote><p>
 <p>
-<p>which changes the defaults so that the description of a room is printed every time a player enters a room, whether or not he has been there previously.
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Verbosity&quot;\n\nUse full-length room descriptions.\n\nThe Wilkie Memorial Research Wing is a room. &quot;The research wing was built onto the science building in 1967, when the college\'s finances were good but its aesthetic standards at a local minimum. A dull brown corridor recedes both north and south; drab olive doors open onto the laboratories of individual faculty members. The twitchy fluorescent lighting makes the whole thing flicker, as though it might wink out of existence at any moment.\n\nThe Men\'s Restroom is immediately west of this point.&quot;\n\nThe Men\'s Restroom is west of the Research Wing. &quot;Well, yes, you really shouldn\'t be in here. But the nearest women\'s room is on the other side of the building, and at this hour you have the labs mostly to yourself. All the same, you try not to read any of the things scrawled over the urinals which might have been intended in confidence.&quot;\n\nTest me with &quot;west / east&quot;.\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Verbosity&quot;
+<blockquote><font color="#000080">The Drawbridge is a room. North of the Drawbridge is the Immensely Enormous Entry Hall. West of the Entry Hall is the Vast Dining Area. North of the Vast Dining Area is the Colossal Kitchen. The Spooky Guano-filled Attic is above the Entry Hall.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Use full-length room descriptions.
+<blockquote><font color="#000080">Count Dracula is a man in the Attic.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Wilkie Memorial Research Wing is a room. &quot;The research wing was built onto the science building in 1967, when the college's finances were good but its aesthetic standards at a local minimum. A dull brown corridor recedes both north and south; drab olive doors open onto the laboratories of individual faculty members. The twitchy fluorescent lighting makes the whole thing flicker, as though it might wink out of existence at any moment.
+<p>In the following condition, we could also have written &quot;if the location of Count Dracula is not the location&quot;, because &quot;location&quot; by itself is always understood to be the player's location. But it seemed better for clarity to write it this way:
+<p>
+<blockquote><font color="#000080">Every turn:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the location of Count Dracula is not the location of the player
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the way be the best route from the location of Count Dracula to the location of the player, using doors;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;try Count Dracula trying going the way;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;'Muhahaha,' says Count Dracula.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Men's Restroom is immediately west of this point.&quot;
+<blockquote><font color="#000080">Test me with &quot;z / z / n / w / e / u / z / d&quot;.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Men's Restroom is west of the Research Wing. &quot;Well, yes, you really shouldn't be in here. But the nearest women's room is on the other side of the building, and at this hour you have the labs mostly to yourself. All the same, you try not to read any of the things scrawled over the urinals which might have been intended in confidence.&quot;
-</font></blockquote><p>
-<p>
-<blockquote><font color="#000080">Test me with &quot;west / east&quot;.
-</font></blockquote><p>
-<p>
-<p>If we type &quot;test me&quot; during play, these commands will be carried out automatically, and we can see that when we return to the Research Wing, the description is given a second time.
-<p>
-<p>(As a side note: the player can also turn full-length descriptions on or off with the commands &quot;verbose&quot; and &quot;brief&quot;, or set a minimal-description setting with the command &quot;superbrief&quot;. See the previous chapter on use options for more discussion of these points.)
-<p>
-<p>Finally, it is possible to exercise more precise control over what the player sees on his first and subsequent visits to a room; see the next example for details.
-<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc27.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc51.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p>
 <!-- EXAMPLE END -->
-<a name="e150"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex150.html#e150 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>3</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex150.html#e150 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Slightly Wrong</font></b></a><br>A room whose description changes slightly after our first visit there.<p></td></tr></table>
-<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc26.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc28.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc50.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc52.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

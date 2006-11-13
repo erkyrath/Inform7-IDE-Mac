@@ -1,4 +1,4 @@
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>3.2. Rooms and the map</title></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>17.19. Writing a paragraph about</title></head>
 <STYLE TYPE="text/css">
 <!--
 .oval, .oval TD
@@ -9,9 +9,9 @@ color:white;
 -->
 </STYLE>
 <body>
-<!-- SEARCH TITLE "Up and Up" -->
-<!-- SEARCH SECTION "Ex 5" -->
-<!-- SEARCH SORT "Ex 003-002-005" -->
+<!-- SEARCH TITLE "Air Conditioning is Standard" -->
+<!-- SEARCH SECTION "Ex 255" -->
+<!-- SEARCH SORT "Ex 017-019-255" -->
 <font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><script language="JavaScript">
 function pasteCode(code) {
     var myProject = window.Project;
@@ -20,72 +20,230 @@ function pasteCode(code) {
     myProject.pasteCode(code);
 }
 </script>
-<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc27.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap3.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 3: Things</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc29.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>3.2. Rooms and the map</b></font></td></tr></table>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" bgcolor="#000000"><tr><TD width=38px height=26px align="center" valign="center"><a href=doc271.html border=0><img border=0 src=../../doc_images/Hookleft.png id="hookleft" style="height: 24px; width: 32px;" border=0></a></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><a href=../chap17.html STYLE="text-decoration: none"><font color="#FFFFFF" size=2>Chapter 17: Activities</font></a></td><TD width=56px height=26px align="right" valign="center"><a href=../index.html border=0><img border=0 src=../../doc_images/Hookup.png id="hookup" style="height: 24px; width: 24px;" border=0></a><a href=doc273.html border=0><img border=0 src=../../doc_images/Hookright.png id="hookright" style="height: 24px; width: 32px;" border=0></a></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD height=8px halign="center" valign="center"></td></tr></table><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><TD width=38px halign="center" valign="center"></td><td halign="left" valign="center" CELLPADDING=0 CELLSPACING=0><font color="#000000" size="3"><b>17.19. Writing a paragraph about</b></font></td></tr></table>
 <p>
-<p>Rooms are joined together at their edges by &quot;map connections&quot;, most of which are pathways in one of the eight cardinal compass directions: north, northeast (written without a hyphen), east, southeast, south, southwest, west, northwest. We also have up and down, suitable for staircases or ladders. In real life, people are seldom conscious of their compass bearing when walking around buildings, but it makes a concise and unconfusing way for the player to say where to go next, so is generally accepted as a convention of the genre.
+<p><b>1. When it happens.</b> Just <i>before</i> writing a paragraph about some item in a room description.
 <p>
-<p>Two more directions are provided by Inform: &quot;inside&quot; and &quot;outside&quot;. These are best used when one location is, say, a meadow and the other is a woodcutter's hut in the middle of it; we might then say
+<p><b>2. The default behaviour.</b> Is to do nothing. However, if a rule is supplied which prints something up, then this replaces the paragraph which would otherwise have been printed. Moreover, any items whose names are said in the course of this rule - for instance, by being listed - are then excluded from the remainder of the room description, because they are considered as having been described sufficiently already.
 <p>
-<blockquote><font color="#000080">Inside from the Meadow is the woodcutter's hut.
+<p><b>3. Examples.</b> (a) This is a neat way to wrap several things together into the same paragraph:
+<p>
+<blockquote><font color="#000080"><a href="javascript:pasteCode('Rule for writing a paragraph about Mr Wickham:\n\tsay &quot;Mr Wickham looks speculatively at [list of women in the location].&quot;\n\n\n')"><img border=0 src=../../doc_images/paste.png></a> Rule for writing a paragraph about Mr Wickham:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Mr Wickham looks speculatively at [list of women in the location].&quot;
 </font></blockquote><p>
 <p>
-<p>The &quot;from&quot; is important, as it clarifies that we intend to link two different locations, not to create an item - the hut - in a single location - the meadow.
+<p>because now &quot;Mr Wickham looks speculatively at Velma and Daphne&quot; will now prevent the appearance of the subsequent text &quot;You can also see Velma and Daphne.&quot;
 <p>
-<p>A problem which sometimes arises when laying out maps is that Inform allows short forms of room names to be used as abbreviations. This is usually a good idea, but has unfortunate results if we write:
+<p>Inform keeps track of which objects have already been named with an either/or property called &quot;mentioned&quot;, which it assigns whenever the name of an object has been automatically printed. So in this case, Velma and Daphne are now mentioned. Note &quot;automatically printed&quot;, though: if the text printed had just been &quot;Mr Wickham looks speculatively at Velma and Daphne&quot;, rather than the text-substitution list used above, then Inform would not know that Velma and Daphne have been described.
 <p>
-<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. The Airport is west of the Airport Road.
-</font></blockquote><p>
-<p>
-<p>...because &quot;Airport&quot; is taken as a reference to &quot;Airport Road&quot;, so Inform makes only two locations, one of which supernaturally leads to itself. We can avoid this by writing:
-<p>
-<blockquote><font color="#000080">The Airport Road is west of the Fish Packing Plant. A room called the Airport is west of the Airport Road.
-</font></blockquote><p>
-<p>
-<p>Using &quot;called&quot; is often a good way to specify something whose name might give rise to confusion otherwise. It always makes something new, and it is also neatly concise, because we can establish something's kind and name in the same sentence. As another example, suppose we want to create a room called &quot;South of the Hut&quot;, to south of the Hut. We can't do so like this:
-<p>
-<blockquote><font color="#000080">South of the Hut is a room. South of the Hut is south of the Hut.
-</font></blockquote><p>
-<p>
-<p>...because Inform will read that first sentence as placing a (nameless) room to the south of a room called &quot;Hut&quot;. Once again &quot;called&quot; can save the day:
-<p>
-<blockquote><font color="#000080">South of the Hut is a room called South of the Hut.
-</font></blockquote><p>
-<p>
-<p>It is best to use &quot;called&quot; in the simplest way possible, and in particular, best not to use &quot;called&quot; twice in the same sentence. Consider:
-<p>
-<blockquote><font color="#000080">The kitchen cabinet contains a container called a mixing bowl and a portable supporter called a platter.
-</font></blockquote><p>
-<p>
-<p>It is unlikely that anyone would want to name something &quot;a mixing bowl and a portable supporter called a platter&quot;, but not impossible, and Inform tends not to be a good judge of what is likely.
+<p>If we ever need to override this - say, we want to list all the women but make sure that Velma gets another paragraph anyway - we could change Velma to unmentioned again after the listing.
 <p>
 <p><hr><p>
-<a name="e212"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex212.html#e212 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>4</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex212.html#e212 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000">Port Royal 1</font></b></a><br>A partial implementation of Port Royal, Jamaica, set before the earthquake of 1692 demolished large portions of the city.<p></td></tr></table>
+<a name="e220"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex220.html#e220 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>253</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex220.html#e220 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Reflections</font></b></a><br>Emphasizing the reflective quality of shiny objects whenever they are described in the presence of the torch.<p></td></tr></table>
+<a name="e79"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=ex79.html#e79 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>254</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=ex79.html#e79 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;Example&nbsp;</font> <font color="#000000"> Emma</font></b></a><br>Social dynamics in which groups of people form and circulate during a party.<p></td></tr></table>
 <!-- EXAMPLE START -->
-<a name="e255"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc28.html#e255 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>5</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc28.html#e255 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Up and Up</font></b></a><br>Adding a short message as the player approaches a room, before the room description itself appears.<p></td></tr></table>
+<a name="e255"><table CELLPADDING=0 CELLSPACING=0><tr><td halign="left" valign="top" CELLPADDING=0 CELLSPACING=0 width=38px><TABLE align="left" CELLPADDING=0 CELLSPACING=0><TR CLASS="oval"><TD width=38px height=30px align="left" valign="center"><a href=doc272.html#e255 STYLE="text-decoration: none"><div class="paragraph Body" style="line-height: 1px; margin-bottom: 0px; margin-top: 4px; padding-bottom: 0pt; padding-top: 4px; text-align: center; color: #202020; font-size: 14px; line-height: 1px;"><b>255</b></div></a></TD></TR></TABLE></td><td CELLPADDING=0 CELLSPACING=0 halign="left" valign="top"><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2><a href=doc272.html#e255 STYLE="text-decoration: none"><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><img border="0" style="height: 15px; width: 13px;" src='../../doc_images/asterisk.png'><b><font color="#505050">&nbsp;<b>Example</b>&nbsp;</font> <font color="#000000"> Air Conditioning is Standard</font></b></a><br>Uses "writing a paragraph about" to make person and object descriptions that vary considerably depending on what else is going on in the room, including some randomized NPC interactions with objects or with each other.<p></td></tr></table>
 <table border=0 bgcolor="#f0f0f0" width=100%><tr><td><font face="lucida grande,geneva,arial,tahoma,verdana,helvetica,helv" size=2>
 <p>
-<p>Sometimes when a player moves from one room to another, we want to imply that a considerable amount of time elapses, or that something interesting occurs on the way. In that case, we might want to print more than just the room description itself. Here is how we might define a couple of rooms that are far apart:
-<p>
-<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Up and Up&quot;\n\nThe Plain of the Skull is below the Endless Tower. The description of the Plain of the Skull is &quot;A vast and trackless plain, enlivened only by the bones of those who have previously tried and failed to cross. Above you is the Endless Tower, which rises half-way to the moon.&quot;\n\nThe description of the Endless Tower is &quot;From up here the Plain of the Skull seems only a small bald patch: the world is round and most of it is covered with trees. Far off to the southwest is a shimmering surface that might be water; but there are no signs of cities or civilizations, only the lizard-skeletons.&quot;\n\n[And now we borrow from the instructions on Actions to create our actual message. &quot;Before...&quot; introduces a rule that occurs when the player tries to do something; in this case, we will make a Before rule for going to the tower.]\n\nBefore going to the Endless Tower:\n\tsay &quot;You climb... and climb... and climb... The sun sets. The moon rises. The wind begins to blow. You continue to climb...&quot;\n\nThe player carries a bit of harness. The description of the harness is &quot;A strip of worked leather and a loop of metal, scavenged from one of the skeletons on the plain. Without it, you might think your entire quest was in vain.&quot;\n\nTest me with &quot;look / up&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Up and Up&quot;
+<blockquote><font color="#000080"><a href="javascript:pasteCode('&quot;Air Conditioning is Standard&quot;\n\nSection 1 - The Garage\n\nPeople are usually transparent. A person has a some text called current occupation. The current occupation of a person is usually &quot;None&quot;.\n\nMood is a kind of value. The moods are bemused, bored, attentive, rapt, and blushing. A person has a mood. A person is usually attentive.\n\nInstead of examining a person:\n\tnow every thing is unmentioned;\n\tcarry out the writing a paragraph about activity with the noun.\n\nRule for writing a paragraph about a person (called X):\n\tlet the subsequent mention be &quot;Name&quot;;\n\tif the current occupation of X is not &quot;None&quot;\n\tbegin;\n\t\tsay &quot;[current occupation of X]. &quot;;\n\t\tlet the subsequent mention be &quot;He&quot;;\n\t\tif X is female, let the subsequent mention be &quot;She&quot;;\n\tend if;\n\tif X wears something unmentioned\n\tbegin;\n\t\tif the subsequent mention is &quot;Name&quot;, say &quot;[The X] &quot;; otherwise say &quot;[subsequent mention] &quot;;\n\t\tsay &quot;is wearing [list of unmentioned things worn by X]&quot;;\n\t\tif X carries something unmentioned, say &quot; and carrying [list of unmentioned things carried by X]&quot;;\n\tsay &quot;.&quot;;\notherwise;\n\tif X carries something unmentioned\n\tbegin;\n\t\tif the subsequent mention is &quot;Name&quot;, say &quot;[The X] &quot;; otherwise say &quot;[subsequent mention] &quot;;\n\t\tsay &quot; is carrying [list of unmentioned things carried by X].&quot;;\n\tend if;\nend if.\n\nThe Garage is a room. &quot;Above the street door is a spectacular art nouveau fanlight, wherein a stained-glass Spirit of Progress bestows the gift of Transportation on mankind.\n\nThe sun, gleaming through the hair of Progress, throws amber curls on the macadam floor.&quot;\n\nThe fanlight is scenery in the Garage. The description is &quot;A semi-circle of stained glass as wide as the garage door, designed by Louis Comfort Tiffany himself. No expense has been spared.&quot;\n\nThe gift of Transportation is part of the fanlight. The description is &quot;The gift of Transportation is envisioned as a cornucopia disgorging a steam locomotive. And that blue bit of glass might be the Montgolfier balloon.&quot;\n\nThe Spirit of Progress is part of the fanlight. The description is &quot;It is part of her character to have bare shoulders like that.&quot;\n\nThe machinist is a bored man. He is in the Garage. He is wearing a grimy pair of overalls. He carries a wrench and a screwdriver. The current occupation of the machinist is &quot;[The machinist] is making some adjustments to [the random thing which is part of the Victorian Car] with his [random thing carried by the machinist]&quot;\n\nThe Victorian Car is a device in the Garage. A cast-iron steering wheel, a leather bucket seat, a horn, and a combustion engine are part of the Victorian Car. The seat is an enterable supporter.\n\nRule for writing a paragraph about a device (called X):\nlet the subsequent mention be &quot;Name&quot;;\nif the X is unmentioned\nbegin;\n\tsay &quot;[The X] is here. &quot;;\n\tlet the subsequent mention be &quot;It&quot;;\nend if;\nif something is part of X\nbegin;\n\tif the subsequent mention is &quot;Name&quot;, say &quot;[The X] &quot;; otherwise say &quot;[subsequent mention] &quot;;\n\tsay &quot;[if a mentioned thing is part of X]also [end if]features[if a mentioned thing is part of X], in addition to [the list of mentioned things which are part of X],[end if] [list of unmentioned things which are part of X]&quot;;\n\tsay &quot;.&quot;;\nend if.\n\nRule for printing the name of the steering wheel while writing a paragraph about a person:\n\tsay &quot;steering wheel&quot;.\n\nA supporter has a some text called position. The position of a supporter is usually &quot;None&quot;.\n\nThe Office is west of the Garage. The Office contains a desk. The desk has the position &quot;A [desk] with several dozen drawers stands in the center of the room&quot;. On the desk are some papers.\n\nAfter printing the name of a supporter (called X) which supports an unmentioned thing:\n\tnow X is unmentioned.\n\nRule for writing a paragraph about a supporter (called X):\n\tlet the subsequent mention be &quot;Name&quot;;\n\tif the position of X is not &quot;None&quot;\n\tbegin;\n\t\tsay &quot;[position of X]. &quot;;\n\t\tlet the subsequent mention be &quot;It&quot;;\n\tend if;\n\tif something is on X\n\tbegin;\n\t\tif a mentioned thing is on X\n\t\tbegin;\n\t\t\tsay &quot;Besides [the list of mentioned things which are on X], &quot;;\n\t\tlet the subsequent mention be &quot;it&quot;;\n\tend if;\n\tif the subsequent mention is &quot;Name&quot;, say &quot;[The X] &quot;;\n\totherwise say &quot;[subsequent mention] &quot;;\n\tsay &quot;holds [list of unmentioned things which are on X]&quot;;\n\tsay &quot;.&quot;;\nend if.\n\nSection 2 - Schedule\n\nThe time of day is 4:38 PM.\n\nAt 4:42 PM:\n\tmove the machinist to the Office;\n\tsay &quot;The machinist wanders into the Office to get some paperwork.&quot;;\n\tnow every thing carried by the machinist is on the desk;\n\tchange the current occupation of the machinist to &quot;[The machinist] rifles through [the papers] on [the desk]&quot;.\n\nAt 4:43 PM:\n\tmove the young lady to the Garage;\n\tif the young lady can be seen by the player,\n\t\tsay &quot;An attractive young lady walks in from the street, and glances around as though she has never been here before.&quot;;\n\nAt 4:45 PM:\n\tif the young lady can be seen by the player,\n\t\tsay &quot;With a not-quite-convincing air of innocence, [the young lady] happens to lean upon [the horn], which bleats loudly.&quot;;\n\totherwise say &quot;There is a honk from the Garage[if the machinist can be seen by the player]. The machinist looks up with a frown[end if].&quot;;\n\tchange the horn to mentioned;\n\nAt 4:46 PM:\n\tmove the machinist to the Garage;\n\tsay &quot;The machinist strolls from the Office into the Garage to find out what is going on.&quot;;\n\tchange the current occupation of the machinist to &quot;[The machinist] is chatting with [the young lady]. He seems to be demonstrating the various features of [the car], including [the random thing which is part of the car]&quot;;\n\tchange the current occupation of the young lady to &quot;[The young lady] is asking [the machinist] a number of questions about [the car]&quot;;\n\nAt 4:49 PM:\n\tif the young lady can be seen by the player, say &quot;[The machinist] gives [the young lady] his arm to climb into [the seat].&quot;;\n\tmove the young lady to the seat;\n\tnow the young lady is rapt;\n\tchange the current occupation of the young lady to &quot;[The young lady] is turning [the steering wheel] from side to side&quot;;\n\tchange the current occupation of the machinist to &quot;[The machinist] is leaning on the door of [the car], pointing out features to [the young lady]&quot;;\n\tmove the besotted expression to the machinist;\n\tnow the machinist is wearing the besotted expression.\n\nAt 4:52 PM:\n\tnow the sober grey gown is unbuttoned at the neck;\n\tif the young lady can be seen by the player, say &quot;[The young lady] murmurs something about the wilting heat, and undoes a button or two of her gown. The machinist\'s expression is comical, or would be, if you weren\'t annoyed.&quot;\n\nEvery turn when the player is in the Garage and young lady is on the seat:\n\tsay &quot;You are beginning to feel a little unnecessary in this scene.&quot;\n\nEvery turn when the player is in the Office and the young lady is on the seat:\n\tsay &quot;There\'s no sound at all from the other room, not even conversation.&quot;\n\nBefore going to the Garage when the young lady is on the seat:\n\tnow the sober grey gown is tellingly dishevelled;\n\tmove the young lady to the Garage;\n\tnow the young lady is blushing;\n\tsay &quot;There is a flurry of movement as you enter the room.&quot;;\n\tchange the current occupation of the young lady to &quot;[The young lady] stands near the door, tapping her foot nervously&quot;;\n\tremove the besotted expression from play;\n\tchange the current occupation of the machinist to &quot;[The machinist] is leaning against [the car], looking smug&quot;;\n\nSection 3 - Initially Out of Play\n\nThe besotted expression is a wearable thing. The description is &quot;It looks foolish, doesn\'t it?&quot;\n\nThe young lady is a bemused woman. She is wearing a sober grey gown and a pair of black boots. The current occupation of the young lady is &quot;[The young lady] is running a gloved finger along the chassis of [the victorian car]&quot;\n\nBefore printing the name of the young lady while writing a paragraph about a person:\n\tsay &quot;[mood of the young lady] &quot;\n\nThe description of the grey gown is &quot;Something about the perfect row of tiny buttons has the wrong effect -- at any rate, it is natural to wonder how long they take to undo.&quot; The gown can be buttoned almost to the chin, unbuttoned at the neck, or tellingly dishevelled.\n\nRule for printing the name of the gown when writing a paragraph about a person:\n\tsay &quot;sober grey gown ([sober grey gown condition])&quot;\n\nTest me with &quot;z / look / look / z / look / west / east / z  / look / z / look / z / look / west / east&quot;.\n\n')"><img border=0 src=../../doc_images/paste.png></a> &quot;Air Conditioning is Standard&quot;
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The Plain of the Skull is below the Endless Tower. The description of the Plain of the Skull is &quot;A vast and trackless plain, enlivened only by the bones of those who have previously tried and failed to cross. Above you is the Endless Tower, which rises half-way to the moon.&quot;
+<blockquote><font color="#000080">Section 1 - The Garage
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The description of the Endless Tower is &quot;From up here the Plain of the Skull seems only a small bald patch: the world is round and most of it is covered with trees. Far off to the southwest is a shimmering surface that might be water; but there are no signs of cities or civilizations, only the lizard-skeletons.&quot;
+<blockquote><font color="#000080">People are usually transparent. A person has a some text called current occupation. The current occupation of a person is usually &quot;None&quot;.
 </font></blockquote><p>
 <p>
-<p>And now we borrow from the instructions on Actions to create our actual message. &quot;Before...&quot; introduces a rule that occurs when the player tries to do something; in this case, we will make a Before rule for going to the tower.
-<p>
-<blockquote><font color="#000080">Before going to the Endless Tower:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You climb... and climb... and climb... The sun sets. The moon rises. The wind begins to blow. You continue to climb...&quot;
+<blockquote><font color="#000080">Mood is a kind of value. The moods are bemused, bored, attentive, rapt, and blushing. A person has a mood. A person is usually attentive.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">The player carries a bit of harness. The description of the harness is &quot;A strip of worked leather and a loop of metal, scavenged from one of the skeletons on the plain. Without it, you might think your entire quest was in vain.&quot;
+<blockquote><font color="#000080">Instead of examining a person:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now every thing is unmentioned;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;carry out the writing a paragraph about activity with the noun.
 </font></blockquote><p>
 <p>
-<blockquote><font color="#000080">Test me with &quot;look / up&quot;.
+<blockquote><font color="#000080">Rule for writing a paragraph about a person (called X):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the subsequent mention be &quot;Name&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the current occupation of X is not &quot;None&quot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[current occupation of X]. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the subsequent mention be &quot;He&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if X is female, let the subsequent mention be &quot;She&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if X wears something unmentioned
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the subsequent mention is &quot;Name&quot;, say &quot;[The X] &quot;; otherwise say &quot;[subsequent mention] &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;is wearing [list of unmentioned things worn by X]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if X carries something unmentioned, say &quot; and carrying [list of unmentioned things carried by X]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;;
+<br>otherwise;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if X carries something unmentioned
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if the subsequent mention is &quot;Name&quot;, say &quot;[The X] &quot;; otherwise say &quot;[subsequent mention] &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot; is carrying [list of unmentioned things carried by X].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>end if.
 </font></blockquote><p>
-<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc28.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p>
+<p>
+<blockquote><font color="#000080">The Garage is a room. &quot;Above the street door is a spectacular art nouveau fanlight, wherein a stained-glass Spirit of Progress bestows the gift of Transportation on mankind.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The sun, gleaming through the hair of Progress, throws amber curls on the macadam floor.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The fanlight is scenery in the Garage. The description is &quot;A semi-circle of stained glass as wide as the garage door, designed by Louis Comfort Tiffany himself. No expense has been spared.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The gift of Transportation is part of the fanlight. The description is &quot;The gift of Transportation is envisioned as a cornucopia disgorging a steam locomotive. And that blue bit of glass might be the Montgolfier balloon.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Spirit of Progress is part of the fanlight. The description is &quot;It is part of her character to have bare shoulders like that.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The machinist is a bored man. He is in the Garage. He is wearing a grimy pair of overalls. He carries a wrench and a screwdriver. The current occupation of the machinist is &quot;[The machinist] is making some adjustments to [the random thing which is part of the Victorian Car] with his [random thing carried by the machinist]&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Victorian Car is a device in the Garage. A cast-iron steering wheel, a leather bucket seat, a horn, and a combustion engine are part of the Victorian Car. The seat is an enterable supporter.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Rule for writing a paragraph about a device (called X):
+<br>let the subsequent mention be &quot;Name&quot;;
+<br>if the X is unmentioned
+<br>begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[The X] is here. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the subsequent mention be &quot;It&quot;;
+<br>end if;
+<br>if something is part of X
+<br>begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the subsequent mention is &quot;Name&quot;, say &quot;[The X] &quot;; otherwise say &quot;[subsequent mention] &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[if a mentioned thing is part of X]also [end if]features[if a mentioned thing is part of X], in addition to [the list of mentioned things which are part of X],[end if] [list of unmentioned things which are part of X]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;;
+<br>end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Rule for printing the name of the steering wheel while writing a paragraph about a person:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;steering wheel&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">A supporter has a some text called position. The position of a supporter is usually &quot;None&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The Office is west of the Garage. The Office contains a desk. The desk has the position &quot;A [desk] with several dozen drawers stands in the center of the room&quot;. On the desk are some papers.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">After printing the name of a supporter (called X) which supports an unmentioned thing:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now X is unmentioned.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Rule for writing a paragraph about a supporter (called X):
+<br>&nbsp;&nbsp;&nbsp;&nbsp;let the subsequent mention be &quot;Name&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the position of X is not &quot;None&quot;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[position of X]. &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the subsequent mention be &quot;It&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if something is on X
+<br>&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if a mentioned thing is on X
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;begin;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;Besides [the list of mentioned things which are on X], &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;let the subsequent mention be &quot;it&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;end if;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the subsequent mention is &quot;Name&quot;, say &quot;[The X] &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;[subsequent mention] &quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;holds [list of unmentioned things which are on X]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;.&quot;;
+<br>end if.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Section 2 - Schedule
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The time of day is 4:38 PM.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 4:42 PM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the machinist to the Office;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The machinist wanders into the Office to get some paperwork.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now every thing carried by the machinist is on the desk;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current occupation of the machinist to &quot;[The machinist] rifles through [the papers] on [the desk]&quot;.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 4:43 PM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the young lady to the Garage;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the young lady can be seen by the player,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;An attractive young lady walks in from the street, and glances around as though she has never been here before.&quot;;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 4:45 PM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the young lady can be seen by the player,
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;say &quot;With a not-quite-convincing air of innocence, [the young lady] happens to lean upon [the horn], which bleats loudly.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;otherwise say &quot;There is a honk from the Garage[if the machinist can be seen by the player]. The machinist looks up with a frown[end if].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the horn to mentioned;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 4:46 PM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the machinist to the Garage;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;The machinist strolls from the Office into the Garage to find out what is going on.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current occupation of the machinist to &quot;[The machinist] is chatting with [the young lady]. He seems to be demonstrating the various features of [the car], including [the random thing which is part of the car]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current occupation of the young lady to &quot;[The young lady] is asking [the machinist] a number of questions about [the car]&quot;;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 4:49 PM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the young lady can be seen by the player, say &quot;[The machinist] gives [the young lady] his arm to climb into [the seat].&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the young lady to the seat;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the young lady is rapt;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current occupation of the young lady to &quot;[The young lady] is turning [the steering wheel] from side to side&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current occupation of the machinist to &quot;[The machinist] is leaning on the door of [the car], pointing out features to [the young lady]&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the besotted expression to the machinist;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the machinist is wearing the besotted expression.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">At 4:52 PM:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the sober grey gown is unbuttoned at the neck;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;if the young lady can be seen by the player, say &quot;[The young lady] murmurs something about the wilting heat, and undoes a button or two of her gown. The machinist's expression is comical, or would be, if you weren't annoyed.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when the player is in the Garage and young lady is on the seat:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;You are beginning to feel a little unnecessary in this scene.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Every turn when the player is in the Office and the young lady is on the seat:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;There's no sound at all from the other room, not even conversation.&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before going to the Garage when the young lady is on the seat:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the sober grey gown is tellingly dishevelled;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;move the young lady to the Garage;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;now the young lady is blushing;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;There is a flurry of movement as you enter the room.&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current occupation of the young lady to &quot;[The young lady] stands near the door, tapping her foot nervously&quot;;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;remove the besotted expression from play;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;change the current occupation of the machinist to &quot;[The machinist] is leaning against [the car], looking smug&quot;;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Section 3 - Initially Out of Play
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The besotted expression is a wearable thing. The description is &quot;It looks foolish, doesn't it?&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The young lady is a bemused woman. She is wearing a sober grey gown and a pair of black boots. The current occupation of the young lady is &quot;[The young lady] is running a gloved finger along the chassis of [the victorian car]&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Before printing the name of the young lady while writing a paragraph about a person:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;[mood of the young lady] &quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">The description of the grey gown is &quot;Something about the perfect row of tiny buttons has the wrong effect -- at any rate, it is natural to wonder how long they take to undo.&quot; The gown can be buttoned almost to the chin, unbuttoned at the neck, or tellingly dishevelled.
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Rule for printing the name of the gown when writing a paragraph about a person:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;say &quot;sober grey gown ([sober grey gown condition])&quot;
+</font></blockquote><p>
+<p>
+<blockquote><font color="#000080">Test me with &quot;z / look / look / z / look / west / east / z  / look / z / look / z / look / west / east&quot;.
+</font></blockquote><p>
+<table CELLPADDING=0 CELLSPACING=0 width="100%" height=18><tr><td width="100%"> </td><td width=18 align="left" bgcolor="#000000"><a href=doc272.html><img src=../../doc_images/Hookclose.png id="hookclose" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../recipes.html><img src=../../doc_images/Hookrecipe.png id="hookrecipe" style="height: 17px; width: 17px;" border="0"></a></td><td width=4></td><td width=18 align="left" bgcolor="#000000"><a href=../examples.html><img src=../../doc_images/Hookindex.png id="hookindex" style="height: 17px; width: 17px;" border="0"></a></td></tr></table></td></tr></table><p>
 <!-- EXAMPLE END -->
-<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc27.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc29.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>
+<p><hr><table CELLPADDING=0 CELLSPACING=0 width="100%"><tr><td width="33%" align="left"><a href=doc271.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Previous</font></a></td><td width="33%" align="center"><a href=../index.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Contents</font></a></td><td width="33%" align="right"><a href=doc273.html border=0 STYLE="text-decoration: none"><font color="808080" size="2">Next</font></a></td></tr></table></font></body></html>

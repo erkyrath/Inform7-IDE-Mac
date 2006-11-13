@@ -1386,6 +1386,12 @@ NSDictionary* IFSyntaxAttributes[256];
 	return tabView;
 }
 
+// = Find =
+
+- (void) performFindPanelAction: (id) sender {
+	NSLog(@"Bing!");
+}
+
 // = Updating extensions =
 
 - (void) censusCompleted: (NSNotification*) not {
