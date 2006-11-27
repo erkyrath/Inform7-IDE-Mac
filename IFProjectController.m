@@ -2760,6 +2760,10 @@ static NSDictionary*  itemDictionary = nil;
 				  fromView: (GlkView*) view {
 }
 
+- (void) viewWaiting: (GlkView*) view {
+	// Do nothing
+}
+
 - (void) viewIsWaitingForInput: (GlkView*) view {
 	// Only do anything if there's at least one view waiting for input
 	if (![view canSendInput]) return;
