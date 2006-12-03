@@ -133,6 +133,8 @@ enum IFProjectPaneType {
 - (NSTabView*) tabView;											// The tab view itself
 
 // The source view
+- (void) prepareToCompile;										// Informs this pane that it's time to prepare to compile (or save) the document
+
 - (void) moveToLine: (int) line									// Scrolls the source view so that the given line/character to be visible
 		  character: (int) chr;
 - (void) moveToLine: (int) line;								// Scrolls the source view so that the given line to be visible

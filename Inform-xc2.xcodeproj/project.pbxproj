@@ -2526,10 +2526,11 @@
 				4BAB731106EA3332005C7856 /* Copy docs */,
 				4B8148000A1A884F00C38509 /* CopyFiles */,
 				4B81D2E408112D1300CF609F /* Copy interpreters */,
-				4BD36FA1055EEC0D00F98A80 /* (Script): Copy library files */,
-				4BC6243F082A71E4007827B5 /* (Script): Build applescript dictionaries */,
-				4B0D80220AC55EC8003E8CCA /* (Script): Perform compiler injection */,
 				4BD95A21055EE949008DEFF4 /* Copy Compilers */,
+				4BC6243F082A71E4007827B5 /* (Script): Build applescript dictionaries */,
+				4B26D6250B23835100E74BCB /* (Script): Create directories */,
+				4B0D80220AC55EC8003E8CCA /* (Script): Perform compiler injection */,
+				4BD36FA1055EEC0D00F98A80 /* (Script): Copy library files */,
 				4B274FAB0754FBAC00851A38 /* (Script): Remove any svn files that have crept in */,
 			);
 			buildRules = (
@@ -2842,6 +2843,20 @@
 			shellPath = /bin/sh;
 			shellScript = "cd ${TARGET_BUILD_DIR}\nrm -rf ${TARGET_BUILD_DIR}/Injections\ncp -R ${SRCROOT}/Injection/* ${TARGET_BUILD_DIR}\nmake copyall\n";
 		};
+		4B26D6250B23835100E74BCB /* (Script): Create directories */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "(Script): Create directories";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\nrm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Compilers\nrm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Compilers\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions\n\n";
+		};
 		4B274FAB0754FBAC00851A38 /* (Script): Remove any svn files that have crept in */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2897,7 +2912,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "echo \\*\\*\\* Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.10\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.11\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Natural\n\n# cp ${SRCROOT}/Library/Biplatform/Standard/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.10\n# cp ${SRCROOT}/Library/lib611/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.11\necho -n \"6.11\" >${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Standard\n\n# cp ${SRCROOT}/Library/natural/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Natural\n\n\n# Inform 7 rules\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Graham\\ Nelson\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved/Templates\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Emily\\ Short\n\n#cp ${SRCROOT}/Library/Extensions/Graham\\ Nelson/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Graham\\ Nelson\n#cp ${SRCROOT}/Library/Extensions/Emily\\ Short/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Emily\\ Short\n##cp ${SRCROOT}/Library/Extensions/Roger\\ Firth/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Roger\\ Firth\n#cp ${SRCROOT}/Library/Extensions/Reserved/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved\n#cp ${SRCROOT}/Library/Extensions/Reserved/Templates/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved/Templates\n\nrm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\nrm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\n\necho \\*\\*\\* Done";
+			shellScript = "echo \\*\\*\\* Copying library files\necho \"(Avoids XCode crash)\"\n\nenv\n\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Compilers\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.10\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.11\n# mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Natural\n\n# cp ${SRCROOT}/Library/Biplatform/Standard/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.10\ncp ${SRCROOT}/Library/lib611/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/6.11\necho -n \"6.11\" >${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Standard\n\n# cp ${SRCROOT}/Library/natural/*.h ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library/Natural\n\n\n# Inform 7 rules\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Graham\\ Nelson\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved/Templates\n#mkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Emily\\ Short\n\n#cp ${SRCROOT}/Library/Extensions/Graham\\ Nelson/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Graham\\ Nelson\n#cp ${SRCROOT}/Library/Extensions/Emily\\ Short/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Emily\\ Short\n##cp ${SRCROOT}/Library/Extensions/Roger\\ Firth/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Roger\\ Firth\n#cp ${SRCROOT}/Library/Extensions/Reserved/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved\n#cp ${SRCROOT}/Library/Extensions/Reserved/Templates/* ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions/Reserved/Templates\n\n#rm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\n#rm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\n\necho \\*\\*\\* Done";
 		};
 /* End PBXShellScriptBuildPhase section */
 

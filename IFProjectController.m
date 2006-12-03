@@ -934,6 +934,18 @@ static NSDictionary*  itemDictionary = nil;
     // [[projectPanes objectAtIndex: 1] selectView: IFErrorPane];
 }
 
+- (IBAction)saveDocument:(id)sender {
+	// Need to call prepareToCompile here as well to give the project pane a chance to shut down any editing operations that might be ongoing
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
+	while (pane = [paneEnum nextObject]) {
+		[pane prepareToCompile];
+	}
+	
+	// Manually forward to the document
+	[[self document] saveDocument: sender];
+}
+
 - (IBAction) release: (id) sender {
 	noChangesSinceLastCompile = noChangesSinceLastRefresh = NO;
 
@@ -950,9 +962,24 @@ static NSDictionary*  itemDictionary = nil;
 						refreshOnly: NO];
 }
 
+- (BOOL) needsRecompile {
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
+	while (pane = [paneEnum nextObject]) {
+		[pane prepareToCompile];
+	}
+
+	if (!noChangesSinceLastCompile) return YES;
+	if ([[IFPreferences sharedPreferences] runBuildSh]) return YES;
+	if ([[[self document] compiler] outputFile] == nil) return YES;
+	if (![[NSFileManager defaultManager] fileExistsAtPath: [[[self document] compiler] outputFile]]) return YES;
+	return NO;
+}
+
 - (IBAction) compileAndRefresh: (id) sender {
 	compileFinishedAction = @selector(refreshIndexTabs);
-	if (!noChangesSinceLastRefresh || [[IFPreferences sharedPreferences] runBuildSh]) {
+	if (!noChangesSinceLastRefresh 
+		|| [[IFPreferences sharedPreferences] runBuildSh]) {
 		[self performCompileWithRelease: NO
 							refreshOnly: YES];
 	} else {
@@ -965,7 +992,7 @@ static NSDictionary*  itemDictionary = nil;
     compileFinishedAction = @selector(runCompilerOutput);
 	
 	// Only actually compile if there are undo actions added since the last compile
-	if (!noChangesSinceLastCompile || [[IFPreferences sharedPreferences] runBuildSh]) {
+	if ([self needsRecompile]) {
 		[self performCompileWithRelease: NO
 							refreshOnly: NO];
 	} else {
@@ -979,7 +1006,7 @@ static NSDictionary*  itemDictionary = nil;
     compileFinishedAction = @selector(runCompilerOutputAndReplay);
 	
 	// Only actually compile if there are undo actions added since the last compile
-	if (!noChangesSinceLastCompile || [[IFPreferences sharedPreferences] runBuildSh]) {
+	if ([self needsRecompile]) {
 		[self performCompileWithRelease: NO
 							refreshOnly: NO];
 	} else {

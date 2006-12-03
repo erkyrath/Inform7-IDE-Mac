@@ -502,6 +502,14 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = The source view =
 
+- (void) prepareToCompile {
+	// Really annoying: Apple changed the undo behaviour of text views in 10.4 so we need to make this call,
+	// which is not backwards compatible.
+	if ([sourceText respondsToSelector: @selector(breakUndoCoalescing)]) {
+		[sourceText breakUndoCoalescing];
+	}
+}
+
 - (void) moveToLine: (int) line {
 	[self moveToLine: line
 		   character: 0];
