@@ -96,6 +96,10 @@ enum IFProjectPaneType {
 	
 	IBOutlet NSWindow* pruneSkein;						// The 'prune skein' window
 	IBOutlet NSSlider* pruneAmount;						// The 'prune amount' slider
+	
+	IBOutlet NSWindow* skeinSpacing;					// The 'skein spacing' window
+	IBOutlet NSSlider* skeinHoriz;						// The 'skein horizontal width' slider
+	IBOutlet NSSlider* skeinVert;						// The 'skein vertical width' slider
 
     // Settings
 	IBOutlet IFSettingsView* settingsView;				// The settings view
@@ -179,6 +183,11 @@ enum IFProjectPaneType {
 
 - (IBAction) performPruning: (id) sender;						// The user has clicked a button in the 'prune skein' sheet
 - (IBAction) pruneSkein: (id) sender;							// The user has clicked the 'prune skein' button
+
+- (IBAction) performSkeinLayout: (id) sender;					// The user has clicked a button indicating she wants to change the skein layout
+- (IBAction) skeinLayoutOk: (id) sender;						// The user has confirmed her new skein layout
+- (IBAction) useDefaultSkeinLayout: (id) sender;				// The user has clicked a button indicating she wants to use the default skein layout
+- (IBAction) updateSkeinLayout: (id) sender;					// The user has dragged one of the skein layout sliders
 
 // The transcript view
 - (IFTranscriptView*) transcriptView;							// Returns the transcript view object associated with this pane

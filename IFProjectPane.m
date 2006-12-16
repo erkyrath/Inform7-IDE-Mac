@@ -166,6 +166,10 @@ NSDictionary* IFSyntaxAttributes[256];
 												 selector: @selector(preferencesChanged:)
 													 name: IFPreferencesChangedEarlierNotification
 												   object: [IFPreferences sharedPreferences]];
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(preferencesChangedQuickly:)
+													 name: IFPreferencesDidChangeNotification
+												   object: [IFPreferences sharedPreferences]];
 		
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(censusCompleted:)
@@ -718,6 +722,11 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = The game view =
 
+- (void) preferencesChangedQuickly: (NSNotification*) not {
+	[skeinView setItemWidth: floorf([[IFPreferences sharedPreferences] skeinSpacingHoriz])];
+	[skeinView setItemHeight: floorf([[IFPreferences sharedPreferences] skeinSpacingVert])];
+}
+	
 - (void) preferencesChanged: (NSNotification*) not {
 	[zView setScaleFactor: 1.0/[[IFPreferences sharedPreferences] fontSize]];
 	[wView setTextSizeMultiplier: [[IFPreferences sharedPreferences] fontSize]];
@@ -801,6 +810,9 @@ NSDictionary* IFSyntaxAttributes[256];
 			nil]];
 		
 		[zView setScaleFactor: 1.0/[[IFPreferences sharedPreferences] fontSize]];
+		
+		[skeinView setItemWidth: floorf([[IFPreferences sharedPreferences] skeinSpacingHoriz])];
+		[skeinView setItemHeight: floorf([[IFPreferences sharedPreferences] skeinSpacingVert])];
 		
 		[zView setFrame: [gameView bounds]];
 		[zView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
@@ -1218,6 +1230,43 @@ NSDictionary* IFSyntaxAttributes[256];
 	[NSApp runModalForWindow: [skeinView window]];
 	[NSApp endSheet: pruneSkein];
 	[pruneSkein orderOut: self];
+}
+
+- (IBAction) performSkeinLayout: (id) sender {
+	// The user has clicked a button indicating she wants to change the skein layout
+	
+	// Set up the sliders
+	[skeinHoriz setFloatValue: [[IFPreferences sharedPreferences] skeinSpacingHoriz]];
+	[skeinVert setFloatValue: [[IFPreferences sharedPreferences] skeinSpacingVert]];
+	
+	// Run the 'layout skein' sheet
+	[NSApp beginSheet: skeinSpacing
+	   modalForWindow: [skeinView window]
+		modalDelegate: self
+	   didEndSelector: nil
+		  contextInfo: nil];
+	[NSApp runModalForWindow: [skeinView window]];
+	[NSApp endSheet: skeinSpacing];
+	[skeinSpacing orderOut: self];
+}
+
+- (IBAction) skeinLayoutOk: (id) sender {
+	// The user has confirmed her new skein layout
+	[NSApp stopModal];
+}
+
+- (IBAction) useDefaultSkeinLayout: (id) sender {
+	// The user has clicked a button indicating she wants to use the default skein layout
+	[skeinHoriz setFloatValue: 120.0];
+	[skeinVert setFloatValue: 96.0];
+	
+	[self updateSkeinLayout: sender];
+}
+
+- (IBAction) updateSkeinLayout: (id) sender {
+	// The user has dragged one of the skein layout sliders
+	[[IFPreferences sharedPreferences] setSkeinSpacingHoriz: [skeinHoriz floatValue]];
+	[[IFPreferences sharedPreferences] setSkeinSpacingVert: [skeinVert floatValue]];
 }
 
 - (IBAction) skeinLabelSelected: (id) sender {

@@ -761,6 +761,42 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 	[self preferencesHaveChanged];
 }
 
+// = Skein preferences =
+
+- (float) skeinSpacingHoriz {
+	if ([preferences objectForKey: @"skeinSpacingHoriz"] == nil) {
+		return 120.0;
+	}
+	
+	return [[preferences objectForKey: @"skeinSpacingHoriz"] floatValue];
+}
+
+- (float) skeinSpacingVert {
+	if ([preferences objectForKey: @"skeinSpacingVert"] == nil) {
+		return 96.0;
+	}
+	
+	return [[preferences objectForKey: @"skeinSpacingVert"] floatValue];	
+}
+
+- (void) setSkeinSpacingHoriz: (float) value {
+	if (floorf(value) == floorf([self skeinSpacingHoriz])) return;
+	
+	[preferences setObject: [NSNumber numberWithFloat: value]
+					forKey: @"skeinSpacingHoriz"];
+	
+	[self preferencesHaveChanged];
+}
+
+- (void) setSkeinSpacingVert: (float) value {
+	if (floorf(value) == floorf([self skeinSpacingVert])) return;
+	
+	[preferences setObject: [NSNumber numberWithFloat: value]
+					forKey: @"skeinSpacingVert"];
+	
+	[self preferencesHaveChanged];	
+}
+
 // = Advanced preferences =
 
 - (BOOL) runBuildSh {
