@@ -886,6 +886,11 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 // (ZoomView delegate functions)
+
+- (void) inputSourceHasFinished: (id) sender {
+	[parent inputSourceHasFinished: nil];
+}
+
 - (void) zMachineStarted: (id) sender {	
     [[zView zMachine] loadStoryFile: 
         [NSData dataWithContentsOfFile: gameToRun]];

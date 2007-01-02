@@ -61,6 +61,8 @@
 	
 	[skein release]; skein = nil;
 	[targetItem release]; targetItem = nil;
+	[transcriptItems makeObjectsPerformSelector: @selector(finishEditing:)
+									 withObject: nil];
 	[transcriptItems makeObjectsPerformSelector: @selector(setDelegate:)
 									 withObject: nil];
 	[transcriptItems release]; transcriptItems = nil;
@@ -132,6 +134,7 @@
 			IFTranscriptItem* dyingItem = [transcriptItems lastObject];
 			
 			[itemMap removeObjectForKey: [NSValue valueWithPointer: [dyingItem skeinItem]]];
+			[[transcriptItems lastObject] finishEditing: self];
 			[transcriptItems removeLastObject];
 		}
 		
@@ -160,6 +163,8 @@
 	[self cancelLayout];
 
 	[targetItem release]; targetItem = nil;
+	[transcriptItems makeObjectsPerformSelector: @selector(finishEditing:)
+									 withObject: self];
 	[transcriptItems makeObjectsPerformSelector: @selector(setDelegate:)
 									 withObject: nil];
 	[transcriptItems release]; transcriptItems = nil;
@@ -373,6 +378,7 @@
 		IFTranscriptItem* dyingItem = [transcriptItems objectAtIndex: index];
 		
 		[itemMap removeObjectForKey: [NSValue valueWithPointer: [dyingItem skeinItem]]];
+		[[transcriptItems objectAtIndex: index] finishEditing: self];
 		[transcriptItems removeObjectAtIndex: index];
 	}
 	

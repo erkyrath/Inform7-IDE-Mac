@@ -338,6 +338,8 @@ static NSDictionary*  itemDictionary = nil;
 
 	[progressIndicators release];
 	
+	[skeinNodeStack release];
+	
     [super dealloc];
 }
 
@@ -1016,6 +1018,16 @@ static NSDictionary*  itemDictionary = nil;
 	waitingAtBreakpoint = NO;
 }
 
+- (IBAction) replayEntireSkein: (id) sender {
+	compileFinishedAction = @selector(runCompilerOutputAndEntireSkein);
+	
+	// Always recompile
+	[self performCompileWithRelease: NO
+						refreshOnly: NO];
+	
+	waitingAtBreakpoint = NO;
+}
+
 - (IBAction) compileAndDebug: (id) sender {
 	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
 	compileFinishedAction = @selector(debugCompilerOutput);
@@ -1089,6 +1101,8 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) runCompilerOutputAndReplay {
+	[skeinNodeStack release]; skeinNodeStack = nil;
+	
 	noChangesSinceLastCompile = noChangesSinceLastRefresh = YES;
 	[[projectPanes objectAtIndex: 1] setPointToRunTo: [[[self document] skein] activeItem]];
 	[self runCompilerOutput];
@@ -2479,6 +2493,36 @@ static NSDictionary*  itemDictionary = nil;
 	[transcriptView setHighlightedItem: [nextItem skeinItem]];
 }
 
+- (IBAction) nextDifferenceBySkein: (id) sender {
+	// Display the transcript
+	IFProjectPane* transcriptPane = [self transcriptPane];
+	
+	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
+	
+	// Find the next item
+	ZoomSkeinItem* nextSkeinItem = [currentItem nextDiff];
+	if (!nextSkeinItem) nextSkeinItem = [[[[self document] skein] rootItem] nextDiff];
+	
+	if (!nextSkeinItem) {
+		// No previous item
+		NSBeep();
+		return;
+	}
+	
+	// Highlight this item
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
+	
+	while (pane = [paneEnum nextObject]) {
+		[[pane transcriptLayout] transcriptToPoint: nextSkeinItem];
+		[[pane transcriptView] scrollToItem: nextSkeinItem];
+		[[pane transcriptView] setHighlightedItem: nextSkeinItem];
+		[[pane skeinView] scrollToItem: nextSkeinItem];
+	}
+
+	[transcriptPane selectView: IFTranscriptPane];
+}
+
 // = UIDelegate methods =
 
 // We only implement a fairly limited subset of the UI methods, mainly to help show status
@@ -2801,6 +2845,8 @@ static NSDictionary*  itemDictionary = nil;
 	if (nextCommand == nil) {
 		[view removeAutomationObject: self];
 		[view addOutputReceiver: self];
+		
+		[self inputSourceHasFinished: nil];
 		return;
 	}
 	
@@ -2839,6 +2885,64 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) performFindPanelAction: (id) sender {
 	[[self currentTabView] performFindPanelAction: sender];
+}
+
+// = Running the entire skein =
+
+//
+// To save time, we actually only ensure that we visit notes with an actual commentary
+// (ie, blessed nodes in the transcript). This will update everything that we can
+// display some useful state for.
+//
+
+- (BOOL) fillNode: (ZoomSkeinItem*) item {
+	BOOL filled = NO;
+	
+	// See if any of this item's children adds a node to the stack
+	NSEnumerator* childEnum = [[item children] objectEnumerator];
+	ZoomSkeinItem* child;
+	while (child = [childEnum nextObject]) {
+		if ([self fillNode: child]) {
+			filled = YES;
+		}
+	}
+	
+	// If this node caused something to get filled, then return YES
+	if (filled) return YES;
+	
+	// If this node has some commentary, then add it to the stack
+	if ([item commentary] != nil && [[item commentary] length] > 0) {
+		[skeinNodeStack addObject: item];
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+- (void) fillSkeinStack {
+	// Chooses endpoints suitable for the skein stack so that we visit all of the nodes that have a commentary
+	[skeinNodeStack release];
+	skeinNodeStack = [[NSMutableArray alloc] init];
+	
+	[self fillNode: [[[self document] skein] rootItem]];
+}
+
+- (void) runCompilerOutputAndEntireSkein {
+	noChangesSinceLastCompile = noChangesSinceLastRefresh = YES;
+	
+	[self fillSkeinStack];
+	[self inputSourceHasFinished: nil];
+}
+
+- (void) inputSourceHasFinished: (id) source {
+	if (skeinNodeStack != nil && [skeinNodeStack count] > 0) {
+		// Run the next source on the skein
+		[[projectPanes objectAtIndex: 1] setPointToRunTo: [skeinNodeStack lastObject]];
+		[self runCompilerOutput];
+		[skeinNodeStack removeLastObject];
+	} else if (skeinNodeStack != nil) {
+		[self nextDifferenceBySkein: self];
+	}
 }
 
 @end

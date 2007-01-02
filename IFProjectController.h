@@ -88,6 +88,9 @@ enum lineStyle {
 	
 	// Glk automation
 	id glkInputSource;
+	
+	// Running the entire skein
+	NSMutableArray* skeinNodeStack;
 }
 
 - (void) layoutPanes;
@@ -152,6 +155,7 @@ enum lineStyle {
 - (IBAction) nextChangedCommand: (id) sender;
 - (IBAction) lastDifference: (id) sender;
 - (IBAction) nextDifference: (id) sender;
+- (IBAction) nextDifferenceBySkein: (id) sender;
 
 // Tabbing around
 

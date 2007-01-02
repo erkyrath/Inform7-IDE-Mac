@@ -734,10 +734,10 @@ static NSColor* activeCol = nil;
 	[fieldEditor setAlignment: NSNaturalTextAlignment];
 	
 	[fieldEditor setHorizontallyResizable: NO];
-	[fieldEditor setVerticallyResizable:NO];
+	[fieldEditor setVerticallyResizable: NO];
 	[[fieldEditor textContainer] setContainerSize: NSMakeSize(stringWidth, fontHeight)];
-	[[fieldEditor textContainer] setWidthTracksTextView:NO];
-	[[fieldEditor textContainer] setHeightTracksTextView:NO];
+	[[fieldEditor textContainer] setWidthTracksTextView: NO];
+	[[fieldEditor textContainer] setHeightTracksTextView: NO];
 	[[fieldEditor textContainer] setLineFragmentPadding: 0];
 	[fieldEditor setDrawsBackground: YES];	
 
@@ -747,6 +747,8 @@ static NSColor* activeCol = nil;
 }
 
 - (void) finishEditing: (id) sender {	
+	if (!fieldEditor) return;
+	
 	[[self retain] autorelease];						// Mild chance that the skein item will get destroyed, destroying us along with it. This preserves us for a while.
 	updating = YES;
 	diffed = NO;

@@ -110,6 +110,7 @@
 - (BOOL) updating;												// YES if this item is already updating and doesn't need any more updating thankyou so very much
 
 - (void) setDelegate: (id) delegate;							// Sets the delegate for this item (delegate is NOT retained)
+- (void) finishEditing: (id) sender;							// If this item is editing, then stop editing
 
 @end
 
