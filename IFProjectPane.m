@@ -1065,6 +1065,22 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = The index view =
 
+- (BOOL) canSelectIndexTab: (int) whichTab {
+	if ([indexTabs indexOfTabViewItemWithIdentifier: [NSNumber numberWithInt: whichTab]] == NSNotFound) {
+		return NO;
+	} else {
+		return YES;
+	}
+}
+
+- (void) selectIndexTab: (int) whichTab {
+	int tabIndex = [indexTabs indexOfTabViewItemWithIdentifier: [NSNumber numberWithInt: whichTab]];
+	
+	if (tabIndex != NSNotFound) {
+		[indexTabs selectTabViewItemAtIndex: tabIndex];
+	}
+}
+
 - (void) updateIndexView {
 	indexAvailable = NO;
 	
@@ -1142,6 +1158,20 @@ NSDictionary* IFSyntaxAttributes[256];
 												  value: [theFile stringByDeletingPathExtension]
 												  table: @"CompilerOutput"];
 			[newTab setLabel: label];
+			
+			// Choose an ID for this tab based on the filename
+			int tabId = 0;
+			NSString* lowerFile = [theFile lowercaseString];
+
+			if ([lowerFile isEqualToString: @"actions.html"]) tabId = IFIndexActions;
+			else if ([lowerFile isEqualToString: @"phrasebook.html"]) tabId = IFIndexPhrasebook;
+			else if ([lowerFile isEqualToString: @"scenes.html"]) tabId = IFIndexScenes;
+			else if ([lowerFile isEqualToString: @"contents.html"]) tabId = IFIndexContents;
+			else if ([lowerFile isEqualToString: @"kinds.html"]) tabId = IFIndexKinds;
+			else if ([lowerFile isEqualToString: @"rules.html"]) tabId = IFIndexRules;
+			else if ([lowerFile isEqualToString: @"world.html"]) tabId = IFIndexWorld;
+			
+			[newTab setIdentifier: [NSNumber numberWithInt: tabId]];
 			
 			// Check if this was the last tab being viewed by the user
 			if (lastUserTab != nil && [label caseInsensitiveCompare: lastUserTab] == NSOrderedSame) {

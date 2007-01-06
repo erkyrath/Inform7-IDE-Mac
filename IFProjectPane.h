@@ -34,6 +34,16 @@ enum IFProjectPaneType {
 	IFUnknownPane = 256
 };
 
+enum IFIndexTabType {
+	IFIndexActions = 1,
+	IFIndexContents = 2,
+	IFIndexKinds = 3,
+	IFIndexPhrasebook = 4,
+	IFIndexRules = 5,
+	IFIndexScenes = 6,
+	IFIndexWorld = 7
+};
+
 @class IFProjectController;
 
 @interface IFProjectPane : NSObject {
@@ -169,6 +179,8 @@ enum IFProjectPaneType {
 
 // The index view
 - (void) updateIndexView;										// Updates the index view with the current files in the index subdirectory
+- (BOOL) canSelectIndexTab: (int) whichTab;						// Returns YES if we can select a specific tab in the index pane
+- (void) selectIndexTab: (int) whichTab;						// Chooses a specific index tab
 
 // Settings
 - (void) updateSettings;										// Updates the settings views with their current values

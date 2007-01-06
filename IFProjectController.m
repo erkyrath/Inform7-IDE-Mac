@@ -869,6 +869,10 @@ static NSDictionary*  itemDictionary = nil;
 		return [self currentTabView] != nil;
 	}
 	
+	if (itemSelector == @selector(showIndexTab:)) {
+		return [[projectPanes objectAtIndex: 0] canSelectIndexTab: [menuItem tag]];
+	}
+	
 	// Spell checking
 	if (itemSelector == @selector(toggleSourceSpellChecking:)) {
 		[menuItem setState: sourceSpellChecking?NSOnState:NSOffState];
@@ -1040,6 +1044,21 @@ static NSDictionary*  itemDictionary = nil;
 - (IBAction) stopProcess: (id) sender {
 	[projectPanes makeObjectsPerformSelector: @selector(stopRunningGame)];
 	[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];
+}
+
+// = Displaying a specific index tab =
+
+- (IBAction) showIndexTab: (id) sender {
+	int tag = [sender tag];
+	
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
+	
+	while (pane = [paneEnum nextObject]) {
+		[pane selectIndexTab: tag];
+	}
+	
+	[[self indexPane] selectView: IFIndexPane];
 }
 
 // = Things to do after the compiler has finished =
@@ -1321,8 +1340,8 @@ static NSDictionary*  itemDictionary = nil;
         }
     }
 	
-	// No transcript pane showing: use the source pane
-	return [self sourcePane];
+	// No transcript pane showing: use the aux pane
+	return [self auxPane];
 }
 
 - (IFProjectPane*) transcriptPane {
