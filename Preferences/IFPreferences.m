@@ -579,6 +579,7 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 			[NSDictionary dictionaryWithObjectsAndKeys: 
 				[cacheFontStyles objectAtIndex: x], NSFontAttributeName,
 				[cacheColours objectAtIndex: x], NSForegroundColorAttributeName,
+				[NSNumber numberWithInt: 0], NSLigatureAttributeName,
 				//x>=0x80?tabStyle:nil, NSParagraphStyleAttributeName,
 				nil]];
 	}
