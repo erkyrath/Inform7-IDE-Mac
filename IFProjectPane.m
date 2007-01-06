@@ -766,6 +766,9 @@ NSDictionary* IFSyntaxAttributes[256];
 																			table: nil]];
 	
 	if ([[gameToRun pathExtension] isEqualToString: @"ulx"]) {
+		// Screws up the first responder, will cause the GlkView object to force a new first responder after it starts
+		[[parent window] makeFirstResponder: [parent window]];
+
 		// Start running as a glulxe task
 		gView = [[GlkView alloc] init];
 		[gView setDelegate: self];
