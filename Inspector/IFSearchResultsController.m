@@ -873,7 +873,9 @@ static int resultComparator(id a, id b, void* context) {
 				} else if ([extn isEqualToString: @"html"] ||
 						   [extn isEqualToString: @"htm"]) {
 					// Parse the file
-					IFDocParser* fileContents = [[IFDocParser alloc] initWithHtml: [NSString stringWithContentsOfFile: filename]];
+					IFDocParser* fileContents = [[IFDocParser alloc] initWithHtml: [NSString stringWithContentsOfFile: filename
+																											 encoding: NSUTF8StringEncoding
+																												error: nil]];
 					
 					// Retrieve the storage contents
 					storage = [fileContents example];
