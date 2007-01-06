@@ -771,9 +771,7 @@ static NSDictionary*  itemDictionary = nil;
 	return YES;
 }
 
-- (NSTabView*) currentTabView {
-	NSResponder* first = [[self window] firstResponder];
-	
+- (void) changeFirstResponder: (NSResponder*) first {
 	if ([first isKindOfClass: [NSView class]]) {
 		NSView* firstView = (NSView*)first;
 		
@@ -781,10 +779,12 @@ static NSDictionary*  itemDictionary = nil;
 			firstView = [firstView superview];
 		}
 		
-		return (NSTabView*)firstView;
-	}
-	
-	return nil;
+		currentTabView = (NSTabView*)firstView;
+	}	
+}
+
+- (NSTabView*) currentTabView {
+	return currentTabView;
 }
 
 - (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {

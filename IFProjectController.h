@@ -51,6 +51,9 @@ enum lineStyle {
     NSMutableArray* projectPanes;
     NSMutableArray* splitViews;
 	
+	// The current tab view (used for the various tab selection menu items)
+	NSTabView* currentTabView;
+	
 	// Highlighting (indexed by file)
 	NSMutableDictionary* lineHighlighting;
 	BOOL temporaryHighlights;
