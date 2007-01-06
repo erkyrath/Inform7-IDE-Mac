@@ -67,44 +67,54 @@ NSDictionary* IFSyntaxAttributes[256];
     IFSyntaxAttributes[IFSyntaxString] = [[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.53 green: 0.08 blue: 0.08 alpha: 1.0], NSForegroundColorAttributeName,
+		[NSNumber numberWithInt: 0], NSLigatureAttributeName,
         nil] retain];
     IFSyntaxAttributes[IFSyntaxComment] = [[NSDictionary dictionaryWithObjectsAndKeys:
         smallFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.14 green: 0.43 blue: 0.14 alpha: 1.0], NSForegroundColorAttributeName,
+		[NSNumber numberWithInt: 0], NSLigatureAttributeName,
         nil] retain];
     IFSyntaxAttributes[IFSyntaxMonospace] = [[NSDictionary dictionaryWithObjectsAndKeys:
         monospaceFont, NSFontAttributeName,
         [NSColor blackColor], NSForegroundColorAttributeName,
+		[NSNumber numberWithInt: 0], NSLigatureAttributeName,
         nil] retain];
     
     // Inform 6 syntax types
     IFSyntaxAttributes[IFSyntaxDirective] = [[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.20 green: 0.08 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
+		[NSNumber numberWithInt: 0], NSLigatureAttributeName,
         nil] retain];
     IFSyntaxAttributes[IFSyntaxProperty] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.08 green: 0.08 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
+		[NSNumber numberWithInt: 0], NSLigatureAttributeName,
         nil] retain];
     IFSyntaxAttributes[IFSyntaxFunction] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.08 green: 0.53 blue: 0.53 alpha: 1.0], NSForegroundColorAttributeName,
+		[NSNumber numberWithInt: 0], NSLigatureAttributeName,
         nil] retain];
     IFSyntaxAttributes[IFSyntaxCode] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.46 green: 0.06 blue: 0.31 alpha: 1.0], NSForegroundColorAttributeName,
+		[NSNumber numberWithInt: 0], NSLigatureAttributeName,
         nil] retain];
     IFSyntaxAttributes[IFSyntaxAssembly] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.46 green: 0.31 blue: 0.31 alpha: 1.0], NSForegroundColorAttributeName,
+		[NSNumber numberWithInt: 0], NSLigatureAttributeName,
         nil] retain];
     IFSyntaxAttributes[IFSyntaxCodeAlpha] = [[NSDictionary dictionaryWithObjectsAndKeys:
         systemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.4 green: 0.4 blue: 0.3 alpha: 1.0], NSForegroundColorAttributeName,
+		[NSNumber numberWithInt: 0], NSLigatureAttributeName,
         nil] retain];
     IFSyntaxAttributes[IFSyntaxEscapeCharacter] = [[NSDictionary dictionaryWithObjectsAndKeys:
         boldSystemFont, NSFontAttributeName,
         [NSColor colorWithDeviceRed: 0.73 green: 0.2 blue: 0.73 alpha: 1.0], NSForegroundColorAttributeName,
+		[NSNumber numberWithInt: 0], NSLigatureAttributeName,
         nil] retain];
 	
 	// Natural Inform tab stops

@@ -249,7 +249,7 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 			
 		case IFFontSetStylised:
 			cacheFontSet = [[NSMutableDictionary dictionaryWithObjectsAndKeys: 
-				[self fontWithName: @"Gill Sans" size: 12*fontSize], IFPreferencesBaseFont,
+				[self fontWithName: @"Gill Sans Medium" size: 12*fontSize], IFPreferencesBaseFont,
 				[self fontWithName: @"Gill Sans Bold" size: 12*fontSize], IFPreferencesBoldFont,
 				[self fontWithName: @"Gill Sans Italic" size: 10*fontSize], IFPreferencesCommentFont,
 				[self fontWithName: @"Gill Sans Italic" size: 12*fontSize], IFPreferencesItalicFont,
