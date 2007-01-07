@@ -11,6 +11,7 @@
 #import "IFPreferencePane.h"
 
 #import "IFSyntaxStorage.h"
+#import "IFFontChooser.h"
 
 //
 // Preference pane that allows the user to select the styles she wants to see
@@ -27,6 +28,8 @@
 	
 	IFSyntaxStorage* previewStorage;
 	IFSyntaxStorage* tabStopStorage;
+	
+	IFFontChooser* fontChooser;
 }
 
 // Receiving data from/updating the interface

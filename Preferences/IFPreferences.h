@@ -26,7 +26,7 @@ enum IFPreferencesFontSet {
 	IFFontSetStandard=0,	// SystemFont/boldSystemFont
 	IFFontSetProgrammer=1,	// Monaco
 	IFFontSetStylised=2,	// Gill Sans
-	IFFontSetCustomised=255,
+	IFFontSetCustomised=1000,
 };
 
 enum IFPreferencesFontStyling {
@@ -76,6 +76,7 @@ enum IFPreferencesColourSet {
 - (void) preferencesHaveChanged;											// Generates a notification that preferences have changed
 
 // Style preferences
+- (NSString*) customFontFamily;												// The custom font family to use
 - (enum IFPreferencesFontSet) fontSet;										// The currently active font set
 - (enum IFPreferencesFontStyling) fontStyling;								// ... styling
 - (float) fontSize;															// ... size
@@ -83,6 +84,7 @@ enum IFPreferencesColourSet {
 - (enum IFPreferencesColourSet) colourSet;									// ... colour set
 - (float) tabWidth;															// ... tab width
 
+- (void) setCustomFontFamily: (NSString*) customFontFamily;					// Set the custom font family
 - (void) setFontSet: (enum IFPreferencesFontSet) newFontSet;				// Set the currently active font set
 - (void) setFontStyling: (enum IFPreferencesFontStyling) newFontStyling;	// ... styling
 - (void) setFontSize: (float) sizeMultiplier;								// ... size

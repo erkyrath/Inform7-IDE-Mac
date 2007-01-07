@@ -152,9 +152,24 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 		return 56.0;
 }
 
+- (NSString*) customFontFamily {
+	NSString* family = [preferences objectForKey: @"customFontFamily"];
+	
+	if (family)
+		return family;
+	else
+		return [[NSFont systemFontOfSize: 10] familyName];
+}
+
 - (void) setTabWidth: (float) newTabWidth {
 	[preferences setObject: [NSNumber numberWithInt: newTabWidth]
 					forKey: @"tabWidth"];
+	[self preferencesHaveChanged];
+}
+
+- (void) setCustomFontFamily: (NSString*) customFontFamily {
+	[preferences setObject: customFontFamily
+					forKey: @"customFontFamily"];
 	[self preferencesHaveChanged];
 }
 
@@ -199,6 +214,42 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 	}
 	
 	return result;
+}
+
+- (NSFont*) fontWithFamily: (NSString*) family
+					traits: (int) traits
+					weight: (int) weight
+					  size: (float) size {
+	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily: family
+															  traits: traits
+															  weight: weight
+																size: size];
+	if (font == nil) {
+		font = [[NSFontManager sharedFontManager] fontWithFamily: family
+														  traits: 0
+														  weight: weight
+															size: size];
+	}
+	
+	if (font == nil) {
+		font = [[NSFontManager sharedFontManager] fontWithFamily: family
+														  traits: traits
+														  weight: 5
+															size: size];
+	}
+	
+	if (font == nil) {
+		font = [[NSFontManager sharedFontManager] fontWithFamily: family
+														  traits: 0
+														  weight: 5
+															size: size];
+	}
+	
+	if (font == nil) {
+		font = [NSFont systemFontOfSize: size];
+	}
+	
+	return font;
 }
 
 - (void) recalculateStyles {
@@ -256,6 +307,36 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 				[self fontWithName: @"Gill Sans Bold Italic" size: 14*fontSize], IFPreferencesHeaderFont,
 				nil]
 				retain];
+			break;
+			
+		case IFFontSetCustomised:
+		{
+			NSString* family = [self customFontFamily];
+			
+			cacheFontSet = [[NSMutableDictionary dictionaryWithObjectsAndKeys: 
+				[self fontWithFamily: family
+							  traits: 0
+							  weight: 5
+								size: 11*fontSize], IFPreferencesBaseFont,
+				[self fontWithFamily: family
+							  traits: 0
+							  weight: 9
+								size: 11*fontSize], IFPreferencesBoldFont,
+				[self fontWithFamily: family
+							  traits: NSItalicFontMask
+							  weight: 5
+								size: 9*fontSize], IFPreferencesCommentFont,
+				[self fontWithFamily: family
+							  traits: NSItalicFontMask
+							  weight: 5
+								size: 10*fontSize], IFPreferencesItalicFont,
+				[self fontWithFamily: family
+							  traits: NSItalicFontMask
+							  weight: 9
+								size: 13*fontSize], IFPreferencesHeaderFont,
+				nil]
+				retain];
+		}
 			break;
 	}
 	

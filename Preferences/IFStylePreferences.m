@@ -12,6 +12,7 @@
 #import "IFNaturalHighlighter.h"
 
 #import "IFPreferences.h"
+#import "IFFontChooser.h"
 
 @implementation IFStylePreferences
 
@@ -102,8 +103,29 @@
 		return 0;
 }
 
+- (IBAction) chooseCustomFont: (id) sender {
+	[fontChooser release];
+	fontChooser = [[IFFontChooser alloc] init];
+	
+	[NSApp beginSheet: [fontChooser window]
+	   modalForWindow: [preferenceView window]
+		modalDelegate: self
+	   didEndSelector: @selector(selectedFont:returnCode:contextInfo:)
+		  contextInfo: nil];
+}
+
+- (void) selectedFont: (NSWindow*) sheet
+		   returnCode: (int) returnCode
+		  contextInfo: (void*) context {
+	// Nothing to do
+}
+
 - (IBAction) styleSetHasChanged: (id) sender {
 	IFPreferences* prefs = [IFPreferences sharedPreferences];
+	
+	if (sender == fontSet && [[sender selectedItem] tag] == 1000) {
+		[self chooseCustomFont: sender];
+	}
 	
 	if (sender == fontSet)			[prefs setFontSet:			[[fontSet selectedItem] tag]];
 	if (sender == fontStyle)		[prefs setFontStyling:		[[fontStyle selectedItem] tag]];
