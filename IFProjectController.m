@@ -2914,6 +2914,12 @@ static NSDictionary*  itemDictionary = nil;
 // display some useful state for.
 //
 
+//
+// A future extension could also store branch points and use ZoomView's autosave feature to avoid having
+// to replay the entire game. Unfortunately, there's no equivalent for glulx (and seeing as Zoom is very
+// fast and glulx is very slow, it's probably not worth it except as a fun toy)
+//
+
 - (BOOL) fillNode: (ZoomSkeinItem*) item {
 	BOOL filled = NO;
 	
@@ -2962,6 +2968,175 @@ static NSDictionary*  itemDictionary = nil;
 	} else if (skeinNodeStack != nil) {
 		[self nextDifferenceBySkein: self];
 	}
+}
+
+// = Importing skein information =
+
+- (ZoomSkein*) skeinFromRecording: (NSString*) path {
+	// Read the file
+	NSData* fileData = [[NSData alloc] initWithContentsOfFile: path];
+	NSString* fileString = [[NSString alloc] initWithData: fileData
+												 encoding: NSUTF8StringEncoding];
+	[fileData release];
+	
+	if (fileString == nil) return nil;
+	
+	// Pull out the lines from the file
+	[fileString autorelease];
+	
+	int lineStart = 0;
+	int pos = 0;
+	int len = [fileString length];
+	
+	// Maximum length of 500k characters
+	if (len > 500000) return nil;
+	
+	NSMutableArray* lines = [NSMutableArray array];
+	
+	for (pos=0; pos<len; pos++) {
+		// Get the next character
+		unichar lineChar = [fileString characterAtIndex: pos];
+		
+		// Check for a newline
+		if (lineChar == '\n' || lineChar == '\r') {
+			// Maximum line length of 50 characters
+			if (pos - lineStart > 50) return nil;
+			
+			// Maximum 10,000 moves
+			if ([lines count] >= 10000) return nil;
+			
+			// Get the current line
+			NSString* thisLine = [fileString substringWithRange: NSMakeRange(lineStart, pos-lineStart)];
+			[lines addObject: thisLine];
+			
+			// Deal with <CR><LF> and <LF><CR> sequences
+			if (pos+1 < len) {
+				if (lineChar == '\r' && [fileString characterAtIndex: pos+1] == '\n') pos++;
+				else if (lineChar == '\n' && [fileString characterAtIndex: pos+1] == '\r') pos++;
+			}
+			
+			// Store the start of the next line
+			lineStart = pos+1;
+		}
+	}
+	
+	// Must be at least one line in the file
+	if ([lines count] < 1) return nil;
+	
+	// Build the new skein
+	ZoomSkein* newSkein = [[[ZoomSkein alloc] init] autorelease];
+	
+	[newSkein setActiveItem: [newSkein rootItem]];
+	
+	NSEnumerator* lineEnum = [lines objectEnumerator];
+	NSString* line;
+	while (line = [lineEnum nextObject]) {
+		[newSkein inputCommand: line];
+	}
+	
+	// Label the final line
+	[[newSkein activeItem] setAnnotation: [NSString stringWithFormat: @"Recording: %@", [[path lastPathComponent] stringByDeletingPathExtension]]];
+	
+	return newSkein;
+}
+
+- (void) importPanelFinished: (NSOpenPanel*) panel
+				  returnCode: (int) returnCode
+				 contextInfo: (void*) contextInfo {
+	if (returnCode == NSOKButton) {
+		NSString* path = [panel filename];
+		NSString* extn = [[path pathExtension] lowercaseString];
+		
+		ZoomSkein* loadedSkein = nil;
+		NSString* loadError = nil;
+		
+		if ([extn isEqualToString: @"txt"] || [extn isEqualToString: @"rec"]) {
+			loadedSkein = [self skeinFromRecording: path];
+			
+			loadError = [[NSBundle mainBundle] localizedStringForKey: @"Recording Skein Load Failure"
+															   value: nil
+															   table: nil];
+		} else if ([extn isEqualToString: @"skein"]) {
+			loadedSkein = [[[ZoomSkein alloc] init] autorelease];
+			
+			BOOL parsed = [loadedSkein parseXmlData: [NSData dataWithContentsOfFile: path]];
+			if (!parsed) loadedSkein = nil;
+		} else if ([extn isEqualToString: @"zoomsave"]) {
+			loadedSkein = [[[ZoomSkein alloc] init] autorelease];
+			
+			BOOL parsed = [loadedSkein parseXmlData: [NSData dataWithContentsOfFile: [path stringByAppendingPathComponent: @"Skein.skein"]]];
+			if (!parsed) loadedSkein = nil;			
+		}
+		
+		if (loadedSkein != nil) {
+			// Merge the new skein into the current skein
+			NSEnumerator* childEnum = [[[loadedSkein rootItem] children] objectEnumerator];
+			ZoomSkeinItem* child;
+			
+			while (child = [childEnum nextObject]) {
+				[[child retain] autorelease];
+				[child removeFromParent];
+				
+				[child setTemporary: YES];
+				[[[[self document] skein] rootItem] addChild: child];
+			}
+			
+			[[[self document] skein] zoomSkeinChanged];
+		} else {
+			if (loadError == nil)
+				loadError = [[NSBundle mainBundle] localizedStringForKey: @"Skein Load Failure"
+																   value: nil
+																   table: nil];
+			
+			[[NSRunLoop currentRunLoop] performSelector: @selector(showSkeinLoadError:)
+												 target: self 
+											   argument: loadError
+												  order: 32
+												  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+		}
+	}
+}
+
+- (void) showSkeinLoadError: (NSString*) message {
+	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Could not import skein"
+															 value: @"Could not import skein"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															  value: @"Cancel"
+															  table: nil],
+					   nil,
+					   nil,
+					   [self window],
+					   nil,
+					   nil,
+					   nil,
+					   nil,
+					   message);
+}
+
+- (IBAction) importIntoSkein: (id) sender {
+	// We can currently import .rec files, .txt files, zoomSave packages and .skein files
+	// In the case of .rec/.txt files, they must be <300k, be valid UTF-8 and have less than 10000 lines
+	// of a length no more than 50 characters each. (Anything else probably isn't a recording)
+
+	// Set up an open panel
+	NSOpenPanel* importPanel = [NSOpenPanel openPanel];
+	
+	[importPanel setAccessoryView: nil];
+	[importPanel setCanChooseFiles: YES];
+	[importPanel setCanChooseDirectories: NO];
+	[importPanel setResolvesAliases: YES];
+	[importPanel setAllowsMultipleSelection: NO];
+	[importPanel setTitle: @"Choose a recording, skein or Zoom save game file"];
+	
+	// Display the panel
+	[importPanel beginSheetForDirectory: nil
+								   file: nil
+								  types: [NSArray arrayWithObjects: @"rec", @"txt", @"zoomSave", @"skein", nil]
+						 modalForWindow: [self window]
+						  modalDelegate: self
+						 didEndSelector: @selector(importPanelFinished:returnCode:contextInfo:)
+							contextInfo: nil];
 }
 
 @end
