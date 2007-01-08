@@ -775,7 +775,21 @@ static NSDictionary*  itemDictionary = nil;
 	if ([first isKindOfClass: [NSView class]]) {
 		NSView* firstView = (NSView*)first;
 		
-		while (firstView != nil && ![firstView isKindOfClass: [NSTabView class]]) {
+		while (firstView != nil) {
+			if ([firstView isKindOfClass: [NSTabView class]]) {
+				// See if this is the tab view for a specific pane
+				NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+				IFProjectPane* pane;
+				BOOL found = NO;
+				while (pane = [paneEnum nextObject]) {
+					if ([pane tabView] == firstView) found = YES;
+				}
+				
+				// Keep this view, if it's a suitable candidate
+				if (found) break;
+			}
+			
+			// Continue up the tree
 			firstView = [firstView superview];
 		}
 		
