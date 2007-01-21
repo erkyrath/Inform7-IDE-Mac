@@ -1354,13 +1354,15 @@ static NSDictionary*  itemDictionary = nil;
         }
     }
 	
-	// No transcript pane showing: use the aux pane
+	// No index pane showing: use the aux pane
 	return [self auxPane];
 }
 
-- (IFProjectPane*) transcriptPane {
+- (IFProjectPane*) transcriptPane: (BOOL) canBeSkein {
 	// Returns the current pane containing the transcript
     int x;
+	IFProjectPane* skeinPane = nil;
+	IFProjectPane* notSkeinPane = nil;
 	
     for (x=0; x<[projectPanes count]; x++) {
         IFProjectPane* thisPane = [projectPanes objectAtIndex: x];
@@ -1368,8 +1370,15 @@ static NSDictionary*  itemDictionary = nil;
         if ([thisPane currentView] == IFTranscriptPane) {
 			// This is the transcript pane
 			return thisPane;
-        }
+        } else if ([thisPane currentView] == IFSkeinPane) {
+			skeinPane = thisPane;
+		} else {
+			notSkeinPane = thisPane;
+		}
     }
+	
+	// If canBeSkein is off, then use the pane that does not contain the skein
+	if (!canBeSkein && skeinPane && notSkeinPane) return notSkeinPane;
 	
 	// No transcript pane showing: use the auxilary pane
 	return [self auxPane];
@@ -1814,7 +1823,7 @@ static NSDictionary*  itemDictionary = nil;
 			   switchViews: (BOOL) switchViews {
 	// Select the transcript in the appropriate pane
 	if (switchViews) {
-		IFProjectPane* transcriptPane = [self transcriptPane];
+		IFProjectPane* transcriptPane = [self transcriptPane: NO];
 		[transcriptPane selectView: IFTranscriptPane];
 	}
 	
@@ -2352,7 +2361,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) lastCommand: (id) sender {
 	// Display the transcript
-	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFProjectPane* transcriptPane = [self transcriptPane: YES];
 	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
 
 	if ([[[transcriptView layout] skein] activeItem] == nil) {
@@ -2385,7 +2394,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (ZoomSkeinItem*) currentTranscriptCommand: (BOOL) preferBottom {
 	// Get the 'current' command: the command presently at the top/bottom of the window (or the selected command if it's visible)
-	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFProjectPane* transcriptPane = [self transcriptPane: YES];
 	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
 	
 	// Get the items that are currently showing in the transcript view
@@ -2416,7 +2425,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) lastChangedCommand: (id) sender {
 	// Display the transcript
-	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFProjectPane* transcriptPane = [self transcriptPane: YES];
 	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
 	
 	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
@@ -2444,7 +2453,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) nextChangedCommand: (id) sender {
 	// Display the transcript
-	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFProjectPane* transcriptPane = [self transcriptPane: YES];
 	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
 	
 	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
@@ -2472,7 +2481,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) lastDifference: (id) sender {
 	// Display the transcript
-	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFProjectPane* transcriptPane = [self transcriptPane: YES];
 	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
 	
 	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
@@ -2500,7 +2509,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) nextDifference: (id) sender {
 	// Display the transcript
-	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFProjectPane* transcriptPane = [self transcriptPane: YES];
 	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
 	
 	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
@@ -2528,7 +2537,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) nextDifferenceBySkein: (id) sender {
 	// Display the transcript
-	IFProjectPane* transcriptPane = [self transcriptPane];
+	IFProjectPane* transcriptPane = [self transcriptPane: YES];
 	
 	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
 	

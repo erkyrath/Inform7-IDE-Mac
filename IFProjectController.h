@@ -102,7 +102,7 @@ enum lineStyle {
 - (IFProjectPane*) gamePane;
 - (IFProjectPane*) auxPane;
 - (IFProjectPane*) skeinPane;
-- (IFProjectPane*) transcriptPane;
+- (IFProjectPane*) transcriptPane: (BOOL) canBeSkein;
 - (IFProjectPane*) indexPane;
 
 - (IFProjectPane*) oppositePane: (IFProjectPane*) pane;
