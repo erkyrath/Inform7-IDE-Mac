@@ -117,6 +117,7 @@ typedef unsigned char IFSyntaxStyle;
 	IFSyntaxStyle*  charStyles;			// Syntax state for each character
 	NSMutableArray* lineStyles;			// NSParagraphStyles for each line
 	
+	NSMutableArray* highlightingStack;	// Future ranges that still need highlighting
 	NSRange needsHighlighting;			// Range that still needs highlighting
 	int amountHighlighted;				// Amount highlighted this pass
 	
@@ -142,7 +143,7 @@ typedef unsigned char IFSyntaxStyle;
 }
 
 // Setting/retrieving the highlighter
-- (void) setHighlighter: (id<IFSyntaxHighlighter>) highlighter;	// Sets the syntax highlighter to use
+- (void) setHighlighter: (id<IFSyntaxHighlighter,NSObject>) highlighter;	// Sets the syntax highlighter to use
 - (id<IFSyntaxHighlighter>) highlighter;						// Retrieves the active syntax highlighter
 
 - (BOOL) highlighting;											// YES if highlighting is/may be going on

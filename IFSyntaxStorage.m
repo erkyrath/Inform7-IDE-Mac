@@ -35,6 +35,7 @@ static const int maxPassLength = 1024;
 		syntaxPos = 0;
 		
 		highlighter = nil;
+		highlightingStack = [[NSMutableArray alloc] init];
 		
 		// Initial state
 		lineStarts[0] = 0;
@@ -118,6 +119,7 @@ static const int maxPassLength = 1024;
 		[highlighter setSyntaxStorage: nil];
 		[highlighter release];
 	}
+	[highlightingStack release];
 	
 	if (intelSource) {
 		[intelSource setSyntaxStorage: nil];
@@ -764,6 +766,46 @@ static inline BOOL IsWhitespace(unichar c) {
 - (void) highlightRangeNow: (NSValue*) range {
 	if (highlighter == nil) return;	// Nothing to do
 	
+	// If a highlighter pass is already running...
+	if (needsHighlighting.location != NSNotFound) {
+#if HighlighterDebug
+		NSLog(@"Highlighter: new data arrived while we were busy");
+#endif
+		
+		NSRange rangeValue = [range rangeValue];
+		
+		if (rangeValue.location < needsHighlighting.location) {
+			// This location is earlier than the current highlighting location: it has a higher priority
+#if HighlighterDebug
+			NSLog(@"Highlighter: Going backwards...");
+#endif
+			
+			[highlightingStack addObject: [NSValue valueWithRange: needsHighlighting]];
+		} else {
+			// This location is later than the current highlighting location: it should be left until later
+#if HighlighterDebug
+			NSLog(@"Highlighter: Saving this for later...");
+#endif
+			
+			// Find where to store it (we could binary search here, but most of the time, the stack is small)
+			int pos;
+			for (pos = [highlightingStack count]-1; pos >= 0; pos--) {
+				NSRange thisRange = [[highlightingStack objectAtIndex: pos] rangeValue];
+				
+				if (thisRange.location > rangeValue.location) break;
+			}
+			
+			// Store this range
+			pos++;
+			[highlightingStack insertObject: range
+									atIndex: pos];
+			
+			// Just continue highlighting as before, we'll get to this eventually
+			return;
+		}
+	}
+	
+	// Highlighted nothing so far
 	amountHighlighted = 0;
 	
 	// Highlight the range
@@ -771,7 +813,7 @@ static inline BOOL IsWhitespace(unichar c) {
 	
 	[self highlightRange: [range rangeValue]];
 	
-	// Highlight anything else that might need it
+	// Highlight anything else that might need it (until we hit the end of a highlighter pass)
 	while (amountHighlighted < maxPassLength && [self highlighterPass]);
 	[self endEditing];
 	
@@ -781,6 +823,31 @@ static inline BOOL IsWhitespace(unichar c) {
 
 - (BOOL) highlighting {
 	return needsHighlighting.location!=NSNotFound;
+}
+
+- (BOOL) continueHighlightingFrom: (BOOL) positionReached {
+	unsigned strLen = [string length];
+
+	while ([highlightingStack count] > 0) {
+		// Get the next value from the stack
+		NSRange nextRange = [[highlightingStack lastObject] rangeValue];
+		[highlightingStack removeLastObject];
+		
+		// Ignore anything beyond the end of the string
+		if (nextRange.location > strLen) continue;
+		
+		if (nextRange.location >= positionReached) {
+			// This is the location to continue highlighting at
+#if HighlighterDebug
+			NSLog(@"Highlighter: apparently we have some unfinished business");
+#endif
+			needsHighlighting = nextRange;
+			return YES;
+		}
+	}
+	
+	// No more stack, nothing more to highlight
+	return NO;
 }
 
 - (BOOL) highlighterPass {
@@ -812,8 +879,12 @@ static inline BOOL IsWhitespace(unichar c) {
 	
 	if (x == needsHighlighting.length) {
 		// Everything is highlighted
-		needsHighlighting.location = NSNotFound;
-		return NO;
+		if ([self continueHighlightingFrom: needsHighlighting.location + needsHighlighting.length]) {
+			return YES;
+		} else {
+			needsHighlighting.location = NSNotFound;
+			return NO;
+		}
 	}
 	
 	// Find the last character that needs highlighting
@@ -835,8 +906,14 @@ static inline BOOL IsWhitespace(unichar c) {
 	needsHighlighting.length -= highlightEnd-needsHighlighting.location;
 	needsHighlighting.location = highlightEnd;
 	
-	if (needsHighlighting.length <= 0)
-		needsHighlighting.location = NSNotFound;
+	if (needsHighlighting.length <= 0) {
+		if ([self continueHighlightingFrom: highlightEnd]) {
+			return YES;
+		} else {
+			needsHighlighting.location = NSNotFound;
+			return NO;
+		}
+	}
 	
 	return YES;
 }
