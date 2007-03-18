@@ -63,6 +63,8 @@ enum IFIndexTabType {
 
     // Source
     IBOutlet NSTextView* sourceText;					// The view containing the source file
+	IBOutlet NSScrollView* sourceScroller;				// The scroll view containing the source file
+	IBOutlet NSView* fileManager;						// The view containing the file manager
 	
 	NSTextStorage* textStorage;							// The current text storage being displayed
 	
@@ -126,6 +128,9 @@ enum IFIndexTabType {
     IFProjectController* parent;						// The 'parent' project controller (not retained)
 	
 	BOOL setBreakpoint;									// YES if we are allowed to set breakpoints
+	
+	// The file manager
+	BOOL fileManagerShown;								// YES if the source pane is showing the file manager and not the source
 }
 
 + (IFProjectPane*) standardPane;								// Create/load a project pane
@@ -216,5 +221,10 @@ enum IFIndexTabType {
 
 // Search/replace
 - (void) performFindPanelAction: (id) sender;					// Called to invoke the find panel for the current pane
+
+// The file manager
+- (IBAction) showFileManager: (id) sender;						// Display the file manager in the source pane
+- (IBAction) hideFileManager: (id) sender;						// Hide the file manager in the source pane
+- (IBAction) toggleFileManager: (id) sender;					// Toggle whether or not the file manager is shown in the source pane
 
 @end

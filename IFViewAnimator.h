@@ -10,7 +10,9 @@
 
 typedef enum IFViewAnimationStyle {
 	IFAnimateLeft,
-	IFAnimateRight
+	IFAnimateRight,
+	IFFloatIn,
+	IFFloatOut
 } IFViewAnimationStyle;
 
 ///
@@ -38,6 +40,7 @@ typedef enum IFViewAnimationStyle {
 - (void) cacheStartView: (NSView*) view;							// Caches a specific image as the start of an animation
 
 // Animating
+- (void) setTime: (float) animationTime;							// Set how long the animation should take
 - (void) prepareToAnimateView: (NSView*) view;						// Prepares to animate, using the specified view as a template
 - (void) animateTo: (NSView*) view									// Begins animating the specified view so that transitions from the state set in prepareToAnimateView to the new state
 			 style: (IFViewAnimationStyle) style;

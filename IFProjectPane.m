@@ -23,6 +23,7 @@
 
 #import "IFBreadcrumbControl.h"
 #import "IFGlkResources.h"
+#import "IFViewAnimator.h"
 
 // Approximate maximum length of file to highlight in one 'iteration'
 #define minHighlightAmount 2048
@@ -243,6 +244,9 @@ NSDictionary* IFSyntaxAttributes[256];
     if (gameToRun) [gameToRun release];
 	if (wView) [wView release];
 	
+	if (sourceScroller) [sourceScroller release];
+	if (fileManager) [fileManager release];
+	
 	if (lastAnnotation) [lastAnnotation release];
     
     [super dealloc];
@@ -358,6 +362,9 @@ NSDictionary* IFSyntaxAttributes[256];
 	} else {
 		wView = nil;
 	}
+	
+	[sourceScroller retain];
+	[fileManager retain];
 	
     if (parent) {
         [self setupFromController];
@@ -1532,5 +1539,48 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 #endif
+
+// = The file manager =
+
+- (IBAction) showFileManager: (id) sender {
+	if (fileManagerShown) return;
+	
+	// Set the frame of the file manager view appropriately
+	[fileManager setFrame: [[[[sourceView view] subviews] objectAtIndex: 0] frame]];
+	
+	// Animate to the new view
+	IFViewAnimator* animator = [[IFViewAnimator alloc] init];
+	
+	[animator setTime: 0.3];
+	[animator prepareToAnimateView: [[[sourceView view] subviews] objectAtIndex: 0]];
+	[animator animateTo: fileManager
+				  style: IFFloatOut];
+	fileManagerShown = YES;
+	[animator autorelease];
+}
+
+- (IBAction) hideFileManager: (id) sender {
+	if (!fileManagerShown) return;
+
+	// Set the frame of the file manager view appropriately
+	[sourceScroller setFrame: [[[[sourceView view] subviews] objectAtIndex: 0] frame]];
+	
+	// Animate to the new view
+	IFViewAnimator* animator = [[IFViewAnimator alloc] init];
+	
+	[animator setTime: 0.3];
+	[animator prepareToAnimateView: [[[sourceView view] subviews] objectAtIndex: 0]];
+	[animator animateTo: sourceScroller
+				  style: IFFloatIn];
+	fileManagerShown = NO;
+	[animator autorelease];
+}
+
+- (IBAction) toggleFileManager: (id) sender {
+	if (fileManagerShown)
+		[self hideFileManager: sender];
+	else
+		[self showFileManager: sender];
+}
 
 @end

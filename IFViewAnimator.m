@@ -99,6 +99,10 @@
 
 // = Animating =
 
+- (void) setTime: (float) newAnimationTime {
+	animationTime = newAnimationTime;
+}
+
 - (void) finishAnimation {
 	if (originalView != nil) {
 		[self removeFromSuperview];
@@ -249,6 +253,72 @@
 					   operation: NSCompositeSourceOver
 						fraction: 1.0];
 			break;
+			
+		case IFFloatIn:
+		{
+			// New view appears to 'float' in from above
+			startTo.origin = bounds.origin;
+			startTo.size = startSize;
+			startFrom.origin = NSMakePoint(0,0);
+			startFrom.size = startSize;
+			
+			// Draw the old view
+			[startImage drawInRect: startTo
+						  fromRect: startFrom
+						 operation: NSCompositeSourceOver
+						  fraction: 1.0];
+			
+			// Draw the new view
+			endFrom.origin = NSMakePoint(0,0);
+			endFrom.size = endSize;
+			endTo = endFrom;
+			endTo.origin = bounds.origin;
+			
+			float scaleFactor = 0.9 + 0.1*percentDone;
+			endTo.size.height *= scaleFactor;
+			endTo.size.width *= scaleFactor;
+			endTo.origin.x += (endFrom.size.width - endTo.size.width) / 2;
+			endTo.origin.y += (endFrom.size.height - endTo.size.height) + 10.0*percentNotDone;
+			
+			[endImage drawInRect: endTo
+						fromRect: endFrom
+					   operation: NSCompositeSourceOver
+						fraction: percentDone];
+			break;
+		}
+
+		case IFFloatOut:
+		{
+			// Old view appears to 'float' out above
+			endTo.origin = bounds.origin;
+			endTo.size = endSize;
+			endFrom.origin = NSMakePoint(0,0);
+			endFrom.size = endSize;
+			
+			// Draw the old view
+			[endImage drawInRect: endTo
+						fromRect: endFrom
+					   operation: NSCompositeSourceOver
+						fraction: 1.0];
+			
+			// Draw the new view
+			startFrom.origin = NSMakePoint(0,0);
+			startFrom.size = startSize;
+			startTo = startFrom;
+			startTo.origin = bounds.origin;
+			
+			float scaleFactor = 0.9 + 0.1*percentNotDone;
+			startTo.size.height *= scaleFactor;
+			startTo.size.width *= scaleFactor;
+			startTo.origin.x += (startFrom.size.width - startTo.size.width) / 2;
+			startTo.origin.y += (startFrom.size.height - startTo.size.height) + 10.0*percentDone;
+			
+			[startImage drawInRect: startTo
+						  fromRect: startFrom
+						 operation: NSCompositeSourceOver
+						  fraction: percentNotDone];
+			break;
+		}
 	}
 }
 
