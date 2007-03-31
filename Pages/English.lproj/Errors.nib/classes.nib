@@ -1,0 +1,33 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {showWindow = id; }; 
+            CLASS = IFCompilerController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                compilerMessages = NSOutlineView; 
+                compilerResults = NSTextView; 
+                delegate = NSObject; 
+                messageScroller = NSScrollView; 
+                resultScroller = NSScrollView; 
+                splitView = NSSplitView; 
+                window = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = IFErrorsPage; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {compilerController = IFCompilerController; }; 
+            SUPERCLASS = IFPage; 
+        }, 
+        {
+            CLASS = IFPage; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -8,11 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFPage.h"
+#import "IFCompilerController.h"
+
 //
 // The 'errors' page
 //
-@interface IFErrorsPage : NSObject {
-
+@interface IFErrorsPage : IFPage {
+    IBOutlet IFCompilerController* compilerController;		// The compiler controller object
 }
+
+// Getting information about this page
+- (IFCompilerController*) compilerController;				// The compiler controller for this page
 
 @end

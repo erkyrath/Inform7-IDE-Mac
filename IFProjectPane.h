@@ -24,6 +24,7 @@
 
 #import "IFPage.h"
 #import "IFSourcePage.h"
+#import "IFErrorsPage.h"
 
 enum IFProjectPaneType {
     IFSourcePane = 1,
@@ -50,13 +51,10 @@ enum IFIndexTabType {
 @class IFProjectController;
 
 @interface IFProjectPane : NSObject {
-
     // Outlets
     IBOutlet NSView* paneView;							// The main pane view
-    IBOutlet IFCompilerController* compController;		// The compiler controller object
 
     IBOutlet NSTabView* tabView;						// The tab view
-    IBOutlet NSTabViewItem* errorsView;					// Errors pane
     IBOutlet NSTabViewItem* gameTabView;				// Game pane
     IBOutlet NSTabViewItem* docTabView;					// Documentation pane
 	IBOutlet NSTabViewItem* indexTabView;				// Index pane
@@ -68,6 +66,7 @@ enum IFIndexTabType {
 	
 	// The source page
 	IFSourcePage* sourcePage;							// The source page
+	IFErrorsPage* errorsPage;							// The errors page
 	
 	// The documentation view
 	WebView* wView;										// The web view that displays the documentation

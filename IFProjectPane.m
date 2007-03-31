@@ -206,7 +206,6 @@ NSDictionary* IFSyntaxAttributes[256];
     //       Doesn't always happen. Not very much memory. Still annoying.
     // (Better in Panther? Looks like it. Definitely fixed in Tiger.)
     [paneView       release];
-    [compController release];
 	
 	[transcriptView setDelegate: nil];
 	
@@ -281,10 +280,14 @@ NSDictionary* IFSyntaxAttributes[256];
 	[sourcePage showSourceFile: [doc mainSourceFile]];
 	
 	[self addPage: sourcePage];
+	
+	// Errors page
+	errorsPage = [[IFErrorsPage alloc] initWithProjectController: parent];
+	[self addPage: errorsPage];
     
-	// Compiler
-    [compController setCompiler: [doc compiler]];
-    [compController setDelegate: self];
+	// Compiler (lives on the errors page)
+    [[errorsPage compilerController] setCompiler: [doc compiler]];
+    [[errorsPage compilerController] setDelegate: self];
 	
 	// Settings
     [self updateSettings];
@@ -358,6 +361,10 @@ NSDictionary* IFSyntaxAttributes[256];
     }
 }
 
+- (NSTabViewItem*) tabViewItemForPage: (IFPage*) page {
+	return [tabView tabViewItemAtIndex: [tabView indexOfTabViewItemWithIdentifier: [page identifier]]];
+}
+
 - (void) selectView: (enum IFProjectPaneType) pane {
     if (!awake) {
         [NSBundle loadNibNamed: @"ProjectPane"
@@ -367,11 +374,11 @@ NSDictionary* IFSyntaxAttributes[256];
     NSTabViewItem* toSelect = nil;
     switch (pane) {
         case IFSourcePane:
-            toSelect = [tabView tabViewItemAtIndex: [tabView indexOfTabViewItemWithIdentifier: [sourcePage identifier]]];
+            toSelect = [self tabViewItemForPage: sourcePage];
             break;
 
         case IFErrorPane:
-            toSelect = errorsView;
+            toSelect = [self tabViewItemForPage: errorsPage];
             break;
 
         case IFGamePane:
@@ -411,7 +418,7 @@ NSDictionary* IFSyntaxAttributes[256];
 
     if ([[selectedView identifier] isEqualTo: [sourcePage identifier]]) {
         return IFSourcePane;
-    } else if (selectedView == errorsView) {
+    } else if ([[selectedView identifier] isEqualTo: [errorsPage identifier]]) {
         return IFErrorPane;
     } else if (selectedView == gameTabView) {
         return IFGamePane;
@@ -450,7 +457,7 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 - (IFCompilerController*) compilerController {
-    return compController;
+    return [errorsPage compilerController];
 }
 
 // = Breakpoints =
@@ -624,7 +631,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	}
     
     if ([tabView selectedTabViewItem] == gameTabView) {
-        [tabView selectTabViewItem: errorsView];
+		[self selectView: IFErrorPane];
     }
 }
 
