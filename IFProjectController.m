@@ -33,6 +33,16 @@
 NSString* IFSplitViewSizes = @"IFSplitViewSizes";
 NSString* IFSourceSpellChecking = @"IFSourceSpellChecking";
 
+// = Private methods =
+
+@interface IFProjectController(Private)
+
+- (void) refreshIndexTabs;
+- (void) runCompilerOutput;
+- (void) runCompilerOutputAndReplay;
+
+@end
+
 @implementation IFProjectController
 
 // == Toolbar items ==
@@ -1497,15 +1507,19 @@ static NSDictionary*  itemDictionary = nil;
     return YES; // Only one source file ATM (Not any more... changed this)
 }
 
+- (IFSourcePage*) sourcePage {
+	return [[self sourcePane] sourcePage];
+}
+
 - (NSString*) selectedSourceFile {
-	return [[self sourcePane] currentFile];
+	return [[self sourcePage] currentFile];
 }
 
 - (void) moveToSourceFileLine: (int) line {
 	IFProjectPane* thePane = [self sourcePane];
 
     [thePane selectView: IFSourcePane];
-    [thePane moveToLine: line];
+    [[thePane sourcePage] moveToLine: line];
     [[self window] makeFirstResponder: [thePane activeView]];
 }
 
@@ -1513,7 +1527,7 @@ static NSDictionary*  itemDictionary = nil;
 	IFProjectPane* thePane = [self sourcePane];
 	
     [thePane selectView: IFSourcePane];
-    [thePane moveToLocation: location];
+    [[thePane sourcePage] moveToLocation: location];
     [[self window] makeFirstResponder: [thePane activeView]];
 }
 
@@ -1521,7 +1535,7 @@ static NSDictionary*  itemDictionary = nil;
 	IFProjectPane* thePane = [self sourcePane];
 	
     [thePane selectView: IFSourcePane];
-    [thePane selectRange: range];
+    [[thePane sourcePage] selectRange: range];
     [[self window] makeFirstResponder: [thePane activeView]];
 }
 
@@ -1549,8 +1563,8 @@ static NSDictionary*  itemDictionary = nil;
 		IFProjectPane* pane;
 	
 		while (pane = [paneEnum nextObject]) {
-			if ([[[self document] pathForFile: [pane currentFile]] isEqualToString: file]) {
-				[pane updateHighlightedLines];
+			if ([[[self document] pathForFile: [[pane sourcePage] currentFile]] isEqualToString: file]) {
+				[[pane sourcePage] updateHighlightedLines];
 			}
 		}
 	}
@@ -1610,8 +1624,8 @@ static NSDictionary*  itemDictionary = nil;
 	IFProjectPane* pane;
 	
 	while (pane = [paneEnum nextObject]) {
-		if ([[[self document] pathForFile: [pane currentFile]] isEqualToString: file]) {
-			[pane updateHighlightedLines];
+		if ([[[self document] pathForFile: [[pane sourcePage] currentFile]] isEqualToString: file]) {
+			[[pane sourcePage] updateHighlightedLines];
 		}
 	}
 }
@@ -1698,13 +1712,13 @@ static NSDictionary*  itemDictionary = nil;
 	int char_no = [[zView zMachine] characterForAddress: pc];
 		
 	if (line_no > -1 && filename != nil) {
-		[[self sourcePane] showSourceFile: filename];
+		[[self sourcePage] showSourceFile: filename];
 		
 		if (char_no > -1)
-			[[self sourcePane] moveToLine: line_no
+			[[self sourcePage] moveToLine: line_no
 								character: char_no];
 		else
-			[[self sourcePane] moveToLine: line_no];
+			[[self sourcePage] moveToLine: line_no];
 		[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];
 		[self highlightSourceFileLine: line_no
 							   inFile: filename
@@ -1731,7 +1745,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IFIntelFile*) currentIntelligence {
-	return [[self sourcePane] currentIntelligence];
+	return [[self sourcePage] currentIntelligence];
 }
 
 // = Documentation controls =
@@ -2686,7 +2700,7 @@ static NSDictionary*  itemDictionary = nil;
 	if (lineNumber != NSNotFound) {
 		[self removeAllTemporaryHighlights];
 		[self highlightSourceFileLine: lineNumber
-							   inFile: [[self sourcePane] currentFile]
+							   inFile: [[self sourcePage] currentFile]
 								style: IFLineStyleHighlight];
 		[self moveToSourceFileLine: lineNumber];
 	}
@@ -2824,7 +2838,7 @@ static NSDictionary*  itemDictionary = nil;
 	IFProjectPane* pane;
 	
 	while (pane = [paneEnum nextObject]) {
-		[pane setSpellChecking: sourceSpellChecking];
+		[[pane sourcePage] setSpellChecking: sourceSpellChecking];
 	}
 	
 	// Store the result
@@ -2903,7 +2917,7 @@ static NSDictionary*  itemDictionary = nil;
 	[popup setPopupView: [headingsBrowser view]];
 
 	[headingsBrowser setIntel: [self currentIntelligence]];
-	[headingsBrowser setSectionByLine: [[self sourcePane] currentLine]];
+	[headingsBrowser setSectionByLine: [[self sourcePage] currentLine]];
 }
 
 - (void) gotoSection: (id) sender {
@@ -2916,7 +2930,7 @@ static NSDictionary*  itemDictionary = nil;
 		if (lineNumber != NSNotFound) {
 			[self removeAllTemporaryHighlights];
 			[self highlightSourceFileLine: lineNumber
-								   inFile: [[self sourcePane] currentFile]
+								   inFile: [[self sourcePage] currentFile]
 									style: IFLineStyleHighlight];
 			[self moveToSourceFileLine: lineNumber];
 		}		

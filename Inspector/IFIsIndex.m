@@ -151,7 +151,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 			if (lineNumber != NSNotFound) {
 				[proj removeAllTemporaryHighlights];
 				[proj highlightSourceFileLine: lineNumber
-									   inFile: [[proj sourcePane] currentFile]
+									   inFile: [[[proj sourcePane] sourcePage] currentFile]
 										style: IFLineStyleHighlight];
 				[proj moveToSourceFileLine: lineNumber];
 			}

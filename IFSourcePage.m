@@ -9,6 +9,7 @@
 #import "IFSourcePage.h"
 
 #import "IFSyntaxStorage.h"
+#import "IFViewAnimator.h"
 
 @implementation IFSourcePage
 
@@ -19,6 +20,13 @@
 				projectController: controller];
 	
 	if (self) {
+		[sourceScroller retain];
+		[fileManager retain];
+		
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(sourceFileRenamed:)
+													 name: IFProjectSourceFileRenamedNotification 
+												   object: [parent document]];
 	}
 	
 	return self;
@@ -38,15 +46,23 @@
 		[textStorage removeLayoutManager: [sourceText layoutManager]];
 		[textStorage release];
 	}
+	
+	[sourceScroller release];
+	[fileManager release];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
 
 	[super dealloc];
 }
-
 
 // = Details about this view =
 
 - (NSString*) title {
 	return @"Untitled";
+}
+
+- (NSView*) activeView {
+	return sourceText;
 }
 
 // = Misc =
@@ -171,6 +187,10 @@
 }
 
 // = The selection =
+
+- (NSString*) openSourceFile {
+	return openSourceFile;
+}
 
 - (NSString*) currentFile {
 	return [[parent document] pathForFile: openSourceFile];
@@ -351,6 +371,55 @@
 	}
 	
 	return NSMakeRange(linepos, x - linepos + 1);
+}
+
+// = Spell checking =
+
+- (void) setSpellChecking: (BOOL) checkSpelling {
+	[sourceText setContinuousSpellCheckingEnabled: checkSpelling];
+}
+
+// = The file manager =
+
+- (IBAction) showFileManager: (id) sender {
+	if (fileManagerShown) return;
+	
+	// Set the frame of the file manager view appropriately
+	[fileManager setFrame: [[[[self view] subviews] objectAtIndex: 0] frame]];
+	
+	// Animate to the new view
+	IFViewAnimator* animator = [[IFViewAnimator alloc] init];
+	
+	[animator setTime: 0.3];
+	[animator prepareToAnimateView: [[[self view] subviews] objectAtIndex: 0]];
+	[animator animateTo: fileManager
+				  style: IFFloatOut];
+	fileManagerShown = YES;
+	[animator autorelease];
+}
+
+- (IBAction) hideFileManager: (id) sender {
+	if (!fileManagerShown) return;
+	
+	// Set the frame of the file manager view appropriately
+	[sourceScroller setFrame: [[[[self view] subviews] objectAtIndex: 0] frame]];
+	
+	// Animate to the new view
+	IFViewAnimator* animator = [[IFViewAnimator alloc] init];
+	
+	[animator setTime: 0.3];
+	[animator prepareToAnimateView: [[[self view] subviews] objectAtIndex: 0]];
+	[animator animateTo: sourceScroller
+				  style: IFFloatIn];
+	fileManagerShown = NO;
+	[animator autorelease];
+}
+
+- (IBAction) toggleFileManager: (id) sender {
+	if (fileManagerShown)
+		[self hideFileManager: sender];
+	else
+		[self showFileManager: sender];
 }
 
 @end

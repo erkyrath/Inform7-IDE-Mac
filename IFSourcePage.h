@@ -17,11 +17,17 @@
 //
 @interface IFSourcePage : IFPage {
 	IBOutlet NSTextView* sourceText;							// The text view containing the source text
+	IBOutlet NSScrollView* sourceScroller;						// The scroll view containing the source file
+	IBOutlet NSView* fileManager;								// The view containing the file manager
 	
 	NSTextStorage* textStorage;									// The text storage object for this view
 	NSString* openSourceFile;									// The name of the file that is open in this page
+	
+	// The file manager
+	BOOL fileManagerShown;								// YES if the source pane is showing the file manager and not the source
 }
 
+// Source pane controls
 - (void) prepareToCompile;										// Informs this pane that it's time to prepare to compile (or save) the document
 
 - (NSRange) findLine: (int) line;								// Gets the range of characters that correspond to a specific line number
@@ -34,11 +40,20 @@
 - (void) pasteSourceCode: (NSString*) sourceCode;				// Pastes in the given code at the current insertion position (replacing any selected code and updating the undo manager)
 
 - (void) showSourceFile: (NSString*) file;						// Shows the source file with the given filename in the view
+- (NSString*) openSourceFile;									// Returns the unprocessed name of the currently open file (currentFile is usually more appropriate than this)
 - (NSString*) currentFile;										// Returns the currently displayed filename
 - (int) currentLine;											// Returns the line the cursor is currently on
 
 - (void) updateHighlightedLines;								// Updates the temporary highlights (which display breakpoints, etc)
 
 - (IFIntelFile*) currentIntelligence;							// The active IntelFile object for the current view (ie, the object that's dealing with auto-tabs, the dynamic index, etc)
+
+- (void) setSpellChecking: (BOOL) checkSpelling;				// Sets check-as-you-type on or off
+
+// File manager controls
+- (IBAction) showFileManager: (id) sender;
+- (IBAction) hideFileManager: (id) sender;
+- (IBAction) toggleFileManager: (id) sender;
+
 
 @end

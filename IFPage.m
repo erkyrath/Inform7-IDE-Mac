@@ -18,6 +18,11 @@
 	self = [super init];
 	
 	if (self) {
+		// Load the nib file
+		[NSBundle loadNibNamed: nib
+						 owner: self];
+		
+		// Set the parent
 		parent = controller;
 	}
 	
@@ -36,6 +41,10 @@
 }
 
 - (NSView*) view {
+	return view;
+}
+
+- (NSView*) activeView {
 	return view;
 }
 

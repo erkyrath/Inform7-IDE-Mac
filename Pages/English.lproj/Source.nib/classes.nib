@@ -9,9 +9,14 @@
         }, 
         {CLASS = IFSourceFileView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
         {
+            ACTIONS = {hideFileManager = id; showFileManager = id; toggleFileManager = id; }; 
             CLASS = IFSourcePage; 
             LANGUAGE = ObjC; 
-            OUTLETS = {sourceText = NSTextView; }; 
+            OUTLETS = {
+                fileManager = NSView; 
+                sourceScroller = NSScrollView; 
+                sourceText = NSTextView; 
+            }; 
             SUPERCLASS = IFPage; 
         }
     ); 

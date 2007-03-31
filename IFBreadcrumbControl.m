@@ -125,7 +125,7 @@
 }
 
 - (NSSize) idealSize {
-	if (needsCalculation) [self recalculate];
+	if (needsCalculation) [self calcSize];
 	
 	return idealSize;
 }

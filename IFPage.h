@@ -12,7 +12,7 @@
 #import "IFProjectController.h"
 
 //
-// Class that represents a page in a project pane
+// Controller class that represents a page in a project pane
 //
 @interface IFPage : NSObject {
 	IFProjectController* parent;			// The project controller that 'owns' this page (not retained)
@@ -28,6 +28,7 @@
 // Page properties
 - (NSString*) title;						// The name of the tab this page appears under
 - (NSView*) view;							// The view that should be used to display this page
+- (NSView*) activeView;						// The view that is considered to have focus for this page
 - (IBOutlet void) setView: (NSView*) view;	// Sets the view to use
 
 // TODO: page-specific toolbar items (NSCells?)

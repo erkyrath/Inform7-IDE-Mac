@@ -147,7 +147,7 @@
 }
 
 - (void) pasteCode: (NSString*) code {
-	[pane pasteSourceCode: [self unescapeString: code]];
+	[[pane sourcePage] pasteSourceCode: [self unescapeString: code]];
 }
 
 - (void) runStory: (NSString*) game {

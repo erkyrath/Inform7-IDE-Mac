@@ -9,6 +9,12 @@
 #import "IFFontTableSource.h"
 
 
+@interface IFFontTableSource(Private)
+
+- (NSArray*) families;
+
+@end
+
 ///
 /// Annoyingly, if I set the data source of the table views to the window controller object (which would
 /// be a lot easier), Cocoa screws up and releases the table view objects, causing everything to die
@@ -55,7 +61,7 @@
 	return [[self families] indexOfObject: family];
 }
 
-	// = Being a Table Source =
+// = Being a Table Source =
 
 - (NSArray*) families {
 	if (!families) {

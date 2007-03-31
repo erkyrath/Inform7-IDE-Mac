@@ -22,6 +22,8 @@
 #import "IFSyntaxStorage.h"
 #import "IFProgress.h"
 
+#import "IFSourcePage.h"
+
 enum IFProjectPaneType {
     IFSourcePane = 1,
     IFErrorPane = 2,
@@ -60,13 +62,9 @@ enum IFIndexTabType {
 	IBOutlet NSTabViewItem* indexTabView;				// Index pane
 	IBOutlet NSTabViewItem* skeinTabView;				// Skein pane
 	IBOutlet NSTabViewItem* transcriptTabView;			// Transcript pane
-
-    // Source
-    IBOutlet NSTextView* sourceText;					// The view containing the source file
-	IBOutlet NSScrollView* sourceScroller;				// The scroll view containing the source file
-	IBOutlet NSView* fileManager;						// The view containing the file manager
 	
-	NSTextStorage* textStorage;							// The current text storage being displayed
+	// The source page
+	IFSourcePage* sourcePage;							// The source page
 	
 	// The documentation view
 	WebView* wView;										// The web view that displays the documentation
@@ -121,16 +119,10 @@ enum IFIndexTabType {
 	IBOutlet IFTranscriptView* transcriptView;			// The transcript view
 	
     // Other variables
-    NSMutableArray* sourceFiles;						// The set of available source files
-    NSString*       openSourceFile;						// The filename of the presently displayed source file
-
     BOOL awake;											// YES if we've loaded from the nib and initialised properly
     IFProjectController* parent;						// The 'parent' project controller (not retained)
 	
 	BOOL setBreakpoint;									// YES if we are allowed to set breakpoints
-	
-	// The file manager
-	BOOL fileManagerShown;								// YES if the source pane is showing the file manager and not the source
 }
 
 + (IFProjectPane*) standardPane;								// Create/load a project pane
@@ -153,22 +145,7 @@ enum IFIndexTabType {
 
 // The source view
 - (void) prepareToCompile;										// Informs this pane that it's time to prepare to compile (or save) the document
-
-- (void) moveToLine: (int) line									// Scrolls the source view so that the given line/character to be visible
-		  character: (int) chr;
-- (void) moveToLine: (int) line;								// Scrolls the source view so that the given line to be visible
-- (void) moveToLocation: (int) location;						// Scrolls the source view so that the given character index is visible
-- (void) selectRange: (NSRange) range;							// Selects a range of characters in the source view
-
-- (void) pasteSourceCode: (NSString*) sourceCode;				// Pastes in the given code at the current insertion position (replacing any selected code and updating the undo manager)
-
-- (void) showSourceFile: (NSString*) file;						// Shows the source file with the given filename in the view
-- (NSString*) currentFile;										// Returns the currently displayed filename
-- (int) currentLine;											// Returns the line the cursor is currently on
-
-- (void) updateHighlightedLines;								// Updates the temporary highlights (which display breakpoints, etc)
-
-- (IFIntelFile*) currentIntelligence;							// The active IntelFile object for the current view (ie, the object that's dealing with auto-tabs, the dynamic index, etc)
+- (IFSourcePage*) sourcePage;									// The page representing the source page
 
 // The game view
 - (void) activateDebug;											// Notify that the next game run should be run with debugging on (breakpoints will be set)
@@ -216,15 +193,7 @@ enum IFIndexTabType {
 - (IBAction) setBreakpoint: (id) sender;						// Sets a breakpoint at the current line in response to a menu selection
 - (IBAction) deleteBreakpoint: (id) sender;						// Clears the breakpoint at the current line in response to a menu selection
 
-// Spell checking
-- (void) setSpellChecking: (BOOL) checkSpelling;				// Set to true if this pane should spell-check the source code
-
 // Search/replace
 - (void) performFindPanelAction: (id) sender;					// Called to invoke the find panel for the current pane
-
-// The file manager
-- (IBAction) showFileManager: (id) sender;						// Display the file manager in the source pane
-- (IBAction) hideFileManager: (id) sender;						// Hide the file manager in the source pane
-- (IBAction) toggleFileManager: (id) sender;					// Toggle whether or not the file manager is shown in the source pane
 
 @end
