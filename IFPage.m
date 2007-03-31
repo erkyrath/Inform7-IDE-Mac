@@ -54,4 +54,8 @@
 	releaseView = YES;
 }
 
+- (NSString*) identifier {
+	return [[self class] description];
+}
+
 @end

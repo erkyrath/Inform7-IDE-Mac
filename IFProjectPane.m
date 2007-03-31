@@ -367,7 +367,7 @@ NSDictionary* IFSyntaxAttributes[256];
     NSTabViewItem* toSelect = nil;
     switch (pane) {
         case IFSourcePane:
-            toSelect = sourceView;
+            toSelect = [tabView tabViewItemAtIndex: [tabView indexOfTabViewItemWithIdentifier: [sourcePage identifier]]];
             break;
 
         case IFErrorPane:
@@ -409,7 +409,7 @@ NSDictionary* IFSyntaxAttributes[256];
 - (enum IFProjectPaneType) currentView {
     NSTabViewItem* selectedView = [tabView selectedTabViewItem];
 
-    if (selectedView == sourceView) {
+    if ([[selectedView identifier] isEqualTo: [sourcePage identifier]]) {
         return IFSourcePane;
     } else if (selectedView == errorsView) {
         return IFErrorPane;
@@ -1222,7 +1222,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	[pages addObject: newPage];
 	
 	// Add the page to the tab view
-	NSTabViewItem* newItem = [[NSTabViewItem alloc] init];
+	NSTabViewItem* newItem = [[NSTabViewItem alloc] initWithIdentifier: [newPage identifier]];
 	[newItem setLabel: [newPage title]];
 
 	[tabView addTabViewItem: newItem];

@@ -27,6 +27,7 @@
 
 // Page properties
 - (NSString*) title;						// The name of the tab this page appears under
+- (NSString*) identifier;					// A unique identifier for this page
 - (NSView*) view;							// The view that should be used to display this page
 - (NSView*) activeView;						// The view that is considered to have focus for this page
 - (IBOutlet void) setView: (NSView*) view;	// Sets the view to use

@@ -56,7 +56,6 @@ enum IFIndexTabType {
     IBOutlet IFCompilerController* compController;		// The compiler controller object
 
     IBOutlet NSTabView* tabView;						// The tab view
-    IBOutlet NSTabViewItem* sourceView;					// Source pane
     IBOutlet NSTabViewItem* errorsView;					// Errors pane
     IBOutlet NSTabViewItem* gameTabView;				// Game pane
     IBOutlet NSTabViewItem* docTabView;					// Documentation pane

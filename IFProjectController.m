@@ -437,14 +437,14 @@ static NSDictionary*  itemDictionary = nil;
     [projectPanes removeAllObjects];
     [projectPanes addObject: [IFProjectPane standardPane]];
     [projectPanes addObject: [IFProjectPane standardPane]];
+
+    [self layoutPanes];
 	
     [[projectPanes objectAtIndex: 0] selectView: IFSourcePane];
     [[projectPanes objectAtIndex: 1] selectView: IFDocumentationPane];
 
 	[[[projectPanes objectAtIndex: 0] sourcePage] setSpellChecking: sourceSpellChecking];
     [[[projectPanes objectAtIndex: 1] sourcePage] setSpellChecking: sourceSpellChecking];
-
-    [self layoutPanes];
 
     // Monitor for compiler finished notifications
     [[NSNotificationCenter defaultCenter] addObserver: self
