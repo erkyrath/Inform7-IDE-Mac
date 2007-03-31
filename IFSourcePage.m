@@ -20,13 +20,33 @@
 				projectController: controller];
 	
 	if (self) {
+		// Retain the source scroller and file manager
 		[sourceScroller retain];
 		[fileManager retain];
 		
+		// Set up the source text view
+		IFProject* doc = [parent document];
+		[[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
+		
+		NSTextStorage* mainFile = [doc storageForFile: [doc mainSourceFile]];
+        if (mainFile == nil) {
+			NSLog(@"BUG: no main file!");
+			mainFile = [[[NSTextStorage alloc] init] autorelease];
+        }
+		NSString* mainFilename =  [doc mainSourceFile];
+		
+		[openSourceFile release];
+		openSourceFile = [mainFilename copy];
+		
+		[mainFile addLayoutManager: [sourceText layoutManager]];
+        if (textStorage) { [textStorage release]; textStorage = nil; }
+        textStorage = [mainFile retain];
+ 		
 		if ([sourceText undoManager] != [[parent document] undoManager]) {
 			NSLog(@"Oops: undo manager broken");
 		}
 		
+		// We want to monitor for file renaming events
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(sourceFileRenamed:)
 													 name: IFProjectSourceFileRenamedNotification 
