@@ -22,6 +22,7 @@
 #import "IFSyntaxStorage.h"
 #import "IFProgress.h"
 
+#import "IFPage.h"
 #import "IFSourcePage.h"
 
 enum IFProjectPaneType {
@@ -62,6 +63,9 @@ enum IFIndexTabType {
 	IBOutlet NSTabViewItem* indexTabView;				// Index pane
 	IBOutlet NSTabViewItem* skeinTabView;				// Skein pane
 	IBOutlet NSTabViewItem* transcriptTabView;			// Transcript pane
+	
+	// The pages
+	NSMutableArray* pages;								// Pages being managed by this control
 	
 	// The source page
 	IFSourcePage* sourcePage;							// The source page
@@ -138,6 +142,9 @@ enum IFIndexTabType {
 
 - (IFCompilerController*) compilerController;					// The compiler controller associated with this view
 
+// Dealing with pages
+- (void) addPage: (IFPage*) newPage;							// Adds a new page to this control
+
 // Selecting the view
 - (void) selectView: (enum IFProjectPaneType) pane;				// Changes the view displayed in this pane to the specified setting
 - (enum IFProjectPaneType) currentView;							// Returns the currently displayed view (IFUnknownPane is a possibility for some views I haven't added code to check for)
@@ -145,6 +152,7 @@ enum IFIndexTabType {
 
 // The source view
 - (void) prepareToCompile;										// Informs this pane that it's time to prepare to compile (or save) the document
+- (void) showSourceFile: (NSString*) file;					// Sets the source page to show a specific source file
 - (IFSourcePage*) sourcePage;									// The page representing the source page
 
 // The game view

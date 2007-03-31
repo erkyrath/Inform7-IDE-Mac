@@ -58,7 +58,9 @@
 // = Details about this view =
 
 - (NSString*) title {
-	return @"Untitled";
+	return [[NSBundle mainBundle] localizedStringForKey: @"Source Page Title"
+												  value: @"Source"
+												  table: nil];
 }
 
 - (NSView*) activeView {

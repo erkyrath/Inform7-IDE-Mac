@@ -441,8 +441,8 @@ static NSDictionary*  itemDictionary = nil;
     [[projectPanes objectAtIndex: 0] selectView: IFSourcePane];
     [[projectPanes objectAtIndex: 1] selectView: IFDocumentationPane];
 
-	[[projectPanes objectAtIndex: 0] setSpellChecking: sourceSpellChecking];
-    [[projectPanes objectAtIndex: 1] setSpellChecking: sourceSpellChecking];
+	[[[projectPanes objectAtIndex: 0] sourcePage] setSpellChecking: sourceSpellChecking];
+    [[[projectPanes objectAtIndex: 1] sourcePage] setSpellChecking: sourceSpellChecking];
 
     [self layoutPanes];
 

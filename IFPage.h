@@ -22,7 +22,7 @@
 }
 
 // Initialising
-- (id) initWithNibName: (NSString*) nib
+- (id) initWithNibName: (NSString*) nib		// Designated initialiser
 	 projectController: (IFProjectController*) controller;
 
 // Page properties

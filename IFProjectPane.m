@@ -167,6 +167,8 @@ NSDictionary* IFSyntaxAttributes[256];
         zView = nil;
         gameToRun = nil;
         awake = NO;
+		
+		pages = [[NSMutableArray alloc] init];
         
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(preferencesChanged:)
@@ -192,6 +194,8 @@ NSDictionary* IFSyntaxAttributes[256];
 		[gameRunningProgress release];
 		gameRunningProgress = nil;
 	}
+	
+	[pages release];
 	
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     
@@ -275,6 +279,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	// Source page
 	sourcePage = [[IFSourcePage alloc] initWithProjectController: parent];
 	[sourcePage showSourceFile: [doc mainSourceFile]];
+	
+	[self addPage: sourcePage];
     
 	// Compiler
     [compController setCompiler: [doc compiler]];
@@ -451,6 +457,10 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (void) prepareToCompile {
 	[sourcePage prepareToCompile];
+}
+
+- (void) showSourceFile: (NSString*) file {
+	[[self sourcePage] showSourceFile: file];
 }
 
 - (IFSourcePage*) sourcePage {
@@ -1204,5 +1214,21 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 #endif
+
+// = Dealing with pages =
+
+- (void) addPage: (IFPage*) newPage {
+	// Add this page to the list of pages being managed by this control
+	[pages addObject: newPage];
+	
+	// Add the page to the tab view
+	NSTabViewItem* newItem = [[NSTabViewItem alloc] init];
+	[newItem setLabel: [newPage title]];
+
+	[tabView addTabViewItem: newItem];
+
+	[[newPage view] setFrame: [[newItem view] bounds]];
+	[[newItem view] addSubview: [newPage view]];
+}
 
 @end
