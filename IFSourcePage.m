@@ -23,6 +23,10 @@
 		[sourceScroller retain];
 		[fileManager retain];
 		
+		if ([sourceText undoManager] != [[parent document] undoManager]) {
+			NSLog(@"Oops: undo manager broken");
+		}
+		
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(sourceFileRenamed:)
 													 name: IFProjectSourceFileRenamedNotification 
@@ -65,6 +69,13 @@
 
 - (NSView*) activeView {
 	return sourceText;
+}
+
+// = Text view delegate methods =
+
+- (NSUndoManager *)undoManagerForTextView:(NSTextView *)aTextView {
+	// Always use the document undo manager
+	return [[parent document] undoManager];
 }
 
 // = Misc =
@@ -373,6 +384,38 @@
 	}
 	
 	return NSMakeRange(linepos, x - linepos + 1);
+}
+
+// = Breakpoints =
+
+- (IBAction) setBreakpoint: (id) sender {
+	// Sets a breakpoint at the current location in the current source file
+	
+	// Work out which file and line we're in
+	NSString* currentFile = [self currentFile];
+	int currentLine = [self currentLine];
+	
+	if (currentLine >= 0) {
+		NSLog(@"Added breakpoint at %@:%i", currentFile, currentLine);
+		
+		[[parent document] addBreakpointAtLine: currentLine
+										inFile: currentFile];
+	}
+}
+
+- (IBAction) deleteBreakpoint: (id) sender {
+	// Sets a breakpoint at the current location in the current source file
+	
+	// Work out which file and line we're in
+	NSString* currentFile = [self currentFile];
+	int currentLine = [self currentLine];
+	
+	if (currentLine >= 0) {
+		NSLog(@"Deleted breakpoint at %@:%i", currentFile, currentLine);
+		
+		[[parent document] removeBreakpointAtLine: currentLine
+										   inFile: currentFile];
+	}	
 }
 
 // = Spell checking =

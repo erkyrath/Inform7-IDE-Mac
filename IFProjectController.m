@@ -2018,11 +2018,11 @@ static NSDictionary*  itemDictionary = nil;
 // This may not work the way the user expects if she has two source panes open. Blerh.
 
 - (IBAction) setBreakpoint: (id) sender {
-	[[self sourcePane] setBreakpoint: sender];
+	[[self sourcePage] setBreakpoint: sender];
 }
 
 - (IBAction) deleteBreakpoint: (id) sender {
-	[[self sourcePane] deleteBreakpoint: sender];
+	[[self sourcePage] deleteBreakpoint: sender];
 }
 
 - (void) updatedBreakpoints: (NSNotification*) not {

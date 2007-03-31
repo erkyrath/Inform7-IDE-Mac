@@ -269,12 +269,11 @@ NSDictionary* IFSyntaxAttributes[256];
 											 selector: @selector(updateSettings)
 												 name: IFSettingNotification
 											   object: [[parent document] settings]];
-	
 	[[NSNotificationCenter defaultCenter] addObserver: self
 											 selector: @selector(updatedBreakpoints:)
 												 name: IFProjectBreakpointsChangedNotification
 											   object: [parent document]];
-		
+	
     doc = [parent document];
 
 	// Source page
@@ -452,6 +451,30 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (IFCompilerController*) compilerController {
     return compController;
+}
+
+// = Breakpoints =
+
+- (void) updatedBreakpoints: (NSNotification*) not {
+	// Give up if there's no Z-Machine running
+	if (!zView) return;
+	if (![zView zMachine]) return;
+	
+	// Clear out the old breakpoints
+	[[zView zMachine] removeAllBreakpoints];
+	
+	// Set the breakpoints
+	int breakpoint;
+	for (breakpoint = 0; breakpoint < [[parent document] breakpointCount]; breakpoint++) {
+		int line = [[parent document] lineForBreakpointAtIndex: breakpoint];
+		NSString* file = [[parent document] fileForBreakpointAtIndex: breakpoint];
+		
+		if (line >= 0) {
+			if (![[zView zMachine] setBreakpointAtName: [NSString stringWithFormat: @"%@:%i", file, line+1]]) {
+				NSLog(@"Failed to set breakpoint at %@:%i", file, line+1);
+			}
+		}
+	}
 }
 
 // = The source view =
@@ -649,6 +672,19 @@ NSDictionary* IFSyntaxAttributes[256];
 		[pointToRunTo release];
 		pointToRunTo = nil;
 	}
+}
+
+// = Menu actions =
+
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+	// Can't add breakpoints if we're not showing the source view
+	// (Moot: this never gets called at any point where it is useful at the moment)
+	if ([menuItem action] == @selector(setBreakpoint:) ||
+		[menuItem action] == @selector(deleteBreakpoint:)) {
+		return [self currentView]==IFSourcePane;
+	}
+	
+	return YES;
 }
 
 // (ZoomView delegate functions)
@@ -1102,77 +1138,6 @@ NSDictionary* IFSyntaxAttributes[256];
 	if (returnCode == NSAlertAlternateReturn) {
 		[transcriptView blessAll];
 	} else {
-	}
-}
-
-// = Breakpoints =
-
-- (IBAction) setBreakpoint: (id) sender {
-	// Sets a breakpoint at the current location in the current source file
-	
-	// If we're not at the source pane, then do nothing
-	if ([self currentView] != IFSourcePane) return;
-	
-	// Work out which file and line we're in
-	NSString* currentFile = [sourcePage currentFile];
-	int currentLine = [sourcePage currentLine];
-	
-	if (currentLine >= 0) {
-		NSLog(@"Added breakpoint at %@:%i", currentFile, currentLine);
-		
-		[[parent document] addBreakpointAtLine: currentLine
-										inFile: currentFile];
-	}
-}
-
-- (IBAction) deleteBreakpoint: (id) sender {
-	// Sets a breakpoint at the current location in the current source file
-	
-	// If we're not at the source pane, then do nothing
-	if ([self currentView] != IFSourcePane) return;
-	
-	// Work out which file and line we're in
-	NSString* currentFile = [sourcePage currentFile];
-	int currentLine = [sourcePage currentLine];
-	
-	if (currentLine >= 0) {
-		NSLog(@"Deleted breakpoint at %@:%i", currentFile, currentLine);
-		
-		[[parent document] removeBreakpointAtLine: currentLine
-										   inFile: currentFile];
-	}	
-}
-
-- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
-	// Can't add breakpoints if we're not showing the source view
-	// (Moot: this never gets called at any point where it is useful at the moment)
-	if ([menuItem action] == @selector(setBreakpoint:) ||
-		[menuItem action] == @selector(deleteBreakpoint:)) {
-		return [self currentView]==IFSourcePane;
-	}
-	
-	return YES;
-}
-
-- (void) updatedBreakpoints: (NSNotification*) not {
-	// Give up if there's no Z-Machine running
-	if (!zView) return;
-	if (![zView zMachine]) return;
-	
-	// Clear out the old breakpoints
-	[[zView zMachine] removeAllBreakpoints];
-	
-	// Set the breakpoints
-	int breakpoint;
-	for (breakpoint = 0; breakpoint < [[parent document] breakpointCount]; breakpoint++) {
-		int line = [[parent document] lineForBreakpointAtIndex: breakpoint];
-		NSString* file = [[parent document] fileForBreakpointAtIndex: breakpoint];
-		
-		if (line >= 0) {
-			if (![[zView zMachine] setBreakpointAtName: [NSString stringWithFormat: @"%@:%i", file, line+1]]) {
-				NSLog(@"Failed to set breakpoint at %@:%i", file, line+1);
-			}
-		}
 	}
 }
 

@@ -196,10 +196,6 @@ enum IFIndexTabType {
 
 - (IBAction) transcriptBlessAll: (id) sender;					// Causes, after a confirmation, all the items in the transcript to be blessed
 
-// Breakpoints
-- (IBAction) setBreakpoint: (id) sender;						// Sets a breakpoint at the current line in response to a menu selection
-- (IBAction) deleteBreakpoint: (id) sender;						// Clears the breakpoint at the current line in response to a menu selection
-
 // Search/replace
 - (void) performFindPanelAction: (id) sender;					// Called to invoke the find panel for the current pane
 

@@ -50,10 +50,13 @@
 
 - (void) setSpellChecking: (BOOL) checkSpelling;				// Sets check-as-you-type on or off
 
+// Breakpoints
+- (IBAction) setBreakpoint: (id) sender;
+- (IBAction) deleteBreakpoint: (id) sender;
+
 // File manager controls
 - (IBAction) showFileManager: (id) sender;
 - (IBAction) hideFileManager: (id) sender;
 - (IBAction) toggleFileManager: (id) sender;
-
 
 @end

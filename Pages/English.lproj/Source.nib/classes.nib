@@ -1,6 +1,11 @@
 {
     IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {toggleSourceSpellChecking = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             CLASS = IFPage; 
             LANGUAGE = ObjC; 
@@ -9,7 +14,13 @@
         }, 
         {CLASS = IFSourceFileView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
         {
-            ACTIONS = {hideFileManager = id; showFileManager = id; toggleFileManager = id; }; 
+            ACTIONS = {
+                deleteBreakpoint = id; 
+                hideFileManager = id; 
+                setBreakpoint = id; 
+                showFileManager = id; 
+                toggleFileManager = id; 
+            }; 
             CLASS = IFSourcePage; 
             LANGUAGE = ObjC; 
             OUTLETS = {
