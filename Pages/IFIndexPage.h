@@ -7,11 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "IFPage.h"
 
 //
 // The 'Index' page
 //
-@interface IFIndexPage : NSObject {
+@interface IFIndexPage : IFPage {
 
 }
 

@@ -11,4 +11,29 @@
 
 @implementation IFIndexPage
 
+// = Initialisation =
+
+- (id) initWithProjectController: (IFProjectController*) controller {
+	self = [super initWithNibName: @"Index"
+				projectController: controller];
+	
+	if (self) {
+		
+	}
+	
+	return self;
+}
+
+- (void) dealloc {
+	[super dealloc];
+}
+
+// = Details about this view =
+
+- (NSString*) title {
+	return [[NSBundle mainBundle] localizedStringForKey: @"Index Page Title"
+												  value: @"Index"
+												  table: nil];
+}
+
 @end

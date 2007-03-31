@@ -7,11 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "IFPage.h"
 
 //
 // The 'skein' page
 //
-@interface IFSkeinPage : NSObject {
+@interface IFSkeinPage : IFPage {
 
 }
 

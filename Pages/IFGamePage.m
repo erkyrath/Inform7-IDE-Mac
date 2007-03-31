@@ -11,4 +11,29 @@
 
 @implementation IFGamePage
 
+// = Initialisation =
+
+- (id) initWithProjectController: (IFProjectController*) controller {
+	self = [super initWithNibName: @"Game"
+				projectController: controller];
+	
+	if (self) {
+		
+	}
+	
+	return self;
+}
+
+- (void) dealloc {
+	[super dealloc];
+}
+
+// = Details about this view =
+
+- (NSString*) title {
+	return [[NSBundle mainBundle] localizedStringForKey: @"Game Page Title"
+												  value: @"Game"
+												  table: nil];
+}
+
 @end

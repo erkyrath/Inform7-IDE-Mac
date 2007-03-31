@@ -11,4 +11,29 @@
 
 @implementation IFSettingsPage
 
+// = Initialisation =
+
+- (id) initWithProjectController: (IFProjectController*) controller {
+	self = [super initWithNibName: @"Errors"
+				projectController: controller];
+	
+	if (self) {
+		
+	}
+	
+	return self;
+}
+
+- (void) dealloc {
+	[super dealloc];
+}
+
+// = Details about this view =
+
+- (NSString*) title {
+	return [[NSBundle mainBundle] localizedStringForKey: @"Settings Page Title"
+												  value: @"Settings"
+												  table: nil];
+}
+
 @end

@@ -11,4 +11,29 @@
 
 @implementation IFTranscriptPage
 
+// = Initialisation =
+
+- (id) initWithProjectController: (IFProjectController*) controller {
+	self = [super initWithNibName: @"Transcript"
+				projectController: controller];
+	
+	if (self) {
+		
+	}
+	
+	return self;
+}
+
+- (void) dealloc {
+	[super dealloc];
+}
+
+// = Details about this view =
+
+- (NSString*) title {
+	return [[NSBundle mainBundle] localizedStringForKey: @"Transcript Page Title"
+												  value: @"Transcript"
+												  table: nil];
+}
+
 @end

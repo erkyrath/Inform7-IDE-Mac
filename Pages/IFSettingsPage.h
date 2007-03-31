@@ -7,12 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "IFPage.h"
 
 
 //
 // The 'settings' page
 //
-@interface IFSettingsPage : NSObject {
+@interface IFSettingsPage : IFPage {
 
 }
 

@@ -7,11 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "IFPage.h"
 
 //
 // The 'documentation' page
 //
-@interface IFDocumentationPage : NSObject {
+@interface IFDocumentationPage : IFPage {
 
 }
 

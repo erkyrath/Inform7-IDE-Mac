@@ -7,11 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "IFPage.h"
 
 //
 // The 'game' page
 //
-@interface IFGamePage : NSObject {
+@interface IFGamePage : IFPage {
 
 }
 

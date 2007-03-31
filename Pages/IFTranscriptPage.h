@@ -7,11 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "IFPage.h"
 
 //
 // The 'transcript' page
 //
-@interface IFTranscriptPage : NSObject {
+@interface IFTranscriptPage : IFPage {
 
 }
 

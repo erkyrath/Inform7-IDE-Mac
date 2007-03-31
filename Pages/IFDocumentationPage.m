@@ -11,4 +11,29 @@
 
 @implementation IFDocumentationPage
 
+// = Initialisation =
+
+- (id) initWithProjectController: (IFProjectController*) controller {
+	self = [super initWithNibName: @"Errors"
+				projectController: controller];
+	
+	if (self) {
+		
+	}
+	
+	return self;
+}
+
+- (void) dealloc {
+	[super dealloc];
+}
+
+// = Details about this view =
+
+- (NSString*) title {
+	return [[NSBundle mainBundle] localizedStringForKey: @"Documentation Page Title"
+												  value: @"Documentation"
+												  table: nil];
+}
+
 @end
