@@ -174,10 +174,6 @@ NSDictionary* IFSyntaxAttributes[256];
 												 selector: @selector(preferencesChanged:)
 													 name: IFPreferencesChangedEarlierNotification
 												   object: [IFPreferences sharedPreferences]];
-		[[NSNotificationCenter defaultCenter] addObserver: self
-												 selector: @selector(preferencesChangedQuickly:)
-													 name: IFPreferencesDidChangeNotification
-												   object: [IFPreferences sharedPreferences]];
 		
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(censusCompleted:)
@@ -198,6 +194,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	[sourcePage release];
 	[errorsPage release];
 	[indexPage release];
+	[skeinPage release];
 	[pages release];
 	
     [[NSNotificationCenter defaultCenter] removeObserver: self];
@@ -225,8 +222,6 @@ NSDictionary* IFSyntaxAttributes[256];
 	if (pointToRunTo) [pointToRunTo release];
     if (gameToRun) [gameToRun release];
 	if (wView) [wView release];
-	
-	if (lastAnnotation) [lastAnnotation release];
     
     [super dealloc];
 }
@@ -292,19 +287,12 @@ NSDictionary* IFSyntaxAttributes[256];
 	
 	[indexPage updateIndexView];
 	
+	// Skein page
+	skeinPage = [[IFSkeinPage alloc] initWithProjectController: parent];
+	[self addPage: skeinPage];
+	
 	// Settings
     [self updateSettings];
-		
-	// The skein view
-	[skeinView setSkein: [doc skein]];
-	[skeinView setDelegate: parent];
-
-	// (Problem with this is that it updates the menu on every change, which might get to be slow)
-	[[NSNotificationCenter defaultCenter] addObserver: self
-											 selector: @selector(skeinDidChange:)
-												 name: ZoomSkeinChangedNotification
-											   object: [doc skein]];
-	[self skeinDidChange: nil];
 	
 	if ([[NSApp delegate] isWebKitAvailable]) {
 		[wView setPolicyDelegate: [parent generalPolicy]];
@@ -394,7 +382,7 @@ NSDictionary* IFSyntaxAttributes[256];
 			break;
 			
 		case IFSkeinPane:
-			toSelect = skeinTabView;
+			toSelect = [self tabViewItemForPage: skeinPage];
 			break;
 			
 		case IFTranscriptPane:
@@ -426,7 +414,7 @@ NSDictionary* IFSyntaxAttributes[256];
         return IFDocumentationPane;
 	} else if ([[selectedView identifier] isEqualTo: [indexPage identifier]]) {
 		return IFIndexPane;
-	} else if (selectedView == skeinTabView) {
+	} else if ([[selectedView identifier] isEqualTo: [skeinPage identifier]]) {
 		return IFSkeinPane;
 	} else if (selectedView == transcriptTabView) {
 		return IFTranscriptPane;
@@ -508,6 +496,10 @@ NSDictionary* IFSyntaxAttributes[256];
 	return indexPage;
 }
 
+- (IFSkeinPage*) skeinPage {
+	return skeinPage;
+}
+
 // = Settings =
 
 - (void) updateSettings {
@@ -524,11 +516,6 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 // = The game view =
-
-- (void) preferencesChangedQuickly: (NSNotification*) not {
-	[skeinView setItemWidth: floorf([[IFPreferences sharedPreferences] skeinSpacingHoriz])];
-	[skeinView setItemHeight: floorf([[IFPreferences sharedPreferences] skeinSpacingVert])];
-}
 	
 - (void) preferencesChanged: (NSNotification*) not {
 	[zView setScaleFactor: 1.0/[[IFPreferences sharedPreferences] fontSize]];
@@ -616,9 +603,6 @@ NSDictionary* IFSyntaxAttributes[256];
 			nil]];
 		
 		[zView setScaleFactor: 1.0/[[IFPreferences sharedPreferences] fontSize]];
-		
-		[skeinView setItemWidth: floorf([[IFPreferences sharedPreferences] skeinSpacingHoriz])];
-		[skeinView setItemHeight: floorf([[IFPreferences sharedPreferences] skeinSpacingVert])];
 		
 		[zView setFrame: [gameView bounds]];
 		[zView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
@@ -824,122 +808,6 @@ NSDictionary* IFSyntaxAttributes[256];
 								   forKey: @"Project"];
 }
 
-
-// = The skein view =
-
-- (ZoomSkeinView*) skeinView {
-	return skeinView;
-}
-
-- (void) skeinDidChange: (NSNotification*) not {
-	[[[parent document] skein] populatePopupButton: skeinLabelButton];
-	[skeinLabelButton selectItem: nil];
-}
-
-- (void) clearSkeinDidEnd: (NSWindow*) sheet
-			   returnCode: (int) returnCode
-			  contextInfo: (void*) contextInfo {
-	if (returnCode == NSAlertAlternateReturn) {
-		ZoomSkein* skein = [[parent document] skein];
-		
-		[skein removeTemporaryItems: 0];
-		[skein zoomSkeinChanged];
-	}
-}
-
-- (IBAction) performPruning: (id) sender {
-	if ([sender tag] == 1) {
-		// Perform the pruning
-		ZoomSkein* skein = [[parent document] skein];
-
-		int pruning = 31 - [pruneAmount floatValue];
-		if (pruning < 1) pruning = 1;
-		
-		[skein removeTemporaryItems: pruning];
-		[skein zoomSkeinChanged];
-	}
-	
-	// Finish with the sheet
-	[NSApp stopModal];
-}
-
-- (IBAction) pruneSkein: (id) sender {
-	// Set the slider to a default value (prune a little - this is only a little harsher than the auto-pruning)
-	[pruneAmount setFloatValue: 10.0];
-	
-	// Run the 'prune skein' sheet
-	[NSApp beginSheet: pruneSkein
-	   modalForWindow: [skeinView window]
-		modalDelegate: self
-	   didEndSelector: nil
-		  contextInfo: nil];
-	[NSApp runModalForWindow: [skeinView window]];
-	[NSApp endSheet: pruneSkein];
-	[pruneSkein orderOut: self];
-}
-
-- (IBAction) performSkeinLayout: (id) sender {
-	// The user has clicked a button indicating she wants to change the skein layout
-	
-	// Set up the sliders
-	[skeinHoriz setFloatValue: [[IFPreferences sharedPreferences] skeinSpacingHoriz]];
-	[skeinVert setFloatValue: [[IFPreferences sharedPreferences] skeinSpacingVert]];
-	
-	// Run the 'layout skein' sheet
-	[NSApp beginSheet: skeinSpacing
-	   modalForWindow: [skeinView window]
-		modalDelegate: self
-	   didEndSelector: nil
-		  contextInfo: nil];
-	[NSApp runModalForWindow: [skeinView window]];
-	[NSApp endSheet: skeinSpacing];
-	[skeinSpacing orderOut: self];
-}
-
-- (IBAction) skeinLayoutOk: (id) sender {
-	// The user has confirmed her new skein layout
-	[NSApp stopModal];
-}
-
-- (IBAction) useDefaultSkeinLayout: (id) sender {
-	// The user has clicked a button indicating she wants to use the default skein layout
-	[skeinHoriz setFloatValue: 120.0];
-	[skeinVert setFloatValue: 96.0];
-	
-	[self updateSkeinLayout: sender];
-}
-
-- (IBAction) updateSkeinLayout: (id) sender {
-	// The user has dragged one of the skein layout sliders
-	[[IFPreferences sharedPreferences] setSkeinSpacingHoriz: [skeinHoriz floatValue]];
-	[[IFPreferences sharedPreferences] setSkeinSpacingVert: [skeinVert floatValue]];
-}
-
-- (IBAction) skeinLabelSelected: (id) sender {
-	NSString* annotation = [[sender selectedItem] title];
-	
-	// Reset the annotation count if required
-	if (![annotation isEqualToString: lastAnnotation]) {
-		annotationCount = 0;
-	}
-	
-	[lastAnnotation release];
-	lastAnnotation = [annotation retain];
-	
-	// Get the list of items for this annotation
-	NSArray* availableItems = [[[parent document] skein] itemsWithAnnotation: lastAnnotation];
-	if (!availableItems || [availableItems count] == 0) return;
-		
-	// Reset the annotation count if required
-	if ([availableItems count] <= annotationCount) annotationCount = 0;
-
-	// Scroll to the appropriate item
-	[skeinView scrollToItem: [availableItems objectAtIndex: annotationCount]];
-	
-	// Will scroll to the next item in the list if there's more than one
-	annotationCount++;
-}
-
 // = The transcript view =
 
 - (IFTranscriptLayout*) transcriptLayout {
@@ -984,7 +852,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	[skeinPane selectView: IFSkeinPane];
 	
 	// Scroll to the knot
-	[skeinPane->skeinView scrollToItem: knot];
+	[[skeinPage skeinView] scrollToItem: knot];
 }
 
 - (IBAction) transcriptBlessAll: (id) sender {
@@ -1066,6 +934,9 @@ NSDictionary* IFSyntaxAttributes[256];
 
 	[tabView addTabViewItem: newItem];
 
+	if ([[newItem view] frame].size.width <= 0) {
+		[[newItem view] setFrameSize: NSMakeSize(800, 200)];
+	}
 	[[newPage view] setFrame: [[newItem view] bounds]];
 	[[newItem view] addSubview: [newPage view]];
 }

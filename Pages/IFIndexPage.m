@@ -20,7 +20,7 @@
 				projectController: controller];
 	
 	if (self) {
-		
+		lastUserTab = [@"Contents" copy];
 	}
 	
 	return self;
@@ -31,6 +31,7 @@
 		[indexTabs setDelegate: nil];
 		[indexTabs release];
 	}
+	[lastUserTab release];
 
 	[super dealloc];
 }

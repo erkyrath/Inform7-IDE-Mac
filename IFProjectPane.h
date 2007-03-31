@@ -26,6 +26,7 @@
 #import "IFSourcePage.h"
 #import "IFErrorsPage.h"
 #import "IFIndexPage.h"
+#import "IFSkeinPage.h"
 
 enum IFProjectPaneType {
     IFSourcePane = 1,
@@ -48,7 +49,6 @@ enum IFProjectPaneType {
     IBOutlet NSTabView* tabView;						// The tab view
     IBOutlet NSTabViewItem* gameTabView;				// Game pane
     IBOutlet NSTabViewItem* docTabView;					// Documentation pane
-	IBOutlet NSTabViewItem* skeinTabView;				// Skein pane
 	IBOutlet NSTabViewItem* transcriptTabView;			// Transcript pane
 	
 	// The pages
@@ -58,6 +58,7 @@ enum IFProjectPaneType {
 	IFSourcePage* sourcePage;							// The source page
 	IFErrorsPage* errorsPage;							// The errors page
 	IFIndexPage* indexPage;								// The index page
+	IFSkeinPage* skeinPage;								// The skein page
 	
 	// The documentation view
 	WebView* wView;										// The web view that displays the documentation
@@ -75,19 +76,6 @@ enum IFProjectPaneType {
     // Documentation
     IBOutlet NSView* docView;							// The view that will contain the documentation web view
 	
-	// The skein view
-	IBOutlet ZoomSkeinView* skeinView;					// The skein view
-	IBOutlet NSPopUpButton* skeinLabelButton;			// The button used to jump to different skein items
-	int annotationCount;								// The number of annotations (labels)
-	NSString* lastAnnotation;							// The last annotation skipped to using the label button
-	
-	IBOutlet NSWindow* pruneSkein;						// The 'prune skein' window
-	IBOutlet NSSlider* pruneAmount;						// The 'prune amount' slider
-	
-	IBOutlet NSWindow* skeinSpacing;					// The 'skein spacing' window
-	IBOutlet NSSlider* skeinHoriz;						// The 'skein horizontal width' slider
-	IBOutlet NSSlider* skeinVert;						// The 'skein vertical width' slider
-
     // Settings
 	IBOutlet IFSettingsView* settingsView;				// The settings view
 	IBOutlet IFSettingsController* settingsController;	// The settings controller
@@ -134,6 +122,9 @@ enum IFProjectPaneType {
 // The index page
 - (IFIndexPage*) indexPage;										// The page representing the index
 
+// The skein page
+- (IFSkeinPage*) skeinPage;										// The page representing the skein
+
 // The game view
 - (void) activateDebug;											// Notify that the next game run should be run with debugging on (breakpoints will be set)
 - (void) startRunningGame: (NSString*) fileName;				// Starts running the game file with the given name in the game pane
@@ -151,19 +142,6 @@ enum IFProjectPaneType {
 
 // The documentation view
 - (void) openURL: (NSURL*) url;									// Tells the documentation view to open a specific URL
-
-// The skein view
-- (ZoomSkeinView*) skeinView;									// The skein view
-- (IBAction) skeinLabelSelected: (id) sender;					// The user has selected a skein item from the drop-down list (so we should scroll there)
-- (void) skeinDidChange: (NSNotification*) not;					// Called by Zoom to notify that the skein has changed
-
-- (IBAction) performPruning: (id) sender;						// The user has clicked a button in the 'prune skein' sheet
-- (IBAction) pruneSkein: (id) sender;							// The user has clicked the 'prune skein' button
-
-- (IBAction) performSkeinLayout: (id) sender;					// The user has clicked a button indicating she wants to change the skein layout
-- (IBAction) skeinLayoutOk: (id) sender;						// The user has confirmed her new skein layout
-- (IBAction) useDefaultSkeinLayout: (id) sender;				// The user has clicked a button indicating she wants to use the default skein layout
-- (IBAction) updateSkeinLayout: (id) sender;					// The user has dragged one of the skein layout sliders
 
 // The transcript view
 - (IFTranscriptView*) transcriptView;							// Returns the transcript view object associated with this pane

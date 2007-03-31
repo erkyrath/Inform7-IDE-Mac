@@ -877,7 +877,7 @@ static NSDictionary*  itemDictionary = nil;
 	
 	if (itemSelector == @selector(lastCommand:) ||
 		itemSelector == @selector(lastCommandInSkein:)) {
-		return [[[[self skeinPane] skeinView] skein] activeItem] != nil;
+		return [[[[[self skeinPane] skeinPage] skeinView] skein] activeItem] != nil;
 	}
 	
 	// Tabbing options
@@ -1829,7 +1829,7 @@ static NSDictionary*  itemDictionary = nil;
 	while (pane = [paneEnum nextObject]) {
 		[[pane transcriptLayout] transcriptToPoint: point];
 		[[pane transcriptView] scrollToItem: point];
-		[[pane skeinView] highlightSkeinLine: point];
+		[[[pane skeinPage] skeinView] highlightSkeinLine: point];
 	}
 }
 
@@ -2393,7 +2393,7 @@ static NSDictionary*  itemDictionary = nil;
 - (IBAction) lastCommandInSkein: (id) sender {
 	// Display the skein
 	IFProjectPane* skeinPane = [self skeinPane];
-	ZoomSkeinView* skeinView = [skeinPane skeinView];
+	ZoomSkeinView* skeinView = [[skeinPane skeinPage] skeinView];
 
 	if ([[skeinView skein] activeItem] == nil) {
 		// No active item to show
@@ -2573,7 +2573,7 @@ static NSDictionary*  itemDictionary = nil;
 		[[pane transcriptLayout] transcriptToPoint: nextSkeinItem];
 		[[pane transcriptView] scrollToItem: nextSkeinItem];
 		[[pane transcriptView] setHighlightedItem: nextSkeinItem];
-		[[pane skeinView] scrollToItem: nextSkeinItem];
+		[[[pane skeinPage] skeinView] scrollToItem: nextSkeinItem];
 	}
 
 	[transcriptPane selectView: IFTranscriptPane];
