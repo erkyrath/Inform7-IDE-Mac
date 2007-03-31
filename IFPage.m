@@ -11,4 +11,38 @@
 
 @implementation IFPage
 
+// = Initialisation =
+
+- (id) initWithNibName: (NSString*) nib
+	 projectController: (IFProjectController*) controller {
+	self = [super init];
+	
+	if (self) {
+		parent = controller;
+	}
+	
+	return self;
+}
+
+- (void) dealloc {
+	if (releaseView) [view release];
+	[super dealloc];
+}
+
+// = Details about this view =
+
+- (NSString*) title {
+	return @"Untitled";
+}
+
+- (NSView*) view {
+	return view;
+}
+
+- (IBOutlet void) setView: (NSView*) newView {
+	if (releaseView) [view release];
+	view = [newView retain];
+	releaseView = YES;
+}
+
 @end

@@ -274,7 +274,7 @@
 			endTo = endFrom;
 			endTo.origin = bounds.origin;
 			
-			float scaleFactor = 0.9 + 0.1*percentDone;
+			float scaleFactor = 0.95 + 0.05*percentDone;
 			endTo.size.height *= scaleFactor;
 			endTo.size.width *= scaleFactor;
 			endTo.origin.x += (endFrom.size.width - endTo.size.width) / 2;
@@ -307,7 +307,7 @@
 			startTo = startFrom;
 			startTo.origin = bounds.origin;
 			
-			float scaleFactor = 0.9 + 0.1*percentNotDone;
+			float scaleFactor = 0.95 + 0.05*percentNotDone;
 			startTo.size.height *= scaleFactor;
 			startTo.size.width *= scaleFactor;
 			startTo.origin.x += (startFrom.size.width - startTo.size.width) / 2;
