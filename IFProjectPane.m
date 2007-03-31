@@ -195,6 +195,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	[errorsPage release];
 	[indexPage release];
 	[skeinPage release];
+	[transcriptPage release];
 	[pages release];
 	
     [[NSNotificationCenter defaultCenter] removeObserver: self];
@@ -205,8 +206,6 @@ NSDictionary* IFSyntaxAttributes[256];
     //       Doesn't always happen. Not very much memory. Still annoying.
     // (Better in Panther? Looks like it. Definitely fixed in Tiger.)
     [paneView       release];
-	
-	[transcriptView setDelegate: nil];
     
     if (zView) {
 		[zView setDelegate: nil];
@@ -291,16 +290,16 @@ NSDictionary* IFSyntaxAttributes[256];
 	skeinPage = [[IFSkeinPage alloc] initWithProjectController: parent];
 	[self addPage: skeinPage];
 	
+	// Transcript page
+	transcriptPage = [[IFTranscriptPage alloc] initWithProjectController: parent];
+	[self addPage: transcriptPage];
+	
 	// Settings
     [self updateSettings];
 	
 	if ([[NSApp delegate] isWebKitAvailable]) {
 		[wView setPolicyDelegate: [parent generalPolicy]];
 	}
-	
-	// The transcript
-	[[transcriptView layout] setSkein: [doc skein]];
-	[transcriptView setDelegate: self];
 	
 	[wView setUIDelegate: parent];
 	[wView setHostWindow: [parent window]];
@@ -386,7 +385,7 @@ NSDictionary* IFSyntaxAttributes[256];
 			break;
 			
 		case IFTranscriptPane:
-			toSelect = transcriptTabView;
+			toSelect = [self tabViewItemForPage: transcriptPage];
 			break;
 			
 		case IFUnknownPane:
@@ -416,7 +415,7 @@ NSDictionary* IFSyntaxAttributes[256];
 		return IFIndexPane;
 	} else if ([[selectedView identifier] isEqualTo: [skeinPage identifier]]) {
 		return IFSkeinPane;
-	} else if (selectedView == transcriptTabView) {
+	} else if ([[selectedView identifier] isEqualTo: [transcriptPage identifier]]) {
 		return IFTranscriptPane;
     } else {
         return IFSourcePane;
@@ -498,6 +497,10 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (IFSkeinPage*) skeinPage {
 	return skeinPage;
+}
+
+- (IFTranscriptPage*) transcriptPage {
+	return transcriptPage;
 }
 
 // = Settings =
@@ -808,79 +811,7 @@ NSDictionary* IFSyntaxAttributes[256];
 								   forKey: @"Project"];
 }
 
-// = The transcript view =
-
-- (IFTranscriptLayout*) transcriptLayout {
-	return [transcriptView layout];
-}
-
-- (IFTranscriptView*) transcriptView {
-	return transcriptView;
-}
-
-- (void) transcriptPlayToItem: (ZoomSkeinItem*) itemToPlayTo {
-	ZoomSkein* skein = [[parent document] skein];
-	ZoomSkeinItem* activeItem = [skein activeItem];
-	
-	ZoomSkeinItem* firstPoint = nil;
-	
-	// See if the active item is a parent of the point we're playing to (in which case, continue playing. Otherwise, restart and play to that point)
-	ZoomSkeinItem* parentItem = [itemToPlayTo parent];
-	while (parentItem) {
-		if (parentItem == activeItem) {
-			firstPoint = activeItem;
-			break;
-		}
-		
-		parentItem = [parentItem parent];
-	}
-	
-	if (firstPoint == nil) {
-		[parent restartGame];
-		firstPoint = [skein rootItem];
-	}
-	
-	// Play to this point
-	[parent playToPoint: itemToPlayTo
-			  fromPoint: firstPoint];
-}
-
-- (void) transcriptShowKnot: (ZoomSkeinItem*) knot {
-	// Switch to the skein view
-	IFProjectPane* skeinPane = [parent skeinPane];
-	
-	[skeinPane selectView: IFSkeinPane];
-	
-	// Scroll to the knot
-	[[skeinPage skeinView] scrollToItem: knot];
-}
-
-- (IBAction) transcriptBlessAll: (id) sender {
-	// Display a confirmation dialog (as this can't be undone. Well, not easily)
-	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Are you sure you want to bless all these items?"
-															 value: @"Are you sure you want to bless all these items?"
-															 table: nil],
-					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
-															 value: @"Cancel"
-															 table: nil],
-					  [[NSBundle mainBundle] localizedStringForKey: @"Bless All"
-															 value: @"Bless All"
-															 table: nil],
-					  nil, [transcriptView window], self, 
-					  @selector(transcriptBlessAllDidEnd:returnCode:contextInfo:), nil,
-					  nil, [[NSBundle mainBundle] localizedStringForKey: @"Bless all explanation"
-																  value: @"Bless all explanation"
-																  table: nil]);
-}
-
-- (void) transcriptBlessAllDidEnd: (NSWindow*) sheet
-					   returnCode: (int) returnCode
-					  contextInfo: (void*) contextInfo {
-	if (returnCode == NSAlertAlternateReturn) {
-		[transcriptView blessAll];
-	} else {
-	}
-}
+// = The tab view =
 
 - (NSTabView*) tabView {
 	return tabView;

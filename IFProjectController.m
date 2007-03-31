@@ -1827,8 +1827,8 @@ static NSDictionary*  itemDictionary = nil;
 	IFProjectPane* pane;
 	
 	while (pane = [paneEnum nextObject]) {
-		[[pane transcriptLayout] transcriptToPoint: point];
-		[[pane transcriptView] scrollToItem: point];
+		[[[pane transcriptPage] transcriptLayout] transcriptToPoint: point];
+		[[[pane transcriptPage] transcriptView] scrollToItem: point];
 		[[[pane skeinPage] skeinView] highlightSkeinLine: point];
 	}
 }
@@ -1848,7 +1848,7 @@ static NSDictionary*  itemDictionary = nil;
 	IFProjectPane* pane;
 	
 	while (pane = [paneEnum nextObject]) {
-		[[pane transcriptView] setHighlightedItem: point];
+		[[[pane transcriptPage] transcriptView] setHighlightedItem: point];
 	}
 }
 
@@ -1896,8 +1896,8 @@ static NSDictionary*  itemDictionary = nil;
 		IFProjectPane* pane;
 		
 		while (pane = [paneEnum nextObject]) {
-			[[pane transcriptView] setHighlightedItem: nil];
-			[[pane transcriptView] setActiveItem: lastActiveItem];
+			[[[pane transcriptPage] transcriptView] setHighlightedItem: nil];
+			[[[pane transcriptPage] transcriptView] setActiveItem: lastActiveItem];
 		}
 	}
 }
@@ -2376,7 +2376,7 @@ static NSDictionary*  itemDictionary = nil;
 - (IBAction) lastCommand: (id) sender {
 	// Display the transcript
 	IFProjectPane* transcriptPane = [self transcriptPane: YES];
-	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	IFTranscriptView* transcriptView = [[transcriptPane transcriptPage] transcriptView];
 
 	if ([[[transcriptView layout] skein] activeItem] == nil) {
 		// No active item to show
@@ -2409,7 +2409,7 @@ static NSDictionary*  itemDictionary = nil;
 - (ZoomSkeinItem*) currentTranscriptCommand: (BOOL) preferBottom {
 	// Get the 'current' command: the command presently at the top/bottom of the window (or the selected command if it's visible)
 	IFProjectPane* transcriptPane = [self transcriptPane: YES];
-	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	IFTranscriptView* transcriptView = [[transcriptPane transcriptPage] transcriptView];
 	
 	// Get the items that are currently showing in the transcript view
 	ZoomSkeinItem* highlighted = [transcriptView highlightedItem];
@@ -2440,7 +2440,7 @@ static NSDictionary*  itemDictionary = nil;
 - (IBAction) lastChangedCommand: (id) sender {
 	// Display the transcript
 	IFProjectPane* transcriptPane = [self transcriptPane: YES];
-	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	IFTranscriptView* transcriptView = [[transcriptPane transcriptPage] transcriptView];
 	
 	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
 
@@ -2468,7 +2468,7 @@ static NSDictionary*  itemDictionary = nil;
 - (IBAction) nextChangedCommand: (id) sender {
 	// Display the transcript
 	IFProjectPane* transcriptPane = [self transcriptPane: YES];
-	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	IFTranscriptView* transcriptView = [[transcriptPane transcriptPage] transcriptView];
 	
 	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
 	
@@ -2496,7 +2496,7 @@ static NSDictionary*  itemDictionary = nil;
 - (IBAction) lastDifference: (id) sender {
 	// Display the transcript
 	IFProjectPane* transcriptPane = [self transcriptPane: YES];
-	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	IFTranscriptView* transcriptView = [[transcriptPane transcriptPage] transcriptView];
 	
 	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
 	
@@ -2524,7 +2524,7 @@ static NSDictionary*  itemDictionary = nil;
 - (IBAction) nextDifference: (id) sender {
 	// Display the transcript
 	IFProjectPane* transcriptPane = [self transcriptPane: YES];
-	IFTranscriptView* transcriptView = [transcriptPane transcriptView];
+	IFTranscriptView* transcriptView = [[transcriptPane transcriptPage] transcriptView];
 	
 	ZoomSkeinItem* currentItem = [self currentTranscriptCommand: NO];
 	
@@ -2570,9 +2570,9 @@ static NSDictionary*  itemDictionary = nil;
 	IFProjectPane* pane;
 	
 	while (pane = [paneEnum nextObject]) {
-		[[pane transcriptLayout] transcriptToPoint: nextSkeinItem];
-		[[pane transcriptView] scrollToItem: nextSkeinItem];
-		[[pane transcriptView] setHighlightedItem: nextSkeinItem];
+		[[[pane transcriptPage] transcriptLayout] transcriptToPoint: nextSkeinItem];
+		[[[pane transcriptPage] transcriptView] scrollToItem: nextSkeinItem];
+		[[[pane transcriptPage] transcriptView] setHighlightedItem: nextSkeinItem];
 		[[[pane skeinPage] skeinView] scrollToItem: nextSkeinItem];
 	}
 

@@ -27,6 +27,7 @@
 #import "IFErrorsPage.h"
 #import "IFIndexPage.h"
 #import "IFSkeinPage.h"
+#import "IFTranscriptPage.h"
 
 enum IFProjectPaneType {
     IFSourcePane = 1,
@@ -49,7 +50,6 @@ enum IFProjectPaneType {
     IBOutlet NSTabView* tabView;						// The tab view
     IBOutlet NSTabViewItem* gameTabView;				// Game pane
     IBOutlet NSTabViewItem* docTabView;					// Documentation pane
-	IBOutlet NSTabViewItem* transcriptTabView;			// Transcript pane
 	
 	// The pages
 	NSMutableArray* pages;								// Pages being managed by this control
@@ -59,6 +59,7 @@ enum IFProjectPaneType {
 	IFErrorsPage* errorsPage;							// The errors page
 	IFIndexPage* indexPage;								// The index page
 	IFSkeinPage* skeinPage;								// The skein page
+	IFTranscriptPage* transcriptPage;					// The transcript page
 	
 	// The documentation view
 	WebView* wView;										// The web view that displays the documentation
@@ -79,9 +80,6 @@ enum IFProjectPaneType {
     // Settings
 	IBOutlet IFSettingsView* settingsView;				// The settings view
 	IBOutlet IFSettingsController* settingsController;	// The settings controller
-	
-	// The transcript view
-	IBOutlet IFTranscriptView* transcriptView;			// The transcript view
 	
     // Other variables
     BOOL awake;											// YES if we've loaded from the nib and initialised properly
@@ -125,6 +123,9 @@ enum IFProjectPaneType {
 // The skein page
 - (IFSkeinPage*) skeinPage;										// The page representing the skein
 
+// The transcript page
+- (IFTranscriptPage*) transcriptPage;							// The page representing the transcript
+
 // The game view
 - (void) activateDebug;											// Notify that the next game run should be run with debugging on (breakpoints will be set)
 - (void) startRunningGame: (NSString*) fileName;				// Starts running the game file with the given name in the game pane
@@ -142,12 +143,6 @@ enum IFProjectPaneType {
 
 // The documentation view
 - (void) openURL: (NSURL*) url;									// Tells the documentation view to open a specific URL
-
-// The transcript view
-- (IFTranscriptView*) transcriptView;							// Returns the transcript view object associated with this pane
-- (IFTranscriptLayout*) transcriptLayout;						// Returns the transcript layout object associated with this pane
-
-- (IBAction) transcriptBlessAll: (id) sender;					// Causes, after a confirmation, all the items in the transcript to be blessed
 
 // Search/replace
 - (void) performFindPanelAction: (id) sender;					// Called to invoke the find panel for the current pane
