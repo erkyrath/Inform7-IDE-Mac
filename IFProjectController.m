@@ -894,7 +894,7 @@ static NSDictionary*  itemDictionary = nil;
 	}
 	
 	if (itemSelector == @selector(showIndexTab:)) {
-		return [[projectPanes objectAtIndex: 0] canSelectIndexTab: [menuItem tag]];
+		return [[[projectPanes objectAtIndex: 0] indexPage] canSelectIndexTab: [menuItem tag]];
 	}
 	
 	// Spell checking
@@ -1079,7 +1079,7 @@ static NSDictionary*  itemDictionary = nil;
 	IFProjectPane* pane;
 	
 	while (pane = [paneEnum nextObject]) {
-		[pane selectIndexTab: tag];
+		[[pane indexPage] selectIndexTab: tag];
 	}
 	
 	[[self indexPane] selectView: IFIndexPane];
@@ -1186,7 +1186,7 @@ static NSDictionary*  itemDictionary = nil;
 	// Update the index tab(s) (if there's anything to update)
 	for (x=0; x<[projectPanes count]; x++) {
         IFProjectPane* pane = [projectPanes objectAtIndex: x];
-		[pane updateIndexView];
+		[[pane indexPage] updateIndexView];
 	}
 
 	// Reload the index file

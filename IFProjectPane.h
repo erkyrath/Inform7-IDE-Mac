@@ -25,6 +25,7 @@
 #import "IFPage.h"
 #import "IFSourcePage.h"
 #import "IFErrorsPage.h"
+#import "IFIndexPage.h"
 
 enum IFProjectPaneType {
     IFSourcePane = 1,
@@ -38,16 +39,6 @@ enum IFProjectPaneType {
 	IFUnknownPane = 256
 };
 
-enum IFIndexTabType {
-	IFIndexActions = 1,
-	IFIndexContents = 2,
-	IFIndexKinds = 3,
-	IFIndexPhrasebook = 4,
-	IFIndexRules = 5,
-	IFIndexScenes = 6,
-	IFIndexWorld = 7
-};
-
 @class IFProjectController;
 
 @interface IFProjectPane : NSObject {
@@ -57,28 +48,20 @@ enum IFIndexTabType {
     IBOutlet NSTabView* tabView;						// The tab view
     IBOutlet NSTabViewItem* gameTabView;				// Game pane
     IBOutlet NSTabViewItem* docTabView;					// Documentation pane
-	IBOutlet NSTabViewItem* indexTabView;				// Index pane
 	IBOutlet NSTabViewItem* skeinTabView;				// Skein pane
 	IBOutlet NSTabViewItem* transcriptTabView;			// Transcript pane
 	
 	// The pages
 	NSMutableArray* pages;								// Pages being managed by this control
 	
-	// The source page
+	// The pages
 	IFSourcePage* sourcePage;							// The source page
 	IFErrorsPage* errorsPage;							// The errors page
+	IFIndexPage* indexPage;								// The index page
 	
 	// The documentation view
 	WebView* wView;										// The web view that displays the documentation
     
-    // The compiler (as for IFCompilerController.h)
-    IBOutlet NSTextView* compilerResults;				// The compiler results view
-    IBOutlet NSScrollView* resultScroller;				// The scroll view containing the compiler results
-
-    IBOutlet NSSplitView*   splitView;					// The split view separating the compiler results from the errors view
-    IBOutlet NSScrollView*  messageScroller;			// The compiler messages pane
-    IBOutlet NSOutlineView* compilerMessages;			// The list of parsed compiler messages (Inform 6 only)
-
     // The game view
     IBOutlet NSView* gameView;							// The view that will contain the running game
     
@@ -91,14 +74,6 @@ enum IFIndexTabType {
 
     // Documentation
     IBOutlet NSView* docView;							// The view that will contain the documentation web view
-	
-	// The index view
-	IBOutlet NSView* indexView;							// The view that will contain the various index web/text views
-	BOOL indexAvailable;								// YES if the index tab should be active
-	
-	NSTabView* indexTabs;								// The tab view containing the various index files
-	int indexMachineSelection;							// A reference count - number of 'machine' operations that might be affecting the index tab selection
-	NSString* lastUserTab;								// The last tab selected by a user action
 	
 	// The skein view
 	IBOutlet ZoomSkeinView* skeinView;					// The skein view
@@ -148,10 +123,16 @@ enum IFIndexTabType {
 - (enum IFProjectPaneType) currentView;							// Returns the currently displayed view (IFUnknownPane is a possibility for some views I haven't added code to check for)
 - (NSTabView*) tabView;											// The tab view itself
 
-// The source view
+// The source page
 - (void) prepareToCompile;										// Informs this pane that it's time to prepare to compile (or save) the document
-- (void) showSourceFile: (NSString*) file;					// Sets the source page to show a specific source file
+- (void) showSourceFile: (NSString*) file;						// Sets the source page to show a specific source file
 - (IFSourcePage*) sourcePage;									// The page representing the source page
+
+// The errors page
+- (IFErrorsPage*) errorsPage;									// The page displaying the results from the compiler
+
+// The index page
+- (IFIndexPage*) indexPage;										// The page representing the index
 
 // The game view
 - (void) activateDebug;											// Notify that the next game run should be run with debugging on (breakpoints will be set)
@@ -164,11 +145,6 @@ enum IFIndexTabType {
 - (BOOL) isRunningGame;											// YES if a game is running
 
 - (void) setPointToRunTo: (ZoomSkeinItem*) item;				// Sets the skein item to run to as soon as the game has started
-
-// The index view
-- (void) updateIndexView;										// Updates the index view with the current files in the index subdirectory
-- (BOOL) canSelectIndexTab: (int) whichTab;						// Returns YES if we can select a specific tab in the index pane
-- (void) selectIndexTab: (int) whichTab;						// Chooses a specific index tab
 
 // Settings
 - (void) updateSettings;										// Updates the settings views with their current values
