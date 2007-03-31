@@ -195,6 +195,7 @@ NSDictionary* IFSyntaxAttributes[256];
 		gameRunningProgress = nil;
 	}
 	
+	[sourcePage release];
 	[pages release];
 	
     [[NSNotificationCenter defaultCenter] removeObserver: self];
@@ -289,7 +290,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	// Settings
     [self updateSettings];
 	
-	// INdex view
+	// Index view
 	[self updateIndexView];
 	
 	// The skein view
