@@ -293,7 +293,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	NSRect parentRect = [tabViewParent bounds];
 	NSRect tabRect = [tabView frame];
 	
-	float leftMissing = NSMinX(clientRect) - NSMinX(parentRect);
+	//float leftMissing = NSMinX(clientRect) - NSMinX(parentRect);
 	float topMissing = NSMinY(clientRect) - NSMinY(parentRect);
 	float bottomMissing = NSMaxY(parentRect) - NSMaxY(clientRect);
 
