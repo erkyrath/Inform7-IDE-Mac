@@ -30,6 +30,9 @@
 }
 
 - (void) dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[settingsController release];
+	
 	[super dealloc];
 }
 
@@ -42,6 +45,15 @@
 }
 
 // = Settings =
+
+- (void) setSettingsController: (IFSettingsController*) controller {
+	[settingsController release];
+	settingsController = [controller retain];
+}
+
+- (IFSettingsController*) settingsController {
+	return settingsController;
+}
 
 - (void) updateSettings {
 	if (!parent) {
