@@ -22,7 +22,6 @@
 	if (self) {
 		// Retain the source scroller and file manager
 		[sourceScroller retain];
-		[fileManager retain];
 		
 		// Set up the source text view
 		IFProject* doc = [parent document];
@@ -485,6 +484,15 @@
 		[self hideFileManager: sender];
 	else
 		[self showFileManager: sender];
+}
+
+- (void) setFileManager: (NSView*) newFileManager {
+	[fileManager release];
+	fileManager = [newFileManager retain];
+}
+
+- (NSView*) fileManager {
+	return fileManager;
 }
 
 @end

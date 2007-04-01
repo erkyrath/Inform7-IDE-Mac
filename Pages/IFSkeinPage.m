@@ -48,8 +48,30 @@
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	
 	if (lastAnnotation) [lastAnnotation release];
+	if (pruneSkein) [pruneSkein release];
+	if (skeinSpacing) [skeinSpacing release];
 	
 	[super dealloc];
+}
+
+// = Setting up from the nib =
+
+- (void) setPruneSkein: (NSWindow*) newPruneSkein {
+	[pruneSkein release];
+	pruneSkein = [newPruneSkein retain];
+}
+
+- (NSWindow*) pruneSkein {
+	return pruneSkein;
+}
+
+- (void) setSkeinSpacing: (NSWindow*) newSkeinSpacing {
+	[skeinSpacing release];
+	skeinSpacing = [newSkeinSpacing retain];
+}
+
+- (NSWindow*) skeinSpacing {
+	return skeinSpacing;
 }
 
 // = Details about this view =

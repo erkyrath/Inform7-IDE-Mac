@@ -179,6 +179,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	[skeinPage finished];
 	[transcriptPage finished];
 	[gamePage finished];
+	[documentationPage finished];
+	[settingsPage finished];
 
 	[sourcePage release];
 	[errorsPage release];
@@ -186,6 +188,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	[skeinPage release];
 	[transcriptPage release];
 	[gamePage release];
+	[documentationPage release];
+	[settingsPage release];
 	[pages release];
 	
     [[NSNotificationCenter defaultCenter] removeObserver: self];
@@ -567,7 +571,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	NSTabViewItem* newItem = [[NSTabViewItem alloc] initWithIdentifier: [newPage identifier]];
 	[newItem setLabel: [newPage title]];
 
-	[tabView addTabViewItem: newItem];
+	[tabView addTabViewItem: [newItem autorelease]];
 
 	if ([[newItem view] frame].size.width <= 0) {
 		[[newItem view] setFrameSize: NSMakeSize(1280, 1024)];
