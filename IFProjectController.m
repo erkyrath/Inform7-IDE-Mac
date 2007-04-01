@@ -509,6 +509,7 @@ static NSDictionary*  itemDictionary = nil;
             [newView setIsPaneSplitter: YES];
             [newView setDelegate: self];
             [newView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+			[newView setIsPaneSplitter: YES];
 
             dividerWidth = [newView dividerThickness];
 

@@ -241,9 +241,10 @@ NSDictionary* IFSyntaxAttributes[256];
 	
 	// Source page
 	sourcePage = [[IFSourcePage alloc] initWithProjectController: parent];
-	[sourcePage showSourceFile: [doc mainSourceFile]];
-	
 	[self addPage: sourcePage];
+
+	[sourcePage showSourceFile: [doc mainSourceFile]];
+	[sourcePage updateHighlightedLines];
 	
 	// Errors page
 	errorsPage = [[IFErrorsPage alloc] initWithProjectController: parent];
@@ -282,7 +283,26 @@ NSDictionary* IFSyntaxAttributes[256];
     [settingsPage updateSettings];
 	
 	// Misc stuff
-	[sourcePage updateHighlightedLines];
+
+	// Resize the tab view so that the only margin is on the left
+	NSView* tabViewParent = [tabView superview];
+	NSView* tabViewClient = [[tabView selectedTabViewItem] view];
+	
+	NSRect clientRect = [tabViewParent convertRect: [tabViewClient bounds]
+										  fromView: tabViewClient];
+	NSRect parentRect = [tabViewParent bounds];
+	NSRect tabRect = [tabView frame];
+	
+	float leftMissing = NSMinX(clientRect) - NSMinX(parentRect);
+	float topMissing = NSMinY(clientRect) - NSMinY(parentRect);
+	float bottomMissing = NSMaxY(parentRect) - NSMaxY(clientRect);
+
+	//tabRect.origin.x -= leftMissing;
+	//tabRect.size.width += leftMissing;
+	tabRect.origin.y -= topMissing;
+	tabRect.size.height += topMissing + bottomMissing;
+
+	[tabView setFrame: tabRect];
 }
 
 - (void) awakeFromNib {
