@@ -14,11 +14,16 @@
 // = Initialisation =
 
 - (id) initWithProjectController: (IFProjectController*) controller {
-	self = [super initWithNibName: @"Errors"
+	self = [super initWithNibName: @"Settings"
 				projectController: controller];
 	
 	if (self) {
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(updateSettings)
+													 name: IFSettingNotification
+												   object: [[parent document] settings]];
 		
+		[self updateSettings];
 	}
 	
 	return self;
@@ -34,6 +39,21 @@
 	return [[NSBundle mainBundle] localizedStringForKey: @"Settings Page Title"
 												  value: @"Settings"
 												  table: nil];
+}
+
+// = Settings =
+
+- (void) updateSettings {
+	if (!parent) {
+		return; // Nothing to do
+	}
+	
+	[parent willNeedRecompile: nil];
+	
+	[settingsController setCompilerSettings: [[parent document] settings]];
+	[settingsController updateAllSettings];
+	
+	return;
 }
 
 @end

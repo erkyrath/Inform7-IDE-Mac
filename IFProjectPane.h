@@ -79,10 +79,7 @@ enum IFProjectPaneType {
 	IFTranscriptPage* transcriptPage;					// The transcript page
 	IFGamePage* gamePage;								// The game page
 	IFDocumentationPage* documentationPage;				// The documentation page
-    	
-    // Settings
-	IBOutlet IFSettingsView* settingsView;				// The settings view
-	IBOutlet IFSettingsController* settingsController;	// The settings controller
+	IFSettingsPage* settingsPage;						// The settings page
 	
     // Other variables
     BOOL awake;											// YES if we've loaded from the nib and initialised properly
@@ -127,15 +124,15 @@ enum IFProjectPaneType {
 // The transcript page
 - (IFTranscriptPage*) transcriptPage;							// The page representing the transcript
 
+// The settings page
+- (IFSettingsPage*) settingsPage;								// The page representing the settings for this project
+
 // The game page
 - (IFGamePage*) gamePage;										// The page representing the running game
 - (void) stopRunningGame;										// Convenience method
 
 // The documentation page
 - (IFDocumentationPage*) documentationPage;						// The page representing the documentation
-
-// Settings
-- (void) updateSettings;										// Updates the settings views with their current values
 
 // Search/replace
 - (void) performFindPanelAction: (id) sender;					// Called to invoke the find panel for the current pane

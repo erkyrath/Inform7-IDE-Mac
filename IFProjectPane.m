@@ -229,14 +229,12 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (void) setupFromController {
     IFProject* doc;
-
-    [[NSNotificationCenter defaultCenter] addObserver: self
-											 selector: @selector(updateSettings)
-												 name: IFSettingNotification
-											   object: [[parent document] settings]];
 	
     doc = [parent document];
-
+	
+	// Remove the first tab view item - which we can't do in interface builder :-/
+	[tabView removeTabViewItem: [[tabView tabViewItems] objectAtIndex: 0]];
+	
 	// Source page
 	sourcePage = [[IFSourcePage alloc] initWithProjectController: parent];
 	[sourcePage showSourceFile: [doc mainSourceFile]];
@@ -274,7 +272,10 @@ NSDictionary* IFSyntaxAttributes[256];
 	[self addPage: documentationPage];
 	
 	// Settings
-    [self updateSettings];
+	settingsPage = [[IFSettingsPage alloc] initWithProjectController: parent];
+	[self addPage: settingsPage];
+	
+    [settingsPage updateSettings];
 	
 	// Misc stuff
 	[sourcePage updateHighlightedLines];
@@ -460,25 +461,14 @@ NSDictionary* IFSyntaxAttributes[256];
 	return documentationPage;
 }
 
+- (IFSettingsPage*) settingsPage {
+	return settingsPage;
+}
+
 // = The game page =
 
 - (void) stopRunningGame {
 	[gamePage stopRunningGame];
-}
-
-// = Settings =
-
-- (void) updateSettings {
-	if (!parent) {
-		return; // Nothing to do
-	}
-	
-	[parent willNeedRecompile: nil];
-	
-	[settingsController setCompilerSettings: [[parent document] settings]];
-	[settingsController updateAllSettings];
-	
-	return;
 }
 
 // = Tab view delegate =

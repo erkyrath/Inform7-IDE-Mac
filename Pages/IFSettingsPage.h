@@ -14,7 +14,12 @@
 // The 'settings' page
 //
 @interface IFSettingsPage : IFPage {
-
+    // Settings
+	IBOutlet IFSettingsView* settingsView;				// The settings view
+	IBOutlet IFSettingsController* settingsController;	// The settings controller	
 }
+
+// Settings
+- (void) updateSettings;										// Updates the settings views with their current values
 
 @end
