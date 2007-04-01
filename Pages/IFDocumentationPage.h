@@ -13,7 +13,11 @@
 // The 'documentation' page
 //
 @interface IFDocumentationPage : IFPage {
-
+	// The documentation view
+	WebView* wView;										// The web view that displays the documentation
 }
+
+// The documentation view
+- (void) openURL: (NSURL*) url;									// Tells the documentation view to open a specific URL
 
 @end

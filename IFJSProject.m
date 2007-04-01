@@ -13,7 +13,7 @@
 
 // = Initialisation =
 
-- (id) initWithPane: (IFProjectPane*) newPane {
+- (id) initWithPane: (NSObject<IFProjectPane>*) newPane {
 	self = [super init];
 	
 	if (self) {

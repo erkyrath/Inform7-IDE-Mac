@@ -1756,15 +1756,15 @@ static NSDictionary*  itemDictionary = nil;
 
 // = Documentation controls =
 - (void) docIndex: (id) sender {
-	[[self auxPane] openURL: [NSURL URLWithString: @"inform:/index.html"]];
+	[[[self auxPane] documentationPage] openURL: [NSURL URLWithString: @"inform:/index.html"]];
 }
 
 - (void) docRecipes: (id) sender {
-	[[self auxPane] openURL: [NSURL URLWithString: @"inform:/recipes.html"]];
+	[[[self auxPane] documentationPage] openURL: [NSURL URLWithString: @"inform:/recipes.html"]];
 }
 
 - (void) docExtensions: (id) sender {
-	[[self auxPane] openURL: [NSURL URLWithString: @"inform://Extensions/Extensions.html"]];
+	[[[self auxPane] documentationPage] openURL: [NSURL URLWithString: @"inform://Extensions/Extensions.html"]];
 }
 
 // = Adding files =
@@ -2059,7 +2059,7 @@ static NSDictionary*  itemDictionary = nil;
 	
 	if ([type isEqualToString: @"Documentation"]) {
 		// Doc pane
-		[[self auxPane] openURL: [NSURL URLWithString: [@"inform:/" stringByAppendingPathComponent: [filename lastPathComponent]]]];
+		[[[self auxPane] documentationPage] openURL: [NSURL URLWithString: [@"inform:/" stringByAppendingPathComponent: [filename lastPathComponent]]]];
 	} else {
 		// Show the appropriate source file
 		[self selectSourceFile: filename];
@@ -2830,7 +2830,7 @@ static NSDictionary*  itemDictionary = nil;
 - (void) extensionsUpdated: (NSNotification*) not {
 	// Show 'installed extensions' in the documentation pane (it'll refresh after the census completes)
 	[[self auxPane] selectView: IFDocumentationPane];
-	[[self auxPane] openURL: [NSURL URLWithString: @"inform://Extensions/Extensions.html"]];
+	[[[self auxPane] documentationPage] openURL: [NSURL URLWithString: @"inform://Extensions/Extensions.html"]];
 }
 
 // = Spell checking =

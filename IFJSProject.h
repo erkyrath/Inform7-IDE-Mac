@@ -16,11 +16,11 @@
 // This should make it possible to create buttons that, for example, paste code into the source window.
 //
 @interface IFJSProject : NSObject {
-	IFProjectPane* pane;
+	NSObject<IFProjectPane>* pane;
 }
 
 // Initialisation
-- (id) initWithPane: (IFProjectPane*) pane;				// Initialise this object: we'll control the given pane. Note that this is *NOT* retained to avoid a retain loop (the pane retains the web view, which retains us...)
+- (id) initWithPane: (NSObject<IFProjectPane>*) pane;	// Initialise this object: we'll control the given pane. Note that this is *NOT* retained to avoid a retain loop (the pane retains the web view, which retains us...)
 
 // JavaScript operations on the pane
 - (void) selectView: (NSString*) view;					// Selects a specific view (valid names are source, documentation, skein, etc)

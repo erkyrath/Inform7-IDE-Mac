@@ -191,7 +191,7 @@
 				  [[absolute1 path] caseInsensitiveCompare: [absolute2 path]] == 0 &&
 				  ([absolute1 query] == [absolute2 query] || [[absolute1 query] caseInsensitiveCompare:[absolute2 query]] == 0))) {			
 				[listener ignore];
-				[[projectController auxPane] openURL: [[[request URL] copy] autorelease]];
+				[[[projectController auxPane] documentationPage] openURL: [[[request URL] copy] autorelease]];
 				
 				NSLog(@"Redirecting: %@ is not the same as %@", absolute1, absolute2);
 				return;

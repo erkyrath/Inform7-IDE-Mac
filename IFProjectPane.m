@@ -167,22 +167,19 @@ NSDictionary* IFSyntaxAttributes[256];
         awake = NO;
 		
 		pages = [[NSMutableArray alloc] init];
-        
-		[[NSNotificationCenter defaultCenter] addObserver: self
-												 selector: @selector(preferencesChanged:)
-													 name: IFPreferencesChangedEarlierNotification
-												   object: [IFPreferences sharedPreferences]];
-		
-		[[NSNotificationCenter defaultCenter] addObserver: self
-												 selector: @selector(censusCompleted:)
-													 name: IFMaintenanceTasksFinished
-												   object: nil];
     }
 
     return self;
 }
 
 - (void) dealloc {
+	[sourcePage finished];
+	[errorsPage finished];
+	[indexPage finished];
+	[skeinPage finished];
+	[transcriptPage finished];
+	[gamePage finished];
+
 	[sourcePage release];
 	[errorsPage release];
 	[indexPage release];
@@ -200,8 +197,6 @@ NSDictionary* IFSyntaxAttributes[256];
     // (Better in Panther? Looks like it. Definitely fixed in Tiger.)
     [paneView       release];
 
-	if (wView) [wView release];
-    
     [super dealloc];
 }
 
@@ -274,15 +269,12 @@ NSDictionary* IFSyntaxAttributes[256];
 	gamePage = [[IFGamePage alloc] initWithProjectController: parent];
 	[self addPage: gamePage];
 	
+	// Documentation page
+	documentationPage = [[IFDocumentationPage alloc] initWithProjectController: parent];
+	[self addPage: documentationPage];
+	
 	// Settings
     [self updateSettings];
-	
-	if ([[NSApp delegate] isWebKitAvailable]) {
-		[wView setPolicyDelegate: [parent generalPolicy]];
-	}
-	
-	[wView setUIDelegate: parent];
-	[wView setHostWindow: [parent window]];
 	
 	// Misc stuff
 	[sourcePage updateHighlightedLines];
@@ -290,19 +282,7 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (void) awakeFromNib {
     awake = YES;
-	    
-	if ((int)[[NSApp delegate] isWebKitAvailable]) {
-		// Create the view for the documentation tab
-		wView = [[WebView alloc] init];
-		[wView setTextSizeMultiplier: [[IFPreferences sharedPreferences] fontSize]];
-		[wView setResourceLoadDelegate: self];
-		[wView setFrameLoadDelegate: self];
-		[docTabView setView: wView];
-		[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: @"inform:/index.html"]] autorelease]];
-	} else {
-		wView = nil;
-	}
-	
+	    	
     if (parent) {
         [self setupFromController];
         [gamePage stopRunningGame];
@@ -326,11 +306,6 @@ NSDictionary* IFSyntaxAttributes[256];
     if (awake) {
         [self setupFromController];
     }
-}
-
-
-- (void) preferencesChanged: (NSNotification*) not {
-	[wView setTextSizeMultiplier: [[IFPreferences sharedPreferences] fontSize]];
 }
 
 - (NSTabViewItem*) tabViewItemForPage: (IFPage*) page {
@@ -358,7 +333,7 @@ NSDictionary* IFSyntaxAttributes[256];
             break;
 
         case IFDocumentationPane:
-            toSelect = docTabView;
+            toSelect = [self tabViewItemForPage: documentationPage];;
             break;
 			
 		case IFIndexPane:
@@ -394,7 +369,7 @@ NSDictionary* IFSyntaxAttributes[256];
         return IFErrorPane;
     } else if ([[selectedView identifier] isEqualTo: [gamePage identifier]]) {
         return IFGamePane;
-    } else if (selectedView == docTabView) {
+    } else if ([[selectedView identifier] isEqualTo: [documentationPage identifier]]) {
         return IFDocumentationPane;
 	} else if ([[selectedView identifier] isEqualTo: [indexPage identifier]]) {
 		return IFIndexPane;
@@ -423,7 +398,7 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 - (BOOL) handleURLRequest: (NSURLRequest*) req {
-	[[parent auxPane] openURL: [[[req URL] copy] autorelease]];
+	[[[parent auxPane] documentationPage] openURL: [[[req URL] copy] autorelease]];
 	
 	return YES;
 }
@@ -481,6 +456,10 @@ NSDictionary* IFSyntaxAttributes[256];
 	return gamePage;
 }
 
+- (IFDocumentationPage*) documentationPage {
+	return documentationPage;
+}
+
 // = The game page =
 
 - (void) stopRunningGame {
@@ -526,36 +505,6 @@ NSDictionary* IFSyntaxAttributes[256];
 	return YES;
 }
 
-// == Documentation ==
-
-- (void) openURL: (NSURL*) url  {
-	[tabView selectTabViewItem: docTabView];
-
-	[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: url] autorelease]];
-}
-
-// = WebResourceLoadDelegate methods =
-
-- (void)			webView:(WebView *)sender 
-				   resource:(id)identifier 
-	didFailLoadingWithError:(NSError *)error 
-			 fromDataSource:(WebDataSource *)dataSource {
-	NSLog(@"IFProjectPane: failed to load page with error: %@", [error localizedDescription]);
-}
-
-// = WebFrameLoadDelegate methods =
-
-- (void)					webView:(WebView *)sender
-		windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
-	// Attach the JavaScript object to the opposing view
-	IFProjectPane* otherPane = [parent oppositePane: self];		
-	IFJSProject* js = [[IFJSProject alloc] initWithPane: otherPane];
-
-	// Attach it to the script object
-	[[sender windowScriptObject] setValue: [js autorelease]
-								   forKey: @"Project"];
-}
-
 // = The tab view =
 
 - (NSTabView*) tabView {
@@ -566,13 +515,6 @@ NSDictionary* IFSyntaxAttributes[256];
 
 - (void) performFindPanelAction: (id) sender {
 	NSLog(@"Bing!");
-}
-
-// = Updating extensions =
-
-- (void) censusCompleted: (NSNotification*) not {
-	// Force the documentation view to reload (the 'installed extensions' page may be updated)
-	[wView reload: self];
 }
 
 // = Debugging =
@@ -623,6 +565,7 @@ NSDictionary* IFSyntaxAttributes[256];
 - (void) addPage: (IFPage*) newPage {
 	// Add this page to the list of pages being managed by this control
 	[pages addObject: newPage];
+	[newPage setOtherPane: [parent oppositePane: self]];
 	
 	// Register for notifications from this page
 	[[NSNotificationCenter defaultCenter] addObserver: self
@@ -637,7 +580,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	[tabView addTabViewItem: newItem];
 
 	if ([[newItem view] frame].size.width <= 0) {
-		[[newItem view] setFrameSize: NSMakeSize(800, 200)];
+		[[newItem view] setFrameSize: NSMakeSize(1280, 1024)];
 	}
 	[[newPage view] setFrame: [[newItem view] bounds]];
 	[[newItem view] addSubview: [newPage view]];

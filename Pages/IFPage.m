@@ -35,6 +35,15 @@ NSString* IFSwitchToPageNotification = @"IFSwitchToPageNotification";
 	[super dealloc];
 }
 
+- (void) setOtherPane: (NSObject<IFProjectPane>*) newOtherPane {
+	otherPane = newOtherPane;
+}
+
+- (void) finished {
+	parent = nil;
+	otherPane = nil;
+}
+
 // = Details about this view =
 
 - (NSString*) title {

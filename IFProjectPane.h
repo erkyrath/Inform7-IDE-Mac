@@ -22,14 +22,6 @@
 #import "IFSyntaxStorage.h"
 #import "IFProgress.h"
 
-#import "IFPage.h"
-#import "IFSourcePage.h"
-#import "IFErrorsPage.h"
-#import "IFIndexPage.h"
-#import "IFSkeinPage.h"
-#import "IFTranscriptPage.h"
-#import "IFGamePage.h"
-
 enum IFProjectPaneType {
     IFSourcePane = 1,
     IFErrorPane = 2,
@@ -43,13 +35,38 @@ enum IFProjectPaneType {
 };
 
 @class IFProjectController;
+@class IFPage;
+@class IFSourcePage;
+@class IFErrorsPage;
+@class IFIndexPage;
+@class IFSkeinPage;
+@class IFTranscriptPage;
+@class IFGamePage;
+@class IFDocumentationPage;
+@class IFSettingsPage;
 
-@interface IFProjectPane : NSObject {
+//
+// Protocol that can be implemented by other objects that wish to act like the 'other' panel when actions
+// can span both panels
+//
+@protocol IFProjectPane
+
+// Selecting the view
+- (void) selectView: (enum IFProjectPaneType) pane;				// Changes the view displayed in this pane to the specified setting
+
+// The source page
+- (IFSourcePage*) sourcePage;									// The page representing the source page
+
+@end
+
+//
+// Controller class dealing with one side of the project window
+//
+@interface IFProjectPane : NSObject<IFProjectPane> {
     // Outlets
     IBOutlet NSView* paneView;							// The main pane view
 
     IBOutlet NSTabView* tabView;						// The tab view
-    IBOutlet NSTabViewItem* docTabView;					// Documentation pane
 	
 	// The pages
 	NSMutableArray* pages;								// Pages being managed by this control
@@ -61,13 +78,8 @@ enum IFProjectPaneType {
 	IFSkeinPage* skeinPage;								// The skein page
 	IFTranscriptPage* transcriptPage;					// The transcript page
 	IFGamePage* gamePage;								// The game page
-	
-	// The documentation view
-	WebView* wView;										// The web view that displays the documentation
-    
-    // Documentation
-    IBOutlet NSView* docView;							// The view that will contain the documentation web view
-	
+	IFDocumentationPage* documentationPage;				// The documentation page
+    	
     // Settings
 	IBOutlet IFSettingsView* settingsView;				// The settings view
 	IBOutlet IFSettingsController* settingsController;	// The settings controller
@@ -101,7 +113,7 @@ enum IFProjectPaneType {
 // The source page
 - (void) prepareToCompile;										// Informs this pane that it's time to prepare to compile (or save) the document
 - (void) showSourceFile: (NSString*) file;						// Sets the source page to show a specific source file
-- (IFSourcePage*) sourcePage;									// The page representing the source page
+- (IFSourcePage*) sourcePage;									// The page representing the source code
 
 // The errors page
 - (IFErrorsPage*) errorsPage;									// The page displaying the results from the compiler
@@ -119,13 +131,24 @@ enum IFProjectPaneType {
 - (IFGamePage*) gamePage;										// The page representing the running game
 - (void) stopRunningGame;										// Convenience method
 
+// The documentation page
+- (IFDocumentationPage*) documentationPage;						// The page representing the documentation
+
 // Settings
 - (void) updateSettings;										// Updates the settings views with their current values
-
-// The documentation view
-- (void) openURL: (NSURL*) url;									// Tells the documentation view to open a specific URL
 
 // Search/replace
 - (void) performFindPanelAction: (id) sender;					// Called to invoke the find panel for the current pane
 
 @end
+
+#import "IFProjectController.h"
+#import "IFPage.h"
+#import "IFSourcePage.h"
+#import "IFErrorsPage.h"
+#import "IFIndexPage.h"
+#import "IFSkeinPage.h"
+#import "IFTranscriptPage.h"
+#import "IFGamePage.h"
+#import "IFDocumentationPage.h"
+#import "IFSettingsPage.h"
