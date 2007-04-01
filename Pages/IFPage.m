@@ -8,6 +8,7 @@
 
 #import "IFPage.h"
 
+NSString* IFSwitchToPageNotification = @"IFSwitchToPageNotification";
 
 @implementation IFPage
 
@@ -56,6 +57,29 @@
 
 - (NSString*) identifier {
 	return [[self class] description];
+}
+
+// = Page validation =
+
+- (BOOL) shouldShowPage {
+	return YES;
+}
+
+// = Page actions =
+
+- (void) switchToPage {
+	[self switchToPageWithIdentifier: [self identifier]
+							fromPage: nil];
+}
+
+- (void) switchToPageWithIdentifier: (NSString*) identifier
+						   fromPage: (NSString*) oldPageIdentifier {
+	// Post a notification that this page wants to be the frontmost
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFSwitchToPageNotification
+														object: self
+													  userInfo: [NSDictionary dictionaryWithObjectsAndKeys: 
+														  identifier, @"Identifier", 
+														  oldPageIdentifier, @"OldPageIdentifier", nil]];
 }
 
 @end

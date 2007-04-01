@@ -127,6 +127,7 @@ enum lineStyle {
 
 - (void) transcriptToPoint: (ZoomSkeinItem*) point
 			   switchViews: (BOOL) switchViews;
+- (void) transcriptToPoint: (ZoomSkeinItem*) point;
 
 - (NSString*) pathToIndexFile;
 - (IFIntelFile*) currentIntelligence;

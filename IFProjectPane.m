@@ -164,8 +164,6 @@ NSDictionary* IFSyntaxAttributes[256];
 
     if (self) {
         parent = nil;
-        zView = nil;
-        gameToRun = nil;
         awake = NO;
 		
 		pages = [[NSMutableArray alloc] init];
@@ -185,17 +183,12 @@ NSDictionary* IFSyntaxAttributes[256];
 }
 
 - (void) dealloc {
-	if (gameRunningProgress) {
-		[parent removeProgressIndicator: gameRunningProgress];
-		[gameRunningProgress release];
-		gameRunningProgress = nil;
-	}
-	
 	[sourcePage release];
 	[errorsPage release];
 	[indexPage release];
 	[skeinPage release];
 	[transcriptPage release];
+	[gamePage release];
 	[pages release];
 	
     [[NSNotificationCenter defaultCenter] removeObserver: self];
@@ -206,20 +199,7 @@ NSDictionary* IFSyntaxAttributes[256];
     //       Doesn't always happen. Not very much memory. Still annoying.
     // (Better in Panther? Looks like it. Definitely fixed in Tiger.)
     [paneView       release];
-    
-    if (zView) {
-		[zView setDelegate: nil];
-		[zView killTask];
-		[zView release];
-	}
-	if (gView) {
-		[gView setDelegate: nil];
-		[gView terminateClient];
-		[gView release];
-		gView = nil;
-	}
-	if (pointToRunTo) [pointToRunTo release];
-    if (gameToRun) [gameToRun release];
+
 	if (wView) [wView release];
     
     [super dealloc];
@@ -259,10 +239,6 @@ NSDictionary* IFSyntaxAttributes[256];
 											 selector: @selector(updateSettings)
 												 name: IFSettingNotification
 											   object: [[parent document] settings]];
-	[[NSNotificationCenter defaultCenter] addObserver: self
-											 selector: @selector(updatedBreakpoints:)
-												 name: IFProjectBreakpointsChangedNotification
-											   object: [parent document]];
 	
     doc = [parent document];
 
@@ -293,6 +269,10 @@ NSDictionary* IFSyntaxAttributes[256];
 	// Transcript page
 	transcriptPage = [[IFTranscriptPage alloc] initWithProjectController: parent];
 	[self addPage: transcriptPage];
+	
+	// Game page
+	gamePage = [[IFGamePage alloc] initWithProjectController: parent];
+	[self addPage: gamePage];
 	
 	// Settings
     [self updateSettings];
@@ -325,7 +305,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	
     if (parent) {
         [self setupFromController];
-        [self stopRunningGame];
+        [gamePage stopRunningGame];
     }
 	
     [tabView setDelegate: self];
@@ -346,6 +326,11 @@ NSDictionary* IFSyntaxAttributes[256];
     if (awake) {
         [self setupFromController];
     }
+}
+
+
+- (void) preferencesChanged: (NSNotification*) not {
+	[wView setTextSizeMultiplier: [[IFPreferences sharedPreferences] fontSize]];
 }
 
 - (NSTabViewItem*) tabViewItemForPage: (IFPage*) page {
@@ -369,7 +354,7 @@ NSDictionary* IFSyntaxAttributes[256];
             break;
 
         case IFGamePane:
-            toSelect = gameTabView;
+            toSelect = [self tabViewItemForPage: gamePage];
             break;
 
         case IFDocumentationPane:
@@ -407,7 +392,7 @@ NSDictionary* IFSyntaxAttributes[256];
         return IFSourcePane;
     } else if ([[selectedView identifier] isEqualTo: [errorsPage identifier]]) {
         return IFErrorPane;
-    } else if (selectedView == gameTabView) {
+    } else if ([[selectedView identifier] isEqualTo: [gamePage identifier]]) {
         return IFGamePane;
     } else if (selectedView == docTabView) {
         return IFDocumentationPane;
@@ -447,28 +432,17 @@ NSDictionary* IFSyntaxAttributes[256];
     return [errorsPage compilerController];
 }
 
-// = Breakpoints =
+// = Menu actions =
 
-- (void) updatedBreakpoints: (NSNotification*) not {
-	// Give up if there's no Z-Machine running
-	if (!zView) return;
-	if (![zView zMachine]) return;
-	
-	// Clear out the old breakpoints
-	[[zView zMachine] removeAllBreakpoints];
-	
-	// Set the breakpoints
-	int breakpoint;
-	for (breakpoint = 0; breakpoint < [[parent document] breakpointCount]; breakpoint++) {
-		int line = [[parent document] lineForBreakpointAtIndex: breakpoint];
-		NSString* file = [[parent document] fileForBreakpointAtIndex: breakpoint];
-		
-		if (line >= 0) {
-			if (![[zView zMachine] setBreakpointAtName: [NSString stringWithFormat: @"%@:%i", file, line+1]]) {
-				NSLog(@"Failed to set breakpoint at %@:%i", file, line+1);
-			}
-		}
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+	// Can't add breakpoints if we're not showing the source view
+	// (Moot: this never gets called at any point where it is useful at the moment)
+	if ([menuItem action] == @selector(setBreakpoint:) ||
+		[menuItem action] == @selector(deleteBreakpoint:)) {
+		return [self currentView]==IFSourcePane;
 	}
+	
+	return YES;
 }
 
 // = The source view =
@@ -503,6 +477,16 @@ NSDictionary* IFSyntaxAttributes[256];
 	return transcriptPage;
 }
 
+- (IFGamePage*) gamePage {
+	return gamePage;
+}
+
+// = The game page =
+
+- (void) stopRunningGame {
+	[gamePage stopRunningGame];
+}
+
 // = Settings =
 
 - (void) updateSettings {
@@ -518,267 +502,28 @@ NSDictionary* IFSyntaxAttributes[256];
 	return;
 }
 
-// = The game view =
-	
-- (void) preferencesChanged: (NSNotification*) not {
-	[zView setScaleFactor: 1.0/[[IFPreferences sharedPreferences] fontSize]];
-	[wView setTextSizeMultiplier: [[IFPreferences sharedPreferences] fontSize]];
-}
-
-- (void) activateDebug {
-	setBreakpoint = YES;
-}
-
-- (void) startRunningGame: (NSString*) fileName {
-	[[[parent document] skein] zoomInterpreterRestart];
-	
-    if (zView) {
-		[zView killTask];
-        [zView removeFromSuperview];
-        [zView release];
-        zView = nil;
-    }
-	
-	if (gView) {
-		[gView terminateClient];
-		[gView removeFromSuperview];
-		[gView release];
-		gView = nil;
-	}
-    
-    if (gameToRun) [gameToRun release];
-    gameToRun = [fileName copy];
-	
-	if (!gameRunningProgress) {
-		gameRunningProgress = [[IFProgress alloc] init];
-		[parent addProgressIndicator: gameRunningProgress];
-	}
-    
-	[gameRunningProgress setMessage: [[NSBundle mainBundle] localizedStringForKey: @"Loading story file"
-																			value: @"Loading story file"
-																			table: nil]];
-	
-	if ([[gameToRun pathExtension] isEqualToString: @"ulx"]) {
-		// Screws up the first responder, will cause the GlkView object to force a new first responder after it starts
-		[[parent window] makeFirstResponder: [parent window]];
-
-		// Start running as a glulxe task
-		gView = [[GlkView alloc] init];
-		[gView setDelegate: self];
-		[gView addOutputReceiver: parent];
-		[gView setImageSource: [[[IFGlkResources alloc] initWithProject: [parent document]] autorelease]];
-		
-		[gView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-		[gView setFrame: [gameView bounds]];
-		[gameView addSubview: gView];
-		
-		[gView setInputFilename: fileName];
-		[gView launchClientApplication: [[NSBundle mainBundle] pathForResource: @"glulxe"
-																		ofType: @""
-																   inDirectory: @"this/is_a/workaround"]
-						 withArguments: nil];
-	} else {
-		// Start running as a Zoom task
-		IFRuntimeErrorParser* runtimeErrors = [[IFRuntimeErrorParser alloc] init];
-		
-		[runtimeErrors setDelegate: parent];
-		
-		zView = [[ZoomView allocWithZone: [self zone]] init];
-		[zView setDelegate: self];
-		[[[parent document] skein] zoomInterpreterRestart];
-		[zView addOutputReceiver: [[parent document] skein]];
-		[zView addOutputReceiver: runtimeErrors];
-		[zView runNewServer: nil];
-		
-		[zView setColours: [NSArray arrayWithObjects:
-			[NSColor colorWithDeviceRed: 0 green: 0 blue: 0 alpha: 1],
-			[NSColor colorWithDeviceRed: 1 green: 0 blue: 0 alpha: 1],
-			[NSColor colorWithDeviceRed: 0 green: 1 blue: 0 alpha: 1],
-			[NSColor colorWithDeviceRed: 1 green: 1 blue: 0 alpha: 1],
-			[NSColor colorWithDeviceRed: 0 green: 0 blue: 1 alpha: 1],
-			[NSColor colorWithDeviceRed: 1 green: 0 blue: 1 alpha: 1],
-			[NSColor colorWithDeviceRed: 0 green: 1 blue: 1 alpha: 1],
-			[NSColor colorWithDeviceRed: 1 green: 1 blue: 1 alpha: 1],
-			
-			[NSColor colorWithDeviceRed: .73 green: .73 blue: .73 alpha: 1],
-			[NSColor colorWithDeviceRed: .53 green: .53 blue: .53 alpha: 1],
-			[NSColor colorWithDeviceRed: .26 green: .26 blue: .26 alpha: 1],
-			nil]];
-		
-		[zView setScaleFactor: 1.0/[[IFPreferences sharedPreferences] fontSize]];
-		
-		[zView setFrame: [gameView bounds]];
-		[zView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-		[gameView addSubview: zView];
-	}
-}
-
-- (void) setPointToRunTo: (ZoomSkeinItem*) item {
-	if (pointToRunTo) [pointToRunTo release];
-	pointToRunTo = [item retain];
-}
-
-- (void) stopRunningGame {
-    if (zView) {
-		[zView killTask];
-    }
-	
-	if (gView) {
-		[gView terminateClient];
-	}
-    
-    if ([tabView selectedTabViewItem] == gameTabView) {
-		[self selectView: IFErrorPane];
-    }
-}
-
-- (void) pauseRunningGame {
-	if (zView) {
-		[zView debugTask];
-	}
-}
-
-- (ZoomView*) zoomView {
-	return zView;
-}
-
-- (GlkView*) glkView {
-	return gView;
-}
-
-- (BOOL) isRunningGame {
-	return (zView != nil && [zView isRunning]) || (gView != nil);
-}
-
-// (GlkView delegate functions)
-- (void) taskHasStarted {
-    [tabView selectTabViewItem: gameTabView];
-	
-	[parent glkTaskHasStarted: self];
-
-	[gameRunningProgress setMessage: [[NSBundle mainBundle] localizedStringForKey: @"Story started"
-																			value: @"Story started"
-																			table: nil]];
-	[parent removeProgressIndicator: gameRunningProgress];
-	[gameRunningProgress release];
-	gameRunningProgress = nil;	
-
-	if (pointToRunTo) {
-		[parent transcriptToPoint: pointToRunTo
-					  switchViews: NO];
-		
-		id inputSource = [ZoomSkein inputSourceFromSkeinItem: [[[parent document] skein] rootItem]
-													  toItem: pointToRunTo];
-		
-		[parent setGlkInputSource: inputSource];
-		[gView addInputReceiver: parent];
-		
-		[pointToRunTo release];
-		pointToRunTo = nil;
-	}
-}
-
-// = Menu actions =
-
-- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
-	// Can't add breakpoints if we're not showing the source view
-	// (Moot: this never gets called at any point where it is useful at the moment)
-	if ([menuItem action] == @selector(setBreakpoint:) ||
-		[menuItem action] == @selector(deleteBreakpoint:)) {
-		return [self currentView]==IFSourcePane;
-	}
-	
-	return YES;
-}
-
-// (ZoomView delegate functions)
-
-- (void) inputSourceHasFinished: (id) sender {
-	[parent inputSourceHasFinished: nil];
-}
-
-- (void) zMachineStarted: (id) sender {	
-    [[zView zMachine] loadStoryFile: 
-        [NSData dataWithContentsOfFile: gameToRun]];
-	
-	[[zView zMachine] loadDebugSymbolsFrom: [[[[parent document] fileName] stringByAppendingPathComponent: @"Build"] stringByAppendingPathComponent: @"gameinfo.dbg"]
-							withSourcePath: [[[parent document] fileName] stringByAppendingPathComponent: @"Source"]];
-	
-	// Set the initial breakpoint if 'Debug' was selected
-	if (setBreakpoint) {
-		if (![[zView zMachine] setBreakpointAtName: @"Initialise"]) {
-			[[zView zMachine] setBreakpointAtName: @"main"];
-		}
-	}
-	
-	// Set the other breakpoints anyway
-	int breakpoint;
-	for (breakpoint = 0; breakpoint < [[parent document] breakpointCount]; breakpoint++) {
-		int line = [[parent document] lineForBreakpointAtIndex: breakpoint];
-		NSString* file = [[parent document] fileForBreakpointAtIndex: breakpoint];
-		
-		if (line >= 0) {
-			if (![[zView zMachine] setBreakpointAtName: [NSString stringWithFormat: @"%@:%i", file, line+1]]) {
-				NSLog(@"Failed to set breakpoint at %@:%i", file, line+1);
-			}
-		}
-	}
-	
-	setBreakpoint = NO;
-	
-	// Run to the appropriate point in the skein
-	if (pointToRunTo) {
-		[parent transcriptToPoint: pointToRunTo];
-		
-		id inputSource = [ZoomSkein inputSourceFromSkeinItem: [[[parent document] skein] rootItem]
-													  toItem: pointToRunTo];
-		
-		[zView setInputSource: inputSource];
-		
-		[pointToRunTo release];
-		pointToRunTo = nil;
-	} else {
-		[parent transcriptToPoint: [[[parent document] skein] rootItem]];
-	}
-	
-    [tabView selectTabViewItem: gameTabView];
-    [[paneView window] makeFirstResponder: [zView textView]];
-	
-	[gameRunningProgress setMessage: [[NSBundle mainBundle] localizedStringForKey: @"Story started"
-																			value: @"Story started"
-																			table: nil]];
-	[parent removeProgressIndicator: gameRunningProgress];
-	[gameRunningProgress release];
-	gameRunningProgress = nil;
-}
-
 // = Tab view delegate =
 
 - (BOOL)            tabView: (NSTabView *)view 
     shouldSelectTabViewItem:(NSTabViewItem *)item {
-	// Assume we're in the main tab view otherwise
-    if (item == gameTabView && (zView == nil && gView == nil)) {
-        // FIXME: if another view is running a game, then display the tabView in there
-        return NO;
-    }
+	// Get the identifier for this tab page
+	id identifier = [item identifier];
+	if (identifier == nil) return YES;
 	
-	if ([[item identifier] isEqualTo: [indexPage identifier]]
-		&& ![indexPage indexAvailable]) {
-		return NO;
+	// Find the associated IFPage object
+	IFPage* page;
+	NSEnumerator* pageEnum = [pages objectEnumerator];
+	while (page = [pageEnum nextObject]) {
+		if ([[page identifier] isEqual: identifier]) {
+			break;
+		}
 	}
-
-    return YES;
-}
-
-// == Debugging ==
-
-- (void) hitBreakpoint: (int) pc {
-	[[IFIsWatch sharedIFIsWatch] refreshExpressions];
-	[parent hitBreakpoint: pc];
-}
-
-- (void) zoomWaitingForInput {
-	[[IFIsWatch sharedIFIsWatch] refreshExpressions];
+	
+	if (page != nil) {
+		return [page shouldShowPage];
+	}
+	
+	return YES;
 }
 
 // == Documentation ==
@@ -855,9 +600,35 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = Dealing with pages =
 
+- (void) switchToPage: (NSNotification*) not {
+	// Work out which page we're switching to, and the optional page that must be showing for the switch to occur
+	NSString* identifier = [[not userInfo] objectForKey: @"Identifier"];
+	NSString* fromPage = [[not userInfo] objectForKey: @"OldPageIdentifier"];
+
+	// If no 'to' page is specified, then switch to the sending object
+	if (identifier == nil) identifier = [(IFPage*)[not object] identifier];
+	
+	// If a 'from' page is specified, then the current page must be that page, or the switch won't take place
+	if (fromPage != nil) {
+		id currentPage = [[tabView selectedTabViewItem] identifier];
+		if (![fromPage isEqualTo: currentPage]) {
+			return;
+		}
+	}
+	
+	// Select the page
+	[tabView selectTabViewItem: [tabView tabViewItemAtIndex: [tabView indexOfTabViewItemWithIdentifier: identifier]]];
+}
+
 - (void) addPage: (IFPage*) newPage {
 	// Add this page to the list of pages being managed by this control
 	[pages addObject: newPage];
+	
+	// Register for notifications from this page
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(switchToPage:)
+												 name: IFSwitchToPageNotification
+											   object: newPage];
 	
 	// Add the page to the tab view
 	NSTabViewItem* newItem = [[NSTabViewItem alloc] initWithIdentifier: [newPage identifier]];

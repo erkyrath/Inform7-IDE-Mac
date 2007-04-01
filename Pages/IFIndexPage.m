@@ -44,6 +44,12 @@
 												  table: nil];
 }
 
+// = Page validation =
+
+- (BOOL) shouldShowPage {
+	return indexAvailable;
+}
+
 // = The index view =
 
 - (BOOL) canSelectIndexTab: (int) whichTab {

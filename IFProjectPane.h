@@ -28,6 +28,7 @@
 #import "IFIndexPage.h"
 #import "IFSkeinPage.h"
 #import "IFTranscriptPage.h"
+#import "IFGamePage.h"
 
 enum IFProjectPaneType {
     IFSourcePane = 1,
@@ -48,7 +49,6 @@ enum IFProjectPaneType {
     IBOutlet NSView* paneView;							// The main pane view
 
     IBOutlet NSTabView* tabView;						// The tab view
-    IBOutlet NSTabViewItem* gameTabView;				// Game pane
     IBOutlet NSTabViewItem* docTabView;					// Documentation pane
 	
 	// The pages
@@ -60,20 +60,11 @@ enum IFProjectPaneType {
 	IFIndexPage* indexPage;								// The index page
 	IFSkeinPage* skeinPage;								// The skein page
 	IFTranscriptPage* transcriptPage;					// The transcript page
+	IFGamePage* gamePage;								// The game page
 	
 	// The documentation view
 	WebView* wView;										// The web view that displays the documentation
     
-    // The game view
-    IBOutlet NSView* gameView;							// The view that will contain the running game
-    
-	GlkView*		 gView;								// The Glk (glulxe) view
-    ZoomView*        zView;								// The Z-Machinev view
-    NSString*        gameToRun;							// The filename of the game to start
-	ZoomSkeinItem*   pointToRunTo;						// The skein item to run the game until
-	
-	IFProgress*      gameRunningProgress;				// The progress indicator (how much we've compiled, how the game is running, etc)
-
     // Documentation
     IBOutlet NSView* docView;							// The view that will contain the documentation web view
 	
@@ -84,8 +75,6 @@ enum IFProjectPaneType {
     // Other variables
     BOOL awake;											// YES if we've loaded from the nib and initialised properly
     IFProjectController* parent;						// The 'parent' project controller (not retained)
-	
-	BOOL setBreakpoint;									// YES if we are allowed to set breakpoints
 }
 
 + (IFProjectPane*) standardPane;								// Create/load a project pane
@@ -126,17 +115,9 @@ enum IFProjectPaneType {
 // The transcript page
 - (IFTranscriptPage*) transcriptPage;							// The page representing the transcript
 
-// The game view
-- (void) activateDebug;											// Notify that the next game run should be run with debugging on (breakpoints will be set)
-- (void) startRunningGame: (NSString*) fileName;				// Starts running the game file with the given name in the game pane
-- (void) stopRunningGame;										// Forcibly stops running the game
-- (void) pauseRunningGame;										// Forcibly pauses the running game and enters the debugger
-
-- (ZoomView*) zoomView;											// The zoom view associated with the currently running game (NULL if a GLK game is running)
-- (GlkView*) glkView;											// The glk view associated with the currently running game (if applicable)
-- (BOOL) isRunningGame;											// YES if a game is running
-
-- (void) setPointToRunTo: (ZoomSkeinItem*) item;				// Sets the skein item to run to as soon as the game has started
+// The game page
+- (IFGamePage*) gamePage;										// The page representing the running game
+- (void) stopRunningGame;										// Convenience method
 
 // Settings
 - (void) updateSettings;										// Updates the settings views with their current values

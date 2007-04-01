@@ -40,6 +40,7 @@ NSString* IFSourceSpellChecking = @"IFSourceSpellChecking";
 - (void) refreshIndexTabs;
 - (void) runCompilerOutput;
 - (void) runCompilerOutputAndReplay;
+- (IFGamePage*) gamePage;
 
 @end
 
@@ -405,7 +406,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) windowWillClose: (NSNotification*) not {
 	// Perform shutdown
-	[[self gamePane] stopRunningGame];
+	[[self gamePage] stopRunningGame];
 	
 	[projectPanes release]; projectPanes = nil;
 	[splitViews release]; splitViews = nil;
@@ -743,7 +744,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (BOOL) validateToolbarItem: (NSToolbarItem*) item {
-	BOOL isRunning = [[self gamePane] isRunningGame];
+	BOOL isRunning = [[self gamePage] isRunningGame];
 	
 	if ([[item itemIdentifier] isEqualToString: [pauseItem itemIdentifier]] &&
 		![self canDebug]) {
@@ -813,7 +814,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
 	SEL itemSelector = [menuItem action];
-	BOOL isRunning = [[self gamePane] isRunningGame];
+	BOOL isRunning = [[self gamePage] isRunningGame];
 		
 	if (itemSelector == @selector(continueProcess:) ||
 		itemSelector == @selector(stepOverProcess:) ||
@@ -1018,7 +1019,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IBAction) compileAndRun: (id) sender {
-	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
+	[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: nil];
     compileFinishedAction = @selector(runCompilerOutput);
 	
 	// Only actually compile if there are undo actions added since the last compile
@@ -1057,7 +1058,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IBAction) compileAndDebug: (id) sender {
-	[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
+	[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: nil];
 	compileFinishedAction = @selector(debugCompilerOutput);
     [self performCompileWithRelease: NO
 						refreshOnly: NO];
@@ -1140,22 +1141,22 @@ static NSDictionary*  itemDictionary = nil;
 - (void) runCompilerOutput {
 	waitingAtBreakpoint = NO;
 	noChangesSinceLastCompile = noChangesSinceLastRefresh = YES;
-    [[projectPanes objectAtIndex: 1] startRunningGame: [[[self document] compiler] outputFile]];
+    [[[projectPanes objectAtIndex: 1] gamePage] startRunningGame: [[[self document] compiler] outputFile]];
 }
 
 - (void) runCompilerOutputAndReplay {
 	[skeinNodeStack release]; skeinNodeStack = nil;
 	
 	noChangesSinceLastCompile = noChangesSinceLastRefresh = YES;
-	[[projectPanes objectAtIndex: 1] setPointToRunTo: [[[self document] skein] activeItem]];
+	[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: [[[self document] skein] activeItem]];
 	[self runCompilerOutput];
 }
 
 - (void) debugCompilerOutput {
 	waitingAtBreakpoint = NO;
 	noChangesSinceLastCompile = YES;
-	[[projectPanes objectAtIndex: 1] activateDebug];
-    [[projectPanes objectAtIndex: 1] startRunningGame: [[[self document] compiler] outputFile]];
+	[[[projectPanes objectAtIndex: 1] gamePage] activateDebug];
+    [[[projectPanes objectAtIndex: 1] gamePage] startRunningGame: [[[self document] compiler] outputFile]];
 }
 
 - (void) compilerFinished: (NSNotification*) not {
@@ -1637,21 +1638,26 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 // = Debugging controls =
+
 - (IFProjectPane*) gamePane {
 	// Return the pane that we're displaying/going to display the game in
 	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
 	IFProjectPane* pane;
 	
 	while (pane = [paneEnum nextObject]) {
-		if ([pane isRunningGame]) return pane;
+		if ([[pane gamePage] isRunningGame]) return pane;
 	}
 	
 	return nil;
 }
 
+- (IFGamePage*) gamePage {
+	return [[self gamePane] gamePage];
+}
+
 - (void) restartRunning {
 	// Perform actions to switch back to the game when we click on continue, etc
-	[[self window] makeFirstResponder: [[self gamePane] zoomView]];
+	[[self window] makeFirstResponder: [[self gamePage] zoomView]];
 	[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];	
 
 	// Docs say we shouldn't do this, but how else are we to force the toolbar to update correctly?
@@ -1659,52 +1665,52 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) pauseProcess: (id) sender {
-	[[self gamePane] pauseRunningGame];
+	[[self gamePage] pauseRunningGame];
 }
 
 - (void) continueProcess: (id) sender {
-	BOOL isRunning = [[self gamePane] isRunningGame];
+	BOOL isRunning = [[self gamePage] isRunningGame];
 
 	if (isRunning && waitingAtBreakpoint) {
 		waitingAtBreakpoint = NO;
 		[self restartRunning];
-		[[[[self gamePane] zoomView] zMachine] continueFromBreakpoint];
+		[[[[self gamePage] zoomView] zMachine] continueFromBreakpoint];
 	}
 }
 
 - (void) stepOverProcess: (id) sender {
-	BOOL isRunning = [[self gamePane] isRunningGame];
+	BOOL isRunning = [[self gamePage] isRunningGame];
 
 	if (isRunning && waitingAtBreakpoint) {
 		waitingAtBreakpoint = NO;
 		[self restartRunning];
-		[[[[self gamePane] zoomView] zMachine] stepFromBreakpoint];
+		[[[[self gamePage] zoomView] zMachine] stepFromBreakpoint];
 	}
 }
 
 - (void) stepOutProcess: (id) sender {
-	BOOL isRunning = [[self gamePane] isRunningGame];
+	BOOL isRunning = [[self gamePage] isRunningGame];
 
 	if (isRunning && waitingAtBreakpoint) {
 		waitingAtBreakpoint = NO;
 		[self restartRunning];
-		[[[[self gamePane] zoomView] zMachine] finishFromBreakpoint];
+		[[[[self gamePage] zoomView] zMachine] finishFromBreakpoint];
 	}
 }
 
 - (void) stepIntoProcess: (id) sender {
-	BOOL isRunning = [[self gamePane] isRunningGame];
+	BOOL isRunning = [[self gamePage] isRunningGame];
 
 	if (isRunning && waitingAtBreakpoint) {
 		waitingAtBreakpoint = NO;
 		[self restartRunning];
-		[[[[self gamePane] zoomView] zMachine] stepIntoFromBreakpoint];
+		[[[[self gamePage] zoomView] zMachine] stepIntoFromBreakpoint];
 	}
 }
 
 - (void) hitBreakpoint: (int) pc {
 	// Retrieve the game view
-	IFProjectPane* gamePane = [self gamePane];
+	IFGamePage* gamePane = [self gamePage];
 	ZoomView* zView = [gamePane zoomView];
 	
 	NSString* filename = [[zView zMachine] sourceFileForAddress: pc];
@@ -1790,8 +1796,8 @@ static NSDictionary*  itemDictionary = nil;
 // = Skein delegate =
 
 - (void) restartGame {
-	if ([[projectPanes objectAtIndex: 1] isRunningGame]) {
-		[[projectPanes objectAtIndex: 1] setPointToRunTo: nil];
+	if ([[[projectPanes objectAtIndex: 1] gamePage] isRunningGame]) {
+		[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: nil];
 		[self runCompilerOutput];
 	} else {
 		//[self compileAndRun: self]; -- we do this when 'playToPoint' is called
@@ -1817,7 +1823,7 @@ static NSDictionary*  itemDictionary = nil;
 		}
 	} else {
 		[self compileAndRun: self];
-		[[projectPanes objectAtIndex: 1] setPointToRunTo: point];
+		[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: point];
 	}
 }
 
@@ -2999,7 +3005,7 @@ static NSDictionary*  itemDictionary = nil;
 - (void) inputSourceHasFinished: (id) source {
 	if (skeinNodeStack != nil && [skeinNodeStack count] > 0) {
 		// Run the next source on the skein
-		[[projectPanes objectAtIndex: 1] setPointToRunTo: [skeinNodeStack lastObject]];
+		[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: [skeinNodeStack lastObject]];
 		[self runCompilerOutput];
 		[skeinNodeStack removeLastObject];
 	} else if (skeinNodeStack != nil) {

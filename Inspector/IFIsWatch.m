@@ -81,7 +81,7 @@ NSString* IFIsWatchInspector = @"IFIsWatchInspector";
 
 - (unsigned) evaluateExpression: (NSString*) expr {
 	// Find the ZoomView, if there is one
-	ZoomView* zView = [[activeController gamePane] zoomView];
+	ZoomView* zView = [[[activeController gamePane] gamePage] zoomView];
 	
 	if (zView == nil) return IFEvalNoGame;
 	
@@ -118,7 +118,7 @@ NSString* IFIsWatchInspector = @"IFIsWatchInspector";
 
 - (NSString*) textualValueForExpression: (unsigned) answer {
 	// Find the ZoomView, if there is one
-	ZoomView* zView = [[activeController gamePane] zoomView];
+	ZoomView* zView = [[[activeController gamePane] gamePage] zoomView];
 	
 	if (zView == nil) return [self numericValueForAnswer: answer];
 	

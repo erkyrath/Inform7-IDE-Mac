@@ -11,6 +11,11 @@
 #import "IFProject.h"
 #import "IFProjectController.h"
 
+// Page notifications
+
+// Notification sent by a page when it wishes to become frontmost
+extern NSString* IFSwitchToPageNotification;
+
 //
 // Controller class that represents a page in a project pane
 //
@@ -25,12 +30,20 @@
 - (id) initWithNibName: (NSString*) nib		// Designated initialiser
 	 projectController: (IFProjectController*) controller;
 
+// Page actions
+- (void) switchToPage;						// Request that the UI switches to displaying this page
+- (void) switchToPageWithIdentifier: (NSString*) identifier
+						   fromPage: (NSString*) oldIdentifier;	// Request that the UI switches to displaying a specific page
+
 // Page properties
 - (NSString*) title;						// The name of the tab this page appears under
 - (NSString*) identifier;					// A unique identifier for this page
 - (NSView*) view;							// The view that should be used to display this page
 - (NSView*) activeView;						// The view that is considered to have focus for this page
 - (IBOutlet void) setView: (NSView*) view;	// Sets the view to use
+
+// Page validation
+- (BOOL) shouldShowPage;					// YES if this page is valid to be shown
 
 // TODO: page-specific toolbar items (NSCells?)
 
