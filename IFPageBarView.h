@@ -13,13 +13,28 @@
 //
 // Class implementing the page bar view.
 //
-// Note that this won't work if made part of a clipping view
-//
-@interface IFPageBarView : NSView {
-	NSWindow* overlayWindow;						// Window used to draw the actual toolbar
-	IFPageBarOverlay* overlay;						// The overlay itself
+@interface IFPageBarView : NSControl {
+	BOOL cellsNeedLayout;							// YES if we need to perform layout on the cells
 	
-	NSRect screenRect;								// Where the overlay window should be positioned
+	NSMutableArray* leftCells;						// The cells that appear on the left of this view
+	NSMutableArray* rightCells;						// The cells that appear on the right of this view
+	
+	NSMutableArray* leftLayout;						// Left-hand cell layout
+	NSMutableArray* rightLayout;					// Right-hand cell layout
 }
+
+// = Drawing =
+
++ (void) drawOverlay: (NSImage*) overlay			// Draws (part of) the background image for this bar
+			  inRect: (NSRect) rect
+		 totalBounds: (NSRect) bounds
+			fraction: (float) fraction;
+
+// = Managing cells =
+
+- (void) setLeftCells: (NSArray*) leftCells;		// Sets the set of cells displayed on the left
+- (void) setRightCells: (NSArray*) rightCells;		// Sets the set of cells displayed on the right
+
+- (void) layoutCells;								// Forces the cells to be measured and laid out appropriately for this control
 
 @end

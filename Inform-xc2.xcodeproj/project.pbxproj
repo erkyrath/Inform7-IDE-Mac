@@ -195,6 +195,8 @@
 		4B5F87B507B026F200A30FAA /* StylePreferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 4B5F87B307B026F200A30FAA /* StylePreferences.nib */; };
 		4B62F52108C3B34C00CDCDE0 /* IFJSProject.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B62F51F08C3B34C00CDCDE0 /* IFJSProject.h */; };
 		4B62F52208C3B34C00CDCDE0 /* IFJSProject.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B62F52008C3B34C00CDCDE0 /* IFJSProject.m */; };
+		4B666E1A0BC6B24800FAC902 /* IFPageBarCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B666E180BC6B24800FAC902 /* IFPageBarCell.h */; };
+		4B666E1B0BC6B24800FAC902 /* IFPageBarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B666E190BC6B24800FAC902 /* IFPageBarCell.m */; };
 		4B67779C0699E5C7001D2D90 /* IFIsSkein.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B67779A0699E5C7001D2D90 /* IFIsSkein.h */; };
 		4B67779D0699E5C7001D2D90 /* IFIsSkein.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B67779B0699E5C7001D2D90 /* IFIsSkein.m */; };
 		4B6A85F3086DA82100BFAE69 /* IFSingleFile.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B6A85F1086DA82100BFAE69 /* IFSingleFile.h */; };
@@ -998,6 +1000,8 @@
 		4B5F87B407B026F200A30FAA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = Preferences/English.lproj/StylePreferences.nib; sourceTree = "<group>"; };
 		4B62F51F08C3B34C00CDCDE0 /* IFJSProject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFJSProject.h; sourceTree = "<group>"; };
 		4B62F52008C3B34C00CDCDE0 /* IFJSProject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFJSProject.m; sourceTree = "<group>"; };
+		4B666E180BC6B24800FAC902 /* IFPageBarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFPageBarCell.h; sourceTree = "<group>"; };
+		4B666E190BC6B24800FAC902 /* IFPageBarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFPageBarCell.m; sourceTree = "<group>"; };
 		4B67779A0699E5C7001D2D90 /* IFIsSkein.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFIsSkein.h; sourceTree = "<group>"; };
 		4B67779B0699E5C7001D2D90 /* IFIsSkein.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFIsSkein.m; sourceTree = "<group>"; };
 		4B6A85F1086DA82100BFAE69 /* IFSingleFile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IFSingleFile.h; sourceTree = "<group>"; };
@@ -2451,6 +2455,8 @@
 				4BF85B630BC0292F0084873A /* IFPageBarView.m */,
 				4BF85C110BC054F00084873A /* IFPageBarOverlay.h */,
 				4BF85C120BC054F00084873A /* IFPageBarOverlay.m */,
+				4B666E180BC6B24800FAC902 /* IFPageBarCell.h */,
+				4B666E190BC6B24800FAC902 /* IFPageBarCell.m */,
 			);
 			name = PageBar;
 			sourceTree = "<group>";
@@ -2636,6 +2642,7 @@
 				4B8693E60BB6C14500D9BB2B /* IFSettingsPage.h in Headers */,
 				4BF85B640BC0292F0084873A /* IFPageBarView.h in Headers */,
 				4BF85C130BC054F00084873A /* IFPageBarOverlay.h in Headers */,
+				4B666E1A0BC6B24800FAC902 /* IFPageBarCell.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3042,7 +3049,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd ${TARGET_BUILD_DIR}\nrm -rf ${TARGET_BUILD_DIR}/Injections\ncp -R ${SRCROOT}/Injection/* ${TARGET_BUILD_DIR}\nmake copyall\n";
+			shellScript = "if [ ! -e {TARGET_BUILD_DIR}/Inform.app/Contents/Resources/Compilers/ni ]; then\n\techo NI compiler does not exist - injecting\nfi\nif [ ${TARGET_BUILD_DIR}/Inform.app/Contents/Resources/Compilers/ni -ot ${SRCROOT}/Injection/Injections/ni ]; then\n\techo NI compiler is out of date - injecting\nfi\n\nif [ ! -e ${TARGET_BUILD_DIR}/Inform.app/Contents/Resources/Compilers/ni -o ${TARGET_BUILD_DIR}/Inform.app/Contents/Resources/Compilers/ni -ot ${SRCROOT}/Injection/Injections/ni ]; then\ncd ${TARGET_BUILD_DIR}\nrm -rf ${TARGET_BUILD_DIR}/Injections\ncp -R ${SRCROOT}/Injection/* ${TARGET_BUILD_DIR}\nmake copyall\nelse\n\techo Skipping injections \\(ni is newer in the application\\)\nfi\n";
 		};
 		4B26D6250B23835100E74BCB /* (Script): Create directories */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3056,7 +3063,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\nrm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Compilers\nrm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Compilers\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\nmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions\n\n";
+			shellScript = "if [ ! -e ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Compilers ]; then\n\trm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\n\trm -rf ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\n\tmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Library\n\tmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7\n\tmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform7/Extensions\n\tmkdir ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Compilers\nfi\n";
 		};
 		4B274FAB0754FBAC00851A38 /* (Script): Remove any svn files that have crept in */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3336,6 +3343,7 @@
 				4B8693E70BB6C14500D9BB2B /* IFSettingsPage.m in Sources */,
 				4BF85B650BC0292F0084873A /* IFPageBarView.m in Sources */,
 				4BF85C140BC054F00084873A /* IFPageBarOverlay.m in Sources */,
+				4B666E1B0BC6B24800FAC902 /* IFPageBarCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
