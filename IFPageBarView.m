@@ -7,6 +7,7 @@
 //
 
 #import "IFPageBarView.h"
+#import "IFPageBarCell.h"
 
 //
 // Notes (in no particular order)
@@ -118,10 +119,12 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 		cellsNeedLayout = YES;
 		
 		leftCells = [[NSMutableArray alloc] initWithObjects:
-			[[[NSCell alloc] initTextCell: @"Test"] autorelease],
+			[[[IFPageBarCell alloc] initTextCell: @"Test"] autorelease],
+			[[[IFPageBarCell alloc] initTextCell: @"Stuff"] autorelease],
 			nil];
 		rightCells = [[NSMutableArray alloc] initWithObjects:
-			[[[NSCell alloc] initTextCell: @"'allo"] autorelease],
+			[[[IFPageBarCell alloc] initTextCell: @"Hello"] autorelease],
+			[[[IFPageBarCell alloc] initTextCell: @"IFPageBarView.m"] autorelease],
 			nil];
 		
 #if 0
@@ -229,9 +232,14 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	bounds.origin.x += cellMargin;
 	bounds.size.width -= cellMargin*2 + tabMargin + rightMargin;
 	
+	// Set this cell to be owned by this view
 	if ([cell controlView] != self) {
 		[cell setControlView: self];
-		[cell setFont: [NSFont systemFontOfSize: 11]];
+		
+		// Note that this makes it hard to move a cell from the left to the right
+		if ([cell respondsToSelector: @selector(setIsRight:)]) {
+			[cell setIsRight: right];
+		}
 	}
 
 	// Construct the image that will contain this cell
@@ -314,7 +322,7 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 		}
 		cellFrame.origin.x += bounds.origin.x;
 		
-		[layout->cellImage drawInRect: cellFrame
+		[layout->cellImage drawInRect: NSIntegralRect(cellFrame)
 							 fromRect: cellSource
 							operation: NSCompositeSourceOver
 							 fraction: 1.0];

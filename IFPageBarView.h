@@ -25,6 +25,8 @@
 
 // = Drawing =
 
++ (NSImage*) normalImage;							// The unselected background image
+
 + (void) drawOverlay: (NSImage*) overlay			// Draws (part of) the background image for this bar
 			  inRect: (NSRect) rect
 		 totalBounds: (NSRect) bounds
