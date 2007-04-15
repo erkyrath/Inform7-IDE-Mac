@@ -107,9 +107,11 @@
 		backgroundBounds.size.width -= 13.0;
 		
 		NSRect backgroundFrame = cellFrame;
-		backgroundFrame.size.width -= 2;
 		if (isRight) {
 			backgroundFrame.origin.x += 2;
+			backgroundFrame.size.width -= 2;
+		} else {
+			backgroundFrame.size.width -= 1;			
 		}
 
 		[IFPageBarView drawOverlay: backgroundImage
