@@ -30,7 +30,6 @@
 																	   attributes: 
 			[NSDictionary dictionaryWithObjectsAndKeys: 
 				[[NSColor controlTextColor] colorWithAlphaComponent: 1.0], NSForegroundColorAttributeName,
-				[NSColor clearColor], NSBackgroundColorAttributeName,
 				[NSFont systemFontOfSize: 11], NSFontAttributeName,
 				nil]];
 		
@@ -49,6 +48,16 @@
 	}
 	
 	return self;
+}
+
+// = Cell properties =
+
+- (void) update {
+	[(NSControl*)[self controlView] updateCell: self];
+}
+
+- (BOOL) isHighlighted {
+	return isHighlighted;
 }
 
 // = Sizing and rendering =
@@ -83,17 +92,31 @@
 	NSImage* image = [self image];
 	NSAttributedString* text = [self attributedStringValue];
 	
-#if 0
 	// Draw the background
-	IFPageBarView* view = (IFPageBarView*)[self controlView];
-	NSRect backgroundBounds = [view bounds];
-	backgroundBounds.size.width -= 13.0;
+	NSImage* backgroundImage = nil;
+	
+	if (isHighlighted) {
+		backgroundImage = [IFPageBarView highlightedImage];
+	} else if (isSelected) {
+		backgroundImage = [IFPageBarView selectedImage];
+	}
+	
+	if (backgroundImage) {
+		IFPageBarView* view = (IFPageBarView*)[self controlView];
+		NSRect backgroundBounds = [view bounds];
+		backgroundBounds.size.width -= 13.0;
+		
+		NSRect backgroundFrame = cellFrame;
+		backgroundFrame.size.width -= 2;
+		if (isRight) {
+			backgroundFrame.origin.x += 2;
+		}
 
-	[IFPageBarView drawOverlay: [IFPageBarView normalImage]
-						inRect: cellFrame
-				   totalBounds: backgroundBounds
-					  fraction: 1.0];
-#endif
+		[IFPageBarView drawOverlay: backgroundImage
+							inRect: backgroundFrame
+					   totalBounds: backgroundBounds
+						  fraction: 1.0];
+	}
 	
 	if (image) {
 		// TODO: draw the image
@@ -111,6 +134,26 @@
 		
 		[text drawInRect: NSIntegralRect(textRect)];
 	}
+}
+
+// = Tracking =
+
+- (BOOL)startTrackingAt: (NSPoint)startPoint 
+				 inView: (NSView*)controlView {
+	isHighlighted = YES;
+	[self update];
+	
+	return YES;
+}
+
+- (void)stopTracking:(NSPoint)lastPoint 
+				  at:(NSPoint)stopPoint
+			  inView:(NSView *)controlView 
+		   mouseIsUp:(BOOL)flag {
+	isHighlighted = NO;
+	[self update];
+
+	return;
 }
 
 @end

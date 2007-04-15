@@ -151,6 +151,7 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	[leftLayout release];
 	[rightLayout release];
 	
+	[trackingCell release];	
 	[super dealloc];
 }
 
@@ -321,6 +322,9 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 			cellFrame.origin.x = layout->position;
 		}
 		cellFrame.origin.x += bounds.origin.x;
+		
+		cellFrame.size.height -= 2; cellFrame.origin.y += 2;
+		cellSource.size.height -= 2; cellSource.origin.y += 2;
 		
 		[layout->cellImage drawInRect: NSIntegralRect(cellFrame)
 							 fromRect: cellSource
@@ -505,6 +509,190 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 - (void) setBounds: (NSRect) bounds {
 	cellsNeedLayout = YES;
 	[super setBounds: bounds];
+}
+
+// = Cell housekeeping =
+
+- (int) indexOfCellAtPoint: (NSPoint) point {
+	// Returns 0 if no cell, a negative number for a right-hand cell or a positive number for a
+	// left-hand cell
+
+	// Update the cell layout
+	if (cellsNeedLayout) [self layoutCells];
+
+	// Work out the bounds for the cells
+	NSRect bounds = [self bounds];
+	
+	bounds.origin.x += cellMargin;
+	bounds.size.width -= cellMargin*2 + tabMargin + rightMargin;
+	
+	// Not this cell if the rectangle is outside the bounds of this control
+	if (point.y < NSMinY(bounds) || point.y > NSMaxY(bounds)) {
+		return 0;
+	}
+	
+	if (point.x < NSMinX(bounds)-4 || point.y > NSMaxX(bounds)+4) {
+		return 0;
+	}
+	
+	point.x -= NSMinX(bounds);
+	
+	// Search the left-hand cells
+	NSEnumerator* cellEnum;
+	NSEnumerator* layoutEnum;
+	int index;
+	NSCell* cell;
+	IFPageCellLayout* layout;
+	
+	cellEnum = [leftCells objectEnumerator];
+	layoutEnum = [leftLayout objectEnumerator];
+	
+	index = -1;
+	while ((cell = [cellEnum nextObject]) && (layout = [layoutEnum nextObject])) {
+		// Get the index for the cell we're about to process
+		index++;
+		
+		// Ignore hidden cells
+		if (layout->hidden) continue;
+		
+		// Test for a hit on this cell
+		if ((index == 0 || point.x >= layout->position) && layout->position + layout->width >= point.x) {
+			return index+1;
+		}
+	}
+	
+	// Search the right-hand cells
+	cellEnum = [rightCells objectEnumerator];
+	layoutEnum = [rightLayout objectEnumerator];
+	
+	index = -1;
+	while ((cell = [cellEnum nextObject]) && (layout = [layoutEnum nextObject])) {
+		// Get the index for the cell we're about to process
+		index++;
+		
+		// Ignore hidden cells
+		if (layout->hidden) continue;
+		
+		// Test for a hit on this cell
+		if (point.x >= bounds.size.width - layout->position - layout->width 
+			&& (index == 0 || bounds.size.width - layout->position >= point.x)) {
+			return -(index+1);
+		}
+	}
+	
+	return 0;
+}
+
+- (NSRect) boundsForCellAtIndex: (int) index
+					  isOnRight: (BOOL) isRight {
+	// Update the cell layout
+	if (cellsNeedLayout) [self layoutCells];
+	NSRect bounds = [self bounds];
+	
+	bounds.origin.x += cellMargin;
+	bounds.size.width -= cellMargin*2 + tabMargin + rightMargin;
+
+	IFPageCellLayout* layout = [isRight?rightLayout:leftLayout objectAtIndex: index];	
+	
+	NSRect cellFrame = NSMakeRect(0,0, layout->width, bounds.size.height);
+	if (isRight) {
+		cellFrame.origin.x = bounds.size.width - layout->position - layout->width;
+	} else {
+		cellFrame.origin.x = layout->position;
+	}
+	cellFrame.origin.x += bounds.origin.x;
+	
+	return cellFrame;
+}
+
+- (void) updateCell: (NSCell*) aCell {
+	// Update the cell layout
+	if (cellsNeedLayout) [self layoutCells];
+	
+	int cellIndex;
+	NSMutableArray* cells = leftCells;
+	NSMutableArray* layout = leftLayout;
+	BOOL isRight = NO;
+	
+	// Find the cell in the left or right-hand collections
+	cellIndex = [leftCells indexOfObjectIdenticalTo: aCell];
+	if (cellIndex == NSNotFound) {
+		cells = rightCells;
+		layout = rightLayout;
+		isRight = YES;
+		cellIndex  = [rightCells indexOfObjectIdenticalTo: aCell];
+	}
+	
+	// Do nothing if this cell is not part of this control
+	if (cellIndex == NSNotFound) return;
+	
+	// Mark this cell as needing an update
+	IFPageCellLayout* cellLayout = [layout objectAtIndex: cellIndex];
+	[cellLayout->cellImage release];
+	cellLayout->cellImage = nil;
+	
+	// Refresh this cell
+	[self setNeedsDisplayInRect: [self boundsForCellAtIndex: cellIndex
+												  isOnRight: isRight]];
+}
+
+- (void)updateCellInside:(NSCell *)aCell {
+	[self updateCell: aCell];
+}
+
+// = Mouse events =
+
+- (void) mouseDown: (NSEvent*) event {
+	// Clear any tracking cell that might exist
+	[trackingCell release]; trackingCell = nil;
+	
+	// Find which cell was clicked on
+	int index = [self indexOfCellAtPoint: [self convertPoint: [event locationInWindow]
+													fromView: nil]];
+	BOOL isOnRight;
+	if (index > 0) {
+		// Left-hand cell was clicked
+		isOnRight = NO;
+		index--;
+		
+		trackingCell = [[leftCells objectAtIndex: index] retain];
+	} else if (index < 0) {
+		// Right-hand cell was clicked
+		isOnRight = YES;
+		index = (-index)-1;
+		
+		trackingCell = [[rightCells objectAtIndex: index] retain];
+	} else {
+		// No cell was clicked
+		return;
+	}
+	
+	trackingCellFrame = [self boundsForCellAtIndex: index
+										 isOnRight: isOnRight];
+	
+	// Send the initial tracking event
+	[trackingCell trackMouse: event
+					  inRect: trackingCellFrame
+					  ofView: self
+				untilMouseUp: NO];
+}
+
+- (void) mouseDragged: (NSEvent*) event {
+	if (trackingCell) {
+		[trackingCell trackMouse: event
+						  inRect: trackingCellFrame
+						  ofView: self
+					untilMouseUp: NO];		
+	}
+}
+
+- (void) mouseUp: (NSEvent*) event {
+	if (trackingCell) {
+		[trackingCell trackMouse: event
+						  inRect: trackingCellFrame
+						  ofView: self
+					untilMouseUp: NO];		
+	}	
 }
 
 @end

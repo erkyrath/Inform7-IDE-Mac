@@ -21,11 +21,16 @@
 	
 	NSMutableArray* leftLayout;						// Left-hand cell layout
 	NSMutableArray* rightLayout;					// Right-hand cell layout
+	
+	NSCell* trackingCell;							// The cell that the mouse is down over
+	NSRect trackingCellFrame;						// The bounds for the cell that the mouse is down over
 }
 
 // = Drawing =
 
 + (NSImage*) normalImage;							// The unselected background image
++ (NSImage*) highlightedImage;						// The image to show while the mouse is down over a cell
++ (NSImage*) selectedImage;							// The image to show when a cell is selected
 
 + (void) drawOverlay: (NSImage*) overlay			// Draws (part of) the background image for this bar
 			  inRect: (NSRect) rect

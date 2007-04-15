@@ -16,7 +16,10 @@
 // window. The assumption is that these will be rendered as part of the page bar view.
 //
 @interface IFPageBarCell : NSActionCell {
-	BOOL isRight;
+	BOOL isRight;										// True if this cell is to be drawn on the right-hand side
+	
+	BOOL isHighlighted;									// True if this cell is currently highlighted by a click
+	BOOL isSelected;									// True if this cell is currently selected by a click
 }
 
 // Initialisation
