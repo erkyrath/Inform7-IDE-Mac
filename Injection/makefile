@@ -1,14 +1,13 @@
 define make-ni
 	echo "Making ni"
 	perl "(assorted scripts)/advancebuild.pl"
-	perl "(assorted scripts)/inweave.pl" -predeclarations "Literate Source/Chapter 1/Predeclarations.w" Chapter
-	./cweb/ctangle "Literate Source/NI.w"
-	gcc  -arch i386 -arch ppc -isysroot /Developer/SDKs/MacOSX10.4u.sdk -ansi -g -o Injections/ni NI.c
+	perl "Tools/inweb.pl" -tangle "Woven/NI.c"
+	gcc  -arch i386 -arch ppc -isysroot /Developer/SDKs/MacOSX10.4u.sdk -ansi -g -o Injections/ni Woven/NI.c
 endef
 
 define make-cblorb
 	echo "Making cBlorb"
-	gcc -arch i386 -arch ppc -isysroot /Developer/SDKs/MacOSX10.4u.sdk -ansi -g -o Injections/cBlorb cBlorb/cBlorb.c
+	gcc -arch i386 -arch ppc -isysroot /Developer/SDKs/MacOSX10.4u.sdk -ansi -g -o Injections/cBlorb/cBlorb Injections/cBlorb/cBlorb.c
 endef
 
 define copy-i6
@@ -18,7 +17,7 @@ endef
 
 define copy-cblorb
 	echo "Copying cBlorb tool"
-	cp -f Injections/cBlorb Inform.app/Contents/Resources/Compilers
+	cp -f Injections/cBlorb/cBlorb Inform.app/Contents/Resources/Compilers
 endef
 
 define copy-ni
@@ -49,8 +48,8 @@ endef
 
 define make-doc
 	echo "Making documentation HTML"
-	perl \(assorted\ scripts\)/inform-doc.pl -osx
-	perl \(assorted\ scripts\)/inform-doc.pl -windows
+	perl Tools/indoc.pl --rewrite-standard-rules osx_app
+	perl Tools/indoc.pl windows_app
 endef
 
 define copy-doc
@@ -84,7 +83,8 @@ endef
 
 define make-rtp-pages
 	echo "Making run-time problem HTML pages"
-	perl \(assorted\ scripts\)/makertps.pl
+	perl Tools/inrtps.pl Run-Time\ Problems Injections/RTP\ pages font
+	perl Tools/inrtps.pl Run-Time\ Problems Injections/Documentation\ for\ Windows/sections nofont
 endef
 
 define copy-rtp-pages
@@ -135,7 +135,7 @@ Inform.app/Contents/Resources/Compilers/inform-6.31-biplatform: Injections/infor
 	$(call copy-i6)
 
 # Injecting I6
-Inform.app/Contents/Resources/Compilers/cBlorb: Injections/cBlorb
+Inform.app/Contents/Resources/Compilers/cBlorb: Injections/cBlorb/cBlorb
 	$(call copy-cblorb)
 
 # Injecting NI
@@ -147,7 +147,7 @@ Injections/ni: Literate*Source/Chapter*/*.w
 	$(call make-ni)
 
 # The "cBlorb" blorbing agent
-Injections/cBlorb: cBlorb/cBlorb.c
+Injections/cBlorb/cBlorb: Injections/cBlorb/cBlorb.c
 	$(call make-cblorb)
 
 # The I6 library
