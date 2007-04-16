@@ -187,6 +187,12 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 		sourceRect = NSMakeRect(leftPos,2, realEdgeSize-leftPos, bounds.size.height);
 		destRect = NSMakeRect(rect.origin.x, bounds.origin.y, realEdgeSize-leftPos, bounds.size.height);
 		
+		if (NSMaxX(destRect) > NSMaxX(rect)) {
+			float difference = NSMaxX(destRect) - NSMaxX(rect);
+			sourceRect.size.width -= difference;
+			destRect.size.width -= difference;
+		}
+		
 		[overlay drawInRect: destRect
 				   fromRect: sourceRect
 				  operation: NSCompositeSourceOver 
@@ -202,6 +208,14 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 		// Draw the right-hand end of the image
 		sourceRect = NSMakeRect(imageSize.width - realEdgeSize, 2, rightBorderWidth, bounds.size.height);
 		destRect = NSMakeRect(NSMaxX(rect)-rightBorderWidth, bounds.origin.y, rightBorderWidth, bounds.size.height);
+
+		if (NSMinX(destRect) < NSMinX(rect)) {
+			float difference = NSMinX(rect) - NSMinX(destRect);
+			sourceRect.origin.x += difference;
+			destRect.origin.x += difference;
+			sourceRect.size.width -= difference;
+			destRect.size.width -= difference;
+		}
 		
 		[overlay drawInRect: destRect
 				   fromRect: sourceRect
@@ -349,7 +363,7 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	backgroundBounds.size.width -= tabMargin;
 	
 	// Draw the background gradient
-	[background drawInRect: bounds
+	[background drawInRect: backgroundBounds
 				  fromRect: NSMakeRect(0,0, backSize.width, backSize.height)
 				 operation: NSCompositeSourceOver
 				  fraction: 1.0];
@@ -357,9 +371,45 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	// Draw the standard background
 	background = [IFPageBarView normalImage];
 	backSize = [background size];
+
+	NSRect leftBounds = backgroundBounds;
+	NSRect rightBounds = backgroundBounds;
+	NSRect midBounds = backgroundBounds;
+	
+	NSImage* leftBackground = background;
+	NSImage* rightBackground = background;
+	
+	leftBounds.size.width = cellMargin;
+	rightBounds.origin.x = NSMaxX(backgroundBounds)-cellMargin;
+	rightBounds.size.width = cellMargin;
+	midBounds.origin.x += cellMargin;
+	midBounds.size.width -= cellMargin*2;
+	
+	if ([leftCells count] > 0) {
+		if ([[leftCells objectAtIndex: 0] isHighlighted]) {
+			leftBackground = [IFPageBarView highlightedImage];
+		} else if ([[leftCells objectAtIndex: 0] state] == NSOnState) {
+			leftBackground = [IFPageBarView selectedImage];
+		}
+	}
+	if ([rightCells count] > 0) {
+		if ([[rightCells objectAtIndex: 0] isHighlighted]) {
+			rightBackground = [IFPageBarView highlightedImage];
+		} else if ([[rightCells objectAtIndex: 0] state] == NSOnState) {
+			rightBackground = [IFPageBarView selectedImage];
+		}
+	}
 	
 	[IFPageBarView drawOverlay: background
-						inRect: backgroundBounds
+						inRect: midBounds
+				   totalBounds: backgroundBounds
+					  fraction: 1.0];
+	[IFPageBarView drawOverlay: leftBackground
+						inRect: leftBounds
+				   totalBounds: backgroundBounds
+					  fraction: 1.0];
+	[IFPageBarView drawOverlay: rightBackground
+						inRect: rightBounds
 				   totalBounds: backgroundBounds
 					  fraction: 1.0];
 	
@@ -632,8 +682,21 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	cellLayout->cellImage = nil;
 	
 	// Refresh this cell
-	[self setNeedsDisplayInRect: [self boundsForCellAtIndex: cellIndex
-												  isOnRight: isRight]];
+	NSRect bounds = [self boundsForCellAtIndex: cellIndex
+									 isOnRight: isRight];
+	
+	if (cellIndex == 0) {
+		// If on the left or right, then we also need to update the end caps
+		if (isRight) {
+			bounds.size.width = NSMaxX([self bounds])-bounds.origin.x;
+		} else {
+			NSRect viewBounds = [self bounds];
+			bounds.size.width = NSMaxX(bounds)-NSMinX(viewBounds);
+			bounds.origin.x = NSMinX(viewBounds);
+		}
+	}
+	
+	[self setNeedsDisplayInRect: bounds];
 }
 
 - (void)updateCellInside:(NSCell *)aCell {
@@ -670,29 +733,16 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	trackingCellFrame = [self boundsForCellAtIndex: index
 										 isOnRight: isOnRight];
 	
-	// Send the initial tracking event
-	[trackingCell trackMouse: event
-					  inRect: trackingCellFrame
-					  ofView: self
-				untilMouseUp: NO];
-}
-
-- (void) mouseDragged: (NSEvent*) event {
-	if (trackingCell) {
-		[trackingCell trackMouse: event
-						  inRect: trackingCellFrame
-						  ofView: self
-					untilMouseUp: NO];		
+	// Track the mouse
+	BOOL trackResult = [trackingCell trackMouse: event
+										 inRect: trackingCellFrame
+										 ofView: self
+								   untilMouseUp: YES];
+	
+	if (trackResult) {
+		[NSApp sendAction: [trackingCell action]
+					   to: [trackingCell target]];
 	}
-}
-
-- (void) mouseUp: (NSEvent*) event {
-	if (trackingCell) {
-		[trackingCell trackMouse: event
-						  inRect: trackingCellFrame
-						  ofView: self
-					untilMouseUp: NO];		
-	}	
 }
 
 @end

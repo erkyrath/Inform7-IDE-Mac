@@ -97,7 +97,7 @@
 	
 	if (isHighlighted) {
 		backgroundImage = [IFPageBarView highlightedImage];
-	} else if (isSelected) {
+	} else if ([self state] == NSOnState) {
 		backgroundImage = [IFPageBarView selectedImage];
 	}
 	
@@ -140,10 +140,37 @@
 
 // = Tracking =
 
+- (BOOL)trackMouse:(NSEvent *)theEvent
+			inRect:(NSRect)cellFrame 
+			ofView:(NSView *)controlView 
+	  untilMouseUp:(BOOL)untilMouseUp {
+	trackingFrame = cellFrame;
+	
+	return [super trackMouse: theEvent
+					  inRect: cellFrame
+					  ofView: controlView
+				untilMouseUp: untilMouseUp];
+}
+
 - (BOOL)startTrackingAt: (NSPoint)startPoint 
 				 inView: (NSView*)controlView {
 	isHighlighted = YES;
 	[self update];
+	
+	return YES;
+}
+
+- (BOOL)continueTracking:(NSPoint)lastPoint
+					  at:(NSPoint)currentPoint 
+				  inView:(NSView *)controlView {
+	BOOL shouldBeHighlighted;
+	
+	shouldBeHighlighted = NSPointInRect(currentPoint, 
+										trackingFrame);
+	if (shouldBeHighlighted != isHighlighted) {
+		isHighlighted = shouldBeHighlighted;
+		[self update];
+	}
 	
 	return YES;
 }

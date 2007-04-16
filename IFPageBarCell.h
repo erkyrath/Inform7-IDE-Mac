@@ -19,7 +19,8 @@
 	BOOL isRight;										// True if this cell is to be drawn on the right-hand side
 	
 	BOOL isHighlighted;									// True if this cell is currently highlighted by a click
-	BOOL isSelected;									// True if this cell is currently selected by a click
+	
+	NSRect trackingFrame;								// The frame of this cell reported when the last mouse tracking started
 }
 
 // Initialisation
