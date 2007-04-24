@@ -340,7 +340,7 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 		[layout->cellImage drawInRect: NSIntegralRect(cellFrame)
 							 fromRect: cellSource
 							operation: NSCompositeSourceOver
-							 fraction: 1.0];
+							 fraction: [cell isEnabled]?1.0:0.5];
 	}
 }
 
@@ -746,6 +746,8 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	NSEvent* trackingEvent = event;
 	
 	while (!trackResult) {
+		if (![trackingCell isEnabled]) return;
+		
 		trackResult = [trackingCell trackMouse: trackingEvent
 										inRect: trackingCellFrame
 										ofView: self

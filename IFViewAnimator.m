@@ -274,6 +274,27 @@ static BOOL ViewNeedsDisplay(NSView* view) {
 						fraction: 1.0];
 			break;
 			
+		case IFAnimateCrossFade:
+			// Work out where to place the images
+			startFrom.origin = NSMakePoint(0, 0);
+			startFrom.size = NSMakeSize(startSize.width, startSize.height);
+			startTo = startFrom;
+			
+			endFrom.origin = NSMakePoint(0, 0);
+			endFrom.size = NSMakeSize(endSize.width, endSize.height);
+			endTo = endFrom;
+			
+			// Draw them
+			[startImage drawInRect: startTo
+						  fromRect: startFrom
+						 operation: NSCompositeSourceOver
+						  fraction: 1.0];
+			[endImage drawInRect: endTo
+						fromRect: endFrom
+					   operation: NSCompositeSourceOver
+						fraction: percentDone];
+			break;
+			
 		case IFFloatIn:
 		{
 			// New view appears to 'float' in from above

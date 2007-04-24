@@ -667,6 +667,20 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = The history =
 
+- (void) updateHistoryControls {
+	if (historyPos <= 0) {
+		[backCell setEnabled: NO];
+	} else {
+		[backCell setEnabled: YES];
+	}
+	
+	if (historyPos >= [history count]-1) {
+		[forwardCell setEnabled: NO];
+	} else {
+		[forwardCell setEnabled: YES];
+	}
+}
+
 - (void) clearLastEvent {
 	[lastEvent release];
 	lastEvent = nil;
@@ -695,6 +709,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	
 	[lastEvent autorelease];
 	lastEvent = [newEvent retain];
+	
+	[self updateHistoryControls];
 }
 
 - (IFHistoryEvent*) historyEvent {
@@ -755,7 +771,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	replaying = NO;
 	
 	[anim animateTo: tabView
-			  style: IFFloatOut];
+			  style: IFAnimateCrossFade];
+	[self updateHistoryControls];
 }
 
 - (void) goForwards: (id) sender {
@@ -770,7 +787,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	replaying = NO;
 	
 	[anim animateTo: tabView
-			  style: IFFloatIn];
+			  style: IFAnimateCrossFade];
+	[self updateHistoryControls];
 }
 
 @end
