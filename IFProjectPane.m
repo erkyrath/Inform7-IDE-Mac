@@ -319,6 +319,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	tabRect.size.height += topMissing + bottomMissing;
 
 	[tabView setFrame: tabRect];
+	
+	[[self history] selectView: IFSourcePane];
 }
 
 - (void) awakeFromNib {
@@ -334,8 +336,8 @@ NSDictionary* IFSyntaxAttributes[256];
 	// Set up the backwards/forwards buttons
 	
 	// TODO: images
-	backCell = [[IFPageBarCell alloc] initTextCell: @"Back"];
-	forwardCell = [[IFPageBarCell alloc] initTextCell: @"Fore"];
+	backCell = [[IFPageBarCell alloc] initImageCell: [NSImage imageNamed: @"BackArrow"]];
+	forwardCell = [[IFPageBarCell alloc] initImageCell: [NSImage imageNamed: @"ForeArrow"]];
 	
 	[backCell setTarget: self];
 	[forwardCell setTarget: self];
@@ -666,7 +668,6 @@ NSDictionary* IFSyntaxAttributes[256];
 // = The history =
 
 - (void) clearLastEvent {
-	NSLog(@"Clearing event");
 	[lastEvent release];
 	lastEvent = nil;
 }

@@ -516,9 +516,16 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 		
 		cellLayout->position = position;
 		cellLayout->minWidth = [cell cellSize].width;
-		cellLayout->width = cellLayout->minWidth;
 		cellLayout->hidden = NO;
 		
+		if (position == 0 && [cell image]) {
+			// Prevent images from looking a bit lopsided when right on the edge
+			cellLayout->position -= 2;
+			position -= 2;
+		}
+
+		cellLayout->width = cellLayout->minWidth;
+
 		[layout addObject: cellLayout];
 		[cellLayout release];
 		position += cellLayout->width;

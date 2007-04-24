@@ -29,7 +29,7 @@
 		NSAttributedString* attrText = [[NSAttributedString alloc] initWithString: text
 																	   attributes: 
 			[NSDictionary dictionaryWithObjectsAndKeys: 
-				[[NSColor controlTextColor] colorWithAlphaComponent: 1.0], NSForegroundColorAttributeName,
+				[[NSColor controlTextColor] colorWithAlphaComponent: 0.8], NSForegroundColorAttributeName,
 				[NSFont systemFontOfSize: 11], NSFontAttributeName,
 				nil]];
 		
@@ -44,7 +44,7 @@
 	self = [self init];
 	
 	if (self) {
-		
+		[self setImage: image];
 	}
 	
 	return self;
@@ -75,6 +75,7 @@
 	
 	if (image) {
 		size = [image size];
+		size.width += 4;
 	} else if (text) {
 		size = [text size];
 	}
