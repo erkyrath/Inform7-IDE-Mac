@@ -271,7 +271,7 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	NSAffineTransform* cellTransform = [NSAffineTransform transform];
 	[cellTransform translateXBy: -cellFrame.origin.x
 							yBy: -cellFrame.origin.y];
-	[cellTransform set];
+	[cellTransform concat];
 	
 	// Draw the cell
 	[cell drawWithFrame: cellFrame
@@ -336,7 +336,7 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 		
 		cellFrame.size.height -= 2; cellFrame.origin.y += 2;
 		cellSource.size.height -= 2; cellSource.origin.y += 2;
-		
+				
 		[layout->cellImage drawInRect: NSIntegralRect(cellFrame)
 							 fromRect: cellSource
 							operation: NSCompositeSourceOver
