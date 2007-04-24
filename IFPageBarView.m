@@ -82,12 +82,18 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 
 + (NSImage*) highlightedImage {
 	static NSImage* image = nil;
+	static NSImage* graphiteImage = nil;
 	
 	if (!image) {
 		image = [[NSImage imageNamed: @"BarHighlighted"] retain];
+		graphiteImage = [[NSImage imageNamed: @"BarSelectedGraphite"] retain];
 	}
 	
-	return image;
+	if ([NSColor currentControlTint] == NSGraphiteControlTint) {
+		return graphiteImage;
+	} else {
+		return image;
+	}
 }
 
 + (NSImage*) selectedImage {
