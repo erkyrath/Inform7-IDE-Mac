@@ -94,6 +94,7 @@
 		size.width += 4;
 	} else if (text) {
 		size = [text size];
+		size.width += 4;
 	}
 	
 	if ([self isPopup]) {
@@ -118,7 +119,11 @@
 	NSImage* backgroundImage = nil;
 	
 	if (isHighlighted) {
-		backgroundImage = [IFPageBarView highlightedImage];
+		if ([self isPopup]) {
+			backgroundImage = [IFPageBarView graphiteSelectedImage];
+		} else {
+			backgroundImage = [IFPageBarView highlightedImage];
+		}
 	} else if ([self state] == NSOnState) {
 		backgroundImage = [IFPageBarView selectedImage];
 	}

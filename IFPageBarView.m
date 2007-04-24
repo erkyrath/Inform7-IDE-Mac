@@ -80,20 +80,24 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	return image;
 }
 
-+ (NSImage*) highlightedImage {
-	static NSImage* image = nil;
-	static NSImage* graphiteImage = nil;
-	
-	if (!image) {
-		image = [[NSImage imageNamed: @"BarHighlighted"] retain];
++ (NSImage*) graphiteSelectedImage {
+	static NSImage* graphiteImage = nil;	
+
+	if (!graphiteImage) {
 		graphiteImage = [[NSImage imageNamed: @"BarSelectedGraphite"] retain];
 	}
 	
-	if ([NSColor currentControlTint] == NSGraphiteControlTint) {
-		return graphiteImage;
-	} else {
-		return image;
+	return graphiteImage;
+}
+
++ (NSImage*) highlightedImage {
+	static NSImage* image = nil;
+	
+	if (!image) {
+		image = [[NSImage imageNamed: @"BarHighlighted"] retain];
 	}
+	
+	return image;
 }
 
 + (NSImage*) selectedImage {
@@ -103,7 +107,11 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 		image = [[NSImage imageNamed: @"BarSelected"] retain];
 	}
 	
-	return image;
+	if ([NSColor currentControlTint] == NSGraphiteControlTint) {
+		return [IFPageBarView graphiteSelectedImage];
+	} else {
+		return image;
+	}
 }
 
 + (NSImage*) inactiveImage {
