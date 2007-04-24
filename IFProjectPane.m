@@ -771,7 +771,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	replaying = NO;
 	
 	[anim animateTo: tabView
-			  style: IFAnimateCrossFade];
+			  style: IFFloatOut];
 	[self updateHistoryControls];
 }
 
@@ -787,7 +787,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	replaying = NO;
 	
 	[anim animateTo: tabView
-			  style: IFAnimateCrossFade];
+			  style: IFFloatIn];
 	[self updateHistoryControls];
 }
 

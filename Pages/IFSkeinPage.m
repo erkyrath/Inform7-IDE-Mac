@@ -38,7 +38,26 @@
 												 selector: @selector(preferencesChangedQuickly:)
 													 name: IFPreferencesDidChangeNotification
 												   object: [IFPreferences sharedPreferences]];
-		[self skeinDidChange: nil];		
+		
+		// Create the cells for the page bar
+		labelsCell = [[IFPageBarCell alloc] initTextCell: @"Labels"];
+		trimCell = [[IFPageBarCell alloc] initTextCell: @"Trim..."];
+		playAllCell = [[IFPageBarCell alloc] initTextCell: @"Play All Blessed"];
+		layoutCell = [[IFPageBarCell alloc] initTextCell: @"Layout..."];
+		
+		[labelsCell setMenu: [[[NSMenu alloc] init] autorelease]];
+		
+		[trimCell setTarget: self];
+		[trimCell setAction: @selector(pruneSkein:)];
+		
+		[layoutCell setTarget: self];
+		[layoutCell setAction: @selector(performSkeinLayout:)];
+		
+		[playAllCell setTarget: self];
+		[playAllCell setAction: @selector(skeinLabelSelected:)];
+
+		// Update the skein settings
+		[self skeinDidChange: nil];
 	}
 	
 	return self;
@@ -97,6 +116,8 @@
 
 - (void) skeinDidChange: (NSNotification*) not {
 	[[[parent document] skein] populatePopupButton: skeinLabelButton];
+	[labelsCell setMenu: [[[parent document] skein] populateMenuWithAction: @selector(skeinLabelSelected:)
+																	target: self]];
 	[skeinLabelButton selectItem: nil];
 }
 
@@ -180,7 +201,15 @@
 }
 
 - (IBAction) skeinLabelSelected: (id) sender {
-	NSString* annotation = [[sender selectedItem] title];
+	NSMenuItem* menuItem;
+	
+	if ([sender isKindOfClass: [NSMenuItem class]]) {
+		menuItem = sender;
+	} else {
+		menuItem = [sender selectedItem];
+	}
+	
+	NSString* annotation = [menuItem title];
 	
 	// Reset the annotation count if required
 	if (![annotation isEqualToString: lastAnnotation]) {
@@ -202,6 +231,12 @@
 	
 	// Will scroll to the next item in the list if there's more than one
 	annotationCount++;
+}
+
+// = The page bar =
+
+- (NSArray*) toolbarCells {
+	return [NSArray arrayWithObjects: playAllCell, trimCell, layoutCell, labelsCell, nil];
 }
 
 @end

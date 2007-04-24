@@ -199,6 +199,14 @@
 	return NSOffState;
 }
 
+- (BOOL) isEnabled {
+	if (menu) {
+		if ([menu numberOfItems] <= 0) return NO;
+	}
+	
+	return [super isEnabled];
+}
+
 // = Acting as a pop-up =
 
 - (BOOL) isPopup {
@@ -210,16 +218,16 @@
 - (void) showPopupAtPoint: (NSPoint) pointInWindow {
 	if (menu) {
 		[self setState: NSOnState];
-		isHighlighted = NO;
+		isHighlighted = YES;
 		[self update];
 		
 		NSEvent* fakeEvent = [NSEvent mouseEventWithType: NSLeftMouseDown
 												location: pointInWindow
 										   modifierFlags: 0
-											   timestamp: [[NSDate date] timeInterval]
+											   timestamp: [[NSApp currentEvent] timestamp]
 											windowNumber: [[[self controlView] window] windowNumber]
 												 context: [[[self controlView] window] graphicsContext]
-											 eventNumber: 9999
+											 eventNumber: [[NSApp currentEvent] eventNumber]
 											  clickCount: 0
 												pressure: 1.0];
 		
@@ -247,6 +255,17 @@
 	  untilMouseUp:(BOOL)untilMouseUp {
 	trackingFrame = cellFrame;
 	
+	if ([self isPopup]) {
+		NSRect winFrame = [[self controlView] convertRect: trackingFrame
+												   toView: nil];
+		[self showPopupAtPoint: NSMakePoint(NSMinX(winFrame)+1, NSMinY(winFrame)-3)];
+		
+		isHighlighted = NO;
+		[self update];
+		
+		return YES;
+	}
+	
 	return [super trackMouse: theEvent
 					  inRect: cellFrame
 					  ofView: controlView
@@ -257,17 +276,6 @@
 				 inView: (NSView*)controlView {
 	isHighlighted = YES;
 	[self update];
-	
-	if ([self isPopup]) {
-		NSRect winFrame = [[self controlView] convertRect: trackingFrame
-												   toView: nil];
-		[self showPopupAtPoint: NSMakePoint(NSMinX(winFrame), NSMaxY(winFrame))];
-		
-		isHighlighted = NO;
-		[self update];
-		
-		return NO;
-	}
 	
 	// TODO: if this is a menu or pop-up cell, only send the action when the user makes a selection
 	// [self sendActionOn: 0];

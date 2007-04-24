@@ -26,6 +26,12 @@
 	IBOutlet NSWindow* skeinSpacing;					// The 'skein spacing' window
 	IBOutlet NSSlider* skeinHoriz;						// The 'skein horizontal width' slider
 	IBOutlet NSSlider* skeinVert;						// The 'skein vertical width' slider
+	
+	// The page bar buttons
+	IFPageBarCell* labelsCell;							// The 'Labels' button
+	IFPageBarCell* trimCell;							// The 'Trim...' button
+	IFPageBarCell* playAllCell;							// The 'Play All Blessed' button
+	IFPageBarCell* layoutCell;							// The 'Layout...' button
 }
 
 // The skein view
