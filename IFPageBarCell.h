@@ -17,6 +17,7 @@
 //
 @interface IFPageBarCell : NSActionCell {
 	BOOL isRight;										// True if this cell is to be drawn on the right-hand side
+	NSMenu* menu;										// The menu for this cell
 	
 	BOOL isHighlighted;									// True if this cell is currently highlighted by a click
 	
@@ -26,6 +27,11 @@
 // Initialisation
 
 // Drawing the cell
+
+// Acting as a pop-up
+- (BOOL) isPopup;										// YES if this is a pop-up cell of some kind
+- (void) showPopupAtPoint: (NSPoint) pointInWindow;		// Request to run the pop-up
+- (void) setMenu: (NSMenu*) menu;						// The pop-up menu
 
 @end
 

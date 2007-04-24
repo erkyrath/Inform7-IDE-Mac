@@ -11,6 +11,16 @@
 
 @implementation IFPageBarCell
 
++ (NSImage*) dropDownImage {
+	NSImage* image = nil;
+	
+	if (!image) {
+		image = [[NSImage imageNamed: @"BarMenuArrow"] retain];
+	}
+	
+	return image;
+}
+
 // = Initialisation =
 
 - (id) init {
@@ -50,6 +60,12 @@
 	return self;
 }
 
+- (void) dealloc {
+	[menu release];
+	
+	[super dealloc];
+}
+
 // = Cell properties =
 
 - (void) update {
@@ -78,6 +94,11 @@
 		size.width += 4;
 	} else if (text) {
 		size = [text size];
+	}
+	
+	if ([self isPopup]) {
+		NSImage* dropDownArrow = [IFPageBarCell dropDownImage];
+		size.width += [dropDownArrow size].width + 4;
 	}
 	
 	// Add a border for the margins
@@ -121,6 +142,27 @@
 						  fraction: 1.0];
 	}
 	
+	if ([self isPopup]) {
+		// Draw the popup arrow
+		NSImage* dropDownArrow = [IFPageBarCell dropDownImage];
+		NSSize dropDownSize = [dropDownArrow size];
+		
+		NSRect dropDownRect = NSMakeRect(0,0, dropDownSize.width, dropDownSize.height);
+		NSRect dropDownDrawRect;
+		
+		dropDownDrawRect.origin = NSMakePoint(NSMaxX(cellFrame) - dropDownSize.width - 2,
+											  cellFrame.origin.y + (cellFrame.size.height+2-dropDownSize.height)/2);
+		dropDownDrawRect.size = dropDownSize;
+		
+		[dropDownArrow drawInRect: dropDownDrawRect
+						 fromRect: dropDownRect
+						operation: NSCompositeSourceOver
+						 fraction: 1.0];
+		
+		// Reduce the frame size
+		cellFrame.size.width -= dropDownSize.width+4;
+	}
+	
 	if (image) {
 		// Draw the image
 		NSSize imageSize = [image size];
@@ -157,6 +199,46 @@
 	return NSOffState;
 }
 
+// = Acting as a pop-up =
+
+- (BOOL) isPopup {
+	if (menu) return YES;
+	
+	return NO;
+}
+
+- (void) showPopupAtPoint: (NSPoint) pointInWindow {
+	if (menu) {
+		[self setState: NSOnState];
+		isHighlighted = NO;
+		[self update];
+		
+		NSEvent* fakeEvent = [NSEvent mouseEventWithType: NSLeftMouseDown
+												location: pointInWindow
+										   modifierFlags: 0
+											   timestamp: [[NSDate date] timeInterval]
+											windowNumber: [[[self controlView] window] windowNumber]
+												 context: [[[self controlView] window] graphicsContext]
+											 eventNumber: 9999
+											  clickCount: 0
+												pressure: 1.0];
+		
+		[NSMenu popUpContextMenu: menu
+					   withEvent: fakeEvent
+						 forView: [self controlView]
+						withFont: [NSFont systemFontOfSize: 11]];
+		
+		[self setState: NSOffState];
+		[self update];
+	}
+}
+
+- (void) setMenu: (NSMenu*) newMenu {
+	[menu release];
+	menu = [newMenu retain];
+	[self update];
+}
+
 // = Tracking =
 
 - (BOOL)trackMouse:(NSEvent *)theEvent
@@ -175,6 +257,17 @@
 				 inView: (NSView*)controlView {
 	isHighlighted = YES;
 	[self update];
+	
+	if ([self isPopup]) {
+		NSRect winFrame = [[self controlView] convertRect: trackingFrame
+												   toView: nil];
+		[self showPopupAtPoint: NSMakePoint(NSMinX(winFrame), NSMaxY(winFrame))];
+		
+		isHighlighted = NO;
+		[self update];
+		
+		return NO;
+	}
 	
 	// TODO: if this is a menu or pop-up cell, only send the action when the user makes a selection
 	// [self sendActionOn: 0];

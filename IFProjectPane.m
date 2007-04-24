@@ -746,19 +746,31 @@ NSDictionary* IFSyntaxAttributes[256];
 - (void) goBackwards: (id) sender {
 	if (historyPos <= 0) return;
 	
+	IFViewAnimator* anim = [[[IFViewAnimator alloc] init] autorelease];
+	[anim prepareToAnimateView: tabView];
+	
 	replaying = YES;
 	[[history objectAtIndex: historyPos-1] replay];
 	historyPos--;
 	replaying = NO;
+	
+	[anim animateTo: tabView
+			  style: IFFloatOut];
 }
 
 - (void) goForwards: (id) sender {
 	if (historyPos >= [history count]-1) return;
 	
+	IFViewAnimator* anim = [[[IFViewAnimator alloc] init] autorelease];
+	[anim prepareToAnimateView: tabView];
+	
 	replaying = YES;
 	[[history objectAtIndex: historyPos+1] replay];
 	historyPos++;
 	replaying = NO;
+	
+	[anim animateTo: tabView
+			  style: IFFloatIn];
 }
 
 @end

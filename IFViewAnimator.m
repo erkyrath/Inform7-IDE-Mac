@@ -197,7 +197,27 @@
 
 // = Drawing =
 
+static BOOL ViewNeedsDisplay(NSView* view) {
+	if (view == nil) return NO;
+	if ([view needsDisplay]) return YES;
+	
+	NSEnumerator* viewEnum = [[view subviews] objectEnumerator];
+	NSView* subview;
+	while (subview = [viewEnum nextObject]) {
+		if (ViewNeedsDisplay(subview)) return YES;
+	}
+	
+	return NO;
+}
+
 - (void)drawRect:(NSRect)rect {
+	// Recache the view if it wants to be redrawn
+	if (ViewNeedsDisplay(originalView)) {
+		[endImage release];
+		endImage = [[[self class] cacheView: originalView] retain];
+	}
+	
+	// Draw the appropriate animation frame
 	float percentDone = [self percentDone];
 	float percentNotDone = 1.0-percentDone;
 	
