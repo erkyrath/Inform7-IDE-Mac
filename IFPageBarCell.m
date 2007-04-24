@@ -155,9 +155,11 @@
 		NSRect dropDownRect = NSMakeRect(0,0, dropDownSize.width, dropDownSize.height);
 		NSRect dropDownDrawRect;
 		
-		dropDownDrawRect.origin = NSMakePoint(NSMaxX(cellFrame) - dropDownSize.width - 2,
+		dropDownDrawRect.origin = NSMakePoint(NSMaxX(cellFrame) - dropDownSize.width - 6,
 											  cellFrame.origin.y + (cellFrame.size.height+2-dropDownSize.height)/2);
 		dropDownDrawRect.size = dropDownSize;
+		
+		if (isRight) dropDownDrawRect.origin.x += 2;
 		
 		[dropDownArrow drawInRect: dropDownDrawRect
 						 fromRect: dropDownRect

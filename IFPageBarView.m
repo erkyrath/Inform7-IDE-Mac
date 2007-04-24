@@ -392,14 +392,22 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	
 	if ([leftCells count] > 0) {
 		if ([[leftCells objectAtIndex: 0] isHighlighted]) {
-			leftBackground = [IFPageBarView highlightedImage];
+			if ([[leftCells objectAtIndex: 0] isPopup]) {
+				leftBackground = [IFPageBarView graphiteSelectedImage];				
+			} else {
+				leftBackground = [IFPageBarView highlightedImage];
+			}
 		} else if ([[leftCells objectAtIndex: 0] state] == NSOnState) {
 			leftBackground = [IFPageBarView selectedImage];
 		}
 	}
 	if ([rightCells count] > 0) {
 		if ([[rightCells objectAtIndex: 0] isHighlighted]) {
-			rightBackground = [IFPageBarView highlightedImage];
+			if ([[rightCells objectAtIndex: 0] isPopup]) {
+				rightBackground = [IFPageBarView graphiteSelectedImage];				
+			} else {
+				rightBackground = [IFPageBarView highlightedImage];
+			}
 		} else if ([[rightCells objectAtIndex: 0] state] == NSOnState) {
 			rightBackground = [IFPageBarView selectedImage];
 		}
