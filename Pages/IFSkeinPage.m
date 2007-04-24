@@ -54,7 +54,7 @@
 		[layoutCell setAction: @selector(performSkeinLayout:)];
 		
 		[playAllCell setTarget: self];
-		[playAllCell setAction: @selector(skeinLabelSelected:)];
+		[playAllCell setAction: @selector(replayEntireSkein:)];
 
 		// Update the skein settings
 		[self skeinDidChange: nil];
@@ -231,6 +231,10 @@
 	
 	// Will scroll to the next item in the list if there's more than one
 	annotationCount++;
+}
+
+- (IBAction) replayEntireSkein: (id) sender {
+	[[NSApp targetForAction: @selector(replayEntireSkein:)] replayEntireSkein: sender];
 }
 
 // = The page bar =
