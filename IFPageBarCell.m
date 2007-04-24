@@ -104,7 +104,7 @@
 	if (backgroundImage) {
 		IFPageBarView* view = (IFPageBarView*)[self controlView];
 		NSRect backgroundBounds = [view bounds];
-		backgroundBounds.size.width -= 13.0;
+		backgroundBounds.size.width -= 9.0;
 		
 		NSRect backgroundFrame = cellFrame;
 		if (isRight) {
@@ -121,7 +121,18 @@
 	}
 	
 	if (image) {
-		// TODO: draw the image
+		// Draw the image
+		NSSize imageSize = [image size];
+		NSRect imageRect;
+		
+		imageRect.origin = NSMakePoint(cellFrame.origin.x + (cellFrame.size.width-imageSize.width)/2,
+									   cellFrame.origin.y + (cellFrame.size.height+2-imageSize.height)/2);
+		imageRect.size = imageSize;
+		
+		[image drawInRect: imageRect
+				 fromRect: NSMakeRect(0,0, imageSize.width, imageSize.height)
+				operation: NSCompositeSourceOver
+				 fraction: 1.0];
 	} else if (text) {
 		// Draw the text
 		NSSize textSize = [text size];
@@ -136,6 +147,13 @@
 		
 		[text drawInRect: NSIntegralRect(textRect)];
 	}
+}
+
+// = Cell states =
+
+- (int) nextState {
+	// TODO: allow for push-on/push-off cells
+	return NSOffState;
 }
 
 // = Tracking =
@@ -156,6 +174,9 @@
 				 inView: (NSView*)controlView {
 	isHighlighted = YES;
 	[self update];
+	
+	// TODO: if this is a menu or pop-up cell, only send the action when the user makes a selection
+	// [self sendActionOn: 0];
 	
 	return YES;
 }

@@ -19,13 +19,18 @@ extern NSString* IFSwitchToPageNotification;
 // Notification sent when a page wants to cause an invokation on the 'opposite' pane
 extern NSString* IFOtherPaneInvokationNotification;
 
+// Notification that the items on the toolbar for a page have changed
+extern NSString* IFUpdatePageBarCellsNotification;
+
 //
 // Controller class that represents a page in a project pane
 //
 @protocol IFProjectPane;
+@protocol IFHistoryRecorder;
 @interface IFPage : NSObject {
 	IFProjectController* parent;			// The project controller that 'owns' this page (not retained)
 	NSObject<IFProjectPane>* otherPane;		// The pane that is opposite to this one (or nil, not retained)
+	NSObject<IFHistoryRecorder>* recorder;	// Object used for recording any history events for this object
 	
 	BOOL releaseView;						// YES if the view has been set using setView: and should be released
 	IBOutlet NSView* view;					// The view to display for this page
@@ -34,6 +39,7 @@ extern NSString* IFOtherPaneInvokationNotification;
 // Initialising
 - (id) initWithNibName: (NSString*) nib		// Designated initialiser
 	 projectController: (IFProjectController*) controller;
+- (void) setRecorder: (NSObject<IFHistoryRecorder>*) recorder;	// Sets the history recorder for this item [NOT RETAINED]
 - (void) setOtherPane: (NSObject<IFProjectPane>*) otherPane;	// Sets the pane to be considered 'opposite' to this one
 - (void) finished;							// Called when the owning object has finished with this object
 
@@ -41,6 +47,8 @@ extern NSString* IFOtherPaneInvokationNotification;
 - (void) switchToPage;						// Request that the UI switches to displaying this page
 - (void) switchToPageWithIdentifier: (NSString*) identifier
 						   fromPage: (NSString*) oldIdentifier;	// Request that the UI switches to displaying a specific page
+
+- (id) history;								// Returns a proxy object that can be used to record history actions
 
 // Page properties
 - (NSString*) title;						// The name of the tab this page appears under
@@ -52,7 +60,9 @@ extern NSString* IFOtherPaneInvokationNotification;
 // Page validation
 - (BOOL) shouldShowPage;					// YES if this page is valid to be shown
 
-// TODO: page-specific toolbar items (NSCells?)
+// Dealing with the page bar
+- (NSArray*) toolbarCells;					// The cells to put on the page bar for this item
+- (void) toolbarCellsHaveUpdated;			// Call to cause the set of cells being displayed in the toolbar to be updated
 
 @end
 

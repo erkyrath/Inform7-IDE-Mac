@@ -52,7 +52,7 @@
 
 // = Constants =
 static const float edgeSize = 20.0;				// Portion of an overlay image that is considered to be part of the 'edge'
-static const float rightMargin = 9.0;			// Margin to put on the right (to account for scrollbars, tabs, etc)
+static const float rightMargin = 5.0;			// Margin to put on the right (to account for scrollbars, tabs, etc)
 static const float tabMargin = 4.0;				// Extra margin to put on the right when drawing the 'bar' image as opposed to the background
 static const float cellMargin = 12.0;			// Margin on the left and right until we actually draw the first cell
 
@@ -117,15 +117,6 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 
     if (self) {
 		cellsNeedLayout = YES;
-		
-		leftCells = [[NSMutableArray alloc] initWithObjects:
-			[[[IFPageBarCell alloc] initTextCell: @"Test"] autorelease],
-			[[[IFPageBarCell alloc] initTextCell: @"Stuff"] autorelease],
-			nil];
-		rightCells = [[NSMutableArray alloc] initWithObjects:
-			[[[IFPageBarCell alloc] initTextCell: @"Hello"] autorelease],
-			[[[IFPageBarCell alloc] initTextCell: @"IFPageBarView.m"] autorelease],
-			nil];
 		
 #if 0
 		// Construct the overlay window
@@ -500,6 +491,8 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	
 	[leftLayout release]; leftLayout = nil;
 	cellsNeedLayout = YES;
+	
+	[self setNeedsDisplay: YES];
 }
 
 - (void) setRightCells: (NSArray*) newRightCells {
@@ -508,6 +501,8 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	
 	[rightLayout release]; rightLayout = nil;
 	cellsNeedLayout = YES;
+	
+	[self setNeedsDisplay: YES];
 }
 
 - (void) addCells: (NSMutableArray*) cells
@@ -734,14 +729,35 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 										 isOnRight: isOnRight];
 	
 	// Track the mouse
-	BOOL trackResult = [trackingCell trackMouse: event
-										 inRect: trackingCellFrame
-										 ofView: self
-								   untilMouseUp: YES];
+	BOOL trackResult = NO;
+	NSEvent* trackingEvent = event;
 	
-	if (trackResult) {
-		[NSApp sendAction: [trackingCell action]
-					   to: [trackingCell target]];
+	while (!trackResult) {
+		trackResult = [trackingCell trackMouse: trackingEvent
+										inRect: trackingCellFrame
+										ofView: self
+								  untilMouseUp: NO];
+		
+		if (!trackResult) {
+			// If the mouse is still down, continue tracking it in case it re-enters
+			// the control
+			while (trackingEvent = [NSApp nextEventMatchingMask: NSLeftMouseDraggedMask|NSLeftMouseUpMask
+													  untilDate: [NSDate distantFuture]
+														 inMode: NSEventTrackingRunLoopMode
+														dequeue: YES]) {
+				if ([trackingEvent type] == NSLeftMouseUp) {
+					// All finished
+					return;
+				} else if ([trackingEvent type] == NSLeftMouseDragged) {
+					// Restart tracking if the mouse has re-entered the cell
+					NSPoint location = [self convertPoint: [trackingEvent locationInWindow]
+												 fromView: nil];
+					if (NSPointInRect(location, trackingCellFrame)) {
+						break;
+					}
+				}
+			}
+		}
 	}
 }
 

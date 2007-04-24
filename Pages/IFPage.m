@@ -9,6 +9,7 @@
 #import "IFPage.h"
 
 NSString* IFSwitchToPageNotification = @"IFSwitchToPageNotification";
+NSString* IFUpdatePageBarCellsNotification = @"IFUpdatePageBarCellsNotification";
 
 @implementation IFPage
 
@@ -89,6 +90,38 @@ NSString* IFSwitchToPageNotification = @"IFSwitchToPageNotification";
 													  userInfo: [NSDictionary dictionaryWithObjectsAndKeys: 
 														  identifier, @"Identifier", 
 														  oldPageIdentifier, @"OldPageIdentifier", nil]];
+}
+
+// = Dealing with the page bar =
+
+- (NSArray*) toolbarCells {
+	return [NSArray array];
+}
+
+- (void) toolbarCellsHaveUpdated {
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFUpdatePageBarCellsNotification
+														object: self];
+}
+
+// = History =
+
+- (void) setRecorder: (NSObject<IFHistoryRecorder>*) newRecorder {
+	recorder = newRecorder;
+}
+
+- (id) history {
+	IFHistoryEvent* event = nil;
+	
+	if (recorder) {
+		event = [recorder historyEvent];
+	}
+	
+	if (event) {
+		[event setTarget: self];
+		return [event proxy];
+	}
+	
+	return nil;
 }
 
 @end

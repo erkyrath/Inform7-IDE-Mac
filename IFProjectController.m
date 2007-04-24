@@ -408,6 +408,12 @@ static NSDictionary*  itemDictionary = nil;
 	// Perform shutdown
 	[[self gamePage] stopRunningGame];
 	
+	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane* pane;
+	while (pane = [paneEnum nextObject]) {
+		[pane willClose];
+	}
+	
 	[projectPanes release]; projectPanes = nil;
 	[splitViews release]; splitViews = nil;
 	

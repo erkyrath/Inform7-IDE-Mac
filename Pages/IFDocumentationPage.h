@@ -9,15 +9,21 @@
 #import <Cocoa/Cocoa.h>
 #import "IFPage.h"
 
+#import "IFPageBarCell.h"
+
 //
 // The 'documentation' page
 //
 @interface IFDocumentationPage : IFPage {
 	// The documentation view
 	WebView* wView;										// The web view that displays the documentation
+	
+	// Page cells
+	IFPageBarCell* contentsCell;						// The 'table of contents' cell
 }
 
 // The documentation view
-- (void) openURL: (NSURL*) url;									// Tells the documentation view to open a specific URL
+- (void) openURL: (NSURL*) url;							// Tells the documentation view to open a specific URL
+- (IBAction) showToc: (id) sender;						// Opens the table of contents
 
 @end

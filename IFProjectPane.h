@@ -22,6 +22,10 @@
 #import "IFSyntaxStorage.h"
 #import "IFProgress.h"
 
+#import "IFPageBarView.h"
+#import "IFPageBarCell.h"
+#import "IFHistoryEvent.h"
+
 enum IFProjectPaneType {
     IFSourcePane = 1,
     IFErrorPane = 2,
@@ -59,14 +63,31 @@ enum IFProjectPaneType {
 
 @end
 
+@protocol IFHistoryRecorder
+
+- (IFHistoryEvent*) historyEvent;								// Retrieves a history event that can have new events recorded via the proxy
+
+@end
+
 //
 // Controller class dealing with one side of the project window
 //
-@interface IFProjectPane : NSObject<IFProjectPane> {
+@interface IFProjectPane : NSObject<IFProjectPane, IFHistoryRecorder> {
     // Outlets
     IBOutlet NSView* paneView;							// The main pane view
-
     IBOutlet NSTabView* tabView;						// The tab view
+	
+	// The page bar
+	IBOutlet IFPageBarView* pageBar;					// The page toolbar
+	
+	IFPageBarCell* forwardCell;							// The 'forward' button
+	IFPageBarCell* backCell;							// The 'backwards' button
+	
+	// History
+	NSMutableArray* history;							// The history actions for this object
+	IFHistoryEvent* lastEvent;							// The last history event created
+	int historyPos;										// The position that we are in the history
+	BOOL replaying;										// If true, then new history items are not created
 	
 	// The pages
 	NSMutableArray* pages;								// Pages being managed by this control
@@ -91,6 +112,7 @@ enum IFProjectPaneType {
 
 // Our controller
 - (void) setController: (IFProjectController*) parent;			// Sets the project controller (once the nib has loaded and the project controller been set, we are considered 'awake')
+- (void) willClose;												// Notification from the controller that this object will be destroyed shortly
 
 // Dealing with the contents of the NIB file
 - (NSView*) paneView;											// The main pane view
@@ -136,6 +158,14 @@ enum IFProjectPaneType {
 
 // Search/replace
 - (void) performFindPanelAction: (id) sender;					// Called to invoke the find panel for the current pane
+
+// History
+- (IFHistoryEvent*) historyEvent;								// Gets the current history event for this run through the loop
+- (void) addHistoryInvocation: (NSInvocation*) invoke;			// Adds a new invocation to the forward/backwards history
+- (id) history;													// Returns a proxy for this object for a new history item
+
+- (IBAction) goForwards: (id) sender;							// Go forwards in the history
+- (IBAction) goBackwards: (id) sender;							// Go backwards in the history
 
 @end
 

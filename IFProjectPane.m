@@ -25,6 +25,8 @@
 #import "IFGlkResources.h"
 #import "IFViewAnimator.h"
 
+#import "IFHistoryEvent.h"
+
 // Approximate maximum length of file to highlight in one 'iteration'
 #define minHighlightAmount 2048
 #define maxHighlightAmount 2048
@@ -167,6 +169,9 @@ NSDictionary* IFSyntaxAttributes[256];
         awake = NO;
 		
 		pages = [[NSMutableArray alloc] init];
+		
+		history = [[NSMutableArray alloc] init];
+		historyPos = -1;
     }
 
     return self;
@@ -190,7 +195,17 @@ NSDictionary* IFSyntaxAttributes[256];
 	[gamePage release];
 	[documentationPage release];
 	[settingsPage release];
+	
+	[pages makeObjectsPerformSelector: @selector(setRecorder:)
+						   withObject: nil];
+	[pages makeObjectsPerformSelector: @selector(setOtherPane:)
+						   withObject: nil];
 	[pages release];
+	
+	[history release];
+	[backCell release];
+	[forwardCell release];
+	[lastEvent release];
 	
     [[NSNotificationCenter defaultCenter] removeObserver: self];
     
@@ -275,6 +290,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	// Documentation page
 	documentationPage = [[IFDocumentationPage alloc] initWithProjectController: parent];
 	[self addPage: documentationPage];
+	[(IFDocumentationPage*)[documentationPage history] showToc: self];
 	
 	// Settings
 	settingsPage = [[IFSettingsPage alloc] initWithProjectController: parent];
@@ -314,8 +330,20 @@ NSDictionary* IFSyntaxAttributes[256];
     }
 	
     [tabView setDelegate: self];
-    
-    //[sourceText setUsesFindPanel: YES]; -- Not 10.2
+	
+	// Set up the backwards/forwards buttons
+	
+	// TODO: images
+	backCell = [[IFPageBarCell alloc] initTextCell: @"Back"];
+	forwardCell = [[IFPageBarCell alloc] initTextCell: @"Fore"];
+	
+	[backCell setTarget: self];
+	[forwardCell setTarget: self];
+	
+	[backCell setAction: @selector(goBackwards:)];
+	[forwardCell setAction: @selector(goForwards:)];
+	
+	[pageBar setLeftCells: [NSArray arrayWithObjects: backCell, forwardCell, nil]];
 }
 
 - (void) setController: (IFProjectController*) p {
@@ -333,8 +361,29 @@ NSDictionary* IFSyntaxAttributes[256];
     }
 }
 
+- (void) willClose {
+	// The history might reference this object (or cause a circular reference some other way), so we destroy it now
+	[history release]; history = nil;
+	[lastEvent release]; lastEvent = nil;
+	historyPos = 0;
+}
+
 - (NSTabViewItem*) tabViewItemForPage: (IFPage*) page {
 	return [tabView tabViewItemAtIndex: [tabView indexOfTabViewItemWithIdentifier: [page identifier]]];
+}
+
+- (IFPage*) pageForTabViewItem: (NSTabViewItem*) item {
+	NSEnumerator* pageEnum = [pages objectEnumerator];
+	IFPage* page;
+	
+	NSString* identifier = [item identifier];
+	while (page = [pageEnum nextObject]) {
+		if ([[page identifier] isEqualToString: identifier]) {
+			return page;
+		}
+	}
+	
+	return nil;
 }
 
 - (void) selectView: (enum IFProjectPaneType) pane {
@@ -519,6 +568,19 @@ NSDictionary* IFSyntaxAttributes[256];
 	return YES;
 }
 
+- (void) selectTabViewItem: (NSTabViewItem*) item {
+	[tabView selectTabViewItem: item];
+}
+
+- (void)        tabView:(NSTabView *)tabView
+  willSelectTabViewItem:(NSTabViewItem *)tabViewItem {
+	// Record in the history
+	[[self history] selectTabViewItem: tabViewItem];
+	
+	// Update the right-hand page bar cells
+	[pageBar setRightCells: [[self pageForTabViewItem: tabViewItem] toolbarCells]];
+}
+
 // = The tab view =
 
 - (NSTabView*) tabView {
@@ -580,6 +642,7 @@ NSDictionary* IFSyntaxAttributes[256];
 	// Add this page to the list of pages being managed by this control
 	[pages addObject: newPage];
 	[newPage setOtherPane: [parent oppositePane: self]];
+	[newPage setRecorder: self];
 	
 	// Register for notifications from this page
 	[[NSNotificationCenter defaultCenter] addObserver: self
@@ -598,6 +661,103 @@ NSDictionary* IFSyntaxAttributes[256];
 	}
 	[[newPage view] setFrame: [[newItem view] bounds]];
 	[[newItem view] addSubview: [newPage view]];
+}
+
+// = The history =
+
+- (void) clearLastEvent {
+	NSLog(@"Clearing event");
+	[lastEvent release];
+	lastEvent = nil;
+}
+
+- (void) addHistoryEvent: (IFHistoryEvent*) newEvent {
+	if (newEvent == nil) return;
+	
+	// If we've gone backwards in the history, then remove the 'forward' history items
+	if (historyPos != [history count]-1) {
+		[history removeObjectsInRange: NSMakeRange(historyPos+1, [history count]-(historyPos+1))];
+	}
+	
+	// Add the new history item
+	[history addObject: newEvent];
+	historyPos++;
+	
+	// Record it as the last event
+	if (lastEvent == nil) {
+		[[NSRunLoop currentRunLoop] performSelector: @selector(clearLastEvent)
+											 target: self
+										   argument: nil
+											  order: 99
+											  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+	}
+	
+	[lastEvent autorelease];
+	lastEvent = [newEvent retain];
+}
+
+- (IFHistoryEvent*) historyEvent {
+	if (replaying) return nil;
+	
+	IFHistoryEvent* event;
+	if (lastEvent) {
+		event = lastEvent;
+	} else {
+		// Construct a new event based on this obejct
+		IFHistoryEvent* newEvent = [[IFHistoryEvent alloc] initWithObject: self];
+		[self addHistoryEvent: newEvent];
+		
+		event = [newEvent autorelease];
+	}
+	
+	return event;
+}
+
+- (void) addHistoryInvocation: (NSInvocation*) invoke {
+	if (replaying) return;
+	
+	// Construct a new event based on the invocation
+	IFHistoryEvent* newEvent = [[IFHistoryEvent alloc] initWithInvocation: invoke];
+	[self addHistoryEvent: newEvent];
+	
+	[newEvent release];
+}
+
+- (id) history {
+	if (replaying) return nil;
+	
+	IFHistoryEvent* event;
+	if (lastEvent) {
+		event = lastEvent;
+	} else {
+		// Construct a new event based on this obejct
+		IFHistoryEvent* newEvent = [[IFHistoryEvent alloc] initWithObject: self];
+		[self addHistoryEvent: newEvent];
+		
+		event = [newEvent autorelease];
+	}
+	
+	// Return a suitable proxy
+	[event setTarget: self];
+	return [event proxy];
+}
+
+- (void) goBackwards: (id) sender {
+	if (historyPos <= 0) return;
+	
+	replaying = YES;
+	[[history objectAtIndex: historyPos-1] replay];
+	historyPos--;
+	replaying = NO;
+}
+
+- (void) goForwards: (id) sender {
+	if (historyPos >= [history count]-1) return;
+	
+	replaying = YES;
+	[[history objectAtIndex: historyPos+1] replay];
+	historyPos++;
+	replaying = NO;
 }
 
 @end

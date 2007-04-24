@@ -53,6 +53,10 @@
 			[wView setUIDelegate: parent];
 			[wView setHostWindow: [parent window]];
 		}
+		
+		contentsCell = [[IFPageBarCell alloc] initTextCell: @"Contents"];
+		[contentsCell setTarget: self];
+		[contentsCell setAction: @selector(showToc:)];
 	}
 	
 	return self;
@@ -62,6 +66,8 @@
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	
 	if (wView) [wView release];
+	
+	[contentsCell release];
     
 	[super dealloc];
 }
@@ -106,6 +112,16 @@
 
 // = WebFrameLoadDelegate methods =
 
+- (void)					webView:(WebView *)sender 
+	didStartProvisionalLoadForFrame:(WebFrame *)frame {
+	if (frame == [wView mainFrame]) {
+		// When opening a new URL in the main frame, record it as part of the history for this page
+		NSURL* url = [[[frame provisionalDataSource] request] URL];
+		url = [[url copy] autorelease];
+		[(IFDocumentationPage*)[self history] openURL: url];
+	}
+}
+
 - (void)					webView:(WebView *)sender
 		windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
 	if (otherPane) {
@@ -116,6 +132,16 @@
 		[[sender windowScriptObject] setValue: [js autorelease]
 									   forKey: @"Project"];
 	}
+}
+
+// = Page bar cells =
+
+- (NSArray*) toolbarCells {
+	return [NSArray arrayWithObjects: contentsCell, nil];
+}
+
+- (void) showToc: (id) sender {
+	[self openURL: [NSURL URLWithString: @"inform:/index.html"]];
 }
 
 @end
