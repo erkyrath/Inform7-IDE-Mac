@@ -42,7 +42,7 @@
 		// Create the cells for the page bar
 		labelsCell = [[IFPageBarCell alloc] initTextCell: @"Labels"];
 		trimCell = [[IFPageBarCell alloc] initTextCell: @"Trim..."];
-		playAllCell = [[IFPageBarCell alloc] initTextCell: @"Play All Blessed"];
+		playAllCell = [[IFPageBarCell alloc] initTextCell: @"Play All"];
 		layoutCell = [[IFPageBarCell alloc] initTextCell: @"Layout..."];
 		
 		[labelsCell setMenu: [[[NSMenu alloc] init] autorelease]];
