@@ -118,7 +118,7 @@
 		// When opening a new URL in the main frame, record it as part of the history for this page
 		NSURL* url = [[[frame provisionalDataSource] request] URL];
 		url = [[url copy] autorelease];
-		[(IFDocumentationPage*)[self history] openURL: url];
+		[(IFDocumentationPage*)[self history] openURL: [[url copy] autorelease]];
 	}
 }
 
@@ -132,6 +132,12 @@
 		[[sender windowScriptObject] setValue: [js autorelease]
 									   forKey: @"Project"];
 	}
+}
+
+// = History =
+
+- (void) didSwitchToPage {
+	[(IFDocumentationPage*)[self history] openURL: [[[[[[wView mainFrame] dataSource] request] URL] copy] autorelease]];
 }
 
 // = Page bar cells =

@@ -579,6 +579,9 @@ NSDictionary* IFSyntaxAttributes[256];
 	// Record in the history
 	[[self history] selectTabViewItem: tabViewItem];
 	
+	IFPage* page = [self pageForTabViewItem: tabViewItem];
+	[page didSwitchToPage];
+	
 	// Update the right-hand page bar cells
 	[pageBar setRightCells: [[self pageForTabViewItem: tabViewItem] toolbarCells]];
 }

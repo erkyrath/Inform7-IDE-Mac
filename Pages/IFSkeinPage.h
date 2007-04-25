@@ -16,7 +16,6 @@
 @interface IFSkeinPage : IFPage {
 	// The skein view
 	IBOutlet ZoomSkeinView* skeinView;					// The skein view
-	IBOutlet NSPopUpButton* skeinLabelButton;			// The button used to jump to different skein items
 	int annotationCount;								// The number of annotations (labels)
 	NSString* lastAnnotation;							// The last annotation skipped to using the label button
 	

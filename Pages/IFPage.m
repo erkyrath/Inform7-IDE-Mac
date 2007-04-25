@@ -124,4 +124,8 @@ NSString* IFUpdatePageBarCellsNotification = @"IFUpdatePageBarCellsNotification"
 	return nil;
 }
 
+- (void) didSwitchToPage {
+	// Do nothing
+}
+
 @end

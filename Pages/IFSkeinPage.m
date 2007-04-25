@@ -58,6 +58,7 @@
 
 		// Update the skein settings
 		[self skeinDidChange: nil];
+		[skeinView scrollToItem: [[doc skein] rootItem]];
 	}
 	
 	return self;
@@ -115,10 +116,8 @@
 }
 
 - (void) skeinDidChange: (NSNotification*) not {
-	[[[parent document] skein] populatePopupButton: skeinLabelButton];
 	[labelsCell setMenu: [[[parent document] skein] populateMenuWithAction: @selector(skeinLabelSelected:)
 																	target: self]];
-	[skeinLabelButton selectItem: nil];
 }
 
 - (void) clearSkeinDidEnd: (NSWindow*) sheet

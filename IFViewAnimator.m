@@ -198,16 +198,21 @@
 // = Drawing =
 
 static BOOL ViewNeedsDisplay(NSView* view) {
+	BOOL result = NO;
+	
 	if (view == nil) return NO;
-	if ([view needsDisplay]) return YES;
+	if ([view needsDisplay]) {
+		[view setNeedsDisplay: NO];
+		result = YES;
+	}
 	
 	NSEnumerator* viewEnum = [[view subviews] objectEnumerator];
 	NSView* subview;
 	while (subview = [viewEnum nextObject]) {
-		if (ViewNeedsDisplay(subview)) return YES;
+		if (ViewNeedsDisplay(subview)) result = YES;
 	}
 	
-	return NO;
+	return result;
 }
 
 - (void)drawRect:(NSRect)rect {

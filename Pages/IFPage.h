@@ -47,6 +47,7 @@ extern NSString* IFUpdatePageBarCellsNotification;
 - (void) switchToPage;						// Request that the UI switches to displaying this page
 - (void) switchToPageWithIdentifier: (NSString*) identifier
 						   fromPage: (NSString*) oldIdentifier;	// Request that the UI switches to displaying a specific page
+- (void) didSwitchToPage;					// Called when this page becomes active
 
 - (id) history;								// Returns a proxy object that can be used to record history actions
 
