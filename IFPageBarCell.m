@@ -160,8 +160,8 @@
 		
 		NSRect backgroundFrame = cellFrame;
 		if (isRight) {
-			backgroundFrame.origin.x += 2;
-			backgroundFrame.size.width -= 2;
+			backgroundFrame.origin.x += 1;
+			backgroundFrame.size.width -= 1;
 		} else {
 			backgroundFrame.size.width -= 1;			
 		}
@@ -214,7 +214,7 @@
 		NSPoint textPoint = NSMakePoint(cellFrame.origin.x + (cellFrame.size.width-textSize.width)/2,
 										cellFrame.origin.y + (cellFrame.size.height+2-textSize.height)/2);
 		
-		if (isRight) textPoint.x += 2;
+		if (isRight) textPoint.x += 1;
 
 		NSRect textRect;
 		textRect.origin = textPoint;

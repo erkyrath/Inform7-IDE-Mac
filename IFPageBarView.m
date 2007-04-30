@@ -290,17 +290,19 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	if (right) {
 		marginPos = NSMinX(cellFrame)+0.5;
 	} else {
-		marginPos = NSMaxX(cellFrame)-1.5;
+		marginPos = NSMaxX(cellFrame)-0.5;
 	}
 	
+	/*
 	[NSBezierPath setDefaultLineWidth: 1.0];
 	[[[NSColor controlLightHighlightColor] colorWithAlphaComponent: 0.4] set];
 	[NSBezierPath strokeLineFromPoint: NSMakePoint(marginPos, NSMinY(cellFrame)+2)
 							  toPoint: NSMakePoint(marginPos, NSMaxY(cellFrame))];
-	
+	 */
+
 	[[[NSColor controlShadowColor] colorWithAlphaComponent: 0.4] set];
-	[NSBezierPath strokeLineFromPoint: NSMakePoint(marginPos+1, NSMinY(cellFrame)+2)
-							  toPoint: NSMakePoint(marginPos+1, NSMaxY(cellFrame))];
+	[NSBezierPath strokeLineFromPoint: NSMakePoint(marginPos, NSMinY(cellFrame)+2)
+							  toPoint: NSMakePoint(marginPos, NSMaxY(cellFrame))];
 	
 	// Finish drawing
 	[cellImage unlockFocus];
