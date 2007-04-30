@@ -200,6 +200,13 @@
 	// Clear out the subviews of this view
 	[[[self view] subviews] makeObjectsPerformSelector: @selector(removeFromSuperview)];
 	
+	// Morph the view, if it supports morphing
+	NSEnumerator* subviewEnum = [[[cell view] subviews] objectEnumerator];
+	NSView* subview;
+	while (subview = [subviewEnum nextObject]) {
+		if ([subview respondsToSelector: @selector(morphMe)]) [(id)subview morphMe];		
+	}
+	
 	// Add the new view as a subview of this control
 	[[cell view] setFrame: [[self view] bounds]];
 	[[self view] addSubview: [cell view]];
@@ -212,22 +219,6 @@
 		lastUserTab = [[cell stringValue] retain];
 	}
 }
-
-// = Tab view delegate methods =
-
-/*
--  (void)			tabView:(NSTabView *)tabView 
-	   didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
-	if (tabView == indexTabs) {
-		// Do nothing if something mechanical may be changing the selection
-		if (indexMachineSelection > 0) return;
-		
-		// Store this as the last 'user-selected' tab view item
-		[lastUserTab release];
-		lastUserTab = [[tabViewItem label] retain];
-	}
-}
-*/
 
 // = The page bar =
 

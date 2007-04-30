@@ -22,4 +22,6 @@
 - (void) setHostWindow: (NSWindow*) newHostWindow;
 - (void) setPolicyDelegate: (id) delegate;
 
+- (void) morphMe;
+
 @end

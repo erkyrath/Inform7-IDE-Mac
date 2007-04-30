@@ -28,6 +28,10 @@
 	[super dealloc];
 }
 
+- (void) morph {
+	
+}
+
 - (void)drawRect:(NSRect)rect {
 	// Morphing time!
 	[[NSRunLoop currentRunLoop] performSelector: @selector(morphMe)
