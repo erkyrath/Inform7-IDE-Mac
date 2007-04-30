@@ -190,6 +190,18 @@
 
 // = Switching cells =
 
+- (void) selectCellWithTitle: (NSString*) title {
+	NSEnumerator* cellEnum = [indexCells objectEnumerator];
+	IFPageBarCell* cell;
+	while (cell = [cellEnum nextObject]) {
+		if ([[cell stringValue] isEqual: title]) {
+			[cell setState: NSOnState];
+			[self switchToCell: cell];
+			return;
+		}
+	}
+}
+
 - (IBAction) switchToCell: (id) sender {
 	// Get the cell that was clicked on
 	IFPageBarCell* cell = nil;
@@ -218,6 +230,13 @@
 		[lastUserTab release];
 		lastUserTab = [[cell stringValue] retain];
 	}
+	
+	[[self history] selectCellWithTitle: [cell stringValue]];
+}
+
+- (void) didSwitchToPage {
+	[[self history] selectCellWithTitle: lastUserTab];
+	[super didSwitchToPage];
 }
 
 // = The page bar =

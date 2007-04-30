@@ -293,13 +293,6 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 		marginPos = NSMaxX(cellFrame)-0.5;
 	}
 	
-	/*
-	[NSBezierPath setDefaultLineWidth: 1.0];
-	[[[NSColor controlLightHighlightColor] colorWithAlphaComponent: 0.4] set];
-	[NSBezierPath strokeLineFromPoint: NSMakePoint(marginPos, NSMinY(cellFrame)+2)
-							  toPoint: NSMakePoint(marginPos, NSMaxY(cellFrame))];
-	 */
-
 	[[[NSColor controlShadowColor] colorWithAlphaComponent: 0.4] set];
 	[NSBezierPath strokeLineFromPoint: NSMakePoint(marginPos, NSMinY(cellFrame)+2)
 							  toPoint: NSMakePoint(marginPos, NSMaxY(cellFrame))];
