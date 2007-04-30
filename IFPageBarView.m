@@ -782,6 +782,10 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 
 // = Mouse events =
 
+- (NSCell*) lastTrackedCell {
+	return trackingCell;
+}
+
 - (void) mouseDown: (NSEvent*) event {
 	// Clear any tracking cell that might exist
 	[trackingCell release]; trackingCell = nil;

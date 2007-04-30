@@ -19,6 +19,8 @@
 	BOOL isRight;										// True if this cell is to be drawn on the right-hand side
 	BOOL isHighlighted;									// True if this cell is currently highlighted by a click
 	NSRect trackingFrame;								// The frame of this cell reported when the last mouse tracking started
+	
+	id identifier;										// An identifier for this cell
 
 	// Pop-up
 	NSMenu* menu;										// The menu for this cell
@@ -31,6 +33,9 @@
 }
 
 // Initialisation
+
+- (void) setIdentifier: (id) identifier;				// Sets the identifier for this cell
+- (id) identifier;										// Gets the identifier for this cell
 
 // Drawing the cell
 

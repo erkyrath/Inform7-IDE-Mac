@@ -46,6 +46,7 @@
 
 - (void) layoutCells;								// Forces the cells to be measured and laid out appropriately for this control
 
+- (NSCell*) lastTrackedCell;						// Last cell that was tracked by this control (eg, because the user clicked on it)
 - (void) setState: (int) state						// Sets the state for the specified cell (deals with radio group changes: probably only useful for IFPageBarCell)
 		  forCell: (IFPageBarCell*) cell;
 

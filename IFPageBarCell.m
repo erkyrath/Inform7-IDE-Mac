@@ -63,10 +63,32 @@
 }
 
 - (void) dealloc {
-	[menu release];
-	[view release];
+	[menu release]; menu = nil;
+	[view release]; view = nil;
+	[identifier release]; identifier = nil;
 	
 	[super dealloc];
+}
+
+- (void) setIdentifier: (id) newIdentifier {
+	[identifier release];
+	identifier = [newIdentifier retain];
+}
+
+- (id) identifier {
+	return identifier;
+}
+
+- (void) setStringValue: (NSString*) text {
+	NSAttributedString* attrText = [[NSAttributedString alloc] initWithString: text
+																   attributes: 
+		[NSDictionary dictionaryWithObjectsAndKeys: 
+			[[NSColor controlTextColor] colorWithAlphaComponent: 0.8], NSForegroundColorAttributeName,
+			[NSFont systemFontOfSize: 11], NSFontAttributeName,
+			nil]];
+	
+	[self setAttributedStringValue: attrText];
+	[attrText release];	
 }
 
 // = Cell properties =
@@ -220,6 +242,7 @@
 	}
 	
 	[super setState: newState];
+	[self update];
 	
 	if (radioGroup >= 0) {
 		[(IFPageBarView*)[self controlView] setState: newState

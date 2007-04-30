@@ -25,9 +25,10 @@ enum IFIndexTabType {
 @interface IFIndexPage : IFPage {
 	BOOL indexAvailable;								// YES if the index tab should be active
 	
-	NSTabView* indexTabs;								// The tab view containing the various index files
 	int indexMachineSelection;							// A reference count - number of 'machine' operations that might be affecting the index tab selection
 	NSString* lastUserTab;								// The last tab selected by a user action	
+	
+	NSMutableArray* indexCells;							// IFPageBarCells used to select index pages
 }
 
 // The index view
@@ -35,5 +36,6 @@ enum IFIndexTabType {
 - (BOOL) canSelectIndexTab: (int) whichTab;						// Returns YES if we can select a specific tab in the index pane
 - (void) selectIndexTab: (int) whichTab;						// Chooses a specific index tab
 - (BOOL) indexAvailable;										// YES if the index tab is available
+- (IBAction) switchToCell: (id) sender;							// Switches to the page specified by the given cell
 
 @end

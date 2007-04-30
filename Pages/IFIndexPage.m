@@ -27,10 +27,7 @@
 }
 
 - (void) dealloc {
-	if (indexTabs != nil) {
-		[indexTabs setDelegate: nil];
-		[indexTabs release];
-	}
+	[indexCells release];
 	[lastUserTab release];
 
 	[super dealloc];
@@ -52,8 +49,21 @@
 
 // = The index view =
 
+- (int) indexOfItemWithIdentifier: (id) identifier {
+	NSEnumerator* cellEnum = [indexCells objectEnumerator];
+	IFPageBarCell* cell;
+	
+	int index = 0;
+	while (cell = [cellEnum nextObject]) {
+		if ([[cell identifier] isEqual: identifier]) return index;
+		index++;
+	}
+	
+	return NSNotFound;
+}
+
 - (BOOL) canSelectIndexTab: (int) whichTab {
-	if ([indexTabs indexOfTabViewItemWithIdentifier: [NSNumber numberWithInt: whichTab]] == NSNotFound) {
+	if ([self indexOfItemWithIdentifier: [NSNumber numberWithInt: whichTab]] == NSNotFound) {
 		return NO;
 	} else {
 		return YES;
@@ -61,10 +71,10 @@
 }
 
 - (void) selectIndexTab: (int) whichTab {
-	int tabIndex = [indexTabs indexOfTabViewItemWithIdentifier: [NSNumber numberWithInt: whichTab]];
+	int tabIndex = [self indexOfItemWithIdentifier: [NSNumber numberWithInt: whichTab]];
 	
 	if (tabIndex != NSNotFound) {
-		[indexTabs selectTabViewItemAtIndex: tabIndex];
+		[self switchToCell: [indexCells objectAtIndex: tabIndex]];
 	}
 }
 
@@ -77,6 +87,9 @@
 	NSString* indexPath = [NSString stringWithFormat: @"%@/Index", [[parent document] fileName]];
 	BOOL isDir = NO;
 	
+	if (indexCells) [indexCells release];
+	indexCells = [[NSMutableArray alloc] init];
+	
 	// Check that it exists and is a directory
 	if (indexPath == nil) return;
 	if (![[NSFileManager defaultManager] fileExistsAtPath: indexPath
@@ -86,25 +99,9 @@
 	// Create the tab view that will eventually go into the main view
 	indexMachineSelection++;
 	
-	if (indexTabs != nil) {
-		[indexTabs setDelegate: nil];
-		[indexTabs removeFromSuperview];
-		[indexTabs release];
-		indexTabs = nil;
-	}
-	
-	indexTabs = [[NSTabView alloc] initWithFrame: [view bounds]];
-	[indexTabs setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
-	[view addSubview: indexTabs];
-	
-	[indexTabs setDelegate: self];
-	
-	[indexTabs setControlSize: NSSmallControlSize];
-	[indexTabs setFont: [NSFont systemFontOfSize: 10]];
-	[indexTabs setAllowsTruncatedLabels: YES];
-	
 	// Iterate through the files
 	NSArray* files = [[NSFileManager defaultManager] directoryContentsAtPath: indexPath];
+	files = [files sortedArrayUsingSelector: @selector(caseInsensitiveCompare:)];
 	NSEnumerator* fileEnum = [files objectEnumerator];
 	NSString* theFile;
 	
@@ -114,7 +111,7 @@
 		NSString* extension = [[theFile pathExtension] lowercaseString];
 		NSString* fullPath = [indexPath stringByAppendingPathComponent: theFile];
 		
-		NSTabViewItem* userTab = nil;
+		IFPageBarCell* userTab = nil;
 		
 		if ([extension isEqualToString: @"htm"] ||
 			[extension isEqualToString: @"html"] ||
@@ -137,14 +134,15 @@
 			[fileView addSubview: [pretendView autorelease]];
 			
 			// Create the tab to put this view in
-			NSTabViewItem* newTab = [[[NSTabViewItem alloc] init] autorelease];
+			IFPageBarCell* newTab = [[[IFPageBarCell alloc] init] autorelease];
 			
 			[newTab setView: fileView];
 			
 			NSString* label = [mB localizedStringForKey: theFile
 												  value: [theFile stringByDeletingPathExtension]
 												  table: @"CompilerOutput"];
-			[newTab setLabel: label];
+			[newTab setStringValue: label];
+			[newTab setRadioGroup: 128];
 			
 			// Choose an ID for this tab based on the filename
 			int tabId = 0;
@@ -159,6 +157,8 @@
 			else if ([lowerFile isEqualToString: @"world.html"]) tabId = IFIndexWorld;
 			
 			[newTab setIdentifier: [NSNumber numberWithInt: tabId]];
+			[newTab setTarget: self];
+			[newTab setAction: @selector(switchToCell:)];
 			
 			// Check if this was the last tab being viewed by the user
 			if (lastUserTab != nil && [label caseInsensitiveCompare: lastUserTab] == NSOrderedSame) {
@@ -168,12 +168,16 @@
 			}
 			
 			// Add the tab
-			[indexTabs addTabViewItem: newTab];
+			[indexCells insertObject: newTab
+							 atIndex: 0];
 			indexAvailable = YES;
 		}
 		
+		[self toolbarCellsHaveUpdated];
+			
 		if (userTab != nil) {
-			[indexTabs selectTabViewItem: userTab];
+			[self switchToCell: userTab];
+			[userTab setState: NSOnState];
 		}
 	}
 	
@@ -184,8 +188,34 @@
 	return indexAvailable;
 }
 
+// = Switching cells =
+
+- (IBAction) switchToCell: (id) sender {
+	// Get the cell that was clicked on
+	IFPageBarCell* cell = nil;
+	
+	if ([sender isKindOfClass: [IFPageBarCell class]]) cell = sender;
+	else if ([sender isKindOfClass: [IFPageBarView class]]) cell = (IFPageBarCell*)[sender lastTrackedCell];
+	
+	// Clear out the subviews of this view
+	[[[self view] subviews] makeObjectsPerformSelector: @selector(removeFromSuperview)];
+	
+	// Add the new view as a subview of this control
+	[[cell view] setFrame: [[self view] bounds]];
+	[[self view] addSubview: [cell view]];
+	
+	// Do nothing if something mechanical may be changing the selection
+	if (indexMachineSelection <= 0)
+	{
+		// Store this as the last 'user-selected' tab view item
+		[lastUserTab release];
+		lastUserTab = [[cell stringValue] retain];
+	}
+}
+
 // = Tab view delegate methods =
 
+/*
 -  (void)			tabView:(NSTabView *)tabView 
 	   didSelectTabViewItem:(NSTabViewItem *)tabViewItem {
 	if (tabView == indexTabs) {
@@ -196,6 +226,14 @@
 		[lastUserTab release];
 		lastUserTab = [[tabViewItem label] retain];
 	}
+}
+*/
+
+// = The page bar =
+
+- (NSArray*) toolbarCells {
+	if (indexCells == nil) return [NSArray array];
+	return indexCells;
 }
 
 @end
