@@ -163,6 +163,8 @@
 			// Check if this was the last tab being viewed by the user
 			if (lastUserTab != nil && [label caseInsensitiveCompare: lastUserTab] == NSOrderedSame) {
 				userTab = newTab;
+			} else if (lastUserTab == nil && tabId == IFIndexContents) {
+				userTab = newTab;
 			}
 			
 			// Add the tab

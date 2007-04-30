@@ -27,6 +27,8 @@
 	self = [super init];
 	
 	if (self) {
+		radioGroup = nil;
+		view = nil;
 	}
 	
 	return self;
@@ -62,6 +64,7 @@
 
 - (void) dealloc {
 	[menu release];
+	[view release];
 	
 	[super dealloc];
 }
@@ -202,8 +205,26 @@
 // = Cell states =
 
 - (int) nextState {
+	// Radio cells can be turned on (but get turned off manually)
+	if (radioGroup >= 0) {
+		return NSOnState;
+	}
+	
 	// TODO: allow for push-on/push-off cells
 	return NSOffState;
+}
+
+- (void) setState: (int) newState {
+	if (newState == [self state]) {
+		return;
+	}
+	
+	[super setState: newState];
+	
+	if (radioGroup >= 0) {
+		[(IFPageBarView*)[self controlView] setState: newState
+											 forCell: self];
+	}
 }
 
 - (BOOL) isEnabled {
@@ -212,6 +233,28 @@
 	}
 	
 	return [super isEnabled];
+}
+
+
+// = Acting as part of a radio group =
+
+- (void) setRadioGroup: (int) group {
+	radioGroup = group;
+}
+
+- (int) radioGroup {
+	return radioGroup;
+}
+	
+// = Acting as a tab =
+
+- (void) setView: (NSView*) newView {
+	if (view) [view release];
+	view = [newView retain];
+}
+
+- (NSView*) view {
+	return view;
 }
 
 // = Acting as a pop-up =
@@ -273,10 +316,19 @@
 		return YES;
 	}
 	
-	return [super trackMouse: theEvent
-					  inRect: cellFrame
-					  ofView: controlView
-				untilMouseUp: untilMouseUp];
+	BOOL result = [super trackMouse: theEvent
+							 inRect: cellFrame
+							 ofView: controlView
+					   untilMouseUp: untilMouseUp];
+	
+	if (result) {
+		// Tracking was successful
+		if (radioGroup >= 0) {
+			
+		}
+	}
+	
+	return result;
 }
 
 - (BOOL)startTrackingAt: (NSPoint)startPoint 

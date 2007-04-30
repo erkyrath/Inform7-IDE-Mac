@@ -13,6 +13,7 @@
 //
 // Class implementing the page bar view.
 //
+@class IFPageBarCell;
 @interface IFPageBarView : NSControl {
 	BOOL cellsNeedLayout;							// YES if we need to perform layout on the cells
 	
@@ -45,4 +46,9 @@
 
 - (void) layoutCells;								// Forces the cells to be measured and laid out appropriately for this control
 
+- (void) setState: (int) state						// Sets the state for the specified cell (deals with radio group changes: probably only useful for IFPageBarCell)
+		  forCell: (IFPageBarCell*) cell;
+
 @end
+
+#import "IFPageBarCell.h"

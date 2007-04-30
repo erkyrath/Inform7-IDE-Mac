@@ -585,6 +585,59 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	[super setBounds: bounds];
 }
 
+- (void) setState: (int) state
+		  forCell: (IFPageBarCell*) cell {
+	// Set the cell state (the boring bit)
+	[cell setState: state];
+	
+	// Get the radio group, and do nothing if this isn't a radio cell
+	int group = [cell radioGroup];
+	if (group < 0) {
+		return;
+	}
+	
+	// If we're not turning a cell on, then we don't need to do anything more
+	if (state != NSOnState) {
+		return;
+	}
+	
+	// Turn off any cells in the same group in the left or right groups
+	NSEnumerator* cellEnum;
+	NSCell* otherCell;
+	
+	cellEnum = [leftCells objectEnumerator];
+	while (otherCell = [cellEnum nextObject]) {
+		// Do nothing if this is the cell whose state is being set
+		if (otherCell == cell) continue;
+		
+		// Do nothing if this cell is already turned off
+		if ([otherCell state] == NSOffState) continue;
+		
+		// Get the group for this cell
+		int otherGroup = -1;
+		if ([otherCell respondsToSelector: @selector(radioGroup)]) otherGroup = [(IFPageBarCell*)otherCell radioGroup];
+		
+		// If it's the same as the cell we're updating, then turn this cell off
+		if (otherGroup == group) [otherCell setState: NSOffState];
+	}
+	
+	cellEnum = [rightCells objectEnumerator];
+	while (otherCell = [cellEnum nextObject]) {
+		// Do nothing if this is the cell whose state is being set
+		if (otherCell == cell) continue;
+		
+		// Do nothing if this cell is already turned off
+		if ([otherCell state] == NSOffState) continue;
+		
+		// Get the group for this cell
+		int otherGroup = -1;
+		if ([otherCell respondsToSelector: @selector(radioGroup)]) otherGroup = [(IFPageBarCell*)otherCell radioGroup];
+		
+		// If it's the same as the cell we're updating, then turn this cell off
+		if (otherGroup == group) [otherCell setState: NSOffState];
+	}
+}
+
 // = Cell housekeeping =
 
 - (int) indexOfCellAtPoint: (NSPoint) point {

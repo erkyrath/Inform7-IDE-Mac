@@ -17,11 +17,17 @@
 //
 @interface IFPageBarCell : NSActionCell {
 	BOOL isRight;										// True if this cell is to be drawn on the right-hand side
+	BOOL isHighlighted;									// True if this cell is currently highlighted by a click
+	NSRect trackingFrame;								// The frame of this cell reported when the last mouse tracking started
+
+	// Pop-up
 	NSMenu* menu;										// The menu for this cell
 	
-	BOOL isHighlighted;									// True if this cell is currently highlighted by a click
+	// Radio
+	int radioGroup;										// The radio group identifier for this cell
 	
-	NSRect trackingFrame;								// The frame of this cell reported when the last mouse tracking started
+	// View
+	NSView* view;										// The view for this cell
 }
 
 // Initialisation
@@ -32,6 +38,14 @@
 - (BOOL) isPopup;										// YES if this is a pop-up cell of some kind
 - (void) showPopupAtPoint: (NSPoint) pointInWindow;		// Request to run the pop-up
 - (void) setMenu: (NSMenu*) menu;						// The pop-up menu
+
+// Acting as part of a radio group
+- (void) setRadioGroup: (int) group;					// Sets this cell up as an on/off cell as part of a radio group
+- (int) radioGroup;										// Retrieves the radio group for this cell
+
+// Acting as a tab (you'll need to implement another control to make this work)
+- (void) setView: (NSView*) view;						// Set the view to display for this item
+- (NSView*) view;										// The view to display for this item
 
 @end
 
