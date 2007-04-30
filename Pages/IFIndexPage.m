@@ -231,6 +231,7 @@
 		lastUserTab = [[cell stringValue] retain];
 	}
 	
+	[[self history] switchToPage];
 	[[self history] selectCellWithTitle: [cell stringValue]];
 }
 

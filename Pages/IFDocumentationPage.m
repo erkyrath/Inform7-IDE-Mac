@@ -118,6 +118,7 @@
 		// When opening a new URL in the main frame, record it as part of the history for this page
 		NSURL* url = [[[frame provisionalDataSource] request] URL];
 		url = [[url copy] autorelease];
+		[[self history] switchToPage];
 		[(IFDocumentationPage*)[self history] openURL: [[url copy] autorelease]];
 	}
 }
