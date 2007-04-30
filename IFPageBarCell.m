@@ -27,7 +27,7 @@
 	self = [super init];
 	
 	if (self) {
-		radioGroup = nil;
+		radioGroup = -1;
 		view = nil;
 	}
 	
