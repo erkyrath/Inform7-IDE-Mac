@@ -25,6 +25,12 @@
 		// The transcript
 		[[transcriptView layout] setSkein: [doc skein]];
 		[transcriptView setDelegate: self];
+		
+		// The page bar cells
+		blessAllCell = [[IFPageBarCell alloc] initTextCell: @"Bless All"];
+		
+		[blessAllCell setTarget: self];
+		[blessAllCell setAction: @selector(transcriptBlessAll:)];
 	}
 	
 	return self;
@@ -32,6 +38,7 @@
 
 - (void) dealloc {
 	[transcriptView setDelegate: nil];
+	[blessAllCell release];
 
 	[super dealloc];
 }
@@ -96,11 +103,11 @@
 	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Are you sure you want to bless all these items?"
 															 value: @"Are you sure you want to bless all these items?"
 															 table: nil],
-					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
-															 value: @"Cancel"
-															 table: nil],
 					  [[NSBundle mainBundle] localizedStringForKey: @"Bless All"
 															 value: @"Bless All"
+															 table: nil],
+					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel"
+															 value: @"Cancel"
 															 table: nil],
 					  nil, [transcriptView window], self, 
 					  @selector(transcriptBlessAllDidEnd:returnCode:contextInfo:), nil,
@@ -112,10 +119,16 @@
 - (void) transcriptBlessAllDidEnd: (NSWindow*) sheet
 					   returnCode: (int) returnCode
 					  contextInfo: (void*) contextInfo {
-	if (returnCode == NSAlertAlternateReturn) {
+	if (returnCode == NSAlertDefaultReturn) {
 		[transcriptView blessAll];
 	} else {
 	}
+}
+
+// = The page bar =
+
+- (NSArray*) toolbarCells {
+	return [NSArray arrayWithObjects: blessAllCell, nil];
 }
 
 @end

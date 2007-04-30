@@ -17,6 +17,9 @@
 @interface IFTranscriptPage : IFPage {
 	// The transcript view
 	IBOutlet IFTranscriptView* transcriptView;			// The transcript view	
+	
+	// The page bar cells
+	IFPageBarCell* blessAllCell;
 }
 
 // The transcript view
