@@ -154,8 +154,8 @@
 	}
 	
 	if (backgroundImage) {
-		IFPageBarView* view = (IFPageBarView*)[self controlView];
-		NSRect backgroundBounds = [view bounds];
+		IFPageBarView* barView = (IFPageBarView*)[self controlView];
+		NSRect backgroundBounds = [barView bounds];
 		backgroundBounds.size.width -= 9.0;
 		
 		NSRect backgroundFrame = cellFrame;

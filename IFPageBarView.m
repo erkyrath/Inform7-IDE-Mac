@@ -571,8 +571,37 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	
 	// Third pass: remove cells from the right, then from the left when there is
 	// still not enough space
-	//
-	// TODO
+	NSRect bounds = [self bounds];
+	
+	bounds.origin.x += cellMargin;
+	bounds.size.width -= cellMargin*2 + tabMargin + rightMargin;
+
+	float maxLeftPos = 0;
+	if ([leftCells count] > 0) {
+		IFPageCellLayout* lastLeftLayout = [leftLayout lastObject];
+		maxLeftPos = lastLeftLayout->position + lastLeftLayout->width;
+	}
+	maxLeftPos += NSMinX(bounds);
+	
+	NSEnumerator* cellEnum = [rightLayout objectEnumerator];
+	IFPageCellLayout* cellLayout;
+	
+	while (cellLayout = [cellEnum nextObject]) {
+		if (NSMaxX(bounds) - (cellLayout->position + cellLayout->width) <= maxLeftPos + 4) {
+			cellLayout->hidden = YES;
+		} else {
+			cellLayout->hidden = NO;
+		}
+	}
+	
+	cellEnum = [leftLayout objectEnumerator];
+	while (cellLayout = [cellEnum nextObject]) {
+		if (NSMinY(bounds) + (cellLayout->position + cellLayout->width) >= NSMaxX(bounds)-12) {
+			cellLayout->hidden = YES;
+		} else {
+			cellLayout->hidden = NO;
+		}
+	}
 }
 
 - (void) setBounds: (NSRect) bounds {
