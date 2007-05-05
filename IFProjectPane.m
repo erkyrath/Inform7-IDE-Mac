@@ -584,12 +584,20 @@ NSDictionary* IFSyntaxAttributes[256];
 	[tabView selectTabViewItem: item];
 }
 
+- (void) activatePage: (IFPage*) page {
+	// Select the active view for the specified page
+	[[parent window] makeFirstResponder: [page activeView]];
+}
+
 - (void)        tabView:(NSTabView *)tabView
   willSelectTabViewItem:(NSTabViewItem *)tabViewItem {
+	IFPage* page = [self pageForTabViewItem: tabViewItem];
+	
 	// Record in the history
 	[[self history] selectTabViewItem: tabViewItem];
-	
-	IFPage* page = [self pageForTabViewItem: tabViewItem];
+	[[self history] activatePage: page];
+
+	// Notify the page that it has been selected
 	[page didSwitchToPage];
 	
 	// Update the right-hand page bar cells
