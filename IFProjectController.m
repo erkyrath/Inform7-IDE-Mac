@@ -307,8 +307,6 @@ static NSDictionary*  itemDictionary = nil;
 		progressIndicators = [[NSMutableArray alloc] init];
 		progressing = NO;
 		
-		headingsBrowser = [[IFHeadingsBrowser alloc] init];
-		
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(extensionsUpdated:)
 													 name: IFExtensionsUpdatedNotification
@@ -334,8 +332,6 @@ static NSDictionary*  itemDictionary = nil;
 	
 	[generalPolicy release];
 	[docPolicy release];
-	
-	[headingsBrowser release];
 
 	[progressIndicators release];
 	
@@ -680,35 +676,6 @@ static NSDictionary*  itemDictionary = nil;
 		
 		return item;
 	} 
-	
-#if 0
-	else if ([itemIdentifier isEqualToString: @"browseIndexItem"]) {
-		//
-		//NSPopUpButton* popup = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0,0,120,22)
-		//												  pullsDown: YES];
-		IFCustomPopup* popup = [[IFCustomPopup alloc] initWithFrame: NSMakeRect(0,0,120,22)
-														  pullsDown: YES];
-		
-		[popup sizeToFit];
-		
-		[[popup cell] setControlSize: NSRegularControlSize];
-		//[popup setFont: [NSFont systemFontOfSize: [NSFont systemFontSizeForControlSize: NSRegularControlSize]]];
-		
-		[popup setDelegate: self];
-		[popup setTarget: self];
-		[popup setAction: @selector(gotoSection:)];
-
-		[popup addItemWithTitle: [[NSBundle mainBundle] localizedStringForKey: @"BrowseIndexTitle"
-																		value: @"Headings"
-																		table: nil]];
-		
-		[item setMinSize: NSMakeSize(64, 28)];
-		[item setMaxSize: NSMakeSize(120, 28)];
-		[item setView: [popup autorelease]];
-		
-		return item;
-	}
-#endif
 	
 	return item;
 }
@@ -2903,32 +2870,6 @@ static NSDictionary*  itemDictionary = nil;
 	// TODO: fix the window rotation so that it actually works
 	[view sendCharacters: nextCommand
 				toWindow: 0];
-}
-
-// = The headings browser =
-
-- (void) customPopupOpening: (IFCustomPopup*) popup {
-	[popup setPopupView: [headingsBrowser view]];
-
-	[headingsBrowser setIntel: [self currentIntelligence]];
-	[headingsBrowser setSectionByLine: [[self sourcePage] currentLine]];
-}
-
-- (void) gotoSection: (id) sender {
-	IFCustomPopup* popup = sender;
-	IFIntelSymbol* symbol = [popup lastCloseValue];
-	
-	if (symbol != nil) {
-		int lineNumber = [[self currentIntelligence] lineForSymbol: symbol]+1;
-		
-		if (lineNumber != NSNotFound) {
-			[self removeAllTemporaryHighlights];
-			[self highlightSourceFileLine: lineNumber
-								   inFile: [[self sourcePage] currentFile]
-									style: IFLineStyleHighlight];
-			[self moveToSourceFileLine: lineNumber];
-		}		
-	}
 }
 
 // = The find action =

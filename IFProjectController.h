@@ -83,9 +83,6 @@ enum lineStyle {
 	int  progressNum;
 	NSMutableArray* progressIndicators;
 	
-	// The headings popup
-	IFHeadingsBrowser* headingsBrowser;
-	
 	// Spell checking
 	BOOL sourceSpellChecking;
 	

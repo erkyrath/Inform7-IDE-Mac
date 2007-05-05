@@ -101,6 +101,11 @@
 	[[wView mainFrame] loadRequest: [[[NSURLRequest alloc] initWithURL: url] autorelease]];
 }
 
+- (void) openURLWithString: (NSString*) urlString {
+	if (urlString == nil) return;
+	[self openURL: [NSURL URLWithString: urlString]];
+}
+
 // = WebResourceLoadDelegate methods =
 
 - (void)			webView:(WebView *)sender 
@@ -119,7 +124,7 @@
 		NSURL* url = [[[frame provisionalDataSource] request] URL];
 		url = [[url copy] autorelease];
 		[[self history] switchToPage];
-		[(IFDocumentationPage*)[self history] openURL: [[url copy] autorelease]];
+		[(IFDocumentationPage*)[self history] openURLWithString: [url absoluteString]];
 	}
 }
 
@@ -138,7 +143,11 @@
 // = History =
 
 - (void) didSwitchToPage {
-	[(IFDocumentationPage*)[self history] openURL: [[[[[[wView mainFrame] dataSource] request] URL] copy] autorelease]];
+	//[(IFDocumentationPage*)[self history] openURL: [[[[[[wView mainFrame] dataSource] request] URL] copy] autorelease]];
+	NSURL* url = [[[[wView mainFrame] dataSource] request] URL];
+	NSString* urlString = [url absoluteString];
+	
+	[[self history] openURLWithString: urlString];
 }
 
 // = Page bar cells =

@@ -20,6 +20,7 @@
 	// Managing the pop-up
 	NSPanel* popupWindow;							// Window that contains the pop-up view
 	id lastCloseValue;								// Last value sent to a close popup event
+	NSPoint openPosition;							// The position this popup was last opened at
 	
 	// The delegate
 	id delegate;									// The pop-up delegate

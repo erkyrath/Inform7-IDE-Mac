@@ -110,18 +110,8 @@ static IFCustomPopup* shownPopup = nil;
 	if ([not object] != popupView) return;
 	if (![popupWindow isVisible]) return;
 	
-	// TODO!
-#if 0
-	// Get the control position
-	NSRect controlFrame = [self convertRect: [self bounds]
-									 toView: nil];
-	NSPoint windowOrigin = [[self window] frame].origin;
-	
-	controlFrame.origin.x += windowOrigin.x;
-	controlFrame.origin.y += windowOrigin.y;
-	
 	// Calculate the popup window position
-	NSScreen* currentScreen = [[self window] screen];
+	NSScreen* currentScreen = [[[self controlView] window] screen];
 	NSRect screenFrame = [currentScreen frame];
 
 	NSSize windowSize = [popupView frame].size;
@@ -129,8 +119,9 @@ static IFCustomPopup* shownPopup = nil;
 	NSRect windowFrame;
 	windowFrame.size = windowSize;
 	
-	windowFrame.origin.x = NSMinX(controlFrame) + (controlFrame.size.width-windowFrame.size.width)/2;
-	windowFrame.origin.y = NSMinY(controlFrame)-windowFrame.size.height+1;
+	windowFrame.origin = openPosition;
+	
+	windowFrame.origin.y -= windowFrame.size.height;
 	
 	// Move back onscreen (left/right)
 	float offscreenRight = NSMaxX(windowFrame) - NSMaxX(screenFrame);
@@ -146,7 +137,6 @@ static IFCustomPopup* shownPopup = nil;
 	// Position the window
 	[popupWindow setFrame: windowFrame
 				  display: YES];
-#endif
 }
 
 - (void) showPopupAtPoint: (NSPoint) pointInWindow {
@@ -219,6 +209,11 @@ static IFCustomPopup* shownPopup = nil;
 	windowFrame.origin = pointInWindow;
 	windowFrame.origin.x += windowOrigin.x;
 	windowFrame.origin.y += windowOrigin.y;
+	windowFrame.origin.y += 4;
+	
+	openPosition = windowFrame.origin;
+	
+	windowFrame.origin.y -= windowFrame.size.height;
 	
 	// Move back onscreen (left/right)
 	float offscreenRight = NSMaxX(windowFrame) - NSMaxX(screenFrame);
@@ -316,8 +311,16 @@ static IFCustomPopup* shownPopup = nil;
 	[lastCloseValue release];
 	lastCloseValue = [sender retain];
 	
-	[NSApp sendAction: [self action]
-				   to: [self target]];
+	if ([self target] != nil) {
+		// For some reason (modality?), the standard action dispatch isn't working here, so do things the hard way
+		if ([[self target] respondsToSelector: [self action]]) {
+			[[self target] performSelector: [self action]
+								withObject: self];
+		}
+	} else {
+		[(NSControl*)[self controlView] sendAction: [self action]
+											 to: [self target]];
+	}
 }
 
 - (id) lastCloseValue {
