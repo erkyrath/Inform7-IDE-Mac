@@ -61,7 +61,7 @@
 	// Might as well load the whole file at once
 	NSString* urlPath = [[theURLRequest URL] path];
 	NSString* host = [[theURLRequest URL] host];
-	NSString* path;
+	NSString* path = nil;
 	
 	// Note: first character will always be '/', hence the 'substring' thing
 	urlPath = [urlPath substringFromIndex: 1];

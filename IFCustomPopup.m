@@ -67,7 +67,7 @@ static IFCustomPopup* shownPopup = nil;
 
 // = Setting up =
 
-- (void) setPopupView: (NSView*) view {
+- (void) setPopupView: (NSView*) newPopupView {
 	if (popupView != nil) {
 		[[NSNotificationCenter defaultCenter] removeObserver: self
 														name: NSViewFrameDidChangeNotification
@@ -75,7 +75,7 @@ static IFCustomPopup* shownPopup = nil;
 	}
 
 	[popupView release];
-	popupView = [view retain];
+	popupView = [newPopupView retain];
 	
 	[popupView setPostsFrameChangedNotifications: YES];
 	[[NSNotificationCenter defaultCenter] addObserver: self
@@ -267,7 +267,7 @@ static IFCustomPopup* shownPopup = nil;
 							 modifierFlags: [ev modifierFlags]
 								 timestamp: [ev timestamp]
 							  windowNumber: [popupWindow windowNumber]
-								   context: [popupWindow graphicsContext]
+								   context: nil
 								characters: [ev characters]
 			   charactersIgnoringModifiers: [ev charactersIgnoringModifiers]
 								 isARepeat: [ev isARepeat]
