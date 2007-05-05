@@ -40,22 +40,14 @@ static IFCustomPopup* shownPopup = nil;
 
 // = Initialisation =
 
-- (id) initWithFrame: (NSRect) frame {
-	self = [self initWithFrame: frame
-					 pullsDown: YES];
-	return self;
-}
-
-- (id) initWithFrame: (NSRect) frame 
-		   pullsDown: (BOOL) pullDown {
-	self = [super initWithFrame: frame
-					  pullsDown: pullDown];
+- (id) init {
+	self = [super init];
 	
 	if (self) {
 		[[NSNotificationCenter defaultCenter] addObserver: self
 												 selector: @selector(applicationDidResignActive:)
 													 name: NSApplicationDidResignActiveNotification
-												   object: nil];		
+												   object: nil];				
 	}
 	
 	return self;
@@ -98,11 +90,15 @@ static IFCustomPopup* shownPopup = nil;
 
 // = Getting down =
 
+- (BOOL) isPopup {
+	return YES;
+}
+
 - (void) hidePopup {
 	[popupWindow orderOut: self];
 	
-	[[self cell] setHighlighted: NO];
-	[self setNeedsDisplay: YES];
+	[self setHighlighted: NO];
+	[self update];
 	
 	if (shownPopup == self) {
 		[shownPopup release];
@@ -114,6 +110,8 @@ static IFCustomPopup* shownPopup = nil;
 	if ([not object] != popupView) return;
 	if (![popupWindow isVisible]) return;
 	
+	// TODO!
+#if 0
 	// Get the control position
 	NSRect controlFrame = [self convertRect: [self bounds]
 									 toView: nil];
@@ -148,9 +146,10 @@ static IFCustomPopup* shownPopup = nil;
 	// Position the window
 	[popupWindow setFrame: windowFrame
 				  display: YES];
+#endif
 }
 
-- (IBAction) showPopup: (id) sender {
+- (void) showPopupAtPoint: (NSPoint) pointInWindow {
 	// Close any open popups
 	[[self class] closeAllPopups];
 	
@@ -163,7 +162,7 @@ static IFCustomPopup* shownPopup = nil;
 	}
 	
 	// Get the current screen
-	NSScreen* currentScreen = [[self window] screen];
+	NSScreen* currentScreen = [[[self controlView] window] screen];
 	NSRect screenFrame = [currentScreen frame];
 	
 	// Not a lot we can do if the control is not visible
@@ -207,23 +206,19 @@ static IFCustomPopup* shownPopup = nil;
 	}
 	
 	// Set the cell state
-	[[self cell] setHighlighted:YES];
-	[self setNeedsDisplay: YES];
+	[self setHighlighted: YES];
+	[self update];
 	
 	// Get the control position
-	NSRect controlFrame = [self convertRect: [self bounds]
-									 toView: nil];
-	NSPoint windowOrigin = [[self window] frame].origin;
-	
-	controlFrame.origin.x += windowOrigin.x;
-	controlFrame.origin.y += windowOrigin.y;
+	NSPoint windowOrigin = [[[self controlView] window] frame].origin;
 	
 	// Calculate the popup window position
 	NSRect windowFrame;
 	windowFrame.size = windowSize;
 	
-	windowFrame.origin.x = NSMinX(controlFrame) + (controlFrame.size.width-windowFrame.size.width)/2;
-	windowFrame.origin.y = NSMinY(controlFrame)-windowFrame.size.height+1;
+	windowFrame.origin = pointInWindow;
+	windowFrame.origin.x += windowOrigin.x;
+	windowFrame.origin.y += windowOrigin.y;
 	
 	// Move back onscreen (left/right)
 	float offscreenRight = NSMaxX(windowFrame) - NSMaxX(screenFrame);
@@ -321,16 +316,12 @@ static IFCustomPopup* shownPopup = nil;
 	[lastCloseValue release];
 	lastCloseValue = [sender retain];
 	
-	[self sendAction: [self action]
-				  to: [self target]];
+	[NSApp sendAction: [self action]
+				   to: [self target]];
 }
 
 - (id) lastCloseValue {
 	return lastCloseValue;
-}
-
-- (void) mouseDown: (NSEvent*) evt {
-	[self showPopup: self];
 }
 
 - (void) mouseDragged: (NSEvent*) evt {

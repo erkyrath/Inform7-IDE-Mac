@@ -50,6 +50,17 @@
 												 selector: @selector(sourceFileRenamed:)
 													 name: IFProjectSourceFileRenamedNotification 
 												   object: [parent document]];
+		
+		// Set up the headings browser control
+		headingsBrowser = [[IFHeadingsBrowser alloc] init];
+		
+		// Set up the headings drop-down control
+		headingsControl = [[IFCustomPopup alloc] initTextCell: @"Headings"];
+		
+		[headingsControl setDelegate: self];
+		[headingsControl setTarget: self];
+		[headingsControl setAction: @selector(gotoSection:)];
+		
 	}
 	
 	return self;
@@ -74,6 +85,8 @@
 	[fileManager release];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[headingsControl release];
+	[headingsBrowser release];
 
 	[super dealloc];
 }
@@ -493,6 +506,37 @@
 
 - (NSView*) fileManager {
 	return fileManager;
+}
+
+// = The headings browser =
+
+- (void) customPopupOpening: (IFCustomPopup*) popup {
+	[popup setPopupView: [headingsBrowser view]];
+	
+	[headingsBrowser setIntel: [parent currentIntelligence]];
+	[headingsBrowser setSectionByLine: [self currentLine]];
+}
+
+- (void) gotoSection: (id) sender {
+	IFCustomPopup* popup = sender;
+	IFIntelSymbol* symbol = [popup lastCloseValue];
+	
+	if (symbol != nil) {
+		int lineNumber = [[parent currentIntelligence] lineForSymbol: symbol]+1;
+		
+		if (lineNumber != NSNotFound) {
+			[parent removeAllTemporaryHighlights];
+			[parent highlightSourceFileLine: lineNumber
+								   inFile: [self currentFile]
+									style: IFLineStyleHighlight];
+			[self moveToLine: lineNumber];
+			[[parent window] makeFirstResponder: [self activeView]];
+		}		
+	}
+}
+
+- (NSArray*) toolbarCells {
+	return [NSArray arrayWithObject: headingsControl];
 }
 
 @end

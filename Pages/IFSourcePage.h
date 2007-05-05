@@ -15,6 +15,8 @@
 //
 // The 'source' page
 //
+@class IFCustomPopup;
+@class IFHeadingsBrowser;
 @interface IFSourcePage : IFPage {
 	IBOutlet NSTextView* sourceText;							// The text view containing the source text
 	IBOutlet NSScrollView* sourceScroller;						// The scroll view containing the source file
@@ -24,7 +26,10 @@
 	NSString* openSourceFile;									// The name of the file that is open in this page
 	
 	// The file manager
-	BOOL fileManagerShown;								// YES if the source pane is showing the file manager and not the source
+	BOOL fileManagerShown;										// YES if the source pane is showing the file manager and not the source
+	
+	IFCustomPopup* headingsControl;								// The 'headings' drop-down control
+	IFHeadingsBrowser* headingsBrowser;							// The headings browser control
 }
 
 // Source pane controls
@@ -60,3 +65,6 @@
 - (IBAction) toggleFileManager: (id) sender;
 
 @end
+
+#import "IFCustomPopup.h"
+#import "IFHeadingsBrowser.h"

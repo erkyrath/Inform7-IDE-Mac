@@ -38,6 +38,7 @@
 - (id) identifier;										// Gets the identifier for this cell
 
 // Drawing the cell
+- (void) update;										// Forces this cell to refresh
 
 // Acting as a pop-up
 - (BOOL) isPopup;										// YES if this is a pop-up cell of some kind

@@ -70,7 +70,6 @@ static NSToolbarItem* breakpointItem		= nil;
 
 static NSToolbarItem* searchDocsItem		= nil;
 static NSToolbarItem* searchProjectItem		= nil;
-static NSToolbarItem* browseIndexItem		= nil;
 
 static NSDictionary*  itemDictionary = nil;
 
@@ -105,7 +104,6 @@ static NSDictionary*  itemDictionary = nil;
 	
 	searchDocsItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"searchDocsItem"];
 	searchProjectItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"searchProjectItem"];
-	browseIndexItem = [[NSToolbarItem alloc] initWithItemIdentifier: @"browseIndexItem"];
 
     itemDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
         compileItem, @"compileItem",
@@ -125,7 +123,6 @@ static NSDictionary*  itemDictionary = nil;
 		breakpointItem, @"breakpointItem",
 		searchDocsItem, @"searchDocsItem",
 		searchProjectItem, @"searchProjectItem",
-		browseIndexItem, @"browseIndexItem",
         nil];
 
 	// Images
@@ -208,10 +205,6 @@ static NSDictionary*  itemDictionary = nil;
 																		value: @"Search Project"
 																		table: nil]];
 	
-	[browseIndexItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Browse Index"
-																	  value: @"Index"
-																	  table: nil]];
-
 	// The tooltips
     [compileItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"CompileTip"
 																	value: nil
@@ -267,9 +260,6 @@ static NSDictionary*  itemDictionary = nil;
 																		  value: nil
 																		  table: nil]];
 	
-	[browseIndexItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"BrowseIndexTip"
-																		value: nil
-																		table: nil]];
 	[refreshIndexItem setToolTip: [[NSBundle mainBundle] localizedStringForKey: @"RefreshIndexTip"
 																		 value: nil
 																		 table: nil]];
@@ -689,7 +679,10 @@ static NSDictionary*  itemDictionary = nil;
 		[item setLabel: nil];
 		
 		return item;
-	} else if ([itemIdentifier isEqualToString: @"browseIndexItem"]) {
+	} 
+	
+#if 0
+	else if ([itemIdentifier isEqualToString: @"browseIndexItem"]) {
 		//
 		//NSPopUpButton* popup = [[NSPopUpButton alloc] initWithFrame: NSMakeRect(0,0,120,22)
 		//												  pullsDown: YES];
@@ -715,6 +708,7 @@ static NSDictionary*  itemDictionary = nil;
 		
 		return item;
 	}
+#endif
 	
 	return item;
 }
@@ -724,7 +718,7 @@ static NSDictionary*  itemDictionary = nil;
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
     return [NSArray arrayWithObjects:
         @"compileItem", @"compileAndRunItem", @"replayItem", @"compileAndDebugItem", @"refreshIndexItem", @"pauseItem", @"continueItem", @"stepItem", 
-		@"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem", @"searchDocsItem", @"searchProjectItem", @"browseIndexItem",
+		@"stepOverItem", @"stepOutItem", @"stopItem", @"watchItem", @"breakpointItem", @"indexItem", @"searchDocsItem", @"searchProjectItem",
 		NSToolbarSpaceItemIdentifier, NSToolbarFlexibleSpaceItemIdentifier, NSToolbarSeparatorItemIdentifier, 
 		@"releaseItem",
         nil];
@@ -2690,19 +2684,6 @@ static NSDictionary*  itemDictionary = nil;
 
 		// Move to the next sibling of this symbol
 		symbol = [symbol sibling];
-	}
-}
-
-- (void) setIndexControlTitle {
-	NSEnumerator* itemEnum = [[toolbar items] objectEnumerator];
-	NSToolbarItem* item;
-	
-	while (item = [itemEnum nextObject]) {
-		if ([[item itemIdentifier] isEqualToString: @"browseIndexItem"]) {
-			// TODO: base this on the current section
-			NSPopUpButton* popup = (NSPopUpButton*)[item view];
-			[popup setTitle: @"Index"];
-		}
 	}
 }
 

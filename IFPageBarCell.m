@@ -101,6 +101,11 @@
 	return isHighlighted;
 }
 
+- (void) setHighlighted: (BOOL) highlighted {
+	isHighlighted = highlighted;
+	[self update];
+}
+
 // = Sizing and rendering =
 
 - (void) setIsRight: (BOOL) newIsRight {

@@ -8,11 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFPageBarCell.h"
 
 //
 // Customised pop-up button that can work with an arbitrary view instead of only with a menu.
 //
-@interface IFCustomPopup : NSPopUpButton {
+@interface IFCustomPopup : IFPageBarCell {
 	// User-set parameters
 	NSView* popupView;
 	
@@ -33,7 +34,6 @@
 - (void) setDelegate: (id) delegate;				// Sets the delegate to send informational events to
 
 // Getting down
-- (IBAction) showPopup: (id) sender;				// Cause the pop-up window to be displayed
 - (IBAction) closePopup: (id) sender;				// Responder method that can be used to close this popup and generate an action (point view controls actions to this method in the first responder)
 - (void) hidePopup;									// Close the popup and generate no action
 - (id) lastCloseValue;								// Last sender sent to a closePopup event
