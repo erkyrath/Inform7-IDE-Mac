@@ -52,7 +52,8 @@ enum lineStyle {
     NSMutableArray* splitViews;
 	
 	// The current tab view (used for the various tab selection menu items)
-	NSTabView* currentTabView;
+	NSTabView* currentTabView;								// The active tab view [ NOT RETAINED ]
+	IFProjectPane* currentPane;								// The active project pane [ NOT RETAINED ]
 	
 	// Highlighting (indexed by file)
 	NSMutableDictionary* lineHighlighting;

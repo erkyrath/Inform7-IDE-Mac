@@ -371,6 +371,8 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	// Draw the standard background
 	background = [IFPageBarView normalImage];
 	backSize = [background size];
+	
+	if (!isActive) background = [IFPageBarView inactiveImage];
 
 	NSRect leftBounds = backgroundBounds;
 	NSRect rightBounds = backgroundBounds;
@@ -875,6 +877,13 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 
 // = Keyboard events =
 
+- (void) setIsActive: (BOOL) newIsActive {
+	if (isActive == newIsActive) return;
+	
+	isActive = newIsActive;
+	[self setNeedsDisplay: YES];
+}
+
 - (BOOL) performKeyEquiv: (NSString*) equiv
 				 onCells: (NSArray*) cells {
 	NSEnumerator* cellEnum = [cells objectEnumerator];
@@ -892,6 +901,8 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 }
 
 - (BOOL)performKeyEquivalent:(NSEvent *)theEvent {
+	if (!isActive) return NO;
+	
 	// Cmd + back and Cmd + forward perform goForward and goBackwards actions in the 'current' view
 	NSString* keyEquivString = [theEvent charactersIgnoringModifiers];
 	

@@ -16,6 +16,7 @@
 @class IFPageBarCell;
 @interface IFPageBarView : NSControl {
 	BOOL cellsNeedLayout;							// YES if we need to perform layout on the cells
+	BOOL isActive;									// YES if this page accepts keyboard input
 	
 	NSMutableArray* leftCells;						// The cells that appear on the left of this view
 	NSMutableArray* rightCells;						// The cells that appear on the right of this view
@@ -40,6 +41,8 @@
 			fraction: (float) fraction;
 
 // = Managing cells =
+
+- (void) setIsActive: (BOOL) isActive;				// Sets whether or not this page bar accepts keyboard input
 
 - (void) setLeftCells: (NSArray*) leftCells;		// Sets the set of cells displayed on the left
 - (void) setRightCells: (NSArray*) rightCells;		// Sets the set of cells displayed on the right

@@ -458,6 +458,10 @@ NSDictionary* IFSyntaxAttributes[256];
     }
 }
 
+- (void) setIsActive: (BOOL) isActive {
+	[pageBar setIsActive: isActive];
+}
+
 - (void) errorMessageHighlighted: (IFCompilerController*) sender
                           atLine: (int) line
                           inFile: (NSString*) file {

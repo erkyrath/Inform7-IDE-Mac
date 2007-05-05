@@ -124,6 +124,8 @@ enum IFProjectPaneType {
 // Dealing with pages
 - (void) addPage: (IFPage*) newPage;							// Adds a new page to this control
 
+- (void) setIsActive: (BOOL) isActive;							// Sets whether or not this pane should be the default for keyboard events
+
 // Selecting the view
 - (void) selectView: (enum IFProjectPaneType) pane;				// Changes the view displayed in this pane to the specified setting
 - (enum IFProjectPaneType) currentView;							// Returns the currently displayed view (IFUnknownPane is a possibility for some views I haven't added code to check for)
