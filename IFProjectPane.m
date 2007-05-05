@@ -334,14 +334,14 @@ NSDictionary* IFSyntaxAttributes[256];
     [tabView setDelegate: self];
 	
 	// Set up the backwards/forwards buttons
-	
-	// TODO: images
 	backCell = [[IFPageBarCell alloc] initImageCell: [NSImage imageNamed: @"BackArrow"]];
 	forwardCell = [[IFPageBarCell alloc] initImageCell: [NSImage imageNamed: @"ForeArrow"]];
 	
+	[backCell setKeyEquivalent: @"-"];
+	[forwardCell setKeyEquivalent: @"="];
+	
 	[backCell setTarget: self];
 	[forwardCell setTarget: self];
-	
 	[backCell setAction: @selector(goBackwards:)];
 	[forwardCell setAction: @selector(goForwards:)];
 	

@@ -873,4 +873,36 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	}
 }
 
+// = Keyboard events =
+
+- (BOOL) performKeyEquiv: (NSString*) equiv
+				 onCells: (NSArray*) cells {
+	NSEnumerator* cellEnum = [cells objectEnumerator];
+	NSCell* cell;
+	
+	while (cell = [cellEnum nextObject]) {
+		if ([[cell keyEquivalent] isEqualToString: equiv]) {
+			[self sendAction: [cell action]
+						  to: [cell target]];
+			return YES;
+		}
+	}
+	
+	return NO;
+}
+
+- (BOOL)performKeyEquivalent:(NSEvent *)theEvent {
+	// Cmd + back and Cmd + forward perform goForward and goBackwards actions in the 'current' view
+	NSString* keyEquivString = [theEvent charactersIgnoringModifiers];
+	
+	if ([self performKeyEquiv: keyEquivString
+					  onCells: leftCells])
+		return YES;
+	if ([self performKeyEquiv: keyEquivString
+					  onCells: rightCells])
+		return YES;
+	
+	return NO;
+}
+
 @end

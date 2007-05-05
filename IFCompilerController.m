@@ -908,8 +908,6 @@ static IFCompilerController* activeController = nil;
 
 - (void) setDelegate: (NSObject*) dg {
 	delegate = dg;
-    //if (delegate) [delegate release];
-    //delegate = [dg retain];
 }
 
 - (NSObject*) delegate {

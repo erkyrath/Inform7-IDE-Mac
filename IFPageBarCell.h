@@ -30,12 +30,17 @@
 	
 	// View
 	NSView* view;										// The view for this cell
+	
+	// Key equivalent
+	NSString* keyEquivalent;							// The key equivalent string for this cell
 }
 
 // Initialisation
 
 - (void) setIdentifier: (id) identifier;				// Sets the identifier for this cell
 - (id) identifier;										// Gets the identifier for this cell
+
+- (void) setKeyEquivalent: (NSString*) keyEquivalent;	// Sets the key equivalent for this cell
 
 // Drawing the cell
 - (void) update;										// Forces this cell to refresh

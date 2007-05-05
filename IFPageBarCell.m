@@ -66,6 +66,7 @@
 	[menu release]; menu = nil;
 	[view release]; view = nil;
 	[identifier release]; identifier = nil;
+	[keyEquivalent release]; keyEquivalent = nil;
 	
 	[super dealloc];
 }
@@ -393,6 +394,18 @@
 	[self update];
 
 	return;
+}
+
+// = Key equivalent =
+
+- (NSString*) keyEquivalent {
+	if (keyEquivalent == nil) return @"";
+	return keyEquivalent;
+}
+
+- (void) setKeyEquivalent: (NSString*) newKeyEquivalent {
+	[keyEquivalent release];
+	keyEquivalent = [newKeyEquivalent copy];
 }
 
 @end
