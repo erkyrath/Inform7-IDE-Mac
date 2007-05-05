@@ -305,7 +305,7 @@
 										   modifierFlags: 0
 											   timestamp: [[NSApp currentEvent] timestamp]
 											windowNumber: [[[self controlView] window] windowNumber]
-												 context: [[[self controlView] window] graphicsContext]
+												 context: nil
 											 eventNumber: [[NSApp currentEvent] eventNumber]
 											  clickCount: 0
 												pressure: 1.0];

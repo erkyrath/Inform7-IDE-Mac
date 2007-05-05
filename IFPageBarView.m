@@ -254,7 +254,7 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	
 	// Set this cell to be owned by this view
 	if ([cell controlView] != self) {
-		[cell setControlView: self];
+		//[cell setControlView: self];
 		
 		// Note that this makes it hard to move a cell from the left to the right
 		if ([cell respondsToSelector: @selector(setIsRight:)]) {
