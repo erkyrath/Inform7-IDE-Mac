@@ -2715,43 +2715,43 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IBAction) tabSource: (id) sender {
-	[[self currentTabView] selectTabViewItemWithIdentifier: @"1"];
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFSourcePage class] description]];
 	[self activateNearestTextView];
 }
 
 - (IBAction) tabErrors: (id) sender {
-	[[self currentTabView] selectTabViewItemWithIdentifier: @"2"];
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFErrorsPage class] description]];
 	[self activateNearestTextView];
 }
 
 - (IBAction) tabIndex: (id) sender {
-	[[self currentTabView] selectTabViewItemWithIdentifier: @"5"];
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFIndexPage class] description]];
 	[self activateNearestTextView];
 }
 
 - (IBAction) tabSkein: (id) sender {
-	[[self currentTabView] selectTabViewItemWithIdentifier: @"6"];
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFSkeinPage class] description]];
 	[self activateNearestTextView];
 }
 
 - (IBAction) tabTranscript: (id) sender {
-	[[self currentTabView] selectTabViewItemWithIdentifier: @"8"];
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFTranscriptPage class] description]];
 	[self activateNearestTextView];
 }
 
 - (IBAction) tabGame: (id) sender {
-	[[[self gamePane] tabView] selectTabViewItemWithIdentifier: @"3"];
+	[[[self gamePane] tabView] selectTabViewItemWithIdentifier: [[IFGamePage class] description]];
 	[[self window] makeFirstResponder: [[self gamePane] tabView]];
 	[self activateNearestTextView];
 }
 
 - (IBAction) tabDocumentation: (id) sender {
-	[[self currentTabView] selectTabViewItemWithIdentifier: @"4"];
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFDocumentationPage class] description]];
 	[self activateNearestTextView];
 }
 
 - (IBAction) tabSettings: (id) sender {
-	[[self currentTabView] selectTabViewItemWithIdentifier: @"7"];
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFSettingsPage class] description]];
 	[self activateNearestTextView];
 }
 
