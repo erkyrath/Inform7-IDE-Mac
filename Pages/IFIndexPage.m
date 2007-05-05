@@ -75,6 +75,13 @@
 	
 	if (tabIndex != NSNotFound) {
 		[self switchToCell: [indexCells objectAtIndex: tabIndex]];
+		
+		NSEnumerator* cellEnum = [indexCells objectEnumerator];
+		NSCell* cell;
+		while (cell = [cellEnum nextObject]) {
+			[cell setState: NSOffState];
+		}
+		[[indexCells objectAtIndex: tabIndex] setState: NSOnState];
 	}
 }
 
