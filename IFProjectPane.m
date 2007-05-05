@@ -473,6 +473,16 @@ NSDictionary* IFSyntaxAttributes[256];
 							  style: IFLineStyleError]; // FIXME: error level?. Filename?
 }
 
+- (void) viewSetHasUpdated: (IFCompilerController*) sender {
+	[errorsPage viewSetHasUpdated: sender];
+}
+
+- (void) compiler: (IFCompilerController*) sender
+   switchedToView: (int) viewIndex {
+	[errorsPage compiler: sender
+		  switchedToView: viewIndex];
+}
+
 - (BOOL) handleURLRequest: (NSURLRequest*) req {
 	[[[parent auxPane] documentationPage] openURL: [[[req URL] copy] autorelease]];
 	

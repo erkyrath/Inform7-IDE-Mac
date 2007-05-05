@@ -52,10 +52,14 @@ extern NSString* IFStyleStatistics;
 
     IBOutlet NSObject* delegate;					// This object receives our delegate messages
 
-    // File tabView
-    NSTabView*     fileTabView;						// NI can produce HTML results: this tab view (created if required) separates them
-    NSTabViewItem* splitTab;						// This is the 'special' tab that contains the normal compiler view
-	NSTabViewItem* runtimeTab;						// This is the 'special' tab that contains information about run-time errors that may have occured
+	// File views
+	NSMutableArray* auxViews;						// The list of views supplied by this object (NI can produce some extra HTML results: this is where we display them)
+	NSMutableArray* viewNames;						// The list of names for the auxiliary views
+	int splitViewIndex;								// The index of the split view in the list of aux views (= 0 always at the moment)
+	int runtimeView;								// The index of the runtime error view
+	int selectedView;								// The index of the currently selected view
+	
+	NSView* activeView;								// The currently active view
     
     // The subtask
     IFCompiler* compiler;							// This is the actual compiler
@@ -95,9 +99,18 @@ extern NSString* IFStyleStatistics;
 - (void) showRuntimeError: (NSURL*) errorURL;			// Creates a tab for the 'runtime error' file given by errorURL (displayed by webkit)
 - (void) showContentsOfFilesIn: (NSFileWrapper*) files	// Creates tabs for the files contained in the given filewrapper (which came from the given path)
 					  fromPath: (NSString*) path;
-- (void) clearTabViews;									// Gets rid of the file tabs created by thep previous function
+- (void) clearTabViews;									// Gets rid of the file tabs created by the previous function
 
 - (NSString*) blorbLocation;							// Where cblorb thinks the final blorb file should be copied to
+
+- (void) setSplitView: (NSSplitView*) newSplitView;		// Sets the splitter view for this object
+- (NSSplitView*) splitView;								// Gets the splitter view for this object
+
+- (int) viewIndex;										// The index of the currently selected view
+- (void) switchToViewWithIndex: (int) index;			// Switches to a view with the specified index
+- (void) switchToSplitView;								// Switches to the default split view
+- (void) switchToRuntimeErrorView;						// Switches to the runtime error view
+- (NSArray*) viewNames;									// Returns a list of the names of the views this controller can display
 
 @end
 
@@ -120,6 +133,9 @@ extern NSString* IFStyleStatistics;
                  withType: (IFLex) type
                   message: (NSString*) message;
 - (BOOL) handleURLRequest: (NSURLRequest*) request;						// First chance opportunity to redirect URL requests (used so that NI error URLs are handled)
+- (void) viewSetHasUpdated: (IFCompilerController*) sender;				// Notification that the compiler controller has changed its set of views
+- (void) compiler: (IFCompilerController*) sender						// Notification that the compiler has switched to the specified view
+   switchedToView: (int) viewIndex;	
 
 @end
 

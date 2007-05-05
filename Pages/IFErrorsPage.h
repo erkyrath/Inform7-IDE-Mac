@@ -16,6 +16,8 @@
 //
 @interface IFErrorsPage : IFPage {
     IBOutlet IFCompilerController* compilerController;		// The compiler controller object
+	
+	NSMutableArray* pageCells;								// Cells used to select the pages in the compiler controller
 }
 
 // Getting information about this page

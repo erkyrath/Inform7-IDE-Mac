@@ -157,7 +157,10 @@ static IFCompilerController* activeController = nil;
         errorFiles    = nil;
         errorMessages = nil;
         delegate      = nil;
-        fileTabView   = nil;
+		
+		auxViews	  = [[NSMutableArray alloc] init];
+		viewNames	  = [[NSMutableArray alloc] init];
+		runtimeView   = -1;
 
         [self _registerHandlers];
     }
@@ -171,16 +174,18 @@ static IFCompilerController* activeController = nil;
     [compiler release];
     [styles release];
 
-    if (errorFiles)    [errorFiles release];
-    if (errorMessages) [errorMessages release];
-    if (window)        [window release];
+    if (errorFiles)		[errorFiles release];
+    if (errorMessages)	[errorMessages release];
+    if (window)			[window release];
     //if (delegate)      [delegate release];
-	if (runtimeTab)	   [runtimeTab release];
-    if (fileTabView)   [fileTabView release];
 	
 	if (lastProblemURL) [lastProblemURL release];
-	if (overrideURL) [overrideURL release];
-    
+	if (overrideURL)	[overrideURL release];
+	
+	if (auxViews)		[auxViews release];
+	if (viewNames)		[viewNames release];
+	if (splitView)		[splitView release];
+	if (activeView)		[activeView release];    
     [super dealloc];
 }
 
@@ -194,7 +199,7 @@ static IFCompilerController* activeController = nil;
     [messageScroller setFrame: newFrame];
 
     [splitView adjustSubviews];
-
+	
     // Mutter, interface builder won't let you change the enclosing scrollview
     // of an outlineview
     [messageScroller setBorderType: NSNoBorder];
@@ -693,61 +698,29 @@ static IFCompilerController* activeController = nil;
 
 // Other information
 
-- (NSTabViewItem*) makeTabViewItemNamed: (NSString*) tabName
-							   withView: (NSView*) newView {
-	// Adds an error tab view containing the given view
-	if (fileTabView == nil) {
-		// Put the split view inside a tabview
-		NSView* inView = [splitView superview];
-		
-		[splitView retain];
-		[splitView removeFromSuperview];
-		
-		fileTabView = [[NSTabView alloc] init];
-		
-		[fileTabView setControlSize: NSSmallControlSize];
-		[fileTabView setFont: [NSFont systemFontOfSize: 10]];
-		[fileTabView setAllowsTruncatedLabels: YES];
-		[fileTabView setAutoresizingMask: [splitView autoresizingMask]];
-		
-		NSTabViewItem* splitViewItem;
-		
-		splitViewItem = [[NSTabViewItem alloc] init];
-		[splitViewItem setLabel: [[NSBundle mainBundle] localizedStringForKey: @"Compiler" 
-																		value: @"Compiler"
-																		table: @"CompilerOutput"]];
-		[splitViewItem setView: splitView];
-		
-		[fileTabView addTabViewItem: splitViewItem];
-		
-		[fileTabView setFrame: [inView bounds]];
-		[inView addSubview: fileTabView];
-		
-		[splitView release];
-		[splitViewItem release];
+- (int) makeTabViewItemNamed: (NSString*) tabName
+					withView: (NSView*) newView {
+	int newViewIndex = [auxViews count];
+	
+	[auxViews addObject: newView];
+	[viewNames addObject: tabName];
+	
+	if (delegate && [delegate respondsToSelector: @selector(viewSetHasUpdated:)]) {
+		[delegate viewSetHasUpdated: self];
 	}
 	
-	NSTabViewItem* fileItem;
-	fileItem = [[NSTabViewItem alloc] init];
-	
-	[fileItem setLabel: tabName];
-	[newView setFrame: [fileTabView contentRect]];
-	[fileItem setView: newView];
-	
-	[fileTabView addTabViewItem: fileItem];
-	
-	return [fileItem autorelease];
+	return newViewIndex;
 }
 
-- (NSTabViewItem*) makeTabForURL: (NSURL*) url
-						   named: (NSString*) tabName {
+- (int) makeTabForURL: (NSURL*) url
+				named: (NSString*) tabName {
 	// Create a parent view
 	NSRect viewRect;
 	
-	if (fileTabView == nil) {
+	if (activeView == nil) {
 		viewRect = NSMakeRect(0,0, 100,100);
 	} else {
-		viewRect = [fileTabView contentRect];
+		viewRect = [activeView frame];
 	}
 	
 	NSView* aView = [[NSView alloc] initWithFrame: viewRect];
@@ -764,13 +737,13 @@ static IFCompilerController* activeController = nil;
 	
 	// Add it to aView
 	[aView addSubview: [pretendView autorelease]];
-	
+	 
 	// Add it to the list of tabs
 	return [self makeTabViewItemNamed: tabName
 							 withView: [aView autorelease]];
 }
 
-- (NSTabViewItem*) makeTabForFile: (NSString*) file {
+- (int) makeTabForFile: (NSString*) file {
 	NSString* type = [[file pathExtension] lowercaseString];
 
 	if ([[NSApp delegate] isWebKitAvailable] && ([type isEqualTo: @"html"] ||
@@ -782,7 +755,7 @@ static IFCompilerController* activeController = nil;
 																		   table: @"CompilerOutput"]];
 	} else {
 		// Create the 'parent' view
-		NSView* aView = [[NSView alloc] initWithFrame: [fileTabView contentRect]];
+		NSView* aView = [[NSView alloc] initWithFrame: [activeView frame]];
 		
 		// Create the 'pretend' text view
 		IFPretendTextView* pretendView = [[IFPretendTextView alloc] initWithFrame: [aView bounds]];
@@ -808,21 +781,45 @@ static IFCompilerController* activeController = nil;
 }
 
 - (void) showRuntimeError: (NSURL*) errorURL {
-	// Remove any previous runtime error tab
-	if (runtimeTab != nil) {
-		[fileTabView removeTabViewItem: runtimeTab];
-		[runtimeTab release];
-		runtimeTab = nil;
+	// Create a parent view
+	NSRect viewRect;
+	
+	if (activeView == nil) {
+		viewRect = NSMakeRect(0,0, 100,100);
+	} else {
+		viewRect = [activeView frame];
 	}
 	
-	// Add a new tab with the given URL
-	runtimeTab = [[self makeTabForURL: errorURL
-								named: [[NSBundle mainBundle] localizedStringForKey: @"Runtime errors"
-																			  value: @"Runtime errors"
-																			  table: nil]] retain];
+	NSView* aView = [[NSView alloc] initWithFrame: viewRect];
+	[aView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+
+	// Create a 'fake' web view which will get replaced when the view is actually displayed on screen
+	IFPretendWebView* pretendView = [[IFPretendWebView alloc] initWithFrame: [aView bounds]];
 	
-	// Select this time
-	[fileTabView selectTabViewItem: runtimeTab];
+	[pretendView setHostWindow: [[splitView superview] window]];
+	[pretendView setRequest: [[[NSURLRequest alloc] initWithURL: errorURL] autorelease]];
+	[pretendView setPolicyDelegate: self];
+	
+	[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+	
+	// This is our new view
+	[aView addSubview: [pretendView autorelease]];
+	[aView autorelease];
+	
+	if (runtimeView >= 0) {
+		// Replace the existing runtime error view
+		[auxViews replaceObjectAtIndex: runtimeView
+							withObject: aView];
+	} else {
+		// Add a new runtime error view
+		runtimeView = [self makeTabViewItemNamed: [[NSBundle mainBundle] localizedStringForKey: @"Runtime errors"
+																						 value: @"Runtime errors"
+																						 table: nil]
+										withView: aView];
+	}
+	
+	// Switch to the runtime view
+	[self switchToViewWithIndex: runtimeView];
 }
 
 - (void) showContentsOfFilesIn: (NSFileWrapper*) files
@@ -841,7 +838,7 @@ static IFCompilerController* activeController = nil;
 
     NSEnumerator* keyEnum = [[files fileWrappers] keyEnumerator];
     NSString* key;
-	NSTabViewItem* preferredTabView = nil;
+	int preferredTabView = -1;
 	
 	// If there is a compiler-supplied problems file, add this to the tab view
 	if (lastProblemURL != nil) {
@@ -867,7 +864,7 @@ static IFCompilerController* activeController = nil;
              [type isEqualTo: @"txt"] ||
 			 [type isEqualTo: @"html"] ||
 			 [type isEqualTo: @"htm"])) {
-			NSTabViewItem* fileItem;
+			int fileItem;
 
 			fileItem = [self makeTabForFile: [path stringByAppendingPathComponent: key]];
 			
@@ -884,29 +881,27 @@ static IFCompilerController* activeController = nil;
         }
     }
 	
-	if (preferredTabView && fileTabView) {
-		[fileTabView selectTabViewItem: preferredTabView];
+	if (preferredTabView >= 0) {
+		[self switchToViewWithIndex: preferredTabView];
 	}
 }
 
 - (void) clearTabViews {
-    if (fileTabView) {
-        NSView* inView = [fileTabView superview];
-        
-        [splitView retain];
-        [splitView removeFromSuperview];
-		
-		[runtimeTab release];
-		runtimeTab = nil;
-
-        [fileTabView removeFromSuperview];
-        [fileTabView release];
-        fileTabView = nil;
-
-        [splitView setFrame: [inView bounds]];
-        [inView addSubview: splitView];
-        [splitView release];
-    }
+	// Do nothing if the only view available is already the split view
+	if ([auxViews count] <= 1) return;
+	
+	// Clear all views except the split view
+	[auxViews removeObjectsInRange: NSMakeRange(1, [auxViews count]-1)];
+	[viewNames removeObjectsInRange: NSMakeRange(1, [viewNames count]-1)];
+	runtimeView = -1;
+	
+	// Notify the delegate that the set of views has updated
+	if (delegate && [delegate respondsToSelector: @selector(viewSetHasUpdated:)]) {
+		[delegate viewSetHasUpdated: self];
+	}
+	
+	// Switch to the split view if available
+	[self switchToViewWithIndex: splitViewIndex];
 }
 
 // == Delegate ==
@@ -1016,6 +1011,84 @@ static IFCompilerController* activeController = nil;
 - (void) overrideProblemsURL: (NSURL*) problemsURL {
 	[overrideURL release];
 	overrideURL = [problemsURL copy];
+}
+
+- (void) setSplitView: (NSSplitView*) newSplitView {
+	// If the currently active view is the split view, then forget this
+	if (activeView == splitView) {
+		[activeView autorelease];
+		activeView = nil;
+	}
+	
+	// Remember the new split view
+	[splitView release];
+	splitView = [newSplitView retain];
+	
+	// The split view becomes the active view if there is no presently active view
+	if (activeView == nil) activeView = [splitView retain];
+	
+	// It also must be the first item in the auxViews array
+	if ([auxViews count] == 0) {
+		[auxViews addObject: splitView];
+		[viewNames addObject: [[NSBundle mainBundle] localizedStringForKey: @"Compiler" 
+																	 value: @"Compiler"
+																	 table: @"CompilerOutput"]];
+	} else {
+		[auxViews replaceObjectAtIndex: 0
+							withObject: splitView];
+	}
+}
+
+- (NSSplitView*) splitView {
+	return splitView;
+}
+
+// = Managing the set of views displayed by this object =
+
+- (int) viewIndex {
+	return selectedView;
+}
+
+- (void) switchToViewWithIndex: (int) index {
+	// Do nothing if the view index is not one that we know about
+	if (index < 0 || index >= [auxViews count]) return;
+	
+	// ... or if the specified view is already displayed, or if we can't display anything
+	if ([auxViews objectAtIndex: index] == activeView) return;
+
+	if (activeView == nil) activeView = [splitView retain];
+	if (activeView == nil) return;
+	if ([activeView superview] == nil) return;
+		
+	// Swap the view being displayed by this object for the view in auxViews
+	NSView* newView = [auxViews objectAtIndex: index];
+	NSView* superview = [activeView superview];
+	[newView setFrame: [activeView frame]];
+	
+	[activeView removeFromSuperview];
+	[superview addSubview: newView];
+	
+	[activeView autorelease];
+	activeView = [newView retain];
+	selectedView = index;
+	
+	// Inform the delegate of the change
+	if (delegate && [delegate respondsToSelector: @selector(compiler:switchedToView:)]) {
+		[delegate compiler: self
+			switchedToView: index];
+	}
+}
+
+- (void) switchToSplitView {
+	[self switchToViewWithIndex: splitViewIndex];
+}
+
+- (void) switchToRuntimeErrorView {
+	[self switchToViewWithIndex: runtimeView];
+}
+
+- (NSArray*) viewNames {
+	return viewNames;
 }
 
 @end
