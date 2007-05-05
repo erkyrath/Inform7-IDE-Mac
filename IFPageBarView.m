@@ -8,6 +8,7 @@
 
 #import "IFPageBarView.h"
 #import "IFPageBarCell.h"
+#import "IFViewAnimator.h"
 
 //
 // Notes (in no particular order)
@@ -343,7 +344,7 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 		[layout->cellImage drawInRect: NSIntegralRect(cellFrame)
 							 fromRect: cellSource
 							operation: NSCompositeSourceOver
-							 fraction: [cell isEnabled]?1.0:0.5];
+							 fraction: ([cell isEnabled]?1.0:0.5) * (isActive?1.0:0.85)];
 	}
 }
 
@@ -880,8 +881,19 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 - (void) setIsActive: (BOOL) newIsActive {
 	if (isActive == newIsActive) return;
 	
+	IFViewAnimator* animator = nil;
+	animator = [[IFViewAnimator alloc] init];
+	[animator prepareToAnimateView: self];
+	[animator autorelease];
+	if (newIsActive) [animator setTime: 0.1];
+	
 	isActive = newIsActive;
 	[self setNeedsDisplay: YES];
+	
+	if (animator) {
+		[animator animateTo: self
+					  style: IFAnimateCrossFade];
+	}
 }
 
 - (BOOL) performKeyEquiv: (NSString*) equiv
