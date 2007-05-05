@@ -238,8 +238,10 @@
 		lastUserTab = [[cell stringValue] retain];
 	}
 	
-	[[self history] switchToPage];
-	[[self history] selectCellWithTitle: [cell stringValue]];
+	if ([self pageIsVisible]) {
+		[[self history] switchToPage];
+		[[self history] selectCellWithTitle: [cell stringValue]];
+	}
 }
 
 - (void) didSwitchToPage {

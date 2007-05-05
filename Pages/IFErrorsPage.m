@@ -89,7 +89,9 @@
 	if (sender != compilerController) return;
 	
 	// Remember this in the history
-	[[self history] switchToPage: viewIndex];
+	if ([self pageIsVisible]) {
+		[[self history] switchToPage: viewIndex];
+	}
 	
 	// Turn the newly selected cell on
 	if ([pageCells count] == 0) return;

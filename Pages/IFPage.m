@@ -124,6 +124,14 @@ NSString* IFUpdatePageBarCellsNotification = @"IFUpdatePageBarCellsNotification"
 	return nil;
 }
 
+- (void) setPageIsVisible: (BOOL) newIsVisible {
+	pageIsVisible = newIsVisible;
+}
+
+- (BOOL) pageIsVisible {
+	return pageIsVisible;
+}
+
 - (void) didSwitchToPage {
 	// Do nothing
 }

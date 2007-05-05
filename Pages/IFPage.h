@@ -32,6 +32,7 @@ extern NSString* IFUpdatePageBarCellsNotification;
 	NSObject<IFProjectPane>* otherPane;		// The pane that is opposite to this one (or nil, not retained)
 	NSObject<IFHistoryRecorder>* recorder;	// Object used for recording any history events for this object
 	
+	BOOL pageIsVisible;						// YES if this page is currently displayed
 	BOOL releaseView;						// YES if the view has been set using setView: and should be released
 	IBOutlet NSView* view;					// The view to display for this page
 }
@@ -44,6 +45,8 @@ extern NSString* IFUpdatePageBarCellsNotification;
 - (void) finished;							// Called when the owning object has finished with this object
 
 // Page actions
+- (void) setPageIsVisible: (BOOL) newIsVisible;	// Called by whatever is managing this page to set it to visible or not
+- (BOOL) pageIsVisible;						// YES if this page is currently visible
 - (void) switchToPage;						// Request that the UI switches to displaying this page
 - (void) switchToPageWithIdentifier: (NSString*) identifier
 						   fromPage: (NSString*) oldIdentifier;	// Request that the UI switches to displaying a specific page

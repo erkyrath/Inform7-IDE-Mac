@@ -592,12 +592,15 @@ NSDictionary* IFSyntaxAttributes[256];
 - (void)        tabView:(NSTabView *)tabView
   willSelectTabViewItem:(NSTabViewItem *)tabViewItem {
 	IFPage* page = [self pageForTabViewItem: tabViewItem];
+	IFPage* lastPage = [self pageForTabViewItem: [tabView selectedTabViewItem]];
 	
 	// Record in the history
 	[[self history] selectTabViewItem: tabViewItem];
 	[[self history] activatePage: page];
 
 	// Notify the page that it has been selected
+	[page setPageIsVisible: YES];
+	[lastPage setPageIsVisible: NO];
 	[page didSwitchToPage];
 	
 	// Update the right-hand page bar cells
