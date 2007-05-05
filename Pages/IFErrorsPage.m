@@ -80,9 +80,16 @@
 	}
 }
 
+- (void) switchToPage: (int) index {
+	[compilerController switchToViewWithIndex: index];
+}
+
 - (void) compiler: (IFCompilerController*) sender
    switchedToView: (int) viewIndex {
 	if (sender != compilerController) return;
+	
+	// Remember this in the history
+	[[self history] switchToPage: viewIndex];
 	
 	// Turn the newly selected cell on
 	if ([pageCells count] == 0) return;
@@ -125,6 +132,13 @@
 - (void) setCompilerController: (IFCompilerController*) controller {
 	[compilerController release];
 	compilerController = [controller retain];
+}
+
+// = History =
+
+- (void) didSwitchToPage {
+	[[self history] switchToPage: [compilerController viewIndex]];
+	[super didSwitchToPage];
 }
 
 // = The page bar =
