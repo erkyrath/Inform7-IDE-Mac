@@ -119,7 +119,7 @@
 
 - (void)					webView:(WebView *)sender 
 	didStartProvisionalLoadForFrame:(WebFrame *)frame {
-	if (frame == [wView mainFrame]) {
+	if (frame == [wView mainFrame] && [self pageIsVisible]) {
 		// When opening a new URL in the main frame, record it as part of the history for this page
 		NSURL* url = [[[frame provisionalDataSource] request] URL];
 		url = [[url copy] autorelease];

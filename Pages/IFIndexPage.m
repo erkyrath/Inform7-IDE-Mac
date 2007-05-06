@@ -134,6 +134,7 @@
 			[pretendView setHostWindow: [parent window]];
 			[pretendView setRequest: [[[NSURLRequest alloc] initWithURL: [IFProjectPolicy fileURLWithPath: fullPath]] autorelease]];
 			[pretendView setPolicyDelegate: [parent docPolicy]];
+			[pretendView setFrameLoadDelegate: self];
 			
 			[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 			
@@ -195,6 +196,63 @@
 	return indexAvailable;
 }
 
+// = Utility functions =
+
+- (IFPageBarCell*) cellWithTitle: (NSString*) title {
+	if (title == nil) title = @"Contents";
+	
+	NSEnumerator* cellEnum = [indexCells objectEnumerator];
+	IFPageBarCell* cell;
+	
+	while (cell = [cellEnum nextObject]) {
+		if ([[cell stringValue] isEqualTo: title]) return cell;
+	}
+	
+	return nil;
+}
+
+- (id) webViewInCell: (IFPageBarCell*) cell {
+	if (cell == nil) return nil;
+	
+	NSView* cellView = [cell view];
+	NSView* subview = [[cellView subviews] objectAtIndex: 0];
+	
+	if ([subview isKindOfClass: [WebView class]])
+		return subview;
+	else if ([subview isKindOfClass: [IFPretendWebView class]])
+		return subview;
+	
+	return nil;
+}
+
+- (NSURLRequest*) requestInCell: (IFPageBarCell*) cell {
+	id cellView = [self webViewInCell: cell];
+	if (cellView == nil) return nil;
+	
+	if ([cellView isKindOfClass: [IFPretendWebView class]]) {
+		return [(IFPretendWebView*)cellView request];
+	} else {
+		return [[[(WebView*)cellView mainFrame] dataSource] request];
+	}	
+}
+
+- (void) openURLWithString: (NSString*) urlString
+		   inPageWithTitle: (NSString*) title {
+	if (urlString == nil) return;
+	if (title == nil) title = @"Contents";
+	
+	IFPageBarCell* cell = [self cellWithTitle: title];
+	id cellView = [self webViewInCell: cell];
+	
+	NSURLRequest* request = [[[NSURLRequest alloc] initWithURL: [NSURL URLWithString: urlString]] autorelease];
+	
+	if ([cellView isKindOfClass: [IFPretendWebView class]]) {
+		[(IFPretendWebView*)cellView setRequest: request];
+	} else {
+		[[(WebView*)cellView mainFrame] loadRequest: request];
+	}
+}
+
 // = Switching cells =
 
 - (void) selectCellWithTitle: (NSString*) title {
@@ -241,12 +299,51 @@
 	if ([self pageIsVisible]) {
 		[[self history] switchToPage];
 		[[self history] selectCellWithTitle: [cell stringValue]];
+		[[self history] openURLWithString: [[[self requestInCell: [self cellWithTitle: [cell stringValue]]] URL] absoluteString]
+						  inPageWithTitle: [cell stringValue]];
 	}
 }
 
 - (void) didSwitchToPage {
 	[[self history] selectCellWithTitle: lastUserTab];
+	[[self history] openURLWithString: [[[self requestInCell: [self cellWithTitle: lastUserTab]] URL] absoluteString]
+					  inPageWithTitle: lastUserTab];
 	[super didSwitchToPage];
+}
+
+// = WebFrameLoadDelegate methods =
+
+- (IFPageBarCell*) cellWithView: (NSView*) view {
+	NSEnumerator* cellEnum = [indexCells objectEnumerator];
+	IFPageBarCell* cell;
+	
+	while (cell = [cellEnum nextObject]) {
+		if ([cell view] == view) return cell;
+	}
+	
+	return nil;	
+}
+
+- (NSString*) titleForFrame: (WebFrame*) frame {
+	WebView* view = [frame webView];
+	IFPageBarCell* cell = [self cellWithView: [view superview]];
+	
+	if (cell != nil)
+		return [cell stringValue];
+	else
+		return nil;
+}
+
+- (void)					webView:(WebView *)sender 
+	didStartProvisionalLoadForFrame:(WebFrame *)frame {
+	if ([self pageIsVisible]) {
+		// When opening a new URL in the main frame, record it as part of the history for this page
+		NSURL* url = [[[frame provisionalDataSource] request] URL];
+		url = [[url copy] autorelease];
+		[[self history] switchToPage];
+		[[self history] openURLWithString: [url absoluteString]
+						  inPageWithTitle: [self titleForFrame: frame]];
+	}
 }
 
 // = The page bar =

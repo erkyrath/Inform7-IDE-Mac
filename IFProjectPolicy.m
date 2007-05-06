@@ -176,8 +176,6 @@
 				NSLog(@"Source found, but unable to retrieve the request");
 			} else if ([[activeSource request] URL] == nil) {
 				NSLog(@"Source found, but unable to retrieve the URL from the request");
-			} else {
-				NSLog(@"Source frame URL is %@", [[activeSource request] URL]);
 			}
 			
 			// Under 10.3.5: LEAKS
@@ -185,15 +183,28 @@
 			// bug and not really fixable here.
 			NSURL* absolute1 = [[[request URL] absoluteURL] standardizedURL];
 			NSURL* absolute2 = [[[[activeSource request] URL] absoluteURL] standardizedURL];
+			
+			BOOL willRedirect = YES;
+			
+			// Don't redirect if the page is part of the project
+			if ([absolute1 isFileURL] && [absolute2 isFileURL]) {
+				NSString* path1 = [[[absolute1 path] stringByStandardizingPath] lowercaseString];
+				NSString* projectPath = [[[[projectController document] fileName] stringByStandardizingPath] lowercaseString];
+				
+				if ([path1 rangeOfString: projectPath].location == 0)
+					willRedirect = NO;
+			}
 
 			// We only redirect if the page is different to the current one
-			if (!([[absolute1 scheme] caseInsensitiveCompare: [absolute2 scheme]] == 0 &&
+			if (([[absolute1 scheme] caseInsensitiveCompare: [absolute2 scheme]] == 0 &&
 				  [[absolute1 path] caseInsensitiveCompare: [absolute2 path]] == 0 &&
-				  ([absolute1 query] == [absolute2 query] || [[absolute1 query] caseInsensitiveCompare:[absolute2 query]] == 0))) {			
+				  ([absolute1 query] == [absolute2 query] || [[absolute1 query] caseInsensitiveCompare:[absolute2 query]] == 0))) {
+				willRedirect = NO;
+			}
+			
+			if (willRedirect) {
 				[listener ignore];
 				[[[projectController auxPane] documentationPage] openURL: [[[request URL] copy] autorelease]];
-				
-				NSLog(@"Redirecting: %@ is not the same as %@", absolute1, absolute2);
 				return;
 			}
 		}

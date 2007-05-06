@@ -16,11 +16,15 @@
 	NSURLRequest* aRequest;
 	NSWindow* hostWindow;
 	id policyDelegate;
+	id frameLoadDelegate;
 }
 
 - (void) setRequest: (NSURLRequest*) request;
 - (void) setHostWindow: (NSWindow*) newHostWindow;
 - (void) setPolicyDelegate: (id) delegate;
+- (void) setFrameLoadDelegate: (id) delegate;
+
+- (NSURLRequest*) request;
 
 - (void) morphMe;
 

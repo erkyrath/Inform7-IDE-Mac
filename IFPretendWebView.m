@@ -46,6 +46,10 @@
 	aRequest = [request copy];
 }
 
+- (NSURLRequest*) request {
+	return aRequest;
+}
+
 - (void) setHostWindow: (NSWindow*) newHostWindow {
 	if (hostWindow) [hostWindow release];
 	
@@ -54,6 +58,10 @@
 
 - (void) setPolicyDelegate: (id) delegate {
 	policyDelegate = delegate;
+}
+
+- (void) setFrameLoadDelegate: (id) delegate {
+	frameLoadDelegate = delegate;
 }
 
 - (void) morphMe {
@@ -71,6 +79,10 @@
 	
 	if (policyDelegate) {
 		[replacementView setPolicyDelegate: policyDelegate];
+	}
+	
+	if (frameLoadDelegate) {
+		[replacementView setFrameLoadDelegate: frameLoadDelegate];
 	}
 	
 	// Leave our superview
