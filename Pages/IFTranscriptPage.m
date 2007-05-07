@@ -27,7 +27,9 @@
 		[transcriptView setDelegate: self];
 		
 		// The page bar cells
-		blessAllCell = [[IFPageBarCell alloc] initTextCell: @"Bless All"];
+		blessAllCell = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Bless All Button"
+																								   value: @"Bless All"
+																								   table: nil]];
 		
 		[blessAllCell setTarget: self];
 		[blessAllCell setAction: @selector(transcriptBlessAll:)];

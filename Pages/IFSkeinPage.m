@@ -40,10 +40,18 @@
 												   object: [IFPreferences sharedPreferences]];
 		
 		// Create the cells for the page bar
-		labelsCell = [[IFPageBarCell alloc] initTextCell: @"Labels"];
-		trimCell = [[IFPageBarCell alloc] initTextCell: @"Trim..."];
-		playAllCell = [[IFPageBarCell alloc] initTextCell: @"Play All"];
-		layoutCell = [[IFPageBarCell alloc] initTextCell: @"Layout..."];
+		labelsCell = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Labels"
+																								 value: @"Labels"
+																								 table: nil]];
+		trimCell = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Trim"
+																							   value: @"Trim"
+																							   table: nil]];
+		playAllCell = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Play All Blessed"
+																								  value: @"Play All Blessed"
+																								  table: nil]];
+		layoutCell = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Layout"
+																								 value: @"Layout"
+																								 table: nil]];
 		
 		[labelsCell setMenu: [[[NSMenu alloc] init] autorelease]];
 		

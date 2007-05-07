@@ -55,12 +55,13 @@
 		headingsBrowser = [[IFHeadingsBrowser alloc] init];
 		
 		// Set up the headings drop-down control
-		headingsControl = [[IFCustomPopup alloc] initTextCell: @"Headings"];
+		headingsControl = [[IFCustomPopup alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Headings"
+																									  value: @"Headings"
+																									  table: nil]];
 		
 		[headingsControl setDelegate: self];
 		[headingsControl setTarget: self];
 		[headingsControl setAction: @selector(gotoSection:)];
-		
 	}
 	
 	return self;

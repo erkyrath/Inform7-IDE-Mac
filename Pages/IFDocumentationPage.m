@@ -54,7 +54,9 @@
 			[wView setHostWindow: [parent window]];
 		}
 		
-		contentsCell = [[IFPageBarCell alloc] initTextCell: @"Contents"];
+		contentsCell = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Contents"
+																								   value: @"Contents"
+																								   table: nil]];
 		[contentsCell setTarget: self];
 		[contentsCell setAction: @selector(showToc:)];
 	}
