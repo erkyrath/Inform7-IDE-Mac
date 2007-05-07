@@ -313,20 +313,20 @@
 
 // = WebFrameLoadDelegate methods =
 
-- (IFPageBarCell*) cellWithView: (NSView*) view {
+- (IFPageBarCell*) cellWithView: (NSView*) cellView {
 	NSEnumerator* cellEnum = [indexCells objectEnumerator];
 	IFPageBarCell* cell;
 	
 	while (cell = [cellEnum nextObject]) {
-		if ([cell view] == view) return cell;
+		if ([cell view] == cellView) return cell;
 	}
 	
 	return nil;	
 }
 
 - (NSString*) titleForFrame: (WebFrame*) frame {
-	WebView* view = [frame webView];
-	IFPageBarCell* cell = [self cellWithView: [view superview]];
+	WebView* wView = [frame webView];
+	IFPageBarCell* cell = [self cellWithView: [wView superview]];
 	
 	if (cell != nil)
 		return [cell stringValue];

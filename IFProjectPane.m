@@ -267,7 +267,6 @@ NSDictionary* IFSyntaxAttributes[256];
     
 	// Compiler (lives on the errors page)
     [[errorsPage compilerController] setCompiler: [doc compiler]];
-    [[errorsPage compilerController] setDelegate: self];
 	
 	// Index page
 	indexPage = [[IFIndexPage alloc] initWithProjectController: parent];
@@ -462,37 +461,6 @@ NSDictionary* IFSyntaxAttributes[256];
 	[pageBar setIsActive: isActive];
 }
 
-- (void) errorMessageHighlighted: (IFCompilerController*) sender
-                          atLine: (int) line
-                          inFile: (NSString*) file {
-    if (![parent selectSourceFile: file]) {
-        // Maybe implement me: show an error alert?
-        return;
-    }
-    
-    [parent moveToSourceFileLine: line];
-	[parent removeHighlightsOfStyle: IFLineStyleError];
-    [parent highlightSourceFileLine: line
-							 inFile: [sourcePage openSourceFile]
-							  style: IFLineStyleError]; // FIXME: error level?. Filename?
-}
-
-- (void) viewSetHasUpdated: (IFCompilerController*) sender {
-	[errorsPage viewSetHasUpdated: sender];
-}
-
-- (void) compiler: (IFCompilerController*) sender
-   switchedToView: (int) viewIndex {
-	[errorsPage compiler: sender
-		  switchedToView: viewIndex];
-}
-
-- (BOOL) handleURLRequest: (NSURLRequest*) req {
-	[[[parent auxPane] documentationPage] openURL: [[[req URL] copy] autorelease]];
-	
-	return YES;
-}
-
 - (IFCompilerController*) compilerController {
     return [errorsPage compilerController];
 }
@@ -593,10 +561,10 @@ NSDictionary* IFSyntaxAttributes[256];
 	[[parent window] makeFirstResponder: [page activeView]];
 }
 
-- (void)        tabView:(NSTabView *)tabView
+- (void)        tabView:(NSTabView *)thisTabView
   willSelectTabViewItem:(NSTabViewItem *)tabViewItem {
 	IFPage* page = [self pageForTabViewItem: tabViewItem];
-	IFPage* lastPage = [self pageForTabViewItem: [tabView selectedTabViewItem]];
+	IFPage* lastPage = [self pageForTabViewItem: [thisTabView selectedTabViewItem]];
 	
 	// Record in the history
 	[[self history] selectTabViewItem: tabViewItem];
@@ -671,6 +639,7 @@ NSDictionary* IFSyntaxAttributes[256];
 - (void) addPage: (IFPage*) newPage {
 	// Add this page to the list of pages being managed by this control
 	[pages addObject: newPage];
+	[newPage setThisPane: self];
 	[newPage setOtherPane: [parent oppositePane: self]];
 	[newPage setRecorder: self];
 	

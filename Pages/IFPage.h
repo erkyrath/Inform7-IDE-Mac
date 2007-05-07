@@ -29,6 +29,7 @@ extern NSString* IFUpdatePageBarCellsNotification;
 @protocol IFHistoryRecorder;
 @interface IFPage : NSObject {
 	IFProjectController* parent;			// The project controller that 'owns' this page (not retained)
+	NSObject<IFProjectPane>* thisPane;		// The pane that contains this page (or nil, not retained)
 	NSObject<IFProjectPane>* otherPane;		// The pane that is opposite to this one (or nil, not retained)
 	NSObject<IFHistoryRecorder>* recorder;	// Object used for recording any history events for this object
 	
@@ -41,6 +42,7 @@ extern NSString* IFUpdatePageBarCellsNotification;
 - (id) initWithNibName: (NSString*) nib		// Designated initialiser
 	 projectController: (IFProjectController*) controller;
 - (void) setRecorder: (NSObject<IFHistoryRecorder>*) recorder;	// Sets the history recorder for this item [NOT RETAINED]
+- (void) setThisPane: (NSObject<IFProjectPane>*) thisPane;		// Sets the pane that this page is contained within
 - (void) setOtherPane: (NSObject<IFProjectPane>*) otherPane;	// Sets the pane to be considered 'opposite' to this one
 - (void) finished;							// Called when the owning object has finished with this object
 

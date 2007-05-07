@@ -36,6 +36,10 @@ NSString* IFUpdatePageBarCellsNotification = @"IFUpdatePageBarCellsNotification"
 	[super dealloc];
 }
 
+- (void) setThisPane: (NSObject<IFProjectPane>*) newThisPane {
+	thisPane = newThisPane;
+}
+
 - (void) setOtherPane: (NSObject<IFProjectPane>*) newOtherPane {
 	otherPane = newOtherPane;
 }

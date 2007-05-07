@@ -41,6 +41,27 @@
 
 // = IFCompilerController delegate methods =
 
+- (void) errorMessageHighlighted: (IFCompilerController*) sender
+                          atLine: (int) line
+                          inFile: (NSString*) file {
+    if (![parent selectSourceFile: file]) {
+        // Maybe implement me: show an error alert?
+        return;
+    }
+    
+    [parent moveToSourceFileLine: line];
+	[parent removeHighlightsOfStyle: IFLineStyleError];
+    [parent highlightSourceFileLine: line
+							 inFile: [[thisPane sourcePage] openSourceFile]
+							  style: IFLineStyleError]; // FIXME: error level?. Filename?
+}
+
+- (BOOL) handleURLRequest: (NSURLRequest*) req {
+	[[[parent auxPane] documentationPage] openURL: [[[req URL] copy] autorelease]];
+	
+	return YES;
+}
+
 - (void) viewSetHasUpdated: (IFCompilerController*) sender {
 	if (sender != compilerController) return;
 	
