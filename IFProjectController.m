@@ -1782,7 +1782,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) playToPoint: (ZoomSkeinItem*) point
 		   fromPoint: (ZoomSkeinItem*) currentPoint {
-	if ([[projectPanes objectAtIndex: 1] isRunningGame]) {
+	if ([[[projectPanes objectAtIndex: 1] gamePage] isRunningGame]) {
 		id inputSource = [ZoomSkein inputSourceFromSkeinItem: currentPoint
 												  toItem: point];
 	
