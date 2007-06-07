@@ -9,6 +9,35 @@
 #import "IFPageBarCell.h"
 #import "IFPageBarView.h"
 
+static NSColor* foregroundColour() {
+	// Determine the foreground colour to use while rendering text
+	//
+	// I'm guessing here, but I've had reports that the text is rendering as blank on 10.3.
+	// I suspect this might be due to alpha blending, so this will turn it off on versions of
+	// OS X before 10.3
+	static NSColor* foreColour = nil;
+	
+	if (!foreColour)
+	{
+		// Use black by default
+		foreColour = [NSColor blackColor];
+
+		// Determine the system version
+		long systemVersion;
+		if (Gestalt(gestaltSystemVersion, &systemVersion) == noErr) {
+			if (systemVersion >= 0x1040) {
+				// OS X 10.4 or later: use an alpha-blended colour
+				foreColour = [[NSColor controlTextColor] colorWithAlphaComponent: 0.8];
+			}
+		}
+		
+		// Keep the colour around for when we need it
+		[foreColour retain];
+	}
+	
+	return foreColour;
+}
+
 @implementation IFPageBarCell
 
 + (NSImage*) dropDownImage {
@@ -41,7 +70,7 @@
 		NSAttributedString* attrText = [[NSAttributedString alloc] initWithString: text
 																	   attributes: 
 			[NSDictionary dictionaryWithObjectsAndKeys: 
-				[[NSColor controlTextColor] colorWithAlphaComponent: 0.8], NSForegroundColorAttributeName,
+				foregroundColour(), NSForegroundColorAttributeName,
 				[NSFont systemFontOfSize: 11], NSFontAttributeName,
 				nil]];
 		
@@ -84,7 +113,7 @@
 	NSAttributedString* attrText = [[NSAttributedString alloc] initWithString: text
 																   attributes: 
 		[NSDictionary dictionaryWithObjectsAndKeys: 
-			[[NSColor controlTextColor] colorWithAlphaComponent: 0.8], NSForegroundColorAttributeName,
+			foregroundColour(), NSForegroundColorAttributeName,
 			[NSFont systemFontOfSize: 11], NSFontAttributeName,
 			nil]];
 	
