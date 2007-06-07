@@ -17,8 +17,7 @@ static NSColor* foregroundColour() {
 	// OS X before 10.3
 	static NSColor* foreColour = nil;
 	
-	if (!foreColour)
-	{
+	if (!foreColour) {
 		// Use black by default
 		foreColour = [NSColor blackColor];
 

@@ -601,6 +601,26 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		else
 			destFile = [extensionPath lastPathComponent];
 		
+		if (extensionsDefineName && [destFile length] > 0 && [destFile characterAtIndex: [destFile length]-1] == ')') {
+			// The name of the extension may be followed by a proviso: remove it
+			int index;
+			
+			for (index = [destFile length] - 1; 
+				 index >= 0 && [destFile characterAtIndex: index] != '('; 
+				 index--);
+			
+			if (index > 1) {
+				if ([destFile characterAtIndex: index-1] == ' ') {
+					destFile = [destFile substringToIndex: index-1];
+				}
+			}
+		}
+		
+		if (extensionsDefineName && [destFile length] > 31) {
+			// Extension filenames must be at most 31 characters
+			destFile = [destFile substringToIndex: 30];
+		}
+		
 		NSString* dest = [destDir stringByAppendingPathComponent: destFile];
 		if ([mgr fileExistsAtPath: dest]) {
 			[mgr removeFileAtPath: dest

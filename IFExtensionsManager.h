@@ -76,6 +76,7 @@ extern NSString* IFExtensionsUpdatedNotification;				// Sent when the extensions
 
 - (NSString*) authorForNaturalInformExtension: (NSString*) file			// From a file potentially containing a natural inform extension, works out the author and title
 										title: (NSString**) title;
+
 // Editing the installed extensions
 - (BOOL) addExtension: (NSString*) extensionPath;						// Creates an extension from the file/directory at the given path (if a directory, the directory is copied/merged as appropriate. If a file, the file is put in a new extension directory)
 - (BOOL) addFile: (NSString*) filePath									// Adds a file to an existing extension
