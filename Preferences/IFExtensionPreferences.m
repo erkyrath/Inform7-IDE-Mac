@@ -70,6 +70,56 @@
 
 // = Actions =
 
+- (void) finishAddingI6Extensions: (NSArray*) filenames {
+	// Add the files
+	NSEnumerator* fileEnum = [filenames objectEnumerator];
+	BOOL succeeded = YES;
+	NSString* file;
+	
+	while (file = [fileEnum nextObject]) {
+		succeeded = [[IFExtensionsManager sharedInform6ExtensionManager] addExtension: file];
+		if (!succeeded) break;
+	}	
+	
+	// Report an error if we couldn't install the extension for some reason
+	if (!succeeded) {
+		[[NSRunLoop currentRunLoop] performSelector: @selector(failedToAddExtension:)
+											 target: self
+										   argument: nil
+											  order: 64
+											  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+	}
+}
+
+- (void) addInform6ExtensionPanelDidEnd: (NSOpenPanel*) sheet
+							 returnCode: (int) returnCode
+							contextInfo: (void*) contextInfo {
+	[sheet setDelegate: nil];
+	
+	if (returnCode != NSOKButton) return;
+	
+	// Check to see if any of the files exist
+	NSEnumerator* fileEnum = [[sheet filenames] objectEnumerator];
+	NSString* file;
+	BOOL exists = NO;
+	
+	while (file = [fileEnum nextObject]) { 
+		// TODO...
+	}
+	
+	if (exists) {
+		// Ask for confirmation
+		[[NSRunLoop currentRunLoop] performSelector: @selector(confirmI6ExtensionOverwrite:)
+											 target: self
+										   argument: [[[sheet filenames] copy] autorelease]
+											  order: 64
+											  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+	} else {
+		// Just add the extension
+		[self finishAddingI6Extensions: [sheet filenames]];
+	}
+}
+
 - (void) finishAddingExtensions: (NSArray*) filenames {
 	// Add the files
 	NSEnumerator* fileEnum = [filenames objectEnumerator];
@@ -236,6 +286,24 @@
 }
 
 - (IBAction) addInform6Extension: (id) sender {
+	// Present a panel for adding new extensions
+	NSOpenPanel* panel = [NSOpenPanel openPanel];
+	
+	[panel setAccessoryView: nil];
+	[panel setCanChooseFiles: YES];
+	[panel setCanChooseDirectories: NO];
+	[panel setResolvesAliases: YES];
+	[panel setAllowsMultipleSelection: NO];
+	[panel setTitle: @"Add new Inform 6 Extension"];
+	[panel setDelegate: [IFExtensionsManager sharedInform6ExtensionManager]];
+	
+	[panel beginSheetForDirectory: @"~"
+							 file: nil
+							types: nil
+				   modalForWindow: [sender window]
+					modalDelegate: self
+				   didEndSelector: @selector(addInform6ExtensionPanelDidEnd:returnCode:contextInfo:)
+					  contextInfo: nil];
 }
 
 - (IBAction) deleteInform6Extension: (id) sender {
