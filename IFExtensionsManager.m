@@ -520,7 +520,7 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 			fExists = [mgr fileExistsAtPath: path
 								isDirectory: &fIsDir];
 			
-			if (!fExists || fIsDir) return NO;				// Subdirectories are not allowed
+			if (fExists && fIsDir) return NO;				// Subdirectories are not allowed
 				
 			size += [[[mgr fileAttributesAtPath: path
 								   traverseLink: NO] objectForKey: NSFileSize]
@@ -589,10 +589,14 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		while (file = [extnEnum nextObject]) {
 			NSString* path = [extensionPath stringByAppendingPathComponent: file];
 			
+			BOOL exists = [mgr fileExistsAtPath: path];
+			
 			// (Silently fail if we can't copy for some reason here)
-			[mgr copyPath: path
-				   toPath: [destDir stringByAppendingPathComponent: file]
-				  handler: nil];
+			if (exists) {
+				[mgr copyPath: path
+					   toPath: [destDir stringByAppendingPathComponent: file]
+					  handler: nil];
+			}
 		}
 	} else {
 		NSString* destFile;

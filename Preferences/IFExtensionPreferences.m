@@ -291,7 +291,7 @@
 	
 	[panel setAccessoryView: nil];
 	[panel setCanChooseFiles: YES];
-	[panel setCanChooseDirectories: NO];
+	[panel setCanChooseDirectories: YES];
 	[panel setResolvesAliases: YES];
 	[panel setAllowsMultipleSelection: NO];
 	[panel setTitle: @"Add new Inform 6 Extension"];
