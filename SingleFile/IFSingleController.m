@@ -46,6 +46,18 @@
 	// Set the view's text appropriately
 	[[fileView textStorage] removeLayoutManager: [fileView layoutManager]];
 	[[[self document] storage] addLayoutManager: [fileView layoutManager]];
+	
+	[fileView setEditable: ![[self document] isReadOnly]];
+}
+
+// = Menu items =
+
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+	if ([menuItem action] == @selector(saveDocument:)) {
+		return ![[self document] isReadOnly];
+	}
+	
+	return YES;
 }
 
 @end

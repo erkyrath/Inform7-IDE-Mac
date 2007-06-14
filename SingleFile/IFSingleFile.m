@@ -92,4 +92,32 @@
 	return fileStorage;
 }
 
+// = Whether or not this should be treated as read-only =
+
+- (BOOL) isReadOnly {
+	if ([self fileName] == nil) return NO;
+	
+	NSString* filename = [[self fileName] stringByStandardizingPath];
+	
+	// Files in the extensions directory in the application should be treated as read-only
+	NSString* appDir = [[[NSBundle mainBundle] pathForResource: @"Extensions"
+														ofType: @""
+												   inDirectory: @"Inform7"] stringByStandardizingPath];
+	
+	if ([[filename lowercaseString] hasPrefix: [appDir lowercaseString]]) {
+		return YES;
+	}
+	
+	// Default is read-write
+	return NO;
+}
+
+- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem {
+	if ([menuItem action] == @selector(saveDocument:)) {
+		return ![self isReadOnly];
+	}
+	
+	return YES;
+}
+
 @end

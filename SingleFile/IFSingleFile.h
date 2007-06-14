@@ -23,5 +23,6 @@
 
 // Retrieving document data
 - (IFSyntaxStorage*) storage;							// The contents of the file
+- (BOOL) isReadOnly;									// YES if this file is read-only
 
 @end

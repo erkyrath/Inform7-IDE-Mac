@@ -270,6 +270,14 @@ static int stringCompare(id a, id b, void* context) {
 	while (libDirectory = [libEnum nextObject]) {
 		[validExtensionDirectories addObject: [[[libDirectory stringByAppendingPathComponent: @"Inform"] stringByAppendingPathComponent: @"Extensions"] stringByStandardizingPath]];
 	}
+	
+	// Also add the built-in extension directories, so that these can be inspected (these are opened in a read-only mode)
+	NSString* internalDir = [[NSBundle mainBundle] pathForResource: @"Extensions"
+															ofType: @""
+													   inDirectory: @"Inform7"];
+	[validExtensionDirectories addObject: [[NSBundle mainBundle] pathForResource: @"Extensions"
+																		  ofType: @""
+																	 inDirectory: @"Inform7"]];
 
 	// Generate the extensions menu
 	// Previous versions listed i6 extensions as well, but we're not doing that any more
@@ -295,9 +303,13 @@ static int stringCompare(id a, id b, void* context) {
 		int itemPos = 0;
 		while (sourceFile = [contentEnum nextObject]) {
 			sourceFile = [sourceFile stringByStandardizingPath];
+
+			// Work out if this is an internal extension
+			BOOL isInternal = NO;
+			if ([[sourceFile lowercaseString] hasPrefix: [internalDir lowercaseString]]) isInternal = YES;
 			
 			// Don't add files we can't write to
-			if (![fileMgr isWritableFileAtPath: sourceFile]) continue;
+			if (![fileMgr isWritableFileAtPath: sourceFile] && !isInternal) continue;
 			
 			// Don't add files that aren't in a directory in the list of valid extension directories
 			NSEnumerator* dirEnum = [validExtensionDirectories objectEnumerator];
@@ -320,6 +332,12 @@ static int stringCompare(id a, id b, void* context) {
 			[newItem setTarget: self];
 			[newItem setTag: [extensionSources count]];
 			[newItem setAction: @selector(openExtension:)];
+			
+			if (isInternal) {
+				NSAttributedString* attributedTitle = [[NSAttributedString alloc] initWithString: [sourceFile lastPathComponent]
+																					  attributes: [NSDictionary dictionaryWithObjectsAndKeys: [NSColor grayColor], NSForegroundColorAttributeName, nil]];
+				[newItem setAttributedTitle: [attributedTitle autorelease]];
+			}
 			
 			[extnMenu insertItem: [newItem autorelease]
 						 atIndex: itemPos++];
