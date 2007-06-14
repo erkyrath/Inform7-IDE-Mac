@@ -269,6 +269,8 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		[result addObject: [[extnDetails objectAtIndex: [extnDetails count]-1] lastPathComponent]];
 	}
 	
+	[result sortUsingSelector: @selector(caseInsensitiveCompare:)];
+	
 	[[[IFTempObject alloc] initWithObject: tempAvailableExtensions=result
 								 delegate: self]
 		autorelease];
@@ -318,7 +320,9 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		}
 	}
 	
-	return [resultDict allValues];
+	NSMutableArray* result = [[resultDict allValues] mutableCopy];
+	[result sortUsingSelector: @selector(caseInsensitiveCompare:)];
+	return [result autorelease];
 }
 
 - (NSArray*) sourceFilesInExtensionWithName: (NSString*) name {
@@ -364,6 +368,7 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		}
 	}
 	
+	[result sortUsingSelector: @selector(caseInsensitiveCompare:)];
 	return result;
 }
 
@@ -434,6 +439,7 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 														encoding: NSUTF8StringEncoding]
 		autorelease];
 	if (extensionString == nil) return nil;
+	extensionString = [extensionString stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceCharacterSet]];
 	
 	// Check that the ending is 'begins here'
 	if ([extensionString length] < [@" begins here." length]
