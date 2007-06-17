@@ -29,7 +29,9 @@ typedef struct ndfa* ndfa;
  */
 
 /* Special token indicating that we should match any character not otherwise matched */
-#define NDFA_ANY (0xffffffff)
+#define NDFA_ANY	((ndfa_token)0xffffffff)
+#define NDFA_START	((ndfa_token)0xfffffffe)
+#define NDFA_END	((ndfa_token)0xfffffffd)
 
 /* ==============
  * Building NDFAs
@@ -60,5 +62,16 @@ extern ndfa ndfa_compile(ndfa nfa);
 /* =============
  * Running NDFAs
  */
+
+#ifdef DEBUG
+
+/* ===============
+ * Debugging NDFAs
+ */
+
+/* Prints a DFA/NDFA to stdout */
+extern void ndfa_dump(ndfa nfa);
+
+#endif
 
 #endif
