@@ -32,6 +32,19 @@ int main() {
 	ndfa_transition(test_ndfa, 'y', accept);
 	
 	ndfa_reset(test_ndfa);
+	ndfa_transition(test_ndfa, 'd', NULL);
+	ndfa_transition(test_ndfa, 'u', NULL);
+	ndfa_transition(test_ndfa, 'f', NULL);
+	ndfa_transition(test_ndfa, 'f', accept);
+	
+	ndfa_reset(test_ndfa);
+	ndfa_transition(test_ndfa, 'd', NULL);
+	ndfa_transition(test_ndfa, 'd', NULL);
+	ndfa_transition(test_ndfa, 'u', NULL);
+	ndfa_transition(test_ndfa, 'f', NULL);
+	ndfa_transition(test_ndfa, 'f', accept);
+	
+	ndfa_reset(test_ndfa);
 	ndfa_transition(test_ndfa, NDFA_START, NULL);
 	ndfa_transition(test_ndfa, 'f', NULL);
 	ndfa_transition(test_ndfa, 'l', NULL);
@@ -49,6 +62,7 @@ int main() {
 	
 	/* Try running the DFA */
 	ndfa_run_state run = ndfa_start(test_dfa);
+	ndfa_run(run, NDFA_START);
 	for(;!feof(stdin);) {
 		ndfa_run(run, fgetc(stdin));
 	}

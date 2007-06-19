@@ -555,7 +555,6 @@ retry:;
 		
 		dfastate = state->dfa->states + next_state;
 		if (dfastate->data) {
-			printf("%i\n", dfastate->num_transitions);
 			/* The next state is an accepting state */
 			if (dfastate->num_transitions == 0) {
 				/* This is an accepting state */
