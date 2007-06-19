@@ -559,7 +559,7 @@ retry:;
 			if (dfastate->num_transitions == 0) {
 				/* This is an accepting state */
 #warning ACCEPT THE BUFFER
-				printf("ACCEPT 1 (%i)\n", dfastate->num_transitions);
+				printf("ACCEPT 1\n");
 				
 				/* Clear the backtracking buffer */
 				state->bt_len = 0;
@@ -660,10 +660,10 @@ retry:;
 			state->state = dfastate->id;
 		} else {
 			/* +++=== No matches for anything in the backtracking buffer ===+++ */
-#warning REJECT THE BUFFER HERE
-			printf("REJECT 6\n");
-			
 			if (state->state != state->dfa->start->id) {
+#warning REJECT THE BUFFER UP TO THE TOKEN HERE
+				printf("REJECT 6\n");
+				
 				/* Clear the backtracking buffer and retry the token */
 				state->bt_len = 1;
 				state->bt_start = state->bt_current = 0;
