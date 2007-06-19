@@ -47,6 +47,36 @@ struct ndfa {
 	ndfa_state*		states;					/* All the states associated with this ndfa */
 };
 
+#ifdef DEBUG
+
+#include <stdio.h>
+
+/* ===============
+* Debugging NDFAs
+*/
+
+/* Prints a DFA/NDFA to stdout */
+void ndfa_dump(ndfa nfa) {
+	int state_num;
+	
+	printf("%i states (%s)\n", nfa->num_states, nfa->is_dfa?"deterministic":"nondeterministic");
+	
+	for (state_num = 0; state_num < nfa->num_states; state_num++) {
+		ndfa_state* state = nfa->states + state_num;
+		printf("\nState %i%s:\n", state_num, state->data?" (accepting)":"");
+		
+		int transition;
+		for (transition = 0; transition < state->num_transitions; transition++) {
+			ndfa_transit* trans = state->transitions + transition;
+			printf("  %i (%c) -> %i\n", trans->token, trans->token>=32&&trans->token<127?trans->token:'?', trans->new_state->id);
+		}
+	}
+	
+	printf("\n");
+}
+
+#endif
+
 /* ==============
  * Building NDFAs
  */
@@ -294,6 +324,13 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 #warning FIXME
 		/* FIXME: do something with the data in the compound state */
 		state->dfa = create_state(dfa, NULL)->id;
+
+#warning FIXME MORE
+		for (x=0; x<state->num_states; x++) {
+			if (nfa->states[state->states[x]].data) {
+				dfa->states[state->dfa].data = nfa->states[state->states[x]].data;
+			}
+		}
 	}
 	
 	/* Clear out the list of transitions associated with this state */
@@ -394,32 +431,262 @@ ndfa ndfa_compile(ndfa nfa) {
  * Running NDFAs
  */
 
-#ifdef DEBUG
+#define NDFA_RUN_MAGIC (0xdfa0f00d)
 
-#include <stdio.h>
-
-/* ===============
-* Debugging NDFAs
-*/
-
-/* Prints a DFA/NDFA to stdout */
-void ndfa_dump(ndfa nfa) {
-	int state_num;
+struct ndfa_run_state {
+	unsigned int magic;						/* Magic number */
 	
-	printf("%i states (%s)\n", nfa->num_states, nfa->is_dfa?"deterministic":"nondeterministic");
+	int needs_freeing;						/* 1 if the dfa associated with this state needs freeing */
+	ndfa dfa;								/* The compiled DFA */
 	
-	for (state_num = 0; state_num < nfa->num_states; state_num++) {
-		printf("\nState %i:\n", state_num);
-		ndfa_state* state = nfa->states + state_num;
+	ndfa_token* backtrack;					/* The backtracking/matching circular buffer */
+	int bt_start;							/* Start token in the backtrack buffer */
+	int bt_current;							/* Current token in the backtrack buffer */
+	int bt_len;								/* Number of tokens currently in the backtrack buffer */
+	int bt_total;							/* Total tokens available in the backtrack buffer */
+	
+	int bt_accept;							/* Position in the backtrack buffer of the last accepting state */
+	int bt_accept_state;					/* Accepting state in the backtracking buffer */
+	
+	int state;								/* Current state in the DFA */
+};
+
+/* Initialises a ndfa, ready to run */
+ndfa_run_state ndfa_start(ndfa dfa) {
+	/* Allocate the new state */
+	ndfa_run_state new_state = malloc(sizeof(struct ndfa_run_state));
+	
+	/* If dfa isn't a compiled DFA then compile it (SLOW) */
+	if (dfa->is_dfa) {
+		new_state->needs_freeing	= 0;
+		new_state->dfa				= dfa;
+	} else {
+		new_state->needs_freeing	= 1;
+		new_state->dfa				= ndfa_compile(dfa);
+	}
+	
+	/* Create an initial backtrack buffer of 32 characters */
+	new_state->bt_len			= 0;
+	new_state->bt_total			= 32;
+	new_state->bt_start			= 0;
+	new_state->bt_current		= 0;
+	new_state->bt_accept		= 0;
+	new_state->bt_accept_state	= -1;
+	new_state->backtrack		= malloc(sizeof(ndfa_token)*new_state->bt_total);
+	
+	/* Set the initial state to be the start state */
+	new_state->state			= dfa->start->id;
+	
+	/* Abracadabra */
+	new_state->magic			= NDFA_RUN_MAGIC;
+	return new_state;
+}
+
+/* Given a state and a token, returns the state that should be transitioned to */
+static int transit_for_state(ndfa_state* state, ndfa_token token) {
+	int bottom = 0;
+	int top = state->num_transitions-1;
+	
+	while (top >= bottom) {
+		int middle = (bottom + top)>>1;
 		
-		int transition;
-		for (transition = 0; transition < state->num_transitions; transition++) {
-			ndfa_transit* trans = state->transitions + transition;
-			printf("  %i (%c) -> %i\n", trans->token, trans->token>=32&&trans->token<127?trans->token:'?', trans->new_state->id);
+		if (state->transitions[middle].token > token) top = middle - 1;
+		else if (state->transitions[middle].token < token) bottom = middle + 1;
+		else return state->transitions[middle].new_state->id;
+	}
+	
+	return -1;
+}
+
+static void grow_backtrack_buffer(ndfa_run_state state) {
+	/* Allocate a new backtracking buffer */
+	int new_total = state->bt_total*2;
+	ndfa_token* new_backtrack = malloc(sizeof(ndfa_token)*new_total);
+	
+	/* Copy in the characters from the old buffer */
+	if (state->bt_current > state->bt_start) {
+		memcpy(new_backtrack, state->backtrack + state->bt_start, sizeof(ndfa_token)*(state->bt_current-state->bt_start));
+		
+		state->bt_current -= state->bt_start;
+		state->bt_accept -= state->bt_start;
+		state->bt_start = 0;
+	} else {
+		int num_to_end = state->bt_total - state->bt_start;
+		memcpy(new_backtrack, state->backtrack + state->bt_start, sizeof(ndfa_token)*(num_to_end));
+		memcpy(new_backtrack + num_to_end, state->backtrack, sizeof(ndfa_token)*(state->bt_current));
+		
+		state->bt_current += num_to_end;
+		state->bt_accept += num_to_end;
+		if (state->bt_accept >= state->bt_total) state->bt_accept -= state->bt_total;
+		state->bt_start = 0;
+	}
+	
+	/* Free the old buffer */
+	free(state->backtrack);
+	state->backtrack = new_backtrack;	
+}
+
+/* Sends a token to a running DFA */
+void ndfa_run(ndfa_run_state state, ndfa_token token) {
+	assert(state->magic == NDFA_RUN_MAGIC);
+	
+	/* Store this token in the backtrack buffer */
+	if (token < 0x7fffffff) {
+		state->backtrack[state->bt_current++] = token;
+		if (state->bt_current >= state->bt_total) state->bt_current = 0;
+		state->bt_len++;
+		
+		/* Grow the buffer if needed */
+		if (state->bt_len >= state->bt_total) {
+			grow_backtrack_buffer(state);
 		}
 	}
 	
-	printf("\n");
+retry:;
+	/* Fetch the current DFA state */
+	ndfa_state* dfastate = state->dfa->states + state->state;
+
+	/* Work out the transition for this character */
+	int next_state = transit_for_state(dfastate, token);
+	
+	if (next_state >= 0) {
+		/* +++=== Move to the next state ===+++ */
+		state->state = next_state;
+		
+		dfastate = state->dfa->states + next_state;
+		if (dfastate->data) {
+			printf("%i\n", dfastate->num_transitions);
+			/* The next state is an accepting state */
+			if (dfastate->num_transitions == 0) {
+				/* This is an accepting state */
+#warning ACCEPT THE BUFFER
+				printf("ACCEPT 1 (%i)\n", dfastate->num_transitions);
+				
+				/* Clear the backtracking buffer */
+				state->bt_len = 0;
+				state->bt_start = state->bt_current = 0;
+				state->bt_accept_state = -1;
+				state->state = state->dfa->start->id;
+			} else {
+				/* Record this as the last known accepting state */
+				state->bt_accept = state->bt_current;
+				state->bt_accept_state = next_state;
+			}
+		}
+	} else {
+		/* +++=== Can't proceed: we've reached a rejecting state ===+++ */
+		if (dfastate->data) {
+			/* All but one character has accepted */
+			
+			/* Accept all but the last character in the backtracking buffer */
+#warning ACCEPT ALL BUT THE LAST CHARACTER
+			printf("ACCEPT 2\n");
+			
+			/* Clear the backtracking buffer and retry the token */
+			state->bt_len = 1;
+			state->bt_start = state->bt_current = 0;
+			state->bt_accept_state = -1;
+			state->state = state->dfa->start->id;
+			
+			state->backtrack[state->bt_current++] = token;
+			goto retry;
+		} else if (state->bt_accept_state >= 0) {
+			/* There's an accepting state we can backtrack to */
+			int num_accepted = state->bt_accept - state->bt_start;
+			if (num_accepted < 0) num_accepted += state->bt_total;
+			
+#warning ACCEPT THE BUFFER SO FAR HERE
+			printf("ACCEPT 3\n");
+			
+			/* Backtrack */
+			state->bt_start = state->bt_accept;
+			state->bt_len -= num_accepted;
+			state->bt_accept_state = -1;
+			
+			/* Run the state machine over the backtracked buffer */
+			int pos = state->bt_start;
+			dfastate = state->dfa->start;
+			while (pos != state->bt_current) {
+				/* Get the transition for this state */
+				next_state = transit_for_state(dfastate, state->backtrack[pos]);
+				
+				if (next_state >= 0) {
+					/* +++=== Transition to the next state ===+++ */
+					dfastate = state->dfa->states + next_state;
+					
+					if (dfastate->data) {
+						/* Record this as an accepting state */
+						state->bt_accept = pos;
+						state->bt_accept_state = next_state;
+					}
+				} else {
+					if (state->bt_accept_state >= 0) {
+						/* +++=== Accept everything up to bt_accept ===+++ */
+						int num_accepted = state->bt_accept - state->bt_start;
+						if (num_accepted < 0) num_accepted += state->bt_total;
+
+#warning ACCEPT THE BUFFER SO FAR HERE
+						printf("ACCEPT 4\n");
+						
+						/* Backtrack to bt_accept */
+						pos = state->bt_accept;
+						
+						state->bt_start = state->bt_accept;
+						state->bt_len -= num_accepted;
+						state->bt_accept_state = -1;
+					} else {
+						/* +++=== Reject everything in the backtrack buffer up to pos ===+++ */
+						int num_rejected = state->bt_accept - state->bt_start;
+						if (num_rejected < 0) num_rejected += state->bt_total;
+
+#warning REJECT THE BUFFER SO FAR HERE
+						printf("REJECT 5\n");
+						
+						/* Clear the backtrack buffer to here */
+						state->bt_start = pos;
+						state->bt_len -= num_rejected;
+						state->bt_accept_state = -1;
+					}
+					
+					/* Reset */
+					dfastate = state->dfa->start;
+				}
+				
+				/* Next character */
+				pos++;
+				if (pos >= state->bt_total) pos = 0;
+			}
+			
+			/* All up to date now */
+			state->state = dfastate->id;
+		} else {
+			/* +++=== No matches for anything in the backtracking buffer ===+++ */
+#warning REJECT THE BUFFER HERE
+			printf("REJECT 6\n");
+			
+			if (state->state != state->dfa->start->id) {
+				/* Clear the backtracking buffer and retry the token */
+				state->bt_len = 1;
+				state->bt_start = state->bt_current = 0;
+				state->bt_accept_state = -1;
+				state->state = state->dfa->start->id;
+				
+				state->backtrack[state->bt_current++] = token;
+				goto retry;
+			} else {
+				/* Can't accept this token at all */
+#warning REJECT THE TOKEN HERE TOO
+				printf("REJECT 7\n");
+			}
+		}
+	}
 }
 
-#endif
+/* Finalises a running DFA */
+void ndfa_finish(ndfa_run_state state) {
+	assert(state->magic == NDFA_RUN_MAGIC);
+	
+	state->magic = 0;
+	free(state->backtrack);
+	free(state);
+}

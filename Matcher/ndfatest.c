@@ -47,6 +47,12 @@ int main() {
 	ndfa_dump(test_dfa);
 #endif
 	
+	/* Try running the DFA */
+	ndfa_run_state run = ndfa_start(test_dfa);
+	for(;!feof(stdin);) {
+		ndfa_run(run, fgetc(stdin));
+	}
+	
 	/* Free everything up */
 	ndfa_free(test_ndfa, NULL);
 	ndfa_free(test_dfa, NULL);

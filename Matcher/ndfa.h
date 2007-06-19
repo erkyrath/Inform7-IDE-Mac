@@ -8,7 +8,7 @@
  */
 
 /*
- * C Implementation of an NDFA/DFA matching algorithm (effectively a unicode regular expression engine)
+ * C Implementation of an NDFA/DFA matching algorithm (effectively a 31 bit regular expression engine)
  */
 
 #ifndef INFORM_NDFA_H
@@ -24,14 +24,20 @@ typedef unsigned int ndfa_token;
 /* Data structure used to represent a DFA/NDFA */
 typedef struct ndfa* ndfa;
 
+/* Data structure representing a running DFA */
+typedef struct ndfa_run_state* ndfa_run_state;
+
+/* ===============
+ * Data structures
+ */
+
 /* ==============
  * Special tokens 
  */
 
 /* Special token indicating that we should match any character not otherwise matched */
-#define NDFA_ANY	((ndfa_token)0xffffffff)
-#define NDFA_START	((ndfa_token)0xfffffffe)
-#define NDFA_END	((ndfa_token)0xfffffffd)
+#define NDFA_START	((ndfa_token)0xffff0001)
+#define NDFA_END	((ndfa_token)0xffff0002)
 
 /* ==============
  * Building NDFAs
@@ -62,6 +68,15 @@ extern ndfa ndfa_compile(ndfa nfa);
 /* =============
  * Running NDFAs
  */
+
+/* Initialises a ndfa, ready to run */
+extern ndfa_run_state ndfa_start(ndfa dfa);
+
+/* Sends a token to a running DFA */
+extern void ndfa_run(ndfa_run_state state, ndfa_token token);
+
+/* Finalises a running DFA */
+extern void ndfa_finish(ndfa_run_state state);
 
 #ifdef DEBUG
 
