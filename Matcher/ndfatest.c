@@ -12,6 +12,26 @@
 
 #include "ndfa.h"
 
+void show(ndfa_run_state run, int length, void* data, void* context) {
+	if (data == NULL) {
+		printf("REJECT: ");
+	} else {
+		printf("Accepted: ");
+	}
+	
+	ndfa_token* buf = ndfa_last_input(run);
+	int x;
+	for (x=0; x<length; x++) {
+		if (buf[x] >= 32 && buf[x] < 127) {
+			printf("%c", buf[x]);
+		} else {
+			printf("?");
+		}
+	}
+	
+	printf("\n");
+}
+
 int main() {
 	/* Make a basic NDFA */
 	ndfa test_ndfa = ndfa_create();
@@ -43,6 +63,14 @@ int main() {
 	ndfa_transition(test_ndfa, 'u', NULL);
 	ndfa_transition(test_ndfa, 'f', NULL);
 	ndfa_transition(test_ndfa, 'f', accept);
+
+	ndfa_reset(test_ndfa);
+	ndfa_transition(test_ndfa, 'd', NULL);
+	ndfa_transition(test_ndfa, 'd', NULL);
+	ndfa_transition(test_ndfa, 'd', NULL);
+	ndfa_transition(test_ndfa, 'u', NULL);
+	ndfa_transition(test_ndfa, 'f', NULL);
+	ndfa_transition(test_ndfa, 'f', accept);
 	
 	ndfa_reset(test_ndfa);
 	ndfa_transition(test_ndfa, NDFA_START, NULL);
@@ -62,10 +90,13 @@ int main() {
 	
 	/* Try running the DFA */
 	ndfa_run_state run = ndfa_start(test_dfa);
+	ndfa_add_handlers(run, show, show, NULL);
 	ndfa_run(run, NDFA_START);
 	for(;!feof(stdin);) {
 		ndfa_run(run, fgetc(stdin));
 	}
+	
+	ndfa_finish(run);
 	
 	/* Free everything up */
 	ndfa_free(test_ndfa, NULL);

@@ -7,6 +7,11 @@
  *
  */
 
+/*
+ * TODO: 'state' for the state in the running part is confusing with 'state' for an NDFA state
+ * TODO: in the current example, 'dduff, ddduff, dddduff', etc are not rejecting the right number of characters
+ */
+
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -433,6 +438,12 @@ ndfa ndfa_compile(ndfa nfa) {
 
 #define NDFA_RUN_MAGIC (0xdfa0f00d)
 
+typedef struct ndfa_handler {
+	ndfa_input_handler accept;
+	ndfa_input_handler reject;
+	void* context;
+} ndfa_handler;
+
 struct ndfa_run_state {
 	unsigned int magic;						/* Magic number */
 	
@@ -447,8 +458,14 @@ struct ndfa_run_state {
 	
 	int bt_accept;							/* Position in the backtrack buffer of the last accepting state */
 	int bt_accept_state;					/* Accepting state in the backtracking buffer */
+	int bt_accept_length;					/* Number of characters from the start of the backtrack buffer to put into the 'last accepted' buffer */
+	
+	ndfa_token* lastbuffer;					/* Buffer of characters last returned by ndfa_last_input() */
 	
 	int state;								/* Current state in the DFA */
+	
+	int num_handlers;						/* Number of handles associated with this run state */
+	ndfa_handler* handlers;					/* Handlers that deal with accept/reject events */
 };
 
 /* Initialises a ndfa, ready to run */
@@ -473,6 +490,13 @@ ndfa_run_state ndfa_start(ndfa dfa) {
 	new_state->bt_accept		= 0;
 	new_state->bt_accept_state	= -1;
 	new_state->backtrack		= malloc(sizeof(ndfa_token)*new_state->bt_total);
+
+	/* There are initially 0 handlers */
+	new_state->num_handlers		= 0;
+	new_state->handlers			= NULL;
+	
+	/* Normally we don't supply a buffer of previous characters */
+	new_state->lastbuffer		= NULL;
 	
 	/* Set the initial state to be the start state */
 	new_state->state			= dfa->start->id;
@@ -526,6 +550,31 @@ static void grow_backtrack_buffer(ndfa_run_state state) {
 	state->backtrack = new_backtrack;	
 }
 
+/* Accepts the specified number of characters */
+static void accept(ndfa_run_state state, int accept_state, int length) {
+	int x;
+	void* data = state->dfa->states[accept_state].data;
+	state->bt_accept_length = length;
+	
+	for (x=0; x<state->num_handlers; x++) {
+		if (state->handlers[x].accept) {
+			state->handlers[x].accept(state, length, data, state->handlers[x].context);
+		}
+	}
+}
+
+/* Rejects the specified number of characters */
+static void reject(ndfa_run_state state, int length) {
+	int x;
+	state->bt_accept_length = length;
+	
+	for (x=0; x<state->num_handlers; x++) {
+		if (state->handlers[x].reject) {
+			state->handlers[x].reject(state, length, NULL, state->handlers[x].context);
+		}
+	}
+}
+
 /* Sends a token to a running DFA */
 void ndfa_run(ndfa_run_state state, ndfa_token token) {
 	assert(state->magic == NDFA_RUN_MAGIC);
@@ -558,8 +607,7 @@ retry:;
 			/* The next state is an accepting state */
 			if (dfastate->num_transitions == 0) {
 				/* This is an accepting state */
-#warning ACCEPT THE BUFFER
-				printf("ACCEPT 1\n");
+				accept(state, next_state, state->bt_len);
 				
 				/* Clear the backtracking buffer */
 				state->bt_len = 0;
@@ -578,8 +626,7 @@ retry:;
 			/* All but one character has accepted */
 			
 			/* Accept all but the last character in the backtracking buffer */
-#warning ACCEPT ALL BUT THE LAST CHARACTER
-			printf("ACCEPT 2\n");
+			accept(state, dfastate->id, state->bt_len-1);
 			
 			/* Clear the backtracking buffer and retry the token */
 			state->bt_len = 1;
@@ -594,8 +641,7 @@ retry:;
 			int num_accepted = state->bt_accept - state->bt_start;
 			if (num_accepted < 0) num_accepted += state->bt_total;
 			
-#warning ACCEPT THE BUFFER SO FAR HERE
-			printf("ACCEPT 3\n");
+			accept(state, state->bt_accept_state, num_accepted);
 			
 			/* Backtrack */
 			state->bt_start = state->bt_accept;
@@ -624,8 +670,7 @@ retry:;
 						int num_accepted = state->bt_accept - state->bt_start;
 						if (num_accepted < 0) num_accepted += state->bt_total;
 
-#warning ACCEPT THE BUFFER SO FAR HERE
-						printf("ACCEPT 4\n");
+						accept(state, state->bt_accept_state, num_accepted);
 						
 						/* Backtrack to bt_accept */
 						pos = state->bt_accept;
@@ -638,8 +683,7 @@ retry:;
 						int num_rejected = state->bt_accept - state->bt_start;
 						if (num_rejected < 0) num_rejected += state->bt_total;
 
-#warning REJECT THE BUFFER SO FAR HERE
-						printf("REJECT 5\n");
+						reject(state, num_rejected);
 						
 						/* Clear the backtrack buffer to here */
 						state->bt_start = pos;
@@ -661,8 +705,7 @@ retry:;
 		} else {
 			/* +++=== No matches for anything in the backtracking buffer ===+++ */
 			if (state->state != state->dfa->start->id) {
-#warning REJECT THE BUFFER UP TO THE TOKEN HERE
-				printf("REJECT 6\n");
+				reject(state, state->bt_len-1);
 				
 				/* Clear the backtracking buffer and retry the token */
 				state->bt_len = 1;
@@ -674,11 +717,53 @@ retry:;
 				goto retry;
 			} else {
 				/* Can't accept this token at all */
-#warning REJECT THE TOKEN HERE TOO
-				printf("REJECT 7\n");
+				reject(state, state->bt_len);
+
+				state->bt_len = 0;
+				state->bt_start = state->bt_current = 0;
+				state->bt_accept_state = -1;
+				state->state = state->dfa->start->id;
 			}
 		}
 	}
+}
+
+
+/* Registers a pair of handlers for a DFA */
+void ndfa_add_handlers(ndfa_run_state state, ndfa_input_handler accept, ndfa_input_handler reject, void* context) {
+	assert(state->magic == NDFA_RUN_MAGIC);
+	
+	/* Allocate a new handler */
+	state->num_handlers++;
+	state->handlers = realloc(state->handlers, sizeof(ndfa_handler)*(state->num_handlers));
+	ndfa_handler* new_handler = state->handlers + state->num_handlers-1;
+	
+	/* Fill it in */
+	new_handler->accept		= accept;
+	new_handler->reject		= reject;
+	new_handler->context	= context;
+}
+
+/* Retrieves the input most recently rejected/accepted by the DFA (note that less memory is used if this is not called) */
+ndfa_token* ndfa_last_input(ndfa_run_state state) {
+	assert(state->magic == NDFA_RUN_MAGIC);
+
+	state->lastbuffer = realloc(state->lastbuffer, sizeof(ndfa_token)*state->bt_accept_length);
+	
+	/* Copy the start of the buffer */
+	int num_to_copy = state->bt_accept_length;
+	if (state->bt_start + num_to_copy > state->bt_total) {
+		num_to_copy = state->bt_total - state->bt_start;
+	}
+	memcpy(state->lastbuffer, state->backtrack + state->bt_start, sizeof(ndfa_token)*num_to_copy);
+	
+	/* Copy the remainder of the buffer (if any) */
+	if (num_to_copy < state->bt_accept_length) {
+		memcpy(state->lastbuffer + num_to_copy, state->backtrack, sizeof(ndfa_token)*(state->bt_accept_length - num_to_copy));
+	}
+	
+	/* lastbuffer now contains the result */
+	return state->lastbuffer;
 }
 
 /* Finalises a running DFA */
@@ -686,6 +771,8 @@ void ndfa_finish(ndfa_run_state state) {
 	assert(state->magic == NDFA_RUN_MAGIC);
 	
 	state->magic = 0;
+	if (state->handlers)	free(state->handlers);
+	if (state->lastbuffer)	free(state->lastbuffer);
 	free(state->backtrack);
 	free(state);
 }

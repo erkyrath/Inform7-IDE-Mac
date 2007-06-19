@@ -43,6 +43,7 @@ typedef struct ndfa_run_state* ndfa_run_state;
  * Building NDFAs
  */
 
+/* Callback that can be used while freeing */
 typedef void (*ndfa_free_data)(void* data);
 
 /* Creates a new NDFA, with a single start state */
@@ -69,8 +70,17 @@ extern ndfa ndfa_compile(ndfa nfa);
  * Running NDFAs
  */
 
+/* Handler callback when the ndfa accepts or rejects input */
+typedef void (*ndfa_input_handler)(ndfa_run_state state, int length, void* data, void* context);
+
 /* Initialises a ndfa, ready to run */
 extern ndfa_run_state ndfa_start(ndfa dfa);
+
+/* Registers a pair of handlers for a DFA */
+extern void ndfa_add_handlers(ndfa_run_state run_state, ndfa_input_handler accept, ndfa_input_handler reject, void* context);
+
+/* Retrieves the input most recently rejected/accepted by the DFA (note that less memory is used if this is not called) */
+extern ndfa_token* ndfa_last_input(ndfa_run_state run_state);
 
 /* Sends a token to a running DFA */
 extern void ndfa_run(ndfa_run_state state, ndfa_token token);
