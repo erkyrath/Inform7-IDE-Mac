@@ -43,8 +43,8 @@ struct ndfa {
 	unsigned int	magic;					/* Magic number indicating this is a valid NDFA */
 	
 	int				is_dfa;					/* non-zero if this is a compiled DFA that can actually be run */
-	ndfa_state*		start;					/* The start state */
-	ndfa_state*		compile_state;			/* The state from which the next transistion will be added*/
+	int				start;					/* The start state */
+	int				compile_state;			/* The state from which the next transistion will be added*/
 	
 	int				num_states;				/* Number of used states in the states array */
 	int				total_states;			/* Total number of states in this ndfa */
@@ -67,7 +67,7 @@ void ndfa_dump(ndfa nfa) {
 	
 	for (state_num = 0; state_num < nfa->num_states; state_num++) {
 		ndfa_state* state = nfa->states + state_num;
-		printf("\nState %i%s:\n", state_num, state->data?" (accepting)":"");
+		printf("\nState %i (%i transitions)%s:\n", state_num, state->num_transitions, state->data?" (accepting)":"");
 		
 		int transition;
 		for (transition = 0; transition < state->num_transitions; transition++) {
@@ -91,7 +91,7 @@ static ndfa_state* create_state(ndfa nfa, void* data) {
 	int this_state = nfa->num_states++;
 	
 	/* Create more space if needed */
-	if (nfa->num_states >= nfa->total_states) {
+	if (this_state >= nfa->total_states) {
 		nfa->total_states += NDFA_GROW;
 		nfa->states = realloc(nfa->states, sizeof(ndfa_state)*nfa->total_states);
 		
@@ -118,7 +118,7 @@ static void add_transition(ndfa_state* from, ndfa_state* to, ndfa_token token) {
 	int this_transition = from->num_transitions++;
 	
 	/* Grow the transitions array if necessary */
-	if (from->num_transitions >= from->total_transitions) {
+	if (this_transition >= from->total_transitions) {
 		from->total_transitions += NDFA_GROW;
 		from->transitions = realloc(from->transitions, sizeof(ndfa_transit)*from->total_transitions);
 		
@@ -145,11 +145,11 @@ ndfa ndfa_create() {
 	new_ndfa->states		= NULL;
 	new_ndfa->magic			= NDFA_MAGIC;
 	
-	new_ndfa->start			= create_state(new_ndfa, NULL);
+	new_ndfa->start			= create_state(new_ndfa, NULL)->id;
 	new_ndfa->compile_state	= new_ndfa->start; 
 	
 	/* Add a 'start' transition */
-	add_transition(new_ndfa->start, new_ndfa->start, NDFA_START);
+	add_transition(new_ndfa->states + new_ndfa->start, new_ndfa->states + new_ndfa->start, NDFA_START);
 
 	/* Return it */
 	return new_ndfa;
@@ -201,8 +201,8 @@ void ndfa_transition(ndfa nfa, ndfa_token token, void* data) {
 	ndfa_state* new_state = create_state(nfa, data);
 	
 	/* Add this transition */
-	add_transition(nfa->compile_state, new_state, token);
-	nfa->compile_state = new_state;
+	add_transition(nfa->states + nfa->compile_state, new_state, token);
+	nfa->compile_state = new_state->id;
 	
 	/* This is not a DFA any more */
 	nfa->is_dfa = 0;
@@ -498,7 +498,7 @@ ndfa_run_state ndfa_start(ndfa dfa) {
 	new_state->lastbuffer		= NULL;
 	
 	/* Set the initial state to be the start state */
-	new_state->state			= dfa->start->id;
+	new_state->state			= dfa->start;
 	
 	/* Abracadabra */
 	new_state->magic			= NDFA_RUN_MAGIC;
@@ -612,7 +612,7 @@ retry:;
 				state->bt_len = 0;
 				state->bt_start = state->bt_current = 0;
 				state->bt_accept_state = -1;
-				state->state = state->dfa->start->id;
+				state->state = state->dfa->start;
 			} else {
 				/* Record this as the last known accepting state */
 				state->bt_accept = state->bt_current;
@@ -631,7 +631,7 @@ retry:;
 			state->bt_len = 1;
 			state->bt_start = state->bt_current = 0;
 			state->bt_accept_state = -1;
-			state->state = state->dfa->start->id;
+			state->state = state->dfa->start;
 			
 			state->backtrack[state->bt_current++] = token;
 			goto retry;
@@ -657,7 +657,7 @@ retry:;
 			
 			/* Run the state machine over the backtracked buffer */
 			int pos = state->bt_start;
-			dfastate = state->dfa->start;
+			dfastate = state->dfa->states + state->dfa->start;
 			while (pos != state->bt_current) {
 				/* Get the transition for this state */
 				next_state = transit_for_state(dfastate, state->backtrack[pos]);
@@ -694,7 +694,7 @@ retry:;
 					}
 					
 					/* Reset */
-					dfastate = state->dfa->start;
+					dfastate = state->dfa->states + state->dfa->start;
 				}
 				
 				/* Next character */

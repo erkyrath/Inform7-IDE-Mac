@@ -38,6 +38,13 @@ int main() {
 	void* accept = malloc(1);
 	
 	ndfa_reset(test_ndfa);
+	ndfa_transition(test_ndfa, NDFA_START, NULL);
+	ndfa_transition(test_ndfa, 'f', NULL);
+	ndfa_transition(test_ndfa, 'l', NULL);
+	ndfa_transition(test_ndfa, 'u', NULL);
+	ndfa_transition(test_ndfa, 'p', accept);
+	
+	ndfa_reset(test_ndfa);
 	ndfa_transition(test_ndfa, 'f', NULL);
 	ndfa_transition(test_ndfa, 'r', NULL);
 	ndfa_transition(test_ndfa, 'e', NULL);
@@ -77,20 +84,25 @@ int main() {
 	ndfa_transition(test_ndfa, 'u', NULL);
 	ndfa_transition(test_ndfa, 'f', NULL);
 	ndfa_transition(test_ndfa, 'f', accept);
-	
+
 	ndfa_reset(test_ndfa);
-	ndfa_transition(test_ndfa, NDFA_START, NULL);
+	ndfa_transition(test_ndfa, 'i', NULL);
+	ndfa_transition(test_ndfa, 'n', NULL);
 	ndfa_transition(test_ndfa, 'f', NULL);
-	ndfa_transition(test_ndfa, 'l', NULL);
-	ndfa_transition(test_ndfa, 'u', NULL);
-	ndfa_transition(test_ndfa, 'p', accept);
+	ndfa_transition(test_ndfa, 'o', NULL);
+	ndfa_transition(test_ndfa, 'r', NULL);
+	ndfa_transition(test_ndfa, 'm', accept);
+	
+#ifdef DEBUG
+	/* Dump it */
+	ndfa_dump(test_ndfa);
+#endif
 	
 	/* Compile it into a DFA */
 	ndfa test_dfa = ndfa_compile(test_ndfa);
 	
 #ifdef DEBUG
 	/* Dump it */
-	ndfa_dump(test_ndfa);
 	ndfa_dump(test_dfa);
 #endif
 	
