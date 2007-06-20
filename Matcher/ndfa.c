@@ -647,7 +647,7 @@ retry:;
 				state->bt_start = state->bt_accept;
 				state->bt_len -= num_accepted;
 				state->bt_accept_state = -1;
-			} else {
+			} else if (state->bt_len > 0) {
 				/* Reject the first character in the backtracking buffer */
 				reject(state, 1);
 				state->bt_start++;
@@ -685,7 +685,7 @@ retry:;
 						state->bt_start = state->bt_accept;
 						state->bt_len -= num_accepted;
 						state->bt_accept_state = -1;
-					} else {
+					} else if (state->bt_len > 0) {
 						/* +++=== Reject the first character in the backtracking buffer ===+++ */
 						reject(state, 1);
 						state->bt_start++;
