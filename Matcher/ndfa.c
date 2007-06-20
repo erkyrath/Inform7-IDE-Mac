@@ -9,7 +9,6 @@
 
 /*
  * TODO: 'state' for the state in the running part is confusing with 'state' for an NDFA state
- * TODO: in the current example, 'dduff, ddduff, dddduff', etc are not rejecting the right number of characters
  */
 
 #include <stdlib.h>
@@ -636,17 +635,25 @@ retry:;
 			
 			state->backtrack[state->bt_current++] = token;
 			goto retry;
-		} else if (state->bt_accept_state >= 0) {
-			/* There's an accepting state we can backtrack to */
-			int num_accepted = state->bt_accept - state->bt_start;
-			if (num_accepted < 0) num_accepted += state->bt_total;
-			
-			accept(state, state->bt_accept_state, num_accepted);
-			
-			/* Backtrack */
-			state->bt_start = state->bt_accept;
-			state->bt_len -= num_accepted;
-			state->bt_accept_state = -1;
+		} else {
+			if (state->bt_accept_state >= 0) {
+				/* There's an accepting state we can backtrack to */
+				int num_accepted = state->bt_accept - state->bt_start;
+				if (num_accepted < 0) num_accepted += state->bt_total;
+				
+				accept(state, state->bt_accept_state, num_accepted);
+				
+				/* Backtrack */
+				state->bt_start = state->bt_accept;
+				state->bt_len -= num_accepted;
+				state->bt_accept_state = -1;
+			} else {
+				/* Reject the first character in the backtracking buffer */
+				reject(state, 1);
+				state->bt_start++;
+				state->bt_len--;
+				if (state->bt_start >= state->bt_total) state->bt_start = 0;
+			}
 			
 			/* Run the state machine over the backtracked buffer */
 			int pos = state->bt_start;
@@ -679,16 +686,11 @@ retry:;
 						state->bt_len -= num_accepted;
 						state->bt_accept_state = -1;
 					} else {
-						/* +++=== Reject everything in the backtrack buffer up to pos ===+++ */
-						int num_rejected = state->bt_accept - state->bt_start;
-						if (num_rejected < 0) num_rejected += state->bt_total;
-
-						reject(state, num_rejected);
-						
-						/* Clear the backtrack buffer to here */
-						state->bt_start = pos;
-						state->bt_len -= num_rejected;
-						state->bt_accept_state = -1;
+						/* +++=== Reject the first character in the backtracking buffer ===+++ */
+						reject(state, 1);
+						state->bt_start++;
+						state->bt_len--;
+						if (state->bt_start >= state->bt_total) state->bt_start = 0;
 					}
 					
 					/* Reset */
@@ -702,28 +704,6 @@ retry:;
 			
 			/* All up to date now */
 			state->state = dfastate->id;
-		} else {
-			/* +++=== No matches for anything in the backtracking buffer ===+++ */
-			if (state->state != state->dfa->start->id) {
-				reject(state, state->bt_len-1);
-				
-				/* Clear the backtracking buffer and retry the token */
-				state->bt_len = 1;
-				state->bt_start = state->bt_current = 0;
-				state->bt_accept_state = -1;
-				state->state = state->dfa->start->id;
-				
-				state->backtrack[state->bt_current++] = token;
-				goto retry;
-			} else {
-				/* Can't accept this token at all */
-				reject(state, state->bt_len);
-
-				state->bt_len = 0;
-				state->bt_start = state->bt_current = 0;
-				state->bt_accept_state = -1;
-				state->state = state->dfa->start->id;
-			}
 		}
 	}
 }
