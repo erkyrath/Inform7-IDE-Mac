@@ -93,6 +93,14 @@ int main() {
 	ndfa_transition(test_ndfa, 'r', NULL);
 	ndfa_transition(test_ndfa, 'm', accept);
 	
+	ndfa_reset(test_ndfa);
+	ndfa_transition(test_ndfa, NDFA_START, NULL);
+	ndfa_transition(test_ndfa, 's', NULL);
+	ndfa_transition(test_ndfa, 't', NULL);
+	ndfa_transition(test_ndfa, 'a', NULL);
+	ndfa_transition(test_ndfa, 'r', NULL);
+	ndfa_transition(test_ndfa, 't', accept);
+	
 #ifdef DEBUG
 	/* Dump it */
 	ndfa_dump(test_ndfa);

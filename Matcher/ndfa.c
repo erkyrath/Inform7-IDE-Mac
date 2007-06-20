@@ -27,7 +27,7 @@ typedef struct ndfa_state ndfa_state;
 typedef struct ndfa_transit {
 	/* NDFA transition */
 	ndfa_token	token;						/* The token which this transition moves on */
-	ndfa_state*	new_state;					/* The state that is reached when this token is matched */
+	int			new_state;					/* The state that is reached when this token is matched */
 } ndfa_transit;
 
 struct ndfa_state {
@@ -72,7 +72,7 @@ void ndfa_dump(ndfa nfa) {
 		int transition;
 		for (transition = 0; transition < state->num_transitions; transition++) {
 			ndfa_transit* trans = state->transitions + transition;
-			printf("  %i (%c) -> %i\n", trans->token, trans->token>=32&&trans->token<127?trans->token:'?', trans->new_state->id);
+			printf("  %i (%c) -> %i\n", trans->token, trans->token>=32&&trans->token<127?trans->token:'?', trans->new_state);
 		}
 	}
 	
@@ -129,7 +129,7 @@ static void add_transition(ndfa_state* from, ndfa_state* to, ndfa_token token) {
 	ndfa_transit* new_transit = from->transitions + this_transition;
 	
 	new_transit->token		= token;
-	new_transit->new_state	= to;
+	new_transit->new_state	= to->id;
 }
 
 /* Creates a new NDFA, with a single start state */
@@ -313,8 +313,8 @@ static int compare_transitions(const void* a, const void* b) {
 	if (tr1->token > tr2->token) return 1;
 	else if (tr2->token > tr1->token) return -1;
 	else {
-		if (tr1->new_state->id > tr2->new_state->id) return 1;
-		else if (tr2->new_state->id > tr1->new_state->id) return -1;
+		if (tr1->new_state > tr2->new_state) return 1;
+		else if (tr2->new_state > tr1->new_state) return -1;
 		else return 0;
 	}
 }
@@ -367,13 +367,13 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 		
 		/* Get the token for the new compound state */
 		ndfa_token this_token = transitions[x].token;
-		nfa_states[num_states++] = transitions[x].new_state->id;
+		nfa_states[num_states++] = transitions[x].new_state;
 		
 		/* Work out all of the states that are reached by this token */
 		x++;
 		for (; x < num_transitions && transitions[x].token == this_token; x++) {
-			if (nfa_states[num_states-1] != transitions[x].new_state->id) {
-				nfa_states[num_states++] = transitions[x].new_state->id;
+			if (nfa_states[num_states-1] != transitions[x].new_state) {
+				nfa_states[num_states++] = transitions[x].new_state;
 			}
 		}
 		
@@ -386,6 +386,7 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 		}
 		
 		/* Add a transition to the DFA */
+		dfa_state = dfa->states + state->dfa;
 		add_transition(dfa_state, dfa->states + transition_state->dfa, this_token);
 	}
 }
@@ -515,7 +516,7 @@ static int transit_for_state(ndfa_state* state, ndfa_token token) {
 		
 		if (state->transitions[middle].token > token) top = middle - 1;
 		else if (state->transitions[middle].token < token) bottom = middle + 1;
-		else return state->transitions[middle].new_state->id;
+		else return state->transitions[middle].new_state;
 	}
 	
 	return -1;
