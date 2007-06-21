@@ -9,8 +9,6 @@
 
 /*
  * TODO: 'state' for the state in the running part is confusing with 'state' for an NDFA state
- * TODO: type 'hhhh' into the test parser then something accepted: note that it's accepted OK but
- *       we fail to reject one character
  */
 
 #include <stdlib.h>
