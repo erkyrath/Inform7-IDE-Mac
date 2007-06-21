@@ -9,6 +9,8 @@
 
 /*
  * TODO: 'state' for the state in the running part is confusing with 'state' for an NDFA state
+ * TODO: type 'hhhh' into the test parser then something accepted: note that it's accepted OK but
+ *       we fail to reject one character
  */
 
 #include <stdlib.h>
@@ -24,10 +26,15 @@
 
 typedef struct ndfa_state ndfa_state;
 
+typedef struct ndfa_token_range {
+	ndfa_token start;						/* First token in this range (inclusive) */
+	ndfa_token end;							/* Final token in this range (exclusive) */
+} ndfa_token_range;
+
 typedef struct ndfa_transit {
 	/* NDFA transition */
-	ndfa_token	token;						/* The token which this transition moves on */
-	int			new_state;					/* The state that is reached when this token is matched */
+	ndfa_token_range	tokens;				/* The token which this transition moves on */
+	int					new_state;			/* The state that is reached when this token is matched */
 } ndfa_transit;
 
 struct ndfa_state {
@@ -59,6 +66,8 @@ struct ndfa {
 * Debugging NDFAs
 */
 
+#define CHARFORTOKEN(token) ((token)>=32&&(token)<127?(token):'?')
+
 /* Prints a DFA/NDFA to stdout */
 void ndfa_dump(ndfa nfa) {
 	int state_num;
@@ -72,7 +81,10 @@ void ndfa_dump(ndfa nfa) {
 		int transition;
 		for (transition = 0; transition < state->num_transitions; transition++) {
 			ndfa_transit* trans = state->transitions + transition;
-			printf("  %i (%c) -> %i\n", trans->token, trans->token>=32&&trans->token<127?trans->token:'?', trans->new_state);
+			printf("  %i-%i (%c-%c) -> %i\n", 
+				   trans->tokens.start, trans->tokens.end-1,
+				   CHARFORTOKEN(trans->tokens.start), CHARFORTOKEN(trans->tokens.end-1), 
+				   trans->new_state);
 		}
 	}
 	
@@ -113,7 +125,7 @@ static ndfa_state* create_state(ndfa nfa, void* data) {
 }
 
 /* Adds a transition to the specified state */
-static void add_transition(ndfa_state* from, ndfa_state* to, ndfa_token token) {
+static void add_transition(ndfa_state* from, ndfa_state* to, ndfa_token token_start, ndfa_token token_end) {
 	/* Choose a location in the transition array for the new transition */
 	int this_transition = from->num_transitions++;
 	
@@ -128,8 +140,9 @@ static void add_transition(ndfa_state* from, ndfa_state* to, ndfa_token token) {
 	/* Allocate a new transition */
 	ndfa_transit* new_transit = from->transitions + this_transition;
 	
-	new_transit->token		= token;
-	new_transit->new_state	= to->id;
+	new_transit->tokens.start	= token_start;
+	new_transit->tokens.end		= token_end;
+	new_transit->new_state		= to->id;
 }
 
 /* Creates a new NDFA, with a single start state */
@@ -149,7 +162,7 @@ ndfa ndfa_create() {
 	new_ndfa->compile_state	= new_ndfa->start; 
 	
 	/* Add a 'start' transition */
-	add_transition(new_ndfa->states + new_ndfa->start, new_ndfa->states + new_ndfa->start, NDFA_START);
+	add_transition(new_ndfa->states + new_ndfa->start, new_ndfa->states + new_ndfa->start, NDFA_START, NDFA_START+1);
 
 	/* Return it */
 	return new_ndfa;
@@ -191,6 +204,22 @@ void ndfa_reset(ndfa nfa) {
 	nfa->compile_state = nfa->start;
 }
 
+/* Adds an inclusive range of tokens as a new transition */
+void ndfa_transition_range(ndfa nfa, ndfa_token token_start, ndfa_token token_end, void* data) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	
+	/* Construct a new state for this transition */
+	ndfa_state* new_state = create_state(nfa, data);
+	
+	/* Add this transition */
+	add_transition(nfa->states + nfa->compile_state, new_state, token_start, token_end+1);
+	nfa->compile_state = new_state->id;
+	
+	/* This is not a DFA any more */
+	nfa->is_dfa = 0;
+}
+
 /* Adds a new single transition on receiving the given token, and moves the ndfa to that point */
 /* Data should be non-null to indicate an accepting state. Note that the NDFA is greedy by default. */
 void ndfa_transition(ndfa nfa, ndfa_token token, void* data) {
@@ -201,7 +230,7 @@ void ndfa_transition(ndfa nfa, ndfa_token token, void* data) {
 	ndfa_state* new_state = create_state(nfa, data);
 	
 	/* Add this transition */
-	add_transition(nfa->states + nfa->compile_state, new_state, token);
+	add_transition(nfa->states + nfa->compile_state, new_state, token, token+1);
 	nfa->compile_state = new_state->id;
 	
 	/* This is not a DFA any more */
@@ -310,8 +339,10 @@ static int compare_transitions(const void* a, const void* b) {
 	const ndfa_transit* tr1 = a;
 	const ndfa_transit* tr2 = b;
 	
-	if (tr1->token > tr2->token) return 1;
-	else if (tr2->token > tr1->token) return -1;
+	if (tr1->tokens.start > tr2->tokens.start) return 1;			/* Sort by start token order */
+	else if (tr2->tokens.start > tr1->tokens.start) return -1;
+	else if (tr1->tokens.end > tr2->tokens.end) return -1;			/* Ensure longer ranges come before shorter ranges*/
+	else if (tr2->tokens.end > tr1->tokens.end) return 1;
 	else {
 		if (tr1->new_state > tr2->new_state) return 1;
 		else if (tr2->new_state > tr1->new_state) return -1;
@@ -347,7 +378,7 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 		num_transitions += nfa->states[state->states[x]].num_transitions;
 	}
 	
-	ndfa_transit transitions[num_transitions];
+	ndfa_transit* transitions = malloc(sizeof(ndfa_transit)*num_transitions);
 	int pos = 0;
 	for (x=0; x<state->num_states; x++) {
 		ndfa_state* nfa_state = nfa->states + state->states[x];
@@ -358,6 +389,96 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 	
 	/* Sort into token/state order */
 	qsort(transitions, num_transitions, sizeof(ndfa_transit), compare_transitions);
+	
+	/* Split overlapping ranges */
+	int have_split = 0;
+	for (x=0; x < num_transitions-1; x++) {
+		ndfa_transit* this_transit = transitions + x;
+		ndfa_transit* next_transit = transitions + x + 1;
+		
+		if (this_transit->tokens.start < next_transit->tokens.start 
+			&& this_transit->tokens.end > next_transit->tokens.start) {
+			ndfa_transit next_copy = *next_transit;
+			ndfa_transit this_copy = *this_transit;
+			int y;
+
+			/* this_transit overlaps next_transit - split it in two */
+			ndfa_transit new_transit;
+			
+			new_transit.tokens.start	= next_transit->tokens.start;
+			new_transit.tokens.end		= this_transit->tokens.end;
+			new_transit.new_state		= 0;
+
+			/* Work out where to add the new transition */
+			have_split = 1;
+			int insert_pos = x+1;
+			while (insert_pos < num_transitions && compare_transitions(transitions + insert_pos, &new_transit) < 0) {
+				insert_pos++;
+			}
+
+			/* We might also need to split a number of transitions preceeding this one*/
+			have_split = 1;
+			for (y=x; y>=0 
+				 && transitions[y].tokens.start == this_copy.tokens.start
+				 && transitions[y].tokens.end == this_copy.tokens.end;
+				 y--) {
+				/* Split this transition */
+				new_transit.new_state		= transitions[y].new_state;
+				
+				transitions[y].tokens.end	= next_copy.tokens.start;
+				
+				/* Allocate space for the new transition */
+				transitions = realloc(transitions, sizeof(ndfa_transit)*(num_transitions+1));
+				memmove(transitions + insert_pos+1, transitions + insert_pos, sizeof(ndfa_transit)*(num_transitions-insert_pos));
+				num_transitions++;
+				
+				transitions[insert_pos] = new_transit;
+			}
+			continue;
+		} else if (this_transit->tokens.start == next_transit->tokens.start 
+				   && this_transit->tokens.end > next_transit->tokens.end) {
+			/* The end of this transition (and maybe some of the preceeding transitions) overlaps the following transition */
+			int y;
+			ndfa_transit next_copy = *next_transit;
+
+			/* Work out the new transition */
+			ndfa_transit new_transit;
+			
+			new_transit.tokens.start	= next_copy.tokens.end;
+			new_transit.tokens.end		= transitions[x].tokens.end;
+			new_transit.new_state		= 0;
+			
+			/* Work out where to add the new transition */
+			have_split = 1;
+			int insert_pos = x+2;
+			while (insert_pos < num_transitions && compare_transitions(transitions + insert_pos, &new_transit) < 0) {
+				insert_pos++;
+			}
+			
+			for (y=x; y>=0 
+				 && transitions[y].tokens.start == next_copy.tokens.start
+				 && transitions[y].tokens.end > next_copy.tokens.end;
+				 y--) {
+				/* Split this transition */
+				new_transit.new_state		= transitions[y].new_state;
+				
+				transitions[y].tokens.end	= next_copy.tokens.end;
+				
+				/* Allocate space for the new transition */
+				transitions = realloc(transitions, sizeof(ndfa_transit)*(num_transitions+1));
+				memmove(transitions + insert_pos+1, transitions + insert_pos, sizeof(ndfa_transit)*(num_transitions-insert_pos));
+				num_transitions++;
+				
+				transitions[insert_pos] = new_transit;
+			}
+		}
+	}
+	
+	/* Resort if we've split any transitions */
+	if (have_split)
+	{
+		qsort(transitions, num_transitions, sizeof(ndfa_transit), compare_transitions);
+	}
 
 	int nfa_states[num_transitions];
 
@@ -365,13 +486,13 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 	for (x = 0; x < num_transitions;) {
 		int num_states = 0;
 		
-		/* Get the token for the new compound state */
-		ndfa_token this_token = transitions[x].token;
+		/* Get the tokens for the new compound state */
+		ndfa_token_range this_token = transitions[x].tokens;
 		nfa_states[num_states++] = transitions[x].new_state;
 		
 		/* Work out all of the states that are reached by this token */
 		x++;
-		for (; x < num_transitions && transitions[x].token == this_token; x++) {
+		for (; x < num_transitions && transitions[x].tokens.start == this_token.start; x++) {
 			if (nfa_states[num_states-1] != transitions[x].new_state) {
 				nfa_states[num_states++] = transitions[x].new_state;
 			}
@@ -387,7 +508,7 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 		
 		/* Add a transition to the DFA */
 		dfa_state = dfa->states + state->dfa;
-		add_transition(dfa_state, dfa->states + transition_state->dfa, this_token);
+		add_transition(dfa_state, dfa->states + transition_state->dfa, this_token.start, this_token.end);
 	}
 }
 
@@ -514,8 +635,8 @@ static int transit_for_state(ndfa_state* state, ndfa_token token) {
 	while (top >= bottom) {
 		int middle = (bottom + top)>>1;
 		
-		if (state->transitions[middle].token > token) top = middle - 1;
-		else if (state->transitions[middle].token < token) bottom = middle + 1;
+		if (state->transitions[middle].tokens.start > token) top = middle - 1;
+		else if (state->transitions[middle].tokens.end <= token) bottom = middle + 1;
 		else return state->transitions[middle].new_state;
 	}
 	

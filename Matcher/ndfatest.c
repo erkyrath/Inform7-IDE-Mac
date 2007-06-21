@@ -100,6 +100,18 @@ int main() {
 	ndfa_transition(test_ndfa, 'a', NULL);
 	ndfa_transition(test_ndfa, 'r', NULL);
 	ndfa_transition(test_ndfa, 't', accept);
+
+	ndfa_reset(test_ndfa);
+	ndfa_transition_range(test_ndfa, 'a', 'z', NULL);
+	ndfa_transition_range(test_ndfa, 'a', 'z', NULL);
+	ndfa_transition_range(test_ndfa, 'a', 'z', accept);
+
+	ndfa_reset(test_ndfa);
+	ndfa_transition_range(test_ndfa, 'h', 'm', NULL);
+	ndfa_transition_range(test_ndfa, 'h', 'm', NULL);
+	ndfa_transition_range(test_ndfa, 'h', 'm', NULL);
+	ndfa_transition_range(test_ndfa, 'h', 'm', NULL);
+	ndfa_transition_range(test_ndfa, 'h', 'm', accept);
 	
 #ifdef DEBUG
 	/* Dump it */

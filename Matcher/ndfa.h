@@ -55,6 +55,9 @@ extern void ndfa_free(ndfa nfa, ndfa_free_data free_data);
 /* Resets the state to which we're adding NDFA transitions to be the start state */
 extern void ndfa_reset(ndfa nfa);
 
+/* Adds an inclusive range of tokens as a new transition */
+void ndfa_transition_range(ndfa nfa, ndfa_token token_start, ndfa_token token_end, void* data);
+
 /* Adds a new single transition on receiving the given token, and moves the ndfa to that point */
 /* Data should be non-null to indicate an accepting state. Note that the NDFA is greedy by default. */
 extern void ndfa_transition(ndfa nfa, ndfa_token token, void* data);
