@@ -813,6 +813,7 @@ retry:;
 						state->bt_start++;
 						state->bt_len--;
 						if (state->bt_start >= state->bt_total) state->bt_start = 0;
+						pos = state->bt_start-1;
 					}
 					
 					/* Reset */
