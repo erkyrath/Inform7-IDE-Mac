@@ -42,6 +42,11 @@ int main() {
 		printf("Couldn't compile NFA\n");
 		abort();
 	}
+	ndfa_reset(test_ndfa);
+	if (!ndfa_compile_regexp(test_ndfa, "$....\\w", accept)) {
+		printf("Couldn't compile NFA\n");
+		abort();
+	}
 	
 #ifdef DEBUG
 	/* Dump it */
@@ -61,7 +66,18 @@ int main() {
 	ndfa_add_handlers(run, show, show, NULL);
 	ndfa_run(run, NDFA_START);
 	for(;!feof(stdin);) {
-		ndfa_run(run, fgetc(stdin));
+		int c = fgetc(stdin);
+		
+		if (c < 0) {
+			ndfa_run(run, NDFA_END);
+			break;
+		} else if (c == '\n') {
+			ndfa_run(run, c);
+			ndfa_run(run, NDFA_END);
+			ndfa_run(run, NDFA_START);
+		} else {
+			ndfa_run(run, c);			
+		}
 	}
 	
 	ndfa_finish(run);

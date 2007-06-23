@@ -145,6 +145,34 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 					ndfa_transition(nfa, quoted_char(regexp[x]), NULL);
 				}
 				break;
+				
+			case '$':
+				recent_state = ndfa_get_pointer(nfa);
+				if (x == 0) {
+					/* Start character */
+					ndfa_transition(nfa, NDFA_START, NULL);
+				} else {
+					/* Just add this chararcter to the nfa */
+					ndfa_transition(nfa, regexp[x], NULL);					
+				}
+				break;
+				
+			case '^':
+				recent_state = ndfa_get_pointer(nfa);
+				if (regexp[x+1] == 0) {
+					/* End character */
+					ndfa_transition(nfa, NDFA_END, NULL);
+				} else {
+					/* Just add this chararcter to the nfa */
+					ndfa_transition(nfa, regexp[x], NULL);					
+				}
+				break;
+				
+			case '.':
+				/* Anything */
+				recent_state = ndfa_get_pointer(nfa);
+				ndfa_transition_range(nfa, 0, 0x7fffffff, NULL);
+				break;
 			
 			default:
 				/* Just add this chararcter to the nfa */
@@ -156,6 +184,11 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 	
 	/* Rejoin any ORed states */
 	ndfa_rejoin(nfa);
+	
+	/* Record the success data */
+	if (data != NULL) {
+		ndfa_add_data(nfa, data);
+	}
 	
 	/* Join the initial state with the original state */
 	ndfa_pointer join_states[2];

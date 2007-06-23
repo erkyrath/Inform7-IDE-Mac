@@ -330,7 +330,12 @@ void ndfa_set_pointer(ndfa nfa, ndfa_pointer to) {
 /* Adds some data for the current state (makes it accepting if non-null). */ 
 /* Note that a state may have more than one piece of data associated with it */
 void ndfa_add_data(ndfa nfa, void* data) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+
 	#warning TODO: add data for the current state
+
+	nfa->states[nfa->compile_state].data = data;
 }
 
 /* Adds a note for the current state (doesn't make it accepting but can still be retrieved later) */
