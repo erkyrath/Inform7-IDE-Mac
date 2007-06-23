@@ -25,7 +25,7 @@ typedef unsigned int ndfa_token;
 typedef struct ndfa* ndfa;
 
 /* Data structure pointing to a specific state in an NDFA */
-typedef int ndfa_pointer;
+typedef unsigned int ndfa_pointer;
 
 /* Data structure representing a running DFA */
 typedef struct ndfa_run_state* ndfa_run_state;

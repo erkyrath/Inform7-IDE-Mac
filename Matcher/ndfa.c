@@ -60,11 +60,13 @@ struct ndfa_state {
 	int					total_transitions;	/* Total amount allocated for transitions from this state */
 	ndfa_transit*		transitions;		/* Transitions associated with this state */
 	void*				data;				/* Data if this state is accepted */
+	
+	unsigned int		shared_state;		/* Any transitions from this state are also added to the shared_state (handles blank ORs) */
 };
 
 typedef struct ndfa_join_stack {
-	int  num_states;						/* Number of states that will be joined */
-	int* states;							/* The states to join together when rejoin is used */
+	int  			num_states;				/* Number of states that will be joined */
+	unsigned int*	states;					/* The states to join together when rejoin is used */
 } ndfa_join_stack;
 
 struct ndfa {
@@ -146,13 +148,14 @@ static __INLINE__ ndfa_state* create_state(ndfa nfa, void* data) {
 	new_state->total_transitions	= 0;
 	new_state->transitions			= NULL;
 	new_state->data					= data;
+	new_state->shared_state			= 0xffffffff;
 	
 	/* Return the result */
 	return new_state;
 }
 
 /* Adds a transition to the specified state */
-static __INLINE__ void add_transition(ndfa_state* from, ndfa_state* to, ndfa_token token_start, ndfa_token token_end) {
+static __INLINE__ void add_transition(ndfa nfa, ndfa_state* from, ndfa_state* to, ndfa_token token_start, ndfa_token token_end) {
 	/* Choose a location in the transition array for the new transition */
 	int this_transition = from->num_transitions++;
 	
@@ -170,6 +173,14 @@ static __INLINE__ void add_transition(ndfa_state* from, ndfa_state* to, ndfa_tok
 	new_transit->tokens.start	= token_start;
 	new_transit->tokens.end		= token_end;
 	new_transit->new_state		= to->id;
+	
+	/* Add this transition to any shared states */
+	if (from->shared_state != 0xffffffff) {
+		int shared = from->shared_state;
+		from->shared_state = 0xffffffff;
+		add_transition(nfa, nfa->states + shared, to, token_start, token_end);
+		from->shared_state = shared;
+	}
 }
 
 /* Creates a new NDFA, with a single start state */
@@ -194,7 +205,7 @@ ndfa ndfa_create() {
 	new_ndfa->stack_joins	= NULL;
 	
 	/* Add a 'start' transition */
-	add_transition(new_ndfa->states + new_ndfa->start, new_ndfa->states + new_ndfa->start, NDFA_START, NDFA_START+1);
+	add_transition(new_ndfa, new_ndfa->states + new_ndfa->start, new_ndfa->states + new_ndfa->start, NDFA_START, NDFA_START+1);
 
 	/* Return it */
 	return new_ndfa;
@@ -266,7 +277,7 @@ void ndfa_transition_range(ndfa nfa, ndfa_token token_start, ndfa_token token_en
 	ndfa_state* new_state = create_state(nfa, data);
 	
 	/* Add this transition */
-	add_transition(nfa->states + nfa->compile_state, new_state, token_start, token_end+1);
+	add_transition(nfa, nfa->states + nfa->compile_state, new_state, token_start, token_end+1);
 	nfa->compile_state = new_state->id;
 	
 	/* This is not a DFA any more */
@@ -283,7 +294,7 @@ void ndfa_transition(ndfa nfa, ndfa_token token, void* data) {
 	ndfa_state* new_state = create_state(nfa, data);
 	
 	/* Add this transition */
-	add_transition(nfa->states + nfa->compile_state, new_state, token, token+1);
+	add_transition(nfa, nfa->states + nfa->compile_state, new_state, token, token+1);
 	nfa->compile_state = new_state->id;
 	
 	/* This is not a DFA any more */
@@ -301,7 +312,7 @@ void ndfa_transition_to(ndfa nfa, ndfa_pointer from, ndfa_pointer to, ndfa_token
 	assert(to < nfa->num_states);
 	
 	/* Add this transition */
-	add_transition(nfa->states + from, nfa->states + to, token_start, token_end);
+	add_transition(nfa, nfa->states + from, nfa->states + to, token_start, token_end);
 	
 	/* This is not a DFA any more */
 	nfa->is_dfa = 0;
@@ -428,6 +439,9 @@ void ndfa_rejoin(ndfa nfa) {
 	assert(nfa->magic == NDFA_MAGIC);
 	assert(nfa->stack_length > 0);
 	
+	/* Remember the start state */
+	int rejoin_from = nfa->state_stack[nfa->stack_length-1];
+	
 	/* Pop from the stack */
 	nfa->stack_length--;
 	
@@ -441,8 +455,37 @@ void ndfa_rejoin(ndfa nfa) {
 	joins->states = realloc(joins->states, sizeof(int)*joins->num_states);
 	joins->states[joins->num_states-1] = nfa->compile_state;
 	
-	/* Join them */
-	ndfa_join(nfa, joins->num_states, joins->states);
+	/* Check for any blank states */
+	int x;
+	int blank_states = 0;
+	for (x=0; x<joins->num_states; x++) {
+		if (joins->states[x] == rejoin_from) {
+			blank_states = 1;
+		}
+	}
+	
+	if (blank_states) {
+		/* Some states have no transitions: remove them from the list */
+		int num_nonblank_states = 0;
+		unsigned int nonblank_states[joins->num_states];
+		
+		for (x=0; x<joins->num_states; x++) {
+			if (joins->states[x] != rejoin_from) {
+				nonblank_states[num_nonblank_states++] = joins->states[x];
+			}
+		}
+
+		if (num_nonblank_states > 0) {
+			/* Join all the states with transitions */
+			ndfa_pointer final_state = ndfa_join(nfa, num_nonblank_states, nonblank_states);
+			
+			/* Share the final state */
+			nfa->states[final_state].shared_state = rejoin_from;
+		}
+	} else {
+		/* Join all the states */
+		ndfa_join(nfa, joins->num_states, joins->states);
+	}
 }
 
 /* Adds a transistion to the states after the state on top of the state stack (without popping, equivalent to a + in a regexp) */
@@ -464,7 +507,7 @@ void ndfa_repeat(ndfa nfa) {
 		ndfa_state* to = nfa->states + transit->new_state;
 				
 		/* Add a new transition for this action */
-		add_transition(from, to, transit->tokens.start, transit->tokens.end);
+		add_transition(nfa, from, to, transit->tokens.start, transit->tokens.end);
 	}
 	
 	nfa->is_dfa = 0;
@@ -591,7 +634,7 @@ static void copy_transitions(ndfa nfa, ndfa_copy_state* copy_state) {
 			int copy_transit_to		= copy_state->state_map[transit_index];
 			
 			/* Add a new transition */
-			add_transition(nfa->states + copy_state->state_map[x], nfa->states + copy_transit_to, transit->tokens.start, transit->tokens.end);
+			add_transition(nfa, nfa->states + copy_state->state_map[x], nfa->states + copy_transit_to, transit->tokens.start, transit->tokens.end);
 		}
 	}
 }
@@ -653,8 +696,8 @@ void ndfa_repeat_number(ndfa nfa, int min_count, int max_count) {
 	
 	/* Create max_count copies of the state machine to here */
 	/* Note that we can't immediately wire up the transitions as we'd also copy the last copy made, resulting in the counts being exponetial */
-	int copy_start[max_count];
-	int copy_finish[max_count];
+	unsigned int copy_start[max_count];
+	unsigned int copy_finish[max_count];
 	
 	{
 		ndfa_copy_state* copy_state = create_copy_state(nfa, copy_from);
@@ -687,7 +730,7 @@ void ndfa_repeat_number(ndfa nfa, int min_count, int max_count) {
 		
 		int y;
 		for (y=0; y<start_state->num_transitions; y++) {
-			add_transition(nfa->states + transit_from, nfa->states + start_state->transitions[y].new_state, start_state->transitions[y].tokens.start, start_state->transitions[y].tokens.end);
+			add_transition(nfa, nfa->states + transit_from, nfa->states + start_state->transitions[y].new_state, start_state->transitions[y].tokens.start, start_state->transitions[y].tokens.end);
 		}
 		
 		/* Transit_from now becomes the last state of this copy */
@@ -773,7 +816,7 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 		
 		for (y=0; y<this_state->num_transitions; y++) {
 			ndfa_transit* transit = this_state->transitions + y;
-			add_transition(final, nfa->states + transit->new_state, transit->tokens.start, transit->tokens.end);
+			add_transition(nfa, final, nfa->states + transit->new_state, transit->tokens.start, transit->tokens.end);
 		}
 	}
 	
@@ -1056,7 +1099,7 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 		
 		/* Add a transition to the DFA */
 		dfa_state = dfa->states + state->dfa;
-		add_transition(dfa_state, dfa->states + transition_state->dfa, this_token.start, this_token.end);
+		add_transition(dfa, dfa_state, dfa->states + transition_state->dfa, this_token.start, this_token.end);
 	}
 }
 
