@@ -180,7 +180,11 @@ ndfa ndfa_create() {
 	new_ndfa->magic			= NDFA_MAGIC;
 	
 	new_ndfa->start			= create_state(new_ndfa, NULL)->id;
-	new_ndfa->compile_state	= new_ndfa->start; 
+	new_ndfa->compile_state	= new_ndfa->start;
+	
+	new_ndfa->state_stack	= NULL;
+	new_ndfa->stack_total	= 0;
+	new_ndfa->stack_length	= 0;
 	
 	/* Add a 'start' transition */
 	add_transition(new_ndfa->states + new_ndfa->start, new_ndfa->states + new_ndfa->start, NDFA_START, NDFA_START+1);
