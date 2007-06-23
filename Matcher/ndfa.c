@@ -8,6 +8,15 @@
  */
 
 /*
+ * The following macros can be defined to affect how this is compiled:
+ *
+ * DEBUG		include debugging code
+ * RELEASE		reduce the number of assertions to increase performance
+ * INLINE		use 'inline' to increase performance (compiler must support it)
+ * __INLINE__	syntax for declaring static functions as being inlined (uses inline by default)
+ */
+
+/*
  * TODO: 'state' for the state in the running part is confusing with 'state' for an NDFA state
  */
 
@@ -16,6 +25,15 @@
 #include <assert.h>
 
 #include "ndfa.h"
+
+#ifdef INLINE
+# ifndef __INLINE__
+#  define __INLINE__ inline
+# endif
+#else
+# undef __INLINE__
+# define __INLINE__
+#endif
 
 #define NDFA_GROW (32)						/* Amount to grow arrays by when allocating memory */
 
@@ -36,7 +54,7 @@ typedef struct ndfa_transit {
 } ndfa_transit;
 
 struct ndfa_state {
-	/* NDFA information */
+	/* NDFA state information */
 	unsigned int		id;					/* ID for this state */
 	int					num_transitions;	/* Number of transitions from this state */
 	int					total_transitions;	/* Total amount allocated for transitions from this state */
@@ -45,6 +63,7 @@ struct ndfa_state {
 };
 
 struct ndfa {
+	/* Definition of an NDFA */
 	unsigned int	magic;					/* Magic number indicating this is a valid NDFA */
 	
 	int				is_dfa;					/* non-zero if this is a compiled DFA that can actually be run */
@@ -54,6 +73,10 @@ struct ndfa {
 	int				num_states;				/* Number of used states in the states array */
 	int				total_states;			/* Total number of states in this ndfa */
 	ndfa_state*		states;					/* All the states associated with this ndfa */
+	
+	int				stack_length;			/* Number of states on the stack */
+	int				stack_total;			/* Total size of the state stack */
+	int*			state_stack;			/* The state stack itself */
 };
 
 #ifdef DEBUG
@@ -61,8 +84,8 @@ struct ndfa {
 #include <stdio.h>
 
 /* ===============
-* Debugging NDFAs
-*/
+ * Debugging NDFAs
+ */
 
 #define CHARFORTOKEN(token) ((token)>=32&&(token)<127?(token):'?')
 
@@ -96,7 +119,7 @@ void ndfa_dump(ndfa nfa) {
  */
 
 /* Creates a new NDFA state with the specified data and no transitions */
-static ndfa_state* create_state(ndfa nfa, void* data) {
+static __INLINE__ ndfa_state* create_state(ndfa nfa, void* data) {
 	/* Choose a state in the states array for this NDFA */
 	int this_state = nfa->num_states++;
 	
@@ -123,7 +146,7 @@ static ndfa_state* create_state(ndfa nfa, void* data) {
 }
 
 /* Adds a transition to the specified state */
-static void add_transition(ndfa_state* from, ndfa_state* to, ndfa_token token_start, ndfa_token token_end) {
+static __INLINE__ void add_transition(ndfa_state* from, ndfa_state* to, ndfa_token token_start, ndfa_token token_end) {
 	/* Choose a location in the transition array for the new transition */
 	int this_transition = from->num_transitions++;
 	
@@ -189,6 +212,7 @@ void ndfa_free(ndfa nfa, ndfa_free_data free_data) {
 	}
 	
 	/* Free up the nfa */
+	free(nfa->state_stack);
 	free(nfa->states);
 	free(nfa);
 }
@@ -200,6 +224,9 @@ void ndfa_reset(ndfa nfa) {
 	
 	/* Reset the 'current' state back to the start */
 	nfa->compile_state = nfa->start;
+	
+	/* Clear the stack */
+	nfa->stack_length = 0;
 }
 
 /* Adds an inclusive range of tokens as a new transition */
@@ -235,6 +262,396 @@ void ndfa_transition(ndfa nfa, ndfa_token token, void* data) {
 	nfa->is_dfa = 0;
 }
 
+/* Adds a transition to/from a specific known state */
+void ndfa_transition_to(ndfa nfa, ndfa_pointer from, ndfa_pointer to, ndfa_token token_start, ndfa_token token_end) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	
+	assert(from >= 0);
+	assert(to >= 0);
+	assert(from < nfa->num_states);
+	assert(to < nfa->num_states);
+	
+	/* Add this transition */
+	add_transition(nfa->states + from, nfa->states + to, token_start, token_end);
+	
+	/* This is not a DFA any more */
+	nfa->is_dfa = 0;
+}
+
+/* Retrieves a pointer to the current NDFA state */
+ndfa_pointer ndfa_get_pointer(ndfa nfa) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+
+	/* Return the compile state */
+	return nfa->compile_state;
+}
+
+/* Sets the current state using a pointer retrieved using get_pointer */
+void ndfa_set_pointer(ndfa nfa, ndfa_pointer to) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	
+	assert(to >= 0);
+	assert(to < nfa->num_states);	
+	
+	nfa->compile_state = to;
+}
+
+/* Adds some data for the current state (makes it accepting if non-null). */ 
+/* Note that a state may have more than one piece of data associated with it */
+void ndfa_add_data(ndfa nfa, void* data) {
+	#warning TODO: add data for the current state
+}
+
+/* Adds a note for the current state (doesn't make it accepting but can still be retrieved later) */
+void ndfa_add_note(ndfa nfa, void* note) {
+	#warning TODO: add notes
+}
+
+/* Pushes the current state onto a stack */
+void ndfa_push(ndfa nfa) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	
+	/* Increase the total stack if necessary */
+	if (nfa->stack_length >= nfa->stack_total) {
+		if (nfa->stack_total == 0) nfa->stack_total = 4;
+		nfa->stack_total *= 2;
+		nfa->state_stack = realloc(nfa->state_stack, sizeof(int) * nfa->stack_total);
+		
+		assert(nfa->state_stack != NULL);
+	}
+	
+	/* Store the current state on the stack */
+	nfa->state_stack[nfa->stack_length++] = nfa->compile_state;
+}
+
+/* Pops and discards the last state on the state stack */
+void ndfa_pop(ndfa nfa) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	assert(nfa->stack_length > 0);
+	
+	/* Discard the element on top of the stack */
+	nfa->stack_length--;
+}
+
+/* Pops a state from the stack and sets it as the current state (equivalent of an OR in a regexp) */
+void ndfa_or(ndfa nfa) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	assert(nfa->stack_length > 0);
+	
+	/* Discard the element on top of the stack */
+	nfa->stack_length--;
+	
+	/* Move the compile state */
+	nfa->compile_state = nfa->state_stack[nfa->stack_length];
+	nfa->is_dfa = 0;
+}
+
+/* Adds a transistion to the states after the state on top of the state stack (without popping, equivalent to a + in a regexp) */
+/* Can be combined with or and/or add_data to give the equivalent of * */
+void ndfa_repeat(ndfa nfa) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	assert(nfa->stack_length > 0);
+	
+	/* Get the state number we're repeating to */
+	int repeat_to = nfa->state_stack[nfa->stack_length-1];
+	
+	/* Add looping transitions from here to all of the states after the repeating state */
+	int x;
+	for (x=0; x<nfa->states[repeat_to].num_transitions; x++) {
+		/* Get information about this transition */
+		ndfa_transit* transit = nfa->states[repeat_to].transitions + x;
+		ndfa_state* from = nfa->states + nfa->compile_state;
+		ndfa_state* to = nfa->states + repeat_to;
+				
+		/* Add a new transition for this action */
+		add_transition(from, to, transit->tokens.start, transit->tokens.end);
+	}
+	
+	nfa->is_dfa = 0;
+}
+
+/* Information that can be used to copy from a particular state */
+typedef struct ndfa_copy_state {
+	/* Preparation */
+	int		num_states;								/* Number of states stored here */
+	int*	states;									/* Ordered list of states that will be copied */
+	
+	/* Most recent copy */
+	int*	state_map;								/* Maps states in the state array to copied states */
+} ndfa_copy_state;
+
+/* Adds a new state to a copy state, and returns non-zero if it wasn't there before */
+static __INLINE__ int add_copy_state(ndfa_copy_state* copy_state, int state) {
+	/* Binary search for the existing state */
+	int top = copy_state->num_states - 1;
+	int bottom = 0;
+	while (top >= bottom) {
+		int middle = (top+bottom)>>1;
+		
+		if (copy_state->states[middle] > state) top = middle - 1;
+		else if (copy_state->states[middle] < state) bottom = middle + 1;
+		else return 0;
+	}
+	
+	/* bottom is now the first location containing a state greater than the requested state */
+	
+	/* Allocate space for the new state */
+	copy_state->states = realloc(copy_state->states, sizeof(int)*(copy_state->num_states+1));
+	assert(copy_state->states != NULL);
+	
+	/* Place the new state into the array */
+	memmove(copy_state->states + bottom + 1, copy_state->states + bottom, sizeof(int)*(copy_state->num_states - bottom));
+	copy_state->num_states++;
+	copy_state->states[bottom] = state;
+	
+	return 1;
+}
+
+/* Given a NDFA state, adds both the state and all of the states it can reach to the list of copy states */
+static void process_copy_state(ndfa nfa, ndfa_copy_state* copy_state, int state) {
+	/* Add the state, and give up if it's already there */
+	if (!add_copy_state(copy_state, state)) return;
+	
+	/* Add each state that can be reached by a transition from here, and recursively process them */
+	int x;
+	for (x=0; x<nfa->states[state].num_transitions; x++) {
+		process_copy_state(nfa, copy_state, nfa->states[state].transitions[x].new_state);
+	}
+}
+
+/* Prepares to copy a part of a NDFA */
+static ndfa_copy_state* create_copy_state(ndfa nfa, int start_state) {
+	/* Allocate the result */
+	ndfa_copy_state* result = malloc(sizeof(ndfa_copy_state));
+	assert(result != NULL);
+	
+	/* Set the initial values */
+	result->num_states	= 0;
+	result->states		= NULL;
+	result->state_map	= NULL;
+	
+	/* Process the start state */
+	process_copy_state(nfa, result, start_state);
+	
+	/* All done */
+	return result;
+}
+
+/* Frees up a copy state block */
+static void free_copy_state(ndfa_copy_state* copy_state) {
+	if (copy_state->states) 	free(copy_state->states);
+	if (copy_state->state_map)	free(copy_state->state_map);
+	free(copy_state);
+}
+
+/* Allocates new states for a copy */
+static void allocate_copied_states(ndfa nfa, ndfa_copy_state* copy_state) {
+	copy_state->state_map = realloc(copy_state->state_map, sizeof(int)*copy_state->num_states);
+	assert(copy_state->state_map != NULL);
+	
+	int x;
+	for (x=0; x<copy_state->num_states; x++) {
+		copy_state->state_map[x] = create_state(nfa, NULL)->id;
+	}
+}
+
+/* Finds the index into a copy state of a specific state */
+static __INLINE__ int copy_state_index(ndfa_copy_state* copy_state, int original_state) {
+	/* Binary search for the existing state */
+	int top = copy_state->num_states - 1;
+	int bottom = 0;
+	while (top >= bottom) {
+		int middle = (top+bottom)>>1;
+		
+		if (copy_state->states[middle] > original_state) top = middle - 1;
+		else if (copy_state->states[middle] < original_state) bottom = middle + 1;
+		else return middle;
+	}
+	
+	return -1;	
+}
+
+/* Duplicates the transitions for a copy */
+static void copy_transitions(ndfa nfa, ndfa_copy_state* copy_state) {
+	assert(copy_state->state_map != NULL);
+	
+	int x;
+	for (x=0; x<copy_state->num_states; x++) {
+		/* Get the original state */
+		int state = copy_state->states[x];
+		
+		/* Iterate through the transitions for this state */
+		int y;
+		for (y = 0; y < nfa->states[state].num_transitions; y++) {
+			/* Work out where we're going from and where we're going to */
+			ndfa_transit* transit	= nfa->states[state].transitions + y;
+			int transit_to 			= transit->new_state;
+			int transit_index 		= copy_state_index(copy_state, transit_to);
+			assert(transit_index >= 0);
+			int copy_transit_to		= copy_state->state_map[transit_index];
+			
+			/* Add a new transition */
+			add_transition(nfa->states + copy_state->state_map[x], nfa->states + copy_transit_to, transit->tokens.start, transit->tokens.end);
+		}
+	}
+}
+
+/* Copies all of the states following the specified state into a new, isolated, state machine and returns the pointer to it */
+/* If non-null, anchor is updated to point to a where a specific state was copied to */
+ndfa_pointer ndfa_copy(ndfa nfa, ndfa_pointer state, ndfa_pointer* anchor) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	
+	assert(state >= 0);
+	assert(state < nfa->num_states);
+	
+	assert(anchor == NULL || *anchor >= 0);
+	assert(anchor == NULL || *anchor < nfa->num_states);
+	
+	/* Work out the states that can be reached from this point */
+	ndfa_copy_state* copy_state = create_copy_state(nfa, state);
+	
+	/* Create a new state for each state that can be reached */
+	allocate_copied_states(nfa, copy_state);
+	
+	/* Duplicate the transitions */
+	copy_transitions(nfa, copy_state);
+	
+	/* Duplicate the data */
+	#warning TODO: duplicate the data
+	
+	/* Return the results */
+	if (anchor) {
+		int anchor_index = copy_state_index(copy_state, *anchor);
+		assert(anchor_index >= 0);
+		
+		*anchor = copy_state->state_map[anchor_index];
+	}
+	
+	int final_index = copy_state_index(copy_state, state);
+	assert(final_index >= 0);
+	int result = copy_state->state_map[final_index];
+	
+	free_copy_state(copy_state);
+	
+	nfa->is_dfa = 0;
+	return result;
+}
+
+/* Takes the state machine after the first item on the stack to the current location and repeats it a given number of times */
+void ndfa_repeat_number(ndfa nfa, int min_count, int max_count) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	assert(nfa->stack_length > 0);
+	assert(max_count >= min_count);
+	assert(min_count >= 0);
+
+	int x;
+	
+	/* Start copying from the state on top of the stack */
+	int copy_from = nfa->state_stack[nfa->stack_length-1];
+	
+	/* Create max_count copies of the state machine to here */
+	/* Note that we can't immediately wire up the transitions as we'd also copy the last copy made, resulting in the counts being exponetial */
+	int copy_start[max_count];
+	int copy_finish[max_count];
+	
+	{
+		ndfa_copy_state* copy_state = create_copy_state(nfa, copy_from);
+	
+		for (x=0; x<max_count; x++) {
+			/* Create a copy of the state machine */
+			allocate_copied_states(nfa, copy_state);
+			copy_transitions(nfa, copy_state);
+			#warning TODO: duplicate data
+		
+			/* Remember the start and end states */
+			int start_index = copy_state_index(copy_state, copy_from);
+			int end_index = copy_state_index(copy_state, nfa->compile_state);
+		
+			assert(start_index >= 0);
+			assert(end_index >= 0);
+		
+			copy_start[x] 	= copy_state->state_map[start_index];
+			copy_finish[x]	= copy_state->state_map[end_index];
+		}
+	
+		free_copy_state(copy_state);
+	}
+	
+	/* Wire up the transitions for the linear states */
+	int transit_from = nfa->compile_state;
+	for (x=0; x<max_count; x++) {
+		/* Transit from transit_from to every state after copy_start */
+		ndfa_state* start_state = nfa->states + copy_start[x];
+		
+		int y;
+		for (y=0; y<start_state->num_transitions; y++) {
+			add_transition(nfa->states + transit_from, nfa->states + start_state->transitions[y].new_state, start_state->transitions[y].tokens.start, start_state->transitions[y].tokens.end);
+		}
+		
+		/* Transit_from now becomes the last state of this copy */
+		transit_from = copy_finish[x];
+	}
+	
+	#warning TODO: deal with min_count
+	
+	nfa->is_dfa = 0;
+}
+
+static int compare_state_pointers(const void* a, const void* b) {
+	const ndfa_pointer* ap = a;
+	const ndfa_pointer* bp = b;
+	
+	if (*ap > *bp) return 1;
+	else if (*ap < *bp) return -1;
+	else return 0;
+}
+
+/* Given a list of states, joins them together into a single 'final' state */
+ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	assert(num_states > 0);
+	
+	/* TODO: this is slow as we have to visit all transitions of all states */
+	
+	/* Create the 'joined' final state */
+	int final_state = state[0];
+	int set_compile_state = 0;
+	
+	/* Sort the states into order */
+	ndfa_pointer sorted_states[num_states];
+	memcpy(sorted_states, state, sizeof(ndfa_pointer)*num_states);
+	qsort(sorted_states, num_states, sizeof(ndfa_pointer), compare_state_pointers);
+	
+	/* All transitions that go to any of the states in the array need to be remapped to go to our final transition */
+	int x;
+	for (x=0; x<nfa->num_states; x++) {
+		int y;
+		ndfa_state* this_state = nfa->states + x;
+		
+		for (y=0; y<this_state->num_transitions; y++) {
+			ndfa_pointer dest_state = this_state->transitions[y].new_state;
+			
+			if (bsearch(&dest_state, sorted_states, num_states, sizeof(ndfa_pointer), compare_state_pointers)) {
+				this_state->transitions[y].new_state = final_state;
+			}
+		}
+	}
+	
+	/* Return the result */
+	if (set_compile_state) nfa->compile_state = final_state;
+	return final_state;
+}
+
 /* ===============
  * Compiling NDFAs
  */
@@ -254,7 +671,7 @@ typedef struct compound_state_cache {
 } compound_state_cache;
 
 /* Creates a 'compound' state, given an ordered list of state indexes */
-static compound_state* create_compound_state(int num_states, int* states) {
+static __INLINE__ compound_state* create_compound_state(int num_states, int* states) {
 	compound_state* new_state = malloc(sizeof(compound_state) + sizeof(int)*num_states);
 	
 	new_state->num_states	= num_states;
@@ -265,7 +682,7 @@ static compound_state* create_compound_state(int num_states, int* states) {
 	return new_state;
 }
 
-static int compare_compound_state(compound_state* a, int num_states, int* states) {
+static __INLINE__ int compare_compound_state(compound_state* a, int num_states, int* states) {
 	if (a->num_states > num_states) return 1;
 	else if (a->num_states < num_states) return -1;
 	else {
@@ -291,7 +708,7 @@ static compound_state_cache* create_compound_cache() {
 }
 
 /* Finds or creates compound state in a cache */
-static compound_state* find_compound_state(compound_state_cache* cache, int num_states, int* states) {
+static __INLINE__ compound_state* find_compound_state(compound_state_cache* cache, int num_states, int* states) {
 	/* Perform a binary search to find an existing compound state */
 	int bottom = 0;
 	int top = cache->num_states-1;
@@ -354,7 +771,7 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 	
 	/* If this state doesn't already have a DFA state associated with it, then create one */
 	if (state->dfa == -1) {
-#warning FIXME
+#warning FIXME: do something with the data in the compound state
 		/* FIXME: do something with the data in the compound state */
 		state->dfa = create_state(dfa, NULL)->id;
 
@@ -626,7 +1043,7 @@ ndfa_run_state ndfa_start(ndfa dfa) {
 }
 
 /* Given a state and a token, returns the state that should be transitioned to */
-static int transit_for_state(ndfa_state* state, ndfa_token token) {
+static __INLINE__ int transit_for_state(ndfa_state* state, ndfa_token token) {
 	int bottom = 0;
 	int top = state->num_transitions-1;
 	
@@ -670,7 +1087,7 @@ static void grow_backtrack_buffer(ndfa_run_state state) {
 }
 
 /* Accepts the specified number of characters */
-static void accept(ndfa_run_state state, int accept_state, int length) {
+static __INLINE__ void accept(ndfa_run_state state, int accept_state, int length) {
 	int x;
 	void* data = state->dfa->states[accept_state].data;
 	state->bt_accept_length = length;
@@ -683,7 +1100,7 @@ static void accept(ndfa_run_state state, int accept_state, int length) {
 }
 
 /* Rejects the specified number of characters */
-static void reject(ndfa_run_state state, int length) {
+static __INLINE__ void reject(ndfa_run_state state, int length) {
 	int x;
 	state->bt_accept_length = length;
 	
