@@ -21,6 +21,67 @@
  * Compiling regular expressions
  */
 
+struct char_range {
+	int start;
+	int end;
+}
+
+/* Given a character that follows a '\' returns the 'real' character to use */
+static int quoted_char(int quoted) {
+	char_range result;
+	
+	switch (quoted)
+	{
+		case '0':
+			return '\0';
+		
+		case 't':
+			return '\t';
+			
+		case 'n':
+			return '\n';
+			
+		case 'r':
+			return '\r';
+			
+		case 'w':
+			/* Special case: this is a set of characters */
+			return ' ';
+		
+		default:
+			/* Default is just the character that was quoted */
+			result.start = result.end = quoted;
+	}
+	
+	return result;
+}
+
+/* Compiles in the whitespace set into the nfa */
+static void add_whitespace_set(ndfa nfa) {
+	ndfa_push(nfa);
+	
+	/* Excludes NBSP characters */
+	ndfa_transition(nfa, ' ', NULL); 
+	ndfa_or(nfa);
+	ndfa_transition_range(nfa, 0x9, 0xd, NULL); 		/* Unicode whitespace control characters */
+	ndfa_or(nfa);
+	ndfa_transition(nfa, 0x85, NULL);					/* NEL */
+	ndfa_or(nfa);
+	ndfa_transition(nfa, 0x1680, NULL); 				/* Ogham space mark */
+	ndfa_or(nfa);
+	ndfa_transition(nfa, 0x180E, NULL); 				/* Mongolian vowel separator */
+	ndfa_or(nfa);
+	ndfa_transition_range(nfa, 0x2000, 0x200a, NULL); 	/* Various */
+	ndfa_or(nfa);
+	ndfa_transition_range(nfa, 0x2028, 0x2029, NULL); 	/* LSP/PSP */
+	ndfa_or(nfa);
+	ndfa_transition(nfa, 0x205F, NULL); 				/* Medium mathematical space */
+	ndfa_or(nfa);
+	ndfa_transition(nfa, 0x3000, NULL); 				/* Ideographic space */
+	
+	ndfa_rejoin(nfa);
+}
+
 /* Compiles a UCS-4 regexp into a ndfa */
 int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 	int was_successful = 1;
@@ -55,7 +116,7 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				
 				/* Finish this bracketed list */
 				recent_state = ndfa_peek(nfa);
-				ndfa_pop(nfa);
+				ndfa_rejoin(nfa);
 				bracket_stack--;
 				break;
 				
@@ -68,14 +129,42 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				ndfa_repeat(nfa);
 				ndfa_pop(nfa);
 				break;
+				
+			case '|':
+				/* Perform an OR with the last state on the stack */
+				ndfa_or(nfa);
+				break;
+			
+			case '\\':
+				/* Quoted character */
+				x++;
+				if (regexp[x] == 0) {
+					/* Unterminated quote */
+					was_successful = 0;
+					goto failed;
+				}
+				
+				if (regexp[x] == 'w') {
+					/* Whitespace set */
+					recent_state = ndfa_get_pointer(nfa);
+					add_whitespace_set(nfa);
+				} else {
+					/* Add the quoted character */
+					recent_state = ndfa_get_pointer(nfa);
+					ndfa_transition(nfa, quoted_char(regexp[x]), NULL);
+				}
+				break;
 			
 			default:
 				/* Just add this chararcter to the nfa */
-				recent_state = ndfa_peek(nfa);
+				recent_state = ndfa_get_pointer(nfa);
 				ndfa_transition(nfa, regexp[x], NULL);
 				break;
 		}
 	}
+	
+	/* Rejoin any ORed states */
+	ndfa_rejoin(nfa);
 	
 	/* Join the initial state with the original state */
 	ndfa_pointer join_states[2];

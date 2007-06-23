@@ -93,8 +93,13 @@ extern void ndfa_pop(ndfa nfa);
 /* Peeks at the value on top of the state stack */
 extern ndfa_pointer ndfa_peek(ndfa nfa);
 
-/* Pops a state from the stack and sets it as the current state (equivalent of an OR in a regexp) */
+/* Sets the state on top of the stack as the current state (equivalent of an OR in a regexp) */
+/* This also notes all of the parallel finishing states as it goes for later use with rejoin */
 extern void ndfa_or(ndfa nfa);
+
+/* Joins all of the finishing states created after the most recent set of ndfa_or calls, giving them all a common finishing state */
+/* Additionally, pops from the state stack */
+extern void ndfa_rejoin(ndfa nfa);
 
 /* Adds a transistion to the states after the state on top of the state stack (without popping, equivalent to a + in a regexp) */
 /* Can be combined with ndfa_or and/or ndfa_add_data to give the equivalent of * */

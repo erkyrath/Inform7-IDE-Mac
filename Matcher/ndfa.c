@@ -62,21 +62,27 @@ struct ndfa_state {
 	void*				data;				/* Data if this state is accepted */
 };
 
+typedef struct ndfa_join_stack {
+	int  num_states;						/* Number of states that will be joined */
+	int* states;							/* The states to join together when rejoin is used */
+} ndfa_join_stack;
+
 struct ndfa {
 	/* Definition of an NDFA */
-	unsigned int	magic;					/* Magic number indicating this is a valid NDFA */
+	unsigned int		magic;				/* Magic number indicating this is a valid NDFA */
 	
-	int				is_dfa;					/* non-zero if this is a compiled DFA that can actually be run */
-	int				start;					/* The start state */
-	int				compile_state;			/* The state from which the next transistion will be added*/
+	int					is_dfa;				/* non-zero if this is a compiled DFA that can actually be run */
+	int					start;				/* The start state */
+	int					compile_state;		/* The state from which the next transistion will be added*/
 	
-	int				num_states;				/* Number of used states in the states array */
-	int				total_states;			/* Total number of states in this ndfa */
-	ndfa_state*		states;					/* All the states associated with this ndfa */
+	int					num_states;			/* Number of used states in the states array */
+	int					total_states;		/* Total number of states in this ndfa */
+	ndfa_state*			states;				/* All the states associated with this ndfa */
 	
-	int				stack_length;			/* Number of states on the stack */
-	int				stack_total;			/* Total size of the state stack */
-	int*			state_stack;			/* The state stack itself */
+	int					stack_length;		/* Number of states on the stack */
+	int					stack_total;		/* Total size of the state stack */
+	int*				state_stack;		/* The state stack itself */
+	ndfa_join_stack**	stack_joins;		/* The state join stack */
 };
 
 #ifdef DEBUG
@@ -185,6 +191,7 @@ ndfa ndfa_create() {
 	new_ndfa->state_stack	= NULL;
 	new_ndfa->stack_total	= 0;
 	new_ndfa->stack_length	= 0;
+	new_ndfa->stack_joins	= NULL;
 	
 	/* Add a 'start' transition */
 	add_transition(new_ndfa->states + new_ndfa->start, new_ndfa->states + new_ndfa->start, NDFA_START, NDFA_START+1);
@@ -215,7 +222,16 @@ void ndfa_free(ndfa nfa, ndfa_free_data free_data) {
 		free(nfa->states[x].transitions);
 	}
 	
+	/* Free up the join stacks */
+	for (x=0; x<nfa->stack_total; x++) {
+		if (nfa->stack_joins[x] != NULL) {
+			free(nfa->stack_joins[x]->states);
+			free(nfa->stack_joins[x]);
+		}
+	}
+	
 	/* Free up the nfa */
+	free(nfa->stack_joins);
 	free(nfa->state_stack);
 	free(nfa->states);
 	free(nfa);
@@ -329,11 +345,25 @@ void ndfa_push(ndfa nfa) {
 	
 	/* Increase the total stack if necessary */
 	if (nfa->stack_length >= nfa->stack_total) {
+		int last_total = nfa->stack_total;
+		
 		if (nfa->stack_total == 0) nfa->stack_total = 4;
 		nfa->stack_total *= 2;
 		nfa->state_stack = realloc(nfa->state_stack, sizeof(int) * nfa->stack_total);
+		nfa->stack_joins = realloc(nfa->stack_joins, sizeof(ndfa_join_stack*) * nfa->stack_total);
 		
 		assert(nfa->state_stack != NULL);
+		assert(nfa->stack_joins != NULL);
+		
+		int x;
+		for (x=last_total; x<nfa->stack_total; x++) {
+			nfa->stack_joins[x] = NULL;
+		}
+	}
+	
+	/* Reset the join stack if it exists */
+	if (nfa->stack_joins[nfa->stack_length]) {
+		nfa->stack_joins[nfa->stack_length]->num_states = 0;
 	}
 	
 	/* Store the current state on the stack */
@@ -359,18 +389,55 @@ ndfa_pointer ndfa_peek(ndfa nfa) {
 	return nfa->state_stack[nfa->stack_length-1];
 }
 
-/* Pops a state from the stack and sets it as the current state (equivalent of an OR in a regexp) */
+/* Sets the state on top of the stack as the current state (equivalent of an OR in a regexp) */
+/* This also notes all of the parallel finishing states as it goes for later use with rejoin */
 void ndfa_or(ndfa nfa) {
 	assert(nfa != NULL);
 	assert(nfa->magic == NDFA_MAGIC);
 	assert(nfa->stack_length > 0);
 	
-	/* Discard the element on top of the stack */
-	nfa->stack_length--;
+	/* Remember the current state in the join stack */
+	ndfa_join_stack* joins;
+	
+	if (nfa->stack_joins[nfa->stack_length-1] != NULL) {
+		joins = nfa->stack_joins[nfa->stack_length-1];
+	} else {
+		nfa->stack_joins[nfa->stack_length-1] = joins = malloc(sizeof(ndfa_join_stack));
+		joins->num_states	= 0;
+		joins->states 		= NULL;
+	}
+	
+	joins->num_states++;
+	joins->states = realloc(joins->states, sizeof(int)*joins->num_states);
+	joins->states[joins->num_states-1] = nfa->compile_state;
 	
 	/* Move the compile state */
-	nfa->compile_state = nfa->state_stack[nfa->stack_length];
+	nfa->compile_state = nfa->state_stack[nfa->stack_length-1];
 	nfa->is_dfa = 0;
+}
+
+/* Joins all of the finishing states created after the most recent set of ndfa_or calls, giving them all a common finishing state */
+/* Additionally, pops from the state stack */
+void ndfa_rejoin(ndfa nfa) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	assert(nfa->stack_length > 0);
+	
+	/* Pop from the stack */
+	nfa->stack_length--;
+	
+	/* Retrieve the current join stack */
+	ndfa_join_stack* joins = nfa->stack_joins[nfa->stack_length];
+	if (joins == NULL) return;
+	if (joins->num_states == 0) return;
+	
+	/* Add the current compile state to the list of items in this state */
+	joins->num_states++;
+	joins->states = realloc(joins->states, sizeof(int)*joins->num_states);
+	joins->states[joins->num_states-1] = nfa->compile_state;
+	
+	/* Join them */
+	ndfa_join(nfa, joins->num_states, joins->states);
 }
 
 /* Adds a transistion to the states after the state on top of the state stack (without popping, equivalent to a + in a regexp) */
@@ -670,6 +737,20 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 			
 			if (bsearch(&dest_state, sorted_states, num_states, sizeof(ndfa_pointer), compare_state_pointers)) {
 				this_state->transitions[y].new_state = final_state;
+			}
+		}
+	}
+	
+	/* Any references in the join stack need to be changed to go to our final state instead */
+	for (x=0; x<nfa->stack_length; x++) {
+		ndfa_join_stack* join = nfa->stack_joins[x];
+		if (join == NULL) continue;
+		if (join->num_states == 0) continue;
+		
+		int y;
+		for (y=0; y<join->num_states; y++) {
+			if (bsearch(&join->states[y], sorted_states, num_states, sizeof(ndfa_pointer), compare_state_pointers)) {
+				join->states[y] = final_state;
 			}
 		}
 	}
@@ -1292,7 +1373,6 @@ retry:;
 		}
 	}
 }
-
 
 /* Registers a pair of handlers for a DFA */
 void ndfa_add_handlers(ndfa_run_state state, ndfa_input_handler accept, ndfa_input_handler reject, void* context) {
