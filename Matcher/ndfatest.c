@@ -38,80 +38,15 @@ int main() {
 	void* accept = malloc(1);
 	
 	ndfa_reset(test_ndfa);
-	ndfa_transition(test_ndfa, NDFA_START, NULL);
-	ndfa_transition(test_ndfa, 'f', NULL);
-	ndfa_transition(test_ndfa, 'l', NULL);
-	ndfa_transition(test_ndfa, 'u', NULL);
-	ndfa_transition(test_ndfa, 'p', accept);
-	
+	if (!ndfa_compile_regexp(test_ndfa, "(stuff)+", accept)) {
+		printf("Couldn't compile NFA\n");
+		abort();
+	}
 	ndfa_reset(test_ndfa);
-	ndfa_transition(test_ndfa, 'f', NULL);
-	ndfa_transition(test_ndfa, 'r', NULL);
-	ndfa_transition(test_ndfa, 'e', NULL);
-	ndfa_transition(test_ndfa, 'd', accept);
-
-	ndfa_reset(test_ndfa);
-	ndfa_transition(test_ndfa, 'f', NULL);
-	ndfa_transition(test_ndfa, 'r', NULL);
-	ndfa_transition(test_ndfa, 'e', NULL);
-	ndfa_transition(test_ndfa, 'd', NULL);
-	ndfa_transition(test_ndfa, 'd', NULL);
-	ndfa_transition(test_ndfa, 'y', accept);
-	
-	ndfa_reset(test_ndfa);
-	ndfa_transition(test_ndfa, 'd', NULL);
-	ndfa_transition(test_ndfa, 'u', NULL);
-	ndfa_transition(test_ndfa, 'f', NULL);
-	ndfa_transition(test_ndfa, 'f', accept);
-
-	ndfa_reset(test_ndfa);
-	ndfa_transition(test_ndfa, 'd', NULL);
-	ndfa_transition(test_ndfa, 'v', NULL);
-	ndfa_transition(test_ndfa, 'f', NULL);
-	ndfa_transition(test_ndfa, 'f', accept);
-	
-	ndfa_reset(test_ndfa);
-	ndfa_transition(test_ndfa, 'd', NULL);
-	ndfa_transition(test_ndfa, 'd', NULL);
-	ndfa_transition(test_ndfa, 'u', NULL);
-	ndfa_transition(test_ndfa, 'f', NULL);
-	ndfa_transition(test_ndfa, 'f', accept);
-
-	ndfa_reset(test_ndfa);
-	ndfa_transition(test_ndfa, 'd', NULL);
-	ndfa_transition(test_ndfa, 'd', NULL);
-	ndfa_transition(test_ndfa, 'd', NULL);
-	ndfa_transition(test_ndfa, 'u', NULL);
-	ndfa_transition(test_ndfa, 'f', NULL);
-	ndfa_transition(test_ndfa, 'f', accept);
-
-	ndfa_reset(test_ndfa);
-	ndfa_transition(test_ndfa, 'i', NULL);
-	ndfa_transition(test_ndfa, 'n', NULL);
-	ndfa_transition(test_ndfa, 'f', NULL);
-	ndfa_transition(test_ndfa, 'o', NULL);
-	ndfa_transition(test_ndfa, 'r', NULL);
-	ndfa_transition(test_ndfa, 'm', accept);
-	
-	ndfa_reset(test_ndfa);
-	ndfa_transition(test_ndfa, NDFA_START, NULL);
-	ndfa_transition(test_ndfa, 's', NULL);
-	ndfa_transition(test_ndfa, 't', NULL);
-	ndfa_transition(test_ndfa, 'a', NULL);
-	ndfa_transition(test_ndfa, 'r', NULL);
-	ndfa_transition(test_ndfa, 't', accept);
-
-	ndfa_reset(test_ndfa);
-	ndfa_transition_range(test_ndfa, 'a', 'z', NULL);
-	ndfa_transition_range(test_ndfa, 'a', 'z', NULL);
-	ndfa_transition_range(test_ndfa, 'a', 'z', accept);
-
-	ndfa_reset(test_ndfa);
-	ndfa_transition_range(test_ndfa, 'h', 'm', NULL);
-	ndfa_transition_range(test_ndfa, 'h', 'm', NULL);
-	ndfa_transition_range(test_ndfa, 'h', 'm', NULL);
-	ndfa_transition_range(test_ndfa, 'h', 'm', NULL);
-	ndfa_transition_range(test_ndfa, 'h', 'm', accept);
+	if (!ndfa_compile_regexp(test_ndfa, "(nonsense)+", accept)) {
+		printf("Couldn't compile NFA\n");
+		abort();
+	}
 	
 #ifdef DEBUG
 	/* Dump it */

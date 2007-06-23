@@ -58,6 +58,9 @@ extern void ndfa_free(ndfa nfa, ndfa_free_data free_data);
 /* Resets the state to which we're adding NDFA transitions to be the start state */
 extern void ndfa_reset(ndfa nfa);
 
+/* Creates a new state without any transitions leading to it */
+extern ndfa_pointer ndfa_create_state(ndfa nfa);
+
 /* Adds an inclusive range of tokens as a new transition */
 extern void ndfa_transition_range(ndfa nfa, ndfa_token token_start, ndfa_token token_end, void* data);
 
@@ -106,6 +109,16 @@ extern ndfa_pointer ndfa_copy(ndfa nfa, ndfa_pointer state, ndfa_pointer* anchor
 
 /* Given a list of states, joins them together into a single 'final' state */
 extern ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state);
+
+/* =============================
+ * Compiling regular expressions
+ */
+
+/* Compiles a UCS-4 regexp into a ndfa */
+extern int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data);
+
+/* Compiles an ASCII regexp into a ndfa */
+extern int ndfa_compile_regexp(ndfa nfa, const char* regexp, void* data);
 
 /* ===============
  * Compiling NDFAs

@@ -229,6 +229,14 @@ void ndfa_reset(ndfa nfa) {
 	nfa->stack_length = 0;
 }
 
+/* Creates a new state without any transitions leading to it */
+ndfa_pointer ndfa_create_state(ndfa nfa) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	
+	return create_state(nfa, NULL)->id;
+}
+
 /* Adds an inclusive range of tokens as a new transition */
 void ndfa_transition_range(ndfa nfa, ndfa_token token_start, ndfa_token token_end, void* data) {
 	assert(nfa != NULL);
@@ -377,7 +385,7 @@ void ndfa_repeat(ndfa nfa) {
 		/* Get information about this transition */
 		ndfa_transit* transit = nfa->states[repeat_to].transitions + x;
 		ndfa_state* from = nfa->states + nfa->compile_state;
-		ndfa_state* to = nfa->states + repeat_to;
+		ndfa_state* to = nfa->states + transit->new_state;
 				
 		/* Add a new transition for this action */
 		add_transition(from, to, transit->tokens.start, transit->tokens.end);
