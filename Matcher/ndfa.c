@@ -682,7 +682,7 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 		int y;
 		
 		for (y=0; y<this_state->num_transitions; y++) {
-			ndfa_transit* transit = this_state->transitions + x;
+			ndfa_transit* transit = this_state->transitions + y;
 			add_transition(final, nfa->states + transit->new_state, transit->tokens.start, transit->tokens.end);
 		}
 	}
