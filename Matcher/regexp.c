@@ -21,15 +21,8 @@
  * Compiling regular expressions
  */
 
-struct char_range {
-	int start;
-	int end;
-}
-
 /* Given a character that follows a '\' returns the 'real' character to use */
 static int quoted_char(int quoted) {
-	char_range result;
-	
 	switch (quoted)
 	{
 		case '0':
@@ -50,10 +43,8 @@ static int quoted_char(int quoted) {
 		
 		default:
 			/* Default is just the character that was quoted */
-			result.start = result.end = quoted;
+			return quoted;
 	}
-	
-	return result;
 }
 
 /* Compiles in the whitespace set into the nfa */
