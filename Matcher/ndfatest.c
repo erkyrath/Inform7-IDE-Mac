@@ -38,7 +38,7 @@ int main() {
 	void* accept = malloc(1);
 	int x;
 	
-	for (x=0; x<10000; x++) {
+	for (x=0; x<100; x++) {
 		ndfa_reset(test_ndfa);
 		if (!ndfa_compile_regexp(test_ndfa, "(stuff|nonsense)+", accept)) {
 			printf("Couldn't compile regexp to NFA\n");
@@ -68,9 +68,6 @@ int main() {
 	
 	/* Compile it into a DFA */
 	ndfa test_dfa = ndfa_compile(test_ndfa);
-	
-	printf("OK\n");
-	sleep(30);
 
 #ifdef DEBUG
 	/* Dump it */

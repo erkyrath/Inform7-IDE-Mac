@@ -26,6 +26,9 @@
 
 #include "ndfa.h"
 
+/* set this to 0 this to use less memory but have joins take longer */
+#define FAST_JOINS 1
+
 #ifdef INLINE
 # ifndef __INLINE__
 #  define __INLINE__ inline
@@ -62,6 +65,13 @@ struct ndfa_state {
 	void*				data;				/* Data if this state is accepted */
 	
 	unsigned int		shared_state;		/* Any transitions from this state are also added to the shared_state (handles blank ORs) */
+	
+#if FAST_JOINS
+	/* These make _join go faster */
+	int 				num_sources;		/* Number of states that have a transition to this one */
+	int 				total_sources;		/* Total number of states in the sources array */
+	unsigned int*		sources;			/* States that target this one */
+#endif
 };
 
 typedef struct ndfa_join_stack {
@@ -150,6 +160,12 @@ static __INLINE__ ndfa_state* create_state(ndfa nfa, void* data) {
 	new_state->data					= data;
 	new_state->shared_state			= 0xffffffff;
 	
+#if FAST_JOINS
+	new_state->num_sources			= 0;
+	new_state->total_sources		= 0;
+	new_state->sources				= NULL;
+#endif
+	
 	/* Return the result */
 	return new_state;
 }
@@ -173,6 +189,17 @@ static __INLINE__ void add_transition(ndfa nfa, ndfa_state* from, ndfa_state* to
 	new_transit->tokens.start	= token_start;
 	new_transit->tokens.end		= token_end;
 	new_transit->new_state		= to->id;
+	
+#if FAST_JOINS
+	/* Remember that the 'from' state joins to the 'to' state */
+	if (from != to) {
+		if (to->num_sources >= to->total_sources) {
+			to->total_sources += NDFA_GROW;
+			to->sources = realloc(to->sources, sizeof(unsigned int)*to->total_sources);
+		}
+		to->sources[to->num_sources++] = from->id;
+	}
+#endif
 	
 	/* Add this transition to any shared states */
 	if (from->shared_state != 0xffffffff) {
@@ -222,9 +249,12 @@ void ndfa_free(ndfa nfa, ndfa_free_data free_data) {
 	nfa->magic = 0;
 	
 	/* Free all of the state data */
-	if (free_data) {
+	if (free_data || FAST_JOINS) {
 		for (x=0; x<nfa->num_states; x++) {
-			free_data(nfa->states[x].data);
+			if (free_data) free_data(nfa->states[x].data);
+#if FAST_JOINS
+			if (nfa->states[x].sources) free(nfa->states[x].sources);
+#endif
 		}
 	}
 	
@@ -776,6 +806,25 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 	
 	/* All transitions that go to any of the states in the array need to be remapped to go to our final transition */
 	int x;
+#if FAST_JOINS
+	for (x=0; x<num_states; x++) {
+		int y;
+		ndfa_state* state_to = nfa->states + state[x];
+		
+		for (y=0; y<state_to->num_sources; y++) {
+			int z;
+			ndfa_state* state_from = nfa->states + state_to->sources[y];
+			
+			for (z=0; z<state_from->num_transitions; z++) {
+				ndfa_pointer dest_state = state_from->transitions[y].new_state;
+
+				if (bsearch(&dest_state, sorted_states, num_states, sizeof(ndfa_pointer), compare_state_pointers)) {
+					state_from->transitions[z].new_state = final_state;
+				}				
+			}
+		}
+	}
+#else
 	for (x=0; x<nfa->num_states; x++) {
 		int y;
 		ndfa_state* this_state = nfa->states + x;
@@ -788,6 +837,7 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 			}
 		}
 	}
+#endif
 	
 	/* Any references in the join stack need to be changed to go to our final state instead */
 	for (x=0; x<nfa->stack_length; x++) {
