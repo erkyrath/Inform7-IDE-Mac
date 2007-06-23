@@ -25,7 +25,7 @@ void show(ndfa_run_state run, int length, void* data, void* context) {
 		if (buf[x] >= 32 && buf[x] < 127) {
 			printf("%c", buf[x]);
 		} else {
-			printf("?");
+			printf("? (%04x) ", buf[x]);
 		}
 	}
 	
@@ -38,13 +38,18 @@ int main() {
 	void* accept = malloc(1);
 	
 	ndfa_reset(test_ndfa);
-	if (!ndfa_compile_regexp(test_ndfa, "(stuff|nonsense)+\\w", accept)) {
-		printf("Couldn't compile NFA\n");
+	if (!ndfa_compile_regexp(test_ndfa, "(stuff|nonsense)+", accept)) {
+		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
 	ndfa_reset(test_ndfa);
-	if (!ndfa_compile_regexp(test_ndfa, "$....\\w", accept)) {
-		printf("Couldn't compile NFA\n");
+	if (!ndfa_compile_regexp(test_ndfa, "$....", accept)) {
+		printf("Couldn't compile regexp to NFA\n");
+		abort();
+	}
+	ndfa_reset(test_ndfa);
+	if (!ndfa_compile_regexp(test_ndfa, "\\w+", accept)) {
+		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
 	

@@ -1237,6 +1237,8 @@ static __INLINE__ void reject(ndfa_run_state state, int length) {
 	int x;
 	state->bt_accept_length = length;
 	
+	if (state->bt_len == 0) return;
+	
 	for (x=0; x<state->num_handlers; x++) {
 		if (state->handlers[x].reject) {
 			state->handlers[x].reject(state, length, NULL, state->handlers[x].context);
@@ -1249,7 +1251,7 @@ void ndfa_run(ndfa_run_state state, ndfa_token token) {
 	assert(state->magic == NDFA_RUN_MAGIC);
 	
 	/* Store this token in the backtrack buffer */
-	if (token < 0x7fffffff) {
+	if (token <= 0x7fffffff) {
 		state->backtrack[state->bt_current++] = token;
 		if (state->bt_current >= state->bt_total) state->bt_current = 0;
 		state->bt_len++;
@@ -1298,12 +1300,19 @@ retry:;
 			accept(state, dfastate->id, state->bt_len-1);
 			
 			/* Clear the backtracking buffer and retry the token */
-			state->bt_len = 1;
-			state->bt_start = state->bt_current = 0;
-			state->bt_accept_state = -1;
-			state->state = state->dfa->start;
+			if (token <= 0x7fffffff) {
+				state->bt_len = 1;
+				state->bt_start = state->bt_current = 0;
+				state->bt_accept_state = -1;
+	 			state->state = state->dfa->start;
 			
-			state->backtrack[state->bt_current++] = token;
+				state->backtrack[state->bt_current++] = token;
+			} else {
+				state->bt_len = 0;
+				state->bt_start = state->bt_current = 0;
+				state->bt_accept_state = -1;
+	 			state->state = state->dfa->start;
+			}
 			goto retry;
 		} else {
 			if (state->bt_accept_state >= 0) {

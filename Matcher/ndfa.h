@@ -30,10 +30,6 @@ typedef int ndfa_pointer;
 /* Data structure representing a running DFA */
 typedef struct ndfa_run_state* ndfa_run_state;
 
-/* ===============
- * Data structures
- */
-
 /* ==============
  * Special tokens 
  */
