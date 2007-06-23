@@ -102,7 +102,6 @@ extern void ndfa_repeat_number(ndfa nfa, int min_count, int max_count);
 extern ndfa_pointer ndfa_copy(ndfa nfa, ndfa_pointer state, ndfa_pointer* anchor);
 
 /* Given a list of states, joins them together into a single 'final' state */
-/* None of these states may have any transitions leaving them when this is called */
 extern ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state);
 
 /* ===============

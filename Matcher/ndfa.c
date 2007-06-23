@@ -601,7 +601,13 @@ void ndfa_repeat_number(ndfa nfa, int min_count, int max_count) {
 		transit_from = copy_finish[x];
 	}
 	
-	#warning TODO: deal with min_count
+	/* The current state should move on to the final state in the list */
+	nfa->compile_state = copy_finish[max_count - 1];
+	
+	/* Join up any states between min_count and max_count */
+	if (min_count < max_count) {
+		ndfa_join(nfa, max_count - min_count, copy_finish + min_count);
+	}
 	
 	nfa->is_dfa = 0;
 }
@@ -647,7 +653,25 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 		}
 	}
 	
+	/* Add transitions from the final state to any states reachable from the original states */
+	ndfa_state* final = nfa->states + final_state;
+	for (x=1; x<num_states; x++) {						/* Note that because we make the first state in the array the 'final' state, we don't add any transitions from there */
+		assert(state[x] >= 0);
+		assert(state[x] < nfa->num_states);
+		
+		if (state[x] == nfa->compile_state) set_compile_state = 1;
+		
+		ndfa_state* this_state = nfa->states + state[x];
+		int y;
+		
+		for (y=0; y<this_state->num_transitions; y++) {
+			ndfa_transit* transit = this_state->transitions + x;
+			add_transition(final, nfa->states + transit->new_state, transit->tokens.start, transit->tokens.end);
+		}
+	}
+	
 	/* Return the result */
+	nfa->is_dfa = 0;
 	if (set_compile_state) nfa->compile_state = final_state;
 	return final_state;
 }
