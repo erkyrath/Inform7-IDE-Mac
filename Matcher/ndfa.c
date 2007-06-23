@@ -1336,6 +1336,7 @@ retry:;
 			
 			/* Run the state machine over the backtracked buffer */
 			int pos = state->bt_start;
+			int backtracked = pos != state->bt_current;
 			dfastate = state->dfa->states + state->dfa->start;
 			while (pos != state->bt_current) {
 				/* Get the transition for this state */
@@ -1386,7 +1387,7 @@ retry:;
 			state->state = dfastate->id;
 			
 			/* Retry any special tokens */
-			if (token > 0x7fffffff) {
+			if (token > 0x7fffffff && backtracked) {
 				goto retry;
 			}
 		}
