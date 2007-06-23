@@ -1151,6 +1151,9 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 		dfa_state = dfa->states + state->dfa;
 		add_transition(dfa, dfa_state, dfa->states + transition_state->dfa, this_token.start, this_token.end);
 	}
+	
+	/* Done with the transitions */
+	free(transitions);
 }
 
 /* Compiles an NDFA into a DFA */
