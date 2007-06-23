@@ -87,6 +87,9 @@ extern void ndfa_push(ndfa nfa);
 /* Pops and discards the last state on the state stack */
 extern void ndfa_pop(ndfa nfa);
 
+/* Peeks at the value on top of the state stack */
+extern ndfa_pointer ndfa_peek(ndfa nfa);
+
 /* Pops a state from the stack and sets it as the current state (equivalent of an OR in a regexp) */
 extern void ndfa_or(ndfa nfa);
 

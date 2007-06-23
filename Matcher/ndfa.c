@@ -338,6 +338,15 @@ void ndfa_pop(ndfa nfa) {
 	nfa->stack_length--;
 }
 
+/* Peeks at the value on top of the state stack */
+ndfa_pointer ndfa_peek(ndfa nfa) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	assert(nfa->stack_length > 0);
+	
+	return nfa->state_stack[nfa->stack_length-1];
+}
+
 /* Pops a state from the stack and sets it as the current state (equivalent of an OR in a regexp) */
 void ndfa_or(ndfa nfa) {
 	assert(nfa != NULL);
@@ -669,6 +678,8 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 			add_transition(final, nfa->states + transit->new_state, transit->tokens.start, transit->tokens.end);
 		}
 	}
+	
+	#warning TODO: join up the data
 	
 	/* Return the result */
 	nfa->is_dfa = 0;
