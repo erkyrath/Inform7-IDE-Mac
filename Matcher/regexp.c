@@ -120,6 +120,16 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				ndfa_repeat(nfa);
 				ndfa_pop(nfa);
 				break;
+
+			case '?':
+				/* Optional recent_state */
+				this_state = ndfa_get_pointer(nfa);
+				ndfa_set_pointer(nfa, recent_state);
+				ndfa_push(nfa);
+				ndfa_or(nfa);
+				ndfa_set_pointer(nfa, this_state);
+				ndfa_rejoin(nfa);
+				break;
 				
 			case '|':
 				/* Perform an OR with the last state on the stack */

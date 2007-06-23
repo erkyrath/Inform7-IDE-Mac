@@ -37,6 +37,7 @@ int main() {
 	ndfa test_ndfa = ndfa_create();
 	void* accept = malloc(1);
 	
+	/*
 	ndfa_reset(test_ndfa);
 	if (!ndfa_compile_regexp(test_ndfa, "(stuff|nonsense)+", accept)) {
 		printf("Couldn't compile regexp to NFA\n");
@@ -47,11 +48,19 @@ int main() {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
+	*/
+	ndfa_reset(test_ndfa);
+	if (!ndfa_compile_regexp(test_ndfa, "(some)?stuff", accept)) {
+		printf("Couldn't compile regexp to NFA\n");
+		abort();
+	}
+	/*
 	ndfa_reset(test_ndfa);
 	if (!ndfa_compile_regexp(test_ndfa, "\\w+", accept)) {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
+	*/
 	
 #ifdef DEBUG
 	/* Dump it */
