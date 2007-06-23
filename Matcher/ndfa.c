@@ -1384,6 +1384,11 @@ retry:;
 			
 			/* All up to date now */
 			state->state = dfastate->id;
+			
+			/* Retry any special tokens */
+			if (token > 0x7fffffff) {
+				goto retry;
+			}
 		}
 	}
 }
