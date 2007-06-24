@@ -117,7 +117,11 @@ void ndfa_dump(ndfa nfa) {
 	
 	for (state_num = 0; state_num < nfa->num_states; state_num++) {
 		ndfa_state* state = nfa->states + state_num;
-		printf("\nState %i (%i transitions)%s:\n", state_num, state->num_transitions, state->num_data>0?" (accepting)":"");
+		printf("\nState %i (%i transitions)%s", state_num, state->num_transitions, state->num_data>0?" (accepting)":"");
+		if (state->shared_state != 0xffffffff) {
+			printf(" (linked to state %i)", state->shared_state);
+		}
+		printf("\n");
 		
 		int transition;
 		for (transition = 0; transition < state->num_transitions; transition++) {
@@ -486,6 +490,8 @@ void ndfa_or(ndfa nfa) {
 /* Joins all of the finishing states created after the most recent set of ndfa_or calls, giving them all a common finishing state */
 /* Additionally, pops from the state stack */
 void ndfa_rejoin(ndfa nfa) {
+	int x;
+	
 	assert(nfa != NULL);
 	assert(nfa->magic == NDFA_MAGIC);
 	assert(nfa->stack_length > 0);
@@ -506,8 +512,17 @@ void ndfa_rejoin(ndfa nfa) {
 	joins->states = realloc(joins->states, sizeof(int)*joins->num_states);
 	joins->states[joins->num_states-1] = nfa->compile_state;
 	
+	/* If the current compile state is the same as the start state, then try to pick another */
+	if (nfa->compile_state == rejoin_from) {
+		/* This is needed because otherwise any non-zero length branch will just get skipped */
+		for (x=0; x<joins->num_states; x++) {
+			if (joins->states[x] != rejoin_from) {
+				nfa->compile_state = joins->states[x];
+			}
+		}
+	}
+	
 	/* Check for any blank states */
-	int x;
 	int blank_states = 0;
 	for (x=0; x<joins->num_states; x++) {
 		if (joins->states[x] == rejoin_from) {
@@ -1065,10 +1080,15 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 		/* Merge any data associated with this state */
 		for (x=0; x<state->num_states; x++) {
 			int y;
+			
+			printf("%i ", state->states[x]);
+			
 			for (y=0; y<nfa->states[state->states[x]].num_data; y++) {
 				add_data(dfa, nfa->states[state->states[x]].data_pointers[y], state->dfa);
 			}
 		}
+		
+		printf(" -> %i\n", state->dfa);
 	}
 	
 	/* Clear out the list of transitions associated with this state */
@@ -1406,7 +1426,7 @@ static __INLINE__ void reject(ndfa_run_state state, int length) {
 	
 	for (x=0; x<state->num_handlers; x++) {
 		if (state->handlers[x].reject) {
-			state->handlers[x].reject(state, length, 0, state->handlers[x].context);
+			state->handlers[x].reject(state, length, NDFA_REJECT, state->handlers[x].context);
 		}
 	}
 }
@@ -1577,6 +1597,7 @@ void ndfa_add_handlers(ndfa_run_state state, ndfa_input_handler accept, ndfa_inp
 /* Retrieves the input most recently rejected/accepted by the DFA (note that less memory is used if this is not called) */
 ndfa_token* ndfa_last_input(ndfa_run_state state) {
 	assert(state->magic == NDFA_RUN_MAGIC);
+	assert(state->bt_accept_length >= 0 && state->bt_accept_length <= state->bt_len);
 
 	state->lastbuffer = realloc(state->lastbuffer, sizeof(ndfa_token)*state->bt_accept_length);
 	

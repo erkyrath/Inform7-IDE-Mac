@@ -38,7 +38,7 @@ int main() {
 	void* accept = malloc(1);
 	
 	ndfa_reset(test_ndfa);
-	if (!ndfa_compile_regexp(test_ndfa, "thingie|stuff|", accept)) {
+	if (!ndfa_compile_regexp(test_ndfa, "(thingie|stuff|)x", accept)) {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
@@ -83,14 +83,14 @@ int main() {
 		abort();
 	}
 	*/
+
+	#ifdef DEBUG
+		/* Dump it */
+		ndfa_dump(test_ndfa);
+	#endif
 	
 	/* Compile it into a DFA */
 	ndfa test_dfa = ndfa_compile(test_ndfa);
-
-#ifdef DEBUG
-	/* Dump it */
-	ndfa_dump(test_ndfa);
-#endif
 	
 #ifdef DEBUG
 	/* Dump it */
