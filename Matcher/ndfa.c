@@ -931,7 +931,7 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 		ndfa_state* this_state = nfa->states + state[x];
 		
 		for (y=0; y<this_state->num_data; y++) {
-			add_data(nfa, this_state->data_pointers[y], state[x]);
+			add_data(nfa, this_state->data_pointers[y], final_state);
 		}
 	}
 	
