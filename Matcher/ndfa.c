@@ -838,6 +838,15 @@ void ndfa_repeat_number(ndfa nfa, int min_count, int max_count, int push_last_st
 			add_transition(nfa, nfa->states + transit_from, nfa->states + start_state->transitions[y].new_state, start_state->transitions[y].tokens.start, start_state->transitions[y].tokens.end);
 		}
 		
+		/* If greater than the minimum state, it's possible to jump straight to the end here */
+		if (x >= min_count) {
+			/* Using the or mechanism is probably easiest here */
+			push(nfa, transit_from);
+			nfa->compile_state = copy_finish[x];
+			ndfa_or(nfa);
+			ndfa_rejoin(nfa);
+		}
+		
 		/* Transit_from now becomes the last state of this copy */
 		transit_from = copy_finish[x];
 	}
@@ -848,11 +857,6 @@ void ndfa_repeat_number(ndfa nfa, int min_count, int max_count, int push_last_st
 	if (push_last_start) {
 		/* Also push the last start state onto the stack */
 		push(nfa, copy_start[max_count - 1]);
-	}
-	
-	/* Join up any states between min_count and max_count */
-	if (min_count < max_count) {
-		ndfa_join(nfa, max_count - min_count, copy_finish + min_count);
 	}
 	
 	nfa->is_dfa = 0;
@@ -1103,14 +1107,10 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 		for (x=0; x<state->num_states; x++) {
 			int y;
 			
-			printf("%i ", state->states[x]);
-			
 			for (y=0; y<nfa->states[state->states[x]].num_data; y++) {
 				add_data(dfa, nfa->states[state->states[x]].data_pointers[y], state->dfa);
 			}
 		}
-		
-		printf(" -> %i\n", state->dfa);
 	}
 	
 	/* Clear out the list of transitions associated with this state */

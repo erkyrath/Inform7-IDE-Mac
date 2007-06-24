@@ -40,7 +40,7 @@ int main() {
 	ndfa_reset(test_ndfa);
 	/* Try 'thingiethingiegarbagegarbagethingiethingiex' with this: note garbage in the BT buffer */
 	/* Also note infinite loop when you try that garbage, that is 'thingiethingiegarbagegarbagethinthingiethin' */
-	if (!ndfa_compile_regexp(test_ndfa, "(joe){2,4}x", accept)) {
+	if (!ndfa_compile_regexp(test_ndfa, "(joe|bob){2,4}x", accept)) {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
