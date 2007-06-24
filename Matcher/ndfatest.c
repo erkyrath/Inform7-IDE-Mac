@@ -38,7 +38,7 @@ int main() {
 	void* accept = malloc(1);
 	
 	ndfa_reset(test_ndfa);
-	if (!ndfa_compile_regexp(test_ndfa, "((thingie|stuff|)?|)*x", accept)) {
+	if (!ndfa_compile_regexp(test_ndfa, "((thingie|stuff|)?|garbage)*x", accept)) {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
