@@ -38,6 +38,8 @@ int main() {
 	void* accept = malloc(1);
 	
 	ndfa_reset(test_ndfa);
+	/* Try 'thingiethingiegarbagegarbagethingiethingiex' with this: note garbage in the BT buffer */
+	/* Also note infinite loop when you try that garbage, that is 'thingiethingiegarbagegarbagethinthingiethin' */
 	if (!ndfa_compile_regexp(test_ndfa, "((thingie|stuff|)?|garbage)*x", accept)) {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();

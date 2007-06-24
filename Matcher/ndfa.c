@@ -1414,7 +1414,8 @@ static void grow_backtrack_buffer(ndfa_run_state state) {
 	
 	/* Free the old buffer */
 	free(state->backtrack);
-	state->backtrack = new_backtrack;	
+	state->bt_total		= new_total;
+	state->backtrack	= new_backtrack;	
 }
 
 /* Accepts the specified number of characters */
