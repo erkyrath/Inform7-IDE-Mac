@@ -230,6 +230,7 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 						case '\\':
 							x++;
 							if (regexp[x] == 0) {
+								if (ranges) free(ranges);
 								was_successful = 0;
 								goto failed;
 							}
@@ -297,7 +298,7 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				}
 				
 				/* Negate the ranges if necessary */
-				if (negated) {
+				if (negated && ranges) {
 					char_range* negated_ranges = malloc(sizeof(char_range)*(num_ranges+2));
 					int num_negated = 0;
 					
@@ -334,13 +335,92 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				ndfa_rejoin(nfa);
 				
 				/* Clean up */
-				free(ranges);
+				if (ranges) free(ranges);
 				break;
 			}
 				
 			case '{':
+			{
 				/* A named regular expression or a repeat count */
+				
+				/* Format is {2}, {,2}, {2,4}, {2,} or {NAME} */
+				int min_count = 0;
+				int max_count = 0;
+				
+				int is_min = 1;
+				int is_name = 0;
+				
+				/* Parse the range to use for the repetition */
+				x++;
+				for (; regexp[x] != 0 && regexp[x] != '}'; x++) {
+					if (regexp[x] >= '0' && regexp[x] <= '9') {
+						if (is_min) {
+							min_count *= 10;
+							min_count += regexp[x] - '0';
+						} else {
+							max_count *= 10;
+							max_count += regexp[x] - '0';
+						}
+					} else if (regexp[x] == ',') {
+						if (is_min) {
+							is_min = 0;
+						} else {
+							is_name = 1;
+						}
+					} else {
+						is_name = 1;
+					}
+				}
+				
+				if (is_min) max_count = min_count;
+				if (min_count == 0) is_name = 1;								/* Can't be used for 0 repetitions */
+				if (max_count <= 1) is_name = 1;								/* One repetition also makes no sense */
+				if (max_count != 0 && min_count > max_count) is_name = 1;		/* Maximum number of repetitions must be greater than the minimum */
+				
+				if (regexp[x] == 0) {
+					/* Bad expression */
+					was_successful = 0;
+					goto failed;
+				}
+				
+				if (!is_name) {
+					/* Push the most recent state onto the stack */
+					this_state = ndfa_get_pointer(nfa);
+					ndfa_set_pointer(nfa, recent_state);
+					ndfa_push(nfa);
+					ndfa_set_pointer(nfa, this_state);
+
+					/* Do the repetition */
+					if (max_count == 0) {
+						/* Indefinite number of repetitions */
+						if (min_count <= 1) {
+							/* Same as '+' */
+							ndfa_repeat(nfa);
+						} else {
+							/* Repeat min_count times */
+							ndfa_repeat_number(nfa, min_count-1, min_count-1, 1);
+							
+							/* Repeat the last item indefinitely */
+							ndfa_repeat(nfa);
+							
+							/* Pop the item pushed onto the stack by the repeat_number call */
+							ndfa_rejoin(nfa);
+						}
+					} else {
+						/* Bounded number of repetitions */
+						ndfa_repeat_number(nfa, min_count-1, max_count-1, 0);						
+					}
+
+					/* Pop the state we just pushed  */
+					ndfa_rejoin(nfa);
+				} else {
+					/* Use a named regexp (not implemented yet) */
+					#warning Implement named regular expressions
+					was_successful = 0;
+					goto failed;
+				}
 				break;
+			}
 				
 			case '^':
 				recent_state = ndfa_get_pointer(nfa);

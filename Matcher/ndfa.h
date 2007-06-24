@@ -102,7 +102,8 @@ extern void ndfa_rejoin(ndfa nfa);
 extern void ndfa_repeat(ndfa nfa);
 
 /* Takes the state machine after the first item on the stack to the current location and repeats it a given number of times */
-extern void ndfa_repeat_number(ndfa nfa, int min_count, int max_count);
+/* Set push_last_start to cause the start state of the last repetition to be pushed onto the stack (if this isn't set, the stack is unchanged) */
+extern void ndfa_repeat_number(ndfa nfa, int min_count, int max_count, int push_last_start);
 
 /* Copies all of the states following the specified state into a new, isolated, state machine and returns the pointer to it */
 /* If non-null, anchor is updated to point to a where a specific state was copied to */

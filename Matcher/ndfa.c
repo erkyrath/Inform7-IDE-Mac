@@ -410,11 +410,8 @@ void ndfa_add_note(ndfa nfa, void* note) {
 	#warning TODO: add notes
 }
 
-/* Pushes the current state onto a stack */
-void ndfa_push(ndfa nfa) {
-	assert(nfa != NULL);
-	assert(nfa->magic == NDFA_MAGIC);
-	
+/* Pushes a specific state onto the stack */
+static __INLINE__ void push(ndfa nfa, unsigned int state) {
 	/* Increase the total stack if necessary */
 	if (nfa->stack_length >= nfa->stack_total) {
 		int last_total = nfa->stack_total;
@@ -439,7 +436,15 @@ void ndfa_push(ndfa nfa) {
 	}
 	
 	/* Store the current state on the stack */
-	nfa->state_stack[nfa->stack_length++] = nfa->compile_state;
+	nfa->state_stack[nfa->stack_length++] = state;	
+}
+
+/* Pushes the current state onto a stack */
+void ndfa_push(ndfa nfa) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	
+	push(nfa, nfa->compile_state);
 }
 
 /* Pops and discards the last state on the state stack */
@@ -782,7 +787,7 @@ ndfa_pointer ndfa_copy(ndfa nfa, ndfa_pointer state, ndfa_pointer* anchor) {
 }
 
 /* Takes the state machine after the first item on the stack to the current location and repeats it a given number of times */
-void ndfa_repeat_number(ndfa nfa, int min_count, int max_count) {
+void ndfa_repeat_number(ndfa nfa, int min_count, int max_count, int push_last_start) {
 	assert(nfa != NULL);
 	assert(nfa->magic == NDFA_MAGIC);
 	assert(nfa->stack_length > 0);
@@ -839,6 +844,11 @@ void ndfa_repeat_number(ndfa nfa, int min_count, int max_count) {
 	
 	/* The current state should move on to the final state in the list */
 	nfa->compile_state = copy_finish[max_count - 1];
+	
+	if (push_last_start) {
+		/* Also push the last start state onto the stack */
+		push(nfa, copy_start[max_count - 1]);
+	}
 	
 	/* Join up any states between min_count and max_count */
 	if (min_count < max_count) {
