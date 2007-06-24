@@ -212,6 +212,7 @@ static __INLINE__ void add_transition(ndfa nfa, ndfa_state* from, ndfa_state* to
 	/* Add this transition to any shared states */
 	if (from->shared_state != 0xffffffff) {
 		int shared = from->shared_state;
+		assert(shared != from->id);
 		from->shared_state = 0xffffffff;
 		add_transition(nfa, nfa->states + shared, to, token_start, token_end);
 		from->shared_state = shared;
@@ -566,7 +567,8 @@ void ndfa_repeat(ndfa nfa) {
 	
 	/* Add looping transitions from here to all of the states after the repeating state */
 	int x;
-	for (x=0; x<nfa->states[repeat_to].num_transitions; x++) {
+	int num_transitions = nfa->states[repeat_to].num_transitions;			/* In case shared_states produce a loop, only copy the transitions that exist at the start of this loop */
+	for (x=0; x<num_transitions; x++) {
 		/* Get information about this transition */
 		ndfa_transit* transit = nfa->states[repeat_to].transitions + x;
 		ndfa_state* from = nfa->states + nfa->compile_state;
