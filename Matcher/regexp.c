@@ -11,6 +11,12 @@
  * Routines for building regular expressions into ndfas
  */
 
+/* 
+ * TODO: named regexps
+ * TODO: \x45 for hex characters
+ * TODO: \026 for octal characters
+ */
+
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
@@ -414,8 +420,7 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 					/* Pop the state we just pushed  */
 					ndfa_rejoin(nfa);
 				} else {
-					/* Use a named regexp (not implemented yet) */
-					#warning Implement named regular expressions
+					/* TODO: Use a named regexp */
 					was_successful = 0;
 					goto failed;
 				}
