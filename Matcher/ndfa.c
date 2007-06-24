@@ -368,15 +368,29 @@ void ndfa_set_pointer(ndfa nfa, ndfa_pointer to) {
 	nfa->compile_state = to;
 }
 
+/* Adds some data to a specific state */
+static void add_data(ndfa nfa, void* data, ndfa_pointer state) {
+	#warning TODO: add data for the current state
+	nfa->states[state].data = data;
+	
+	/* Also add data to any linked states */
+	if (nfa->states[nfa->compile_state].shared_state != 0xffffffff) {
+		int shared_state = nfa->states[nfa->compile_state].shared_state;
+		nfa->states[nfa->compile_state].shared_state = 0xffffffff;
+		
+		add_data(nfa, data, shared_state);
+		
+		nfa->states[nfa->compile_state].shared_state = shared_state;
+	}	
+}
+
 /* Adds some data for the current state (makes it accepting if non-null). */ 
 /* Note that a state may have more than one piece of data associated with it */
 void ndfa_add_data(ndfa nfa, void* data) {
 	assert(nfa != NULL);
 	assert(nfa->magic == NDFA_MAGIC);
 
-	#warning TODO: add data for the current state
-
-	nfa->states[nfa->compile_state].data = data;
+	add_data(nfa, data, nfa->compile_state);
 }
 
 /* Adds a note for the current state (doesn't make it accepting but can still be retrieved later) */

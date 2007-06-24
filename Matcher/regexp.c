@@ -13,6 +13,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
 
 #include "ndfa.h"
 
@@ -21,12 +22,38 @@
  * Compiling regular expressions
  */
 
+typedef struct char_range {
+	ndfa_token start;
+	ndfa_token end;
+} char_range;
+
+/* Sorts character ranges */
+static int compare_char_ranges(const void* a, const void* b) {
+	const char_range* ar = a;
+	const char_range* br = b;
+	
+	if (ar->start > br->start) 		return  1;
+	else if (ar->start < br->start)	return -1;
+	else if (ar->end > br->end) 	return  1;
+	else if (ar->end < br->end) 	return -1;
+	else 							return  0;
+}
+
 /* Given a character that follows a '\' returns the 'real' character to use */
 static int quoted_char(int quoted) {
 	switch (quoted)
 	{
 		case '0':
-			return '\0';
+			return 0;
+			
+		case 'a':
+			return '\a';
+			
+		case 'b':
+			return '\b';
+			
+		case 'f':
+			return '\f';
 		
 		case 't':
 			return '\t';
@@ -36,6 +63,9 @@ static int quoted_char(int quoted) {
 			
 		case 'r':
 			return '\r';
+			
+		case 'v':
+			return '\v';
 			
 		case 'w':
 			/* Special case: this is a set of characters */
@@ -167,7 +197,129 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				}
 				break;
 				
-			case '$':
+			case '[':
+			{
+				/* Character range */
+				int negated = 0;
+				int y;
+
+				recent_state = ndfa_get_pointer(nfa);
+				
+				/* This is a negated expression if it begins '[^*/
+				x++;
+				if (regexp[x] == '^') {
+					negated = 1;
+					x++;
+				}
+				
+				/* Work out the character ranges included by this expression */
+				char_range* ranges = NULL;
+				int num_ranges = 0;
+				for (;regexp[x] != 0 && regexp[x] != ']'; x++) {
+					ndfa_token chr;
+					int toend = 0;
+
+					if (regexp[x] == '-' && num_ranges > 0 && regexp[x+1] != 0 && regexp[x+1] != ']') {
+						/* The next character indicates the end of a range */
+						toend = 1;
+						x++;
+					}
+					
+					/* Work out the character to include */
+					switch (regexp[x]) {
+						case '\\':
+							x++;
+							if (regexp[x] == 0) {
+								was_successful = 0;
+								goto failed;
+							}
+							
+							/* Quoted character */
+							if (regexp[x] == 'w' && !toend && regexp[x+1] != '-') {
+								/* Complete whitespace set */
+								chr = 0xffffffff;
+
+								num_ranges+=9;
+								ranges = realloc(ranges, sizeof(char_range)*num_ranges);
+								assert(ranges != NULL);
+								
+								ranges[num_ranges-9].start = ' ';		ranges[num_ranges-9].end = ' ';
+								ranges[num_ranges-8].start = 0x9;		ranges[num_ranges-8].end = 0xd;
+								ranges[num_ranges-7].start = 0x85;		ranges[num_ranges-7].end = 0x85;
+								ranges[num_ranges-6].start = 0x1680;	ranges[num_ranges-6].end = 0x1680;
+								ranges[num_ranges-5].start = 0x180E;	ranges[num_ranges-5].end = 0x180E;
+								ranges[num_ranges-4].start = 0x2000;	ranges[num_ranges-4].end = 0x200A;
+								ranges[num_ranges-3].start = 0x2028;	ranges[num_ranges-3].end = 0x2029;
+								ranges[num_ranges-2].start = 0x205F;	ranges[num_ranges-2].end = 0x205F;
+								ranges[num_ranges-1].start = 0x3000;	ranges[num_ranges-1].end = 0x3000;
+							} else {
+								/* Individual character */
+								chr = quoted_char(regexp[x]);
+							}
+							break;
+
+						default:
+							chr = regexp[x];
+							break;
+					}
+					
+					/* Store this character */
+					if (chr != 0xffffffff) {
+						if (toend) {
+							ranges[num_ranges-1].end	= chr;
+						} else {
+							num_ranges++;
+							ranges = realloc(ranges, sizeof(char_range)*num_ranges);
+							assert(ranges != NULL);
+
+							ranges[num_ranges-1].start	= chr;
+							ranges[num_ranges-1].end 	= chr;
+						}
+					}
+				}
+				
+				/* Sort the character ranges into order */
+				qsort(ranges, num_ranges, sizeof(char_range), compare_char_ranges);
+				
+				/* Combine any overlapping ranges */
+				for (y=0; y<num_ranges-1; y++) {
+					/* See if this range overlaps the following range */
+					if (ranges[y].end >= ranges[y+1].start) {
+						/* If it does, see if we need to move the end marker */
+						if (ranges[y+1].end > ranges[y].end) {
+							ranges[y].end = ranges[y+1].end;
+						}
+						
+						/* Remove the following range */
+						num_ranges--;
+						memmove(ranges + y, ranges + y + 1, sizeof(char_range)*(num_ranges-y));
+					}
+				}
+				
+				/* Negate the ranges if necessary */
+				if (negated) {
+					/* TODO */
+					#warning TODO: negate ranges
+				}
+				
+				/* Send the ranges to the NDFA */
+				ndfa_push(nfa);
+				for (y=0; y<num_ranges; y++) {
+					if (y > 0) ndfa_or(nfa);
+					ndfa_transition_range(nfa, ranges[y].start, ranges[y].end, NULL);
+				}
+				ndfa_rejoin(nfa);
+				
+				/* Clean up */
+				free(ranges);
+				break;
+			}
+				
+			case '{':
+				/* A named regular expression or a repeat count */
+				break;
+				
+			case '^':
 				recent_state = ndfa_get_pointer(nfa);
 				if (x == 0) {
 					/* Start character */
@@ -178,7 +330,7 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				}
 				break;
 				
-			case '^':
+			case '$':
 				recent_state = ndfa_get_pointer(nfa);
 				if (regexp[x+1] == 0) {
 					/* End character */
