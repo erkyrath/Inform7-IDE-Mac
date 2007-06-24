@@ -1699,7 +1699,46 @@ ndfa_run_state ndfa_copy_run_state(ndfa_run_state run_state) {
 
 /* Compares a DFA to a copy (non-zero if the run states are the same) */
 /* Combined with copy_run_state, this can be used to implement a restartable syntax highlighter */
-extern int ndfa_run_state_equals(ndfa_run_state run_state1, ndfa_run_state run_state2);
+int ndfa_run_state_equals(ndfa_run_state run_state1, ndfa_run_state run_state2) {
+	assert(run_state1->magic == NDFA_RUN_MAGIC);
+	assert(run_state2->magic == NDFA_RUN_MAGIC);
+
+	/* Most likely to differ by state */
+	if (run_state1->state != run_state2->state) return 0;
+	
+	/* May also differ based on the contents of the backtracking buffer */
+	if (run_state1->bt_len != run_state2->bt_len) return 0;
+	if (run_state1->bt_accept_state != run_state2->bt_accept_state)	return 0;
+	if (run_state1->bt_accept_state != -1) {
+		if (run_state1->bt_accept_length != run_state2->bt_accept_length) return 0;
+		
+		int accept1 = run_state1->bt_accept - run_state1->bt_start;
+		int accept2 = run_state2->bt_accept - run_state2->bt_start;
+		
+		if (accept1 < 0) accept1 += run_state1->bt_total;
+		if (accept2 < 0) accept2 += run_state2->bt_total;
+		
+		if (accept1 != accept2) return 0;
+		
+		/* Compare buffer contents */
+		int x;
+		for (x=0; x<run_state1->bt_len; x++) {
+			int pos1 = run_state1->bt_start + x;
+			int pos2 = run_state2->bt_start + x;
+			
+			if (pos1 >= run_state1->bt_total) pos1 -= run_state1->bt_total;
+			if (pos2 >= run_state2->bt_total) pos2 -= run_state2->bt_total;
+			
+			if (run_state1->backtrack[pos1] != run_state2->backtrack[pos2]) return 0;
+		}
+	}
+	
+	/* Least likely: different DFAs */
+	if (run_state1->dfa != run_state2->dfa) return 0;
+
+	/* If we reach here, the states are equal */
+	return 1;
+}
 
 /* Finalises a running DFA */
 void ndfa_finish(ndfa_run_state state) {

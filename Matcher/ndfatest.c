@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #include "ndfa.h"
 
@@ -118,6 +119,8 @@ int main() {
 		}
 		
 		ndfa_run_state run2 = ndfa_copy_run_state(run);
+		assert(ndfa_run_state_equals(run, run2));
+		assert(ndfa_run_state_equals(run2, run));
 		ndfa_finish(run);
 		run = run2;
 	}
