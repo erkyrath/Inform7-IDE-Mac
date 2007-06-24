@@ -846,8 +846,6 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 	assert(nfa->magic == NDFA_MAGIC);
 	assert(num_states > 0);
 	
-	/* TODO: this is slow as we have to visit all transitions of all states */
-	
 	/* Create the 'joined' final state */
 	int final_state = state[0];
 	int set_compile_state = 0;
@@ -861,8 +859,13 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 	int x;
 #if FAST_JOINS
 	for (x=0; x<num_states; x++) {
+		assert(state[x] >= 0);
+		assert(state[x] < nfa->num_states);
+
 		int y;
 		ndfa_state* state_to = nfa->states + state[x];
+		
+		assert(nfa->states[state[x]].shared_state == 0xffffffff);
 		
 		for (y=0; y<state_to->num_sources; y++) {
 			int z;
@@ -881,6 +884,8 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 	for (x=0; x<nfa->num_states; x++) {
 		int y;
 		ndfa_state* this_state = nfa->states + x;
+
+		assert(nfa->states[state[x]].shared_state == 0xffffffff);
 		
 		for (y=0; y<this_state->num_transitions; y++) {
 			ndfa_pointer dest_state = this_state->transitions[y].new_state;
@@ -909,9 +914,6 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 	/* Add transitions from the final state to any states reachable from the original states */
 	ndfa_state* final = nfa->states + final_state;
 	for (x=1; x<num_states; x++) {						/* Note that because we make the first state in the array the 'final' state, we don't add any transitions from there */
-		assert(state[x] >= 0);
-		assert(state[x] < nfa->num_states);
-		
 		if (state[x] == nfa->compile_state) set_compile_state = 1;
 		
 		ndfa_state* this_state = nfa->states + state[x];
@@ -923,7 +925,15 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 		}
 	}
 	
-	#warning TODO: join up the data
+	/* Join up the data for all of the states */
+	for (x=1; x<num_states; x++) {
+		int y;
+		ndfa_state* this_state = nfa->states + state[x];
+		
+		for (y=0; y<this_state->num_data; y++) {
+			add_data(nfa, this_state->data_pointers[y], state[x]);
+		}
+	}
 	
 	/* Return the result */
 	nfa->is_dfa = 0;
