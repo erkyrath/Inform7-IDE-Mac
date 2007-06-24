@@ -872,6 +872,7 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 	
 	/* All transitions that go to any of the states in the array need to be remapped to go to our final transition */
 	int x;
+	unsigned int shared_state = 0xffffffff;
 #if FAST_JOINS
 	for (x=0; x<num_states; x++) {
 		assert(state[x] >= 0);
@@ -880,7 +881,10 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 		int y;
 		ndfa_state* state_to = nfa->states + state[x];
 		
-		assert(nfa->states[state[x]].shared_state == 0xffffffff);
+		if (nfa->states[state[x]].shared_state != 0xffffffff) {
+			assert(shared_state = 0xffffffff || shared_state == nfa->states[state[x]].shared_state);
+			shared_state = nfa->states[state[x]].shared_state;
+		}
 		
 		for (y=0; y<state_to->num_sources; y++) {
 			int z;
@@ -900,7 +904,10 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 		int y;
 		ndfa_state* this_state = nfa->states + x;
 
-		assert(nfa->states[state[x]].shared_state == 0xffffffff);
+		if (nfa->states[state[x]].shared_state != 0xffffffff) {
+			assert(shared_state = 0xffffffff || shared_state == nfa->states[state[x]].shared_state);
+			shared_state = nfa->states[state[x]].shared_state;
+		}
 		
 		for (y=0; y<this_state->num_transitions; y++) {
 			ndfa_pointer dest_state = this_state->transitions[y].new_state;
@@ -949,6 +956,9 @@ ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* state) {
 			add_data(nfa, this_state->data_pointers[y], final_state);
 		}
 	}
+	
+	/* Record the shared state for the joined state */
+	nfa->states[final_state].shared_state = shared_state;
 	
 	/* Return the result */
 	nfa->is_dfa = 0;
