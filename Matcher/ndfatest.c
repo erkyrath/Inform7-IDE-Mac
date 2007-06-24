@@ -12,8 +12,8 @@
 
 #include "ndfa.h"
 
-void show(ndfa_run_state run, int length, void* data, void* context) {
-	if (data == NULL) {
+void show(ndfa_run_state run, int length, ndfa_pointer accept, void* context) {
+	if (accept == NDFA_REJECT) {
 		printf("REJECT: ");
 	} else {
 		printf("Accepted: ");
@@ -36,7 +36,6 @@ int main() {
 	/* Make a basic NDFA */
 	ndfa test_ndfa = ndfa_create();
 	void* accept = malloc(1);
-	int x;
 	
 	ndfa_reset(test_ndfa);
 	/*
@@ -112,8 +111,8 @@ int main() {
 	ndfa_finish(run);
 	
 	/* Free everything up */
-	ndfa_free(test_ndfa, NULL);
-	ndfa_free(test_dfa, NULL);
+	ndfa_free(test_ndfa);
+	ndfa_free(test_dfa);
 	
 	return 0;
 }

@@ -62,7 +62,9 @@ struct ndfa_state {
 	int					num_transitions;	/* Number of transitions from this state */
 	int					total_transitions;	/* Total amount allocated for transitions from this state */
 	ndfa_transit*		transitions;		/* Transitions associated with this state */
-	void*				data;				/* Data if this state is accepted */
+	
+	int 				num_data;			/* Number of data pointers associated with this state (if >0 this is an accepting state)*/
+	void**				data_pointers;		/* Data if this state is accepted */
 	
 	unsigned int		shared_state;		/* Any transitions from this state are also added to the shared_state (handles blank ORs) */
 	
@@ -115,7 +117,7 @@ void ndfa_dump(ndfa nfa) {
 	
 	for (state_num = 0; state_num < nfa->num_states; state_num++) {
 		ndfa_state* state = nfa->states + state_num;
-		printf("\nState %i (%i transitions)%s:\n", state_num, state->num_transitions, state->data?" (accepting)":"");
+		printf("\nState %i (%i transitions)%s:\n", state_num, state->num_transitions, state->num_data>0?" (accepting)":"");
 		
 		int transition;
 		for (transition = 0; transition < state->num_transitions; transition++) {
@@ -157,8 +159,10 @@ static __INLINE__ ndfa_state* create_state(ndfa nfa, void* data) {
 	new_state->num_transitions		= 0;
 	new_state->total_transitions	= 0;
 	new_state->transitions			= NULL;
-	new_state->data					= data;
 	new_state->shared_state			= 0xffffffff;
+	
+	new_state->num_data				= 0;
+	new_state->data_pointers		= NULL;
 	
 #if FAST_JOINS
 	new_state->num_sources			= 0;
@@ -238,8 +242,8 @@ ndfa ndfa_create() {
 	return new_ndfa;
 }
 
-/* Releases the memory associated with an NDFA, with optional function to also free all of the data values */
-void ndfa_free(ndfa nfa, ndfa_free_data free_data) {
+/* Releases the memory associated with an NDFA */
+void ndfa_free(ndfa nfa) {
 	int x;
 
 	assert(nfa != NULL);
@@ -249,13 +253,11 @@ void ndfa_free(ndfa nfa, ndfa_free_data free_data) {
 	nfa->magic = 0;
 	
 	/* Free all of the state data */
-	if (free_data || FAST_JOINS) {
-		for (x=0; x<nfa->num_states; x++) {
-			if (free_data) free_data(nfa->states[x].data);
+	for (x=0; x<nfa->num_states; x++) {
+		if (nfa->states[x].data_pointers)	free(nfa->states[x].data_pointers);
 #if FAST_JOINS
-			if (nfa->states[x].sources) free(nfa->states[x].sources);
+		if (nfa->states[x].sources) 		free(nfa->states[x].sources);
 #endif
-		}
 	}
 	
 	/* Free all of the transitions */
@@ -370,8 +372,13 @@ void ndfa_set_pointer(ndfa nfa, ndfa_pointer to) {
 
 /* Adds some data to a specific state */
 static void add_data(ndfa nfa, void* data, ndfa_pointer state) {
-	#warning TODO: add data for the current state
-	nfa->states[state].data = data;
+	/* Do nothing if this is no data */
+	if (data == NULL) return;
+	
+	/* Add a new data pointer to the specified state */
+	nfa->states[state].num_data++;
+	nfa->states[state].data_pointers = realloc(nfa->states[state].data_pointers, sizeof(void*)*nfa->states[state].num_data);
+	nfa->states[state].data_pointers[nfa->states[state].num_data-1] = data;
 	
 	/* Also add data to any linked states */
 	if (nfa->states[nfa->compile_state].shared_state != 0xffffffff) {
@@ -1011,14 +1018,13 @@ static void compile_state(compound_state* state, ndfa dfa, ndfa nfa, compound_st
 	
 	/* If this state doesn't already have a DFA state associated with it, then create one */
 	if (state->dfa == -1) {
-#warning FIXME: do something with the data in the compound state
-		/* FIXME: do something with the data in the compound state */
 		state->dfa = create_state(dfa, NULL)->id;
 
-#warning FIXME MORE
+		/* Merge any data associated with this state */
 		for (x=0; x<state->num_states; x++) {
-			if (nfa->states[state->states[x]].data) {
-				dfa->states[state->dfa].data = nfa->states[state->states[x]].data;
+			int y;
+			for (y=0; y<nfa->states[state->states[x]].num_data; y++) {
+				add_data(dfa, nfa->states[state->states[x]].data_pointers[y], state->dfa);
 			}
 		}
 	}
@@ -1175,14 +1181,7 @@ ndfa ndfa_compile(ndfa nfa) {
 	int x;
 	assert(nfa != NULL);
 	assert(nfa->magic == NDFA_MAGIC);
-	
-	/* Sort all of the transitions in the NDFA into order */
-	/* 
-	for (x=0; x<nfa->num_states; x++) {
-		qsort(nfa->states[x].transitions, nfa->states[x].num_transitions, 
-			  sizeof(ndfa_transit), compare_transitions);
-	} */
-	
+		
 	/* Construct a ndfa to compile the DFA into */
 	ndfa dfa = ndfa_create();
 	
@@ -1209,6 +1208,21 @@ ndfa ndfa_compile(ndfa nfa) {
 	/* Return the result */
 	dfa->is_dfa = 1;
 	return dfa;
+}
+
+/* ===============
+ * Querying NDFAs
+ */
+
+/* Returns the data blocks associated with a particular state */
+void** ndfa_data_for_state(ndfa nfa, ndfa_pointer state, int* count) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	assert(state >= 0);
+	assert(state < nfa->num_states);
+	
+	if (count) *count = nfa->states[state].num_data;
+	return nfa->states[state].data_pointers;
 }
 
 /* =============
@@ -1332,12 +1346,11 @@ static void grow_backtrack_buffer(ndfa_run_state state) {
 /* Accepts the specified number of characters */
 static __INLINE__ void accept(ndfa_run_state state, int accept_state, int length) {
 	int x;
-	void* data = state->dfa->states[accept_state].data;
 	state->bt_accept_length = length;
 	
 	for (x=0; x<state->num_handlers; x++) {
 		if (state->handlers[x].accept) {
-			state->handlers[x].accept(state, length, data, state->handlers[x].context);
+			state->handlers[x].accept(state, length, 1, state->handlers[x].context);
 		}
 	}
 }
@@ -1351,7 +1364,7 @@ static __INLINE__ void reject(ndfa_run_state state, int length) {
 	
 	for (x=0; x<state->num_handlers; x++) {
 		if (state->handlers[x].reject) {
-			state->handlers[x].reject(state, length, NULL, state->handlers[x].context);
+			state->handlers[x].reject(state, length, 0, state->handlers[x].context);
 		}
 	}
 }
@@ -1384,7 +1397,7 @@ retry:;
 		state->state = next_state;
 		
 		dfastate = state->dfa->states + next_state;
-		if (dfastate->data) {
+		if (dfastate->num_data > 0) {
 			/* The next state is an accepting state */
 			if (dfastate->num_transitions == 0) {
 				/* This is an accepting state */
@@ -1403,7 +1416,7 @@ retry:;
 		}
 	} else {
 		/* +++=== Can't proceed: we've reached a rejecting state ===+++ */
-		if (dfastate->data) {
+		if (dfastate->num_data > 0) {
 			/* All but one character has accepted */
 			
 			/* Accept all but the last character in the backtracking buffer */
@@ -1456,7 +1469,7 @@ retry:;
 					/* +++=== Transition to the next state ===+++ */
 					dfastate = state->dfa->states + next_state;
 					
-					if (dfastate->data) {
+					if (dfastate->num_data > 0) {
 						/* Record this as an accepting state */
 						state->bt_accept = pos;
 						state->bt_accept_state = next_state;

@@ -38,18 +38,18 @@ typedef struct ndfa_run_state* ndfa_run_state;
 #define NDFA_START	((ndfa_token)0xffff0001)
 #define NDFA_END	((ndfa_token)0xffff0002)
 
+/* Special pointer indicating a rejection */
+#define NDFA_REJECT	((ndfa_pointer)0xffffffff)
+
 /* ==============
  * Building NDFAs
  */
 
-/* Callback that can be used while freeing */
-typedef void (*ndfa_free_data)(void* data);
-
 /* Creates a new NDFA, with a single start state */
 extern ndfa ndfa_create();
 
-/* Releases the memory associated with an NDFA, with optional function to also free all of the data values */
-extern void ndfa_free(ndfa nfa, ndfa_free_data free_data);
+/* Releases the memory associated with an NDFA */
+extern void ndfa_free(ndfa nfa);
 
 /* Resets the state to which we're adding NDFA transitions to be the start state */
 extern void ndfa_reset(ndfa nfa);
@@ -128,12 +128,20 @@ extern int ndfa_compile_regexp(ndfa nfa, const char* regexp, void* data);
 /* Compiles an NDFA into a DFA (with only one transition per token) */
 extern ndfa ndfa_compile(ndfa nfa);
 
+/* ===============
+ * Querying NDFAs
+ */
+
+/* Returns the data blocks associated with a particular state */
+extern void** ndfa_data_for_state(ndfa nfa, ndfa_pointer state, int* count);
+
 /* =============
  * Running NDFAs
  */
 
 /* Handler callback when the ndfa accepts or rejects input */
-typedef void (*ndfa_input_handler)(ndfa_run_state state, int length, void* data, void* context);
+/* accept will be NDFA_REJECT if this is being called due to a rejection */
+typedef void (*ndfa_input_handler)(ndfa_run_state state, int length, ndfa_pointer accept, void* context);
 
 /* Initialises a ndfa, ready to run */
 extern ndfa_run_state ndfa_start(ndfa dfa);
