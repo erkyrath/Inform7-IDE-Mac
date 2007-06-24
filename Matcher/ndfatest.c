@@ -39,7 +39,13 @@ int main() {
 	int x;
 	
 	ndfa_reset(test_ndfa);
+	/*
 	if (!ndfa_compile_regexp(test_ndfa, "[A-Za-z]([0-9A-Za-z])*", accept)) {
+		printf("Couldn't compile regexp to NFA\n");
+		abort();
+	}
+	*/
+	if (!ndfa_compile_regexp(test_ndfa, "[^\\w0-9]+", accept)) {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}

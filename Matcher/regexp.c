@@ -298,8 +298,31 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				
 				/* Negate the ranges if necessary */
 				if (negated) {
-					/* TODO */
-					#warning TODO: negate ranges
+					char_range* negated_ranges = malloc(sizeof(char_range)*(num_ranges+2));
+					int num_negated = 0;
+					
+					int last_end = 0;
+					for (y=0; y<num_ranges; y++) {
+						if (ranges[y].start != last_end) {
+							/* Add the range before this one */
+							negated_ranges[num_negated].start = last_end;
+							negated_ranges[num_negated].end = ranges[y].start - 1;
+							last_end = ranges[y].end + 1;
+							num_negated++;
+						}
+					}
+					
+					/* Add the remaining characters */
+					if (last_end <= 0x7fffffff) {
+						negated_ranges[num_negated].start = last_end;
+						negated_ranges[num_negated].end = 0x7fffffff;
+						num_negated++;
+					}
+					
+					/* Swap for the negated range */
+					free(ranges);
+					ranges = negated_ranges;
+					num_ranges = num_negated;
 				}
 				
 				/* Send the ranges to the NDFA */
