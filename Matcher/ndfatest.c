@@ -38,20 +38,22 @@ int main() {
 	void* accept = malloc(1);
 	
 	ndfa_reset(test_ndfa);
+	if (!ndfa_compile_regexp(test_ndfa, "thingie|stuff|", accept)) {
+		printf("Couldn't compile regexp to NFA\n");
+		abort();
+	}
 	/*
 	if (!ndfa_compile_regexp(test_ndfa, "[A-Za-z]([0-9A-Za-z])*", accept)) {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
 	*/
+	/*
 	if (!ndfa_compile_regexp(test_ndfa, "[^\\w0-9]+", accept)) {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
-	if (!ndfa_compile_regexp(test_ndfa, "((thingie|stuff|)|)", accept)) {
-		printf("Couldn't compile regexp to NFA\n");
-		abort();
-	}
+	*/
 	/*
 	ndfa_reset(test_ndfa);
 	if (!ndfa_compile_regexp(test_ndfa, "(stuff|nonsense)+", accept)) {
@@ -74,11 +76,13 @@ int main() {
 		abort();
 	}
 	*/
+	/*
 	ndfa_reset(test_ndfa);
 	if (!ndfa_compile_regexp(test_ndfa, "\\w+", accept)) {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
+	*/
 	
 	/* Compile it into a DFA */
 	ndfa test_dfa = ndfa_compile(test_ndfa);
