@@ -48,6 +48,10 @@ int main() {
 		printf("Couldn't compile regexp to NFA\n");
 		abort();
 	}
+	if (!ndfa_compile_regexp(test_ndfa, "((thingie|stuff|)|)", accept)) {
+		printf("Couldn't compile regexp to NFA\n");
+		abort();
+	}
 	/*
 	ndfa_reset(test_ndfa);
 	if (!ndfa_compile_regexp(test_ndfa, "(stuff|nonsense)+", accept)) {
