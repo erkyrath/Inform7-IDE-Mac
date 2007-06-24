@@ -116,6 +116,10 @@ int main() {
 		} else {
 			ndfa_run(run, c);			
 		}
+		
+		ndfa_run_state run2 = ndfa_copy_run_state(run);
+		ndfa_finish(run);
+		run = run2;
 	}
 	
 	ndfa_finish(run);

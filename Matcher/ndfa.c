@@ -18,6 +18,7 @@
 
 /*
  * TODO: 'state' for the state in the running part is confusing with 'state' for an NDFA state
+ * TODO: implement notes
  */
 
 #include <stdlib.h>
@@ -407,7 +408,7 @@ void ndfa_add_data(ndfa nfa, void* data) {
 
 /* Adds a note for the current state (doesn't make it accepting but can still be retrieved later) */
 void ndfa_add_note(ndfa nfa, void* note) {
-	#warning TODO: add notes
+	/* TODO: implement me! */
 }
 
 /* Pushes a specific state onto the stack */
@@ -1313,7 +1314,7 @@ void** ndfa_data_for_state(ndfa nfa, ndfa_pointer state, int* count) {
  * Running NDFAs
  */
 
-#define NDFA_RUN_MAGIC (0xdfa0f00d)
+#define NDFA_RUN_MAGIC (0xfeeddfa)
 
 typedef struct ndfa_handler {
 	ndfa_input_handler accept;
@@ -1639,6 +1640,66 @@ ndfa_token* ndfa_last_input(ndfa_run_state state) {
 	/* lastbuffer now contains the result */
 	return state->lastbuffer;
 }
+
+/* Copies a running DFA */
+ndfa_run_state ndfa_copy_run_state(ndfa_run_state run_state) {
+	assert(run_state->magic == NDFA_RUN_MAGIC);
+	
+	ndfa_run_state copy;
+	
+	/* Allocate the copy */
+	copy = malloc(sizeof(struct ndfa_run_state));
+	
+	/* Copy the DFA pointer */
+	/* TODO: reference counting? This will go wrong if the original has needs_freeing set. For now, we'll stop that with an assertion */
+	assert(run_state->needs_freeing == 0);
+	copy->needs_freeing 	= 0;
+	copy->dfa				= run_state->dfa;
+	
+	/* Copy the backtracking buffer, reducing the size if necessary */
+	copy->bt_len			= run_state->bt_len;
+	copy->bt_total			= run_state->bt_len+1;
+	if (copy->bt_total == 0) copy->bt_total = 1;
+	copy->backtrack 		= malloc(sizeof(ndfa_token)*copy->bt_total);
+	copy->bt_start			= 0;
+	
+	int num_to_copy = run_state->bt_len;
+	if (num_to_copy + run_state->bt_start > run_state->bt_total) num_to_copy = run_state->bt_total - run_state->bt_start;
+
+	memcpy(copy->backtrack, run_state->backtrack + run_state->bt_start, sizeof(ndfa_token)*num_to_copy);
+	if (num_to_copy < run_state->bt_len) {
+		memcpy(copy->backtrack + num_to_copy, run_state->backtrack, sizeof(ndfa_token)*(run_state->bt_len-num_to_copy));
+	}
+	
+	copy->bt_current 		= run_state->bt_current - run_state->bt_start;
+	if (copy->bt_current < 0) copy->bt_current += run_state->bt_total;
+	
+	copy->bt_accept 		= run_state->bt_accept - run_state->bt_start;
+	if (copy->bt_accept < 0) copy->bt_accept += run_state->bt_total;
+	copy->bt_accept_state 	= run_state->bt_accept_state;
+	copy->bt_accept_length	= run_state->bt_accept_length;
+	
+	/* No need to copy the text buffer (won't be using it anyway) */
+	copy->lastbuffer		= NULL;
+	
+	copy->state				= run_state->state;
+	
+	/* Copy the callback handlers */
+	copy->num_handlers		= run_state->num_handlers;
+	copy->handlers			= NULL;
+	if (copy->num_handlers > 0) {
+		copy->handlers		= malloc(sizeof(ndfa_handler)*copy->num_handlers);
+		memcpy(copy->handlers, run_state->handlers, sizeof(ndfa_handler)*run_state->num_handlers);
+	}
+	
+	/* Apply the magic and return the result */
+	copy->magic 			= NDFA_RUN_MAGIC;
+	return copy;
+}
+
+/* Compares a DFA to a copy (non-zero if the run states are the same) */
+/* Combined with copy_run_state, this can be used to implement a restartable syntax highlighter */
+extern int ndfa_run_state_equals(ndfa_run_state run_state1, ndfa_run_state run_state2);
 
 /* Finalises a running DFA */
 void ndfa_finish(ndfa_run_state state) {

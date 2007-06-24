@@ -156,6 +156,13 @@ extern ndfa_token* ndfa_last_input(ndfa_run_state run_state);
 /* Sends a token to a running DFA */
 extern void ndfa_run(ndfa_run_state state, ndfa_token token);
 
+/* Copies a running DFA */
+extern ndfa_run_state ndfa_copy_run_state(ndfa_run_state run_state);
+
+/* Compares a DFA to a copy (non-zero if the run states are the same) */
+/* Combined with copy_run_state, this can be used to implement a restartable syntax highlighter */
+extern int ndfa_run_state_equals(ndfa_run_state run_state1, ndfa_run_state run_state2);
+
 /* Finalises a running DFA */
 extern void ndfa_finish(ndfa_run_state state);
 
