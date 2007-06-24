@@ -687,6 +687,38 @@ static void copy_transitions(ndfa nfa, ndfa_copy_state* copy_state) {
 			/* Add a new transition */
 			add_transition(nfa, nfa->states + copy_state->state_map[x], nfa->states + copy_transit_to, transit->tokens.start, transit->tokens.end);
 		}
+		
+		/* Duplicate the shared state */
+		if (nfa->states[state].shared_state != 0xffffffff) {
+			int shared_index = copy_state_index(copy_state, nfa->states[state].shared_state);
+			
+			if (shared_index == -1) {
+				nfa->states[state].shared_state = nfa->states[state].shared_state;
+			} else {
+				nfa->states[state].shared_state = copy_state->state_map[shared_index];
+			}
+		}
+	}
+}
+
+/* Duplicates the data for a copy */
+static void copy_data(ndfa nfa, ndfa_copy_state* copy_state) {
+	assert(copy_state->state_map != NULL);
+
+	int x;
+	for (x = 0; x<copy_state->num_states; x++) {
+		int original	= copy_state->states[x];
+		int final		= copy_state->state_map[x];
+		
+		if (nfa->states[final].data_pointers != NULL) {
+			free(nfa->states[final].data_pointers);
+			nfa->states[final].data_pointers = NULL;
+		}
+		
+		nfa->states[final].num_data			= nfa->states[original].num_data;
+		nfa->states[final].data_pointers 	= malloc(sizeof(void*)*nfa->states[final].num_data);
+		
+		memcpy(nfa->states[final].data_pointers, nfa->states[original].data_pointers, sizeof(void*)*nfa->states[final].num_data);
 	}
 }
 
@@ -712,7 +744,7 @@ ndfa_pointer ndfa_copy(ndfa nfa, ndfa_pointer state, ndfa_pointer* anchor) {
 	copy_transitions(nfa, copy_state);
 	
 	/* Duplicate the data */
-	#warning TODO: duplicate the data
+	copy_data(nfa, copy_state);
 	
 	/* Return the results */
 	if (anchor) {
@@ -757,8 +789,8 @@ void ndfa_repeat_number(ndfa nfa, int min_count, int max_count) {
 			/* Create a copy of the state machine */
 			allocate_copied_states(nfa, copy_state);
 			copy_transitions(nfa, copy_state);
-			#warning TODO: duplicate data
-		
+			copy_data(nfa, copy_state);
+
 			/* Remember the start and end states */
 			int start_index = copy_state_index(copy_state, copy_from);
 			int end_index = copy_state_index(copy_state, nfa->compile_state);
