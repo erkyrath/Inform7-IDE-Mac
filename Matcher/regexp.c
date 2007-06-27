@@ -429,24 +429,16 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				
 			case '^':
 				recent_state = ndfa_get_pointer(nfa);
-				if (x == 0) {
-					/* Start character */
-					ndfa_transition(nfa, NDFA_START, NULL);
-				} else {
-					/* Just add this chararcter to the nfa */
-					ndfa_transition(nfa, regexp[x], NULL);					
-				}
+
+				/* Start character */
+				ndfa_transition(nfa, NDFA_START, NULL);
 				break;
 				
 			case '$':
 				recent_state = ndfa_get_pointer(nfa);
-				if (regexp[x+1] == 0) {
-					/* End character */
-					ndfa_transition(nfa, NDFA_END, NULL);
-				} else {
-					/* Just add this chararcter to the nfa */
-					ndfa_transition(nfa, regexp[x], NULL);					
-				}
+
+				/* End character */
+				ndfa_transition(nfa, NDFA_END, NULL);
 				break;
 				
 			case '.':
