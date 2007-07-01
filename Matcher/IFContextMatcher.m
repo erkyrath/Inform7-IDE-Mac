@@ -96,7 +96,7 @@
 			
 			// Add the element/structure to the appropriate NDFA
 			IFMatcher* matcher = self;
-			if (structureName == nil) {
+			if (structureName != nil) {
 				matcher = [[structures objectForKey: structureName] matcher];
 			}
 			
