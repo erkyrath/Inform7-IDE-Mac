@@ -1490,7 +1490,7 @@ static __INLINE__ void accept(ndfa_run_state state, int accept_state, int length
 	
 	for (x=0; x<state->num_handlers; x++) {
 		if (state->handlers[x].accept) {
-			state->handlers[x].accept(state, length, 1, state->handlers[x].context);
+			state->handlers[x].accept(state, length, accept_state, state->handlers[x].context);
 		}
 	}
 }

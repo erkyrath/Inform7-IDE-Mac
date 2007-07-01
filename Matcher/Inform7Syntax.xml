@@ -2,30 +2,30 @@
 	<!-- Note that you need to declare structures and regexps before you use them -->
 	<!-- You can't declare two structures with the same title -->
 	
+	<!-- Named regexps allow you to define common elements that can be used elsewhere -->
+	<!-- Note definition of string here that shows how to deal with multi-line structures -->
+	<Regexp name='STRING'>\"([^"]|($[\n\r]{1,2}^))*\"</Regexp>
+	<Regexp name='ANYTHING'>.*</Regexp>
+	
 	<!-- Structures define syntax elements that don't produce any firm matches -->
 	<!-- It's important to define them as without them the lexer is prone to backtracking (which is slow) -->
 	<!-- Additionally, they can be used to run the lexer recursively, so you can define syntax that is only valid within strings, for example -->
-	<Structure>
-		<Title>Word</Title>
-		<Match>[^\w]+</Match>
-	</Structure>
 	<Structure>
 		<Title>Whitespace</Title>
 		<Match>\w+</Match>
 	</Structure>
 	<Structure>
 		<Title>String</Title>
-		<Match>\"[^"]*\"</Match>
+		<Match>{STRING}</Match>
 	</Structure>
 	<Structure>
 		<Title>Comment</Title>
 		<Match>\[([^\]]|($[\n\r]{1,2}^))*\]</Match>
 	</Structure>
-	
-	<!-- Named regexps allow you to define common elements that can be used elsewhere -->
-	<!-- Note definition of string here that shows how to deal with multi-line structures -->
-	<Regexp name='STRING'>\"([^"]|($[\n\r]{1,2}^))*\"</Regexp>
-	<Regexp name='ANYTHING'>.*</Regexp>
+	<Structure>
+		<Title>Word</Title>
+		<Match>[^\w]+</Match>
+	</Structure>
 	
 	<!-- Elements define syntax that is matched and displays a result when command+clicked -->
 	<Element>
