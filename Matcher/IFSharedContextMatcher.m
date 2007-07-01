@@ -21,6 +21,8 @@
 		// Build it from the standard XML files
 		[matcher build];
 	}
+	
+	return matcher;
 }
 
 - (void) build {
