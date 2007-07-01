@@ -97,7 +97,7 @@ static NSRunLoop* mainRunLoop = nil;
 	haveWebkit = [[self class] isWebKitAvailable];
 	
 	// Ensure that the context matcher is immediately available
-	[[IFSharedContextMatcher matcher] match: @"Understand this as that."
+	[[IFSharedContextMatcher matcher] match: @"Understand \"this\" as that.\n\nTable of something\n\n"
 							   withDelegate: self];
 	
 	
