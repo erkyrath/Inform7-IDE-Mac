@@ -277,6 +277,7 @@ static void reject_handler(ndfa_run_state run_state, int length, ndfa_pointer st
 
 			[string getCharacters: buffer
 							range: charRange];
+			bufPos = 0;
 		}
 		
 		// Process the next character
