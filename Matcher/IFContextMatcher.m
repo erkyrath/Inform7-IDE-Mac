@@ -105,8 +105,6 @@
 					  [structure title], structureName);
 			}
 			
-#warning DBEUG CODE
-			NSLog(@"%@ = %@", [structure regexp], [structure title]);
 			[matcher addExpression: [structure regexp]
 						withObject: structure];
 		} else {

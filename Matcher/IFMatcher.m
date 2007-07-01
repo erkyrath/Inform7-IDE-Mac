@@ -217,19 +217,6 @@ static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context) {
 static void accept_handler(ndfa_run_state run_state, int length, ndfa_pointer state, void* context) {
 	IFMatcher* matcher = context;
 	
-#warning DEBUGGING CODE
-	printf("Accept: ");
-	ndfa_token* buf = ndfa_last_input(run_state);
-	int x;
-	for (x=0; x<length; x++) {
-		if (buf[x] >= 32 && buf[x] < 127) {
-			printf("%c", buf[x]);
-		} else {
-			printf("? (%04x) ", buf[x]);
-		}
-	}
-	printf("\n");
-	
 	[matcher accept: run_state
 			 length: length
 			  state: state];
