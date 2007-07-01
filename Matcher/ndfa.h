@@ -35,11 +35,11 @@ typedef struct ndfa_run_state* ndfa_run_state;
  */
 
 /* Special token indicating that we should match any character not otherwise matched */
-#define NDFA_START	((ndfa_token)0xffff0001)
-#define NDFA_END	((ndfa_token)0xffff0002)
+#define NDFA_START		((ndfa_token)0xffff0001)
+#define NDFA_END		((ndfa_token)0xffff0002)
 
 /* Special pointer indicating a rejection */
-#define NDFA_REJECT	((ndfa_pointer)0xffffffff)
+#define NDFA_REJECT		((ndfa_pointer)0xffffffff)
 
 /* ==============
  * Building NDFAs
