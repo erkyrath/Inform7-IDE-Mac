@@ -1559,8 +1559,12 @@ retry:;
 		if (dfastate->num_data > 0) {
 			/* All but one character has accepted */
 			
+			/* If the last token was a special token, then it won't be in the buffer, so accept all of the characters */
+			int accept_len = state->bt_len-1;
+			if (token > 0x7fffffff) accept_len++;
+			
 			/* Accept all but the last character in the backtracking buffer */
-			accept(state, dfastate->id, state->bt_len-1);
+			accept(state, dfastate->id, accept_len);
 			
 			/* Clear the backtracking buffer and retry the token */
 			if (token <= 0x7fffffff) {
