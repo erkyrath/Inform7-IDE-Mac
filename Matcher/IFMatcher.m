@@ -10,6 +10,8 @@
 #import "ndfa.h"
 
 
+static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context);
+
 @implementation IFMatcher
 
 // = Initialisation =
@@ -20,8 +22,10 @@
 	if (self) {
 		matcherLock = [[NSLock alloc] init];
 		results		= [[NSMutableArray alloc] init];
-		nfa		= ndfa_create();
+		nfa			= ndfa_create();
 		dfa			= NULL;
+
+		ndfa_add_named_regexp_handler(nfa, named_expression_handler, self);
 	}
 	
 	return self;
@@ -33,11 +37,68 @@
 
 	[matcherLock release];
 	[results release];
+	[namedRegexps release];
 	
 	[super dealloc];
 }
 
 // = Building the lexer =
+
+- (int) compileNamedExpression: (NSString*) name
+						 inNfa: (ndfa) compileNfa {
+	NSString* regexp = [namedRegexps objectForKey: name];
+
+	if (regexp) {
+		int x;
+		
+		// Convert the regexp to UCS-4
+		ndfa_token* ucs4string = malloc(sizeof(ndfa_token)*([regexp length]+1));
+		unichar* unistring = malloc(sizeof(unichar)*[regexp length]);
+		
+		[regexp getCharacters: unistring];
+		for (x=0; x<[regexp length]; x++) {
+			ucs4string[x] = unistring[x];
+		}
+		ucs4string[x] = 0;
+		
+		free(unistring);
+		
+		// Add it to the NDFA
+		if (!ndfa_compile_regexp_ucs4(compileNfa, ucs4string, NULL)) {
+			NSLog(@"Warning: received an error while compiling expression '%@'", regexp);
+		}
+		free(ucs4string);
+
+		return 1;
+	}
+	
+	return 0;
+}
+
+static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context) {
+	IFMatcher* matcher = context;
+	
+	// Work out how many characters in the name
+	int nameLen;
+	for (nameLen = 0; name[nameLen]!=0; nameLen++);
+	
+	// Convert to a NSString
+	unichar* uniName = malloc(sizeof(unichar)*nameLen);
+	int x;
+	for (x=0; x<nameLen; x++) uniName[x] = name[x];
+	
+	NSString* nameString = [[NSString alloc] initWithCharacters: uniName
+														 length: nameLen];
+	free(uniName);
+	
+	// Compile the result
+	int result = [matcher compileNamedExpression: nameString
+										   inNfa: nfa];
+	
+	// Tidy up and return
+	[nameString release];
+	return result;
+}
 
 // Adds a new regular expression to the lexer
 - (void) addExpression: (NSString*) regexp
@@ -49,6 +110,7 @@
 	// Add extra states on to the DFA, if it exists
 	if (nfa == NULL) {
 		nfa = dfa;
+		ndfa_add_named_regexp_handler(nfa, named_expression_handler, self);
 		dfa = NULL;
 	}
 	
@@ -67,13 +129,24 @@
 	// Add it to the NDFA
 	[results addObject: result];
 	ndfa_reset(nfa);
-	ndfa_compile_regexp_ucs4(nfa, ucs4string, result);
+	if (!ndfa_compile_regexp_ucs4(nfa, ucs4string, result)) {
+		NSLog(@"Warning: received an error while compiling expression '%@'", regexp);
+	}
 	free(ucs4string);
 	
 	[matcherLock unlock];
 	
 	// TODO: once we've got background compiling, perhaps the thing to do while the compiler is running
 	// is to add the expressions to a list to be added to the DFA once the compilation is complete
+}
+
+// Adds a new named expression to the lexer
+- (void) addNamedExpression: (NSString*) regexp	
+				   withName: (NSString*) name {
+	if (!namedRegexps) namedRegexps = [[NSMutableDictionary alloc] init];
+	
+	[namedRegexps setObject: regexp
+					 forKey: name];
 }
 
 // Starts compiling the lexer in the background, ready for later use

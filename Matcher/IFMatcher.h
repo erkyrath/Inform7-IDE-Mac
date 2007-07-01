@@ -20,7 +20,9 @@
 	ndfa		dfa;								// Lexer that's ready to run
 	
 	NSMutableArray* results;						// Array of objects that can be results
-	
+
+	NSMutableDictionary* namedRegexps;				// Array of named regular expressions
+		
 	// TODO: could put these in an independant class to make this class completely thread-safe
 	NSString* matchString;							// The string currently being matched against
 	int matchPosition;								// Position of the last known match (while match is running)
@@ -28,6 +30,8 @@
 }
 
 // Building the lexer
+- (void) addNamedExpression: (NSString*) regexp		// Adds a new named expression to the lexer
+				   withName: (NSString*) name;
 - (void) addExpression: (NSString*) regexp			// Adds a new regular expression to the lexer
 			withObject: (NSObject*) result;
 - (void) compileLexer;								// Starts compiling the lexer in the background, ready for later use

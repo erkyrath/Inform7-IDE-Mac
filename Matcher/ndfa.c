@@ -47,57 +47,66 @@
 typedef struct ndfa_state ndfa_state;
 
 typedef struct ndfa_token_range {
-	ndfa_token start;						/* First token in this range (inclusive) */
-	ndfa_token end;							/* Final token in this range (exclusive) */
+	ndfa_token start;							/* First token in this range (inclusive) */
+	ndfa_token end;								/* Final token in this range (exclusive) */
 } ndfa_token_range;
 
 typedef struct ndfa_transit {
 	/* NDFA transition */
-	ndfa_token_range	tokens;				/* The token which this transition moves on */
-	int					new_state;			/* The state that is reached when this token is matched */
+	ndfa_token_range	tokens;					/* The token which this transition moves on */
+	int					new_state;				/* The state that is reached when this token is matched */
 } ndfa_transit;
 
 struct ndfa_state {
 	/* NDFA state information */
-	unsigned int		id;					/* ID for this state */
-	int					num_transitions;	/* Number of transitions from this state */
-	int					total_transitions;	/* Total amount allocated for transitions from this state */
-	ndfa_transit*		transitions;		/* Transitions associated with this state */
+	unsigned int		id;						/* ID for this state */
+	int					num_transitions;		/* Number of transitions from this state */
+	int					total_transitions;		/* Total amount allocated for transitions from this state */
+	ndfa_transit*		transitions;			/* Transitions associated with this state */
 	
-	int 				num_data;			/* Number of data pointers associated with this state (if >0 this is an accepting state)*/
-	void**				data_pointers;		/* Data if this state is accepted */
+	int 				num_data;				/* Number of data pointers associated with this state (if >0 this is an accepting state)*/
+	void**				data_pointers;			/* Data if this state is accepted */
 	
-	unsigned int		shared_state;		/* Any transitions from this state are also added to the shared_state (handles blank ORs) */
+	unsigned int		shared_state;			/* Any transitions from this state are also added to the shared_state (handles blank ORs) */
 	
 #if FAST_JOINS
 	/* These make _join go faster */
-	int 				num_sources;		/* Number of states that have a transition to this one */
-	int 				total_sources;		/* Total number of states in the sources array */
-	unsigned int*		sources;			/* States that target this one */
+	int 				num_sources;			/* Number of states that have a transition to this one */
+	int 				total_sources;			/* Total number of states in the sources array */
+	unsigned int*		sources;				/* States that target this one */
 #endif
 };
 
 typedef struct ndfa_join_stack {
-	int  			num_states;				/* Number of states that will be joined */
-	unsigned int*	states;					/* The states to join together when rejoin is used */
+	int  			num_states;					/* Number of states that will be joined */
+	unsigned int*	states;						/* The states to join together when rejoin is used */
 } ndfa_join_stack;
+
+typedef struct ndfa_regexp_handler {
+	/* Handler that specifies how to compile specifically named regular expressions */
+	ndfa_named_regexp_handler	handler;		/* The handler to call when resolving a named regular expression */
+	void* 						context;		/* The context information for this handler */
+} ndfa_regexp_handler;
 
 struct ndfa {
 	/* Definition of an NDFA */
-	unsigned int		magic;				/* Magic number indicating this is a valid NDFA */
+	unsigned int			magic;				/* Magic number indicating this is a valid NDFA */
 	
-	int					is_dfa;				/* non-zero if this is a compiled DFA that can actually be run */
-	int					start;				/* The start state */
-	int					compile_state;		/* The state from which the next transistion will be added*/
+	int						is_dfa;				/* non-zero if this is a compiled DFA that can actually be run */
+	int						start;				/* The start state */
+	int						compile_state;		/* The state from which the next transistion will be added*/
 	
-	int					num_states;			/* Number of used states in the states array */
-	int					total_states;		/* Total number of states in this ndfa */
-	ndfa_state*			states;				/* All the states associated with this ndfa */
+	int						num_states;			/* Number of used states in the states array */
+	int						total_states;		/* Total number of states in this ndfa */
+	ndfa_state*				states;				/* All the states associated with this ndfa */
 	
-	int					stack_length;		/* Number of states on the stack */
-	int					stack_total;		/* Total size of the state stack */
-	int*				state_stack;		/* The state stack itself */
-	ndfa_join_stack**	stack_joins;		/* The state join stack */
+	int						stack_length;		/* Number of states on the stack */
+	int						stack_total;		/* Total size of the state stack */
+	int*					state_stack;		/* The state stack itself */
+	ndfa_join_stack**		stack_joins;		/* The state join stack */
+	
+	int						num_re_handlers;	/* Number of regular expression handlers that are registered with this NDFA */
+	ndfa_regexp_handler*	re_handlers;		/* Handlers for resolving named regular expressions */
 };
 
 #ifdef DEBUG
@@ -227,19 +236,22 @@ ndfa ndfa_create() {
 	assert(new_ndfa != NULL);
 	
 	/* Populate it with a single start state */
-	new_ndfa->is_dfa		= 0;
-	new_ndfa->num_states	= 0;
-	new_ndfa->total_states	= 0;
-	new_ndfa->states		= NULL;
-	new_ndfa->magic			= NDFA_MAGIC;
+	new_ndfa->is_dfa			= 0;
+	new_ndfa->num_states		= 0;
+	new_ndfa->total_states		= 0;
+	new_ndfa->states			= NULL;
+	new_ndfa->magic				= NDFA_MAGIC;
 	
-	new_ndfa->start			= create_state(new_ndfa, NULL)->id;
-	new_ndfa->compile_state	= new_ndfa->start;
+	new_ndfa->start				= create_state(new_ndfa, NULL)->id;
+	new_ndfa->compile_state		= new_ndfa->start;
 	
-	new_ndfa->state_stack	= NULL;
-	new_ndfa->stack_total	= 0;
-	new_ndfa->stack_length	= 0;
-	new_ndfa->stack_joins	= NULL;
+	new_ndfa->state_stack		= NULL;
+	new_ndfa->stack_total		= 0;
+	new_ndfa->stack_length		= 0;
+	new_ndfa->stack_joins		= NULL;
+	
+	new_ndfa->num_re_handlers	= 0;
+	new_ndfa->re_handlers		= NULL;
 	
 	/* Add a 'start' transition */
 	add_transition(new_ndfa, new_ndfa->states + new_ndfa->start, new_ndfa->states + new_ndfa->start, NDFA_START, NDFA_START+1);
@@ -280,9 +292,10 @@ void ndfa_free(ndfa nfa) {
 	}
 	
 	/* Free up the nfa */
-	free(nfa->stack_joins);
-	free(nfa->state_stack);
-	free(nfa->states);
+	if (nfa->re_handlers)	free(nfa->re_handlers);
+	if (nfa->stack_joins) 	free(nfa->stack_joins);
+	if (nfa->state_stack) 	free(nfa->state_stack);
+	if (nfa->states) 		free(nfa->states);
 	free(nfa);
 }
 
@@ -1293,6 +1306,47 @@ ndfa ndfa_compile(ndfa nfa) {
 	/* Return the result */
 	dfa->is_dfa = 1;
 	return dfa;
+}
+
+/* =============================
+ * Compiling regular expressions
+ */
+
+/* Adds a new named regexp handler to the NDFA (used by the regexp compiler) */
+void ndfa_add_named_regexp_handler(ndfa nfa, ndfa_named_regexp_handler handler, void* context) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	assert(handler != NULL);
+	
+	/* Allocate space for the new handler */
+	nfa->num_re_handlers++;
+	nfa->re_handlers = realloc(nfa->re_handlers, sizeof(ndfa_regexp_handler)*nfa->num_re_handlers);
+	assert(nfa->re_handlers != NULL);
+	
+	/* Populate the new handler */
+	ndfa_regexp_handler* new_handler = nfa->re_handlers + (nfa->num_re_handlers-1);
+	
+	new_handler->handler = handler;
+	new_handler->context = context;
+}
+
+/* Compiles a specified named regexp and returns non-zero if successful */
+int ndfa_compiled_named_regexp(ndfa nfa, ndfa_token* name) {
+	assert(nfa != NULL);
+	assert(nfa->magic == NDFA_MAGIC);
+	assert(name != NULL);
+
+	/* Try each handler in turn */
+	int x;
+	for (x=0; x<nfa->num_re_handlers; x++) {
+		if (nfa->re_handlers[x].handler(nfa, name, nfa->re_handlers[x].context)) {
+			/* This handler successfully compiled the regexp */
+			return 1;
+		}
+	}
+	
+	/* No handlers managed to compile the regexp */
+	return 0;
 }
 
 /* ===============

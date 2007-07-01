@@ -18,7 +18,7 @@
 	
 	if (self) {
 		regexps		= [[NSMutableDictionary alloc] init];
-		structures	= [[NSMutableDictionary alloc] init];		
+		structures	= [[NSMutableDictionary alloc] init];
 	}
 	
 	return self;
@@ -115,6 +115,12 @@
 		[structureName release];
 		structure = element = nil;
 		structureName = nil;
+	}
+	
+	if (regexpName && [elementName isEqualToString: @"Regexp"]) {
+		// Add this as a named regular expression
+		[self addNamedExpression: [regexps objectForKey: regexpName]
+						withName: regexpName];
 	}
 	
 	// Pop this element from the stack

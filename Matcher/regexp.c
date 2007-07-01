@@ -356,6 +356,8 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				int is_min = 1;
 				int is_name = 0;
 				
+				int start_pos = x;
+				
 				/* Parse the range to use for the repetition */
 				x++;
 				for (; regexp[x] != 0 && regexp[x] != '}'; x++) {
@@ -420,9 +422,30 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 					/* Pop the state we just pushed  */
 					ndfa_rejoin(nfa);
 				} else {
-					/* TODO: Use a named regexp */
-					was_successful = 0;
-					goto failed;
+					/* Use a named regexp */
+					ndfa_token* name;
+					int len;
+					
+					/* Work out how many characters in the name */
+					x = start_pos + 1;
+					for (len = 0; regexp[x+len] != 0 && regexp[x+len] != '}'; len++);
+					
+					/* Create the name array */
+					name = malloc(sizeof(ndfa_token)*(len+1));
+					assert(name != NULL);
+					
+					memcpy(name, regexp + x, sizeof(ndfa_token)*len);
+					name[len] = 0;
+					
+					/* Try to compile the regexp */
+					if (!ndfa_compiled_named_regexp(nfa, name)) {
+						was_successful = 0;
+						goto failed;
+					}
+					
+					/* Tidy up and move on */
+					free(name);
+					x = start_pos + len + 1;
 				}
 				break;
 			}

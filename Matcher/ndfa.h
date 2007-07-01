@@ -116,11 +116,23 @@ extern ndfa_pointer ndfa_join(ndfa nfa, int num_states, const ndfa_pointer* stat
  * Compiling regular expressions
  */
 
+/* Handler that compiles a named regular expression (should compile it from the current position in the ndfa) */
+/* Returns 0 if this handler doesn't know the name and did nothing */
+/* Name is 0-terminated */
+typedef int (*ndfa_named_regexp_handler)(ndfa nfa, ndfa_token* name, void* context);
+
 /* Compiles a UCS-4 regexp into a ndfa */
 extern int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data);
 
 /* Compiles an ASCII regexp into a ndfa */
 extern int ndfa_compile_regexp(ndfa nfa, const char* regexp, void* data);
+
+/* Adds a new named regexp handler to the NDFA (used by the regexp compiler) */
+extern void ndfa_add_named_regexp_handler(ndfa nfa, ndfa_named_regexp_handler handler, void* context);
+
+/* Compiles a specified named regexp and returns non-zero if successful */
+/* Name is 0-terminated */
+extern int ndfa_compiled_named_regexp(ndfa nfa, ndfa_token* name);
 
 /* ===============
  * Compiling NDFAs
