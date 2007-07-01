@@ -41,6 +41,7 @@
 #import "IFNaturalExtensions.h"
 
 #import "IFSingleFile.h"
+#import "IFSharedContextMatcher.h"
 
 #import <ZoomView/ZoomSkein.h>
 #import <ZoomView/ZoomSkeinView.h>
@@ -75,10 +76,30 @@ static NSRunLoop* mainRunLoop = nil;
 	return haveWebkit;
 }
 
+// Lex delegate function used to test the context matcher
+- (void) match: (NSArray*) match
+	  inString: (NSString*) matchString
+		 range: (NSRange) range {
+	NSMutableString* description = [[@"" mutableCopy] autorelease];
+	
+	NSEnumerator* matchEnum = [match objectEnumerator];
+	IFMatcherStructure* matchItem;
+	while (matchItem = [matchEnum nextObject]) {
+		[description appendFormat: @" %@", [matchItem title]];
+	}
+	
+	NSLog(@"Matched '%@': %@", [matchString substringWithRange: range], description);
+}
+
 - (void) applicationWillFinishLaunching: (NSNotification*) not {
 	mainRunLoop = [NSRunLoop currentRunLoop];
 	
 	haveWebkit = [[self class] isWebKitAvailable];
+	
+	// Ensure that the context matcher is immediately available
+	[[IFSharedContextMatcher matcher] match: @"Understand this as that."
+							   withDelegate: self];
+	
 	
 	if (haveWebkit) {
 		// Register some custom URL handlers

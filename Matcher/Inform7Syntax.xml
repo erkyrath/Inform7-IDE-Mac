@@ -1,0 +1,56 @@
+<Syntax>
+	<!-- Note that you need to declare structures and regexps before you use them -->
+	<!-- You can't declare two structures with the same title -->
+	
+	<!-- Structures define syntax elements that don't produce any firm matches -->
+	<!-- It's important to define them as without them the lexer is prone to backtracking (which is slow) -->
+	<!-- Additionally, they can be used to run the lexer recursively, so you can define syntax that is only valid within strings, for example -->
+	<Structure>
+		<Title>Word</Title>
+		<Match>[^\w]+</Match>
+	</Structure>
+	<Structure>
+		<Title>Whitespace</Title>
+		<Match>\w+</Match>
+	</Structure>
+	<Structure>
+		<Title>String</Title>
+		<Match>\"[^"]*\"</Match>
+	</Structure>
+	<Structure>
+		<Title>Comment</Title>
+		<Match>\[([^\]]|($[\n\r]{1,2}^))*\]</Match>
+	</Structure>
+	
+	<!-- Named regexps allow you to define common elements that can be used elsewhere -->
+	<!-- Note definition of string here that shows how to deal with multi-line structures -->
+	<Regexp name='STRING'>\"([^"]|($[\n\r]{1,2}^))*\"</Regexp>
+	<Regexp name='ANYTHING'>.*</Regexp>
+	
+	<!-- Elements define syntax that is matched and displays a result when command+clicked -->
+	<Element>
+		<Title>Understanding</Title>
+		<Match>Understand( +{STRING}( +as +[A-z]+)?)?</Match>
+		<Description>
+			Understand introduces new words and phrases that can be understood by the running game.
+		</Description>
+		<Link>inform:/doc238.html</Link>
+	</Element>
+	
+	<Element>
+		<Title>Table</Title>
+		<Match>^Table( of ({ANYTHING})?)?$</Match>
+		<Description>
+			Tables are a means of laying out information so that it can be easily looked up by the running game.
+		</Description>
+		<Link>inform:/doc220.html</Link>
+	</Element>
+	
+	<!-- Using a structure tag creates an element that is only matched within a particular structure -->
+	<!-- Note that elements are also structures, so we can now define types of substitution -->
+	<Element structure="String">
+		<Title>Substitution</Title>
+		<Match>\[[^\]]*\]</Match>
+		<Description>Parts of strings contained within square brackets are treated as substitutions by the compiler</Description>
+	</Element>
+</Syntax>

@@ -44,6 +44,19 @@ static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context);
 
 // = Building the lexer =
 
+- (void) clear {
+	// Free the NDFA
+	ndfa_free(nfa);
+	nfa = ndfa_create();
+	
+	// Clear out the named regular expression and results
+	[namedRegexps release]; namedRegexps = nil;
+	[results release]; results = [[NSMutableArray alloc] init];
+	
+	// Reset the named regexp handler
+	ndfa_add_named_regexp_handler(nfa, named_expression_handler, self);
+}
+
 - (int) compileNamedExpression: (NSString*) name
 						 inNfa: (ndfa) compileNfa {
 	NSString* regexp = [namedRegexps objectForKey: name];
@@ -72,6 +85,7 @@ static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context);
 		return 1;
 	}
 	
+	NSLog(@"Warning: couldn't find regexp named '%@'", name);
 	return 0;
 }
 

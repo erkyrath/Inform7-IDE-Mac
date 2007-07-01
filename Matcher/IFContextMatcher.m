@@ -40,6 +40,9 @@
 	// Parse the XML
 	[xmlParser setDelegate: self];
 	[xmlParser parse];
+	
+	// Start building the final lexer
+	[self compileLexer];
 }
 
 - (void)	parser: (NSXMLParser*)	parser 

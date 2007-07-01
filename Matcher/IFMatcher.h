@@ -30,6 +30,7 @@
 }
 
 // Building the lexer
+- (void) clear;										// Clears this matcher
 - (void) addNamedExpression: (NSString*) regexp		// Adds a new named expression to the lexer
 				   withName: (NSString*) name;
 - (void) addExpression: (NSString*) regexp			// Adds a new regular expression to the lexer
