@@ -42,6 +42,7 @@
 
 #import "IFSingleFile.h"
 #import "IFSharedContextMatcher.h"
+#import "IFContextMatchWindow.h"				// TODO: remove this
 
 #import <ZoomView/ZoomSkein.h>
 #import <ZoomView/ZoomSkeinView.h>
@@ -107,6 +108,8 @@ static NSRunLoop* mainRunLoop = nil;
 																	  inString: contextExample]);
 	NSLog(@"%@", [[IFSharedContextMatcher matcherForInform7] getContextAtPoint: 7
 																	  inString: @"\"[1234567]\""]);
+	
+	[[[IFContextMatchWindow alloc] init] showWindow: self];
 	
 	if (haveWebkit) {
 		// Register some custom URL handlers
