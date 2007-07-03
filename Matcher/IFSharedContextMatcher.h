@@ -14,8 +14,9 @@
 
 }
 
-+ (IFSharedContextMatcher*) matcher;					// The shared context matcher
++ (IFSharedContextMatcher*) matcherForInform7;			// The shared context matcher
++ (IFSharedContextMatcher*) matcherForInform6;			// The shared context matcher
 
-- (void) build;											// (Re)builds the matcher from the standard XML files
+- (void) build: (BOOL) inform7;							// (Re)builds the matcher from the standard XML files
 
 @end

@@ -27,6 +27,7 @@
 	NSString* matchString;							// The string currently being matched against
 	int matchPosition;								// Position of the last known match (while match is running)
 	id matchDelegate;								// The delegate passed to the matcher function
+	BOOL continueMatching;							// YES while we should continue performing matches
 }
 
 // Building the lexer
@@ -45,7 +46,7 @@
 
 @interface NSObject(IFMatcherDelegate)
 
-- (void) match: (NSArray*) match					// Reports a match on on the specified string
+- (BOOL) match: (NSArray*) match					// Reports a match on on the specified string. Should return YES to continue matching, or NO to abandon the parse here
 	  inString: (NSString*) matchString
 		 range: (NSRange) range;
 

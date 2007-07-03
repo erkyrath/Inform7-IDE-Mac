@@ -59,4 +59,12 @@
 	return matcher;
 }
 
+- (BOOL) hasMatcher {
+	return matcher != nil;
+}
+
+- (NSString*) description {
+	return [NSString stringWithFormat: @"<%@: %@>", [[self class] description], [self title]];
+}
+
 @end

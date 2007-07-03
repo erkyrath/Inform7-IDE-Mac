@@ -24,6 +24,21 @@
 	return self;
 }
 
+- (void) dealloc {
+	[regexps		release];
+	[structures		release];
+	[elements		release];
+	
+	[element		release];
+	[structure		release];
+	[regexpName		release];
+	[structureName	release];
+	
+	[context		release];
+	
+	[super dealloc];
+}
+
 // = Reading XML =
 
 - (void) readXml: (NSXMLParser*) xmlParser {
@@ -159,6 +174,103 @@
 		[regexps setObject: newValue
 					forKey: regexpName];
 	}
+}
+
+// = Getting the context for a given position =
+
+- (BOOL) match: (NSArray*) match
+	  inString: (NSString*) matchString
+		 range: (NSRange) range {
+	if (range.location <= contextPosition && range.location + range.length > contextPosition) {
+		// This match corresponds to the area that we're looking for
+		context = [match retain];
+		contextRange = range;
+		return NO;
+	}
+	
+	return YES;
+}
+
+- (NSArray*) matchSubstringsIn: (NSArray*) contextArray
+					withString: (NSString*) fullString
+						 range: (NSRange) matchRange
+					  position: (int) position {
+	// Retaining and autoreleasing the array helps deal with it happening to be our context array
+	[[contextArray retain] autorelease];
+	
+	// Default result is the context array
+	NSArray* result = contextArray;
+	
+	// Prepare the results array and the substring
+	NSMutableArray* subcontextResult = [[NSMutableArray alloc] init];
+	NSString* substring = [fullString substringWithRange: matchRange];
+
+	// Iterate over the matches in the context array
+	NSEnumerator* contextEnum = [contextArray objectEnumerator];
+	IFMatcherStructure* matchStructure;
+
+	while (matchStructure = [contextEnum nextObject]) {
+		// Skip this structure if it doesn't have a matcher
+		if (![matchStructure hasMatcher]) continue;
+		
+		// Prepare to match against the substring
+		[context release];
+		context = nil;
+		contextPosition = position - matchRange.location;
+		
+		// Perform the match
+		[[matchStructure matcher] match: substring
+						   withDelegate: self];
+		
+		// Perform any further substring matching that's required
+		if (context != nil) {
+			context = [self matchSubstringsIn: context
+								   withString: substring
+										range: contextRange
+									 position: contextPosition];
+		}
+		
+		// Put the results into the subcontext result if there are any
+		if (context != nil) {
+			[subcontextResult addObjectsFromArray: context];
+		}
+	}
+	
+	// Switch the result to the subcontext array if there were any matches there
+	if ([subcontextResult count] > 0) result = [[subcontextResult retain] autorelease];
+	
+	// Tidy up and return
+	[subcontextResult release];
+	return result;
+}
+
+- (NSArray*) getContextAtPoint: (int) position
+					  inString: (NSString*) string {
+	NSArray* result;
+	
+	// Prepare to perform the match
+	[context release];
+	context = nil;
+	contextPosition = position;
+	
+	// Perform the initial match
+	[self match: string
+   withDelegate: self];
+	
+	if (context == nil) return [NSArray array];
+	
+	// Also match against any substrings that might exist within this context
+	result = [self matchSubstringsIn: context
+						  withString: string
+							   range: contextRange
+							position: position];
+	
+	
+	// Tidy up and return
+	[context release];
+	context = nil;
+	
+	return result;
 }
 
 @end

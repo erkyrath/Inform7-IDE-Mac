@@ -26,5 +26,6 @@
 - (NSString*) regexp;						// Regular expression for this structure
 - (void) setRegexp: (NSString*) newRegexp;
 - (IFMatcher*) matcher;						// The matcher for this structure (note: this is constructed the first time this is called)
+- (BOOL) hasMatcher;						// YES if this structure has a corresponding matcher
 
 @end

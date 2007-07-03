@@ -77,7 +77,7 @@ static NSRunLoop* mainRunLoop = nil;
 }
 
 // Lex delegate function used to test the context matcher
-- (void) match: (NSArray*) match
+- (BOOL) match: (NSArray*) match
 	  inString: (NSString*) matchString
 		 range: (NSRange) range {
 	NSMutableString* description = [[@"" mutableCopy] autorelease];
@@ -89,6 +89,8 @@ static NSRunLoop* mainRunLoop = nil;
 	}
 	
 	NSLog(@"Matched '%@': %@", [matchString substringWithRange: range], description);
+	
+	return YES;
 }
 
 - (void) applicationWillFinishLaunching: (NSNotification*) not {
@@ -97,9 +99,14 @@ static NSRunLoop* mainRunLoop = nil;
 	haveWebkit = [[self class] isWebKitAvailable];
 	
 	// Ensure that the context matcher is immediately available
-	[[IFSharedContextMatcher matcher] match: @"Understand \"this\" as that.\n\nTable of something\n\n\"Multiline\nString\"\n\"String\""
-							   withDelegate: self];
+	NSString* contextExample = @"Understand \"this\" as that.\n\nTable of something\n\n\"Multiline\nString\"\n\"String\"";
+	[[IFSharedContextMatcher matcherForInform7] match: contextExample
+										 withDelegate: self];
 	
+	NSLog(@"%@", [[IFSharedContextMatcher matcherForInform7] getContextAtPoint: 7
+																	  inString: contextExample]);
+	NSLog(@"%@", [[IFSharedContextMatcher matcherForInform7] getContextAtPoint: 7
+																	  inString: @"\"[1234567]\""]);
 	
 	if (haveWebkit) {
 		// Register some custom URL handlers

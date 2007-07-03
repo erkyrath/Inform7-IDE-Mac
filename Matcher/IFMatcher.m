@@ -203,9 +203,9 @@ static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context) {
 		}
 		
 		// Call the delegate
-		[matchDelegate match: matches
-					inString: matchString
-					   range: NSMakeRange(matchPosition, length)];
+		continueMatching = [matchDelegate match: matches
+									   inString: matchString
+										  range: NSMakeRange(matchPosition, length)];
 		
 		// Finish up with the data
 		[matches release];
@@ -256,7 +256,8 @@ static void reject_handler(ndfa_run_state run_state, int length, ndfa_pointer st
 	matchString		= string;
 	
 	ndfa_run(run_state, NDFA_START);
-	for (stringPos = 0; stringPos < len; stringPos++, bufPos++) {
+	continueMatching = YES;
+	for (stringPos = 0; stringPos < len && continueMatching; stringPos++, bufPos++) {
 		// Read more characters from the buffer if necessary
 		if (bufPos >= RunBufferSize) {
 			NSRange charRange = NSMakeRange(stringPos, RunBufferSize);

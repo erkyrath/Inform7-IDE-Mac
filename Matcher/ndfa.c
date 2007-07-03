@@ -39,10 +39,10 @@
 # define __INLINE__
 #endif
 
-#define NDFA_GROW (32)						/* Amount to grow arrays by when allocating memory */
+#define NDFA_GROW (32)							/* Amount to grow arrays by when allocating memory */
 
 /* Data structures used to represent a DFA/NDFA */
-#define NDFA_MAGIC (0x4dfa4dfa)				/* Magic number */
+#define NDFA_MAGIC (0x4dfa4dfa)					/* Magic number */
 
 typedef struct ndfa_state ndfa_state;
 
