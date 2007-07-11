@@ -11,6 +11,7 @@
 	<!-- Structures define syntax elements that don't produce any firm matches -->
 	<!-- It's important to define them as without them the lexer is prone to backtracking (which is slow) -->
 	<!-- Additionally, they can be used to run the lexer recursively, so you can define syntax that is only valid within strings, for example -->
+	<!-- When matching, note that lower case letters are matched case-insensitively but upper case letters are matched case-sensitively. Therefore, only include upper-case letters if case matters. -->
 	<Structure>
 		<Title>Whitespace</Title>
 		<Match>[\w]+</Match> 
@@ -37,7 +38,7 @@
 	<!-- Elements define syntax that is matched and displays a result when command+clicked -->
 	<Element>
 		<Title>Understand "phrase" as action</Title>
-		<Match>(U|u)nderstand( +{STRING}( +as +[A-z]+)?)?</Match>
+		<Match>understand( +{STRING}( +as +[A-z]+)?)?</Match>
 		<Description>
 			Understand introduces new words and phrases that can be understood by the running game.
 			<linebreak/>
@@ -50,14 +51,14 @@
 	<!-- Silly demo that shows what happens when something is ambiguous (try 'Something' on its own)-->
 	<Element>
 		<Title>Something I</Title>
-		<Match>Something</Match>
+		<Match>something</Match>
 		<Description>
 			Ooh, this is something
 		</Description>
 	</Element>
 	<Element>
 		<Title>Something II</Title>
-		<Match>Something</Match>
+		<Match>something</Match>
 		<Description>
 			Ooh, this is something else
 		</Description>
@@ -65,7 +66,7 @@
 	
 	<Element>
 		<Title>Table</Title>
-		<Match>&gt;Table( of ({ANYTHING})?)?&lt;</Match>
+		<Match>&gt;table( of ({ANYTHING})?)?&lt;</Match>
 		<Description>
 			Tables are a means of laying out information so that it can be easily looked up by the running game.
 		</Description>
@@ -82,7 +83,7 @@
 	
 	<Element structure="Substitution">
 		<Title>[The noun]</Title>
-		<Match>&gt;\[(T|t)he noun\]&lt;</Match>
+		<Match>&gt;\[the noun\]&lt;</Match>
 		<Description>
 			A substitution that is replaced by the name of the noun in the last command entered by the user.
 		</Description>

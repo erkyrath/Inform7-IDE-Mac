@@ -296,7 +296,7 @@ static NSAttributedString* LinkString(NSString* title, id link) {
 	}
 	
 	// Flip if necessary
-	NSRect screenFrame = [screen frame];
+	NSRect screenFrame = [screen visibleFrame];
 	float midYPoint = NSMinY(screenFrame) + screenFrame.size.height/2.0;
 	[self setFlipped: pointOnScreen.y < midYPoint];
 	
