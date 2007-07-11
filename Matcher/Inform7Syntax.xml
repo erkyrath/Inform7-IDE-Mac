@@ -4,15 +4,16 @@
 	
 	<!-- Named regexps allow you to define common elements that can be used elsewhere -->
 	<!-- Note definition of string here that shows how to deal with multi-line structures -->
-	<Regexp name='STRING'>\"([^"]|($[\n\r]{1,2}^))*\"</Regexp>
+	<Regexp name='STRING'>\"([^"])*\"</Regexp>
 	<Regexp name='ANYTHING'>.*</Regexp>
+	<Regexp name='ANYTHINGMULTILINE'>(.|&gt;|&lt;)*</Regexp>
 	
 	<!-- Structures define syntax elements that don't produce any firm matches -->
 	<!-- It's important to define them as without them the lexer is prone to backtracking (which is slow) -->
 	<!-- Additionally, they can be used to run the lexer recursively, so you can define syntax that is only valid within strings, for example -->
 	<Structure>
 		<Title>Whitespace</Title>
-		<Match>\w+</Match>
+		<Match>[\w]+</Match>
 	</Structure>
 	<Structure>
 		<Title>String</Title>
@@ -20,7 +21,7 @@
 	</Structure>
 	<Structure>
 		<Title>Comment</Title>
-		<Match>\[([^\]]|($[\n\r]{1,2}^))*\]</Match>
+		<Match>\[([^\]])*\]</Match>
 	</Structure>
 	<Structure>
 		<Title>Word</Title>
@@ -42,7 +43,7 @@
 	
 	<Element>
 		<Title>Table</Title>
-		<Match>^Table( of ({ANYTHING})?)?$</Match>
+		<Match>&gt;Table( of ({ANYTHING})?)?&lt;</Match>
 		<Description>
 			Tables are a means of laying out information so that it can be easily looked up by the running game.
 		</Description>

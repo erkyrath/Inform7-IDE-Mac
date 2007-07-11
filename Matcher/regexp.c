@@ -1,10 +1,27 @@
 /*
  *  regexp.c
- *  Inform-xc2
+ *  Copyright (c) 2007 Andrew Hunter
  *
- *  Created by Andrew Hunter on 15/06/2007.
- *  Copyright 2007 Andrew Hunter. All rights reserved.
+ *  Permission is hereby granted, free of charge, to any person
+ *  obtaining a copy of this software and associated documentation
+ *  files (the "Software"), to deal in the Software without
+ *  restriction, including without limitation the rights to use,
+ *  copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *  copies of the Software, and to permit persons to whom the
+ *  Software is furnished to do so, subject to the following
+ *  conditions:
  *
+ *  The above copyright notice and this permission notice shall be
+ *  included in all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ *  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ *  OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ *  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ *  HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+ *  WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ *  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ *  OTHER DEALINGS IN THE SOFTWARE.
  */
 
 /*
@@ -90,21 +107,23 @@ static void add_whitespace_set(ndfa nfa) {
 	/* Excludes NBSP characters */
 	ndfa_transition(nfa, ' ', NULL); 
 	ndfa_or(nfa);
-	ndfa_transition_range(nfa, 0x9, 0xd, NULL); 		/* Unicode whitespace control characters */
+	ndfa_transition_range(nfa, 0x9, 0xd, NULL); 								/* Unicode whitespace control characters */
+	ndfa_or(nfa);                                       						
+	ndfa_transition(nfa, 0x85, NULL);											/* NEL */
+	ndfa_or(nfa);                                       						
+	ndfa_transition(nfa, 0x1680, NULL); 										/* Ogham space mark */
+	ndfa_or(nfa);                                       						
+	ndfa_transition(nfa, 0x180E, NULL); 										/* Mongolian vowel separator */
+	ndfa_or(nfa);                                       						
+	ndfa_transition_range(nfa, 0x2000, 0x200a, NULL); 							/* Various */
+	ndfa_or(nfa);                                       						
+	ndfa_transition_range(nfa, 0x2028, 0x2029, NULL); 							/* LSP/PSP */
+	ndfa_or(nfa);                                       						
+	ndfa_transition(nfa, 0x205F, NULL); 										/* Medium mathematical space */
+	ndfa_or(nfa);                                       						
+	ndfa_transition(nfa, 0x3000, NULL); 										/* Ideographic space */
 	ndfa_or(nfa);
-	ndfa_transition(nfa, 0x85, NULL);					/* NEL */
-	ndfa_or(nfa);
-	ndfa_transition(nfa, 0x1680, NULL); 				/* Ogham space mark */
-	ndfa_or(nfa);
-	ndfa_transition(nfa, 0x180E, NULL); 				/* Mongolian vowel separator */
-	ndfa_or(nfa);
-	ndfa_transition_range(nfa, 0x2000, 0x200a, NULL); 	/* Various */
-	ndfa_or(nfa);
-	ndfa_transition_range(nfa, 0x2028, 0x2029, NULL); 	/* LSP/PSP */
-	ndfa_or(nfa);
-	ndfa_transition(nfa, 0x205F, NULL); 				/* Medium mathematical space */
-	ndfa_or(nfa);
-	ndfa_transition(nfa, 0x3000, NULL); 				/* Ideographic space */
+	ndfa_transition_range(nfa, NDFA_STARTOFLINE, NDFA_ENDOFLINE, NULL); 		/* Start of line character */
 	
 	ndfa_rejoin(nfa);
 }
@@ -305,7 +324,7 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				
 				/* Negate the ranges if necessary */
 				if (negated && ranges) {
-					char_range* negated_ranges = malloc(sizeof(char_range)*(num_ranges+2));
+					char_range* negated_ranges = malloc(sizeof(char_range)*(num_ranges+3));
 					int num_negated = 0;
 					
 					int last_end = 0;
@@ -323,6 +342,9 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 					if (last_end <= 0x7fffffff) {
 						negated_ranges[num_negated].start = last_end;
 						negated_ranges[num_negated].end = 0x7fffffff;
+						num_negated++;
+						negated_ranges[num_negated].start = NDFA_STARTOFLINE;
+						negated_ranges[num_negated].end = NDFA_ENDOFLINE;
 						num_negated++;
 					}
 					
@@ -464,10 +486,27 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				ndfa_transition(nfa, NDFA_END, NULL);
 				break;
 				
+			case '>':
+				recent_state = ndfa_get_pointer(nfa);
+
+				/* Start of line */
+				ndfa_transition(nfa, NDFA_STARTOFLINE, NULL);
+				break;
+				
+			case '<':
+				recent_state = ndfa_get_pointer(nfa);
+
+				/* End of line */
+				ndfa_transition(nfa, NDFA_ENDOFLINE, NULL);
+				break;
+				
 			case '.':
 				/* Anything */
 				recent_state = ndfa_get_pointer(nfa);
+
+				ndfa_push(nfa);
 				ndfa_transition_range(nfa, 0, 0x7fffffff, NULL);
+				ndfa_rejoin(nfa);
 				break;
 			
 			default:

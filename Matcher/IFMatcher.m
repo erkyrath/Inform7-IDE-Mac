@@ -256,6 +256,7 @@ static void reject_handler(ndfa_run_state run_state, int length, ndfa_pointer st
 	matchString		= string;
 	
 	ndfa_run(run_state, NDFA_START);
+	ndfa_run(run_state, NDFA_STARTOFLINE);
 	continueMatching = YES;
 	for (stringPos = 0; stringPos < len && continueMatching; stringPos++, bufPos++) {
 		// Read more characters from the buffer if necessary
@@ -271,14 +272,15 @@ static void reject_handler(ndfa_run_state run_state, int length, ndfa_pointer st
 		// Process the next character
 		if (buffer[bufPos] == '\n' || buffer[bufPos] == '\r') {
 			// Treat newlines as start/ends
-			ndfa_run(run_state, NDFA_END);
+			ndfa_run(run_state, NDFA_ENDOFLINE);
 			ndfa_run(run_state, buffer[bufPos]);
-			ndfa_run(run_state, NDFA_START);
+			ndfa_run(run_state, NDFA_STARTOFLINE);
 		} else {
 			// Just run everything else straight through
 			ndfa_run(run_state, buffer[bufPos]);
 		}
 	}
+	ndfa_run(run_state, NDFA_ENDOFLINE);
 	ndfa_run(run_state, NDFA_END);
 	
 	// Finish up
