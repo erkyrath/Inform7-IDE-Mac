@@ -324,7 +324,7 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				
 				/* Negate the ranges if necessary */
 				if (negated && ranges) {
-					char_range* negated_ranges = malloc(sizeof(char_range)*(num_ranges+3));
+					char_range* negated_ranges = malloc(sizeof(char_range)*(num_ranges+2));
 					int num_negated = 0;
 					
 					int last_end = 0;
@@ -342,9 +342,6 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 					if (last_end <= 0x7fffffff) {
 						negated_ranges[num_negated].start = last_end;
 						negated_ranges[num_negated].end = 0x7fffffff;
-						num_negated++;
-						negated_ranges[num_negated].start = NDFA_STARTOFLINE;
-						negated_ranges[num_negated].end = NDFA_ENDOFLINE;
 						num_negated++;
 					}
 					

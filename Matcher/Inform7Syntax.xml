@@ -4,7 +4,7 @@
 	
 	<!-- Named regexps allow you to define common elements that can be used elsewhere -->
 	<!-- Note definition of string here that shows how to deal with multi-line structures -->
-	<Regexp name='STRING'>\"([^"])*\"</Regexp>
+	<Regexp name='STRING'>\"([^"]|&gt;|&lt;)*\"</Regexp>
 	<Regexp name='ANYTHING'>.*</Regexp>
 	<Regexp name='ANYTHINGMULTILINE'>(.|&gt;|&lt;)*</Regexp>
 	
@@ -28,7 +28,7 @@
 	</Structure>
 	<Structure>
 		<Title>Comment</Title>
-		<Match>\[([^\]])*\]</Match>
+		<Match>\[([^\]]|&gt;|&lt;)*\]</Match>
 	</Structure>
 	<Structure>
 		<Title>Word</Title>
