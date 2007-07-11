@@ -161,6 +161,8 @@
 		// Move the text to the bottom
 		[textView setFrame: NSMakeRect(NSMinX(contentRect), NSMinY(contentRect), contentRect.size.width, contentRect.size.height-topSize.height)];
 	}
+
+	[textView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 	
 	[[self window] invalidateShadow];
 }
