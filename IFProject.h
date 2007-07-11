@@ -11,6 +11,7 @@
 #import "IFCompilerSettings.h"
 #import "IFProjectFile.h"
 #import "IFIndexFile.h"
+#import "IFContextMatcher.h"
 
 #import "ZoomView/ZoomSkein.h"
 
@@ -57,6 +58,7 @@ extern NSString* IFProjectSourceFileDeletedNotification;
 - (BOOL) singleFile;
 - (NSString*) mainSourceFile;
 - (NSTextStorage*) storageForFile: (NSString*) sourceFile;
+- (IFContextMatcher*) syntaxDictionaryMatcherForFile: (NSString*) sourceFile;
 - (BOOL) fileIsTemporary: (NSString*) sourceFile;
 - (BOOL) addFile: (NSString*) newFile;
 - (BOOL) removeFile: (NSString*) oldFile;

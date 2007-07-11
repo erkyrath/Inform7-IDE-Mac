@@ -60,6 +60,36 @@
 	[self compileLexer];
 }
 
+- (void) processCharacters: (NSString*) string {
+	if ([elements count] == 0) return;
+
+	NSString* thisElement = [elements lastObject];
+	
+	if ([thisElement isEqualToString: @"Title"]) {
+		// Title of an Element or a Structure
+		[structure setTitle: [[structure title] stringByAppendingString: string]];
+	} else if ([thisElement isEqualToString: @"Match"]) {
+		// Match of an Element or a Structure
+		[structure setRegexp: [[structure regexp] stringByAppendingString: string]];
+	} else if ([thisElement isEqualToString: @"Description"]) {
+		// Description of an Element
+		[element setElementDescription: [[element elementDescription] stringByAppendingString: string]];
+	} else if ([thisElement isEqualToString: @"Link"]) {
+		// Link of an Element
+		[element setElementLink: [[element elementLink] stringByAppendingString: string]];
+	} else if (regexpName != nil && [thisElement isEqualToString: @"Regexp"]) {
+		// Regular expression definition
+		NSString* oldValue = @"";
+		if ([regexps objectForKey: regexpName] != nil) {
+			oldValue = [regexps objectForKey: regexpName];
+		}
+		
+		NSString* newValue = [oldValue stringByAppendingString: string];
+		[regexps setObject: newValue
+					forKey: regexpName];
+	}	
+}
+
 - (void)	parser: (NSXMLParser*)	parser 
    didStartElement: (NSString*)		elementName
 	  namespaceURI: (NSString*)		namespaceURI
@@ -143,6 +173,10 @@
 	
 	// Pop this element from the stack
 	[elements removeLastObject];
+	
+	if ([elementName isEqualToString: @"linebreak"]) {
+		[self processCharacters: @"\n"];
+	}
 }
 
 - (void)	parser: (NSXMLParser *)parser 
@@ -151,28 +185,21 @@
 
 	NSString* thisElement = [elements lastObject];
 	
-	if ([thisElement isEqualToString: @"Title"]) {
-		// Title of an Element or a Structure
-		[structure setTitle: [[structure title] stringByAppendingString: string]];
-	} else if ([thisElement isEqualToString: @"Match"]) {
-		// Match of an Element or a Structure
-		[structure setRegexp: [[structure regexp] stringByAppendingString: string]];
-	} else if ([thisElement isEqualToString: @"Description"]) {
-		// Description of an Element
-		[element setElementDescription: [[element elementDescription] stringByAppendingString: string]];
-	} else if ([thisElement isEqualToString: @"Link"]) {
-		// Link of an Element
-		[element setElementLink: [[element elementLink] stringByAppendingString: string]];
-	} else if (regexpName != nil && [thisElement isEqualToString: @"Regexp"]) {
-		// Regular expression definition
-		NSString* oldValue = @"";
-		if ([regexps objectForKey: regexpName] != nil) {
-			oldValue = [regexps objectForKey: regexpName];
-		}
-		
-		NSString* newValue = [oldValue stringByAppendingString: string];
-		[regexps setObject: newValue
-					forKey: regexpName];
+	if (![thisElement isEqualToString: @"Match"] && !(regexpName != nil && [thisElement isEqualToString: @"Regexp"])) {
+		string = [string stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	}
+	
+	[self processCharacters: string];
+}
+
+- (void)parser:(NSXMLParser *)parser foundIgnorableWhitespace:(NSString *)whitespaceString {
+	if ([elements count] == 0) return;
+
+	NSString* thisElement = [elements lastObject];
+
+	// Ignore the ignorable whitespace unless we're in a regexp of some kind
+	if ([thisElement isEqualToString: @"Match"] || (regexpName != nil && [thisElement isEqualToString: @"Regexp"])) {
+		[self processCharacters: whitespaceString];
 	}
 }
 

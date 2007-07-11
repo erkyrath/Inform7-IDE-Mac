@@ -8,13 +8,18 @@
 
 #import <AppKit/AppKit.h>
 
+#import "IFContextMatcher.h"
+
 // Variation on NSTextView that supports line highlighting
 
 // Highlight array contains entries of type NSArray
 //   Each entry contains (line, style) as NSNumbers
 
 @interface IFSourceFileView : NSTextView {
-	NSArray* highlights;
+	IFContextMatcher*	syntaxDictionary;										// Context matcher used to implement a syntax dictionary
 }
+
+// Matching syntax
+- (void) setSyntaxDictionaryMatcher: (IFContextMatcher*) matcher;				// Context matcher that's used to implement a syntax dictionary
 
 @end

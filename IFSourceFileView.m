@@ -15,20 +15,36 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code here.
+		[syntaxDictionary release];
     }
     return self;
 }
 
+- (void) dealloc {
+	
+	[super dealloc];
+}
+
 - (void) keyDown: (NSEvent*) event {
 	IFProjectController* controller = [[self window] windowController];
-	[[NSRunLoop currentRunLoop] performSelector: @selector(removeAllTemporaryHighlights)
-										 target: controller
-									   argument: nil
-										  order: 8
-										  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+	if ([controller isKindOfClass: [IFProjectController class]]) {
+		[[NSRunLoop currentRunLoop] performSelector: @selector(removeAllTemporaryHighlights)
+											 target: controller
+										   argument: nil
+											  order: 8
+											  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+	}
 
 	[super keyDown: event];
+}
+
+- (void) mouseDown: (NSEvent*) event {
+	if ([event modifierFlags] == NSCommandKeyMask) {
+		// Cmd+click shows the syntax element for the area the mouse is over
+	} else {
+		// Process this event as normal
+		[super mouseDown: event];		
+	}
 }
 
 @end

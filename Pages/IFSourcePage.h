@@ -11,6 +11,7 @@
 #import "IFPage.h"
 #import "IFIntelFile.h"
 #import "IFIsFiles.h"
+#import "IFSourceFileView.h"
 
 //
 // The 'source' page
@@ -18,7 +19,7 @@
 @class IFCustomPopup;
 @class IFHeadingsBrowser;
 @interface IFSourcePage : IFPage {
-	IBOutlet NSTextView* sourceText;							// The text view containing the source text
+	IBOutlet IFSourceFileView* sourceText;						// The text view containing the source text
 	IBOutlet NSScrollView* sourceScroller;						// The scroll view containing the source file
 	IBOutlet NSView* fileManager;								// The view containing the file manager
 	

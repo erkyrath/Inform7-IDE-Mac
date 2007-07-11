@@ -109,7 +109,12 @@ static NSRunLoop* mainRunLoop = nil;
 	NSLog(@"%@", [[IFSharedContextMatcher matcherForInform7] getContextAtPoint: 7
 																	  inString: @"\"[1234567]\""]);
 	
-	[[[IFContextMatchWindow alloc] init] showWindow: self];
+	IFContextMatchWindow* testWindow = [[[IFContextMatchWindow alloc] init] autorelease];
+	
+	[testWindow setElements:  [[IFSharedContextMatcher matcherForInform7] getContextAtPoint: 7
+																				   inString: contextExample]];
+	[testWindow popupAtLocation: [NSEvent mouseLocation]
+					   onScreen: [[NSScreen screens] objectAtIndex: 0]];
 	
 	if (haveWebkit) {
 		// Register some custom URL handlers

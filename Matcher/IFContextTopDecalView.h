@@ -10,7 +10,10 @@
 
 
 @interface IFContextTopDecalView : NSView {
-
+	// View state
+	BOOL flipped;													// YES if the image should be drawn upside-down
 }
+
+- (void) setFlipped: (BOOL) flipped;								// Set to draw the decal image upside down
 
 @end

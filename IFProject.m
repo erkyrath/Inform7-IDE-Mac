@@ -16,6 +16,7 @@
 #import "IFInform6Highlighter.h"
 
 #import "IFNaturalIntel.h"
+#import "IFSharedContextMatcher.h"
 
 #include "uuid/uuid.h"
 
@@ -26,6 +27,23 @@ NSString* IFProjectSourceFileRenamedNotification = @"IFProjectSourceFileRenamedN
 NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedNotification";
 
 @implementation IFProject
+
+- (IFContextMatcher*) syntaxDictionaryMatcherForFile: (NSString*) filename {
+	NSString* extn = [[filename pathExtension] lowercaseString];
+	if ([extn isEqualToString: @"inf"] ||
+		[extn isEqualToString: @"i6"] ||
+		[extn isEqualToString: @"h"]) {
+		// Inform 6 file
+		return [IFSharedContextMatcher matcherForInform6];
+	} else if ([extn isEqualToString: @"ni"] ||
+			   [extn isEqualToString: @""]) {
+		// Natural Inform file
+		return [IFSharedContextMatcher matcherForInform7];
+	}
+	
+	// No syntax dictionary
+	return nil;
+}
 
 - (id<IFSyntaxHighlighter,NSObject>) highlighterForFilename: (NSString*) filename {
 	NSString* extn = [[filename pathExtension] lowercaseString];
@@ -987,7 +1005,7 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 																table: nil]];
 	[undo beginUndoGrouping];
 
-	// This ensure that we can redo this action
+	// This ensures that we can redo this action
 	[[undo prepareWithInvocationTarget: self] rewroteCharactersInStorage: storage
 																   range: NSMakeRange(range.location, [replacementString length])
 														  originalString: replacementString

@@ -19,7 +19,7 @@ static NSImage* topDecal;
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code here.
+		flipped = NO;
     }
     return self;
 }
@@ -46,10 +46,25 @@ static NSImage* topDecal;
 	[[NSColor clearColor] set];
 	NSRectFill(topRect);
 	
+	if (flipped) {
+		[[NSGraphicsContext currentContext] saveGraphicsState];
+		
+		NSAffineTransform* flipTransform = [NSAffineTransform transform];
+		[flipTransform scaleXBy: 1.0
+							yBy: -1.0];
+		[flipTransform translateXBy: 0
+								yBy: -[topDecal size].height];
+		[flipTransform set];
+	}
+	
 	[topDecal drawInRect: topRect
 				fromRect: topRect
 			   operation: NSCompositeSourceOver
 				fraction: 1.0];
+	if (flipped) {
+		[[NSGraphicsContext currentContext] restoreGraphicsState];
+	}
+				
 	[bgImage drawInRect: topRect
 			   fromRect: topRect
 			  operation: NSCompositeSourceIn
@@ -58,7 +73,10 @@ static NSImage* topDecal;
 	[decalImage unlockFocus];
 	
 	// Draw the final image
-	NSRect decalRect = NSMakeRect(NSMinY(bounds), NSMaxY(bounds)-topRect.size.height, topRect.size.width, topRect.size.height);
+	NSRect decalRect = NSMakeRect(NSMinX(bounds), NSMaxY(bounds)-topRect.size.height, topRect.size.width, topRect.size.height);
+	if (flipped) {
+		decalRect.origin.y = 0;
+	}
 	[[NSColor clearColor] set];
 	NSRectFill(decalRect);
 	[decalImage drawInRect: decalRect
@@ -70,13 +88,20 @@ static NSImage* topDecal;
 	[decalImage release];
 	
 	// Draw the remainder of the background
-	NSRect bgRect = NSMakeRect(0, 0, bounds.size.width, bounds.size.height - topRect.size.height);
+	NSRect bgRect = NSMakeRect(0, flipped?topRect.size.height:0, bounds.size.width, bounds.size.height - topRect.size.height);
 	[[NSColor windowBackgroundColor] set];
 	NSRectFill(bgRect);
 }
 
 - (BOOL) isOpaque {
 	return NO;
+}
+
+- (void) setFlipped: (BOOL) newFlipped {
+	if (flipped == newFlipped) return;
+	
+	flipped = newFlipped;
+	[self setNeedsDisplay: YES];
 }
 
 @end
