@@ -134,6 +134,9 @@ enum lineStyle {
 
 - (void) willNeedRecompile: (NSNotification*) not;
 
+// Documentation
+- (void) openDocUrl: (NSURL*) url;
+
 // Debugging
 - (void) updatedBreakpoints: (NSNotification*) not;
 - (void) hitBreakpoint: (int) pc;
@@ -160,7 +163,6 @@ enum lineStyle {
 - (IBAction) nextDifferenceBySkein: (id) sender;
 
 // Tabbing around
-
 - (IBAction) tabSource: (id) sender;
 - (IBAction) tabErrors: (id) sender;
 - (IBAction) tabIndex: (id) sender;

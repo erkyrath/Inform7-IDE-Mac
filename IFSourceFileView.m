@@ -69,6 +69,7 @@
 		
 		// Build the window to display the results in
 		IFContextMatchWindow* window = [[[IFContextMatchWindow alloc] init] autorelease];
+		[window setDelegate: self];
 		
 		// Run the syntax matcher to find out what help we need to display
 		BOOL contextOk = NO;
@@ -93,6 +94,13 @@
 		// Process this event as normal
 		[super mouseDown: event];		
 	}
+}
+
+- (BOOL) openStringUrl: (NSString*) url {
+	if ([[self delegate] respondsToSelector:@selector(openStringUrl:)]) {
+		return [[self delegate] openStringUrl: url];
+	}
+	return NO;
 }
 
 @end

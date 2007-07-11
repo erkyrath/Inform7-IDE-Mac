@@ -31,6 +31,7 @@
 	// Window state                                                 
 	BOOL 					shown;									// YES if this window has been shown and has retained itself
 	BOOL					flipped;								// YES if this window is flipped
+	id						delegate;								// The delegate for this window
 }
 
 // Controlling this window
@@ -40,5 +41,15 @@
 - (void) popupAtLocation: (NSPoint) pointOnWindow					// Shows this window at the specified location (and retains it)
 			    onWindow: (NSWindow*) window; 
 - (void) fadeOutWindow;												// Fades out this window (and releases it)
+
+- (void) setDelegate: (id) delegate;								// Specifies the delegate for this window
+- (id)   delegate;													// Retrieves the delegate for this window
+
+@end
+
+// Delegate methods
+@interface NSObject(IFContextMatchWindowDelegate)
+
+- (BOOL) openStringUrl: (NSString*) url;							// Request to open the specified URL string. If this returns YES, then the window is closed
 
 @end

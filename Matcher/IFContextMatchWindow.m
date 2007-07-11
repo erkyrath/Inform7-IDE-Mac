@@ -70,6 +70,7 @@
 	// Clear up the data
 	[currentElement release];
 	[elements release];
+	[delegate release];
 	
 	// Clear up the fading timer
 	[fadeTimer invalidate];
@@ -418,6 +419,15 @@ static NSAttributedString* LinkString(NSString* title, id link) {
 	[[self window] orderOut: self];
 }
 
+- (id)delegate {
+	return delegate;
+}
+
+- (void)setDelegate:(id)aDelegate {
+	[delegate release];
+	delegate = [aDelegate retain];
+}
+
 // = Text view delegate methods =
 
 - (BOOL) textView: (NSTextView *)aTextView 
@@ -429,6 +439,12 @@ static NSAttributedString* LinkString(NSString* title, id link) {
 		return YES;
 	} else if ([link isKindOfClass: [NSString class]]) {
 		// If the link is a string, then make a request to go to the documentation for that element
+		if ([delegate respondsToSelector:@selector(openStringUrl:)]) {
+			if ([delegate openStringUrl: link]) {
+				shown = NO;
+			}
+		}
+		return YES;
 	} else {
 		// All other links return to the choice list
 		[self displayElementChoices];

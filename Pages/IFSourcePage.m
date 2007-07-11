@@ -543,4 +543,11 @@
 	return [NSArray arrayWithObject: headingsControl];
 }
 
+// = IFContextMatcherWindow delegate methods =
+
+- (BOOL) openStringUrl: (NSString*) url {
+	[parent openDocUrl: [NSURL URLWithString: url]];
+	return YES;
+}
+
 @end

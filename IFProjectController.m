@@ -3129,4 +3129,13 @@ static NSDictionary*  itemDictionary = nil;
 							contextInfo: nil];
 }
 
+// = Documentation =
+
+- (void) openDocUrl: (NSURL*) url {
+	IFProjectPane* auxPane = [self auxPane];
+	
+	[auxPane selectView: IFDocumentationPane];
+	[[auxPane documentationPage] openURL: url];
+}
+
 @end
