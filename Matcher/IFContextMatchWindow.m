@@ -130,7 +130,22 @@
 		
 		// Move the window
 		[[self window] setFrame: windowFrame
-						display: YES];
+						display: NO];
+
+		// Rearrange the views
+		NSImage* topDecal = [NSImage imageNamed: @"InfoWindowTop"];
+		NSRect contentRect = [[[self window] contentView] frame];
+		NSSize topSize = [topDecal size];
+	
+		if (flipped) {
+			// Move the text to the top
+			[textView setFrame: NSMakeRect(NSMinX(contentRect), NSMinY(contentRect)+topSize.height, contentRect.size.width, contentRect.size.height-topSize.height)];
+		} else {
+			// Move the text to the bottom
+			[textView setFrame: NSMakeRect(NSMinX(contentRect), NSMinY(contentRect), contentRect.size.width, contentRect.size.height-topSize.height)];
+		}
+		
+		[[self window] display];
 	}
 	
 	// Perform any animation requested
