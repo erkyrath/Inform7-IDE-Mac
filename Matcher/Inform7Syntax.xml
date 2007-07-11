@@ -13,7 +13,13 @@
 	<!-- Additionally, they can be used to run the lexer recursively, so you can define syntax that is only valid within strings, for example -->
 	<Structure>
 		<Title>Whitespace</Title>
-		<Match>[\w]+</Match>
+		<Match>[\w]+</Match> 
+		<!-- 
+            Note that using whitespace in the set notation excludes the 'start of line/end of line'
+            characters. This means that newlines will be matched as separate whitespace characters,
+            but more importantly makes it possible to match the start and end of lines in other
+            rules (see the table example)
+		-->
 	</Structure>
 	<Structure>
 		<Title>String</Title>
