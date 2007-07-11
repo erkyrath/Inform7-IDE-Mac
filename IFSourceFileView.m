@@ -71,9 +71,21 @@
 		IFContextMatchWindow* window = [[[IFContextMatchWindow alloc] init] autorelease];
 		
 		// Run the syntax matcher to find out what help we need to display
+		BOOL contextOk = NO;
+		
+		[syntaxDictionary setCaseSensitive: YES];
 		NSArray* context  = [syntaxDictionary getContextAtPoint: characterIndex inString: [[self textStorage] string]];
 		
-		if (context && [window setElements: context]) {
+		if (!context || ![window setElements: context]) {
+			[syntaxDictionary setCaseSensitive: NO];			
+			context = [syntaxDictionary getContextAtPoint: characterIndex inString: [[self textStorage] string]];
+			
+			if (context) contextOk = [window setElements: context];
+		} else {
+			contextOk = YES;
+		}
+		
+		if (context && contextOk) {
 			[window popupAtLocation: [event locationInWindow]
 						   onWindow: [self window]];
 		}

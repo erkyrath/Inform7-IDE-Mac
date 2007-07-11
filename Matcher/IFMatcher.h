@@ -28,6 +28,7 @@
 	int matchPosition;								// Position of the last known match (while match is running)
 	id matchDelegate;								// The delegate passed to the matcher function
 	BOOL continueMatching;							// YES while we should continue performing matches
+	BOOL caseSensitive;								// If NO, then the string is made into lower case before matching
 }
 
 // Building the lexer
@@ -41,6 +42,7 @@
 // Running the lexer
 - (void) match: (NSString*) string					// Runs the lexer against a specific string
   withDelegate: (id) lexDelegate;
+- (void) setCaseSensitive: (BOOL) isCaseSensitive;	// If isCaseSensitive is NO, then all the string is changed to lowercase before matching
 
 @end
 

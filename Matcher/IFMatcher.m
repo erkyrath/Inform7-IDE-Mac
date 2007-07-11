@@ -26,6 +26,8 @@ static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context);
 		dfa			= NULL;
 
 		ndfa_add_named_regexp_handler(nfa, named_expression_handler, self);
+		
+		caseSensitive = YES;
 	}
 	
 	return self;
@@ -264,8 +266,18 @@ static void reject_handler(ndfa_run_state run_state, int length, ndfa_pointer st
 			NSRange charRange = NSMakeRange(stringPos, RunBufferSize);
 			if (charRange.location + charRange.length > len) charRange.length = len-charRange.location;
 
-			[string getCharacters: buffer
-							range: charRange];
+			if (caseSensitive) {
+				[string getCharacters: buffer
+								range: charRange];				
+			} else {
+				NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+
+				NSString* lowerString = [[string substringWithRange: charRange] lowercaseString];
+				[lowerString getCharacters: buffer
+									 range: NSMakeRange(0, charRange.length)];
+				
+				[pool release];
+			}
 			bufPos = 0;
 		}
 		
@@ -286,6 +298,10 @@ static void reject_handler(ndfa_run_state run_state, int length, ndfa_pointer st
 	// Finish up
 	ndfa_finish(run_state);
 	[matcherLock unlock];
+}
+
+- (void) setCaseSensitive: (BOOL) isCaseSensitive {
+	caseSensitive = isCaseSensitive;
 }
 
 @end
