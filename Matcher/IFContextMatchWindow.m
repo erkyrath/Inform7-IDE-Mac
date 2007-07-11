@@ -47,11 +47,13 @@
 		[[textView textContainer] setContainerSize: NSMakeSize([[textView textContainer] containerSize].width, 1e8)];
 		
 		[textView setEditable: NO];
-		[textView setSelectable: NO];
+		[textView setSelectable: YES];
 		[textView setTextContainerInset: NSMakeSize(8, 8)];
 		[[[textView textStorage] mutableString] appendString: @"Hello, world"];
 		
 		[[contextWindow contentView] addSubview: textView];
+		
+		[textView setDelegate: self];
 		
 		// Ensure the window has a shadow
 		[contextWindow setHasShadow: YES];
@@ -333,12 +335,13 @@ static NSAttributedString* LinkString(NSString* title, id link) {
 	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	
 	NSEvent* resend = nil;
+	NSEvent* ev = nil;
 	
 	while (shown) {
 		[pool release];
 		pool = [[NSAutoreleasePool alloc] init];
 		
-		NSEvent* ev = 
+		ev = 
 			[NSApp nextEventMatchingMask: NSAnyEventMask
 							   untilDate: [NSDate distantFuture]
 								  inMode: NSEventTrackingRunLoopMode
@@ -360,9 +363,11 @@ static NSAttributedString* LinkString(NSString* title, id link) {
 				[NSApp sendEvent: ev];
 			}
 			break;
-		} else if ([ev type] == NSSystemDefined && [ev subtype] == 7) {
-			// Click on the menu bar?
-			break;
+		} else if ([ev type] == NSSystemDefined && [ev subtype] == 7 && [ev data1] == 1 && [ev data2] == 1) {
+			// System event indicating a mouse click
+			if (!NSPointInRect([ev locationInWindow], [[self window] frame])) {
+				break;
+			}
 		}
 		
 		// Pass the event through
@@ -394,6 +399,26 @@ static NSAttributedString* LinkString(NSString* title, id link) {
 	
 	// Hide the window (TODO: make the window fade out slowly)
 	[[self window] orderOut: self];
+}
+
+// = Text view delegate methods =
+
+- (BOOL) textView: (NSTextView *)aTextView 
+	clickedOnLink: (id)link 
+		  atIndex: (unsigned)charIndex {
+	if ([link isKindOfClass: [IFMatcherElement class]]) {
+		// If the link is to a matcher element, then display that element
+		[self setMatcherElement: link];
+		return YES;
+	} else if ([link isKindOfClass: [NSString class]]) {
+		// If the link is a string, then make a request to go to the documentation for that element
+	} else {
+		// All other links return to the choice list
+		[self displayElementChoices];
+		return YES;
+	}
+	
+	return NO;
 }
 
 @end

@@ -100,6 +100,10 @@ static NSRunLoop* mainRunLoop = nil;
 	haveWebkit = [[self class] isWebKitAvailable];
 	
 	// Ensure that the context matcher is immediately available
+	[IFSharedContextMatcher matcherForInform7];
+	
+#if 0
+	// Test the context matcher
 	NSString* contextExample = @"Understand \"this\" as that.\n\nTable of something\n\n\"Multiline\nString\"\n\"String\"";
 	[[IFSharedContextMatcher matcherForInform7] match: contextExample
 										 withDelegate: self];
@@ -115,6 +119,7 @@ static NSRunLoop* mainRunLoop = nil;
 																				   inString: contextExample]];
 	[testWindow popupAtLocation: [NSEvent mouseLocation]
 					   onScreen: [[NSScreen screens] objectAtIndex: 0]];
+#endif
 	
 	if (haveWebkit) {
 		// Register some custom URL handlers

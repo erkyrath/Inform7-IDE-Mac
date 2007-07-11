@@ -31,7 +31,7 @@
 	</Structure>
 	<Structure>
 		<Title>Word</Title>
-		<Match>[^\w]+</Match>
+		<Match>[^\w.,?:;\-'"\[\]]+</Match>
 	</Structure>
 	
 	<!-- Elements define syntax that is matched and displays a result when command+clicked -->
@@ -45,6 +45,22 @@
 			During play, the computer and the player alternate in writing messages to each other: in the player's case, these are short instructions, usually saying what to do next. A wide range of such "commands" are automatically understood, but these only apply to the standard built-in actions. (This wide range is conveniently tabulated at the foot of the Actions index.) If we want the player to be able to command new actions, then we need to specify what is to be understood as what. For this, we supply special sentences starting with the word "Understand".
 		</Description>
 		<Link>inform:/doc238.html</Link>
+	</Element>
+	
+	<!-- Silly demo that shows what happens when something is ambiguous (try 'Something' on its own)-->
+	<Element>
+		<Title>Something I</Title>
+		<Match>Something</Match>
+		<Description>
+			Ooh, this is something
+		</Description>
+	</Element>
+	<Element>
+		<Title>Something II</Title>
+		<Match>Something</Match>
+		<Description>
+			Ooh, this is something else
+		</Description>
 	</Element>
 	
 	<Element>
@@ -62,5 +78,13 @@
 		<Title>Substitution</Title>
 		<Match>\[[^\]]*\]</Match>
 		<Description>Parts of strings contained within square brackets are treated as substitutions by the compiler</Description>
+	</Element>
+	
+	<Element structure="Substitution">
+		<Title>[The noun]</Title>
+		<Match>&gt;\[(T|t)he noun\]&lt;</Match>
+		<Description>
+			A substitution that is replaced by the name of the noun in the last command entered by the user.
+		</Description>
 	</Element>
 </Syntax>

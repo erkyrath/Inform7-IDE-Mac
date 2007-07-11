@@ -251,10 +251,10 @@
 		
 		// Perform any further substring matching that's required
 		if (context != nil) {
-			context = [self matchSubstringsIn: context
-								   withString: substring
-										range: contextRange
-									 position: contextPosition];
+			context = [[self matchSubstringsIn: context
+									withString: substring
+										 range: contextRange
+									  position: contextPosition] retain];
 		}
 		
 		// Put the results into the subcontext result if there are any

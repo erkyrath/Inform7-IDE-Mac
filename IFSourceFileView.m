@@ -8,7 +8,7 @@
 
 #import "IFSourceFileView.h"
 #import "IFProjectController.h"
-
+#import "IFContextMatchWindow.h"
 
 @implementation IFSourceFileView
 
@@ -21,6 +21,7 @@
 }
 
 - (void) dealloc {
+	[syntaxDictionary release];
 	
 	[super dealloc];
 }
@@ -38,9 +39,44 @@
 	[super keyDown: event];
 }
 
+- (void) setSyntaxDictionaryMatcher: (IFContextMatcher*) matcher {
+	[syntaxDictionary release];
+	syntaxDictionary = [matcher retain];
+}
+
 - (void) mouseDown: (NSEvent*) event {
-	if ([event modifierFlags] == NSCommandKeyMask) {
+	unsigned modifiers = [event modifierFlags];
+	
+	if ((modifiers&NSCommandKeyMask) != 0 &&
+		(modifiers&(NSShiftKeyMask|NSControlKeyMask|NSAlternateKeyMask)) == 0) {
 		// Cmd+click shows the syntax element for the area the mouse is over
+		if (syntaxDictionary == nil) return;
+		
+		// Work out which character the mouse was clicked over
+		NSPoint containerOrigin = [self textContainerOrigin];
+		NSPoint viewLocation = [self convertPoint: [event locationInWindow]
+										 fromView: nil];
+		NSPoint containerLocation = NSMakePoint(viewLocation.x-containerOrigin.x, viewLocation.y-containerOrigin.y);
+		
+		unsigned characterIndex = NSNotFound;
+		unsigned glyphIndex = [[self layoutManager] glyphIndexForPoint: containerLocation
+								 				  inTextContainer: [self textContainer]];
+		if (glyphIndex != NSNotFound) {
+			characterIndex = [[self layoutManager] characterIndexForGlyphAtIndex: glyphIndex];
+		}
+		
+		if (characterIndex == NSNotFound) return;
+		
+		// Build the window to display the results in
+		IFContextMatchWindow* window = [[[IFContextMatchWindow alloc] init] autorelease];
+		
+		// Run the syntax matcher to find out what help we need to display
+		NSArray* context  = [syntaxDictionary getContextAtPoint: characterIndex inString: [[self textStorage] string]];
+		
+		if (context && [window setElements: context]) {
+			[window popupAtLocation: [event locationInWindow]
+						   onWindow: [self window]];
+		}
 	} else {
 		// Process this event as normal
 		[super mouseDown: event];		

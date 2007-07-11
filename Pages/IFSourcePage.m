@@ -44,6 +44,8 @@
 		if ([sourceText undoManager] != [[parent document] undoManager]) {
 			NSLog(@"Oops: undo manager broken");
 		}
+
+		[sourceText setSyntaxDictionaryMatcher: [[parent document] syntaxDictionaryMatcherForFile: mainFilename]];
 		
 		// We want to monitor for file renaming events
 		[[NSNotificationCenter defaultCenter] addObserver: self
@@ -371,6 +373,7 @@
 	[fileStorage endEditing];
 	
 	[sourceText setEditable: ![[parent document] fileIsTemporary: file]];
+	[sourceText setSyntaxDictionaryMatcher: [[parent document] syntaxDictionaryMatcherForFile: file]];
 	
 	[[IFIsFiles sharedIFIsFiles] updateFiles]; // have to update for the case where we select an 'unknown' file
 }
