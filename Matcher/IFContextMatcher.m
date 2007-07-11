@@ -246,7 +246,7 @@
 		contextPosition = position - matchRange.location;
 		
 		// Perform the match
-		[[matchStructure matcher] setCaseSensitive: caseSensitive];
+		[[matchStructure matcher] setCaseSensitive: NO];
 		[[matchStructure matcher] match: substring
 						   withDelegate: self];
 		
