@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "IFSourceFileView.h"
 
 
 //
@@ -14,7 +15,7 @@
 //
 @interface IFSingleController : NSWindowController {
 	// The textview used to display the document itself
-	IBOutlet NSTextView* fileView;						
+	IBOutlet IFSourceFileView* fileView;						
 }
 
 @end

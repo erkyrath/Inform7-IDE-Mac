@@ -9,6 +9,7 @@
 #import "IFSingleFile.h"
 #import "IFSingleController.h"
 #import "IFWelcomeWindow.h"
+#import "IFSharedContextMatcher.h"
 
 @implementation IFSingleController
 
@@ -42,6 +43,10 @@
 - (void) awakeFromNib {
 	// Set the window frame save name
 	[self setWindowFrameAutosaveName: @"SingleFile"];
+	
+	// Set the matcher for the window
+	// TODO: do different things depending on the file type
+	[fileView setSyntaxDictionaryMatcher: [IFSharedContextMatcher matcherForInform7]];
 
 	// Set the view's text appropriately
 	[[fileView textStorage] removeLayoutManager: [fileView layoutManager]];
