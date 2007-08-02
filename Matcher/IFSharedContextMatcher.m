@@ -70,9 +70,14 @@
 																ofType: @"xml"]
 					   atIndex: 0];
 	} else {
-		[xmlFiles insertObject:	[[NSBundle mainBundle] pathForResource: @"Inform6Syntax"
-																ofType: @"xml"]
-					   atIndex: 0];
+		NSString* inform6SyntaxPath = [[NSBundle mainBundle] pathForResource: @"Inform6Syntax"
+																	  ofType: @"xml"];
+		
+		if (inform6SyntaxPath) {
+			[xmlFiles insertObject:	[[NSBundle mainBundle] pathForResource: @"Inform6Syntax"
+																	ofType: @"xml"]
+						   atIndex: 0];
+		}
 	}
 	
 	// Read each of the XML files in turn to build this matcher

@@ -117,7 +117,17 @@
 				
 		[originalView release]; originalView = nil;
 		[originalSuperview release]; originalSuperview = nil;
-		[animationTimer invalidate]; [animationTimer release]; animationTimer = nil;
+		
+		if (animationTimer) {
+			[animationTimer invalidate]; [animationTimer release]; animationTimer = nil;
+
+			// Need to kill ourselves later (there might be a queued timer event, which can cause a crash)
+			[[NSRunLoop currentRunLoop] performSelector: @selector(autorelease)
+												 target: self
+											   argument: nil
+												  order: 64
+												  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+		}
 	}
 }
 
@@ -164,6 +174,7 @@
 	
 	// Start running the animation
 	animationStyle = style;
+	[self retain];
 	animationTimer = [[NSTimer timerWithTimeInterval: 0.01
 											  target: self
 											selector: @selector(animationTick)
@@ -217,7 +228,7 @@ static BOOL ViewNeedsDisplay(NSView* view) {
 
 - (void)drawRect:(NSRect)rect {
 	// Recache the view if it wants to be redrawn
-	if (ViewNeedsDisplay(originalView)) {
+	if (ViewNeedsDisplay(originalView) && [self percentDone] < 0.25) {
 		[endImage release];
 		endImage = [[[self class] cacheView: originalView] retain];
 	}
