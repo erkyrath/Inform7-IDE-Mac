@@ -67,6 +67,9 @@ typedef struct ndfa_run_state* ndfa_run_state;
 /* Creates a new NDFA, with a single start state */
 extern ndfa ndfa_create();
 
+/* Creates a clone of the specified NDFA */
+extern ndfa ndfa_clone(ndfa nfa);
+
 /* Releases the memory associated with an NDFA */
 extern void ndfa_free(ndfa nfa);
 

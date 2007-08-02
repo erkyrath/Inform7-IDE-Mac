@@ -278,6 +278,86 @@ ndfa ndfa_create() {
 	return new_ndfa;
 }
 
+/* Creates a clone of the specified NDFA */
+ndfa ndfa_clone(ndfa nfa) {
+	int x;
+	
+	/* Create a new NDFA */
+	ndfa new_ndfa = malloc(sizeof(struct ndfa));
+	assert(new_ndfa != NULL);
+	
+	/* Populate it with a single start state */
+	new_ndfa->is_dfa					= nfa->is_dfa;
+	new_ndfa->num_states				= nfa->num_states;
+	new_ndfa->total_states				= nfa->num_states;
+	new_ndfa->states					= malloc(sizeof(ndfa_state)*nfa->num_states);
+	new_ndfa->magic						= NDFA_MAGIC;
+	                            		
+	new_ndfa->start						= nfa->start;
+	new_ndfa->compile_state				= nfa->compile_state;
+	                            		
+	new_ndfa->state_stack				= malloc(sizeof(int)*nfa->stack_length);
+	new_ndfa->stack_total				= nfa->stack_length;
+	new_ndfa->stack_length				= nfa->stack_length;
+	new_ndfa->stack_joins				= malloc(sizeof(ndfa_join_stack)*nfa->stack_length);
+	                            		
+	new_ndfa->num_re_handlers			= nfa->num_re_handlers;
+	new_ndfa->re_handlers				= malloc(sizeof(ndfa_regexp_handler)*nfa->num_re_handlers);
+	
+	/* Copy the states */
+	for (x=0; x<nfa->num_states; x++) {
+		int y;
+		ndfa_state* new_state = new_ndfa->states + x;
+		ndfa_state* old_state = nfa->states + x;
+		
+		/* Copy the state data */
+		*new_state 						= *old_state;
+		
+		/* Copy the transitions */
+		new_state->total_transitions	= new_state->num_transitions;
+		new_state->transitions 			= malloc(sizeof(ndfa_transit)*new_state->total_transitions);
+
+		for (y=0; y<new_state->num_transitions; y++) {
+			ndfa_transit* new_transit = new_state->transitions + y;
+			ndfa_transit* old_transit = old_state->transitions + y;
+			
+			*new_transit = *old_transit;
+		}
+		
+		/* Copy the data pointers */
+		new_state->data_pointers 		= malloc(sizeof(void*)*new_state->num_data);
+		memcpy(new_state->data_pointers, old_state->data_pointers, sizeof(void*)*new_state->num_data);
+		
+#if FAST_JOINS
+		/* Copy the fast join data */
+		new_state->total_sources 		= new_state->num_sources;
+		new_state->sources				= malloc(sizeof(unsigned int)*new_state->total_sources);
+		memcpy(new_state->sources, old_state->sources, sizeof(unsigned int)*new_state->num_sources);
+#endif
+	}
+	
+	/* Copy the join stacks */
+	memcpy(new_ndfa->state_stack, nfa->state_stack, sizeof(int)*nfa->stack_length);
+	for (x=0; x<nfa->stack_length; x++) {
+		if (nfa->stack_joins[x]) {
+			/* Copy this join */
+			new_ndfa->stack_joins[x] 				= malloc(sizeof(ndfa_join_stack));
+			new_ndfa->stack_joins[x]->num_states 	= nfa->stack_joins[x]->num_states;
+			new_ndfa->stack_joins[x]->states		= malloc(sizeof(unsigned int)*new_ndfa->stack_joins[x]->num_states);
+			memcpy(new_ndfa->stack_joins[x]->states, nfa->stack_joins[x]->states, sizeof(unsigned int)*new_ndfa->stack_joins[x]->num_states);
+		} else {
+			/* Set to null */
+			new_ndfa->stack_joins[x] = NULL;
+		}
+	}
+	
+	/* Copy the regexp handlers */
+	memcpy(new_ndfa->re_handlers, nfa->re_handlers, sizeof(ndfa_regexp_handler)*new_ndfa->num_re_handlers);
+	
+	/* Return the result */
+	return new_ndfa;
+}
+
 /* Releases the memory associated with an NDFA */
 void ndfa_free(ndfa nfa) {
 	int x;
