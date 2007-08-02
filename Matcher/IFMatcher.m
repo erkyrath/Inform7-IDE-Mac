@@ -33,6 +33,26 @@ static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context);
 	return self;
 }
 
+- (id) initWithMatcher: (IFMatcher*) matcher {
+	self = [super init];
+	
+	if (self) {
+		[matcher->matcherLock lock];
+		
+		matcherLock		= [[NSLock allocWithZone: [self zone]] init];
+		results			= [matcher->results copyWithZone: [self zone]];
+		nfa				= ndfa_clone(matcher->nfa);
+		dfa				= ndfa_clone(matcher->dfa);
+		
+		namedRegexps	= [matcher->namedRegexps copyWithZone: [self zone]];
+		caseSensitive	= matcher->caseSensitive;
+		
+		[matcher->matcherLock unlock];
+	}
+	
+	return self;
+}
+
 - (void) dealloc {
 	if (nfa)	ndfa_free(nfa);
 	if (dfa)	ndfa_free(dfa);
@@ -302,6 +322,12 @@ static void reject_handler(ndfa_run_state run_state, int length, ndfa_pointer st
 
 - (void) setCaseSensitive: (BOOL) isCaseSensitive {
 	caseSensitive = isCaseSensitive;
+}
+
+// = NSCopying =
+
+- (id) copyWithZone: (NSZone*) zone {
+	return [[IFMatcher allocWithZone: zone] initWithMatcher: self];
 }
 
 @end

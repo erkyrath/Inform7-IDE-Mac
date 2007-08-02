@@ -24,6 +24,18 @@
 	return self;
 }
 
+- (id) initWithContextMatcher: (IFContextMatcher*) matcher {
+	self = [super initWithMatcher: matcher];
+	
+	if (self) {
+		regexps		= [matcher->regexps copyWithZone: [self zone]];
+		structures	= [matcher->structures copyWithZone: [self zone]];
+		elements	= [matcher->elements copyWithZone: [self zone]];
+	}
+	
+	return self;
+}
+
 - (void) dealloc {
 	[regexps		release];
 	[structures		release];
@@ -299,6 +311,12 @@
 	context = nil;
 	
 	return result;
+}
+
+// = NSCopying =
+
+- (id) copyWithZone: (NSZone*) zone {
+	return [[IFContextMatcher alloc] initWithContextMatcher: self];
 }
 
 @end

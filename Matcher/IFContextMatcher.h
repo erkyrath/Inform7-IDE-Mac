@@ -33,6 +33,8 @@
 }
 
 // Initialising
+- (id) initWithContextMatcher: (IFContextMatcher*) matcher;		// Constructor used while implementing NSCopying
+
 - (void) readXml: (NSXMLParser*) xmlParser;						// Initialises this matcher using the specified XML description
 
 // Getting the context for a given position

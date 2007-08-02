@@ -13,7 +13,7 @@
 ///
 /// Class for lexing regular expressions
 ///
-@interface IFMatcher : NSObject {
+@interface IFMatcher : NSObject<NSCopying> {
 	NSLock*		matcherLock;						// Lock used to allow us to compile the NDFA in the background
 	
 	ndfa		nfa;								// Lexer in the process of being built
@@ -23,13 +23,16 @@
 
 	NSMutableDictionary* namedRegexps;				// Array of named regular expressions
 		
-	// TODO: could put these in an independant class to make this class completely thread-safe
+	// TODO: could put these in an independent class to make this class completely thread-safe
 	NSString* matchString;							// The string currently being matched against
 	int matchPosition;								// Position of the last known match (while match is running)
 	id matchDelegate;								// The delegate passed to the matcher function
 	BOOL continueMatching;							// YES while we should continue performing matches
 	BOOL caseSensitive;								// If NO, then the string is made into lower case before matching
 }
+
+// Initialisation
+- (id) initWithMatcher: (IFMatcher*) matcher;		// Builds a clone of this matcher (so subclasses can implement NSCopying)
 
 // Building the lexer
 - (void) clear;										// Clears this matcher

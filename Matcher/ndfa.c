@@ -282,6 +282,9 @@ ndfa ndfa_create() {
 ndfa ndfa_clone(ndfa nfa) {
 	int x;
 	
+	/* Do nothing if NULL is passed in */
+	if (nfa == NULL) return NULL;
+	
 	/* Create a new NDFA */
 	ndfa new_ndfa = malloc(sizeof(struct ndfa));
 	assert(new_ndfa != NULL);
