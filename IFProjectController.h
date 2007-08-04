@@ -84,6 +84,8 @@ enum lineStyle {
 	int  progressNum;
 	NSMutableArray* progressIndicators;
 	
+	IFProgress* processingSyntax;
+	
 	// Spell checking
 	BOOL sourceSpellChecking;
 	

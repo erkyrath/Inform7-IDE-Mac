@@ -334,6 +334,7 @@ static NSDictionary*  itemDictionary = nil;
 	[docPolicy release];
 
 	[progressIndicators release];
+	[processingSyntax release];
 	
 	[skeinNodeStack release];
 	
@@ -425,6 +426,16 @@ static NSDictionary*  itemDictionary = nil;
 											   object: [self document]];
 	
 	[self updatedBreakpoints: nil];
+	
+	// Register for syntax reading events
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(syntaxUpdateStarted:)
+												 name: IFProjectStartedBuildingSyntaxNotification
+											   object: [self document]];
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(syntaxUpdateFinished:)
+												 name: IFProjectFinishedBuildingSyntaxNotification
+											   object: [self document]];
 
     // Setup the default panes
     [projectPanes removeAllObjects];
@@ -465,6 +476,9 @@ static NSDictionary*  itemDictionary = nil;
     [[self window] setToolbar: toolbar];
 	
 	[statusInfo setStringValue: @""];
+	
+	// Tell the document to reload its syntax
+	[[self document] rebuildSyntaxMatchers];
 }
 
 // == Project pane layout ==
@@ -1186,6 +1200,9 @@ static NSDictionary*  itemDictionary = nil;
             }            
         }
     }
+	
+	// Update the document syntax files
+	[[self document] rebuildSyntaxMatchers];
 }
 
 - (void)compilerFaultAlertDidEnd: (NSWindow *)sheet
@@ -3136,6 +3153,28 @@ static NSDictionary*  itemDictionary = nil;
 	
 	[auxPane selectView: IFDocumentationPane];
 	[[auxPane documentationPage] openURL: url];
+}
+
+// = The syntax matcher =
+
+- (void) syntaxUpdateStarted: (NSNotification*) not {
+	if (!processingSyntax) {
+		processingSyntax = [[IFProgress alloc] init];
+		[self addProgressIndicator: processingSyntax];
+
+		[processingSyntax setMessage: [[NSBundle mainBundle] localizedStringForKey: @"Generating syntax tables"
+																			 value: @"Generating syntax tables"
+																			 table: nil]];
+	}
+}
+
+- (void) syntaxUpdateFinished: (NSNotification*) not {
+	if (processingSyntax) {
+		[processingSyntax setMessage: @""];
+		[self removeProgressIndicator: processingSyntax];
+		[processingSyntax autorelease];
+		processingSyntax = nil;
+	}
 }
 
 @end

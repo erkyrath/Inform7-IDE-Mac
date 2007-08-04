@@ -28,9 +28,9 @@
 	self = [super initWithMatcher: matcher];
 	
 	if (self) {
-		regexps		= [matcher->regexps copyWithZone: [self zone]];
-		structures	= [matcher->structures copyWithZone: [self zone]];
-		elements	= [matcher->elements copyWithZone: [self zone]];
+		regexps		= [matcher->regexps mutableCopyWithZone: [self zone]];
+		structures	= [matcher->structures mutableCopyWithZone: [self zone]];
+		elements	= [matcher->elements mutableCopyWithZone: [self zone]];
 	}
 	
 	return self;
@@ -316,7 +316,9 @@
 // = NSCopying =
 
 - (id) copyWithZone: (NSZone*) zone {
-	return [[IFContextMatcher alloc] initWithContextMatcher: self];
+	id result = [[IFContextMatcher alloc] initWithContextMatcher: self];
+	
+	return result;
 }
 
 @end

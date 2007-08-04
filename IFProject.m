@@ -25,24 +25,29 @@ NSString* IFProjectWatchExpressionsChangedNotification = @"IFProjectWatchExpress
 NSString* IFProjectBreakpointsChangedNotification = @"IFProjectBreakpointsChangedNotification";
 NSString* IFProjectSourceFileRenamedNotification = @"IFProjectSourceFileRenamedNotification";
 NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedNotification";
+NSString* IFProjectStartedBuildingSyntaxNotification = @"IFProjectStartedBuildingSyntaxNotification";
+NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuildingSyntaxNotification";
 
 @implementation IFProject
 
 - (IFContextMatcher*) syntaxDictionaryMatcherForFile: (NSString*) filename {
 	NSString* extn = [[filename pathExtension] lowercaseString];
+	IFContextMatcher* result;
+	
+	[matcherLock lock];
 	if ([extn isEqualToString: @"inf"] ||
 		[extn isEqualToString: @"i6"] ||
 		[extn isEqualToString: @"h"]) {
 		// Inform 6 file
-		return [IFSharedContextMatcher matcherForInform6];
+		result = [[inform6Matcher retain] autorelease];
 	} else if ([extn isEqualToString: @"ni"] ||
 			   [extn isEqualToString: @""]) {
 		// Natural Inform file
-		return [IFSharedContextMatcher matcherForInform7];
+		result = [[inform7Matcher retain] autorelease];
 	}
+	[matcherLock unlock];
 	
-	// No syntax dictionary
-	return nil;
+	return result;
 }
 
 - (id<IFSyntaxHighlighter,NSObject>) highlighterForFilename: (NSString*) filename {
@@ -210,6 +215,9 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 		
 		watchExpressions = [[NSMutableArray alloc] init];
 		breakpoints = [[NSMutableArray alloc] init];
+		
+		inform6Matcher = [[IFSharedContextMatcher matcherForInform6] retain];
+		inform7Matcher = [[IFSharedContextMatcher matcherForInform7] retain];
     }
 
     return self;
@@ -228,7 +236,14 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 	
 	[watchExpressions release];
 	[breakpoints release];
+	
+	[inform6Matcher release];
+	[inform7Matcher release];
 
+	if (mainThreadPort)			[mainThreadPort release];
+	if (subThreadPort)			[subThreadPort release];
+	if (subThreadConnection)	[subThreadConnection release];
+	
     [super dealloc];
 }
 
@@ -1044,6 +1059,179 @@ NSString* IFProjectSourceFileDeletedNotification = @"IFProjectSourceFileDeletedN
 		[index setPreferredFilename: @"Index"];
 		[projectFile addFileWrapper: index];
 	}
+}
+
+// = The syntax matcher =
+
+- (void) rebuildSyntaxMatchers {
+	// Post a notification so the UI can explain what's going on
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectStartedBuildingSyntaxNotification
+														object: self];
+	
+	// Start a thread to build the syntax matchers for this project
+	[matcherLock lock];
+	
+	// Increase the build count so that only the results from the most recent thread gets through
+	syntaxBuildCount++;
+	
+	// Build the thread information dictionary
+	NSMutableDictionary* threadDictionary = [[[NSMutableDictionary alloc] init] autorelease];
+	[threadDictionary setObject: [NSNumber numberWithInt: syntaxBuildCount]
+						 forKey: @"RebuildNumber"];
+	
+	// Get the data for the files to copy
+	NSMutableDictionary* xmlData = [[[NSMutableDictionary alloc] init] autorelease];
+	
+	if ([projectFile isDirectory]) {
+		// Look in the syntax directory in the project directory
+		NSString* xmlDir = [[self fileName] stringByAppendingPathComponent: @"Syntax"];
+		
+		// Refresh the syntax wrapper if necessary
+		NSFileWrapper* syntaxWrapper = [[projectFile fileWrappers] objectForKey: @"Syntax"];
+		[syntaxWrapper updateFromPath: xmlDir];
+		
+		// Must exist and be a directory
+		BOOL isDir;
+		if (![[NSFileManager defaultManager] fileExistsAtPath: xmlDir
+												  isDirectory: &isDir])
+			isDir = NO;
+		
+		if (isDir) {
+			NSDictionary* fileWrappers = [syntaxWrapper fileWrappers];
+			NSEnumerator* fileEnum = [[fileWrappers allKeys] objectEnumerator];
+			NSString* file;
+			
+			// Iterate through the files in the directory and read in all the .xml files
+			while (file = [fileEnum nextObject]) {
+				if ([[file pathExtension] isEqualToString: @"xml"]) {
+					NSData* dataForFile = [[fileWrappers objectForKey: file] regularFileContents];
+					
+					if (dataForFile) {
+						[xmlData setObject: dataForFile
+									forKey: file];
+					}
+				}
+			}
+		}
+	}
+	
+	[threadDictionary setObject: xmlData
+						 forKey: @"XmlData"];
+	
+	// Start a thread to build the syntax matchers
+	if (mainThreadPort)			[mainThreadPort release];
+	if (subThreadPort)			[subThreadPort release];
+	if (subThreadConnection)	[subThreadConnection release];
+	
+	mainThreadPort	= [[NSPort port] retain];
+	subThreadPort	= [[NSPort port] retain];
+	[[NSRunLoop currentRunLoop] addPort: mainThreadPort
+								forMode: NSDefaultRunLoopMode];
+	
+	subThreadConnection = [[NSConnection alloc] initWithReceivePort: mainThreadPort
+														   sendPort: subThreadPort];
+	[subThreadConnection setRootObject: self];
+	
+	[self retain];
+	[NSThread detachNewThreadSelector: @selector(runSyntaxRebuild:)
+							 toTarget: self
+						   withObject: threadDictionary];
+	
+	[matcherLock unlock];
+}
+
+- (void) finishedRebuildingSyntax: (int) rebuildNumber {
+	// Check the rebuild number
+	[matcherLock lock];
+	if (rebuildNumber != syntaxBuildCount) {
+		// Do nothing if the last build to finish is not the build we're currently running
+		[matcherLock unlock];
+		return;
+	}
+	[matcherLock unlock];
+	
+	// Notify that the build has finished
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFProjectFinishedBuildingSyntaxNotification
+														object: self];
+}
+
+- (void) runSyntaxRebuild: (NSDictionary*) rebuild {
+	NSAutoreleasePool* mainPool = [[NSAutoreleasePool alloc] init];
+
+	// Get the rebuild number
+	int thisRebuild = [[rebuild objectForKey: @"RebuildNumber"] intValue];
+
+	// Set up the connection to the main thread
+	[[NSRunLoop currentRunLoop] addPort: subThreadPort
+								forMode: NSDefaultRunLoopMode];
+	NSConnection* mainThreadConnection = [[[NSConnection alloc] initWithReceivePort: subThreadPort
+																		   sendPort: mainThreadPort] autorelease];
+
+	// Check that this thread is still current
+	[matcherLock lock];
+	if (thisRebuild != syntaxBuildCount) {
+		// Give up
+		[self autorelease];
+		[matcherLock unlock];
+		[mainPool release];
+		return;
+	}
+	[matcherLock unlock];
+	
+	// Start building the new context matcher by copying the general matcher
+	IFContextMatcher* newI7Matcher = [[IFSharedContextMatcher matcherForInform7] copy];
+	
+	// Now read from all of the matcher files in the project directory
+	NSDictionary* xmlData = [rebuild objectForKey: @"XmlData"];
+	NSArray* filenames = [xmlData keysSortedByValueUsingSelector: @selector(caseInsensitiveCompare:)];
+	
+	NSEnumerator* fileEnum = [filenames objectEnumerator];
+	NSString* file;
+	
+	while (file = [fileEnum nextObject]) {
+		// Check that this thread is still current
+		[matcherLock lock];
+		if (thisRebuild != syntaxBuildCount) {
+			// Give up
+			[self autorelease];
+			[newI7Matcher release];
+			[matcherLock unlock];
+			[mainPool release];
+			return;
+		}
+		[matcherLock unlock];
+		
+		// Get the new matcher to read in the specified file
+		NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+		[newI7Matcher readXml: [[[NSXMLParser alloc] initWithData: [xmlData objectForKey: file]] autorelease]];
+		[pool release];
+	}
+	
+	// Now we can substitute the newly built parser
+	[matcherLock lock];
+	
+	// Check that we're still in the right build
+	if (thisRebuild != syntaxBuildCount) {
+		// Give up
+		[self autorelease];
+		[newI7Matcher release];
+		[matcherLock unlock];
+		[mainPool release];
+		return;
+	}
+	
+	// Substitute the I7 matcher
+	[inform7Matcher release];
+	inform7Matcher = newI7Matcher;
+
+	[matcherLock unlock];
+	
+	// Notify the main thread that the matcher is ready
+	[(IFProject*)[mainThreadConnection rootProxy] finishedRebuildingSyntax: thisRebuild];
+		
+	// We're done
+	[self autorelease];
+	[mainPool release];
 }
 
 @end

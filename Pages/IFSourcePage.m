@@ -53,6 +53,12 @@
 													 name: IFProjectSourceFileRenamedNotification 
 												   object: [parent document]];
 		
+		// We also want to know when to change the syntax matcher
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(matcherChanged:)
+													 name: IFProjectFinishedBuildingSyntaxNotification
+												   object: [parent document]];
+		
 		// Set up the headings browser control
 		headingsBrowser = [[IFHeadingsBrowser alloc] init];
 		
@@ -541,6 +547,10 @@
 
 - (NSArray*) toolbarCells {
 	return [NSArray arrayWithObject: headingsControl];
+}
+
+- (void) matcherChanged: (NSNotification*) not {
+	[sourceText setSyntaxDictionaryMatcher: [[parent document] syntaxDictionaryMatcherForFile: openSourceFile]];
 }
 
 // = IFContextMatcherWindow delegate methods =

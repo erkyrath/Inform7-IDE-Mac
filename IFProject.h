@@ -20,6 +20,8 @@ extern NSString* IFProjectWatchExpressionsChangedNotification;
 extern NSString* IFProjectBreakpointsChangedNotification;
 extern NSString* IFProjectSourceFileRenamedNotification;
 extern NSString* IFProjectSourceFileDeletedNotification;
+extern NSString* IFProjectStartedBuildingSyntaxNotification;
+extern NSString* IFProjectFinishedBuildingSyntaxNotification;
 
 @interface IFProject : NSDocument {
     // The data for this project
@@ -43,8 +45,15 @@ extern NSString* IFProjectSourceFileDeletedNotification;
 	NSMutableArray* watchExpressions;
 	NSMutableArray* breakpoints;
 	
+	NSLock* matcherLock;
+	int syntaxBuildCount;
 	IFContextMatcher* inform6Matcher;
 	IFContextMatcher* inform7Matcher;
+	
+	// Ports used to communicate with the running syntax matcher builder thread
+	NSPort* mainThreadPort;
+	NSPort* subThreadPort;
+	NSConnection* subThreadConnection;
 }
 
 // The files and settings associated with the project
@@ -82,6 +91,10 @@ extern NSString* IFProjectSourceFileDeletedNotification;
 - (ZoomSkein*) skein;
 
 - (void) cleanOutUnnecessaryFiles: (BOOL) alsoCleanIndex;				// Removes compiler-generated files that are less useful to keep around
+
+// The syntax matcher
+
+- (void) rebuildSyntaxMatchers;											// Requests that this project starts to rebuild its syntax matchers (in a separate thread)
 
 // Watchpoints
 

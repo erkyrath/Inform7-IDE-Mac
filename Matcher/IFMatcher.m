@@ -40,11 +40,11 @@ static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context);
 		[matcher->matcherLock lock];
 		
 		matcherLock		= [[NSLock allocWithZone: [self zone]] init];
-		results			= [matcher->results copyWithZone: [self zone]];
+		results			= [matcher->results mutableCopyWithZone: [self zone]];
 		nfa				= ndfa_clone(matcher->nfa);
 		dfa				= ndfa_clone(matcher->dfa);
 		
-		namedRegexps	= [matcher->namedRegexps copyWithZone: [self zone]];
+		namedRegexps	= [matcher->namedRegexps mutableCopyWithZone: [self zone]];
 		caseSensitive	= matcher->caseSensitive;
 		
 		[matcher->matcherLock unlock];
@@ -327,7 +327,9 @@ static void reject_handler(ndfa_run_state run_state, int length, ndfa_pointer st
 // = NSCopying =
 
 - (id) copyWithZone: (NSZone*) zone {
-	return [[IFMatcher allocWithZone: zone] initWithMatcher: self];
+	id result = [[IFMatcher allocWithZone: zone] initWithMatcher: self];
+	
+	return result;
 }
 
 @end
