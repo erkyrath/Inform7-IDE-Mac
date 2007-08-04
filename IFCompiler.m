@@ -428,6 +428,19 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 	return theTask!=nil?[theTask isRunning]:NO;
 }
 
+- (void) sendTaskDetails: (NSTask*) task {
+	NSMutableString* taskMessage = [NSMutableString stringWithFormat: @"Launching: %@", [[task launchPath] lastPathComponent]];
+	
+	NSEnumerator* argEnum = [[task arguments] objectEnumerator];
+	NSString* arg;
+	while (arg = [argEnum nextObject]) {
+		[taskMessage appendFormat: @" \"%@\"", arg];
+	}
+	
+	[taskMessage appendString: @"\n"];
+	[self sendStdOut: taskMessage];
+}
+
 - (void) prepareForLaunchWithBlorbStage: (BOOL) makeBlorb {
     // Kill off any old tasks...
     if (theTask) {
@@ -622,6 +635,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 - (void) launch {
     [[NSNotificationCenter defaultCenter] postNotificationName: IFCompilerStartingNotification
                                                         object: self];
+	[self sendTaskDetails: theTask];
     [theTask launch];
 }
 
@@ -836,6 +850,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
         [stdErrH waitForDataInBackgroundAndNotify];
 
         // Launch it
+		[self sendTaskDetails: theTask];
         [theTask launch];
     }
 }

@@ -42,6 +42,9 @@ extern NSString* IFProjectSourceFileDeletedNotification;
 	
 	NSMutableArray* watchExpressions;
 	NSMutableArray* breakpoints;
+	
+	IFContextMatcher* inform6Matcher;
+	IFContextMatcher* inform7Matcher;
 }
 
 // The files and settings associated with the project
