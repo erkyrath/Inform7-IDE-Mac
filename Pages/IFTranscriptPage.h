@@ -20,6 +20,9 @@
 	
 	// The page bar cells
 	IFPageBarCell* blessAllCell;
+	IFPageBarCell* nextDiffCell;
+	IFPageBarCell* prevDiffCell;
+	IFPageBarCell* nextBySkeinCell;
 }
 
 // The transcript view

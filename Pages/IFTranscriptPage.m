@@ -33,6 +33,27 @@
 		
 		[blessAllCell setTarget: self];
 		[blessAllCell setAction: @selector(transcriptBlessAll:)];
+
+		nextDiffCell = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Next Difference Button"
+																								   value: @"Next"
+																								   table: nil]];
+		[nextDiffCell setImage: [NSImage imageNamed: @"NextDiff"]];
+		[nextDiffCell setTarget: self];
+		[nextDiffCell setAction: @selector(nextDiff:)];
+
+		prevDiffCell = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Previous Difference Button"
+																								   value: @"Previous"
+																								   table: nil]];
+		[prevDiffCell setImage: [NSImage imageNamed: @"PrevDiff"]];
+		[prevDiffCell setTarget: self];
+		[prevDiffCell setAction: @selector(prevDiff:)];
+
+		nextBySkeinCell = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Next by Skein Button"
+																									  value: @"Next by Skein"
+																									  table: nil]];
+		[nextBySkeinCell setImage: [NSImage imageNamed: @"NextBySkein"]];
+		[nextBySkeinCell setTarget: self];
+		[nextBySkeinCell setAction: @selector(nextDiffBySkein:)];
 	}
 	
 	return self;
@@ -130,7 +151,19 @@
 // = The page bar =
 
 - (NSArray*) toolbarCells {
-	return [NSArray arrayWithObjects: blessAllCell, nil];
+	return [NSArray arrayWithObjects: blessAllCell, prevDiffCell, nextDiffCell, nextBySkeinCell, nil];
+}
+
+- (void) nextDiffBySkein: (id) sender {
+	[parent nextDifferenceBySkein: self];
+}
+
+- (void) nextDiff: (id) sender {
+	[parent nextDifference: self];
+}
+
+- (void) prevDiff: (id) sender {
+	[parent lastDifference: self];
 }
 
 @end

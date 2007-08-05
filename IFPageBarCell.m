@@ -148,7 +148,19 @@ static NSColor* foregroundColour() {
 	NSImage* image = [self image];
 	NSAttributedString* text = [self attributedStringValue];
 	
-	if (image) {
+	if (image && text && [text length] > 0) {
+		NSSize imageSize = [image size];
+		NSSize textSize = [text size];
+		
+		if (textSize.height > imageSize.height) {
+			size.height = textSize.height;
+		} else {
+			size.height = imageSize.height;
+		}
+		
+		size.width = imageSize.width + 2 + textSize.width;
+		size.width += 4;
+	} else if (image) {
 		size = [image size];
 		size.width += 4;
 	} else if (text) {
@@ -229,7 +241,44 @@ static NSColor* foregroundColour() {
 		cellFrame.size.width -= dropDownSize.width+4;
 	}
 	
-	if (image) {
+	if (image && text && [text length] > 0) {
+		// Work out the sizes
+		NSSize imageSize = [image size];
+		NSSize textSize = [text size];
+
+		NSSize size;
+		if (textSize.height > imageSize.height) {
+			size.height = textSize.height;
+		} else {
+			size.height = imageSize.height;
+		}
+		
+		size.width = imageSize.width + 2 + textSize.width;
+		
+		// Draw the image
+		NSRect imageRect;
+		
+		imageRect.origin = NSMakePoint(cellFrame.origin.x + (cellFrame.size.width-size.width)/2,
+									   cellFrame.origin.y + (cellFrame.size.height+2-imageSize.height)/2);
+		imageRect.size = imageSize;
+		
+		[image drawInRect: imageRect
+				 fromRect: NSMakeRect(0,0, imageSize.width, imageSize.height)
+				operation: NSCompositeSourceOver
+				 fraction: 1.0];
+		
+		// Draw the text
+		NSPoint textPoint = NSMakePoint(cellFrame.origin.x + (cellFrame.size.width-size.width)/2 + imageSize.width + 2,
+										cellFrame.origin.y + (cellFrame.size.height+2-textSize.height)/2);
+		
+		if (isRight) textPoint.x += 1;
+		
+		NSRect textRect;
+		textRect.origin = textPoint;
+		textRect.size = textSize;
+		
+		[text drawInRect: NSIntegralRect(textRect)];
+	} else if (image) {
 		// Draw the image
 		NSSize imageSize = [image size];
 		NSRect imageRect;
