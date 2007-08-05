@@ -185,7 +185,7 @@ static NSColor* activeCol = nil;
 }
 
 - (BOOL) isDifferent {
-	return textEquality == 0;
+	return textEquality > 0;
 }
 
 // = Setting the data from the view =
