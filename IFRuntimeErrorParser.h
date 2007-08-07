@@ -9,14 +9,16 @@
 #import <Cocoa/Cocoa.h>
 
 #import <ZoomView/ZoomView.h>
+#import <GlkView/GlkView.h>
 
 ///
 /// Natural Inform (or Inform 7 as it's now more officially known) can produce runtime errors.
 /// This class implements a Zoom output receiver that parses these out and reports them to a
 /// delegate method.
 ///
-@interface IFRuntimeErrorParser : NSObject {
+@interface IFRuntimeErrorParser : NSObject<GlkAutomation> {
 	id delegate;								// The delegate
+	NSMutableString* accumulator;				// The character accumulator
 }
 
 - (void) outputText: (NSString*) outputText;	// Called by Zoom when output is generated

@@ -11,6 +11,20 @@
 
 @implementation IFRuntimeErrorParser
 
+- (id) init {
+	self = [super init];
+	
+	if (self) {
+		accumulator = [[NSMutableString alloc] init];
+	}
+	
+	return self;
+}
+
+- (void) dealloc {
+	[accumulator release];
+}
+
 - (void) setDelegate: (id) newDelegate {
 	delegate = newDelegate;
 }
@@ -60,6 +74,55 @@
 			[delegate runtimeError: problemType];
 		}
 	}
+}
+
+// Notifications about events that have occured in the view (when using this automation object for output)
+
+- (void) receivedCharacters: (NSString*) characters					// Text has arrived at the specified text buffer window (from the game)
+					 window: (int) windowNumber
+				   fromView: (GlkView*) view {
+	unichar* chrs = malloc(sizeof(unichar)*[characters length]);
+	[characters getCharacters: chrs];
+	
+	int start = 0;
+	int x;
+	for (x=0; x<[characters length]; x++) {
+		if (chrs[x] == '\n') {
+			[accumulator appendString: [NSString stringWithCharacters: chrs + start
+															   length: x - start]];
+			
+			[self outputText: accumulator];
+			[accumulator release];
+			accumulator = [[NSMutableString alloc] init];
+			start = x;
+		}
+	}
+	[accumulator appendString: [NSString stringWithCharacters: chrs + start
+													   length: x - start]];
+	
+	[accumulator appendString: characters];
+	[self outputText: characters];
+}
+
+- (void) userTyped: (NSString*) userInput							// The user has typed the specified string into the specified window (which is any window that is waiting for input)
+			window: (int) windowNumber
+		 lineInput: (BOOL) isLineInput
+		  fromView: (GlkView*) view {
+}
+
+- (void) userClickedAtXPos: (int) xpos								// The user has clicked at a specified position in the given window
+					  ypos: (int) ypos
+					window: (int) windowNumber
+				  fromView: (GlkView*) view {
+}
+
+- (void) viewWaiting: (GlkView*) view {
+	}
+
+// Using this automation object for input
+
+- (void) viewIsWaitingForInput: (GlkView*) view {
+	
 }
 
 @end

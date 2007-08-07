@@ -125,6 +125,9 @@
 																			table: nil]];
 	
 	if ([[gameToRun pathExtension] isEqualToString: @"ulx"]) {
+		IFRuntimeErrorParser* runtimeErrors = [[[IFRuntimeErrorParser alloc] init] autorelease];
+		[runtimeErrors setDelegate: parent];
+
 		// Screws up the first responder, will cause the GlkView object to force a new first responder after it starts
 		[[parent window] makeFirstResponder: [parent window]];
 		
@@ -132,6 +135,8 @@
 		gView = [[GlkView alloc] init];
 		[gView setDelegate: self];
 		[gView addOutputReceiver: parent];
+		[gView addOutputReceiver: runtimeErrors];
+		
 		[gView setImageSource: [[[IFGlkResources alloc] initWithProject: [parent document]] autorelease]];
 		
 		[gView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
