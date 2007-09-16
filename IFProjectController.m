@@ -1803,8 +1803,8 @@ static NSDictionary*  itemDictionary = nil;
 		id inputSource = [ZoomSkein inputSourceFromSkeinItem: currentPoint
 												  toItem: point];
 	
-		ZoomView* zView = [[projectPanes objectAtIndex: 1] zoomView];
-		GlkView* gView = [[projectPanes objectAtIndex: 1] glkView];
+		ZoomView* zView = [[self gamePage] zoomView];
+		GlkView* gView = [[self gamePage] glkView];
 		
 		if (zView != nil) {
 			[zView setInputSource: inputSource];
