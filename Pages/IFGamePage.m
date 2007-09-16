@@ -309,6 +309,34 @@
 	gameRunningProgress = nil;
 }
 
+- (NSString*) pathForNamedFile: (NSString*) name {
+	// Append .glkdata if the name has no extension
+	name = [name lastPathComponent];
+	name = [[name stringByDeletingPathExtension] stringByAppendingPathExtension: @"glkdata"];
+	
+	// Work out the location of the materials directory
+	NSString* projectPath = [[parent document] fileName];
+	NSString* projectName = [[projectPath lastPathComponent] stringByDeletingPathExtension];
+	NSString* materials = [[projectPath stringByDeletingLastPathComponent] stringByAppendingPathComponent: 
+		[NSString stringWithFormat: @"%@ materials", projectName]];
+	
+	// Default location is materials/Files
+	NSString* filesDir = [materials stringByAppendingPathComponent: @"Files"];
+	
+	// Use this directory if it exists
+	BOOL isDir;
+	BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath: filesDir
+													   isDirectory: &isDir];
+	
+	if (exists && isDir) {
+		// Use the files directory
+		return [filesDir stringByAppendingPathComponent: name];
+	} else {
+		// Use the directory the project is in
+		return [[projectPath stringByDeletingLastPathComponent] stringByAppendingPathComponent: name];
+	}
+}
+
 // = Breakpoints =
 
 - (void) updatedBreakpoints: (NSNotification*) not {
