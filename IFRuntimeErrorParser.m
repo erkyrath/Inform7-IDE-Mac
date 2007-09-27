@@ -23,6 +23,7 @@
 
 - (void) dealloc {
 	[accumulator release];
+	[super dealloc];
 }
 
 - (void) setDelegate: (id) newDelegate {
