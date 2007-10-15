@@ -250,7 +250,7 @@
 	[panel setCanChooseFiles: YES];
 	[panel setCanChooseDirectories: NO];
 	[panel setResolvesAliases: YES];
-	[panel setAllowsMultipleSelection: NO];
+	[panel setAllowsMultipleSelection: YES];
 	[panel setTitle: @"Add new Inform 7 Extension"];
 	[panel setDelegate: [IFExtensionsManager sharedNaturalInformExtensionsManager]];
 	
