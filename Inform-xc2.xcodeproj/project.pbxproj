@@ -342,6 +342,22 @@
 		4BA03129076F7B5C00EACBEF /* IFIsBreakpoints.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BA03127076F7B5C00EACBEF /* IFIsBreakpoints.m */; };
 		4BA2523C066D4F8A00C79964 /* Inspector-TitleBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BCF78A20641A48B00516872 /* Inspector-TitleBar.png */; };
 		4BA25254066D50A300C79964 /* i6File.icns in Resources */ = {isa = PBXBuildFile; fileRef = 4BA25253066D50A300C79964 /* i6File.icns */; };
+		4BA3791C0CD3E3B700C7B1D4 /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BA379190CD3E3B700C7B1D4 /* GenerateThumbnailForURL.m */; };
+		4BA3791D0CD3E3B700C7B1D4 /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BA3791A0CD3E3B700C7B1D4 /* GeneratePreviewForURL.m */; };
+		4BA3791E0CD3E3B700C7B1D4 /* InformQuickLook.c in Sources */ = {isa = PBXBuildFile; fileRef = 4BA3791B0CD3E3B700C7B1D4 /* InformQuickLook.c */; };
+		4BA379220CD3E3E600C7B1D4 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BA3791F0CD3E3E600C7B1D4 /* ApplicationServices.framework */; };
+		4BA379230CD3E3E600C7B1D4 /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BA379200CD3E3E600C7B1D4 /* CoreServices.framework */; };
+		4BA379240CD3E3E600C7B1D4 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4BA379210CD3E3E600C7B1D4 /* QuickLook.framework */; };
+		4BA379250CD3E3F700C7B1D4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		4BA379290CD3E44900C7B1D4 /* InformQL.qlgenerator in Copy QuickLook bundle */ = {isa = PBXBuildFile; fileRef = 4BA3790F0CD3E39700C7B1D4 /* InformQL.qlgenerator */; };
+		4BA3792C0CD3E6D700C7B1D4 /* IFSyntaxStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BE61F49074BF18000E8E3FE /* IFSyntaxStorage.m */; };
+		4BA3792D0CD3E6D700C7B1D4 /* IFNaturalHighlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2B6B2B074CB58800732DEF /* IFNaturalHighlighter.m */; };
+		4BA3792E0CD3E6D800C7B1D4 /* IFInform6Highlighter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B2B6DB6074CFEA400732DEF /* IFInform6Highlighter.m */; };
+		4BA379300CD3E6E400C7B1D4 /* IFIntelFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B40061007B52FB90006BB3D /* IFIntelFile.m */; };
+		4BA379310CD3E6E500C7B1D4 /* IFIntelSymbol.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B40061A07B532140006BB3D /* IFIntelSymbol.m */; };
+		4BA379320CD3E6E500C7B1D4 /* IFNaturalIntel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B40084D07B584430006BB3D /* IFNaturalIntel.m */; };
+		4BA379340CD3E70600C7B1D4 /* IFPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B34334A07B158720022C278 /* IFPreferences.m */; };
+		4BA379380CD3E73E00C7B1D4 /* IFFakeProjectPane.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BA379370CD3E73E00C7B1D4 /* IFFakeProjectPane.m */; };
 		4BA63FA807BA70C700694946 /* Intelligence.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BA63FA707BA70C600694946 /* Intelligence.png */; };
 		4BAB703006EA14B7005C7856 /* IFProjectPolicy.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BAB702E06EA14B7005C7856 /* IFProjectPolicy.h */; };
 		4BAB703106EA14B7005C7856 /* IFProjectPolicy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BAB702F06EA14B7005C7856 /* IFProjectPolicy.m */; };
@@ -658,6 +674,13 @@
 			remoteGlobalIDString = 4B36C4540955ED1700874F9F;
 			remoteInfo = Glulxe;
 		};
+		4BA379260CD3E42A00C7B1D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4BA3790E0CD3E39700C7B1D4;
+			remoteInfo = InformQL;
+		};
 		4BB8BF6308BB3CC400D7D334 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4B81D2CF08112C5700CF609F /* CocoaGlk.xcodeproj */;
@@ -728,6 +751,17 @@
 				4B28B8630812752100D39021 /* glulxe in Copy interpreters */,
 			);
 			name = "Copy interpreters";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4BA3792A0CD3E46F00C7B1D4 /* Copy QuickLook bundle */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ../Library/QuickLook;
+			dstSubfolderSpec = 7;
+			files = (
+				4BA379290CD3E44900C7B1D4 /* InformQL.qlgenerator in Copy QuickLook bundle */,
+			);
+			name = "Copy QuickLook bundle";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4BAB731006EA3319005C7856 /* Copy map images */ = {
@@ -1220,6 +1254,16 @@
 		4BA03126076F7B5C00EACBEF /* IFIsBreakpoints.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFIsBreakpoints.h; sourceTree = "<group>"; };
 		4BA03127076F7B5C00EACBEF /* IFIsBreakpoints.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFIsBreakpoints.m; sourceTree = "<group>"; };
 		4BA25253066D50A300C79964 /* i6File.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = i6File.icns; path = Images/i6File.icns; sourceTree = "<group>"; };
+		4BA3790F0CD3E39700C7B1D4 /* InformQL.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = InformQL.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BA379100CD3E39700C7B1D4 /* InformQL-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "InformQL-Info.plist"; sourceTree = "<group>"; };
+		4BA379190CD3E3B700C7B1D4 /* GenerateThumbnailForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateThumbnailForURL.m; sourceTree = "<group>"; };
+		4BA3791A0CD3E3B700C7B1D4 /* GeneratePreviewForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratePreviewForURL.m; sourceTree = "<group>"; };
+		4BA3791B0CD3E3B700C7B1D4 /* InformQuickLook.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = InformQuickLook.c; sourceTree = "<group>"; };
+		4BA3791F0CD3E3E600C7B1D4 /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = /System/Library/Frameworks/ApplicationServices.framework; sourceTree = "<absolute>"; };
+		4BA379200CD3E3E600C7B1D4 /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = /System/Library/Frameworks/CoreServices.framework; sourceTree = "<absolute>"; };
+		4BA379210CD3E3E600C7B1D4 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = /System/Library/Frameworks/QuickLook.framework; sourceTree = "<absolute>"; };
+		4BA379360CD3E73E00C7B1D4 /* IFFakeProjectPane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFFakeProjectPane.h; sourceTree = "<group>"; };
+		4BA379370CD3E73E00C7B1D4 /* IFFakeProjectPane.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFFakeProjectPane.m; sourceTree = "<group>"; };
 		4BA63FA707BA70C600694946 /* Intelligence.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Intelligence.png; path = Images/Intelligence.png; sourceTree = SOURCE_ROOT; };
 		4BA9115D055D99CB00A6E9CC /* BUILDING.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = BUILDING.rtf; sourceTree = "<group>"; };
 		4BAB702E06EA14B7005C7856 /* IFProjectPolicy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFProjectPolicy.h; sourceTree = "<group>"; };
@@ -1484,6 +1528,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4BA3790D0CD3E39700C7B1D4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BA379250CD3E3F700C7B1D4 /* Cocoa.framework in Frameworks */,
+				4BA379220CD3E3E600C7B1D4 /* ApplicationServices.framework in Frameworks */,
+				4BA379230CD3E3E600C7B1D4 /* CoreServices.framework in Frameworks */,
+				4BA379240CD3E3E600C7B1D4 /* QuickLook.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4BCDA9D80903BE64002921FC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1538,6 +1593,9 @@
 		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4BA3791F0CD3E3E600C7B1D4 /* ApplicationServices.framework */,
+				4BA379200CD3E3E600C7B1D4 /* CoreServices.framework */,
+				4BA379210CD3E3E600C7B1D4 /* QuickLook.framework */,
 				4BC3269D0614C70200B2533B /* WebKit.framework */,
 				4B75B12B055D94D800EDF9C9 /* ZoomView.framework */,
 				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
@@ -1569,6 +1627,7 @@
 				4BF890BB08FD6BBA00F5DFDE /* cBlorb */,
 				4BCDA9DA0903BE64002921FC /* IFimporter.bundle */,
 				4B1D4CCF099FAA2100F7B59A /* libuuid.a */,
+				4BA3790F0CD3E39700C7B1D4 /* InformQL.qlgenerator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1584,6 +1643,7 @@
 				4B96DF7804F12A7700A8E303 /* Library */,
 				4B0BADBA04ED10A500A8E303 /* Compiler */,
 				080E96DDFE201D6D7F000001 /* Classes */,
+				4BA378B40CD3E23700C7B1D4 /* QuickLook */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				4BF26FAE081DACBA00F529FC /* Distribution */,
@@ -1591,6 +1651,7 @@
 				19C28FACFE9D520D11CA2CBB /* Products */,
 				4BD95A33055EE949008DEFF4 /* Info-Inform__Upgraded_.plist */,
 				4BCDA9DB0903BE64002921FC /* IFimporter-Info.plist */,
+				4BA379100CD3E39700C7B1D4 /* InformQL-Info.plist */,
 			);
 			name = Inform;
 			sourceTree = "<group>";
@@ -2178,6 +2239,18 @@
 			path = Biplatform/Standard;
 			sourceTree = "<group>";
 		};
+		4BA378B40CD3E23700C7B1D4 /* QuickLook */ = {
+			isa = PBXGroup;
+			children = (
+				4BA379190CD3E3B700C7B1D4 /* GenerateThumbnailForURL.m */,
+				4BA3791A0CD3E3B700C7B1D4 /* GeneratePreviewForURL.m */,
+				4BA3791B0CD3E3B700C7B1D4 /* InformQuickLook.c */,
+				4BA379360CD3E73E00C7B1D4 /* IFFakeProjectPane.h */,
+				4BA379370CD3E73E00C7B1D4 /* IFFakeProjectPane.m */,
+			);
+			path = QuickLook;
+			sourceTree = "<group>";
+		};
 		4BAB711906EA315C005C7856 /* map_icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2450,7 +2523,7 @@
 				4B8B63B3097D9C0400556000 /* Glulxe.plugin */,
 				4BD79A970BA2C9C9002C82B2 /* babel */,
 				4B7284B20CD380140079D89B /* LeopardExtns.bundle */,
-				4B7286F00CD3CB0A0079D89B /* ZoomSaveQuickLook.bundle */,
+				4B7286F00CD3CB0A0079D89B /* ZoomSaveQuickLook.qlgenerator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2809,6 +2882,23 @@
 			productReference = 4B1D4CCF099FAA2100F7B59A /* libuuid.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		4BA3790E0CD3E39700C7B1D4 /* InformQL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BA379150CD3E39800C7B1D4 /* Build configuration list for PBXNativeTarget "InformQL" */;
+			buildPhases = (
+				4BA3790B0CD3E39700C7B1D4 /* Resources */,
+				4BA3790C0CD3E39700C7B1D4 /* Sources */,
+				4BA3790D0CD3E39700C7B1D4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = InformQL;
+			productName = InformQL;
+			productReference = 4BA3790F0CD3E39700C7B1D4 /* InformQL.qlgenerator */;
+			productType = "com.apple.product-type.bundle";
+		};
 		4BCDA9D90903BE64002921FC /* IFimporter */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BCDA9DD0903BE66002921FC /* Build configuration list for PBXNativeTarget "IFimporter" */;
@@ -2846,11 +2936,13 @@
 				4BD95A21055EE949008DEFF4 /* Copy Compilers */,
 				4BD36FA1055EEC0D00F98A80 /* (Script): Copy library files */,
 				4B274FAB0754FBAC00851A38 /* (Script): Remove any svn files that have crept in */,
+				4BA3792A0CD3E46F00C7B1D4 /* Copy QuickLook bundle */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				4B133E3E058789B500742783 /* PBXTargetDependency */,
+				4BA379270CD3E42A00C7B1D4 /* PBXTargetDependency */,
 				4B1D4D1F099FAC1F00F7B59A /* PBXTargetDependency */,
 				4BD2757108703F1100C1AE15 /* PBXTargetDependency */,
 				4B6A87F2086E0EA200BFAE69 /* PBXTargetDependency */,
@@ -2908,6 +3000,7 @@
 				4BF890BA08FD6BBA00F5DFDE /* cBlorb */,
 				4BCDA9D90903BE64002921FC /* IFimporter */,
 				4B1D4CCE099FAA2100F7B59A /* uuid */,
+				4BA3790E0CD3E39700C7B1D4 /* InformQL */,
 			);
 		};
 /* End PBXProject section */
@@ -2962,7 +3055,7 @@
 			remoteRef = 4B7284B10CD380140079D89B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		4B7286F00CD3CB0A0079D89B /* ZoomSaveQuickLook.bundle */ = {
+		4B7286F00CD3CB0A0079D89B /* ZoomSaveQuickLook.qlgenerator */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = ZoomSaveQuickLook.qlgenerator;
@@ -3035,6 +3128,13 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		4BA3790B0CD3E39700C7B1D4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4BCDA9D60903BE64002921FC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3378,6 +3478,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4BA3790C0CD3E39700C7B1D4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4BA3791C0CD3E3B700C7B1D4 /* GenerateThumbnailForURL.m in Sources */,
+				4BA3791D0CD3E3B700C7B1D4 /* GeneratePreviewForURL.m in Sources */,
+				4BA3791E0CD3E3B700C7B1D4 /* InformQuickLook.c in Sources */,
+				4BA3792C0CD3E6D700C7B1D4 /* IFSyntaxStorage.m in Sources */,
+				4BA3792D0CD3E6D700C7B1D4 /* IFNaturalHighlighter.m in Sources */,
+				4BA3792E0CD3E6D800C7B1D4 /* IFInform6Highlighter.m in Sources */,
+				4BA379300CD3E6E400C7B1D4 /* IFIntelFile.m in Sources */,
+				4BA379310CD3E6E500C7B1D4 /* IFIntelSymbol.m in Sources */,
+				4BA379320CD3E6E500C7B1D4 /* IFNaturalIntel.m in Sources */,
+				4BA379340CD3E70600C7B1D4 /* IFPreferences.m in Sources */,
+				4BA379380CD3E73E00C7B1D4 /* IFFakeProjectPane.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4BCDA9D70903BE64002921FC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3544,6 +3662,11 @@
 			isa = PBXTargetDependency;
 			name = glulxe;
 			targetProxy = 4B6A87F5086E0EAB00BFAE69 /* PBXContainerItemProxy */;
+		};
+		4BA379270CD3E42A00C7B1D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4BA3790E0CD3E39700C7B1D4 /* InformQL */;
+			targetProxy = 4BA379260CD3E42A00C7B1D4 /* PBXContainerItemProxy */;
 		};
 		4BD2757108703F1100C1AE15 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4075,6 +4198,83 @@
 			};
 			name = Default;
 		};
+		4BA379120CD3E39700C7B1D4 /* Development */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "InformQL-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = InformQL;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				WRAPPER_EXTENSION = qlgenerator;
+				ZERO_LINK = NO;
+			};
+			name = Development;
+		};
+		4BA379130CD3E39700C7B1D4 /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "InformQL-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = InformQL;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				WRAPPER_EXTENSION = qlgenerator;
+				ZERO_LINK = NO;
+			};
+			name = Deployment;
+		};
+		4BA379140CD3E39700C7B1D4 /* Default */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				INFOPLIST_FILE = "InformQL-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = InformQL;
+				SDKROOT = /Developer/SDKs/MacOSX10.5.sdk;
+				SDKROOT_ppc = "$(DEVELOPER_SDK_DIR)/MacOSX10.5.sdk";
+				WRAPPER_EXTENSION = qlgenerator;
+				ZERO_LINK = NO;
+			};
+			name = Default;
+		};
 		4BCDA9DE0903BE66002921FC /* Development */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4564,6 +4764,16 @@
 				4B1D4CD2099FAA2700F7B59A /* Development */,
 				4B1D4CD3099FAA2700F7B59A /* Deployment */,
 				4B1D4CD4099FAA2700F7B59A /* Default */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Default;
+		};
+		4BA379150CD3E39800C7B1D4 /* Build configuration list for PBXNativeTarget "InformQL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4BA379120CD3E39700C7B1D4 /* Development */,
+				4BA379130CD3E39700C7B1D4 /* Deployment */,
+				4BA379140CD3E39700C7B1D4 /* Default */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Default;
