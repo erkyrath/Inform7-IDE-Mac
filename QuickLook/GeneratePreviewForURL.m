@@ -25,7 +25,6 @@ OSStatus GeneratePreviewForURL(void *thisInterface,
 	}
 	
 	if (!fileName) {
-		NSLog(@"No filename");
 		return noErr;
 	}
 	
@@ -57,6 +56,14 @@ OSStatus GeneratePreviewForURL(void *thisInterface,
 		sourceCodeString = [NSString stringWithContentsOfFile: [[fileName stringByAppendingPathComponent: @"Source"] stringByAppendingPathComponent: @"story.ni"]
 													 encoding: NSUTF8StringEncoding
 														error: nil];
+		
+		if (sourceCodeString == nil) {
+			sourceCodeString = [NSString stringWithContentsOfFile: [[fileName stringByAppendingPathComponent: @"Source"] stringByAppendingPathComponent: @"main.inf"]
+														 encoding: NSUTF8StringEncoding
+															error: nil];
+			isInform6 = YES;
+		}
+		
 	} else {
 		NSLog(@"Unknown UTI: %@", uti);
 		return noErr;
@@ -82,7 +89,6 @@ OSStatus GeneratePreviewForURL(void *thisInterface,
 	NSData *theRTF = [storage RTFFromRange:NSMakeRange(0, [storage length]-1) 
 						documentAttributes:nil];
 	QLPreviewRequestSetDataRepresentation(preview, (CFDataRef)theRTF, kUTTypeRTF, NULL);
-	NSLog(@"Preview OK");
 	
     return noErr;
 }
