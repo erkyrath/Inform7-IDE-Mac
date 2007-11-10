@@ -86,8 +86,8 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
 	
 	// Produce the result
 	CGSize size;
-	size.width = 480;
-	size.height = 640;
+	size.width = 800;
+	size.height = 840;
 	CGContextRef cgContext = QLThumbnailRequestCreateContext(thumbnail, size, true, NULL);
 	
 	NSGraphicsContext* context = [NSGraphicsContext graphicsContextWithGraphicsPort: cgContext

@@ -10,9 +10,14 @@
 
 #import "IFPreferences.h"
 
-static const int maxPassLength = 1024;
-
 #define HighlighterDebug 0
+#define SlowMode 0
+
+#if SlowMode
+static int maxPassLength = 2;
+#else
+static int maxPassLength = 65536;
+#endif
 
 @implementation IFSyntaxStorage
 
@@ -862,6 +867,9 @@ static inline BOOL IsWhitespace(unichar c) {
 		return NO;
 	}
 	
+	NSDate* startTime = nil;
+	if (maxPassLength > 2048) startTime = [NSDate date];
+	
 	needsHighlighting = NSIntersectionRange(needsHighlighting, NSMakeRange(0, strLen));
 	
 	unsigned highlightStart = needsHighlighting.location;
@@ -901,6 +909,15 @@ static inline BOOL IsWhitespace(unichar c) {
 	
 	// Perform this pass
 	[self highlightRange: NSMakeRange(highlightStart, highlightEnd - highlightStart)];
+	
+	// Reduce the number of characters in a pass on slow computers
+	if (startTime) {
+		NSTimeInterval timeTaken = -[startTime timeIntervalSinceNow];
+		if (timeTaken > 0.3) {
+			NSLog(@"Highlighting less");
+			maxPassLength /= 2;
+		}
+	}
 	
 	// Update the 'needsHighlighting' range to start at 'highlightEnd'
 	needsHighlighting.length -= highlightEnd-needsHighlighting.location;
