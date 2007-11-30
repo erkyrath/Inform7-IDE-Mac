@@ -590,6 +590,20 @@
 			remoteGlobalIDString = 4BD2747808701E6700C1AE15 /* ZoomView */;
 			remoteInfo = ZoomView;
 		};
+		4B2E024F0D00B38D00FFC8AC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4B81D2CF08112C5700CF609F /* CocoaGlk.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4B51AA5507E877C900576AB9 /* GlkClient */;
+			remoteInfo = GlkClient;
+		};
+		4B2E02520D00B3A300FFC8AC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4B81D2CF08112C5700CF609F /* CocoaGlk.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4B0459F507EA20FE002D7C88 /* glulxe */;
+			remoteInfo = glulxe;
+		};
 		4B6A86D7086DB1DC00BFAE69 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4B81D2CF08112C5700CF609F /* CocoaGlk.xcodeproj */;
@@ -2900,6 +2914,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BA379150CD3E39800C7B1D4 /* Build configuration list for PBXNativeTarget "InformQL" */;
 			buildPhases = (
+				4B2E024C0D00B36C00FFC8AC /* Fix dependencies (XCode can't do it itself) */,
 				4BA3790B0CD3E39700C7B1D4 /* Resources */,
 				4BA3790C0CD3E39700C7B1D4 /* Sources */,
 				4BA3790D0CD3E39700C7B1D4 /* Frameworks */,
@@ -2909,6 +2924,8 @@
 			dependencies = (
 				4B2E02440D00B30F00FFC8AC /* PBXTargetDependency */,
 				4B2E02460D00B30F00FFC8AC /* PBXTargetDependency */,
+				4B2E02500D00B38D00FFC8AC /* PBXTargetDependency */,
+				4B2E02530D00B3A300FFC8AC /* PBXTargetDependency */,
 			);
 			name = InformQL;
 			productName = InformQL;
@@ -3347,6 +3364,20 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \\*\\*\\* Erasing .svn files\n\nfind ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH} -name \".svn\" -type d -exec \"rm\" \"-r\" \"{}\" \";\"\nfind ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH} -name \".svn-work\" -type d -exec \"rm\" \"-r\" \"{}\" \";\"\n\necho \\*\\*\\* Done";
 		};
+		4B2E024C0D00B36C00FFC8AC /* Fix dependencies (XCode can't do it itself) */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Fix dependencies (XCode can't do it itself)";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Delete old imported frameworks (ZoomView, GlkView, GlkClient and glulxe)\nrm -rf ${TARGET_BUILD_DIR}/ZoomView.framework\nrm -rf ${TARGET_BUILD_DIR}/GlkView.framework\nrm -rf ${TARGET_BUILD_DIR}/GlkClient.framework\nrm -rf ${TARGET_BUILD_DIR}/glulxe\n\n# Move ZoomView, etc from the other projects to our target directory.\ncp -R ${PROJECT_DIR}/../zoom/build/${BUILD_STYLE}/ZoomView.framework ${TARGET_BUILD_DIR}/ZoomView.framework || exit 1\ncp -R ${PROJECT_DIR}/../CocoaGlk/build/${BUILD_STYLE}/GlkView.framework ${TARGET_BUILD_DIR}/GlkView.framework || exit 1\ncp -R ${PROJECT_DIR}/../CocoaGlk/build/${BUILD_STYLE}/GlkClient.framework ${TARGET_BUILD_DIR}/GlkClient.framework || exit 1\ncp -R ${PROJECT_DIR}/../CocoaGlk/build/${BUILD_STYLE}/glulxe ${TARGET_BUILD_DIR}/glulxe || exit 1\n";
+		};
 		4BC6243F082A71E4007827B5 /* (Script): Build applescript dictionaries */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -3673,6 +3704,16 @@
 			isa = PBXTargetDependency;
 			name = ZoomView;
 			targetProxy = 4B2E02450D00B30F00FFC8AC /* PBXContainerItemProxy */;
+		};
+		4B2E02500D00B38D00FFC8AC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GlkClient;
+			targetProxy = 4B2E024F0D00B38D00FFC8AC /* PBXContainerItemProxy */;
+		};
+		4B2E02530D00B3A300FFC8AC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = glulxe;
+			targetProxy = 4B2E02520D00B3A300FFC8AC /* PBXContainerItemProxy */;
 		};
 		4B6A87F2086E0EA200BFAE69 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
