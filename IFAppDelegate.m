@@ -121,6 +121,13 @@ static NSRunLoop* mainRunLoop = nil;
 					   onScreen: [[NSScreen screens] objectAtIndex: 0]];
 #endif
 	
+	// Load the leopard extensions if we're running on the right version of OS X
+	if (NSAppKitVersionNumber >= 949) {
+		NSBundle* leopardBundle = [NSBundle bundleWithPath: [[NSBundle mainBundle] pathForAuxiliaryExecutable: @"Inform-Leopard.bundle"]];
+		[leopardBundle load];
+		leopard = [[[leopardBundle principalClass] alloc] init];
+	}
+	
 	if (haveWebkit) {
 		// Register some custom URL handlers
 		// [NSURLProtocol registerClass: [IFNoDocProtocol class]];
@@ -458,6 +465,12 @@ static int stringCompare(id a, id b, void* context) {
 	
 	IFExtensionPreferences* prefs = (IFExtensionPreferences*)[[IFPreferenceController sharedPreferenceController] preferencePane: [[IFExtensionPreferences class] description]];
 	[prefs addNaturalExtension: [prefs preferenceView]];
+}
+
+// = Leopard extensions =
+
+- (id<IFLeopardProtocol>) leopard {
+	return leopard;
 }
 
 @end

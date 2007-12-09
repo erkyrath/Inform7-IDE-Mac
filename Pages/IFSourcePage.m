@@ -6,6 +6,7 @@
 //  Copyright 2007 Andrew Hunter. All rights reserved.
 //
 
+#import "IFAppDelegate.h"
 #import "IFSourcePage.h"
 
 #import "IFSyntaxStorage.h"
@@ -188,6 +189,59 @@
 }
 
 // = Syntax highlighting =
+
+- (void) indicateRange: (NSRange) range {
+	[[[NSApp delegate] leopard] showFindIndicatorForRange: range
+											   inTextView: sourceText];
+}
+
+- (void) indicateLine: (int) line {
+    // Find out where the line is in the source view
+    NSString* store = [[sourceText textStorage] string];
+    int length = [store length];
+	
+    int x, lineno, linepos, lineLength;
+    lineno = 1; linepos = 0;
+	if (line > lineno)
+	{
+		for (x=0; x<length; x++) {
+			unichar chr = [store characterAtIndex: x];
+			
+			if (chr == '\n' || chr == '\r') {
+				unichar otherchar = chr == '\n'?'\r':'\n';
+				
+				lineno++;
+				linepos = x + 1;
+				
+				// Deal with DOS line endings
+				if (linepos < length && [store characterAtIndex: linepos] == otherchar) {
+					x++; linepos++;
+				}
+				
+				if (lineno == line) {
+					break;
+				}
+			}
+		}
+	}
+	
+    if (lineno != line) {
+        NSBeep(); // DOH!
+        return;
+    }
+
+    lineLength = 0;
+    for (x=0; x<length-linepos; x++) {
+        if ([store characterAtIndex: x+linepos] == '\n'
+			|| [store characterAtIndex: x+linepos] == '\r') {
+            break;
+        }
+        lineLength++;
+    }
+	
+	// Show the find indicator
+	[self indicateRange: NSMakeRange(linepos, lineLength)];
+}
 
 - (void) updateHighlightedLines {
 	NSEnumerator* highEnum;

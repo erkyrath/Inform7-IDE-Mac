@@ -7,6 +7,7 @@
 //
 
 #import "IFProject.h"
+#import "IFAppDelegate.h"
 #import "IFProjectController.h"
 #import "IFProjectPane.h"
 #import "IFInspectorWindow.h"
@@ -1613,13 +1614,17 @@ static NSDictionary*  itemDictionary = nil;
 	
 	if (style >= IFLineStyle_Temporary && style < IFLineStyle_LastTemporary)
 		temporaryHighlights = YES;
-	
+		
 	NSEnumerator* paneEnum = [projectPanes objectEnumerator];
 	IFProjectPane* pane;
 	
 	while (pane = [paneEnum nextObject]) {
 		if ([[[self document] pathForFile: [[pane sourcePage] currentFile]] isEqualToString: file]) {
 			[[pane sourcePage] updateHighlightedLines];
+
+			if (temporaryHighlights && [[NSApp delegate] leopard]) {
+				[[pane sourcePage] indicateLine: line];
+			}
 		}
 	}
 }

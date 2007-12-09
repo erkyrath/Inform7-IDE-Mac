@@ -50,6 +50,8 @@
 - (NSString*) currentFile;										// Returns the currently displayed filename
 - (int) currentLine;											// Returns the line the cursor is currently on
 
+- (void) indicateRange: (NSRange) range;						// (10.5 only) shows an indicator for the specified range
+- (void) indicateLine: (int) line;								// (10.5 only) shows an indicator for the specified line number
 - (void) updateHighlightedLines;								// Updates the temporary highlights (which display breakpoints, etc)
 
 - (IFIntelFile*) currentIntelligence;							// The active IntelFile object for the current view (ie, the object that's dealing with auto-tabs, the dynamic index, etc)
