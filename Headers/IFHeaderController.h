@@ -8,6 +8,9 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFSyntaxStorage.h"
+#import "IFHeader.h"
+
 
 ///
 /// Controller class used to manage the header view

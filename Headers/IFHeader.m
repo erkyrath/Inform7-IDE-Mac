@@ -9,6 +9,8 @@
 #import "IFHeader.h"
 
 
+NSString* IFHeaderChangedNotification = @"IFHeaderChangedNotification";
+
 @implementation IFHeader
 
 // Initialisation
@@ -45,7 +47,25 @@
 	return self;
 }
 
+- (void) dealloc {
+	NSEnumerator* childEnum = [children objectEnumerator];
+	IFHeader* child;
+	while (child = [childEnum nextObject]) {
+		[child setParent: nil];
+	}
+
+	[headingName release];
+	[children release];
+	
+	[super dealloc];
+}
+
 // Accessing values
+
+- (void) hasChanged {
+	[[NSNotificationCenter defaultCenter] postNotificationName: IFHeaderChangedNotification
+														object: self];
+}
 
 - (NSString*) headingName {
 	return [[headingName retain] autorelease];
@@ -62,10 +82,15 @@
 - (void) setHeadingName: (NSString*) newName {
 	[headingName release];
 	headingName = [newName retain];
+	
+	[self changed];
 }
 
 - (void) setParent: (IFHeader*) newParent {
+	if (newParent == parent) return;
+	
 	parent = newParent;
+	[self changed];
 }
 
 - (void) setChildren: (NSArray*) newChildren {
@@ -87,6 +112,8 @@
 	while (child = [childEnum nextObject]) {
 		[child setParent: self];
 	}
+	
+	[self changed];
 }
 
 @end
