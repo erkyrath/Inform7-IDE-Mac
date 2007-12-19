@@ -74,19 +74,23 @@
 						return IFNaturalStateBlankLine;
 					// ObRAIF: here is why fall-through cases are a *good* thing
 					// (Of course, first time I tried this, I got these conditions the wrong way round... Mmm, bug)
+				case IFNaturalStateSpace:
+					if (chr == '"')
+						return IFNaturalStateQuote;
 				case IFNaturalStateText:
 					// Just plain ole text
 					if (chr == '[') {
 						[activeStorage pushState];
 						return IFNaturalStateComment;
 					}
-					if (chr == '"')
-						return IFNaturalStateQuote;
 					if (chr == '\n' || chr == '\r')
 						return IFNaturalStateBlankLine;
 						
 					if (chr == '(')
 						return IFNaturalStateMaybeInform6;
+					if (chr == ' ' || chr == '\t' || chr == '.' || chr == ')' || chr == '}' || chr == ';'
+						|| chr == ':' || chr == ',' || chr == '?' || chr == '!' || chr == '{')
+						return IFNaturalStateSpace;
 					return IFNaturalStateText;
 					
 				case IFNaturalStateTitle:

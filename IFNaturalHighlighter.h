@@ -14,6 +14,7 @@
 // Natural Inform states
 enum {
 	IFNaturalStateTitle = IFSyntaxStateDefault,
+	IFNaturalStateSpace,
 	IFNaturalStateText,
 	IFNaturalStateComment,
 	IFNaturalStateQuote,
