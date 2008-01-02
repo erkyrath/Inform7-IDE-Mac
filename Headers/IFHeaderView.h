@@ -3,11 +3,12 @@
 //  Inform-xc2
 //
 //  Created by Andrew Hunter on 02/01/2008.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 Andrew Hunter. All rights reserved.
 //
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFHeader.h"
 #import "IFHeaderController.h"
 
 ///
@@ -15,7 +16,11 @@
 /// browsing
 ///
 @interface IFHeaderView : NSView {
-
+	int displayDepth;														// The display depth for this view
+	IFHeader* rootHeader;													// The root header that this view should display
 }
+
+- (int) displayDepth;														// Retrieves the display depth for this view
+- (void) setDisplayDepth: (int) displayDepth;								// Sets the display depth for this view
 
 @end
