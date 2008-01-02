@@ -459,7 +459,7 @@ static int compare(const void* a, const void* b) {
     NSString* key;
     
     while (key = [enumerator nextObject]) {
-        const char* str = [[key lowercaseString] cString];
+        const char* str = [[key lowercaseString] UTF8String];
         
         numCodeKeywords++;
         
@@ -471,7 +471,7 @@ static int compare(const void* a, const void* b) {
     enumerator = [otherKwSet objectEnumerator];
     
     while (key = [enumerator nextObject]) {
-        const char* str = [[key lowercaseString] cString];
+        const char* str = [[key lowercaseString] UTF8String];
         
         numOtherKeywords++;
         
@@ -548,7 +548,7 @@ static int compare(const void* a, const void* b) {
     int x;
     int chr;
 	
-	const char* str = [line cString];
+	const char* str = [line UTF8String];
 	int strLen = [line length];
     
     // Firstly, any characters with colour Q (quoted-text) which have special
