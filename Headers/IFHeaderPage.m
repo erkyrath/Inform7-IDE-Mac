@@ -3,7 +3,7 @@
 //  Inform-xc2
 //
 //  Created by Andrew Hunter on 02/01/2008.
-//  Copyright 2008 __MyCompanyName__. All rights reserved.
+//  Copyright 2008 Andrew Hunter. All rights reserved.
 //
 
 #import "IFHeaderPage.h"

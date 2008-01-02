@@ -12,6 +12,7 @@
 #import "IFIntelFile.h"
 #import "IFIsFiles.h"
 #import "IFSourceFileView.h"
+#import "IFHeaderPage.h"
 
 //
 // The 'source' page
@@ -29,8 +30,14 @@
 	// The file manager
 	BOOL fileManagerShown;										// YES if the source pane is showing the file manager and not the source
 	
+	// The headings pop-up menu
 	IFCustomPopup* headingsControl;								// The 'headings' drop-down control
 	IFHeadingsBrowser* headingsBrowser;							// The headings browser control
+
+	// The header page control
+	BOOL headerPageShown;
+	IFPageBarCell* headerPageControl;							// The 'header page' toggle
+	IFHeaderPage* headerPage;									// The header page
 }
 
 // Source pane controls
@@ -66,6 +73,9 @@
 - (IBAction) showFileManager: (id) sender;
 - (IBAction) hideFileManager: (id) sender;
 - (IBAction) toggleFileManager: (id) sender;
+
+// The header page
+- (IBAction) toggleHeaderPage: (id) sender;
 
 @end
 

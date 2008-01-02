@@ -16,6 +16,7 @@
 
 #import "IFIntelFile.h"
 #import "IFHeadingsBrowser.h"
+#import "IFHeaderController.h"
 
 enum lineStyle {
     IFLineStyleNeutral = 0,
@@ -94,6 +95,9 @@ enum lineStyle {
 	
 	// Running the entire skein
 	NSMutableArray* skeinNodeStack;
+	
+	// The headings controller
+	IFHeaderController* headerController;
 }
 
 - (void) layoutPanes;
@@ -190,5 +194,8 @@ enum lineStyle {
 // The GLK view
 - (IBAction) glkTaskHasStarted: (id) sender;
 - (void) setGlkInputSource: (id) glkInputSource;
+
+// Headers
+- (IFHeaderController*) headerController;
 
 @end

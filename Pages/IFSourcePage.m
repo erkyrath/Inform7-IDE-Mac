@@ -67,10 +67,19 @@
 		headingsControl = [[IFCustomPopup alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Headings"
 																									  value: @"Headings"
 																									  table: nil]];
-		
 		[headingsControl setDelegate: self];
 		[headingsControl setTarget: self];
 		[headingsControl setAction: @selector(gotoSection:)];
+		
+		// Create the header page
+		headerPage = [[IFHeaderPage alloc] init];
+		[headerPage setController: [controller headerController]];
+
+		headerPageControl = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"HeaderPage"
+																										value: @"Headings"
+																										table: nil]];
+		[headerPageControl setTarget: self];
+		[headerPageControl setAction: @selector(toggleHeaderPage:)];
 	}
 	
 	return self;
@@ -96,7 +105,10 @@
 	
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[headingsControl release];
+	[headerPageControl release];
 	[headingsBrowser release];
+	[headerPage release];
+	[sourceText release];
 
 	[super dealloc];
 }
@@ -523,6 +535,7 @@
 // = The file manager =
 
 - (IBAction) showFileManager: (id) sender {
+	if (headerPageShown) [self toggleHeaderPage: self];
 	if (fileManagerShown) return;
 	
 	// Set the frame of the file manager view appropriately
@@ -540,6 +553,7 @@
 }
 
 - (IBAction) hideFileManager: (id) sender {
+	if (headerPageShown) [self toggleHeaderPage: self];
 	if (!fileManagerShown) return;
 	
 	// Set the frame of the file manager view appropriately
@@ -600,11 +614,63 @@
 }
 
 - (NSArray*) toolbarCells {
-	return [NSArray arrayWithObject: headingsControl];
+	return [NSArray arrayWithObjects: headingsControl, headerPageControl, nil];
 }
 
 - (void) matcherChanged: (NSNotification*) not {
 	[sourceText setSyntaxDictionaryMatcher: [[parent document] syntaxDictionaryMatcherForFile: openSourceFile]];
+}
+
+// = Managing the source text view =
+
+- (void) setSourceText: (IFSourceFileView*) newSourceText {
+	[sourceText autorelease];
+	sourceText = [newSourceText retain];
+}
+
+- (IFSourceFileView*) sourceText {
+	return sourceText;
+}
+
+// = The header page =
+
+- (IBAction) toggleHeaderPage: (id) sender {
+	// Close the file manager if it's being displayed for any reason
+	if (fileManagerShown) [self hideFileManager: self];
+	
+	if (headerPageShown) {
+		// Hide the header page and show the source page
+		[headerPage setController: nil];
+		[sourceText setFrame: [[[[self view] subviews] objectAtIndex: 0] frame]];
+		
+		// Animate to the new view
+		IFViewAnimator* animator = [[IFViewAnimator alloc] init];
+		
+		[animator setTime: 0.3];
+		[animator prepareToAnimateView: [[[self view] subviews] objectAtIndex: 0]];
+		[animator animateTo: sourceText
+					  style: IFFloatIn];
+		[animator autorelease];
+		
+		[headerPageControl setState: NSOffState];
+		headerPageShown = NO;
+	} else {
+		// Show the header page
+		[headerPage setController: [parent headerController]];
+		[[headerPage pageView] setFrame: [[[[self view] subviews] objectAtIndex: 0] frame]];
+		
+		// Animate to the new view
+		IFViewAnimator* animator = [[IFViewAnimator alloc] init];
+		
+		[animator setTime: 0.3];
+		[animator prepareToAnimateView: [[[self view] subviews] objectAtIndex: 0]];
+		[animator animateTo: [headerPage pageView]
+					  style: IFFloatOut];
+		[animator autorelease];
+		
+		[headerPageControl setState: NSOnState];
+		headerPageShown = YES;
+	}
 }
 
 // = IFContextMatcherWindow delegate methods =

@@ -312,6 +312,8 @@ static NSDictionary*  itemDictionary = nil;
 												 selector: @selector(extensionsUpdated:)
 													 name: IFExtensionsUpdatedNotification
 												   object: nil];
+		
+		headerController = [[IFHeaderController alloc] init];
     }
 
     return self;
@@ -338,6 +340,7 @@ static NSDictionary*  itemDictionary = nil;
 	[processingSyntax release];
 	
 	[skeinNodeStack release];
+	[headerController release];
 	
     [super dealloc];
 }
@@ -3180,6 +3183,13 @@ static NSDictionary*  itemDictionary = nil;
 		[processingSyntax autorelease];
 		processingSyntax = nil;
 	}
+}
+
+
+// = Headers =
+
+- (IFHeaderController*) headerController {
+	return headerController;
 }
 
 @end
