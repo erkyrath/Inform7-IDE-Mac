@@ -19,6 +19,6 @@
 	IFHeader* rootHeader;												// The root of the headers being managed by this object
 }
 
-- (void) updateFromIntelligence: (id<IFSyntaxIntelligence>) intel;		// Updates the headers being managed by this controller from the specified intelligence object
+- (void) updateFromIntelligence: (IFIntelFile*) intel;					// Updates the headers being managed by this controller from the specified intelligence object
 
 @end

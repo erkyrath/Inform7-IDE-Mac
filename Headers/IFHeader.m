@@ -79,18 +79,22 @@ NSString* IFHeaderChangedNotification = @"IFHeaderChangedNotification";
 	return [[children retain] autorelease];
 }
 
+- (IFIntelSymbol*) symbol {
+	return [[symbol retain] autorelease];
+}
+
 - (void) setHeadingName: (NSString*) newName {
 	[headingName release];
 	headingName = [newName retain];
 	
-	[self changed];
+	[self hasChanged];
 }
 
 - (void) setParent: (IFHeader*) newParent {
 	if (newParent == parent) return;
 	
 	parent = newParent;
-	[self changed];
+	[self hasChanged];
 }
 
 - (void) setChildren: (NSArray*) newChildren {
@@ -113,7 +117,12 @@ NSString* IFHeaderChangedNotification = @"IFHeaderChangedNotification";
 		[child setParent: self];
 	}
 	
-	[self changed];
+	[self hasChanged];
+}
+
+- (void) setSymbol: (IFIntelSymbol*) newSymbol {
+	[symbol release]; symbol = nil;
+	symbol = [newSymbol retain];
 }
 
 @end

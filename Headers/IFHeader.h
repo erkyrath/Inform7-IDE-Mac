@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IFIntelSymbol.h"
 
 extern NSString* IFHeaderChangedNotification;	// Notification send when this heading has changed
 
@@ -20,6 +21,7 @@ extern NSString* IFHeaderChangedNotification;	// Notification send when this hea
 	NSString* headingName;						// The name of this header
 	IFHeader* parent;							// The parent of this header (NOT RETAINED)
 	NSMutableArray* children;					// The child headings for this heading
+	IFIntelSymbol* symbol;						// The symbol that is associated with this heading
 }
 
 // Initialisation
@@ -31,9 +33,11 @@ extern NSString* IFHeaderChangedNotification;	// Notification send when this hea
 - (NSString*) headingName;							// The name of this header
 - (IFHeader*) parent;								// The parent of this header
 - (NSArray*) children;								// The headings 'beneath' this one
+- (IFIntelSymbol*) symbol;							// The symbol for this heading
 
 - (void) setHeadingName: (NSString*) newName;		// Sets the name of this header
 - (void) setParent: (IFHeader*) parent;				// The parent for this header
 - (void) setChildren: (NSArray*) children;			// Updates the children for this item
+- (void) setSymbol: (IFIntelSymbol*) symbol;		// Sets the symbol associated with this heading
 
 @end
