@@ -76,4 +76,10 @@
 	}
 }
 
+// = User actions =
+
+- (IBAction) updateDepthSlider: (id) sender {
+	[headerView setDisplayDepth: [depthSlider intValue]];
+}
+
 @end

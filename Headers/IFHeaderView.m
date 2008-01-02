@@ -28,6 +28,10 @@
 
 // = Settings for this view =
 
+- (BOOL) isFlipped {
+	return YES;
+}
+
 - (int) displayDepth {
 	return displayDepth;
 }
