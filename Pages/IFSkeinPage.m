@@ -79,6 +79,11 @@
 	if (pruneSkein) [pruneSkein release];
 	if (skeinSpacing) [skeinSpacing release];
 	
+	[playAllCell release];
+	[labelsCell release];
+	[trimCell release];
+	[layoutCell release];
+	
 	[super dealloc];
 }
 

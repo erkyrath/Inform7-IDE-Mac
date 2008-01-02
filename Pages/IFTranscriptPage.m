@@ -62,6 +62,9 @@
 - (void) dealloc {
 	[transcriptView setDelegate: nil];
 	[blessAllCell release];
+	[nextBySkeinCell release];
+	[prevDiffCell release];
+	[nextDiffCell release];
 
 	[super dealloc];
 }
