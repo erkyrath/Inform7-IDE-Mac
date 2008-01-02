@@ -133,6 +133,10 @@
 // = Managing the views being controlled =
 
 - (void) addHeaderView: (NSObject*) newHeaderView {
+	if (!newHeaderView) {
+		return;
+	}
+	
 	if ([headerViews indexOfObjectIdenticalTo: newHeaderView] != NSNotFound) {
 		// Do nothing if this view has already been added to this controller
 		return;
