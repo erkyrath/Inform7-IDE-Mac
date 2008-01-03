@@ -60,7 +60,13 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 }
 
 - (void) dealloc {
-	[preferences release];
+	[preferences release];					preferences = nil;
+
+	[styles release];						styles = nil;
+	[cacheFontSet release];					cacheFontSet = nil;
+	[cacheFontStyles release];				cacheFontStyles = nil;
+	[cacheColourSet release];				cacheColourSet = nil;
+	[cacheColours release];					cacheColours = nil;
 	
 	[super dealloc];
 }
@@ -537,7 +543,7 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 																		alpha: 1.0]];
 			break;
 			
-		case IFColoursPsychedlic:
+		case IFColoursPsychedelic:
 			// Primary colours only
 			[cacheColourSet replaceObjectAtIndex: IFSyntaxString
 									  withObject: [NSColor blueColor]];
@@ -653,6 +659,7 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 #endif
 	
 	// Finally... build the actual set of styles
+	if (styles) [styles release];
 	styles = [[NSMutableArray alloc] init];
 	
 	for (x=0; x<256; x++) {

@@ -44,7 +44,7 @@ enum IFPreferencesColourChanges {
 enum IFPreferencesColourSet {
 	IFColoursSubdued=0,		// Subtler version of the 'standard' colours
 	IFColoursStandard=1,	// Standard colours, a bit like XCode
-	IFColoursPsychedlic=2,	// Colours are as bright and different as possible
+	IFColoursPsychedelic=2,	// Colours are as bright and different as possible
 	IFColoursCustomised=255,
 };
 
