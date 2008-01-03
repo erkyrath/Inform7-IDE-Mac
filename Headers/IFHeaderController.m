@@ -8,6 +8,7 @@
 
 #import "IFHeaderController.h"
 
+// TODO: fix performance when editing bronze... Looks like we're talking about the layout manager there, so maybe nothing to do
 
 @implementation IFHeaderController
 
