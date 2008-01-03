@@ -24,10 +24,11 @@
 }
 
 - (void) dealloc {
-	[headerViews release];				headerViews = nil;
+	[headerViews autorelease];				headerViews = nil;
 	
-	[selectedHeader release];			selectedHeader = nil;
-	[rootHeader release];				rootHeader = nil;
+	[selectedHeader autorelease];		selectedHeader = nil;
+	[rootHeader autorelease];			rootHeader = nil;
+	[intelFile autorelease];			intelFile = nil;
 	
 	[super dealloc];
 }
@@ -103,9 +104,12 @@
 	// Set the children for this symbol
 	[root setChildren: newChildren];
 }
-					   
 
 - (void) updateFromIntelligence: (IFIntelFile*) intel {
+	// Change the intel file object
+	[intelFile autorelease];
+	intelFile = [intel retain];
+	
 	// Firstly, build up a header structure from the intelligence object
 	IFHeader* newRoot = [[IFHeader alloc] initWithName: @"Root"
 												parent: nil 
@@ -120,6 +124,9 @@
 	// (TODO!)
 	[rootHeader release]; rootHeader = nil;
 	rootHeader = [newRoot retain];
+	
+	// Cause a general update of the header list
+	[self refreshHeaders];
 }
 
 - (IFHeader*) rootHeader {
@@ -128,6 +135,10 @@
 
 - (IFHeader*) selectedHeader {
 	return [[selectedHeader retain] autorelease];
+}
+
+- (IFIntelFile*) intelFile {
+	return intelFile;
 }
 
 // = Managing the views being controlled =

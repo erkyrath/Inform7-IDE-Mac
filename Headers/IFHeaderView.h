@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 #import "IFHeader.h"
+#import "IFHeaderNode.h"
 #import "IFHeaderController.h"
 
 ///
@@ -18,6 +19,7 @@
 @interface IFHeaderView : NSView {
 	int displayDepth;														// The display depth for this view
 	IFHeader* rootHeader;													// The root header that this view should display
+	IFHeaderNode* rootHeaderNode;											// The root header node
 }
 
 - (int) displayDepth;														// Retrieves the display depth for this view

@@ -16,6 +16,7 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+		displayDepth = 3;
     }
     return self;
 }
@@ -24,6 +25,21 @@
 	[rootHeader release];		rootHeader = nil;
 	
 	[super dealloc];
+}
+
+// = Updating the view =
+
+- (void) updateFromRoot {
+	// Replace the root header node
+	[rootHeaderNode release]; rootHeaderNode = nil;
+	rootHeaderNode = [[IFHeaderNode alloc] initWithHeader: rootHeader
+												 position: NSMakePoint(0,0)
+													depth: 0];
+	[rootHeaderNode populateToDepth: displayDepth];
+	
+	// Resize the view
+	NSRect rootFrame = [rootHeaderNode frame];
+	[self setFrameSize: rootFrame.size];
 }
 
 // = Settings for this view =
@@ -40,7 +56,8 @@
 	// Set the display depth for this view
 	displayDepth = newDisplayDepth;
 	
-	// TODO: refresh the view
+	// Refresh the view
+	[self updateFromRoot];
 }
 
 // = Drawing =
@@ -57,6 +74,7 @@
 	rootHeader = [controller rootHeader];
 	
 	// Update this control
+	[self updateFromRoot];
 }
 
 @end

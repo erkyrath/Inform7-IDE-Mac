@@ -30,6 +30,7 @@
 @interface IFHeaderController : NSObject {
 	IFHeader* rootHeader;												// The root of the headers being managed by this object
 	IFHeader* selectedHeader;											// The header that the user has most recently selected
+	IFIntelFile* intelFile;												// The most recent intel file object
 	
 	NSMutableArray* headerViews;										// The header views being managed by this controller
 }
@@ -39,6 +40,7 @@
 - (void) updateFromIntelligence: (IFIntelFile*) intel;					// Updates the headers being managed by this controller from the specified intelligence object
 - (IFHeader*) rootHeader;												// The root header for this controller (ie, the header that the view should display at the top level)
 - (IFHeader*) selectedHeader;											// The currently selected header for this controller (or nil)
+- (IFIntelFile*) intelFile;												// The intel file that is in use by this controller
 
 // Managing the views being controlled
 

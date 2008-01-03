@@ -312,6 +312,10 @@ static NSDictionary*  itemDictionary = nil;
 												 selector: @selector(extensionsUpdated:)
 													 name: IFExtensionsUpdatedNotification
 												   object: nil];
+		[[NSNotificationCenter defaultCenter] addObserver: self
+												 selector: @selector(intelFileChanged:)
+													 name: IFIntelFileHasChangedNotification
+												   object: nil];
 		
 		headerController = [[IFHeaderController alloc] init];
     }
@@ -3187,6 +3191,14 @@ static NSDictionary*  itemDictionary = nil;
 
 
 // = Headers =
+
+- (void) intelFileChanged: (NSNotification*) not {
+	// Must be the current intelligence object
+	if ([not object] != [self currentIntelligence]) return;
+	
+	// Update the header controller
+	[headerController updateFromIntelligence: (IFIntelFile*)[not object]];
+}
 
 - (IFHeaderController*) headerController {
 	return headerController;
