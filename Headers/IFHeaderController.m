@@ -79,7 +79,7 @@
 	NSMutableArray* newChildren = [[[NSMutableArray alloc] init] autorelease];
 	while (child) {
 		// Build the new header
-		IFHeader* newChild = [[IFHeader alloc] initWithName: [symbol name]
+		IFHeader* newChild = [[IFHeader alloc] initWithName: [child name]
 													 parent: root
 												   children: nil];
 		[newChild setSymbol: child];
@@ -111,7 +111,7 @@
 	intelFile = [intel retain];
 	
 	// Firstly, build up a header structure from the intelligence object
-	IFHeader* newRoot = [[IFHeader alloc] initWithName: @"Root"
+	IFHeader* newRoot = [[IFHeader alloc] initWithName: [[intel firstSymbol] name]
 												parent: nil 
 											  children: nil];
 	[newRoot autorelease];

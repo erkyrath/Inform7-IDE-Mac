@@ -16,8 +16,20 @@ static NSFont* boldHeaderNodeFont = nil;
 // = Constructing this node =
 
 - (void) updateNodeFrame {
-	// The frame has an origin at the cur
+	// The frame has an origin at the position specified for this node
 	frame.origin = position;
+	
+	// The initial height is determined by the title of this node
+	frame.size.width = [[header headingName] sizeWithAttributes: [NSDictionary dictionaryWithObjectsAndKeys: headerNodeFont, NSFontNameAttribute, nil]].width;
+	frame.size.height = 6 + [headerNodeFont ascender] - [headerNodeFont descender];
+	
+	// The total height is different if there are children for this item (depending on the y position of the final child)
+	if (children && [children count] > 0) {
+		NSRect lastFrame = [(IFHeaderNode*)[children lastObject] frame];
+		float maxY = NSMaxY(lastFrame);
+		
+		frame.size.height = maxY - NSMinY(frame);
+	}
 }
 
 - (id) initWithHeader: (IFHeader*) newHeader
@@ -58,7 +70,7 @@ static NSFont* boldHeaderNodeFont = nil;
 	children = [[NSMutableArray alloc] init];
 	
 	// Work out the position for the first child node
-	NSPoint childPoint = NSMakePoint(NSMinX(frame), NSMaxY(frame));
+	NSPoint childPoint = NSMakePoint(NSMinX(frame), floorf(NSMaxY(frame)));
 	
 	// Populate it
 	NSEnumerator* childNodeEnum = [[header children] objectEnumerator];
@@ -72,16 +84,17 @@ static NSFont* boldHeaderNodeFont = nil;
 		
 		// Populate it
 		[newChildNode populateToDepth: maxDepth - 1];
+		[children addObject: newChildNode];
 		
 		// Update the position of the next child element
-		childPoint.y = NSMaxY([newChildNode frame]);
+		childPoint.y = floorf(NSMaxY([newChildNode frame]));
 	}
 	
 	// Update the frame of this node
 	[self updateNodeFrame];
 }
 
-// Getting information about this node
+// = Getting information about this node =
 
 - (NSRect) frame {
 	return frame;
@@ -91,13 +104,38 @@ static NSFont* boldHeaderNodeFont = nil;
 	return header;
 }
 
-#if 0
-- (IFHeaderNodeSelectionStyle) selectionStyle;		// The selection style of this node
-- (void) setSelectionStyle: (IFHeaderNodeSelectionStyle) selectionStyle;
+- (IFHeaderNodeSelectionStyle) selectionStyle {
+	return IFHeaderNodeUnselected;
+}
 
-// Drawing the node
+- (void) setSelectionStyle: (IFHeaderNodeSelectionStyle) selectionStyle {
+	// TODO: implement me
+}
 
-- (void) drawNodeInRect: (NSRect) rect;				// Draws this node
-#endif
+// = Drawing the node =
+
+- (void) drawNodeInRect: (NSRect) rect
+			  withFrame: (NSRect) drawFrame {
+	// Do nothing if this node is outside the draw rectangle
+	if (!NSIntersectsRect(rect, frame)) {
+		return;
+	}
+	
+	// Draw the node title, truncating if necessary
+	[[header headingName] drawAtPoint: NSMakePoint(frame.origin.x + 5 + depth * 8, frame.origin.y + 3)
+					   withAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+											headerNodeFont, NSFontAttributeName,
+										nil]];
+	
+	// Draw the node children
+	if (children && [children count] > 0) {
+		NSEnumerator* childEnum = [children objectEnumerator];
+		IFHeaderNode* child;
+		while (child = [childEnum nextObject]) {
+			[child drawNodeInRect: rect
+						withFrame: drawFrame];
+		}
+	}
+}
 
 @end

@@ -44,6 +44,7 @@ typedef enum IFHeaderNodeSelectionStyle {
 
 // Drawing the node
 
-- (void) drawNodeInRect: (NSRect) rect;				// Draws this node
+- (void) drawNodeInRect: (NSRect) rect				// Draws this node
+			  withFrame: (NSRect) frame;
 
 @end

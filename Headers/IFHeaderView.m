@@ -16,7 +16,7 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		displayDepth = 3;
+		displayDepth = 5;
     }
     return self;
 }
@@ -39,6 +39,7 @@
 	
 	// Resize the view
 	NSRect rootFrame = [rootHeaderNode frame];
+	rootFrame.size.width = [self frame].size.width;
 	[self setFrameSize: rootFrame.size];
 }
 
@@ -63,15 +64,16 @@
 // = Drawing =
 
 - (void)drawRect:(NSRect)rect {
-	
+	[rootHeaderNode drawNodeInRect: rect
+						 withFrame: [self bounds]];
 }
 
 // = Messages from the header controller =
 
 - (void) refreshHeaders: (IFHeaderController*) controller {
 	// Get the root header from the controller
-	[rootHeader release];
-	rootHeader = [controller rootHeader];
+	[rootHeader release]; rootHeader = nil;
+	rootHeader = [[controller rootHeader] retain];
 	
 	// Update this control
 	[self updateFromRoot];

@@ -648,7 +648,7 @@
 		
 		[animator setTime: 0.3];
 		[animator prepareToAnimateView: [[[self view] subviews] objectAtIndex: 0]];
-		[animator animateTo: sourceText
+		[animator animateTo: sourceScroller
 					  style: IFFloatIn];
 		[animator autorelease];
 		
