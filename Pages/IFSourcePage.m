@@ -10,6 +10,7 @@
 #import "IFSourcePage.h"
 
 #import "IFSyntaxStorage.h"
+#import "IFRestrictedTextStorage.h"
 #import "IFViewAnimator.h"
 
 @implementation IFSourcePage
@@ -194,6 +195,14 @@
 	// IQ: 0
 	if ([textStorage isKindOfClass: [IFSyntaxStorage class]]) {
 		return [(IFSyntaxStorage*)textStorage intelligenceData];
+	} else if ([textStorage isKindOfClass: [IFRestrictedTextStorage class]]) {
+		NSTextStorage* realStorage = [(IFRestrictedTextStorage*)textStorage restrictedStorage];
+
+		if ([realStorage isKindOfClass: [IFSyntaxStorage class]]) {
+			return [(IFSyntaxStorage*)realStorage intelligenceData];
+		} else {
+			return nil;
+		}
 	} else {
 		return nil;
 	}
@@ -436,11 +445,10 @@
 	openSourceFile = [[[parent document] pathForFile: file] copy];
 	//openSourceFile = [[file lastPathComponent] copy];
 	
-	[fileStorage addLayoutManager: [layout autorelease]];
-	[fileStorage setDelegate: self];
 	if (textStorage) { [textStorage release]; textStorage = nil; }
-	textStorage = [fileStorage retain];
-	
+	textStorage = [fileStorage retain];	
+	[textStorage addLayoutManager: [layout autorelease]];
+	[textStorage setDelegate: self];
 	[fileStorage endEditing];
 	
 	[sourceText setEditable: ![[parent document] fileIsTemporary: file]];
@@ -636,6 +644,21 @@
 - (IBAction) toggleHeaderPage: (id) sender {
 	// Close the file manager if it's being displayed for any reason
 	if (fileManagerShown) [self hideFileManager: self];
+	
+	// DEBUGGING: restrict the range being shown in this display
+	if (![textStorage isKindOfClass: [IFRestrictedTextStorage class]]) {
+		IFRestrictedTextStorage* restricted = [[IFRestrictedTextStorage alloc] initWithTextStorage: textStorage];
+		[restricted setRestriction: NSMakeRange(100, 200)];
+
+		NSLayoutManager* layout = [[[sourceText layoutManager] retain] autorelease];
+		
+		[sourceText setSelectedRange: NSMakeRange(0,0)];
+		[[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
+				
+		[textStorage autorelease];
+		textStorage = restricted;
+		[textStorage addLayoutManager: layout];
+	}
 	
 	if (headerPageShown) {
 		// Hide the header page and show the source page

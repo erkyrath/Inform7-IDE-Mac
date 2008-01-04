@@ -162,7 +162,7 @@
 
 	// Send an edited event marking the change
 	[self edited: NSTextStorageEditedAttributes | NSTextStorageEditedCharacters
-		   range: oldRange
+		   range: NSMakeRange(0, oldRange.length)
   changeInLength: oldRange.length - restriction.length];
 }
 
