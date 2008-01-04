@@ -57,9 +57,21 @@
 	}
 }
 
+- (int) length {
+	return restriction.length;
+}
+
 - (NSDictionary*) attributesAtIndex: (unsigned) index
 					 effectiveRange: (NSRangePointer) range {
-	if (index < 0 || index >= restriction.length) return nil;
+	if (index < 0 || index >= restriction.length) {
+		[NSException raise: NSRangeException
+					format: @"Index outside the bounds of the restricted string"];
+		if (range) {
+			range->location = restriction.length;
+			range->length = 0;
+		}
+		return [NSDictionary dictionary];
+	}
 	
 	NSRange effectiveRange;
 	NSDictionary* result;
@@ -67,10 +79,21 @@
 	result = [storage attributesAtIndex: index + restriction.location
 						 effectiveRange: &effectiveRange];
 	
+	if (effectiveRange.location < restriction.location) {
+		effectiveRange.length -= restriction.location - effectiveRange.location;
+		effectiveRange.location = restriction.location;
+	}
 	effectiveRange.location -= restriction.location;
+	if (effectiveRange.location + effectiveRange.length > restriction.length) {
+		effectiveRange.length -= (effectiveRange.location + effectiveRange.length) - restriction.length;
+	}
 	
 	if (range) {
 		*range = effectiveRange;
+	}
+	
+	if (effectiveRange.location + effectiveRange.length >= [self length]-1) {
+		NSLog(@"%i %i %i %i", index, [self length], effectiveRange.location, effectiveRange.length);
 	}
 	
 	return result;
