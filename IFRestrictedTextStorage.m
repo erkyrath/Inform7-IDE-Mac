@@ -85,7 +85,7 @@
 	}
 	effectiveRange.location -= restriction.location;
 	if (effectiveRange.location + effectiveRange.length > restriction.length) {
-		effectiveRange.length -= (effectiveRange.location + effectiveRange.length) - restriction.length;
+		effectiveRange.length = restriction.length - effectiveRange.location;
 	}
 	
 	if (range) {
@@ -132,8 +132,11 @@
 	}
 	
 	// If this edit is beyond the end of the restriction, then do nothing
-	if (editRange.location >= restriction.location + restriction.length) {
-		return;
+	if (editRange.length != 0 || editRange.location != restriction.location + restriction.length)
+	{
+		if (editRange.location >= restriction.location + restriction.length) {
+			return;
+		}
 	}
 	
 	NSRange restrictedEditRange = editRange;
@@ -147,6 +150,14 @@
 	// Move the range according to where the restriction is
 	restrictedEditRange.location -= restriction.location;
 	
+	// If the edited range extends above the current restriction, then reduce it
+	if (restrictedEditRange.location + restrictedEditRange.length > restriction.length) {
+		restrictedEditRange.length = restriction.length - restrictedEditRange.location;
+	}
+	
+	// Change the size of the restriction
+	restriction.length += changeInLength;
+
 	// Report the edit
 	[self edited: mask
 		   range: restrictedEditRange
@@ -186,7 +197,7 @@
 	// Send an edited event marking the change
 	[self edited: NSTextStorageEditedAttributes | NSTextStorageEditedCharacters
 		   range: NSMakeRange(0, oldRange.length)
-  changeInLength: oldRange.length - restriction.length];
+  changeInLength: (int)restriction.length - (int)oldRange.length];
 }
 
 - (void) removeRestriction {
