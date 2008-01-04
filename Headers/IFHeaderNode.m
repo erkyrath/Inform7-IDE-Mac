@@ -17,6 +17,8 @@ static NSString* bulletPoint = nil;
 // = Utilities used to help lay out this node =
 
 - (NSFont*) font {
+	if (depth == 0) return boldHeaderNodeFont;
+	
 	switch (selected) {
 		case IFHeaderNodeSelected:
 			return boldHeaderNodeFont;
