@@ -87,7 +87,11 @@ static NSFont* boldHeaderNodeFont = nil;
 
 - (void) populateToDepth: (int) maxDepth {
 	// Do nothing if we've reached the end
-	if (maxDepth == 0) return;
+	if (maxDepth == 0) {
+		[children release]; children = nil;
+		[self updateNodeFrame];
+		return;
+	}
 	
 	// Create the children array
 	[children release]; children = nil;
