@@ -10,6 +10,7 @@
 
 static NSFont* headerNodeFont = nil;
 static NSFont* boldHeaderNodeFont = nil;
+static NSString* bulletPoint = nil;
 
 @implementation IFHeaderNode
 
@@ -25,12 +26,20 @@ static NSFont* boldHeaderNodeFont = nil;
 	}
 }
 
+- (NSString*) name {
+	NSString* name = [header headingName];
+	if (depth > 0) {
+		name = [bulletPoint stringByAppendingString: name];
+	}
+	return name;
+}
+
 - (void) updateNodeFrame {
 	// The frame has an origin at the position specified for this node
 	frame.origin = position;
 	
 	// The initial height is determined by the title of this node
-	frame.size.width = [[header headingName] sizeWithAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [self font], NSFontNameAttribute, nil]].width;
+	frame.size.width = [[self name] sizeWithAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [self font], NSFontNameAttribute, nil]].width;
 	frame.size.height = 8 + [[self font] ascender] - [[self font] descender];
 	
 	// The total height is different if there are children for this item (depending on the y position of the final child)
@@ -65,6 +74,13 @@ static NSFont* boldHeaderNodeFont = nil;
 		// If the fonts don't exist, then update them
 		if (!headerNodeFont)		headerNodeFont		= [[NSFont systemFontOfSize: [NSFont smallSystemFontSize]] retain];
 		if (!boldHeaderNodeFont)	boldHeaderNodeFont	= [[NSFont boldSystemFontOfSize: [NSFont smallSystemFontSize]] retain];
+		
+		// Create a bullet point
+		if (!bulletPoint) {
+			unichar bulletPointChars[] = { 0x2022, 0x20, 0 };
+			bulletPoint = [[NSString alloc] initWithCharacters: bulletPointChars
+														length: 2];
+		}
 		
 		// Update the contents of this node
 		header = [newHeader retain];
@@ -141,6 +157,11 @@ static NSFont* boldHeaderNodeFont = nil;
 	selected = selectionStyle;
 }
 
+- (NSArray*) children {
+	if (!children || [children count] == 0) return nil;
+	return children;
+}
+
 // = Drawing the node =
 
 - (void) drawNodeInRect: (NSRect) rect
@@ -151,18 +172,43 @@ static NSFont* boldHeaderNodeFont = nil;
 	}
 	
 	// Draw the node title, truncating if necessary
-	[[header headingName] drawAtPoint: NSMakePoint(frame.origin.x + 5 + depth * 8, frame.origin.y + 4)
-					   withAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-											[self font], NSFontAttributeName,
-										nil]];
+	[[self name] drawAtPoint: NSMakePoint(frame.origin.x + 5 + depth * 8, frame.origin.y + 4)
+			  withAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
+							   [self font], NSFontAttributeName,
+							   nil]];
 	
 	// Draw the node children
 	if (children && [children count] > 0) {
 		NSEnumerator* childEnum = [children objectEnumerator];
-		IFHeaderNode* child;
+		IFHeaderNode* child, *lastChild;
+		
+		lastChild = nil;
+		
 		while (child = [childEnum nextObject]) {
+			// Draw this child
 			[child drawNodeInRect: rect
 						withFrame: drawFrame];
+			
+			// Draw a line linking this child to the last child if possible
+			if (lastChild && [lastChild children]) {
+				[[NSColor colorWithDeviceWhite: 0.8
+										 alpha: 1.0] set];
+				
+				NSPoint lineStart = [lastChild frame].origin;
+				NSPoint lineEnd = [child frame].origin;
+				
+				lineStart.x	+= 7 + (depth+1)*8 + 0.5;
+				lineEnd.x	+= 7 + (depth+1)*8 + 0.5;
+				
+				lineStart.y	+= [[lastChild font] ascender] - [[lastChild font] descender] + 7;
+				lineEnd.y	+= 4;
+				
+				[NSBezierPath strokeLineFromPoint: lineStart
+										  toPoint: lineEnd];
+			}
+			
+			// Move on
+			lastChild = child;
 		}
 	}
 }

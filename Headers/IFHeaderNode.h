@@ -42,6 +42,7 @@ typedef enum IFHeaderNodeSelectionStyle {
 - (IFHeader*) header;								// The header associated with this node
 - (IFHeaderNodeSelectionStyle) selectionStyle;		// The selection style of this node
 - (void) setSelectionStyle: (IFHeaderNodeSelectionStyle) selectionStyle;
+- (NSArray*) children;								// The children associated with this node
 
 // Drawing the node
 
