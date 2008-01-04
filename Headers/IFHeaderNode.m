@@ -13,24 +13,48 @@ static NSFont* boldHeaderNodeFont = nil;
 
 @implementation IFHeaderNode
 
-// = Constructing this node =
+// = Utilities used to help lay out this node =
+
+- (NSFont*) font {
+	switch (selected) {
+		case IFHeaderNodeSelected:
+			return boldHeaderNodeFont;
+			
+		default:
+			return headerNodeFont;
+	}
+}
 
 - (void) updateNodeFrame {
 	// The frame has an origin at the position specified for this node
 	frame.origin = position;
 	
 	// The initial height is determined by the title of this node
-	frame.size.width = [[header headingName] sizeWithAttributes: [NSDictionary dictionaryWithObjectsAndKeys: headerNodeFont, NSFontNameAttribute, nil]].width;
-	frame.size.height = 6 + [headerNodeFont ascender] - [headerNodeFont descender];
+	frame.size.width = [[header headingName] sizeWithAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [self font], NSFontNameAttribute, nil]].width;
+	frame.size.height = 8 + [[self font] ascender] - [[self font] descender];
 	
 	// The total height is different if there are children for this item (depending on the y position of the final child)
 	if (children && [children count] > 0) {
+		// The width is that of the widest child element
+		float maxX = NSMaxX(frame);
+		
+		NSEnumerator* childEnum = [children objectEnumerator];
+		IFHeaderNode* child;
+		while (child = [childEnum nextObject]) {
+			float childMaxX = NSMaxX([child frame]);
+			if (childMaxX > maxX) maxX = childMaxX;
+		}
+		
+		frame.size.width = maxX - NSMinX(frame);
+
+		// The height is based on the maximum Y position of the final child
 		NSRect lastFrame = [(IFHeaderNode*)[children lastObject] frame];
 		float maxY = NSMaxY(lastFrame);
-		
 		frame.size.height = maxY - NSMinY(frame);
 	}
 }
+
+// = Constructing this node =
 
 - (id) initWithHeader: (IFHeader*) newHeader
 			 position: (NSPoint) newPosition
@@ -39,13 +63,14 @@ static NSFont* boldHeaderNodeFont = nil;
 	
 	if (self) {
 		// If the fonts don't exist, then update them
-		if (!headerNodeFont)		headerNodeFont		= [[NSFont systemFontOfSize: 10] retain];
-		if (!boldHeaderNodeFont)	boldHeaderNodeFont	= [[NSFont boldSystemFontOfSize: 10] retain];
+		if (!headerNodeFont)		headerNodeFont		= [[NSFont systemFontOfSize: [NSFont smallSystemFontSize]] retain];
+		if (!boldHeaderNodeFont)	boldHeaderNodeFont	= [[NSFont boldSystemFontOfSize: [NSFont smallSystemFontSize]] retain];
 		
 		// Update the contents of this node
 		header = [newHeader retain];
 		depth = newDepth;
 		position = newPosition;
+		selected = IFHeaderNodeUnselected;
 		
 		children = nil;
 	}
@@ -105,11 +130,11 @@ static NSFont* boldHeaderNodeFont = nil;
 }
 
 - (IFHeaderNodeSelectionStyle) selectionStyle {
-	return IFHeaderNodeUnselected;
+	return selected;
 }
 
 - (void) setSelectionStyle: (IFHeaderNodeSelectionStyle) selectionStyle {
-	// TODO: implement me
+	selected = selectionStyle;
 }
 
 // = Drawing the node =
@@ -122,9 +147,9 @@ static NSFont* boldHeaderNodeFont = nil;
 	}
 	
 	// Draw the node title, truncating if necessary
-	[[header headingName] drawAtPoint: NSMakePoint(frame.origin.x + 5 + depth * 8, frame.origin.y + 3)
+	[[header headingName] drawAtPoint: NSMakePoint(frame.origin.x + 5 + depth * 8, frame.origin.y + 4)
 					   withAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-											headerNodeFont, NSFontAttributeName,
+											[self font], NSFontAttributeName,
 										nil]];
 	
 	// Draw the node children

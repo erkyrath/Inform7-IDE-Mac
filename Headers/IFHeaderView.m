@@ -37,6 +37,9 @@
 													depth: 0];
 	[rootHeaderNode populateToDepth: displayDepth];
 	
+	// Redraw the display
+	[self setNeedsDisplay: YES];
+	
 	// Resize the view
 	NSRect rootFrame = [rootHeaderNode frame];
 	rootFrame.size.width = [self frame].size.width;
@@ -64,6 +67,11 @@
 // = Drawing =
 
 - (void)drawRect:(NSRect)rect {
+	// Draw the background
+	[[NSColor whiteColor] set];
+	NSRectFill(rect);
+	
+	// Draw the nodes
 	[rootHeaderNode drawNodeInRect: rect
 						 withFrame: [self bounds]];
 }

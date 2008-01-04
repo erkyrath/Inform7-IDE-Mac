@@ -23,6 +23,7 @@ typedef enum IFHeaderNodeSelectionStyle {
 	NSPoint position;								// The position of this node
 	NSRect frame;									// The frame for this node
 	int depth;										// The depth of this node in the tree
+	IFHeaderNodeSelectionStyle selected;			// The selection style of this node
 	
 	IFHeader* header;								// The IFHeader item associated with this node
 	NSMutableArray* children;						// The child nodes of this node

@@ -73,7 +73,6 @@
 		
 		// Create the header page
 		headerPage = [[IFHeaderPage alloc] init];
-		[headerPage setController: [controller headerController]];
 
 		headerPageControl = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"HeaderPage"
 																										value: @"Headings"
@@ -641,7 +640,7 @@
 	if (headerPageShown) {
 		// Hide the header page and show the source page
 		[headerPage setController: nil];
-		[sourceText setFrame: [[[[self view] subviews] objectAtIndex: 0] frame]];
+		[sourceScroller setFrame: [[[[self view] subviews] objectAtIndex: 0] frame]];
 		
 		// Animate to the new view
 		IFViewAnimator* animator = [[IFViewAnimator alloc] init];

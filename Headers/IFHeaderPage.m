@@ -20,6 +20,9 @@
 		// Load the nib file
 		[NSBundle loadNibNamed: @"Headers"
 						 owner: self];
+		
+		// Set the view depth
+		[headerView setDisplayDepth: [depthSlider intValue]];
 	}
 	
 	return self;
