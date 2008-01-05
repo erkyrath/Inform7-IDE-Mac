@@ -656,7 +656,7 @@
 		[animator setTime: 0.3];
 		[animator prepareToAnimateView: [[[self view] subviews] objectAtIndex: 0]];
 		[animator animateTo: sourceScroller
-					  style: IFFloatIn];
+					  style: IFAnimateLeft];
 		[animator autorelease];
 		
 		[headerPageControl setState: NSOffState];
@@ -672,7 +672,7 @@
 		[animator setTime: 0.3];
 		[animator prepareToAnimateView: [[[self view] subviews] objectAtIndex: 0]];
 		[animator animateTo: [headerPage pageView]
-					  style: IFFloatOut];
+					  style: IFAnimateRight];
 		[animator autorelease];
 		
 		[headerPageControl setState: NSOnState];
