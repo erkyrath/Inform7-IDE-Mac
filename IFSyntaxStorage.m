@@ -1179,26 +1179,30 @@ static inline BOOL IsWhitespace(unichar c) {
 }
 
 - (void) beginEditing {
+	[super beginEditing];
+
 	int x;
 	for (x=0; x<numDerivative; x++) {
 		[derivative[x] didBeginEditing: self];
 	}
-	
-	[super beginEditing];
 }
 
 - (void) endEditing {
+	[super endEditing];
+
 	int x;
 	for (x=0; x<numDerivative; x++) {
 		[derivative[x] didEndEditing: self];
 	}
-	
-	[super endEditing];
 }
 
 - (void) edited:(unsigned int)mask 
 		  range:(NSRange)oldRange 
  changeInLength:(int)lengthChange {
+	[super edited: mask
+			range: oldRange
+   changeInLength: lengthChange];
+
 	int x;
 	for (x=0; x<numDerivative; x++) {
 		[derivative[x] didEdit: self
@@ -1206,10 +1210,6 @@ static inline BOOL IsWhitespace(unichar c) {
 				changeInLength: lengthChange
 						range: oldRange];
 	}
-	
-	[super edited: mask
-			range: oldRange
-   changeInLength: lengthChange];
 }
 
 @end
