@@ -23,6 +23,7 @@
 		
 		// Set the view depth
 		[headerView setDisplayDepth: [depthSlider intValue]];
+		[headerView setDelegate: self];
 	}
 	
 	return self;
@@ -34,6 +35,8 @@
 		[controller release];				controller = nil;
 	}
 
+	[headerView setDelegate: nil];
+	
 	[pageView release];						pageView = nil;
 	[headerView release];					headerView = nil;
 	
@@ -79,10 +82,24 @@
 	}
 }
 
+- (void) setDelegate: (id) newDelegate {
+	delegate = newDelegate;
+}
+
 // = User actions =
 
 - (IBAction) updateDepthSlider: (id) sender {
 	[headerView setDisplayDepth: [depthSlider intValue]];
+}
+
+// = Header view delegate methods =
+
+- (void) headerView: (IFHeaderView*) view
+	  clickedOnNode: (IFHeaderNode*) node {
+	if (delegate && [delegate respondsToSelector: @selector(headerPage:limitToHeader:)]) {
+		[delegate headerPage: self
+			   limitToHeader: [node header]];
+	}
 }
 
 @end

@@ -19,11 +19,21 @@
 	IBOutlet NSSlider* depthSlider;							// The header depth slider
 	
 	IFHeaderController* controller;							// The header controller that this page is using
+	
+	id delegate;											// The delegate for this page object
 }
 
 - (NSView*) pageView;										// The view that should be used to display the headers being managed by this class
 - (void) setController: (IFHeaderController*) controller;	// Specifies the header controller that should be used to manage updates to this page
+- (void) setDelegate: (id) delegate;						// Updates the delegate
 
 - (IBAction) updateDepthSlider: (id) sender;				// Message sent when the depth slider is changed
+
+@end
+
+@interface NSObject(IFHeaderPageDelegate)
+
+- (void) headerPage: (IFHeaderPage*) page
+	  limitToHeader: (IFHeader*) header;
 
 @end

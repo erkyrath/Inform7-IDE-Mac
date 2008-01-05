@@ -20,9 +20,20 @@
 	int displayDepth;														// The display depth for this view
 	IFHeader* rootHeader;													// The root header that this view should display
 	IFHeaderNode* rootHeaderNode;											// The root header node
+	
+	id delegate;															// The delegate (NOT RETAINED)
 }
 
 - (int) displayDepth;														// Retrieves the display depth for this view
 - (void) setDisplayDepth: (int) displayDepth;								// Sets the display depth for this view
+
+- (void) setDelegate: (id) delegate;										// Sets the delegate for this view
+
+@end
+
+@interface NSObject(IFHeaderViewDelegate)
+
+- (void) headerView: (IFHeaderView*) view									// Indicates that a header node has been clicked on
+	  clickedOnNode: (IFHeaderNode*) node;
 
 @end

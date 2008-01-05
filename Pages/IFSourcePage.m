@@ -74,6 +74,7 @@
 		
 		// Create the header page
 		headerPage = [[IFHeaderPage alloc] init];
+		[headerPage setDelegate: self];
 
 		headerPageControl = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"HeaderPage"
 																										value: @"Headings"
@@ -102,6 +103,8 @@
 	
 	[sourceScroller release];
 	[fileManager release];
+	
+	[headerPage setDelegate: nil];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[headingsControl release];
@@ -213,6 +216,42 @@
 - (void) indicateRange: (NSRange) range {
 	[[[NSApp delegate] leopard] showFindIndicatorForRange: range
 											   inTextView: sourceText];
+}
+
+- (unsigned int) indexOfLine: (int) line
+					inString: (NSString*) store {
+    int length = [store length];
+	
+    int x, lineno, linepos, lineLength;
+    lineno = 1; linepos = 0;
+	if (line > lineno)
+	{
+		for (x=0; x<length; x++) {
+			unichar chr = [store characterAtIndex: x];
+			
+			if (chr == '\n' || chr == '\r') {
+				unichar otherchar = chr == '\n'?'\r':'\n';
+				
+				lineno++;
+				linepos = x + 1;
+				
+				// Deal with DOS line endings
+				if (linepos < length && [store characterAtIndex: linepos] == otherchar) {
+					x++; linepos++;
+				}
+				
+				if (lineno == line) {
+					break;
+				}
+			}
+		}
+	}
+	
+	if (lineno != line) {
+		return NSNotFound;
+	}
+	
+	return x;
 }
 
 - (void) indicateLine: (int) line {
@@ -685,6 +724,75 @@
 - (BOOL) openStringUrl: (NSString*) url {
 	[parent openDocUrl: [NSURL URLWithString: url]];
 	return YES;
+}
+
+// = Header page delegate methods =
+
+- (void) limitToRange: (NSRange) range {
+	// Get the text storage object
+	NSTextStorage* storage = [sourceText textStorage];
+	IFRestrictedTextStorage* restrictedStorage;
+	
+	if (![storage isKindOfClass: [IFRestrictedTextStorage class]]) {
+		[[storage retain] autorelease];
+		restrictedStorage = [[IFRestrictedTextStorage alloc] initWithTextStorage: storage];
+		
+		[storage removeLayoutManager: [sourceText layoutManager]];
+		[restrictedStorage addLayoutManager: [sourceText layoutManager]];
+	 } else {
+		 restrictedStorage = (IFRestrictedTextStorage*)storage;
+	 }
+	
+	// Set the restriction range
+	[restrictedStorage setRestriction: range];
+	
+	// Display or hide the tears at the top and bottom
+	[sourceText setTornAtTop: range.location!=0];
+	[sourceText setTornAtBottom: (range.location+range.length)<[textStorage length]];
+}
+
+- (void) headerPage: (IFHeaderPage*) page
+	  limitToHeader: (IFHeader*) header {
+	IFIntelFile* intelFile = [[parent headerController] intelFile];
+	
+	// Work out the following symbol
+	IFIntelSymbol* symbol			= [header symbol];
+	IFIntelSymbol* followingSymbol	= [symbol sibling];
+	
+	if (followingSymbol == nil) {
+		IFIntelSymbol* parentSymbol = [symbol parent];
+		
+		while (parentSymbol && !followingSymbol) {
+			followingSymbol = [parentSymbol sibling];
+			parentSymbol = [parentSymbol parent];
+		}
+	}
+	
+	// Get the range we need to limit to
+	NSRange limitRange;
+	
+	int symbolLine = [intelFile lineForSymbol: symbol];
+	if (symbolLine == NSNotFound) return;
+	
+	limitRange.location = [self indexOfLine: symbolLine
+								   inString: [textStorage string]];
+	
+	unsigned finalLocation;
+	if (followingSymbol) {
+		int followingLine = [intelFile lineForSymbol: followingSymbol];
+		if (followingLine == NSNotFound) return;
+		finalLocation = [self indexOfLine: followingLine
+								 inString: [textStorage string]];
+	} else {
+		finalLocation = [textStorage length];
+	}
+	
+	limitRange.length = finalLocation - limitRange.location;
+
+	[self limitToRange: limitRange];
+
+	// Redisplay the source code
+	if (headerPageShown) [self toggleHeaderPage: self];
 }
 
 @end

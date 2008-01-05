@@ -65,6 +65,11 @@
 	[self updateFromRoot];
 }
 
+
+- (void) setDelegate: (id) newDelegate {
+	delegate = newDelegate;
+}
+
 // = Drawing =
 
 - (void)drawRect:(NSRect)rect {
@@ -98,9 +103,11 @@
 	// Get which node was clicked on
 	IFHeaderNode* clicked = [rootHeaderNode nodeAtPoint: viewPos];
 	
-	// Set the selection style of the node
-	[clicked setSelectionStyle: [clicked selectionStyle] == IFHeaderNodeSelected?IFHeaderNodeUnselected:IFHeaderNodeSelected];
-	[self setNeedsDisplay: YES];
+	// Inform the delegate that the header has been clicked
+	if (clicked && delegate && [delegate respondsToSelector: @selector(headerView:clickedOnNode:)]) {
+		[delegate headerView: self
+			   clickedOnNode: clicked];
+	}
 }
 
 @end
