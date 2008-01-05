@@ -165,7 +165,7 @@ static NSImage* bottomTear = nil;
 	if (!bottomTear)	bottomTear = [[NSImage imageNamed: @"torn_bottom"] retain];
 
 	// Work out the inset to use
-	NSSize inset = NSMakeSize(3,3);
+	NSSize inset = NSMakeSize(3,6);
 	
 	if (tornAtTop) {
 		inset.height += floorf([topTear size].height);
@@ -173,6 +173,7 @@ static NSImage* bottomTear = nil;
 	if (tornAtBottom) {
 		inset.height += floorf([bottomTear size].height);
 	}
+	inset.height = floorf(inset.height/2);
 	
 	// Update the display
 	[self setTextContainerInset: inset];
