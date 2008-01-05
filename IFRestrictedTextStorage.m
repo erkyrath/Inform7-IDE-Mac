@@ -23,6 +23,9 @@
 		// Set up the storage object
 		storage		= [newStorage retain];
 		restriction = NSMakeRange(0, [storage length]);
+		string		= [[IFRestrictedString alloc] initWithString: [storage string]];
+		
+		[string setRestriction: restriction];
 		
 		// Register for notifications from the storage object
 		if ([newStorage isKindOfClass: [IFSyntaxStorage class]]) {
@@ -45,6 +48,7 @@
 	}
 	
 	[storage release];			storage = nil;
+	[string release];			string = nil;
 	
 	[super dealloc];
 }
@@ -56,11 +60,7 @@
 // = Mandatory NSTextStorage function implementations =
 
 - (NSString*) string {
-	if (![self isRestricted]) {
-		return [storage string];
-	} else {
-		return [[storage string] substringWithRange: restriction];
-	}
+	return string;
 }
 
 - (int) length {
@@ -134,6 +134,7 @@
 	// If the edit is before the start of the restriction, then do nothing
 	if (editRange.location + editRange.length < restriction.location) {
 		restriction.location += changeInLength;
+		[string setRestriction: restriction];
 		return;
 	}
 	
@@ -163,6 +164,7 @@
 	
 	// Change the size of the restriction
 	restriction.length += changeInLength;
+	[string setRestriction: restriction];
 	
 	// Report the edit
 	[self edited: mask
@@ -220,6 +222,7 @@
 	// Update the range that this text storage is displaying
 	NSRange oldRange = restriction;
 	restriction = range;
+	[string setRestriction: restriction];
 
 	// Send an edited event marking the change
 	[self edited: NSTextStorageEditedAttributes | NSTextStorageEditedCharacters
