@@ -27,6 +27,12 @@ typedef enum IFHeaderNodeSelectionStyle {
 	
 	IFHeader* header;								// The IFHeader item associated with this node
 	NSMutableArray* children;						// The child nodes of this node
+	
+	// Parameters representing how this node should be laid out
+	float margin;									// Margin to the items
+	float indent;									// Indentation per level
+	float gap;										// Vertical gap around items
+	float corner;									// Size of a corner for an item
 }
 
 // Constructing this node

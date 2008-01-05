@@ -42,7 +42,7 @@ static NSString* bulletPoint = nil;
 	
 	// The initial height is determined by the title of this node
 	frame.size.width = [[self name] sizeWithAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [self font], NSFontNameAttribute, nil]].width;
-	frame.size.height = 8 + [[self font] ascender] - [[self font] descender];
+	frame.size.height = gap + [[self font] ascender] - [[self font] descender];
 	
 	// The total height is different if there are children for this item (depending on the y position of the final child)
 	if (children && [children count] > 0) {
@@ -79,18 +79,24 @@ static NSString* bulletPoint = nil;
 		
 		// Create a bullet point
 		if (!bulletPoint) {
-			unichar bulletPointChars[] = { 0x2022, 0x20, 0 };
+			unichar bulletPointChars[] = { 0x20, 0x2022, 0x20, 0 };
 			bulletPoint = [[NSString alloc] initWithCharacters: bulletPointChars
-														length: 2];
+														length: 3];
 		}
 		
 		// Update the contents of this node
 		header = [newHeader retain];
 		depth = newDepth;
 		position = newPosition;
-		selected = IFHeaderNodeUnselected;
+		selected = depth == 2?IFHeaderNodeSelected:IFHeaderNodeUnselected;
 		
 		children = nil;
+		
+		// Set up the parameters
+		margin	= 5;
+		indent	= 12;
+		gap		= 8;
+		corner	= 5;
 	}
 	
 	return self;
@@ -166,6 +172,62 @@ static NSString* bulletPoint = nil;
 
 // = Drawing the node =
 
+- (NSBezierPath*) highlightPathForFrame: (NSRect) drawFrame {
+	// Bezier path representing the outline of this node
+	NSBezierPath* result = [NSBezierPath bezierPath];
+	
+	// Draw the border
+	[result moveToPoint: NSMakePoint(NSMinX(frame) + corner + margin + indent * depth + .5, NSMinY(frame) + .5)];
+	[result lineToPoint: NSMakePoint(NSMaxX(drawFrame) - corner - margin + .5, NSMinY(frame) + .5)];
+	[result curveToPoint: NSMakePoint(NSMaxX(drawFrame) - margin + .5, NSMinY(frame) + corner + .5)
+		   controlPoint1: NSMakePoint(NSMaxX(drawFrame) - corner/2 - margin + .5, NSMinY(frame) + .5)
+		   controlPoint2: NSMakePoint(NSMaxX(drawFrame) - margin + .5, NSMinY(frame) + corner/2 + .5)];
+
+	[result lineToPoint: NSMakePoint(NSMaxX(drawFrame) - margin + .5, NSMaxY(frame) - corner + .5)];
+	[result curveToPoint: NSMakePoint(NSMaxX(drawFrame) - corner - margin + .5, NSMaxY(frame) + .5)
+		   controlPoint1: NSMakePoint(NSMaxX(drawFrame) - margin + .5, NSMaxY(frame) - corner/2 + .5)
+		   controlPoint2: NSMakePoint(NSMaxX(drawFrame) - corner/2 - margin, NSMaxY(frame))];
+
+	[result lineToPoint: NSMakePoint(NSMinX(frame) + corner + margin + indent * depth + .5, NSMaxY(frame) + .5)];
+	[result curveToPoint: NSMakePoint(NSMinX(frame) + margin + indent * depth + .5, NSMaxY(frame) - corner + .5)
+		   controlPoint1: NSMakePoint(NSMinX(frame) + corner/2 + margin + indent * depth + .5, NSMaxY(frame) + .5)
+		   controlPoint2: NSMakePoint(NSMinX(frame) + margin + indent * depth + .5, NSMaxY(frame) - corner/2 + .5)];
+	
+	[result lineToPoint: NSMakePoint(NSMinX(frame) + margin + indent * depth + .5, NSMinY(frame) + corner + .5)];
+	[result curveToPoint: NSMakePoint(NSMinX(frame) + corner + margin + indent * depth + .5, NSMinY(frame) + .5)
+		   controlPoint1: NSMakePoint(NSMinX(frame) + margin + indent * depth + .5, NSMinY(frame) + corner/2 + .5)
+		   controlPoint2: NSMakePoint(NSMinX(frame) + corner/2 + margin + indent * depth + .5, NSMinY(frame) + .5)];
+	
+	return result;
+}
+
+- (NSBezierPath*) truncatedHighlightPathForFrame: (NSRect) drawFrame {
+	float height = gap + [[self font] ascender] - [[self font] descender];
+	if (height + corner >= frame.size.height) {
+		return [self highlightPathForFrame: drawFrame];
+	}
+	
+	// Bezier path representing the outline of this node
+	NSBezierPath* result = [NSBezierPath bezierPath];
+	
+	// Draw the border
+	[result moveToPoint: NSMakePoint(NSMinX(frame) + corner + margin + indent * depth + .5, NSMinY(frame) + .5)];
+	[result lineToPoint: NSMakePoint(NSMaxX(drawFrame) - corner - margin + .5, NSMinY(frame) + .5)];
+	[result curveToPoint: NSMakePoint(NSMaxX(drawFrame) - margin + .5, NSMinY(frame) + corner + .5)
+		   controlPoint1: NSMakePoint(NSMaxX(drawFrame) - corner/2 - margin + .5, NSMinY(frame) + .5)
+		   controlPoint2: NSMakePoint(NSMaxX(drawFrame) - margin + .5, NSMinY(frame) + corner/2 + .5)];
+	
+	[result lineToPoint: NSMakePoint(NSMaxX(drawFrame) - margin + .5, NSMinY(frame) + height + .5)];
+	[result lineToPoint: NSMakePoint(NSMinX(frame) + margin + indent * depth + .5, NSMinY(frame) + height + .5)];
+	
+	[result lineToPoint: NSMakePoint(NSMinX(frame) + margin + indent * depth + .5, NSMinY(frame) + corner + .5)];
+	[result curveToPoint: NSMakePoint(NSMinX(frame) + corner + margin + indent * depth + .5, NSMinY(frame) + .5)
+		   controlPoint1: NSMakePoint(NSMinX(frame) + margin + indent * depth + .5, NSMinY(frame) + corner/2 + .5)
+		   controlPoint2: NSMakePoint(NSMinX(frame) + corner/2 + margin + indent * depth + .5, NSMinY(frame) + .5)];
+	
+	return result;
+}
+
 - (void) drawNodeInRect: (NSRect) rect
 			  withFrame: (NSRect) drawFrame {
 	// Do nothing if this node is outside the draw rectangle
@@ -173,8 +235,36 @@ static NSString* bulletPoint = nil;
 		return;
 	}
 	
+	// Draw the node background, if necessary
+	NSColor* nodeBackgroundColour = nil;
+	
+	switch (selected) {
+		case IFHeaderNodeSelected:
+			nodeBackgroundColour = [NSColor selectedTextBackgroundColor];
+			break;
+			
+		default:
+			break;
+	}
+	
+	if (nodeBackgroundColour) {
+		// Pick the colours that we'll use to do the drawing
+		NSColor* nodeLineColour = nodeBackgroundColour;
+		NSColor* nodeTextBgColour = [nodeBackgroundColour colorWithAlphaComponent: 0.8];
+		NSColor* nodeChildBgColour = [nodeBackgroundColour colorWithAlphaComponent: 0.2];
+		
+		// Create a bezier path representing this node
+		NSBezierPath* highlightPath = [self highlightPathForFrame: drawFrame];
+		NSBezierPath* textHighlightPath = [self truncatedHighlightPathForFrame: drawFrame];
+		
+		// Draw it
+		[nodeChildBgColour set];	[highlightPath fill];
+		[nodeTextBgColour set];		[textHighlightPath fill];
+		[nodeLineColour set];		[highlightPath stroke];
+	}
+	
 	// Draw the node title, truncating if necessary
-	[[self name] drawAtPoint: NSMakePoint(frame.origin.x + 5 + depth * 8, frame.origin.y + 4)
+	[[self name] drawAtPoint: NSMakePoint(frame.origin.x + margin + depth * indent, frame.origin.y + floorf(gap/2))
 			  withAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
 							   [self font], NSFontAttributeName,
 							   nil]];
@@ -192,18 +282,18 @@ static NSString* bulletPoint = nil;
 						withFrame: drawFrame];
 			
 			// Draw a line linking this child to the last child if possible
-			if (lastChild && [lastChild children]) {
+			if (lastChild && [lastChild children] && [lastChild selectionStyle] == IFHeaderNodeUnselected) {
 				[[NSColor colorWithDeviceWhite: 0.8
 										 alpha: 1.0] set];
 				
 				NSPoint lineStart = [lastChild frame].origin;
 				NSPoint lineEnd = [child frame].origin;
 				
-				lineStart.x	+= 7 + (depth+1)*8 + 0.5;
-				lineEnd.x	+= 7 + (depth+1)*8 + 0.5;
+				lineStart.x	+= margin + 6 + (depth+1)*indent + 0.5;
+				lineEnd.x	+= margin + 6 + (depth+1)*indent + 0.5;
 				
-				lineStart.y	+= [[lastChild font] ascender] - [[lastChild font] descender] + 7;
-				lineEnd.y	+= 4;
+				lineStart.y	+= [[lastChild font] ascender] - [[lastChild font] descender] + gap - 1;
+				lineEnd.y	+= gap;
 				
 				[NSBezierPath strokeLineFromPoint: lineStart
 										  toPoint: lineEnd];
