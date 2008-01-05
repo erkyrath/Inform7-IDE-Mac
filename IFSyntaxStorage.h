@@ -102,6 +102,20 @@ typedef unsigned char IFSyntaxStyle;
 
 @end
 
+///
+/// NSTextStorage subclasses can implement this to be notified of events on the main text storage object
+///
+@protocol IFDerivativeStorage
+
+- (void) didBeginEditing: (NSTextStorage*) storage;
+- (void) didEdit: (NSTextStorage*) storage
+			mask: (unsigned int) mask
+  changeInLength: (int) lengthChange
+		   range: (NSRange) range;
+- (void) didEndEditing: (NSTextStorage*) storage;
+
+@end
+
 //
 // An NSTextStorage object that performs syntax highlighting
 //
@@ -140,6 +154,10 @@ typedef unsigned char IFSyntaxStyle;
 	IFIntelFile* intelData;				// 'Intelligence' data
 	
 	NSRange editingRange;				// Used while rewriting
+	
+	// Derivative storage objects
+	int numDerivative;
+	id<IFDerivativeStorage>* derivative;
 }
 
 // Setting/retrieving the highlighter
@@ -190,6 +208,10 @@ typedef unsigned char IFSyntaxStyle;
 				  withValue: (id) parameter;
 - (void) replaceLine: (int) lineNumber							// (To be called from the callbackForEditing) replaces a line with another line
 			withLine: (NSString*) newLine;			// DANGEROUS! May change styles, invoke the highlighter, etc
+
+// Allowing derivative text storage objects
+- (void) addDerivativeStorage: (id<IFDerivativeStorage>) newStorage;	// Adds an object to monitor editing events on this object (NOT RETAINED)
+- (void) removeDerivativeStorage: (id<IFDerivativeStorage>) oldStorage;	// Removes a derivative storage object
 
 @end
 

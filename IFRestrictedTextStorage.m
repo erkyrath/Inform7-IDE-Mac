@@ -8,7 +8,6 @@
 
 #import "IFRestrictedTextStorage.h"
 
-
 @implementation IFRestrictedTextStorage
 
 // Initialisation
@@ -26,10 +25,14 @@
 		restriction = NSMakeRange(0, [storage length]);
 		
 		// Register for notifications from the storage object
-		[[NSNotificationCenter defaultCenter] addObserver: self
-												 selector: @selector(didEdit:)
-													 name: NSTextStorageDidProcessEditingNotification
-												   object: storage];
+		if ([newStorage isKindOfClass: [IFSyntaxStorage class]]) {
+			[(IFSyntaxStorage*)newStorage addDerivativeStorage: self];
+		} else {
+			[[NSNotificationCenter defaultCenter] addObserver: self
+													 selector: @selector(didEdit:)
+														 name: NSTextStorageDidProcessEditingNotification
+													   object: storage];
+		}
 	}
 	
 	return self;
@@ -37,6 +40,9 @@
 
 - (void) dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	if ([storage isKindOfClass: [IFSyntaxStorage class]]) {
+		[(IFSyntaxStorage*)storage removeDerivativeStorage: self];
+	}
 	
 	[storage release];			storage = nil;
 	
@@ -117,14 +123,14 @@
 
 // = Handling NSTextStorage notification events =
 
-- (void) didEdit: (NSNotification*) not {
-	if ([not object] != storage) return;
-	
-	// Get the details about the edit that has occurred
-	NSRange editRange	= [storage editedRange];
-	int changeInLength	= [storage changeInLength];
-	int mask			= [storage editedMask];
-	
+- (void) didBeginEditing: (NSTextStorage*) storage {
+	[self beginEditing];
+}
+
+- (void) didEdit: (NSTextStorage*) storage
+			mask: (unsigned int) mask
+  changeInLength: (int) changeInLength
+		   range: (NSRange) editRange {
 	// If the edit is before the start of the restriction, then do nothing
 	if (editRange.location + editRange.length < restriction.location) {
 		restriction.location += changeInLength;
@@ -157,11 +163,32 @@
 	
 	// Change the size of the restriction
 	restriction.length += changeInLength;
-
+	
 	// Report the edit
 	[self edited: mask
 		   range: restrictedEditRange
   changeInLength: changeInLength];
+}
+
+- (void) didEndEditing: (NSTextStorage*) storage {
+	[self endEditing];
+}
+
+- (void) didEdit: (NSNotification*) not {
+	// NSNotification (this is less than ideal as we can get confused more easily)
+	if ([not object] != storage) return;
+	
+	// Get the details about the edit that has occurred
+	NSRange editRange	= [storage editedRange];
+	int changeInLength	= [storage changeInLength];
+	int mask			= [storage editedMask];
+	
+	// Pass to the didEdit: method
+	[self didEdit: storage
+			 mask: mask
+   changeInLength: changeInLength
+			range: editRange];
+	
 }
 
 // = Restricting the range that is being displayed by the storage object =

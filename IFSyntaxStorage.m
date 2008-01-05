@@ -42,6 +42,9 @@ static int maxPassLength = 65536;
 		highlighter = nil;
 		highlightingStack = [[NSMutableArray alloc] init];
 		
+		numDerivative = 0;
+		derivative = NULL;
+		
 		// Initial state
 		lineStarts[0] = 0;
 		nLines = 1;
@@ -135,6 +138,8 @@ static int maxPassLength = 65536;
 	
 	[paragraphStyles release];
 	[tabStops release];
+	
+	if (derivative) free(derivative);
 	
 	[super dealloc];
 }
@@ -1151,5 +1156,60 @@ static inline BOOL IsWhitespace(unichar c) {
 }
 
 - (BOOL)fixesAttributesLazily { return YES; }
+
+// = Allowing derivative text storage objects =
+
+- (void) addDerivativeStorage: (id<IFDerivativeStorage>) newStorage {
+	// Add to the derivative array (we can't use NSMutableArray as we don't want these to be retained)
+	numDerivative++;
+	derivative = realloc(derivative, sizeof(*derivative) * numDerivative);
+	derivative[numDerivative-1] = newStorage;
+}
+
+- (void) removeDerivativeStorage: (id<IFDerivativeStorage>) oldStorage {
+	int x;
+	for (x=0; x<numDerivative; x++) {
+		if (derivative[x] == oldStorage) {
+			// Remove this item
+			memmove(derivative + x, derivative + x + 1, sizeof(*derivative) * (numDerivative - x - 1));
+			numDerivative--;
+			x--;
+		}
+	}
+}
+
+- (void) beginEditing {
+	int x;
+	for (x=0; x<numDerivative; x++) {
+		[derivative[x] didBeginEditing: self];
+	}
+	
+	[super beginEditing];
+}
+
+- (void) endEditing {
+	int x;
+	for (x=0; x<numDerivative; x++) {
+		[derivative[x] didEndEditing: self];
+	}
+	
+	[super endEditing];
+}
+
+- (void) edited:(unsigned int)mask 
+		  range:(NSRange)oldRange 
+ changeInLength:(int)lengthChange {
+	int x;
+	for (x=0; x<numDerivative; x++) {
+		[derivative[x] didEdit: self
+						  mask: mask
+				changeInLength: lengthChange
+						range: oldRange];
+	}
+	
+	[super edited: mask
+			range: oldRange
+   changeInLength: lengthChange];
+}
 
 @end

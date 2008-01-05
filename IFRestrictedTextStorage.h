@@ -7,12 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "IFSyntaxStorage.h"
 
 
 ///
 /// Text storage object that represents a restricted range of another text storage object
 ///
-@interface IFRestrictedTextStorage : NSTextStorage {
+@interface IFRestrictedTextStorage : NSTextStorage<IFDerivativeStorage> {
 	NSTextStorage* storage;										// The text storage which being restricted
 	NSRange restriction;										// The restriction that is in effect for this object
 }
