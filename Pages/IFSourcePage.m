@@ -658,6 +658,9 @@
 		[textStorage autorelease];
 		textStorage = restricted;
 		[textStorage addLayoutManager: layout];
+		
+		[sourceText setTornAtTop: YES];
+		[sourceText setTornAtBottom: YES];
 	}
 	
 	if (headerPageShown) {

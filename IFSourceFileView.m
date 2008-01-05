@@ -10,12 +10,18 @@
 #import "IFProjectController.h"
 #import "IFContextMatchWindow.h"
 
+static NSImage* topTear = nil;
+static NSImage* bottomTear = nil;
+
 @implementation IFSourceFileView
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
 		[syntaxDictionary release];
+		
+		if (!topTear)		topTear = [[NSImage imageNamed: @"torn_top"] retain];
+		if (!bottomTear)	bottomTear = [[NSImage imageNamed: @"torn_bottom"] retain];
     }
     return self;
 }
@@ -101,6 +107,102 @@
 		return [[self delegate] openStringUrl: url];
 	}
 	return NO;
+}
+
+// = Drawing =
+
+- (void) drawRect: (NSRect) rect {
+	// Perform normal drawing
+	[[NSGraphicsContext currentContext] saveGraphicsState];
+	[super drawRect: rect];
+	[[NSGraphicsContext currentContext] restoreGraphicsState];
+	
+	// Draw the 'page tears' if necessary
+	NSRect bounds = [self bounds];
+	NSColor* tearColour = [NSColor colorWithDeviceRed: 0.9
+												green: 0.9
+												 blue: 0.9
+												alpha: 1.0];
+
+	if (tornAtTop) {
+		NSSize tornSize = [topTear size];
+		
+		// Draw the grey background
+		[tearColour set];
+		NSRectFill(NSMakeRect(NSMinX(bounds), NSMinY(bounds), bounds.size.width, tornSize.height));
+	
+		// Draw the tear
+		[topTear setFlipped: YES];
+		[topTear drawInRect: NSMakeRect(NSMinX(bounds), NSMinY(bounds), bounds.size.width, tornSize.height)
+				   fromRect: NSMakeRect(0,0, bounds.size.width, tornSize.height)
+				  operation: NSCompositeSourceOver
+				   fraction: 1.0];
+	}
+	if (tornAtBottom) {
+		NSSize tornSize = [bottomTear size];
+		NSPoint origin = [self textContainerOrigin];
+		NSRect usedRect = [[self layoutManager] usedRectForTextContainer: [self textContainer]];
+		NSSize containerSize = NSMakeSize(NSMaxX(usedRect), NSMaxY(usedRect));;
+		
+		// Draw the grey background
+		[tearColour set];
+		NSRectFill(NSMakeRect(NSMinX(bounds), origin.y + containerSize.height, bounds.size.width, bounds.size.height - (origin.y + containerSize.height)));
+		
+		// Draw the tear
+		[bottomTear setFlipped: YES];
+		[bottomTear drawInRect: NSMakeRect(NSMinX(bounds), origin.y + containerSize.height, bounds.size.width, tornSize.height)
+					  fromRect: NSMakeRect(0,0, bounds.size.width, tornSize.height)
+					 operation: NSCompositeSourceOver
+					  fraction: 1.0];
+	}
+}
+
+// = Drawing 'tears' at the top and bottom =
+
+- (void) updateTearing {
+	// Load the images if they aren't already available
+	if (!topTear)		topTear = [[NSImage imageNamed: @"torn_top"] retain];
+	if (!bottomTear)	bottomTear = [[NSImage imageNamed: @"torn_bottom"] retain];
+
+	// Work out the inset to use
+	NSSize inset = NSMakeSize(3,3);
+	
+	if (tornAtTop) {
+		inset.height += floorf([topTear size].height);
+	}
+	if (tornAtBottom) {
+		inset.height += floorf([bottomTear size].height);
+	}
+	
+	// Update the display
+	[self setTextContainerInset: inset];
+	[self invalidateTextContainerOrigin];
+	[self setNeedsDisplay: YES];
+}
+
+- (NSPoint) textContainerOrigin {
+	// Calculate the origin
+	NSPoint origin = NSMakePoint(3,3);
+	
+	if (tornAtTop) {
+		origin.y += [topTear size].height;
+	}
+	
+	return origin;
+}
+
+- (void) setTornAtTop: (BOOL) newTornAtTop {
+	if (tornAtTop != newTornAtTop) {
+		tornAtTop = newTornAtTop;
+		[self updateTearing];
+	}
+}
+
+- (void) setTornAtBottom: (BOOL) newTornAtBottom {
+	if (tornAtBottom != newTornAtBottom) {
+		tornAtBottom = newTornAtBottom;
+		[self updateTearing];
+	}
 }
 
 @end
