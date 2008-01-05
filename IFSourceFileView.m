@@ -119,8 +119,8 @@ static NSImage* bottomTear = nil;
 	
 	// Draw the 'page tears' if necessary
 	NSRect bounds = [self bounds];
-	NSColor* tearColour = [NSColor colorWithDeviceRed: 0.9
-												green: 0.9
+	NSColor* tearColour = [NSColor colorWithDeviceRed: 0.95
+												green: 0.95
 												 blue: 0.9
 												alpha: 1.0];
 
@@ -142,7 +142,7 @@ static NSImage* bottomTear = nil;
 		NSSize tornSize = [bottomTear size];
 		NSPoint origin = [self textContainerOrigin];
 		NSRect usedRect = [[self layoutManager] usedRectForTextContainer: [self textContainer]];
-		NSSize containerSize = NSMakeSize(NSMaxX(usedRect), NSMaxY(usedRect));;
+		NSSize containerSize = NSMakeSize(NSMaxX(usedRect), NSMaxY(usedRect));
 		
 		// Draw the grey background
 		[tearColour set];
@@ -177,7 +177,43 @@ static NSImage* bottomTear = nil;
 	// Update the display
 	[self setTextContainerInset: inset];
 	[self invalidateTextContainerOrigin];
+	
+	lastUsedRect = [[self layoutManager] usedRectForTextContainer: [self textContainer]];
 	[self setNeedsDisplay: YES];
+}
+
+- (BOOL) checkForRedraw {
+	if (tornAtBottom) {
+		// If the last used rect is different from the current used rect, then redraw the bottom of the display as well
+		NSRect newUsedRect = [[self layoutManager] usedRectForTextContainer: [self textContainer]];
+		
+		if (NSMaxY(newUsedRect) != NSMaxY(lastUsedRect)) {
+			NSRect bounds = [self bounds];
+			lastUsedRect = newUsedRect;
+			
+			float minY = NSMinY(lastUsedRect);
+			if (NSMinY(newUsedRect) < minY) minY = NSMinY(newUsedRect);
+			
+			NSRect needsDisplay = NSMakeRect(NSMinX(bounds), minY, bounds.size.width, NSMaxY(bounds)-minY);
+			[super setNeedsDisplayInRect: needsDisplay];
+			
+			return YES;
+		}
+	}
+	
+	return NO;
+}
+
+- (void)setNeedsDisplayInRect: (NSRect)invalidRect {
+	[super setNeedsDisplayInRect: invalidRect];
+	[self checkForRedraw];
+}
+
+- (void) unlockFocus {
+	if ([self checkForRedraw]) {
+		[self displayIfNeeded];
+	}
+	[super unlockFocus];
 }
 
 - (NSPoint) textContainerOrigin {

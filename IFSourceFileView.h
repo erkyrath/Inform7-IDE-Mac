@@ -20,6 +20,7 @@
 	
 	BOOL tornAtTop;																// YES if we should draw a 'tear' at the top of the view
 	BOOL tornAtBottom;															// YES if we should draw a 'tear' at the bottom of the view
+	NSRect lastUsedRect;														// The last known 'used' rect (used to determine whether or not to update the bottom tear)
 }
 
 // Matching syntax

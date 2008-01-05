@@ -645,24 +645,6 @@
 	// Close the file manager if it's being displayed for any reason
 	if (fileManagerShown) [self hideFileManager: self];
 	
-	// DEBUGGING: restrict the range being shown in this display
-	if (![textStorage isKindOfClass: [IFRestrictedTextStorage class]]) {
-		IFRestrictedTextStorage* restricted = [[IFRestrictedTextStorage alloc] initWithTextStorage: textStorage];
-		[restricted setRestriction: NSMakeRange(100, 200)];
-
-		NSLayoutManager* layout = [[[sourceText layoutManager] retain] autorelease];
-		
-		[sourceText setSelectedRange: NSMakeRange(0,0)];
-		[[sourceText textStorage] removeLayoutManager: [sourceText layoutManager]];
-				
-		[textStorage autorelease];
-		textStorage = restricted;
-		[textStorage addLayoutManager: layout];
-		
-		[sourceText setTornAtTop: YES];
-		[sourceText setTornAtBottom: YES];
-	}
-	
 	if (headerPageShown) {
 		// Hide the header page and show the source page
 		[headerPage setController: nil];
