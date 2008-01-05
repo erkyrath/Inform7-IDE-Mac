@@ -43,6 +43,7 @@
 	// Resize the view
 	NSRect rootFrame = [rootHeaderNode frame];
 	rootFrame.size.width = [self frame].size.width;
+	rootFrame.size.height += 5;
 	[self setFrameSize: rootFrame.size];
 }
 
@@ -85,6 +86,21 @@
 	
 	// Update this control
 	[self updateFromRoot];
+}
+
+// = Mouse events =
+
+- (void) mouseDown: (NSEvent*) evt {
+	// Get the position where the mouse was clicked
+	NSPoint viewPos = [self convertPoint: [evt locationInWindow]
+								fromView: nil];
+	
+	// Get which node was clicked on
+	IFHeaderNode* clicked = [rootHeaderNode nodeAtPoint: viewPos];
+	
+	// Set the selection style of the node
+	[clicked setSelectionStyle: [clicked selectionStyle] == IFHeaderNodeSelected?IFHeaderNodeUnselected:IFHeaderNodeSelected];
+	[self setNeedsDisplay: YES];
 }
 
 @end

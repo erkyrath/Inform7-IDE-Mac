@@ -88,7 +88,7 @@ static NSString* bulletPoint = nil;
 		header = [newHeader retain];
 		depth = newDepth;
 		position = newPosition;
-		selected = depth == 2?IFHeaderNodeSelected:IFHeaderNodeUnselected;
+		selected = IFHeaderNodeUnselected;
 		
 		children = nil;
 		
@@ -168,6 +168,26 @@ static NSString* bulletPoint = nil;
 - (NSArray*) children {
 	if (!children || [children count] == 0) return nil;
 	return children;
+}
+
+- (IFHeaderNode*) nodeAtPoint: (NSPoint) point {
+	// If the point is outside the frame for this node, then return nothing
+	if (point.y < NSMinY(frame) || point.y > NSMaxY(frame)) {
+		return nil;
+	}
+	
+	// If the point is beyond the line border for this item, then search the children
+	if (children && point.x > margin + indent * depth + (2*indent)/3) {
+		NSEnumerator* childEnum = [children objectEnumerator];
+		IFHeaderNode* child;
+		while (child = [childEnum nextObject]) {
+			IFHeaderNode* childNode = [child nodeAtPoint: point];
+			if (childNode) return childNode;
+		}
+	}
+	
+	// If within the frame and not any of the children, then the node that was clicked was this node
+	return self;
 }
 
 // = Drawing the node =
