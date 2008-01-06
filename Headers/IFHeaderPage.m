@@ -39,6 +39,7 @@
 	
 	[pageView release];						pageView = nil;
 	[headerView release];					headerView = nil;
+	[selectedNode release];					selectedNode = nil;
 	
 	[super dealloc];
 }
@@ -84,6 +85,27 @@
 
 - (void) setDelegate: (id) newDelegate {
 	delegate = newDelegate;
+}
+
+// = Choosing objects =
+
+- (void) selectNode: (IFHeaderNode*) node {
+	if (node == selectedNode) return;
+	
+	[selectedNode setSelectionStyle: IFHeaderNodeUnselected];
+	[selectedNode autorelease]; selectedNode = nil;
+	
+	selectedNode = [node retain];
+	[selectedNode setSelectionStyle: IFHeaderNodeSelected];
+	[headerView setNeedsDisplay: YES];
+}
+
+- (void) highlightNodeWithLines: (NSRange) lines {
+	IFHeaderNode* lineNode = [[headerView rootHeaderNode] nodeWithLines: lines
+															  intelFile: [controller intelFile]];
+	if (lineNode == [headerView rootHeaderNode]) lineNode = nil;
+	
+	[self selectNode: lineNode];
 }
 
 // = User actions =

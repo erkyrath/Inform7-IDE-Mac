@@ -27,6 +27,12 @@
 	[super dealloc];
 }
 
+// = Information about this view =
+
+- (IFHeaderNode*) rootHeaderNode {
+	return rootHeaderNode;
+}
+
 // = Updating the view =
 
 - (void) updateFromRoot {

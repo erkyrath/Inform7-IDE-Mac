@@ -190,6 +190,57 @@ static NSString* bulletPoint = nil;
 	return self;
 }
 
+- (IFHeaderNode*) nodeWithLines: (NSRange) lines
+					  intelFile: (IFIntelFile*) intel {
+	// FIXME: this more properly belongs in IFHeader (? - won't take account of current child settings there)
+	
+	// Get the following symbol
+	IFIntelSymbol* symbol = [header symbol];
+	IFIntelSymbol* followingSymbol = [symbol sibling];
+	
+	if (!followingSymbol) {
+		IFIntelSymbol* parent = [symbol parent];
+		
+		while (parent && !followingSymbol) {
+			followingSymbol = [parent sibling];
+			parent = [parent parent];
+		}
+	}
+
+	// Work out the line range for this header node
+	NSRange symbolRange;
+	unsigned int finalLine;
+	
+	symbolRange.location = [intel lineForSymbol: symbol];
+	if (followingSymbol) {
+		finalLine = [intel lineForSymbol: followingSymbol];
+	} else {
+		finalLine = NSNotFound;
+	}
+	
+	symbolRange.length = finalLine - symbolRange.location;
+	
+	// If this range does not overlap the symbol range for this symbol, then return nil
+	if (symbol) {
+		if (symbolRange.location >= lines.location + lines.length) return nil;
+		if (finalLine != nil && lines.location > finalLine) return nil;
+	}
+	
+	// See if any of the child nodes are better match
+	if (children) {
+		NSEnumerator* childEnum = [children objectEnumerator];
+		IFHeaderNode* childNode;
+		while (childNode = [childEnum nextObject]) {
+			IFHeaderNode* foundChild = [childNode nodeWithLines: lines
+													  intelFile: intel];
+			if (foundChild) return foundChild;
+		}
+	}
+	
+	// This is the header node to use
+	return self;
+}
+
 // = Drawing the node =
 
 - (NSBezierPath*) highlightPathForFrame: (NSRect) drawFrame {

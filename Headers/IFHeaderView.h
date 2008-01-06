@@ -24,6 +24,7 @@
 	id delegate;															// The delegate (NOT RETAINED)
 }
 
+- (IFHeaderNode*) rootHeaderNode;											// Retrieves the root header node
 - (int) displayDepth;														// Retrieves the display depth for this view
 - (void) setDisplayDepth: (int) displayDepth;								// Sets the display depth for this view
 

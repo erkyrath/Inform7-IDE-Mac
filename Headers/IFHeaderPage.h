@@ -20,12 +20,23 @@
 	
 	IFHeaderController* controller;							// The header controller that this page is using
 	
+	IFHeaderNode* selectedNode;								// The currently selected header node
+	
 	id delegate;											// The delegate for this page object
 }
+
+// The controller and view
 
 - (NSView*) pageView;										// The view that should be used to display the headers being managed by this class
 - (void) setController: (IFHeaderController*) controller;	// Specifies the header controller that should be used to manage updates to this page
 - (void) setDelegate: (id) delegate;						// Updates the delegate
+
+// Choosing objects
+
+- (void) selectNode: (IFHeaderNode*) node;					// Marks the specified node as being selected
+- (void) highlightNodeWithLines: (NSRange) lines;			// Sets the node with the specified lines as selected
+
+// UI actions
 
 - (IBAction) updateDepthSlider: (id) sender;				// Message sent when the depth slider is changed
 

@@ -227,7 +227,7 @@
 					inString: (NSString*) store {
     int length = [store length];
 	
-    int x, lineno, linepos, lineLength;
+    int x, lineno, linepos;
     lineno = 1; linepos = 0;
 	if (line > lineno)
 	{
@@ -685,6 +685,52 @@
 
 // = The header page =
 
+- (void) highlightHeaderSection {
+	// Get the text storage
+	IFRestrictedTextStorage* storage = (IFRestrictedTextStorage*)[sourceText textStorage];
+	if ([storage isKindOfClass: [IFRestrictedTextStorage class]]
+		&& [storage isRestricted]) {
+		// Work out the line numbers the restriction applies to
+		NSRange restriction = [storage restrictionRange];
+		
+		unsigned firstLine = 0;
+		unsigned finalLine = NSNotFound;
+
+		NSString* store = [textStorage string];
+		int length = [store length];
+		
+		int x, lineno, linepos;
+		lineno = 1; linepos = 0;
+
+		for (x=0; x<length; x++) {
+			unichar chr = [store characterAtIndex: x];
+			
+			if (chr == '\n' || chr == '\r') {
+				unichar otherchar = chr == '\n'?'\r':'\n';
+				
+				lineno++;
+				linepos = x + 1;
+				
+				if (x < restriction.location) firstLine = lineno;
+				else if (x < restriction.location + restriction.length) finalLine = lineno;
+				else break;
+				
+				// Deal with DOS line endings
+				if (linepos < length && [store characterAtIndex: linepos] == otherchar) {
+					x++; linepos++;
+				}
+			}
+		}
+		if (finalLine == NSNotFound) finalLine = lineno;
+		
+		// Highlight the appropriate node
+		[headerPage highlightNodeWithLines: NSMakeRange(firstLine, finalLine-firstLine)];
+	} else {
+		// Highlight nothing
+		[headerPage selectNode: nil];
+	}
+}
+
 - (IBAction) toggleHeaderPage: (id) sender {
 	// Close the file manager if it's being displayed for any reason
 	if (fileManagerShown) [self hideFileManager: self];
@@ -720,6 +766,7 @@
 		[animator autorelease];
 		
 		[headerPageControl setState: NSOnState];
+		[self highlightHeaderSection];
 		headerPageShown = YES;
 	}
 }

@@ -50,6 +50,8 @@ typedef enum IFHeaderNodeSelectionStyle {
 - (void) setSelectionStyle: (IFHeaderNodeSelectionStyle) selectionStyle;
 - (NSArray*) children;								// The children associated with this node
 - (IFHeaderNode*) nodeAtPoint: (NSPoint) point;		// The node appearing at the specified point
+- (IFHeaderNode*) nodeWithLines: (NSRange) lines	// The best match for the node corresponding to the specified line numbers
+					  intelFile: (IFIntelFile*) intel;
 
 // Drawing the node
 
