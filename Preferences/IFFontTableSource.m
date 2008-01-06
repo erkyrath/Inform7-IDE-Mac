@@ -78,7 +78,7 @@
 			NSFontDescriptor* desc;
 			
 			while (desc = [descEnum nextObject]) {
-				[familySet addObject: [desc objectForKey: NSFontFamilyAttribute]];
+				[familySet addObject: [[desc fontAttributes] objectForKey: NSFontFamilyAttribute]];
 			}
 			
 			families = [[familySet allObjects] mutableCopy];

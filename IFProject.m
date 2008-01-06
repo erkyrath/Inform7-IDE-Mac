@@ -32,7 +32,7 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 
 - (IFContextMatcher*) syntaxDictionaryMatcherForFile: (NSString*) filename {
 	NSString* extn = [[filename pathExtension] lowercaseString];
-	IFContextMatcher* result;
+	IFContextMatcher* result = nil;
 	
 	[matcherLock lock];
 	if ([extn isEqualToString: @"inf"] ||

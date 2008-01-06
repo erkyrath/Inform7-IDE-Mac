@@ -228,6 +228,8 @@
     int length = [store length];
 	
     int x, lineno, linepos;
+	x=0;
+	
     lineno = 1; linepos = 0;
 	if (line > lineno)
 	{
