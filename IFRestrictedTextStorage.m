@@ -98,10 +98,6 @@
 		*range = effectiveRange;
 	}
 	
-	if (effectiveRange.location + effectiveRange.length >= [self length]-1) {
-		NSLog(@"%i %i %i %i", index, [self length], effectiveRange.location, effectiveRange.length);
-	}
-	
 	return result;
 }
 
