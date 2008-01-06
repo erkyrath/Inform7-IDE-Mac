@@ -87,9 +87,22 @@
 	delegate = newDelegate;
 }
 
+// = Controller delegate messages (relayed via the view) =
+
+- (void) refreshHeaders: (IFHeaderController*) controller {
+	if (highlightLines.location != NSNotFound) {
+		[self highlightNodeWithLines: highlightLines];
+	}
+	
+	if (delegate && [delegate respondsToSelector: @selector(refreshHeaders:)]) {
+		[delegate refreshHeaders: controller];
+	}
+}
+
 // = Choosing objects =
 
 - (void) selectNode: (IFHeaderNode*) node {
+	highlightLines.location = NSNotFound;
 	if (node == selectedNode) return;
 	
 	[selectedNode setSelectionStyle: IFHeaderNodeUnselected];
@@ -106,6 +119,7 @@
 	if (lineNode == [headerView rootHeaderNode]) lineNode = nil;
 	
 	[self selectNode: lineNode];
+	highlightLines = lines;
 }
 
 // = User actions =

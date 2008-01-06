@@ -97,6 +97,10 @@
 	
 	// Update this control
 	[self updateFromRoot];
+	
+	if (delegate && [delegate respondsToSelector:@selector(refreshHeaders:)]) {
+		[delegate refreshHeaders: controller];
+	}
 }
 
 // = Mouse events =

@@ -780,6 +780,11 @@
 
 // = Header page delegate methods =
 
+- (void) refreshHeaders: (IFHeaderController*) controller {
+	// Relayed via the IFHeaderPage (where it's relayed via the view)
+	[self highlightHeaderSection];
+}
+
 - (void) limitToRange: (NSRange) range {
 	// Get the text storage object
 	NSTextStorage* storage = [sourceText textStorage];

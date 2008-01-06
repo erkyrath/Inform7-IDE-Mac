@@ -20,6 +20,7 @@
 	
 	IFHeaderController* controller;							// The header controller that this page is using
 	
+	NSRange highlightLines;									// The highlight range to use
 	IFHeaderNode* selectedNode;								// The currently selected header node
 	
 	id delegate;											// The delegate for this page object
