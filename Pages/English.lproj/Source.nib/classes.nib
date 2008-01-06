@@ -1,35 +1,162 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {toggleSourceSpellChecking = id; }; 
-            CLASS = FirstResponder; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            CLASS = IFPage; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {view = NSView; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = IFSourceFileView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
-        {
-            ACTIONS = {
-                deleteBreakpoint = id; 
-                hideFileManager = id; 
-                setBreakpoint = id; 
-                showFileManager = id; 
-                toggleFileManager = id; 
-            }; 
-            CLASS = IFSourcePage; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                fileManager = NSView; 
-                sourceScroller = NSScrollView; 
-                sourceText = NSTextView; 
-            }; 
-            SUPERCLASS = IFPage; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>finishEditing</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>IFTranscriptItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>IFPage</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>view</key>
+				<string>NSView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>IFSourceFileView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTextView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>compileCompletedAndFailed</key>
+				<string>IFCompilerController</string>
+				<key>compileCompletedAndSucceeded</key>
+				<string>IFCompilerController</string>
+				<key>compileStarted</key>
+				<string>IFCompilerController</string>
+				<key>errorMessagesCleared</key>
+				<string>IFCompilerController</string>
+				<key>transcriptItemHasChanged</key>
+				<string>IFTranscriptItem</string>
+				<key>viewSetHasUpdated</key>
+				<string>IFCompilerController</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>showWindow</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>IFCompilerController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>compilerMessages</key>
+				<string>NSOutlineView</string>
+				<key>compilerResults</key>
+				<string>NSTextView</string>
+				<key>delegate</key>
+				<string>NSObject</string>
+				<key>messageScroller</key>
+				<string>NSScrollView</string>
+				<key>resultScroller</key>
+				<string>NSScrollView</string>
+				<key>splitView</key>
+				<string>NSSplitView</string>
+				<key>window</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>deleteBreakpoint</key>
+				<string>id</string>
+				<key>hideFileManager</key>
+				<string>id</string>
+				<key>setBreakpoint</key>
+				<string>id</string>
+				<key>showFileManager</key>
+				<string>id</string>
+				<key>toggleFileManager</key>
+				<string>id</string>
+				<key>toggleHeaderPage</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>IFSourcePage</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>fileManager</key>
+				<string>NSView</string>
+				<key>sourceScroller</key>
+				<string>NSScrollView</string>
+				<key>sourceText</key>
+				<string>IFSourceFileView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>IFPage</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>IFClickThroughScrollView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSScrollView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>toggleSourceSpellChecking</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSCell</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
