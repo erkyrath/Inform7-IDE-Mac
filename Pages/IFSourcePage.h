@@ -13,6 +13,7 @@
 #import "IFIsFiles.h"
 #import "IFSourceFileView.h"
 #import "IFHeaderPage.h"
+#import "IFRestrictedTextStorage.h"
 
 //
 // The 'source' page
@@ -24,6 +25,7 @@
 	IBOutlet NSScrollView* sourceScroller;						// The scroll view containing the source file
 	IBOutlet NSView* fileManager;								// The view containing the file manager
 	
+	IFRestrictedTextStorage* restrictedStorage;					// The restricted text storage object that was last used
 	NSTextStorage* textStorage;									// The text storage object for this view
 	NSString* openSourceFile;									// The name of the file that is open in this page
 	

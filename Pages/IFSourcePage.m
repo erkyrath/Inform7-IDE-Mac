@@ -98,9 +98,14 @@
 		// it elsewhere. KABOOOM!
 		
 		[textStorage removeLayoutManager: [sourceText layoutManager]];
-		[textStorage release];
+		[textStorage autorelease];
 	}
-	
+
+	if (restrictedStorage) {
+		[restrictedStorage removeLayoutManager: [sourceText layoutManager]];
+		[restrictedStorage autorelease]; restrictedStorage = nil;
+	}
+
 	[sourceScroller release];
 	[fileManager release];
 	
@@ -731,10 +736,10 @@
 - (void) limitToRange: (NSRange) range {
 	// Get the text storage object
 	NSTextStorage* storage = [sourceText textStorage];
-	IFRestrictedTextStorage* restrictedStorage;
 	
 	if (![storage isKindOfClass: [IFRestrictedTextStorage class]]) {
 		[[storage retain] autorelease];
+		[restrictedStorage release]; restrictedStorage = nil;
 		restrictedStorage = [[IFRestrictedTextStorage alloc] initWithTextStorage: storage];
 		
 		[storage removeLayoutManager: [sourceText layoutManager]];
