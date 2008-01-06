@@ -8,10 +8,20 @@
 
 #import "IFHeaderPage.h"
 
+// = Preferences =
+
+static NSString* IFHeaderBackgroundColour = @"IFHeaderBackgroundColour";
 
 @implementation IFHeaderPage
 
 // = Initialisation =
+
++ (void) initialize {
+	[[NSUserDefaults standardUserDefaults] registerDefaults: 
+	 [NSDictionary dictionaryWithObjectsAndKeys: 
+	  [NSArray arrayWithObjects: [NSNumber numberWithFloat: 1.0], [NSNumber numberWithFloat: 1.0], [NSNumber numberWithFloat: 0.9], [NSNumber numberWithFloat: 1.0], nil], IFHeaderBackgroundColour,
+	  nil]];
+}
 
 - (id) init {
 	self = [super init];
@@ -24,6 +34,20 @@
 		// Set the view depth
 		[headerView setDisplayDepth: [depthSlider intValue]];
 		[headerView setDelegate: self];
+		
+		// Set the colours
+		NSArray* components = [[NSUserDefaults standardUserDefaults] objectForKey: IFHeaderBackgroundColour];
+	    NSColor* col = [NSColor whiteColor];;
+		
+		if ([components isKindOfClass: [NSArray class]] && [components count] >= 3) {
+			col = [NSColor colorWithDeviceRed: [[components objectAtIndex: 0] floatValue]
+										green: [[components objectAtIndex: 1] floatValue]
+										 blue: [[components objectAtIndex: 2] floatValue]
+										alpha: 1.0];
+		}
+		
+		[scrollView setBackgroundColor: col];
+		[headerView setBackgroundColour: col];
 	}
 	
 	return self;
@@ -89,13 +113,13 @@
 
 // = Controller delegate messages (relayed via the view) =
 
-- (void) refreshHeaders: (IFHeaderController*) controller {
+- (void) refreshHeaders: (IFHeaderController*) control {
 	if (highlightLines.location != NSNotFound) {
 		[self highlightNodeWithLines: highlightLines];
 	}
 	
 	if (delegate && [delegate respondsToSelector: @selector(refreshHeaders:)]) {
-		[delegate refreshHeaders: controller];
+		[delegate refreshHeaders: control];
 	}
 }
 

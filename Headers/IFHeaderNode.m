@@ -8,11 +8,39 @@
 
 #import "IFHeaderNode.h"
 
+// = Fonts =
+
 static NSFont* headerNodeFont = nil;
 static NSFont* boldHeaderNodeFont = nil;
 static NSString* bulletPoint = nil;
 
+// = Preferences =
+
+static NSString* IFHeaderPointSize	= @"IFHeaderPointSize";
+static NSString* IFHeaderMargin		= @"IFHeaderMargin";
+static NSString* IFHeaderIndent		= @"IFHeaderIndent";
+static NSString* IFHeaderGap		= @"IFHeaderGap";
+static NSString* IFHeaderCorner		= @"IFHeaderCorner";
+
+static float pointSize = 11.0;
+
 @implementation IFHeaderNode
+
+// = Class initialization =
+
++ (void) initialize {
+	// Register the preferences for this class
+	[[NSUserDefaults standardUserDefaults] registerDefaults: 
+		[NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithFloat: [NSFont smallSystemFontSize]],	IFHeaderPointSize,
+			[NSNumber numberWithFloat: 5],								IFHeaderMargin,
+			[NSNumber numberWithFloat: 12],								IFHeaderIndent,
+			[NSNumber numberWithFloat: 8],								IFHeaderGap,
+			[NSNumber numberWithFloat: 5],								IFHeaderCorner,
+			nil]];
+	
+	pointSize = [[[NSUserDefaults standardUserDefaults] objectForKey: IFHeaderPointSize] floatValue];
+}
 
 // = Utilities used to help lay out this node =
 
@@ -74,8 +102,8 @@ static NSString* bulletPoint = nil;
 	
 	if (self) {
 		// If the fonts don't exist, then update them
-		if (!headerNodeFont)		headerNodeFont		= [[NSFont systemFontOfSize: [NSFont smallSystemFontSize]] retain];
-		if (!boldHeaderNodeFont)	boldHeaderNodeFont	= [[NSFont boldSystemFontOfSize: [NSFont smallSystemFontSize]] retain];
+		if (!headerNodeFont)		headerNodeFont		= [[NSFont systemFontOfSize: pointSize] retain];
+		if (!boldHeaderNodeFont)	boldHeaderNodeFont	= [[NSFont boldSystemFontOfSize: pointSize] retain];
 		
 		// Create a bullet point
 		if (!bulletPoint) {
@@ -93,10 +121,10 @@ static NSString* bulletPoint = nil;
 		children = nil;
 		
 		// Set up the parameters
-		margin	= 5;
-		indent	= 12;
-		gap		= 8;
-		corner	= 5;
+		margin	= [[[NSUserDefaults standardUserDefaults] objectForKey: IFHeaderMargin] floatValue];
+		indent	= [[[NSUserDefaults standardUserDefaults] objectForKey: IFHeaderIndent] floatValue];
+		gap		= [[[NSUserDefaults standardUserDefaults] objectForKey: IFHeaderGap] floatValue];
+		corner	= [[[NSUserDefaults standardUserDefaults] objectForKey: IFHeaderCorner] floatValue];
 	}
 	
 	return self;

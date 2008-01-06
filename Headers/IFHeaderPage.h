@@ -15,6 +15,7 @@
 ///
 @interface IFHeaderPage : NSObject {
 	IBOutlet NSView* pageView;								// The main header page view
+	IBOutlet NSScrollView* scrollView;						// The scroll view
 	IBOutlet IFHeaderView* headerView;						// The header view that this object is managing
 	IBOutlet NSSlider* depthSlider;							// The header depth slider
 	

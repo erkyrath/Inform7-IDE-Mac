@@ -17,12 +17,14 @@
     self = [super initWithFrame:frame];
     if (self) {
 		displayDepth = 5;
+		backgroundColour = [[NSColor whiteColor] copy];
     }
     return self;
 }
 
 - (void) dealloc {
 	[rootHeader release];		rootHeader = nil;
+	[backgroundColour release];	backgroundColour = nil;
 	
 	[super dealloc];
 }
@@ -76,11 +78,16 @@
 	delegate = newDelegate;
 }
 
+- (void) setBackgroundColour: (NSColor*) colour {
+	[backgroundColour release];
+	backgroundColour = [colour copy];
+}
+
 // = Drawing =
 
 - (void)drawRect:(NSRect)rect {
 	// Draw the background
-	[[NSColor whiteColor] set];
+	[backgroundColour set];
 	NSRectFill(rect);
 	
 	// Draw the nodes

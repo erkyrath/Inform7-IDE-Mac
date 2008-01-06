@@ -20,6 +20,7 @@
 	int displayDepth;														// The display depth for this view
 	IFHeader* rootHeader;													// The root header that this view should display
 	IFHeaderNode* rootHeaderNode;											// The root header node
+	NSColor* backgroundColour;												// The background colour for this view
 	
 	id delegate;															// The delegate (NOT RETAINED)
 }
@@ -27,6 +28,7 @@
 - (IFHeaderNode*) rootHeaderNode;											// Retrieves the root header node
 - (int) displayDepth;														// Retrieves the display depth for this view
 - (void) setDisplayDepth: (int) displayDepth;								// Sets the display depth for this view
+- (void) setBackgroundColour: (NSColor*) colour;							// Sets the background colour for this view
 
 - (void) setDelegate: (id) delegate;										// Sets the delegate for this view
 
