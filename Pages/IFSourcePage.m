@@ -755,6 +755,7 @@
 		// Show the header page
 		[headerPage setController: [parent headerController]];
 		[[headerPage pageView] setFrame: [[[[self view] subviews] objectAtIndex: 0] frame]];
+		[self highlightHeaderSection];
 		
 		// Animate to the new view
 		IFViewAnimator* animator = [[IFViewAnimator alloc] init];
@@ -766,7 +767,6 @@
 		[animator autorelease];
 		
 		[headerPageControl setState: NSOnState];
-		[self highlightHeaderSection];
 		headerPageShown = YES;
 	}
 }
@@ -797,6 +797,7 @@
 	
 	// Set the restriction range
 	[restrictedStorage setRestriction: range];
+	[self highlightHeaderSection];
 	
 	// Display or hide the tears at the top and bottom
 	[sourceText setTornAtTop: range.location!=0];

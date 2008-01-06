@@ -208,22 +208,21 @@ static NSString* bulletPoint = nil;
 	}
 
 	// Work out the line range for this header node
-	NSRange symbolRange;
+	unsigned int firstLine;
 	unsigned int finalLine;
 	
-	symbolRange.location = [intel lineForSymbol: symbol];
+	firstLine = [intel lineForSymbol: symbol];
 	if (followingSymbol) {
 		finalLine = [intel lineForSymbol: followingSymbol];
 	} else {
 		finalLine = NSNotFound;
 	}
 	
-	symbolRange.length = finalLine - symbolRange.location;
-	
 	// If this range does not overlap the symbol range for this symbol, then return nil
 	if (symbol) {
-		if (symbolRange.location >= lines.location + lines.length) return nil;
-		if (finalLine != nil && lines.location > finalLine) return nil;
+		if (firstLine >= lines.location + lines.length) return nil;
+		if (firstLine > lines.location) return nil;
+		if (finalLine != NSNotFound && lines.location > finalLine) return nil;
 	}
 	
 	// See if any of the child nodes are better match
