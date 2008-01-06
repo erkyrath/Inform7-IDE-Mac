@@ -787,12 +787,26 @@
 		finalLocation = [textStorage length];
 	}
 	
-	limitRange.length = finalLocation - limitRange.location;
+	if (finalLocation == NSNotFound) return;
+	
+	// Move the start of the limitation to the first non-whitespace character
+	while (limitRange.location < finalLocation) {
+		unichar chr = [[textStorage string] characterAtIndex: limitRange.location];
+		if (chr != ' ' && chr != '\t' && chr != '\n' && chr != '\r') {
+			break;
+		}
+		limitRange.location++;
+	}
 
+	// Perform the limitation
+	limitRange.length = finalLocation - limitRange.location;
 	[self limitToRange: limitRange];
 
 	// Redisplay the source code
 	if (headerPageShown) [self toggleHeaderPage: self];
+	
+	// Scroll to the top
+	[sourceText scrollPoint: NSMakePoint(0,0)];
 }
 
 @end
