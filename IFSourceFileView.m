@@ -51,6 +51,63 @@ static NSImage* bottomTear = nil;
 	syntaxDictionary = [matcher retain];
 }
 
+- (void) removeRestriction {
+	// Expand to show the whole view if possible
+	IFRestrictedTextStorage* storage = (IFRestrictedTextStorage*)[self textStorage];
+	if ([storage isKindOfClass: [IFRestrictedTextStorage class]]) {
+		// Get the old restriction, and first visible character
+		NSLayoutManager* layout	= [self layoutManager];
+		NSRange oldRestriction	= [storage restrictionRange];
+		NSRange selected		= [self selectedRange];
+		NSRect visibleRect		= [self visibleRect];
+		
+		NSPoint containerOrigin = [self textContainerOrigin];
+		NSPoint containerLocation = NSMakePoint(NSMinX(visibleRect)-containerOrigin.x, NSMinY(visibleRect)-containerOrigin.y);
+		
+		unsigned characterIndex = NSNotFound;
+		unsigned glyphIndex = [layout glyphIndexForPoint: containerLocation
+										 inTextContainer: [self textContainer]];
+		if (glyphIndex != NSNotFound) {
+			characterIndex = [layout characterIndexForGlyphAtIndex: glyphIndex];
+		}
+		
+		// Remove the storage restriction
+		BOOL wasTornAtTop = tornAtTop;
+		[storage removeRestriction];
+		[self setTornAtTop: NO];
+		[self setTornAtBottom: NO];
+		
+		// Reset the selection
+		selected.location += oldRestriction.location;
+		[self setSelectedRange: selected];
+		
+		// Scroll to the last visible character
+		if (characterIndex != NSNotFound) {
+			characterIndex += oldRestriction.location;
+			
+			// Scroll to the most recently visible character
+			NSRange glyphs = [layout glyphRangeForCharacterRange: NSMakeRange(characterIndex, 65536)
+											actualCharacterRange: nil];
+			NSPoint charPoint = [layout boundingRectForGlyphRange: glyphs
+												  inTextContainer: [self textContainer]].origin;
+			charPoint.x = 0;
+			charPoint.y += containerOrigin.y;
+			
+			[self scrollPoint: charPoint];
+		} else {
+			// Scroll to the top of the restricted range
+			NSRange glyphs = [layout glyphRangeForCharacterRange: NSMakeRange(oldRestriction.location, 65536)
+											actualCharacterRange: nil];
+			NSPoint charPoint = [layout boundingRectForGlyphRange: glyphs
+												  inTextContainer: [self textContainer]].origin;
+			charPoint.x = 0;
+			charPoint.y += containerOrigin.y - wasTornAtTop?[topTear size].height:0;
+			
+			[self scrollPoint: charPoint];
+		}
+	}
+}
+
 - (void) mouseDown: (NSEvent*) event {
 	unsigned modifiers = [event modifierFlags];
 	
@@ -110,61 +167,19 @@ static NSImage* bottomTear = nil;
 									   fromView: nil];
 		
 		
-		if ((tornAtTop && mousePoint.y < NSMinY(bounds)+[topTear size].height)
-			|| (tornAtBottom && mousePoint.y > NSMinY(bounds)+[self textContainerOrigin].y+NSMaxY(usedRect))) {
-			// Expand to show the whole view if possible
-			IFRestrictedTextStorage* storage = (IFRestrictedTextStorage*)[self textStorage];
-			if ([storage isKindOfClass: [IFRestrictedTextStorage class]]) {
-				// Get the old restriction, and first visible character
-				NSLayoutManager* layout	= [self layoutManager];
-				NSRange oldRestriction	= [storage restrictionRange];
-				NSRange selected		= [self selectedRange];
-				NSRect visibleRect		= [self visibleRect];
-				
-				NSPoint containerOrigin = [self textContainerOrigin];
-				NSPoint containerLocation = NSMakePoint(NSMinX(visibleRect)-containerOrigin.x, NSMinY(visibleRect)-containerOrigin.y);
-				
-				unsigned characterIndex = NSNotFound;
-				unsigned glyphIndex = [layout glyphIndexForPoint: containerLocation
-												 inTextContainer: [self textContainer]];
-				if (glyphIndex != NSNotFound) {
-					characterIndex = [layout characterIndexForGlyphAtIndex: glyphIndex];
-				}
-				
-				// Remove the storage restriction
-				BOOL wasTornAtTop = tornAtTop;
-				[storage removeRestriction];
-				[self setTornAtTop: NO];
-				[self setTornAtBottom: NO];
-				
-				// Reset the selection
-				selected.location += oldRestriction.location;
-				[self setSelectedRange: selected];
-				
-				// Scroll to the last visible character
-				if (characterIndex != NSNotFound) {
-					characterIndex += oldRestriction.location;
-					
-					// Scroll to the most recently visible character
-					NSRange glyphs = [layout glyphRangeForCharacterRange: NSMakeRange(characterIndex, 65536)
-													actualCharacterRange: nil];
-					NSPoint charPoint = [layout boundingRectForGlyphRange: glyphs
-														  inTextContainer: [self textContainer]].origin;
-					charPoint.x = 0;
-					charPoint.y += containerOrigin.y;
-
-					[self scrollPoint: charPoint];
-				} else {
-					// Scroll to the top of the restricted range
-					NSRange glyphs = [layout glyphRangeForCharacterRange: NSMakeRange(oldRestriction.location, 65536)
-													actualCharacterRange: nil];
-					NSPoint charPoint = [layout boundingRectForGlyphRange: glyphs
-														  inTextContainer: [self textContainer]].origin;
-					charPoint.x = 0;
-					charPoint.y += containerOrigin.y - wasTornAtTop?[topTear size].height:0;
-					
-					[self scrollPoint: charPoint];
-				}
+		if ((tornAtTop && mousePoint.y < NSMinY(bounds)+[topTear size].height)) {
+			if ([self delegate] && [[self delegate] respondsToSelector: @selector(sourceFileShowPreviousSection:)]) {
+				[[self delegate] sourceFileShowPreviousSection: self];
+			} else {
+				[self removeRestriction];
+			}
+			
+			return;
+		} else if (tornAtBottom && mousePoint.y > NSMinY(bounds)+[self textContainerOrigin].y+NSMaxY(usedRect)) {
+			if ([self delegate] && [[self delegate] respondsToSelector: @selector(sourceFileShowNextSection:)]) {
+				[[self delegate] sourceFileShowNextSection: self];
+			} else {
+				[self removeRestriction];
 			}
 			
 			// Finished handling this event

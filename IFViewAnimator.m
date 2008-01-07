@@ -289,6 +289,52 @@ static BOOL ViewNeedsDisplay(NSView* view) {
 					   operation: NSCompositeSourceOver
 						fraction: 1.0];
 			break;
+
+		case IFAnimateUp:
+			// Work out where to place the images
+			startFrom.origin = NSMakePoint(0, 0);
+			startFrom.size = NSMakeSize(startSize.width, startSize.height*percentNotDone);
+			startTo.origin = NSMakePoint(0, NSMaxY(bounds)-startSize.height*percentNotDone);
+			startTo.size = startFrom.size;
+			
+			endFrom.origin = NSMakePoint(0, endSize.height*percentNotDone);
+			endFrom.size = NSMakeSize(endSize.width, endSize.height*percentDone);
+			endTo.origin = NSMakePoint(0, NSMaxY(bounds)-endSize.height);
+			endTo.size = endFrom.size;
+			
+			// Draw them
+			[startImage drawInRect: startTo
+						  fromRect: startFrom
+						 operation: NSCompositeSourceOver
+						  fraction: 1.0];
+			[endImage drawInRect: endTo
+						fromRect: endFrom
+					   operation: NSCompositeSourceOver
+						fraction: 1.0];
+			break;
+
+		case IFAnimateDown:
+			// Work out where to place the images
+			startFrom.origin = NSMakePoint(0, startSize.height*percentDone);
+			startFrom.size = NSMakeSize(startSize.width, startSize.height*percentNotDone);
+			startTo.origin = NSMakePoint(0, NSMaxY(bounds)-startSize.height);
+			startTo.size = startFrom.size;
+			
+			endFrom.origin = NSMakePoint(0, 0);
+			endFrom.size = NSMakeSize(endSize.width, endSize.height*percentDone);
+			endTo.origin = NSMakePoint(0, NSMaxY(bounds)-endSize.height*percentDone);
+			endTo.size = endFrom.size;
+			
+			// Draw them
+			[startImage drawInRect: startTo
+						  fromRect: startFrom
+						 operation: NSCompositeSourceOver
+						  fraction: 1.0];
+			[endImage drawInRect: endTo
+						fromRect: endFrom
+					   operation: NSCompositeSourceOver
+						fraction: 1.0];
+			break;
 			
 		case IFAnimateCrossFade:
 			// Work out where to place the images

@@ -11,6 +11,8 @@
 typedef enum IFViewAnimationStyle {
 	IFAnimateLeft,
 	IFAnimateRight,
+	IFAnimateUp,
+	IFAnimateDown,
 	IFAnimateCrossFade,
 	IFFloatIn,
 	IFFloatOut

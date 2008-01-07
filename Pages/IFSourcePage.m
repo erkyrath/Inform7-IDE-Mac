@@ -503,6 +503,39 @@
 	[[IFIsFiles sharedIFIsFiles] updateFiles]; // have to update for the case where we select an 'unknown' file
 }
 
+- (int) lineForCharacter: (int) charNum 
+				 inStore: (NSString*) store {
+	int result = 0;
+	
+    int length = [store length];
+	
+    int x, lineno, linepos;
+    lineno = 1; linepos = 0;
+	for (x=0; x<length; x++) {
+		unichar chr = [store characterAtIndex: x];
+		
+		if (chr == '\n' || chr == '\r') {
+			unichar otherchar = chr == '\n'?'\r':'\n';
+			
+			lineno++;
+			linepos = x + 1;
+			
+			// Deal with DOS line endings
+			if (linepos < length && [store characterAtIndex: linepos] == otherchar) {
+				x++; linepos++;
+			}
+			
+			if (x > charNum) {
+				break;
+			} else {
+				result = lineno;
+			}
+		}
+	}
+	
+	return result;
+}
+
 - (NSRange) findLine: (int) line {
     NSString* store = [[sourceText textStorage] string];
     int length = [store length];
@@ -834,12 +867,8 @@
 	[sourceText setTornAtBottom: (range.location+range.length)<[textStorage length]];
 }
 
-- (void) headerPage: (IFHeaderPage*) page
-	  limitToHeader: (IFHeader*) header {
+- (void) limitToSymbol: (IFIntelSymbol*) symbol {
 	IFIntelFile* intelFile = [[parent headerController] intelFile];
-	
-	// Work out the following symbol
-	IFIntelSymbol* symbol			= [header symbol];
 	IFIntelSymbol* followingSymbol	= [symbol sibling];
 	
 	if (symbol == nil || symbol == [intelFile firstSymbol]) {
@@ -893,16 +922,96 @@
 		}
 		limitRange.location++;
 	}
-
+	
 	// Perform the limitation
 	limitRange.length = finalLocation - limitRange.location;
 	[self limitToRange: limitRange];
-
+	
 	// Redisplay the source code
 	if (headerPageShown) [self toggleHeaderPage: self];
 	
 	// Scroll to the top
 	[sourceText scrollPoint: NSMakePoint(0,0)];
+}
+
+- (void) headerPage: (IFHeaderPage*) page
+	  limitToHeader: (IFHeader*) header {
+	// Work out the following symbol
+	IFIntelSymbol* symbol			= [header symbol];
+	
+	[self limitToSymbol: symbol];
+}
+
+- (IFIntelSymbol*) currentSection {
+	// Get the text storage
+	IFRestrictedTextStorage* storage = (IFRestrictedTextStorage*)[sourceText textStorage];
+	if ([storage isKindOfClass: [IFRestrictedTextStorage class]]
+		&& [storage isRestricted]) {
+		IFIntelFile* intelFile = [self currentIntelligence];
+		
+		// Work out the line numbers the restriction applies to
+		NSRange restriction = [storage restrictionRange];
+		
+		// Return the nearest section
+		return [intelFile nearestSymbolToLine: [self lineForCharacter: restriction.location
+															  inStore: [textStorage string]]];
+	}
+	
+	return nil;
+}
+
+- (void) sourceFileShowPreviousSection: (id) sender {
+	IFIntelSymbol* section = [self currentSection];
+	IFIntelSymbol* previousSection = [section previousSibling];
+	
+	if (!previousSection) {
+		previousSection = [section parent];
+		if (previousSection == [[self currentIntelligence] firstSymbol]) previousSection = nil;
+	}
+	
+	if (previousSection) {
+		IFViewAnimator* animator = [[[IFViewAnimator alloc] init] autorelease];
+		
+		[animator setTime: 0.3];
+		[animator prepareToAnimateView: view];
+		
+		[self limitToSymbol: previousSection];
+		[animator animateTo: view
+					  style: IFAnimateDown];
+	} else {
+		IFViewAnimator* animator = [[[IFViewAnimator alloc] init] autorelease];
+		
+		[animator setTime: 0.3];
+		[animator prepareToAnimateView: view];
+		
+		[self removeLimits];
+		[animator animateTo: view
+					  style: IFAnimateDown];
+	}
+}
+
+- (void) sourceFileShowNextSection: (id) sender {
+	IFIntelSymbol* section = [self currentSection];
+	IFIntelSymbol* nextSection = [section sibling];
+	
+	if (!nextSection) {
+		IFIntelSymbol* parentSection = [section parent];
+		while (parentSection && !nextSection) {
+			nextSection = [parentSection sibling];
+			parentSection = [parentSection parent];
+		}
+	}
+	
+	if (nextSection) {
+		IFViewAnimator* animator = [[[IFViewAnimator alloc] init] autorelease];
+		
+		[animator setTime: 0.3];
+		[animator prepareToAnimateView: view];
+		
+		[self limitToSymbol: nextSection];
+		[animator animateTo: view
+					  style: IFAnimateUp];
+	}
 }
 
 @end

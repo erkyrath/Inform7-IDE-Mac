@@ -33,3 +33,10 @@
 - (void) setTornAtBottom: (BOOL) tornAtBottom;									// Sets whether or not a 'tear' should appear at the bottom of the view
 
 @end
+
+@interface NSObject(IFSourceFileViewDelegate)
+
+- (void) sourceFileShowPreviousSection: (id) sender;							// User clicked on the top tear
+- (void) sourceFileShowNextSection: (id) sender;								// User clicked on the bottom tear
+
+@end
