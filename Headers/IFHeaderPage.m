@@ -150,6 +150,10 @@ static NSString* IFHeaderBackgroundColour = @"IFHeaderBackgroundColour";
 
 - (IBAction) updateDepthSlider: (id) sender {
 	[headerView setDisplayDepth: [depthSlider intValue]];
+	
+	if (highlightLines.location != NSNotFound) {
+		[self highlightNodeWithLines: highlightLines];
+	}
 }
 
 // = Header view delegate methods =
