@@ -787,6 +787,26 @@
 	[self highlightHeaderSection];
 }
 
+- (void) removeLimits {
+	// Get the text storage object
+	NSTextStorage* storage = [sourceText textStorage];
+	
+	if (![storage isKindOfClass: [IFRestrictedTextStorage class]]) {
+		return;
+	} else {
+		if (restrictedStorage != storage) {
+			[restrictedStorage autorelease];
+			restrictedStorage = [(IFRestrictedTextStorage*)storage retain];
+		}
+	}
+	
+	[restrictedStorage removeRestriction];
+	[self highlightHeaderSection];
+	
+	[sourceText setTornAtTop: NO];
+	[sourceText setTornAtBottom: NO];
+}
+
 - (void) limitToRange: (NSRange) range {
 	// Get the text storage object
 	NSTextStorage* storage = [sourceText textStorage];
@@ -799,7 +819,10 @@
 		[storage removeLayoutManager: [sourceText layoutManager]];
 		[restrictedStorage addLayoutManager: [sourceText layoutManager]];
 	 } else {
-		 restrictedStorage = (IFRestrictedTextStorage*)storage;
+		 if (restrictedStorage != storage) {
+			 [restrictedStorage autorelease];
+			 restrictedStorage = [(IFRestrictedTextStorage*)storage retain];
+		 }
 	 }
 	
 	// Set the restriction range
@@ -818,6 +841,19 @@
 	// Work out the following symbol
 	IFIntelSymbol* symbol			= [header symbol];
 	IFIntelSymbol* followingSymbol	= [symbol sibling];
+	
+	if (symbol == nil || symbol == [intelFile firstSymbol]) {
+		// Remove the source text limitations
+		[self removeLimits];
+		
+		// Scroll to the top
+		[sourceText scrollPoint: NSMakePoint(0,0)];
+		
+		// Redisplay the source code
+		if (headerPageShown) [self toggleHeaderPage: self];
+		
+		return;
+	}
 	
 	if (followingSymbol == nil) {
 		IFIntelSymbol* parentSymbol = [symbol parent];

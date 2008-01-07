@@ -123,7 +123,7 @@
 	// Now, compare to the existing headings and update as appropriate, flagging those that
 	// need to be removed, added or updated.
 	// (TODO!)
-	[rootHeader release]; rootHeader = nil;
+	[rootHeader release];   rootHeader = nil;
 	rootHeader = [newRoot retain];
 	
 	// Cause a general update of the header list
