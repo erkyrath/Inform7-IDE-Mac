@@ -402,6 +402,25 @@ static float pointSize = 11.0;
 			// Move on
 			lastChild = child;
 		}
+
+		// Draw a line linking this child to the last child if possible
+		if (lastChild && [lastChild children] && [lastChild selectionStyle] == IFHeaderNodeUnselected) {
+			[[NSColor colorWithDeviceWhite: 0.8
+									 alpha: 1.0] set];
+			
+			NSRect lastFrame = [lastChild frame];
+			NSPoint lineStart = lastFrame.origin;
+			NSPoint lineEnd = NSMakePoint(NSMinX(lastFrame), NSMaxY(lastFrame));
+			
+			lineStart.x	+= margin + 6 + (depth+1)*indent + 0.5;
+			lineEnd.x	+= margin + 6 + (depth+1)*indent + 0.5;
+			
+			lineStart.y	+= [[lastChild font] ascender] - [[lastChild font] descender] + gap - 1;
+			lineEnd.y	-= gap/2;
+			
+			[NSBezierPath strokeLineFromPoint: lineStart
+									  toPoint: lineEnd];
+		}
 	}
 }
 
