@@ -139,7 +139,7 @@ static float pointSize = 11.0;
 
 - (void) populateToDepth: (int) maxDepth {
 	// Do nothing if we've reached the end
-	if (maxDepth == 0) {
+	if (maxDepth <= [[header symbol] level]) {
 		[children release]; children = nil;
 		[self updateNodeFrame];
 		return;
@@ -157,6 +157,8 @@ static float pointSize = 11.0;
 	NSEnumerator* childNodeEnum = [[header children] objectEnumerator];
 	IFHeader* childNode;
 	while (childNode = [childNodeEnum nextObject]) {
+		if ([[childNode symbol] level] > maxDepth) continue;
+		
 		// Create a new child node
 		IFHeaderNode* newChildNode = [[IFHeaderNode alloc] initWithHeader: childNode
 																 position: childPoint
@@ -164,7 +166,7 @@ static float pointSize = 11.0;
 		[newChildNode autorelease];
 		
 		// Populate it
-		[newChildNode populateToDepth: maxDepth - 1];
+		[newChildNode populateToDepth: maxDepth];
 		[children addObject: newChildNode];
 		
 		// Update the position of the next child element

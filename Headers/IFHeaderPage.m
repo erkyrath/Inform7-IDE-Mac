@@ -31,8 +31,6 @@ static NSString* IFHeaderBackgroundColour = @"IFHeaderBackgroundColour";
 		[NSBundle loadNibNamed: @"Headers"
 						 owner: self];
 		
-		// Set the view depth
-		[headerView setDisplayDepth: [depthSlider intValue]];
 		[headerView setDelegate: self];
 		
 		// Set the colours
@@ -48,6 +46,9 @@ static NSString* IFHeaderBackgroundColour = @"IFHeaderBackgroundColour";
 		
 		[scrollView setBackgroundColor: col];
 		[headerView setBackgroundColour: col];
+		
+		// Set the view depth
+		[self updateDepthSlider: self];
 	}
 	
 	return self;
@@ -154,6 +155,12 @@ static NSString* IFHeaderBackgroundColour = @"IFHeaderBackgroundColour";
 	if (highlightLines.location != NSNotFound) {
 		[self highlightNodeWithLines: highlightLines];
 	}
+	
+	NSString* levelLabel = [NSString stringWithFormat: @"HeaderLevel%i", [depthSlider intValue]];
+	levelLabel = [[NSBundle mainBundle] localizedStringForKey: levelLabel
+														value: @""
+														table: nil];
+	[headerTypeLabel setStringValue: levelLabel];
 }
 
 // = Header view delegate methods =

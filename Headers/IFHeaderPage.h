@@ -18,6 +18,7 @@
 	IBOutlet NSScrollView* scrollView;						// The scroll view
 	IBOutlet IFHeaderView* headerView;						// The header view that this object is managing
 	IBOutlet NSSlider* depthSlider;							// The header depth slider
+	IBOutlet NSTextField* headerTypeLabel;					// The header type label
 	
 	IFHeaderController* controller;							// The header controller that this page is using
 	
