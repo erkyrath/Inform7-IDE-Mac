@@ -16,6 +16,9 @@
 @interface IFSourcePage(IFSourcePagePrivate)
 
 - (void) limitToRange: (NSRange) range;
+- (void) limitToSymbol: (IFIntelSymbol*) symbol;
+- (int) lineForCharacter: (int) charNum 
+				 inStore: (NSString*) store;
 
 @end
 
@@ -242,8 +245,24 @@
 		if (range.location >= restriction.location && range.location < restriction.location + restriction.length) {
 			range.location -= restriction.location;
 		} else {
-			// TODO: move to the appropriate section and try again
-			return;
+			// Try moving the restriction range to something nearer the indicated line
+			int line = [self lineForCharacter: range.location
+									  inStore: [textStorage string]];
+			
+			IFIntelFile* intel = [self currentIntelligence];
+			IFIntelSymbol* symbol = [intel nearestSymbolToLine: line];
+			
+			if (symbol) {
+				[self limitToSymbol: symbol];
+			}
+			
+			// If the line is now available, then we can highlight the appropriate character
+			NSRange restriction = [restrictedStorage restrictionRange];
+			if (range.location >= restriction.location && range.location < restriction.location + restriction.length) {
+				range.location -= restriction.location;
+			} else {
+				return;
+			}
 		}
 	}
 	
@@ -935,6 +954,9 @@
 	// Display or hide the tears at the top and bottom
 	[sourceText setTornAtTop: range.location!=0];
 	[sourceText setTornAtBottom: (range.location+range.length)<[textStorage length]];
+	
+	// Refresh any highlighting
+	[self updateHighlightedLines];
 }
 
 - (void) limitToSymbol: (IFIntelSymbol*) symbol {
