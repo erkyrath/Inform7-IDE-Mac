@@ -13,6 +13,12 @@
 #import "IFRestrictedTextStorage.h"
 #import "IFViewAnimator.h"
 
+@interface IFSourcePage(IFSourcePagePrivate)
+
+- (void) limitToRange: (NSRange) range;
+
+@end
+
 @implementation IFSourcePage
 
 // = Initialisation =
@@ -823,6 +829,7 @@
 - (void) removeLimits {
 	// Get the text storage object
 	NSTextStorage* storage = [sourceText textStorage];
+	NSUndoManager* undo = [sourceText undoManager];
 	
 	if (![storage isKindOfClass: [IFRestrictedTextStorage class]]) {
 		return;
@@ -831,6 +838,8 @@
 			[restrictedStorage autorelease];
 			restrictedStorage = [(IFRestrictedTextStorage*)storage retain];
 		}
+
+		[[undo prepareWithInvocationTarget: self] limitToRange: [restrictedStorage restrictionRange]];
 	}
 	
 	[restrictedStorage removeRestriction];
@@ -843,6 +852,7 @@
 - (void) limitToRange: (NSRange) range {
 	// Get the text storage object
 	NSTextStorage* storage = [sourceText textStorage];
+	NSUndoManager* undo = [sourceText undoManager];
 	
 	if (![storage isKindOfClass: [IFRestrictedTextStorage class]]) {
 		[[storage retain] autorelease];
@@ -851,11 +861,15 @@
 		
 		[storage removeLayoutManager: [sourceText layoutManager]];
 		[restrictedStorage addLayoutManager: [sourceText layoutManager]];
+		
+		[[undo prepareWithInvocationTarget: self] removeLimits];
 	 } else {
 		 if (restrictedStorage != storage) {
 			 [restrictedStorage autorelease];
 			 restrictedStorage = [(IFRestrictedTextStorage*)storage retain];
 		 }
+
+		 [[undo prepareWithInvocationTarget: self] limitToRange: [restrictedStorage restrictionRange]];
 	 }
 	
 	// Set the restriction range
