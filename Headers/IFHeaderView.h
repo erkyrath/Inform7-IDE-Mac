@@ -21,6 +21,7 @@
 	IFHeader* rootHeader;													// The root header that this view should display
 	IFHeaderNode* rootHeaderNode;											// The root header node
 	NSColor* backgroundColour;												// The background colour for this view
+	NSString* message;														// The message to display centered in the view
 	
 	id delegate;															// The delegate (NOT RETAINED)
 }
@@ -31,6 +32,7 @@
 - (void) setBackgroundColour: (NSColor*) colour;							// Sets the background colour for this view
 
 - (void) setDelegate: (id) delegate;										// Sets the delegate for this view
+- (void) setMessage: (NSString*) message;									// Sets the message to use in this view
 
 @end
 

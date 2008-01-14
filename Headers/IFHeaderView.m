@@ -25,6 +25,7 @@
 - (void) dealloc {
 	[rootHeader release];		rootHeader = nil;
 	[backgroundColour release];	backgroundColour = nil;
+	[message release];			message = nil;
 	
 	[super dealloc];
 }
@@ -37,6 +38,22 @@
 
 // = Updating the view =
 
+- (void) sizeView {
+	// Resize the view
+	NSRect rootFrame = [rootHeaderNode frame];
+	rootFrame.size.width = [self frame].size.width;
+	rootFrame.size.height += 5;
+	
+	if (message && [self enclosingScrollView]) {
+		rootFrame.size = [[self enclosingScrollView] contentSize];
+		[self setAutoresizingMask: [self autoresizingMask] | NSViewHeightSizable];
+	} else {
+		[self setAutoresizingMask: [self autoresizingMask] & ~NSViewHeightSizable];
+	}
+	
+	[self setFrameSize: rootFrame.size];
+}
+
 - (void) updateFromRoot {
 	// Replace the root header node
 	[rootHeaderNode release]; rootHeaderNode = nil;
@@ -45,14 +62,33 @@
 													depth: 0];
 	[rootHeaderNode populateToDepth: displayDepth];
 	
-	// Redraw the display
-	[self setNeedsDisplay: YES];
+	// Add a message if necessary
+	if ([[rootHeaderNode children] count] == 0) {
+		if ([[rootHeader children] count] == 0) {
+			[self setMessage: [[NSBundle mainBundle] localizedStringForKey: @"NoHeadingsSet"
+																	 value: @""
+																	 table: nil]];
+		} else {
+			[self setMessage: [[NSBundle mainBundle] localizedStringForKey: @"NoHeadingsVisible"
+																	 value: @""
+																	 table: nil]];
+		}
+	} else {
+		message = nil;
+	}
 	
-	// Resize the view
-	NSRect rootFrame = [rootHeaderNode frame];
-	rootFrame.size.width = [self frame].size.width;
-	rootFrame.size.height += 5;
-	[self setFrameSize: rootFrame.size];
+	// Redraw the display
+	[self sizeView];
+	[self setNeedsDisplay: YES];	
+}
+
+- (void) setMessage: (NSString*) newMessage {
+	[message release];
+	if ([newMessage length] == 0) newMessage = nil;
+	message = [newMessage copy];
+	
+	[self sizeView];
+	[self setNeedsDisplay: YES];
 }
 
 // = Settings for this view =
@@ -93,6 +129,27 @@
 	// Draw the nodes
 	[rootHeaderNode drawNodeInRect: rect
 						 withFrame: [self bounds]];
+	
+	// Draw the message, if any
+	if (message) {
+		// Get the style for the message
+		NSMutableParagraphStyle* style = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+		[style setAlignment: NSCenterTextAlignment];
+		
+		NSDictionary* messageAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+										   [NSFont systemFontOfSize: 11], NSFontAttributeName,
+										   style, NSParagraphStyleAttributeName, 
+										   nil];
+		
+		// Draw roughly centered
+		NSRect bounds = [self bounds];
+		NSRect textBounds = NSInsetRect(bounds, 8, 8);
+		textBounds.origin.y = NSMinY(bounds) + (bounds.size.height/2) - 40;
+		textBounds.size.height = NSMaxY(bounds) - NSMinY(textBounds);
+		
+		[message drawInRect: textBounds
+			 withAttributes: messageAttributes];
+	}
 }
 
 // = Messages from the header controller =
