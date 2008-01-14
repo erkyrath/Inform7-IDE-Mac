@@ -236,6 +236,17 @@
 // = Syntax highlighting =
 
 - (void) indicateRange: (NSRange) range {
+	// Restrict the range if necessary
+	if (restrictedStorage) {
+		NSRange restriction = [restrictedStorage restrictionRange];
+		if (range.location >= restriction.location && range.location < restriction.location + restriction.length) {
+			range.location -= restriction.location;
+		} else {
+			// TODO: move to the appropriate section and try again
+			return;
+		}
+	}
+	
 	[[[NSApp delegate] leopard] showFindIndicatorForRange: range
 											   inTextView: sourceText];
 }
@@ -280,7 +291,7 @@
 
 - (void) indicateLine: (int) line {
     // Find out where the line is in the source view
-    NSString* store = [[sourceText textStorage] string];
+    NSString* store = [textStorage string];
     int length = [store length];
 	
     int x, lineno, linepos, lineLength;
@@ -368,6 +379,14 @@
 		}
 		
 		NSRange lineRange = [self findLine: line];
+		if (restrictedStorage) {
+			NSRange restriction = [restrictedStorage restrictionRange];
+			if (lineRange.location >= restriction.location && lineRange.location < (restriction.location + restriction.length)) {
+				lineRange.location -= [restrictedStorage restrictionRange].location;
+			} else {
+				lineRange.location = NSNotFound;
+			}
+		}
 		
 		if (lineRange.location != NSNotFound) {
 			[[sourceText layoutManager] setTemporaryAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
@@ -416,6 +435,23 @@
 	}
 	
 	return line;
+}
+
+- (void) selectTextRange: (NSRange) range {
+	// Restrict the range if needed
+	if (restrictedStorage) {
+		NSRange restriction = [restrictedStorage restrictionRange];
+		if (range.location >= restriction.location && range.location < restriction.location + restriction.length) {
+			range.location -= restriction.location;
+		} else {
+			// TODO: move to the appropriate section and try again
+			return;
+		}
+	}
+
+	// Display the range
+	[sourceText scrollRangeToVisible: NSMakeRange(range.location, range.length==0?1:range.length)];
+    [sourceText setSelectedRange: range];
 }
 
 - (void) moveToLine: (int) line {
@@ -471,13 +507,11 @@
 	linepos += chrNo;
 	
     // Time to scroll
-	[sourceText scrollRangeToVisible: NSMakeRange(linepos, 1)];
-    [sourceText setSelectedRange: NSMakeRange(linepos,0)];
+	[self selectTextRange: NSMakeRange(linepos,0)];
 }
 
 - (void) moveToLocation: (int) location {
-	[sourceText scrollRangeToVisible: NSMakeRange(location, 0)];
-	[sourceText setSelectedRange: NSMakeRange(location, 0)];
+	[self selectTextRange: NSMakeRange(location, 0)];
 }
 
 - (void) selectRange: (NSRange) range {
@@ -554,7 +588,7 @@
 }
 
 - (NSRange) findLine: (int) line {
-    NSString* store = [[sourceText textStorage] string];
+    NSString* store = [textStorage string];
     int length = [store length];
 	
     int x, lineno, linepos;
