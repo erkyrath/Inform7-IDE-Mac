@@ -11,18 +11,27 @@
 #import "IFContextMatchWindow.h"
 #import "IFRestrictedTextStorage.h"
 
-static NSImage* topTear = nil;
-static NSImage* bottomTear = nil;
+static NSImage* topTear			= nil;
+static NSImage* bottomTear		= nil;
+static NSImage* arrowNotPressed = nil;
+static NSImage* arrowPressed	= nil;
 
 @implementation IFSourceFileView
+
+- (void) loadImages {
+	if (!topTear)			topTear			= [[NSImage imageNamed: @"torn_top"] retain];
+	if (!bottomTear)		bottomTear		= [[NSImage imageNamed: @"torn_bottom"] retain];
+	
+	if (!arrowNotPressed)	arrowNotPressed = [[NSImage imageNamed: @"TearArrow"] retain];
+	if (!arrowPressed)		arrowPressed	= [[NSImage imageNamed: @"TearArrowPressed"] retain];
+}
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
 		[syntaxDictionary release];
 		
-		if (!topTear)		topTear = [[NSImage imageNamed: @"torn_top"] retain];
-		if (!bottomTear)	bottomTear = [[NSImage imageNamed: @"torn_bottom"] retain];
+		[self loadImages];
     }
     return self;
 }
@@ -226,6 +235,20 @@ static NSImage* bottomTear = nil;
 				   fromRect: NSMakeRect(0,0, bounds.size.width, tornSize.height)
 				  operation: NSCompositeSourceOver
 				   fraction: 1.0];
+		
+		// Draw the 'up' arrow
+		NSImage* arrow = arrowNotPressed;
+		NSSize upSize = [arrowNotPressed size];
+		NSRect upRect;
+		
+		upRect.origin	= NSMakePoint(floorf(NSMinX(bounds) + (bounds.size.width - upSize.width)/2), floorf(NSMinY(bounds) + (tornSize.height - upSize.height)/2));
+		upRect.size		= upSize;
+		
+		[arrow setFlipped: YES];
+		[arrow drawInRect: upRect
+				 fromRect: NSMakeRect(0,0, upSize.width, upSize.height)
+				operation: NSCompositeSourceOver
+				 fraction: 1.0];
 	}
 	if (tornAtBottom) {
 		NSSize tornSize = [bottomTear size];
@@ -243,6 +266,20 @@ static NSImage* bottomTear = nil;
 					  fromRect: NSMakeRect(0,0, bounds.size.width, tornSize.height)
 					 operation: NSCompositeSourceOver
 					  fraction: 1.0];
+		
+		// Draw the 'down' arrow
+		NSImage* arrow = arrowNotPressed;
+		NSSize upSize = [arrowNotPressed size];
+		NSRect upRect;
+		
+		upRect.origin	= NSMakePoint(floorf(NSMinX(bounds) + (bounds.size.width - upSize.width)/2), floorf(origin.y + containerSize.height + (tornSize.height - upSize.height)/2));
+		upRect.size		= upSize;
+		
+		[arrow setFlipped: NO];
+		[arrow drawInRect: upRect
+				 fromRect: NSMakeRect(0,0, upSize.width, upSize.height)
+				operation: NSCompositeSourceOver
+				 fraction: 1.0];
 	}
 }
 
@@ -250,8 +287,7 @@ static NSImage* bottomTear = nil;
 
 - (void) updateTearing {
 	// Load the images if they aren't already available
-	if (!topTear)		topTear = [[NSImage imageNamed: @"torn_top"] retain];
-	if (!bottomTear)	bottomTear = [[NSImage imageNamed: @"torn_bottom"] retain];
+	[self loadImages];
 
 	// Work out the inset to use
 	NSSize inset = NSMakeSize(3,6);
