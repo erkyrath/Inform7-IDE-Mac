@@ -70,6 +70,7 @@
 		// Set up the headings browser control
 		headingsBrowser = [[IFHeadingsBrowser alloc] init];
 		
+#if 0
 		// Set up the headings drop-down control
 		headingsControl = [[IFCustomPopup alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"Headings"
 																									  value: @"Headings"
@@ -77,16 +78,25 @@
 		[headingsControl setDelegate: self];
 		[headingsControl setTarget: self];
 		[headingsControl setAction: @selector(gotoSection:)];
+#endif
 		
 		// Create the header page
 		headerPage = [[IFHeaderPage alloc] init];
 		[headerPage setDelegate: self];
 
+		// Create the header/source page controls
 		headerPageControl = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"HeaderPage"
 																										value: @"Headings"
 																										table: nil]];
 		[headerPageControl setTarget: self];
-		[headerPageControl setAction: @selector(toggleHeaderPage:)];
+		[headerPageControl setAction: @selector(showHeaderPage:)];
+
+		sourcePageControl = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"SourcePage"
+																										value: @"Source"
+																										table: nil]];
+		[sourcePageControl setTarget: self];
+		[sourcePageControl setAction: @selector(showSourcePage:)];
+		[sourcePageControl setState: NSOnState];
 	}
 	
 	return self;
@@ -120,6 +130,7 @@
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[headingsControl release];
 	[headerPageControl release];
+	[sourcePageControl release];
 	[headingsBrowser release];
 	[headerPage release];
 	[sourceText release];
@@ -706,7 +717,7 @@
 }
 
 - (NSArray*) toolbarCells {
-	return [NSArray arrayWithObjects: headingsControl, headerPageControl, nil];
+	return [NSArray arrayWithObjects: /* headingsControl, */ sourcePageControl, headerPageControl, nil];
 }
 
 - (void) matcherChanged: (NSNotification*) not {
@@ -790,6 +801,7 @@
 					  style: IFAnimateLeft];
 		[animator autorelease];
 		
+		[sourcePageControl setState: NSOnState];
 		[headerPageControl setState: NSOffState];
 		headerPageShown = NO;
 	} else {
@@ -807,9 +819,19 @@
 					  style: IFAnimateRight];
 		[animator autorelease];
 		
+		[sourcePageControl setState: NSOffState];
 		[headerPageControl setState: NSOnState];
 		headerPageShown = YES;
 	}
+}
+
+- (IBAction) showHeaderPage: (id) sender {
+	if (!headerPageShown) [self toggleHeaderPage: self];
+}
+
+- (IBAction) showSourcePage: (id) sender {
+	if (headerPageShown) [self toggleHeaderPage: self];
+	if (fileManagerShown) [self hideFileManager: self];
 }
 
 // = IFContextMatcherWindow delegate methods =

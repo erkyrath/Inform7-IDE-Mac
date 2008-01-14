@@ -38,6 +38,7 @@
 
 	// The header page control
 	BOOL headerPageShown;
+	IFPageBarCell* sourcePageControl;							// The 'source page' toggle
 	IFPageBarCell* headerPageControl;							// The 'header page' toggle
 	IFHeaderPage* headerPage;									// The header page
 }
