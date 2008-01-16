@@ -144,6 +144,35 @@
 	
 	NSRange restrictedEditRange = editRange;
 	
+	// If the change in length is non-zero and the edited range extends below the restriction location,
+	// perform the update by changing the restriction range
+	if (editRange.location < restriction.location) {
+		int extraCharacters = restriction.location - editRange.location;
+		NSRange newRestriction = restriction;
+		
+		newRestriction.location -= extraCharacters;
+		newRestriction.length	+= extraCharacters + changeInLength;
+
+		if (editRange.location + editRange.length > restriction.location + restriction.length) {
+			newRestriction.length += (editRange.location + editRange.length) - (restriction.location + restriction.length);
+		}
+		
+		[self setRestriction: newRestriction];
+		
+		return;
+	}
+	
+	// If the change in length is non-zero and the edited range extends beyonds the restriction location, perform the update by changing the restriction range
+	if (editRange.location + editRange.length > restriction.location + restriction.length) {
+		NSRange newRestriction = restriction;
+		
+		newRestriction.length	+= (editRange.location + editRange.length) - (restriction.location + restriction.length);
+		
+		[self setRestriction: newRestriction];
+		
+		return;
+	}	
+	
 	// If the edited range extends below the restriction location, restrict it
 	if (restrictedEditRange.location < restriction.location) {
 		restrictedEditRange.length -= (restriction.location - restrictedEditRange.location);
