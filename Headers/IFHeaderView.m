@@ -126,10 +126,6 @@
 	[backgroundColour set];
 	NSRectFill(rect);
 	
-	// Draw the nodes
-	[rootHeaderNode drawNodeInRect: rect
-						 withFrame: [self bounds]];
-	
 	// Draw the message, if any
 	if (message) {
 		// Get the style for the message
@@ -137,18 +133,22 @@
 		[style setAlignment: NSCenterTextAlignment];
 		
 		NSDictionary* messageAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-										   [NSFont systemFontOfSize: 11], NSFontAttributeName,
+										   [NSFont systemFontOfSize: 12], NSFontAttributeName,
 										   style, NSParagraphStyleAttributeName, 
 										   nil];
 		
 		// Draw roughly centered
 		NSRect bounds = [self bounds];
 		NSRect textBounds = NSInsetRect(bounds, 8, 8);
-		textBounds.origin.y = NSMinY(bounds) + (bounds.size.height/2) - 40;
+		textBounds.origin.y = NSMinY(bounds) + 8;
 		textBounds.size.height = NSMaxY(bounds) - NSMinY(textBounds);
 		
 		[message drawInRect: textBounds
 			 withAttributes: messageAttributes];
+	} else {
+		// Draw the nodes
+		[rootHeaderNode drawNodeInRect: rect
+							 withFrame: [self bounds]];
 	}
 }
 
