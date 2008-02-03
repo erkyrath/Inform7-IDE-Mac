@@ -24,6 +24,7 @@ typedef enum IFHeaderNodeSelectionStyle {
 	NSRect frame;									// The frame for this node
 	int depth;										// The depth of this node in the tree
 	IFHeaderNodeSelectionStyle selected;			// The selection style of this node
+	BOOL editing;									// YES if we're editing this node
 	
 	IFHeader* header;								// The IFHeader item associated with this node
 	NSMutableArray* children;						// The child nodes of this node
@@ -52,6 +53,12 @@ typedef enum IFHeaderNodeSelectionStyle {
 - (IFHeaderNode*) nodeAtPoint: (NSPoint) point;		// The node appearing at the specified point
 - (IFHeaderNode*) nodeWithLines: (NSRange) lines	// The best match for the node corresponding to the specified line numbers
 					  intelFile: (IFIntelFile*) intel;
+
+- (NSDictionary*) attributes;						// The attributes for the title being displayed in this node
+- (void) setEditing: (BOOL) editing;				// Sets whether or not this node is being edited
+- (NSColor*) textBackgroundColour;					// The background colour for the text in this node
+- (NSRect) headerTitleRect;							// The bounding rectangle for the editable part of the name
+- (NSAttributedString*) attributedTitle;			// The editable part of the title as an attributed string
 
 // Drawing the node
 

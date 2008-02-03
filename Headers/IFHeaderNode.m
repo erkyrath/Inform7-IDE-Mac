@@ -328,6 +328,87 @@ static float pointSize = 11.0;
 	return result;
 }
 
+- (NSDictionary*) attributes { 
+	return [NSDictionary dictionaryWithObjectsAndKeys:
+			 [self font], NSFontAttributeName,
+			 nil];
+}
+
+- (int) uneditablePartLength {
+	NSString* name = [self name];
+	int x;
+	
+	int spaceCount = 0;
+	for (x=0; x<[name length]; x++) {
+		if ([name characterAtIndex: x] == ' ') {
+			spaceCount++;
+		}
+		if (spaceCount == 3) break;
+	}
+	if (x >= [name length]) return x;
+	
+	// x is now the position of the 3rd space (which should correspond to the part of the string ' * Part ')
+	return x+1;
+}
+
+- (NSString*) editableName {
+	// Get the editable portion of the string
+	NSString* editable = [[self name] substringFromIndex: [self uneditablePartLength]];
+	
+	// Strip off any trailing spaces
+	if ([editable characterAtIndex: [editable length]-1] == '\n') {
+		editable = [editable substringToIndex: [editable length]-1];
+	}
+	
+	// Return the result
+	return editable;
+}
+
+- (void) setEditing: (BOOL) newEditing {
+	editing = newEditing;
+}
+
+- (NSColor*) textBackgroundColour {
+	// Draw the node background, if necessary
+	NSColor* nodeBackgroundColour = nil;
+	
+	switch (selected) {
+		case IFHeaderNodeSelected:
+			nodeBackgroundColour = [NSColor selectedTextBackgroundColor];
+			break;
+			
+		case IFHeaderNodeInputCursor:
+			nodeBackgroundColour = [NSColor grayColor];
+			break;
+			
+		default:
+			break;
+	}
+	
+	if (nodeBackgroundColour) {
+		// Pick the colours that we'll use to do the drawing
+		NSColor* nodeTextBgColour = [nodeBackgroundColour colorWithAlphaComponent: 0.8];
+		return nodeTextBgColour;
+	}
+	
+	return nil;
+}
+
+- (NSAttributedString*) attributedTitle {
+	NSAttributedString* result = [[NSAttributedString alloc] initWithString: [self editableName]
+																 attributes: [self attributes]];
+	return [result autorelease];
+}
+
+- (NSRect) headerTitleRect {
+	NSString* uneditablePortion = [[self name] substringToIndex: [self uneditablePartLength]];
+	NSString* editablePortion = [self editableName];
+	
+	NSSize uneditableSize = [uneditablePortion sizeWithAttributes: [self attributes]];
+	NSSize nameSize = [editablePortion sizeWithAttributes: [self attributes]];
+	return NSMakeRect(frame.origin.x + margin + depth*indent + uneditableSize.width, frame.origin.y + floorf(gap/2), nameSize.width, nameSize.height);
+}
+
 - (void) drawNodeInRect: (NSRect) rect
 			  withFrame: (NSRect) drawFrame {
 	// Do nothing if this node is outside the draw rectangle
@@ -341,6 +422,10 @@ static float pointSize = 11.0;
 	switch (selected) {
 		case IFHeaderNodeSelected:
 			nodeBackgroundColour = [NSColor selectedTextBackgroundColor];
+			break;
+
+		case IFHeaderNodeInputCursor:
+			nodeBackgroundColour = [NSColor grayColor];
 			break;
 			
 		default:
@@ -362,12 +447,18 @@ static float pointSize = 11.0;
 		[nodeTextBgColour set];		[textHighlightPath fill];
 		[nodeLineColour set];		[highlightPath stroke];
 	}
+
+	// If editing, then only draw the uneditable part of the name
+	NSString* name;
+	if (editing) {
+		name = [[self name] substringToIndex: [self uneditablePartLength]];
+	} else {
+		name = [self name];
+	}
 	
 	// Draw the node title, truncating if necessary
-	[[self name] drawAtPoint: NSMakePoint(frame.origin.x + margin + depth * indent, frame.origin.y + floorf(gap/2))
-			  withAttributes: [NSDictionary dictionaryWithObjectsAndKeys:
-							   [self font], NSFontAttributeName,
-							   nil]];
+	[name drawAtPoint: NSMakePoint(frame.origin.x + margin + depth * indent, frame.origin.y + floorf(gap/2))
+	   withAttributes: [self attributes]];
 	
 	// Draw the node children
 	if (children && [children count] > 0) {

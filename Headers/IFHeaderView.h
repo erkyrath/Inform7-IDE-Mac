@@ -20,8 +20,12 @@
 	int displayDepth;														// The display depth for this view
 	IFHeader* rootHeader;													// The root header that this view should display
 	IFHeaderNode* rootHeaderNode;											// The root header node
+	IFHeaderNode* editNode;													// The header node that we're editing at the moment
 	NSColor* backgroundColour;												// The background colour for this view
 	NSString* message;														// The message to display centered in the view
+	
+	NSTextView* editor;														// The text view that's performing editing at the moment
+	NSTextStorage* editStorage;												// Text storage for the field editor
 	
 	id delegate;															// The delegate (NOT RETAINED)
 }

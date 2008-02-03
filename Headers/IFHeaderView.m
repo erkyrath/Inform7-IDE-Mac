@@ -27,6 +27,10 @@
 	[backgroundColour release];	backgroundColour = nil;
 	[message release];			message = nil;
 	
+	[editNode release];			editNode = nil;
+	[editStorage release];		editStorage = nil;
+	[editor release];			editor = nil;
+	
 	[super dealloc];
 }
 
@@ -167,6 +171,77 @@
 	}
 }
 
+// = Editing events =
+
+- (void) editHeaderNode: (IFHeaderNode*) node 
+			 mouseEvent: (NSEvent*) mouseDown {
+	// Stop editing the previous node
+	[editNode setEditing: NO];
+	[editNode setSelectionStyle: IFHeaderNodeUnselected];
+	[editNode autorelease];
+	editNode = nil;
+	
+	// Don't edit the title node
+	if ([[node header] parent] == nil) return;
+	
+	// Start editing the next node
+	editNode = [node retain];
+	[editNode setSelectionStyle: IFHeaderNodeInputCursor];
+	[editNode setEditing: YES];
+	
+	[self setNeedsDisplay: YES];
+	
+	// Work out the bounding box of the area to be edited
+	NSRect headerNameRect = [node headerTitleRect];
+	NSRect bounds = [self bounds];
+	headerNameRect.size.width = NSMaxX(bounds) - NSMinX(headerNameRect);
+	
+	// Assign the field editor to ourselves
+	[editor autorelease];
+	editor = (NSTextView*)[[self window] fieldEditor: YES
+										   forObject: node];
+	[editor retain];
+	
+	// Set up the editor storage (twice, as for some reason the field editor blanks out if we only set it once)
+	if (!editStorage) editStorage = [[NSTextStorage alloc] init];
+	[editStorage setAttributedString: [node attributedTitle]];
+	[[editor layoutManager] replaceTextStorage: editStorage];
+	
+	// Set up the field editor
+	NSColor* bgColour = [editNode textBackgroundColour];
+	if (!bgColour) bgColour = backgroundColour;
+	
+	[editor setSelectedRange: NSMakeRange(0,0)];
+	[editor setDelegate: self];
+	[editor setRichText: NO];
+	[editor setAllowsDocumentBackgroundColorChange: NO];
+	[editor setBackgroundColor: bgColour];
+	[editor setHorizontallyResizable: NO];
+	[editor setVerticallyResizable: YES];
+	[editor setTextContainerInset: NSMakeSize(0, 0)];
+	
+	[[editor textContainer] setContainerSize: headerNameRect.size];
+	[[editor textContainer] setWidthTracksTextView: NO];
+	[[editor textContainer] setHeightTracksTextView: NO];
+	[editor setDrawsBackground: NO];
+	[editor setTypingAttributes: [editNode attributes]];
+	[[editor textContainer] setLineFragmentPadding: 0];
+	
+	// Add the field editor
+	[editor removeFromSuperview];
+	[editor setFrame: headerNameRect];
+	[self addSubview: editor];
+	[[self window] makeFirstResponder: editor];
+	
+	// Set up the editor storage again
+	[editStorage setAttributedString: [node attributedTitle]];
+	[[editor layoutManager] replaceTextStorage: editStorage];
+	
+	// [[editor textStorage] setAttributedString: [node attributedTitle]];
+	
+	if (mouseDown) [editor mouseDown: mouseDown];
+}
+
 // = Mouse events =
 
 - (void) mouseDown: (NSEvent*) evt {
@@ -176,12 +251,39 @@
 	
 	// Get which node was clicked on
 	IFHeaderNode* clicked = [rootHeaderNode nodeAtPoint: viewPos];
-	
-	// Inform the delegate that the header has been clicked
-	if (clicked && delegate && [delegate respondsToSelector: @selector(headerView:clickedOnNode:)]) {
-		[delegate headerView: self
-			   clickedOnNode: clicked];
+
+	NSRect headerNameRect = [clicked headerTitleRect];
+	if (NSPointInRect(viewPos, headerNameRect)) {
+		// Start editing the node
+		[self editHeaderNode: clicked
+				  mouseEvent: evt];
+	} else {
+		// Inform the delegate that the header has been clicked
+		if (clicked && delegate && [delegate respondsToSelector: @selector(headerView:clickedOnNode:)]) {
+			[delegate headerView: self
+				   clickedOnNode: clicked];
+		}
 	}
 }
+
+// = Field editor delegate events =
+
+- (void) textDidEndEditing: (NSNotification*) aNotification {
+	NSLog(@"Finished editing");
+	
+	// Finished with the edit node
+	[editNode setEditing: NO];
+	[editNode setSelectionStyle: IFHeaderNodeUnselected];
+	[editNode autorelease];
+	editNode = nil;
+	
+	// Finished with the field editor
+	[editor removeFromSuperview];
+	[editor autorelease];
+	editor = nil;
+	
+	[self setNeedsDisplay: YES];
+}
+
 
 @end
