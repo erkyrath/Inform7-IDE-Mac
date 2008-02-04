@@ -44,5 +44,8 @@
 
 - (void) headerView: (IFHeaderView*) view									// Indicates that a header node has been clicked on
 	  clickedOnNode: (IFHeaderNode*) node;
+- (void) headerView: (IFHeaderView*) view									// Indicates that the controller should try to update the specified header node
+ 		 updateNode: (IFHeaderNode*) node
+ 	   withNewTitle: (NSString*) newTitle;
 
 @end

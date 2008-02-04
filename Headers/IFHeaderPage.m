@@ -173,4 +173,15 @@ static NSString* IFHeaderBackgroundColour = @"IFHeaderBackgroundColour";
 	}
 }
 
+- (void) headerView: (IFHeaderView*) view
+ 		 updateNode: (IFHeaderNode*) node
+ 	   withNewTitle: (NSString*) newTitle {
+	if (delegate && [delegate respondsToSelector: @selector(headerView:updateNode:withNewTitle:)]) {
+		[delegate headerView: view
+				  updateNode: node
+				withNewTitle: newTitle];
+	}
+}
+
+
 @end

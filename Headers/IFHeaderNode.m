@@ -364,6 +364,13 @@ static float pointSize = 11.0;
 	return editable;
 }
 
+- (NSString*) newValueForEditedTitle: (NSString*) edited {
+	return [[[[[self name] substringToIndex: [self uneditablePartLength]] 
+			  substringFromIndex: [bulletPoint length]]
+			 stringByAppendingString: edited] 
+			stringByAppendingString: @"\n"];
+}
+
 - (void) setEditing: (BOOL) newEditing {
 	editing = newEditing;
 }

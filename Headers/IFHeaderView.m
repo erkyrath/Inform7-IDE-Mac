@@ -163,6 +163,13 @@
 	[rootHeader release]; rootHeader = nil;
 	rootHeader = [[controller rootHeader] retain];
 	
+	// Destroy the editor when the headers are updated
+	if (editor) {
+		[editor removeFromSuperview];
+		[editor autorelease];
+		editor = nil;
+	}
+	
 	// Update this control
 	[self updateFromRoot];
 	
@@ -175,6 +182,12 @@
 
 - (void) editHeaderNode: (IFHeaderNode*) node 
 			 mouseEvent: (NSEvent*) mouseDown {
+	if (editor) {
+		[editor removeFromSuperview];
+		[editor autorelease];
+		editor = nil;
+	}
+	
 	// Stop editing the previous node
 	[editNode setEditing: NO];
 	[editNode setSelectionStyle: IFHeaderNodeUnselected];
@@ -269,7 +282,15 @@
 // = Field editor delegate events =
 
 - (void) textDidEndEditing: (NSNotification*) aNotification {
-	NSLog(@"Finished editing");
+	// Get the new text for this node
+	NSString* newText = [editNode newValueForEditedTitle: [editStorage string]];
+	
+	// Tell the delegate to update the source text
+	if (delegate && [delegate respondsToSelector: @selector(headerView:updateNode:withNewTitle:)]) {
+		[delegate headerView: self
+				  updateNode: editNode
+				withNewTitle: newText];
+	}
 	
 	// Finished with the edit node
 	[editNode setEditing: NO];
@@ -283,6 +304,9 @@
 	editor = nil;
 	
 	[self setNeedsDisplay: YES];
+	
+	// Force an immediately update
+	[self updateFromRoot];
 }
 
 

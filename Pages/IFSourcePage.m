@@ -1034,6 +1034,42 @@
 	[self limitToSymbol: symbol];
 }
 
+- (void) headerView: (IFHeaderView*) view
+ 		 updateNode: (IFHeaderNode*) node
+ 	   withNewTitle: (NSString*) newTitle {
+	IFHeader* header = [node header];
+	IFIntelSymbol* symbol = [header symbol];
+	IFIntelFile* intel = [self currentIntelligence];
+
+	NSString* lastValue = [header headingName];
+	
+	// Work out which line needs to be edited
+	int line = [intel lineForSymbol: symbol] + 1;
+	
+	// Get the range of the line
+	NSRange lineRange = [self findLine: line];
+	if (lineRange.location == NSNotFound) return;
+	
+	NSString* currentValue = [[textStorage string] substringWithRange: lineRange];
+	
+	// If the line currently contains the previous value, then replace it with the new value
+	if ([currentValue isEqualToString: lastValue] && ![currentValue isEqualToString: newTitle]) {
+		// Restrict to the selected node
+		[self headerPage: nil
+		   limitToHeader: header];
+
+		// Replace the text for this node
+		[[textStorage mutableString] replaceCharactersInRange: lineRange
+												   withString: newTitle];
+	}
+	
+	// Force a highlighter pass
+	if ([textStorage isKindOfClass: [IFSyntaxStorage class]]) {
+		[(IFSyntaxStorage*)textStorage highlighterPass];
+		[[parent headerController] updateFromIntelligence: [self currentIntelligence]];
+	}
+}
+	
 - (IFIntelSymbol*) currentSection {
 	// Get the text storage
 	IFRestrictedTextStorage* storage = (IFRestrictedTextStorage*)[sourceText textStorage];

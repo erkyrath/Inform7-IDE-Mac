@@ -59,6 +59,7 @@ typedef enum IFHeaderNodeSelectionStyle {
 - (NSColor*) textBackgroundColour;					// The background colour for the text in this node
 - (NSRect) headerTitleRect;							// The bounding rectangle for the editable part of the name
 - (NSAttributedString*) attributedTitle;			// The editable part of the title as an attributed string
+- (NSString*) newValueForEditedTitle: (NSString*) edited;	// Given an edited title, returns the exact value that should be substituted in the source code
 
 // Drawing the node
 
