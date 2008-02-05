@@ -1,113 +1,247 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {
-                compile = id; 
-                compileAndDebug = id; 
-                compileAndRefresh = id; 
-                compileAndRun = id; 
-                continueProcess = id; 
-                deleteBreakpoint = id; 
-                docExtensions = id; 
-                docIndex = id; 
-                docRecipes = id; 
-                findInProject = id; 
-                findNext = id; 
-                findPrevious = id; 
-                gotoLeftPane = id; 
-                gotoRightPane = id; 
-                importIntoSkein = id; 
-                installExtension = id; 
-                lastChangedCommand = id; 
-                lastCommand = id; 
-                lastCommandInSkein = id; 
-                lastDifference = id; 
-                newHeaderFile = id; 
-                newInformFile = id; 
-                newProject = id; 
-                nextChangedCommand = id; 
-                nextDifference = id; 
-                nextDifferenceBySkein = id; 
-                openInformFile = id; 
-                pauseProcess = id; 
-                release = id; 
-                renumberSections = id; 
-                replayEntireSkein = id; 
-                replayUsingSkein = id; 
-                scrollToSelection = id; 
-                setBreakpoint = id; 
-                shiftLeft = id; 
-                shiftRight = id; 
-                showFindPanel = id; 
-                showIndexTab = id; 
-                showInspectors = id; 
-                showPreferences = id; 
-                stepIntoProcess = id; 
-                stepOutProcess = id; 
-                stepOverProcess = id; 
-                stopProcess = id; 
-                switchPanes = id; 
-                tabDocumentation = id; 
-                tabErrors = id; 
-                tabGame = id; 
-                tabIndex = id; 
-                tabSettings = id; 
-                tabSkein = id; 
-                tabSource = id; 
-                tabTranscript = id; 
-                toggleSourceSpellChecking = id; 
-                useSelectionForFind = id; 
-            }; 
-            CLASS = FirstResponder; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {
-                findInProject = id; 
-                newHeaderFile = id; 
-                newInformFile = id; 
-                showInspectors = id; 
-                showPreferences = id; 
-            }; 
-            CLASS = IFAppDelegate; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {extensionsMenu = NSMenuItem; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            ACTIONS = {
-                addNewFile = id; 
-                gotoLeftPane = id; 
-                gotoRightPane = id; 
-                lastChangedCommand = id; 
-                lastCommand = id; 
-                lastCommandInSkein = id; 
-                lastDifference = id; 
-                nextChangedCommand = id; 
-                nextDifference = id; 
-                renumberSections = id; 
-                shiftLeft = id; 
-                shiftRight = id; 
-                switchPanes = id; 
-                tabDocumentation = id; 
-                tabErrors = id; 
-                tabGame = id; 
-                tabIndex = id; 
-                tabSettings = id; 
-                tabSkein = id; 
-                tabSource = id; 
-                tabTranscript = id; 
-            }; 
-            CLASS = IFProjectController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                panesView = NSView; 
-                progress = NSProgressIndicator; 
-                statusInfo = NSTextField; 
-            }; 
-            SUPERCLASS = NSWindowController; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>finishEditing</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>IFTranscriptItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>compileCompletedAndFailed</key>
+				<string>IFCompilerController</string>
+				<key>compileCompletedAndSucceeded</key>
+				<string>IFCompilerController</string>
+				<key>compileStarted</key>
+				<string>IFCompilerController</string>
+				<key>errorMessagesCleared</key>
+				<string>IFCompilerController</string>
+				<key>sourceFileShowNextSection</key>
+				<string>id</string>
+				<key>sourceFileShowPreviousSection</key>
+				<string>id</string>
+				<key>transcriptItemHasChanged</key>
+				<string>IFTranscriptItem</string>
+				<key>viewSetHasUpdated</key>
+				<string>IFCompilerController</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>docIndex</key>
+				<string>id</string>
+				<key>findInProject</key>
+				<string>id</string>
+				<key>newHeaderFile</key>
+				<string>id</string>
+				<key>newInformFile</key>
+				<string>id</string>
+				<key>showFind2</key>
+				<string>id</string>
+				<key>showInspectors</key>
+				<string>id</string>
+				<key>showPreferences</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>IFAppDelegate</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>extensionsMenu</key>
+				<string>NSMenuItem</string>
+				<key>leopard</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>showWindow</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>IFCompilerController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>compilerMessages</key>
+				<string>NSOutlineView</string>
+				<key>compilerResults</key>
+				<string>NSTextView</string>
+				<key>delegate</key>
+				<string>NSObject</string>
+				<key>messageScroller</key>
+				<string>NSScrollView</string>
+				<key>resultScroller</key>
+				<string>NSScrollView</string>
+				<key>splitView</key>
+				<string>NSSplitView</string>
+				<key>window</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSTextView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSText</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>compile</key>
+				<string>id</string>
+				<key>compileAndDebug</key>
+				<string>id</string>
+				<key>compileAndRefresh</key>
+				<string>id</string>
+				<key>compileAndRun</key>
+				<string>id</string>
+				<key>continueProcess</key>
+				<string>id</string>
+				<key>deleteBreakpoint</key>
+				<string>id</string>
+				<key>docExtensions</key>
+				<string>id</string>
+				<key>docIndex</key>
+				<string>id</string>
+				<key>docRecipes</key>
+				<string>id</string>
+				<key>findInProject</key>
+				<string>id</string>
+				<key>findNext</key>
+				<string>id</string>
+				<key>findPrevious</key>
+				<string>id</string>
+				<key>gotoLeftPane</key>
+				<string>id</string>
+				<key>gotoRightPane</key>
+				<string>id</string>
+				<key>importIntoSkein</key>
+				<string>id</string>
+				<key>installExtension</key>
+				<string>id</string>
+				<key>lastChangedCommand</key>
+				<string>id</string>
+				<key>lastCommand</key>
+				<string>id</string>
+				<key>lastCommandInSkein</key>
+				<string>id</string>
+				<key>lastDifference</key>
+				<string>id</string>
+				<key>newHeaderFile</key>
+				<string>id</string>
+				<key>newInformFile</key>
+				<string>id</string>
+				<key>newProject</key>
+				<string>id</string>
+				<key>nextChangedCommand</key>
+				<string>id</string>
+				<key>nextDifference</key>
+				<string>id</string>
+				<key>nextDifferenceBySkein</key>
+				<string>id</string>
+				<key>openInformFile</key>
+				<string>id</string>
+				<key>pauseProcess</key>
+				<string>id</string>
+				<key>release</key>
+				<string>id</string>
+				<key>renumberSections</key>
+				<string>id</string>
+				<key>replayEntireSkein</key>
+				<string>id</string>
+				<key>replayUsingSkein</key>
+				<string>id</string>
+				<key>scrollToSelection</key>
+				<string>id</string>
+				<key>setBreakpoint</key>
+				<string>id</string>
+				<key>shiftLeft</key>
+				<string>id</string>
+				<key>shiftRight</key>
+				<string>id</string>
+				<key>showFind2</key>
+				<string>id</string>
+				<key>showFindPanel</key>
+				<string>id</string>
+				<key>showIndexTab</key>
+				<string>id</string>
+				<key>showInspectors</key>
+				<string>id</string>
+				<key>showPreferences</key>
+				<string>id</string>
+				<key>stepIntoProcess</key>
+				<string>id</string>
+				<key>stepOutProcess</key>
+				<string>id</string>
+				<key>stepOverProcess</key>
+				<string>id</string>
+				<key>stopProcess</key>
+				<string>id</string>
+				<key>switchPanes</key>
+				<string>id</string>
+				<key>tabDocumentation</key>
+				<string>id</string>
+				<key>tabErrors</key>
+				<string>id</string>
+				<key>tabGame</key>
+				<string>id</string>
+				<key>tabIndex</key>
+				<string>id</string>
+				<key>tabSettings</key>
+				<string>id</string>
+				<key>tabSkein</key>
+				<string>id</string>
+				<key>tabSource</key>
+				<string>id</string>
+				<key>tabTranscript</key>
+				<string>id</string>
+				<key>toggleSourceSpellChecking</key>
+				<string>id</string>
+				<key>useSelectionForFind</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

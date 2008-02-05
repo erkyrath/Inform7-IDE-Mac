@@ -32,6 +32,8 @@
 - (IBAction) showPreferences: (id) sender;			// Shows the preferences window
 - (IBAction) docIndex: (id) sender;					// Displays an error about not being able to show help yet
 
+- (IBAction) showFind2: (id) sender;				// Shows the 'new' find dialog
+
 - (void) updateExtensions;							// Updates extensions menu
 - (NSMutableArray*) extensionsInDirectory: (NSString*) directory;		// (DEPRECATED) gets the list of extensions in a particular directory. Use the extension manager instead.
 - (NSArray*) directoriesToSearch: (NSString*) extensionSubdirectory;	// (DEPRECATED) gets the list of directories to search for extensions. Use the extension manager instead.

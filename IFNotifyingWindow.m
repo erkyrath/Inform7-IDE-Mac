@@ -7,6 +7,7 @@
 //
 
 #import "IFNotifyingWindow.h"
+#import "IFFindController.h"
 
 
 @implementation IFNotifyingWindow
@@ -22,6 +23,7 @@
 		[[self delegate] changeFirstResponder: aResponder];
 	}
 	
+	[[IFFindController sharedFindController] updateFromFirstResponder];
 	return res;
 }
 

@@ -12,6 +12,7 @@
 #import "IFInspectorWindow.h"
 #import "IFExtensionsManager.h"
 #import "IFWelcomeWindow.h"
+#import "IFFindController.h"
 
 #import "IFIsNotes.h"
 #import "IFIsIndex.h"
@@ -465,6 +466,12 @@ static int stringCompare(id a, id b, void* context) {
 	
 	IFExtensionPreferences* prefs = (IFExtensionPreferences*)[[IFPreferenceController sharedPreferenceController] preferencePane: [[IFExtensionPreferences class] description]];
 	[prefs addNaturalExtension: [prefs preferenceView]];
+}
+
+// = Searching =
+
+- (IBAction) showFind2: (id) sender {
+	[[IFFindController sharedFindController] showWindow: self];
 }
 
 // = Leopard extensions =
