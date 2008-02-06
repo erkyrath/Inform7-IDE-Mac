@@ -11,14 +11,16 @@
 #import "IFAppDelegate.h"
 #import "IFMatcher.h"
 
+#include <wctype.h>
+
 @implementation NSTextView(IFFindTextView)
 
-- (void) find: (NSString*) phrase
+- (BOOL) find: (NSString*) phrase
 		 type: (IFFindType) type
 	direction: (int) direction 
 	fromPoint: (int) point {
 	// Do nothing if the phrase is empty
-	if ([phrase length] <= 0) return;
+	if ([phrase length] <= 0) return NO;
 	
 	BOOL insensitive = (type&IFFindCaseInsensitive)!=0;
 
@@ -74,29 +76,32 @@
 		[self setSelectedRange: matchRange];
 		[[[NSApp delegate] leopard] showFindIndicatorForRange: matchRange
 												   inTextView: self];
+		
+		return YES;
 	} else {
 		NSBeep();
+		return NO;
 	}
 }
 
 // = Basic interface =
 
-- (void) findNextMatch:	(NSString*) match
+- (BOOL) findNextMatch:	(NSString*) match
 				ofType: (IFFindType) type {
 	int matchPos = [self selectedRange].location + [self selectedRange].length;
-	[self find: match
-		  type: type
-	 direction: 1
-	 fromPoint: matchPos];
+	return [self find: match
+				 type: type
+			direction: 1
+			fromPoint: matchPos];
 }
 
-- (void) findPreviousMatch: (NSString*) match
+- (BOOL) findPreviousMatch: (NSString*) match
 					ofType: (IFFindType) type {
 	int matchPos = [self selectedRange].location;
-	[self find: match
-		  type: type
-	 direction: -1
-	 fromPoint: matchPos];
+	return [self find: match
+				 type: type
+			direction: -1
+			fromPoint: matchPos];
 }
 
 - (BOOL) canUseFindType: (IFFindType) find {
@@ -107,13 +112,15 @@
 	return [[self string] substringWithRange: [self selectedRange]];
 }
 
-// 'Find all'
+// = 'Find all' =
+
 - (NSArray*) findAllMatches: (NSString*) match
 		   inFindController: (IFFindController*) controller {
 	return nil;
 }
 
-// Search as you type
+// = Search as you type =
+
 - (void) beginSearchAsYouType {
 }
 
@@ -124,8 +131,30 @@
 - (void) endSearchAsYouType {
 }
 
-// Replace
+// = Replace =
+
+- (void) replaceFoundWith: (NSString*) match 
+					range: (NSRange) selected {
+	NSString* previousValue = [[self string] substringWithRange: selected];
+	
+	[[self textStorage] replaceCharactersInRange: selected
+									  withString: match];
+	selected.length = [match length];
+	[self setSelectedRange: selected];
+	
+	[[self undoManager] beginUndoGrouping];
+	[[self undoManager] setActionName: [[NSBundle mainBundle] localizedStringForKey: @"Replace"
+																			  value: @"Replace"
+																			  table: nil]];
+	[[[self undoManager] prepareWithInvocationTarget: self] replaceFoundWith: previousValue
+																	   range: selected];
+	[[self undoManager] endUndoGrouping];
+}
+
 - (void) replaceFoundWith: (NSString*) match {
+	NSRange selected = [self selectedRange];
+	[self replaceFoundWith: match
+					 range: selected];
 }
 
 - (void) replaceAllForPhrase: (NSString*) phrase

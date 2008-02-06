@@ -83,9 +83,19 @@
 }
 
 - (IBAction) replaceAndFind: (id) sender {
+	if (activeDelegate 
+		&& [activeDelegate respondsToSelector: @selector(replaceFoundWith:)] 
+		&& [activeDelegate respondsToSelector:@selector(findNextMatch:ofType:)]) {
+		[activeDelegate replaceFoundWith: [replacePhrase stringValue]];
+		[activeDelegate findNextMatch: [findPhrase stringValue]
+							   ofType: [self currentFindType]];
+	}
 }
 
 - (IBAction) replace: (id) sender {
+	if (activeDelegate && [activeDelegate respondsToSelector: @selector(replaceFoundWith:)]) {
+		[activeDelegate replaceFoundWith: [replacePhrase stringValue]];
+	}
 }
 
 - (IBAction) findAll: (id) sender {
@@ -111,6 +121,7 @@
 }
 
 - (void) keyDown: (NSEvent*) evt {
+	// TODO: this doesn't work
 	NSBeep();
 	
 	// Pressing <cr> while using the find box causes the find to take place and the window to close

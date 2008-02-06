@@ -76,9 +76,9 @@ typedef enum {
 @interface NSObject(IFFindDelegate)
 
 // Basic interface (all searchable objects must implement this)
-- (void) findNextMatch:	(NSString*) match
+- (BOOL) findNextMatch:	(NSString*) match
 				ofType: (IFFindType) type;
-- (void) findPreviousMatch: (NSString*) match
+- (BOOL) findPreviousMatch: (NSString*) match
 					ofType: (IFFindType) type;
 
 - (BOOL) canUseFindType: (IFFindType) find;
