@@ -23,10 +23,21 @@
 	if ([phrase length] <= 0) return NO;
 	
 	BOOL insensitive = (type&IFFindCaseInsensitive)!=0;
+	
+	// Create a matcher if we're using regular expressions
+	IFMatcher* matcher = nil;
+	if ((type&0xff) == IFFindRegexp) {
+		matcher = [[IFMatcher alloc] init];
+		[matcher autorelease];
+		
+		[matcher setCaseSensitive: insensitive];
+		[matcher addExpression: phrase
+					withObject: [NSNumber numberWithBool: YES]];
+	}
 
 	// Get the text
 	NSString* text = [[self textStorage] string];
-	if ([phrase length] > [text length]) return;
+	if ([phrase length] > [text length]) return NO;
 		 
 	// Get the characters for the phrase
 	if (insensitive) phrase = [phrase lowercaseString];
@@ -34,35 +45,78 @@
 	[phrase getCharacters: phraseBuf];
 	
 	int matchLoc = NSNotFound;
+	int matchLength = 0;
 	
 	// Simple search in the specified direction
 	int pos = point;
+	int phraseLength = [phrase length];
+	if (matcher) phraseLength = 1;
 	do {
 		// Move on to the next position
 		pos += direction;
 		
 		// Wrap around if necessary
 		if (direction < 0 && pos < 0) 
-			pos = [text length] - [phrase length];
-		if (direction > 0 && pos > [text length]-[phrase length])
+			pos = [text length] - phraseLength;
+		if (direction > 0 && pos > [text length]-phraseLength)
 			pos = 0;
 		
 		// See if we have a match at this position
-		int x;
-		BOOL match = YES;
-		for (x=0; x<[phrase length]; x++) {
-			unichar c = [text characterAtIndex: x+pos];
-			if (insensitive) c = towlower(c);
-			if (c != phraseBuf[x]) {
-				match = NO;
+		if (matcher) {
+			// Use the regexp matching algorithm
+			NSRange searchRange;
+			NSRange matchRange;
+			
+			if (direction == -1) {
+				// Searching backwards is horrendously inefficient
+				if (pos < point) {
+					searchRange.location = pos;
+					searchRange.length   = point - pos;
+				} else {
+					searchRange.location = pos;
+					searchRange.length	 = [text length] - pos;
+				}
+			} else {
+				// Searching forwards is much better!
+				if (pos == 0) {
+					searchRange.location = 0;
+					searchRange.length	= [text length];
+					pos = point;
+				} else {
+					searchRange.location = pos;
+					searchRange.length	 = [text length] - pos;
+					pos = [text length];
+				}
+			}
+			
+			if ([matcher nextMatchFromString: text
+								 searchRange: searchRange
+									  result: nil
+								 resultRange: &matchRange]) {
+				matchLoc	= matchRange.location;
+				matchLength = matchRange.length;
 				break;
 			}
-		}
-		
-		// Stop if we've got a match
-		if (match) {
-			matchLoc = pos;
-			break;
+		} else {
+			// Use the standard match algorithm
+			int x;
+			BOOL match = YES;
+			
+			for (x=0; x<[phrase length]; x++) {
+				unichar c = [text characterAtIndex: x+pos];
+				if (insensitive) c = towlower(c);
+				if (c != phraseBuf[x]) {
+					match = NO;
+					break;
+				}
+			}
+			
+			// Stop if we've got a match
+			if (match) {
+				matchLoc = pos;
+				matchLength = [phrase length];
+				break;
+			}
 		}
 	} while (pos != point);
 	
@@ -70,7 +124,7 @@
 	
 	if (matchLoc != NSNotFound) {
 		// Highlight the match
-		NSRange matchRange = NSMakeRange(matchLoc, [phrase length]);
+		NSRange matchRange = NSMakeRange(matchLoc, matchLength);
 		
 		[self scrollRangeToVisible: matchRange];
 		[self setSelectedRange: matchRange];

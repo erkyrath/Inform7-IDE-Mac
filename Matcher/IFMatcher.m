@@ -60,6 +60,7 @@ static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context);
 	[matcherLock release];
 	[results release];
 	[namedRegexps release];
+	[lastMatch release];
 	
 	[super dealloc];
 }
@@ -213,24 +214,29 @@ static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context) {
 - (void) accept: (ndfa_run_state) run_state
 		 length: (int) length
 		  state: (ndfa_pointer) state {
+	// Get the list of matches
+	NSMutableArray* matches = [[NSMutableArray alloc] init];
+	int dataCount;
+	void** data = ndfa_data_for_state(dfa, state, &dataCount);
+	int x;
+	
+	for (x=0; x<dataCount; x++) {
+		[matches addObject: (NSObject*)data[x]];
+	}
+	
+	// Remember this as the last match
+	[lastMatch autorelease];
+	lastMatch		= matches;
+	lastMatchRange	= NSMakeRange(matchPosition, length);
+		
 	if (matchDelegate && [matchDelegate respondsToSelector:@selector(match:inString:range:)]) {
-		// Get the list of matches
-		NSMutableArray* matches = [[NSMutableArray alloc] init];
-		int dataCount;
-		void** data = ndfa_data_for_state(dfa, state, &dataCount);
-		int x;
-		
-		for (x=0; x<dataCount; x++) {
-			[matches addObject: (NSObject*)data[x]];
-		}
-		
 		// Call the delegate
 		continueMatching = [matchDelegate match: matches
 									   inString: matchString
 										  range: NSMakeRange(matchPosition, length)];
-		
-		// Finish up with the data
-		[matches release];
+	} else {
+		// Stop at the first match if the delegate doesn't exist or doesn't do anything
+		continueMatching = NO;
 	}
 
 	matchPosition += length;
@@ -318,6 +324,87 @@ static void reject_handler(ndfa_run_state run_state, int length, ndfa_pointer st
 	// Finish up
 	ndfa_finish(run_state);
 	[matcherLock unlock];
+}
+
+- (BOOL) nextMatchFromString: (NSString*) string	// Finds the next match of in the specified string without using a delegate
+				 searchRange: (NSRange) range
+					  result: (NSArray**) result
+				 resultRange: (NSRange*) resultRange {
+	[matcherLock lock];
+	
+	// Ensure that we have a DFA to run
+	while (dfa == NULL) {
+		[matcherLock unlock];
+		[self compileLexer];
+		[matcherLock lock];
+	}
+	
+	// Prepare the run the DFA against the string
+	ndfa_run_state run_state = ndfa_start(dfa);
+	ndfa_add_handlers(run_state, accept_handler, reject_handler, self);
+	
+	unichar* buffer = malloc(sizeof(unichar)*RunBufferSize);
+	int bufPos = RunBufferSize;
+	int len = [string length];
+	int stringPos;
+	
+	matchPosition	= range.location;
+	matchDelegate	= nil;
+	matchString		= string;
+	
+	ndfa_run(run_state, NDFA_START);
+	ndfa_run(run_state, NDFA_STARTOFLINE);
+	continueMatching = YES;
+	[lastMatch autorelease];
+	lastMatch = nil;
+	for (stringPos = range.location; stringPos < range.location + range.length && continueMatching; stringPos++, bufPos++) {
+		// Read more characters from the buffer if necessary
+		if (bufPos >= RunBufferSize) {
+			NSRange charRange = NSMakeRange(stringPos, RunBufferSize);
+			if (charRange.location + charRange.length > len) charRange.length = len-charRange.location;
+			
+			if (caseSensitive) {
+				[string getCharacters: buffer
+								range: charRange];				
+			} else {
+				NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+				
+				NSString* lowerString = [[string substringWithRange: charRange] lowercaseString];
+				[lowerString getCharacters: buffer
+									 range: NSMakeRange(0, charRange.length)];
+				
+				[pool release];
+			}
+			bufPos = 0;
+		}
+		
+		// Process the next character
+		if (buffer[bufPos] == '\n' || buffer[bufPos] == '\r') {
+			// Treat newlines as start/ends
+			ndfa_run(run_state, NDFA_ENDOFLINE);
+			ndfa_run(run_state, buffer[bufPos]);
+			ndfa_run(run_state, NDFA_STARTOFLINE);
+		} else {
+			// Just run everything else straight through
+			ndfa_run(run_state, buffer[bufPos]);
+		}
+	}
+	ndfa_run(run_state, NDFA_ENDOFLINE);
+	ndfa_run(run_state, NDFA_END);
+	
+	// Finish up
+	ndfa_finish(run_state);
+	[matcherLock unlock];
+	
+	// Return the result
+	if (result) {
+		*result = lastMatch;
+	}
+	if (resultRange) {
+		*resultRange = lastMatchRange;
+	}
+	
+	return lastMatch != nil;
 }
 
 - (void) setCaseSensitive: (BOOL) isCaseSensitive {

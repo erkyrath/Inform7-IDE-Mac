@@ -29,6 +29,9 @@
 	id matchDelegate;								// The delegate passed to the matcher function
 	BOOL continueMatching;							// YES while we should continue performing matches
 	BOOL caseSensitive;								// If NO, then the string is made into lower case before matching
+	
+	NSArray* lastMatch;								// The last match we made
+	NSRange lastMatchRange;							// The range of the last match
 }
 
 // Initialisation
@@ -46,6 +49,11 @@
 - (void) match: (NSString*) string					// Runs the lexer against a specific string
   withDelegate: (id) lexDelegate;
 - (void) setCaseSensitive: (BOOL) isCaseSensitive;	// If isCaseSensitive is NO, then all the string is changed to lowercase before matching
+
+- (BOOL) nextMatchFromString: (NSString*) string	// Finds the next match of in the specified string without using a delegate
+				 searchRange: (NSRange) range
+					  result: (NSArray**) result
+				 resultRange: (NSRange*) resultRange;
 
 @end
 
