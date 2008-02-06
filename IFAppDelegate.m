@@ -474,6 +474,18 @@ static int stringCompare(id a, id b, void* context) {
 	[[IFFindController sharedFindController] showWindow: self];
 }
 
+- (IBAction) findNext: (id) sender {
+	[[IFFindController sharedFindController] findNext: self];
+}
+
+- (IBAction) findPrevious: (id) sender {
+	[[IFFindController sharedFindController] findPrevious: self];
+}
+
+- (IBAction) useSelectionForFind: (id) sender {
+	[[IFFindController sharedFindController] useSelectionForFind: self];
+}
+
 // = Leopard extensions =
 
 - (id<IFLeopardProtocol>) leopard {

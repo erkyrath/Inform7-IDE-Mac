@@ -33,6 +33,9 @@
 - (IBAction) docIndex: (id) sender;					// Displays an error about not being able to show help yet
 
 - (IBAction) showFind2: (id) sender;				// Shows the 'new' find dialog
+- (IBAction) findNext: (id) sender;					// 'Find next'
+- (IBAction) findPrevious: (id) sender;				// 'Find previous'
+- (IBAction) useSelectionForFind: (id) sender;		// 'Use selection for find'
 
 - (void) updateExtensions;							// Updates extensions menu
 - (NSMutableArray*) extensionsInDirectory: (NSString*) directory;		// (DEPRECATED) gets the list of extensions in a particular directory. Use the extension manager instead.

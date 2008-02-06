@@ -59,6 +59,11 @@ typedef enum {
 - (IBAction) replaceAndFind: (id) sender;
 - (IBAction) replace: (id) sender;
 - (IBAction) findAll: (id) sender;
+- (IBAction) useSelectionForFind: (id) sender;
+
+// Menu actions
+- (BOOL) canFindAgain: (id) sender;										// YES if find next/previous can be sensibly repeated
+- (BOOL) canUseSelectionForFind: (id) sender;							// YES if 'useSelectionForFind' will work
 
 // Updating the find window
 - (void) updateFromFirstResponder;										// Updates the status of the find window from the first responder
@@ -78,15 +83,18 @@ typedef enum {
 
 - (BOOL) canUseFindType: (IFFindType) find;
 
+- (NSString*) currentSelectionForFind;
+
 // 'Find all'
 - (NSArray*) findAllMatches: (NSString*) match
 		   inFindController: (IFFindController*) controller;
 
 // Search as you type
-- (void) beginSearchAsYouType;
+- (id) beginSearchAsYouType;
 - (void) findAsYouType: (NSString*) phrase
-				ofType: (IFFindType) type;
-- (void) endSearchAsYouType;
+				ofType: (IFFindType) type
+			withObject: (id) object;
+- (void) endSearchAsYouType: (id) object;
 
 // Replace
 - (void) replaceFoundWith: (NSString*) match;

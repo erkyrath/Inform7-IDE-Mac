@@ -91,6 +91,39 @@
 - (IBAction) findAll: (id) sender {
 }
 
+- (IBAction) useSelectionForFind: (id) sender {
+	if (activeDelegate && [activeDelegate respondsToSelector: @selector(currentSelectionForFind)]) {
+		NSString* searchFor = [activeDelegate currentSelectionForFind];
+		if (searchFor && ![@"" isEqualToString: searchFor]) {
+			[findPhrase setStringValue: searchFor];
+			[self findNext: self];
+			return;
+		}
+	}
+	
+	NSBeep();
+}
+
+// = Find menu actions =
+
+- (BOOL) canFindAgain: (id) sender {
+	if (activeDelegate && ![@"" isEqualToString: [findPhrase stringValue]]) {
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+- (BOOL) canUseSelectionForFind: (id) sender {
+	if (activeDelegate && [activeDelegate respondsToSelector: @selector(currentSelectionForFind)]) {
+		if (![@"" isEqualToString: [activeDelegate currentSelectionForFind]]) {
+			return YES;
+		}
+	}
+	
+	return NO;
+}
+
 // = Updating the find delegate =
 
 - (BOOL) isSuitableDelegate: (id) object {
