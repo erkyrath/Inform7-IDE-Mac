@@ -102,6 +102,10 @@
 	return YES;
 }
 
+- (NSString*) currentSelectionForFind {
+	return [[self string] substringWithRange: [self selectedRange]];
+}
+
 // 'Find all'
 - (NSArray*) findAllMatches: (NSString*) match
 		   inFindController: (IFFindController*) controller {

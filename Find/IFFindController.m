@@ -92,10 +92,15 @@
 }
 
 - (IBAction) useSelectionForFind: (id) sender {
+	// Hack: ensure the window is loaded
+	[self window];
+	
 	if (activeDelegate && [activeDelegate respondsToSelector: @selector(currentSelectionForFind)]) {
 		NSString* searchFor = [activeDelegate currentSelectionForFind];
 		if (searchFor && ![@"" isEqualToString: searchFor]) {
 			[findPhrase setStringValue: searchFor];
+			[searchType selectItem: containsItem];
+			
 			[self findNext: self];
 			return;
 		}
