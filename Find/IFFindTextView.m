@@ -50,6 +50,7 @@
 		BOOL match = YES;
 		for (x=0; x<[phrase length]; x++) {
 			unichar c = [text characterAtIndex: x+pos];
+			if (insensitive) c = towlower(c);
 			if (c != phraseBuf[x]) {
 				match = NO;
 				break;

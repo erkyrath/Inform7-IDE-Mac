@@ -106,7 +106,18 @@
 		}
 	}
 	
+	// Can't do this!
 	NSBeep();
+}
+
+- (void) keyDown: (NSEvent*) evt {
+	NSBeep();
+	
+	// Pressing <cr> while using the find box causes the find to take place and the window to close
+	if ([[evt characters] isEqualToString: @"\r"] || [[evt characters] isEqualToString: @"\n"]) {
+		[[self window] orderOut: self];
+		[self findNext: self];
+	}
 }
 
 // = Find menu actions =
@@ -232,9 +243,6 @@
 - (void) windowDidBecomeKey: (NSNotification*) not {
 	// Update this window again as the first responder may have changed (can't get notifications for this)
 	[self updateFromFirstResponder];
-	
-	// Pass on the message
-	[super windowDidBecomeKey: not];
 }
 
 @end
