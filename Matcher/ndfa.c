@@ -495,6 +495,14 @@ static void add_data(ndfa nfa, void* data, ndfa_pointer state) {
 	/* Do nothing if this is no data */
 	if (data == NULL) return;
 	
+	/* Don't add the same data twice */
+	int x;
+	for (x=0; x<nfa->states[state].num_data; x++) {
+		if (nfa->states[state].data_pointers[x] == data) {
+			return;
+		}
+	}
+	
 	/* Add a new data pointer to the specified state */
 	nfa->states[state].num_data++;
 	nfa->states[state].data_pointers = realloc(nfa->states[state].data_pointers, sizeof(void*)*nfa->states[state].num_data);
