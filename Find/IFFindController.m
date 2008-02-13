@@ -7,6 +7,7 @@
 //
 
 #import "IFFindController.h"
+#import "IFAppDelegate.h"
 
 
 @implementation IFFindController
@@ -40,6 +41,7 @@
 - (void) dealloc {
 	// Stop receiving notifications
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[auxView release];
 	
 	// Finish up
 	[super dealloc];
@@ -99,6 +101,7 @@
 }
 
 - (IBAction) findAll: (id) sender {
+	[self showAuxiliaryView: findAllView];
 }
 
 - (IBAction) useSelectionForFind: (id) sender {
@@ -118,6 +121,27 @@
 	
 	// Can't do this!
 	NSBeep();
+}
+
+- (IBAction) findTypeChanged: (id) sender {
+	if ([searchType selectedItem] == regexpItem) {
+		[self showAuxiliaryView: regexpHelpView];
+	} else {
+		if (auxView == regexpHelpView) {
+			[self showAuxiliaryView: nil];
+		}
+	}
+}
+
+- (IBAction) toggleRegexpHelp: (id) sender {
+	if (auxView != regexpHelpView) return;
+	
+	if ([showRegexpHelp state] == NSOffState) {
+		[[NSApp delegate] removeView: regexpTextView];
+	} else {
+		[[NSApp delegate] addView: regexpTextView
+						   toView: regexpHelpView];
+	}
 }
 
 - (void) keyDown: (NSEvent*) evt {
@@ -249,11 +273,59 @@
 						   
 - (void) windowDidLoad {
 	[self updateFromFirstResponder];
+	
+	winFrame		= [[self window] frame];
+	contentFrame	= [[[self window] contentView] frame];
+	
+	textViewSize	= [regexpTextView frame];
 }
 
 - (void) windowDidBecomeKey: (NSNotification*) not {
 	// Update this window again as the first responder may have changed (can't get notifications for this)
 	[self updateFromFirstResponder];
+}
+
+// = The auxiliary view =
+
+- (void) showAuxiliaryView: (NSView*) newAuxView {
+	// Do nothing if the aux view hasn't changed
+	if (newAuxView == auxView) return;
+	
+	// Hide the old auxiliary view
+	if (auxView) {
+		[[NSApp delegate] removeView: auxView];
+		[auxView autorelease];
+		auxView = nil;
+	}
+	
+	// Show the new auxiliary view
+	NSRect viewFrame	= [[[self window] contentView] frame];
+	NSRect auxFrame		= NSMakeRect(0,0,0,0);
+	
+	if (newAuxView) {
+		// Remember this view
+		auxView		= [newAuxView retain];
+		auxFrame	= [auxView frame];
+		
+		// Set its size
+		auxFrame.origin		= NSMakePoint(NSMinX(contentFrame), NSMaxY(viewFrame)-contentFrame.size.height-auxFrame.size.height);
+		auxFrame.size.width = [[[self window] contentView] frame].size.width;
+		[auxView setFrame: auxFrame];
+		
+		// Add it to the window
+		[[NSApp delegate] addView: auxView
+						   toView: [[self window] contentView]];
+	}
+	
+	// Resize the window
+	NSRect newWinFrame = [[self window] frame];
+
+	float heightDiff		= (winFrame.size.height + auxFrame.size.height) - newWinFrame.size.height;
+	newWinFrame.size.height += heightDiff;
+	newWinFrame.origin.y	-= heightDiff;
+
+	[[NSApp delegate] setFrame: newWinFrame
+					  ofWindow: [self window]];
 }
 
 @end

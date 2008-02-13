@@ -42,5 +42,12 @@
 - (NSArray*) directoriesToSearch: (NSString*) extensionSubdirectory;	// (DEPRECATED) gets the list of directories to search for extensions. Use the extension manager instead.
 
 - (id<IFLeopardProtocol>) leopard;					// The leopard extensions (if available)
+- (void) setFrame: (NSRect) newFrame				// Sets the frame of the specified window (with animation on leopard)
+		 ofWindow: (NSWindow*) window;
+- (void) setFrame: (NSRect) frame					// Sets the frame of the specified view to the specified size (with animation on leopard)
+		   ofView: (NSView*) view;
+- (void) addView: (NSView*) newView					// Adds the specified view to the given subview (with animation on leopard)
+		  toView: (NSView*) superView;
+- (void) removeView: (NSView*) view;				// Removes the specified view from its superview (with animation on leopard)
 
 @end

@@ -492,4 +492,43 @@ static int stringCompare(id a, id b, void* context) {
 	return leopard;
 }
 
+- (void) setFrame: (NSRect) newFrame
+		 ofWindow: (NSWindow*) window {
+	if (leopard) {
+		[leopard setFrame: newFrame
+				 ofWindow: window];
+	} else {
+		[window setFrame: newFrame
+				 display: YES];
+	}
+}
+
+- (void) setFrame: (NSRect) frame
+		   ofView: (NSView*) view {
+	if (leopard) {
+		[leopard setFrame: frame
+				   ofView: view];
+	} else {
+		[view setFrame: frame];
+	}
+}
+
+- (void) addView: (NSView*) newView
+		  toView: (NSView*) superView {
+	if (leopard) {
+		[leopard addView: newView
+				  toView: superView];
+	} else {
+		[superView addSubview: newView];
+	}
+}
+
+- (void) removeView: (NSView*) view {
+	if (leopard) {
+		[leopard removeView: view];
+	} else {
+		[view removeFromSuperview];
+	}
+}
+
 @end
