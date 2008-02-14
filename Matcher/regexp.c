@@ -369,11 +369,11 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				/* A named regular expression or a repeat count */
 				
 				/* Format is {2}, {,2}, {2,4}, {2,} or {NAME} */
-				int min_count = 0;
-				int max_count = 0;
+				int min_count 	= 0;
+				int max_count 	= 0;
 				
-				int is_min = 1;
-				int is_name = 0;
+				int is_min 		= 1;
+				int is_name	 	= 0;
 				
 				int start_pos = x;
 				
@@ -400,7 +400,7 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 				}
 				
 				if (is_min) max_count = min_count;
-				if (min_count == 0) is_name = 1;								/* Can't be used for 0 repetitions */
+				if (min_count == 0 && max_count == 0) is_name = 1;				/* Can't be used for 0 repetitions */
 				if (max_count <= 1) is_name = 1;								/* One repetition also makes no sense */
 				if (max_count != 0 && min_count > max_count) is_name = 1;		/* Maximum number of repetitions must be greater than the minimum */
 				
@@ -435,7 +435,19 @@ int ndfa_compile_regexp_ucs4(ndfa nfa, const ndfa_token* regexp, void* data) {
 						}
 					} else {
 						/* Bounded number of repetitions */
-						ndfa_repeat_number(nfa, min_count-1, max_count-1, 0);						
+						if (min_count == 0) {
+							/* Similar to * */
+							this_state = ndfa_get_pointer(nfa);
+							ndfa_set_pointer(nfa, recent_state);
+							ndfa_push(nfa);
+							ndfa_or(nfa);
+							ndfa_set_pointer(nfa, this_state);
+							ndfa_repeat_number(nfa, 0, max_count-1, 0);						
+							ndfa_rejoin(nfa);
+						} else {
+							/* Repeat between min_count and max_count times */
+							ndfa_repeat_number(nfa, min_count-1, max_count-1, 0);						
+						}
 					}
 
 					/* Pop the state we just pushed  */
