@@ -45,6 +45,8 @@ typedef enum {
 	IBOutlet NSButton*		includeDocumentation;						// The 'include documentation' check box
 	IBOutlet NSTableView*	findAllTable;								// The 'find all' results table
 	
+	IBOutlet NSView*		auxViewPanel;								// The auxilary view panel
+	
 	// The regular expression help view
 	IBOutlet NSView*		regexpHelpView;								// The view containing information about regexps
 	IBOutlet NSView*		regexpTextView;								// The view containing the text for the regexp help

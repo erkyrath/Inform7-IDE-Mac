@@ -19,6 +19,7 @@
 
 // Animation
 
+- (void) prepareToAnimateView: (NSView*) view;							// Sets up the specified view to be animated
 - (void) setFrame: (NSRect) newFrame									// Sets the frame of the specified window (with animation on leopard)
 		 ofWindow: (NSWindow*) window;
 - (void) setFrame: (NSRect) frame										// Sets the frame of the specified view to the specified size (with animation on leopard)

@@ -278,6 +278,8 @@
 	contentFrame	= [[[self window] contentView] frame];
 	
 	textViewSize	= [regexpTextView frame];
+	
+	[[[NSApp delegate] leopard] prepareToAnimateView: auxViewPanel];
 }
 
 - (void) windowDidBecomeKey: (NSNotification*) not {
@@ -299,7 +301,6 @@
 	}
 	
 	// Show the new auxiliary view
-	NSRect viewFrame	= [[[self window] contentView] frame];
 	NSRect auxFrame		= NSMakeRect(0,0,0,0);
 	
 	if (newAuxView) {
@@ -308,13 +309,13 @@
 		auxFrame	= [auxView frame];
 		
 		// Set its size
-		auxFrame.origin		= NSMakePoint(NSMinX(contentFrame), NSMaxY(viewFrame)-contentFrame.size.height-auxFrame.size.height);
+		auxFrame.origin		= NSMakePoint(0, NSMaxY(auxViewPanel.bounds)-auxFrame.size.height);
 		auxFrame.size.width = [[[self window] contentView] frame].size.width;
 		[auxView setFrame: auxFrame];
 		
 		// Add it to the window
 		[[NSApp delegate] addView: auxView
-						   toView: [[self window] contentView]];
+						   toView: auxViewPanel];
 	}
 	
 	// Resize the window
