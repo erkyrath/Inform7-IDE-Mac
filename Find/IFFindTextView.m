@@ -114,6 +114,32 @@
 				}
 			}
 			
+			if (match && ((type&0xff) == IFFindBeginsWith || (type&0xff) == IFFindCompleteWord)) {
+				// This match must be at the start of a word
+				unichar preceedingChar = ' ';
+				if (pos > 0) {
+					preceedingChar = [text characterAtIndex: pos-1];
+				}
+				
+				if (!iswblank(preceedingChar) && !iswpunct(preceedingChar)) {
+					// Words begin with whitespace, or punctuation
+					match = NO;
+				}
+			}
+
+			if (match && (type&0xff) == IFFindCompleteWord) {
+				// This match must be at the end of a word
+				unichar followingChar = ' ';
+				if (pos + [phrase length] < [text length]) {
+					followingChar = [text characterAtIndex: pos+[phrase length]];
+				}
+				
+				if (!iswblank(followingChar) && !iswpunct(followingChar)) {
+					// Words end with whitespace, or punctuation
+					match = NO;
+				}
+			}
+			
 			// Stop if we've got a match
 			if (match) {
 				matchLoc = pos;
