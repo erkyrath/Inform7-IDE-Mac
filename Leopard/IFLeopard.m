@@ -7,6 +7,7 @@
 //
 
 #import "IFLeopard.h"
+#import "IFRemoveViewWhenDone.h"
 
 
 @implementation IFLeopard
@@ -138,6 +139,8 @@
 	fadeAnimation.repeatCount		= 1;
 	fadeAnimation.duration			= 0.3;
 	fadeAnimation.timingFunction	= [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseInEaseOut];
+	
+	fadeAnimation.delegate			= [[IFRemoveViewWhenDone alloc] initWithView: view];
 	
 	// Also scale it up
 	CATransform3D shrunk = CATransform3DIdentity;
