@@ -448,29 +448,32 @@
 	// Do nothing if the aux view hasn't changed
 	if (newAuxView == auxView) return;
 	
+	[[[NSApp delegate] leopard] prepareToAnimateView: auxViewPanel];
+	[auxViewPanel setNeedsDisplay: YES];
+
 	// Hide the old auxiliary view
+	[auxViewPanel setNeedsDisplay: YES];
 	if (auxView) {
+		[auxView setNeedsDisplay: YES];
 		[[NSApp delegate] removeView: auxView];
 		[auxView autorelease];
 		auxView = nil;
 	}
+	
+	// Hack: Core animation is rubbish and screws everything up if you try to resize the window immediately after adding a layer to a view
+	[[self window] displayIfNeeded];
 	
 	// Show the new auxiliary view
 	NSRect auxFrame		= NSMakeRect(0,0,0,0);
 	
 	if (newAuxView) {
 		// Remember this view
-		auxView		= [newAuxView retain];
-		auxFrame	= [auxView frame];
+		auxFrame	= [newAuxView frame];
 		
 		// Set its size
 		auxFrame.origin		= NSMakePoint(0, NSMaxY(auxViewPanel.bounds)-auxFrame.size.height);
 		auxFrame.size.width = [[[self window] contentView] frame].size.width;
-		[auxView setFrame: auxFrame];
-		
-		// Add it to the window
-		[[NSApp delegate] addView: auxView
-						   toView: auxViewPanel];
+		[newAuxView setFrame: auxFrame];
 	}
 	
 	// Resize the window
@@ -482,6 +485,19 @@
 
 	[[NSApp delegate] setFrame: newWinFrame
 					  ofWindow: [self window]];
+	
+	// Add the new view
+	if (newAuxView) {
+		[newAuxView setNeedsDisplay: YES];
+		auxView		= [newAuxView retain];
+
+		auxFrame.origin		= NSMakePoint(0, NSMaxY(auxViewPanel.bounds)-auxFrame.size.height);
+		auxFrame.size.width = [[[self window] contentView] frame].size.width;
+		[newAuxView setFrame: auxFrame];
+
+		[[NSApp delegate] addView: newAuxView
+						   toView: auxViewPanel];
+	}
 }
 
 @end

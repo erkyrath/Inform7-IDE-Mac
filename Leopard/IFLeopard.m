@@ -8,6 +8,7 @@
 
 #import "IFLeopard.h"
 #import "IFRemoveViewWhenDone.h"
+#import "IFRemoveLayerWhenDone.h"
 
 
 @implementation IFLeopard
@@ -25,14 +26,18 @@
 						layer: (CALayer*) layer {
 	NSEnumerator* subviewEnum = [[view subviews] objectEnumerator];
 	NSView* subview;
+	/*
 	while (subview = [subviewEnum nextObject]) {
 		[self prepareToAnimateView: subview
 							 layer: nil];		
 	}
+	 */
 	
 	if (![view wantsLayer]) {
 		[view setWantsLayer: YES];
 		[view setNeedsDisplay: YES];
+
+		view.layer.autoresizingMask = kCALayerMaxYMargin | kCALayerWidthSizable;
 		[[view layer] setNeedsDisplay];
 	}
 	
@@ -101,7 +106,8 @@
 	fadeAnimation.repeatCount		= 1;
 	fadeAnimation.duration			= 0.3;
 	fadeAnimation.timingFunction	= [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseInEaseOut];
-									   
+	fadeAnimation.delegate			= [[[IFRemoveLayerWhenDone alloc] initWithView: newView] autorelease];
+	
 	// Also scale it up
 	CATransform3D shrunk = CATransform3DIdentity;
 	shrunk = CATransform3DTranslate(shrunk, newView.frame.size.width * 0.1, newView.frame.size.height * 0.1, 0);
@@ -115,6 +121,7 @@
 	scaleAnim.repeatCount			= 1;
 	scaleAnim.duration				= 0.3;
 	scaleAnim.timingFunction		= [CAMediaTimingFunction functionWithName: kCAMediaTimingFunctionEaseInEaseOut];	
+	scaleAnim.delegate				= [[[IFRemoveLayerWhenDone alloc] initWithView: superView] autorelease];
 	
 	// Run the animations
 	[newView.layer addAnimation: fadeAnimation
@@ -124,6 +131,9 @@
 }
 
 - (void) removeView: (NSView*) view {
+	if (![[view superview] wantsLayer]) {
+		[self prepareToAnimateView: [view superview]];
+	}
 	if (![view wantsLayer]) { 
 		[self prepareToAnimateView: view.superview];
 	}
