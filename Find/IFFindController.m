@@ -433,7 +433,7 @@
 													  value: key
 													  table: nil];
 	} else if ([ident isEqualToString: @"context"]) {
-		return [row context];
+		return [row attributedContext];
 	}
 	
 	return nil;

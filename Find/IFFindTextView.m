@@ -226,7 +226,7 @@
 				if (contextStart > 0) chr = [[[self textStorage] string] characterAtIndex: contextStart-1];
 				if (chr == '\n' || chr == '\r') break;
 			}
-			int contextEnd   = nextMatch.location + nextMatch.length + 64;
+			int contextEnd   = nextMatch.location + nextMatch.length + 128;
 			
 			if (contextEnd > [[self textStorage] length]) contextEnd = [[self textStorage] length];
 			
