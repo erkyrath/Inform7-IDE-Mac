@@ -8,6 +8,7 @@
 
 #import "IFFindTextView.h"
 #import "IFFindController.h"
+#import "IFFindResult.h"
 #import "IFAppDelegate.h"
 #import "IFMatcher.h"
 
@@ -15,12 +16,14 @@
 
 @implementation NSTextView(IFFindTextView)
 
-- (BOOL) find: (NSString*) phrase
-		 type: (IFFindType) type
-	direction: (int) direction 
-	fromPoint: (int) point {
+- (NSRange) find: (NSString*) phrase
+			type: (IFFindType) type
+	   direction: (int) direction 
+	   fromPoint: (int) point {
+	NSRange result = NSMakeRange(NSNotFound, NSNotFound);
+	
 	// Do nothing if the phrase is empty
-	if ([phrase length] <= 0) return NO;
+	if ([phrase length] <= 0) return result;
 	
 	BOOL insensitive = (type&IFFindCaseInsensitive)!=0;
 	
@@ -37,7 +40,7 @@
 
 	// Get the text
 	NSString* text = [[self textStorage] string];
-	if ([phrase length] > [text length]) return NO;
+	if ([phrase length] > [text length]) return NSMakeRange(NSNotFound, NSNotFound);
 		 
 	// Get the characters for the phrase
 	if (insensitive) phrase = [phrase lowercaseString];
@@ -126,15 +129,11 @@
 		// Highlight the match
 		NSRange matchRange = NSMakeRange(matchLoc, matchLength);
 		
-		[self scrollRangeToVisible: matchRange];
-		[self setSelectedRange: matchRange];
-		[[[NSApp delegate] leopard] showFindIndicatorForRange: matchRange
-												   inTextView: self];
+		result = matchRange;
 		
-		return YES;
+		return result;
 	} else {
-		NSBeep();
-		return NO;
+		return NSMakeRange(NSNotFound, NSNotFound);
 	}
 }
 
@@ -143,19 +142,41 @@
 - (BOOL) findNextMatch:	(NSString*) match
 				ofType: (IFFindType) type {
 	int matchPos = [self selectedRange].location + [self selectedRange].length;
-	return [self find: match
-				 type: type
-			direction: 1
-			fromPoint: matchPos];
+	NSRange matchRange = [self find: match
+							   type: type
+						  direction: 1
+						  fromPoint: matchPos];
+	
+	if (matchRange.location != NSNotFound) {
+		[self scrollRangeToVisible: matchRange];
+		[self setSelectedRange: matchRange];
+		[[[NSApp delegate] leopard] showFindIndicatorForRange: matchRange
+												   inTextView: self];
+		return YES;
+	} else {
+		NSBeep();
+		return NO;
+	}
 }
 
 - (BOOL) findPreviousMatch: (NSString*) match
 					ofType: (IFFindType) type {
 	int matchPos = [self selectedRange].location;
-	return [self find: match
-				 type: type
-			direction: -1
-			fromPoint: matchPos];
+	NSRange matchRange =  [self find: match
+								type: type
+						   direction: -1
+						   fromPoint: matchPos];
+	
+	if (matchRange.location != NSNotFound) {
+		[self scrollRangeToVisible: matchRange];
+		[self setSelectedRange: matchRange];
+		[[[NSApp delegate] leopard] showFindIndicatorForRange: matchRange
+												   inTextView: self];
+		return YES;
+	} else {
+		NSBeep();
+		return NO;
+	}
 }
 
 - (BOOL) canUseFindType: (IFFindType) find {
@@ -169,8 +190,54 @@
 // = 'Find all' =
 
 - (NSArray*) findAllMatches: (NSString*) match
-		   inFindController: (IFFindController*) controller {
-	return nil;
+					 ofType: (IFFindType) type
+		   inFindController: (IFFindController*) controller
+			 withIdentifier: (id) identifier {
+	// Do nothing if no phrase is supplied
+	if ([match length] <= 0) return nil;
+	
+	// Prepare to match all of the results
+	int pos = 0;
+	NSRange nextMatch;
+	NSMutableArray* result = [[NSMutableArray alloc] init];
+	
+	for (;;) {
+		// Find the next result.
+		// TODO: preserve the matcher if possible
+		nextMatch = [self find: match
+						  type: type
+					 direction: 1
+					 fromPoint: pos];
+		
+		// If this match is valid, then add it to the list of results
+		if (nextMatch.location >= pos && nextMatch.location != NSNotFound) {
+			// Ignore it if it has no length
+			if (nextMatch.length == 0) {
+				pos = nextMatch.location + 1;
+				continue;
+			}
+			
+			// Try to use 64 characters of context on either side of the match
+			int contextStart = nextMatch.location - 64;
+			int contextEnd   = nextMatch.location + nextMatch.length + 64;
+			
+			if (contextStart < 0) contextStart = 0;
+			if (contextEnd > [[self textStorage] length]) contextEnd = [[self textStorage] length];
+			
+			[result addObject: [[[IFFindResult alloc] initWithMatchType: @"Text"
+															   location: @"Text"
+																context: [[[self textStorage] string] substringWithRange: NSMakeRange(contextStart, contextEnd-contextStart)]
+														   contextRange: NSMakeRange(nextMatch.location - contextStart, nextMatch.length)
+																   data: nil] autorelease]];
+			
+			// Move to the next position
+			pos = nextMatch.location + nextMatch.length;
+		} else {
+			break;
+		}
+	};
+	
+	return result;
 }
 
 // = Search as you type =

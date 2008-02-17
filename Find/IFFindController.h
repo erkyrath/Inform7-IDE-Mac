@@ -40,10 +40,10 @@ typedef enum {
 	IBOutlet NSButton*		replaceAndFind;
 	IBOutlet NSButton*		replace;
 	IBOutlet NSButton*		findAll;
+	IBOutlet NSProgressIndicator* findProgress;							// The 'searching' progress indicator
 	
-	IBOutlet NSView*		findAllResults;								// The 'find all' results view
+	IBOutlet NSView*		findAllResultView;							// The 'find all' results view
 	IBOutlet NSButton*		includeDocumentation;						// The 'include documentation' check box
-	IBOutlet NSTableView*	findAllTable;								// The 'find all' results table
 	
 	IBOutlet NSView*		auxViewPanel;								// The auxilary view panel
 	
@@ -54,7 +54,16 @@ typedef enum {
 	NSRect textViewSize;												// The original size of the text view
 	
 	// The 'find all' view
+	IBOutlet NSView*		foundNothingView;							// The view to show if we don't find any matches
 	IBOutlet NSView*		findAllView;								// The main 'find all' view
+	IBOutlet NSTableColumn* typeColumn;									// The 'type' table column
+	IBOutlet NSTableColumn* locationColumn;								// The 'location' table column
+	IBOutlet NSTableView*	findAllTable;								// The 'find all' results table
+	
+	BOOL					searching;									// YES if we're searching for results
+	NSMutableArray*			findAllResults;								// The 'find all' results view
+	int						findAllCount;								// Used to generate the identifier
+	id						findIdentifier;								// The current find all identifier
 	
 	// Auxiliary views
 	NSView* auxView;													// The auxiliary view that is being displayed
@@ -87,7 +96,8 @@ typedef enum {
 - (void) updateFromFirstResponder;										// Updates the status of the find window from the first responder
 - (void) willFindMore: (id) identifier;									// The 'Find All' process with the specified identifier will find more matches
 - (void) finishedSearching: (id) identifier;							// The 'Find All' process with the specified identifier has completed
-- (void) foundItems: (NSArray*) items;									// Found new items for the 'find more' window
+- (void) foundItems: (NSArray*) items									// Found new items for the 'find more' window
+	 withIdentifier: (id) identifier;
 
 - (void) showAuxiliaryView: (NSView*) auxView;							// Shows the specified auxiliary view in the find window
 
@@ -110,6 +120,7 @@ typedef enum {
 
 // 'Find all'
 - (NSArray*) findAllMatches: (NSString*) match
+					 ofType: (IFFindType) type
 		   inFindController: (IFFindController*) controller
 			 withIdentifier: (id) identifier;
 

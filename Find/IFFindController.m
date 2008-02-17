@@ -8,6 +8,7 @@
 
 #import "IFFindController.h"
 #import "IFAppDelegate.h"
+#import "IFFindResult.h"
 
 
 @implementation IFFindController
@@ -42,6 +43,12 @@
 	// Stop receiving notifications
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
 	[auxView release];
+	
+	[findAllResults release];
+	[findIdentifier release];
+	
+	[locationColumn release];
+	[typeColumn release];
 	
 	// Finish up
 	[super dealloc];
@@ -98,10 +105,6 @@
 	if (activeDelegate && [activeDelegate respondsToSelector: @selector(replaceFoundWith:)]) {
 		[activeDelegate replaceFoundWith: [replacePhrase stringValue]];
 	}
-}
-
-- (IBAction) findAll: (id) sender {
-	[self showAuxiliaryView: findAllView];
 }
 
 - (IBAction) useSelectionForFind: (id) sender {
@@ -216,7 +219,7 @@
 }
 
 - (BOOL) canFindAll {
-	return [activeDelegate respondsToSelector: @selector(findAllMatches:inFindController:)];
+	return [activeDelegate respondsToSelector: @selector(findAllMatches:ofType:inFindController:withIdentifier:)];
 }
 
 - (BOOL) supportsFindType: (IFFindType) type {
@@ -259,16 +262,31 @@
 	}
 }
 
+- (void) setActiveDelegate: (id) newDelegate {
+	if (newDelegate == activeDelegate) return;
+	
+	activeDelegate = newDelegate;
+
+	[findIdentifier autorelease]; findIdentifier = nil;
+	if (searching) {
+		[findProgress stopAnimation: self];
+		searching = NO;
+	}
+	if (auxView != regexpHelpView) {
+		[self showAuxiliaryView: nil];
+	}
+
+	[self updateControls];
+}
+
 - (void) updateFromFirstResponder {
 	NSWindow* mainWindow = [NSApp mainWindow];
-	activeDelegate = [self chooseDelegateFromWindow: mainWindow];
-	[self updateControls];
+	[self setActiveDelegate: [self chooseDelegateFromWindow: mainWindow]];
 }
 
 - (void) mainWindowChanged: (NSNotification*) not {
 	// Update this control from the first responder
-	activeDelegate = [self chooseDelegateFromWindow: [not object]];
-	[self updateControls];
+	[self setActiveDelegate: [self chooseDelegateFromWindow: [not object]]];
 }
 						   
 - (void) windowDidLoad {
@@ -278,6 +296,9 @@
 	contentFrame	= [[[self window] contentView] frame];
 	
 	textViewSize	= [regexpTextView frame];
+
+	[typeColumn retain];
+	[locationColumn retain];
 	
 	[[[NSApp delegate] leopard] prepareToAnimateView: auxViewPanel];
 }
@@ -285,6 +306,127 @@
 - (void) windowDidBecomeKey: (NSNotification*) not {
 	// Update this window again as the first responder may have changed (can't get notifications for this)
 	[self updateFromFirstResponder];
+}
+
+// = 'Find all' =
+
+- (void) updateFindAllResults {
+	// Show nothing if there are no results in the find view
+	if ([findAllResults count] <= 0) {
+		[self showAuxiliaryView: foundNothingView];
+		return;
+	}
+	
+	// Decide whether or not to show the 'location' and 'type' columns
+	NSMutableSet* locations	= [NSMutableSet set];
+	NSMutableSet* types		= [NSMutableSet set];
+	
+	NSEnumerator* resultEnum = [findAllResults objectEnumerator];
+	IFFindResult* result;
+	while (result = [resultEnum nextObject]) {
+		[locations addObject: [result location]];
+		[types addObject: [result matchType]];
+	}
+	
+	[findAllTable removeTableColumn: typeColumn];
+	[findAllTable removeTableColumn: locationColumn];
+	
+	if ([locations count] > 1) {
+		[findAllTable addTableColumn: locationColumn];
+		[findAllTable moveColumn: [findAllTable columnWithIdentifier: @"location"]
+						toColumn: 0];
+	}
+	if ([types count] > 1) {
+		[findAllTable addTableColumn: typeColumn];
+		[findAllTable moveColumn: [findAllTable columnWithIdentifier: @"type"]
+						toColumn: 0];
+	}
+	
+	// Refresh the table
+	[self showAuxiliaryView: findAllView];
+	[findAllTable reloadData];
+}
+
+- (void) willFindMore: (id) identifier {
+	if (identifier == findIdentifier) {
+		[findProgress startAnimation: self];
+		searching = YES;
+	}
+}
+
+- (void) finishedSearching: (id) identifier {
+	if (identifier == findIdentifier) {
+		[findProgress stopAnimation: self];
+		searching = NO;
+	}
+}
+
+- (void) foundItems: (NSArray*) items
+	 withIdentifier: (id) identifier {
+	if (!items) return;
+	
+	if (identifier == findIdentifier) {
+		[findAllResults addObjectsFromArray: items];
+		[self updateFindAllResults];
+	}
+}
+
+- (IBAction) findAll: (id) sender {
+	if (![self canFindAll]) {
+		return;
+	}
+	
+	// Create a new find identifier
+	[findIdentifier autorelease];
+	findAllCount++;
+	findIdentifier = [[NSNumber alloc] initWithInt: findAllCount];
+	
+	// Clear out the find results
+	[findAllResults autorelease];
+	findAllResults = [[NSMutableArray alloc] init];
+	
+	// Perform the initial find
+	NSArray* findResults = [activeDelegate findAllMatches: [findPhrase stringValue]
+												   ofType: [self currentFindType]
+										 inFindController: self
+										   withIdentifier: findIdentifier];
+	if (findResults) {
+		[findAllResults addObjectsFromArray: findResults];
+	}
+	
+	[self updateFindAllResults];
+}
+
+// = The find all table =
+
+
+- (int)numberOfRowsInTableView: (NSTableView*) aTableView {
+	return [findAllResults count];
+}
+
+- (id)				tableView: (NSTableView*) aTableView 
+	objectValueForTableColumn: (NSTableColumn*) aTableColumn
+					row: (int) rowIndex {
+	NSString* ident = [aTableColumn identifier];
+	IFFindResult* row = [findAllResults objectAtIndex: rowIndex];
+	
+	if ([ident isEqualToString: @"location"]) {
+		return [row location];
+	} else if ([ident isEqualToString: @"type"]) {
+		// Localise the type name
+		NSString* key = [@"SearchType " stringByAppendingString: [row matchType]];
+		
+		return [[NSBundle mainBundle] localizedStringForKey: key
+													  value: key
+													  table: nil];
+	} else if ([ident isEqualToString: @"context"]) {
+		return [row context];
+	}
+	
+	return nil;
+}
+
+- (void)tableViewSelectionDidChange: (NSNotification *)aNotification {
 }
 
 // = The auxiliary view =
