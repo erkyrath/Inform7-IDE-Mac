@@ -299,6 +299,7 @@
 
 	[typeColumn retain];
 	[locationColumn retain];
+	[findAllView retain];
 	
 	[[[NSApp delegate] leopard] prepareToAnimateView: auxViewPanel];
 }
@@ -371,10 +372,23 @@
 	}
 }
 
+- (NSView*) findAllView {
+	return findAllView;
+}
+
+- (void) setFindAllView: (NSView*) newFindView {
+	[findAllView autorelease];
+	findAllView = [newFindView retain];
+}
+
 - (IBAction) findAll: (id) sender {
 	if (![self canFindAll]) {
 		return;
 	}
+	
+	// Load a new 'find all' view
+	[NSBundle loadNibNamed: @"FindAll"
+					 owner: self];
 	
 	// Create a new find identifier
 	[findIdentifier autorelease];
@@ -398,7 +412,6 @@
 }
 
 // = The find all table =
-
 
 - (int)numberOfRowsInTableView: (NSTableView*) aTableView {
 	return [findAllResults count];
