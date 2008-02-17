@@ -218,10 +218,16 @@
 			}
 			
 			// Try to use 64 characters of context on either side of the match
-			int contextStart = nextMatch.location - 64;
+			int contextStart;
+			for (contextStart = nextMatch.location; contextStart > nextMatch.location-15; contextStart--) {
+				if (contextStart == 0) break;
+				
+				unichar chr = 0;
+				if (contextStart > 0) chr = [[[self textStorage] string] characterAtIndex: contextStart-1];
+				if (chr == '\n' || chr == '\r') break;
+			}
 			int contextEnd   = nextMatch.location + nextMatch.length + 64;
 			
-			if (contextStart < 0) contextStart = 0;
 			if (contextEnd > [[self textStorage] length]) contextEnd = [[self textStorage] length];
 			
 			[result addObject: [[[IFFindResult alloc] initWithMatchType: @"Text"
