@@ -30,6 +30,7 @@
 		   ofView: (NSView*) view {
 	if (![view wantsLayer]) { 
 		[view setWantsLayer: YES];
+		[view setLayer: [CALayer layer]];
 	}
 	
 	[[view animator] setFrame: frame];
@@ -40,6 +41,7 @@
 	[newView removeFromSuperview];
 	if (![newView wantsLayer]) { 
 		[newView setWantsLayer: YES];
+		[newView setLayer: [CALayer layer]];
 	}
 	
 	[newView setAlphaValue: 0];
@@ -52,6 +54,7 @@
 - (void) removeView: (NSView*) view {
 	if (![view wantsLayer]) { 
 		[view setWantsLayer: YES];
+		[view setLayer: [CALayer layer]];
 	}
 	
 	[[view animator] setAlphaValue: 0.0];
