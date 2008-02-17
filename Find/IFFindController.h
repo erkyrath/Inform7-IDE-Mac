@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "IFFindResult.h"
 
 typedef enum {
 	// The main types of find that can be performed
@@ -98,6 +99,7 @@ typedef enum {
 - (void) finishedSearching: (id) identifier;							// The 'Find All' process with the specified identifier has completed
 - (void) foundItems: (NSArray*) items									// Found new items for the 'find more' window
 	 withIdentifier: (id) identifier;
+- (void) invalidateFindWithIdentifier: (id) identifier;					// Clears out the 'find all' results
 
 - (void) showAuxiliaryView: (NSView*) auxView;							// Shows the specified auxiliary view in the find window
 
@@ -123,6 +125,7 @@ typedef enum {
 					 ofType: (IFFindType) type
 		   inFindController: (IFFindController*) controller
 			 withIdentifier: (id) identifier;
+- (void) highlightFindResult: (IFFindResult*) result;
 
 // Search as you type
 - (id) beginSearchAsYouType;

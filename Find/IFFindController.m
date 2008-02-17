@@ -362,6 +362,20 @@
 	}
 }
 
+- (void) invalidateFindWithIdentifier: (id) identifier {
+	if (identifier == findIdentifier) {
+		if (auxView == findAllView) {
+			[self showAuxiliaryView: nil];
+		}
+		
+		[findAllResults autorelease];
+		findAllResults = nil;
+		
+		[findIdentifier autorelease];
+		findIdentifier = nil;
+	}
+}
+
 - (void) foundItems: (NSArray*) items
 	 withIdentifier: (id) identifier {
 	if (!items) return;
@@ -440,6 +454,12 @@
 }
 
 - (void)tableViewSelectionDidChange: (NSNotification *)aNotification {
+	if ([findAllTable numberOfSelectedRows] != 1) return;
+	
+	int selectedRow = [findAllTable selectedRow];
+	if (activeDelegate && [activeDelegate respondsToSelector: @selector(highlightFindResult:)]) {
+		[activeDelegate highlightFindResult: [findAllResults objectAtIndex: selectedRow]];
+	}
 }
 
 // = The auxiliary view =

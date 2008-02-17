@@ -225,9 +225,11 @@ static int named_expression_handler(ndfa nfa, ndfa_token* name, void* context) {
 	}
 	
 	// Remember this as the last match
-	[lastMatch autorelease];
-	lastMatch		= matches;
-	lastMatchRange	= NSMakeRange(matchPosition, length);
+	if (!lastMatch) {
+		[lastMatch autorelease];
+		lastMatch		= matches;
+		lastMatchRange	= NSMakeRange(matchPosition, length);
+	}
 		
 	if (matchDelegate && [matchDelegate respondsToSelector:@selector(match:inString:range:)]) {
 		// Call the delegate

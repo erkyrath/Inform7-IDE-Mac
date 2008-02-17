@@ -189,6 +189,15 @@
 
 // = 'Find all' =
 
+- (void) highlightFindResult: (IFFindResult*) result {
+	NSRange matchRange = [[result data] rangeValue];
+
+	[self scrollRangeToVisible: matchRange];
+	[self setSelectedRange: matchRange];
+	[[[NSApp delegate] leopard] showFindIndicatorForRange: matchRange
+											   inTextView: self];
+}
+
 - (NSArray*) findAllMatches: (NSString*) match
 					 ofType: (IFFindType) type
 		   inFindController: (IFFindController*) controller
@@ -234,7 +243,7 @@
 															   location: @"Text"
 																context: [[[self textStorage] string] substringWithRange: NSMakeRange(contextStart, contextEnd-contextStart)]
 														   contextRange: NSMakeRange(nextMatch.location - contextStart, nextMatch.length)
-																   data: nil] autorelease]];
+																   data: [NSValue valueWithRange: nextMatch]] autorelease]];
 			
 			// Move to the next position
 			pos = nextMatch.location + nextMatch.length;
