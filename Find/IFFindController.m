@@ -222,6 +222,10 @@
 	return [activeDelegate respondsToSelector: @selector(findAllMatches:ofType:inFindController:withIdentifier:)];
 }
 
+- (BOOL) canReplaceAll {
+	return [activeDelegate respondsToSelector: @selector(replaceFindAllResult:withString:offset:)];
+}
+
 - (BOOL) supportsFindType: (IFFindType) type {
 	if (activeDelegate) {
 		if ([activeDelegate respondsToSelector: @selector(canUseFindType:)]) {
@@ -403,6 +407,8 @@
 	// Load a new 'find all' view
 	[NSBundle loadNibNamed: @"FindAll"
 					 owner: self];
+	[replaceAll setEnabled: [self canReplaceAll]];
+	[replaceAllLabel setHidden: ![self canReplaceAll]];
 	
 	// Create a new find identifier
 	[findIdentifier autorelease];
@@ -424,6 +430,41 @@
 	
 	[self updateFindAllResults];
 }
+
+// = Performing 'replace all' =
+
+- (IBAction) replaceAll: (id) sender {
+	if (![self canReplaceAll]) {
+		return;
+	}
+	
+	// Get the replacement string
+	NSString* replacement = [replacePhrase stringValue];
+	
+	// Replace each match in turn
+	int x;
+	int offset = 0;
+	for (x=0; x<[findAllResults count]; x++) {
+		IFFindResult* thisResult = [findAllResults objectAtIndex: x];
+		IFFindResult* newResult = [activeDelegate replaceFindAllResult: thisResult
+															withString: replacement
+																offset: &offset];
+		if (newResult == nil) {
+			[thisResult setError: YES];
+		} else {
+			[findAllResults replaceObjectAtIndex: x
+									  withObject: newResult];
+		}
+	}
+	
+	// Update the table with the new results
+	[findAllTable reloadData];
+	[findAllTable setNeedsDisplay: YES];
+	
+	// Can't replace all again
+	// [[NSApp delegate] removeView: replaceAll];
+}
+
 
 // = The find all table =
 

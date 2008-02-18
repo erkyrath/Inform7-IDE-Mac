@@ -18,6 +18,8 @@
 	NSString* context;									// The context the match was found in
 	NSRange	  contextRange;								// The range the match was found in
 	id		  data;										// Some data for this match
+	
+	BOOL hasError;										// YES if there is an error with this item
 }
 
 // Initialisation
@@ -36,5 +38,7 @@
 - (NSAttributedString*) attributedContext;				// The context with the match highlighted
 - (NSRange)   contextRange;								// The range in the context of the match
 - (id)		  data;										// Some data that can be used to highlight the match in the original text
+
+- (void)	  setError: (BOOL) hasError;				// Sets whether or not an error has occurred with this item
 
 @end

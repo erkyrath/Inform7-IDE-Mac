@@ -63,12 +63,18 @@
 	return data;
 }
 
+- (void) setError: (BOOL) newHasError {
+	hasError = newHasError;
+}
+
 - (NSAttributedString*) attributedContext {
 	NSDictionary* normalAttributes = [NSDictionary dictionaryWithObjectsAndKeys: 
 									  [NSFont systemFontOfSize: 9], NSFontAttributeName,
+									  hasError?[NSColor redColor]:nil, NSForegroundColorAttributeName,
 									  nil];
 	NSDictionary* boldAttributes = [NSDictionary dictionaryWithObjectsAndKeys: 
 									[NSFont boldSystemFontOfSize: 11], NSFontAttributeName,
+									hasError?[NSColor redColor]:nil, NSForegroundColorAttributeName,
 									nil];
 	
 	NSMutableAttributedString* result = [[[NSMutableAttributedString alloc] initWithString: [self context]

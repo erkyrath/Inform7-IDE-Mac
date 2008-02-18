@@ -319,9 +319,45 @@
 					 range: selected];
 }
 
-- (void) replaceAllForPhrase: (NSString*) phrase
-				  withString: (NSString*) string
-						type: (IFFindType) type {
+- (IFFindResult*) replaceFindAllResult: (IFFindResult*) result
+							withString: (NSString*) replacement 
+								offset: (int*) offset {
+	// Get the original match
+	NSRange matchRange = [[result data] rangeValue];
+	matchRange.location += *offset;
+	NSString* originalMatch = [[result context] substringWithRange: [result contextRange]];
+	
+	// Check that the user hasn't edited the text since the match was made
+	if (![[[[self textStorage] string] substringWithRange: matchRange] isEqualToString: originalMatch]) {
+		return nil;
+	}
+	
+	// Update the context to create a new match
+	NSRange contextRange = [result contextRange];
+	NSString* oldContext = [result context];
+	NSString* newContext = [NSString stringWithFormat: @"%@%@%@",
+							[oldContext substringToIndex: contextRange.location],
+							replacement,
+							[oldContext substringFromIndex: contextRange.location + contextRange.length]];
+	NSRange newContextRange = [result contextRange];
+	newContextRange.length = [replacement length];
+	
+	NSRange newMatchRange = matchRange;
+	newMatchRange.length = [replacement length];
+	IFFindResult* newResult = [[[IFFindResult alloc] initWithMatchType: [result matchType]
+															  location: [result location] 
+															   context: newContext
+														  contextRange: newContextRange
+																  data: [NSValue valueWithRange: newMatchRange]]
+							   autorelease];
+	
+	// Perform the replacement
+	[[[self textStorage] mutableString] replaceCharactersInRange: matchRange
+													  withString: replacement];
+	
+	// Update the offset so future matches are replaced correctly
+	*offset += (int)[replacement length] - (int)[originalMatch length];
+	return newResult;
 }
 
 @end

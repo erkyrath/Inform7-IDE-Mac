@@ -41,7 +41,10 @@ typedef enum {
 	IBOutlet NSButton*		replaceAndFind;
 	IBOutlet NSButton*		replace;
 	IBOutlet NSButton*		findAll;
+	IBOutlet NSButton*		replaceAll;
 	IBOutlet NSProgressIndicator* findProgress;							// The 'searching' progress indicator
+	
+	IBOutlet NSTextField*	replaceAllLabel;							// The 'replace all' label
 	
 	IBOutlet NSView*		findAllResultView;							// The 'find all' results view
 	IBOutlet NSButton*		includeDocumentation;						// The 'include documentation' check box
@@ -85,6 +88,7 @@ typedef enum {
 - (IBAction) replaceAndFind: (id) sender;								// 'Replace and find' clicked
 - (IBAction) replace: (id) sender;										// 'Replace' clicked
 - (IBAction) findAll: (id) sender;										// 'Find all' clicked
+- (IBAction) replaceAll: (id) sender;									// 'Replace all' clicked
 - (IBAction) useSelectionForFind: (id) sender;							// 'Use selection for find' chosen from the menu
 - (IBAction) findTypeChanged: (id) sender;								// The user has selected a new type of find (from contains, etc)
 - (IBAction) toggleRegexpHelp: (id) sender;								// The user has toggled the regexp help button
@@ -136,8 +140,8 @@ typedef enum {
 
 // Replace
 - (void) replaceFoundWith: (NSString*) match;
-- (void) replaceAllForPhrase: (NSString*) phrase
-				  withString: (NSString*) string
-						type: (IFFindType) type;
+- (IFFindResult*) replaceFindAllResult: (IFFindResult*) result
+							withString: (NSString*) replacement
+								offset: (int*) offset;
 
 @end
