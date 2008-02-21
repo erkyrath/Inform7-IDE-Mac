@@ -304,6 +304,7 @@
 	selected.length = [match length];
 	[self setSelectedRange: selected];
 	
+	// Create an undo action for this replacement
 	[[self undoManager] beginUndoGrouping];
 	[[self undoManager] setActionName: [[NSBundle mainBundle] localizedStringForKey: @"Replace"
 																			  value: @"Replace"
@@ -317,6 +318,34 @@
 	NSRange selected = [self selectedRange];
 	[self replaceFoundWith: match
 					 range: selected];
+}
+
+- (void) beginReplaceAll: (IFFindController*) sender {
+	// Begin an undo action for this operation
+	[[self undoManager] beginUndoGrouping];
+	[[self undoManager] setActionName: [[NSBundle mainBundle] localizedStringForKey: @"Replace All"
+																			  value: @"Replace All"
+																			  table: nil]];
+}
+
+- (void) finishedReplaceAll: (IFFindController*) sender {
+	// Finished with the replace all operation
+	[[self undoManager] endUndoGrouping];
+}
+
+
+- (void) replaceFindAllResult: (NSString*) match 
+						range: (NSRange) selected {
+	NSString* previousValue = [[self string] substringWithRange: selected];
+	
+	[[self textStorage] replaceCharactersInRange: selected
+									  withString: match];
+	selected.length = [match length];
+	[self setSelectedRange: selected];
+	
+	// Create an undo action for this replacement
+	[[[self undoManager] prepareWithInvocationTarget: self] replaceFindAllResult: previousValue
+																		   range: selected];
 }
 
 - (IFFindResult*) replaceFindAllResult: (IFFindResult*) result
@@ -352,8 +381,8 @@
 							   autorelease];
 	
 	// Perform the replacement
-	[[[self textStorage] mutableString] replaceCharactersInRange: matchRange
-													  withString: replacement];
+	[self replaceFindAllResult: replacement
+						 range: matchRange];
 	
 	// Update the offset so future matches are replaced correctly
 	*offset += (int)[replacement length] - (int)[originalMatch length];

@@ -438,6 +438,11 @@
 		return;
 	}
 	
+	// Indicate that a 'replace all' operation is starting
+	if ([activeDelegate respondsToSelector: @selector(beginReplaceAll:)]) {
+		[activeDelegate beginReplaceAll: self];
+	}
+	
 	// Get the replacement string
 	NSString* replacement = [replacePhrase stringValue];
 	
@@ -456,13 +461,15 @@
 									  withObject: newResult];
 		}
 	}
+
+	// Finished
+	if ([activeDelegate respondsToSelector: @selector(finishedReplaceAll:)]) {
+		[activeDelegate finishedReplaceAll: self];
+	}
 	
 	// Update the table with the new results
 	[findAllTable reloadData];
 	[findAllTable setNeedsDisplay: YES];
-	
-	// Can't replace all again
-	// [[NSApp delegate] removeView: replaceAll];
 }
 
 

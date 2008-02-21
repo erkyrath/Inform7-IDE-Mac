@@ -115,21 +115,21 @@ typedef enum {
 @interface NSObject(IFFindDelegate)
 
 // Basic interface (all searchable objects must implement this)
-- (BOOL) findNextMatch:	(NSString*) match
+- (BOOL) findNextMatch:	(NSString*) match								// Request to find the next match
 				ofType: (IFFindType) type;
-- (BOOL) findPreviousMatch: (NSString*) match
+- (BOOL) findPreviousMatch: (NSString*) match							// Request to find the previous match
 					ofType: (IFFindType) type;
 
-- (BOOL) canUseFindType: (IFFindType) find;
+- (BOOL) canUseFindType: (IFFindType) find;								// Allows delegates to specify which type of file they can search on
 
-- (NSString*) currentSelectionForFind;
+- (NSString*) currentSelectionForFind;									// Returns whatever was currently selected: used to implement the 'use selection for find' menu option
 
 // 'Find all'
-- (NSArray*) findAllMatches: (NSString*) match
+- (NSArray*) findAllMatches: (NSString*) match							// Should return an array of IFFindResults, used to implement 'Find All'
 					 ofType: (IFFindType) type
 		   inFindController: (IFFindController*) controller
 			 withIdentifier: (id) identifier;
-- (void) highlightFindResult: (IFFindResult*) result;
+- (void) highlightFindResult: (IFFindResult*) result;					// The user has selected a find result, which should now be displayed
 
 // Search as you type
 - (id) beginSearchAsYouType;
@@ -139,9 +139,11 @@ typedef enum {
 - (void) endSearchAsYouType: (id) object;
 
 // Replace
-- (void) replaceFoundWith: (NSString*) match;
-- (IFFindResult*) replaceFindAllResult: (IFFindResult*) result
+- (void) replaceFoundWith: (NSString*) match;							// Should replace the last found item with the specified text (or the currently selected item, if the user has manually changed the selection)
+- (void) beginReplaceAll: (IFFindController*) sender;					// Indicates that a replace all operation is starting
+- (IFFindResult*) replaceFindAllResult: (IFFindResult*) result			// Request to replace a find all result as part of a replace all operation
 							withString: (NSString*) replacement
 								offset: (int*) offset;
+- (void) finishedReplaceAll: (IFFindController*) sender;				// The replace all operation has finished
 
 @end
