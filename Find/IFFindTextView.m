@@ -19,7 +19,8 @@
 - (NSRange) find: (NSString*) phrase
 			type: (IFFindType) type
 	   direction: (int) direction 
-	   fromPoint: (int) point {
+	   fromPoint: (int) point
+		 matcher: (IFMatcher**) oldMatcher {
 	NSRange result = NSMakeRange(NSNotFound, NSNotFound);
 	
 	// Do nothing if the phrase is empty
@@ -30,12 +31,20 @@
 	// Create a matcher if we're using regular expressions
 	IFMatcher* matcher = nil;
 	if ((type&0xff) == IFFindRegexp) {
-		matcher = [[IFMatcher alloc] init];
-		[matcher autorelease];
-		
-		[matcher setCaseSensitive: insensitive];
-		[matcher addExpression: phrase
-					withObject: [NSNumber numberWithBool: YES]];
+		if (oldMatcher && *oldMatcher) {
+			// Re-use the previous regexp matcher if it's available
+			matcher = [[*oldMatcher retain] autorelease];
+		} else {
+			// Otherwise a new regexp matcher
+			matcher = [[IFMatcher alloc] init];
+			[matcher autorelease];
+			
+			[matcher setCaseSensitive: insensitive];
+			[matcher addExpression: phrase
+						withObject: [NSNumber numberWithBool: YES]];
+			
+			if (oldMatcher) *oldMatcher = matcher;
+		}
 	}
 
 	// Get the text
@@ -171,7 +180,8 @@
 	NSRange matchRange = [self find: match
 							   type: type
 						  direction: 1
-						  fromPoint: matchPos];
+						  fromPoint: matchPos
+							matcher: nil];
 	
 	if (matchRange.location != NSNotFound) {
 		[self scrollRangeToVisible: matchRange];
@@ -191,7 +201,8 @@
 	NSRange matchRange =  [self find: match
 								type: type
 						   direction: -1
-						   fromPoint: matchPos];
+						   fromPoint: matchPos
+							 matcher: nil];
 	
 	if (matchRange.location != NSNotFound) {
 		[self scrollRangeToVisible: matchRange];
@@ -235,6 +246,7 @@
 	int pos = 0;
 	NSRange nextMatch;
 	NSMutableArray* result = [[NSMutableArray alloc] init];
+	IFMatcher* matcher = nil;
 	
 	for (;;) {
 		// Find the next result.
@@ -242,7 +254,8 @@
 		nextMatch = [self find: match
 						  type: type
 					 direction: 1
-					 fromPoint: pos];
+					 fromPoint: pos
+					   matcher: &matcher];
 		
 		// If this match is valid, then add it to the list of results
 		if (nextMatch.location >= pos && nextMatch.location != NSNotFound) {
