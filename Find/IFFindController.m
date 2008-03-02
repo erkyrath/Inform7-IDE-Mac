@@ -10,6 +10,10 @@
 #import "IFAppDelegate.h"
 #import "IFFindResult.h"
 
+static NSString* IFFindHistoryPref		= @"IFFindHistory";
+static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
+
+#define FIND_HISTORY_LENGTH 30
 
 @implementation IFFindController
 
@@ -34,6 +38,13 @@
 												 selector: @selector(mainWindowChanged:)
 													 name: NSWindowDidBecomeMainNotification
 												   object: nil];
+		
+		// Get the find/replace history
+		findHistory = [[[NSUserDefaults standardUserDefaults] objectForKey: IFFindHistoryPref] mutableCopy];
+		replaceHistory = [[[NSUserDefaults standardUserDefaults] objectForKey: IFReplaceHistoryPref] mutableCopy];
+		
+		if (!findHistory)		findHistory		= [[NSMutableArray alloc] init];
+		if (!replaceHistory)	replaceHistory	= [[NSMutableArray alloc] init];
 	}
 	
 	return self;
@@ -52,6 +63,60 @@
 	
 	// Finish up
 	[super dealloc];
+}
+
+// = Updating the history =
+
+- (void) addPhraseToFindHistory: (NSString*) phrase {
+	phrase = [[phrase copy] autorelease];
+	
+	// Ensure that we don't store a duplicate copy of the phrase
+	int lastIndex = [findHistory indexOfObject: phrase];
+	if (lastIndex != NSNotFound) {
+		[findHistory removeObjectAtIndex: lastIndex];
+	}
+	
+	// Insert the new phrase into the find history
+	[findHistory insertObject: phrase
+					  atIndex: 0];
+	
+	// Ensure that we limit the number of items in the history
+	while ([findHistory count] > FIND_HISTORY_LENGTH) {
+		[findHistory removeLastObject];
+	}
+	
+	// Store in the user defaults
+	[[NSUserDefaults standardUserDefaults] setObject: [[findHistory copy] autorelease]
+											  forKey: IFFindHistoryPref];
+	
+	// Update the combo box
+	[findPhrase reloadData];
+}
+
+- (void) addPhraseToReplaceHistory: (NSString*) phrase {
+	phrase = [[phrase copy] autorelease];
+	
+	// Ensure that we don't store a duplicate copy of the phrase
+	int lastIndex = [replaceHistory indexOfObject: phrase];
+	if (lastIndex != NSNotFound) {
+		[replaceHistory removeObjectAtIndex: lastIndex];
+	}
+	
+	// Insert the new phrase into the find history
+	[replaceHistory insertObject: phrase
+						 atIndex: 0];
+	
+	// Ensure that we limit the number of items in the history
+	while ([replaceHistory count] > FIND_HISTORY_LENGTH) {
+		[replaceHistory removeLastObject];
+	}
+	
+	// Store in the user defaults
+	[[NSUserDefaults standardUserDefaults] setObject: [[replaceHistory copy] autorelease]
+											  forKey: IFReplaceHistoryPref];
+	
+	// Update the combo box
+	[replacePhrase reloadData];
 }
 
 // = Actions =
@@ -79,7 +144,9 @@
 	if (activeDelegate && [activeDelegate respondsToSelector: @selector(findNextMatch:ofType:)]) {
 		[activeDelegate findNextMatch: [findPhrase stringValue]
 							   ofType: [self currentFindType]];
-		// TODO: record the phrase in the history
+
+		// Record the phrase in the history
+		[self addPhraseToFindHistory: [findPhrase stringValue]];
 	}
 }
 
@@ -87,7 +154,9 @@
 	if (activeDelegate && [activeDelegate respondsToSelector: @selector(findNextMatch:ofType:)]) {
 		[activeDelegate findPreviousMatch: [findPhrase stringValue]
 								   ofType: [self currentFindType]];
-		// TODO: record the phrase in the history
+
+		// Record the phrase in the history
+		[self addPhraseToFindHistory: [findPhrase stringValue]];
 	}
 }
 
@@ -95,6 +164,7 @@
 	if (activeDelegate 
 		&& [activeDelegate respondsToSelector: @selector(replaceFoundWith:)] 
 		&& [activeDelegate respondsToSelector:@selector(findNextMatch:ofType:)]) {
+		[self addPhraseToReplaceHistory: [replacePhrase stringValue]];
 		[activeDelegate replaceFoundWith: [replacePhrase stringValue]];
 		[activeDelegate findNextMatch: [findPhrase stringValue]
 							   ofType: [self currentFindType]];
@@ -103,6 +173,7 @@
 
 - (IBAction) replace: (id) sender {
 	if (activeDelegate && [activeDelegate respondsToSelector: @selector(replaceFoundWith:)]) {
+		[self addPhraseToReplaceHistory: [replacePhrase stringValue]];
 		[activeDelegate replaceFoundWith: [replacePhrase stringValue]];
 	}
 }
@@ -403,7 +474,10 @@
 	if (![self canFindAll]) {
 		return;
 	}
-	
+
+	// Add the find phrase to the history
+	[self addPhraseToFindHistory: [findPhrase stringValue]];
+
 	// Load a new 'find all' view
 	[NSBundle loadNibNamed: @"FindAll"
 					 owner: self];
@@ -437,7 +511,10 @@
 	if (![self canReplaceAll]) {
 		return;
 	}
-	
+
+	// Store the replace phrase in the replacement history
+	[self addPhraseToFindHistory: [replacePhrase stringValue]];
+
 	// Indicate that a 'replace all' operation is starting
 	if ([activeDelegate respondsToSelector: @selector(beginReplaceAll:)]) {
 		[activeDelegate beginReplaceAll: self];
@@ -507,6 +584,43 @@
 	int selectedRow = [findAllTable selectedRow];
 	if (activeDelegate && [activeDelegate respondsToSelector: @selector(highlightFindResult:)]) {
 		[activeDelegate highlightFindResult: [findAllResults objectAtIndex: selectedRow]];
+	}
+}
+
+// = Find/replace history =
+
+- (id)				 comboBox: (NSComboBox*)	aComboBox
+	objectValueForItemAtIndex: (int)			index {
+	// Choose the history list that's being displayed in the specified combo box
+	NSMutableArray* itemArray = nil;
+	if (aComboBox == findPhrase) {
+		itemArray = findHistory;
+	} else if (aComboBox == replacePhrase) {
+		itemArray = replaceHistory;
+	}
+	
+	// Return the item
+	if (!itemArray || index < 0 || index >= [itemArray count]) {
+		return nil;
+	} else {
+		return [itemArray objectAtIndex: index];
+	}
+}
+
+- (int) numberOfItemsInComboBox: (NSComboBox *)	aComboBox {
+	// Choose the history list that's being displayed in the specified combo box
+	NSMutableArray* itemArray = nil;
+	if (aComboBox == findPhrase) {
+		itemArray = findHistory;
+	} else if (aComboBox == replacePhrase) {
+		itemArray = replaceHistory;
+	}
+	
+	// Return the number of items
+	if (!itemArray) {
+		return 0;
+	} else {
+		return [itemArray count];
 	}
 }
 

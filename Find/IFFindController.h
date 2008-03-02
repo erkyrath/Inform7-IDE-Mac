@@ -51,6 +51,9 @@ typedef enum {
 	
 	IBOutlet NSView*		auxViewPanel;								// The auxilary view panel
 	
+	NSMutableArray*			replaceHistory;								// The 'replace' history
+	NSMutableArray*			findHistory;								// The 'find' history
+	
 	// The regular expression help view
 	IBOutlet NSView*		regexpHelpView;								// The view containing information about regexps
 	IBOutlet NSView*		regexpTextView;								// The view containing the text for the regexp help
