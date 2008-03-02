@@ -28,4 +28,7 @@
 		  toView: (NSView*) superView;
 - (void) removeView: (NSView*) view;									// Removes the specified view from its superview (with animation on leopard)
 
+- (void) makeTranslucent: (NSWindow*) window;							// Fades the specified window so it becomes translucent
+- (void) makeSolid: (NSWindow*) window;									// Fades the specified window so that it becomes solid again
+
 @end

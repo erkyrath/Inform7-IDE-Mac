@@ -379,7 +379,15 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 	[[[NSApp delegate] leopard] prepareToAnimateView: auxViewPanel];
 }
 
+- (void) windowDidResignKey: (NSNotification*) not {
+	// Make this window translucent
+	[[[NSApp delegate] leopard] makeTranslucent: [self window]];
+}
+
 - (void) windowDidBecomeKey: (NSNotification*) not {
+	// Make this window solid
+	[[[NSApp delegate] leopard] makeSolid: [self window]];
+	
 	// Update this window again as the first responder may have changed (can't get notifications for this)
 	[self updateFromFirstResponder];
 }

@@ -173,4 +173,12 @@
 					  forKey: @"Scale"];
 }
 
+- (void) makeTranslucent: (NSWindow*) window {
+	[[window animator] setAlphaValue: 0.85];
+}
+
+- (void) makeSolid: (NSWindow*) window {
+	[[window animator] setAlphaValue: 1.0];
+}
+
 @end
