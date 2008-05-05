@@ -24,9 +24,13 @@ enum IFSearchType {
 //
 @interface IFSearchResultsController : NSWindowController {
 	// Interface elements
+	IBOutlet NSScrollView* tableScroller;			// Search results scroll view
 	IBOutlet NSTableView* tableView;				// Table of search results
 	IBOutlet NSProgressIndicator* progress;			// Current search progress
 	IBOutlet NSTextField* searchLabel;				// Label that details what we were searching for
+	IBOutlet NSTableColumn* fileColumn;				// The 'file' table column
+	IBOutlet NSTableColumn* typeColumn;				// The 'type' table column
+	IBOutlet NSTableColumn* contextColumn;			// The 'context' table column
 	
 	// Interface data
 	NSString* searchLabelText;						// Text that will go in the search label

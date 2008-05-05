@@ -104,6 +104,10 @@ static NSMutableSet* indexedFiles = nil;						// Set of filenames that we've alr
 	if (searching) NSLog(@"Search: Warning: must not be deallocated while search thread is running!");
 	searching = NO; // Slim chance this will abort the inevitable disaster if it's set to YES
 	
+	[typeColumn release];
+	[fileColumn release];
+	[contextColumn release];
+	
 	if (searchLabelText) [searchLabelText release];
 	if (searchPhrase) [searchPhrase release];
 	if (searchItems) [searchItems release];
@@ -240,6 +244,18 @@ static NSMutableSet* indexedFiles = nil;						// Set of filenames that we've alr
 
 // = Controlling the search itself =
 
+- (void) setFileColumn: (NSTableColumn*) newFileColumn {
+	fileColumn = [newFileColumn retain];
+}
+
+- (void) setTypeColumn: (NSTableColumn*) newTypeColumn {
+	typeColumn = [newTypeColumn retain];
+}
+
+- (void) setContextColumn: (NSTableColumn*) newContextColumn {
+	contextColumn = [newContextColumn retain];
+}
+
 - (void) startSearch {
 	if (searching) return;		// Nothing to do
 	
@@ -252,6 +268,24 @@ static NSMutableSet* indexedFiles = nil;						// Set of filenames that we've alr
 	if ([[searchTypes allObjects] count] < 2) {
 		// If we're only searching across one type of document, then we don't need to show the document types
 		[tableView removeTableColumn: [tableView tableColumnWithIdentifier: @"type"]];
+	}
+	
+	// Resize existing columns so that they all fit in the width of the scroll view
+	NSEnumerator* columnEnum = [[tableView tableColumns] objectEnumerator];
+	NSTableColumn* column;
+	while (column = [columnEnum nextObject]) {
+		if ([column width] < 100.0) {
+			[column setWidth: 100.0];
+		}
+	}
+	
+	float targetWidth	= [tableScroller bounds].size.width;
+	float currentWidth	= [tableView frame].size.width;
+	float ratio			= targetWidth / currentWidth;
+	
+	columnEnum = [[tableView tableColumns] objectEnumerator];
+	while (column = [columnEnum nextObject]) {
+		[column setWidth: floorf([column width]*ratio)];
 	}
 	
 	[tableView sizeLastColumnToFit];
