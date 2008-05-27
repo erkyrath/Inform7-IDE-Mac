@@ -186,6 +186,7 @@
 	if (matchRange.location != NSNotFound) {
 		[self scrollRangeToVisible: matchRange];
 		[self setSelectedRange: matchRange];
+		[[self window] makeKeyWindow];
 		[[[NSApp delegate] leopard] showFindIndicatorForRange: matchRange
 												   inTextView: self];
 		return YES;
@@ -207,6 +208,7 @@
 	if (matchRange.location != NSNotFound) {
 		[self scrollRangeToVisible: matchRange];
 		[self setSelectedRange: matchRange];
+		[[self window] makeKeyWindow];
 		[[[NSApp delegate] leopard] showFindIndicatorForRange: matchRange
 												   inTextView: self];
 		return YES;
@@ -316,6 +318,7 @@
 									  withString: match];
 	selected.length = [match length];
 	[self setSelectedRange: selected];
+	[[self window] makeKeyWindow];
 	
 	// Create an undo action for this replacement
 	[[self undoManager] beginUndoGrouping];
@@ -344,6 +347,7 @@
 - (void) finishedReplaceAll: (IFFindController*) sender {
 	// Finished with the replace all operation
 	[[self undoManager] endUndoGrouping];
+	[[self window] makeKeyWindow];
 }
 
 
@@ -355,6 +359,7 @@
 									  withString: match];
 	selected.length = [match length];
 	[self setSelectedRange: selected];
+
 	
 	// Create an undo action for this replacement
 	[[[self undoManager] prepareWithInvocationTarget: self] replaceFindAllResult: previousValue

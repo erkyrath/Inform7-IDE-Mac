@@ -9,6 +9,7 @@
 #import "IFFindController.h"
 #import "IFAppDelegate.h"
 #import "IFFindResult.h"
+#import "IFComboBox.h"
 
 static NSString* IFFindHistoryPref		= @"IFFindHistory";
 static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
@@ -57,6 +58,7 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 	
 	[findAllResults release];
 	[findIdentifier release];
+	[lastSearch release];
 	
 	[locationColumn release];
 	[typeColumn release];
@@ -140,8 +142,23 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 	}
 }
 
+- (void) setLastSearch: (NSString*) phrase {
+	if (![phrase isEqualToString: lastSearch]) {
+		// Set the last search phrase
+		[lastSearch autorelease];
+		lastSearch = [phrase copy];
+		
+		// Close the 'find all' results
+		[self showAuxiliaryView: nil];
+	}
+}
+
 - (IBAction) findNext: (id) sender {
 	if (activeDelegate && [activeDelegate respondsToSelector: @selector(findNextMatch:ofType:)]) {
+		// Close the 'all' dialog if necessary
+		[self setLastSearch: [findPhrase stringValue]];
+		
+		// Get the delegate to perform the search
 		[activeDelegate findNextMatch: [findPhrase stringValue]
 							   ofType: [self currentFindType]];
 
@@ -152,6 +169,10 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 
 - (IBAction) findPrevious: (id) sender {
 	if (activeDelegate && [activeDelegate respondsToSelector: @selector(findNextMatch:ofType:)]) {
+		// Close the 'all' dialog if necessary
+		[self setLastSearch: [findPhrase stringValue]];
+		
+		// Get the delegate to perform the search
 		[activeDelegate findPreviousMatch: [findPhrase stringValue]
 								   ofType: [self currentFindType]];
 
@@ -484,6 +505,8 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 	}
 
 	// Add the find phrase to the history
+	[lastSearch autorelease];
+	lastSearch = [[findPhrase stringValue] copy];
 	[self addPhraseToFindHistory: [findPhrase stringValue]];
 
 	// Load a new 'find all' view
@@ -688,6 +711,28 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 		[[NSApp delegate] addView: newAuxView
 						   toView: auxViewPanel];
 	}
+}
+
+// = Combo box delegate methods =
+
+- (void) comboBoxEnterKeyPress: (id) sender {
+	if (sender == findPhrase) {
+		[self findNext: self];
+		[[self window] orderOut: self];
+	} else if (sender == replacePhrase) {
+		[self findNext: self];
+	} else {
+		[self findNext: self];
+		[[self window] orderOut: self];
+	}
+}
+
+// = Window delegate methods =
+
+- (void) windowWillClose: (NSNotification*) not {
+	// Clear the find all results
+	[findAllResults removeAllObjects];
+	[self showAuxiliaryView: nil];
 }
 
 @end

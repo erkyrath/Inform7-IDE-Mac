@@ -51,8 +51,10 @@ typedef enum {
 	
 	IBOutlet NSView*		auxViewPanel;								// The auxilary view panel
 	
+	// Things we've searched for
 	NSMutableArray*			replaceHistory;								// The 'replace' history
 	NSMutableArray*			findHistory;								// The 'find' history
+	NSString*				lastSearch;									// The last phrase that was searched for
 	
 	// The regular expression help view
 	IBOutlet NSView*		regexpHelpView;								// The view containing information about regexps
@@ -95,6 +97,8 @@ typedef enum {
 - (IBAction) useSelectionForFind: (id) sender;							// 'Use selection for find' chosen from the menu
 - (IBAction) findTypeChanged: (id) sender;								// The user has selected a new type of find (from contains, etc)
 - (IBAction) toggleRegexpHelp: (id) sender;								// The user has toggled the regexp help button
+- (IBAction) comboBoxEnterKeyPress: (id) sender;						// The user hit enter in the 'find all' combo box
+
 
 // Menu actions
 - (BOOL) canFindAgain: (id) sender;										// YES if find next/previous can be sensibly repeated
