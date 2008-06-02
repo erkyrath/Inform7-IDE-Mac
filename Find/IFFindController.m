@@ -335,6 +335,8 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 }
 
 - (void) updateControls {
+	NSLog(@"Updating controls to delegate %@", activeDelegate);
+	
 	[findPhrase setEnabled: [self canSearch] || [self canFindAll]];
 	[replacePhrase setEnabled: [self canReplace]];
 	
@@ -387,6 +389,7 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 						   
 - (void) windowDidLoad {
 	[self updateFromFirstResponder];
+	[self updateControls];
 	
 	winFrame		= [[self window] frame];
 	contentFrame	= [[[self window] contentView] frame];

@@ -61,6 +61,15 @@
 	
 	// Simple search in the specified direction
 	int pos = point;
+	
+	if (direction > 0) {
+		// Ensure that we start the search at the next character, not the character after that
+		pos		-= direction;
+		point	-= direction;
+		if (pos < 0)	pos = [text length] - 1;
+		if (point < 0)	point = [text length] - 1;
+	}
+	
 	int phraseLength = [phrase length];
 	if (matcher) phraseLength = 1;
 	do {

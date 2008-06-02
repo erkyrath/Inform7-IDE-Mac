@@ -15,23 +15,44 @@
 
 - (BOOL) findNextMatch:	(NSString*) match
 				ofType: (IFFindType) type {
-	return NO;
+	BOOL insensitive = (type&IFFindCaseInsensitive)!=0;
+
+	return [self searchFor: match
+				 direction: YES
+			 caseSensitive: !insensitive
+					  wrap: YES];
 }
 
 - (BOOL) findPreviousMatch: (NSString*) match
 					ofType: (IFFindType) type {
-	return NO;
+	BOOL insensitive = (type&IFFindCaseInsensitive)!=0;
+	
+	return [self searchFor: match
+				 direction: NO
+			 caseSensitive: !insensitive
+					  wrap: YES];
 }
 
 - (BOOL) canUseFindType: (IFFindType) find {
-	return YES;
+	switch (find) {
+		case IFFindContains:
+			return YES;
+			
+		case IFFindBeginsWith:
+		case IFFindCompleteWord:
+		case IFFindRegexp:
+		default:
+			return NO;
+	}
 }
 
 - (NSString*) currentSelectionForFind {
+	return [[self selectedDOMRange] toString];
 }
 
 // = 'Find all' =
 
+/*
 - (NSArray*) findAllMatches: (NSString*) match
 					 ofType: (IFFindType) type
 		   inFindController: (IFFindController*) controller
@@ -40,5 +61,6 @@
 
 - (void) highlightFindResult: (IFFindResult*) result {
 }
+*/
 
 @end
