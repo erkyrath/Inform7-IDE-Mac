@@ -44,6 +44,8 @@
 #import "IFSingleFile.h"
 #import "IFSharedContextMatcher.h"
 #import "IFContextMatchWindow.h"				// TODO: remove this
+#import "IFPreferences.h"
+#import "IFProject.h"
 
 #import <ZoomView/ZoomSkein.h>
 #import <ZoomView/ZoomSkeinView.h>
@@ -528,6 +530,24 @@ static int stringCompare(id a, id b, void* context) {
 		[leopard removeView: view];
 	} else {
 		[view removeFromSuperview];
+	}
+}
+
+// = Termination =
+
+- (void) applicationWillTerminate: (NSNotification*) not {
+	// I'll be back
+	
+	if ([[IFPreferences sharedPreferences] cleanProjectOnClose]) {
+		NSEnumerator* docEnum = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
+		NSDocument* document;
+		while (document = [docEnum nextObject]) {
+			// If this document can clean itself up, then ask it to do so
+			if ([document respondsToSelector: @selector(cleanOutUnnecessaryFiles:)] && ![document isDocumentEdited]) {
+				[(id)document cleanOutUnnecessaryFiles: NO];
+				[document saveDocument: self];
+			}
+		}
 	}
 }
 
