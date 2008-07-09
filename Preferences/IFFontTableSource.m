@@ -68,7 +68,7 @@
 		NSMutableSet* familySet = [NSMutableSet set];
 		NSArray* descriptors;
 		
-		if ([collection isEqualTo: @"All Fonts"]) {
+		if ([collection isEqualTo: @"All Fonts"] || [collection isEqualTo: @"com.apple.AllFonts"]) {
 			families = [[[NSFontManager sharedFontManager] availableFontFamilies] mutableCopy];
 			[families sortUsingSelector: @selector(caseInsensitiveCompare:)];
 		} else {
@@ -78,7 +78,10 @@
 			NSFontDescriptor* desc;
 			
 			while (desc = [descEnum nextObject]) {
-				[familySet addObject: [[desc fontAttributes] objectForKey: NSFontFamilyAttribute]];
+				NSString* familyName = [[desc fontAttributes] objectForKey: NSFontFamilyAttribute];
+				if (!familyName) continue;
+				
+				[familySet addObject: familyName];
 			}
 			
 			families = [[familySet allObjects] mutableCopy];
