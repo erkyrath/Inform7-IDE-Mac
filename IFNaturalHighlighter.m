@@ -171,7 +171,15 @@
 	switch ([activeStorage highlighterMode]) {
 		// Natural Inform styles
 		case IFNaturalModeStandard:
-			switch (lastState) {
+			// Some states override the next state
+			if (lastState == IFNaturalStateComment)			return IFSyntaxComment;
+			if (lastState == IFNaturalStateQuote && nextState != IFNaturalStateTitleQuote)
+				return IFSyntaxGameText;
+			if (lastState == IFNaturalStateTitleQuote)		return IFSyntaxTitle;
+			if (lastState == IFNaturalStateHeading)			return IFSyntaxHeading;
+			if (lastState == IFNaturalStateSubstitution)	return IFSyntaxSubstitution;
+			
+			switch (nextState) {
 				case IFNaturalStateText:
 				case IFNaturalStateBlankLine:
 					if (nextState == IFNaturalStateComment) return IFSyntaxComment;
@@ -188,7 +196,6 @@
 					return IFSyntaxSubstitution;
 					
 				case IFNaturalStateQuote:
-					if (nextState == IFNaturalStateSubstitution) return IFSyntaxSubstitution;
 					return IFSyntaxGameText;
 					
 				case IFNaturalStateComment:
@@ -196,6 +203,7 @@
 					
 				case IFNaturalStateHeading:
 					return IFSyntaxHeading;
+				
 				default:
 					return IFSyntaxNone;
 			}
