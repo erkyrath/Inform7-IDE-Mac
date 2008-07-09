@@ -1034,6 +1034,23 @@
 	[self limitToSymbol: symbol];
 }
 
+- (void) undoReplaceCharactersInRange: (NSRange) range
+						   withString: (NSString*) string {
+	// Create an undo action
+	NSUndoManager* undo = [self undoManagerForTextView: sourceText];
+	[undo beginUndoGrouping];
+	[undo setActionName: [[NSBundle mainBundle] localizedStringForKey: @"Edit Header"
+																value: @"Edit Header"
+																table: nil]];
+	 [[undo prepareWithInvocationTarget: self] undoReplaceCharactersInRange: NSMakeRange(range.location, [string length])
+																withString: [[textStorage string] substringWithRange: range]];
+	 [undo endUndoGrouping];
+	
+	// Replace the text for this range
+	[[textStorage mutableString] replaceCharactersInRange: range
+											   withString: string];
+}
+
 - (void) headerView: (IFHeaderView*) view
  		 updateNode: (IFHeaderNode*) node
  	   withNewTitle: (NSString*) newTitle {
@@ -1058,6 +1075,16 @@
 		[self headerPage: nil
 		   limitToHeader: header];
 
+		// Create an undo action
+		NSUndoManager* undo = [self undoManagerForTextView: sourceText];
+		[undo beginUndoGrouping];
+		[undo setActionName: [[NSBundle mainBundle] localizedStringForKey: @"Edit Header"
+																	value: @"Edit Header"
+																	table: nil]];
+		[[undo prepareWithInvocationTarget: self] undoReplaceCharactersInRange: NSMakeRange(lineRange.location, [newTitle length])
+																	withString: [[textStorage string] substringWithRange: lineRange]];
+		[undo endUndoGrouping];
+		
 		// Replace the text for this node
 		[[textStorage mutableString] replaceCharactersInRange: lineRange
 												   withString: newTitle];
