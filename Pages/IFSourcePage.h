@@ -82,6 +82,10 @@
 - (IBAction) hideHeaderPage: (id) sender;
 - (IBAction) toggleHeaderPage: (id) sender;
 
+// Navigating through sections
+- (void) sourceFileShowPreviousSection: (id) sender;			// User clicked on the top tear
+- (void) sourceFileShowNextSection: (id) sender;				// User clicked on the bottom tear
+
 @end
 
 #import "IFCustomPopup.h"

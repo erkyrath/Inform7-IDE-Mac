@@ -15,8 +15,10 @@
 
 @interface IFSourcePage(IFSourcePagePrivate)
 
-- (void) limitToRange: (NSRange) range;
-- (void) limitToSymbol: (IFIntelSymbol*) symbol;
+- (void) limitToRange: (NSRange) range
+	preserveScrollPos: (BOOL)preserveScrollPos;
+- (void) limitToSymbol: (IFIntelSymbol*) symbol
+	preserveScrollPos: (BOOL)preserveScrollPos;
 - (int) lineForCharacter: (int) charNum 
 				 inStore: (NSString*) store;
 
@@ -255,7 +257,8 @@
 			IFIntelSymbol* symbol = [intel nearestSymbolToLine: line];
 			
 			if (symbol) {
-				[self limitToSymbol: symbol];
+				[self limitToSymbol: symbol
+				  preserveScrollPos: NO];
 			}
 			
 			// If the line is now available, then we can highlight the appropriate character
@@ -884,6 +887,10 @@
 	if (!headerPageShown) [self toggleHeaderPage: self];
 }
 
+- (IBAction) hideHeaderPage: (id) sender {
+	if (headerPageShown) [self toggleHeaderPage: self];
+}
+
 - (IBAction) showSourcePage: (id) sender {
 	if (headerPageShown) [self toggleHeaderPage: self];
 	if (fileManagerShown) [self hideFileManager: self];
@@ -916,7 +923,8 @@
 			restrictedStorage = [(IFRestrictedTextStorage*)storage retain];
 		}
 
-		[[undo prepareWithInvocationTarget: self] limitToRange: [restrictedStorage restrictionRange]];
+		[[undo prepareWithInvocationTarget: self] limitToRange: [restrictedStorage restrictionRange]
+											 preserveScrollPos: NO];
 	}
 	
 	[restrictedStorage removeRestriction];
@@ -926,7 +934,8 @@
 	[sourceText setTornAtBottom: NO];
 }
 
-- (void) limitToRange: (NSRange) range {
+- (void) limitToRange: (NSRange) range 
+	preserveScrollPos: (BOOL) preserveScrollPos {
 	// Get the text storage object
 	NSTextStorage* storage = [sourceText textStorage];
 	NSUndoManager* undo = [sourceText undoManager];
@@ -946,7 +955,8 @@
 			 restrictedStorage = [(IFRestrictedTextStorage*)storage retain];
 		 }
 
-		 [[undo prepareWithInvocationTarget: self] limitToRange: [restrictedStorage restrictionRange]];
+		 [[undo prepareWithInvocationTarget: self] limitToRange: [restrictedStorage restrictionRange]
+											  preserveScrollPos: NO];
 	 }
 	
 	// Set the restriction range
@@ -961,7 +971,8 @@
 	[self updateHighlightedLines];
 }
 
-- (void) limitToSymbol: (IFIntelSymbol*) symbol {
+- (void) limitToSymbol: (IFIntelSymbol*) symbol 
+	 preserveScrollPos: (BOOL)preserveScrollPos {
 	IFIntelFile* intelFile = [[parent headerController] intelFile];
 	IFIntelSymbol* followingSymbol	= [symbol sibling];
 	
@@ -1019,7 +1030,8 @@
 	
 	// Perform the limitation
 	limitRange.length = finalLocation - limitRange.location;
-	[self limitToRange: limitRange];
+	[self limitToRange: limitRange
+	 preserveScrollPos: preserveScrollPos];
 	
 	// Redisplay the source code
 	if (headerPageShown) [self toggleHeaderPage: self];
@@ -1033,7 +1045,8 @@
 	// Work out the following symbol
 	IFIntelSymbol* symbol			= [header symbol];
 	
-	[self limitToSymbol: symbol];
+	[self limitToSymbol: symbol
+	  preserveScrollPos: NO];
 }
 
 - (void) undoReplaceCharactersInRange: (NSRange) range
@@ -1132,7 +1145,8 @@
 		[animator setTime: 0.3];
 		[animator prepareToAnimateView: view];
 		
-		[self limitToSymbol: previousSection];
+		[self limitToSymbol: previousSection
+		  preserveScrollPos: NO];
 		[animator animateTo: view
 					  style: IFAnimateDown];
 	} else {
@@ -1165,7 +1179,8 @@
 		[animator setTime: 0.3];
 		[animator prepareToAnimateView: view];
 		
-		[self limitToSymbol: nextSection];
+		[self limitToSymbol: nextSection
+		  preserveScrollPos: NO];
 		[animator animateTo: view
 					  style: IFAnimateUp];
 	}

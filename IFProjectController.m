@@ -896,6 +896,21 @@ static NSDictionary*  itemDictionary = nil;
 		return [[[projectPanes objectAtIndex: 0] indexPage] canSelectIndexTab: [menuItem tag]];
 	}
 	
+	// Heading options
+	if (itemSelector	== @selector(showNextSection:)
+		|| itemSelector == @selector(showPreviousSection:)
+		|| itemSelector == @selector(showCurrentSectionOnly:)
+		|| itemSelector == @selector(showEntireSource:)
+		|| itemSelector == @selector(showFewerHeadings:)
+		|| itemSelector == @selector(showMoreHeadings:)) {
+		// For any of these to work, the source page must be visible
+		if (![[[self window] firstResponder] isKindOfClass: [NSTextView class]])
+			return NO;
+		
+		if ([currentPane currentView] != IFSourcePane)
+			return NO;
+	}
+	
 	// Spell checking
 	if (itemSelector == @selector(toggleSourceSpellChecking:)) {
 		[menuItem setState: sourceSpellChecking?NSOnState:NSOffState];
@@ -3213,6 +3228,8 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Retrieve the page for the current tab
 	IFSourcePage* sourcePage = [currentPane sourcePage];
+	
+	// Toggle the header page
 	[sourcePage toggleHeaderPage: self];
 }
 
@@ -3229,9 +3246,27 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) showPreviousSection: (id) sender {
+	// Select the source page in the current tab
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFSourcePage class] description]];
+	[self activateNearestTextView];	
+	
+	// Retrieve the page for the current tab
+	IFSourcePage* sourcePage = [currentPane sourcePage];
+	
+	// Show the previous section
+	[sourcePage sourceFileShowPreviousSection: self];
 }
 
 - (void) showNextSection: (id) sender {
+	// Select the source page in the current tab
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFSourcePage class] description]];
+	[self activateNearestTextView];	
+	
+	// Retrieve the page for the current tab
+	IFSourcePage* sourcePage = [currentPane sourcePage];
+	
+	// Show the next section
+	[sourcePage sourceFileShowNextSection: self];
 }
 
 // = Commenting out source =
