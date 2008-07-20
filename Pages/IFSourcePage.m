@@ -903,6 +903,33 @@
 	return YES;
 }
 
+// = Helping out with the cursor =
+
+- (float) cursorOffset {
+	// Returns the offset of the cursor (beginning of the current selection) relative to the top
+	// of the view
+	
+	// Retrieve the currently selected range
+	NSRange selection = [sourceText selectedRange];
+	
+	// Unlikely corner case
+	if (selection.location < 0) return 0;
+	
+	// Get the offset of this location in the text view
+	NSLayoutManager* layout	= [sourceText layoutManager];
+	NSRange glyphRange		= [layout glyphRangeForCharacterRange: selection
+											 actualCharacterRange: nil];
+	NSRect boundingRect		= [layout boundingRectForGlyphRange: glyphRange
+												inTextContainer: [sourceText textContainer]];
+	
+	// Convert to coordinates relative to the containing view
+	[sourceText convertRect: boundingRect
+					 toView: sourceScroller];
+	
+	// Offset is the minimum position of the bounding rectangle
+	return NSMinY(boundingRect);
+}
+
 // = Header page delegate methods =
 
 - (void) refreshHeaders: (IFHeaderController*) controller {
@@ -936,6 +963,15 @@
 
 - (void) limitToRange: (NSRange) range 
 	preserveScrollPos: (BOOL) preserveScrollPos {
+	// Record the current cursor offset and selection if preservation is turned on
+	float originalCursorOffset	= 0;
+	NSRange selectionRange		= NSMakeRange(0, 0);
+	
+	if (preserveScrollPos) {
+		originalCursorOffset	= [self cursorOffset];
+		selectionRange			= [sourceText selectedRange];
+	}
+	
 	// Get the text storage object
 	NSTextStorage* storage = [sourceText textStorage];
 	NSUndoManager* undo = [sourceText undoManager];
@@ -950,6 +986,10 @@
 		
 		[[undo prepareWithInvocationTarget: self] removeLimits];
 	 } else {
+		 if (preserveScrollPos) {
+			 selectionRange.location += [restrictedStorage restrictionRange].location;
+		 }
+		 
 		 if (restrictedStorage != storage) {
 			 [restrictedStorage autorelease];
 			 restrictedStorage = [(IFRestrictedTextStorage*)storage retain];
@@ -969,6 +1009,40 @@
 	
 	// Refresh any highlighting
 	[self updateHighlightedLines];
+	
+	// Reset the selection and try to scroll back to the original position if we can
+	if (preserveScrollPos) {
+		// Update the selection
+		if (range.location < selectionRange.location) {
+			// Selection is after the beginning of the range
+			selectionRange.location -= range.location;
+			
+			if (selectionRange.location > range.length) {
+				// Selection is after the end of the range; just use the start of the region
+				selectionRange.location = selectionRange.length = 0;
+			} else if (selectionRange.location + selectionRange.length > range.length) {
+				// Selection extends beyond the end of the region
+				selectionRange.length = range.length - selectionRange.location;
+			}
+		} else {
+			// Just go to the start of the region if the selection is out of bounds
+			selectionRange.location = selectionRange.length = 0;
+			
+			// TODO: selection could start before the range and extend into it; this will work 
+			// differently from the selection extending over the end of the range
+		}
+		
+		// Set the selection
+		[sourceText setSelectedRange: range];
+		
+		// Get the cursor scroll offset
+		float scrollOffset = floorf([self cursorOffset] - originalCursorOffset);
+		
+		// Scroll the view
+		NSPoint scrollPos = [[sourceScroller contentView] documentVisibleRect].origin;
+		scrollPos.y -= scrollOffset;
+		[[sourceScroller contentView] scrollToPoint: scrollPos];
+	}
 }
 
 - (void) limitToSymbol: (IFIntelSymbol*) symbol 
@@ -1185,5 +1259,21 @@
 					  style: IFAnimateUp];
 	}
 }
+
+- (void) showEntireSource: (id) sender {
+	// Display everything
+	[self limitToRange: NSMakeRange(0, [[sourceText textStorage] length])
+	 preserveScrollPos: YES];
+}
+
+- (void) showCurrentSectionOnly: (id) sender {
+}
+
+- (void) showFewerHeadings: (id) sender {
+}
+
+- (void) showMoreHeadings: (id) sender {
+}
+
 
 @end

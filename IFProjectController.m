@@ -3234,15 +3234,47 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) showCurrentSectionOnly: (id) sender {
+	// Select the source page in the current tab
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFSourcePage class] description]];
+	[self activateNearestTextView];	
+	
+	// Retrieve the page for the current tab
+	IFSourcePage* sourcePage = [currentPane sourcePage];
+	
+	[sourcePage showCurrentSectionOnly: self];
 }
 
 - (void) showFewerHeadings: (id) sender {
+	// Select the source page in the current tab
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFSourcePage class] description]];
+	[self activateNearestTextView];	
+	
+	// Retrieve the page for the current tab
+	IFSourcePage* sourcePage = [currentPane sourcePage];
+	
+	[sourcePage showFewerHeadings: self];
 }
 
 - (void) showMoreHeadings: (id) sender {
+	// Select the source page in the current tab
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFSourcePage class] description]];
+	[self activateNearestTextView];	
+	
+	// Retrieve the page for the current tab
+	IFSourcePage* sourcePage = [currentPane sourcePage];
+	
+	[sourcePage showMoreHeadings: self];
 }
 
 - (void) showEntireSource: (id) sender {
+	// Select the source page in the current tab
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFSourcePage class] description]];
+	[self activateNearestTextView];	
+	
+	// Retrieve the page for the current tab
+	IFSourcePage* sourcePage = [currentPane sourcePage];
+	
+	[sourcePage showEntireSource: self];
 }
 
 - (void) showPreviousSection: (id) sender {

@@ -86,6 +86,11 @@
 - (void) sourceFileShowPreviousSection: (id) sender;			// User clicked on the top tear
 - (void) sourceFileShowNextSection: (id) sender;				// User clicked on the bottom tear
 
+- (void) showCurrentSectionOnly: (id) sender;					// Shows the section containing the beginning of the selection
+- (void) showFewerHeadings: (id) sender;						// Decreases the number of headings displayed around the cursor
+- (void) showMoreHeadings: (id) sender;							// Increases the number of headings displayed around the cursor
+- (void) showEntireSource: (id) sender;							// Displays the entire source code, keeping the cursor in the same position
+
 @end
 
 #import "IFCustomPopup.h"
