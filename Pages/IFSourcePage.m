@@ -1033,14 +1033,14 @@
 		}
 		
 		// Set the selection
-		[sourceText setSelectedRange: range];
+		[sourceText setSelectedRange: selectionRange];
 		
 		// Get the cursor scroll offset
 		float scrollOffset = floorf([self cursorOffset] - originalCursorOffset);
 		
 		// Scroll the view
 		NSPoint scrollPos = [[sourceScroller contentView] documentVisibleRect].origin;
-		scrollPos.y -= scrollOffset;
+		scrollPos.y += scrollOffset;
 		[[sourceScroller contentView] scrollToPoint: scrollPos];
 	}
 }
@@ -1262,7 +1262,7 @@
 
 - (void) showEntireSource: (id) sender {
 	// Display everything
-	[self limitToRange: NSMakeRange(0, [[sourceText textStorage] length])
+	[self limitToRange: NSMakeRange(0, [textStorage length])
 	 preserveScrollPos: YES];
 }
 
