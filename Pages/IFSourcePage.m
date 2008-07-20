@@ -919,12 +919,14 @@
 	NSLayoutManager* layout	= [sourceText layoutManager];
 	NSRange glyphRange		= [layout glyphRangeForCharacterRange: selection
 											 actualCharacterRange: nil];
+
 	NSRect boundingRect		= [layout boundingRectForGlyphRange: glyphRange
 												inTextContainer: [sourceText textContainer]];
+	boundingRect.origin.y	+= [sourceText textContainerOrigin].y;
 	
 	// Convert to coordinates relative to the containing view
-	[sourceText convertRect: boundingRect
-					 toView: sourceScroller];
+	boundingRect = [sourceText convertRect: boundingRect
+									toView: sourceScroller];
 	
 	// Offset is the minimum position of the bounding rectangle
 	return NSMinY(boundingRect);
@@ -970,6 +972,7 @@
 	if (preserveScrollPos) {
 		originalCursorOffset	= [self cursorOffset];
 		selectionRange			= [sourceText selectedRange];
+		[[sourceText layoutManager] setBackgroundLayoutEnabled: NO];
 	}
 	
 	// Get the text storage object
@@ -1035,13 +1038,22 @@
 		// Set the selection
 		[sourceText setSelectedRange: selectionRange];
 		
+		// Scroll to the top to avoid some glitching
+		[sourceText scrollPoint: NSMakePoint(0,0)];
+
 		// Get the cursor scroll offset
-		float scrollOffset = floorf([self cursorOffset] - originalCursorOffset);
+		float newCursorOffset	= [self cursorOffset];
+		float scrollOffset		= floorf(newCursorOffset - originalCursorOffset);
 		
 		// Scroll the view
 		NSPoint scrollPos = [[sourceScroller contentView] documentVisibleRect].origin;
+		NSLog(@"Old offset: %g, new offset %g, adjusted scroll by %g from %g", originalCursorOffset, newCursorOffset, scrollOffset, scrollPos.y);
 		scrollPos.y += scrollOffset;
+		if (range.location > 0) scrollPos.y += 18;			// HACK
+		if (scrollPos.y < 0) scrollPos.y = 0;
 		[[sourceScroller contentView] scrollToPoint: scrollPos];
+
+		[[sourceText layoutManager] setBackgroundLayoutEnabled: YES];
 	}
 }
 
@@ -1111,7 +1123,9 @@
 	if (headerPageShown) [self toggleHeaderPage: self];
 	
 	// Scroll to the top
-	[sourceText scrollPoint: NSMakePoint(0,0)];
+	if (!preserveScrollPos) {
+		[sourceText scrollPoint: NSMakePoint(0,0)];
+	}
 }
 
 - (void) headerPage: (IFHeaderPage*) page
@@ -1260,6 +1274,21 @@
 	}
 }
 
+- (IFIntelSymbol*) symbolNearestSelection {
+	// Work out the absolute selection
+	NSRange selection				= [sourceText selectedRange];
+	if (restrictedStorage != nil) {
+		selection.location			+= [restrictedStorage restrictionRange].location;
+	}
+	
+	// Retrieve the symbol nearest to the line the selection is on
+	IFIntelFile* intelFile			= [self currentIntelligence];
+	IFIntelSymbol* nearestSymbol	= [intelFile nearestSymbolToLine: [self lineForCharacter: selection.location
+																				  inStore: [textStorage string]]];
+	
+	return nearestSymbol;
+}
+
 - (void) showEntireSource: (id) sender {
 	// Display everything
 	[self limitToRange: NSMakeRange(0, [textStorage length])
@@ -1267,12 +1296,59 @@
 }
 
 - (void) showCurrentSectionOnly: (id) sender {
+	// Get the symbol nearest to the current selection
+	IFIntelSymbol* cursorSection = [self symbolNearestSelection];
+	
+	// Limit the displayed range to it
+	if (cursorSection) {
+		[self limitToSymbol: cursorSection
+		  preserveScrollPos: YES];
+	}
 }
 
 - (void) showFewerHeadings: (id) sender {
+	// Get the currently displayed section
+	IFIntelSymbol* currentSection = [self currentSection];
+	if (!currentSection) {
+		// Ensures we don't end up picking the 'title' section which includes the whole file anyway
+		currentSection = [[self currentIntelligence] firstSymbol];
+	}
+	
+	// Also get the section that the cursor is in
+	IFIntelSymbol* cursorSection = [self symbolNearestSelection];
+	
+	// Can't do anything if the cursor is in no section, or the currently selected section is the most specific we can use
+	if (cursorSection == nil || currentSection == cursorSection) {
+		return;
+	}
+	
+	// Move up the sections until we find one which has the currentSection as a parent
+	IFIntelSymbol* lowerSection = cursorSection;
+	while (lowerSection && [lowerSection parent] != currentSection) {
+		lowerSection = [lowerSection parent];
+	}
+	
+	if (lowerSection) {
+		// Restrict to this section
+		[self limitToSymbol: lowerSection
+		  preserveScrollPos: YES];
+	}
 }
 
 - (void) showMoreHeadings: (id) sender {
+	// Limit to one section above the current section
+	IFIntelSymbol* currentSection	= [self currentSection];
+	if (!currentSection) {
+		return;
+	}
+	
+	IFIntelSymbol* parentSection	= [currentSection parent];
+	if (parentSection && parentSection != [[self currentIntelligence] firstSymbol]) {
+		[self limitToSymbol: parentSection
+		  preserveScrollPos: YES];
+	} else {
+		[self showEntireSource: self];
+	}
 }
 
 
