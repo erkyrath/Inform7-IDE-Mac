@@ -93,10 +93,12 @@
 																										table: nil]];
 		[headerPageControl setTarget: self];
 		[headerPageControl setAction: @selector(showHeaderPage:)];
+		[headerPageControl setRadioGroup: 1];
 
 		sourcePageControl = [[IFPageBarCell alloc] initTextCell: [[NSBundle mainBundle] localizedStringForKey: @"SourcePage"
 																										value: @"Source"
 																										table: nil]];
+		[sourcePageControl setRadioGroup: 1];
 		[sourcePageControl setTarget: self];
 		[sourcePageControl setAction: @selector(showSourcePage:)];
 		[sourcePageControl setState: NSOnState];

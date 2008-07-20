@@ -485,6 +485,7 @@
 		4BC84BC307AC1C3C0076B993 /* IFSearchResultsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC84BC107AC1C3C0076B993 /* IFSearchResultsController.m */; };
 		4BC8E3370795C66300D73BC7 /* IFPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BC8E3350795C66300D73BC7 /* IFPreferenceController.m */; };
 		4BC8E3490795CD7B00D73BC7 /* Styles.png in Resources */ = {isa = PBXBuildFile; fileRef = 4BC8E3480795CD7B00D73BC7 /* Styles.png */; };
+		4BCC236B0E3236AB00EC443C /* buildno in Resources */ = {isa = PBXBuildFile; fileRef = 4BCC236A0E32368B00EC443C /* buildno */; };
 		4BCDA9EA0903BED9002921FC /* MetadataImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCDA9E90903BED9002921FC /* MetadataImporter.m */; };
 		4BCEA3BD0D5900C500EC8B11 /* IFFindController.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BCEA3BB0D5900C500EC8B11 /* IFFindController.h */; };
 		4BCEA3BE0D5900C500EC8B11 /* IFFindController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BCEA3BC0D5900C500EC8B11 /* IFFindController.m */; };
@@ -759,7 +760,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 4B81D2CF08112C5700CF609F /* CocoaGlk.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4BF0852A0E166E8300DB5C6B /* GlkSound.framework */;
+			remoteGlobalIDString = 4BF0852A0E166E8300DB5C6B;
 			remoteInfo = GlkSound;
 		};
 		4BB8BF6308BB3CC400D7D334 /* PBXContainerItemProxy */ = {
@@ -1547,8 +1548,9 @@
 		4BC8E3350795C66300D73BC7 /* IFPreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IFPreferenceController.m; sourceTree = "<group>"; };
 		4BC8E3480795CD7B00D73BC7 /* Styles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Styles.png; path = Images/Styles.png; sourceTree = SOURCE_ROOT; };
 		4BC977C4057B3E8B00447AAA /* TechMan.txt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text; path = TechMan.txt; sourceTree = SOURCE_ROOT; };
+		4BCC236A0E32368B00EC443C /* buildno */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = buildno; sourceTree = "<group>"; };
 		4BCDA9DA0903BE64002921FC /* IFimporter.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IFimporter.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		4BCDA9DB0903BE64002921FC /* IFimporter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "IFimporter-Info.plist"; sourceTree = "<group>"; };
+		4BCDA9DB0903BE64002921FC /* IFimporter-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "IFimporter-Info.plist"; sourceTree = "<group>"; };
 		4BCDA9E80903BED9002921FC /* MetadataImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MetadataImporter.h; sourceTree = "<group>"; };
 		4BCDA9E90903BED9002921FC /* MetadataImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MetadataImporter.m; sourceTree = "<group>"; };
 		4BCEA3BB0D5900C500EC8B11 /* IFFindController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFFindController.h; sourceTree = "<group>"; };
@@ -1856,6 +1858,7 @@
 				4B4D3D3A0A9E4BD30007FD80 /* HeadingsBrowser.nib */,
 				4BF8572F0871FB1D004683BD /* SingleFile.nib */,
 				4B70F6C108F4678600F25E34 /* Welcome.nib */,
+				4BCC236A0E32368B00EC443C /* buildno */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -3193,6 +3196,7 @@
 				4B274FAB0754FBAC00851A38 /* (Script): Remove any svn files that have crept in */,
 				4BA3792A0CD3E46F00C7B1D4 /* Copy QuickLook bundle */,
 				4B2E02840D0C731400FFC8AC /* Copy extra executables */,
+				4BCC23360E3227DB00EC443C /* (Script): upload deployment builds to iDisk */,
 			);
 			buildRules = (
 			);
@@ -3418,6 +3422,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4BCC236B0E3236AB00EC443C /* buildno in Resources */,
 				4B929B4E0C382A880060953E /* Inform7Syntax.xml in Resources */,
 				4BD95A06055EE949008DEFF4 /* InfoPlist.strings in Resources */,
 				4BD95A07055EE949008DEFF4 /* Project.nib in Resources */,
@@ -3637,6 +3642,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "echo \\*\\*\\* Building script dictionaries\ncd ${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources\n\nSCRIPTSUITES=\"/Developer/Examples/Scripting Definitions\"\n\n# rm *.scriptSuite\n# rm *.scriptTerminology\nsdp -fs -i \"${SCRIPTSUITES}/NSCoreSuite.sdef\" -i \"${SCRIPTSUITES}/NSTextSuite.sdef\" \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform.sdef\"\n\nsdp -ft -i \"${SCRIPTSUITES}/NSCoreSuite.sdef\" -i \"${SCRIPTSUITES}/NSTextSuite.sdef\" \"${TARGET_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/Resources/Inform.sdef\"\n";
+		};
+		4BCC23360E3227DB00EC443C /* (Script): upload deployment builds to iDisk */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "(Script): upload deployment builds to iDisk";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "#!/bin/bash\n\n# Uploads the latest deployment build of Inform\n\nBUILDFOLDER=\"/Volumes/iDisk/Public/Inform builds\"\necho $CONFIGURATION\n\nif [ \"$CONFIGURATION\" = \"Deployment\" -a -d \"${BUILDFOLDER}\" ]; then\n\t# Update the build number\n\tBUILDNO=`cat ${PROJECT_DIR}/buildno`\n\tNEWBUILD=$((BUILDNO+1))\n\techo $NEWBUILD >${PROJECT_DIR}/buildno\n\t\n\tBUILDSYMBOL=`printf \"%05x\" ${BUILDNO}`\n\t\n\t# Create the zip file with the final project in it\n\tZIPFILE=\"Inform-${BUILDSYMBOL}.zip\"\n\tzip -r \"${TARGET_BUILD_DIR}/${ZIPFILE}\" \"${TARGET_BUILD_DIR}/Inform.app\"\n\tmv \"${TARGET_BUILD_DIR}/${ZIPFILE}\" \"${BUILDFOLDER}/${ZIPFILE}\"\n\t\n\t# Create the symlink for the latest version\n\t# ln -sf \"${BUILDFOLDER}/${ZIPFILE}\" \"${BUILDFOLDER}/Inform-latest.zip\"\nfi\n\n# Clean out old builds\n# COUNT=0\n# for file in `ls -t \"${BUILDFOLDER}/Inform-\"[0-9a-fA-F]*.zip`; do\n#\tif [ -f $file ]; then\n#\t\tCOUNT=$((COUNT+1))\n#\t\n#\t\tif [ $COUNT -gt 10 ]; then\n#\t\t\techo Cleaning out $file\n#\t\t\trm $file\n#\t\telse\n#\t\t\techo Keeping $file\n#\t\tfi\n#\tfi\n#done\n";
+			showEnvVarsInLog = 0;
 		};
 		4BD2758E0871A4B000C1AE15 /* (Script): Remove previously built frameworks */ = {
 			isa = PBXShellScriptBuildPhase;

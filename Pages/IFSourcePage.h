@@ -78,6 +78,8 @@
 - (IBAction) toggleFileManager: (id) sender;
 
 // The header page
+- (IBAction) showHeaderPage: (id) sender;
+- (IBAction) hideHeaderPage: (id) sender;
 - (IBAction) toggleHeaderPage: (id) sender;
 
 @end

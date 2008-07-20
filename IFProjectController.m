@@ -3204,4 +3204,39 @@ static NSDictionary*  itemDictionary = nil;
 	return headerController;
 }
 
+// = Moving around source headings =
+
+- (void) showHeadings: (id) sender {
+	// Select the source page in the current tab
+	[[self currentTabView] selectTabViewItemWithIdentifier: [[IFSourcePage class] description]];
+	[self activateNearestTextView];	
+	
+	// Retrieve the page for the current tab
+	IFSourcePage* sourcePage = [currentPane sourcePage];
+	[sourcePage toggleHeaderPage: self];
+}
+
+- (void) showCurrentSectionOnly: (id) sender {
+}
+
+- (void) showFewerHeadings: (id) sender {
+}
+
+- (void) showMoreHeadings: (id) sender {
+}
+
+- (void) showEntireSource: (id) sender {
+}
+
+- (void) showPreviousSection: (id) sender {
+}
+
+- (void) showNextSection: (id) sender {
+}
+
+// = Commenting out source =
+
+- (void) commentOutSelection: (id) sender {
+}
+
 @end
