@@ -36,6 +36,9 @@ typedef enum IFViewAnimationStyle {
 	NSView* originalView;
 	NSView* originalSuperview;
 	NSDate* whenStarted;
+	
+	id finishedObject;
+	SEL finishedMessage;
 }
 
 // Caching views
@@ -47,6 +50,10 @@ typedef enum IFViewAnimationStyle {
 - (void) prepareToAnimateView: (NSView*) view;						// Prepares to animate, using the specified view as a template
 - (void) animateTo: (NSView*) view									// Begins animating the specified view so that transitions from the state set in prepareToAnimateView to the new state
 			 style: (IFViewAnimationStyle) style;
+- (void) animateTo: (NSView*) view									// Begins animating the specified view so that transitions from the state set in prepareToAnimateView to the new state, sending the specified message to the specified object when it finishes
+			 style: (IFViewAnimationStyle) style
+	   sendMessage: (SEL) finishedMessage
+		  toObject: (id) whenFinished;
 - (void) finishAnimation;											// Abandons any running animation
 
 @end

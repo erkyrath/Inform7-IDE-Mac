@@ -784,6 +784,26 @@
 
 // = Managing the source text view =
 
+- (BOOL) hasFirstResponder {
+	// Returns true if this page has the first responder
+	
+	// Find the first responder that is a view
+	NSResponder* firstResponder = [[sourceText window] firstResponder];
+	while (firstResponder && ![firstResponder isKindOfClass: [NSView class]]) {
+		firstResponder = [firstResponder nextResponder];
+	}
+	
+	// See if the source text view is in the first responder hierarchy
+	NSView* respondingView = (NSView*)firstResponder;
+	while (respondingView) {
+		if (respondingView == sourceText)  return YES;
+		if (respondingView == [self view]) return YES;
+		respondingView = [respondingView superview];
+	}
+	
+	return NO;
+}
+
 - (void) setSourceText: (IFSourceFileView*) newSourceText {
 	[sourceText autorelease];
 	sourceText = [newSourceText retain];
@@ -1229,23 +1249,31 @@
 	
 	if (previousSection) {
 		IFViewAnimator* animator = [[[IFViewAnimator alloc] init] autorelease];
+		BOOL hasFirstResponder = [self hasFirstResponder];
 		
 		[animator setTime: 0.3];
 		[animator prepareToAnimateView: view];
 		
 		[self limitToSymbol: previousSection
 		  preserveScrollPos: NO];
+		[sourceText setSelectedRange: NSMakeRange(0,0)];
 		[animator animateTo: view
-					  style: IFAnimateDown];
+					  style: IFAnimateDown
+				sendMessage: @selector(setFirstResponder)
+				   toObject: hasFirstResponder?self:nil];
 	} else {
 		IFViewAnimator* animator = [[[IFViewAnimator alloc] init] autorelease];
+		BOOL hasFirstResponder = [self hasFirstResponder];
 		
 		[animator setTime: 0.3];
 		[animator prepareToAnimateView: view];
 		
 		[self removeLimits];
+		[sourceText setSelectedRange: NSMakeRange(0,0)];
 		[animator animateTo: view
-					  style: IFAnimateDown];
+					  style: IFAnimateDown
+				sendMessage: @selector(setFirstResponder)
+				   toObject: hasFirstResponder?self:nil];
 	}
 }
 
@@ -1263,15 +1291,24 @@
 	
 	if (nextSection) {
 		IFViewAnimator* animator = [[[IFViewAnimator alloc] init] autorelease];
+		BOOL hasFirstResponder = [self hasFirstResponder];
 		
 		[animator setTime: 0.3];
 		[animator prepareToAnimateView: view];
 		
 		[self limitToSymbol: nextSection
 		  preserveScrollPos: NO];
+		[sourceText setSelectedRange: NSMakeRange(0,0)];
 		[animator animateTo: view
-					  style: IFAnimateUp];
+					  style: IFAnimateUp
+				sendMessage: @selector(setFirstResponder)
+				   toObject: hasFirstResponder?self:nil];
 	}
+}
+
+- (void) setFirstResponder {
+	// View animation has finished and we want to reset the source text view as the first responder
+	[[sourceText window] makeFirstResponder: sourceText];
 }
 
 - (IFIntelSymbol*) symbolNearestSelection {

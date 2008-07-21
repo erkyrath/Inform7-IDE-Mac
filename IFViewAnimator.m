@@ -28,6 +28,7 @@
 	[startImage release];
 	[endImage release];
 	[whenStarted release];
+	[finishedObject autorelease];
 	
 	[super dealloc];
 }
@@ -105,6 +106,10 @@
 
 - (void) finishAnimation {
 	if (originalView != nil) {
+		// Ensure we don't self-destruct
+		[[self retain] autorelease];
+		
+		// Restore the original view
 		[self removeFromSuperview];
 		
 		NSRect frame = originalFrame;
@@ -118,6 +123,7 @@
 		[originalView release]; originalView = nil;
 		[originalSuperview release]; originalSuperview = nil;
 		
+		// Finish up the timer
 		if (animationTimer) {
 			[animationTimer invalidate]; [animationTimer release]; animationTimer = nil;
 
@@ -127,6 +133,13 @@
 											   argument: nil
 												  order: 64
 												  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
+		}
+		
+		// Perform whichever action was requested at the end of the animation
+		if (finishedObject) {
+			[finishedObject performSelector: finishedMessage];
+			[finishedObject autorelease];
+			finishedObject = nil;
 		}
 	}
 }
@@ -155,8 +168,23 @@
 
 - (void) animateTo: (NSView*) view
 			 style: (IFViewAnimationStyle) style {
+	[self animateTo: view
+			  style: style
+		sendMessage: nil
+		   toObject: nil];
+}
+
+- (void) animateTo: (NSView*) view									// Begins animating the specified view so that transitions from the state set in prepareToAnimateView to the new state, sending the specified message to the specified object when it finishes
+			 style: (IFViewAnimationStyle) style
+	   sendMessage: (SEL) finMessage
+		  toObject: (id) whenFinished {
 	[whenStarted release];
 	whenStarted = [[NSDate date] retain];
+	
+	// Remember the object to send the 'animation finished' message to
+	[finishedObject autorelease];
+	finishedObject = [whenFinished retain];
+	finishedMessage	= finMessage;
 	
 	// Create the final image
 	[endImage release];
