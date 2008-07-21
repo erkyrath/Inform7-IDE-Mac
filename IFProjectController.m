@@ -911,6 +911,11 @@ static NSDictionary*  itemDictionary = nil;
 			return NO;
 	}
 	
+	if (itemSelector == @selector(commentOutSelection:)) {
+		// Not supported yet
+		return NO;
+	}
+	
 	// Spell checking
 	if (itemSelector == @selector(toggleSourceSpellChecking:)) {
 		[menuItem setState: sourceSpellChecking?NSOnState:NSOffState];
