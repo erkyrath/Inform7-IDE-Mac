@@ -17,20 +17,30 @@
 				ofType: (IFFindType) type {
 	BOOL insensitive = (type&IFFindCaseInsensitive)!=0;
 
-	return [self searchFor: match
+	if (![self searchFor: match
 				 direction: YES
 			 caseSensitive: !insensitive
-					  wrap: YES];
+					wrap: YES]) {
+		NSBeep();
+		return NO;
+	} else {
+		return YES;
+	}
 }
 
 - (BOOL) findPreviousMatch: (NSString*) match
 					ofType: (IFFindType) type {
 	BOOL insensitive = (type&IFFindCaseInsensitive)!=0;
 	
-	return [self searchFor: match
+	if (![self searchFor: match
 				 direction: NO
 			 caseSensitive: !insensitive
-					  wrap: YES];
+					wrap: YES]) {
+		NSBeep();
+		return NO;
+	} else {
+		return YES;
+	}
 }
 
 - (BOOL) canUseFindType: (IFFindType) find {
