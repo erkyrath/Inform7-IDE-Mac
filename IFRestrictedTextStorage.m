@@ -163,7 +163,7 @@
 	}
 	
 	// If the change in length is non-zero and the edited range extends beyonds the restriction location, perform the update by changing the restriction range
-	if (editRange.location + editRange.length > restriction.location + restriction.length) {
+	if (changeInLength != 0 && editRange.location + editRange.length > restriction.location + restriction.length) {
 		NSRange newRestriction = restriction;
 		
 		newRestriction.length	+= (editRange.location + editRange.length) - (restriction.location + restriction.length);

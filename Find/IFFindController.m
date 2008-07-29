@@ -209,7 +209,7 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 			[findPhrase setStringValue: searchFor];
 			[searchType selectItem: containsItem];
 			
-			[self findNext: self];
+			// [self findNext: self];
 			return;
 		}
 	}
