@@ -79,8 +79,10 @@
 		// Wrap around if necessary
 		if (direction < 0 && pos < 0) 
 			pos = [text length] - phraseLength;
-		if (direction > 0 && pos > [text length]-phraseLength)
+		if (direction > 0 && pos > [text length]-phraseLength) {
+			if (pos < point) break;
 			pos = 0;
+		}
 		
 		// See if we have a match at this position
 		if (matcher) {
