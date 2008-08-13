@@ -616,6 +616,16 @@ NSDictionary* IFSyntaxAttributes[256];
 
 // = Dealing with pages =
 
+- (void) refreshToolbarCells: (NSNotification*) not {
+	// Work out which page we're updating
+	IFPage* page = [not object];
+	
+	// Refresh the page bar cells
+	if (page == [self pageForTabViewItem: [tabView selectedTabViewItem]]) {
+		[pageBar setRightCells: [page toolbarCells]];
+	}
+}
+
 - (void) switchToPage: (NSNotification*) not {
 	// Work out which page we're switching to, and the optional page that must be showing for the switch to occur
 	NSString* identifier = [[not userInfo] objectForKey: @"Identifier"];
@@ -647,6 +657,10 @@ NSDictionary* IFSyntaxAttributes[256];
 	[[NSNotificationCenter defaultCenter] addObserver: self
 											 selector: @selector(switchToPage:)
 												 name: IFSwitchToPageNotification
+											   object: newPage];
+	[[NSNotificationCenter defaultCenter] addObserver: self
+											 selector: @selector(refreshToolbarCells:)
+												 name: IFUpdatePageBarCellsNotification
 											   object: newPage];
 	
 	// Add the page to the tab view

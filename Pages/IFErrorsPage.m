@@ -99,6 +99,9 @@
 		// Move on
 		currentIndex--;
 	}
+	
+	// Update the cells being displayed
+	[self toolbarCellsHaveUpdated];
 }
 
 - (void) switchToPage: (int) index {
