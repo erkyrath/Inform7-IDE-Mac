@@ -89,6 +89,7 @@
 
 - (void) preferencesChanged: (NSNotification*) not {
 	[zView setScaleFactor: 1.0/[[IFPreferences sharedPreferences] fontSize]];
+	[gView setScaleFactor: [[IFPreferences sharedPreferences] fontSize]];
 }
 
 - (void) activateDebug {
@@ -142,6 +143,8 @@
 		[gView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 		[gView setFrame: [view bounds]];
 		[view addSubview: gView];
+		
+		[gView setScaleFactor: [[IFPreferences sharedPreferences] fontSize]];
 		
 		[gView setInputFilename: fileName];
 		[gView launchClientApplication: [[NSBundle mainBundle] pathForResource: @"glulxe"

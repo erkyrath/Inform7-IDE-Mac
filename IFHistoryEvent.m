@@ -69,6 +69,7 @@
 }
 
 - (void) addInvocation: (NSInvocation*) newInvocation {
+	[newInvocation retainArguments];
 	[invocations addObject: newInvocation];
 	
 	[target release]; target = nil;
@@ -111,8 +112,11 @@
 }
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
-	[anInvocation setTarget: [event target]];
-	[event addInvocation: anInvocation];
+	NSInvocation* invoke = [[anInvocation retain] autorelease];
+	
+	[invoke setTarget: [event target]];
+	[invoke retainArguments];
+	[event addInvocation: invoke];
 }
 
 @end

@@ -128,6 +128,7 @@ typedef enum {
 					ofType: (IFFindType) type;
 
 - (BOOL) canUseFindType: (IFFindType) find;								// Allows delegates to specify which type of file they can search on
+- (BOOL) findTypeCanBeCaseInsensitive: (IFFindType) find;				// Allows delegates to specify whether or not they support case-insensitive searching for a particular find type
 
 - (NSString*) currentSelectionForFind;									// Returns whatever was currently selected: used to implement the 'use selection for find' menu option
 

@@ -226,6 +226,8 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 			[self showAuxiliaryView: nil];
 		}
 	}
+	
+	[ignoreCase setEnabled: [self findTypeCanBeCaseInsensitive: [self currentFindType]]];
 }
 
 - (IBAction) toggleRegexpHelp: (id) sender {
@@ -334,9 +336,15 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 	return YES;
 }
 
-- (void) updateControls {
-	NSLog(@"Updating controls to delegate %@", activeDelegate);
+- (BOOL) findTypeCanBeCaseInsensitive: (IFFindType) find {
+	if (activeDelegate && [activeDelegate respondsToSelector: @selector(findTypeCanBeCaseInsensitive:)]) {
+		return [activeDelegate findTypeCanBeCaseInsensitive: find];
+	}
 	
+	return YES;
+}
+
+- (void) updateControls {
 	[findPhrase setEnabled: [self canSearch] || [self canFindAll]];
 	[replacePhrase setEnabled: [self canReplace]];
 	

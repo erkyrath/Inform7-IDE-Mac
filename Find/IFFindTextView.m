@@ -58,6 +58,14 @@
 	
 	int matchLoc = NSNotFound;
 	int matchLength = 0;
+
+	int phraseLength = [phrase length];
+	if (matcher) phraseLength = 1;
+
+	// Ensure that the start point is in range
+	if (point > [text length]-phraseLength) {
+		point = 0;
+	}
 	
 	// Simple search in the specified direction
 	int pos = point;
@@ -70,17 +78,17 @@
 		if (point < 0)	point = [text length] - 1;
 	}
 	
-	int phraseLength = [phrase length];
-	if (matcher) phraseLength = 1;
 	do {
 		// Move on to the next position
 		pos += direction;
 		
 		// Wrap around if necessary
-		if (direction < 0 && pos < 0) 
+		if (direction < 0 && pos < 0) {
 			pos = [text length] - phraseLength;
+			if (point > pos) break;
+		}
 		if (direction > 0 && pos > [text length]-phraseLength) {
-			if (pos < point) break;
+			if (point > pos) break;
 			pos = 0;
 		}
 		
@@ -231,6 +239,14 @@
 
 - (BOOL) canUseFindType: (IFFindType) find {
 	return YES;
+}
+
+- (BOOL) findTypeCanBeCaseInsensitive: (IFFindType) find {
+	if ((find&0xff) == IFFindRegexp) {
+		return NO;
+	} else {
+		return YES;
+	}
 }
 
 - (NSString*) currentSelectionForFind {
