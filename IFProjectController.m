@@ -1833,7 +1833,7 @@ static NSDictionary*  itemDictionary = nil;
 		   fromPoint: (ZoomSkeinItem*) currentPoint {
 	if ([[[projectPanes objectAtIndex: 1] gamePage] isRunningGame]) {
 		id inputSource = [ZoomSkein inputSourceFromSkeinItem: currentPoint
-												  toItem: point];
+													  toItem: point];
 	
 		ZoomView* zView = [[self gamePage] zoomView];
 		GlkView* gView = [[self gamePage] glkView];
@@ -1843,6 +1843,7 @@ static NSDictionary*  itemDictionary = nil;
 		} else {
 			[self setGlkInputSource: inputSource];
 			[gView addInputReceiver: self];
+			[gView setAlwaysPageOnMore: YES];
 			
 			[self viewIsWaitingForInput: gView];
 		}
@@ -2929,6 +2930,7 @@ static NSDictionary*  itemDictionary = nil;
 	if (nextCommand == nil) {
 		[view removeAutomationObject: self];
 		[view addOutputReceiver: self];
+		[view setAlwaysPageOnMore: NO];
 		
 		[self inputSourceHasFinished: nil];
 		return;
