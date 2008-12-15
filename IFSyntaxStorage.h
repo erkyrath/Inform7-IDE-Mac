@@ -145,9 +145,11 @@ typedef unsigned char IFSyntaxStyle;
 	id<IFSyntaxHighlighter,NSObject> highlighter;
 	
 	// Paragraph styles
-	NSMutableArray* tabStops;			// Tab stop array
-	NSMutableArray* paragraphStyles;	// Maps number of tabs at the start of a line to the appropriate paragraph style
-	BOOL enableWrapIndent;
+	NSMutableArray*	tabStops;			// Tab stop array
+	NSMutableArray*	paragraphStyles;	// Maps number of tabs at the start of a line to the appropriate paragraph style
+	BOOL			enableWrapIndent;	// YES if we should change the indentation on line wrap
+	BOOL			enableElasticTabs;	// YES if elastic tabs should be enabled
+	BOOL			computingElasticTabs;	// YES if we're currently computing elastic tab sizes
 	
 	// 'Intelligence'
 	id<IFSyntaxIntelligence,NSObject> intelSource;
@@ -187,6 +189,8 @@ typedef unsigned char IFSyntaxStyle;
 
 - (void) preferencesChanged: (NSNotification*) not;				// Forces a rehighlight (to take account of new preferences)
 
+- (NSRange) rangeOfElasticRegionAtIndex: (int) charIndex;		// Given a character index, works out the character range that elastic tabs should be applied to. Uses NSNotFound if elastic tabs shouldn't be applied to this range
+- (NSArray*) elasticTabsInRegion: (NSRange) region;				// Given a region, returns the set of tab stops to use for elastic tabs
 - (NSDictionary*) paragraphStyleForTabStops: (int) numberOfTabstops;	// Gets a paragraph style for the given number of tab stops
 
 // Gathering/retrieving intelligence data

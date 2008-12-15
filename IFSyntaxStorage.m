@@ -59,7 +59,8 @@ static int maxPassLength = 65536;
 		needsHighlighting.location = NSNotFound;
 		amountHighlighted = 0;
 		
-		enableWrapIndent = YES;
+		enableWrapIndent	= YES;
+		enableElasticTabs	= YES;
 		[self paragraphStyleForTabStops: 8];
 		
 		// Register for preference change notifications
@@ -589,6 +590,8 @@ static inline BOOL IsWhitespace(unichar c) {
 	int line;
 	NSArray* lastOldStack = nil; // The 'old' stack for the last line
 	
+	NSRange lastElasticRange = NSMakeRange(-1, 0);	// The last range formatted with elastic tabs
+	
 	for (line=firstLine; line<=lastLine; line++) {
 		// The range of characters to be highlighted
 		unsigned firstChar = lineStarts[line];
@@ -676,6 +679,72 @@ static inline BOOL IsWhitespace(unichar c) {
 								  range: NSMakeRange(firstChar, lastChar-firstChar)];
 				[string addAttributes: newStyle
 								range: NSMakeRange(firstChar, lastChar-firstChar)];
+			}
+		}
+		
+		// Deal with elastic tabs if necessary
+		if (enableElasticTabs) {
+			// Get the region affected by these elastic tabs
+			NSRange elasticRange = [self rangeOfElasticRegionAtIndex: firstChar];
+			
+			if (elasticRange.location != NSNotFound && elasticRange.location != lastElasticRange.location && line < [lineStyles count]) {
+				// This is now the last elastic range (prevents us from formatting the same region twice)
+				lastElasticRange = elasticRange;
+				
+				// Fetch the current paragraph style
+				NSParagraphStyle* currentPara = [[lineStyles objectAtIndex: line] objectForKey: NSParagraphStyleAttributeName];
+				
+				// Lay out the tabs
+				NSArray* newTabStops = [self elasticTabsInRegion: elasticRange];
+				
+				// Compare them
+				BOOL tabsIdentical = NO;
+				if ([[currentPara tabStops] count] == [newTabStops count]) {
+					tabsIdentical = YES;
+					int x;
+					for (x=0; x<[newTabStops count]; x++) {
+						if (![[newTabStops objectAtIndex: x] isEqual: [[currentPara tabStops] objectAtIndex: x]]) {
+							tabsIdentical = NO;
+							break;
+						}
+					}
+				}
+				
+				// Update the tabs over this region if necessary
+				if (!tabsIdentical) {
+					int firstElasticLine	= [self lineForIndex: elasticRange.location];
+					int lastElasticLine		= [self lineForIndex: elasticRange.location + elasticRange.length];
+					
+					int formatLine;
+					for (formatLine = firstElasticLine; formatLine < lastElasticLine; formatLine++) {
+						if (formatLine >= [lineStyles count]) break;
+						
+						// Copy the styles for this line
+						NSMutableDictionary*		style		= [[lineStyles objectAtIndex: formatLine] mutableCopy];
+						NSMutableParagraphStyle*	paraStyle	= [[style objectForKey: NSParagraphStyleAttributeName] mutableCopy];
+						if (!paraStyle) paraStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+						[style autorelease]; [paraStyle autorelease];
+
+						// Update the paragraph style with the new tabstops
+						[paraStyle setTabStops: newTabStops];
+						[style setObject: paraStyle forKey: NSParagraphStyleAttributeName];
+						
+						// Replace the line style
+						[lineStyles replaceObjectAtIndex: formatLine
+											  withObject: style];
+						
+						// Force an attribute update
+						int formatFirstChar	= lineStarts[formatLine];
+						int formatLastChar	= (formatLine+1<nLines)?lineStarts[formatLine+1]:[string length];
+
+//#if 0
+						[string removeAttribute: IFStyleAttributes 
+										  range: NSMakeRange(formatFirstChar, formatLastChar-formatFirstChar)];
+						[string addAttributes: style
+										range: NSMakeRange(formatFirstChar, formatLastChar-formatFirstChar)];
+//#endif
+					}
+				}
 			}
 		}
 		
@@ -984,6 +1053,23 @@ static inline BOOL IsWhitespace(unichar c) {
 
 // = Tabbing =
 
+- (NSArray*) standardTabStops {
+	int x;
+
+	float stopWidth = [highlighter tabStopWidth];
+	if (stopWidth < 1.0) stopWidth = 1.0;
+	
+	tabStops = [[NSMutableArray alloc] init];
+	for (x=0; x<48; x++) {
+		NSTextTab* tab = [[NSTextTab alloc] initWithType: NSLeftTabStopType
+												location: stopWidth*(x+1)];
+		[tabStops addObject: tab];
+		[tab release];
+	}
+
+	return tabStops;
+}
+
 - (NSDictionary*) generateParagraphStyleForTabStops: (int) numberOfTabStops {
 	if (numberOfTabStops > 0 && ![[IFPreferences sharedPreferences] indentWrappedLines])
 		return [self generateParagraphStyleForTabStops: 0];
@@ -996,15 +1082,7 @@ static inline BOOL IsWhitespace(unichar c) {
 	
 	// Standard tab stops
 	if (tabStops == nil) {
-		int x;
-		
-		tabStops = [[NSMutableArray alloc] init];
-		for (x=0; x<48; x++) {
-			NSTextTab* tab = [[NSTextTab alloc] initWithType: NSLeftTabStopType
-													location: stopWidth*(x+1)];
-			[tabStops addObject: tab];
-			[tab release];
-		}
+		[self standardTabStops];
 	}
 	
 	[res setTabStops: tabStops];
@@ -1039,6 +1117,206 @@ static inline BOOL IsWhitespace(unichar c) {
 	}
 	
 	return [paragraphStyles objectAtIndex: numberOfTabStops];
+}
+
+// = Elastic tabs =
+
+// See http://nickgravgaard.com/elastictabstops/ for more information on these
+
+static inline BOOL IsLineEnd(unichar c) {
+	return c == '\n' || c == '\r';
+}
+
+// Given a character index, returns the range of the line it is on
+- (NSRange) lineRangeAtIndex: (int) charIndex {
+	// Start and end of this line are initially the same
+	int start	= charIndex;
+	int end		= charIndex;
+	
+	NSString* text = [self string];
+	
+	// Move backwards to the beginning of the line
+	start--;
+	while (start >= 0 && !IsLineEnd([text characterAtIndex: start])) {
+		start--;
+	}
+	
+	// Move forwards to the end of the line
+	int len = [text length];
+	unichar lastChr = '\0';
+	while (end < len && !IsLineEnd(lastChr = [text characterAtIndex: end])) {
+		end++;
+	}
+		
+	// Include the line ending characters
+	if (end+1 < len && lastChr == '\r' && [text characterAtIndex: end+1] == '\n') {
+		end++;
+	}
+	
+	if (end >= len) end = len-1;
+	
+	// Start now points to the newline preceeding this line, end to the final newline character, which we want to include in the result
+	return NSMakeRange(start+1, end - start);
+}
+
+// Given a range, returns YES if it is blank (only whitespace)
+- (BOOL) isBlank: (NSRange) range {
+	NSString* text = [self string];
+	
+	int chrPos;
+	for (chrPos = range.location; chrPos < range.location + range.length; chrPos++) {
+		unichar chr = [text characterAtIndex: chrPos];
+		if (!IsWhitespace(chr) && !IsLineEnd(chr)) {
+			return NO;
+		}
+	}
+	
+	return YES;
+}
+
+// Given a character region, works out the corresponding region where elastic tabs must apply
+- (NSRange) rangeOfElasticRegionAtIndex: (int) charIndex {
+	// Hunt backwards for the beginning of the file, or the first blank line that preceeds this index
+	NSRange firstLine	= [self lineRangeAtIndex: charIndex];
+	NSRange lastLine	= firstLine;
+	
+	// Blank lines never use elastic tabs
+	if ([self isBlank: firstLine]) return NSMakeRange(NSNotFound, NSNotFound);
+	
+	while (firstLine.location > 0) {
+		// Get the range of the preceeding line
+		NSRange previousLine = [self lineRangeAtIndex: firstLine.location - 1];
+		
+		// Give up if we've found a blank line
+		if ([self isBlank: previousLine]) break;
+		
+		// Continue searching from this line
+		firstLine = previousLine;
+	}
+	
+	// Hunt forwards for the end of the file or the first blank line that follows this index
+	int len = [self length];
+	while (lastLine.location + lastLine.length < len) {
+		// Get the range of the following line
+		NSRange nextLine = [self lineRangeAtIndex: lastLine.location + lastLine.length];
+		
+		// Give up if we've found a blank line
+		if ([self isBlank: nextLine]) break;
+		
+		// Continue searching from this line
+		lastLine = nextLine;
+	}
+	
+	// If the first and last lines are different then this defines the region
+	if (firstLine.location != lastLine.location) {
+		return NSMakeRange(firstLine.location, (lastLine.location + lastLine.length) - firstLine.location);
+	}
+	
+	// By default, elastic tabs do not apply to a character range
+	return NSMakeRange(NSNotFound, NSNotFound);
+}
+
+// Given a character region, calculates the positions the 'elastic' tab stops should go at
+- (NSArray*) elasticTabsInRegion: (NSRange) region {
+	// Nothing to do if the region is 'not found'
+	if (region.location == NSNotFound)	return [self standardTabStops];
+	if (computingElasticTabs)			return [self standardTabStops];
+	
+	// Flag up that we're searching for tab stops to avoid possible re-entrancy issues
+	computingElasticTabs = YES;
+	
+	// Get the text stored in this object
+	NSString* text = [self string];
+	
+	// Now, chop up into lines and columns. Columns are separated by tabs.
+	NSMutableArray* lines		= [[NSMutableArray alloc] init];
+	NSMutableArray* currentLine	= [[NSMutableArray alloc] init];
+	int numColumns = 0;
+	
+	[lines addObject: currentLine];
+	[currentLine release];
+	
+	int lastTabPos = region.location;
+	int chrPos;
+	for (chrPos = region.location; chrPos < region.location + region.length; chrPos++) {
+		// Read the next character
+		unichar chr = [text characterAtIndex: chrPos];
+		
+		// Skip the next character to deal with DOS line endings
+		if (chr == '\r' && chrPos + 1 < region.location + region.length) {
+			if ([text characterAtIndex: chrPos + 1] == '\n') {
+				chrPos++;
+			}
+		}
+		
+		// If this is a newline or a tab, add a new column
+		if (chr == '\t' || chr == '\n' || chr == '\r' || (lastTabPos != chrPos && chrPos + 1 == region.location + region.length)) {
+			// Store this column
+			[currentLine addObject: [self attributedSubstringFromRange: NSMakeRange(lastTabPos, chrPos - lastTabPos)]];
+			
+			if ([currentLine count] > numColumns) {
+				numColumns = [currentLine count];
+			}
+			
+			// Start the next column on the character after this one
+			lastTabPos = chrPos + 1;
+		}
+			
+		// Add a new line if necessary
+		if (chr == '\n' || chr == '\r') {
+			currentLine = [[NSMutableArray alloc] init];
+			[lines addObject: currentLine];
+			[currentLine release];
+		}
+	}
+	
+	// Work out the widths for each column
+	float margin = 8.0;							// size of column margin
+	
+	NSMutableArray* elasticTabStops = [[[NSMutableArray alloc] init] autorelease];
+	int colNum;
+	for (colNum = 0; colNum < numColumns; colNum++) {
+		[elasticTabStops addObject: [NSNumber numberWithFloat: [highlighter tabStopWidth]]];
+	}
+	
+	NSEnumerator*	lineEnum = [lines objectEnumerator];;
+	NSArray*		line;
+	while (line = [lineEnum nextObject]) {
+		for (colNum=0; colNum < [line count]; colNum++) {
+			// Get the size of the line
+			NSAttributedString* colString	= [line objectAtIndex: colNum];
+			NSSize				thisSize	= [colString size];
+			
+			// Get the current width of this column
+			float currentWidth = [[elasticTabStops objectAtIndex: colNum] floatValue];
+			
+			// Adjust as necessary
+			if (thisSize.width + margin > currentWidth) {
+				currentWidth = floorf(thisSize.width + margin);
+				[elasticTabStops replaceObjectAtIndex: colNum
+										   withObject: [NSNumber numberWithFloat: currentWidth]];
+			}
+		}
+	}
+	
+	// Tab stops are currently widths: need to change them to NSTextTab objects locations
+	float lastPosition = 0;
+	for (colNum=0; colNum < numColumns; colNum++) {
+		float currentValue	= [[elasticTabStops objectAtIndex: colNum] floatValue];
+		float newValue		= floorf(currentValue + lastPosition);
+		lastPosition = newValue;
+		
+		[elasticTabStops replaceObjectAtIndex: colNum
+								   withObject: [[[NSTextTab alloc] initWithType: NSLeftTabStopType
+																	   location: newValue] autorelease]];
+	}
+	
+	// Done: no longer working out tab stops
+	[lines release];
+	computingElasticTabs = NO;
+	
+	// elasticTabStops now contains the set of tab stops for this region
+	return elasticTabStops;
 }
 
 // = Gathering/retrieving intelligence data =

@@ -103,6 +103,7 @@ enum IFPreferencesColourSet {
 // Intelligence preferences
 - (BOOL) enableSyntaxHighlighting;											// YES if source code should be displayed with syntax highlighting
 - (BOOL) indentWrappedLines;												// ... and indentation
+- (BOOL) elasticTabs;														// ... and elastic tabs
 - (BOOL) enableIntelligence;												// YES if source should be tracked for important structural elements
 - (BOOL) intelligenceIndexInspector;										// ... which is placed in the index
 - (BOOL) indentAfterNewline;												// ... which is used to generate indentation
@@ -111,6 +112,7 @@ enum IFPreferencesColourSet {
 
 - (void) setEnableSyntaxHighlighting: (BOOL) value;
 - (void) setIndentWrappedLines: (BOOL) value;
+- (void) setElasticTabs: (BOOL) value;
 - (void) setEnableIntelligence: (BOOL) value;
 - (void) setIntelligenceIndexInspector: (BOOL) value;
 - (void) setIndentAfterNewline: (BOOL) value;

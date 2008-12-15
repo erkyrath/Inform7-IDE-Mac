@@ -729,6 +729,16 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 		return YES;
 }
 
+- (BOOL) elasticTabs {
+	NSNumber* value = [preferences objectForKey: @"elasticTabs"];
+	
+	if (value) {
+		return [value boolValue];
+	} else {
+		return YES;
+	}
+}
+
 - (BOOL) enableIntelligence {
 	NSNumber* value = [preferences objectForKey: @"enableIntelligence"];
 	
@@ -806,6 +816,13 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 - (void) setIndentWrappedLines: (BOOL) value {
 	[preferences setObject: [NSNumber numberWithBool: value]
 					forKey: @"indentWrappedLines"];
+	
+	[self preferencesHaveChanged];
+}
+
+- (void) setElasticTabs: (BOOL) value {
+	[preferences setObject: [NSNumber numberWithBool: value]
+					forKey: @"elasticTabs"];
 	
 	[self preferencesHaveChanged];
 }
