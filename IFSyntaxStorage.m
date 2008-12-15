@@ -714,6 +714,7 @@ static inline BOOL IsWhitespace(unichar c) {
 				if (!tabsIdentical) {
 					int firstElasticLine	= [self lineForIndex: elasticRange.location];
 					int lastElasticLine		= [self lineForIndex: elasticRange.location + elasticRange.length];
+					if (elasticRange.location + elasticRange.length == [string length]) lastElasticLine++;
 					
 					int formatLine;
 					for (formatLine = firstElasticLine; formatLine < lastElasticLine; formatLine++) {
@@ -737,13 +738,15 @@ static inline BOOL IsWhitespace(unichar c) {
 						int formatFirstChar	= lineStarts[formatLine];
 						int formatLastChar	= (formatLine+1<nLines)?lineStarts[formatLine+1]:[string length];
 
-//#if 0
 						[string removeAttribute: IFStyleAttributes 
 										  range: NSMakeRange(formatFirstChar, formatLastChar-formatFirstChar)];
 						[string addAttributes: style
 										range: NSMakeRange(formatFirstChar, formatLastChar-formatFirstChar)];
-//#endif
 					}
+					
+					[self edited: NSTextStorageEditedAttributes
+						   range: elasticRange
+				  changeInLength: 0];
 				}
 			}
 		}
