@@ -10,6 +10,7 @@
 
 #import "IFAppDelegate.h"
 #import "IFPretendWebView.h"
+#import "IFJSProject.h"
 
 @implementation IFIndexPage
 
@@ -343,6 +344,18 @@
 		[[self history] switchToPage];
 		[[self history] openURLWithString: [url absoluteString]
 						  inPageWithTitle: [self titleForFrame: frame]];
+	}
+}
+
+- (void)					webView:(WebView *)sender
+windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
+	if (otherPane) {
+		// Attach the JavaScript object to the opposing view
+		IFJSProject* js = [[IFJSProject alloc] initWithPane: otherPane];
+		
+		// Attach it to the script object
+		[[sender windowScriptObject] setValue: [js autorelease]
+									   forKey: @"Project"];
 	}
 }
 
