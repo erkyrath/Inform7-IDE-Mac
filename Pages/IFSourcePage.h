@@ -67,6 +67,7 @@
 - (IFIntelFile*) currentIntelligence;							// The active IntelFile object for the current view (ie, the object that's dealing with auto-tabs, the dynamic index, etc)
 
 - (void) setSpellChecking: (BOOL) checkSpelling;				// Sets check-as-you-type on or off
+- (void) setElasticTabs: (BOOL) elastic;						// Sets elastic tabs on or off
 
 // Breakpoints
 - (IBAction) setBreakpoint: (id) sender;

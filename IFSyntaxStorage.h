@@ -189,6 +189,8 @@ typedef unsigned char IFSyntaxStyle;
 
 - (void) preferencesChanged: (NSNotification*) not;				// Forces a rehighlight (to take account of new preferences)
 
+- (BOOL) elasticTabs;											// Whether or not elastic tabs are enabled
+- (void) setElasticTabs: (BOOL) enableElasticTabs;				// Sets whether or not elastic tabs should be used for this storage object
 - (NSRange) rangeOfElasticRegionAtIndex: (int) charIndex;		// Given a character index, works out the character range that elastic tabs should be applied to. Uses NSNotFound if elastic tabs shouldn't be applied to this range
 - (NSArray*) elasticTabsInRegion: (NSRange) region;				// Given a region, returns the set of tab stops to use for elastic tabs
 - (NSDictionary*) paragraphStyleForTabStops: (int) numberOfTabstops;	// Gets a paragraph style for the given number of tab stops

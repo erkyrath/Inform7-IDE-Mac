@@ -147,6 +147,7 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 	// Set the 'intelligence' and highlighting style appropriately
 	[res setIntelligence: [self intelligenceForFilename: filename]];
 	[res setHighlighter: [self highlighterForFilename: filename]];
+	[res setElasticTabs: [settings elasticTabs]];
 	[res setDelegate: self];
 	
 	return [res autorelease];
@@ -158,6 +159,7 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 	
 	[res setIntelligence: [self intelligenceForFilename: filename]];
 	[res setHighlighter: [self highlighterForFilename: filename]];
+	[res setElasticTabs: [settings elasticTabs]];
 	[res setDelegate: self];
 	
 	return [res autorelease];
@@ -206,6 +208,8 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
         sourceFiles = nil;
         mainSource  = nil;
         singleFile  = YES;
+		
+		[settings setElasticTabs: [[IFPreferences sharedPreferences] elasticTabs]];
 		
 		skein = [[ZoomSkein alloc] init];
 
@@ -318,9 +322,11 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 				
 				[settings setLibraryToUse: @"Natural"];
 				[settings setUsingNaturalInform: YES];
+				[settings setElasticTabs: [[IFPreferences sharedPreferences] elasticTabs]];
 			} else {
 				// Standard settings
 				settings = [[IFCompilerSettings alloc] init];
+				[settings setElasticTabs: [[IFPreferences sharedPreferences] elasticTabs]];
 			}
 		}
 
@@ -405,6 +411,7 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
         // Default settings
         if (settings) [settings release];
         settings = [[IFCompilerSettings allocWithZone: [self zone]] init];
+		[settings setElasticTabs: [[IFPreferences sharedPreferences] elasticTabs]];
         
         // Load the single file
         NSString* theFile = [NSString stringWithContentsOfFile: fileName];
@@ -433,6 +440,7 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 		
 		[settings setLibraryToUse: @"Natural"];
 		[settings setUsingNaturalInform: YES];
+		[settings setElasticTabs: [[IFPreferences sharedPreferences] elasticTabs]];
         
         // Load the single file
         NSString* theFile = [NSString stringWithContentsOfFile: fileName];
@@ -440,6 +448,7 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 		IFSyntaxStorage* text = [[IFSyntaxStorage alloc] initWithString: theFile];
 		[text setIntelligence: [[[IFNaturalIntel alloc] init] autorelease]];
 		[text setHighlighter: [[[IFNaturalHighlighter alloc] init] autorelease]];
+		[text setElasticTabs: [settings elasticTabs]];
 
         if (sourceFiles) [sourceFiles release];
         sourceFiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:

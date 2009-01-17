@@ -39,6 +39,7 @@
           fromView: (NSObject<IFProjectSetupView>*) view {
     IFCompilerSettings* settings = [[IFCompilerSettings alloc] init];
 
+	[settings setElasticTabs: [[IFPreferences sharedPreferences] elasticTabs]];
     [settings setUsingNaturalInform: YES];
 	[settings setLibraryToUse: @"Natural"];
     [file setSettings: [settings autorelease]];

@@ -30,6 +30,7 @@ NSString* IFSettingZCodeVersion    = @"IFSettingZCodeVersion";
 
 NSString* IFSettingNaturalInform = @"IFSettingNaturalInform";
 NSString* IFSettingStrict        = @"IFSettingStrict";
+NSString* IFSettingElasticTabs	 = @"IFSettingElasticTabs";
 NSString* IFSettingInfix         = @"IFSettingInfix";
 NSString* IFSettingDEBUG         = @"IFSettingDEBUG";
 
@@ -466,6 +467,22 @@ NSString* IFSettingNotification = @"IFSettingNotification";
         return [setting boolValue];
     } else {
         return YES;
+    }
+}
+
+- (void) setElasticTabs: (BOOL) setting {
+    [[self dictionaryForClass: [IFMiscSettings class]] setObject: [NSNumber numberWithBool: setting]
+														  forKey: IFSettingElasticTabs];
+    [self settingsHaveChanged];
+}
+
+- (BOOL) elasticTabs {
+    NSNumber* setting = [[self dictionaryForClass: [IFMiscSettings class]] objectForKey: IFSettingElasticTabs];
+	
+    if (setting) {
+        return [setting boolValue];
+    } else {
+        return NO;
     }
 }
 

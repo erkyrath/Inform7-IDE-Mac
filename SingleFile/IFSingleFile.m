@@ -12,6 +12,7 @@
 #import "IFSyntaxStorage.h"
 #import "IFNaturalHighlighter.h"
 #import "IFInform6Highlighter.h"
+#import "IFPreferences.h"
 
 @implementation IFSingleFile
 
@@ -81,6 +82,7 @@
 	
 	[fileStorage release]; fileStorage = nil;
 	fileStorage = [[IFSyntaxStorage alloc] initWithString: [fileString autorelease]];
+	[fileStorage setElasticTabs: [[IFPreferences sharedPreferences] elasticTabs]];
 	if (fileHighlighter) [fileStorage setHighlighter: fileHighlighter];
 	
     return YES;

@@ -100,7 +100,7 @@ static int maxPassLength = 65536;
 	// Designated initialiser
 	self = [self sharedInit];
 	
-	if (self) {		
+	if (self) {
 		// Update the string
 		[self replaceCharactersInRange: NSMakeRange(0,0)
 							withString: [newString string]];
@@ -660,20 +660,47 @@ static inline BOOL IsWhitespace(unichar c) {
 		
 		// Use our own ability to set attributes to set the number of tab stops
 		if (enableWrapIndent) {
-			NSDictionary* lastStyle = nil;
-			NSDictionary* newStyle = [self paragraphStyleForTabStops: numTabStops];
+			NSDictionary* lastStyle	= nil;
+			NSDictionary* newStyle	= [self paragraphStyleForTabStops: numTabStops];
+			
+			BOOL styleChanged = NO;
 			
 			if ([lineStyles count] <= line) {
+				// Add a new style if it's needed for this line
+				styleChanged = YES;
 				for (;[lineStyles count] <= line;) {
 					[lineStyles addObject: newStyle];
 				}
 			} else {
-				lastStyle = [lineStyles objectAtIndex: line];
-				[lineStyles replaceObjectAtIndex: line
-									  withObject: newStyle];
+				// Alter the existing style
+				if (enableElasticTabs) {
+					// Adjust the head indent of the current style
+					lastStyle									= [lineStyles objectAtIndex: line];
+					NSMutableParagraphStyle*	paraStyle		= [[[lastStyle objectForKey: NSParagraphStyleAttributeName] mutableCopy] autorelease];
+					NSParagraphStyle*			newParaStyle	= [newStyle objectForKey: NSParagraphStyleAttributeName];
+					
+					styleChanged = [paraStyle headIndent] != [newParaStyle headIndent];
+					
+					if (styleChanged) {
+						// Update the paragraph style
+						[paraStyle setHeadIndent: [newParaStyle headIndent]];
+						
+						// Replace it in the dictionary for the line style
+						NSMutableDictionary* newLineStyle = [[newStyle mutableCopy] autorelease];
+						[newLineStyle setObject: newParaStyle
+										 forKey: NSParagraphStyleAttributeName];
+						[lineStyles replaceObjectAtIndex: line
+											  withObject: newLineStyle];
+					}
+				} else {
+					// Just use this style directly
+					lastStyle = [lineStyles objectAtIndex: line];
+					[lineStyles replaceObjectAtIndex: line
+										  withObject: newStyle];
+				}
 			}
 			
-			if (newStyle != lastStyle) {
+			if (styleChanged) {
 				// Force an attribute update
 				[string removeAttribute: IFStyleAttributes 
 								  range: NSMakeRange(firstChar, lastChar-firstChar)];
@@ -714,11 +741,14 @@ static inline BOOL IsWhitespace(unichar c) {
 				if (!tabsIdentical) {
 					int firstElasticLine	= [self lineForIndex: elasticRange.location];
 					int lastElasticLine		= [self lineForIndex: elasticRange.location + elasticRange.length];
-					if (elasticRange.location + elasticRange.length == [string length]) lastElasticLine++;
+					if (elasticRange.location + elasticRange.length >= [self length]) lastElasticLine++;
 					
 					int formatLine;
 					for (formatLine = firstElasticLine; formatLine < lastElasticLine; formatLine++) {
-						if (formatLine >= [lineStyles count]) break;
+						while (formatLine >= [lineStyles count]) {
+							// Create a default line style for this line
+							[lineStyles addObject: [self paragraphStyleForTabStops: 0]];
+						}
 						
 						// Copy the styles for this line
 						NSMutableDictionary*		style		= [[lineStyles objectAtIndex: formatLine] mutableCopy];
@@ -743,7 +773,8 @@ static inline BOOL IsWhitespace(unichar c) {
 						[string addAttributes: style
 										range: NSMakeRange(formatFirstChar, formatLastChar-formatFirstChar)];
 					}
-					
+
+					// Mark the range as edited
 					[self edited: NSTextStorageEditedAttributes
 						   range: elasticRange
 				  changeInLength: 0];
@@ -1130,6 +1161,20 @@ static inline BOOL IsLineEnd(unichar c) {
 	return c == '\n' || c == '\r';
 }
 
+- (BOOL) elasticTabs {
+	return enableElasticTabs;
+}
+
+- (void) setElasticTabs: (BOOL) newEnableElasticTabs {
+	// Sets whether or not elastic tabs should be used for this storage object
+	if (enableElasticTabs != newEnableElasticTabs) {
+		enableElasticTabs = newEnableElasticTabs;
+		
+		// Force a complete re-highlight
+		[self highlightRangeLater: NSMakeRange(0, [self length])];
+	}
+}
+
 // Given a character index, returns the range of the line it is on
 - (NSRange) lineRangeAtIndex: (int) charIndex {
 	// Start and end of this line are initially the same
@@ -1177,6 +1222,29 @@ static inline BOOL IsLineEnd(unichar c) {
 	return YES;
 }
 
+// Given a range, returns YES if it contains no tabs, or contains tabs but no other character, or only tabs at the start of the line
+- (BOOL) isTabLess: (NSRange) range {
+	NSString* text = [self string];
+	
+	BOOL isBlank	= YES;
+	BOOL hasTabs	= NO;
+	int chrPos;
+	for (chrPos = range.location; chrPos < range.location + range.length; chrPos++) {
+		unichar chr = [text characterAtIndex: chrPos];
+		if (chr == '\t') {
+			// Don't apply elastic tabs to lines that already begin with a tab
+			if (isBlank) return YES;
+			return NO;
+		}
+		if (!IsWhitespace(chr) && !IsLineEnd(chr)) {
+			isBlank = NO;
+			if (hasTabs) return NO;
+		}
+	}
+	
+	return !hasTabs || isBlank;
+}
+
 // Given a character region, works out the corresponding region where elastic tabs must apply
 - (NSRange) rangeOfElasticRegionAtIndex: (int) charIndex {
 	// Hunt backwards for the beginning of the file, or the first blank line that preceeds this index
@@ -1184,14 +1252,14 @@ static inline BOOL IsLineEnd(unichar c) {
 	NSRange lastLine	= firstLine;
 	
 	// Blank lines never use elastic tabs
-	if ([self isBlank: firstLine]) return NSMakeRange(NSNotFound, NSNotFound);
+	if ([self isTabLess: firstLine]) return NSMakeRange(NSNotFound, NSNotFound);
 	
 	while (firstLine.location > 0) {
 		// Get the range of the preceeding line
 		NSRange previousLine = [self lineRangeAtIndex: firstLine.location - 1];
 		
 		// Give up if we've found a blank line
-		if ([self isBlank: previousLine]) break;
+		if ([self isTabLess: previousLine]) break;
 		
 		// Continue searching from this line
 		firstLine = previousLine;
@@ -1204,7 +1272,7 @@ static inline BOOL IsLineEnd(unichar c) {
 		NSRange nextLine = [self lineRangeAtIndex: lastLine.location + lastLine.length];
 		
 		// Give up if we've found a blank line
-		if ([self isBlank: nextLine]) break;
+		if ([self isTabLess: nextLine]) break;
 		
 		// Continue searching from this line
 		lastLine = nextLine;
@@ -1241,6 +1309,7 @@ static inline BOOL IsLineEnd(unichar c) {
 	
 	int lastTabPos = region.location;
 	int chrPos;
+	BOOL tabsAtStart = YES;
 	for (chrPos = region.location; chrPos < region.location + region.length; chrPos++) {
 		// Read the next character
 		unichar chr = [text characterAtIndex: chrPos];
@@ -1252,8 +1321,12 @@ static inline BOOL IsLineEnd(unichar c) {
 			}
 		}
 		
-		// If this is a newline or a tab, add a new column
-		if (chr == '\t' || chr == '\n' || chr == '\r' || (lastTabPos != chrPos && chrPos + 1 == region.location + region.length)) {
+		// Specify that we ignore tabs at the start of the line
+		if (chr != '\t')				tabsAtStart = NO;
+		if (chr == '\r' || chr == '\n')	tabsAtStart = YES;
+		
+		// If this is a newline or a tab, add a new column. We ignore tabs at the start of the line
+		if ((chr == '\t' && !tabsAtStart) || chr == '\n' || chr == '\r' || (lastTabPos != chrPos && chrPos + 1 == region.location + region.length)) {
 			// Store this column
 			[currentLine addObject: [self attributedSubstringFromRange: NSMakeRange(lastTabPos, chrPos - lastTabPos)]];
 			

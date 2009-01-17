@@ -856,6 +856,11 @@ static NSDictionary*  itemDictionary = nil;
 			return NO;
 	}
 	
+	if (itemSelector == @selector(enableElasticTabs:)) {
+		[menuItem setState: [[[self document] settings] elasticTabs]?NSOnState:NSOffState];
+		return YES;
+	}
+	
 	if (itemSelector == @selector(renumberSections:)) {
 		// Intelligence must be on
 		if (![[IFPreferences sharedPreferences] enableIntelligence])
@@ -2227,6 +2232,23 @@ static NSDictionary*  itemDictionary = nil;
 	[textStorage endEditing];
 	
 	return newRange;
+}
+
+- (IBAction) enableElasticTabs: (id) sender {
+	// Update the compiler settings to reflect the new 'enable elastic tabs' option
+	BOOL enabled = ![[[self document] settings] elasticTabs];
+	[[[self document] settings] setElasticTabs: enabled];
+	
+	// This becomes the default for any new documents
+	[[IFPreferences sharedPreferences] setElasticTabs: enabled];
+	
+	// Update in any project panes
+	NSEnumerator*	paneEnum = [projectPanes objectEnumerator];
+	IFProjectPane*	pane;
+	
+	while (pane = [paneEnum nextObject]) {
+		[[pane sourcePage] setElasticTabs: enabled];
+	}
 }
 
 - (IBAction) shiftLeft: (id) sender {

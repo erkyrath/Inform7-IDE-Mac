@@ -223,6 +223,12 @@
 
 // = Intelligence =
 
+- (void) setElasticTabs: (BOOL) elastic {
+	if ([textStorage isKindOfClass: [IFSyntaxStorage class]]) {
+		[(IFSyntaxStorage*)textStorage setElasticTabs: elastic];
+	}
+}
+
 - (IFIntelFile*) currentIntelligence {
 	// IQ: 0
 	if ([textStorage isKindOfClass: [IFSyntaxStorage class]]) {
@@ -567,9 +573,14 @@
 	//openSourceFile = [[file lastPathComponent] copy];
 	
 	if (textStorage) { [textStorage release]; textStorage = nil; }
-	textStorage = [fileStorage retain];	
+	textStorage = [fileStorage retain];
 	[textStorage addLayoutManager: [layout autorelease]];
 	[textStorage setDelegate: self];
+	
+	if ([textStorage isKindOfClass: [IFSyntaxStorage class]]) {
+		[(IFSyntaxStorage*)textStorage setElasticTabs: [[[parent document] compilerSettings] elasticTabs]];
+	}
+	
 	[fileStorage endEditing];
 	
 	[sourceText setEditable: ![[parent document] fileIsTemporary: file]];

@@ -10,6 +10,7 @@
 #import "IFSingleController.h"
 #import "IFWelcomeWindow.h"
 #import "IFSharedContextMatcher.h"
+#import "IFPreferences.h"
 
 @implementation IFSingleController
 
@@ -62,7 +63,19 @@
 		return ![[self document] isReadOnly];
 	}
 	
+	if ([menuItem action] == @selector(enableElasticTabs:)) {
+		[menuItem setState: [[[self document] storage] elasticTabs]?NSOnState:NSOffState];
+		return YES;
+	}
+	
 	return YES;
+}
+
+- (void) enableElasticTabs: (id) sender {
+	BOOL enabled = ![[[self document] storage] elasticTabs];
+
+	[[[self document] storage] setElasticTabs: enabled];
+	[[IFPreferences sharedPreferences] setElasticTabs: enabled];
 }
 
 @end

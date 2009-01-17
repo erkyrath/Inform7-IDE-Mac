@@ -87,6 +87,10 @@ extern NSString* IFCompilerNaturalInform;
 
 - (void) settingsHaveChanged;										// Generates a settings changed notification
 
+// Editor settings
+- (void)		setElasticTabs: (BOOL) elasticTabs;
+- (BOOL)		elasticTabs;
+
 // Generic settings (IFSetting)
 - (void)      setGenericSettings: (NSArray*) genericSettings;		// Sets the set of IFSetting objects to use
 - (NSArray*)  includePathsForCompiler: (NSString*) compiler;		// Gets the list of include paths to use for a specific compiler (IFCompilerInform6 or IFCompilerNaturalInform)
