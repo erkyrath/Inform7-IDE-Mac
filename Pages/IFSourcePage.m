@@ -432,18 +432,18 @@
 
 - (void) didSwitchAwayFromPage {
 	// Close the overlay windows
-	if (bookmarksOverlay)	[[bookmarksOverlay window] orderOut: self];
-	if (controlsOverlay)	[[controlsOverlay window] orderOut: self];
+	if (bookmarksOverlay)	[bookmarksOverlay hideWindow: self];
+	if (controlsOverlay)	[controlsOverlay hideWindow: self];
 }
 
 - (void) didSwitchToPage {
 	// Create the overlay windows if they don't already exist
 	if (!bookmarksOverlay) {
-		bookmarksOverlay = [[IFViewTrackingWindowController alloc] initWithView: [self view]
+		bookmarksOverlay = [[IFViewTrackingWindowController alloc] initWithView: [sourceScroller contentView]
 																	   inWindow: [parent window]];
 	}
 	if (!controlsOverlay) {
-		controlsOverlay = [[IFViewTrackingWindowController alloc] initWithView: [self view]
+		controlsOverlay = [[IFViewTrackingWindowController alloc] initWithView: [sourceScroller contentView]
 																	  inWindow: [parent window]];
 	}
 	
