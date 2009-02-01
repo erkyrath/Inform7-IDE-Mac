@@ -140,4 +140,8 @@ NSString* IFUpdatePageBarCellsNotification = @"IFUpdatePageBarCellsNotification"
 	// Do nothing
 }
 
+- (void) didSwitchAwayFromPage {
+	// Called when this page is no longer active
+}
+
 @end

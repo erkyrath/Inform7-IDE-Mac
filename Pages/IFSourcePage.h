@@ -14,6 +14,7 @@
 #import "IFSourceFileView.h"
 #import "IFHeaderPage.h"
 #import "IFRestrictedTextStorage.h"
+#import "IFViewTrackingWindowController.h"
 
 //
 // The 'source' page
@@ -41,6 +42,10 @@
 	IFPageBarCell* sourcePageControl;							// The 'source page' toggle
 	IFPageBarCell* headerPageControl;							// The 'header page' toggle
 	IFHeaderPage* headerPage;									// The header page
+	
+	// The transparent tracking windows
+	IFViewTrackingWindowController* bookmarksOverlay;			// The tracking window that contains the bookmarks icons (and any other notifications that track the source text)
+	IFViewTrackingWindowController* controlsOverlay;			// The tracking window that contains controls relating to this window (for instance, the mini bookmarks navigator)
 }
 
 // Source pane controls

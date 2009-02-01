@@ -129,18 +129,20 @@
 		[restrictedStorage autorelease]; restrictedStorage = nil;
 	}
 
-	[sourceScroller release];
-	[fileManager release];
+	[sourceScroller		release];
+	[fileManager		release];
 	
 	[headerPage setDelegate: nil];
 	
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
-	[headingsControl release];
-	[headerPageControl release];
-	[sourcePageControl release];
-	[headingsBrowser release];
-	[headerPage release];
-	[sourceText release];
+	[bookmarksOverlay	release];
+	[controlsOverlay	release];
+	[headingsControl	release];
+	[headerPageControl	release];
+	[sourcePageControl	release];
+	[headingsBrowser	release];
+	[headerPage			release];
+	[sourceText			release];
 
 	[super dealloc];
 }
@@ -424,6 +426,30 @@
 											 forCharacterRange: lineRange];
 		}
 	}
+}
+
+// = Switching to/from this page =
+
+- (void) didSwitchAwayFromPage {
+	// Close the overlay windows
+	if (bookmarksOverlay)	[[bookmarksOverlay window] orderOut: self];
+	if (controlsOverlay)	[[controlsOverlay window] orderOut: self];
+}
+
+- (void) didSwitchToPage {
+	// Create the overlay windows if they don't already exist
+	if (!bookmarksOverlay) {
+		bookmarksOverlay = [[IFViewTrackingWindowController alloc] initWithView: [self view]
+																	   inWindow: [parent window]];
+	}
+	if (!controlsOverlay) {
+		controlsOverlay = [[IFViewTrackingWindowController alloc] initWithView: [self view]
+																	  inWindow: [parent window]];
+	}
+	
+	// Display the control windows
+	[bookmarksOverlay showWindow: self];
+	[controlsOverlay showWindow: self];
 }
 
 // = The selection =
@@ -1289,8 +1315,8 @@
 }
 
 - (void) sourceFileShowNextSection: (id) sender {
-	IFIntelSymbol* section = [self currentSection];
-	IFIntelSymbol* nextSection = [section sibling];
+	IFIntelSymbol* section		= [self currentSection];
+	IFIntelSymbol* nextSection	= [section sibling];
 	
 	if (!nextSection) {
 		IFIntelSymbol* parentSection = [section parent];
