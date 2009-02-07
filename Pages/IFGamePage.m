@@ -132,6 +132,17 @@
 		// Screws up the first responder, will cause the GlkView object to force a new first responder after it starts
 		[[parent window] makeFirstResponder: [parent window]];
 		
+		// Work out the client to use
+		NSString*		clientName = @"glulxe";
+		NSDictionary*	configSettings = [[[NSBundle mainBundle] localizedInfoDictionary] objectForKey: @"InformConfiguration"];
+		if (!configSettings) {
+			configSettings = [[[NSBundle mainBundle] infoDictionary] objectForKey: @"InformConfiguration"];
+		}
+		if (configSettings) {
+			clientName = (NSString*)[configSettings objectForKey: @"GlulxInterpreter"];
+		}
+		if (!clientName) clientName = @"glulxe";
+		
 		// Start running as a glulxe task
 		gView = [[GlkView alloc] init];
 		[gView setDelegate: self];
@@ -147,7 +158,7 @@
 		[gView setScaleFactor: [[IFPreferences sharedPreferences] fontSize]];
 		
 		[gView setInputFilename: fileName];
-		[gView launchClientApplication: [[NSBundle mainBundle] pathForResource: @"glulxe"
+		[gView launchClientApplication: [[NSBundle mainBundle] pathForResource: clientName
 																		ofType: @""
 																   inDirectory: @"this/is_a/workaround"]
 						 withArguments: nil];
