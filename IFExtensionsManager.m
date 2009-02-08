@@ -480,7 +480,10 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	return authorName;
 }
 
-- (BOOL) addExtension: (NSString*) extensionPath {
+- (BOOL) addExtension: (NSString*) extensionPath
+			finalPath: (NSString**) finalPath {
+	if (finalPath) *finalPath = nil;
+	
 	// We can add directories (of all sorts, but with no subdirectories, and no larger than 1Mb total)
 	// We can also add .h, .inf and .i6 files on their own, creating a directory to do so
 	NSFileManager* mgr = [NSFileManager defaultManager];
@@ -590,6 +593,7 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	// Copy the files into the extension
 	if (isDir) {
 		NSDirectoryEnumerator* extnEnum = [mgr enumeratorAtPath: extensionPath];
+		if (finalPath) *finalPath = [[destDir copy] autorelease];
 		
 		NSString* file;
 		while (file = [extnEnum nextObject]) {
@@ -610,7 +614,7 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 			destFile = title;
 		else
 			destFile = [extensionPath lastPathComponent];
-		
+
 		if (extensionsDefineName && [destFile length] > 0 && [destFile characterAtIndex: [destFile length]-1] == ')') {
 			// The name of the extension may be followed by a proviso: remove it
 			int index;
@@ -632,6 +636,7 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		}
 		
 		NSString* dest = [destDir stringByAppendingPathComponent: destFile];
+		if (finalPath) *finalPath = [[dest copy] autorelease];
 		if ([mgr fileExistsAtPath: dest]) {
 			[mgr removeFileAtPath: dest
 						  handler: nil];
@@ -1029,7 +1034,8 @@ static int compare_insensitive(id a, id b, void* context) {
 	NSString* file;
 	
 	while (file = [fileEnum nextObject]) {
-		if (![self addExtension: file]) 
+		if (![self addExtension: file
+					  finalPath: nil]) 
 			return NO;
 	}
 	
@@ -1217,7 +1223,8 @@ static int compare_insensitive(id a, id b, void* context) {
 		NSString* file;
 		
 		while (file = [fileEnum nextObject]) {
-			if (![self addExtension: file]) 
+			if (![self addExtension: file
+						  finalPath: nil]) 
 				return NO;
 		}
 		

@@ -78,7 +78,8 @@ extern NSString* IFExtensionsUpdatedNotification;				// Sent when the extensions
 										title: (NSString**) title;
 
 // Editing the installed extensions
-- (BOOL) addExtension: (NSString*) extensionPath;						// Creates an extension from the file/directory at the given path (if a directory, the directory is copied/merged as appropriate. If a file, the file is put in a new extension directory)
+- (BOOL) addExtension: (NSString*) extensionPath						// Creates an extension from the file/directory at the given path (if a directory, the directory is copied/merged as appropriate. If a file, the file is put in a new extension directory)
+			finalPath: (NSString**) finalPath;
 - (BOOL) addFile: (NSString*) filePath									// Adds a file to an existing extension
 	 toExtension: (NSString*) extensionName;
 - (BOOL) deleteExtension: (NSString*) extensionName;					// Only 'user' extensions (in ~/Library) can be deleted

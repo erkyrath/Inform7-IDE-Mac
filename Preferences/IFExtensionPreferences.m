@@ -77,7 +77,8 @@
 	NSString* file;
 	
 	while (file = [fileEnum nextObject]) {
-		succeeded = [[IFExtensionsManager sharedInform6ExtensionManager] addExtension: file];
+		succeeded = [[IFExtensionsManager sharedInform6ExtensionManager] addExtension: file
+																			finalPath: nil];
 		if (!succeeded) break;
 	}	
 	
@@ -127,7 +128,8 @@
 	NSString* file;
 	
 	while (file = [fileEnum nextObject]) {
-		succeeded = [[IFExtensionsManager sharedNaturalInformExtensionsManager] addExtension: file];
+		succeeded = [[IFExtensionsManager sharedNaturalInformExtensionsManager] addExtension: file
+																				   finalPath: nil];
 		if (!succeeded) break;
 	}	
 	

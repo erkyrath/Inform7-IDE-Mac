@@ -227,7 +227,8 @@ NSString* IFExtensionsChangedNotification = @"IFExtensionsChangedNotification";
 #endif
 
 - (BOOL) importExtensionFile: (NSString*) file {
-	return [extnMgr addExtension: file];
+	return [extnMgr addExtension: file
+					   finalPath: nil];
 }
 
 - (BOOL) tableView: (NSTableView *) tableView 

@@ -11,6 +11,14 @@
 #import "IFWelcomeWindow.h"
 #import "IFSharedContextMatcher.h"
 #import "IFPreferences.h"
+#import "IFExtensionsManager.h"
+
+@interface IFSingleController(PrivateMethods)
+
+- (void) showInstallPrompt: (id) sender;
+- (void) hideInstallPrompt: (id) sender;
+
+@end
 
 @implementation IFSingleController
 
@@ -54,6 +62,34 @@
 	[[[self document] storage] addLayoutManager: [fileView layoutManager]];
 	
 	[fileView setEditable: ![[self document] isReadOnly]];
+	
+	// If this is an .i7x file then test to see if we're editing it from within the extensions directory or not
+	NSString* filename = [[[self document] fileName] stringByStandardizingPath];
+	BOOL isInstalled = YES;
+	
+	if ([[[filename pathExtension] lowercaseString] isEqualToString: @"i7x"]) {
+		// Iterate through the i7 extension directories
+		NSEnumerator* searchDirEnum = [[[IFExtensionsManager sharedNaturalInformExtensionsManager] extensionDirectories] objectEnumerator];
+		NSString* searchDir;
+		
+		isInstalled = NO;
+		
+		while (searchDir = [searchDirEnum nextObject]) {
+			// Need to apply the subdirectory to get the full path
+			NSString* fullPath = [searchDir stringByAppendingPathComponent: [[IFExtensionsManager sharedNaturalInformExtensionsManager] subdirectory]];
+			fullPath = [fullPath stringByStandardizingPath];
+			
+			if ([[filename lowercaseString] hasPrefix: [fullPath lowercaseString]]) {
+				isInstalled = YES;
+				break;
+			}
+		}
+	}
+	
+	// If this file isn't installed, then create the 'install this file' prompt
+	if (!isInstalled) {
+		[self showInstallPrompt: self];
+	}
 }
 
 // = Menu items =
@@ -76,6 +112,90 @@
 
 	[[[self document] storage] setElasticTabs: enabled];
 	[[IFPreferences sharedPreferences] setElasticTabs: enabled];
+}
+
+// = Showing/hiding the installation prompt =
+
+- (void) showInstallPrompt: (id) sender {
+	// Get the view that the warning should be displayed in
+	NSView* parentView = [mainView superview];
+
+	// Do nothing if the view is already displayed (if it's displayed somewhere random this is going to go wrong)
+	if ([installWarning superview] == parentView) {
+		return;
+	} else if ([installWarning superview] != nil) {
+		[installWarning removeFromSuperview];
+	}
+	
+	// Resize the main view
+	NSRect warningFrame			= [installWarning frame];
+	NSRect mainViewFrame		= [mainView frame];
+	mainViewFrame.size.height	-= warningFrame.size.height;
+	
+	[mainView setFrame: mainViewFrame];
+	
+	// Position the warning view
+	warningFrame.origin.x		= NSMinX(mainViewFrame);
+	warningFrame.origin.y		= NSMaxY(mainViewFrame);
+	warningFrame.size.width		= mainViewFrame.size.width;
+	
+	[parentView addSubview: installWarning];
+	[installWarning setFrame: warningFrame];
+}
+
+- (void) hideInstallPrompt: (id) sender {
+	// Get the view that the warning should be displayed in
+	NSView* parentView = [mainView superview];
+	
+	// Do nothing if the view not already displayed (if it's displayed somewhere random this is going to go wrong)
+	if ([installWarning superview] != parentView) {
+		return;
+	}
+	
+	// Remove it from the view
+	[installWarning removeFromSuperview];
+	
+	// Resize the main view
+	NSRect warningFrame			= [installWarning frame];
+	NSRect mainViewFrame		= [mainView frame];
+	mainViewFrame.size.height	+= warningFrame.size.height;
+	
+	[mainView setFrame: mainViewFrame];
+}
+
+// = Installer actions =
+
+- (IBAction) installFile: (id) sender {
+	// Install this extension
+	NSString* finalPath = nil;
+	if ([[IFExtensionsManager sharedNaturalInformExtensionsManager] addExtension: [[self document] fileName]
+																	   finalPath: &finalPath]) {
+		// Find the new path
+		if (finalPath) {
+			[[self document] setFileName: finalPath];
+		} else {
+			// Oops, TODO: show a warning
+		}
+		
+		// Hide the install prompt
+		[self hideInstallPrompt: self];
+	} else {
+		// Warn that the extension couldn't be installed
+		NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Failed to Install Extension"
+																 value: @"Failed to Install Extension"
+																 table: nil],
+						  [[NSBundle mainBundle] localizedStringForKey: @"Cancel" value: @"Cancel" table: nil], nil, nil,
+						  [self window],
+						  nil,nil,nil,nil,
+						  [[NSBundle mainBundle] localizedStringForKey: @"Failed to Install Extension Explanation"
+																 value: nil
+																 table: nil]);
+	}
+}
+
+- (IBAction) cancelInstall: (id) sender {
+	// Hide the install prompt
+	[self hideInstallPrompt: self];
 }
 
 @end
