@@ -31,7 +31,8 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
 	
 	NSString* uti = (NSString*) contentTypeUTI;
 	
-	if ([uti isEqualToString: @"org.inform-fiction.source.inform7"]) {
+	if ([uti isEqualToString: @"org.inform-fiction.source.inform7"]
+		|| [uti isEqualToString: @"org.inform-fiction.inform7.extension"]) {
 		// ni file
 		
 		sourceCodeString = [NSString stringWithContentsOfFile: fileName
