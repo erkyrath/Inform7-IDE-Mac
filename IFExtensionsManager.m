@@ -361,6 +361,7 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 		// File must have a suitable extension
 		NSString* extn = [[file pathExtension] lowercaseString];
 		if (extn == nil || [extn isEqualToString: @""] || 
+			[extn isEqualToString: @"i7x"] ||
 			[extn isEqualToString: @"txt"] || [extn isEqualToString: @"rtf"] ||
 			[extn isEqualToString: @"inf"] || [extn isEqualToString: @"h"] || [extn isEqualToString: @"i6"])  {
 			// Add to the result
@@ -635,6 +636,13 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 			destFile = [destFile substringToIndex: 30];
 		}
 		
+		if (extensionsDefineName) {
+			// Extension must have a .i7x extension
+			if (![[destFile pathExtension] isEqualToString: @"i7x"]) {
+				destFile = [destFile stringByAppendingPathExtension: @"i7x"];
+			}
+		}
+		
 		NSString* dest = [destDir stringByAppendingPathComponent: destFile];
 		if (finalPath) *finalPath = [[dest copy] autorelease];
 		if ([mgr fileExistsAtPath: dest]) {
@@ -670,7 +678,7 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 	// Check the extension
 	NSString* extn = [[filePath pathExtension] lowercaseString];
 	
-	if (!(extn == nil || [extn isEqualToString: @""] || [extn isEqualToString: @"h"] || [extn isEqualToString: @"inf"] || [extn isEqualToString: @"i6"])) {
+	if (!(extn == nil || [extn isEqualToString: @""] || [extn isEqualToString: @"i7x"] || [extn isEqualToString: @"h"] || [extn isEqualToString: @"inf"] || [extn isEqualToString: @"i6"])) {
 		// Invalid file extension
 		return NO;
 	}
@@ -1003,7 +1011,7 @@ static int compare_insensitive(id a, id b, void* context) {
 		if (!isDir) {
 			// File type must be right
 			NSString* extn = [file pathExtension];
-			if (![extn isEqualToString: @"h"] && ![extn isEqualToString: @"inf"] && ![extn isEqualToString: @"i6"]) return NSDragOperationNone;
+			if (![extn isEqualToString: @"h"] && ![extn isEqualToString: @"i7x"] && ![extn isEqualToString: @"inf"] && ![extn isEqualToString: @"i6"]) return NSDragOperationNone;
 		}
 	}
 	
@@ -1189,7 +1197,7 @@ static int compare_insensitive(id a, id b, void* context) {
 			if (!exists || isDir) return NSDragOperationNone;
 			
 			NSString* extn = [file pathExtension];
-			if (extn != nil && ![extn isEqualToString: @""]) return NSDragOperationNone;
+			if (extn != nil && ![extn isEqualToString: @""] && ![extn isEqualToString: @"i7x"]) return NSDragOperationNone;
 		}
 		
 		return NSDragOperationCopy;

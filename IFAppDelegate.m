@@ -379,13 +379,13 @@ static int stringCompare(id a, id b, void* context) {
 			// Add a menu entry for this source file
 			NSMenuItem* newItem = [[NSMenuItem alloc] init];
 			
-			[newItem setTitle: [sourceFile lastPathComponent]];
+			[newItem setTitle: [[sourceFile stringByDeletingPathExtension] lastPathComponent]];
 			[newItem setTarget: self];
 			[newItem setTag: [extensionSources count]];
 			[newItem setAction: @selector(openExtension:)];
 			
 			if (isInternal) {
-				NSAttributedString* attributedTitle = [[NSAttributedString alloc] initWithString: [sourceFile lastPathComponent]
+				NSAttributedString* attributedTitle = [[NSAttributedString alloc] initWithString: [[sourceFile stringByDeletingPathExtension] lastPathComponent]
 																					  attributes: [NSDictionary dictionaryWithObjectsAndKeys: [NSColor grayColor], NSForegroundColorAttributeName, nil]];
 				[newItem setAttributedTitle: [attributedTitle autorelease]];
 			}
