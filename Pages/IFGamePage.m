@@ -132,16 +132,9 @@
 		// Screws up the first responder, will cause the GlkView object to force a new first responder after it starts
 		[[parent window] makeFirstResponder: [parent window]];
 		
-		// Work out the client to use
-		NSString*		clientName = @"glulxe";
-		NSDictionary*	configSettings = [[[NSBundle mainBundle] localizedInfoDictionary] objectForKey: @"InformConfiguration"];
-		if (!configSettings) {
-			configSettings = [[[NSBundle mainBundle] infoDictionary] objectForKey: @"InformConfiguration"];
-		}
-		if (configSettings) {
-			clientName = (NSString*)[configSettings objectForKey: @"GlulxInterpreter"];
-		}
-		if (!clientName) clientName = @"glulxe";
+		// Work out the default client to use
+		NSString*		clientName = [[IFPreferences sharedPreferences] glulxInterpreter];
+		NSLog(@"Using glulx interpreter '%@'", clientName);
 		
 		// Start running as a glulxe task
 		gView = [[GlkView alloc] init];

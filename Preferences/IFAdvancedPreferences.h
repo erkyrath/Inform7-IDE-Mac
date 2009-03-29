@@ -20,6 +20,9 @@
 	
 	IBOutlet NSButton* cleanBuildFiles;					// If checked, build files are cleaned out
 	IBOutlet NSButton* alsoCleanIndexFiles;				// If checked, index files are cleaned out in addition to build files
+	IBOutlet NSPopUpButton*	glulxInterpreter;			// The glulx interpreter to use
+	
+	NSMutableArray* interpreters;						// Array of interpreter names, indexed by tags in the glulxInterpreter menu
 }
 
 // Actions

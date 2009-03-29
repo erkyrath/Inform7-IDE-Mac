@@ -131,10 +131,12 @@ enum IFPreferencesColourSet {
 - (BOOL) showDebuggingLogs;													// YES if we should show the Inform 7 debugging logs + generated Inform 6 source code
 - (BOOL) cleanProjectOnClose;												// YES if we should clean the project when we close it (or when saving)
 - (BOOL) alsoCleanIndexFiles;												// YES if we should additionally clean out the index files
+- (NSString*) glulxInterpreter;												// The preferred glulx interpreter
 
 - (void) setRunBuildSh: (BOOL) value;
 - (void) setShowDebuggingLogs: (BOOL) value;
 - (void) setCleanProjectOnClose: (BOOL) value;
 - (void) setAlsoCleanIndexFiles: (BOOL) value;
+- (void) setGlulxInterpreter: (NSString*) value;
 
 @end

@@ -28,6 +28,12 @@
 	return self;
 }
 
+- (void) dealloc {
+	[interpreters release];
+	
+	[super dealloc];
+}
+
 // = Preference overrides =
 
 - (NSString*) preferenceName {
@@ -48,19 +54,53 @@
 
 - (IBAction) setPreference: (id) sender {
 	// Read the current state of the buttons
-	BOOL willBuildSh = [runBuildSh state]==NSOnState;
-	BOOL willDebug = [showDebugLogs state]==NSOnState;
-	BOOL willCleanBuild = [cleanBuildFiles state]==NSOnState;
+	BOOL willBuildSh		= [runBuildSh state]==NSOnState;
+	BOOL willDebug			= [showDebugLogs state]==NSOnState;
+	BOOL willCleanBuild		= [cleanBuildFiles state]==NSOnState;
 	BOOL willAlsoCleanIndex = [alsoCleanIndexFiles state]==NSOnState;
+	NSString* interpreter	= [interpreters objectAtIndex: [[glulxInterpreter selectedItem] tag]];
 	
 	// Set the shared preferences to suitable values
 	[[IFPreferences sharedPreferences] setRunBuildSh: willBuildSh];
 	[[IFPreferences sharedPreferences] setShowDebuggingLogs: willDebug];
 	[[IFPreferences sharedPreferences] setCleanProjectOnClose: willCleanBuild];
 	[[IFPreferences sharedPreferences] setAlsoCleanIndexFiles: willAlsoCleanIndex];
+	[[IFPreferences sharedPreferences] setGlulxInterpreter: interpreter];
 }
 
 - (void) reflectCurrentPreferences {
+	// Update the list of interpreters
+	NSMenu* terpMenu = [glulxInterpreter menu];
+	while ([terpMenu numberOfItems] > 0) { [terpMenu removeItemAtIndex: 0]; }
+	
+	[interpreters autorelease];
+	interpreters					= [[NSMutableArray alloc] initWithArray: [[[[NSBundle mainBundle] infoDictionary] objectForKey: @"InformConfiguration"] objectForKey: @"AvailableInterpreters"]];
+	NSEnumerator*	interpEnum		= [interpreters objectEnumerator];
+	int				selIndex		= 0;
+	NSString*		terp;
+	while (terp = [interpEnum nextObject]) {
+		// Get the description of this interpreter from the localised strings
+		NSString* terpDesc = [NSString stringWithFormat: @"terp-%@", terp];
+		terpDesc = [[NSBundle mainBundle] localizedStringForKey: terpDesc
+														  value: terp
+														  table: nil];
+		
+		// Create the menu item for this interpreter
+		NSMenuItem* newItem = [[NSMenuItem alloc] initWithTitle: terpDesc
+														 action: nil
+												  keyEquivalent: @""];
+		[newItem setTag: [terpMenu numberOfItems]];
+		if ([terp isEqualToString: [[IFPreferences sharedPreferences] glulxInterpreter]]) {
+			selIndex = [terpMenu numberOfItems];
+		}
+		
+		// Add it to the menu
+		[terpMenu addItem: newItem];
+	}
+	
+	// Select the appropriate item in the menu
+	[glulxInterpreter selectItemAtIndex: selIndex];
+	
 	// Set the buttons according to the current state of the preferences
 	[runBuildSh setState: [[IFPreferences sharedPreferences] runBuildSh]?NSOnState:NSOffState];
 	[showDebugLogs setState: [[IFPreferences sharedPreferences] showDebuggingLogs]?NSOnState:NSOffState];

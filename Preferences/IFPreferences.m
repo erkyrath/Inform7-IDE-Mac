@@ -941,6 +941,27 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 		return NO;
 }
 
+- (NSString*) glulxInterpreter {
+	NSString* value = [preferences objectForKey: @"glulxInterpreter"];
+	
+	if (value) {
+		return [[value copy] autorelease];
+	} else {
+		// Work out the default client to use
+		NSString*		clientName = @"glulxe";
+		NSDictionary*	configSettings = [[[NSBundle mainBundle] infoDictionary] objectForKey: @"InformConfiguration"];
+		if (!configSettings) {
+			configSettings = [[[NSBundle mainBundle] infoDictionary] objectForKey: @"InformConfiguration"];
+		}
+		if (configSettings) {
+			clientName = (NSString*)[configSettings objectForKey: @"GlulxInterpreter"];
+		}
+		if (!clientName) clientName = @"glulxe";
+		
+		return clientName;
+	}
+}
+
 - (void) setCleanProjectOnClose: (BOOL) value {
 	[preferences setObject: [NSNumber numberWithBool: value]
 					forKey: @"cleanProjectOnClose"];
@@ -966,6 +987,12 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 	[preferences setObject: [NSNumber numberWithBool: value]
 					forKey: @"showDebuggingLogs"];
 	
+	[self preferencesHaveChanged];
+}
+
+- (void) setGlulxInterpreter: (NSString*) interpreter {
+	[preferences setObject: [[interpreter copy] autorelease]
+					forKey: @"glulxInterpreter"];
 	[self preferencesHaveChanged];
 }
 

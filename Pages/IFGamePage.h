@@ -13,6 +13,8 @@
 #import <ZoomView/ZoomView.h>
 #import <ZoomView/ZoomSkeinItem.h>
 
+extern NSString* IFGlulxInterpreterName;						// The user defaults key that contains the glulx interpreter to use; if unset, the value in the plist is used
+
 //
 // The 'game' page
 //
