@@ -64,7 +64,9 @@
 	NSString* path = nil;
 	
 	// Note: first character will always be '/', hence the 'substring' thing
-	urlPath = [urlPath substringFromIndex: 1];
+	if ([urlPath length] > 0) {
+		urlPath = [urlPath substringFromIndex: 1];
+	}
 	
 	NSArray* components = [urlPath pathComponents];
 	
