@@ -105,7 +105,11 @@
 	}
 	
 	if (firstPoint == nil) {
-		[parent restartGame];
+		if ([parent needsRecompile]) {
+			[parent compileAndRun: self];
+		} else {
+			[parent restartGame];
+		}
 		firstPoint = [skein rootItem];
 	}
 	

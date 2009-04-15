@@ -139,6 +139,7 @@ enum lineStyle {
 - (IBAction) addNewFile: (id) sender;
 
 - (void) willNeedRecompile: (NSNotification*) not;
+- (BOOL) needsRecompile;
 
 // Documentation
 - (void) openDocUrl: (NSURL*) url;
