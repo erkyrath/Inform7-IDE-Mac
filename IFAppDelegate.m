@@ -215,6 +215,16 @@ static NSRunLoop* mainRunLoop = nil;
 	return YES;
 }
 
+// = Menu actions =
+
+- (void) visitWebsite: (id) sender {
+	// Get the URL
+	NSURL* websiteUrl = [NSURL URLWithString: @"http://www.inform7.com"];
+	
+	// Visit it
+	[[NSWorkspace sharedWorkspace] openURL: websiteUrl];
+}
+
 // = The extensions menu =
 
 static int stringCompare(id a, id b, void* context) {
