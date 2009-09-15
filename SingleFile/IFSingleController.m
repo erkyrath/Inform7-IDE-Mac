@@ -62,6 +62,7 @@
 	[[[self document] storage] addLayoutManager: [fileView layoutManager]];
 	
 	[fileView setEditable: ![[self document] isReadOnly]];
+	[fileView setBackgroundColor: [NSColor colorWithDeviceRed: 1.0 green: 1.0 blue: 0.9 alpha: 1.0]];
 	
 	// If this is an .i7x file then test to see if we're editing it from within the extensions directory or not
 	NSString* filename = [[[self document] fileName] stringByStandardizingPath];
