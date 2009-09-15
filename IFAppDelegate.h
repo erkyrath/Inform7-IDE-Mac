@@ -16,6 +16,7 @@
 	BOOL haveWebkit;								// YES if webkit is installed (NO otherwise; only really does anything on early 10.2 versions, and we don't support them any more)
 	
 	IBOutlet NSMenuItem* extensionsMenu;			// The 'Open Extension' menu
+	IBOutlet NSMenuItem* debugMenu;					// The Debug menu
 	
 	NSMutableArray* extensionSources;				// Maps extension menu tags to source file names
 	id<IFLeopardProtocol> leopard;					// The leopard extensions (if available)
@@ -41,6 +42,7 @@
 - (NSMutableArray*) extensionsInDirectory: (NSString*) directory;		// (DEPRECATED) gets the list of extensions in a particular directory. Use the extension manager instead.
 - (NSArray*) directoriesToSearch: (NSString*) extensionSubdirectory;	// (DEPRECATED) gets the list of directories to search for extensions. Use the extension manager instead.
 
+- (NSMenuItem*) debugMenu;							// The Debug menu
 - (id<IFLeopardProtocol>) leopard;					// The leopard extensions (if available)
 - (void) setFrame: (NSRect) newFrame				// Sets the frame of the specified window (with animation on leopard)
 		 ofWindow: (NSWindow*) window;

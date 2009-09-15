@@ -551,4 +551,8 @@ static int stringCompare(id a, id b, void* context) {
 	}
 }
 
+- (NSMenuItem*) debugMenu {
+	return debugMenu;
+}
+
 @end

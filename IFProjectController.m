@@ -383,6 +383,13 @@ static NSDictionary*  itemDictionary = nil;
 											   object: [[self document] undoManager]];
 }
 
+- (void)windowDidBecomeMain:(NSNotification *)notification {
+	if (NSAppKitVersionNumber >= 949) {
+		// In OS X 10.5 or later we can hide the debug menu if we're not making a project where debugging is available
+		[[[NSApp delegate] debugMenu] setHidden: ![self canDebug]];
+	}
+}
+
 - (void) willNeedRecompile: (NSNotification*) not {
 	noChangesSinceLastCompile = noChangesSinceLastRefresh = NO;
 }
@@ -831,11 +838,19 @@ static NSDictionary*  itemDictionary = nil;
 		return isRunning;
 	}
 	
-	if ( (itemSelector == @selector(compileAndDebug:) ||
+	if (itemSelector == @selector(compileAndDebug:) ||
 		  itemSelector == @selector(setBreakpoint:) ||
-		  itemSelector == @selector(deleteBreakpoint:)) && 
-		![self canDebug]) {
-		return NO;
+		  itemSelector == @selector(deleteBreakpoint:)) {
+		if (![self canDebug]) {
+			if (NSAppKitVersionNumber >= 949) {
+				[menuItem setHidden: YES];				// Menu item hiding is only available on OS X 10.5 or later
+			}
+			return NO;
+		} else {
+			if (NSAppKitVersionNumber >= 949) {
+				[menuItem setHidden: NO];
+			}
+		}
 	}
 	
 	if (itemSelector == @selector(compile:) || 
