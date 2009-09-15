@@ -164,8 +164,8 @@
 	if (needQuotes) longuserName = [NSString stringWithFormat: @"\"%@\"", longuserName];
 	
 	[name setStringValue: longuserName];
-	[extensionName setStringValue: [[NSBundle mainBundle] localizedStringForKey: @"New extension"
-																		  value: @"New extension"
+	[extensionName setStringValue: [[NSBundle mainBundle] localizedStringForKey: @"New Extension"
+																		  value: @"New Extension"
 																		  table: nil]];
 }
 
