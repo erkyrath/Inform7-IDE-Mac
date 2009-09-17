@@ -388,6 +388,10 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 		[args addObject: @"-log"];
 	}
 	
+	if ([settings nobbleRng]) {
+		[args addObject: @"-rng"];
+	}
+	
     [self addCustomBuildStage: [settings naturalInformCompilerToUse]
                 withArguments: args
                nextStageInput: [NSString stringWithFormat: @"%@/Build/auto.inf", [self currentStageInput]]

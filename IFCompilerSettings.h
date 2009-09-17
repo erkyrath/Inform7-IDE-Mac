@@ -63,12 +63,14 @@ extern NSString* IFCompilerNaturalInform;
 - (void) setDebug: (BOOL) setting;
 - (void) setCompileNaturalInformOutput: (BOOL) setting;
 - (void) setRunBuildScript: (BOOL) setting;
+- (void) setNobbleRng: (BOOL) setting;
 - (BOOL) usingNaturalInform;
 - (BOOL) strict;
 - (BOOL) infix;
 - (BOOL) debug;
 - (BOOL) compileNaturalInformOutput;
 - (BOOL) runBuildScript;
+- (BOOL) nobbleRng;
 
 - (void) setCompilerVersion: (NSString*) version;
 - (void) setLibraryToUse: (NSString*) library;

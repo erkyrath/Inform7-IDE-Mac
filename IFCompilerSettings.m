@@ -24,15 +24,16 @@
 
 #import "IFSettingsController.h"
 
-NSString* IFSettingLibraryToUse    = @"IFSettingLibraryToUse";
-NSString* IFSettingCompilerVersion = @"IFSettingCompilerVersion";
-NSString* IFSettingZCodeVersion    = @"IFSettingZCodeVersion";
+NSString* IFSettingLibraryToUse		= @"IFSettingLibraryToUse";
+NSString* IFSettingCompilerVersion	= @"IFSettingCompilerVersion";
+NSString* IFSettingZCodeVersion		= @"IFSettingZCodeVersion";
 
-NSString* IFSettingNaturalInform = @"IFSettingNaturalInform";
-NSString* IFSettingStrict        = @"IFSettingStrict";
-NSString* IFSettingElasticTabs	 = @"IFSettingElasticTabs";
-NSString* IFSettingInfix         = @"IFSettingInfix";
-NSString* IFSettingDEBUG         = @"IFSettingDEBUG";
+NSString* IFSettingNaturalInform	= @"IFSettingNaturalInform";
+NSString* IFSettingStrict			= @"IFSettingStrict";
+NSString* IFSettingElasticTabs		= @"IFSettingElasticTabs";
+NSString* IFSettingInfix			= @"IFSettingInfix";
+NSString* IFSettingDEBUG			= @"IFSettingDEBUG";
+NSString* IFSettingNobbleRng		= @"IFSettingNobbleRng";
 
 // Debug
 NSString* IFSettingCompileNatOutput = @"IFSettingCompileNatOutput";
@@ -527,6 +528,22 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 - (BOOL) compileNaturalInformOutput {
     NSNumber* setting = [[self dictionaryForClass: [IFDebugSettings class]] objectForKey: IFSettingCompileNatOutput];
 
+    if (setting) {
+        return [setting boolValue];
+    } else {
+        return YES;
+    }
+}
+
+- (void) setNobbleRng: (BOOL) setting {
+    [[self dictionaryForClass: [IFOutputSettings class]] setObject: [NSNumber numberWithBool: setting]
+														   forKey: IFSettingNobbleRng];
+    [self settingsHaveChanged];
+}
+
+- (BOOL) nobbleRng {
+    NSNumber* setting = [[self dictionaryForClass: [IFOutputSettings class]] objectForKey: IFSettingNobbleRng];
+	
     if (setting) {
         return [setting boolValue];
     } else {

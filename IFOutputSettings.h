@@ -16,6 +16,7 @@
 @interface IFOutputSettings : IFSetting {
     IBOutlet NSMatrix* zmachineVersion;
 	IBOutlet NSButton* releaseBlorb;
+	IBOutlet NSButton* makePredictable;
 }
 
 - (BOOL) createBlorbForRelease;
