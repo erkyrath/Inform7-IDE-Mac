@@ -936,6 +936,10 @@ static NSDictionary*  itemDictionary = nil;
 		return NO;
 	}
 	
+	if (itemSelector == @selector(exportIFiction:)) {
+		return [[[self document] settings] usingNaturalInform];
+	}
+	
 	// Spell checking
 	if (itemSelector == @selector(toggleSourceSpellChecking:)) {
 		[menuItem setState: sourceSpellChecking?NSOnState:NSOffState];
@@ -1154,6 +1158,71 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (IBAction) exportIFiction: (id) sender {
+	// Compile and export the iFiction metadata
+	compileFinishedAction = @selector(saveIFiction);
+	
+	// Presumably we need a full compile to generate the metadata?
+	[self performCompileWithRelease: NO
+						refreshOnly: NO];
+}
+
+- (void) saveIFiction {
+	// IFiction compilation has finished
+	noChangesSinceLastCompile = noChangesSinceLastRefresh = YES;
+	
+	// Work out where the iFiction file should be
+	NSString* iFictionPath = [[[self document] fileName] stringByAppendingPathComponent: @"Metadata.ifiction"];
+	
+	// Prompt the user to save the iFiction file if it exists
+	if ([[NSFileManager defaultManager] fileExistsAtPath: iFictionPath]) {
+		// Setup a save panel
+		NSSavePanel* panel = [NSSavePanel savePanel];
+		
+		[panel setAccessoryView: nil];
+		[panel setRequiredFileType: @"iFiction"];
+		[panel setCanSelectHiddenExtension: YES];
+		[panel setDelegate: self];
+		[panel setPrompt: @"Save iFiction record"];
+		[panel setTreatsFilePackagesAsDirectories: NO];
+		
+		// Show it
+		NSString* file = [[[self document] fileName] lastPathComponent];
+		file = [file stringByDeletingPathExtension];
+		
+		[panel beginSheetForDirectory: [[[self document] fileName] stringByDeletingLastPathComponent] // FIXME: preferences
+								 file: file
+					   modalForWindow: [self window]
+						modalDelegate: self
+					   didEndSelector: @selector(ifictionSavePanelDidEnd:returnCode:contextInfo:)
+						  contextInfo: [iFictionPath retain]];    		
+	} else {
+		// Oops, failed to generate an iFiction record
+		NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"The compiler failed to produce an iFiction record" value: @"The compiler failed to produce an iFiction record" table:nil],
+						  [[NSBundle mainBundle] localizedStringForKey: @"Cancel" value: @"Cancel" table:nil], 
+						  nil, nil, [self window], nil, nil, nil, nil,
+						  [[NSBundle mainBundle] localizedStringForKey: @"The compiler failed to create an iFiction record; check the errors page to see why." value: @"The compiler failed to create an iFiction record; check the errors page to see why." table:nil]);
+	}
+}
+
+- (void) ifictionSavePanelDidEnd: (NSSavePanel*) panel
+					  returnCode: (int) returnCode
+					 contextInfo: (void*) contextInfo {
+	// Context info indicates where the file we're saving is located
+	NSString* iFictionPath = [(NSString*)contextInfo autorelease];
+	
+	// Copy the file to the specified path
+	if (returnCode == NSOKButton) {
+		[[NSFileManager defaultManager] copyPath: iFictionPath
+										  toPath: [panel filename]
+										 handler: nil];
+		
+		// Hide the file extension if the user has requested it
+		NSMutableDictionary* attributes = [[[NSFileManager defaultManager] fileAttributesAtPath: [panel filename] traverseLink: YES] mutableCopy];
+		[attributes setObject: [NSNumber numberWithBool: [panel isExtensionHidden]]
+					   forKey: NSFileExtensionHidden];
+		[[NSFileManager defaultManager] changeFileAttributes: attributes  
+													  atPath: [panel filename]];
+	}
 }
 
 // = Displaying a specific index tab =
