@@ -322,13 +322,11 @@
 	name = [[name stringByDeletingPathExtension] stringByAppendingPathExtension: @"glkdata"];
 	
 	// Work out the location of the materials directory
-	NSString* projectPath = [[parent document] fileName];
-	NSString* projectName = [[projectPath lastPathComponent] stringByDeletingPathExtension];
-	NSString* materials = [[projectPath stringByDeletingLastPathComponent] stringByAppendingPathComponent: 
-		[NSString stringWithFormat: @"%@ materials", projectName]];
+	NSString* projectPath	= [[parent document] fileName];
+	NSString* materials		= [[parent document] materialsPath];
 	
 	// Default location is materials/Files
-	NSString* filesDir = [materials stringByAppendingPathComponent: @"Files"];
+	NSString* filesDir		= [materials stringByAppendingPathComponent: @"Files"];
 	
 	// Use this directory if it exists
 	BOOL isDir;

@@ -169,6 +169,9 @@ enum lineStyle {
 - (IBAction) nextDifference: (id) sender;
 - (IBAction) nextDifferenceBySkein: (id) sender;
 
+- (IBAction) openMaterials: (id) sender;
+- (IBAction) exportIFiction: (id) sender;
+
 // Tabbing around
 - (IBAction) tabSource: (id) sender;
 - (IBAction) tabErrors: (id) sender;

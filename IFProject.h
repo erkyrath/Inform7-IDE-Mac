@@ -78,6 +78,7 @@ extern NSString* IFProjectFinishedBuildingSyntaxNotification;
 		withNewName: (NSString*) newFile;
 
 - (NSString*) pathForFile: (NSString*) file;
+- (NSString*) materialsPath;
 
 - (BOOL) editingExtension;
 

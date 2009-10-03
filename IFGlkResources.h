@@ -8,16 +8,17 @@
 
 #import <Cocoa/Cocoa.h>
 #import <GlkView/GlkView.h>
+#import "IFProject.h"
 
 
 ///
 /// Class that retrieves Glk resources from the materials directory
 ///
 @interface IFGlkResources : NSObject<GlkImageSource> {
-	NSDocument* project;
+	IFProject* project;
 	NSDictionary* manifest;
 }
 
-- (id) initWithProject: (NSDocument*) project;					// Initialise this resource file to get image resources from the specified project
+- (id) initWithProject: (IFProject*) project;					// Initialise this resource file to get image resources from the specified project
 
 @end

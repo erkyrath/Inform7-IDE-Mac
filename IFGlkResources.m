@@ -11,7 +11,7 @@
 
 @implementation IFGlkResources
 
-- (id) initWithProject: (NSDocument*) newProject {
+- (id) initWithProject: (IFProject*) newProject {
 	self = [super init];
 	
 	if (self) {
@@ -30,10 +30,8 @@
 
 - (NSData*) dataForImageResource: (glui32) image {
 	// Get the location of the image directory
-	NSString* projectPath = [project fileName];
-	NSString* projectName = [[projectPath lastPathComponent] stringByDeletingPathExtension];
-	NSString* materials = [[projectPath stringByDeletingLastPathComponent] stringByAppendingPathComponent: 
-		[NSString stringWithFormat: @"%@ materials", projectName]];
+	NSString* materials		= [project materialsPath];
+	NSString* projectPath	= [project fileName];
 	
 	// Get the (default) location of the image file
 	NSString* imageFile = [NSString stringWithFormat: @"Figure %i.png", image];

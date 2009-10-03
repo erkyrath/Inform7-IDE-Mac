@@ -1109,6 +1109,53 @@ static NSDictionary*  itemDictionary = nil;
 	[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];
 }
 
+- (IBAction) openMaterials: (id) sender {
+	// Work out where the materials folder is located
+	NSString* materialsPath = [[self document] materialsPath];
+	
+	// Prompt the user to create the folder if it doesn't exist
+	if (![[NSFileManager defaultManager] fileExistsAtPath: materialsPath]) {
+		NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Could not find Materials folder" value: @"Could not find Materials folder" table: nil], 
+						  [[NSBundle mainBundle] localizedStringForKey: @"Cancel" value: @"Cancel" table: nil],
+						  [[NSBundle mainBundle] localizedStringForKey: @"Create Materials folder" value: @"Create Materials folder" table: nil],
+						  nil, [self window], self, @selector(createMaterialsDidEnd:returnCode:contextInfo:), nil, nil, 
+						  [[NSBundle mainBundle] localizedStringForKey: @"Could not find Materials folder main text" value: @"Could not find Materials folder main text needs replacing" table: nil]);
+	}
+	
+	// Open the folder if it exists
+	BOOL isDir;
+	if ([[NSFileManager defaultManager] fileExistsAtPath: materialsPath
+											 isDirectory: &isDir]) {
+		if (!isDir) {
+			// Odd; the materials folder is a file. We open the containing path so the user can see this and correct it if they like
+			[[NSWorkspace sharedWorkspace] openFile: [materialsPath stringByDeletingLastPathComponent]];
+		} else {
+			[[NSWorkspace sharedWorkspace] openFile: materialsPath];
+		}
+	}
+}
+
+- (void) createMaterialsDidEnd: (NSWindow*) sheet
+					returnCode: (int) returnCode
+				   contextInfo: (void*) contextInfo {
+	if (returnCode == NSAlertAlternateReturn) {
+		// Work out where the materials folder is located
+		NSString* materialsPath = [[self document] materialsPath];
+		
+		// Create the folder
+		if (![[NSFileManager defaultManager] fileExistsAtPath: materialsPath]) {
+			[[NSFileManager defaultManager] createDirectoryAtPath: materialsPath
+													   attributes: [NSDictionary dictionary]];
+		}
+		
+		// Restart the actions
+		[self openMaterials: self];
+	}
+}
+
+- (IBAction) exportIFiction: (id) sender {
+}
+
 // = Displaying a specific index tab =
 
 - (IBAction) showIndexTab: (id) sender {

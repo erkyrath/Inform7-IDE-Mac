@@ -909,6 +909,16 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 	return file;
 }
 
+- (NSString*) materialsPath {
+	// Work out the location of the materials folder
+	NSString* projectPath	= [self fileName];
+	NSString* projectName	= [[projectPath lastPathComponent] stringByDeletingPathExtension];
+	NSString* materialsName	= [NSString stringWithFormat: @"%@ Materials", projectName];
+	NSString* materialsPath	= [[projectPath stringByDeletingLastPathComponent] stringByAppendingPathComponent: materialsName];
+	
+	return materialsPath;
+}
+
 - (NSTextStorage*) notes {
 	return notes;
 }
