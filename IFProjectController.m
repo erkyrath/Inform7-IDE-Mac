@@ -3474,6 +3474,25 @@ static NSDictionary*  itemDictionary = nil;
 
 // = Commenting out source =
 
+- (void) undoCommentOut: (NSRange) range
+		 originalString: (NSString*) original
+			  inStorage: (NSTextStorage*) storage {
+	// Fetch the string that now occupies the specified range
+	NSString* replacing = [[storage string] substringWithRange: range];
+	
+	// Replace the range with the original string
+	[[storage mutableString] replaceCharactersInRange: range
+										   withString: original];
+	
+	// Generate a new undo action
+	NSUndoManager* undo = [[self document] undoManager];
+	[undo beginUndoGrouping];
+	[[undo prepareWithInvocationTarget: self] undoCommentOut: NSMakeRange(range.location, [original length])
+											  originalString: replacing
+												   inStorage: storage];
+	[undo endUndoGrouping];
+}
+
 - (void) commentOutSelection: (id) sender {
 	// Fetch the text storage
 	NSTextView*		textView		= (NSTextView*)[[self window] firstResponder];
@@ -3481,8 +3500,20 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Comment out the region
 	NSRange			commentRange	= [textView selectedRange];
-	[[storage mutableString] commentOutInform7: commentRange
-								   undoManager: [[self document] undoManager]];
+	NSString*		original		= [[storage string] substringWithRange: commentRange];
+	NSRange			newRange		= [[storage mutableString] commentOutInform7: commentRange];
+	
+	// Select the newly commented region
+	[textView setSelectedRange: newRange];
+	
+	// Generate an undo action
+	NSUndoManager* undo = [[self document] undoManager];
+	
+	[undo beginUndoGrouping];
+	[[undo prepareWithInvocationTarget: self] undoCommentOut: newRange
+											  originalString: original
+												   inStorage: storage];
+	[undo endUndoGrouping];
 }
 
 - (void) uncommentSelection: (id) sender {
@@ -3492,8 +3523,7 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Uncomment out the region
 	NSRange			commentRange	= [textView selectedRange];
-	[[storage mutableString] removeCommentsInform7: commentRange
-									   undoManager: [[self document] undoManager]];
+	NSRange			newRange		= [[storage mutableString] removeCommentsInform7: commentRange];
 }
 
 @end

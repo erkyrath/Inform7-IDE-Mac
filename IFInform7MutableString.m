@@ -57,29 +57,9 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 @implementation NSMutableString(IFInform7MutableString)
 
 ///
-/// Undoes a commenting action initiated by either
-///
-- (void) undoInform7Commenting: (NSUndoManager*)	manager
-			withOriginalString: (NSString*)			original
-				  replaceRange: (NSRange)			range {
-	// Get the original string
-	NSString* replacing = [self substringWithRange: range];
-	
-	// Undo the action
-	[self replaceCharactersInRange: range
-						withString: original];
-	
-	// Create a new undo action
-	[[manager prepareWithInvocationTarget: self] undoInform7Commenting: manager
-													withOriginalString: replacing
-														  replaceRange: NSMakeRange(range.location, [original length])];
-}
-
-///
 /// Comments out a region in the string using Inform 7 syntax
 ///
-- (void) commentOutInform7: (NSRange)			range
-			   undoManager: (NSUndoManager*)	manager {
+- (NSRange) commentOutInform7: (NSRange) range {
 	// Restrict the range to the length of the string
 	if (range.location < 0 || range.location >= [self length]) {
 		return;
@@ -96,7 +76,6 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 	}
 	
 	// Get the original string
-	NSString*	original	= [self substringWithRange: range];
 	int			finalLength = range.length;
 	
 	// Parse the string to the beginning of the range
@@ -156,19 +135,13 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 		finalLength++;
 	}
 	
-	// Create the undo action
-	if (manager) {
-		[[manager prepareWithInvocationTarget: self] undoInform7Commenting: manager
-														withOriginalString: (NSString*) original
-															  replaceRange: NSMakeRange(range.location, finalLength)];
-	}
+	return NSMakeRange(range.location, finalLength);
 }
 
 ///
 /// Removes I7 comments from the specified range
 ///
-- (void) removeCommentsInform7: (NSRange) range
-				   undoManager: (NSUndoManager*) manager {
+- (NSRange) removeCommentsInform7: (NSRange) range {
 	// Restrict the range to the length of the string
 	if (range.location < 0 || range.location >= [self length]) {
 		return;
@@ -183,6 +156,8 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 		end				= [self length];
 		range.length	= end - range.location;
 	}
+	
+	return range;
 }
 
 @end

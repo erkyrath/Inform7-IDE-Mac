@@ -15,15 +15,14 @@
 @interface NSMutableString(IFInform7MutableString)
 
 ///
-/// Comments out a region in the string using Inform 7 syntax
+/// Comments out a region in the string using Inform 7 syntax. Returns the new extent of the
+/// range.
 ///
-- (void) commentOutInform7: (NSRange) range
-			   undoManager: (NSUndoManager*) manager;
+- (NSRange) commentOutInform7: (NSRange) range;
 
 ///
-/// Removes I7 comments from the specified range
+/// Removes I7 comments from the specified range. Returns the new extent of the range.
 ///
-- (void) removeCommentsInform7: (NSRange) range
-				   undoManager: (NSUndoManager*) manager;
+- (NSRange) removeCommentsInform7: (NSRange) range;
 
 @end
