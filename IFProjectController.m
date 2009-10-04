@@ -3523,7 +3523,20 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Uncomment out the region
 	NSRange			commentRange	= [textView selectedRange];
+	NSString*		original		= [[storage string] substringWithRange: commentRange];
 	NSRange			newRange		= [[storage mutableString] removeCommentsInform7: commentRange];
+	
+	// Select the newly uncommented region
+	[textView setSelectedRange: newRange];
+	
+	// Generate an undo action
+	NSUndoManager* undo = [[self document] undoManager];
+	
+	[undo beginUndoGrouping];
+	[[undo prepareWithInvocationTarget: self] undoCommentOut: newRange
+											  originalString: original
+												   inStorage: storage];
+	[undo endUndoGrouping];
 }
 
 @end

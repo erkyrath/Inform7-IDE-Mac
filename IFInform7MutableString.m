@@ -62,11 +62,11 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 - (NSRange) commentOutInform7: (NSRange) range {
 	// Restrict the range to the length of the string
 	if (range.location < 0 || range.location >= [self length]) {
-		return;
+		return range;
 	}
 	
 	if (range.length <= 0) {
-		return;
+		return range;
 	}
 	
 	int end = range.location + range.length;
@@ -76,6 +76,7 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 	}
 	
 	// Get the original string
+	int			finalPos	= range.location;
 	int			finalLength = range.length;
 	
 	// Parse the string to the beginning of the range
@@ -113,7 +114,7 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 			if (chr == '[') commentDepth++;
 		}
 		range.length -= x;
-		if (range.length <= 0) return;
+		if (range.length <= 0) return NSMakeRange(finalPos, finalLength);
 
 		// Insert the comment start character
 		[self insertString: @"["
@@ -135,7 +136,8 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 		finalLength++;
 	}
 	
-	return NSMakeRange(range.location, finalLength);
+	// Generate the final result
+	return NSMakeRange(finalPos, finalLength);
 }
 
 ///
@@ -144,11 +146,11 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 - (NSRange) removeCommentsInform7: (NSRange) range {
 	// Restrict the range to the length of the string
 	if (range.location < 0 || range.location >= [self length]) {
-		return;
+		return range;
 	}
 	
 	if (range.length <= 0) {
-		return;
+		return range;
 	}
 	
 	int end = range.location + range.length;
@@ -157,7 +159,81 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 		range.length	= end - range.location;
 	}
 	
-	return range;
+	// Work out the initial comment/string depth
+	NSRange newRange	= range;
+	int		pos			= range.location;
+	int		stringDepth;
+	int		commentDepth;
+	I7Parse(self, pos, &commentDepth, &stringDepth, NULL);
+	
+	int finalCommentDepth;
+	I7Parse(self, pos + range.length, &finalCommentDepth, NULL, NULL);
+	
+	// Close any comments that are in effect at the start of the range
+	int x;
+	for (x=0; x<commentDepth; x++) {
+		[self insertString: @"]"
+				   atIndex: pos];
+		pos++;
+		newRange.length++;
+	}
+	
+	// Iterate through the string to strip out any further comments
+	int newCommentDepth = 0;
+	for (x=0; x<range.length; x++) {
+		int chr = [self characterAtIndex: pos];
+		
+		if (stringDepth == 0 && commentDepth == 0) {
+			if (chr == '"') {
+				// Quote characters begin a new string
+				stringDepth++;
+			} else if (chr == '[') {
+				// '[' begins a new comment
+				commentDepth++;
+				
+				// Strip out a level of comments
+				[self deleteCharactersInRange: NSMakeRange(pos, 1)];
+				newRange.length--;
+				pos--;
+				newCommentDepth = 0;
+			}
+		} else if (stringDepth != 0) {
+			// Strings are ended by '"' characters
+			if (chr == '"') {
+				stringDepth--;
+			}
+		} else if (commentDepth != 0) {
+			// Comments nest and are ended by ']' characters
+			if (chr == '[') {
+				commentDepth++;
+				newCommentDepth++;
+			} else if (chr == ']') {
+				commentDepth--;
+				
+				if (commentDepth == 0) {
+					// Strip out a level of comments
+					[self deleteCharactersInRange: NSMakeRange(pos, 1)];
+					newRange.length--;
+					pos--;
+				} else {
+					newCommentDepth--;
+				}
+			}
+		}
+		
+		// Move on
+		pos++;
+	}
+	
+	// Fill in any missing comment markers
+	for (x=newCommentDepth; x<finalCommentDepth; x++) {
+		[self insertString: @"["
+				   atIndex: pos];
+		pos++;
+		newRange.length++;
+	}
+	
+	return newRange;
 }
 
 @end
