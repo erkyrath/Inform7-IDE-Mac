@@ -871,6 +871,21 @@ static NSDictionary*  itemDictionary = nil;
 			return NO;
 	}
 	
+	if (itemSelector == @selector(commentOutSelection:)
+		|| itemSelector == @selector(uncommentSelection:)) {
+		// Must be an Inform 7 project (not supporting this for I6 unless someone asks or implements themselves :-)
+		if (![[[self document] settings] usingNaturalInform])
+			return NO;
+		
+		// First responder must be a NSTextView object
+		if (![[[self window] firstResponder] isKindOfClass: [NSTextView class]])
+			return NO;
+		
+		// There must be a non-zero length selection
+		if ([(NSTextView*)[[self window] firstResponder] selectedRange].length == 0)
+			return 0;
+	}
+	
 	if (itemSelector == @selector(enableElasticTabs:)) {
 		[menuItem setState: [[[self document] settings] elasticTabs]?NSOnState:NSOffState];
 		return YES;
@@ -929,11 +944,6 @@ static NSDictionary*  itemDictionary = nil;
 		
 		if ([currentPane currentView] != IFSourcePane)
 			return NO;
-	}
-	
-	if (itemSelector == @selector(commentOutSelection:)) {
-		// Not supported yet
-		return NO;
 	}
 	
 	if (itemSelector == @selector(exportIFiction:)) {
@@ -3464,6 +3474,9 @@ static NSDictionary*  itemDictionary = nil;
 // = Commenting out source =
 
 - (void) commentOutSelection: (id) sender {
+}
+
+- (void) uncommentSelection: (id) sender {
 }
 
 @end
