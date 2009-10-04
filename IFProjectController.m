@@ -14,6 +14,7 @@
 #import "IFNewProjectFile.h"
 #import "IFIsIndex.h"
 #import "IFWelcomeWindow.h"
+#import "IFInform7MutableString.h"
 
 #import "IFPreferences.h"
 #import "IFSingleFile.h"
@@ -3474,6 +3475,13 @@ static NSDictionary*  itemDictionary = nil;
 // = Commenting out source =
 
 - (void) commentOutSelection: (id) sender {
+	// Fetch the text storage
+	NSTextView*		textView		= (NSTextView*)[[self window] firstResponder];
+	NSTextStorage*	storage			= [textView textStorage];
+	
+	// Comment out the region
+	NSRange			commentRange	= [textView selectedRange];
+	[[storage mutableString] commentOutInform7: commentRange];
 }
 
 - (void) uncommentSelection: (id) sender {
