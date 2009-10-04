@@ -57,9 +57,29 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 @implementation NSMutableString(IFInform7MutableString)
 
 ///
+/// Undoes a commenting action initiated by either
+///
+- (void) undoInform7Commenting: (NSUndoManager*)	manager
+			withOriginalString: (NSString*)			original
+				  replaceRange: (NSRange)			range {
+	// Get the original string
+	NSString* replacing = [self substringWithRange: range];
+	
+	// Undo the action
+	[self replaceCharactersInRange: range
+						withString: original];
+	
+	// Create a new undo action
+	[[manager prepareWithInvocationTarget: self] undoInform7Commenting: manager
+													withOriginalString: replacing
+														  replaceRange: NSMakeRange(range.location, [original length])];
+}
+
+///
 /// Comments out a region in the string using Inform 7 syntax
 ///
-- (void) commentOutInform7: (NSRange) range {
+- (void) commentOutInform7: (NSRange)			range
+			   undoManager: (NSUndoManager*)	manager {
 	// Restrict the range to the length of the string
 	if (range.location < 0 || range.location >= [self length]) {
 		return;
@@ -74,6 +94,10 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 		end				= [self length];
 		range.length	= end - range.location;
 	}
+	
+	// Get the original string
+	NSString*	original	= [self substringWithRange: range];
+	int			finalLength = range.length;
 	
 	// Parse the string to the beginning of the range
 	int pos = range.location;
@@ -90,11 +114,13 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 		// and comment out the remainder (this won't always result in valid syntax)
 		[self insertString: @"\"[\"" 
 				   atIndex: pos];
-		pos += 3;
+		finalLength += 3;
+		pos			+= 3;
 	} else if (commentDepth == 0) {
 		// Starting to comment out code from outside a comment
 		[self insertString: @"["
 				   atIndex: pos];
+		finalLength++;
 		pos++;
 	} else {
 		// Trying to comment out from within a comment! Skip to the end of the comment.
@@ -113,6 +139,7 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 		// Insert the comment start character
 		[self insertString: @"["
 				   atIndex: pos];
+		finalLength++;
 		pos++;
 	}
 	
@@ -121,17 +148,27 @@ static void I7Parse(NSString* string, int pos, int* commentDepthOut, int* string
 		// Restart any strings that may have got commented out
 		[self insertString: @"\"] \""
 				   atIndex: pos + range.length];
+		finalLength += 4;
 	} else {
 		// Just finish the comment (nesting should sort itself out if the code was valid originally)
 		[self insertString: @"]"
 				   atIndex: pos + range.length];
+		finalLength++;
+	}
+	
+	// Create the undo action
+	if (manager) {
+		[[manager prepareWithInvocationTarget: self] undoInform7Commenting: manager
+														withOriginalString: (NSString*) original
+															  replaceRange: NSMakeRange(range.location, finalLength)];
 	}
 }
 
 ///
 /// Removes I7 comments from the specified range
 ///
-- (void) removeCommentsInform7: (NSRange) range {
+- (void) removeCommentsInform7: (NSRange) range
+				   undoManager: (NSUndoManager*) manager {
 	// Restrict the range to the length of the string
 	if (range.location < 0 || range.location >= [self length]) {
 		return;

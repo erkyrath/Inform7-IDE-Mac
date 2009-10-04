@@ -17,11 +17,13 @@
 ///
 /// Comments out a region in the string using Inform 7 syntax
 ///
-- (void) commentOutInform7: (NSRange) range;
+- (void) commentOutInform7: (NSRange) range
+			   undoManager: (NSUndoManager*) manager;
 
 ///
 /// Removes I7 comments from the specified range
 ///
-- (void) removeCommentsInform7: (NSRange) range;
+- (void) removeCommentsInform7: (NSRange) range
+				   undoManager: (NSUndoManager*) manager;
 
 @end

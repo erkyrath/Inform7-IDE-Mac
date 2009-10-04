@@ -3481,10 +3481,19 @@ static NSDictionary*  itemDictionary = nil;
 	
 	// Comment out the region
 	NSRange			commentRange	= [textView selectedRange];
-	[[storage mutableString] commentOutInform7: commentRange];
+	[[storage mutableString] commentOutInform7: commentRange
+								   undoManager: [[self document] undoManager]];
 }
 
 - (void) uncommentSelection: (id) sender {
+	// Fetch the text storage
+	NSTextView*		textView		= (NSTextView*)[[self window] firstResponder];
+	NSTextStorage*	storage			= [textView textStorage];
+	
+	// Uncomment out the region
+	NSRange			commentRange	= [textView selectedRange];
+	[[storage mutableString] removeCommentsInform7: commentRange
+									   undoManager: [[self document] undoManager]];
 }
 
 @end
