@@ -32,7 +32,6 @@
 - (void) reflectCurrentPreferences {
 	IFPreferences* prefs = [IFPreferences sharedPreferences];
 	
-	[enableSyntaxHighlighting setState: [prefs enableSyntaxHighlighting]?NSOnState:NSOffState];
 	[indentWrappedLines setState: [prefs indentWrappedLines]?NSOnState:NSOffState];
 	
 	[enableIntelligence setState: [prefs enableIntelligence]?NSOnState:NSOffState];
@@ -57,32 +56,29 @@
 		[indentAfterNewline setEnabled: YES];
 		[autoNumberSections setEnabled: YES];
 	}
-	
-	[newGameName setStringValue: [prefs newGameAuthorName]];
 }
 
 - (IBAction) setPreference: (id) sender {
 	IFPreferences* prefs = [IFPreferences sharedPreferences];
 	
-	if (sender == enableSyntaxHighlighting) [prefs setEnableSyntaxHighlighting: [enableSyntaxHighlighting state]==NSOnState];
 	if (sender == indentWrappedLines) [prefs setIndentWrappedLines: [indentWrappedLines state]==NSOnState];
 	
 	if (sender == enableIntelligence) [prefs setEnableIntelligence: [enableIntelligence state]==NSOnState];
 	if (sender == intelligenceIndexInspector) [prefs setIntelligenceIndexInspector: [intelligenceIndexInspector state]==NSOnState];
 	if (sender == indentAfterNewline) [prefs setIndentAfterNewline: [indentAfterNewline state]==NSOnState];
 	if (sender == autoNumberSections) [prefs setAutoNumberSections: [autoNumberSections state]==NSOnState];
-	
-	if (sender == newGameName) [prefs setNewGameAuthorName: [newGameName stringValue]];
 }
 
 // = PreferencePane overrides =
 
 - (NSString*) preferenceName {
-	return @"Intelligence";
+	return @"Editing";
 }
 
 - (NSImage*) toolbarImage {
-	return [NSImage imageNamed: @"Intelligence"];
+	NSImage* image = [NSImage imageNamed: @"NSMultipleDocuments"];
+	if (!image) image = [NSImage imageNamed: @"Intelligence"];
+	return image;
 }
 
 - (NSString*) tooltip {

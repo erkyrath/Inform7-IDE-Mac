@@ -25,6 +25,7 @@
 	IBOutlet NSSlider* tabStopSlider;
 	IBOutlet NSTextView* previewView;
 	IBOutlet NSTextView* tabStopView;
+	IBOutlet NSButton* enableSyntaxHighlighting;
 	
 	IFSyntaxStorage* previewStorage;
 	IFSyntaxStorage* tabStopStorage;

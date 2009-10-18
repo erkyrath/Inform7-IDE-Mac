@@ -23,6 +23,7 @@
 #import "IFIsSearch.h"
 
 #import "Preferences/IFPreferenceController.h"
+#import "Preferences/IFAuthorPreferences.h"
 #import "Preferences/IFStylePreferences.h"
 #import "Preferences/IFInspectorPreferences.h"
 #import "Preferences/IFExtensionPreferences.h"
@@ -162,10 +163,11 @@ static NSRunLoop* mainRunLoop = nil;
 	[[IFInspectorWindow sharedInspectorWindow] addInspector: [IFIsSearch sharedIFIsSearch]];
 	
 	// The standard preferences
-	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFStylePreferences alloc] init] autorelease]];
-	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFInspectorPreferences alloc] init] autorelease]];
-	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFExtensionPreferences alloc] init] autorelease]];
+	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFAuthorPreferences alloc] init] autorelease]];
 	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFIntelligencePreferences alloc] init] autorelease]];
+	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFStylePreferences alloc] init] autorelease]];
+	// [[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFInspectorPreferences alloc] init] autorelease]];
+	//[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFExtensionPreferences alloc] init] autorelease]];
 
 	[[IFPreferenceController sharedPreferenceController] addPreferencePane: [[[IFAdvancedPreferences alloc] init] autorelease]];
 

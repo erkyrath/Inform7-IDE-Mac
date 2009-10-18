@@ -41,7 +41,10 @@
 }
 
 - (NSImage*) toolbarImage {
-	return [NSImage imageNamed: @"Advanced"];
+	// Use the OS X standard 'advanced' image if we can
+	NSImage* image = [NSImage imageNamed: @"NSAdvanced"];
+	if (!image) image = [NSImage imageNamed: @"Advanced"];
+	return image;
 }
 
 - (NSString*) tooltip {

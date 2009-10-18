@@ -14,15 +14,12 @@
 // Preference pane that allows the user to manage how intelligent Inform is
 //
 @interface IFIntelligencePreferences : IFPreferencePane {
-	IBOutlet NSButton* enableSyntaxHighlighting;
 	IBOutlet NSButton* indentWrappedLines;
 
 	IBOutlet NSButton* enableIntelligence;
 	IBOutlet NSButton* intelligenceIndexInspector;
 	IBOutlet NSButton* indentAfterNewline;
 	IBOutlet NSButton* autoNumberSections;
-
-	IBOutlet NSTextField* newGameName;					// The preferred name for new Natural Inform games
 }
 
 // Receiving data from/updating the interface

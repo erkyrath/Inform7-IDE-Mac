@@ -62,7 +62,7 @@
 // = PreferencePane overrides =
 
 - (NSString*) preferenceName {
-	return @"Styles";
+	return @"Formatting";
 }
 
 - (NSImage*) toolbarImage {
@@ -127,6 +127,7 @@
 		[self chooseCustomFont: sender];
 	}
 	
+	if (sender == enableSyntaxHighlighting) [prefs setEnableSyntaxHighlighting: [enableSyntaxHighlighting state]==NSOnState];
 	if (sender == fontSet)			[prefs setFontSet:			[[fontSet selectedItem] tag]];
 	if (sender == fontStyle)		[prefs setFontStyling:		[[fontStyle selectedItem] tag]];
 	if (sender == fontSize)			[prefs setFontSize:			[self fontSizeForTag: [[fontSize selectedItem] tag]]];
@@ -138,6 +139,7 @@
 - (void) reflectCurrentPreferences {
 	IFPreferences* prefs = [IFPreferences sharedPreferences];
 	
+	[enableSyntaxHighlighting setState: [prefs enableSyntaxHighlighting]?NSOnState:NSOffState];
 	[fontSet selectItem:		  [[fontSet menu]		itemWithTag: [prefs fontSet]]];
 	[fontStyle selectItem:		  [[fontStyle menu]		itemWithTag: [prefs fontStyling]]];
 	[fontSize selectItem:		  [[fontSize menu]		itemWithTag: [self tagForFontSize: [prefs fontSize]]]];

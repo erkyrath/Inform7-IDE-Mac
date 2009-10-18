@@ -679,6 +679,11 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 
 // Inspector preferences
 - (BOOL) enableInspector: (IFInspector*) inspector {
+	// Inspectors are out of favour, so we no longer allow configuring which ones are shown
+	// The mechanism was fairly crap anyway
+	return YES;
+	
+	// Old-style, configurable
 	NSDictionary* dict = [preferences objectForKey: @"enableInspector"];
 	NSNumber* value = [dict objectForKey: [inspector key]];
 	

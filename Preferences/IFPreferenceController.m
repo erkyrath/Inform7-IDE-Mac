@@ -61,7 +61,7 @@
 - (IBAction) showWindow: (id) sender {
 	// Set up the toolbar while showing the window
 	if (preferenceToolbar == nil) {
-		preferenceToolbar = [[NSToolbar alloc] initWithIdentifier: @"PreferenceWindowToolbar"];
+		preferenceToolbar = [[NSToolbar alloc] initWithIdentifier: @"PreferenceWindowToolbarMk2"];
 		
 		[preferenceToolbar setAllowsUserCustomization: NO];
 		[preferenceToolbar setAutosavesConfiguration: NO];
@@ -113,8 +113,6 @@
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
 	NSMutableArray* res = (NSMutableArray*)[self toolbarAllowedItemIdentifiers: toolbar];
 	
-	[res insertObject: NSToolbarFlexibleSpaceItemIdentifier
-			  atIndex: 0];
 	[res addObject: NSToolbarFlexibleSpaceItemIdentifier];
 	
 	return res;
