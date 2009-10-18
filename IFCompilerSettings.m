@@ -547,7 +547,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     if (setting) {
         return [setting boolValue];
     } else {
-        return YES;
+        return NO;
     }
 }
 
@@ -600,7 +600,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
     if (setting) {
         return [setting intValue];
     } else {
-        return 5;
+        return 8;
     }
 }
 
