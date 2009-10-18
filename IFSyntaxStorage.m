@@ -9,6 +9,7 @@
 #import "IFSyntaxStorage.h"
 
 #import "IFPreferences.h"
+#import "IFNoHighlighter.h"
 
 #define HighlighterDebug 0
 #define SlowMode 0
@@ -491,6 +492,7 @@ static NSString* IFLineAttributes = @"IFLineAttributes";
 
 - (void) setHighlighter: (id<IFSyntaxHighlighter,NSObject>) newHighlighter {
 	if (highlighter) [highlighter release];
+	if (!newHighlighter) newHighlighter = [[[IFNoHighlighter alloc] init] autorelease];
 	highlighter = [newHighlighter retain];
 	
 	[paragraphStyles release]; paragraphStyles = nil;
