@@ -12,6 +12,7 @@
 #import "IFGlkResources.h"
 #import "IFRuntimeErrorParser.h"
 #import "IFIsWatch.h"
+#import "IFTestMe.h"
 
 @interface IFGamePage(Private)
 
@@ -196,6 +197,10 @@
 	pointToRunTo = [item retain];
 }
 
+- (void) setTestMe: (BOOL) willTestMe {
+	testMe = willTestMe;
+}
+
 - (void) stopRunningGame {
     if (zView) {
 		[zView killTask];
@@ -252,6 +257,11 @@
 		
 		[pointToRunTo release];
 		pointToRunTo = nil;
+		testMe = NO;
+	} else if (testMe) {
+		id inputSource = [[[IFTestMe alloc] init] autorelease];
+		[parent setGlkInputSource: inputSource];
+		[gView addInputReceiver: parent];
 	}
 }
 
@@ -301,6 +311,9 @@
 		
 		[pointToRunTo release];
 		pointToRunTo = nil;
+	} else if (testMe) {
+		id inputSource = [[[IFTestMe alloc] init] autorelease];
+		[zView setInputSource: inputSource];
 	} else {
 		[parent transcriptToPoint: [[[parent document] skein] rootItem]];
 	}

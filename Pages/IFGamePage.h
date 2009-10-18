@@ -23,8 +23,9 @@ extern NSString* IFGlulxInterpreterName;						// The user defaults key that cont
     ZoomView*        zView;										// The Z-Machinev view
     NSString*        gameToRun;									// The filename of the game to start
 	ZoomSkeinItem*   pointToRunTo;								// The skein item to run the game until	
+	BOOL			 testMe;									// YES if we should send 'test me' as the first command to the game
 	
-	IFProgress*      gameRunningProgress;				// The progress indicator (how much we've compiled, how the game is running, etc)
+	IFProgress*      gameRunningProgress;						// The progress indicator (how much we've compiled, how the game is running, etc)
 	
 	BOOL setBreakpoint;											// YES if we are allowed to set breakpoints
 }
@@ -40,5 +41,6 @@ extern NSString* IFGlulxInterpreterName;						// The user defaults key that cont
 - (BOOL) isRunningGame;											// YES if a game is running
 
 - (void) setPointToRunTo: (ZoomSkeinItem*) item;				// Sets the skein item to run to as soon as the game has started
+- (void) setTestMe: (BOOL) willTestMe;							// Sets whether or not a 'test me' command should be generated (provided that there is no 'point to run to')
 
 @end

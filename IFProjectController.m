@@ -1073,6 +1073,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) compileAndRun: (id) sender {
 	[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: nil];
+	[[[projectPanes objectAtIndex: 1] gamePage] setTestMe: NO];
     compileFinishedAction = @selector(runCompilerOutput);
 	
 	// Only actually compile if there are undo actions added since the last compile
@@ -1083,6 +1084,22 @@ static NSDictionary*  itemDictionary = nil;
 		[self runCompilerOutput];
 	}
 
+	waitingAtBreakpoint = NO;
+}
+
+- (IBAction) testMe: (id) sender {
+	[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: nil];
+	[[[projectPanes objectAtIndex: 1] gamePage] setTestMe: YES];
+    compileFinishedAction = @selector(runCompilerOutput);
+	
+	// Only actually compile if there are undo actions added since the last compile
+	if ([self needsRecompile]) {
+		[self performCompileWithRelease: NO
+							refreshOnly: NO];
+	} else {
+		[self runCompilerOutput];
+	}
+	
 	waitingAtBreakpoint = NO;
 }
 
@@ -1112,6 +1129,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IBAction) compileAndDebug: (id) sender {
 	[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: nil];
+	[[[projectPanes objectAtIndex: 1] gamePage] setTestMe: NO];
 	compileFinishedAction = @selector(debugCompilerOutput);
     [self performCompileWithRelease: NO
 						refreshOnly: NO];
@@ -1314,6 +1332,7 @@ static NSDictionary*  itemDictionary = nil;
 	
 	noChangesSinceLastCompile = noChangesSinceLastRefresh = YES;
 	[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: [[[self document] skein] activeItem]];
+	[[[projectPanes objectAtIndex: 1] gamePage] setTestMe: NO];
 	[self runCompilerOutput];
 }
 
@@ -1970,6 +1989,7 @@ static NSDictionary*  itemDictionary = nil;
 - (void) restartGame {
 	if ([[[projectPanes objectAtIndex: 1] gamePage] isRunningGame]) {
 		[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: nil];
+		[[[projectPanes objectAtIndex: 1] gamePage] setTestMe: NO];
 		[self runCompilerOutput];
 	} else {
 		//[self compileAndRun: self]; -- we do this when 'playToPoint' is called
@@ -1997,6 +2017,7 @@ static NSDictionary*  itemDictionary = nil;
 	} else {
 		[self compileAndRun: self];
 		[[[projectPanes objectAtIndex: 1] gamePage] setPointToRunTo: point];
+		[[[projectPanes objectAtIndex: 1] gamePage] setTestMe: NO];
 	}
 }
 
