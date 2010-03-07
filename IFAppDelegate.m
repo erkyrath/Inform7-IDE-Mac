@@ -588,16 +588,18 @@ static int stringCompare(id a, id b, void* context) {
 
 - (void) confirmExtensionOverwrite: (id) filenames {
 	// Display a 'failed to add extension' alert sheet
-	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Overwrite Extension"
+	int overwrite = NSRunAlertPanel([[NSBundle mainBundle] localizedStringForKey: @"Overwrite Extension"
 															 value: @"Overwrite Extension?"
 															 table: nil],
+					[[NSBundle mainBundle] localizedStringForKey: @"Overwrite Extension Explanation"
+														   value: nil
+														   table: nil],
 					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel" value: @"Cancel" table: nil], 
 					  [[NSBundle mainBundle] localizedStringForKey: @"Replace" value: @"Replace" table: nil], nil,
-					  nil,
-					  self, @selector(overwriteConfirmation:returnCode:contextInfo:),nil, [filenames retain],
-					  [[NSBundle mainBundle] localizedStringForKey: @"Overwrite Extension Explanation"
-															 value: nil
-															 table: nil]);
+					  nil);
+	if (overwrite == NSAlertAlternateReturn) {
+		[self finishAddingExtensions: filenames];
+	}
 }
 
 - (void) overwriteConfirmation: (NSWindow *)sheet
@@ -613,15 +615,13 @@ static int stringCompare(id a, id b, void* context) {
 
 - (void) failedToAddExtension: (id) obj {
 	// Display a 'failed to add extension' alert sheet
-	NSBeginAlertSheet([[NSBundle mainBundle] localizedStringForKey: @"Failed to Install Extension"
+	NSRunAlertPanel([[NSBundle mainBundle] localizedStringForKey: @"Failed to Install Extension"
 															 value: @"Failed to Install Extension"
 															 table: nil],
-					  [[NSBundle mainBundle] localizedStringForKey: @"Cancel" value: @"Cancel" table: nil], nil, nil,
-					  nil,
-					  nil,nil,nil,nil,
-					  [[NSBundle mainBundle] localizedStringForKey: @"Failed to Install Extension Explanation"
-															 value: nil
-															 table: nil]);
+					[[NSBundle mainBundle] localizedStringForKey: @"Failed to Install Extension Explanation"
+														   value: nil
+														   table: nil],
+					[[NSBundle mainBundle] localizedStringForKey: @"Cancel" value: @"Cancel" table: nil], nil, nil);
 }
 
 // = Searching =
