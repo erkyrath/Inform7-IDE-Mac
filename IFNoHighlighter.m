@@ -50,13 +50,6 @@
 	return IFSyntaxNone;
 }
 
-static BOOL IsInform6Style(IFSyntaxStyle style) {
-	if (style >= 0x20 && style <= 0x40)
-		return YES;
-	else
-		return NO;
-}
-
 - (void) rehintLine: (NSString*) line
 			 styles: (IFSyntaxStyle*) styles
 	   initialState: (IFSyntaxState) initialState {

@@ -20,6 +20,8 @@
 	
 	NSMutableArray* extensionSources;				// Maps extension menu tags to source file names
 	id<IFLeopardProtocol> leopard;					// The leopard extensions (if available)
+	
+	NSOpenPanel* openExtensionPanel;				// The 'open extension' panel
 }
 
 + (NSRunLoop*) mainRunLoop;							// Retrieves the runloop used by the main thread (Cocoa sometimes calls our callbacks from a sooper-sekrit bonus thread, causing pain if we don't use this)

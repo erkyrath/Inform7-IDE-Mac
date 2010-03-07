@@ -631,9 +631,9 @@ NSString* IFExtensionsUpdatedNotification = @"IFExtensionsUpdatedNotification";
 			}
 		}
 		
-		if (extensionsDefineName && [destFile length] > 31) {
-			// Extension filenames must be at most 31 characters
-			destFile = [destFile substringToIndex: 30];
+		if (extensionsDefineName && [destFile length] > 50) {
+			// Extension filenames must be at most 50 characters
+			destFile = [destFile substringToIndex: 50];
 		}
 		
 		if (extensionsDefineName) {
