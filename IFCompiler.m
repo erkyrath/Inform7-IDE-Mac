@@ -515,7 +515,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 							newOutput, 
 							nil]
 					   nextStageInput: newOutput
-						 errorHandler: [[[IFCblorbProblem alloc] init] autorelease]
+						 errorHandler: [[[IFCblorbProblem alloc] initWithBuildDir: [[self currentStageInput] stringByDeletingLastPathComponent]] autorelease]
 								named: @"cBlorb build stage"];
 			
 			// Change the output file

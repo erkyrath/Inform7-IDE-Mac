@@ -14,7 +14,9 @@
 /// Class that deals with problems with the cblorb stage.
 ///
 @interface IFCblorbProblem : NSObject<IFCompilerProblemHandler> {
-
+	NSString* buildDir;									// nil, or the build directory that should be inspected for problem files
 }
+
+- (id) initWithBuildDir: (NSString*) buildDir;
 
 @end
