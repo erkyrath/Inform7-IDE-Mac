@@ -227,7 +227,9 @@ static int valueForHexChar(unichar c) {
 }
 
 - (void) openUrl: (NSString*) url {
-	[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: url]];
+	if (![[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: url]]) {
+		NSLog(@"Could not open URL: %@", url);
+	}
 }
 
 - (void)finalizeForWebScript {
