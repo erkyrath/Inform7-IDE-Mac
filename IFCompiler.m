@@ -388,7 +388,7 @@ static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 		[args addObject: @"-log"];
 	}
 	
-	if ([settings nobbleRng]) {
+	if ([settings nobbleRng] && !release) {
 		[args addObject: @"-rng"];
 	}
 	
