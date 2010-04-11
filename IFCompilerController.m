@@ -851,6 +851,11 @@ static IFCompilerController* activeController = nil;
 																					   value: @"Problems"
 																					   table: @"CompilerOutput"]];
 	}
+	
+	NSString* excludedFilename = nil;
+	if (lastProblemURL) {
+		excludedFilename = [[[[lastProblemURL path] lastPathComponent] stringByDeletingPathExtension] lowercaseString];
+	}
 
 	// Enumerate across the list of files in the filewrapper
     while (key = [keyEnum nextObject]) {
@@ -861,8 +866,10 @@ static IFCompilerController* activeController = nil;
 
 		// HTML, text and inf files go in a tab view showing various different status messages
 		// With NI, the problems file is most important: we substitute this if the compiler wants
+		NSString* filename = [[key stringByDeletingPathExtension] lowercaseString];
+		
         if ((![[[key substringToIndex: 4] lowercaseString] isEqualToString: @"temp"]) &&
-			(lastProblemURL == nil || ![[[key stringByDeletingPathExtension] lowercaseString] isEqualToString: @"problems"]) &&
+			(lastProblemURL == nil || !([filename isEqualToString: @"problems"] || [filename isEqualToString: excludedFilename])) &&
             ([type isEqualTo: @"inf"] ||
              [type isEqualTo: @"txt"] ||
 			 [type isEqualTo: @"html"] ||
