@@ -348,7 +348,7 @@
 }
 
 - (void)					webView:(WebView *)sender
-windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
+		windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
 	if (otherPane) {
 		// Attach the JavaScript object to the opposing view
 		IFJSProject* js = [[IFJSProject alloc] initWithPane: otherPane];

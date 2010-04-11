@@ -16,6 +16,7 @@
 
 #import "IFPretendWebView.h"
 #import "IFPretendTextView.h"
+#import "IFJSProject.h"
 
 #import "Preferences/IFPreferences.h"
 
@@ -732,6 +733,7 @@ static IFCompilerController* activeController = nil;
 	[pretendView setHostWindow: [[splitView superview] window]];
 	[pretendView setRequest: [[[NSURLRequest alloc] initWithURL: url] autorelease]];
 	[pretendView setPolicyDelegate: self];
+	[pretendView setFrameLoadDelegate: self];
 	
 	[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 	
@@ -799,6 +801,7 @@ static IFCompilerController* activeController = nil;
 	[pretendView setHostWindow: [[splitView superview] window]];
 	[pretendView setRequest: [[[NSURLRequest alloc] initWithURL: errorURL] autorelease]];
 	[pretendView setPolicyDelegate: self];
+	[pretendView setFrameLoadDelegate: self];
 	
 	[pretendView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 	
@@ -915,6 +918,25 @@ static IFCompilerController* activeController = nil;
 }
 
 // = Web policy delegate methods =
+
+- (void)					webView:(WebView *)sender
+		windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
+	// Attach the JavaScript object to this webview
+	IFJSProject* js = [[IFJSProject alloc] initWithPane: nil];
+	
+	// Attach it to the script object
+	[[sender windowScriptObject] setValue: [js autorelease]
+								   forKey: @"Project"];
+}
+
+- (void)webView:(WebView *)sender didClearWindowObject:(WebScriptObject *)windowObject forFrame:(WebFrame *)frame {
+	// Attach the JavaScript object to this webview
+	IFJSProject* js = [[IFJSProject alloc] initWithPane: nil];
+	
+	// Attach it to the script object
+	[[sender windowScriptObject] setValue: [js autorelease]
+								   forKey: @"Project"];
+}
 
 - (void)					webView: (WebView *)sender 
 	decidePolicyForNavigationAction: (NSDictionary *)actionInformation 

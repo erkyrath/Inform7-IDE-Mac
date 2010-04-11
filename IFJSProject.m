@@ -44,13 +44,23 @@
 		return @"addCommand";
 	} else if (sel == @selector(clearCommands)) {
 		return @"clearCommands";
+	} else if (sel == @selector(openFile:)) {
+		return @"openFile";
+	} else if (sel == @selector(openUrl:)) {
+		return @"openUrl";
 	}
 	
 	return nil;
 }
 
 + (BOOL) isSelectorExcludedFromWebScript: (SEL)sel {
-	if (sel == @selector(selectView:) || sel == @selector(pasteCode:) || sel == @selector(replayStory:) || sel == @selector(addCommand:) || sel == @selector(clearCommands)) {
+	if (  sel == @selector(selectView:) 
+		|| sel == @selector(pasteCode:) 
+		|| sel == @selector(replayStory:) 
+		|| sel == @selector(addCommand:) 
+		|| sel == @selector(clearCommands)
+		|| sel == @selector(openFile:)
+		|| sel == @selector(openUrl:)) {
 		return NO;
 	}
 	
@@ -210,6 +220,14 @@ static int valueForHexChar(unichar c) {
 }
 
 - (void) clearCommands {
+}
+
+- (void) openFile: (NSString*) filename {
+	[[NSWorkspace sharedWorkspace] openFile: filename];
+}
+
+- (void) openUrl: (NSString*) url {
+	[[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString: url]];
 }
 
 - (void)finalizeForWebScript {
