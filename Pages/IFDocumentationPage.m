@@ -123,7 +123,13 @@
 	didStartProvisionalLoadForFrame:(WebFrame *)frame {
 	if (frame == [wView mainFrame] && [self pageIsVisible]) {
 		// When opening a new URL in the main frame, record it as part of the history for this page
-		NSURL* url = [[[frame provisionalDataSource] request] URL];
+		NSURL* url;
+		if ([frame provisionalDataSource]) {
+			url = [[[frame provisionalDataSource] request] URL];
+		} else {
+			url = [[[frame dataSource] request] URL];
+		}
+		
 		url = [[url copy] autorelease];
 		[[self history] switchToPage];
 		[(IFDocumentationPage*)[self history] openURLWithString: [url absoluteString]];
@@ -146,7 +152,13 @@
 
 - (void) didSwitchToPage {
 	//[(IFDocumentationPage*)[self history] openURL: [[[[[[wView mainFrame] dataSource] request] URL] copy] autorelease]];
-	NSURL* url = [[[[wView mainFrame] dataSource] request] URL];
+	WebFrame* frame = [wView mainFrame];
+	NSURL* url;
+	if ([frame provisionalDataSource]) {
+		url = [[[frame provisionalDataSource] request] URL];
+	} else {
+		url = [[[frame dataSource] request] URL];
+	}
 	NSString* urlString = [url absoluteString];
 	
 	[[self history] openURLWithString: urlString];

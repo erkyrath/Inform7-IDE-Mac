@@ -233,7 +233,13 @@
 	if ([cellView isKindOfClass: [IFPretendWebView class]]) {
 		return [(IFPretendWebView*)cellView request];
 	} else {
-		return [[[(WebView*)cellView mainFrame] dataSource] request];
+		WebView*	wView		= (WebView*) cellView;
+		WebFrame*	mainFrame	= [wView mainFrame];
+		if ([mainFrame provisionalDataSource]) {
+			return [[mainFrame provisionalDataSource] request];
+		} else {
+			return [[mainFrame dataSource] request];
+		}
 	}	
 }
 
