@@ -786,6 +786,13 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 		}
 	}
 	
+	// Refuse to return storage for files outside the project directory
+	if (sourceDir && [sourceFile isAbsolutePath]) {
+		if (![[sourceFile stringByStandardizingPath] hasPrefix: sourceDir]) {
+			return nil;
+		}
+	}
+	
 	if (![sourceFile isAbsolutePath]) {
 		// Force absolute path
 		sourceFile = [[sourceDir stringByAppendingPathComponent: sourceFile] stringByStandardizingPath];
