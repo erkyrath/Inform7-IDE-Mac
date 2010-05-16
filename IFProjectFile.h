@@ -22,6 +22,7 @@
 - (void) addSourceFile: (NSString*) filename;
 - (void) addSourceFile: (NSString*) filename
           withContents: (NSData*)   contents;
+- (void) clearIndex;
 
 - (IFCompilerSettings*) settings;
 - (void) setSettings: (IFCompilerSettings*) settings;

@@ -972,6 +972,7 @@ static NSDictionary*  itemDictionary = nil;
 	[self removeHighlightsOfStyle: IFLineStyleExecutionPoint];
 		
     // Save the document
+	[[doc projectFile] clearIndex];
     [doc saveDocument: self];
     
     [projectPanes makeObjectsPerformSelector: @selector(stopRunningGame)];

@@ -121,4 +121,15 @@
 	}
 }
 
+- (void) clearIndex {
+	// Delete the contents of the index file wrapper
+	NSFileWrapper* index = [[self fileWrappers] objectForKey: @"Index"];
+	
+	NSString* file;
+	NSEnumerator* fileEnum = [[[[index fileWrappers] copy] autorelease] keyEnumerator];
+	while (file = [fileEnum nextObject]) {
+		[index removeFileWrapper: [[index fileWrappers] objectForKey: file]];
+	}
+}
+
 @end
