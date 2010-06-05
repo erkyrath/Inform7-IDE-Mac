@@ -91,6 +91,9 @@
 	
 	if (![IFAppDelegate isWebKitAvailable]) return;
 	
+	// Refresh the copies of the index files in memory
+	[[parent document] reloadIndexDirectory];
+	
 	// The index path
 	NSString* indexPath = [NSString stringWithFormat: @"%@/Index", [[parent document] fileName]];
 	BOOL isDir = NO;

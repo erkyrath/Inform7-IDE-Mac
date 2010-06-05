@@ -88,6 +88,7 @@ extern NSString* IFProjectFinishedBuildingSyntaxNotification;
 - (IFIndexFile*)   indexFile;
 
 - (void) reloadIndexFile;
+- (void) reloadIndexDirectory;
 
 - (ZoomSkein*) skein;
 

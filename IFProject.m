@@ -945,6 +945,17 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 	indexFile = [[IFIndexFile alloc] initWithContentsOfFile: [[[self fileName] stringByAppendingPathComponent: @"Index"] stringByAppendingPathComponent: @"Headings.xml"]];
 }
 
+- (void) reloadIndexDirectory {
+	// Nothing to do if this is a single file
+	if (singleFile) return;
+	
+	// Try to get the index file wrapper
+	NSFileWrapper* index = [[projectFile fileWrappers] objectForKey: @"Index"];
+	if (index && [self fileName]) {
+		[index updateFromPath: [[self fileName] stringByAppendingPathComponent: @"Index"]];
+	}
+}
+
 - (BOOL) editingExtension {
 	return editingExtension;
 }
