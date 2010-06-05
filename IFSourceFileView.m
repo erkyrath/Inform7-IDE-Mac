@@ -10,6 +10,7 @@
 #import "IFProjectController.h"
 #import "IFContextMatchWindow.h"
 #import "IFRestrictedTextStorage.h"
+#import "IFNaturalIntel.h"
 
 static NSImage* topTear			= nil;
 static NSImage* bottomTear		= nil;
@@ -365,6 +366,38 @@ static NSImage* arrowPressed	= nil;
 		tornAtBottom = newTornAtBottom;
 		[self updateTearing];
 	}
+}
+
+///
+/// Undo/redo
+///
+
+- (void) undo: (id) sender {
+	// Get the undo manager
+	NSUndoManager* undo = [self undoManager];
+	
+	// Disable indentation and other intelligence
+	[IFNaturalIntel disableIndentation];
+	
+	// Perform the undo
+	[undo undoNestedGroup];
+	
+	// Re-enable indentation, etc
+	[IFNaturalIntel enableIndentation];
+}
+
+- (void) redo: (id) sender {
+	// Get the undo manager
+	NSUndoManager* undo = [self undoManager];
+	
+	// Disable indentation and other intelligence
+	[IFNaturalIntel disableIndentation];
+	
+	// Perform the undo
+	[undo redo];
+	
+	// Re-enable indentation, etc
+	[IFNaturalIntel enableIndentation];
 }
 
 @end
