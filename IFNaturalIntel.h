@@ -18,4 +18,8 @@
 	IFSyntaxStorage* highlighter;				// The highlighter that wants us to gather intelligence
 }
 
+// Hacky way to enable/disable indentation and other rewriting while undoing
++ (void) disableIndentation;
++ (void) enableIndentation;
+
 @end

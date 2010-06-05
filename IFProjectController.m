@@ -18,6 +18,7 @@
 
 #import "IFPreferences.h"
 #import "IFSingleFile.h"
+#import "IFNaturalIntel.h"
 
 #import "IFIsFiles.h"
 #import "IFIsWatch.h"
@@ -3558,6 +3559,38 @@ static NSDictionary*  itemDictionary = nil;
 											  originalString: original
 												   inStorage: storage];
 	[undo endUndoGrouping];
+}
+
+///
+/// Undo/redo
+///
+
+- (void) undo: (id) sender {
+	// Get the undo manager
+	NSUndoManager* undo = [[self document] undoManager];
+	
+	// Disable indentation and other intelligence
+	[IFNaturalIntel disableIndentation];
+	
+	// Perform the undo
+	[undo undoNestedGroup];
+	
+	// Re-enable indentation, etc
+	[IFNaturalIntel enableIndentation];
+}
+
+- (void) redo: (id) sender {
+	// Get the undo manager
+	NSUndoManager* undo = [[self document] undoManager];
+	
+	// Disable indentation and other intelligence
+	[IFNaturalIntel disableIndentation];
+	
+	// Perform the undo
+	[undo redo];
+	
+	// Re-enable indentation, etc
+	[IFNaturalIntel enableIndentation];
 }
 
 @end

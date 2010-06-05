@@ -16,8 +16,18 @@ static NSArray* headingList = nil;
 static NSArray* units;
 static NSArray* tens;
 static NSArray* majorUnits;
+static BOOL indent = YES;
 
 @implementation IFNaturalIntel
+
+// = Hacky way to enable/disable indentation while undoing =
++ (void) disableIndentation {
+	indent = NO;
+}
+
++ (void) enableIndentation {
+	indent = YES;
+}
 
 // = Useful parsing functions = 
 
@@ -119,6 +129,9 @@ static NSArray* majorUnits;
 // = Rewriting =
 
 - (NSString*) rewriteInput: (NSString*) input {
+	// No rewriting if indentation is disabled
+	if (!indent) return input;
+	
 	if ([input isEqualToString: @"\n"]) {
 		// Auto-tab
 		if (![[IFPreferences sharedPreferences] indentAfterNewline]) return nil;
