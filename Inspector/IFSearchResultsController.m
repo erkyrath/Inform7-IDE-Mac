@@ -973,8 +973,8 @@ static int resultComparator(id a, id b, void* context) {
 						if (location != 0) {
 							unichar chr = [storage characterAtIndex: location-1];
 							
-							if (chr == '\n' || chr == '\t' || chr == ' ' || chr == '\r') {
-								// Is preceded by whitespace, so is a word
+							if (!iswalnum(chr)) {
+								// Is preceded by non-alphabetic characters, so is a word
 								found = YES;
 							}
 						} else {
@@ -995,8 +995,8 @@ static int resultComparator(id a, id b, void* context) {
 						} else {
 							unichar chr = [storage characterAtIndex: endLoc];
 							
-							if (chr == '\n' || chr == '\t' || chr == ' ' || chr == '\r') {
-								// Is followed by whitespace, so is a word
+							if (!iswalnum(chr)) {
+								// Is followed by non-alphabetic characters, so is a word
 								found = YES;
 							}
 						}
