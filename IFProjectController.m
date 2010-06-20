@@ -1818,8 +1818,28 @@ static NSDictionary*  itemDictionary = nil;
 - (void) highlightSourceFileLine: (int) line
 						  inFile: (NSString*) file
                            style: (enum lineStyle) style {
+	// Get the 'true' path to this file
 	file = [[self document] pathForFile: file];
 	
+	// See if there's a document that manages this file
+	NSDocument* fileDocument = [[NSDocumentController sharedDocumentController] documentForFileName: file];
+	if (fileDocument && fileDocument != [self document] && ![fileDocument isEqual: [self document]]) {
+		// Pass this message on to this document's controllers
+		NSEnumerator*	docControllerEnum = [[fileDocument windowControllers] objectEnumerator];
+		id				docController;
+		
+		while (docController = [docControllerEnum nextObject]) {
+			// If this controller is capable of highlighting lines, tell it to do so
+			if ([docController respondsToSelector: @selector(highlightSourceFileLine:inFile:style:)]) {
+				[docController highlightSourceFileLine: line
+												inFile: file
+												 style: style];
+			}
+		}
+		return;
+	}
+	
+	// Create a new line highlight for this file
 	NSMutableArray* lineHighlight = [lineHighlighting objectForKey: file];
 	
 	if (lineHighlight == nil) {
@@ -1832,6 +1852,7 @@ static NSDictionary*  itemDictionary = nil;
 		[NSNumber numberWithInt: style], 
 		nil]];
 	
+	// Display the highlight
 	if (style >= IFLineStyle_Temporary && style < IFLineStyle_LastTemporary)
 		temporaryHighlights = YES;
 		

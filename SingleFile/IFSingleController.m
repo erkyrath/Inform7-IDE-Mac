@@ -12,6 +12,8 @@
 #import "IFSharedContextMatcher.h"
 #import "IFPreferences.h"
 #import "IFExtensionsManager.h"
+#import "IFAppDelegate.h"
+#import "IFProjectController.h"
 
 @interface IFSingleController(PrivateMethods)
 
@@ -199,4 +201,59 @@
 	[self hideInstallPrompt: self];
 }
 
+// = Highlighting lines =
+
+- (void) highlightSourceFileLine: (int) line
+						  inFile: (NSString*) file
+                           style: (enum lineStyle) style {
+    // Find out where the line is in the source view
+    NSString* store = [[[self document] storage] string];
+    int length = [store length];
+	
+    int x, lineno, linepos, lineLength;
+    lineno = 1; linepos = 0;
+	if (line > lineno)
+	{
+		for (x=0; x<length; x++) {
+			unichar chr = [store characterAtIndex: x];
+			
+			if (chr == '\n' || chr == '\r') {
+				unichar otherchar = chr == '\n'?'\r':'\n';
+				
+				lineno++;
+				linepos = x + 1;
+				
+				// Deal with DOS line endings
+				if (linepos < length && [store characterAtIndex: linepos] == otherchar) {
+					x++; linepos++;
+				}
+				
+				if (lineno == line) {
+					break;
+				}
+			}
+		}
+	}
+	
+    if (lineno != line) {
+        NSBeep(); // DOH!
+        return;
+    }
+	
+    lineLength = 0;
+    for (x=0; x<length-linepos; x++) {
+        if ([store characterAtIndex: x+linepos] == '\n'
+			|| [store characterAtIndex: x+linepos] == '\r') {
+            break;
+        }
+        lineLength++;
+    }
+	
+	// Show the find indicator
+	NSRange range = NSMakeRange(linepos, lineLength);
+	[fileView setSelectedRange: NSMakeRange(linepos, 0)];
+	[[[NSApp delegate] leopard] showFindIndicatorForRange: range
+											   inTextView: fileView];
+}
+	
 @end
