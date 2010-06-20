@@ -174,6 +174,10 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 }
 
 - (void) setCustomFontFamily: (NSString*) customFontFamily {
+	if ([self fontSet] != IFFontSetCustomised) {
+		[self setFontSet: IFFontSetCustomised];
+	}
+	
 	[preferences setObject: customFontFamily
 					forKey: @"customFontFamily"];
 	[self preferencesHaveChanged];

@@ -103,7 +103,9 @@
 						  objectValueForTableColumn: nil
 												row: [family selectedRow]];
 		
-		if (newFamily != nil) [prefs setCustomFontFamily: newFamily];
+		if (newFamily != nil) {
+			[prefs setCustomFontFamily: newFamily];
+		}
 	}
 }
 
