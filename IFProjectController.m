@@ -1617,13 +1617,26 @@ static NSDictionary*  itemDictionary = nil;
 	NSArray* components = [filename pathComponents];
 	if ([components count] != 2) {
 		if ([filename characterAtIndex: 0] == '/' && [[NSFileManager defaultManager] fileExistsAtPath: filename]) {
-			// Looks like a full path: open it directly as an extension
-			NSDocument* newDoc = [[IFSingleFile alloc] initWithContentsOfFile: filename
-														   ofType: @"Inform 7 extension"];
-			
-			[[NSDocumentController sharedDocumentController] addDocument: [newDoc autorelease]];
-			[newDoc makeWindowControllers];
-			[newDoc showWindows];
+			// Try to find the old document
+			NSDocument* newDoc = [[NSDocumentController sharedDocumentController] documentForFileName: filename];
+
+			if (!newDoc) {
+				// Not loaded yet: load the extension in
+				newDoc = [[IFSingleFile alloc] initWithContentsOfFile: filename
+															   ofType: @"Inform 7 extension"];
+				
+				[[NSDocumentController sharedDocumentController] addDocument: [newDoc autorelease]];
+				[newDoc makeWindowControllers];
+				[newDoc showWindows];
+			} else {
+				// Force it to the front
+				NSEnumerator* winEnum = [[newDoc windowControllers] objectEnumerator];;
+				NSWindowController* controller;
+				
+				while (controller = [winEnum nextObject]) {
+					[[controller window] makeKeyAndOrderFront: self];
+				}
+			}
 			
 			return YES;
 		}
