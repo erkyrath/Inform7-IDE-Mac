@@ -3674,7 +3674,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [ ! -e {TARGET_BUILD_DIR}/Inform.app/Contents/Resources/Compilers/ni ]; then\n\techo NI compiler does not exist - injecting\nfi\nif [ ${TARGET_BUILD_DIR}/Inform.app/Contents/Resources/Compilers/ni -ot ${SRCROOT}/Injection/Injections/ni ]; then\n\techo NI compiler is out of date - injecting\nfi\n\nif [ ! -e ${TARGET_BUILD_DIR}/Inform.app/Contents/Resources/Compilers/ni -o ${TARGET_BUILD_DIR}/Inform.app/Contents/Resources/Compilers/ni -ot ${SRCROOT}/Injection/Injections/ni ]; then\ncd ${TARGET_BUILD_DIR}\nrm -rf ${TARGET_BUILD_DIR}/Injections\ncp -R ${SRCROOT}/Injection/* ${TARGET_BUILD_DIR}\nmake copyall\nelse\n\techo Skipping injections \\(ni is newer in the application\\)\nfi\n";
+			shellScript = "export INFORMPATH=${TARGET_BUILD_DIR}\ncd ${SRCROOT}/../Inform-Source\nln -sf ${INFORMPATH}/Inform.app .\n\necho INFORMPATH = $INFORMPATH\npwd\n\nmake all\n";
 		};
 		4B26D6250B23835100E74BCB /* (Script): Create directories */ = {
 			isa = PBXShellScriptBuildPhase;
