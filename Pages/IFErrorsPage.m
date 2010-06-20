@@ -52,7 +52,7 @@
     [parent moveToSourceFileLine: line];
 	[parent removeHighlightsOfStyle: IFLineStyleError];
     [parent highlightSourceFileLine: line
-							 inFile: [[thisPane sourcePage] openSourceFile]
+							 inFile: file
 							  style: IFLineStyleError]; // FIXME: error level?. Filename?
 }
 
