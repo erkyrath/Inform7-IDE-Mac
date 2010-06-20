@@ -149,8 +149,8 @@
 					preceedingChar = [text characterAtIndex: pos-1];
 				}
 				
-				if (!iswblank(preceedingChar) && !iswpunct(preceedingChar)) {
-					// Words begin with whitespace, or punctuation
+				if (iswalnum(preceedingChar)) {
+					// Not the beginning of a word
 					match = NO;
 				}
 			}
@@ -162,7 +162,7 @@
 					followingChar = [text characterAtIndex: pos+[phrase length]];
 				}
 				
-				if (!iswblank(followingChar) && !iswpunct(followingChar)) {
+				if (iswalnum(followingChar)) {
 					// Words end with whitespace, or punctuation
 					match = NO;
 				}
