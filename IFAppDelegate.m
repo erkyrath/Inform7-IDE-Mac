@@ -510,6 +510,9 @@ static int stringCompare(id a, id b, void* context) {
 											  order: 64
 											  modes: [NSArray arrayWithObject: NSDefaultRunLoopMode]];
 	}
+	
+	// Update the extension list whatever happened
+	[self updateExtensions];
 }
 
 - (IBAction) installExtension: (id) sender {

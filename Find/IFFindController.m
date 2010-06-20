@@ -729,12 +729,10 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 - (void) comboBoxEnterKeyPress: (id) sender {
 	if (sender == findPhrase) {
 		[self findNext: self];
-		[[self window] orderOut: self];
 	} else if (sender == replacePhrase) {
 		[self findNext: self];
 	} else {
 		[self findNext: self];
-		[[self window] orderOut: self];
 	}
 }
 

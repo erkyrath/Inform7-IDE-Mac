@@ -194,6 +194,9 @@
 																 value: nil
 																 table: nil]);
 	}
+	
+	// Update the extensions
+	[[NSApp delegate] updateExtensions];
 }
 
 - (IBAction) cancelInstall: (id) sender {
