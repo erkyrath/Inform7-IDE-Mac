@@ -1615,8 +1615,21 @@ static NSDictionary*  itemDictionary = nil;
 - (BOOL) loadNaturalInformExtension: (NSString*) filename {
 	// Get the author and extension name
 	NSArray* components = [filename pathComponents];
-	if ([components count] != 2)
+	if ([components count] != 2) {
+		if ([filename characterAtIndex: 0] == '/' && [[NSFileManager defaultManager] fileExistsAtPath: filename]) {
+			// Looks like a full path: open it directly as an extension
+			NSDocument* newDoc = [[IFSingleFile alloc] initWithContentsOfFile: filename
+														   ofType: @"Inform 7 extension"];
+			
+			[[NSDocumentController sharedDocumentController] addDocument: [newDoc autorelease]];
+			[newDoc makeWindowControllers];
+			[newDoc showWindows];
+			
+			return YES;
+		}
+		
 		return NO;
+	}
 	
 	NSString* author = [components objectAtIndex: 0];
 	NSString* extension = [components objectAtIndex: 1];
