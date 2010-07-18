@@ -658,6 +658,7 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 	} else {
 		//source = [projectFile retain];
 		source = [[IFProjectFile alloc] initDirectoryWithFileWrappers: [NSDictionary dictionary]];
+		[source setPreferredFilename: @"Source"];
 		[projectFile release];
 		projectFile = [source retain];
 	}
