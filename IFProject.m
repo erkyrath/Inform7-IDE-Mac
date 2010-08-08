@@ -951,9 +951,26 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 	if (singleFile) return;
 	
 	// Try to get the index file wrapper
-	NSFileWrapper* index = [[projectFile fileWrappers] objectForKey: @"Index"];
-	if (index && [self fileName]) {
-		[index updateFromPath: [[self fileName] stringByAppendingPathComponent: @"Index"]];
+	NSFileWrapper* oldIndexWrapper = [[projectFile fileWrappers] objectForKey: @"Index"];
+	if (oldIndexWrapper && [self fileName]) {
+		// Load in the index again
+		NSFileWrapper*	indexWrapper	= nil;
+		NSString*		indexPath		= [[self fileName] stringByAppendingPathComponent: @"Index"];
+		
+		if ([[NSFileManager defaultManager] fileExistsAtPath: indexPath]) {
+			indexWrapper = [[[NSFileWrapper alloc] initWithPath: indexPath] autorelease];
+			[indexWrapper setPreferredFilename: @"Index"];
+		}
+		
+		// Remove the old index wrapper
+		if (oldIndexWrapper) {
+			[projectFile removeFileWrapper: oldIndexWrapper];
+		}
+		
+		// Replace with the new one
+		if (indexWrapper) {
+			[projectFile addFileWrapper: indexWrapper];
+		}
 	}
 }
 
