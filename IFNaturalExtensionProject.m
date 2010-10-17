@@ -85,7 +85,7 @@
 	
 	extnDir = [[extnDir stringByAppendingPathComponent: @"Inform"] stringByAppendingPathComponent: @"Extensions"];
 	
-	return [[extnDir stringByAppendingPathComponent: [vw authorName]] stringByAppendingPathComponent: [vw extensionName]];
+	return [[extnDir stringByAppendingPathComponent: [vw authorName]] stringByAppendingPathComponent: [[vw extensionName] stringByAppendingPathExtension: @"i7x"]];
 }
 
 - (NSString*) openAsType {
