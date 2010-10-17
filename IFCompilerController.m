@@ -1124,7 +1124,7 @@ static IFCompilerController* activeController = nil;
 
 static NSString* memSetting = @"The memory setting ";
 static NSString* exceeds = @"The story file exceeds ";
-static NSString* readable = @"This program has overflowed the maximum readable-memory size of the Z-machine format ";
+static NSString* readable = @"This program has overflowed the maximum readable-memory size of the Z-machine format.";
 
 void IFErrorAddError(const char* filC,
 					 int line,
@@ -1146,7 +1146,7 @@ void IFErrorAddError(const char* filC,
 		[activeController overrideProblemsURL: [NSURL URLWithString: @"inform:/ErrorI6TooBig.html"]];
 	}
 	
-	if (type == IFLexCompilerFatalError
+	if ((type == IFLexCompilerFatalError || type == IFLexCompilerError)
 		&& [message length] > [readable length]
 		&& [[message substringToIndex: [readable length]] isEqualToString: readable]) {
 		[activeController overrideProblemsURL: [NSURL URLWithString: @"inform:/ErrorI6Readable.html"]];
