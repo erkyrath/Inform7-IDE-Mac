@@ -408,6 +408,9 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 	[locationColumn retain];
 	[findAllView retain];
 	
+	locationColumnPresent	= YES;
+	typeColumnPresent		= YES;
+	
 	[[[NSApp delegate] leopard] prepareToAnimateView: auxViewPanel];
 }
 
@@ -444,18 +447,24 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 		[types addObject: [result matchType]];
 	}
 	
-	[findAllTable removeTableColumn: typeColumn];
-	[findAllTable removeTableColumn: locationColumn];
+	if (typeColumnPresent) {
+		[findAllTable removeTableColumn: typeColumn];		typeColumnPresent		= NO;
+	}
+	if (locationColumnPresent) {
+		[findAllTable removeTableColumn: locationColumn];	locationColumnPresent	= NO;
+	}
 	
 	if ([locations count] > 1) {
 		[findAllTable addTableColumn: locationColumn];
 		[findAllTable moveColumn: [findAllTable columnWithIdentifier: @"location"]
 						toColumn: 0];
+		locationColumnPresent = YES;
 	}
 	if ([types count] > 1) {
 		[findAllTable addTableColumn: typeColumn];
 		[findAllTable moveColumn: [findAllTable columnWithIdentifier: @"type"]
 						toColumn: 0];
+		typeColumnPresent = YES;
 	}
 	
 	// Refresh the table

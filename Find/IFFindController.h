@@ -68,6 +68,8 @@ typedef enum {
 	IBOutlet NSTableColumn* typeColumn;									// The 'type' table column
 	IBOutlet NSTableColumn* locationColumn;								// The 'location' table column
 	IBOutlet NSTableView*	findAllTable;								// The 'find all' results table
+	BOOL					typeColumnPresent;							// YES when the type column is in the table
+	BOOL					locationColumnPresent;						// YES when the location column is in the table
 	
 	BOOL					searching;									// YES if we're searching for results
 	NSMutableArray*			findAllResults;								// The 'find all' results view
