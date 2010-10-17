@@ -427,6 +427,14 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 	[self updateFromFirstResponder];
 }
 
+- (void) showWindow:(id)sender {
+	// Standard behaviour
+	[super showWindow: sender];
+	
+	// Set the first responder
+	[[self window] makeFirstResponder: findPhrase];
+}
+
 // = 'Find all' =
 
 - (void) updateFindAllResults {
