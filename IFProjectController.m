@@ -1999,7 +1999,7 @@ static NSDictionary*  itemDictionary = nil;
 }
 
 - (void) docRecipes: (id) sender {
-	[[[self auxPane] documentationPage] openURL: [NSURL URLWithString: @"inform:/recipes.html"]];
+	[[[self auxPane] documentationPage] openURL: [NSURL URLWithString: @"inform:/Rindex.html"]];
 }
 
 - (void) docExtensions: (id) sender {
