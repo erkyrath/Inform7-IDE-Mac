@@ -45,7 +45,7 @@ NSString* IFSettingHasChangedNotification = @"IFSettingHasChangedNotification";
 	return settingView;
 }
 
-- (IBOutlet void) setSettingView: (NSView*) newSettingView {
+- (void) setSettingView: (NSView*) newSettingView {
 	if (settingView) [settingView release];
 	settingView = [newSettingView retain];
 }

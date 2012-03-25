@@ -62,7 +62,7 @@ extern NSString* IFUpdatePageBarCellsNotification;
 - (NSString*) identifier;					// A unique identifier for this page
 - (NSView*) view;							// The view that should be used to display this page
 - (NSView*) activeView;						// The view that is considered to have focus for this page
-- (IBOutlet void) setView: (NSView*) view;	// Sets the view to use
+- (void) setView: (NSView*) view;           // Sets the view to use
 
 // Page validation
 - (BOOL) shouldShowPage;					// YES if this page is valid to be shown

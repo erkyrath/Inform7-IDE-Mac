@@ -32,7 +32,7 @@ extern NSString* IFSettingHasChangedNotification;
 
 // Setting up the view
 - (NSView*) settingView;												// Retrieves the settings view
-- (IBOutlet void) setSettingView: (NSView*) settingView;				// Sets the settings view
+- (void) setSettingView: (NSView*) settingView;                         // Sets the settings view
 
 // Information about this settings view
 - (NSString*) title;													// (OVERRIDE) Retrieves the title for these settings

@@ -63,7 +63,7 @@ NSString* IFUpdatePageBarCellsNotification = @"IFUpdatePageBarCellsNotification"
 	return view;
 }
 
-- (IBOutlet void) setView: (NSView*) newView {
+- (void) setView: (NSView*) newView {
 	if (releaseView) [view autorelease];
 	view = [newView retain];
 	releaseView = YES;
