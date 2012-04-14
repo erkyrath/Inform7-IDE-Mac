@@ -763,7 +763,7 @@ static const float cellMargin = 12.0;			// Margin on the left and right until we
 	// Update the cell layout
 	if (cellsNeedLayout) [self layoutCells];
 	
-	int cellIndex;
+	NSInteger cellIndex;
 	NSMutableArray* cells = leftCells;
 	NSMutableArray* layout = leftLayout;
 	BOOL isRight = NO;
