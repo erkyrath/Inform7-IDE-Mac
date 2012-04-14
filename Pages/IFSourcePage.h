@@ -21,7 +21,7 @@
 //
 @class IFCustomPopup;
 @class IFHeadingsBrowser;
-@interface IFSourcePage : IFPage {
+@interface IFSourcePage : IFPage<NSTextStorageDelegate> {
 	IBOutlet IFSourceFileView* sourceText;						// The text view containing the source text
 	IBOutlet NSScrollView* sourceScroller;						// The scroll view containing the source file
 	IBOutlet NSView* fileManager;								// The view containing the file manager

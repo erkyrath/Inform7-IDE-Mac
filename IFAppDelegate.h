@@ -12,7 +12,7 @@
 
 #import "IFLeopardProtocol.h"
 
-@interface IFAppDelegate : NSObject {
+@interface IFAppDelegate : NSObject<NSOpenSavePanelDelegate> {
 	BOOL haveWebkit;								// YES if webkit is installed (NO otherwise; only really does anything on early 10.2 versions, and we don't support them any more)
 	
 	IBOutlet NSMenuItem* extensionsMenu;			// The 'Open Extension' menu

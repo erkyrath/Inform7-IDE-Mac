@@ -415,7 +415,7 @@ static NSString* startingNumber(NSString* string) {
 	return [string substringWithRange: NSMakeRange(startPos, pos - startPos)];
 }
 
-static int resultComparator(id a, id b, void* context) {
+static NSInteger resultComparator(id a, id b, void* context) {
 	NSDictionary* one = a;
 	NSDictionary* two = b;
 	

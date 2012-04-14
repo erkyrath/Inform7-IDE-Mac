@@ -40,7 +40,7 @@ enum lineStyle {
 };
 
 @class IFProjectPane;
-@interface IFProjectController : NSWindowController<GlkAutomation> {
+@interface IFProjectController : NSWindowController<GlkAutomation, NSToolbarDelegate, NSSplitViewDelegate, NSOpenSavePanelDelegate> {
     IBOutlet NSView* panesView;
 	IBOutlet NSTextField* statusInfo;
 	IBOutlet NSProgressIndicator* progress;

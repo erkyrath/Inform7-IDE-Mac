@@ -23,7 +23,7 @@ extern NSString* IFProjectSourceFileDeletedNotification;
 extern NSString* IFProjectStartedBuildingSyntaxNotification;
 extern NSString* IFProjectFinishedBuildingSyntaxNotification;
 
-@interface IFProject : NSDocument {
+@interface IFProject : NSDocument<NSTextStorageDelegate> {
     // The data for this project
     IFProjectFile*      projectFile;
     IFCompilerSettings* settings;

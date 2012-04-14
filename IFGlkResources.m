@@ -28,7 +28,7 @@
 	[super dealloc];
 }
 
-- (NSData*) dataForImageResource: (glui32) image {
+- (bycopy NSData*) dataForImageResource: (glui32) image {
 	// Get the location of the image directory
 	NSString* materials		= [project materialsPath];
 	NSString* projectPath	= [project fileName];

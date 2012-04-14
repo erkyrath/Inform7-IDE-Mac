@@ -281,7 +281,7 @@ NSString* IFPreferencesCommentFont = @"IFPreferencesCommentFont";
 	cacheColourSet	= nil;
 	cacheColours	= nil;
 	
-	styles			= [[NSMutableDictionary alloc] init];
+	styles			= [[NSMutableArray alloc] init];
 	
 	// Get the fonts to use
 	switch ([self fontSet]) {

@@ -232,7 +232,7 @@ static NSRunLoop* mainRunLoop = nil;
 
 // = The extensions menu =
 
-static int stringCompare(id a, id b, void* context) {
+static NSInteger stringCompare(id a, id b, void* context) {
 	return [(NSString*)a compare: b];
 }
 

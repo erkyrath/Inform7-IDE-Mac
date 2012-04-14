@@ -213,7 +213,7 @@ static NSArray* compilerCache = nil;
 	return paths;
 }
 
-static int versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
+static NSInteger versionCompare(NSDictionary* a, NSDictionary* b, void* context) {
 	NSNumber* version1 = [a objectForKey: @"version"];
 	NSNumber* version2 = [b objectForKey: @"version"];
 	

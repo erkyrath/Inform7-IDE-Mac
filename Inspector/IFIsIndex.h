@@ -16,7 +16,7 @@ extern NSString* IFIsIndexInspector;
 //
 // Dynamic or XML (depending on preferences) index inspector
 //
-@interface IFIsIndex : IFInspector {
+@interface IFIsIndex : IFInspector<NSOutlineViewDelegate> {
 	IBOutlet NSOutlineView* indexList;						// The outline view that will contain the index
 	
 	BOOL canDisplay;										// YES if there's an index to display

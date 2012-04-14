@@ -13,7 +13,7 @@
 //
 // Window controller for the 'new project' window
 //
-@interface IFNewProject : NSWindowController {
+@interface IFNewProject : NSWindowController<NSOpenSavePanelDelegate> {
     // Interface builder outlets
     IBOutlet NSView* projectPaneView;				// The pane that contains the display for the current stage in the creation process
     IBOutlet NSView* projectTypeView;				// View used to select the type of project
