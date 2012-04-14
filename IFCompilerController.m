@@ -60,42 +60,42 @@ static IFCompilerController* activeController = nil;
     NSDictionary* baseStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         baseFont, NSFontAttributeName,
         [NSColor blackColor], NSForegroundColorAttributeName,
-        0];
+        nil];
 
     NSDictionary* versionStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         bigFont, NSFontAttributeName,
         centered, NSParagraphStyleAttributeName,
-        0];
+        nil];
     
     NSDictionary* filenameStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSColor blackColor],
         NSForegroundColorAttributeName,
         boldFont, NSFontAttributeName,
-        0];
+        nil];
     
     NSDictionary* messageStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSColor colorWithDeviceRed: 0 green: 0.5 blue: 0 alpha: 1.0],
-        NSForegroundColorAttributeName, 0];
+        NSForegroundColorAttributeName, nil];
     NSDictionary* warningStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSColor colorWithDeviceRed: 0 green: 0 blue: 0.7 alpha: 1.0],
         NSForegroundColorAttributeName,
         boldFont, NSFontAttributeName,
-        0];
+        nil];
     NSDictionary* errorStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSColor colorWithDeviceRed: 0.7 green: 0 blue: 0.0 alpha: 1.0],
         NSForegroundColorAttributeName,
         boldFont, NSFontAttributeName,
-        0];
+        nil];
     NSDictionary* fatalErrorStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSColor colorWithDeviceRed: 1.0 green: 0 blue: 0.0 alpha: 1.0],
         NSForegroundColorAttributeName,
         italicFont, NSFontAttributeName,
-        0];
+        nil];
     NSDictionary* progressStyle = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSColor colorWithDeviceRed: 0.0 green: 0 blue: 0.6 alpha: 1.0],
         NSForegroundColorAttributeName,
         smallFont, NSFontAttributeName,
-        0];
+        nil];
 	
     return [NSDictionary dictionaryWithObjectsAndKeys:
         baseStyle, IFStyleBase,
@@ -104,7 +104,7 @@ static IFCompilerController* activeController = nil;
         errorStyle, IFStyleCompilerError, fatalErrorStyle, IFStyleCompilerFatalError,
         filenameStyle, IFStyleFilename,
 		progressStyle, IFStyleProgress,
-        0];
+        nil];
 }
 
 // == Initialisation ==
