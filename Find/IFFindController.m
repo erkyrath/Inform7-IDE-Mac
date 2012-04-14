@@ -73,7 +73,7 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 	phrase = [[phrase copy] autorelease];
 	
 	// Ensure that we don't store a duplicate copy of the phrase
-	int lastIndex = [findHistory indexOfObject: phrase];
+	NSInteger lastIndex = [findHistory indexOfObject: phrase];
 	if (lastIndex != NSNotFound) {
 		[findHistory removeObjectAtIndex: lastIndex];
 	}
@@ -99,7 +99,7 @@ static NSString* IFReplaceHistoryPref	= @"IFReplaceHistory";
 	phrase = [[phrase copy] autorelease];
 	
 	// Ensure that we don't store a duplicate copy of the phrase
-	int lastIndex = [replaceHistory indexOfObject: phrase];
+	NSInteger lastIndex = [replaceHistory indexOfObject: phrase];
 	if (lastIndex != NSNotFound) {
 		[replaceHistory removeObjectAtIndex: lastIndex];
 	}

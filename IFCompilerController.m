@@ -533,7 +533,7 @@ static IFCompilerController* activeController = nil;
                  message: (NSString*) message {
     // Find the entry for this error message, if it exists. If not,
     // add this as a new file...
-    int fileNum = [errorFiles indexOfObject: file];
+    NSInteger fileNum = [errorFiles indexOfObject: file];
 
     if (fileNum == NSNotFound) {
         fileNum = [errorFiles count];
@@ -588,7 +588,7 @@ static IFCompilerController* activeController = nil;
         return [errorFiles count];
     }
     
-    int fileNum = [errorFiles indexOfObjectIdenticalTo: item];
+    NSInteger fileNum = [errorFiles indexOfObjectIdenticalTo: item];
 
     if (fileNum == NSNotFound) {
         return 0;
@@ -610,7 +610,7 @@ static IFCompilerController* activeController = nil;
         return [errorFiles objectAtIndex: index];
     }
 
-    int fileNum = [errorFiles indexOfObjectIdenticalTo: item];
+    NSInteger fileNum = [errorFiles indexOfObjectIdenticalTo: item];
 
     if (fileNum == NSNotFound) {
         return nil;
@@ -668,7 +668,7 @@ static IFCompilerController* activeController = nil;
         return; // Nothing selected
     }
 
-    int fileNum = [errorFiles indexOfObjectIdenticalTo: obj];
+    NSInteger fileNum = [errorFiles indexOfObjectIdenticalTo: obj];
 
     if (fileNum != NSNotFound) {
         return; // File item selected

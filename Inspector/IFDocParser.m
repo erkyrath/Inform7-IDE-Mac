@@ -191,7 +191,7 @@ enum ParseState {
 							// Get the tag
 							NSString* tag = [NSString stringWithCharacters: chrs + tagStart + 1
 																	length: x - (tagStart + 1)];
-							int spaceLoc = [tag rangeOfString: @" "].location;
+							NSInteger spaceLoc = [tag rangeOfString: @" "].location;
 							if (spaceLoc != NSNotFound) tag = [tag substringToIndex: spaceLoc];
 								
 							tag = [tag lowercaseString];

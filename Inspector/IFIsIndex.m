@@ -146,7 +146,7 @@ NSString* IFIsIndexInspector = @"IFIsIndexInspector";
 		if ([selectedItem isKindOfClass: [NSArray class]] && [selectedItem count] == 2) selectedItem = [selectedItem objectAtIndex: 0];
 		
 		if ([selectedItem isKindOfClass: [IFIntelSymbol class]]) {
-			int lineNumber = [[proj currentIntelligence] lineForSymbol: selectedItem]+1;
+			NSInteger lineNumber = [[proj currentIntelligence] lineForSymbol: selectedItem]+1;
 
 			if (lineNumber != NSNotFound) {
 				[proj removeAllTemporaryHighlights];

@@ -333,8 +333,8 @@ static NSImage* seeSubsections = nil;
 
 - (void) keyDown: (NSEvent*) ev {
 	// Perform an action based on the key pressed
-	int highlightedIndex = [contents indexOfObjectIdenticalTo: highlighted];
-	int newHighlighted = highlightedIndex;
+	NSInteger highlightedIndex = [contents indexOfObjectIdenticalTo: highlighted];
+	NSInteger newHighlighted = highlightedIndex;
 	int direction = 0;
 	
 	// Move up or down as required

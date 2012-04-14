@@ -283,8 +283,8 @@
 											   inTextView: sourceText];
 }
 
-- (unsigned int) indexOfLine: (int) line
-					inString: (NSString*) store {
+- (NSUInteger) indexOfLine: (int) line
+                  inString: (NSString*) store {
     int length = [store length];
 	
     int x, lineno, linepos;
@@ -798,7 +798,7 @@
 	IFIntelSymbol* symbol = [popup lastCloseValue];
 	
 	if (symbol != nil) {
-		int lineNumber = [[parent currentIntelligence] lineForSymbol: symbol]+1;
+		NSInteger lineNumber = [[parent currentIntelligence] lineForSymbol: symbol]+1;
 		
 		if (lineNumber != NSNotFound) {
 			[parent removeAllTemporaryHighlights];
@@ -860,8 +860,8 @@
 		// Work out the line numbers the restriction applies to
 		NSRange restriction = [storage restrictionRange];
 		
-		unsigned firstLine = 0;
-		unsigned finalLine = NSNotFound;
+		NSUInteger firstLine = 0;
+		NSUInteger finalLine = NSNotFound;
 
 		NSString* store = [textStorage string];
 		int length = [store length];
@@ -1144,15 +1144,15 @@
 	// Get the range we need to limit to
 	NSRange limitRange;
 	
-	int symbolLine = [intelFile lineForSymbol: symbol];
+	NSInteger symbolLine = [intelFile lineForSymbol: symbol];
 	if (symbolLine == NSNotFound) return;
 	
 	limitRange.location = [self indexOfLine: symbolLine
 								   inString: [textStorage string]];
 	
-	unsigned finalLocation;
+	NSUInteger finalLocation;
 	if (followingSymbol) {
-		int followingLine = [intelFile lineForSymbol: followingSymbol];
+		NSInteger followingLine = [intelFile lineForSymbol: followingSymbol];
 		if (followingLine == NSNotFound) return;
 		finalLocation = [self indexOfLine: followingLine
 								 inString: [textStorage string]];

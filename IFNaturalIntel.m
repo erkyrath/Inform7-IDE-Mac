@@ -85,7 +85,7 @@ static BOOL indent = YES;
 		NSArray* words = [line componentsSeparatedByString: @" "];
 		if ([words count] < 1) return;
 		
-		int headingType = [headingList indexOfObject: [[words objectAtIndex: 0] lowercaseString]] + 1;
+		NSInteger headingType = [headingList indexOfObject: [[words objectAtIndex: 0] lowercaseString]] + 1;
 		if (headingType == NSNotFound) return;		// Not a heading (hmm, shouldn't happen, I guess)
 		
 		// Got a heading: add to the intel
@@ -212,7 +212,7 @@ static BOOL indent = YES;
 			}
 						
 			// See if this is the start of a heading
-			int headingLevel = [headingList indexOfObject: [prefix lowercaseString]];
+			NSInteger headingLevel = [headingList indexOfObject: [prefix lowercaseString]];
 			
 			if (headingLevel == NSNotFound) return nil;		// Not a heading
 			headingLevel++;

@@ -74,9 +74,9 @@ static NSImage* arrowPressed	= nil;
 		NSPoint containerOrigin = [self textContainerOrigin];
 		NSPoint containerLocation = NSMakePoint(NSMinX(visibleRect)-containerOrigin.x, NSMinY(visibleRect)-containerOrigin.y);
 		
-		unsigned characterIndex = NSNotFound;
-		unsigned glyphIndex = [layout glyphIndexForPoint: containerLocation
-										 inTextContainer: [self textContainer]];
+		NSUInteger characterIndex = NSNotFound;
+		NSUInteger glyphIndex = [layout glyphIndexForPoint: containerLocation
+                                           inTextContainer: [self textContainer]];
 		if (glyphIndex != NSNotFound) {
 			characterIndex = [layout characterIndexForGlyphAtIndex: glyphIndex];
 		}
@@ -132,9 +132,9 @@ static NSImage* arrowPressed	= nil;
 										 fromView: nil];
 		NSPoint containerLocation = NSMakePoint(viewLocation.x-containerOrigin.x, viewLocation.y-containerOrigin.y);
 		
-		unsigned characterIndex = NSNotFound;
-		unsigned glyphIndex = [[self layoutManager] glyphIndexForPoint: containerLocation
-								 				  inTextContainer: [self textContainer]];
+		NSUInteger characterIndex = NSNotFound;
+		NSUInteger glyphIndex = [[self layoutManager] glyphIndexForPoint: containerLocation
+                                                         inTextContainer: [self textContainer]];
 		if (glyphIndex != NSNotFound) {
 			characterIndex = [[self layoutManager] characterIndexForGlyphAtIndex: glyphIndex];
 		}

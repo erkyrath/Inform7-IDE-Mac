@@ -238,8 +238,8 @@ static float pointSize = 11.0;
 	}
 
 	// Work out the line range for this header node
-	unsigned int firstLine;
-	unsigned int finalLine;
+	NSUInteger firstLine;
+	NSUInteger finalLine;
 	
 	firstLine = [intel lineForSymbol: symbol];
 	if (followingSymbol) {

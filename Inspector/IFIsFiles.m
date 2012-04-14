@@ -124,7 +124,7 @@ static int stringComparer(id a, id b, void * context) {
 
 - (void) setSelectedFile {
 	if (activeController && [activeController isKindOfClass: [IFProjectController class]]) {
-		int fileRow = [filenames indexOfObject: [[activeController selectedSourceFile] lastPathComponent]];
+		NSInteger fileRow = [filenames indexOfObject: [[activeController selectedSourceFile] lastPathComponent]];
 		
 		if (fileRow != NSNotFound) {
 			[filesView selectRow: fileRow
@@ -206,7 +206,7 @@ static int stringComparer(id a, id b, void * context) {
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView {
 	if (activeProject == nil) return 0;
 	
-	int fileRow = [filenames indexOfObject: [[activeController selectedSourceFile] lastPathComponent]];
+	NSInteger fileRow = [filenames indexOfObject: [[activeController selectedSourceFile] lastPathComponent]];
 	
 	if (fileRow == NSNotFound)
 		return [filenames count] + 1;
@@ -311,7 +311,7 @@ static int stringComparer(id a, id b, void * context) {
 		
 		[aTableView reloadData];
 		
-		int newIndex = [filenames indexOfObjectIdenticalTo: newName];
+		NSInteger newIndex = [filenames indexOfObjectIdenticalTo: newName];
 		if (newIndex != NSNotFound) {
 			[aTableView selectRow: newIndex
 			 byExtendingSelection: NO];

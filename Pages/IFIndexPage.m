@@ -50,7 +50,7 @@
 
 // = The index view =
 
-- (int) indexOfItemWithIdentifier: (id) identifier {
+- (NSInteger) indexOfItemWithIdentifier: (id) identifier {
 	NSEnumerator* cellEnum = [indexCells objectEnumerator];
 	IFPageBarCell* cell;
 	
@@ -72,7 +72,7 @@
 }
 
 - (void) selectIndexTab: (int) whichTab {
-	int tabIndex = [self indexOfItemWithIdentifier: [NSNumber numberWithInt: whichTab]];
+	NSInteger tabIndex = [self indexOfItemWithIdentifier: [NSNumber numberWithInt: whichTab]];
 	
 	if (tabIndex != NSNotFound) {
 		[self switchToCell: [indexCells objectAtIndex: tabIndex]];

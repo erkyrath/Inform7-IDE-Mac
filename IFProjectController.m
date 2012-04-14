@@ -1585,7 +1585,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (IFProjectPane*) oppositePane: (IFProjectPane*) pane {
 	// Find this pane
-	int index = [projectPanes indexOfObjectIdenticalTo: pane];
+	NSInteger index = [projectPanes indexOfObjectIdenticalTo: pane];
 	if (index == NSNotFound) return nil;
 	
 	// Get it's 'opposite'
@@ -2957,7 +2957,7 @@ static NSDictionary*  itemDictionary = nil;
 
 - (void) selectedIndexItem: (id) sender {
 	IFIntelSymbol* selectedItem = [sender representedObject];
-	int lineNumber = [[self currentIntelligence] lineForSymbol: selectedItem]+1;
+	NSInteger lineNumber = [[self currentIntelligence] lineForSymbol: selectedItem]+1;
 	
 	if (lineNumber != NSNotFound) {
 		[self removeAllTemporaryHighlights];

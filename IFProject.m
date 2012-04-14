@@ -1052,7 +1052,7 @@ NSString* IFProjectFinishedBuildingSyntaxNotification = @"IFProjectFinishedBuild
 - (void) removeBreakpointAtLine: (int) line
 						 inFile: (NSString*) file {
 	NSArray* bp =  [NSArray arrayWithObjects: [NSNumber numberWithInt: line], [[file copy] autorelease], nil];
-	unsigned index = [breakpoints indexOfObject: bp];
+	NSUInteger index = [breakpoints indexOfObject: bp];
 	
 	if (index == NSNotFound) {
 		NSLog(@"Attempt to remove nonexistant breakpoint %@:%i", file, line);

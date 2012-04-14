@@ -56,7 +56,7 @@
 	unichar* phraseBuf = malloc(sizeof(unichar)*[phrase length]+1);
 	[phrase getCharacters: phraseBuf];
 	
-	int matchLoc = NSNotFound;
+	NSInteger matchLoc = NSNotFound;
 	int matchLength = 0;
 
 	int phraseLength = [phrase length];

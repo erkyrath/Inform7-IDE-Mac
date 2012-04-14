@@ -40,7 +40,7 @@ extern NSString* IFIntelFileHasChangedNotification;
 - (IFIntelSymbol*) nearestSymbolToLine: (int) line;			// Nearest symbol to a given line number (first symbol on the line if there are any symbols for that line, or the first symbol on the line before if not)
 - (IFIntelSymbol*) firstSymbolOnLine: (int) line;			// nil if there are no symbols for the given line, or the first symbol for that line otherwise
 - (IFIntelSymbol*) lastSymbolOnLine: (int) line;			// nil if there are no symbols for the given line, or the last symbol for that line otherwise
-- (int) lineForSymbol: (IFIntelSymbol*) symbolToFind;		// Given a symbol, works out which line number it occurs on
+- (NSInteger) lineForSymbol: (IFIntelSymbol*) symbolToFind;	// Given a symbol, works out which line number it occurs on
 
 // Sending notifications
 - (void) intelFileHasChanged;								// Requests that a notification be sent that this object has changed

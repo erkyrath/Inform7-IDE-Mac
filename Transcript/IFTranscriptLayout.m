@@ -121,7 +121,7 @@
 		
 		if (finalItem == nil) NSLog(@"BUG: gweeble fweeble feep?");					// Should never happen
 		
-		int finalItemIndex = [transcriptItems indexOfObjectIdenticalTo: finalItem];
+		NSInteger finalItemIndex = [transcriptItems indexOfObjectIdenticalTo: finalItem];
 		
 		if (finalItemIndex == NSNotFound) {
 			// Might happen if something breaks
@@ -255,7 +255,7 @@
 
 - (void) transcriptItemHasChanged: (IFTranscriptItem*) item {
 	// Find which item has changed
-	int itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
+	NSInteger itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
 	
 	if (itemIndex == NSNotFound) return;
 	
@@ -308,7 +308,7 @@
 		
 	// Update the item
 	ZoomSkeinItem* skeinItem = [not object];
-	int index = [transcriptItems indexOfObjectIdenticalTo: item];
+	NSInteger index = [transcriptItems indexOfObjectIdenticalTo: item];
 	
 	if (index == NSNotFound) {
 		NSLog(@"BUG: found an item that's being changed in the map, but not in the list of transcript items");
@@ -497,7 +497,7 @@
 
 - (IFTranscriptItem*) itemForItem: (ZoomSkeinItem*) skeinItem {
 	int index;
-	int firstCalculated = NSNotFound;
+	NSInteger firstCalculated = NSNotFound;
 	
 	for (index=0; index<[transcriptItems count]; index++) {
 		IFTranscriptItem* item = [transcriptItems objectAtIndex: index];
@@ -559,7 +559,7 @@
 
 - (IFTranscriptItem*) lastChanged: (IFTranscriptItem*) item {
 	// Find the item
-	int itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
+	NSInteger itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
 	if (itemIndex == NSNotFound || itemIndex < 0) return nil;
 	
 	itemIndex--;
@@ -576,7 +576,7 @@
 
 - (IFTranscriptItem*) nextChanged: (IFTranscriptItem*) item {
 	// Find the item
-	int itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
+	NSInteger itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
 	if (itemIndex == NSNotFound || itemIndex < 0) return nil;
 	
 	itemIndex++;
@@ -593,7 +593,7 @@
 
 - (IFTranscriptItem*) lastDiff: (IFTranscriptItem*) item {
 	// Find the item
-	int itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
+	NSInteger itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
 	if (itemIndex == NSNotFound || itemIndex < 0) return nil;
 	
 	itemIndex--;
@@ -610,7 +610,7 @@
 
 - (IFTranscriptItem*) nextDiff: (IFTranscriptItem*) item {
 	// Find the item
-	int itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
+	NSInteger itemIndex = [transcriptItems indexOfObjectIdenticalTo: item];
 	if (itemIndex == NSNotFound || itemIndex < 0) return nil;
 	
 	itemIndex++;

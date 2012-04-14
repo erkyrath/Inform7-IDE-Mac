@@ -257,7 +257,7 @@ NSString* IFIntelFileHasChangedNotification = @"IFIntelFileHasChangedNotificatio
 	return [symbols objectAtIndex: symbol-1];
 }
 
-- (int) lineForSymbol: (IFIntelSymbol*) symbolToFind {
+- (NSInteger) lineForSymbol: (IFIntelSymbol*) symbolToFind {
 	// Slow, but we shouldn't be calling this very often (oops, actually forgot that we'd need this)
 	// (Many ways to speed up if required. Check back with Shark when everything's implemented)
 	int symbol;

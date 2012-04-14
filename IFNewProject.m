@@ -461,7 +461,7 @@ static NSMutableDictionary* projectDictionary = nil;
         return [projectClasses count];
     }
 
-    int classNum = [projectClasses indexOfObjectIdenticalTo: item];
+    NSInteger classNum = [projectClasses indexOfObjectIdenticalTo: item];
 
     if (classNum == NSNotFound) {
         return 0;
@@ -484,7 +484,7 @@ static NSMutableDictionary* projectDictionary = nil;
         return [projectClasses objectAtIndex: index];
     }
 
-    int classNum = [projectClasses indexOfObjectIdenticalTo: item];
+    NSInteger classNum = [projectClasses indexOfObjectIdenticalTo: item];
 
     if (classNum == NSNotFound) {
         return nil;
@@ -520,7 +520,7 @@ static NSMutableDictionary* projectDictionary = nil;
     if (item == nil)
         return NO;
 
-    int classNum = [projectClasses indexOfObjectIdenticalTo: item];
+    NSInteger classNum = [projectClasses indexOfObjectIdenticalTo: item];
 
     if (classNum == NSNotFound) {
         return YES;

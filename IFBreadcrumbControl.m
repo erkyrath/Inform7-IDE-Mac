@@ -191,7 +191,7 @@
 // = Dealing with mouse events =
 
 - (void) updateCell: (IFBreadcrumbCell*) whichCell {
-	int cellIndex = [cells indexOfObjectIdenticalTo: whichCell];
+	NSInteger cellIndex = [cells indexOfObjectIdenticalTo: whichCell];
 	if (cellIndex == NSNotFound) return;
 	
 	NSRect rect = [[cellRects objectAtIndex: cellIndex] rectValue];

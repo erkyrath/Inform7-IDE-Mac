@@ -75,7 +75,7 @@
 	IFInspector* inspect;
 	
 	while (inspect = [iEnum nextObject]) {
-		int tag = [inspectors indexOfObjectIdenticalTo: inspect];
+		NSInteger tag = [inspectors indexOfObjectIdenticalTo: inspect];
 		
 		if (tag != NSNotFound) {
 			BOOL shown = [prefs enableInspector: inspect];
