@@ -20,6 +20,8 @@
 	NSMutableArray* pageCells;								// Cells used to select the pages in the compiler controller
 }
 
+- (id) initWithProjectController: (IFProjectController*) controller;
+
 // Getting information about this page
 - (IFCompilerController*) compilerController;				// The compiler controller for this page
 

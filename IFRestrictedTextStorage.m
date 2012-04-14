@@ -67,7 +67,7 @@
 	return restriction.length;
 }
 
-- (NSDictionary*) attributesAtIndex: (unsigned) index
+- (NSDictionary*) attributesAtIndex: (NSUInteger) index
 					 effectiveRange: (NSRangePointer) range {
 	if (index < 0 || index >= restriction.length) {
 		[NSException raise: NSRangeException

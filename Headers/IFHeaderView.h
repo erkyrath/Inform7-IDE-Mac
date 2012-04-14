@@ -16,7 +16,7 @@
 /// View used to allow the user to restrict the section of the source file that they are
 /// browsing
 ///
-@interface IFHeaderView : NSView {
+@interface IFHeaderView : NSView<NSTextViewDelegate> {
 	int displayDepth;														// The display depth for this view
 	IFHeader* rootHeader;													// The root header that this view should display
 	IFHeaderNode* rootHeaderNode;											// The root header node

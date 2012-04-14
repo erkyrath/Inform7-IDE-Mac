@@ -19,6 +19,8 @@
 	IBOutlet IFSettingsController* settingsController;	// The settings controller	
 }
 
+- (id) initWithProjectController: (IFProjectController*) controller;
+
 // Settings
 - (void) updateSettings;										// Updates the settings views with their current values
 

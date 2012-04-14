@@ -22,6 +22,8 @@
 	IFPageBarCell* contentsCell;						// The 'table of contents' cell
 }
 
+- (id) initWithProjectController: (IFProjectController*) controller;
+
 // The documentation view
 - (void) openURL: (NSURL*) url;							// Tells the documentation view to open a specific URL
 - (IBAction) showToc: (id) sender;						// Opens the table of contents

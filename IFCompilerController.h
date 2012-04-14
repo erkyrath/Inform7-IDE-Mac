@@ -36,7 +36,7 @@ extern NSString* IFStyleStatistics;
 // (In ye olden dayes, this was a window controller as well, but now young whippersnapper
 // compilers can go anywhere, so it's not any more)
 //
-@interface IFCompilerController : NSObject {
+@interface IFCompilerController : NSObject<NSTextStorageDelegate> {
     BOOL awake;										// YES if we're all initialised (ie, loaded up from a nib)
     
     IBOutlet NSTextView* compilerResults;			// Output from the compiler ends up here

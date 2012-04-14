@@ -61,7 +61,7 @@ NSString* IFIsFilesInspector = @"IFIsFilesInspector";
 
 // = Inspecting things =
 
-static int stringComparer(id a, id b, void * context) {
+static NSInteger stringComparer(id a, id b, void * context) {
 	int cmp = [[(NSString*)a pathExtension] compare: [(NSString*)b pathExtension]];
 	
 	if (cmp == 0) return [(NSString*)a compare: (NSString*) b];

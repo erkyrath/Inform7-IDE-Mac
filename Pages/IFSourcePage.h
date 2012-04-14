@@ -48,6 +48,8 @@
 	IFViewTrackingWindowController* controlsOverlay;			// The tracking window that contains controls relating to this window (for instance, the mini bookmarks navigator)
 }
 
+- (id) initWithProjectController: (IFProjectController*) controller;
+
 // Source pane controls
 - (void) prepareToCompile;										// Informs this pane that it's time to prepare to compile (or save) the document
 

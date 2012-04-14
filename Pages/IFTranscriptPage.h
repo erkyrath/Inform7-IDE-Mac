@@ -25,6 +25,8 @@
 	IFPageBarCell* nextBySkeinCell;
 }
 
+- (id) initWithProjectController: (IFProjectController*) controller;
+
 // The transcript view
 - (IFTranscriptView*) transcriptView;							// Returns the transcript view object associated with this pane
 - (IFTranscriptLayout*) transcriptLayout;						// Returns the transcript layout object associated with this pane

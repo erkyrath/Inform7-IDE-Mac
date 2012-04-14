@@ -31,6 +31,8 @@ enum IFIndexTabType {
 	NSMutableArray* indexCells;							// IFPageBarCells used to select index pages
 }
 
+- (id) initWithProjectController: (IFProjectController*) controller;
+
 // The index view
 - (void) updateIndexView;										// Updates the index view with the current files in the index subdirectory
 - (BOOL) canSelectIndexTab: (int) whichTab;						// Returns YES if we can select a specific tab in the index pane

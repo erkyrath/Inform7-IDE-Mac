@@ -72,7 +72,7 @@ enum IFProjectPaneType {
 //
 // Controller class dealing with one side of the project window
 //
-@interface IFProjectPane : NSObject<IFProjectPane, IFHistoryRecorder> {
+@interface IFProjectPane : NSObject<IFProjectPane, IFHistoryRecorder, NSTabViewDelegate> {
     // Outlets
     IBOutlet NSView* paneView;							// The main pane view
     IBOutlet NSTabView* tabView;						// The tab view

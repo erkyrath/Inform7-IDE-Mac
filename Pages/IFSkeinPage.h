@@ -33,6 +33,8 @@
 	IFPageBarCell* layoutCell;							// The 'Layout...' button
 }
 
+- (id) initWithProjectController: (IFProjectController*) controller;
+
 // The skein view
 - (ZoomSkeinView*) skeinView;									// The skein view
 - (IBAction) skeinLabelSelected: (id) sender;					// The user has selected a skein item from the drop-down list (so we should scroll there)

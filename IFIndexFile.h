@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface IFIndexFile : NSObject {
+@interface IFIndexFile : NSObject<NSOutlineViewDataSource> {
 	NSDictionary* index;
 
 	NSMutableDictionary* filenamesToIndexes;

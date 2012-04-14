@@ -30,6 +30,8 @@ extern NSString* IFGlulxInterpreterName;						// The user defaults key that cont
 	BOOL setBreakpoint;											// YES if we are allowed to set breakpoints
 }
 
+- (id) initWithProjectController: (IFProjectController*) controller;
+
 // The game view
 - (void) activateDebug;											// Notify that the next game run should be run with debugging on (breakpoints will be set)
 - (void) startRunningGame: (NSString*) fileName;				// Starts running the game file with the given name in the game pane

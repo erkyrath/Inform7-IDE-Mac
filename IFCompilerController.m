@@ -884,7 +884,7 @@ static IFCompilerController* activeController = nil;
 				preferredTabView = fileItem;
 			}
 			
-			if (preferredTabView == nil &&
+			if (preferredTabView == -1 &&
 				[[[key stringByDeletingPathExtension] lowercaseString] isEqualToString: @"log of problems"]) {
 				preferredTabView = fileItem;
 			}
