@@ -50,6 +50,7 @@
 
 - (void)drawRect:(NSRect)rect {
 	NSRect bounds = [self bounds];
+    NSLayoutManager* layoutMgr = [[[NSLayoutManager alloc] init] autorelease];
 	
 	// Button images
 	NSImage* bless = [NSImage imageNamed: @"Bless"];
@@ -99,7 +100,7 @@
 		
 		// Draw the buttons for the item
 		NSFont* font = [[item attributes] objectForKey: NSFontAttributeName];
-		float fontHeight = [font defaultLineHeightForFont];
+		float fontHeight = [layoutMgr defaultLineHeightForFont: font];
 		float itemHeight = [item height];
 		float textHeight = floorf(itemHeight - fontHeight*2.0);
 
@@ -165,6 +166,7 @@
 // = Mousing around =
 
 - (void) mouseDown: (NSEvent*) evt {
+    NSLayoutManager* layoutMgr = [[[NSLayoutManager alloc] init] autorelease];
 	NSRect bounds = [self bounds];
 	NSPoint viewPos = [self convertPoint: [evt locationInWindow]
 								fromView: nil];
@@ -177,7 +179,7 @@
 	
 	// Get some item metrics
 	float itemTextHeight = [item textHeight];
-	float fontHeight = [[[item attributes] objectForKey: NSFontAttributeName] defaultLineHeightForFont];
+	float fontHeight = [layoutMgr defaultLineHeightForFont: [[item attributes] objectForKey: NSFontAttributeName]];
 	
 	float itemOffset = [item offset];
 	NSPoint itemPos = NSMakePoint(viewPos.x - NSMinX(bounds), viewPos.y - NSMinY(bounds) - itemOffset);
@@ -340,6 +342,7 @@
 	NSRect bounds = [self bounds];
 	NSRect visibleArea = [self visibleRect];
 	NSArray* cursorItems = [layout itemsInRect: visibleArea];
+    NSLayoutManager* layoutMgr = [[[NSLayoutManager alloc] init] autorelease];
 	
 	float width = bounds.size.width;
 	float fontHeight = -1;
@@ -355,7 +358,7 @@
 		
 		// (Lazy: only calculate fontHeight once)
 		if (fontHeight < 0) {
-			fontHeight = [[[item attributes] objectForKey: NSFontAttributeName] defaultLineHeightForFont];
+			fontHeight = [layoutMgr defaultLineHeightForFont: [[item attributes] objectForKey: NSFontAttributeName]];
 		}
 		
 		float offset = [item offset];

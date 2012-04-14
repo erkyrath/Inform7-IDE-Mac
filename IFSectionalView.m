@@ -175,6 +175,8 @@ static NSImage* seeSubsections = nil;
 	// No need to calculate any more after this has been called
 	calculateSizes = NO;
 	compactStrings = NO;
+    
+    NSLayoutManager* layoutMgr = [[[NSLayoutManager alloc] init] autorelease];
 
 	// Some font attributes
 	NSDictionary* headingAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -212,7 +214,7 @@ static NSImage* seeSubsections = nil;
 		}
 		
 		// Measure this section
-		float height = [font defaultLineHeightForFont]+4;
+		float height = [layoutMgr defaultLineHeightForFont: font]+4;
 		NSSize sectionSize = [text sizeWithAttributes: attributes];
 		
 		// Work out the bounds

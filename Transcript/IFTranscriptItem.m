@@ -415,6 +415,9 @@ static NSColor* activeCol = nil;
 
 - (void) calculateItem {
 	if (calculated) return;
+    
+    // Get the layout manager for this item
+    NSLayoutManager* layoutMgr = [transcriptContainer layoutManager];
 	
 	// Mark ourselves as un-diffed
 	diffed = NO;
@@ -444,7 +447,7 @@ static NSColor* activeCol = nil;
 	
 	NSFont* font = [attributes objectForKey: NSFontAttributeName];
 	
-	float fontHeight = [font defaultLineHeightForFont];
+	float fontHeight = [layoutMgr defaultLineHeightForFont: font];
 	float transcriptHeight = [self heightForContainer: transcriptContainer];
 	float expectedHeight = [self heightForContainer: expectedContainer];
 	
@@ -522,7 +525,7 @@ static NSColor* activeCol = nil;
 	// Work out some metrics
 	NSFont* font = [attributes objectForKey: NSFontAttributeName];
 	
-	float fontHeight = [font defaultLineHeightForFont];
+	float fontHeight = [[transcriptContainer layoutManager] defaultLineHeightForFont: font];
 	
 	// Draw the command (blue background: this is also where we put control buttons for this object)
 	[commandCol set];
@@ -623,7 +626,7 @@ static NSColor* activeCol = nil;
 				  atPoint: (NSPoint) itemOrigin {
 	NSRect editorFrame;
 	float stringWidth = floorf(width/2.0 - 44.0);
-	float fontHeight = [[attributes objectForKey: NSFontAttributeName] defaultLineHeightForFont];
+	float fontHeight = [[newFieldEditor layoutManager] defaultLineHeightForFont: [attributes objectForKey: NSFontAttributeName]];
 	
 	// Finish up the old editor, if there was one
 	if (fieldEditor) {
@@ -702,7 +705,7 @@ static NSColor* activeCol = nil;
 							 margin: (float) margin
 							atPoint: (NSPoint) itemOrigin {
 	float stringWidth = floorf(width - 12.0 - margin);
-	float fontHeight = [[attributes objectForKey: NSFontAttributeName] defaultLineHeightForFont];
+	float fontHeight = [[newFieldEditor layoutManager] defaultLineHeightForFont: [attributes objectForKey: NSFontAttributeName]];
 
 	// Finish up the old editor, if there was one
 	if (fieldEditor) {
@@ -837,7 +840,7 @@ static NSColor* activeCol = nil;
 
 - (void) finishProcessingEditing: (NSTextStorage*) storage {
 	// Recalculate appropriately
-	float fontHeight = [[attributes objectForKey: NSFontAttributeName] defaultLineHeightForFont];
+	float fontHeight = [[transcriptContainer layoutManager] defaultLineHeightForFont: [attributes objectForKey: NSFontAttributeName]];
 	float transcriptHeight = [self heightForContainer: transcriptContainer];
 	float expectedHeight = [self heightForContainer: expectedContainer];
 	
