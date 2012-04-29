@@ -33,6 +33,7 @@
 
 #import "IFNoDocProtocol.h"
 #import "IFInformProtocol.h"
+#import "IFWebUriProtocol.h"
 
 #import "IFSettingsController.h"
 #import "IFMiscSettings.h"
@@ -138,6 +139,7 @@ static NSRunLoop* mainRunLoop = nil;
 		// Register some custom URL handlers
 		// [NSURLProtocol registerClass: [IFNoDocProtocol class]];
 		[NSURLProtocol registerClass: [IFInformProtocol class]];
+        [NSURLProtocol registerClass: [IFWebUriProtocol class]];
 	}
 	
 	// Standard settings
