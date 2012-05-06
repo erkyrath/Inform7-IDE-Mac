@@ -607,7 +607,7 @@ NSString* IFSettingNotification = @"IFSettingNotification";
 - (NSString*) fileExtension {
     int version = [self zcodeVersion];
 	
-	if (version == 256) return @"ulx";
+	if (version >= 256) return @"ulx";
     return [NSString stringWithFormat: @"z%i", version];
 }
 

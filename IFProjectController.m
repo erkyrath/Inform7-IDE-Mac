@@ -985,7 +985,7 @@ static NSDictionary*  itemDictionary = nil;
     if (![doc singleFile]) {
         [theCompiler setOutputFile: [NSString stringWithFormat: @"%@/Build/output.%@",
             [doc fileName],
-			[[doc settings] zcodeVersion]==256?@"ulx":[NSString stringWithFormat: @"z%i", [[doc settings] zcodeVersion]]]];
+			[[doc settings] zcodeVersion]>=256?@"ulx":[NSString stringWithFormat: @"z%i", [[doc settings] zcodeVersion]]]];
 		
         if ([[doc settings] usingNaturalInform]) {
             [theCompiler setInputFile: [NSString stringWithFormat: @"%@",

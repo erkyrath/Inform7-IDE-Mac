@@ -164,10 +164,11 @@ NSString* IFCompilerFinishedNotification = @"IFCompilerFinishedNotification";
 					[NSNumber numberWithInt: 6],
 					[NSNumber numberWithInt: 7],
 					[NSNumber numberWithInt: 8],
-					[NSNumber numberWithInt: 256],
+					[NSNumber numberWithInt: 256],                  // Represents Glulx
+                    [NSNumber numberWithInt: 257],                  // Represents Glulx in a browser
 					nil];
 			} else if ([compType isEqualToString: @"glulx"]) {
-				return [NSArray arrayWithObjects: [NSNumber numberWithInt: 256], nil];
+				return [NSArray arrayWithObjects: [NSNumber numberWithInt: 256], [NSNumber numberWithInt: 257], nil];
 			} else {
 				// ZCode or 'other'
 				return [NSArray arrayWithObjects:
