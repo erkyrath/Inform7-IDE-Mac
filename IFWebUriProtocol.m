@@ -13,7 +13,7 @@ static NSMutableDictionary* s_Folders = nil;
 
 @implementation IFWebUriProtocol
 
-+ (void) init {
++ (void) initialize {
     s_Folders = [[NSMutableDictionary alloc] init];
 }
 
@@ -181,7 +181,7 @@ static NSMutableDictionary* s_Folders = nil;
         }
     }
     
-    // Try inside the application
+    // Try inside the application if there's nothing there
     if (!loadFrom) {
         NSURL* appUrl = [[NSBundle mainBundle] URLForResource: [relativePath stringByDeletingPathExtension]
                                                 withExtension: [relativePath pathExtension]
