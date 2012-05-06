@@ -169,8 +169,8 @@
         [view addSubview: wView];
         
         // Load the request
-        NSLog(@"Using Web interpreter '%@'", playUrl);
-        [[wView mainFrame] loadRequest: [NSURLRequest requestWithURL: playUrl]];
+        NSLog(@"Using Web interpreter '%@'", [playUrl absoluteString]);
+        [wView setMainFrameURL: [playUrl absoluteString]];
         
         // Set this view as active
         [self switchToPage];
@@ -474,6 +474,7 @@ didFailLoadingWithError:(NSError *)error
         scriptObject = [sender windowScriptObject];
         [scriptObject setValue:self forKey:@"InformWebView"];
         [scriptObject evaluateWebScript:@"console = { log: function(msg) { InformWebView.consoleLog_(msg); } }"];
+        [scriptObject evaluateWebScript:@"window.onload();"];
     }
 }
 
