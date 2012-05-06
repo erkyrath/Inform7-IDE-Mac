@@ -26,8 +26,13 @@
                         
                         </style>
                     
-                    <script src="lib/glkote.min.js" type="text/javascript"></script>
-                    <script src="lib/quixe.min.js" type="text/javascript"></script>
+                    <script src="prototype-1.6.1.js" type="text/javascript"></script>
+                    <script src="glkote/glkote.js" type="text/javascript"></script>
+                    <script src="glkote/dialog.js" type="text/javascript"></script>
+                    <script src="glkote/glkapi.js" type="text/javascript"></script>
+                    <script src="quixe/quixe.js" type="text/javascript"></script>
+                    <script src="quixe/gi_dispa.js" type="text/javascript"></script>
+                    <script src="quixe/gi_load.js" type="text/javascript"></script>
                     
                     <script type="text/javascript">
                         game_options = {
@@ -40,7 +45,17 @@
                     </script>
                     
     </head>
-    <body onload="console.log('play.html starting'); GiLoad.load_run();">
+    <body onload="console.log('play.html starting'); 
+        try { 
+           GiLoad.load_run();
+        } catch (err) {
+           console.log(err.message);
+            console.log(err.toString());
+        
+            for (var prop in err) {
+                console.log(prop + ':' + err[prop]);
+            }
+        }">
         
         <div id="gameport">
             <div id="windowport">
