@@ -21,9 +21,12 @@ extern NSString* IFGlulxInterpreterName;						// The user defaults key that cont
 @interface IFGamePage : IFPage {
 	GlkView*		 gView;										// The Glk (glulxe) view
     ZoomView*        zView;										// The Z-Machinev view
+    WebView*         wView;                                     // The Web view
     NSString*        gameToRun;									// The filename of the game to start
 	ZoomSkeinItem*   pointToRunTo;								// The skein item to run the game until	
 	BOOL			 testMe;									// YES if we should send 'test me' as the first command to the game
+    
+    NSURL*           runtimeUrl;                                // The runtime URL assigned to this game
 	
 	IFProgress*      gameRunningProgress;						// The progress indicator (how much we've compiled, how the game is running, etc)
 	

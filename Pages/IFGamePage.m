@@ -13,6 +13,7 @@
 #import "IFRuntimeErrorParser.h"
 #import "IFIsWatch.h"
 #import "IFTestMe.h"
+#import "IFWebUriProtocol.h"
 
 @interface IFGamePage(Private)
 
@@ -66,6 +67,10 @@
 		[gView release];
 		gView = nil;
 	}
+    if (wView) {
+        [wView release];
+        wView = nil;
+    }
 	if (pointToRunTo) [pointToRunTo release];
     if (gameToRun) [gameToRun release];
 
@@ -83,7 +88,7 @@
 // = Page validation =
 
 - (BOOL) shouldShowPage {
-	return zView != nil || gView != nil;
+	return zView != nil || gView != nil || wView != nil;
 }
 
 // = The game view =
@@ -114,6 +119,12 @@
 		gView = nil;
 	}
     
+    if (wView) {
+        [wView removeFromSuperview];
+        [wView release];
+        wView = nil;
+    }
+    
     if (gameToRun) [gameToRun release];
     gameToRun = [fileName copy];
 	
@@ -125,8 +136,47 @@
 	[gameRunningProgress setMessage: [[NSBundle mainBundle] localizedStringForKey: @"Loading story file"
 																			value: @"Loading story file"
 																			table: nil]];
+    
+    // Fetch the z-code version set in the document settings
+    int zcodeVersion = [[[parent document] settings] zcodeVersion];
+    
+    if (zcodeVersion == 257) {
+        // Run in a web view
+        
+        // Get the name of the game folder
+        NSString* gameFolder = [fileName stringByDeletingLastPathComponent];
+        
+        // Register the runtime URL, one level up from the game folder
+        if (runtimeUrl == nil) {
+            runtimeUrl = [IFWebUriProtocol registerFolder: [[gameFolder lastPathComponent] stringByDeletingPathExtension]
+                                                   atPath: [NSURL fileURLWithPath: gameFolder]];
+        }
+        
+        // Get the URL to play (runtimeUrl/play.html)
+        NSURL* playUrl = [runtimeUrl URLByAppendingPathComponent: @"play.html"];
+        
+        // Create a new web view
+        wView = [[WebView alloc] initWithFrame: [view bounds]];
+        
+        // Add to the view
+		[wView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
+		[wView setFrame: [view bounds]];
+        [view addSubview: wView];
+        
+        // Load the request
+        [[wView mainFrame] loadRequest: [NSURLRequest requestWithURL: playUrl]];
+        
+        // Set this view as active
+        [self switchToPage];
+        [[parent window] makeFirstResponder: [zView textView]];
+        
+        [parent removeProgressIndicator: gameRunningProgress];
+        [gameRunningProgress release];
+        gameRunningProgress = nil;
+    }
 	
-	if ([[gameToRun pathExtension] isEqualToString: @"ulx"]) {
+	else if ([[gameToRun pathExtension] isEqualToString: @"ulx"]) {
+        // Run as a glulx task
 		IFRuntimeErrorParser* runtimeErrors = [[[IFRuntimeErrorParser alloc] init] autorelease];
 		[runtimeErrors setDelegate: parent];
 
