@@ -157,7 +157,10 @@
         
         // Create a new web view
         wView = [[WebView alloc] initWithFrame: [view bounds]];
-        
+
+        [wView setResourceLoadDelegate: self];
+        [wView setFrameLoadDelegate: self];
+
         // Add to the view
 		[wView setAutoresizingMask: NSViewWidthSizable|NSViewHeightSizable];
 		[wView setFrame: [view bounds]];
@@ -438,6 +441,25 @@
 
 - (void) zoomWaitingForInput {
 	[[IFIsWatch sharedIFIsWatch] refreshExpressions];
+}
+
+// = WebResourceLoadDelegate methods =
+
+- (void)			webView:(WebView *)sender 
+          resource:(id)identifier 
+didFailLoadingWithError:(NSError *)error 
+    fromDataSource:(WebDataSource *)dataSource {
+	NSLog(@"IFGamePage: failed to load page with error: %@", [error localizedDescription]);
+}
+
+// = WebFrameLoadDelegate methods =
+
+- (void)					webView:(WebView *)sender 
+    didStartProvisionalLoadForFrame:(WebFrame *)frame {
+}
+
+- (void)					webView:(WebView *)sender
+windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
 }
 
 @end
