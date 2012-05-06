@@ -175,6 +175,8 @@ static NSMutableDictionary* s_Folders = nil;
     NSURL*          combinedTargetPath  = [targetPath URLByAppendingPathComponent: relativePath];
     NSURL*          loadFrom            = nil;
     
+    NSLog(@"IFWeb: Trying: %@", combinedTargetPath);
+    
     if ([combinedTargetPath isFileURL]) {
         if ([fileManager fileExistsAtPath: [combinedTargetPath path]]) {
             loadFrom = combinedTargetPath;
@@ -183,15 +185,20 @@ static NSMutableDictionary* s_Folders = nil;
     
     // Try inside the application if there's nothing there
     if (!loadFrom) {
-        NSURL* appUrl = [[NSBundle mainBundle] URLForResource: [relativePath stringByDeletingPathExtension]
-                                                withExtension: [relativePath pathExtension]
-                                                 subdirectory: @"HtmlRuntime"];
-        
+        NSURL* runtimeUrl   = [[NSBundle mainBundle] URLForResource: @"HtmlRuntime"
+                                                      withExtension: @""
+                                                       subdirectory: @""];
+        NSURL* appUrl       = [runtimeUrl URLByAppendingPathComponent: relativePath];
+
+        NSLog(@"IFWeb: Retrying: %@", appUrl);
+
         loadFrom = appUrl;
     }
     
     // Error if we could get no URL
     if (!loadFrom) {
+        NSLog(@"IFWeb: URL not found :-(");
+
         [m_Client URLProtocol: self
              didFailWithError: [NSError errorWithDomain: NSURLErrorDomain
                                                    code: NSURLErrorCannotOpenFile
