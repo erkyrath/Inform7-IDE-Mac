@@ -472,9 +472,6 @@ didFailLoadingWithError:(NSError *)error
 - (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
     if (frame == [frame findFrameNamed:@"_top"]) {
         scriptObject = [sender windowScriptObject];
-        [scriptObject setValue:self forKey:@"InformWebView"];
-        [scriptObject evaluateWebScript:@"console = { log: function(msg) { InformWebView.consoleLog_(msg); } }"];
-        [scriptObject evaluateWebScript:@"window.onload();"];
     }
 }
 
@@ -484,6 +481,8 @@ didFailLoadingWithError:(NSError *)error
 
 - (void)					webView:(WebView *)sender
 windowScriptObjectAvailable:(WebScriptObject *)windowScriptObject {
+    [windowScriptObject setValue:self forKey:@"InformWebView"];
+    [windowScriptObject evaluateWebScript:@"console = { log: function(msg) { InformWebView.consoleLog_(msg); } }"];
 }
 
 @end
