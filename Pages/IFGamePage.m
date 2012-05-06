@@ -150,7 +150,7 @@
         
         // Register the runtime URL, one level up from the game folder
         if (runtimeUrl == nil) {
-            runtimeUrl = [IFWebUriProtocol registerFolder: [[gameFolder lastPathComponent] stringByDeletingPathExtension]
+            runtimeUrl = [IFWebUriProtocol registerFolder: [[[gameFolder stringByDeletingLastPathComponent] lastPathComponent] stringByDeletingPathExtension]
                                                    atPath: [NSURL fileURLWithPath: gameFolder]];
         }
         
