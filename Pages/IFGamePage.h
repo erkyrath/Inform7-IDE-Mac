@@ -27,7 +27,7 @@ extern NSString* IFGlulxInterpreterName;						// The user defaults key that cont
 	BOOL			 testMe;									// YES if we should send 'test me' as the first command to the game
     
     NSURL*           runtimeUrl;                                // The runtime URL assigned to this game
-	
+    WebScriptObject* scriptObject;                              // The script object associated with wView
 	IFProgress*      gameRunningProgress;						// The progress indicator (how much we've compiled, how the game is running, etc)
 	
 	BOOL setBreakpoint;											// YES if we are allowed to set breakpoints

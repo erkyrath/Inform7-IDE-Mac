@@ -70,6 +70,7 @@
     if (wView) {
         [wView release];
         wView = nil;
+        scriptObject = nil;
     }
 	if (pointToRunTo) [pointToRunTo release];
     if (gameToRun) [gameToRun release];
@@ -123,6 +124,7 @@
         [wView removeFromSuperview];
         [wView release];
         wView = nil;
+        scriptObject = nil;
     }
     
     if (gameToRun) [gameToRun release];
@@ -167,11 +169,12 @@
         [view addSubview: wView];
         
         // Load the request
+        NSLog(@"Using Web interpreter '%@'", playUrl);
         [[wView mainFrame] loadRequest: [NSURLRequest requestWithURL: playUrl]];
         
         // Set this view as active
         [self switchToPage];
-        [[parent window] makeFirstResponder: [zView textView]];
+        [[parent window] makeFirstResponder: wView];
         
         [parent removeProgressIndicator: gameRunningProgress];
         [gameRunningProgress release];
@@ -453,6 +456,26 @@ didFailLoadingWithError:(NSError *)error
 }
 
 // = WebFrameLoadDelegate methods =
+
+- (void)consoleLog:(NSString *)aMessage {
+    NSLog(@"IFGamePage Javascript: %@", aMessage);
+}
+
++ (BOOL)isSelectorExcludedFromWebScript:(SEL)aSelector {
+    if (aSelector == @selector(consoleLog:)) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)webView:(WebView *)sender didFinishLoadForFrame:(WebFrame *)frame {
+    if (frame == [frame findFrameNamed:@"_top"]) {
+        scriptObject = [sender windowScriptObject];
+        [scriptObject setValue:self forKey:@"InformWebView"];
+        [scriptObject evaluateWebScript:@"console = { log: function(msg) { InformWebView.consoleLog_(msg); } }"];
+    }
+}
 
 - (void)					webView:(WebView *)sender 
     didStartProvisionalLoadForFrame:(WebFrame *)frame {
