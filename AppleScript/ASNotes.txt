@@ -1,0 +1,18 @@
+These notes describe some rough thoughts about the scripting system I'm adding to Inform.app.
+
+I'm trying something a bit different to the way Apple wants us to implement AppleScript. Instead
+of putting AS actions in the model, I'm putting them in classes in this directory. I'm hoping
+that this will make things more clear when it comes to where particular script actions are
+implemented. It is also (at least in my opinion) more MVCish, in that AS communicates with
+a controller. Finally, it allows us to present the object model differently if we need to,
+which might make sense. Apple's own implementation of AppleScript requires that we put
+document actions as part of the document object: I'm using a category for this.
+
+Some things really require the interaction of the controller (for example compiling or running
+a project: external programs like this really aren't a part of the model), so we aren't really
+adhering especially rigorously to Apple's guidelines on how scripting should be implemented.
+
+Oh yeah, some actions (like those to do with running games and fiddling with transcripts) need 
+their own objects ANYWAY because that's just how Zoom works.
+
+These classes all have the IFas namespace.

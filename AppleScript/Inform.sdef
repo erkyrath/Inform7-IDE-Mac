@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<!-- BASICS -->
+<!-- DICTIONARY (ROOT ELEMENT) -->
+<!-- DOCUMENTATION ELEMENTS -->
+<!-- IMPLEMENTATION ELEMENTS -->
+<!-- SUITES -->
+<!-- SYNONYMS -->
+<!-- at least one of &quot;name&quot; and &quot;code&quot; is required. -->
+<!-- TYPES -->
+<!-- VERBS (COMMANDS OR EVENTS) -->
+<!-- CLASSES -->
+<!-- not quite accurate; there can be at most one contents element. -->
+<!-- contents -->
+<!-- element access -->
+<!-- properties -->
+<!-- supported verbs -->
+<!-- class extensions -->
+<!-- SIMPLE TYPES -->
+<!-- values -->
+<!-- records -->
+<!-- should be at least one property. -->
+<!-- enumerations -->
+<!-- should be at least one enumerator. -->
+<dictionary title="Inform terminology">
+	<suite name="Inform suite" code="IFas" description="Suite of actions for Inform">
+		<cocoa name="Inform"/>
+		<classes>
+			<class name="project" code="Iprj" description="Representation of an Inform project" plural="projects" inherits="document">
+				<cocoa class="IFProject"/>
+				<elements>
+					<element description="A specific source file contained in a project" type="source file" access="r">
+						<cocoa method="asSourceFiles"/>
+					</element>
+				</elements>
+				<properties>
+					<property name="main source file" code="Imsr" description="The primary source file contained in a project. This is the file that is passed to the Inform or Natural Inform compiler." type="source file" access="r">
+						<cocoa method="asPrimarySourceFile"/>
+					</property>
+				</properties>
+			</class>
+			<class name="source file" code="Isrc" description="Source file contained by an Inform project" plural="source files">
+				<cocoa class="IFasSource"/>
+				<properties>
+					<property name="source code" code="Itxt" description="The source code contained by the source file" type="text">
+						<cocoa method="sourceText"/>
+					</property>
+					<property name="name" code="pnam" description="The name of this source file" type="string">
+						<cocoa method="name"/>
+					</property>
+					<property name="path" code="ppth" description="This source file&apos;s full path" type="string" access="r">
+						<cocoa method="path"/>
+					</property>
+					<property name="project" code="Idoc" description="The project this source file belongs to" type="project" access="r">
+						<cocoa method="project"/>
+					</property>
+					<property name="temporary" code="Itmp" description="Whether or not this file is &apos;temporary&apos;: temporary files are usually loaded from outside the project, and are not directly editable from this project. Usually this means a library file that has been loaded to display, for example, the location of an error." type="boolean" access="r">
+						<cocoa method="isTemporary"/>
+					</property>
+				</properties>
+			</class>
+		</classes>
+		<commands>
+			<command name="compile" code="IFasIcmp" description="Begin compiling the main source file of the project, using the debug style. Any currently running compilation jobs are aborted."/>
+			<command name="compile for release" code="IFasIrls" description="Starts compiling the main source code for release (turning off debug options)."/>
+		</commands>
+		<events>
+			<event name="finished compiling" description="Event caused when the project has finished compiling"/>
+		</events>
+	</suite>
+</dictionary>
