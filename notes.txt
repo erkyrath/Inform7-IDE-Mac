@@ -1,0 +1,45 @@
+Possible inform messages:
+
+"Whatever" Inform v.vv (Date)
+    Inform version introduction message
+::#
+    Start of '#' compiler status messages
+
+(preamble) Fatal error: Foo
+(preamble) Fatal error: English.h "Foo"
+    Fatal error messages (unnamed/named)
+
+(preamble) Fatal error: Run out of memory allocating %d bytes for %s
+(preamble) Fatal error: Run out of memory allocating array of %dx%d bytes for %s
+    Memory out errors
+
+(preamble) Fatal error: The memory setting %s (which is %ld at present) has been exceeded . Try running Inform again with $%s=<some-larger-number>
+    Memory out error II
+
+(preamble) Error: Foo
+(preamble) Warning: Foo
+(preamble) Error: [linking '%s'] Foo
+(preamble) *** Compiler error: Foo
+    Error and warning messages
+
+(preamble) has one of the following formats:
+    "file.h" line 10: 
+    line 10:
+        RISC OS format
+    file.h (10): 
+        Microsoft format
+    File "file.h"; line 10	#
+        MPW format
+
+    We should support all of these; use MPW format by default
+    
+Compiled with n errors
+Compiled with n errors and n warnings
+Compiled with n errors and n warnings (n suppressed)
+Compiled with n errors and n suppressed warnings 
+    May also have ' (no output)' appended if no file was generated
+
+Infix (-X) facilities are not available when compiling modules: disabling -X switch
+Strict checking (-S) facilities are not available when compiling modules: disabling -S switch
+    Like warnings, only not warnings
+    

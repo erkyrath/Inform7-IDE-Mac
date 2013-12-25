@@ -1,0 +1,21 @@
+{\rtf1\mac\ansicpg10000\cocoartf102
+{\fonttbl\f0\fswiss\fcharset77 Helvetica-Bold;\f1\fswiss\fcharset77 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+\pard\tx565\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\qc
+
+\f0\b\fs36 \cf0 Notes on building this project
+\f1\b0\fs24 \
+\pard\tx565\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+\cf0 \
+This is an Xcode project, so you will need a copy of OS X 10.3 to build. You will also need to have a built copy of Zoom nearby - put the sources in the same directory as the Inform project directory, and name it 'zoom'. That is, you have:\
+\
+Sources/\
+	Inform/Inform.xcode\
+	Inform/build\
+	zoom/ZoomCocoa.xcode\
+	zoom/build\
+\
+as your directory structure.\
+\
+You'll have to copy the Biplatform library files to the source directory manually; Xcode has a bug that means these can't be copied automatically (non-C .h files really give it a hard time)\
+}
