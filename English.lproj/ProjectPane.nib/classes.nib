@@ -1,0 +1,56 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {deleteBreakpoint = id; setBreakpoint = id; toggleSourceSpellChecking = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = IFCollapsableView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {showWindow = id; }; 
+            CLASS = IFCompilerController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                compilerMessages = NSOutlineView; 
+                compilerResults = NSTextView; 
+                delegate = NSObject; 
+                messageScroller = NSScrollView; 
+                resultScroller = NSScrollView; 
+                splitView = NSSplitView; 
+                window = NSWindow; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = IFPageBarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {performFindPanelAction = id; }; 
+            CLASS = IFProjectPane; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {pageBar = IFPageBarView; paneView = NSView; tabView = NSTabView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = IFSetting; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = IFSettingsController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {compilerSettings = IFCompilerSettings; settingsView = IFSettingsView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = IFSettingsView; LANGUAGE = ObjC; SUPERCLASS = IFCollapsableView; }, 
+        {CLASS = IFSourceFileView; LANGUAGE = ObjC; SUPERCLASS = NSTextView; }, 
+        {CLASS = IFTranscriptView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {
+                compileCompletedAndFailed = id; 
+                compileCompletedAndSucceeded = id; 
+                compileStarted = id; 
+                errorMessagesCleared = id; 
+            }; 
+            CLASS = NSObject; 
+            LANGUAGE = ObjC; 
+        }, 
+        {CLASS = ZoomSkeinView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}
