@@ -1,0 +1,35 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = IFPage; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {view = NSView; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                performPruning = id; 
+                performSkeinLayout = id; 
+                pruneSkein = id; 
+                skeinLabelSelected = id; 
+                skeinLayoutOk = id; 
+                updateSkeinLayout = id; 
+                useDefaultSkeinLayout = id; 
+            }; 
+            CLASS = IFSkeinPage; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                pruneAmount = NSSlider; 
+                pruneSkein = NSWindow; 
+                skeinHoriz = NSSlider; 
+                skeinSpacing = NSWindow; 
+                skeinVert = NSSlider; 
+                skeinView = ZoomSkeinView; 
+            }; 
+            SUPERCLASS = IFPage; 
+        }, 
+        {CLASS = ZoomSkeinView; LANGUAGE = ObjC; SUPERCLASS = NSView; }
+    ); 
+    IBVersion = 1; 
+}
