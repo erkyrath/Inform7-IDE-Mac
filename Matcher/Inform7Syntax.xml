@@ -1,0 +1,92 @@
+<Syntax>
+	<!-- Note that you need to declare structures and regexps before you use them -->
+	<!-- You can't declare two structures with the same title -->
+	
+	<!-- Named regexps allow you to define common elements that can be used elsewhere -->
+	<!-- Note definition of string here that shows how to deal with multi-line structures -->
+	<Regexp name='STRING'>\"([^"]|&gt;|&lt;)*\"</Regexp>
+	<Regexp name='ANYTHING'>.*</Regexp>
+	<Regexp name='ANYTHINGMULTILINE'>(.|&gt;|&lt;)*</Regexp>
+	
+	<!-- Structures define syntax elements that don't produce any firm matches -->
+	<!-- It's important to define them as without them the lexer is prone to backtracking (which is slow) -->
+	<!-- Additionally, they can be used to run the lexer recursively, so you can define syntax that is only valid within strings, for example -->
+	<!-- When matching, note that lower case letters are matched case-insensitively but upper case letters are matched case-sensitively. Therefore, only include upper-case letters if case matters. -->
+	<Structure>
+		<Title>Whitespace</Title>
+		<Match>[\w]+</Match> 
+		<!-- 
+            Note that using whitespace in the set notation excludes the 'start of line/end of line'
+            characters. This means that newlines will be matched as separate whitespace characters,
+            but more importantly makes it possible to match the start and end of lines in other
+            rules (see the table example)
+		-->
+	</Structure>
+	<Structure>
+		<Title>String</Title>
+		<Match>{STRING}</Match>
+	</Structure>
+	<Structure>
+		<Title>Comment</Title>
+		<Match>\[([^\]]|&gt;|&lt;)*\]</Match>
+	</Structure>
+	<Structure>
+		<Title>Word</Title>
+		<Match>[^\w.,?:;\-'"\[\]]+</Match>
+	</Structure>
+	
+	<!-- Elements define syntax that is matched and displays a result when command+clicked -->
+	<Element>
+		<Title>Understand "phrase" as action</Title>
+		<Match>understand( +{STRING}( +as +[A-z]+)?)?</Match>
+		<Description>
+			Understand introduces new words and phrases that can be understood by the running game.
+			<linebreak/>
+			<linebreak/>
+			During play, the computer and the player alternate in writing messages to each other: in the player's case, these are short instructions, usually saying what to do next. A wide range of such "commands" are automatically understood, but these only apply to the standard built-in actions. (This wide range is conveniently tabulated at the foot of the Actions index.) If we want the player to be able to command new actions, then we need to specify what is to be understood as what. For this, we supply special sentences starting with the word "Understand".
+		</Description>
+		<Link>inform:/doc238.html</Link>
+	</Element>
+	
+	<!-- Silly demo that shows what happens when something is ambiguous (try 'Something' on its own)-->
+	<Element>
+		<Title>Something I</Title>
+		<Match>something</Match>
+		<Description>
+			Ooh, this is something
+		</Description>
+	</Element>
+	<Element>
+		<Title>Something II</Title>
+		<Match>something</Match>
+		<Description>
+			Ooh, this is something else
+		</Description>
+	</Element>
+	
+	<Element>
+		<Title>Table</Title>
+		<Match>&gt;table( of ({ANYTHING})?)?&lt;</Match>
+		<Description>
+			Tables are a means of laying out information so that it can be easily looked up by the running game.
+		</Description>
+		<Link>inform:/doc220.html</Link>
+	</Element>
+	
+	<!-- Using a structure attribute creates an element that is only matched within a particular structure -->
+	<!-- Note that elements are also structures, so we can now define types of substitution -->
+	<!-- Also note that due to an internal limitation, you must not use capital letters in any regular expression specified under a structure attribute -->
+	<Element structure="String">
+		<Title>Substitution</Title>
+		<Match>\[[^\]]*\]</Match>
+		<Description>Parts of strings contained within square brackets are treated as substitutions by the compiler</Description>
+	</Element>
+	
+	<Element structure="Substitution">
+		<Title>[The noun]</Title>
+		<Match>&gt;\[the noun\]&lt;</Match>
+		<Description>
+			A substitution that is replaced by the name of the noun in the last command entered by the user.
+		</Description>
+	</Element>
+</Syntax>
